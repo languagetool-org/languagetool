@@ -16,27 +16,26 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier.detector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class UnicodeBasedLangIdentifier {
+public class UnicodeBasedDetector {
 
   private static final int DEFAULT_MAX_CHECK_LENGTH = 50;
   private static final float THRESHOLD = 0.5f;
-
   private final int maxCheckLength;
 
-  UnicodeBasedLangIdentifier() {
+  public UnicodeBasedDetector() {
     this(DEFAULT_MAX_CHECK_LENGTH);
   }
 
-  UnicodeBasedLangIdentifier(int maxCheckLength) {
+  public UnicodeBasedDetector(int maxCheckLength) {
     this.maxCheckLength = maxCheckLength;
   }
 
-  List<String> getDominantLangCodes(String str) {
+  public List<String> getDominantLangCodes(String str) {
     // For a more complete list of script/language relations,
     // see https://unicode-org.github.io/cldr-staging/charts/37/supplemental/scripts_and_languages.html
     // Another more complete approach might be to use Character.UnicodeScript.of() for each character.
@@ -63,8 +62,8 @@ class UnicodeBasedLangIdentifier {
         cyrillicChars++;
       }
       if (val >= 0x4E00 && val <= 0x9FFF ||
-          val >= 0x3040 && val <= 0x309F ||
-          val >= 0x30A0 && val <= 0x30FF) {  // https://de.wikipedia.org/wiki/Japanische_Schrift
+              val >= 0x3040 && val <= 0x309F ||
+              val >= 0x30A0 && val <= 0x30FF) {  // https://de.wikipedia.org/wiki/Japanische_Schrift
         // there might be a better way to tell Chinese from Japanese, but we rely
         // on the actual language identifier in a later step, so finding candidates is enough here
         cjkChars++;
@@ -88,48 +87,48 @@ class UnicodeBasedLangIdentifier {
         hebrewChars++;
       }
       if (val >= 0xAC00 && val <= 0xD7AF ||  // https://en.wikipedia.org/wiki/Hangul
-          val >= 0x1100 && val <= 0x11FF ||
-          val >= 0x3130 && val <= 0x318F ||
-          val >= 0xA960 && val <= 0xA97F ||
-          val >= 0xD7B0 && val <= 0xD7FF) {
+              val >= 0x1100 && val <= 0x11FF ||
+              val >= 0x3130 && val <= 0x318F ||
+              val >= 0xA960 && val <= 0xA97F ||
+              val >= 0xD7B0 && val <= 0xD7FF) {
         hangulChars++;
       }
     }
     List<String> langCodes = new ArrayList<>();
-    if ((float)arabicChars / significantChars >= THRESHOLD) {
+    if ((float) arabicChars / significantChars >= THRESHOLD) {
       langCodes.add("ar");
       langCodes.add("fa");
     }
-    if ((float)cyrillicChars / significantChars >= THRESHOLD) {
+    if ((float) cyrillicChars / significantChars >= THRESHOLD) {
       langCodes.add("ru");
       langCodes.add("uk");
       langCodes.add("be");
     }
-    if ((float)cjkChars / significantChars >= THRESHOLD) {
+    if ((float) cjkChars / significantChars >= THRESHOLD) {
       langCodes.add("zh");
       langCodes.add("ja");
       // Korean: see hangulChars
     }
-    if ((float)khmerChars / significantChars >= THRESHOLD) {
+    if ((float) khmerChars / significantChars >= THRESHOLD) {
       langCodes.add("km");
     }
-    if ((float)tamilChars / significantChars >= THRESHOLD) {
+    if ((float) tamilChars / significantChars >= THRESHOLD) {
       langCodes.add("ta");
     }
-    if ((float)greekChars / significantChars >= THRESHOLD) {
+    if ((float) greekChars / significantChars >= THRESHOLD) {
       langCodes.add("el");
     }
-    if ((float)devanagariChars / significantChars >= THRESHOLD) {
+    if ((float) devanagariChars / significantChars >= THRESHOLD) {
       langCodes.add("hi");
       langCodes.add("mr");
     }
-    if ((float)thaiChars / significantChars >= THRESHOLD) {
+    if ((float) thaiChars / significantChars >= THRESHOLD) {
       langCodes.add("th");
     }
-    if ((float)hebrewChars / significantChars >= THRESHOLD) {
+    if ((float) hebrewChars / significantChars >= THRESHOLD) {
       langCodes.add("he");
     }
-    if ((float)hangulChars / significantChars >= THRESHOLD) {
+    if ((float) hangulChars / significantChars >= THRESHOLD) {
       langCodes.add("ko");
     }
     //System.out.println("CJK: " + cjkChars);
@@ -141,5 +140,4 @@ class UnicodeBasedLangIdentifier {
     //
     return langCodes;
   }
-
 }

@@ -16,9 +16,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier.detector;
 
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,14 +27,12 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static org.languagetool.language.LanguageIdentifier.canLanguageBeDetected;
-
 /**
  * @since 5.0
  */
-public class FastText {
+public class FastTextDetector {
 
-  private static final Logger logger = LoggerFactory.getLogger(FastText.class);
+  private static final Logger logger = LoggerFactory.getLogger(FastTextDetector.class);
   private static final int K_HIGHEST_SCORES = 5;
   private static final int BUFFER_SIZE = 4096;
 
@@ -50,14 +49,14 @@ public class FastText {
     }
 
     /**
-     * Should {@link FastText} be disable after this exception
+     * Should {@link FastTextDetector} be disable after this exception
     */
     public boolean isDisabled() {
       return disabled;
     }
   }
 
-  public FastText(File modelPath, File binaryPath) throws IOException {
+  public FastTextDetector(File modelPath, File binaryPath) throws IOException {
     fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
     // avoid buffering, we want to flush/read all data immediately
     // might cause mixup
@@ -66,7 +65,7 @@ public class FastText {
   }
 
   // for tests only
-  FastText() {
+  FastTextDetector() {
     fasttextProcess = null;
     fasttextIn = null;
     fasttextOut = null;
@@ -117,7 +116,7 @@ public class FastText {
       String langCode = lang.substring(lang.lastIndexOf("__") + 2);
       String prob = values[i + 1];
       Double probValue = Double.parseDouble(prob);
-      if (canLanguageBeDetected(langCode, additionalLanguageCodes)) {
+      if (LanguageIdentifierService.INSTANCE.canLanguageBeDetected(langCode, additionalLanguageCodes)) {
         probabilities.put(langCode, probValue);
       }
     }

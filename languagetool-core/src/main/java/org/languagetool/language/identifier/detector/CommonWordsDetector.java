@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier.detector;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * Information about common words - use as a fallback if language identification yields low confidence.
  * @since 4.4
  */
-public class CommonWords {
+public class CommonWordsDetector {
 
   private final static Map<String, List<Language>> word2langs = Collections.synchronizedMap(new HashMap<>());
   private final static Pattern numberPattern = Pattern.compile("[0-9.,%-]+");
@@ -44,7 +44,7 @@ public class CommonWords {
   private final static Pattern notCatalanPattern = Pattern.compile("^.*([áéó].i[oa]s?|d[oa]s)$|^.*[áâêôãõìùñ].*$");
   private final static Pattern portuguesePattern = Pattern.compile("^.*([áó]ri[oa]|ério)s?$"); // éria can be French
   
-  public CommonWords() throws IOException {
+  public CommonWordsDetector() throws IOException {
     synchronized (word2langs) {
       if (word2langs.isEmpty()) {
         for (Language lang : Languages.get()) {

@@ -21,6 +21,7 @@ package org.languagetool.language;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.language.identifier.detector.CommonWordsDetector;
 
 import java.io.IOException;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class CommonWordsTest {
     Language es = Languages.getLanguageForShortCode("es");
     Language pt = Languages.getLanguageForShortCode("pt");
     Language ca = Languages.getLanguageForShortCode("ca");
-    CommonWords cw = new CommonWords();
+    CommonWordsDetector cw = new CommonWordsDetector();
 
     Map<Language, Integer> res1 = cw.getKnownWordsPerLanguage("Das ist bequem");
     assertNull(res1.get(en));

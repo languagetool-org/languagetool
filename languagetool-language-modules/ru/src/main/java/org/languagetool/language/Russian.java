@@ -26,6 +26,7 @@ import org.languagetool.chunking.RussianChunker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ru.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ru.RussianSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -222,4 +223,9 @@ public class Russian extends Language implements AutoCloseable {
     return super.getPriorityForId(id);
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikRussianSpellerRule(messages, this, null, null);
+  }
 }

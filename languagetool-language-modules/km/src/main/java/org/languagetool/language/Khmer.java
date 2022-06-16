@@ -19,10 +19,12 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.km.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -95,4 +97,9 @@ public class Khmer extends Language {
     );
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new KhmerHunspellRule(messages, null);
+  }
 }

@@ -16,8 +16,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier.detector;
 
+import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.noop.NoopLanguage;
 
 import java.io.*;
@@ -27,10 +28,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
 
-import static java.lang.StrictMath.*;
-import static org.languagetool.language.LanguageIdentifier.canLanguageBeDetected;
+import static java.lang.StrictMath.log;
+import static java.lang.StrictMath.min;
 
-public class NGramLangIdentifier {
+public class NGramDetector {
 
   private final static double EPSILON = 1e-4;
 
@@ -44,7 +45,7 @@ public class NGramLangIdentifier {
   private final int maxLength;
   private final ZipFile zipFile;
 
-  public NGramLangIdentifier(File sourceModelZip, int maxLength) throws IOException {
+  public NGramDetector(File sourceModelZip, int maxLength) throws IOException {
     this.maxLength = maxLength;
     this.zipFile = new ZipFile(sourceModelZip);
 
@@ -84,7 +85,7 @@ public class NGramLangIdentifier {
     }
 
     //Load transition matrices - Line format = {i} {j} {val}
-    knpBigramProbs = expectedFiles().stream().map(this::readLines).parallel().map(NGramLangIdentifier::loadDict).collect(Collectors.toList());
+    knpBigramProbs = expectedFiles().stream().map(this::readLines).parallel().map(NGramDetector::loadDict).collect(Collectors.toList());
   }
 
   public Map<String, Double> detectLanguages(String text, List<String> additionalLanguageCodes) {
@@ -121,7 +122,7 @@ public class NGramLangIdentifier {
     finalProbs = normalize(finalProbs);
     for (int i = 0; i < codes.size(); i++) {
       String langCode = codes.get(i)[1].equals("NULL") ? codes.get(i)[2] : codes.get(i)[1]; //2-character code if possible
-      if (canLanguageBeDetected(langCode, additionalLanguageCodes)) {
+      if (LanguageIdentifierService.INSTANCE.canLanguageBeDetected(langCode, additionalLanguageCodes)) {
         result.put(langCode, finalProbs.get(i));
       }
     }

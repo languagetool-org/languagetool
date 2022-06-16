@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev;
 
-import org.languagetool.language.NGramLangIdentifier;
+import org.languagetool.language.identifier.detector.NGramDetector;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class NGramLangIdentifierPerformanceTest {
 
   public void testPerformance() throws IOException {
     System.out.println("Loading ngrams...");
-    NGramLangIdentifier ngram = new NGramLangIdentifier(ngramZip, 50);
+    NGramDetector ngram = new NGramDetector(ngramZip, 50);
     System.out.println("Loaded.");
     int i = 0;
     double totalMillis = 0;

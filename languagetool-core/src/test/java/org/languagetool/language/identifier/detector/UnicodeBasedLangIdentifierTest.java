@@ -16,16 +16,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.language.identifier.detector;
 
 import org.junit.Test;
+import org.languagetool.language.identifier.detector.UnicodeBasedDetector;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 
 public class UnicodeBasedLangIdentifierTest {
 
-  private final UnicodeBasedLangIdentifier ident = new UnicodeBasedLangIdentifier(100);
+  private final UnicodeBasedDetector ident = new UnicodeBasedDetector(100);
 
   @Test
   public void testGetDominantLangCodes() {

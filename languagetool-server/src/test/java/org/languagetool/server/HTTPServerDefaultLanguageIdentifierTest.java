@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Ignore("for interactive use; requires local Tatoeba data")
-public class HTTPServerLanguageIdentifierTest extends HTTPServerMultiLangLoadTest {
+public class HTTPServerDefaultLanguageIdentifierTest extends HTTPServerMultiLangLoadTest {
 
   private static final int TOTAL_REPEATS = 150;
   private final ObjectMapper mapper = new ObjectMapper();

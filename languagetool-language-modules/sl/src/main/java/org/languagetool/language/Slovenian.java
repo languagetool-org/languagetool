@@ -18,10 +18,12 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sl.MorfologikSlovenianSpellerRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -74,4 +76,9 @@ public class Slovenian extends Language {
     );
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikSlovenianSpellerRule(messages, this, null, null);
+  }
 }

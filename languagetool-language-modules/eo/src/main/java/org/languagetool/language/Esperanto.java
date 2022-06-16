@@ -19,8 +19,10 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -29,6 +31,7 @@ import org.languagetool.tagging.eo.EsperantoTagger;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.eo.EsperantoWordTokenizer;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Esperanto extends Language {
@@ -93,4 +96,9 @@ public class Esperanto extends Language {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new HunspellRule(messages, this, null,null);
+  }
 }
