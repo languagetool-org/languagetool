@@ -437,7 +437,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{L}\d\p{L}</token>
                 </antipattern>
                 <antipattern><!-- Eigennamen -->
-                    <token regexp="yes">d3con|b2match|ed2k|co2e|md5sums|log4php|planet3dnow|up4distribution|people4project|brands4friends|md5sum|video2brain|log4j|Log4Shell|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|.+2(go|work)|.+4(all|ever|you|u)|cat5e|unity3d|.+2order|seq2seq</token>
+                    <token regexp="yes">Send2car|W3schools|d3con|b2match|ed2k|co2e|md5sums|log4php|planet3dnow|up4distribution|people4project|brands4friends|md5sum|video2brain|log4j|Log4Shell|ext2fs|ext3fs|win2k|blender3d|ogre4j|ogre3d|exchange4linux|dom4j|gpg4win|linux4afrika|log4net|fax2mail|mp3tag|neo4j|ip6tables|win9x|train4you|.+2(go|work)|.+4(all|ever|you|u)|cat5e|unity3d|.+2order|seq2seq</token>
                 </antipattern>
                 <antipattern>
                     <token />
@@ -1989,7 +1989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes">
                         <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">crash|regen|zweifel|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|.+blick|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype|.+unterricht|.+steig|.*spiel|knie</exception>
+                        <exception regexp="yes">back|crash|regen|zweifel|prallen|siebten|achten|web|wachen|trauten|ehelichen|Schweiße|Schweisse|stumpfen|.+bändigen|.+orientiert.*|.+vergleich|durchschnitt|stockdunkeln|leben|sitzen|garten|.*lauf|.+blick|weg|dunkeln|dunklen|hellen|wegstehen|.+gebiet|Skype|.+unterricht|.+steig|.*spiel|knie</exception>
                         <exception postag="VER:INF.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ][a-zäöüß].*</exception>
                     </token>
                 </pattern>
@@ -2540,9 +2540,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KOMMA_TLD" name="'example,com (example.com)'">
             <rule>
                 <regexp case_sensitive='yes'>([a-zäöüß0-9\-]+),(&sometlds;)\b</regexp>
-                <message>Möglicher Tippfehler: Meinten Sie <suggestion>\1.\2</suggestion>?</message>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion>\1.\2</suggestion> oder <suggestion>\1, \2</suggestion>?</message>
                 <short>&typo;</short>
-                <example correction="example.com">Guck mal auf <marker>example,com</marker> nach.</example>
+                <example correction="example.com|example, com">Guck mal auf <marker>example,com</marker> nach.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GESETZ_DEN_FALL" name="'Gesetz (Gesetzt) den Fall'">
@@ -7742,6 +7742,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Da stellt sich natürlich die Frage: Wie kommen die da automatisch rein?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="-1" inflected="yes">stellen</token>
+                    <token>vor</token>
+                    <example>Ich stelle mir da einen Anzug oder schwarzes Hemd und blaue Jeanshose vor.</example>
+                </antipattern>
                 <pattern>
                     <token skip="-1" inflected="yes">stellen
                         <exception scope="next">,</exception>
@@ -12561,11 +12566,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="iPhone">Ich habe jetzt ein <marker>i-Phone</marker>.</example>
             </rule>
             <rule>
-                <regexp>i-p[ao]ds?</regexp>
+                <regexp>\bi-p[ao]ds?</regexp>
                 <message>Mit i beginnende Produktnamen von Apple wie <suggestion><match no="0" case_conversion="startlower" regexp_match="^[iI]\-[pP]" regexp_replace="iP"/></suggestion> oder 'iPhone' werden in der Regel zusammen, mit kleinem i und großem P geschrieben.</message>
                 <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example correction="iPad">Ich habe jetzt ein <marker>i-Pad</marker>.</example>
                 <example correction="iPod">Ich habe jetzt einen <marker>i-Pod</marker>.</example>
+                <example>Ich höre einen <marker>KI-Podcast</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="UNITY_MEDIA" name="'Unity Media (Unitymedia)'">
@@ -28018,28 +28024,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="LIEBER_ANNA" name="'Lieber (Liebe) Anna, ...' (als Anredeformel)">
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">[lL]ieb.*<exception>Liebe</exception></token>
+                        <token regexp="yes">lieb.*<exception>Liebe</exception></token>
                     </marker>
                     <token postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"/></token>
                     <token>,</token>
                 </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Liebe</suggestion>?</message>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion><match no="2" case_conversion="preserve" regexp_match="ieb.*" regexp_replace="iebe"/></suggestion>?</message>
                 <short>&typo;</short>
                 <example correction="Liebe"><marker>Lieber</marker> Anna, ...</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">[lL]ieb.*<exception>Lieber</exception></token>
+                        <token regexp="yes">lieb.*<exception>Lieber</exception></token>
                     </marker>
                     <token postag="EIG:NOM:SIN:MAS:(.*)VOR" postag_regexp="yes"><exception postag="EIG:NOM:SIN:FEM:(.*)VOR" postag_regexp="yes"/></token>
                     <token>,</token>
                 </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie <suggestion>Lieber</suggestion>?</message>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion><match no="2" case_conversion="preserve" regexp_match="ieb.*" regexp_replace="ieber"/></suggestion>?</message>
                 <short>&typo;</short>
                 <example>Ich <marker>liebe</marker> Dieter, weil ...</example>
                 <example correction="Lieber"><marker>Liebe</marker> Dieter, ...</example>
