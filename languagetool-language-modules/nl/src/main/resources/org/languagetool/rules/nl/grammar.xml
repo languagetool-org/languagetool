@@ -20784,7 +20784,7 @@ steenwijk;Steenwijk
 				<example correction="door middel van|door">De paalkoppen werden vrijgemaakt en, <marker>bij middel van</marker> bekisting, met elkaar verbonden.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="WELKE" name="Welke → die">
+		<rulegroup id="WELKE" name="Welke → die" default="off"><!-- off due to high disable rate and negative user feedback -->
 			<!-- 2014-09-08 TaalTik -->
 			<rule>
 				<antipattern><token>de</token><token>vraag</token><token>welke</token><token>andere</token></antipattern>
@@ -20793,9 +20793,9 @@ steenwijk;Steenwijk
 				<pattern>
 					<token postag_regexp="yes" postag=".*DE_.*"><exception regexp="yes">van|niet|over</exception></token>
 					<marker>
-						<token>welke</token>
+						<token skip="-1">welke</token>
 					</marker>
-					<token></token>
+					<token postag="SENT_END" regexp="yes">[.!]</token>
 				</pattern>
 				<message>Welke wordt afgeraden als het niet vragend bedoeld is. Gebruik <suggestion>die</suggestion> of <suggestion>dat</suggestion> waar dat kan.</message>
 				<url>https://onzetaal.nl/taaladvies/welke-die/</url>
