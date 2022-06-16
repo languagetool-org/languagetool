@@ -1410,7 +1410,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
   private final Synthesizer synthesizer;
-  private final Tagger tagger;
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
     this(messages, language, null, null);
@@ -1431,7 +1430,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
-    tagger = language.getTagger();
     synthesizer = language.getSynthesizer();
   }
 
@@ -1693,7 +1691,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isNounOrUnknown(String word) {
     try {
-      List<AnalyzedTokenReadings> readings = tagger.tag(singletonList(word));
+      List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
       return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB") || reading.isPosTagUnknown());
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -1702,7 +1700,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isOnlyNoun(String word) {
     try {
-      List<AnalyzedTokenReadings> readings = tagger.tag(singletonList(word));
+      List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
       for (AnalyzedTokenReadings reading : readings) {
         boolean accept = reading.getReadings().stream().allMatch(k -> k.getPOSTag() != null && k.getPOSTag().startsWith("SUB:"));
         if (!accept) {
@@ -1717,7 +1715,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isAdjOrNounOrUnknown(String word) {
     try {
-      List<AnalyzedTokenReadings> readings = tagger.tag(singletonList(word));
+      List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
       return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB") || reading.hasPosTagStartingWith("ADJ") || reading.isPosTagUnknown());
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -1726,7 +1724,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private boolean isNounOrProperNoun(String word) {
     try {
-      List<AnalyzedTokenReadings> readings = tagger.tag(singletonList(word));
+      List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
       return readings.stream().anyMatch(reading -> reading.hasPosTagStartingWith("SUB") || reading.hasPosTagStartingWith("EIG"));
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -2182,7 +2180,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Nullable
   private String baseForThirdPersonSingularVerb(String word) throws IOException {
-    List<AnalyzedTokenReadings> readings = tagger.tag(singletonList(word));
+    List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
     for (AnalyzedTokenReadings reading : readings) {
       if (reading.hasPosTagStartingWith("VER:3:SIN")) {
         return reading.getReadings().get(0).getLemma();
@@ -2222,7 +2220,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private String getAbbreviationSuggestion(String word) throws IOException {
     if (word.length() < 5) {
-      List<AnalyzedTokenReadings> readings = tagger.tag(singletonList(word));
+      List<AnalyzedTokenReadings> readings = getTagger().tag(singletonList(word));
       for (AnalyzedTokenReadings reading : readings) {
         if (reading.hasPosTagStartingWith("ABK")) {
           return word+".";
@@ -2342,6 +2340,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     return hasIgnoredWord;
+  }
+
+  private Tagger getTagger() {
+    return language.getTagger();
   }
 
   static class ExpandingReader extends BufferedReader {
