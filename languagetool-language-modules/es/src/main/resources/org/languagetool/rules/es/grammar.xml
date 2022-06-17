@@ -1681,6 +1681,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="como">Páginas con nombres ridículos <marker>cómo</marker> esta.</example>
         </rule>
         <rulegroup id="DIACRITICS_VERB_N_ADJ" name="nombres y adjetivos con tilde">
+            <antipattern case_sensitive="yes">
+                <token>Echo</token>
+                <token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
+            </antipattern>
             <antipattern>
                 <!-- the error is: tu>tú -->
                 <token>tu</token>
@@ -1767,6 +1771,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="El público"><marker>El publico</marker> deberá tener.</example>
                 <example correction="el auténtico">Se puede observar <marker>el autentico</marker> y sincero compromiso.</example>
                 <example>Indíqueme el camino hasta la estación.</example>
+                <example>Esto también pasa en el Echo Show.</example>
             </rule>
             <rule>
                 <!-- Un termino -->
@@ -12583,6 +12588,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Voy a contárselo"><marker>Voy contárselo</marker> todo.</example>
         </rule>
         <rulegroup id="ECHO_HECHO" name="*echo/hecho">
+            <antipattern case_sensitive="yes">
+                <token>Echo</token>
+                <token postag="UNKNOWN" regexp="yes">\p{Lu}.+</token>
+            </antipattern>
+            <antipattern>
+                <token postag="NPMSO00">Echo</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">ser|estar|parecer|resultar|este</token>
