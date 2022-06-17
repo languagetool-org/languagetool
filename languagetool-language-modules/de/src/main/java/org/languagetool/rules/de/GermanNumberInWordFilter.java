@@ -18,30 +18,25 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.AbstractNumberInWordFilter;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
 
 public class GermanNumberInWordFilter extends AbstractNumberInWordFilter {
 
-  private final GermanSpellerRule germanSpellerRule;
-
   public GermanNumberInWordFilter() {
-    super(new GermanyGerman());
-    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, new Locale(language.getShortCode()));
-    this.germanSpellerRule = new GermanSpellerRule(messages, (GermanyGerman) language);
+    super(GermanyGerman.INSTANCE);
   }
 
   @Override
   protected boolean isMisspelled(String word) {
-    return germanSpellerRule.isMisspelled(word);
+    return GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(word);
   }
 
   @Override
   protected List<String> getSuggestions(String word) throws IOException {
-    return germanSpellerRule.getSuggestions(word);
+    return GermanyGerman.INSTANCE.getDefaultSpellingRule().getSuggestions(word);
   }
 }

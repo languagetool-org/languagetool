@@ -31,7 +31,7 @@ import java.io.IOException;
 
 public class GermanRuleDisambiguator extends AbstractDisambiguator {
   
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new GermanyGerman(), true);
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(GermanyGerman.INSTANCE, true);
 
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)

@@ -21,22 +21,24 @@ package org.languagetool.rules.en;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.UserConfig;
-import org.languagetool.rules.*;
+import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
-import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  */
 public class CompoundRule extends AbstractCompoundRule {
   
-  private static SpellingCheckRule englishSpellerRule;
-
   // static to make sure this gets loaded only once:
   private static volatile CompoundRuleData compoundData;
   private static final Language AMERICAN_ENGLISH = Languages.getLanguageForShortCode("en-US");
@@ -116,19 +118,18 @@ public class CompoundRule extends AbstractCompoundRule {
         new PatternTokenBuilder().tokenRegex("(com|io|de|nl|co|net|org|es)").build()
       )
   ), AMERICAN_ENGLISH);
+  private final Language english;
 
-  public CompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {    
-    super(messages, lang, userConfig,
+  public CompoundRule(ResourceBundle messages, Language english, UserConfig userConfig) throws IOException {
+    super(messages, english, userConfig,
             "This word is normally spelled with a hyphen.",
             "This word is normally spelled as one.", 
             "This expression is normally spelled as one or with a hyphen.",
             "Compound");
+    this.english = english;
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));
     setUrl(Tools.getUrl("https://languagetool.org/insights/post/hyphen/"));
-    if (englishSpellerRule == null) {
-      englishSpellerRule = lang.getDefaultSpellingRule(messages);
-    }
   }
 
   @Override
@@ -164,6 +165,6 @@ public class CompoundRule extends AbstractCompoundRule {
   @Override
   public boolean isMisspelled(String word) throws IOException {
     //return !EnglishTagger.INSTANCE.tag(Arrays.asList(word)).get(0).isTagged();
-    return englishSpellerRule.isMisspelled(word);
+    return Objects.requireNonNull(english.getDefaultSpellingRule()).isMisspelled(word);
   }
 }

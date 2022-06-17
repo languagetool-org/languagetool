@@ -27,14 +27,20 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
-import org.languagetool.rules.patterns.*;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.patterns.UnifierConfiguration;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.xx.DemoTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.SimpleSentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +51,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Base class for any supported language (English, German, etc). Language classes
@@ -294,15 +299,27 @@ public abstract class Language {
    * @since 5.5
    */
   @Nullable
-  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) {
-    return spellingRules.computeIfAbsent(this.getClass(), c -> {
+  public SpellingCheckRule getDefaultSpellingRule() {
+    return spellingRules.computeIfAbsent(getClass(), c -> {
       try {
-        return createDefaultSpellingRule(messages);
+        return createDefaultSpellingRule(ResourceBundleTools.getMessageBundle(this));
       } catch (IOException e) {
         logger.warn("Failed to create default spelling rule", e);
         return null;
       }
     }) ;
+  }
+
+  /**
+   * Retrieve default spelling rule for this language
+   * Useful for rules to implement suppression of misspelled suggestions
+   * @param messages unused
+   * @since 5.5
+   * @deprecated use {@link #getDefaultSpellingRule()}
+   */
+  @Deprecated
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) {
+    return getDefaultSpellingRule();
   }
 
   /**

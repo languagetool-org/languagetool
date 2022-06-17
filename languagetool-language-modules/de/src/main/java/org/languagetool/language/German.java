@@ -30,6 +30,7 @@ import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -49,8 +50,6 @@ import java.util.*;
  */
 public class German extends Language implements AutoCloseable {
 
-  private static final Language GERMANY_GERMAN = new GermanyGerman();
-
   private LanguageModel languageModel;
   private List<Rule> nnRules;
   private Word2VecModel word2VecModel;
@@ -65,7 +64,18 @@ public class German extends Language implements AutoCloseable {
   
   @Override
   public Language getDefaultLanguageVariant() {
-    return GERMANY_GERMAN;
+    return GermanyGerman.INSTANCE;
+  }
+
+  @Override
+  public SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new GermanSpellerRule(messages, this);
+  }
+
+  @NotNull
+  @Override
+  public GermanSpellerRule getDefaultSpellingRule() {
+    return (GermanSpellerRule) Objects.requireNonNull(super.getDefaultSpellingRule());
   }
 
   @Override

@@ -21,13 +21,13 @@ package org.languagetool.rules.de;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Category.Location;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 import java.io.IOException;
@@ -38,7 +38,6 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
-import org.languagetool.rules.patterns.PatternTokenBuilder;
 
 /**
  * A rule checks a sentence for a missing comma before or after a relative clause (only for German language).
@@ -49,8 +48,6 @@ public class MissingCommaRelativeClauseRule extends Rule {
   private static final Pattern MARKS_REGEX = Pattern.compile("[,;.:?•!-–—’'\"„“”…»«‚‘›‹()\\/\\[\\]]");
 
   private final boolean behind;
-
-  private static final German GERMAN = new GermanyGerman();
 
   private static final List<DisambiguationPatternRule> ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(
       Arrays.asList(
@@ -130,7 +127,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
         posRegex("VER:EIZ.*"),
         pos("PKT")
       )
-  ), GERMAN);
+  ), GermanyGerman.INSTANCE);
 
   public MissingCommaRelativeClauseRule(ResourceBundle messages) {
     this(messages, false);

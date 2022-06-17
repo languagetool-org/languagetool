@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 public class GermanRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   public GermanRepeatedWordsRule(ResourceBundle messages) {
-    super(messages, new GermanyGerman());
+    super(messages, GermanyGerman.INSTANCE);
     //super.setDefaultTempOff();
   }
   
