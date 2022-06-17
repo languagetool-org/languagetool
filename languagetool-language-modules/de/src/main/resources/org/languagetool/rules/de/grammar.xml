@@ -4533,8 +4533,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DIE_DE" name="'de (die)'">
             <rule>
                 <antipattern>
-                    <token regexp="yes">Eau|Chef|Commis</token>
+                    <token regexp="yes">Eau|Chef|Commis|Carnet|Boutique</token>
                     <token>de</token>
+                </antipattern>
+                <antipattern>
+                    <token>Front</token>
+                    <token>de</token>
+                    <token>Liberation</token>
                 </antipattern>
                 <antipattern>
                     <token>de</token>
@@ -4555,7 +4560,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>de</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">\.|van|/|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
+                    <token negate="yes" regexp="yes">\.|[Vv]an|/|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                     <marker>
                         <token skip="1">de<exception scope="next" negate_pos="yes" postag="(ADJ|SUB):.*|SENT_END" postag_regexp="yes"/></token>
                     </marker>
@@ -6562,6 +6567,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="sonst">Wir müssen jetzt handeln, <marker>sonnst</marker> ist es zu spät.</example>
         </rule>
         <rulegroup id="DIENEN_DEINEN" name="dienen vs. deinen">
+            <antipattern>
+                <token postag="SENT_START" />
+                <token>zwar</token>
+                <token>dienen</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="VER.*" postag_regexp="yes">
@@ -13561,7 +13571,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="DAZU_VERDIENEN" name="dazu verdienen (dazuverdienen)">
             <pattern>
-                <token regexp="yes" skip="3">(irgend)?(et)?was|viel|nichts|nix</token>
+                <token regexp="yes" skip="3">(irgend)?(et)?was|viel|nichts|nix|cent|euro|dollar|€</token>
                 <marker>
                     <token>dazu</token>
                     <token inflected="yes">verdienen</token>
@@ -16036,10 +16046,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token inflected="yes" skip="-1">schreiben</token>
-                    <token regexp="yes" inflected="yes">Geschichte|Buch|Roman|Lied</token>
+                    <token regexp="yes" inflected="yes">Geschichte|Buch|Roman|Lied|Manuskript|Doktorarbeit|Biografie|Autobiografie|Thesis|Hausarbeit</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" skip="-1" inflected="yes">Geschichte|Buch|Roman|Lied</token>
+                    <token regexp="yes" skip="-1" inflected="yes">Geschichte|Buch|Roman|Lied|Manuskript|Doktorarbeit|Biografie|Autobiografie|Thesis|Hausarbeit</token>
                     <token inflected="yes">schreiben</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
@@ -28420,6 +28430,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category id="CASING" name="Groß-/Kleinschreibung">
+        <rule id="SOCIAL_MEDIA" name="Social Media" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Social|SOCIAL</token>
+                <token regexp="yes">[A-Z].*</token>
+            </antipattern>
+            <pattern>
+                <token>social</token>
+                <token regexp="yes">media|collaboration|networks?|engineering|sponsoring|distancings?|responsibility</token>
+            </pattern>
+            <message>Dieser Anglizismus sollte im Deutschen großgeschrieben werden.</message>
+            <suggestion>Social <match no="2" case_conversion="startupper" /></suggestion>
+            <example correction="Social Media">Wir posten täglich auf <marker>social media</marker>.</example>
+        </rule>
         <rule id="ACH_UND_KRACH" name="mit ach (Ach) und krach (Krach)">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Ach|ACH</token>
@@ -28503,25 +28526,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Das Nomen <suggestion><match no="3" case_conversion="startupper" /></suggestion> wird großgeschrieben.</message>
             <example correction="Vertrag">Wir haben einen <marker>vertrag</marker> geschlossen!</example>
         </rule>
-        <rule id="DIE_REICHEN_UND_SCHOENEN" name="die reichen (Reichen) und schönen (Schönen)">
-            <antipattern>
-                <token>schönen</token>
-                <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
-            </antipattern>
-            <antipattern>
-                <token>schönen</token>
-                <token postag="SUB.*" postag_regexp="yes" />
-            </antipattern>
-            <pattern case_sensitive="yes">
-                <token>reichen</token>
-                <token>und</token>
-                <token>schönen</token>
-            </pattern>
-            <message>In dieser Redewendung werden beide Adjektive nominalisiert und sollten daher großgeschrieben werden.</message>
-            <suggestion>Reichen und Schönen</suggestion>
-            <example correction="Reichen und Schönen">Sylt ist die Insel der <marker>reichen und schönen</marker>.</example>
-            <example>Die reichen und schönen Menschen leben alle in Blankenese.</example>
-        </rule>
+        <rulegroup id="SCHOENEN_UND_REICHEN" name="die reichen (Reichen) und schönen (Schönen)">
+            <rule>
+                <antipattern>
+                    <token>schönen</token>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token>schönen</token>
+                    <token postag="SUB.*" postag_regexp="yes" />
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token>reichen</token>
+                    <token>und</token>
+                    <token>schönen</token>
+                </pattern>
+                <message>In dieser Redewendung werden beide Adjektive nominalisiert und sollten daher großgeschrieben werden.</message>
+                <suggestion>Reichen und Schönen</suggestion>
+                <example correction="Reichen und Schönen">Sylt ist die Insel der <marker>reichen und schönen</marker>.</example>
+                <example>Die reichen und schönen Menschen leben alle in Blankenese.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>reichen</token>
+                    <token postag="SUB.*|EIG.*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-zäöü].*</token>
+                </antipattern>
+                <antipattern><!-- "reichen" als Verb -->
+                    <token>reichen</token>
+                    <token>bis</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">die|den|alle</token>
+                    <marker>
+                        <token case_sensitive="yes">schönen</token>
+                        <token>und</token>
+                        <token case_sensitive="yes">reichen</token>
+                    </marker>
+                </pattern>
+                <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
+                <suggestion><match no="2" case_conversion="startupper" /> und <match no="4" case_conversion="startupper" /></suggestion>
+                <example correction="Schönen und Reichen">An diesem Ort treffen sich die <marker>schönen und reichen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VERGLEICH_SUBST" name="der vergleich (Vergleicht) hinkt">
             <rule>
                 <pattern>
@@ -29637,23 +29683,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="3" case_conversion="startupper" /></suggestion>
             <url>https://de.wiktionary.org/wiki/Fr%C3%BCh</url>
             <example correction="Früh">Wir haben heute in der <marker>früh</marker> bereits die Kühe gemolken.</example>
-        </rule>
-        <rule id="SCHOENEN_UND_REICHEN" name="schönen (Schönen) und reichen (Reichen)">
-            <antipattern>
-                <token>reichen</token>
-                <token postag="SUB.*|EIG.*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-zäöü].*</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">die|den|alle</token>
-                <marker>
-                    <token case_sensitive="yes">schönen</token>
-                    <token>und</token>
-                    <token case_sensitive="yes">reichen</token>
-                </marker>
-            </pattern>
-            <message>Nominalisierte Adjektive sollten in der Regel großgeschrieben werden.</message>
-            <suggestion><match no="2" case_conversion="startupper" /> und <match no="4" case_conversion="startupper" /></suggestion>
-            <example correction="Schönen und Reichen">An diesem Ort treffen sich die <marker>schönen und reichen</marker>.</example>
         </rule>
         <rule id="WICHTIGERES_ZU_TUN" name="wichtigeres (Wichtigeres) zu tun">
             <pattern>
@@ -49922,7 +49951,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="DE_FACTO" name="de Fakto (facto)" default="temp_off">
+        <rule id="DE_FACTO" name="de Fakto (facto)">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">FACTO|facto</token>
             </antipattern>
@@ -59750,7 +59779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
-        <rule id="HOFFE_DEIN_TAG_WAR_KOMMA" name="hoffe(,) dein Tag war gut" default="temp_off">
+        <rule id="HOFFE_DEIN_TAG_WAR_KOMMA" name="hoffe(,) dein Tag war gut">
             <antipattern>
                 <token>glaube</token>
                 <token>selbst</token>
@@ -69142,7 +69171,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]ebiked|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced</token>
+                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]ebiked|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced|[Ii]nterviewed</token>
                 </pattern>
                 <message>Die empfohlene Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
                 <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
