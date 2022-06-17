@@ -40,6 +40,8 @@ public class GreekWordRepeatBeginningRuleTest {
     assertEquals(0, lt.check("Εγώ παίζω ποδόσφαιρο. Εγώ παίζω μπάσκετ").size());
     // three successive sentences that start with the same exception word ("Το").
     assertEquals(0, lt.check("Το αυτοκίνητο είναι καινούργιο. Το ποδήλατο είναι παλιό. Το καράβι είναι καινούργιο.").size());
+    // two successive sentences that start with the same exception word ("Μία").
+    assertEquals(0, lt.check("Μία περίπτωση εξηγήθηκε ήδη. Μία άλλη θα αναλυθεί παρακάτω.").size());
     
     // =================== errors =============================
     // two successive sentences that start with one of the saved adverbs ("Επίσης").
