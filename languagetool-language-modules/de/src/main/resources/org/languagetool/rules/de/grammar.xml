@@ -2745,6 +2745,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_END|PKT" postag_regexp="yes" />
             </antipattern>
             <antipattern>
+                <token regexp="yes">Hi|Hey|Hallo|Ahoi</token><!-- sollte mit Komma sein, aber besser kein Match hier -->
+                <token>du</token>
+                <token postag="SUB:(NOM:SIN:FEM|AKK:SIN:FEM|NOM:PLU|AKK:PLU).*" postag_regexp="yes"/>
+                <token postag="SENT_END|PKT" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
                 <token>,</token>
                 <token>du</token>
                 <token postag="SUB:(NOM:SIN:FEM|AKK:SIN:FEM|NOM:PLU|AKK:PLU).*" postag_regexp="yes"/>
