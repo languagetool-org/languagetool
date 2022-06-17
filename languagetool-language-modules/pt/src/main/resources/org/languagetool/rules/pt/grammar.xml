@@ -955,18 +955,6 @@ Isto é boa. → Isto é bom.
 	  </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-09-14 (2-JUL-2020+) *END* -->
 
-<!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *START* -->
-<!-- "Precisa agora de estar em quarentena 1 dia." -->
-<!-- "Precisa agora de estar em quarentena 14 dias." -->
-<!-- "Precisa agora de estar em quarentena 14 horas." -->
-<!-- "Precisa agora de estar em plantão 14 horas." -->
-      <antipattern>
-		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
-		  <token postag='Z0CN0'></token>
-		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-10-27 (21-OCT-2020+) *END* -->
-
 <!-- MARCOAGPINTO 2021-01-16 (1-JAN-2021+) *START* -->
 <!--
 ao princípio Mãe.
@@ -983,17 +971,22 @@ no princípio Mãe.
 daquele princípio Mãe.
 e princípio Mãe.
 -->
-      <antipattern>		
+      <antipattern>
 		<token regexp='yes'>a?o|pelo|do|um|esse|aquele|àquele|tal|como|no|daquele|e</token>
 		<token regexp='no'>princípio</token>
 		<token postag='NC.S.+|AQ0.S.+|NP.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-01-16 (1-JAN-2021+) *END* -->
 
+
+
 <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *START* -->
 <!--
 O que o torna mais perigoso é haver civis inocentes.
 O que o torna perigoso é haver civis inocentes.
+
+BUG: TORNA APPEARS AS A NOUN WHEN IT SHOULD BE A VERB, USING NOUNS CAUSES FALSE POSITIVES.
+     2022-06-16
 -->
       <antipattern>
 		<token negate_pos="yes" postag='SENT_START' postag_regexp='no'/>
@@ -1004,27 +997,8 @@ O que o torna perigoso é haver civis inocentes.
       </antipattern> 
 <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *END* -->
 
-<!-- MARCOAGPINTO 2021-04-13 (17-MAR-2021+) *START* -->
-<!--
-No ponto borboleta, as diferentes superfícies são importantes.
-Não traduza inglês para japonês palavra por palavra.
-Eu comecei a aprender chinês semana passada.
-Eu gosto de comer comida coreana.
-Não tenho nenhum interesse em comer comida inglesa.
-A medicina é uma das muitas áreas do conhecimento ligada à manutenção e restauração da saúde.
--->
-      <antipattern>
-		<token negate="yes" regexp='yes'>o|um</token>
-		<token postag='NCMS000|AQ0MS0' postag_regexp='yes'/>
-		<token postag='NCFS000|AQ0FS0' postag_regexp='yes'/>
-      </antipattern>
-      <antipattern>
-		<token regexp='yes'>o|um</token>
-		<token postag='NCMS000|AQ0MS0' postag_regexp='yes'/>
-		<token postag='NCFS000|AQ0FS0' postag_regexp='yes'/>
-		<token negate="yes" regexp='yes'>[.,!?;():]</token>
-      </antipattern> 	  
-<!-- MARCOAGPINTO 2021-04-13 (17-MAR-2021+) *END* -->
+
+
 <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *START* -->
 <!--
 Autentifique-se com a sua conta LanguageTool.
@@ -1055,82 +1029,11 @@ A própria Jane escreveu a carta.
 		<token postag='NP.+' postag_regexp='yes'/>
       </antipattern>	  
 <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-05-26 (17-MAR-2021+) *START* -->
-<!--
-O meu pai inúmeras vezes dá o exemplo.
-Vi um várias vezes.
-Ele tem dificuldade para comer comidas novas.
-Tom fugiu do cativeiro diversas vezes.
-Água, erosão e controle da poluição têm se tornado questões importantes nas relações da China com outros países.
--->
-      <antipattern>
-		  <token postag='AQ0FP0|NCFP000' postag_regexp='yes'/>
-		  <token postag='AQ0FP0|NCFP000' postag_regexp='yes'/>
-	  </antipattern>
-<!-- MARCOAGPINTO 2021-05-26 (17-MAR-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-05-26 (17-MAR-2021+) *START* -->
-<!--
-As insurgências no mundo islâmico causadas pela revolta.
-Minhas caixinhas de som são um brinquedo comparadas com as suas.
-São as seguintes unidades de conservação a nível federal localizadas em Mato Grosso.
--->
-      <antipattern> 
-		  <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
-		  <token postag='V....P.+' postag_regexp='yes'/>
-		  <token postag='SPS.+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-05-26 (17-MAR-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-06-03 (17-MAR-2021+) *START* -->
-<!--
-As insurgências no mundo islâmico causadas pela população.
-Hoje, a Ericeira continua a ser uma das zonas do litoral do país mais procuradas para banhos.
-A batalha durou pouco, tendo sofrido o exército castelhano pesadas baixas.
-As concepções do belo de Aristóteles ficam por um longo período esquecidas, sendo somente retomadas ao final da Idade Média.
--->
-      <antipattern>
-		<token postag='NCM.+|AQ0M.+' postag_regexp='yes'/>
-		<token postag='NCM.+|AQ0M.+' postag_regexp='yes'/>
-		<token postag='V.+' postag_regexp='yes'/>
-		<token negate_pos="yes" postag='DI.+|DA.+|Z0.+' postag_regexp='yes'/>
-	  </antipattern>
-<!-- MARCOAGPINTO 2021-06-03 (17-MAR-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-06-18 (17-MAR-2021+) *START* -->
-<!--
-Até esse humano multiplicado inúmeras vezes.
-São artes marciais que incluem tanto golpes de combate em pé quanto técnicas de luta no chão.
-O género Bacterium compreendia bactérias com formato de bastão não formadoras de esporos.
--->
-      <antipattern>
-		<token postag='AQ0M.+|NCM.+' postag_regexp='yes'/>
-		<token postag='V.....M|AQ0M.+|NCM.+' postag_regexp='yes'/>
-		<token postag='AQ0F.+|NCF.+' postag_regexp='yes'/>
-	  </antipattern>
-<!-- MARCOAGPINTO 2021-06-18 (17-MAR-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
-<!--
-Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.
-Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.
--->
-      <antipattern>
-		<token/>
-		<token regexp='yes'>vários?</token>
-		<token postag='AQ0[CM].+|NC[CM].+' postag_regexp='yes'/>
-      </antipattern>
-<!--
-Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.
-Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.
--->
-      <antipattern>
-		<token/>
-		<token regexp='yes'>várias?</token>
-		<token postag='AQ0[CF].+|NC[CF].+' postag_regexp='yes'/>
-      </antipattern>	  
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-05/11 (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-05/11/14/15 (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='[DP][ADIP].[NF].+|SPS00:[DP][ADIP].[NF].+' postag_regexp='yes'/>
-		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+		<token postag='[DP][ADIP].[NF].+|SPS00:[DP][ADIP].[NF].+|CC|CS|RG|V.+' postag_regexp='yes'/>
+		<token min="1" max="2" postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
 		<token postag='SPS.+' postag_regexp='yes'/>
 		<token postag='AQ.+|NC.+' postag_regexp='yes'/>
 		<token postag='SPS.+' postag_regexp='yes'/>	
@@ -1140,11 +1043,11 @@ Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos vári
 		<example>...ísica abre: Para as compras realizadas nestes dias, as regras de entrega são as mesmas de segunda a sábado descritas acima.</example>
 		<example>Isto tendo em conta as técnicas de engenharia de software mundialmente estabelecidas.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-05/11 (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-05/11/14/15 (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-11 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-11/14 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='[DP]..[MN].+|V.+|Z0[MN].+|SPS.+|CC|CS|RG' postag_regexp='yes'/>
+		<token postag='[DP]..M.+|V.+|Z0[MN].+|SPS.+|CC|CS|RG' postag_regexp='yes'/>
 		<token min="1" max="2" postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
 		<token postag='NP.+' postag_regexp='yes'/>
 		<example>Com a marca, um <marker>exclusivo Auchan</marker>.</example>
@@ -1154,7 +1057,78 @@ Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos vári
 		<example>O navio português Santa Catarina foi capturado pela Companhia da Índia holandesa.</example>
 		<example>Vale lembrar que o guia Europa de Cinema está cheio de dicas interessantíssimas de Londres.</example>
 	  </antipattern>
-<!-- MARCOAGPINTO 2022-06-11 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-11/14 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-06-14/15 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='AQ.+|NC.+|V.+|CS|CC|RG' postag_regexp='yes'/>
+		<token min="1" max="2" postag='[DP][ADIP].F.+' postag_regexp='yes'/>
+		<token postag='AQ.[CF].+|NC[CF].+|V.+' postag_regexp='yes'/>
+		<example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
+		<example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
+		<example>Os encostos de cabeça dos bancos dianteiros podem ser erguidos até certa altura e neste ponto máximo muita gente acha que não é possível retirar.</example>
+		<example>O nome dele é Kenji, mas a gente o chama de Ken.</example>
+		<example>A mãe tocava piano e transmitiu-lhe o gosto pela música, desde pequeno que o leva a assistir a concertos.</example>
+		<example>Todo dia muita gente visita a biblioteca.</example>
+		<example>Se um homem quer que sua mulher o ouça, ele só precisa falar com outra.</example>
+		<example>Em pouco tempo viveremos como no velho oeste, na base da bala onde cada um carrega a sua arma para defender aquilo que é seu.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-14/15 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-06-14/16  (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='AQ.[CM].+|NC[CM].+|CC|CS|RG|[DP]..[CM].+|SPS00:[DP]..[CM].+|SPS00|V.+|SENT_START' postag_regexp='yes'/>
+		<token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+		<token postag='AQ.[CM].+|NC[CM].+|CC|CS|RG|[DP]..M.+|SPS00:[DP]..M.+' postag_regexp='yes'/>
+		<token postag='V.....M|AQ.M.+|NCM.+' postag_regexp='yes'/>	
+		<token min="0" max="1" postag='[DP][ADIP].F.+|SPS00|SPS00:[DP][ADIP].F.+|CC|CS|RG' postag_regexp='yes'/> <!-- "Um beijo MINHA linda!" -->
+		<token postag='AQ0F.+|NCF.+' postag_regexp='yes'/>
+		<example>Até esse humano multiplicado inúmeras vezes.</example>
+		<example>São artes marciais que incluem tanto golpes de combate em pé quanto técnicas de luta no chão.</example>
+		<example>O género Bacterium compreendia bactérias com formato de bastão não formadoras de esporos.</example>
+		<example>O “Croata”, na minha perspectiva e o melhor jogador atras de Izma que temos no plantel.</example>
+		<example>Mas para quê características semelhantes?</example>
+		<example>Um saiu ileso do acidente, mas outro teve queimaduras graves.</example>
+		<example>Um beijo linda!</example>
+		<example>Um beijo minha linda!</example>
+		<example>Mas já foi em tempos, quando em finais dos anos 90, passava no pequeno ecrã séries e filmes a horas decentes.</example>
+		<example>"Os portugueses têm ao seu dispor mais alternativas, o que permitiu uma nova dinâmica de diálogo social, político e cultural.</example>
+	  </antipattern>
+<!-- MARCOAGPINTO 2022-06-14/16  (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		  <token postag='[DP][ADIP].M.+|SPS00|SPS00:[DP][ADIP].M.+|_PUNCT|CC|CS|RG|Z0CN0|SENT_START' postag_regexp='yes'/>
+		  <token min="1" max="2"  postag='NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+		  <token min="0" max="1" postag='CC|CS|RG|SPS00' postag_regexp='yes'/>		  
+		  <token postag='Z0[CF].+' postag_regexp='yes'/>
+		  <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		  <example>Precisa agora de estar em retiro 1 dia.</example>
+		  <example>Precisa agora de estar em retiro 14 dias.</example>
+		  <example>Precisa agora de estar em retiro 14 horas.</example>
+		  <example>Antes de continuar vamos assistir um breve vídeo sobre o recrutador 24 horas.</example>
+		  <example>Além de que, continuei com este cuidado 3 semanas após o término da radioterapia.</example>		  
+		  <example>Estiveram presentes no chat 120 pessoas e agora você pode ler, na integra, como foi o bate-papo.</example>
+		  <example>A WNPower tem suporte sólido, incluindo suporte por chat ao vivo, telefone, e-mail e ticket 24 horas por dia, 7 dias por semana.</example>
+      </antipattern>  
+<!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='[DP][ADIP].[NM].+|SPS00:[DP][ADIP].[NM].+|CC|CS|RG|NCM.+|AQ0M.+|VMN0000|SPS00|SENT_START|VMP00.+|VMIP3.+|VMM02.+|VMIS1.+|VMIP2.+' postag_regexp='yes'/>
+		<token min="0" max="1" postag='_PUNCT|[DP][ADIP].[NC].+|SPS00:[DP][ADIP].[NC].+|SPS00|CC|CS|RG' postag_regexp='yes'/>
+		<token postag='NCMS000|AQ0MS0|NP.+|VMP00SM' postag_regexp='yes'/>
+		<token min="0" max="1" postag='[DP][ADIP].[NF].+|SPS00:[DP][ADIP].[NF].+|CC|CS|RG|SPS00|_PUNCT' postag_regexp='yes'/>
+		<token postag='NCFS000|AQ0FS0|VMP00SF' postag_regexp='yes'/>
+		<example>No ponto borboleta, as diferentes superfícies são importantes.</example>
+		<example>Não traduza inglês para japonês palavra por palavra.</example>
+		<example>Eu comecei a aprender chinês semana passada.</example>
+		<example>Eu gosto de comer comida coreana.</example>
+		<example>Não tenho nenhum interesse em comer comida inglesa.</example>
+		<example>A medicina é uma das muitas áreas do conhecimento ligada à manutenção e restauração da saúde.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <antipattern>
         <token>duas</token>
@@ -1192,7 +1166,6 @@ Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos vári
       <example correction='uma omelete|um, omelete'>Você pode fazer <marker>um omelete</marker> espanhola para eu jantar, por favor?</example>
       <example>O Um torna-se Dois, o Dois torna-se Três.</example>
       <example>Diz-se que a cada dia nasce um trouxa, e disso o vigarista sabe.</example>
-<!--      <example correction='uma sanduíche|um, sanduíche'>Estão comendo <marker>um sanduíche</marker>.</example> -->
       <example correction="uma terrível dor|um terrível, dor">Tenho <marker>um terrível dor</marker> na cabeça.</example>
       <example correction="uma grande erupção|um grande, erupção">Por exemplo, <marker>um grande erupção</marker> vulcânica causa maior reflexão da luz solar de vo…</example>
       <example>O monte Farinha é uma montanha do distrito de Vila Real.</example>
@@ -1215,10 +1188,6 @@ Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos vári
 <!-- rule damaged - 2022-06-11 *END* -->
 	  <example type='correct'>Não devia ser <marker>necessário petições</marker> para legalizar a profissão.</example>
 	  <example type='correct'>Suspeita-se que tenham, em escalas de tempo<marker>, levado quantidades</marker> significativas de água.</example>
-	  <example type='correct'>Precisa agora de estar em <marker>quarentena 1 dia</marker>.</example>
-	  <example type='correct'>Precisa agora de estar em <marker>quarentena 14 dias</marker>.</example>
-	  <example type='correct'>Precisa agora de estar em <marker>quarentena 14 horas</marker>.</example>
-	  <example type='correct'>Precisa agora de estar em <marker>plantão 14 horas</marker>.</example>
 	  
 	  <example type='correct'><marker>Dez funções</marker> da inteligência multifocal.</example>
 	  
@@ -1244,14 +1213,7 @@ Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos vári
 	  
 	  <example>O que <marker>o torna</marker> mais perigoso é haver civis inocentes.</example>
 	  <example>O que o torna perigoso é haver civis inocentes.</example>
-	  
-	  <example type='correct'>No <marker>ponto borboleta</marker>, as diferentes superfícies são importantes.</example>
-	  <example>Não traduza inglês para japonês palavra por palavra.</example>
-	  <example>Eu comecei a aprender chinês semana passada.</example>
-	  <example>Eu gosto de comer comida coreana.</example>
-	  <example>Não tenho nenhum interesse em comer comida inglesa.</example>
-	  <example>A medicina é uma das muitas áreas do conhecimento ligada à manutenção e restauração da saúde.</example>
-	  
+  
 	  <example type='correct'>Autentifique-se com a <marker>sua conta LanguageTool</marker>.</example>
 	  <example type='correct'>Autentifique-se com o <marker>seu cartão MUFON</marker>.</example>
 	  <example>Em resposta, a administração Bush lançou uma "Guerra ao Terror".</example>
@@ -1262,36 +1224,6 @@ Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos vári
       <example>É muito importante beber muita água.</example>
       <example>Você terminou de tricotar aquele suéter?</example>
       <example>É perigoso duas pessoas andarem ao mesmo tempo numa bicicleta.</example>
-
-<!-- IT TRIGGERS ERRORS BELOW, BUT EXAMPLES ARE CORRECT - 2021-05-26
-	  <example>O meu pai inúmeras vezes dá o exemplo.</example>
-	  <example>Vi um várias vezes.</example>
-	  <example>Ele tem dificuldade para comer comidas novas.</example>
-	  <example>Tom fugiu do cativeiro diversas vezes.</example>
-	  <example>Água, erosão e controle da poluição têm se tornado questões importantes nas relações da China com outros países.</example>
--->
-
-<!-- IT TRIGGERS ERRORS BELOW, BUT EXAMPLES ARE CORRECT - 2021-05-26
-	  <example>As insurgências no mundo islâmico causadas pela revolta.</example>
-	  <example>Minhas caixinhas de som são um brinquedo comparadas com as suas.</example>
-	  <example>São as seguintes unidades de conservação a nível federal localizadas em Mato Grosso.</example>
--->
-
-	  <example>As insurgências no mundo islâmico causadas pela população.</example>
-	  <example>Hoje, a Ericeira continua a ser uma das zonas do litoral do país mais procuradas para banhos.</example>
-	  <example>A batalha durou pouco, tendo sofrido o exército castelhano pesadas baixas.</example>
-	  <example>As concepções do belo de Aristóteles ficam por um longo período esquecidas, sendo somente retomadas ao final da Idade Média.</example>
-	  
-	  <example>Até esse humano multiplicado inúmeras vezes.</example>
-	  <example>São artes marciais que incluem tanto golpes de combate em pé quanto técnicas de luta no chão.</example>
-	  <example>O género Bacterium compreendia bactérias com formato de bastão não formadoras de esporos.</example>	
-
-	  <example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
-	  <example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
-	  <example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
-	  <example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
-
-<!--      <example>A informação conseguida para saber preparações para atos de terror específicos eminentes.</example> -->
     </rule>
     <rule>
 <!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
@@ -42900,6 +42832,41 @@ O objetivo é alcançar o terreno do inimigo. → O objetivo é alcançar o terr
 	  <suggestion>\2 in\3</suggestion>
       <example correction="está inválida">A identificação do Rui <marker>não está válida</marker>.</example>	  
     </rule>
+
+
+	<!-- PARA CONCLUIR em suma -->
+    <rulegroup id='PARA_CONCLUIR_EM_SUMA' name="Para concluir/resumidamente → em suma" type="style">
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-13 (5-JUN-2022+)      -->
+	<!--
+E, para concluir: os valores batem bem. → E, em suma: os valores batem bem.
+E, resumidamente: os valores batem bem. → E, em suma: os valores batem bem.
+	-->
+	<rule>
+      <pattern>		  
+		  <marker>
+			<token regexp='no'>para</token>
+			<token inflected='yes'>concluir</token>
+		  </marker>
+		  <token regexp='yes'>[:,]</token>
+      </pattern>
+	  <message>Se for um texto académico/científico, pondere melhorar a linguagem.</message>
+	  <suggestion>em suma</suggestion>
+	  <example correction="em suma">E, <marker>para concluir</marker>: os valores batem bem.</example>
+	</rule>
+
+	<rule>
+      <pattern>		  
+		  <marker>
+			<token regexp='no'>resumidamente</token>
+		  </marker>
+		  <token regexp='yes'>[:,]</token>
+      </pattern>
+	  <message>Se for um texto académico/científico, pondere melhorar a linguagem.</message>
+	  <suggestion>em suma</suggestion>
+	  <example correction="em suma">E, <marker>resumidamente</marker>: os valores batem bem.</example>
+	</rule>
+
+    </rulegroup>
 
 
 	<!-- PERDER A VIDA A morrer/falecer/perecer -->
