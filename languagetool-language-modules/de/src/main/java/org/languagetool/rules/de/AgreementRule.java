@@ -200,6 +200,7 @@ public class AgreementRule extends Rule {
     "Wollen",  // das Wollen
     "Gramm",
     "Kilogramm",
+    "Flippers", // Band, die Flippers
     "Piepen", // Die Piepen
     "Badlands",
     "Visual", // englisch

@@ -1017,6 +1017,18 @@ class AgreementRuleAntiPatterns1 {
       csToken("veranlasste"),
       posRegex("SUB.*")
     ),
+    Arrays.asList( // In einem Eins gegen Eins
+      tokenRegex("ein|einem"),
+      token("Eins"),
+      csToken("gegen"),
+      token("Eins")
+    ),
+    Arrays.asList( // Dann musst du das Schritt für Schritt …
+      tokenRegex("das"),
+      token("Schritt"),
+      csToken("für"),
+      token("Schritt")
+    ),
     Arrays.asList(
       // …, kann das Infektionen möglicherweise verhindern
       posRegex("KON.*|PKT|SENT_START"),

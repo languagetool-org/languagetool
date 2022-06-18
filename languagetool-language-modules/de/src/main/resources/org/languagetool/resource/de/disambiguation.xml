@@ -6399,4 +6399,31 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule id="TRADE_KEIN_SUB" name="'Trade' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Trade</token>
+            </marker>
+            <token regexp="yes">Republic.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="CREDIT_KEIN_SUB" name="'Credit' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Credit</token>
+            </marker>
+            <token regexp="yes">Suisse.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="CALL_KEIN_SUB" name="'Call' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Call</token>
+            </marker>
+            <token>of</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
 </rules>
