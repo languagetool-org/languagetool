@@ -569,7 +569,7 @@ public class DocumentCache implements Serializable {
    * size of text cache (without headers, footnotes, etc.)
    */
   public synchronized int textSize(TextParagraph textParagraph) {
-    if (textParagraph.type == CURSOR_TYPE_UNKNOWN) {
+    if (textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.type >= toParaMapping.size()) {
       return 0;
     }
     return toParaMapping.get(textParagraph.type).size();
