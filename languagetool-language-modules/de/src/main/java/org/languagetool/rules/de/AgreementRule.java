@@ -201,6 +201,7 @@ public class AgreementRule extends Rule {
     "Gramm",
     "Kilogramm",
     "Flippers", // Band, die Flippers
+    "Standart", // Caught by speller
     "Piepen", // Die Piepen
     "Badlands",
     "Visual", // englisch
