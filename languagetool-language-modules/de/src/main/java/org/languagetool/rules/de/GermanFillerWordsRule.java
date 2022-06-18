@@ -104,7 +104,7 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
         || ("auch".equals(first) && "nur".equals(second))
         || ("immer".equals(first) && "wieder".equals(second))
         || ("genau".equals(first) && "so".equals(second))
-        || ("so".equals(first) && ("etwas".equals(second) || "viel".equals(second)))
+        || ("so".equals(first) && ("etwas".equals(second) || "viel".equals(second) || "oft".equals(second)))
         || ("schon".equals(first) && "fast".equals(second))
         );
   }
