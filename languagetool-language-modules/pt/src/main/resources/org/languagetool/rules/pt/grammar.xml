@@ -42623,6 +42623,26 @@ Quero a percentagem certa na tabela. → Quero a percentagem exata na tabela.
     </rule>
 
 
+	<!-- CONTRÁRIO oposto -->
+    <rule id='CONTRÁRIO_OPOSTO' name="Contrário → Oposto" type="style">
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-18 (5-JUN-2022+)      -->
+	<!--
+A Ana percebeu exatamente o contrário! → A Ana percebeu exatamente o oposto!
+	-->
+      <pattern>
+		  <token postag='V.+' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='RM' postag_regexp='no'/>
+		  <token postag='[DP][ADIP]0MS0|SPS00:[DP][ADIP]0MS0' postag_regexp='yes'/>
+		  <marker>
+			<token>contrário</token>
+		  </marker>
+      </pattern>
+	  <message>Se for um texto académico/científico, pondere melhorar a linguagem.</message>
+	  <suggestion>oposto</suggestion>
+	  <example correction="oposto">A Ana percebeu exatamente o <marker>contrário</marker>.</example>
+    </rule>
+
+
 	<!-- CORRER O RISCO arriscar-->
     <rulegroup id='CORRER_RISCO_ARRISCAR' name="Simplificar: Correr o risco → arriscar" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-20/21 (Checked/Enhanced) (1-JAN-2022+)      -->
