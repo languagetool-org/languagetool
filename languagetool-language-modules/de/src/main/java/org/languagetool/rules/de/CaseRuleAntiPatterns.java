@@ -41,6 +41,19 @@ class CaseRuleAntiPatterns {
       regex("Blomens?")
     ),
     Arrays.asList(
+      tokenRegex("international"),
+      tokenRegex("GmbH|gGmbH|AG|gAG|InvAG|OHG|KG|UG|eG|GbR")
+    ),
+    Arrays.asList(
+      posRegex("ADJ:.*"),
+      tokenRegex("&|and"),
+      posRegex("ADJ:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("Deutschen?|Österreichischen?|Schweizerischen?"),  // TODO: extend
+      tokenRegex(".*gesellschaft")
+    ),
+    Arrays.asList(
       csRegex("im|ins|ans?"),
       csRegex("Gestern|Vorgestern")
     ),

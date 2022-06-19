@@ -89,6 +89,12 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Verantwortlicher",
+    "Verantwortliche",
+    "Verantwortlichen",
+    "Hingerichtete",
+    "Lehrende",
+    "Lehrender",
     "Vertrauter",
     "Out", // eng
     "Packet", // misspelling of "Paket" (caught by spell checker)

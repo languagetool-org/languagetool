@@ -218,6 +218,10 @@ public class CaseRuleTest {
     assertGood("mit U-Bahn-ähnlichen und günstigen Verkehrsmitteln");
     assertGood("mit Ü-Ei-großen, schweren Hagelkörnern");
     assertGood("mit E-Musik-artigen, komplizierten Harmonien");
+    assertGood("eBay International AG");
+    assertGood("Harald & Schön"); // Firmenname
+    assertGood("Nicholas and Stark"); // Eigenname
+    assertGood("Die Schweizerische Bewachungsgesellschaft"); // Eigenname
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");
