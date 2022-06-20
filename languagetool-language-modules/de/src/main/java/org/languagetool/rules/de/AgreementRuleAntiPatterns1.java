@@ -291,6 +291,17 @@ class AgreementRuleAntiPatterns1 {
       new PatternTokenBuilder().posRegex("EIG.*").tokenRegex(".*s").build()
     ),
     Arrays.asList(
+      token("die"),  // "Die Xi Jinping Ära ist …" -- should be 'Xi-Jinping-Ära', but don't detect here because of confusing error message
+      posRegex("EIG:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
+      token("die"),  // "Die Xi Ära ist …"  -- should be 'Xi-Ära', but don't detect here because of confusing error message
+      posRegex("EIG:.*"),
+      posRegex("EIG:.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(
       tokenRegex("ist|war|sei|wäre"),  // "war das Absicht"
       token("das"),
       new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
@@ -1017,6 +1028,32 @@ class AgreementRuleAntiPatterns1 {
       csToken("veranlasste"),
       posRegex("SUB.*")
     ),
+    Arrays.asList( // In einem Eins gegen Eins
+      tokenRegex("ein|einem"),
+      token("Eins"),
+      csToken("gegen"),
+      token("Eins")
+    ),
+    Arrays.asList( // Dann musst du das Schritt für Schritt …
+      tokenRegex("das|dies"),
+      token("Schritt"),
+      csToken("für"),
+      token("Schritt")
+    ),
+    Arrays.asList( // Das hat etliche Zeit in Anspruch genommen
+      token("etliche"),
+      token("Zeit")
+    ),
+    Arrays.asList( // Ich habe auf vieles Lust
+      token("auf"),
+      token("vieles"),
+      tokenRegex("Lust|Bock")
+    ),
+    Arrays.asList( // Ich habe für vieles Zeit
+      token("für"),
+      token("vieles"),
+      token("Zeit")
+    ),
     Arrays.asList(
       // …, kann das Infektionen möglicherweise verhindern
       posRegex("KON.*|PKT|SENT_START"),
@@ -1098,9 +1135,15 @@ class AgreementRuleAntiPatterns1 {
       posRegex("VER:3:SIN.*")
     ),
     Arrays.asList(
+      tokenRegex("Ende|Mitte|Anfang"), // "Der Ende der achtziger Jahre umgestaltete ..."
+      new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
+      new PatternTokenBuilder().posRegex("ADJ.*:(GEN|DAT):.*|ZAL").build(),
+      tokenRegex("Woche|Monats|Jahr(es?|zehnts|hunderts|tausends)")
+    ),
+    Arrays.asList(
       tokenRegex("Ende|Mitte|Anfang"), // "Ende letzten Jahres" "Ende der 50er Jahre"
       new PatternTokenBuilder().posRegex("ART:DEF:GEN:.*").min(0).build(),
-      new PatternTokenBuilder().posRegex("ADJ.*:(GEN|DAT):.*|ZAL").matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),
+      new PatternTokenBuilder().matchInflectedForms().tokenRegex("dieser|(vor)?letzter|[0-9]+er").build(),
       tokenRegex("Woche|Monats|Jahr(es?|zehnts|hunderts|tausends)")
     ),
     Arrays.asList(

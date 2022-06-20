@@ -338,6 +338,7 @@ public class English extends Language implements AutoCloseable {
       case "LIFE_COMPOUNDS":            return 1;
       case "DRIVE_THROUGH_HYPHEN":      return 1;   // higher prio than agreement rules
       case "CAUSE_COURSE":              return 1;   // higher prio than CAUSE_BECAUSE
+      case "THANK_YOUR":                return 1;   // higher prio than POSSESSIVE_DETERMINER_SENT_END
       case "AN_AND":                    return 1;   // higher prio than A_MY and DT_PRP
       case "HER_S":                     return 1;   // higher prio than THEIR_S
       case "ONE_TO_MANY_HYPHEN":        return 1;   // higher prio than TO_TOO

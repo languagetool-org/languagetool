@@ -894,29 +894,7 @@ Isto é boa. → Isto é bom.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-05-22 *START* -->
-<!-- "Edificações erguidas por arquitetos índios centenas de anos antes da conquista europeia." -->
-<!-- "Surgiram no reino centenas de pequenas habitações." -->
-      <antipattern>
-		  <token postag='NCM[SP]000' postag_regexp='yes'/>
-		  <token postag='Z0FP0' postag_regexp='no'/>
-		  <token postag='SPS00' postag_regexp='no'/>	  		  
-      </antipattern>	
-<!-- MARCOAGPINTO 2020-05-22 *END* -->
-<!-- MARCOAGPINTO 2020-07-04 (2-JUL-2020+) *START* -->
-<!-- "O Rui aprende e sugere ele próprio mensagens como sendo verdadeiras." -->
-<!-- "O Rui aprende e sugere ele mesmo mensagens como sendo verdadeiras." -->
-      <antipattern>
-		  <token regexp='yes'>ao|com|de|do|e|ele|em|esse|este|mais|menos|nesse|no|o|ou|por|que|seu</token>	  
-		  <token postag='NCMS000' postag_regexp='no'/>	    
-		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
-      </antipattern>  
-      <antipattern>
-		  <token postag='V.+|RG' postag_regexp='yes'/> 
-		  <token postag='NCMS000' postag_regexp='no'/>	    
-		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
-      </antipattern>  	  
-<!-- MARCOAGPINTO 2020-07-04 (2-JUL-2020+) *END* -->
+
 <!-- MARCOAGPINTO 2020-07-30 (2-JUL-2020+) *START* -->
 <!-- "Uma informação o mais simples e o mais rica." -->
       <antipattern>
@@ -954,29 +932,6 @@ Isto é boa. → Isto é bom.
 		  <token postag='NC[CF]P000' postag_regexp='yes'/>
 	  </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-09-14 (2-JUL-2020+) *END* -->
-
-<!-- MARCOAGPINTO 2021-01-16 (1-JAN-2021+) *START* -->
-<!--
-ao princípio Mãe.
-o princípio Mãe.
-pelo princípio Mãe.
-do princípio Mãe.
-um princípio Mãe.
-esse princípio Mãe.
-aquele princípio Mãe.
-àquele princípio Mãe.
-tal princípio Mãe.
-como princípio Mãe.
-no princípio Mãe.
-daquele princípio Mãe.
-e princípio Mãe.
--->
-      <antipattern>
-		<token regexp='yes'>a?o|pelo|do|um|esse|aquele|àquele|tal|como|no|daquele|e</token>
-		<token regexp='no'>princípio</token>
-		<token postag='NC.S.+|AQ0.S.+|NP.+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-01-16 (1-JAN-2021+) *END* -->
 
 
 
@@ -1101,7 +1056,7 @@ A própria Jane escreveu a carta.
 		  <token postag='[DP][ADIP].M.+|SPS00|SPS00:[DP][ADIP].M.+|_PUNCT|CC|CS|RG|Z0CN0|SENT_START' postag_regexp='yes'/>
 		  <token min="1" max="2"  postag='NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
 		  <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-		  <token min="0" max="1" postag='CC|CS|RG|SPS00' postag_regexp='yes'/>		  
+		  <token min="0" max="1" postag='CC|CS|RG|SPS00' postag_regexp='yes'/>
 		  <token postag='Z0[CF].+' postag_regexp='yes'/>
 		  <token postag='NC.+|AQ.+' postag_regexp='yes'/>
 		  <example>Precisa agora de estar em retiro 1 dia.</example>
@@ -1129,6 +1084,41 @@ A própria Jane escreveu a carta.
 		<example>A medicina é uma das muitas áreas do conhecimento ligada à manutenção e restauração da saúde.</example>
       </antipattern>
 <!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-06-19 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='CC|CS|RG|SPS00|[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token regexp='yes'>princípios?</token>
+		<token postag='NC.S.+|AQ0.S.+|NP.+' postag_regexp='yes'/>
+		<example>ao princípio Mãe.</example>
+		<example>o princípio Mãe.</example>
+		<example>pelo princípio Mãe.</example>
+		<example>do princípio Mãe.</example>
+		<example>um princípio Mãe.</example>
+		<example>esse princípio Mãe.</example>
+		<example>aquele princípio Mãe.</example>
+		<example>àquele princípio Mãe.</example>
+		<example>tal princípio Mãe.</example>
+		<example>como princípio Mãe.</example>
+		<example>no princípio Mãe.</example>
+		<example>daquele princípio Mãe.</example>
+		<example>e princípio Mãe.</example>
+		<example>que princípio Mãe.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-06-19 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		  <token postag='VMIP3.+|SPS00|RG|CS|CC|[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		  <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+		  <token postag='AQ.F.+|NCF.+|VMP00.+|AQ0CS0' postag_regexp='yes'/>
+		  <example>O Rui aprende e sugere ele próprio mensagens como sendo verdadeiras.</example>
+		  <example>O Rui aprende e sugere ele mesmo mensagens como sendo verdadeiras.</example>
+		  <example>Haverá destruições no mundo reveladas por visões?</example>
+		  <example>Eu disse a Tom coisas que não deveria.</example>
+		  <example>Meu irmãozinho disse que ele teve um sonho terrível noite passada.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <antipattern>
         <token>duas</token>
@@ -1190,21 +1180,7 @@ A própria Jane escreveu a carta.
 	  <example type='correct'>Suspeita-se que tenham, em escalas de tempo<marker>, levado quantidades</marker> significativas de água.</example>
 	  
 	  <example type='correct'><marker>Dez funções</marker> da inteligência multifocal.</example>
-	  
-	  <example type='correct'>Temos <marker>o princípio Mãe</marker> na natureza.</example>
-	  <example>Acedemos ao princípio Mãe na natureza.</example>
-	  <example>O que temos pelo princípio Mãe na natureza.</example>
-	  <example>Vamos falar do princípio Mãe na natureza.</example>
-	  <example>Temos um princípio Mãe na natureza.</example>
-	  <example>Temos esse princípio Mãe na natureza.</example>
-	  <example>É aquele princípio Mãe na natureza.</example>
-	  <example>O que chamamos àquele princípio Mãe na natureza.</example>
-	  <example>O tal princípio Mãe na natureza.</example>
-	  <example>E como princípio Mãe na natureza.</example>
-	  <example>Temos isso no princípio Mãe na natureza.</example>
-	  <example>Falemos daquele princípio Mãe na natureza.</example>
-	  <example>O grande e princípio Mãe na natureza.</example>
-	  
+
 	  <example>O Isaac apanhou <marker>um escalda</marker> rabos tão grande.</example>
 	  
 	  <example>Ele confundiu o rapaz com um borrego, <marker>seu tira</marker> moncos.</example>
@@ -1226,26 +1202,31 @@ A própria Jane escreveu a carta.
       <example>É perigoso duas pessoas andarem ao mesmo tempo numa bicicleta.</example>
     </rule>
     <rule>
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
-<!--
-Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.
-Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.
--->
+
+<!-- MARCOAGPINTO 2022-06-20 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token/>
-		<token regexp='yes'>vários?</token>
-		<token postag='AQ0[CM].+|NC[CM].+' postag_regexp='yes'/>
+		<token postag='AQ.+|NC.+|V.+|CS|CC|RG' postag_regexp='yes'/>
+		<token min="1" max="2" postag='[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token postag='AQ.[CM].+|NC[CM].+|V.+' postag_regexp='yes'/>
+		<token postag='[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token postag='AQ.[CM].+|NC[CM].+|NP[NM].+' postag_regexp='yes'/>
+		<example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
+		<example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
       </antipattern>
-<!--
-Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.
-Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.
--->
       <antipattern>
-		<token/>
-		<token regexp='yes'>várias?</token>
-		<token postag='AQ0[CF].+|NC[CF].+' postag_regexp='yes'/>
-      </antipattern>	  
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
+		<token postag='AQ.+|NC.+|V.+|CS|CC|RG' postag_regexp='yes'/>
+		<token min="1" max="2" postag='[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token postag='AQ.[CM].+|NC[CM].+|V.+' postag_regexp='yes'/>
+		<token postag='[DP][ADIP].F.+|SPS00:[DP][ADIP].F.+' postag_regexp='yes'/>
+		<token postag='AQ.[CF].+|NC[CF].+|NP[NF].+' postag_regexp='yes'/>
+		<example>Esta medida drástica está sendo tomada com o intuito de auxiliar no controle da disseminação do Covid-19 pelo Brasil.</example>
+		<example>É a capacidade de colocar no papel suas ideologias a respeito de determinado assunto.</example>
+		<example>O Tom falou que a gente poderia ligar para ele caso alguma coisa desse errada.</example>
+		<example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
+		<example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-20 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
@@ -1265,11 +1246,6 @@ Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos vári
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
       <example correction='no (hora)'>Foi resolvido <marker>no hora</marker> certa.</example>
       <example type='correct'>Foi resolvido <marker>na hora</marker> certa.</example>
-	  
-	  <example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
-	  <example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
-	  <example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
-	  <example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
     </rule>
     <rule>
       <antipattern>
@@ -42623,6 +42599,26 @@ Quero a percentagem certa na tabela. → Quero a percentagem exata na tabela.
     </rule>
 
 
+	<!-- CONTRÁRIO oposto -->
+    <rule id='CONTRÁRIO_OPOSTO' name="Contrário → Oposto" type="style">
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-18 (5-JUN-2022+)      -->
+	<!--
+A Ana percebeu exatamente o contrário! → A Ana percebeu exatamente o oposto!
+	-->
+      <pattern>
+		  <token postag='V.+' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='RM' postag_regexp='no'/>
+		  <token postag='[DP][ADIP]0MS0|SPS00:[DP][ADIP]0MS0' postag_regexp='yes'/>
+		  <marker>
+			<token>contrário</token>
+		  </marker>
+      </pattern>
+	  <message>Se for um texto académico/científico, pondere melhorar a linguagem.</message>
+	  <suggestion>oposto</suggestion>
+	  <example correction="oposto">A Ana percebeu exatamente o <marker>contrário</marker>.</example>
+    </rule>
+
+
 	<!-- CORRER O RISCO arriscar-->
     <rulegroup id='CORRER_RISCO_ARRISCAR' name="Simplificar: Correr o risco → arriscar" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-20/21 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -42836,13 +42832,17 @@ O objetivo é alcançar o terreno do inimigo. → O objetivo é alcançar o terr
 
 	<!-- PARA CONCLUIR em suma -->
     <rulegroup id='PARA_CONCLUIR_EM_SUMA' name="Para concluir/resumidamente → em suma" type="style">
-	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-13 (5-JUN-2022+)      -->
+	<!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-13/19 (5-JUN-2022+)      -->
 	<!--
 E, para concluir: os valores batem bem. → E, em suma: os valores batem bem.
 E, resumidamente: os valores batem bem. → E, em suma: os valores batem bem.
 	-->
 	<rule>
-      <pattern>		  
+      <pattern>
+		  <or>
+			<token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+			<token regexp='yes'>e|ou</token>
+		  </or>
 		  <marker>
 			<token regexp='no'>para</token>
 			<token inflected='yes'>concluir</token>
@@ -42864,6 +42864,19 @@ E, resumidamente: os valores batem bem. → E, em suma: os valores batem bem.
 	  <message>Se for um texto académico/científico, pondere melhorar a linguagem.</message>
 	  <suggestion>em suma</suggestion>
 	  <example correction="em suma">E, <marker>resumidamente</marker>: os valores batem bem.</example>
+	</rule>
+
+	<rule>
+      <pattern>		  
+		  <marker>
+			<token regexp='yes'>em|como</token>
+			<token regexp='no'>conclusão</token>
+		  </marker>
+		  <token regexp='yes'>[:,]</token>
+      </pattern>
+	  <message>Se for um texto académico/científico, pondere melhorar a linguagem.</message>
+	  <suggestion>em suma</suggestion>
+	  <example correction="em suma">E, <marker>em conclusão</marker>: os valores batem bem.</example>
 	</rule>
 
     </rulegroup>

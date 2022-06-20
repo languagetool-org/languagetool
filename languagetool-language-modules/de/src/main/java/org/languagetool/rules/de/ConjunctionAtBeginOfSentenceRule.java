@@ -83,6 +83,14 @@ public class ConjunctionAtBeginOfSentenceRule extends AbstractStatisticSentenceS
     if (token == null || token.getToken().equals("Wie") || token.getToken().equals("Seit")) {
       return null;
     }
+    if (token.getToken().equals("Um")) {
+      for (int i = 1; i < sentence.size(); i++) {
+        if(isComma(sentence.get(i)) || sentence.get(i).getToken().equals("herum")) {
+          return null;
+        }
+      }
+      return token;
+    }
     if (!token.hasPosTagStartingWith("KON:UNT") || token.getToken().equals("Sondern")) {
       if (token.getToken().equals("Entweder")) {
         for (int i = 1; i < sentence.size(); i++) {
