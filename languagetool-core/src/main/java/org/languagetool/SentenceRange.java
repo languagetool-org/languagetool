@@ -53,14 +53,14 @@ public class SentenceRange {
       String sentenceNoEndWhitespace = sentence.replaceFirst("\\s++$", "");
       //Get position without tailing and leading whitespace
       int fromPos = pos + (sentence.length() - sentenceNoBeginnWhitespace.length());
-      int toPos = pos + sentence.length() - (sentence.length() - sentenceNoEndWhitespace.length());
+      int toPos = pos + sentenceNoEndWhitespace.length();
 
       int fromPosOrig = fromPos + diff;
       int toPosOrig = toPos + diff;
-      if (fromPos + diff != annotatedText.getTextWithMarkup().length()) {
+      if (fromPosOrig != annotatedText.getTextWithMarkup().length()) {
         fromPosOrig = annotatedText.getOriginalTextPositionFor(fromPos, false);
       }
-      if (annotatedText.getTextWithMarkup().length() != toPos + diff) {
+      if (toPosOrig != annotatedText.getTextWithMarkup().length()) {
         toPosOrig = annotatedText.getOriginalTextPositionFor(toPos, true);
       }
       sentenceRanges.add(new SentenceRange(fromPosOrig, toPosOrig));
