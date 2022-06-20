@@ -72,7 +72,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "hard coded",
     "hands free",
     "in flight",
-    "in car#",
+    "in car",
     "client side",
     "server side",
     "in house",
