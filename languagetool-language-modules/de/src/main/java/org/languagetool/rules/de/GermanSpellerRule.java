@@ -2663,6 +2663,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "garkein": return topMatch("gar kein");
       case "garkeine": return topMatch("gar keine");
       case "garkeinen": return topMatch("gar keinen");
+      case "wieviel": return topMatch("wie viel");
+      case "Wieviel": return topMatch("Wie viel");
+      case "gets": return topMatch("gehts");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
     return Collections.emptyList();

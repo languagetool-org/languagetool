@@ -1035,10 +1035,24 @@ class AgreementRuleAntiPatterns1 {
       token("Eins")
     ),
     Arrays.asList( // Dann musst du das Schritt für Schritt …
-      tokenRegex("das"),
+      tokenRegex("das|dies"),
       token("Schritt"),
       csToken("für"),
       token("Schritt")
+    ),
+    Arrays.asList( // Das hat etliche Zeit in Anspruch genommen
+      token("etliche"),
+      token("Zeit")
+    ),
+    Arrays.asList( // Ich habe auf vieles Lust
+      token("auf"),
+      token("vieles"),
+      tokenRegex("Lust|Bock")
+    ),
+    Arrays.asList( // Ich habe für vieles Zeit
+      token("für"),
+      token("vieles"),
+      token("Zeit")
     ),
     Arrays.asList(
       // …, kann das Infektionen möglicherweise verhindern

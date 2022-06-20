@@ -6404,7 +6404,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>Trade</token>
             </marker>
-            <token regexp="yes">Republic.*</token>
+            <token regexp="yes">Republic.*|Union|of</token>
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
@@ -6413,17 +6413,100 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>Credit</token>
             </marker>
-            <token regexp="yes">Suisse.*</token>
+            <token regexp="yes">Suisse.*|Karma.*|Agricole.*|Sesame.*|Card.*</token>
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
-    <rule id="CALL_KEIN_SUB" name="'Call' kein Substantiv">
+    <rule id="PREMIER_KEIN_SUB" name="'Premier' kein Substantiv"><!-- Premier League (Sportliga) -->
+        <pattern>
+            <marker>
+                <token>Premier</token>
+            </marker>
+            <token regexp="yes">League.*|Academy.*|Classics</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="SUPER_KEIN_SUB" name="'Super' kein Substantiv"><!-- Super League (Sportliga) -->
+        <pattern>
+            <marker>
+                <token>Super</token>
+            </marker>
+            <token regexp="yes">League.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="CALL_KEIN_SUB" name="'Call' kein Substantiv"><!-- Call of Duty (Computerspiel) -->
         <pattern>
             <marker>
                 <token>Call</token>
             </marker>
-            <token>of</token>
+            <token regexp="yes">of|me|my</token>
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="NORD_KEIN_SUB" name="'Nord' kein Substantiv"><!-- Gas-Pipeline -->
+        <pattern>
+            <marker>
+                <token>Nord</token>
+            </marker>
+            <token regexp="yes">Stream.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="FUNKE_KEIN_SUB" name="'Funke' kein Substantiv"><!-- Medienunternehmen -->
+        <pattern>
+            <marker>
+                <token>Funke</token>
+            </marker>
+            <token regexp="yes">Mediengruppe.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="THW_KEIN_SUB" name="'THW' kein Substantiv"><!-- Handballclub -->
+        <pattern>
+            <marker>
+                <token>THW</token>
+            </marker>
+            <token regexp="yes">Kiel.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="LEOPARD_KEIN_SUB" name="'Leopard' kein Substantiv"><!-- Panzermodell -->
+        <pattern>
+            <marker>
+                <token>Leopard</token>
+            </marker>
+            <token regexp="yes">1|2|3|.*panzer.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="NOVA_KEIN_SUB" name="'Nova' kein Substantiv"><!-- Rockfestival, Stadt, ... -->
+        <pattern>
+            <marker>
+                <token>Nova</token>
+            </marker>
+            <token regexp="yes">(Rock|Scotia|Motors).*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="VON_DER_OSTEN_KEIN_SUB" name="'von der Osten' kein Substantiv"><!-- https://de.wikipedia.org/wiki/Osten_(Adelsgeschlechter) -->
+        <pattern>
+            <token>von</token>
+            <token>der</token>
+            <marker>
+                <token case_sensitive="yes">Osten</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="VAN_DER_NAME" name="van der Valk">
+        <pattern>
+            <token>van</token>
+            <token regexp="yes">der?</token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">[A-Z][a-zäöü\-]+</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
     </rule>
 </rules>
