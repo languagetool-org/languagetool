@@ -27594,6 +27594,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <!--NUMBER_DAYS_MONTH[1]-->
+                <antipattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">al|:</token>
+                    <token>31</token>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">0?[469]|11</token>
+                    <token min="0">:</token>
+                    <token regexp="yes" min="0">\d\d?</token>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrv;|am|pm</token>
+                    <example>12:31 4 ago 2013 (UTC)</example>
+                    <example>y del 16 al 31 de 4:00 am a 6:00 pm</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>31</token>
@@ -27615,9 +27628,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">3[01]</token>
                     <token min="0">-</token>
                     <token regexp="yes">0?2</token>
-                    <token>:</token>
-                    <token regexp="yes">\d\d?</token>
+                    <token min="0">:</token>
+                    <token regexp="yes">\d\d?|pm|am</token>
                     <example>01:30 - 02:30</example>
+                    <example>12:30 - 2 pm pausa</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">\d\d?</token>
@@ -27631,6 +27645,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>20:30 2 may 2006</example>
                     <example>01:30 - 2 horas</example>
                     <example>12:30 2 de octubre de 2016</example>
+                </antipattern>
+                <antipattern>
+                    <token>=</token>
+                    <token regexp="yes">3[01]</token>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">0?2</token>
+                    <example>largo = 30 - 2 </example>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -27744,6 +27765,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>2113822 MAR CASO, HADE XIO</example>
                     <example>21481924323 - Abril</example>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d+</token>
+                    <token regexp="yes">\d\d+</token>
+                    <token regexp="yes">\d\d+</token>
+                    <token regexp="yes">\d\d+</token>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
+                    <token>.</token>
+                    <example> (12) 345 67 89 58 mar.kape.2304</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
                     <token min="0" regexp="yes">[-/]|de</token>
@@ -27768,11 +27799,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d+</token>
                     <token min="0">-</token>
                     <token regexp="yes">\d+</token>
-                    <example>ISBN 978-84-01-0174-83</example>
+                    <example>ISBN 978-84-01-1074-83</example>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">número|N°|nº|n\d+|\+|#|teléfono|expediente</token>
-                    <token min="0">:</token>
+                    <token regexp="yes">número|N°|nº|n\d+|\+|#|teléfono|expediente|FSE</token>
+                    <token regexp="yes" min="0">:|-</token>
                     <token regexp="yes">\d+</token>
                     <token regexp="yes" min="0">-|/</token>
                     <token regexp="yes">\d+</token>
@@ -27782,6 +27813,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>n381 4327-4263 11-2454-0035</example>
                     <example>teléfono: 54-11-1234-5678</example>
                     <example>expediente 52-123-6-2020-5678</example>
+                    <example>(S)FSE-123/07/2021/UE-</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d\d\d\d\d</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">0?[1-9]|10|11|12</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">[12]\d{3}</token>
+                    <example>123-456789-5-2021-DGP-OH-CR</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">0?[1-9]|10|11|12</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">[12]\d{3}</token>
+                    <example>2/300 / 2/2025</example>
+                    <example>03/2021/05/2021</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">0?[1-9]|10|11|12</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">0?[1-9]|10|11|12</token>
+                    <example>2021-01 - 2021-12</example>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -27790,7 +27851,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">0?[1-9]|10|11|12</token>
                     </marker>
                     <token><match no="1"/></token>
-                    <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">[12]\d{3}</token>
                 </pattern>
                 <message>Verifique que la fecha es correcta. Ningún mes tiene más de 31 días.</message>
                 <example correction="">Nació el <marker>32/01</marker>/1985.</example>
@@ -27926,11 +27987,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">31\.(11|0?[469])</token>
-                    <token regexp="yes">%|millones|&unidades;</token>
+                    <token regexp="yes">>%|€|\$|¥|MXN|%|millones|&unidades;</token>
                     <example>la cantidad de 31.6 millones</example>
                     <example>IMC: 31.6 kg/m²</example>
                     <example>30.4 x 11.4 x 31.4 cm.</example>
                     <example>El 31.4 % fueron mujeres</example>
+                    <example>31.09 MXN</example>
+                    <example>31.4 $</example>
+                </antipattern>
+                <antipattern>
+                    <token min="0">de</token>
+                    <token regexp="yes">31\.(11|0?[469])</token>
+                    <token regexp="yes" min="0">a|-</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                    <example>de 31.4 a 35.9 meses</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>:</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>:</token>
+                    <token regexp="yes">31\.(11|0?[469])</token>
+                    <example>10:40:31.06</example>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -27963,6 +28041,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token regexp="yes">(30|31)\.(0?2)</token>
                     <example>31.02 Proyectos</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(30|31)\.(0?2)</token>
+                    <token regexp="yes">>%|€|\$|¥|MXN|%|millones|puntos|&unidades;</token>
+                    <example>peso: 31.2 kg</example>
+                    <example>Ganó con 30.2 puntos.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>:</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>:</token>
+                    <token regexp="yes">(30|31)\.(0?2)</token>
+                    <example>09:40:30.02</example>
                 </antipattern>
                 <pattern>
                     <marker>
