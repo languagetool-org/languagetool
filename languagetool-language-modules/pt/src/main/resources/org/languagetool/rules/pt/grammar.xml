@@ -1202,26 +1202,31 @@ A própria Jane escreveu a carta.
       <example>É perigoso duas pessoas andarem ao mesmo tempo numa bicicleta.</example>
     </rule>
     <rule>
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
-<!--
-Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.
-Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.
--->
+
+<!-- MARCOAGPINTO 2022-06-20 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token/>
-		<token regexp='yes'>vários?</token>
-		<token postag='AQ0[CM].+|NC[CM].+' postag_regexp='yes'/>
+		<token postag='AQ.+|NC.+|V.+|CS|CC|RG' postag_regexp='yes'/>
+		<token min="1" max="2" postag='[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token postag='AQ.[CM].+|NC[CM].+|V.+' postag_regexp='yes'/>
+		<token postag='[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token postag='AQ.[CM].+|NC[CM].+|NP[NM].+' postag_regexp='yes'/>
+		<example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
+		<example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
       </antipattern>
-<!--
-Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.
-Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.
--->
       <antipattern>
-		<token/>
-		<token regexp='yes'>várias?</token>
-		<token postag='AQ0[CF].+|NC[CF].+' postag_regexp='yes'/>
-      </antipattern>	  
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
+		<token postag='AQ.+|NC.+|V.+|CS|CC|RG' postag_regexp='yes'/>
+		<token min="1" max="2" postag='[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token postag='AQ.[CM].+|NC[CM].+|V.+' postag_regexp='yes'/>
+		<token postag='[DP][ADIP].F.+|SPS00:[DP][ADIP].F.+' postag_regexp='yes'/>
+		<token postag='AQ.[CF].+|NC[CF].+|NP[NF].+' postag_regexp='yes'/>
+		<example>Esta medida drástica está sendo tomada com o intuito de auxiliar no controle da disseminação do Covid-19 pelo Brasil.</example>
+		<example>É a capacidade de colocar no papel suas ideologias a respeito de determinado assunto.</example>
+		<example>O Tom falou que a gente poderia ligar para ele caso alguma coisa desse errada.</example>
+		<example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
+		<example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-20 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
@@ -1241,11 +1246,6 @@ Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos vári
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
       <example correction='no (hora)'>Foi resolvido <marker>no hora</marker> certa.</example>
       <example type='correct'>Foi resolvido <marker>na hora</marker> certa.</example>
-	  
-	  <example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
-	  <example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
-	  <example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
-	  <example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
     </rule>
     <rule>
       <antipattern>
