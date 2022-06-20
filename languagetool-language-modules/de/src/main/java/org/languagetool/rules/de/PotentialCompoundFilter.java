@@ -18,29 +18,22 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.tools.StringTools;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.tools.StringTools;
-
 public class PotentialCompoundFilter extends RuleFilter {
-
-  private final German language = new GermanyGerman();
-  private JLanguageTool lt;
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
-    initLt();
     String part1 = arguments.get("part1");
     String part2 = arguments.get("part2");
     String part1capitalized = part1;
@@ -56,8 +49,7 @@ public class PotentialCompoundFilter extends RuleFilter {
     String joinedWord = part1capitalized + part2lowercase;
     String hyphenatedWord = part1capitalized + "-" + part2capitalized;
     List<String> replacements = new ArrayList<>();
-    List<RuleMatch> matches = lt.check(joinedWord);
-    if (matches.isEmpty()) {
+    if (!GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(joinedWord)) {
       if (joinedWord.length() > 20) {
         replacements.add(hyphenatedWord);
       }
@@ -75,16 +67,4 @@ public class PotentialCompoundFilter extends RuleFilter {
     }
     return null;
   }
-
-  private void initLt() {
-    if (lt == null) {
-      lt = new JLanguageTool(language);
-      for (Rule rule : lt.getAllActiveRules()) {
-        if (!rule.getId().equals("GERMAN_SPELLER_RULE")) {
-          lt.disableRule(rule.getId());
-        }
-      }
-    }
-  }
-
 }

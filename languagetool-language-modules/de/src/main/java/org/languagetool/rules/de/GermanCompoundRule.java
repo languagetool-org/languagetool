@@ -21,11 +21,12 @@ package org.languagetool.rules.de;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.language.GermanyGerman;
-import org.languagetool.rules.*;
-import org.languagetool.tagging.de.GermanTagger;
+import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.CompoundRuleData;
+import org.languagetool.rules.Example;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -38,8 +39,6 @@ public class GermanCompoundRule extends AbstractCompoundRule {
 
   private static volatile CompoundRuleData compoundData;
   
-  private static GermanSpellerRule germanSpellerRule;
- 
   public GermanCompoundRule(ResourceBundle messages, Language lang, UserConfig userConfig) throws IOException {
     super(messages, lang, userConfig,
             "Dieses Wort wird mit Bindestrich geschrieben.",
@@ -49,9 +48,6 @@ public class GermanCompoundRule extends AbstractCompoundRule {
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
     addExamplePair(Example.wrong("Wenn es schlimmer wird, solltest Du zum <marker>HNO Arzt</marker> gehen."),
                    Example.fixed("Wenn es schlimmer wird, solltest Du zum <marker>HNO-Arzt</marker> gehen."));
-    if (germanSpellerRule == null) {
-      germanSpellerRule = new GermanSpellerRule(messages, new GermanyGerman());
-    }
   }
 
   @Override
@@ -82,6 +78,6 @@ public class GermanCompoundRule extends AbstractCompoundRule {
   @Override
   public boolean isMisspelled(String word) throws IOException {
     //return !GermanTagger.INSTANCE.tag(Arrays.asList(word)).get(0).isTagged();
-    return germanSpellerRule.isMisspelled(word);
+    return GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(word);
   }
 }

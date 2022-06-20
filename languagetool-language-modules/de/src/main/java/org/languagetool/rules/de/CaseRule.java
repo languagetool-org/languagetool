@@ -25,7 +25,10 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
-import org.languagetool.rules.*;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.Example;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.de.GermanToken;
@@ -717,14 +720,12 @@ public class CaseRule extends Rule {
     substVerbenExceptions.add("bedeuten");
   }
 
-  private final GermanSpellerRule speller;
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
-  private German language;
+  private final German language;
 
   public CaseRule(ResourceBundle messages, German german) {
     language = german;
     super.setCategory(Categories.CASING.getCategory(messages));
-    speller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), german);
     antiPatterns = cacheAntiPatterns(german, ANTI_PATTERNS);
     addExamplePair(Example.wrong("<marker>Das laufen</marker> fällt mir schwer."),
                    Example.fixed("<marker>Das Laufen</marker> fällt mir schwer."));
@@ -967,7 +968,7 @@ public class CaseRule extends Rule {
         !followedByGenderGap(tokens, i) &&
         !isNounWithVerbReading(i, tokens) &&
         //!isInvisibleSepatator(i-1, tokens) &&
-        !speller.isMisspelled(lcWord)) {
+        !language.getDefaultSpellingRule().isMisspelled(lcWord)) {
       if (":".equals(tokens[i - 1].getToken())) {
         AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[i];
         System.arraycopy(tokens, 0, subarray, 0, i);
