@@ -39,11 +39,10 @@ import org.languagetool.tools.StringTools;
 /*
  * Create suggestions for: determiner + noun/adjective
  */
-
 public class WordWithDeterminerFilter extends RuleFilter {
 
   private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
-  private static JLanguageTool lt = new JLanguageTool(new French());
+  private static final JLanguageTool lt = new JLanguageTool(new French());
 
   private static final String determinerRegexp = "(P.)?D .*|J .*|V.* ppa .*";
   private static final Pattern DETERMINER = Pattern.compile(determinerRegexp);
@@ -51,11 +50,12 @@ public class WordWithDeterminerFilter extends RuleFilter {
   private static final Pattern WORD = Pattern.compile(wordRegexp);
 
   // 0=MS, 1=FS, 2=MP, 3=FP
-  private static final String[] GenderNumber = { "(m|e) (s|sp)", "(f|e) (s|sp)", "(m|e) (p|sp)", "(f|e) (p|sp)" };
+  private static final String[] GenderNumber = { "([me]) (s|sp)", "([fe]) (s|sp)", "([me]) (p|sp)", "([fe]) (p|sp)" };
   private static final String determiner = "((P.)?D |J |V.* ppa )";
 
-  private static final List<String> exceptionsDeterminer = Arrays
-      .asList(new String[] { "bels", "fols", "mols", "nouvels" });
+  private static final List<String> exceptionsDeterminer =
+    Arrays.asList("bels", "fols", "mols", "nouvels");
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {  
