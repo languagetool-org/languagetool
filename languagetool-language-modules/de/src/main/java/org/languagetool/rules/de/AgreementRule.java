@@ -631,6 +631,12 @@ public class AgreementRule extends Rule {
     RuleMatch ruleMatch = null;
     if (set.isEmpty()) {
       RuleMatch compoundMatch = getCompoundError(token1, token2, token3, token4, tokenPos, sentence);
+      if (tokenPos + 4 < sentence.getTokensWithoutWhitespace().length &&
+          token4.getToken().equals(sentence.getTokensWithoutWhitespace()[tokenPos+4].getToken())) {
+        // avoids a strange bug that suggests "Machtmach" in sentence like this:
+        // "Denn die einzelnen sehen sich einer sehr verschieden starken Macht des..."
+        return null;
+      }
       if (compoundMatch != null) {
         return compoundMatch;
       }

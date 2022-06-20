@@ -266,6 +266,7 @@ public class AgreementRuleTest {
     assertGood("Der eine Polizist rief dem anderen zu...");
     assertGood("Das eine Kind rief dem anderen zu...");
     assertGood("Er wollte seine Interessen wahrnehmen.");
+    assertGood("Denn die einzelnen sehen sich einer sehr verschieden starken Macht des...");  // strange bug that suggests "Machtmacht"
 
     assertGood("... wo Krieg den Unschuldigen Leid und Tod bringt.");
     assertGood("Der Abschuss eines Papageien.");
