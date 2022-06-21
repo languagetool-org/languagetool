@@ -99,14 +99,6 @@ public class MasdarToVerbFilter extends RuleFilter {
       if (auxVerbLemmas.contains(auxVerbToken.getLemma())) {
         // for all masdar lemmas
         for (String lemma : masdarLemmas) {
-          // get verb suitable to masdar
-          String verb = masdar2verb.get(lemma);
-
-//          if (verb != null) {
-//            // if verb, inflect verd according to auxialiary verb inlfection
-//            List<String> inflectedverbList = synthesizer.inflectLemmaLike(verb, auxVerbToken);
-//            verbList.addAll(inflectedverbList);
-//          }
           List<String> verblemmaList = masdar2verbList.get(lemma);
           if (verblemmaList != null) {
             // if verb, inflect verd according to auxialiary verb inlfection
@@ -116,14 +108,11 @@ public class MasdarToVerbFilter extends RuleFilter {
             }
           }
         }
-
       }
     }
 
     // remove duplicates
     verbList = new ArrayList<>(new HashSet<>(verbList));
-
-
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
     // generate suggestion
     for (String verb : verbList) {

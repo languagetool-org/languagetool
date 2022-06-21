@@ -79,7 +79,6 @@ public class ArabicTaggerTest {
         "والبلاد/[بلاد]NJ-;M1U-;W-L",
       tokenizer, tagger);
 
-
     TestTools.myAssert("بلادهما",
       "بلادهما/[بلاد]NJ-;F3--;--H|" +
         "بلادهما/[بلاد]NJ-;F3A-;--H|" +
@@ -143,7 +142,6 @@ public class ArabicTaggerTest {
         "وكالبلاد/[بلاد]NJ-;M1--;WKL|" +
         "وكالبلاد/[بلاد]NJ-;M1I-;WKL",
       tokenizer, tagger);
-
 
     TestTools.myAssert("سيعملون",
       "سيعملون/[أَعْمَلَ]V41;M3H-faU;-S-|" +

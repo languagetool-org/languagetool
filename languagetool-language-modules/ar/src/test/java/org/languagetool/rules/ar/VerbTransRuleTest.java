@@ -101,10 +101,10 @@ public class VerbTransRuleTest {
       AnalyzedToken prepAToken = new AnalyzedToken(preposition, newPrepositionTag, preposition);
       String newPreposition = Arrays.toString(synthesizer.synthesize(prepAToken, newPrepositionTag));
       //      String newVerb = synthesizer.synth(verbLemma, newVerbTag);
-      if (debug) System.out.printf("VerbTransRuleTes: suggestions verb: %s preposition: %s\n", newVerb, newPreposition);
+      if (debug) {
+        System.out.printf("VerbTransRuleTes: suggestions verb: %s preposition: %s\n", newVerb, newPreposition);
+      }
 
-
-//
     }
 
   }

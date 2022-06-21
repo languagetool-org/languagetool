@@ -68,13 +68,12 @@ public class NumberPhraseFilter extends RuleFilter {
 
     int end_pos = (nextWordPos > 0) ? Integer.min(nextWordPos, patternTokens.length) : patternTokens.length + nextWordPos;
 
-
-    for (int i = start_pos; i < end_pos; i++)
+    for (int i = start_pos; i < end_pos; i++) {
       numWordTokens.add(patternTokens[i].getToken().trim());
+    }
 
     String numPhrase = String.join(" ", numWordTokens);
-    /* extract features from previous */
-
+    // extract features from previous
     boolean feminin = false;
     boolean attached = false;
     String inflection = getInflectedCase(patternTokens, previousWordPos, inflectArg);

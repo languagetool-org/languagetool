@@ -313,7 +313,6 @@ public class ArabicNumbersWords {
   /* generate a phrase number with unit */
   public static Map<String, String> numberToWordsWithUnitsMap(Integer n, String unit, String inflection) {
 
-
     // get feminin from unit
     boolean feminin = isFeminin(unit);
     String unit_inflection = "";

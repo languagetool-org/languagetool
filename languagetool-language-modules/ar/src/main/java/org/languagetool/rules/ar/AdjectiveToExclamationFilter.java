@@ -59,7 +59,6 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
 
     //  This rule return only the comparative according to given adjective
-
     String adj = arguments.get("adj"); // extract adjective
     String noun = arguments.get("noun"); // the second argument
     int adjTokenIndex;
@@ -77,9 +76,7 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     // get comparative from Adj/comp list
     List<String> compList = new ArrayList<>();
 
-    //
     for (String adjlemma : adjLemmas) {
-
       // get comparative suitable to adjective
       List<String> comparativeList = adj2compList.get(adjlemma);
       if (comparativeList != null) {
@@ -87,12 +84,8 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
       }
     }
 
-    //
-
     // remove duplicates
     compList = new ArrayList<>(new HashSet<>(compList));
-
-
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
     // generate suggestion
     List<String> suggestionList = prepareSuggestions(compList, noun);

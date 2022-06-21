@@ -39,7 +39,6 @@ import static org.junit.Assert.assertNotNull;
  */
 public class ArabicLoadSimpleWordTest {
 
-
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
   private static final String FILE_NAME = "/ar/arabic_masdar_verb.txt";
 

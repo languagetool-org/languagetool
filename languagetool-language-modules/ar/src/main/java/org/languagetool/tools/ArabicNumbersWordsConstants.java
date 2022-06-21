@@ -190,7 +190,6 @@ public class ArabicNumbersWordsConstants {
     arabicJarTens.add("ثمانين");
     arabicJarTens.add("تسعين");
 
-
     /* Twos */
     arabicJarTwos.add("مئتين");
     arabicJarTwos.add("ألفين");

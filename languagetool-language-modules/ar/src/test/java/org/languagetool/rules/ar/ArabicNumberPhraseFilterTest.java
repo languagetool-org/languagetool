@@ -65,8 +65,6 @@ public class ArabicNumberPhraseFilterTest {
     assertSuggestion("مليون ومئتان وخمسة وأربعين ألفاً وسبعمائة وواحد", "مليون ومئتين وخمسة وأربعين ألفا وسبعمائة وواحد", previous, next, inflection, debug);
     assertSuggestion("مائة واثنين", "", previous, next, inflection, debug);
     assertSuggestion("عشرة وآلاف", "عشرة آلاف", previous, next, inflection, debug);
-
-
   }
 
   @Test
@@ -99,7 +97,6 @@ public class ArabicNumberPhraseFilterTest {
     // the value -1, used to say that the last word is the given nex word
     int nextPos = -1;
     args.put("nextPos", String.valueOf(nextPos));
-
 
     // tokenlize phrase
     String fullPhrase = previousWord + " " + phrase + " " + nextWord;

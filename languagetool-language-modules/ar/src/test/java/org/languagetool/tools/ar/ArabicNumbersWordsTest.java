@@ -63,7 +63,6 @@ public class ArabicNumbersWordsTest {
     thousands.put("3", "ثلاث");
     thousands.put("23", "ثلاث وعشرون");
 
-
     validateNumbersMap(thousands, true);
   }
 

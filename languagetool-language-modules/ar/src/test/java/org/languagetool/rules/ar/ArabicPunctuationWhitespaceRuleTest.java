@@ -136,7 +136,6 @@ public class ArabicPunctuationWhitespaceRuleTest {
     assertEquals(1, matches.length);
     assertEquals("،", matches[0].getSuggestedReplacements().get(0));
 
-
     assertMatches("Ellipsis . . . as suggested by The Chicago Manual of Style", 3);
     assertMatches("Ellipsis . . . . as suggested by The Chicago Manual of Style", 4);
   }
