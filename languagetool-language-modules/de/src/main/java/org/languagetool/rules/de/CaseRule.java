@@ -967,7 +967,7 @@ public class CaseRule extends Rule {
         !isCaseTypo(tokens[i].getToken()) &&
         !followedByGenderGap(tokens, i) &&
         !isNounWithVerbReading(i, tokens) &&
-        //!isInvisibleSepatator(i-1, tokens) &&
+        !isInvisibleSeparator(i-1, tokens) &&
         !language.getDefaultSpellingRule().isMisspelled(lcWord)) {
       if (":".equals(tokens[i - 1].getToken())) {
         AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[i];
@@ -1004,9 +1004,9 @@ public class CaseRule extends Rule {
     		tokens[i].hasPosTagStartingWith("VER:INF");
 	}
 
-  //private boolean isInvisibleSepatator(int i, AnalyzedTokenReadings[] tokens) {
-  //  return i >= 0 && tokens[i].getToken().length() > 0 && tokens[i].getToken().charAt(0) == '\u2063';
-  // }
+  private boolean isInvisibleSeparator(int i, AnalyzedTokenReadings[] tokens) {  // u2063 is used internally by our browser add-on
+    return i >= 0 && i < tokens.length && tokens[i].getToken().length() > 0 && tokens[i].getToken().charAt(0) == '\u2063';
+  }
 
 	private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
     AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[ tokens.length - i ];
