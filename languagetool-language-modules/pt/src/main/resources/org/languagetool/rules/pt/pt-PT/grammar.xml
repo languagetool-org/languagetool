@@ -1571,7 +1571,7 @@ Com efeito, vinham-se acumulando estudos e testemunhos.
     <rule id="SOBRADO" name="Brasileirismo: Sobrado - Vivenda">
       <pattern>
           <token case_sensitive='yes'>sobrado
-            <exception postag_regexp='yes' postag='V.+'/></token>
+            <exception postag_regexp='yes' postag='V.[^P].+'/></token>
       </pattern>
       <message>Expressão de Português do Brasil. Substitua por <suggestion>vivenda</suggestion>.</message>
       <example correction="vivenda">O <marker>sobrado</marker> do António está à venda.</example>
@@ -2291,7 +2291,8 @@ Informação pessoal que é dada á Car Detail permite-nos contacta-lo e enviar 
 
 <!-- MARCOAGPINTO 2022-06-06 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		  <token postag="AQ..S.+|NC.S.+" postag_regexp='yes'/>
+		  <!--<token postag="AQ..S.+|NC.S.+" postag_regexp='yes'/>-->
+      <token postag="V...3S.+" postag_regexp='yes'/>
 		  <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
 		  <token regexp='yes'>lhes?</token>
 		  <token><exception postag='PP2CSN00|DA.+|_PUNCT|SPS00' postag_regexp='yes'/></token>
@@ -2308,7 +2309,7 @@ Informação pessoal que é dada á Car Detail permite-nos contacta-lo e enviar 
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2.+" postag_regexp='yes'>
             <exception>parece</exception>
-            <exception postag="V..[^P]3.+" postag_regexp='yes'/></token>
+            <!--<exception postag="V..[^P]3.+" postag_regexp='yes'/>--></token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>me|te|lhe|nos|vos|lhes</token>
       </pattern>
