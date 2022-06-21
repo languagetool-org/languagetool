@@ -937,12 +937,11 @@ public class JLanguageTool {
 
   public CheckResults check2(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
                              Mode mode, Level level, @Nullable Long textSessionID) throws IOException {
-    List<String> unmodifiedSentences = getSentences(annotatedText, tokenizeText);
     annotatedText = cleanText(annotatedText);
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     CheckResults checkResults = checkInternal(annotatedText, paraMode, listener, mode, level, textSessionID, sentences, analyzedSentences);
-    checkResults.addSentenceRanges(SentenceRange.getRangesFromSentences(unmodifiedSentences));
+    checkResults.addSentenceRanges(SentenceRange.getRangesFromSentences(annotatedText, sentences));
     return checkResults;
   }
 
@@ -959,19 +958,25 @@ public class JLanguageTool {
 
   private AnnotatedText cleanText(AnnotatedText annotatedText) {
     AnnotatedTextBuilder atb = new AnnotatedTextBuilder();
-    annotatedText.getGlobalMetaData().forEach((key, value) -> atb.addGlobalMetaData(key, value));
-    annotatedText.getCustomMetaData().forEach((key, value) -> atb.addGlobalMetaData(key, value));
+    annotatedText.getGlobalMetaData().forEach(atb::addGlobalMetaData);
+    annotatedText.getCustomMetaData().forEach(atb::addGlobalMetaData);
     List<TextPart> parts = annotatedText.getParts();
     for (TextPart part : parts) {
       if (part.getType() == TextPart.Type.TEXT) {
         String byteOrderMark = "\uFEFF";  // BOM or zero-width non-breaking space
-        StringTokenizer st = new StringTokenizer(part.getPart(), byteOrderMark, true);
-        while (st.hasMoreElements()) {
-          Object next = st.nextElement();
-          if (next.equals(byteOrderMark)) {
-            atb.addMarkup(byteOrderMark);
-          } else {
-            atb.addText(next.toString());
+        String invisibleSeparator = "\u2063"; // INVISIBLE SEPARATOR
+        // split by byteOrderMark and invisibleSeparator and let the delimiters also be part of the array
+        String[] split = part.getPart().split("((?<=\uFEFF)|(?=\uFEFF))|((?<=\u2063)|(?=\u2063))");
+        for (String text : split) {
+          switch (text) {
+            case "\uFEFF":
+              atb.addMarkup(byteOrderMark);
+              break;
+            case "\u2063":
+              atb.addMarkup(invisibleSeparator);
+              break;
+            default:
+              atb.addText(text);
           }
         }
       } else {
