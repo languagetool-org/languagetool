@@ -66,8 +66,7 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     try {
       adjTokenIndex = Integer.valueOf(arguments.get("adj_pos")) - 1;
     } catch (NumberFormatException e) {
-      e.printStackTrace();
-      adjTokenIndex = 0;
+        throw new RuntimeException("Error parsing adj_pos from : " + arguments.get("adj_pos"));
     }
 
     // filter tokens which have a lemma of adjective
@@ -98,7 +97,6 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     // generate suggestion
     List<String> suggestionList = prepareSuggestions(compList, noun);
     for (String sug : suggestionList) {
-
       newMatch.addSuggestedReplacement(sug);
     }
     return newMatch;
@@ -106,10 +104,7 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
 
   /* prepare suggesiyton for a list of comparative */
   protected static List<String> prepareSuggestions(List<String> compList, String noun) {
-
-
     List<String> sugList = new ArrayList<>();
-
     for (String comp : compList) {
       sugList.addAll(prepareSuggestions(comp, noun));
     }
@@ -169,8 +164,9 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
 
   /* test if the word is an isolated pronoun */
   private static boolean isPronoun(String word) {
-    if (word == null)
+    if (word == null) {
       return false;
+    }
     return (word.equals("هو")
       || word.equals("هي")
       || word.equals("هم")
@@ -192,7 +188,6 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     isolatedToAttachedPronoun.put("نحن", "نا");
     return isolatedToAttachedPronoun.getOrDefault(word, "");
   }
-
 
   protected static Map<String, List<String>> loadFromPath(String path) {
     return new SimpleReplaceDataLoader().loadWords(path);

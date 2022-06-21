@@ -52,7 +52,7 @@ public class ArabicDarjaRule extends AbstractSimpleReplaceRule2 {
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>طرشي</marker>"),
-      Example.fixed("<marker>فلفل حلو</marker>"));
+                   Example.fixed("<marker>فلفل حلو</marker>"));
   }
 
   @Override

@@ -68,12 +68,12 @@ public class ArabicPunctuationWhitespaceRule extends Rule {
   }
 
 
-  //@Override
+  @Override
   public String getId() {
     return "ARABIC_COMMA_PARENTHESIS_WHITESPACE2";
   }
 
-  //@Override
+  @Override
   public final String getDescription() {
     return messages.getString("desc_comma_whitespace");
   }
@@ -95,7 +95,7 @@ public class ArabicPunctuationWhitespaceRule extends Rule {
     return false;
   }
 
-  //@Override
+  @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokens();

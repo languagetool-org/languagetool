@@ -141,11 +141,12 @@ public class ArabicInflectedOneWordReplaceRule extends AbstractSimpleReplaceRule
 
   /* return True if the word is a condidate to be replaced in text rule file */
   private boolean isCandidateWord(AnalyzedToken mytoken) {
-
-    if (getSuggestedWords(mytoken) != null)
+    if (getSuggestedWords(mytoken) != null) {
       return true;
-    else
+    }
+    else {
       return false;
+    }
   }
 
 

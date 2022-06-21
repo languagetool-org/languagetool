@@ -33,7 +33,7 @@ public class ArabicConfusionProbabilityRule extends ConfusionProbabilityRule {
   public ArabicConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages, languageModel, language);
     addExamplePair(Example.wrong("إن بعض <marker>الضن</marker> إثم.<marker>"),
-      Example.fixed("إن بعض <marker>الظن</marker> إثم.<marker>"));
+                   Example.fixed("إن بعض <marker>الظن</marker> إثم.<marker>"));
   }
 
 }

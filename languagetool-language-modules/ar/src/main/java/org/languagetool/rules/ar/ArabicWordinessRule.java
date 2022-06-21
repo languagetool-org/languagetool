@@ -129,8 +129,7 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
       try {
         adjTokenIndex = Integer.valueOf(arguments.get("adj_pos")) - 1;
       } catch (NumberFormatException e) {
-        e.printStackTrace();
-        adjTokenIndex = 0;
+        throw new RuntimeException("Error parsing adj_pos from : " + arguments.get("adj_pos"));
       }
 
       // filter tokens which have a lemma of adjective

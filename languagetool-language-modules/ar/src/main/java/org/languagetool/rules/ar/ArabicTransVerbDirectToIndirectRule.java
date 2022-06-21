@@ -183,11 +183,12 @@ public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRu
   }
 
   private boolean isCandidateVerb(AnalyzedToken mytoken) {
-
-    if (getSuggestedPreposition(mytoken) != null)
+    if (getSuggestedPreposition(mytoken) != null) {
       return true;
-    else
+    }
+    else {
       return false;
+    }
   }
 
 
