@@ -304,12 +304,14 @@ public class German extends Language implements AutoCloseable {
       case "IRGEND_COMPOUND": return 10;
       case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
       case "BEI_GOOGLE" : return 2;   // prefer over agreement rules and VOR_BEI
-      case "EINE_ORIGINAL_RECHNUNG_TEST" : return 2;   // prefer over EINE_ORIGINAL_RECHNUNG
+      case "EINE_ORIGINAL_RECHNUNG_TEST" : return 2;   // prefer over agreement rules
+      case "VONSTATTEN_GEHEN" : return 2;   // prefer over EINE_ORIGINAL_RECHNUNG
       case "VERWECHSLUNG_MIR_DIR_MIR_DIE": return 1; // prefer over MIR_DIR
       case "ERNEUERBARE_ENERGIEN": return 1; // prefer over VEREINBAREN
       case "VOR_BEI": return 1; // prefer over BEI_BEHALTEN
       case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
       case "SEIT_LAENGEREN": return 1; // prefer over DE_CASE
+      case "WO_VON": return 1; // prefer over most agreement rules
       case "EIN_LOGGEN": return 1; // prefer over most agreement rules
       case "ZU_GENÜGE" : return 1;   // prefer over ZU_KOENNE
       case "IMPFLICHT" : return 1;   // prefer over agreement rules DE_AGREEMENT
@@ -422,6 +424,7 @@ public class German extends Language implements AutoCloseable {
       case "FRAGEZEICHEN_NACH_DIREKTER_REDE": return -4;  // lower prio than spell checker
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
+      case "DAS_WETTER_IST": return -5; // lower prio than spell checker
       case "ANFUEHRUNG_VERSCHACHTELT": return -5;  // lower prio than speller and FALSCHES_ANFUEHRUNGSZEICHEN
       case "SATZBAU_AN_DEN_KOMMT": return -5;  // lower prio than rules that give a suggestion
       case "SUBJECT_VERB_AGREEMENT": return -5; // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)

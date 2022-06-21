@@ -1160,6 +1160,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kriesen", w -> Arrays.asList("Krisen", "Kreisen"));
     put("aufteil", w -> Arrays.asList("aufteile", "aufteilt", "auf Teil"));
     put("fürn", w -> Arrays.asList("für ein", "für", "fürs", "fern"));
+    put("Aliegen", w -> Arrays.asList("Anliegen", "Fliegen"));
+    put("gaz", w -> Arrays.asList("ganz", "gab"));
+    put("vllt", w -> Arrays.asList("vielleicht", "vllt."));
     put("nummer", "Nummer");
     put("mitgetielt", "mitgeteilt");
     put("Artal", "Ahrtal");
@@ -2051,8 +2054,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("Abschleppdienst", "Abschleppwagen");
     } else if (word.equals("par")) {
       return singletonList("paar");
-    } else if (word.equals("vllt")) {
-      return singletonList("vielleicht");
     } else if (word.equals("iwie")) {
       return singletonList("irgendwie");
     } else if (word.equals("bzgl")) {
