@@ -215,7 +215,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
         prunedSuggestions.add(suggestion);
       } else {
         String[] complexSug = suggestion.getReplacement().split(" ");
-        if (!bannedSuffixes.contains(complexSug[1])) {
+        if (complexSug.length > 1 && !bannedSuffixes.contains(complexSug[1])) {
           prunedSuggestions.add(suggestion);
         }
       }
