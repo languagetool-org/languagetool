@@ -6784,11 +6784,36 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="V (ind|sub|imp).*"/>
     </rule>
+    <rule name="RP : Un + tel + Adj + Nom" id="RP-D_J_AMBIG_N0">
+        <antipattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="N.*" postag_regexp="yes"/>
+            <token postag="J.*" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <unify>
+                <feature id="number"/>
+                <feature id="gender"/>
+                <token postag="D.*" postag_regexp="yes" inflected="yes">un</token>
+                <token postag="D.*" postag_regexp="yes" inflected="yes">tel</token>
+                <token postag="J.*" postag_regexp="yes">
+                    <exception regexp="yes">produits?|pie</exception></token>
+                <token postag="N.*" postag_regexp="yes">
+                    <exception regexp="yes">dans|envers|mais|plus|non|contre|arrières?</exception>
+                    <exception inflected="yes" regexp="yes">avoir|être</exception></token>
+            </unify>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule name="RP : Det + Adj + Nom" id="RP-D_J_AMBIG_N">
         <antipattern>
             <token postag="D.*" postag_regexp="yes"/>
             <token postag="N.*" postag_regexp="yes"/>
             <token postag="J.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">un</token>
+            <token inflected="yes">tel</token>
         </antipattern>
         <pattern>
             <unify>
