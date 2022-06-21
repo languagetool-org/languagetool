@@ -32,6 +32,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.SymbolLocator;
 import org.languagetool.rules.UnsyncStack;
+import org.languagetool.tools.Tools;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
@@ -45,6 +46,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
   public EnglishUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, EN_START_SYMBOLS, EN_END_SYMBOLS);
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-are-parentheses"));
       addExamplePair(Example.wrong("\"I'm over here,<marker></marker> she said."),
                      Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
   }
