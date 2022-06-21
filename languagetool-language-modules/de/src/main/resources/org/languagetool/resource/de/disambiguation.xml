@@ -4769,7 +4769,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Accepted|Academic|Advanced|Automatic|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|Certified|Decentralized|Electrical|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk</token>
+                <token regexp="yes">Accepted|Academic|Advanced|Automatic|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|Certified|Decentralized|Electrical|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
@@ -4777,7 +4777,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Accepted|Academic|Advanced|Automatic|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|Certified|Decentralized|Electrical|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk</token>
+                <token regexp="yes">Accepted|Academic|Advanced|Automatic|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|Certified|Decentralized|Electrical|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
                 <token regexp="yes">and|or|&amp;</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
@@ -6444,6 +6444,33 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
+    <rule id="FIFA_KEIN_SUB" name="'Fifa' kein Substantiv"><!-- FIFA Federations Cup  -->
+        <pattern>
+            <marker>
+                <token regexp="yes">FIFA|UEFA</token>
+            </marker>
+            <token regexp="yes">Conf.*|Fed.*|Nations.*|World.*|Champion.*|Europa.*|Youth.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="JUNIOR_KEIN_SUB" name="'Junior' kein Substantiv"><!-- Junior Suite  -->
+        <pattern>
+            <marker>
+                <token>Junior</token>
+            </marker>
+            <token regexp="yes">Suites?|Manager(s|in|innen)?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="BALANCE_KEIN_SUB" name="'Balance' kein Substantiv"><!-- Junior Suite  -->
+        <pattern>
+            <marker>
+                <token>Balance</token>
+            </marker>
+            <token regexp="yes">Sheets?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
     <rule id="NORD_KEIN_SUB" name="'Nord' kein Substantiv"><!-- Gas-Pipeline -->
         <pattern>
             <marker>
@@ -6509,4 +6536,25 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="ZEIT_ONLINE" name="'Zeit' kein Sub">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>Zeit</token>
+                </marker>
+                <token case_sensitive="yes">Online</token>
+            </pattern>
+            <disambig action="remove" postag="SUB.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>Zeit</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">de</token>
+            </pattern>
+            <disambig action="remove" postag="SUB.*"/>
+        </rule>
+    </rulegroup>
 </rules>

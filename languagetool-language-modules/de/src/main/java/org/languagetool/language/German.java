@@ -345,6 +345,7 @@ public class German extends Language implements AutoCloseable {
       case "EBEN_FALLS": return 1;
       case "JEDEN_FALLS": return 1;
       case "UST_ID": return 1;
+      case "INS_FITNESS": return 1; // prefer over DE_AGREEMENT
       case "SEIT_VS_SEID": return 1; // prefer over some agreement rules (HABE_BIN from premium)
       case "ZU_KOMMEN_LASSEN": return 1; // prefer over INFINITIVGRP_VERMOD_PKT
       case "ZU_SCHICKEN_LASSEN": return 1; // prefer over INFINITIVGRP_VERMOD_PKT
@@ -388,6 +389,9 @@ public class German extends Language implements AutoCloseable {
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "BEENDE_IST_SENTEND": return -1; // prefer more specific rules
       case "VER_ADJ_ZU_SCHLAFEN": return -1; // prefer ETWAS_GUTES
+      case "IM_ERSCHEINUNG": return -1; // prefer ZUM_FEM_NOMEN
+      case "SPACE_BEFORE_OG": return -1; // higher prio than spell checker
+      case "EINZELBUCHSTABE_PREMIUM": return -1;  // lower prio than "A_LA_CARTE"
       case "UNPAIRED_BRACKETS": return -2;
       case "ICH_GEHE_DU_BLEIBST": return -2; // prefer ICH_GLAUBE_FUER_EUCH
       case "ICH_GLAUBE_FUER_EUCH": return -2; // prefer agreement rules
@@ -395,7 +399,6 @@ public class German extends Language implements AutoCloseable {
       case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
       case "MEHRERE_WOCHE_PREMIUM": return -2;  // less prio than DE_AGREEMENT
       case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
-      case "EINZELBUCHSTABE_PREMIUM": return -1;  // lower prio than "A_LA_CARTE"
       case "ALTERNATIVEN_FUER_ANGLIZISMEN" : return -2;   // overwrite spell checker
       case "ANGLIZISMUS_INTERNAL" : return -2;   // overwrite spell checker
       case "DOPPELUNG_VER_MOD_AUX": return -2;
@@ -403,7 +406,7 @@ public class German extends Language implements AutoCloseable {
       case "ANGLIZISMEN" : return -2;   // overwrite spell checker
       case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // overwrite spell checker
       case "ZAHL_IM_WORT": return -2; //should not override rules like H2O
-      case "SPACE_BEFORE_OG": return -1; // higher prio than spell checker
+      case "ERSTE_PERSON_SIN_OHNE_E": return -2; // higher prio than spell checker
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
@@ -467,6 +470,11 @@ public class German extends Language implements AutoCloseable {
       if (id.startsWith("AI_DE_HYDRA_LEO_CP")) {
         return 2;
       }
+      // Comment in after sync and feature freeze
+      // if (id.startsWith("AI_DE_HYDRA_LEO_CASE")) {
+      //   // higher prio than agreement rules (DE_AGREEMENT)
+      //   return 1;
+      // }
       if (id.startsWith("AI_DE_HYDRA_LEO_DATAKK")) {
         return 1;
       }
