@@ -101,6 +101,9 @@ public class GermanSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("Gibt es einen grund, dass…"));
     assertThat(matches.length, is(1));
     assertThat(matches[0].getSuggestedReplacements().get(0), is("Grund"));
+    
+    matches = rule.match(lt.getAnalyzedSentence("Kryptomarktplatzes"));
+    assertThat(matches.length, is(0));
   }
 
   @Test

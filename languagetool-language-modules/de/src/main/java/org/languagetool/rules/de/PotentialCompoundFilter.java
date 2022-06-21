@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
@@ -26,6 +28,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +52,19 @@ public class PotentialCompoundFilter extends RuleFilter {
     String joinedWord = part1capitalized + part2lowercase;
     String hyphenatedWord = part1capitalized + "-" + part2capitalized;
     List<String> replacements = new ArrayList<>();
-    if (!GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(joinedWord)) {
+    // create an AnalyzedSentence without instantiating a new JLanguageTool
+    List<String> tokens =  Collections.singletonList(joinedWord);
+    List<AnalyzedTokenReadings> tokensList = GermanyGerman.INSTANCE.getTagger().tag(tokens);
+    AnalyzedTokenReadings[] tokensArray = new AnalyzedTokenReadings[2];
+    AnalyzedToken sentenceStartToken = new AnalyzedToken("", "SENT_START", null);
+    AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
+    startTokenArray[0] = sentenceStartToken;
+    tokensArray[0] = new AnalyzedTokenReadings(startTokenArray, 0);
+    tokensArray[1] = tokensList.get(0);
+    AnalyzedSentence analyzedSentence = new AnalyzedSentence(tokensArray);
+    // check with the spelling rule
+    RuleMatch[] matches = GermanyGerman.INSTANCE.getDefaultSpellingRule().match(analyzedSentence);
+    if (matches.length == 0) {
       if (joinedWord.length() > 20) {
         replacements.add(hyphenatedWord);
       }
