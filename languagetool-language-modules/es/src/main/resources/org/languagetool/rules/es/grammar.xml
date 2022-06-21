@@ -27216,6 +27216,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="repeticiones" id="REPETITIONS" type="duplication">
+        <rule id="ES_NO_ES" name="*es no es" default="temp_off">
+            <pattern raw_pos="yes">
+                <token postag="V.*" postag_regexp="yes"/>
+                <token>no</token>
+                <token><match no="0"/></token>
+            </pattern>
+                <message>Palabra repetida. Posible error.</message>
+            <suggestion>\2 \3</suggestion>
+            <example correction="no es">Esto <marker>es no es</marker> lo mejor.</example>
+        </rule>
         <rule id="QUE_QUE" name="que y que">
             <pattern>
                 <token>que</token>
