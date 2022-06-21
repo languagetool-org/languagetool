@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 import static org.languagetool.tools.StringTools.isEmpty;
 
@@ -43,6 +44,7 @@ public class CommaWhitespaceRule extends Rule {
     super(messages);
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Whitespace);
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-are-parentheses"));
     if (incorrectExample != null && correctExample != null) {
       addExamplePair(incorrectExample, correctExample);
     }

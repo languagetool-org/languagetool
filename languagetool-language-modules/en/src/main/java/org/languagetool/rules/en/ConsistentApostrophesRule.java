@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
+import org.languagetool.tools.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class ConsistentApostrophesRule extends TextLevelRule {
   public ConsistentApostrophesRule(ResourceBundle messages) {
     super(messages);
     setDefaultTempOff(); // TODO
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-is-an-apostrophe"));
     addExamplePair(Example.wrong("It's nice, but it <marker>doesn’t</marker> work."),
                    Example.fixed("It's nice, but it <marker>doesn't</marker> work."));
   }
