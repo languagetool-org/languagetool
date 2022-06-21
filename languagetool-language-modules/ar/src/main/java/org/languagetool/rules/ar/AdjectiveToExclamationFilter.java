@@ -65,7 +65,7 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     try {
       adjTokenIndex = Integer.valueOf(arguments.get("adj_pos")) - 1;
     } catch (NumberFormatException e) {
-        throw new RuntimeException("Error parsing adj_pos from : " + arguments.get("adj_pos"));
+      throw new RuntimeException("Error parsing adj_pos from : " + arguments.get("adj_pos"));
     }
 
     // filter tokens which have a lemma of adjective
@@ -141,17 +141,16 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     } else if (isPronoun(noun)) {
       // no space adding
       suggestion.append(ArabicWordMaps.getAttachedPronoun(noun));
-//      suggestion.append(getAttachedPronoun(noun));
     } else {
       //if comparative is of second form don't add a space
-      if (!comp.endsWith(" ب"))
+      if (!comp.endsWith(" ب")) {
         suggestion.append(" ");
+      }
       suggestion.append(noun);
     }
 
     // add suggestions
     sugList.add(suggestion.toString());
-
     return sugList;
   }
 

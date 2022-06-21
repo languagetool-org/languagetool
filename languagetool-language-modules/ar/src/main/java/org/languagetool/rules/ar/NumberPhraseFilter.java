@@ -64,49 +64,52 @@ public class NumberPhraseFilter extends RuleFilter {
 
     List<String> numWordTokens = new ArrayList<>();
     /// get all numeric tokens
-    int start_pos = (previousWordPos > 0) ? previousWordPos + 1 : 0;
+    int startPos = (previousWordPos > 0) ? previousWordPos + 1 : 0;
 
-    int end_pos = (nextWordPos > 0) ? Integer.min(nextWordPos, patternTokens.length) : patternTokens.length + nextWordPos;
+    int endPos = (nextWordPos > 0) ? Integer.min(nextWordPos, patternTokens.length) : patternTokens.length + nextWordPos;
 
-    for (int i = start_pos; i < end_pos; i++) {
+    for (int i = startPos; i < endPos; i++) {
       numWordTokens.add(patternTokens[i].getToken().trim());
     }
 
     String numPhrase = String.join(" ", numWordTokens);
     // extract features from previous
-    boolean feminin = false;
+    boolean feminine = false;
     boolean attached = false;
     String inflection = getInflectedCase(patternTokens, previousWordPos, inflectArg);
     List<String> suggestionList;
     if (nextWord.isEmpty()) {
-      suggestionList = prepareSuggestion(numPhrase, previousWord, null, feminin, attached, inflection);
+      suggestionList = prepareSuggestion(numPhrase, previousWord, null, feminine, attached, inflection);
     } else {
       AnalyzedTokenReadings nextWordToken = null;
-      if (end_pos > 0 && end_pos < patternTokens.length) {
-        nextWordToken = patternTokens[end_pos];
+      if (endPos > 0 && endPos < patternTokens.length) {
+        nextWordToken = patternTokens[endPos];
       }
-      suggestionList = prepareSuggestionWithUnits(numPhrase, previousWord, nextWordToken, feminin, attached, inflection);
+      suggestionList = prepareSuggestionWithUnits(numPhrase, previousWord, nextWordToken, feminine, attached, inflection);
     }
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
 
     if (!suggestionList.isEmpty()) {
-      for (String sug : suggestionList)
+      for (String sug : suggestionList) {
         newMatch.addSuggestedReplacement(sug);
+      }
     }
     return newMatch;
   }
 
   // extract inflection case
   private static String getInflectedCase(AnalyzedTokenReadings[] patternTokens, int previousPos, String inflect) {
-    if (!Objects.equals(inflect, ""))
+    if (!Objects.equals(inflect, "")) {
       return inflect;
+    }
     // if the previous is Jar
 
     if (previousPos >= 0 && previousPos < patternTokens.length) {
       AnalyzedTokenReadings previousToken = patternTokens[previousPos];
       for (AnalyzedToken tk : patternTokens[previousPos]) {
-        if (tk.getPOSTag() != null && tk.getPOSTag().startsWith("PR"))
+        if (tk.getPOSTag() != null && tk.getPOSTag().startsWith("PR")) {
           return "jar";
+        }
       }
 
     }
@@ -114,8 +117,9 @@ public class NumberPhraseFilter extends RuleFilter {
     if (firstWord.startsWith("ب")
       || firstWord.startsWith("ل")
       || firstWord.startsWith("ك")
-    )
+    ) {
       return "jar";
+    }
     return "";
   }
 
@@ -123,8 +127,9 @@ public class NumberPhraseFilter extends RuleFilter {
   private static boolean getFemininCase(AnalyzedTokenReadings[] patternTokens, int nextPos) {
     // if the previous is Jar
     for (AnalyzedToken tk : patternTokens[nextPos]) {
-      if (tagmanager.isFeminin(tk.getPOSTag()))
+      if (tagmanager.isFeminin(tk.getPOSTag())) {
         return true;
+      }
     }
     return false;
   }
@@ -136,8 +141,9 @@ public class NumberPhraseFilter extends RuleFilter {
     List<String> suggestionList = new ArrayList<>();
     if (!tmpsuggestionList.isEmpty()) {
       for (String sug : tmpsuggestionList)
-        if (!previousWord.isEmpty())
+        if (!previousWord.isEmpty()) {
           suggestionList.add(previousWord + " " + sug);
+        }
     }
     return suggestionList;
   }

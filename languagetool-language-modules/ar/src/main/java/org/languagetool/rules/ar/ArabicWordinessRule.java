@@ -135,13 +135,13 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
       // filter tokens which have a lemma of adjective
 
       // some cases can have multiple lemmas, but only adjective lemma are used
-      List<String> adj_lemmas = tagger.getLemmas(patternTokens[adjTokenIndex], "adj");
+      List<String> adjLemmas = tagger.getLemmas(patternTokens[adjTokenIndex], "adj");
 
       // get comparative from Adj/comp list
       List<String> compList = new ArrayList<>();
-      for (String adj_lemma : adj_lemmas) {
+      for (String adjLemma : adjLemmas) {
         // get comparative suitable to adjective
-        List<String> comparativeList = adj2compList.get(adj_lemma);
+        List<String> comparativeList = adj2compList.get(adjLemma);
         if (comparativeList != null) {
           compList.addAll(comparativeList);
         }
@@ -220,8 +220,9 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
 
     /* test if the word is an isolated pronoun */
     private static boolean isPronoun(String word) {
-      if (word == null)
+      if (word == null) {
         return false;
+      }
       return word.equals("هو")
         || word.equals("هي")
         || word.equals("هم")
@@ -231,8 +232,9 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
 
     /* get correspondant attched to unattached pronoun */
     private static String getAttachedPronoun(String word) {
-      if (word == null)
+      if (word == null) {
         return "";
+      }
       Map<String, String> isolatedToAttachedPronoun = new HashMap<>();
       isolatedToAttachedPronoun.put("هو", "ه");
       isolatedToAttachedPronoun.put("هي", "ها");
@@ -541,10 +543,10 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
           for (String lemma : masdarLemmas) {
             // get verb suitable to masdar
 
-            List<String> verb_lemma_list = masdar2verbList.get(lemma);
-            if (verb_lemma_list != null) {
+            List<String> verbLemmaList = masdar2verbList.get(lemma);
+            if (verbLemmaList != null) {
               // if verb, inflect verd according to auxialiary verb inlfection
-              for (String vrbLem : verb_lemma_list) {
+              for (String vrbLem : verbLemmaList) {
                 List<String> inflectedverbList = synthesizer.inflectLemmaLike(vrbLem, auxVerbToken);
                 verbList.addAll(inflectedverbList);
               }
@@ -609,13 +611,13 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
 
       List<String> numWordTokens = new ArrayList<>();
       /// get all numeric tokens
-      int start_pos = (previousWordPos > 0) ? previousWordPos + 1 : 0;
+      int startPos = (previousWordPos > 0) ? previousWordPos + 1 : 0;
 
       int end_pos = (nextWordPos > 0) ? Integer.min(nextWordPos, patternTokens.length) : patternTokens.length + nextWordPos;
 
-      for (int i = start_pos; i < end_pos; i++)
+      for (int i = startPos; i < end_pos; i++) {
         numWordTokens.add(patternTokens[i].getToken().trim());
-
+      }
       String numPhrase = String.join(" ", numWordTokens);
       /* extract features from previous */
       boolean feminin = false;
@@ -634,31 +636,35 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
       RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
 
       if (!suggestionList.isEmpty()) {
-        for (String sug : suggestionList)
+        for (String sug : suggestionList) {
           newMatch.addSuggestedReplacement(sug);
+        }
       }
       return newMatch;
     }
 
     // extract inflection case
     private static String getInflectedCase(AnalyzedTokenReadings[] patternTokens, int previousPos, String inflect) {
-      if (inflect != "")
+      if (inflect != "") {
         return inflect;
+      }
       // if the previous is Jar
 
       if (previousPos >= 0 && previousPos < patternTokens.length) {
         AnalyzedTokenReadings previousToken = patternTokens[previousPos];
         for (AnalyzedToken tk : patternTokens[previousPos]) {
-          if (tk.getPOSTag() != null && tk.getPOSTag().startsWith("PR"))
+          if (tk.getPOSTag() != null && tk.getPOSTag().startsWith("PR")) {
             return "jar";
+          }
         }
       }
       String firstWord = patternTokens[previousPos + 1].getToken();
       if (firstWord.startsWith("ب")
         || firstWord.startsWith("ل")
         || firstWord.startsWith("ك")
-      )
+      ) {
         return "jar";
+      }
       return "";
     }
 
@@ -666,8 +672,9 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
     private static boolean getFemininCase(AnalyzedTokenReadings[] patternTokens, int nextPos) {
       // if the previous is Jar
       for (AnalyzedToken tk : patternTokens[nextPos]) {
-        if (tagmanager.isFeminin(tk.getPOSTag()))
+        if (tagmanager.isFeminin(tk.getPOSTag())) {
           return true;
+        }
       }
       return false;
     }
@@ -679,8 +686,9 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
       List<String> suggestionList = new ArrayList<>();
       if (!tmpsuggestionList.isEmpty()) {
         for (String sug : tmpsuggestionList)
-          if (!previousWord.isEmpty())
+          if (!previousWord.isEmpty()) {
             suggestionList.add(previousWord + " " + sug);
+          }
       }
       return suggestionList;
     }
@@ -783,11 +791,11 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
       int previousWordPos = 0;
       if (args.get("previousPos") != null)
         try {
-          if (args.get("previousPos") != null)
+          if (args.get("previousPos") != null) {
             previousWordPos = Integer.valueOf(args.get("previousPos")) - 1;
+          }
         } catch (NumberFormatException e) {
-          e.printStackTrace();
-          previousWordPos = -1;
+          throw new RuntimeException("Error parsing previousPos from : " + args.get("previousPos"));
         }
       return previousWordPos;
 
@@ -802,11 +810,9 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
           nextPos = size + nextPos;
         }
       } catch (NumberFormatException e) {
-        e.printStackTrace();
-        nextPos = 0;
+        return 0;
       }
       return nextPos;
-
     }
   }
 

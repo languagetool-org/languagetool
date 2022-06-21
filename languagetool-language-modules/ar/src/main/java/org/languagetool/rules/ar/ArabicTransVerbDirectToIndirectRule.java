@@ -118,51 +118,46 @@ public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRu
         // browse each verb with each preposition
         for (AnalyzedToken verbTok : prevToken.getReadings()) {
           // test if the first token is a verb
-          boolean is_candidate_verb = isCandidateVerb(verbTok);
+          boolean isCandidateVerb = isCandidateVerb(verbTok);
 
           // test if the preposition token is suitable for verb token (previous)
           List<String> prepositions = new ArrayList<>();
-          String sug_msg = "";
+          String sugMsg = "";
           SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(verbTok);
           if (prepositionsWithMessage != null) {
             prepositions = Arrays.asList(prepositionsWithMessage.getSuggestion().split("\\|"));
-            sug_msg = prepositionsWithMessage.getMessage();
-            sug_msg = sug_msg != null ? sug_msg : "";
+            sugMsg = prepositionsWithMessage.getMessage();
+            sugMsg = sugMsg != null ? sugMsg : "";
           }
           // the current token can be a preposition or any words else
           // test if the token is in the suitable prepositions
           // browse all next  tokens to assure that proper preposition doesn't exist
-          boolean is_right_preposition = false;
-          AnalyzedTokenReadings current_token_reading = token;
-          AnalyzedToken current_token = token.getReadings().get(0);
+          boolean isRightPreposition = false;
+          AnalyzedTokenReadings currentTokenReading = token;
 
-          int[] next_indexes = getNextMatch(tokens, i, prepositions);
-          String skippedString = "";
-          if (next_indexes[0] != -1) {
-            int tokReadingPos = next_indexes[0];
-            int tokPos = next_indexes[1];
-            is_right_preposition = true;
-            current_token_reading = tokens[tokReadingPos];
-            current_token = current_token_reading.getReadings().get(tokPos);
-            skippedString = getSkippedString(tokens, i, tokReadingPos);
+          int[] nextIndexes = getNextMatch(tokens, i, prepositions);
+          if (nextIndexes[0] != -1) {
+            int tokReadingPos = nextIndexes[0];
+            isRightPreposition = true;
+            currentTokenReading = tokens[tokReadingPos];
           }
 
           // the verb is attached and the next token is not the suitable preposition
           // we give the correct new form
-          if (is_candidate_verb && !is_right_preposition) {
+          if (isCandidateVerb && !isRightPreposition) {
             String verb = inflectVerb(verbTok);
             // generate suggestion according to suggested prepositions
             // FIXED: test all suggestions
             StringBuilder replacement = new StringBuilder("");
-            for (String a_preposition : prepositions) {
-              String newPreposition = inflectSuggestedPreposition(a_preposition, verbTok);
+            for (String proposition : prepositions) {
+              String newPreposition = inflectSuggestedPreposition(proposition, verbTok);
 
               replacement.append("<suggestion>" + verb + " " + newPreposition + "</suggestion>&nbsp;");
             }
-            String msg = "' الفعل " + prevTokenStr + " ' متعدٍ بحرف،" + sug_msg + ". فهل تقصد؟" + replacement.toString();
+            String msg = "' الفعل " + prevTokenStr + " ' متعدٍ بحرف،" + sugMsg + ". فهل تقصد؟" + replacement.toString();
             RuleMatch match = new RuleMatch(
               this, sentence, prevToken.getStartPos(), prevToken.getEndPos(),
-              prevToken.getStartPos(), current_token_reading.getEndPos(), msg, "خطأ في الفعل المتعدي بحرف");
+              prevToken.getStartPos(), currentTokenReading.getEndPos(), msg, "خطأ في الفعل المتعدي بحرف");
             ruleMatches.add(match);
           }
         }
@@ -221,27 +216,26 @@ public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRu
   }
 
   /* Lookup for next token matched */
-  public int[] getNextMatch(AnalyzedTokenReadings[] tokens, int current_index, List<String> prepositions) {
-    int tokRead_index = current_index;
-    int max_length = min(current_index + MAX_CHUNK, tokens.length);
+  public int[] getNextMatch(AnalyzedTokenReadings[] tokens, int currentIndex, List<String> prepositions) {
+    int tokReadIndex = currentIndex;
+    int maxLength = min(currentIndex + MAX_CHUNK, tokens.length);
     int tokIndex = 0;
     int[] indexes = {-1, -1};
     // browse all next  tokens to assure that proper preposition doesn't exist
-    boolean is_right_preposition = false;
+    boolean isRightPreposition = false;
     // used to save skipped tokens
     // initial as first token
-    AnalyzedTokenReadings current_token_reading = tokens[current_index];
-    AnalyzedToken current_token = current_token_reading.getReadings().get(0);
+    AnalyzedTokenReadings currentTokenReading = tokens[currentIndex];
 
-    while (tokRead_index < max_length && !is_right_preposition) {
-      current_token_reading = tokens[tokRead_index];
+    while (tokReadIndex < maxLength && !isRightPreposition) {
+      currentTokenReading = tokens[tokReadIndex];
       tokIndex = 0;
-      while (tokIndex < current_token_reading.getReadings().size() && !is_right_preposition) {
-        AnalyzedToken curTok = current_token_reading.getReadings().get(tokIndex);
-        is_right_preposition = isRightPreposition(curTok, prepositions);
-        if (is_right_preposition) {
-          if (is_right_preposition) {
-            indexes[0] = tokRead_index;
+      while (tokIndex < currentTokenReading.getReadings().size() && !isRightPreposition) {
+        AnalyzedToken curTok = currentTokenReading.getReadings().get(tokIndex);
+        isRightPreposition = isRightPreposition(curTok, prepositions);
+        if (isRightPreposition) {
+          if (isRightPreposition) {
+            indexes[0] = tokReadIndex;
             indexes[1] = tokIndex;
           }
           return indexes;
@@ -249,7 +243,7 @@ public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRu
         tokIndex++;
       } // end while 2
       // increment
-      tokRead_index++;
+      tokReadIndex++;
     } // end while 1
 
     return indexes;
@@ -269,8 +263,9 @@ public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRu
     String postag2 = "PRD;---;---";
     String suffix = tagger.getEnclitic(prevtoken);
     //FiXME: unify tag of preposition
-    if (suffix.isEmpty())
+    if (suffix.isEmpty()) {
       postag2 = "PR-;---;---";
+    }
     AnalyzedToken token = new AnalyzedToken(prepositionLemma, postag2, prepositionLemma);
     String word2 = synthesizer.setEnclitic(token, suffix);
     return word2;

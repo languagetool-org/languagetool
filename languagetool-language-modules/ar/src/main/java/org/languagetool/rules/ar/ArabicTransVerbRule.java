@@ -108,16 +108,16 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
 
       if (prevTokenStr != null) {
         // test if the first token is a verb
-        boolean is_attached_verb_transitive = isAttachedTransitiveVerb(prevToken);
+        boolean isAttachedVerbTransitive = isAttachedTransitiveVerb(prevToken);
 
         // test if the preposition token is suitable for verb token (previous)
         List<String> prepositions = getProperPrepositionForTransitiveVerb(prevToken);
 
-        boolean is_right_preposition = isRightPreposition(token, prepositions);
+        boolean isRightPreposition = isRightPreposition(token, prepositions);
 
         // the verb is attached and the next token is not the suitable preposition
         // we give the correct new form
-        if (is_attached_verb_transitive && !is_right_preposition) {
+        if (isAttachedVerbTransitive && !isRightPreposition) {
           String verb = getCorrectVerbForm(tokens[prevTokenIndex]);
           // generate suggestion according to suggested prepositions
           // FIXME: test all suggestions
@@ -157,8 +157,9 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
         // lookup in WrongWords
         SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(verbLemma);
         // The lemma is found in the dictionary file
-        if (verbLemmaMatch != null)
+        if (verbLemmaMatch != null) {
           return true;
+        }
       }
 
     }

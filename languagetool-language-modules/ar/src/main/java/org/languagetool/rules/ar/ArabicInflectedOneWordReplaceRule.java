@@ -108,30 +108,30 @@ public class ArabicInflectedOneWordReplaceRule extends AbstractSimpleReplaceRule
       // browse each word with
       for (AnalyzedToken wordTok : token.getReadings()) {
         // test if the first token is a to replace word
-        boolean is_candidate_word = isCandidateWord(wordTok);
-        if (is_candidate_word) {
+        boolean isCandidateWord = isCandidateWord(wordTok);
+        if (isCandidateWord) {
           // get suggestions
           List<String> propositions = new ArrayList<>();
-          String sug_msg = "";
+          String sugMsg = "";
           SuggestionWithMessage propositionsWithMessage = getSuggestedWords(wordTok);
           if (propositionsWithMessage != null) {
             propositions = Arrays.asList(propositionsWithMessage.getSuggestion().split("\\|"));
-            sug_msg = propositionsWithMessage.getMessage();
-            sug_msg = sug_msg != null ? sug_msg : "";
+            sugMsg = propositionsWithMessage.getMessage();
+            sugMsg = sugMsg != null ? sugMsg : "";
           }
 
           // generate suggestion according to suggested word
           StringBuilder replacement = new StringBuilder("");
-          for (String a_proposition : propositions) {
-            List<String> inflectedWordList = inflectSuggestedWords(a_proposition, wordTok);
+          for (String proposition : propositions) {
+            List<String> inflectedWordList = inflectSuggestedWords(proposition, wordTok);
             for (String w : inflectedWordList) {
               replacement.append("<suggestion>" + w + "</suggestion>&nbsp;");
             }
           }
-          String msg = "' الكلمة خاطئة " + token.getToken() + " ' ،" + sug_msg + ". استعمل  " + replacement;
+          String msg = "' الكلمة خاطئة " + token.getToken() + " ' ،" + sugMsg + ". استعمل  " + replacement;
           RuleMatch match = new RuleMatch(
             this, sentence, token.getStartPos(), token.getEndPos(),
-            token.getStartPos(), token.getEndPos(), msg, "خطأ في استعمال كلمة:" + sug_msg);
+            token.getStartPos(), token.getEndPos(), msg, "خطأ في استعمال كلمة:" + sugMsg);
           ruleMatches.add(match);
         }
       } // end wordTok

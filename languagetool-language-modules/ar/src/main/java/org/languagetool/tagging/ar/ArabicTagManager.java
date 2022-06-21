@@ -84,8 +84,9 @@ public class ArabicTagManager {
     // if one of tags are incompatible return null
     for (String tg : tags) {
       postag = addTag(postag, tg);
-      if (postag == null)
+      if (postag == null) {
         return null;
+      }
     }
     return postag;
   }
@@ -111,10 +112,13 @@ public class ArabicTagManager {
         break;
       case "K":
         if (isNoun(postag)) {
-          if (isMajrour(postag))
+          if (isMajrour(postag)) {
             postag = setFlag(postag, "JAR", 'K');
-            // a prefix K but non majrour
-          else return null;
+          }
+          // a prefix K but non majrour
+          else {
+            return null;
+          }
 
         } else return null;
         break;
@@ -585,9 +589,12 @@ public class ArabicTagManager {
   public char getFlag(String postag, String flagType) {
     /* a flag value for flagtype from postag */
     int pos = getFlagPos(postag, flagType);
-    if (pos < postag.length())
+    if (pos < postag.length()) {
       return postag.charAt(pos);
-    else return '-';
+    }
+    else {
+      return '-';
+    }
   }
 
   public String setFlag(String postag, String flagType, char flag) {
@@ -740,14 +747,17 @@ public class ArabicTagManager {
     // if the same word type
     // noun vs noun
     String tmp = sourcePosTag;
-    if (sourcePosTag == null || sourcePosTag.isEmpty())
+    if (sourcePosTag == null || sourcePosTag.isEmpty()) {
       return targetPosTag;
-    if (targetPosTag == null || targetPosTag.isEmpty())
+    }
+    if (targetPosTag == null || targetPosTag.isEmpty()) {
       return sourcePosTag;
+    }
 
     if (isNoun(sourcePosTag) && isNoun(targetPosTag)) {
-      if (sourcePosTag.length() != targetPosTag.length())
+      if (sourcePosTag.length() != targetPosTag.length()) {
         return sourcePosTag;
+      }
       // change only first part
       // use the source Conjugation and affixes parts
       // the third flag position is not implemented
@@ -757,8 +767,9 @@ public class ArabicTagManager {
       // second flag isn't implemented for nouns
       return tmp;
     } else if (isVerb(sourcePosTag) && isVerb(targetPosTag)) {
-      if (sourcePosTag.length() != targetPosTag.length())
+      if (sourcePosTag.length() != targetPosTag.length()) {
         return sourcePosTag;
+      }
       // change only first part
       // use the source Conjugation and affixes parts
       // copy target category into Source,
@@ -788,8 +799,10 @@ public class ArabicTagManager {
       // use the compatible affixes parts (Pronoun only)
       // the third flag position is not implemented
       // copy target category into Source,
-      if (hasPronoun(sourcePosTag)) // only pronoun, not article defination
+      if (hasPronoun(sourcePosTag)) {
+        // only pronoun, not article defination
         tmp = setFlag(tmp, "PRONOUN", getFlag(sourcePosTag, "PRONOUN"));
+      }
       return tmp;
     }
 
@@ -801,8 +814,9 @@ public class ArabicTagManager {
       // use the compatible affixes parts (Pronoun only)
       // the third flag position is not implemented
       // copy target category into Source,
-      if (hasPronoun(sourcePosTag))
+      if (hasPronoun(sourcePosTag)) {
         tmp = setFlag(tmp, "PRONOUN", getFlag(sourcePosTag, "PRONOUN"));
+      }
       tmp = setFlag(tmp, "CONJ", getFlag(sourcePosTag, "CONJ"));
       return tmp;
     }

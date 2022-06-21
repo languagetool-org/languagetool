@@ -114,52 +114,44 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
       String prevTokenStr = prevTokenIndex > 0 ? tokens[prevTokenIndex].getToken() : null;
 
       if (prevTokenStr != null) {
-        // test if the first token is a verb
-//        boolean is_candidate_verb = isCandidateVerb(prevToken, token);
-
-        // if the string composed of two tokens is candidate,
-        // get suggestion preposition
-//        if(is_candidate_verb) {
         // test if the preposition token is suitable for verb token (previous)
         List<String> prepositions = new ArrayList<>();
-        String sug_msg = "";
+        String sugMsg = "";
         StringBuilder replacement = new StringBuilder("");
-        AnalyzedTokenReadings current_token_reading = token;
+        AnalyzedTokenReadings currentTokenReading = token;
         // browse each verb with each preposition
         for (AnalyzedToken verbTok : prevToken.getReadings()) {
           if (tagmanager.isVerb(verbTok.getPOSTag())) {
 
             // browse all instance of tokens
             String skippedString = "";
-            boolean is_candidate_case = false;
+
             // initial as first token
+            AnalyzedToken currentToken = token.getReadings().get(0);
+            int[] nextIndexes = getNextMatch(tokens, i, verbTok);
 
-            AnalyzedToken current_token = token.getReadings().get(0);
-            int[] next_indexes = getNextMatch(tokens, i, verbTok);
-
-            if (next_indexes[0] != -1) {
-              int tokReadingPos = next_indexes[0];
-              int tokPos = next_indexes[1];
-              is_candidate_case = true;
-              current_token_reading = tokens[tokReadingPos];
-              current_token = current_token_reading.getReadings().get(tokPos);
+            if (nextIndexes[0] != -1) {
+              int tokReadingPos = nextIndexes[0];
+              int tokPos = nextIndexes[1];
+              currentTokenReading = tokens[tokReadingPos];
+              currentToken = currentTokenReading.getReadings().get(tokPos);
               skippedString = getSkippedString(tokens, i, tokReadingPos);
             }
-            SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(verbTok, current_token);
+            SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(verbTok, currentToken);
             if (prepositionsWithMessage != null) {
 
               prepositions = Arrays.asList(prepositionsWithMessage.getSuggestion().split("\\|"));
-              sug_msg = prepositionsWithMessage.getMessage();
-              sug_msg = sug_msg != null ? sug_msg : "";
+              sugMsg = prepositionsWithMessage.getMessage();
+              sugMsg = sugMsg != null ? sugMsg : "";
               for (String prep : prepositions) {
-                String inflectPrep = inflectSuggestedPreposition(current_token, prep);
+                String inflectPrep = inflectSuggestedPreposition(currentToken, prep);
                 replacement.append("<suggestion>" + prevTokenStr + " " + skippedString + " " + inflectPrep + "</suggestion>");
               }
 
-              String msg = "الفعل ' " + prevTokenStr + " ' متعدِ بحرف آخر ،" + sug_msg + ". فهل تقصد؟" + replacement.toString();
+              String msg = "الفعل ' " + prevTokenStr + " ' متعدِ بحرف آخر ،" + sugMsg + ". فهل تقصد؟" + replacement.toString();
               RuleMatch match = new RuleMatch(
-                this, sentence, prevToken.getStartPos(), current_token_reading.getEndPos(),
-                prevToken.getStartPos(), current_token_reading.getEndPos(), msg, "خطأ في الفعل المتعدي بحرف ");
+                this, sentence, prevToken.getStartPos(), currentTokenReading.getEndPos(),
+                prevToken.getStartPos(), currentTokenReading.getEndPos(), msg, "خطأ في الفعل المتعدي بحرف ");
               ruleMatches.add(match);
             }
           } // if preposition match
@@ -226,8 +218,9 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
             // lookup in WrongWords
             SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(candidateString);
             // The lemma is found in the dictionary file
-            if (verbLemmaMatch != null)
+            if (verbLemmaMatch != null) {
               return verbLemmaMatch;
+            }
           }
         }
 
@@ -270,8 +263,9 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
         // lookup in WrongWords
         SuggestionWithMessage verbLemmaMatch = wrongWords.get(wrongWords.size() - 1).get(candidateString);
         // The lemma is found in the dictionary file
-        if (verbLemmaMatch != null)
+        if (verbLemmaMatch != null) {
           return verbLemmaMatch;
+        }
       }
 
     }
@@ -329,36 +323,36 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
   }
 
   /* Lookup for next token matched */
-  public int[] getNextMatch(AnalyzedTokenReadings[] tokens, int current_index, AnalyzedToken verbToken) {
-    int tokRead_index = current_index;
-    int max_length = min(current_index + MAX_CHUNK, tokens.length);
+  public int[] getNextMatch(AnalyzedTokenReadings[] tokens, int currentIndex, AnalyzedToken verbToken) {
+    int tokReadIndex = currentIndex;
+    int maxLength = min(currentIndex + MAX_CHUNK, tokens.length);
 
 
     int tokIndex = 0;
     int[] indexes = {-1, -1};
     // browse all next  tokens to assure that proper preposition doesn't exist
-    boolean is_wrong_preposition = false;
+    boolean isWrongPreposition = false;
     // used to save skipped tokens
     // initial as first token
-    AnalyzedTokenReadings current_token_reading = tokens[current_index];
+    AnalyzedTokenReadings currentTokenReading = tokens[currentIndex];
 
-    while (tokRead_index < max_length && !is_wrong_preposition) {
-      current_token_reading = tokens[tokRead_index];
+    while (tokReadIndex < maxLength && !isWrongPreposition) {
+      currentTokenReading = tokens[tokReadIndex];
       tokIndex = 0;
-      while (tokIndex < current_token_reading.getReadings().size() && !is_wrong_preposition) {
-        AnalyzedToken curTok = current_token_reading.getReadings().get(tokIndex);
+      while (tokIndex < currentTokenReading.getReadings().size() && !isWrongPreposition) {
+        AnalyzedToken curTok = currentTokenReading.getReadings().get(tokIndex);
         SuggestionWithMessage prepositionsWithMessage = getSuggestedPreposition(verbToken, curTok);
 
-        is_wrong_preposition = (prepositionsWithMessage != null);
-        if (is_wrong_preposition) {
-          indexes[0] = tokRead_index;
+        isWrongPreposition = (prepositionsWithMessage != null);
+        if (isWrongPreposition) {
+          indexes[0] = tokReadIndex;
           indexes[1] = tokIndex;
           return indexes;
         }
         tokIndex++;
       } // end while 2
       // increment
-      tokRead_index++;
+      tokReadIndex++;
     } // end while 1
 
     return indexes;

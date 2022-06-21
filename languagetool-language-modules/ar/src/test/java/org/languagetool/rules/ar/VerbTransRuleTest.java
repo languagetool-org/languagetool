@@ -84,8 +84,9 @@ public class VerbTransRuleTest {
     List<AnalyzedToken> prepositionTokensy = prepositionTokenR.get(0).getReadings();
     String prepositionTag = prepositionTokensy.get(0).getPOSTag();
     String prepositionLemma = prepositionTokensy.get(0).getLemma();
-    if (debug)
+    if (debug) {
       System.out.printf("VerbTransRuleTes: verb : [%s, %s]; preposition [%s %s]\n", verbTag, verbLemma, prepositionTag, prepositionLemma);
+    }
     if (tagmanager.isAttached(verbTag)) {
       char pronounFlag = tagmanager.getFlag(verbTag, "PRONOUN");
       String newVerbTag = tagmanager.setFlag(verbTag, "PRONOUN", '-');
@@ -93,8 +94,9 @@ public class VerbTransRuleTest {
       //      // generate new preposition word form
       String newPrepositionTag = tagmanager.setFlag(prepositionTag, "PRONOUN", pronounFlag);
       newPrepositionTag = tagmanager.setFlag(newPrepositionTag, "OPTION", 'D');
-      if (debug) System.out.printf("VerbTransRuleTes: Tags verb: %s preposition: %s\n", newVerbTag, newPrepositionTag);
-
+      if (debug) {
+        System.out.printf("VerbTransRuleTes: Tags verb: %s preposition: %s\n", newVerbTag, newPrepositionTag);
+      }
       // String newPreposition = synthesizer.synthesis(verbLemma, newVerbTag)
       AnalyzedToken verbAToken = new AnalyzedToken(verb, newVerbTag, verbLemma);
       String newVerb = Arrays.toString(synthesizer.synthesize(verbTokensy.get(0), newVerbTag));
@@ -110,9 +112,9 @@ public class VerbTransRuleTest {
   }
 
   @Test
-  public void testDirectTranstoIndirectTrans_all() throws IOException {
+  public void testdirecttranstoindirecttransAll() throws IOException {
 
-// what to do
+    // what to do
     // we have the verb "to need in arabic"
     // احتاج
     // this verb is indirect transitive, it use preposition as transitivity tool
@@ -126,7 +128,6 @@ public class VerbTransRuleTest {
     // generate a new verb word without pronoun
     // generate the preposition form with the pronoun
     // transfert the flag of pronoun from verb to pepostion
-//    String verb = "أفاضه";
     String verb = "أفاضوه";
     String preposition = "في";
     // extract verb lemma and postag
@@ -144,17 +145,18 @@ public class VerbTransRuleTest {
         List<AnalyzedToken> prepositionTokensy = prepositionTokenR.get(0).getReadings();
         String prepositionTag = prepositionTokensy.get(0).getPOSTag();
         String prepositionLemma = prepositionTokensy.get(0).getLemma();
-        if (debug)
+        if (debug) {
           System.out.printf("VerbTransRuleTes: verb : [%s, %s]; preposition [%s %s]\n", verbTag, verbLemma, prepositionTag, prepositionLemma);
+        }
         if (tagmanager.isAttached(verbTag)) {
           char pronounFlag = tagmanager.getFlag(verbTag, "PRONOUN");
 
           String newPreposition = generateAttachedNewForm(preposition, prepositionTag, pronounFlag);
           String newVerb = generateUnattachedNewForm(verbLemma, verbTag);
-          if (debug)
+          if (debug) {
             System.out.printf("VerbTransRuleTes: suggestions verb: %s preposition: %s \n", newVerb, newPreposition);
+          }
         }
-
       }  //for
     }  //for
 
@@ -165,8 +167,9 @@ public class VerbTransRuleTest {
     // generate new from word form
     String newposTag = tagmanager.setFlag(posTag, "PRONOUN", flag);
     // FIXME: remove the specific flag for option D
-    if (flag != '-')
+    if (flag != '-') {
       newposTag = tagmanager.setFlag(newposTag, "OPTION", 'D');
+    }
     // generate the new preposition according to modified postag
     AnalyzedToken prepAToken = new AnalyzedToken(word, newposTag, word);
     String newWord = Arrays.toString(synthesizer.synthesize(prepAToken, newposTag));

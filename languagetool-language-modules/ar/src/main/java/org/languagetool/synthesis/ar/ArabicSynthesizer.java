@@ -101,8 +101,8 @@ public class ArabicSynthesizer extends BaseSynthesizer {
         Matcher m = p.matcher(tag);
         if (m.matches() && token.getLemma() != null) {
           // local result
-          List<String> result_one = lookup(token.getLemma(), tag);
-          for (String wd : result_one) {
+          List<String> resultOne = lookup(token.getLemma(), tag);
+          for (String wd : resultOne) {
             // adjust some stems according to original postag
             stem = correctStem(wd, posTag);
             results.add(stem);
@@ -121,7 +121,9 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
   public String correctTag(String postag) {
     String mypostag = postag;
-    if (postag == null) return null;
+    if (postag == null) {
+      return null;
+    }
     // remove attached pronouns
     mypostag = tagmanager.setConjunction(mypostag, "-");
 
@@ -142,26 +144,26 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
   /* correct stem to generate stems to be attached with pronouns  */
   public String correctStem(String stem, String postag) {
-    String correct_stem = stem;
+    String correctStem = stem;
     if (postag == null) return stem;
     if (tagmanager.isAttached(postag)) {
-      correct_stem = correct_stem.replaceAll("ه$", "");
+      correctStem = correctStem.replaceAll("ه$", "");
     }
 
     if (tagmanager.isDefinite(postag)) {
       String prefix = tagmanager.getDefinitePrefix(postag);// can handle ال & لل
-      correct_stem = prefix + correct_stem;
+      correctStem = prefix + correctStem;
     }
     if (tagmanager.hasJar(postag)) {
       String prefix = tagmanager.getJarPrefix(postag);
-      correct_stem = prefix + correct_stem;
+      correctStem = prefix + correctStem;
     }
     if (tagmanager.hasConjunction(postag)) {
       String prefix = tagmanager.getConjunctionPrefix(postag);
-      correct_stem = prefix + correct_stem;
+      correctStem = prefix + correctStem;
 
     }
-    return correct_stem;
+    return correctStem;
   }
 
   /**
@@ -182,8 +184,9 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     // return new word
     String postag = token.getPOSTag();
     String word = token.getToken();
-    if (postag.isEmpty())
+    if (postag.isEmpty()) {
       return word;
+    }
     /* The flag is by defaul equal to '-' , if suffix => "H" */
     char flag = (suffix.isEmpty()) ? '-' : 'H';
     // save procletic
@@ -201,11 +204,14 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     if (newwordList.length != 0) {
       stem = newwordList[0];
       //FIXME: make a general solution
-      if (tagmanager.isStopWord(newposTag) && flag == 'H')
+      if (tagmanager.isStopWord(newposTag) && flag == 'H') {
         stem = stem.replaceAll("ه$", "");
-    } else // no word generated
+      }
+    } else {
+      // no word generated
       //FIXME: handle stopwords generation
       stem = "(" + word + ")";
+    }
     String newWord = procletic + stem + suffix;
     return newWord;
   }
@@ -274,8 +280,9 @@ public class ArabicSynthesizer extends BaseSynthesizer {
       wordlist.add(stem);
     }
 
-    if (wordlist.isEmpty())
+    if (wordlist.isEmpty()) {
       return defaultWordlist;
+    }
     return wordlist;
   }
 
@@ -297,11 +304,14 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     // case of definate word:
     // إضافة الجار إلى أل التعريف
     if (tagmanager.isDefinite(postag)) {
-      if (prefix.equals("ل"))
+      if (prefix.equals("ل")) {
         prefix += "ل";
-      else //  if(prefprefix.equals("ب")||prefix.equals("ك"))
+      }
+      else {
+        //  if(prefprefix.equals("ب")||prefix.equals("ك"))
         // case of Beh Jar, Kaf Jar, empty Jar
         prefix += "ال";
+      }
     }
     return setProcletic(token, prefix);
   }
@@ -319,8 +329,9 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     // return new word
     String postag = token.getPOSTag();
     String word = token.getToken();
-    if (postag.isEmpty())
+    if (postag.isEmpty()) {
       return word;
+    }
     // save enclitic
     String enclitic = tagger.getEnclitic(token);
     String newposTag = postag;
@@ -335,11 +346,13 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     String stem = "";
     if (newwordList.length != 0) {
       stem = newwordList[0];
-      if (tagmanager.hasPronoun(newposTag))
+      if (tagmanager.hasPronoun(newposTag)) {
         stem = stem.replaceAll("ه$", "");
-    } else // no word generated
+      }
+    } else {// no word generated
       //FIXME: handle stopwords generation
       stem = "(" + word + ")";
+    }
     String newWord = prefix + stem + enclitic;
     return newWord;
   }
@@ -366,8 +379,9 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     // how can a lemma not the same,
     // if we tag a diacritized verb, the tagger remove diacritics and can generate other cases
     for (AnalyzedToken currentToken : tokenReadList.getReadings()) {
-      if (targetLemma.equals(currentToken.getLemma()))
+      if (targetLemma.equals(currentToken.getLemma())) {
         tokenListFiltred.add(currentToken);
+      }
     }
 
     for (AnalyzedToken currentToken : tokenListFiltred) {
@@ -392,32 +406,37 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
   /* genarate Mafoul Mutlaq from masdar */
   public static String inflectMafoulMutlq(String word) {
-    if (word == null)
+    if (word == null) {
       return word;
+    }
     String newword = word;
-    if (word.endsWith(Character.toString(TEH_MARBUTA)))
+    if (word.endsWith(Character.toString(TEH_MARBUTA))) {
       newword += FATHATAN;
-    else
+    } else {
       newword += FATHATAN + "" + ALEF;
+    }
     return newword;
-
   }
 
   /* genarate Mafoul Mutlaq from masdar */
   public static String inflectAdjectiveTanwinNasb(String word, boolean feminin) {
-    if (word == null)
+    if (word == null) {
       return word;
+    }
     String newword = word;
     if (feminin) {
-      if (word.endsWith(Character.toString(TEH_MARBUTA)))
+      if (word.endsWith(Character.toString(TEH_MARBUTA))) {
         newword += FATHATAN;
-      else
+      }
+      else {
         newword += Character.toString(TEH_MARBUTA) + FATHATAN;
+      }
     } else { // if masculine, remove teh marbuta
-      if (word.endsWith(Character.toString(TEH_MARBUTA)))
+      if (word.endsWith(Character.toString(TEH_MARBUTA))) {
         newword = word.replaceAll(Character.toString(TEH_MARBUTA), "");
-      else
+      } else {
         newword += Character.toString(FATHATAN) + ALEF;
+      }
     }
     return newword;
   }

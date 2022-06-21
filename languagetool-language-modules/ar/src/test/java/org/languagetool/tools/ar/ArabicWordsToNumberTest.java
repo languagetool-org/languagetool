@@ -86,10 +86,11 @@ public class ArabicWordsToNumberTest {
     String text = "ثمانية وتسعين ألفاً وتسعمائة وخمس وثمانين";
     Integer x = ArabicNumbersWords.textToNumber(text);
     String text2 = ArabicNumbersWords.numberToArabicWords(Integer.toString(x), true, false, "jar");
-    if (debug)
+    if (debug) {
       System.out.println("text: " + text + " detected " + x + " |" + text2);
-    else
+    } else {
       assertEquals(text, text2);
+    }
 
   }
 
@@ -195,15 +196,14 @@ public class ArabicWordsToNumberTest {
   /* Assert suggestions */
   private void assertSuggestions(String phrase, String expectedSuggestions, boolean feminin, boolean attached, String inflection) {
     List<String> actualSuggestionsList = ArabicNumbersWords.getSuggestionsNumericPhrase(phrase, feminin, attached, inflection);
-    String phrase_unvocalized = ArabicStringTools.removeTashkeel(phrase);
-    String actualSuggestions_unvocalized = ArabicStringTools.removeTashkeel(String.join("|", actualSuggestionsList));
+    String actualSuggestionsUnvocalized = ArabicStringTools.removeTashkeel(String.join("|", actualSuggestionsList));
     if (debug) {
-      if (!expectedSuggestions.equals(actualSuggestions_unvocalized)) {
-        System.out.println("assertSuggestions::Input: " + phrase + " Suggestions Expected:'" + expectedSuggestions + "' Actual Suggestions: '" + actualSuggestions_unvocalized +
+      if (!expectedSuggestions.equals(actualSuggestionsUnvocalized)) {
+        System.out.println("assertSuggestions::Input: " + phrase + " Suggestions Expected:'" + expectedSuggestions + "' Actual Suggestions: '" + actualSuggestionsUnvocalized +
           "' Incorrect");
       }
     } else {
-      assertEquals(expectedSuggestions, actualSuggestions_unvocalized);
+      assertEquals(expectedSuggestions, actualSuggestionsUnvocalized);
     }
   }
 
@@ -213,8 +213,9 @@ public class ArabicWordsToNumberTest {
     Integer x = ArabicNumbersWords.textToNumber(phrase);
     String autoPhrase = ArabicNumbersWords.numberToArabicWords(String.valueOf(x), feminin, attached, inflection);
     if (!autoPhrase.equals(phrase)) {
-      if (debug)
+      if (debug) {
         System.out.println("Input: " + phrase + " Output: X: " + x + " String:" + autoPhrase);
+      }
     }
     return autoPhrase.equals(phrase);
   }

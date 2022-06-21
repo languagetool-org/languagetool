@@ -66,8 +66,9 @@ public class ArabicVerbToMasdarFilterTest {
       assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
     } else { //  debug is true
       String suggestion = "";
-      if (!ruleMatch.getSuggestedReplacements().isEmpty())
+      if (!ruleMatch.getSuggestedReplacements().isEmpty()) {
         suggestion = ruleMatch.getSuggestedReplacements().toString();
+      }
       // show only no suggestion cases
       System.out.println("مثال: " + word + " " + word2 + " " + word3 + " مقترح:" + suggestion);
     }
@@ -97,8 +98,9 @@ public class ArabicVerbToMasdarFilterTest {
     // generate example
     for (Map.Entry<String, List<String>> entry : list.entrySet()) {
       String key = entry.getKey();
-      if (debug)
+      if (debug) {
         assertSuggestion(key, "", true);
+      }
     }
 
   }

@@ -92,8 +92,9 @@ public class ArabicNumbersWordsTest {
 
     for (String nb : numberlist) {
       String words = ArabicNumbersWords.numberToArabicWords(nb, feminin, isAttached, inflectCase);
-      if (debug)
+      if (debug) {
         System.out.println("ArabicNumbersWordsTest.java: Number! " + nb + " " + words);
+      }
     }
 
   }

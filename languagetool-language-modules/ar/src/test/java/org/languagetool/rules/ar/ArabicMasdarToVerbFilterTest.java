@@ -69,11 +69,13 @@ public class ArabicMasdarToVerbFilterTest {
       assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
     } else { //  debug is true
       String suggestion = "";
-      if (!ruleMatch.getSuggestedReplacements().isEmpty())
+      if (!ruleMatch.getSuggestedReplacements().isEmpty()) {
         suggestion = ruleMatch.getSuggestedReplacements().toString();
+      }
       // show only no suggestion cases
-      if (!suggestion.startsWith("[ي"))
+      if (!suggestion.startsWith("[ي")) {
         System.out.println("مثال: " + word1 + " " + word2 + " مقترح:" + suggestion);
+      }
     }
   }
 
@@ -99,8 +101,8 @@ public class ArabicMasdarToVerbFilterTest {
     // generate example
     for (Map.Entry<String, List<String>> entry : list.entrySet()) {
       String key = entry.getKey();
-      if (debug)
+      if (debug) {
         assertSuggestion(key, "", true);
-    }
+      }    }
   }
 }
