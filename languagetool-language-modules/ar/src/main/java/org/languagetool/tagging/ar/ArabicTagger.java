@@ -356,46 +356,32 @@ public class ArabicTagger extends BaseTagger {
     if (flag != '-') {
       if (word.endsWith("ه")) {
         suffix = "ه";
-      }
-      else if (word.endsWith("ها")) {
+      } else if (word.endsWith("ها")) {
         suffix = "ها";
-      }
-      else if (word.endsWith("هما")) {
+      } else if (word.endsWith("هما")) {
         suffix = "هما";
-      }
-      else if (word.endsWith("هم")) {
+      } else if (word.endsWith("هم")) {
         suffix = "هم";
-      }
-      else if (word.endsWith("هن")) {
+      } else if (word.endsWith("هن")) {
         suffix = "هن";
-      }
-      else if (word.endsWith("ك")) {
+      } else if (word.endsWith("ك")) {
         suffix = "ك";
-      }
-
-      else if (word.endsWith("كما")) {
+      } else if (word.endsWith("كما")) {
         suffix = "كما";
-      }
-      else if (word.endsWith("كم")) {
+      } else if (word.endsWith("كم")) {
         suffix = "كم";
-      }
-      else if (word.endsWith("كن")) {
+      } else if (word.endsWith("كن")) {
         suffix = "كن";
-      }
-      else if (word.endsWith("ني")) {
+      } else if (word.endsWith("ني")) {
         suffix = "ني";
-      }
-      else if (word.endsWith("نا")) {
+      } else if (word.endsWith("نا")) {
         suffix = "نا";
         // case of some prepositon like مني منا، عني عنّا
-      }
-      else if ((word.equals("عني") || word.equals("مني")) && word.endsWith("ني")) {
+      } else if ((word.equals("عني") || word.equals("مني")) && word.endsWith("ني")) {
         suffix = "ني";
-      }
-      else if ((word.equals("عنا") || word.equals("منا")) && word.endsWith("نا")) {
+      } else if ((word.equals("عنا") || word.equals("منا")) && word.endsWith("نا")) {
         suffix = "نا";
-      }
-      else {
+      } else {
         suffix = "";
       }
     } else {
@@ -464,10 +450,9 @@ public class ArabicTagger extends BaseTagger {
       //
       if (tagmanager.isDefinite(postag)) {
         if (jarflag == 'L') {
-           // case of لل+بيت
+          // case of لل+بيت
           prefixLength += 1;
-        }
-        else {
+        } else {
           // case of ال+بيت
           prefixLength += 2;
         }
@@ -491,46 +476,33 @@ public class ArabicTagger extends BaseTagger {
     if (flag != '-') {
       if (word.endsWith("ه")) {
         suffix = "ه";
-      }
-      else if (word.endsWith("ها")) {
+      } else if (word.endsWith("ها")) {
         suffix = "ها";
-      }
-      else if (word.endsWith("هما")) {
+      } else if (word.endsWith("هما")) {
         suffix = "هما";
-      }
-      else if (word.endsWith("هم")) {
+      } else if (word.endsWith("هم")) {
         suffix = "هم";
-      }
-      else if (word.endsWith("هن")) {
+      } else if (word.endsWith("هن")) {
         suffix = "هن";
-      }
-      else if (word.endsWith("ك")) {
+      } else if (word.endsWith("ك")) {
         suffix = "ك";
-      }
-
-      else if (word.endsWith("كما")) {
+      } else if (word.endsWith("كما")) {
         suffix = "كما";
-      }
-      else if (word.endsWith("كم")) {
+      } else if (word.endsWith("كم")) {
         suffix = "كم";
-      }
-      else if (word.endsWith("كن")) {
+      } else if (word.endsWith("كن")) {
         suffix = "كن";
-      }
-      else if (word.endsWith("ني")) {
+      } else if (word.endsWith("ني")) {
         suffix = "ني";
-      }
-      else if (word.endsWith("نا")) {
+      } else if (word.endsWith("نا")) {
         suffix = "نا";
       }
-        // case of some prepositon like مني منا، عني عنّا
+      // case of some prepositon like مني منا، عني عنّا
       else if ((word.equals("عني") || word.equals("مني")) && word.endsWith("ني")) {
         suffix = "ني";
-      }
-      else if ((word.equals("عنا") || word.equals("منا")) && word.endsWith("نا")) {
+      } else if ((word.equals("عنا") || word.equals("منا")) && word.endsWith("نا")) {
         suffix = "نا";
-      }
-      else {
+      } else {
         suffix = "";
       }
     } else {

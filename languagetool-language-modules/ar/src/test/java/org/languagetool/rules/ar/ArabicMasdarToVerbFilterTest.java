@@ -103,6 +103,7 @@ public class ArabicMasdarToVerbFilterTest {
       String key = entry.getKey();
       if (debug) {
         assertSuggestion(key, "", true);
-      }    }
+      }
+    }
   }
 }

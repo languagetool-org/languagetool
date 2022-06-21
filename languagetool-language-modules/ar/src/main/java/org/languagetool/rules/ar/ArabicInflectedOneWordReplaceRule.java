@@ -143,8 +143,7 @@ public class ArabicInflectedOneWordReplaceRule extends AbstractSimpleReplaceRule
   private boolean isCandidateWord(AnalyzedToken mytoken) {
     if (getSuggestedWords(mytoken) != null) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }

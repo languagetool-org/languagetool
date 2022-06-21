@@ -591,8 +591,7 @@ public class ArabicTagManager {
     int pos = getFlagPos(postag, flagType);
     if (pos < postag.length()) {
       return postag.charAt(pos);
-    }
-    else {
+    } else {
       return '-';
     }
   }

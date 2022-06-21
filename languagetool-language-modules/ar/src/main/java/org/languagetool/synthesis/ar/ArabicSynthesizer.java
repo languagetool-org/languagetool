@@ -306,8 +306,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     if (tagmanager.isDefinite(postag)) {
       if (prefix.equals("ل")) {
         prefix += "ل";
-      }
-      else {
+      } else {
         //  if(prefprefix.equals("ب")||prefix.equals("ك"))
         // case of Beh Jar, Kaf Jar, empty Jar
         prefix += "ال";
@@ -427,8 +426,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     if (feminin) {
       if (word.endsWith(Character.toString(TEH_MARBUTA))) {
         newword += FATHATAN;
-      }
-      else {
+      } else {
         newword += Character.toString(TEH_MARBUTA) + FATHATAN;
       }
     } else { // if masculine, remove teh marbuta
