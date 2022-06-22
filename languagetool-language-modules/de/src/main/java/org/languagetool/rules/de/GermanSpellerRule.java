@@ -1163,6 +1163,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Aliegen", w -> Arrays.asList("Anliegen", "Fliegen"));
     put("gaz", w -> Arrays.asList("ganz", "gab"));
     put("vllt", w -> Arrays.asList("vielleicht", "vllt."));
+    put("rauch", w -> Arrays.asList("Rauch", "rauche"));
     put("nummer", "Nummer");
     put("mitgetielt", "mitgeteilt");
     put("Artal", "Ahrtal");

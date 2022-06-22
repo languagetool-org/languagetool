@@ -3804,7 +3804,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Special Olympics" id="SPECIAL_OLYMPICS">
         <pattern case_sensitive="yes">
             <token>Special</token>
-            <token>Olympics</token>
+            <token regexp="yes">Olympics|Agents?|Effects?|Offers?|Inspectors?|Operations?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -6516,6 +6516,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
+    <rule id="SPECIAL_KEIN_SUB" name="'Special' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Special</token>
+            </marker>
+            <token regexp="yes">(Olympic|Agent|Offer|Effect|Air|Operations|Inspector|Boat).*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
     <rule id="VON_DER_OSTEN_KEIN_SUB" name="'von der Osten' kein Substantiv"><!-- https://de.wikipedia.org/wiki/Osten_(Adelsgeschlechter) -->
         <pattern>
             <token>von</token>
@@ -6555,6 +6564,44 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token spacebefore="no">de</token>
             </pattern>
             <disambig action="remove" postag="SUB.*"/>
+        </rule>
+    </rulegroup>
+    <rule id="BETEILIGUNGS_GMBH" name="häufiger Firmenname mit Fugen-S 'XX Beteiligungs GmbH'">
+        <pattern>
+            <token postag="EIG.*|SUB.*|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+            <marker>
+                <token case_sensitive="yes">Verwaltungs|Beteiligungs</token>
+            </marker>
+            <token regexp="yes">GmbH|AG|Ltd|UG</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="METAVERSE" name="Metaverse kein Maskulinum">
+        <pattern>
+            <token regexp="yes">.*metaversen?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rulegroup id="ICH_MAIL" name="Verben erste Person ohne 'e' am Ende">
+        <rule>
+            <pattern>
+                <token>ich</token>
+                <marker>
+                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
+                    <token case_sensitive="yes" regexp="yes">betreib|mail|rat</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
+                    <token case_sensitive="yes" regexp="yes">betreib|mail|rat</token>
+                </marker>
+                <token>ich</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
 </rules>
