@@ -56,7 +56,7 @@ public class ArtificialErrorEval {
   static RemoteLanguageTool lt;
   static JLanguageTool localLt;
   static Synthesizer synth;
-  static int maxLines = 2000;//1000000; // decrease this number for testing
+  static int maxLines = 1000000; // decrease this number for testing
   static boolean verboseOutput = false;
   static boolean undirectional = false;
   static boolean inflected = false;
