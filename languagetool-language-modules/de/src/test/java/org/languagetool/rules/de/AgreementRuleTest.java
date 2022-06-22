@@ -599,6 +599,7 @@ public class AgreementRuleTest {
     assertGood("Wir sind immer offen für Mitarbeiter die Teil eines der traditionellsten Malerbetriebe auf dem Platz Zürich werden möchten.");
     assertGood("Gelingt das mit Erregern rechtzeitig, könnte das Infektionen sogar oft verhindern.");
     assertGood("In der aktuellen Niedrigzinsphase bedeutet das sehr geringe Zinsen, die aber deutlich ansteigen können.");
+    assertGood("Es gibt viele Stock Screener.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
@@ -694,6 +695,7 @@ public class AgreementRuleTest {
     assertGood("Damit zeigen wir, wie bedeutungsreich manche deutschen Begriffe sein können.");
     assertGood("2009 gab es im Rathaus daher Bestrebungen ein leichter handhabbares Logo einzuführen.");
     assertGood("Das ist eine leichter handhabbare Situation.");
+    assertGood("Es gibt viele verschiedene Stock Screener.");
 
     // incorrect sentences:
     assertBad("Er hatte ein anstrengenden Tag",

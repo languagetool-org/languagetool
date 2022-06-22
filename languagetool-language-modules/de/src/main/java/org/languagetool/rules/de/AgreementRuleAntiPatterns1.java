@@ -36,6 +36,17 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      posRegex("PRO.*"),  // "Es gibt viele Stock Screener."
+      posRegex("SUB:.*"),
+      new PatternTokenBuilder().pos("UNKNOWN").tokenRegex("[A-ZÖÄÜ][a-zöäß-]+").build()
+    ),
+    Arrays.asList(
+      posRegex("PRO.*"),  // "Es gibt viele verschiedene Stock Screener."
+      posRegex("(ADJ|PA2).*"),
+      posRegex("SUB:.*"),
+      new PatternTokenBuilder().pos("UNKNOWN").tokenRegex("[A-ZÖÄÜ][a-zöäß-]+").build()
+    ),
+    Arrays.asList(
       tokenRegex("[(\\[]"),   // "... (ich meine Pfeil, nicht Raute) ..."
       token("ich"),
       token("meine"),
