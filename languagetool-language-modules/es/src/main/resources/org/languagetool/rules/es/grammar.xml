@@ -3530,6 +3530,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Como estas?</example>
             </rule>
             <!--exclamativos-->
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token>tan</token>
+                </pattern>
+                <message>Si es una exclamación, se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="Qué">—¡<marker>Que</marker> pregunta tan absurda!</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>a</token>
@@ -28051,7 +28064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">31\.(11|0?[469])</token>
-                    <token regexp="yes">%|€|\$|¥|MXN|%|millones|&unidades;</token>
+                    <token regexp="yes">%|€|\$|¥|MXN|millones|&unidades;</token>
                     <example>la cantidad de 31.6 millones</example>
                     <example>IMC: 31.6 kg/m²</example>
                     <example>30.4 x 11.4 x 31.4 cm.</example>
@@ -28108,7 +28121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">(30|31)\.(0?2)</token>
-                    <token regexp="yes">%|€|\$|¥|MXN|%|millones|puntos|&unidades;</token>
+                    <token regexp="yes">%|€|\$|¥|MXN|millones|puntos|&unidades;</token>
                     <example>peso: 31.2 kg</example>
                     <example>Ganó con 30.2 puntos.</example>
                 </antipattern>

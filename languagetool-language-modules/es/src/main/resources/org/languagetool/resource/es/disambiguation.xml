@@ -4659,6 +4659,14 @@ Copyright (C) 2011 Juan Martorell
     <!-- END: nominal groups -->
     <rulegroup id="que_causa" name="no noun after relative. Ex: que causa, que busca">
         <rule>
+            <antipattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token>tan</token>
+            </antipattern>
             <pattern>
                 <token postag="PR.*" postag_regexp="yes"><exception>como</exception><exception scope="previous" regexp="yes">para|por</exception></token>
                 <marker>
