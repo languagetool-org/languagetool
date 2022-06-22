@@ -898,11 +898,11 @@ Isto é boa. → Isto é bom.
 <!-- MARCOAGPINTO 2020-07-30 (2-JUL-2020+) *START* -->
 <!-- "Uma informação o mais simples e o mais rica." -->
       <antipattern>
-          <token postag='DA0MS0|PD0MS000|PP3MSA00' postag_regexp='yes'/>		  
+          <token postag='DA0MS0|PD0MS000|PP3MSA00' postag_regexp='yes'/>
           <token postag='NC[CM]S000|NC[CM]N000|RG' postag_regexp='yes'/>
           <token postag='AQ0[CF]S0|NC[CF]S000' postag_regexp='yes'/>
 		  <token negate="yes" regexp='yes'>em|da|do|que</token>
-      </antipattern>	
+      </antipattern>
 <!-- MARCOAGPINTO 2020-07-30 (2-JUL-2020+) *END* -->
 
 <!-- MARCOAGPINTO 2020-08-18 (2-JUL-2020+) *START* -->
@@ -924,7 +924,7 @@ Isto é boa. → Isto é bom.
 		  <token postag='V.+|NC[CM]S000|CS|I|RG|VMP00SM' postag_regexp='yes'/>
 	      <token postag='AQ0[CM]S0|NC[CF]S000' postag_regexp='yes'/>
 		  <token postag='NC[CF]P000' postag_regexp='yes'/>
-	  </antipattern>	  	  	  
+	  </antipattern>
 	  <!-- "Suspeita-se que tenham, em escalas de tempo, levado quantidades significativas de água." -->
       <antipattern>
 		  <token regexp='yes'>[,]|de|e</token>
@@ -932,27 +932,6 @@ Isto é boa. → Isto é bom.
 		  <token postag='NC[CF]P000' postag_regexp='yes'/>
 	  </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-09-14 (2-JUL-2020+) *END* -->
-
-
-
-<!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *START* -->
-<!--
-O que o torna mais perigoso é haver civis inocentes.
-O que o torna perigoso é haver civis inocentes.
-
-BUG: TORNA APPEARS AS A NOUN WHEN IT SHOULD BE A VERB, USING NOUNS CAUSES FALSE POSITIVES.
-     2022-06-16
--->
-      <antipattern>
-		<token negate_pos="yes" postag='SENT_START' postag_regexp='no'/>
-        <token postag='DA0MS0' postag_regexp='no'/>
-		<token postag='NCFS000' postag_regexp='no'/>
-		<token min="0" max="1" postag='RG' postag_regexp='no'/>
-		<token postag='AQ0MS0' postag_regexp='no'/>
-      </antipattern> 
-<!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *END* -->
-
-
 
 <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *START* -->
 <!--
@@ -972,7 +951,7 @@ A própria Jane escreveu a carta.
 		<token regexp='yes'>[.,!?;():]|à|as?|das?|destas?|pelas?|em|nas?</token>
 		<token postag='NCF.+|AQ0F.+' postag_regexp='yes'/>
 		<token postag='NP.+' postag_regexp='yes'/>
-      </antipattern>	  
+      </antipattern>
       <antipattern>
 		<token postag='DP.M.+|DI.M.+|DD.M.+|AQ0C.+' postag_regexp='yes'/>
 		<token postag='NCM.+|AQ0M.+' postag_regexp='yes'/>
@@ -982,7 +961,7 @@ A própria Jane escreveu a carta.
 		<token regexp='yes'>[.,!?;():]|os?|dos?|destes?|pelos?|em|nos?</token>
 		<token postag='NCM.+|AQ0M.+' postag_regexp='yes'/>
 		<token postag='NP.+' postag_regexp='yes'/>
-      </antipattern>	  
+      </antipattern>
 <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *END* -->
 
 <!-- MARCOAGPINTO 2022-06-05/11/14/15 (5-JUN-2022+) *START* -->
@@ -1063,10 +1042,10 @@ A própria Jane escreveu a carta.
 		  <example>Precisa agora de estar em retiro 14 dias.</example>
 		  <example>Precisa agora de estar em retiro 14 horas.</example>
 		  <example>Antes de continuar vamos assistir um breve vídeo sobre o recrutador 24 horas.</example>
-		  <example>Além de que, continuei com este cuidado 3 semanas após o término da radioterapia.</example>		  
+		  <example>Além de que, continuei com este cuidado 3 semanas após o término da radioterapia.</example>
 		  <example>Estiveram presentes no chat 120 pessoas e agora você pode ler, na integra, como foi o bate-papo.</example>
 		  <example>A WNPower tem suporte sólido, incluindo suporte por chat ao vivo, telefone, e-mail e ticket 24 horas por dia, 7 dias por semana.</example>
-      </antipattern>  
+      </antipattern>
 <!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
 <!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *START* -->
@@ -1286,13 +1265,13 @@ A própria Jane escreveu a carta.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
     <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
-      </antipattern>	  
+      </antipattern>
 <!-- MARCOAGPINTO 2020-01-23 *START* -->
 <!-- "A soma não dá valores ordenados sequenciais crescentes." -->
       <antipattern>
 		  <token postag='NCMP000' postag_regexp='no'/>
 		  <token postag='AQ0MP0' postag_regexp='no'/>
-      </antipattern>	
+      </antipattern>
 <!-- MARCOAGPINTO 2020-01-23 *END* -->
 <!-- MARCOAGPINTO 2020-03-27 *START* -->
 <!-- "A colega dos supermercados mencionada anteriormente." -->
@@ -1301,8 +1280,8 @@ A própria Jane escreveu a carta.
 		  <token postag='NCCS000' postag_regexp='no'/>
 		  <token regexp='no'>dos</token>
 		  <token postag='NCMP000' postag_regexp='no'/>
-		  <token postag='VMP00SF' postag_regexp='no'/>	  		  
-      </antipattern>	
+		  <token postag='VMP00SF' postag_regexp='no'/>
+      </antipattern>
 <!-- MARCOAGPINTO 2020-03-27 *END* -->
 <!-- MARCOAGPINTO 2020-05-22 *START* -->
 <!-- "Edificações erguidas por arquitetos índios centenas de anos antes da conquista europeia." -->
@@ -1310,8 +1289,8 @@ A própria Jane escreveu a carta.
       <antipattern>
 		  <token postag='NCM[SP]000' postag_regexp='yes'/>
 		  <token postag='Z0FP0' postag_regexp='no'/>
-		  <token postag='SPS00' postag_regexp='no'/>	  		  
-      </antipattern>	
+		  <token postag='SPS00' postag_regexp='no'/>
+      </antipattern>
 <!-- MARCOAGPINTO 2020-05-22 *END* -->
 <!-- MARCOAGPINTO 2020-07-19 (2-JUL-2020+) *START* -->
 <!-- "De acordo com as equações por nós implementadas." -->
@@ -1374,7 +1353,7 @@ A própria Jane escreveu a carta.
 		<exception postag_regexp='no' postag='Z0MP0'/></token>
         <token postag='AQ0[CF]P0|NC[CF]P000' postag_regexp='yes'/>
 		<token postag='V.+' postag_regexp='yes'/>
-      </antipattern>	  
+      </antipattern>
 <!-- MARCOAGPINTO 2020-08-01 (2-JUL-2020+) *END* -->
 
 <!-- MARCOAGPINTO 2021-05-07 (17-MAR-2021+) *START* -->
@@ -1521,7 +1500,7 @@ Sujeito nojento, devia levar uns tapas.
 		  <token postag='VMIP3S0' postag_regexp='no'/>
 		  <token postag='PP1CP000' postag_regexp='no'/>
 		  <token postag='VMP00SF' postag_regexp='no'/>
-      </antipattern>	
+      </antipattern>
 <!-- MARCOAGPINTO 2020-05-16 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;</token>
@@ -1683,7 +1662,7 @@ Sujeito nojento, devia levar uns tapas.
 	      <token postag='NC[CM]S000' postag_regexp='yes'/>
 	      <token postag='NC[CF]P000' postag_regexp='yes'/>
 		  <token postag='NC[CF]P000|AQ0[CF]P0' postag_regexp='yes'/>
-      </antipattern>	  
+      </antipattern>
 <!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *END* -->
 <!-- MARCOAGPINTO 2020-08-26 (2-JUL-2020+) *START* -->
 <!-- "Apenas testemunhos sem fim recebidos de todo o mundo." -->
@@ -1757,7 +1736,7 @@ Sujeito nojento, devia levar uns tapas.
 		  <token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
 		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
 		  <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
-      </antipattern>	  
+      </antipattern>
 <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *END* -->
 <!-- MARCOAGPINTO 2020-11-01 (21-OCT-2020+) *START* -->
 <!-- "Penso que esta é uma foto mistério das mais lixadas." -->
@@ -1789,7 +1768,7 @@ O Isaac apanhou um escalda rabos tão grande.
           <token regexp='yes'>a?o|pelo|do|um|esse|aquele|àquele|tal|como|no|daquele|e</token>
 		  <token postag='NC[CF]S.+|AQ0[CF]S.+' postag_regexp='yes'/>
 		  <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-      </antipattern> 
+      </antipattern>
 <!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *END* -->
 <!-- MARCOAGPINTO 2021-01-21 (1-JAN-2021+) *START* -->
 <!--
@@ -1797,7 +1776,7 @@ Ele confundiu o rapaz com um borrego, seu tira moncos.
 Ele confundiu o rapaz com um borrego, sua tira moncos.
 Ele confundiu o rapaz com um borrego, teu tira moncos.
 -->
-      <antipattern>		  
+      <antipattern>
           <token min="0" max="1" regexp='yes'>[,]</token>
 		  <token postag='DP.+' postag_regexp='yes'/>
 		  <token postag='NC[CF]S.+|AQ0[CF]S.+' postag_regexp='yes'/>
@@ -1822,7 +1801,7 @@ A própria Jane escreveu a carta.
 		<token regexp='yes'>[.,!?;():]|à|as?|das?|destas?|pelas?|em|nas?</token>
 		<token postag='NCF.+|AQ0F.+' postag_regexp='yes'/>
 		<token postag='NP.+' postag_regexp='yes'/>
-      </antipattern>	  
+      </antipattern>
       <antipattern>
 		<token postag='DP.M.+|DI.M.+|DD.M.+|AQ0C.+' postag_regexp='yes'/>
 		<token postag='NCM.+|AQ0M.+' postag_regexp='yes'/>
@@ -1832,7 +1811,7 @@ A própria Jane escreveu a carta.
 		<token regexp='yes'>[.,!?;():]|os?|dos?|destes?|pelos?|em|nos?</token>
 		<token postag='NCM.+|AQ0M.+' postag_regexp='yes'/>
 		<token postag='NP.+' postag_regexp='yes'/>
-      </antipattern>	  
+      </antipattern>
 <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *END* -->
 <!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
 <!--
@@ -1996,13 +1975,13 @@ O homem é uma pobre criatura comparado com a mulher.
           <token postag='SPS00.*' postag_regexp='yes'/>
           <token>1</token>
 		  <token postag='NCMS000' postag_regexp='no'/>
-      </antipattern>	  
+      </antipattern>
       <antipattern>
           <token postag='SPS00.*' postag_regexp='yes'/>
           <token postag='Z0CN0' postag_regexp='no'>
 		  <exception>1</exception></token>
 		  <token postag='NCMP000' postag_regexp='no'/>
-      </antipattern>	  
+      </antipattern>
 <!-- MARCOAGPINTO 2020-02-09 *END* -->
 <!-- MARCOAGPINTO 2021-05-11 (17-MAR-2021+) *START* -->
 <!--
@@ -2060,7 +2039,7 @@ O atacante Gabriel Jesus, titular da equipe, foi decisivo na ate então inédita
       <example correction='Alguma tesoireira'><marker>Alguma tesoireiro</marker> está no pasto.</example>
       <example>Leonardo da Vinci e Rafael mostraram grande interesse sobre a estru…</example>
       <example>Bacalhau à lagareiro</example>
-	  
+
 	  <example type='correct'>Esta foi <marker>à Saramago</marker>!</example>
 	  <example>Tom perguntou à Mary onde John morava.</example>
 	  <example>O Tom fez à Mary muitas perguntas que ela não pôde responder.</example>
@@ -2162,7 +2141,7 @@ O atacante Gabriel Jesus, titular da equipe, foi decisivo na ate então inédita
 		  <token postag='VMP00PM|AQ0MP0' postag_regexp='yes'/>
 		  <token postag='AQ0[CM]P0' postag_regexp='yes'/>
 	  </antipattern>
-<!-- MARCOAGPINTO 2020-07-19 (2-JUL-2020+) *END* --> 
+<!-- MARCOAGPINTO 2020-07-19 (2-JUL-2020+) *END* -->
 <!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *START* -->
 <!--
 Dez funções da inteligência multifocal.
@@ -2190,7 +2169,7 @@ A própria Jane escreveu a carta.
 		<token regexp='yes'>[.,!?;():]|à|as?|das?|destas?|pelas?|em|nas?</token>
 		<token postag='NCF.+|AQ0F.+' postag_regexp='yes'/>
 		<token postag='NP.+' postag_regexp='yes'/>
-      </antipattern>	  
+      </antipattern>
       <antipattern>
 		<token postag='DP.M.+|DI.M.+|DD.M.+|AQ0C.+' postag_regexp='yes'/>
 		<token postag='NCM.+|AQ0M.+' postag_regexp='yes'/>
@@ -2342,10 +2321,10 @@ Basta colar uma lista de e-mails abaixo para enviar convites a todas elas.
     </rule>
 <!-- MARCOAGPINTO 2020-05-20 *END* -->
   </rulegroup>
-  
-  
-    <!-- 	CUJA(S) FILHA(S) CUJO(S) FILHOS(S) -->	
-	<!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-01/02 (25-JUN-2021+)      -->	
+
+
+    <!-- 	CUJA(S) FILHA(S) CUJO(S) FILHOS(S) -->
+	<!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-01/02 (25-JUN-2021+)      -->
     <rulegroup id='CUJA_CUJO_MASCULINO_FEMININO' name="Cuj(ao)(s) + Nome: Concordância de género" type="style">
 <!--
 A mãe cuja filho fez anos. → A mãe cujo filho fez anos.
@@ -2439,7 +2418,7 @@ Atribui-se a Newton as leis da mecânica clássica.
 A Portugal coube o setor oriental do continente.
 A César o que é de César.
 -->
-      <antipattern>		  
+      <antipattern>
 		  <token regexp="no">a</token>
 		  <token postag='NP.+|NCF.+|AQ0F.+' postag_regexp='yes'/>
 		  <token postag='V.+|PP.+|CC|I|RG|SPS.+|_PUNCT|DA0MS0' postag_regexp='yes'/>
@@ -2466,7 +2445,7 @@ A César o que é de César.
 	  <example type='correct'><marker>A Portugal coube</marker> o setor oriental do continente.</example>
 	  <example type='correct'><marker>A César o</marker> que é de César.</example>
 	  <example type='correct'>Atribuem-se <marker>a Newton as</marker> leis da mecânica clássica.</example>
-	  
+
 	  <example type='correct'>O termo refere-se a hardware ou <marker>a software</marker>.</example>
 	  <example>Ele refere-se a software bom.</example>
 	  <example>Atribui-se a Newton as leis da mecânica clássica.</example>
@@ -2610,7 +2589,7 @@ BEFORE:4586
 
 	  <example>O grande mal nos conflitos deve-se <marker>a inocentes</marker> serem lesados.</example>
 	  <example>Existem prejuízos graves e dispendiosos a instalações ou vantagens para os criminosos.</example>
-	  
+
 	  <example type='correct'>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
 	  <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
 	  <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
@@ -2814,7 +2793,7 @@ O último período da Pré-Historia demarca o conjunto de transformações que d
 	  <example>Para isso existe a figura do conservador-restaurador, profissional responsável pela sobrevivência de documentos.</example>
 	  <example>Um exame detalhado mostra que a padronagem de seu pelo apresenta diferenças significativas em relação à do leopardo.</example>
 	  <example>Para isso existe o sistema de Telemetria, Rastreamento e Controle, que funciona como o cérebro do satélite.</example>
-	  
+
 	  <example>Espero revê-lo brevemente!</example>
 	  <example>Quero revê-lo.</example>
 	  <example>Quero revê-la.</example>
@@ -2857,7 +2836,7 @@ O último período da Pré-Historia demarca o conjunto de transformações que d
       <short>Construção dúbia</short>
       <example type='incorrect'>Ela estava <marker>ao ponto de</marker> perder o controlo emocional.</example>
     </rule>
-	
+
 	<!-- QUE EM NC SER VERBO NUM ser verbo em nc num -->
     <rule id='QUE_EM_NC_SER_VERBO_NUM' name="Que + Em + Nome + Ser + Verbo + Num → Verbo + em + Nome + num" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
@@ -2879,7 +2858,7 @@ O Alexandre que em 2016 foi morto num ataque aéreo. → O Alexandre morto em 20
 	  <suggestion>\6 \3 \4 \7</suggestion>
       <example correction="morto em 2016 num">O Alexandre <marker>que em 2016 foi morto num</marker> ataque aéreo.</example>
     </rule>
-	
+
 	<!-- VIR A VERBO verbo -->
     <rule id='VIR_A_VERBO_VERBO' name="Vir + a + Verbo → Verbo" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
@@ -2899,7 +2878,7 @@ O nosso estudo terá grande aplicabilidade caso esta ameaça se venha a concreti
       <example>Eu vi a professora Gómez ontem.</example>
       <example>Quando eles vieram a receita quiseram fazer logo.</example>
     </rule>
-	
+
 	<!-- CHAMAR/DENOMINAR DE chamar/denominar -->
     <rulegroup id='CHAMAR_DENOMINAR_DE' name="Chamar/Denominar de → Chamar/Denominar" type="style">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-07 + 2021-07-08 + 2021-08-20 + 2021-08-21 (25-JUN-2021+)      -->
@@ -2958,7 +2937,7 @@ Queremos os chamares de Marco.
 	  <example>Chamaram-no de volta, em meio à sua viagem.</example>
 	  </rule>	  	  
     </rulegroup>
-	
+
 	<!-- HAVIA_PRESENTE_CONJUNTIVO_IMPESSOAL  Havia Pretérito Imp Con -->
     <rule id='HAVIA_PRESENTE_CONJUNTIVO_IMPESSOAL' name="Havia + Presente Conj/Imp → Havia + Pretérito Imp Con">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-01 (25-JUN-2021+)      -->
@@ -2972,7 +2951,7 @@ Havia o receio que causem problemas. → Havia o receio que causassem problemas.
 		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
 		<token>que</token>		
 		<marker>
-			<token postag='VMSP.+' postag_regexp='yes'/>			
+			<token postag='VMSP.+' postag_regexp='yes'/>
 		</marker>
 		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
       </pattern>
@@ -3097,7 +3076,7 @@ Assim aparece no ecrã um número. → Assim aparece um número no ecrã.
 		<example>Dormimos numa cama muito grande.</example>
 		<example>Eu não gosto de viajar num grupo muito grande.</example>		
       </rule>
-	  
+
 	<!-- Token 2/3 -->
 	  <rule>
 	<!--
@@ -3126,7 +3105,7 @@ Assim aparece no ecrã um número grande. → Assim aparece um número grande no
 		<example correction="um número grande no ecrã">Assim aparece <marker>no ecrã um número grande</marker>.</example>
 		<example>Os pastores avistaram uma estrela luminosa no oriente.</example>
       </rule>
-	  
+
 	<!-- Token 3/3 -->
 	  <rule>
 	<!--
@@ -3155,7 +3134,7 @@ Assim aparece no ecrã um número muito grande. → Assim aparece um número mui
 		<suggestion>\4 \5 \6 \7 \2 \3</suggestion>
 		<example correction="um número muito grande no ecrã">Assim aparece <marker>no ecrã um número muito grande</marker>.</example>
       </rule>
-	  
+
 	</rulegroup>
 
 	<!-- PORQUE É por ser -->
@@ -3209,7 +3188,7 @@ Apresenta uma tela sensível ao toque que é o dispositivo de entrada principal.
 				<exception postag_regexp='yes' postag='V.+'/>
 			</token>
 			<token postag='CC|SPS.+' postag_regexp='yes'/>
-		</pattern>		
+		</pattern>
 		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 		<suggestion>sendo</suggestion>
 		<example correction="sendo">Temos locais com árvores <marker>que são</marker> o ideal para o nosso modelo.</example>	
@@ -3230,7 +3209,7 @@ Ela não é a mesma que foi dez anos atrás.
 				<token regexp='yes'>foram|foi|são|é</token>
 			</marker>
 			<token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
-		</pattern>		
+		</pattern>
 		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 		<suggestion>sendo</suggestion>
 		<example correction="sendo">Esta <marker>que foi</marker> a maior crítica ao trabalho de Ana.</example>
@@ -3249,8 +3228,8 @@ Suas obras contêm o primeiro estudo formal conhecido da lógica, que foi incorp
 				<token>que</token>
 				<token regexp='yes'>foram|foi|são|é</token>
 				<token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
-			</marker>			
-		</pattern>		
+			</marker>
+		</pattern>
 		<message>Em certos contextos, esta perífrase pode ser simplificada.</message>
 		<suggestion>\4</suggestion>
 		<example correction="elevado">Temos um número constante maior que zero e diferente de um,<marker>que é elevado</marker> a três.</example>
@@ -3456,7 +3435,7 @@ O que o torna perigoso é haver civis inocentes.
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
       <example correction='A cadela'><marker>O cadela</marker> está no pasto.</example>
       <example type='correct'>A cadela está no pasto.</example>
-	  
+
 	  <example>O que <marker>o torna</marker> mais perigoso é haver civis inocentes.</example>
 	  <example>O que o torna perigoso é haver civis inocentes.</example>
     </rule>
@@ -3573,7 +3552,7 @@ Para isso sou todo ouvidos.
       <antipattern>
           <token postag='AQ0MP0|DI0MP0' postag_regexp='yes'/>
           <token postag='NCMP000' postag_regexp='no'/>
-          <token postag='AQ0MS0' postag_regexp='no'/>		  
+          <token postag='AQ0MS0' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-01-14 *END* -->
 <!-- MARCOAGPINTO 2020-05-23 *START* -->
@@ -3692,7 +3671,7 @@ Para isso sou todo ouvidos.
 		<token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
 		<token regexp='yes'>[.,(]</token>
 		<token negate_pos="yes" postag='SPS.+|V.+' postag_regexp='yes'/>
-      </antipattern>	  	  
+      </antipattern>
 <!-- MARCOAGPINTO 2020-11-18 (21-OCT-2020+) *END* -->
 <!-- MARCOAGPINTO 2020-12-03 (21-OCT-2020+) *START* -->
 <!-- "Foram substituídos em posteriores textos ecológicos um texto posterior." -->
