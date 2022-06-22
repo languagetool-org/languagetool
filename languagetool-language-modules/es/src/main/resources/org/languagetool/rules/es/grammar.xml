@@ -3723,6 +3723,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">Quiero saber a cambio de <marker>que</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">tener</token>
+                    <token regexp="yes">&pronombre_personal_sujeto;</token>
+                    <token>que</token>
+                    <example>¿Y bien, Antonio, qué tiene usted que decir?</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">&pronombre_personal_sujeto;</token>
                     <marker>
@@ -13727,6 +13733,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>por qué</suggestion>
                 <example correction="por qué">No tienes <marker>por que</marker> preocuparte.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>no</token>
+                    <token inflected="yes">haber</token>
+                    <marker>
+                        <token>por</token>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>La expresión correcta es "no haber por qué".</message>
+                <suggestion>por qué</suggestion>
+                <example correction="por qué">No hay <marker>por que</marker> preocuparse.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token regexp="yes">el|un|algún|del|al</token>
@@ -13741,6 +13761,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por qué|porque">No puedo comprender <marker>porqué</marker> no vino.</example>
                 <example>Quiero saber el porqué.</example>
                 <example>Aún no se sabe la razón del porqué no va.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" inflected="yes">de|ocurrir|entender|pensar</token>
+                    <marker>
+                        <token>por</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo')?</message>
+                <example correction="por qué">No tengo la menor idea de <marker>por que</marker> ha venido.</example>
+                <example correction="por qué">No se me ocurre <marker>por que</marker> razón.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes" inflected="yes">ansioso|deseoso|optar|preocupación|preocupar|rezar</token>
+                    <token>por</token>
+                    <token skip="5">que</token>
+                    <token postag="V.S.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">motivo|razón|causa</token>
+                    <token>por</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>por</token>
+                        <token skip="-1">que</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo') o <suggestion>porque</suggestion> ('por razón de que')?</message>
+                <example correction="por qué|porque">¿Recuerda ya <marker>por que</marker> estamos aquí?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -27222,7 +27276,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>no</token>
                 <token><match no="0"/></token>
             </pattern>
-                <message>Palabra repetida. Posible error.</message>
+            <message>Palabra repetida. Posible error.</message>
             <suggestion>\2 \3</suggestion>
             <example correction="no es">Esto <marker>es no es</marker> lo mejor.</example>
         </rule>
