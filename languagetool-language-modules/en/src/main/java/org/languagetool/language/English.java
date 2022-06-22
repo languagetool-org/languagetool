@@ -529,9 +529,10 @@ public class English extends Language implements AutoCloseable {
       case "CONFUSION_OF_A_JJ_NNP_NNS_PRP": return -1;  // prefer other more specific rules
       case "PLURALITY_CONFUSION_OF_NNS_OF_NN": return -1; // prefer several compound rules
       case "NP_TO_IS":                  return -1;  // prefer other more specific rules
+      case "REPEATED_VERBS":            return -1;  // prefer other rules
+      case "MD_JJ":                     return -2;  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
       case "NNP_COMMA_QUESTION":        return -2;  // prefer other more specific rules
       case "VB_TO_NN_DT":               return -2;  // prefer other more specific rules (e.g. NOUN_VERB_CONFUSION)
-      case "REPEATED_VERBS":            return -1;  // prefer other rules
       case "THE_CC":                    return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
