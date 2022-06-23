@@ -44785,6 +44785,18 @@ O objetivo deste trabalho foi revisar a literatura referente ao tema.
       </antipattern> 	  
 <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *END* -->
 
+<!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *START* -->
+<!--
+IT SEEMS I COULD ONLY TEST IT WITH THE VERB "TER", IT ONLY REMOVED ONE HIT IN 600 000 SENTENCES.
+(dois empregos, tentei ter vida normal);
+-->
+      <antipattern>
+		<token postag='VMIS1[SP]0' postag_regexp='yes'/>
+		<token regexp='no' inflected="yes">ter</token>
+		<token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *END* -->
+
       <pattern>
         <and>
           <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar|ir</token>
@@ -44792,7 +44804,9 @@ O objetivo deste trabalho foi revisar a literatura referente ao tema.
              <exception postag_regexp='no' postag='VMIF1S0'/>
 		  </token>
         </and>
-        <token postag='VMN0000' postag_regexp='no'/>
+        <token postag='VMN0000' postag_regexp='no'>
+			<exception postag_regexp='no' postag='VMIF1S0'/>
+		</token>
       </pattern>
       <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
       <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
