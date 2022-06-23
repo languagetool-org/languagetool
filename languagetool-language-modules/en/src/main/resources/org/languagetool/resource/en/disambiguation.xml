@@ -16032,4 +16032,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="remove" postag="VB.*" />
     </rule>
+
+    <rule id="WHEREABOUTS_NO_ADVERB" name="'whereabouts' no adverb">
+        <pattern>
+            <token regexp="yes">his|my|y?our|their|the|th[oe]se|some|many|few|any|plenty|its</token>
+            <token postag="JJ.*" postag_regexp="yes" chunk_re="I-NP.*" min="0" />
+            <marker>
+                <token>whereabouts</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="W.*" />
+    </rule>
 </rules>
