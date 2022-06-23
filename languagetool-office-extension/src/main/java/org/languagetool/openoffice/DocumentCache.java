@@ -471,13 +471,15 @@ public class DocumentCache implements Serializable {
   /**
    * Add a document Cache
    */
-  private synchronized void add(DocumentCache in) {
+  private void add(DocumentCache in) {
     paragraphs.addAll(in.paragraphs);
     chapterBegins.addAll(in.chapterBegins);
     locales.addAll(in.locales);
     footnotes.addAll(in.footnotes);
     toTextMapping.addAll(in.toTextMapping);
-    toParaMapping.addAll(in.toParaMapping);
+    for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+      toParaMapping.add(new ArrayList<Integer>(in.toParaMapping.get(i)));
+    }
   }
   
   /**

@@ -54,11 +54,14 @@ class ResultCache implements Serializable {
   /**
    * Replace the cache content
    */
-  synchronized void replace(ResultCache cache) {
+  void replace(ResultCache cache) {
     entries.clear();
     if (cache != null) {
-      synchronized(cache) {
-        this.entries.putAll(cache.entries);
+      Set<Integer> keys = new HashSet<>(cache.entries.keySet());
+      for (Integer n : keys) {
+        if (cache.entries.containsKey(n)) {
+          entries.put(n, new CacheEntry(cache.entries.get(n)));
+        }
       }
     }
   }
@@ -340,6 +343,16 @@ class ResultCache implements Serializable {
       }
     }
     
+    CacheEntry(CacheEntry entry) {
+      if (entry.nextSentencePositions != null) {
+        this.nextSentencePositions = new ArrayList<Integer>(entry.nextSentencePositions);
+      }
+      this.errorArray = new SerialProofreadingError[entry.errorArray.length];
+      for (int i = 0; i < entry.errorArray.length; i++) {
+        this.errorArray[i] = new SerialProofreadingError(entry.errorArray[i]);
+      }
+    }
+    
     /**
      * Get an SingleProofreadingError array for one entry
      */
@@ -399,6 +412,22 @@ class ResultCache implements Serializable {
       }
     }
     
+    SerialProofreadingError(SerialProofreadingError error) {
+      nErrorStart = error.nErrorStart;
+      nErrorLength = error.nErrorLength;
+      nErrorType = error.nErrorType;
+      aFullComment = error.aFullComment;
+      aRuleIdentifier = error.aRuleIdentifier;
+      aShortComment = error.aShortComment;
+      aSuggestions = error.aSuggestions;
+      if (error.aProperties != null) {
+        aProperties = new SerialPropertyValue[error.aProperties.length];
+        for (int i = 0; i < error.aProperties.length; i++) {
+          aProperties[i] = new SerialPropertyValue(error.aProperties[i]);
+        }
+      }
+    }
+    
     SingleProofreadingError toSingleProofreadingError () {
       SingleProofreadingError error = new SingleProofreadingError();
       error.nErrorStart = nErrorStart;
@@ -432,6 +461,11 @@ class ResultCache implements Serializable {
     SerialPropertyValue(PropertyValue properties) {
       name = properties.Name;
       value = properties.Value;
+    }
+    
+    SerialPropertyValue(SerialPropertyValue properties) {
+      name = properties.name;
+      value = properties.value;
     }
     
     PropertyValue toPropertyValue() {
