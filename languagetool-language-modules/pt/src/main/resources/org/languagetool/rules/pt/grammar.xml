@@ -1323,16 +1323,6 @@ A própria Jane escreveu a carta.
 		  <token postag='AQ0[CM]P0' postag_regexp='yes'/>
 	  </antipattern>
 <!-- MARCOAGPINTO 2020-07-19 (2-JUL-2020+) *END* -->
-<!-- MARCOAGPINTO 2020-07-20 (2-JUL-2020+) *START* -->
-<!-- "O sexo sem procriação já foi considerado por muitos prostituição." -->
-<!-- "O sexo sem procriação já foi considerado por médicas prostituição." -->
-      <antipattern>
-	      <token postag='V.+' postag_regexp='yes'/>
-		  <token regexp='yes'>aos|por|para|entre</token>
-	      <token postag='DI0[FM]P0|AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
-	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-07-20 (2-JUL-2020+) *END* -->
 
 <!-- MARCOAGPINTO 2020-08-01 (2-JUL-2020+) *START* -->
 <!-- "Foram muitos os portugueses vítimas da seca." -->
@@ -1415,12 +1405,22 @@ Sujeito nojento, devia levar uns tapas.
       </antipattern>
 <!-- MARCOAGPINTO 2022-05-08 (1-JAN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-06-23 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+	      <token postag='V.+' postag_regexp='yes'/>
+		  <token postag='SPS00|CC|DA.M.+|SPS00:DA.M.+|CS' postag_regexp='yes'/>
+	      <token postag='D[ADI].+|SPS00:D[ADI].+|NC.+|AQ.+' postag_regexp='yes'>
+            <exception regexp='yes'>divers[ao]s</exception>
+		  </token>
+	      <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+		  <example>O sexo sem procriação já foi considerado por muitos prostituição.</example>
+		  <example>O sexo sem procriação já foi considerado por médicas prostituição.</example>
+		  <example>Índices são apenas uma média baseada em volume.</example>
+		  <example>O senhor Hirose ensina aos alunos gramática inglesa.</example>
+		  <example>Eles forneceram aos soldados água e comida em quantidade suficiente.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-23 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-<!--		<token/>
-		<token regexp='yes'>várias?</token>
-		<token postag='AQ0[CF].+|NC[CF].+' postag_regexp='yes'/>
-      </antipattern>	  -->
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
       <antipattern>
         <token postag="Z.*" postag_regexp="yes"/>
         <token regexp="yes" inflected="yes">&expressoes_de_tempo;</token>
