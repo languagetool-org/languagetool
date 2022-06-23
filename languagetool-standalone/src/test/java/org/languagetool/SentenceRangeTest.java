@@ -198,8 +198,7 @@ public class SentenceRangeTest {
             JLanguageTool.Level.DEFAULT,
             null);
     List<SentenceRange> sentenceRanges = checkResults.getSentenceRanges();
-    System.out.println(sentenceRanges);
-    assertEquals(16, sentenceRanges.size());
+    assertEquals(17, sentenceRanges.size());
     assertEquals("LanguageTool",
             text.substring(
                     sentenceRanges.get(0).getFromPos(),
@@ -236,36 +235,36 @@ public class SentenceRangeTest {
                     sentenceRanges.get(7).getToPos()));
     assertEquals("Professionalisieren Sie die Kommunikation Ihres Teams mit der Grammatik- und Stilprüfung von LanguageTool.",
             text.substring(
-                    sentenceRanges.get(8).getFromPos(),
-                    sentenceRanges.get(8).getToPos()));
-    assertEquals("Voll unterstützt (Rechtschreibung, Grammatik- und Stilhinweise):",
-            text.substring(
                     sentenceRanges.get(9).getFromPos(),
                     sentenceRanges.get(9).getToPos()));
-    assertEquals("Englisch",
+    assertEquals("Voll unterstützt (Rechtschreibung, Grammatik- und Stilhinweise):",
             text.substring(
                     sentenceRanges.get(10).getFromPos(),
                     sentenceRanges.get(10).getToPos()));
-    assertEquals("Deutsch",
+    assertEquals("Englisch",
             text.substring(
                     sentenceRanges.get(11).getFromPos(),
                     sentenceRanges.get(11).getToPos()));
-    assertEquals("Französisch",
+    assertEquals("Deutsch",
             text.substring(
                     sentenceRanges.get(12).getFromPos(),
                     sentenceRanges.get(12).getToPos()));
-    assertEquals("Spanisch",
+    assertEquals("Französisch",
             text.substring(
                     sentenceRanges.get(13).getFromPos(),
                     sentenceRanges.get(13).getToPos()));
-    assertEquals("Niederländisch",
+    assertEquals("Spanisch",
             text.substring(
                     sentenceRanges.get(14).getFromPos(),
                     sentenceRanges.get(14).getToPos()));
-    assertEquals("Danke, dass Sie es ausprobieren!",
+    assertEquals("Niederländisch",
             text.substring(
                     sentenceRanges.get(15).getFromPos(),
                     sentenceRanges.get(15).getToPos()));
+    assertEquals("Danke, dass Sie es ausprobieren!",
+            text.substring(
+                    sentenceRanges.get(16).getFromPos(),
+                    sentenceRanges.get(16).getToPos()));
   }
 
   @Test
@@ -347,8 +346,7 @@ public class SentenceRangeTest {
             JLanguageTool.Level.DEFAULT,
             null);
     List<SentenceRange> sentenceRanges = checkResults.getSentenceRanges();
-    System.out.println(sentenceRanges);
-    assertEquals(16, sentenceRanges.size());
+    assertEquals(17, sentenceRanges.size());
     assertEquals("LanguageTool",
             text.substring(
                     sentenceRanges.get(0).getFromPos(),
@@ -385,36 +383,36 @@ public class SentenceRangeTest {
                     sentenceRanges.get(7).getToPos()));
     assertEquals("Professionalize your team's communication with LanguageTool's grammar and style checker.",
             text.substring(
-                    sentenceRanges.get(8).getFromPos(),
-                    sentenceRanges.get(8).getToPos()));
-    assertEquals("Fully supported (spelling, grammar, style hints):",
-            text.substring(
                     sentenceRanges.get(9).getFromPos(),
                     sentenceRanges.get(9).getToPos()));
-    assertEquals("English",
+    assertEquals("Fully supported (spelling, grammar, style hints):",
             text.substring(
                     sentenceRanges.get(10).getFromPos(),
                     sentenceRanges.get(10).getToPos()));
-    assertEquals("German",
+    assertEquals("English",
             text.substring(
                     sentenceRanges.get(11).getFromPos(),
                     sentenceRanges.get(11).getToPos()));
-    assertEquals("French",
+    assertEquals("German",
             text.substring(
                     sentenceRanges.get(12).getFromPos(),
                     sentenceRanges.get(12).getToPos()));
-    assertEquals("Spanish",
+    assertEquals("French",
             text.substring(
                     sentenceRanges.get(13).getFromPos(),
                     sentenceRanges.get(13).getToPos()));
-    assertEquals("Dutch",
+    assertEquals("Spanish",
             text.substring(
                     sentenceRanges.get(14).getFromPos(),
                     sentenceRanges.get(14).getToPos()));
-    assertEquals("Thanks for checking it out!",
+    assertEquals("Dutch",
             text.substring(
                     sentenceRanges.get(15).getFromPos(),
                     sentenceRanges.get(15).getToPos()));
+    assertEquals("Thanks for checking it out!",
+            text.substring(
+                    sentenceRanges.get(16).getFromPos(),
+                    sentenceRanges.get(16).getToPos()));
   }
 
   @Test

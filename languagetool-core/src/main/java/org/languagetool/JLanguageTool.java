@@ -964,19 +964,13 @@ public class JLanguageTool {
     for (TextPart part : parts) {
       if (part.getType() == TextPart.Type.TEXT) {
         String byteOrderMark = "\uFEFF";  // BOM or zero-width non-breaking space
-        String invisibleSeparator = "\u2063"; // INVISIBLE SEPARATOR
-        // split by byteOrderMark and invisibleSeparator and let the delimiters also be part of the array
-        String[] split = part.getPart().split("((?<=\uFEFF)|(?=\uFEFF))|((?<=\u2063)|(?=\u2063))");
+        // split by byteOrderMark and let the delimiter also be part of the array
+        String[] split = part.getPart().split("(?<=\uFEFF)|(?=\uFEFF)");
         for (String text : split) {
-          switch (text) {
-            case "\uFEFF":
-              atb.addMarkup(byteOrderMark);
-              break;
-            case "\u2063":
-              atb.addMarkup(invisibleSeparator);
-              break;
-            default:
-              atb.addText(text);
+          if ("\uFEFF".equals(text)) {
+            atb.addMarkup(byteOrderMark);
+          } else {
+            atb.addText(text);
           }
         }
       } else {
