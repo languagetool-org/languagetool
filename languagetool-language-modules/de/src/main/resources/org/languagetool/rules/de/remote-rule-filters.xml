@@ -608,30 +608,41 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="6">
-                        <exception scope="next" postag="VER.*" postag_regexp="yes" />
+                        <exception scope="next" postag="VER.*|INJ" postag_regexp="yes" />
+                        <exception scope="next" regexp="yes">,|Mensch|Ja|Nein|Hmm?|Achtung|Obacht|Vorsicht</exception>
                     </token>
                     <marker>
                         <token postag="SUB.*" postag_regexp="yes" />
                     </marker>
-                    <token postag="VER.*" postag_regexp="yes" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="PA2.*|ADJ.*" postag_regexp="yes" />
+                        <exception regexp="yes">m?einen?</exception>
+                    </token>
                 </pattern>
                 <example correction="">Wie bei jedem anderen <marker>Text</marker> sollten Sie auch für Absätze genügend Zeit einplanen.</example>
                 <example>Um Himmels willen wie kannst du das nur machen?</example>
                 <example>Keine Chance du kannst es ja selber probieren.</example>
                 <example>Hallo Peter hast du Zeit?</example>
+                <example>Oh Mensch lerne tanzen!</example>
+                <example>So ein Baby süß und klein, muss ein Geschenk des Himmels sein!</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="3">
-                        <exception scope="next" postag="VER.*" postag_regexp="yes" />
+                        <exception scope="next" postag="VER.*|INJ" postag_regexp="yes" />
+                        <exception scope="next" regexp="yes">,|Mensch|Ja|Nein|Hmm?|Achtung|Obacht|Vorsicht</exception>
                     </token>
                     <token postag="SUB.*" postag_regexp="yes" skip="3">
-                        <exception scope="next" postag="VER.*" postag_regexp="yes" />
+                        <exception scope="next" postag="VER.*|INJ" postag_regexp="yes" />
+                        <exception scope="next">,</exception>
                     </token>
                     <marker>
                         <token postag="SUB.*" postag_regexp="yes" />
                     </marker>
-                    <token postag="VER.*" postag_regexp="yes" />
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="PA2.*|ADJ.*" postag_regexp="yes" />
+                        <exception regexp="yes">m?einen?</exception>
+                    </token>
                 </pattern>
                 <example correction="">Bei der Fülle an gesetzlichen <marker>Vorgaben</marker> kann man schnell etwas vergessen.</example>
                 <example correction="">Deutsch: Neben ausführlichem <marker>Schriftverkehr</marker> füllst du auch viele Formulare aus.</example>
