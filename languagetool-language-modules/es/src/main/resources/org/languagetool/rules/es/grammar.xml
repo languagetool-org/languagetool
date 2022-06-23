@@ -3590,13 +3590,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que</token>
                     </marker>
                     <token postag="AQ.*|NC.*" postag_regexp="yes"/>
-                    <token inflected="yes">ser</token>
+                    <token inflected="yes" regexp="yes">ser|tener</token>
                 </pattern>
                 <message>Si es una exclamación, se escribe con tilde.</message>
                 <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
                 <suggestion>qué</suggestion>
                 <example correction="Qué">¡<marker>Que</marker> estúpido es!</example>
                 <example correction="Qué">¡<marker>Que</marker> bonito es!</example>
+                <example correction="Qué">¡<marker>Que</marker> suerte tienes!</example>
             </rule>
             <rule>
                 <pattern>
@@ -3754,6 +3755,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>qué</suggestion>
                 <example correction="qué">Yo <marker>que</marker> sé, no me gusta nada.</example>
                 <example correction="qué">¿I tú <marker>que</marker> cuentas?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Como adjetivo interrogativo, se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">Me preguntaba <marker>que</marker> medidas tomar.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUE_SIN_TILDE" name="qué -> que">
@@ -13676,7 +13690,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir|comprender|entender|desconocer|ignorar</token>
+                    <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir|comprender|entender|desconocer|ignorar|imaginar</token>
                     <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token>por</token>
