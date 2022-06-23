@@ -42220,7 +42220,7 @@ O artesanato bracarense há muito tempo que ultrapassou as fronteiras do país. 
 	</rule>
 
     <rulegroup id='QUE_ADJ_NC_VERBO' name="Que + Adj/NC + Verbo" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-25 + 2022-04-26 (25-JUN-2021+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-25 + 2022-04-26 + 2022-06-23 (25-JUN-2021+)      -->
 	<!--
 Isto serve para vermos o resultado que traria. → Isto serve para vermos que resultado traria.
 	-->
@@ -42277,14 +42277,18 @@ Isto serve para vermos o resultado que isso traria. → Isto serve para vermos q
 			<token postag='DA.+' postag_regexp='yes'/>
 			<token postag='AQ0.+|NC.+' postag_regexp='yes'/>
 			<token>que</token>
-			<token negate_pos="yes" postag='SPS00.PP.+' postag_regexp='yes'/> <!-- It used to be <token/> now it is a negate to remove false positives, but zero hits in 600 000 sentences - 2022-04-26 -->
+			<token negate_pos="yes" postag='PP.+|SPS00:PP.+' postag_regexp='yes'/> <!-- It used to be <token/> now it is a negate to remove false positives, but zero hits in 600 000 sentences - 2022-04-26 --> <!-- Added some new POS code from Jaume's update of the morphological dictionary - 2022-06-23 -->
 			<token postag='V.+|AQ0.+|NC.+' postag_regexp='yes'/>
 		  </marker>
 		  <token postag='SPS.+|_PUNCT' postag_regexp='yes'/>
       </pattern>
       <message>Esta perífrase pode ser melhorada.</message>
 	  <suggestion>\5 \4 \6 \7</suggestion>
-      <example correction="que resultado isso traria">Isto serve para vermos <marker>o resultado que isso traria</marker>.</example>	  
+      <example correction="que resultado isso traria">Isto serve para vermos <marker>o resultado que isso traria</marker>.</example>	 
+	  <example>...o convenceu-se que devia fazer toda a campanha como se perfilhasse ideais de esquerda para mendigar os votos que lhe faltam.</example>
+	  <example>Tom ainda não tem bastante dinheiro para comprar o carro que ele quer.</example>
+	  <example>Eu acho que tenho quase o dinheiro suficiente para comprar o computador que eu quero.</example>
+<!--	  <example>Você ainda não sabe usar o acusativo em Esperanto? Você deve se esforçar mais para assimilar as regras que o governam.</example> -->
     </rule>	
 	</rulegroup>
 	
