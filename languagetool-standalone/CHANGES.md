@@ -13,6 +13,11 @@
   * added and improved rules
   * added words and POS data
   * fixed tons of false positives
+  * the tagger dictionary has been moved to an external dependency (portuguese-pos-dict)
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.7)
 
 #### Ukrainian
   * new words in the POS dictionary
