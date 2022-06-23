@@ -1179,6 +1179,17 @@ class AgreementRuleAntiPatterns1 {
       token("ConnectedDrive")
     ),
     Arrays.asList(
+      // https://www.jungewirtschaft.at/
+      token("die"),
+      csToken("Junge"),
+      csToken("Wirtschaft")
+    ),
+    Arrays.asList(
+      token("der"),
+      csToken("Jungen"),
+      csToken("Wirtschaft")
+    ),
+    Arrays.asList(
       // "Inwiefern soll denn das romantische Hoffnungen begründen?"
       new PatternTokenBuilder().pos("ADV:MOD+INR").setSkip(-1).build(),
       new PatternTokenBuilder().posRegex("VER.*:[123]:SIN:.*").setSkip(1).build(),

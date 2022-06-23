@@ -4902,6 +4902,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER.*" />
     </rule>
 
+    <rule id="GAEBE_KEIN_VERB" name="'gäbe' kein Verb">
+        <pattern>
+            <token>gang</token>
+            <token regexp="yes">und|&amp;</token>
+            <marker>
+                <token>gäbe</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
+
     <rule id="LAST_BUT_NOT_LEAST_KEIN_VERB" name="'least' kein Verb">
         <pattern>
             <token>not</token>
@@ -5670,9 +5681,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>Los</token>
             </marker>
-            <token regexp="yes">Angel[oe]s|Zetas|Gatos</token>
+            <token regexp="yes">Angel[oe]s|Zetas|Gatos|Alamos</token>
         </pattern>
-        <disambig action="remove" postag="(SUB|VER|ADV).*"/>
+        <disambig action="remove" postag="(SUB|VER|ADV|ZUS).*"/>
     </rule>
 
     <rule id="DAILY_WEEKLY_KEIN_NOMEN" name="'Daily' kein Nomen">
@@ -6408,6 +6419,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
+    <rule id="GENDER_KEIN_SUB" name="'Gender' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Gender</token>
+            </marker>
+            <token regexp="yes">Studies.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
     <rule id="CREDIT_KEIN_SUB" name="'Credit' kein Substantiv">
         <pattern>
             <marker>
@@ -6624,6 +6644,33 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
+    <rule id="USER_KEIN_SUB" name="'User' kein Substantiv"><!-- die User Experience -->
+        <pattern>
+            <marker>
+                <token>User</token>
+            </marker>
+            <token regexp="yes">Experience.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rule id="CONTENT_KEIN_SUB" name="'Content' kein Substantiv"><!-- die Content Creators -->
+        <pattern>
+            <marker>
+                <token>Content</token>
+            </marker>
+            <token regexp="yes">Creator.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rule id="BUS_KEIN_SUB" name="'Bus' kein Substantiv"><!-- die Bus Ostschweiz -->
+        <pattern>
+            <marker>
+                <token>Bus</token>
+            </marker>
+            <token regexp="yes">Ostschweiz.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
     <rule id="VON_DER_OSTEN_KEIN_SUB" name="'von der Osten' kein Substantiv"><!-- https://de.wikipedia.org/wiki/Osten_(Adelsgeschlechter) -->
         <pattern>
             <token>von</token>
@@ -6669,7 +6716,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token postag="EIG.*|SUB.*|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].*</token>
             <marker>
-                <token case_sensitive="yes">Verwaltungs|Beteiligungs</token>
+                <token case_sensitive="yes" regexp="yes">Verwaltungs|Beteiligungs</token>
             </marker>
             <token regexp="yes">GmbH|AG|Ltd|UG</token>
         </pattern>

@@ -345,6 +345,7 @@ public class German extends Language implements AutoCloseable {
       case "DIESEN_JAHRES": return 1;
       case "WERT_SEIN": return 1; // prefer over DE_AGREEMENT
       case "EBEN_FALLS": return 1;
+      case "IN_UND_AUSWENDIG": return 1; // prefer over DE_CASE
       case "JEDEN_FALLS": return 1;
       case "UST_ID": return 1;
       case "INS_FITNESS": return 1; // prefer over DE_AGREEMENT
@@ -472,11 +473,10 @@ public class German extends Language implements AutoCloseable {
       if (id.startsWith("AI_DE_HYDRA_LEO_CP")) {
         return 2;
       }
-      // Comment in after sync and feature freeze
-      // if (id.startsWith("AI_DE_HYDRA_LEO_CASE")) {
-      //   // higher prio than agreement rules (DE_AGREEMENT)
-      //   return 1;
-      // }
+      if (id.startsWith("AI_DE_HYDRA_LEO_CASE")) {
+        // higher prio than agreement rules (DE_AGREEMENT)
+        return 1;
+      }
       if (id.startsWith("AI_DE_HYDRA_LEO_DATAKK")) {
         return 1;
       }
