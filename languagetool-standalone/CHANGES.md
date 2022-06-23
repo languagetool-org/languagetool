@@ -2,6 +2,10 @@
 
 ## 5.8-SNAPSHOT (release planned for 2022-06-28)
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.19)
+
 #### English
 * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2022.06.01, v.3.0.9)
 
