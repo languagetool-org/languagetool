@@ -440,6 +440,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("r ") &&
                    !k.getReplacement().toLowerCase().startsWith("s ") &&
                    !k.getReplacement().toLowerCase().startsWith("t ") &&
+                   !k.getReplacement().toLowerCase().startsWith("w ") &&
                    !k.getReplacement().toLowerCase().startsWith("um ") &&
                    !k.getReplacement().toLowerCase().startsWith("oft ") &&
                    !k.getReplacement().endsWith(" i") &&
@@ -1188,6 +1189,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("tarpits", Arrays.asList("tar pits"));
     s.put("Tarpit", Arrays.asList("Tar pit"));
     s.put("Tarpits", Arrays.asList("Tar pits"));
+    s.put("wheater", Arrays.asList("weather"));
+    s.put("Wheater", Arrays.asList("Weather"));
 
     return s;
   }
