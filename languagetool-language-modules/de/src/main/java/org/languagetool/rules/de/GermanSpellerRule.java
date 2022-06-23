@@ -2668,6 +2668,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "wieviel": return topMatch("wie viel");
       case "Wieviel": return topMatch("Wie viel");
       case "gets": return topMatch("gehts");
+      case "Quillbot": return topMatch("QuillBot");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
     return Collections.emptyList();

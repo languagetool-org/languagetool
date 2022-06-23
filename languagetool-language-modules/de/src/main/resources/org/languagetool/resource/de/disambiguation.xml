@@ -6458,7 +6458,25 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>Junior</token>
             </marker>
-            <token regexp="yes">Suites?|Manager(s|in|innen)?</token>
+            <token regexp="yes">Suites?|Manager(s|in|innen)?|High.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="COOKIE_KEIN_SUB" name="'Cookie' kein Substantiv"><!-- Cookie Policy  -->
+        <pattern>
+            <marker>
+                <token>Cookie</token>
+            </marker>
+            <token regexp="yes">Policy.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="COCKTEIL_KEIN_SUB" name="'Junior' kein Substantiv"><!-- Die Cocktail Happy Hour  -->
+        <pattern>
+            <marker>
+                <token>Cocktail</token>
+            </marker>
+            <token regexp="yes">Happy.*</token>
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
@@ -6522,6 +6540,87 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>Special</token>
             </marker>
             <token regexp="yes">(Olympic|Agent|Offer|Effect|Air|Operations|Inspector|Boat).*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="TASK_KEIN_SUB" name="'Task' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Task</token>
+            </marker>
+            <token regexp="yes">Force.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rule id="INTERNET_EXPLORER" name="'Internet' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Internet</token>
+            </marker>
+            <token regexp="yes">Explorer.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*NEU.*"/>
+    </rule>
+    <rule id="BUSINESS_SCHOOL" name="'Internet' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Business</token>
+            </marker>
+            <token regexp="yes">School.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*NEU.*"/>
+    </rule>
+    <rule id="SLOT_MACHINE" name="'Slot' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Slot</token>
+            </marker>
+            <token regexp="yes">Machine.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rule id="LAKE_KEIN_SUB" name="'Lake' kein Substantiv"><!-- Lake Mead-->
+        <pattern>
+            <marker>
+                <token>Lake</token>
+            </marker>
+            <token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[A-Z].+</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="SHOOTING_KEIN_SUB" name="'Shooting' kein Substantiv"><!-- Shooting Guard -->
+        <pattern>
+            <marker>
+                <token>Shooting</token>
+            </marker>
+            <token regexp="yes">Guards.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="GAME_KEIN_SUB" name="'Game' kein Substantiv"><!-- Game of Thrones -->
+        <pattern>
+            <marker>
+                <token>Game</token>
+            </marker>
+            <token>of</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="TOP_KEIN_SUB" name="'Top' kein Substantiv"><!-- Top 10 -->
+        <pattern>
+            <marker>
+                <token>Top</token>
+            </marker>
+            <token regexp="yes">\d+|Three|Five|Ten|Zehn|Fünf|Hundert|Tausend</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="TRACK_KEIN_SUB" name="'Track' kein Substantiv"><!-- Track Pants -->
+        <pattern>
+            <marker>
+                <token regexp="yes">Track|Jump</token>
+            </marker>
+            <token regexp="yes">Pant.*|Suit.*</token>
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
