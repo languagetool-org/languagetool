@@ -68,7 +68,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   
   @Override
   protected String messageSameSentence() {
-    return "Mögliches Stilproblem: Das Wort wird bereits im selben Satz verwendet.";
+    return "Mögliches Stilproblem: Das Wort wird noch einmal im selben Satz verwendet.";
   }
   
   @Override
@@ -78,7 +78,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   
   @Override
   protected String messageSentenceAfter() {
-    return "Mögliches Stilproblem: Das Wort wird bereits in einem nachfolgenden Satz verwendet.";
+    return "Mögliches Stilproblem: Das Wort wird auch in einem nachfolgenden Satz verwendet.";
   }
 
   /**
