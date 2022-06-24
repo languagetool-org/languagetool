@@ -600,6 +600,8 @@ public class AgreementRuleTest {
     assertGood("Gelingt das mit Erregern rechtzeitig, könnte das Infektionen sogar oft verhindern.");
     assertGood("In der aktuellen Niedrigzinsphase bedeutet das sehr geringe Zinsen, die aber deutlich ansteigen können.");
     assertGood("Es gibt viele Stock Screener.");
+    assertBad("Auf dieser Website werden allerdings keine solche Daten weiterverxxx.");  // "weiterverxxx" = unbekanntes Wort
+    assertBad("Bei größeren Gruppen und/oder mehrere Tagen gibts einen nennenswerten Nachlass.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
