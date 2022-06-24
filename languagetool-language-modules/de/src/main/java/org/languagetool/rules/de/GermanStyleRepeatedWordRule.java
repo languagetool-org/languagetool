@@ -123,14 +123,14 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
     if (before) {
       if ((tokens[n-2].hasPosTagStartingWith("SUB") && tokens[n-1].hasPosTagStartingWith("PRP")
               && tokens[n].hasPosTagStartingWith("SUB"))
-          || (!tokens[n-2].getToken().equals("hart") && !tokens[n-1].getToken().equals("auf") && !tokens[n].getToken().equals("hart"))
+          || (tokens[n-2].getToken().equals("hart") && tokens[n-1].getToken().equals("auf") && tokens[n].getToken().equals("hart"))
          ) {
         return true;
       }
     } else {
       if ((tokens[n].hasPosTagStartingWith("SUB") && tokens[n+1].hasPosTagStartingWith("PRP")
               && tokens[n+2].hasPosTagStartingWith("SUB"))
-          || (!tokens[n].getToken().equals("hart") && !tokens[n-1].getToken().equals("auf") && !tokens[n + 2].getToken().equals("hart"))
+          || (tokens[n].getToken().equals("hart") && tokens[n+1].getToken().equals("auf") && tokens[n + 2].getToken().equals("hart"))
          ) {
         return true;
       }
