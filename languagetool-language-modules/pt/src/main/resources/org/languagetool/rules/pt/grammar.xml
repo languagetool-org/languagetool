@@ -1270,25 +1270,6 @@ A própria Jane escreveu a carta.
 		  <token postag='AQ0MP0' postag_regexp='no'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-01-23 *END* -->
-<!-- MARCOAGPINTO 2020-03-27 *START* -->
-<!-- "A colega dos supermercados mencionada anteriormente." -->
-      <antipattern>
-		  <token postag='DA0FS0' postag_regexp='no'/>
-		  <token postag='NCCS000' postag_regexp='no'/>
-		  <token regexp='no'>dos</token>
-		  <token postag='NCMP000' postag_regexp='no'/>
-		  <token postag='VMP00SF' postag_regexp='no'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-03-27 *END* -->
-<!-- MARCOAGPINTO 2020-05-22 *START* -->
-<!-- "Edificações erguidas por arquitetos índios centenas de anos antes da conquista europeia." -->
-<!-- "Surgiram no reino centenas de pequenas habitações." -->
-      <antipattern>
-		  <token postag='NCM[SP]000' postag_regexp='yes'/>
-		  <token postag='Z0FP0' postag_regexp='no'/>
-		  <token postag='SPS00' postag_regexp='no'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-05-22 *END* -->
 <!-- MARCOAGPINTO 2020-07-19 (2-JUL-2020+) *START* -->
 <!-- "De acordo com as equações por nós implementadas." -->
       <antipattern>
@@ -1342,18 +1323,6 @@ A própria Jane escreveu a carta.
 		<token postag='V.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-08-01 (2-JUL-2020+) *END* -->
-
-<!-- MARCOAGPINTO 2021-05-07 (17-MAR-2021+) *START* -->
-<!--
-A Ana anulou os talões duas ou três vezes.
-Ele acabou casando com uma mulher italiana dez anos mais nova.
-Ela deve ser uns cinco anos mais velha que ele.
--->
-      <antipattern>	  
-		<token postag='NP.+|NC.+|AQ0.+' postag_regexp='yes'/>
-		<token postag='Z0.+' postag_regexp='yes'/>
-      </antipattern>  
-<!-- MARCOAGPINTO 2021-05-07 (17-MAR-2021+) *END* -->
 
 <!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *START* -->
 <!--
@@ -1421,6 +1390,24 @@ Sujeito nojento, devia levar uns tapas.
       </antipattern>
 <!-- MARCOAGPINTO 2022-06-23 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-06-24 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='NP.+|NC.+|AQ0.+|[DP][ADIP].F.+|SPS00:[DP][ADIP].F.+|SPS00|CS|CC|V.+|RG' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='VMP00.M'/>
+		</token>
+		<token postag='Z0[CF].+' postag_regexp='yes'/>
+		<token postag='Z0[CF].+|AQ.[CF].+|NC[CF].+|V.+|CS|CC|SPS00' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='VMP00.M'/>
+		</token>
+		<example>A Ana anulou os talões duas ou três vezes.</example>
+		<example>O ônibus espacial Challenger levava em seus tanques duas mil toneladas de hidrogênio líquido.</example>
+		<example>Nós duas estamos na mesma aula.</example>
+		<example>Foram observadas pelos astrônomos sessenta e duas luas na órbita de Saturno.</example>
+		<example>Esta é uma variante cem por cento ganhadora.</example>
+		<example>Ele estuda os livros três horas por dia.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-24 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
       <antipattern>
         <token postag="Z.*" postag_regexp="yes"/>
         <token regexp="yes" inflected="yes">&expressoes_de_tempo;</token>
@@ -1463,10 +1450,6 @@ Sujeito nojento, devia levar uns tapas.
 	  <example type='correct'>Foram muitos os <marker>portugueses vítimas</marker> da seca.</example>
 	  <example type='correct'>Eu vi-os <marker>juntos várias</marker> vezes e em diversos lugares.</example>
 <!--	  <example type='correct'>O Marco comeu <marker>duas sanduíches</marker> de queijo.</example> -->
-
-	  <example type='correct'>A Ana anulou os <marker>talões duas</marker> ou três vezes.</example>
-	  <example>Ele acabou casando com uma mulher italiana dez anos mais nova.</example>
-	  <example>Ela deve ser uns cinco anos mais velha que ele.</example>
 
 	  <example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
 	  <example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
