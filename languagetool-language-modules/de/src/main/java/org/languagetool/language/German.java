@@ -473,10 +473,6 @@ public class German extends Language implements AutoCloseable {
       if (id.startsWith("AI_DE_HYDRA_LEO_CP")) {
         return 2;
       }
-      if (id.startsWith("AI_DE_HYDRA_LEO_CASE")) {
-        // higher prio than agreement rules (DE_AGREEMENT)
-        return 1;
-      }
       if (id.startsWith("AI_DE_HYDRA_LEO_DATAKK")) {
         return 1;
       }

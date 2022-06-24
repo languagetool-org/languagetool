@@ -4853,6 +4853,32 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER:.+" />
     </rule>
 
+    <rulegroup id="RED_KEIN_VERB" name="'Red' kein Verb"><!-- abk "red." / englische Farbe -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token>red</token>
+                </marker>
+                <token regexp="yes">\.|bulls?|hat|lights?</token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+" />
+        </rule>
+        <rule>
+            <antipattern>
+                <token regexp="yes">ich|bitte</token>
+                <token>red</token>
+            </antipattern>
+            <antipattern>
+                <token>red</token>
+                <token regexp="yes">ich|nicht</token>
+            </antipattern>
+            <pattern>
+                <token>red</token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+" />
+        </rule>
+    </rulegroup>
+
     <rule id="GUTES_KEIN_SUB" name="'kein/nichts Gutes' kein Substantiv Genitiv">
         <pattern>
             <token regexp="yes">[mksd]?ein|ihr|nichts|(et)?was|irgend(et)?was</token>
@@ -5916,16 +5942,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER.*"/>
     </rule>
 
-    <rule id="RED_KEIN_VERB" name="'Red' kein Verb">
-        <pattern>
-            <marker>
-                <token case_sensitive="yes">Red</token>
-            </marker>
-            <token case_sensitive="yes" regexp="yes" postag="UNKNOWN|EIG.*|SUB.*" postag_regexp="yes">[A-Z].+</token>
-        </pattern>
-        <disambig action="remove" postag="VER.*"/>
-    </rule>
-
     <rule id="NUETZE_KEIN_VERB" name="'nütze' kein Verb">
         <!-- "Er ist zu nichts nütze"-->
         <pattern>
@@ -6426,7 +6442,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
             <token regexp="yes">Studies.*</token>
         </pattern>
-        <disambig action="remove" postag="SUB.*"/>
+        <disambig action="remove" postag="(SUB|VER).*"/>
     </rule>
     <rule id="CREDIT_KEIN_SUB" name="'Credit' kein Substantiv">
         <pattern>
@@ -6451,7 +6467,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>Super</token>
             </marker>
-            <token regexp="yes">League.*</token>
+            <token regexp="yes">League.*|RTL.*|Audio.*</token>
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
@@ -6613,7 +6629,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>Shooting</token>
             </marker>
-            <token regexp="yes">Guards.*</token>
+            <token regexp="yes">Guards.*|Brake.*|Fish.*</token>
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
@@ -6623,6 +6639,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>Game</token>
             </marker>
             <token>of</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="GIRO_KEIN_SUB" name="'Giro' kein Substantiv"><!-- Giro d'Italia -->
+        <pattern>
+            <marker>
+                <token>Giro</token>
+            </marker>
+            <token>d</token>
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
@@ -6649,7 +6674,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>User</token>
             </marker>
-            <token regexp="yes">Experience.*</token>
+            <token regexp="yes">Experience.*|Story.*|Agent.*|Datagram.*</token>
         </pattern>
         <disambig action="remove" postag="SUB.*MAS.*"/>
     </rule>
@@ -6658,9 +6683,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>Content</token>
             </marker>
-            <token regexp="yes">Creator.*</token>
+            <token regexp="yes">Creator.*|Delivery.*|Farm|Collaboration.*|Security.*|Wiki</token>
         </pattern>
         <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rule id="TRIPLE_KEIN_SUB" name="'Triple' kein Substantiv"><!-- Triple Entente -->
+        <pattern>
+            <marker>
+                <token>Triple</token>
+            </marker>
+            <token regexp="yes">Entente.*|Crown.*|9</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
     </rule>
     <rule id="BUS_KEIN_SUB" name="'Bus' kein Substantiv"><!-- die Bus Ostschweiz -->
         <pattern>

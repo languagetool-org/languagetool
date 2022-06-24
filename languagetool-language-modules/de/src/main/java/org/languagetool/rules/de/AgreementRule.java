@@ -223,6 +223,7 @@ public class AgreementRule extends Rule {
     "km",
     "Nr",
     "KSC", // Abk
+    "ANC", // Abk
     "DJK", // Der DJK Schweinfurt
     "RP" // "Die RP (Rheinische Post)"
   ));
