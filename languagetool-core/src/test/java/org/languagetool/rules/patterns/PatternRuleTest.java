@@ -336,8 +336,11 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (rule.isDefaultTempOff() || rule.isDefaultOff()) {
         continue;
       }
-      if (msg.equalsIgnoreCase("tbd") || msg.equalsIgnoreCase("todo") || msg.equalsIgnoreCase("lorem ipsum")) {
-        fail("Unfinished message of rule " + rule.getFullId() + ": '" + msg + "'");
+      if (msg.equalsIgnoreCase("todo") || msg.equalsIgnoreCase("lorem ipsum")) {
+        fail("Unfinished message ('todo' or 'lorem ipsum') of rule " + rule.getFullId() + ": '" + msg + "'");
+      }
+      if (msg.toLowerCase().contains("tbd")) {
+        fail("Unfinished message (contains 'tbd') of rule " + rule.getFullId() + ": '" + msg + "'");
       }
       //if (msg.matches(".*[^\"'>)?!.]$")) {
       //  System.err.println("Warning: Message of " + rule.getFullId() + " doesn't end in [.!?]: " + msg);
