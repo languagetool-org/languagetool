@@ -436,6 +436,12 @@ public class RuleMatchDiffFinder {
       fw.write("</tr>");
       fw.write("</thead>");
       fw.write("<tbody>\n");
+      outputFiles.sort((f1, f2) -> {
+          long added1 = f1.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count();
+          long added2 = f2.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count();
+          return Long.compare(added2, added1);
+        }
+      );
       for (OutputFile outputFile : outputFiles) {
         String file = outputFile.file.getName();
         fw.write("<tr>");
