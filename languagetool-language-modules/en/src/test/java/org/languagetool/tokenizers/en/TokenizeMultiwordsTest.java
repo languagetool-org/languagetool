@@ -30,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TokenizeMultiwordsTest {
 
@@ -66,7 +67,8 @@ public class TokenizeMultiwordsTest {
       for (String word : wordList) {
         if (!multiwords.contains(word.replaceAll("’", "'"))) {
           List<String> tokens = wordTokenizer.tokenize(word);
-          if (tokens.size() > 1) {
+          List<String> tokensBySpace = Arrays.asList(word.split(" "));
+          if (tokens.size() > 1 && !tokens.stream().filter(k -> !k.equals(" ")).collect(Collectors.toList()).equals(tokensBySpace)) {
             System.out.println("WARNING: '" + word + "' in '" + fileName
                 + "' is multi-token and useless here for English spelling. Add it to multiwords.txt or disambiguation.xml.");
           }
@@ -85,7 +87,6 @@ public class TokenizeMultiwordsTest {
         if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
           continue;
         }
-        //
         String[] parts = line.split("\t");
         lines.add(parts[0]);
       }
