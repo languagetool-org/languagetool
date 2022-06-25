@@ -1263,47 +1263,6 @@ A própria Jane escreveu a carta.
     <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-01-23 *START* -->
-<!-- "A soma não dá valores ordenados sequenciais crescentes." -->
-      <antipattern>
-		  <token postag='NCMP000' postag_regexp='no'/>
-		  <token postag='AQ0MP0' postag_regexp='no'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-01-23 *END* -->
-<!-- MARCOAGPINTO 2020-07-19 (2-JUL-2020+) *START* -->
-<!-- "De acordo com as equações por nós implementadas." -->
-      <antipattern>
-	      <token postag='NCFP000' postag_regexp='no'/>
-		  <token postag='CC|SPS00|DA0FS0' postag_regexp='yes'/>
-		  <token postag='PP1CP000|PP3CSO00|DI0[FM]P0' postag_regexp='yes'/>
-		  <token min="0" max="1" postag='DD0[FM]P0' postag_regexp='yes'/>
-		  <token postag='VMP00PF|AQ0[CF]P0' postag_regexp='yes'/>
-      </antipattern>
-	  <!-- "De acordo com os comandos por nós implementados." -->
-      <antipattern>
-	      <token postag='NCMP000' postag_regexp='no'/>
-		  <token postag='CC|SPS00|DA0FS0' postag_regexp='yes'/>
-		  <token postag='PP1CP000|PP3CSO00|DI0[FM]P0' postag_regexp='yes'/>
-		  <token min="0" max="1" postag='DD0[FM]P0' postag_regexp='yes'/>
-		  <token postag='VMP00PM|AQ0[CM]P0' postag_regexp='yes'/>
-      </antipattern>
-	  <!-- "São por nós consideradas verdadeiras nações." -->
-      <antipattern>
-		  <token postag='CC|SPS00|DA0FS0' postag_regexp='yes'/>
-		  <token postag='PP1CP000|PP3CSO00|DI0[FM]P0' postag_regexp='yes'/>
-		  <token min="0" max="1" postag='DD0[FM]P0' postag_regexp='yes'/>
-		  <token postag='VMP00PF|AQ0FP0' postag_regexp='yes'/>
-		  <token postag='AQ0[CF]P0' postag_regexp='yes'/>
-	  </antipattern>
-	  <!-- "São por nós considerados verdadeiros países." -->
-      <antipattern>
-		  <token postag='CC|SPS00|DA0FS0' postag_regexp='yes'/>
-		  <token postag='PP1CP000|PP3CSO00|DI0[FM]P0' postag_regexp='yes'/>
-          <token min="0" max="1" postag='DD0[FM]P0' postag_regexp='yes'/>
-		  <token postag='VMP00PM|AQ0MP0' postag_regexp='yes'/>
-		  <token postag='AQ0[CM]P0' postag_regexp='yes'/>
-	  </antipattern>
-<!-- MARCOAGPINTO 2020-07-19 (2-JUL-2020+) *END* -->
 
 <!-- MARCOAGPINTO 2020-08-01 (2-JUL-2020+) *START* -->
 <!-- "Foram muitos os portugueses vítimas da seca." -->
@@ -1407,6 +1366,19 @@ Sujeito nojento, devia levar uns tapas.
 		<example>Ele estuda os livros três horas por dia.</example>
       </antipattern>
 <!-- MARCOAGPINTO 2022-06-24 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-06-25 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		  <token postag='NC[CM].+|AQ.[CM].+|V.+|[DP][ADIP].[CM].+|SPS00:[DP][ADIP].[CM].+|SPS00|CC|CS|RG' postag_regexp='yes'/>
+		  <token postag='NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
+		  <token postag='NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
+		  <example>A soma não dá valores ordenados sequenciais crescentes.</example>
+		  <example>...sde a menina de dois anos estuprada e morta a golpes de enxada no interior do Ceará à senhora de 76 anos estrangulada pelo companheiro no Rio de Janeiro.</example>
+		  <example>Depois da morte do marido, ela criou os seus dois filhos sozinha.</example>
+		  <example>Como de costume, ela chegou quinze minutos atrasada.</example>
+		  <example>Tom não sabia quantos anos Maria tinha.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-25 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <antipattern>
         <token postag="Z.*" postag_regexp="yes"/>
