@@ -70,7 +70,7 @@ public class TokenizeMultiwordsTest {
           List<String> tokensBySpace = Arrays.asList(word.split(" "));
           if (tokens.size() > 1 && !tokens.stream().filter(k -> !k.equals(" ")).collect(Collectors.toList()).equals(tokensBySpace)) {
             System.out.println("WARNING: '" + word + "' in '" + fileName
-                + "' is multi-token and useless here for English spelling. Add it to multiwords.txt or disambiguation.xml.");
+                + "' is multi-token - please make sure it actually works. For spelling, consider adding it to multiwords.txt or disambiguation.xml.");
           }
         }
       }
