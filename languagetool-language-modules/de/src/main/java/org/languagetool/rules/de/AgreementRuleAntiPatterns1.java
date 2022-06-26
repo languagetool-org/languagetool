@@ -193,7 +193,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       posRegex("PRO:DEM:.*"),  // "Diese definiert einzelne Genres ..."
-      posRegex("VER:[23]:.*"),
+      new PatternTokenBuilder().posRegexWithStringException("VER:[23]:.*", "eine").build(),
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
     ),
