@@ -287,9 +287,11 @@ public class AgreementRule extends Rule {
       }
       if (i > 0) {
         String prevToken = tokens[i-1].getToken().toLowerCase();
-        if (StringUtils.equalsAny(tokens[i].getToken(), "eine", "einen")
-            && StringUtils.equalsAny(prevToken, "der", "die", "das", "des", "dieses")) {
+        if (StringUtils.equalsAny(prevToken, "der", "die", "das", "des", "dieses") &&
+            StringUtils.equalsAny(tokens[i].getToken(), "eine", "einen")) {
+          // z.B. "Auf der einen Seite endlose Dünen"
           // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken; "auf der einen Seite"
+          // TODO: "Leute, die eine gewissen Sicherheit brauchen." -> nicht ignorieren
           continue;
         }
       }

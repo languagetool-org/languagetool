@@ -264,6 +264,7 @@ public class AgreementRuleTest {
     assertGood("Aller Kommunikation liegt dies zugrunde.");
     assertGood("Pragmatisch wählt man solche Formeln als Axiome.");
     assertGood("Der eine Polizist rief dem anderen zu...");
+    assertGood("Der eine große Polizist rief dem anderen zu...");
     assertGood("Das eine Kind rief dem anderen zu...");
     assertGood("Er wollte seine Interessen wahrnehmen.");
     assertGood("Denn die einzelnen sehen sich einer sehr verschieden starken Macht des...");  // strange bug that suggests "Machtmacht"
@@ -721,6 +722,7 @@ public class AgreementRuleTest {
     assertBad("Dabei geht es um das altbekannte Frage der Dynamiken der Eigenbildung..");
     assertBad("Den neue Finanzierungsweg wollen sie daher Hand in Hand mit dem Leser gehen.");
     assertBad("Den neuen Finanzierungsweg wollen sie daher Hand in Hand mit dem Lesern gehen.");
+    //assertBad("Leute, die eine gewissen Sicherheit brauchen.");
     //assertBad("An der rot Ampel.");
   }
 
