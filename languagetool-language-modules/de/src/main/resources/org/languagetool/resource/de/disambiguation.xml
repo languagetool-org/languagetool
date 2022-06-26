@@ -4214,6 +4214,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="Chief of XXX" id="CHIEF_KEIN_SUB"><!-- common job title -->
+      <pattern case_sensitive="yes">
+        <marker>
+            <token regexp="yes">Chiefs?</token>
+        </marker>
+        <token>of</token>
+      </pattern>
+      <disambig action="remove" postag="SUB.*" />
+    </rule>
     <rule name="Vice President of XXX" id="VICE_PRESIDENT_OF"><!-- common job title -->
       <pattern case_sensitive="yes">
         <token>Vice</token>
@@ -6693,6 +6702,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>Triple</token>
             </marker>
             <token regexp="yes">Entente.*|Crown.*|9</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="UNION_KEIN_SUB" name="'Union' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Union</token>
+            </marker>
+            <token regexp="yes">Investment.*</token>
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>

@@ -153,7 +153,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Oke", "Okay");
     put("Mü", "My");
     put("abschiednehmen", "Abschied nehmen");
-    put("wars", w -> Arrays.asList("war's", "war es", "warst"));
+    put("wars", w -> Arrays.asList("war es", "warst"));
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
     put("[aA]lsallerersten?s", w -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
     putRepl("(an|auf|ein|zu)gehangen(e[mnrs]?)?$", "hangen", "hängt");
@@ -1164,6 +1164,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("gaz", w -> Arrays.asList("ganz", "gab"));
     put("vllt", w -> Arrays.asList("vielleicht", "vllt."));
     put("rauch", w -> Arrays.asList("Rauch", "rauche"));
+    put("liebs", w -> Arrays.asList("liebe es", "liebes", "liebe"));
+    put("mags", w -> Arrays.asList("mag es"));
+    put("gefielts", "gefielt es");
+    put("gefiels", "gefielt es");
+    put("gefällts", "gefällt es");
     put("nummer", "Nummer");
     put("mitgetielt", "mitgeteilt");
     put("Artal", "Ahrtal");
