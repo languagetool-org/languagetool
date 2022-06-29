@@ -1444,16 +1444,20 @@ Sujeito nojento, devia levar uns tapas.
     </rule>
 
     <rule>
-<!-- MARCOAGPINTO 2020-05-16 *START* -->
-<!-- "A água é nos trazida até à porta." -->
-<!-- "A agente é nos trazida até à porta." -->
+
+<!-- MARCOAGPINTO 2022-06-29 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		  <token postag='NC[FC]S000' postag_regexp='yes'/>
-		  <token postag='VMIP3S0' postag_regexp='no'/>
-		  <token postag='PP1CP000' postag_regexp='no'/>
-		  <token postag='VMP00SF' postag_regexp='no'/>
+		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+		<token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='VMP00.M'/>
+		</token>
+		<token postag='[DP][ADIP].[CF].+' postag_regexp='yes'/>
+		<token postag='VMP00.F' postag_regexp='yes'/>
+		<example>A água é nos trazida até à porta.</example>
+		<example>A agente é nos trazida até à porta.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2020-05-16 *END* -->
+<!-- MARCOAGPINTO 2022-06-29 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;</token>
         <marker>
@@ -1534,14 +1538,36 @@ Sujeito nojento, devia levar uns tapas.
     <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
       </antipattern>
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	<!-- Added by Marco A.G.Pinto - 2019-12-16 ***START***-->
 	<!-- "São Jerónimo traduziu a palavra hebraica Elohim" -->
       <antipattern>
+<token>tokenfalsafalso</token>
 		  <token postag='NCFS000' postag_regexp='no'/>
 		  <token postag='AQ0FS0' postag_regexp='no'/>
           <token postag='NP.*|NC[MFC][SP]000' postag_regexp='yes'/>
       </antipattern>
-	<!-- Added by Marco A.G.Pinto - 2019-12-16 ***END***-->  
+	<!-- Added by Marco A.G.Pinto - 2019-12-16 ***END***--> 	
 	<!-- Added by Marco A.G.Pinto - 2020-04-30 ***START***-->
 	<!-- "Manaus concentrava sozinha 81,6% do total do PIB estadual." -->
       <antipattern>
@@ -1558,64 +1584,6 @@ Sujeito nojento, devia levar uns tapas.
           <token postag='NPMS[S0]00' postag_regexp='yes'/>
       </antipattern>
 	<!-- Added by Marco A.G.Pinto - 2020-05-04 + 2020-07-21 ***END***-->  
-	<!-- Added by Marco A.G.Pinto - 2020-05-08 ***START***-->	
-	<!-- "Temos a língua Esperanto e a língua Ido." -->
-	<!-- "Temos a linguagem Esperanto e a linguagem Ido." -->
-      <antipattern>
-		  <token regexp='yes'>língua|linguagem</token>
-		  <token regexp='yes'>esperanto|ido</token>
-      </antipattern>
-	<!-- Added by Marco A.G.Pinto - 2020-05-08 ***END***-->
-	<!-- Added by Marco A.G.Pinto - 2020-05-10 ***START***-->	
-	<!-- "É uma distribuição live CD." -->
-	<!-- "Está tudo no live CD." -->
-      <antipattern>
-          <token min='0' postag='V*' postag_regexp='yes'>
-            <exception regexp='yes'>da|na|numa|uma</exception></token>
-		  <token regexp='no'>live</token>
-		  <token regexp='no'>cd</token>
-      </antipattern>
-	<!-- Added by Marco A.G.Pinto - 2020-05-10 ***END***--> 
-	<!-- Added by Marco A.G.Pinto - 2020-05-20 ***START***-->
-	<!-- "É uma vantagem saber operar um computador." -->
-      <antipattern>
-          <token postag='NCFS000' postag_regexp='no'/>
-		  <token postag='VMN0000|VMN01S0|VMN03S0' postag_regexp='yes'/>
-      </antipattern>
-	<!-- Added by Marco A.G.Pinto - 2020-05-20 ***END***-->  
-<!-- MARCOAGPINTO 2020-06-20 *START* -->
-<!-- "Segure o ovo direito ou vai quebrá-lo." -->
-<!-- "Segure os ovos direito ou vai quebrá-los." -->
-<!-- "Segure a caneta direito ou vai quebrá-la." -->
-<!-- "Segure as canetas direito ou vai quebrá-las." -->
-<!-- "Segure o agente direito ou vai quebrá-lo." -->
-<!-- "Segure os agentes direito ou vai quebrá-los." -->
-      <antipattern>
-		  <token postag='VMSP3S0|VMP00SF|VMM0[23]S0|VMI[SP]3S0|VM[IS]P1S0|VMG0000' postag_regexp='yes'>
-			<exception postag_regexp='yes' postag="SPS00|CS|I|PT0CN000|RG"/></token>
-		  <token postag='DA0[FM][SP]0' postag_regexp='yes'/>
-		  <token postag='NC[CFM][SP]000' postag_regexp='yes'/>
-		  <token postag='AQ0MS0' postag_regexp='no'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-06-20 *END* -->
-<!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *START* -->
-<!-- "Os mapas estão acessíveis a todos tendo como base estudos geográficos." -->
-<!-- "Os mapas estão acessíveis a todos tendo como alicerce classes geográficas." -->
-<!-- "Os mapas estão acessíveis a todos tendo como alicerce classes humanas." -->
-<!-- "Os mapas estão acessíveis a todos tendo um alicerce classes humanas." -->
-      <antipattern>
-		  <token regexp='yes'>em|esta|nesta|nessa|numa|à|que|com|sua|uma|como|por|na</token>
-	      <token postag='NC[CF]S000' postag_regexp='yes'/>
-	      <token postag='NC[CM]P000' postag_regexp='yes'/>
-		  <token postag='NC[CM]P000|AQ0[CM]P0' postag_regexp='yes'/>
-      </antipattern>
-      <antipattern>
-		  <token regexp='yes'>em|este|neste|nesse|num|o|que|com|seu|um|como|por|no</token>
-	      <token postag='NC[CM]S000' postag_regexp='yes'/>
-	      <token postag='NC[CF]P000' postag_regexp='yes'/>
-		  <token postag='NC[CF]P000|AQ0[CF]P0' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-07-21 (2-JUL-2020+) *END* -->
 <!-- MARCOAGPINTO 2020-08-26 (2-JUL-2020+) *START* -->
 <!-- "Apenas testemunhos sem fim recebidos de todo o mundo." -->
 <!-- "Apenas testemunhos sem conta recebidos de todo o mundo." -->
@@ -1841,6 +1809,22 @@ O homem é uma pobre criatura comparado com a mulher.
 		<token postag='V.....M' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2022-05-09 (1-JAN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-06-29 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+		<token postag='AQ.F.+|NCF.+|VMP00.F|CS|CC|RG' postag_regexp='yes'/>
+		<token postag='NP.*|Z0.+|RG|AQ.+|NC.+' postag_regexp='yes'/>
+		<example>São Jerónimo traduziu a palavra hebraica Elohim.</example>
+		<example>Esta menina fala inglês e alemão.</example>
+		<example>Diz-se que o papel nasceu dos chineses, mas os egípcios já utilizavam coisa parecida milênios antes: o papiro.</example>
+		<example>Antiga farmácia Cardoso.</example>
+		<example>Que deu a tia à pequena menina? - A tia deu à pequena menina dois bolos.</example>
+		<example>Até porque para a eventual vítima tanto faz.</example>
+		<example>Eu conheço uma pessoa chamada Washington.</example>
+		<example>Ainda temos pela frente trezentos quilômetros.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-06-29 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
