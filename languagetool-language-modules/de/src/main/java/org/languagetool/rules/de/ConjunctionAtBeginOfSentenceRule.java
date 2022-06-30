@@ -82,7 +82,8 @@ public class ConjunctionAtBeginOfSentenceRule extends AbstractStatisticSentenceS
     if (isConjunction(sentence.get(num))) {
       token = sentence.get(num);
     }
-    if (token == null || token.getToken().equals("Wie") || token.getToken().equals("Seit") || token.getToken().equals("Allerdings")) {
+    if (token == null || token.getToken().equals("Wie") || token.getToken().equals("Seit") || token.getToken().equals("Allerdings")
+        || (token.getToken().equals("Aber") && sentence.get(num + 1).getToken().equals("auch"))) {
       return null;
     }
     if (token.getToken().equals("Um")) {
