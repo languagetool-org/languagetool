@@ -136,6 +136,18 @@ public final class GRPCUtils
                                 .map(GRPCUtils::fromGRPC).toArray(AnalyzedTokenReadings[]::new));
   }
 
+  public static String getUrl(RuleMatch m) {
+    // URL can be attached to Rule or RuleMatch (or both); in Protobuf, only to RuleMatch
+    // prefer URL from RuleMatch, default to empty string
+    if (m.getUrl() != null) {
+      return m.getUrl().toString();
+    }
+    if (m.getRule().getUrl() != null) {
+      return m.getRule().getUrl().toString();
+    }
+    return "";
+  }
+
 
   public static Match toGRPC(RuleMatch m) {
     // could add better handling for conversion errors with enums
@@ -149,7 +161,7 @@ public final class GRPCUtils
       .setRuleDescription(nullAsEmpty(m.getRule().getDescription()))
       .setMatchDescription(nullAsEmpty(m.getMessage()))
       .setMatchShortDescription(nullAsEmpty(m.getShortMessage()))
-      .setUrl((m.getUrl() != null ? m.getUrl().toString() : ""))
+      .setUrl(getUrl(m))
       .setAutoCorrect(m.isAutoCorrect())
       .setType(Match.MatchType.valueOf(m.getType().name()))
       .setContextForSureMatch(m.getRule().estimateContextForSureMatch())
