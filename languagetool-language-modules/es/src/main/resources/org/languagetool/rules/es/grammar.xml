@@ -15047,6 +15047,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Para mañana no si no lo puedes acabar.</example>
             </rule>
         </rulegroup>
+        <rule id="MALO_AMIGO_MAL_AMIGO" name="«malo» y «bueno» se apocopan delante de sustantivos masculinos en singular" default="temp_off">
+            <antipattern>
+                <token postag="V.*|DE0CN0" postag_regexp="yes" skip="1" min="0"/>
+                <token regexp="yes" skip="1">malo|bueno</token>
+                <token postag="VMN.*" postag_regexp="yes"/>
+                <example>Es bueno conocer la historia.</example>
+                <example>¡Qué bueno escuchar de ti!</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">lo|algo|nada</token>
+                <token regexp="yes">malo|bueno</token>
+                <example>A todo lo malo remedio pondrá</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">que|qué</token>
+                <token inflected="yes">tener</token>
+                <token>de</token>
+                <token>malo</token>
+                <example>No sé qué tiene de malo.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="A.*" postag_regexp="yes"/>
+                <token>por</token>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token regexp="yes">malo|bueno</token>
+                <token postag="A.*|N.*" postag_regexp="yes"/>
+                <example>Quería cambiar su alfil malo por el bueno negro.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">malo|bueno</token>
+                <token postag="VMP.*" postag_regexp="yes"/>
+                <example>El autor publicó un libro bueno escrito.</example> <!--correcto: bien escrito-->
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">malo|bueno</token>
+                <token regexp="yes">mal|Dr</token>
+                <example>Y al malo mal.</example>
+                <example>El protagonista de la novela lucha contra el científico malo Dr. Alarcón.</example>
+            </antipattern>
+            <antipattern>
+                <token>visto</token>
+                <token>bueno</token>
+                <example>Los militares contaron con el visto bueno directo del gobierno de Manuel Azaña.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">malo|bueno</token>
+                </marker>
+                <token postag="NCMS.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Use la forma apocopada <suggestion><match no="1" regexp_match="o$" regexp_replace=""/></suggestion> en vez de '<match no="1"/>' o ponga una coma después de '<match no="1"/>'.</message>
+            <example correction="mal">La vida es demasiado corta para beber <marker>malo</marker> vino.</example>
+            <example correction="buen">Gracias por ayudarme, eres un <marker>bueno</marker> amigo.</example>
+        </rule>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="concordancia número + nombre/adjetivo plural">
