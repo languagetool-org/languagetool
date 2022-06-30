@@ -1780,9 +1780,11 @@ O homem é uma pobre criatura comparado com a mulher.
       </antipattern>
 <!-- MARCOAGPINTO 2022-05-09 (1-JAN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-29 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-29 + 2022-06-30 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'>
+            <exception scope="previous" postag_regexp='no' postag='VMIP1S0'/>
+		</token>
 		<token postag='AQ.F.+|NCF.+|VMP00.F|CS|CC|RG' postag_regexp='yes'/>
 		<token postag='NP.*|Z0.+|RG|AQ.+|NC.+' postag_regexp='yes'/>
 		<example>São Jerónimo traduziu a palavra hebraica Elohim.</example>
@@ -1794,7 +1796,7 @@ O homem é uma pobre criatura comparado com a mulher.
 		<example>Eu conheço uma pessoa chamada Washington.</example>
 		<example>Ainda temos pela frente trezentos quilômetros.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-29 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-29 + 2022-06-30 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
