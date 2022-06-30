@@ -95,6 +95,11 @@ public class FrenchSentenceTokenizerTest {
     assertThat(stokenizer.tokenize("Je suis Chris (CHRISTOPHER!). Comment allez vous").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris... Comment allez vous.").size(), is(2));
     
+    testSplit("Je ferai ça... un autre jour.");
+    testSplit("Qu'en dites-vous ?, demanda-t-il.");
+    testSplit("Qu'en dites-vous ? demanda-t-il.");
+    testSplit("Qu'en dites-vous ! demanda-t-il.");
+    
   }
 
   private void testSplit(final String... sentences) {
