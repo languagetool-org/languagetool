@@ -1061,8 +1061,19 @@
       </pattern>
       <disambig action="filterall"/>
     </rule>
-    
   </rulegroup>
+    
+  <rule id="FALA" name="fala (verb)">
+      <pattern>
+          <!-- exception to DAN -->
+          <!-- TODO: more general disambiguation rules for verb/noun -->
+          <token postag="N.*" postag_regexp="yes"/>
+          <marker>
+              <token postag_regexp="yes" postag="V.*">fala</token>
+          </marker>
+      </pattern>
+      <disambig action="filter" postag="V.*"/>
+  </rule>
   
   <rulegroup id="D_R_N" name="Det + Adv + Nom">
     <!-- 		Based on Spanish disambiguation.xml by Tiago F. Santos		-->
