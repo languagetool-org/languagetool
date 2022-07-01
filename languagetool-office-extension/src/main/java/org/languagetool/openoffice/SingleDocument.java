@@ -74,6 +74,7 @@ class SingleDocument {
    */
   
   private static int debugMode;                   //  should be 0 except for testing; 1 = low level; 2 = advanced level
+  private static boolean debugModeTm;             // time measurement should be false except for testing
   
   private Configuration config;
 
@@ -113,6 +114,7 @@ class SingleDocument {
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
       XComponent xComp, MultiDocumentsHandler mDH) {
     debugMode = OfficeTools.DEBUG_MODE_SD;
+    debugModeTm = OfficeTools.DEBUG_MODE_TM;
     this.xContext = xContext;
     this.config = config;
     this.docID = docID;
@@ -237,7 +239,17 @@ class SingleDocument {
       
       CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara,
           proofInfo, numParasToCheck, this, paragraphsCache, viewCursor, changedParas);
+      long startTime = 0;
+      if (debugModeTm) {
+        startTime = System.currentTimeMillis();
+      }
       int paraNum = requestAnalysis.getNumberOfParagraph(nPara, paraText, locale, paRes.nStartOfSentencePosition, footnotePositions);
+      if (debugModeTm) {
+        long runTime = System.currentTimeMillis() - startTime;
+        if (runTime > OfficeTools.TIME_TOLERANCE) {
+          MessageHandler.printToLogFile("Time to run request analyses: " + runTime);
+        }
+      }
       if (debugMode > 1) {
         MessageHandler.printToLogFile("Single document: getCheckResults: paraNum = " + paraNum + ", nPara = " + nPara);
       }
@@ -261,6 +273,9 @@ class SingleDocument {
       if (disposed) {
         return paRes;
       }
+      if (debugModeTm) {
+        startTime = System.currentTimeMillis();
+      }
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, 
           docLanguage, ignoredMatches, numParasToCheck, isDialogRequest, isMouseRequest, isIntern);
       paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, lt, paraNum, 
@@ -273,6 +288,12 @@ class SingleDocument {
       }
       paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
       lastChangedPara = (textIsChanged && numParasToCheck != 0) ? paraNum : -1;
+      if (debugModeTm) {
+        long runTime = System.currentTimeMillis() - startTime;
+        if (runTime > OfficeTools.TIME_TOLERANCE) {
+          MessageHandler.printToLogFile("Time to run single check: " + runTime);
+        }
+      }
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }

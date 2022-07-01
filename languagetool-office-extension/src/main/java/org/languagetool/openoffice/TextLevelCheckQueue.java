@@ -65,12 +65,14 @@ public class TextLevelCheckQueue {
   private int numSinceHeapTest = 0;
 
   private static boolean debugMode = false;   //  should be false except for testing
+  private static boolean debugModeTm;         // time measurement should be false except for testing
   
   TextLevelCheckQueue(MultiDocumentsHandler multiDocumentsHandler) {
     multiDocHandler = multiDocumentsHandler;
     queueIterator = new QueueIterator();
     queueIterator.start();
     debugMode = OfficeTools.DEBUG_MODE_TQ;
+    debugModeTm = OfficeTools.DEBUG_MODE_TM;
   }
  
  /**
@@ -542,6 +544,7 @@ public class TextLevelCheckQueue {
     @Override
     public void run() {
       try {
+        long startTime = 0;
         queueRuns = true;
         if (debugMode) {
           MessageHandler.printToLogFile("TextLevelCheckQueue: run: queue started");
@@ -557,7 +560,16 @@ public class TextLevelCheckQueue {
               if (lastDocId != null) {
                 QueueEntry queueEntry = null;
                 try {
+                  if (debugModeTm) {
+                    startTime = System.currentTimeMillis();
+                  }
                   queueEntry = getNextQueueEntry(lastStart, lastDocId);
+                  if (debugModeTm) {
+                    long runTime = System.currentTimeMillis() - startTime;
+                    if (runTime > OfficeTools.TIME_TOLERANCE) {
+                      MessageHandler.printToLogFile("Time to run Text Level Check Queue (get Next Queue Entry): " + runTime);
+                    }
+                  }
                 } catch (Throwable e) {
                   //  there may be exceptions because of timing problems
                   //  catch them and write to log file but don't stop the queue
@@ -616,6 +628,9 @@ public class TextLevelCheckQueue {
                 }
               }
               try {
+                if (debugModeTm) {
+                  startTime = System.currentTimeMillis();
+                }
                 Language entryLanguage = getLanguage(queueEntry.docId, queueEntry.nStart);
                 if (entryLanguage != null) {
                   if (lastLanguage == null || !lastLanguage.equals(entryLanguage)) {
@@ -637,6 +652,12 @@ public class TextLevelCheckQueue {
                 }
   	            queueEntry.runQueueEntry(multiDocHandler, entryLanguage == null ? null : lt);
                 queueEntry = null;
+                if (debugModeTm) {
+                  long runTime = System.currentTimeMillis() - startTime;
+                  if (runTime > OfficeTools.TIME_TOLERANCE) {
+                    MessageHandler.printToLogFile("Time to run Text Level Check Queue (run Queue Entry): " + runTime);
+                  }
+                }
               } catch (Throwable e) {
                 //  there may be exceptions because of timing problems
                 //  catch them and write to log file but don't stop the queue

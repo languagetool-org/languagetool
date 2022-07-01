@@ -271,7 +271,7 @@ class SingleCheck {
               if (toPos > 0) {
                 errorList.add(correctRuleMatchWithFootnotes(
                     createOOoError(myRuleMatch, -textPos, toPos, isIntern ? ' ' : docCache.getTextParagraph(textPara).charAt(toPos-1)),
-                      footnotePos));
+                      footnotePos, docCache.getTextParagraphDeletedCharacters(textPara)));
               }
             }
           }
@@ -551,7 +551,7 @@ class SingleCheck {
       }
       // return Cache result if available / for right mouse click or Dialog only use cache
       boolean isTextParagraph = nFPara >= 0 && docCache != null && docCache.getNumberOfTextParagraph(nFPara).type != DocumentCache.CURSOR_TYPE_UNKNOWN;
-      if (nFPara >= 0 && (pErrors != null || (useQueue && !isDialogRequest && parasToCheck != 0))) {
+      if (nFPara >= 0 && (pErrors != null || isMouseRequest || (useQueue && !isDialogRequest && parasToCheck != 0))) {
         if (useQueue && pErrors == null && parasToCheck > 0 && isTextParagraph && !textIsChanged && mDocHandler.getTextLevelCheckQueue().isWaiting()) {
           mDocHandler.getTextLevelCheckQueue().wakeupQueue(singleDocument.getDocID());
         }
@@ -569,10 +569,11 @@ class SingleCheck {
           mDocHandler.initCheck(mLt);
         }
         List<Integer> nextSentencePositions = getNextSentencePositions(paraText, mLt);
+        List<Integer> deletedChars = isTextParagraph ? docCache.getFlatParagraphDeletedCharacters(nFPara): null;
         if (mLt == null) {
           paragraphMatches = null;
         } else {
-          paragraphMatches = mLt.check(removeFootnotes(paraText, footnotePos), true, JLanguageTool.ParagraphHandling.NORMAL);
+          paragraphMatches = mLt.check(removeFootnotes(paraText, footnotePos, deletedChars), true, JLanguageTool.ParagraphHandling.NORMAL);
         }
         if (isDisposed()) {
           return null;
@@ -591,7 +592,7 @@ class SingleCheck {
               toPos = paraText.length();
             }
             errorList.add(correctRuleMatchWithFootnotes(
-                createOOoError(myRuleMatch, 0, toPos, isIntern ? ' ' : paraText.charAt(toPos-1)), footnotePos));
+                createOOoError(myRuleMatch, 0, toPos, isIntern ? ' ' : paraText.charAt(toPos-1)), footnotePos, deletedChars));
           }
           if (!errorList.isEmpty()) {
             if (debugMode > 1) {
@@ -761,13 +762,45 @@ class SingleCheck {
    * Remove footnotes from paraText
    * run cleanFootnotes if information about footnotes are not supported
    */
-  static String removeFootnotes(String paraText, int[] footnotes) {
-    if (footnotes == null) {
-      return cleanFootnotes(paraText);
-    }
-    for (int i = footnotes.length - 1; i >= 0; i--) {
-      if (footnotes[i] < paraText.length()) {
-        paraText = paraText.substring(0, footnotes[i]) + paraText.substring(footnotes[i] + 1);
+  static String removeFootnotes(String paraText, int[] footnotes, List<Integer> deletedChars) {
+    if (deletedChars == null || deletedChars.isEmpty()) {
+      if (footnotes == null) {
+        return cleanFootnotes(paraText);
+      }
+      for (int i = footnotes.length - 1; i >= 0; i--) {
+        if (footnotes[i] < paraText.length()) {
+          paraText = paraText.substring(0, footnotes[i]) + paraText.substring(footnotes[i] + 1);
+        }
+      }
+    } else {
+      if (footnotes == null || footnotes.length == 0) {
+        if (footnotes == null) {
+          paraText = cleanFootnotes(paraText);
+        }
+        for (int i = deletedChars.size() - 1; i >= 0; i--) {
+          if (deletedChars.get(i) < paraText.length()) {
+            paraText = paraText.substring(0, deletedChars.get(i)) + paraText.substring(deletedChars.get(i) + 1);
+          }
+        }
+      } else {
+        int idc = deletedChars.size() - 1;
+        int ifn = footnotes.length - 1;
+        while (idc >= 0 || ifn >= 0) {
+          if (idc >= 0 && (ifn < 0 || deletedChars.get(idc) >= footnotes[ifn])) {
+            if (deletedChars.get(idc) < paraText.length()) {
+              paraText = paraText.substring(0, deletedChars.get(idc)) + paraText.substring(deletedChars.get(idc) + 1);
+            }
+            if (ifn >= 0 && deletedChars.get(idc) == footnotes[ifn]) {
+              ifn--;
+            }
+            idc--;
+          } else {
+            if (footnotes[ifn] < paraText.length()) {
+              paraText = paraText.substring(0, footnotes[ifn]) + paraText.substring(footnotes[ifn] + 1);
+            }
+            ifn--;
+          }
+        }
       }
     }
     return paraText;
@@ -777,15 +810,50 @@ class SingleCheck {
    * Correct SingleProofreadingError by footnote positions
    * footnotes before is the sum of all footnotes before the checked paragraph
    */
-  private static SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int[] footnotes) {
-    if (footnotes == null || footnotes.length == 0) {
-      return pError;
-    }
-    for (int i :footnotes) {
-      if (i <= pError.nErrorStart) {
-        pError.nErrorStart++;
-      } else if (i < pError.nErrorStart + pError.nErrorLength) {
-        pError.nErrorLength++;
+  private static SingleProofreadingError correctRuleMatchWithFootnotes(SingleProofreadingError pError, int[] footnotes, List<Integer> deletedChars) {
+    if (deletedChars == null || deletedChars.isEmpty()) {
+      if (footnotes == null || footnotes.length == 0) {
+        return pError;
+      }
+      for (int i :footnotes) {
+        if (i <= pError.nErrorStart) {
+          pError.nErrorStart++;
+        } else if (i < pError.nErrorStart + pError.nErrorLength) {
+          pError.nErrorLength++;
+        }
+      }
+    } else {
+      if (footnotes == null || footnotes.length == 0) {
+        for (int i : deletedChars) {
+          if (i <= pError.nErrorStart) {
+            pError.nErrorStart++;
+          } else if (i < pError.nErrorStart + pError.nErrorLength) {
+            pError.nErrorLength++;
+          }
+        }
+      } else {
+        int ifn = 0;
+        int idc = 0;
+        while (ifn < footnotes.length || idc < deletedChars.size()) {
+          if (idc < deletedChars.size() && (ifn >= footnotes.length || deletedChars.get(idc) < footnotes[ifn])) {
+            if (deletedChars.get(idc) <= pError.nErrorStart) {
+              pError.nErrorStart++;
+            } else if (deletedChars.get(idc) < pError.nErrorStart + pError.nErrorLength) {
+              pError.nErrorLength++;
+            }
+            if (ifn < footnotes.length && deletedChars.get(idc) == footnotes[ifn]) {
+              ifn++;
+            }
+            idc++;
+          } else {
+            if (footnotes[ifn] <= pError.nErrorStart) {
+              pError.nErrorStart++;
+            } else if (footnotes[ifn] < pError.nErrorStart + pError.nErrorLength) {
+              pError.nErrorLength++;
+            }
+            ifn++;
+          }
+        }
       }
     }
     return pError;

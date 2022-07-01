@@ -88,6 +88,7 @@ class OfficeTools {
   public static final int NUMBER_TEXTLEVEL_CACHE = 4;  // Number of caches for matches of text level rules
   public static final String MULTILINGUAL_LABEL = "99-";  // Label added in front of variant to indicate a multilingual paragraph (returned is the main language)
   public static final int CHECK_MULTIPLIKATOR = 40;   //  Number of minimum checks for a first check run
+  public static final int TIME_TOLERANCE = 100;   //  Minimal milliseconds to show message in TM debug mode
   
   public static int DEBUG_MODE_SD = 0;            //  Set Debug Mode for SingleDocument
   public static int DEBUG_MODE_SC = 0;            //  Set Debug Mode for SingleCheck
@@ -101,6 +102,7 @@ class OfficeTools {
   public static boolean DEBUG_MODE_CD = false;    //  Activate Debug Mode for SpellAndGrammarCheckDialog
   public static boolean DEBUG_MODE_IO = false;    //  Activate Debug Mode for Cache save to file
   public static boolean DEBUG_MODE_SR = false;    //  Activate Debug Mode for SortedTextRules
+  public static boolean DEBUG_MODE_TM = false;    //  Activate Debug Mode for time measurements
   public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
   public  static final String CONFIG_FILE = "Languagetool.cfg";
@@ -606,6 +608,8 @@ class OfficeTools {
           DEBUG_MODE_IO = true;
         } else if (level.equals("sr")) {
           DEBUG_MODE_SR = true;
+        } else if (level.equals("tm")) {
+          DEBUG_MODE_TM = true;
         } else if (level.equals("dev")) {
           DEVELOP_MODE = true;
         }
