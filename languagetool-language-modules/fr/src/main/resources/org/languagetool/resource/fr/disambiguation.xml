@@ -1169,6 +1169,22 @@ RB => Règles Brutes
             <wd pos="S"/>
         </disambig>
     </rule>
+    <rulegroup id="COM" name="com">
+        <rule>
+        <pattern>
+            <token postag="SENT_START"/>
+            <token>com</token>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>.</token>
+                <token>com</token>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+    </rulegroup>
     <rule id="AB_UNITE" name="abréviation unité">
         <pattern>
             <token regexp="yes">&unites_de_mesure;</token>
