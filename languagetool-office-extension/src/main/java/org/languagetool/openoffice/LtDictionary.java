@@ -18,8 +18,21 @@
  */
 package org.languagetool.openoffice;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.languagetool.JLanguageTool;
 
@@ -37,9 +50,12 @@ import com.sun.star.uno.XComponentContext;
  */
 public class LtDictionary {
   
+  private final static String[] ADD_ALL = { "e", "er", "es", "en", "em" };
+  private final static int MAX_DICTIONARY_SIZE = 30000;
+  
   private static boolean debugMode; //  should be false except for testing
 
-  private List<String> dictionaryList = new ArrayList<>();
+  private Set<String> dictionaryList = new HashSet<>();
   private XDictionary listIgnoredWords = null;
   
   public LtDictionary() {
@@ -59,25 +75,72 @@ public class LtDictionary {
       XDictionary[] dictionaryList = searchableDictionaryList.getDictionaries();
       listIgnoredWords = dictionaryList[dictionaryList.length - 1];
     }
-    String shortCode = locale.Language;
-    String dictionaryName = "__LT_" + shortCode + "_internal.dic";
-    if (!dictionaryList.contains(dictionaryName)) {
+    String shortCode = OfficeTools.localeToString(locale);
+    String dictionaryNamePrefix = "__LT_" + shortCode + "_internal";
+    String dictionaryName = dictionaryNamePrefix + "1.dic";
+//    String dictionaryName = "LT_Spelling_" + shortCode + ".dic";
+//    MessageHandler.printToLogFile("dictionary name: " + dictionaryName);
+    if (!dictionaryList.contains(dictionaryName) && searchableDictionaryList.getDictionaryByName(dictionaryName) == null) {
       dictionaryList.add(dictionaryName);
-      XDictionary manualDictionary = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
-      for (String word : getManualWordList(locale, linguServices)) {
-        manualDictionary.add(word, false, "");
-      }
-      manualDictionary.setActive(true);
-      searchableDictionaryList.addDictionary(manualDictionary);
-      MessageHandler.printToLogFile("Internal LT dicitionary for language " + shortCode + " added: Number of words = " + manualDictionary.getCount());
-      if (debugMode) {
-        for (XDictionaryEntry entry : manualDictionary.getEntries()) {
-          MessageHandler.printToLogFile(entry.getDictionaryWord());
+      String ltDictionaryPath = getLTDictionaryFile(locale, linguServices);
+      if (ltDictionaryPath != null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("setLtDictionary: Create LT spelling dictionary " + dictionaryName + ": File path: " + ltDictionaryPath);
+        } else {
+          MessageHandler.printToLogFile("setLtDictionary: Create LT spelling dictionary " + dictionaryName);
         }
+        long startTime = System.currentTimeMillis();
+        List<String> words = getSpellingWordsAsLines(ltDictionaryPath);
+        int count = 0;
+        int dictNum = 1;
+        int dictCount = 0;
+        XDictionary manualDictionary = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
+        if (debugMode) {
+          MessageHandler.printToLogFile("Add " + words.size() + " words to " + dictionaryName);
+        }
+        for (String word : words) {
+          manualDictionary.add(word, false, "");
+          count++;
+          if (count >= MAX_DICTIONARY_SIZE) {
+            manualDictionary.setActive(true);
+            searchableDictionaryList.addDictionary(manualDictionary);
+            dictCount += manualDictionary.getCount();
+            dictNum++;
+            dictionaryName = dictionaryNamePrefix + dictNum + ".dic";
+            manualDictionary = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
+            count = 0;
+          }
+        }
+        manualDictionary.setActive(true);
+        searchableDictionaryList.addDictionary(manualDictionary);
+        dictCount += manualDictionary.getCount();
+        long endTime = System.currentTimeMillis();
+        MessageHandler.printToLogFile("Internal LT dicitionary for language " + shortCode + " added: Number of words = " + dictCount);
+        MessageHandler.printToLogFile("Time to generate dictionary: " + (endTime - startTime));
+        if (debugMode) {
+          for (XDictionaryEntry entry : manualDictionary.getEntries()) {
+            MessageHandler.printToLogFile(entry.getDictionaryWord());
+          }
+        }
+        return true;
       }
-      return true;
     }
+//    MessageHandler.printToLogFile("dictionary name " + dictionaryName + " is in list");
     return false;
+  }
+  
+  private String getSpellingFilePath(Locale locale, int i) {
+    if (i == 0) {
+      return "/" + locale.Language + "/spelling.txt";
+    } else if (i == 1) {
+      return "/" + locale.Language + "/spelling/spelling.txt";
+    } else if (i == 2) {
+      return "/" + locale.Language + "/hunspell/spelling.txt";
+    } else if (i == 3) {
+      return "/" + locale.Language + "/hunspell/spelling-" + locale.Language + "-" + locale.Country + ".txt";
+    } else {
+      return "/" + locale.Language + "/hunspell/spelling-" + locale.Language + "_" + locale.Country + ".txt";
+    }
   }
   
   /**
@@ -85,28 +148,52 @@ public class LtDictionary {
    */
   private List<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
     List<String> words = new ArrayList<>();
-    String shortLangCode = locale.Language;
     String path;
-    for (int i = 0; i < 4; i++) {
-      if (i == 0) {
-        path = "/" + shortLangCode + "/spelling.txt";
-      } else if (i == 1) {
-        path = "/" + shortLangCode + "/hunspell/spelling.txt";
-      } else if (i == 2) {
-        path = "/" + shortLangCode + "/hunspell/spelling-" + shortLangCode + "-" + locale.Country + ".txt";
-      } else {
-        path = "/" + shortLangCode + "/hunspell/spelling-" + shortLangCode + "_" + locale.Country + ".txt";
-      }
+    for (int i = 0; i < 5; i++) {
+      path = getSpellingFilePath(locale, i);
       if (JLanguageTool.getDataBroker().resourceExists(path)) {
         List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
         if (lines != null) {
           for (String line : lines) {
+            line = line.trim();
             if (!line.isEmpty() && !line.startsWith("#")) {
-              String[] lineWords = line.trim().split("\\h");
+              String[] lineWords = line.trim().split("#");
               lineWords = lineWords[0].trim().split("/");
               lineWords[0] = lineWords[0].replaceAll("_","");
-              if (!lineWords[0].isEmpty() && !words.contains(lineWords[0]) && !linguServices.isCorrectSpell(lineWords[0], locale)) {
-                words.add(lineWords[0]);
+              if (!lineWords[0].isEmpty()) {
+                if (!words.contains(lineWords[0]) && !linguServices.isCorrectSpell(lineWords[0], locale)) {
+//                if (!words.contains(lineWords[0])) {
+                  words.add(lineWords[0]);
+                }
+                if (lineWords.length > 1) {
+                  lineWords[1] = lineWords[1].trim();
+                  for (int n = 0; n < lineWords[1].length(); n++) {
+                    if (lineWords[1].charAt(n) == 'A') {
+                      for (String add : ADD_ALL) {
+                        String word = lineWords[0] + add;
+                        if (!words.contains(word) && !linguServices.isCorrectSpell(word, locale)) {
+//                        if (!words.contains(word)) {
+                          words.add(word);
+                        }
+                      }
+                    } else {
+                      String word = lineWords[0];
+                      if (lineWords[1].charAt(n) == 'E') {
+                        word += "e";
+                      } else if (lineWords[1].charAt(n) == 'S') {
+                        word += "s";
+                      } else if (lineWords[1].charAt(n) == 'N') {
+                        word += "n";
+                      } else if (lineWords[1].charAt(n) == 'F') {
+                        word += "in";
+                      }
+                      if (!words.contains(word) && !linguServices.isCorrectSpell(word, locale)) {
+//                      if (!words.contains(word)) {
+                        words.add(word);
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -117,7 +204,74 @@ public class LtDictionary {
   }
   
   /**
-   * Remove the non permanent LT dictionaries 
+   * get the list of words out of LT full spelling list
+   */
+  public List<String> getSpellingWordsAsLines(String path) {
+    List<String> lines = new ArrayList<>();
+    try (InputStream stream = new FileInputStream(path);
+         InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+         BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        lines.add(line);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return lines;
+  }
+  
+  /**
+   * get the LT dictionary file from LT installation directory
+   * create the dictionary file, if not exist
+   */
+  private String getLTDictionaryFile(Locale locale, LinguisticServices linguServices) {
+    if (debugMode) {
+      MessageHandler.printToLogFile("getLTDictionaryFile: start generate full LT dictionary file");
+    }
+    long startTime = System.currentTimeMillis();
+    URL url = null;
+    for (int i = 0; i < 5 && url == null; i++) {
+      url = JLanguageTool.getDataBroker().getAsURL(JLanguageTool.getDataBroker().getResourceDir() + getSpellingFilePath(locale, i));
+    }
+    if (url == null) {
+      MessageHandler.printToLogFile("No LT spelling file found for " + OfficeTools.localeToString(locale));
+      return null;
+    }
+    try {
+      URI uri = url.toURI();
+      File file = new File(uri.getPath());
+      File dictionary = new File(file.getParent(), "LT_Spelling_"  + OfficeTools.localeToString(locale) + ".dic");
+      if (dictionary.exists() && !dictionary.isDirectory()) {
+        return dictionary.getAbsolutePath();
+      }
+      String path = dictionary.getPath();
+      if (debugMode) {
+        MessageHandler.printToLogFile("getLTDictionaryFile: LT dictionary file " + path + " doesn't exist: start to create");
+      } else {
+        MessageHandler.printToLogFile("getLTDictionaryFile: LT dictionary file doesn't exist: start to create");
+      }
+      List<String> words = getManualWordList(locale, linguServices);
+      BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+      for (String word : words) {
+        writer.write(word + "\n");
+      }
+      writer.close();
+      long endTime = System.currentTimeMillis();
+      if (debugMode) {
+        MessageHandler.printToLogFile(words.size() + "written to file " + path);
+      }
+      MessageHandler.printToLogFile("Time to generate LT spelling file: " + (endTime - startTime));
+      return dictionary.getAbsolutePath();
+    } catch (Throwable t) {
+      MessageHandler.printException(t);
+    }
+    return null;
+  }
+  
+  /**
+   * Remove the non permanent LT dictionaries
    */
   public boolean removeLtDictionaries(XComponentContext xContext) {
     if (!dictionaryList.isEmpty()) {
