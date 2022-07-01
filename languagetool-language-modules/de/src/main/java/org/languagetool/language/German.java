@@ -346,6 +346,8 @@ public class German extends Language implements AutoCloseable {
       case "WERT_SEIN": return 1; // prefer over DE_AGREEMENT
       case "EBEN_FALLS": return 1;
       case "IN_UND_AUSWENDIG": return 1; // prefer over DE_CASE
+      case "HIER_MIT": return 1; // prefer over agreement rules
+      case "MIT_REISSEN": return 1; // prefer over agreement rules
       case "JEDEN_FALLS": return 1;
       case "UST_ID": return 1;
       case "INS_FITNESS": return 1; // prefer over DE_AGREEMENT

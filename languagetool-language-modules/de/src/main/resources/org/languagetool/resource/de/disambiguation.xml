@@ -5998,24 +5998,38 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER.*"/>
     </rule>
 
-    <rule id="MAL_KEIN_VERB" name="'mal' kein Verb">
-        <antipattern>
-            <token skip="1">mal</token>
-            <token>ich</token>
-        </antipattern>
-        <antipattern>
-            <token>mal</token>
-            <token>und</token>
-            <token postag="VER:IMP.*" postag_regexp="yes" />
-        </antipattern>
-        <pattern>
-            <token regexp="yes">schon|zunächst|(vor)?erst|noch|kein</token>
-            <marker>
+    <rulegroup id="MAL_KEIN_VERB" name="'mal' kein Verb">
+        <rule>
+            <antipattern>
+                <token skip="1">mal</token>
+                <token>ich</token>
+            </antipattern>
+            <antipattern>
                 <token>mal</token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="VER.*"/>
-    </rule>
+                <token>und</token>
+                <token postag="VER:IMP.*" postag_regexp="yes" />
+            </antipattern>
+            <pattern>
+                <token regexp="yes">schon|zunächst|(vor)?erst|noch|kein</token>
+                <marker>
+                    <token>mal</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="PKT|SENT_START" postag_regexp="yes" />
+                <token min="0">aber</token>
+                <token>sag</token>
+                <token min="0">doch</token>
+                <marker>
+                    <token>mal</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup>
 
     <rule id="DE_LAS_KEIN_VERB" name="'de las' kein Verb">
         <pattern>
@@ -6786,7 +6800,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>ich</token>
                 <marker>
                     <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
-                    <token case_sensitive="yes" regexp="yes">betreib|mail|rat</token>
+                    <token case_sensitive="yes" regexp="yes">betreib|mail|rat|bau</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -6795,7 +6809,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern>
                 <marker>
                     <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
-                    <token case_sensitive="yes" regexp="yes">betreib|mail|rat</token>
+                    <token case_sensitive="yes" regexp="yes">betreib|mail|rat|bau</token>
                 </marker>
                 <token>ich</token>
             </pattern>

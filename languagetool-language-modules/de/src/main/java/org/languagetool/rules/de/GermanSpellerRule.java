@@ -1165,7 +1165,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("vllt", w -> Arrays.asList("vielleicht", "vllt."));
     put("rauch", w -> Arrays.asList("Rauch", "rauche"));
     put("liebs", w -> Arrays.asList("liebe es", "liebes", "liebe"));
-    put("mags", w -> Arrays.asList("mag es"));
+    put("mags", "mag es");
+    put("abzügl", "abzgl");
     put("gefielts", "gefielt es");
     put("gefiels", "gefielt es");
     put("gefällts", "gefällt es");
