@@ -4447,45 +4447,54 @@ As simulações são as mais realistas que há.
 		  <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2021-05-31 (17-MAR-2021+) *END* -->
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
-<!--
-O patrão deve vários meses de salário aos trabalhadores.
-Contribuem para essa fundação várias grandes empresas do ramo da informática, como IBM, Sun, Nokia e outras.
-Nesta cidade violenta várias moças e saqueia o comércio local.
--->
-      <antipattern>
-		<token negate='yes' regexp='yes'>a|o|à|n[ao]</token>
-		<token regexp='yes'>vári[ao]s</token>
-		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
 
-<!-- MARCOAGPINTO 2022-05-04 (1-JAN-2022+) *START* -->
-<!--
-Leonardo, é bom saber que nessa luta por uma volta ao cristianismo puro nós, cristãos, estamos nas duas frentes: alguns lutando de dentro, como vc, e outros de fora.
-1 garrafa de ácido muriático 33%, que pode ser encontrado em uma loja de ferragens ou em uma loja de departamento.
-Tom e Maria foram ao jardim zoológico juntos.
--->
+<!-- MARCOAGPINTO 2022-07-02 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='SPS.+' postag_regexp='yes'/>
+		<token postag='V.+|AQ0.+|NC.+|SPS00|CC|CS|RG|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'>
+            <exception scope="previous" postag_regexp='yes' postag='DA0.S.+|AQ0.P.+|NC.P.+'/>
+		</token>
+		<token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+		<token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+		<example>O patrão deve vários meses de salário aos trabalhadores.</example>
+		<example>Contribuem para essa fundação várias grandes empresas do ramo da informática, como IBM, Sun, Nokia e outras.</example>
+		<example>Nesta cidade violenta várias moças e saqueia o comércio local.</example>
+		<example>Padre Pio, como grande santo, teve vários êxtases durante sua vida terrena, contemplando a Jesus e Maria.</example>
+		<example>Um deles já teve várias motos e estava desiludido com a mesmice de estilo e elevado casos de roubos.</example>
+		<example>Pois assim devem se sentir vários visitantes de Juazeiro do Norte.</example>
+		<example>Nesse primeiro semestre nossos resultados foram bastante consistentes.</example>
+		<example>Olá! Meu nome é Ricardo e sou um brasileiro que pretende falar vários idiomas.</example>
+		<example>Toco vários instrumentos.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-07-02 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-07-02 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='SPS00|CC|CS|RG|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+' postag_regexp='yes'/>
 		<token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
 		<token postag='AQ..S.+|NC.S.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='VM...S.+'/>
 		</token>
 		<token postag='AQ..P.+|NC.P.+|Z0.P.+' postag_regexp='yes'/>
+		<example>Leonardo, é bom saber que nessa luta por uma volta ao cristianismo puro nós, cristãos, estamos nas duas frentes: alguns lutando de dentro, como vc, e outros de fora.</example>
+		<example>1 garrafa de ácido muriático 33%, que pode ser encontrado em uma loja de ferragens ou em uma loja de departamento.</example>
+		<example>Tom e Maria foram ao jardim zoológico juntos.</example>
+		<example>Eu acertarei com um sono fatal cavalos e cavaleiros.</example>
+		<example>Sob o Olhar Divino sairás, vencedor ou vencido.</example>
+		<example>Essa é a minha amiga Rachel. Fizemos o ensino médio juntos.</example>
+		<example>Leukothea tem uma velocidade orbital média de 17,22561906 km/s e uma inclinação de 7,93736º.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-05-04 (1-JAN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-07-02 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-05-25 (24-MAY-2022+) *START* -->
-<!--
-NO HITS IN 600 000 SENTENCES.
-Quando falamos em jogos de guerra normalmente empregamos o termo wargames.
--->
+<!-- MARCOAGPINTO 2022-07-02 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token regexp='yes'>designa|designação|significa|termo</token>
+		<token regexp='yes'>conceito|designa|designação|nome|significa|termo</token>
+		<token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
 		<token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+		<example>Quando falamos em jogos de guerra normalmente empregamos o termo wargames.</example>
+		<example>Quando falamos em jogos de guerra normalmente empregamos a designação "wargames".</example>
+		<example>Rod Piazza é o nome blues desse festival ao lado do seu grupo The Mighty Flyers.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-05-25 (24-MAY-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-07-02 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
@@ -4533,16 +4542,6 @@ Quando falamos em jogos de guerra normalmente empregamos o termo wargames.
 	 <example>As simulações devem ser o mais realistas que há.</example>
 	 <example>As simulações são o mais realistas que há.</example>
 	 <example>As simulações são as mais realistas que há.</example>
-	 
-	 <example>O patrão deve vários meses de salário aos trabalhadores.</example>
-	 <example>Contribuem para essa fundação várias grandes empresas do ramo da informática, como IBM, Sun, Nokia e outras.</example>
-	 <example>Nesta cidade violenta várias moças e saqueia o comércio local.</example>
-
-	 <example>Leonardo, é bom saber que nessa luta por uma volta ao cristianismo puro nós, cristãos, estamos nas duas frentes: alguns lutando de dentro, como vc, e outros de fora.</example>
-	 <example>1 garrafa de ácido muriático 33%, que pode ser encontrado em uma loja de ferragens ou em uma loja de departamento.</example>
-	 <example>Tom e Maria foram ao jardim zoológico juntos.</example>
-
-	 <example>Quando falamos em jogos de guerra normalmente empregamos o termo wargames.</example>
     </rule>
     <rule>
       <antipattern>
