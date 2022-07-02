@@ -1637,6 +1637,17 @@
     </rule>
 
 
+    <rule id="JAK_PREP_U" name="jak + prep -> nie prep">        <!-- TODO: jak na przykład: prep prep przykład -->
+        <pattern>
+            <marker>
+            <token postag="prep:nom">jak</token>
+            </marker>
+            <token postag="prep.*" postag_regexp="yes"><exception>na</exception></token>
+        </pattern>
+        <disambig action="remove"><wd pos="prep:nom"/></disambig>
+    </rule>
+
+
     <rule id="spraw" name="minister spraw">
         <pattern>
             <token inflected="yes">minister</token>
@@ -10687,7 +10698,7 @@
 
     <rule id="nieslychanie_adv" name="niesłychanie + adj ->adv">
         <pattern>
-            <token postag="adv(:pos)?" postag_regexp="yes" regexp="yes">beztrosko|ciepło|czytelnie|drogo|iście|jeno|licho|mile|nieodparcie|nieopisanie|nieporównanie|niesłychanie|nieskończenie|niezrównanie|piekielnie|pięknie|pokojowo|przesadnie|rano|silnie|skrajnie|szalenie|święcie|tajnie|tęgo|umiarkowanie|uparcie|zawzięcie|zbyt|zdecydowanie</token>
+            <token postag="adv(:pos)?" postag_regexp="yes" regexp="yes">beztrosko|ciepło|czytelnie|drogo|iście|jeno|licho|mile|nieodparcie|nieopisanie|nieporównanie|niesłychanie|nieskończenie|niezrównanie|piekielnie|pięknie|pokojowo|przesadnie|rano|sądownie|silnie|skrajnie|szalenie|święcie|tajnie|tęgo|umiarkowanie|uparcie|zawzięcie|zbyt|zdecydowanie</token>
             <token postag="(?:adj|pact|ppas|verb).*" postag_regexp="yes"></token>
         </pattern>
         <disambig action="filterall"/>
@@ -10739,7 +10750,7 @@
 
     <!-- now not that greedy :) -->
     <rulegroup name="unifikacja przymiotnika z rzeczownikiem" id="unify_adj_subst">
-        <rule>
+        <rule>    <!-- 1 -->
             <pattern>
                 <marker>
                     <unify>
@@ -10760,13 +10771,20 @@
                      outputform="dawnym[dawny/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Uklękła przy starym i <marker>dawnym</marker> kurowskim obyczajem zaśpiewała stłumionym nieco głosem.</example>
             <example type="untouched">Wnioskują też ouruchomienie funduszu 40 milionów, które walne zgromadzenie odliczyło od zysku z 1994 roku — pieniądze te miały być rezerwą również na poczet zaległych podatków.</example>
         </rule>
-        <rule>
+        <rule>  <!-- 2 -->
             <antipattern>
                 <unify>
                     <feature id="number"/><feature id="gender"/> <feature id="case"/>
                     <token postag="(subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr|verb:impt|brev|interj).*|SENT_END"/></token>
                     <token postag="(?:adj|ppas|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|ppas|depr|pact|subst|comp:comma).*"/></token>
                 </unify>
+            </antipattern>
+            <antipattern>
+                <token postag="ad.*:com" postag_regexp="yes"/>
+                <token>niż</token>
+                <marker>
+                    <token postag="(?:adj|ppas|pact).*" postag_regexp="yes"/>
+                </marker>
             </antipattern>
             <pattern>
                 <marker>
@@ -10782,8 +10800,9 @@
                      outputform="Młoda[młody/adj:sg:nom.voc:f:pos]"><marker>Młoda</marker> kobieta</example>
             <example type="ambiguous" inputform="par[par/subst:sg:acc:m3,par/subst:sg:nom:m1,par/subst:sg:nom:m3,para/subst:pl:gen:f,paragraf/brev:pun]"
                      outputform="par[para/subst:pl:gen:f]">Zwycięzcy tych <marker>par</marker> awansują do I rundy.</example>
+            <example type="untouched">To ludzie, poddani wyższej niż folwarczna konieczności.</example>
         </rule>
-        <rule>
+        <rule>            <!-- 3 -->
             <pattern>
                 <marker>
                     <unify>
@@ -10808,7 +10827,7 @@
                      outputform="par[para/subst:pl:gen:f]">Zwycięzcy nowych wciąż <marker>par</marker> awansują do I rundy.</example>
             <example type="untouched">Chrześcijanin powinien przyjąć nieszczęścia, które nawet dobro pociąga za sobą.</example>
         </rule>
-        <rule>
+        <rule>                     <!-- 4 -->
             <pattern>
                 <marker>
                     <unify> <feature id="number"/><feature id="gender"/> <feature id="case"/>
@@ -10820,7 +10839,13 @@
             </pattern>
             <disambig action="unify"/>
         </rule>
-        <rule>
+        <rule>                               <!-- 5 -->
+            <antipattern>
+                <token postag=".*:com" postag_regexp="yes"/>
+                <marker>
+                <token>niż</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token postag="prep:nom.*" postag_regexp="yes"/>
                 <marker>
@@ -10832,7 +10857,7 @@
             </pattern>
             <disambig action="unify"/>
         </rule>
-        <rule>
+        <rule>  <!-- 6 -->
             <pattern>
                 <token postag="prep:acc.*" postag_regexp="yes"/>
                 <marker>
@@ -10845,7 +10870,7 @@
             <disambig action="unify"/>
         </rule>
 
-        <rule>
+        <rule>            <!-- 7 -->
             <pattern>
                 <token postag="prep:gen.*" postag_regexp="yes"/>
                 <marker>
@@ -10858,7 +10883,7 @@
             <disambig action="unify"/>
         </rule>
 
-        <rule>
+        <rule>  <!-- 8 -->
             <pattern>
                 <token postag="prep:dat.*" postag_regexp="yes"/>
                 <marker>
@@ -10871,7 +10896,7 @@
             <disambig action="unify"/>
         </rule>
 
-        <rule>
+        <rule>            <!-- 9 -->
             <pattern>
                 <token postag="prep:inst.*" postag_regexp="yes"/>
                 <marker>
@@ -10884,7 +10909,7 @@
             <disambig action="unify"/>
         </rule>
 
-        <rule>
+        <rule>          <!-- 10 -->
             <pattern>
                 <token postag="prep:loc.*" postag_regexp="yes"/>
                 <marker>
@@ -10896,7 +10921,7 @@
             </pattern>
             <disambig action="unify"/>
         </rule>
-        <rule>
+        <rule>   <!-- 11 -->
             <pattern>
                 <marker>
                     <unify>
@@ -10914,7 +10939,7 @@
             <example type="ambiguous" inputform="wady[wad/subst:pl:acc:m3,wad/subst:pl:nom:m3,wada/subst:pl:acc:f,wada/subst:pl:nom:f]"
                      outputform="wady[wad/subst:pl:acc:m3]">Obnażała nasze błędy i <marker>wady</marker>.</example>
         </rule>
-        <rule>
+        <rule>              <!-- 12 -->
             <pattern>
                 <unify>
                     <feature id="number"/><feature id="gender"/> <feature id="case"/>
@@ -10924,7 +10949,7 @@
             </pattern>
             <disambig action="unify"/>
         </rule>
-        <rule>
+        <rule>                         <!-- 13 -->
             <pattern>
                 <unify> <feature id="number"/><feature id="gender"/> <feature id="case"/>
                     <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*"/></token>
@@ -10933,12 +10958,13 @@
             </pattern>
             <disambig action="unify"/>
         </rule>
-        <rule>
+        <rule>      <!-- 14 -->
             <pattern>
                 <marker>
                     <unify>
                         <feature id="number"/><feature id="gender"/> <feature id="case"/>
-                        <token max="2" postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst|comp:comma).*"/></token>
+                        <token max="2" postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst|comp:comma).*"/>
+                        <exception scope="previous">niż</exception></token>
                         <token postag="(subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr|adj).*"/></token>
                     </unify>
                 </marker>

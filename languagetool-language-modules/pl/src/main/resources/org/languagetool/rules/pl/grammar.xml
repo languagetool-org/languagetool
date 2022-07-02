@@ -7420,6 +7420,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <feature id="case"><type id="acc"/><type id="inst"/><type id="gen"/><type id="dat"/><type id="loc"/><type id="nom"/></feature>
                     <token postag="(?:adj|pact|ppas):.*" postag_regexp="yes"/>
                     <unify-ignore>
+                        <token min="0" max="2" postag="adv.*|qub" postag_regexp="yes"/>
                         <token min="1" max="2" regexp="yes">[,ia]|oraz|ani|lub|albo|bądź|czy</token>
                         <token min="0" postag="comp:comma"/>                        
                         <token min="0" max="2" postag="qub|adv.*|ppron.*(?:acc|gen|dat|inst|loc).*" postag_regexp="yes"></token>
@@ -7432,6 +7433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <feature id="case"><type id="acc"/><type id="inst"/><type id="gen"/><type id="dat"/><type id="loc"/><type id="nom"/></feature>
                     <token postag="(?:adj|pact|ppas):.*" postag_regexp="yes"/>
                     <unify-ignore>
+                        <token min="0" postag="adv.*|qub" postag_regexp="yes"/>
                         <token min="1" max="2" regexp="yes">[,ia]|oraz|ani|lub|lecz|albo|bądź|czy|acz</token>
                         <token postag="comp:comma"/>
                         <token postag="prep.*" postag_regexp="yes"/>
@@ -7448,12 +7450,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" postag="(?:adj|pact|ppas):sg:nom.*" postag_regexp="yes"/>
                 </unify>
                     <token min="1" max="2" regexp="yes">[,ia]|oraz|ani|lub|lecz|albo|bądź|czy|acz</token>
-                <unify>
-                <feature id="gender"/>
+                    <token min="0" max="1" postag="ppron.*gen.*" postag_regexp="yes"/>
                     <token postag="(subst|ger|depr):sg:nom.*" postag_regexp="yes"/>
-                    <!-- token min="0" postag="(?:adj|pact|ppas):sg:nom.*" postag_regexp="yes"/ -->
-                </unify>
-                <token postag="(pact|ppas|adj):pl:nom.*" postag_regexp="yes"/>
+                    <token postag="(pact|ppas|adj):pl:nom.*" postag_regexp="yes"/>
         </antipattern>
       
         <antipattern> <!-- koordynacja w liczbie poj. plus orzecznik w mnogiej, rzeczownik + przymiotnik na pozycji nr 2 -->
@@ -7463,6 +7462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" postag="(?:adj|pact|ppas):sg:nom.*" postag_regexp="yes"/>
                 </unify>
                     <token min="1" max="2" regexp="yes">[,ia]|oraz|ani|lub|lecz|albo|bądź|czy|acz</token>
+                    <token min="0" postag="ppron.*gen.*" postag_regexp="yes"/>
                 <unify>
                 <feature id="gender"/>
                     <token postag="(subst|ger|depr):sg:nom.*" postag_regexp="yes"/>
@@ -7586,6 +7586,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="(subst|ger).*" postag_regexp="yes"/>
         </unify>
         </antipattern>
+        <antipattern> <!-- wyższej |niż folwarczna| konieczności -->
+        <unify><feature id="case"/><feature id="number"/><feature id="gender"/>
+          <token postag="adj.*:com" postag_regexp="yes"></token>
+          <unify-ignore>
+            <token>niż</token>
+            <token postag="(adj|pact|ppas).*" postag_regexp="yes"/>          
+          </unify-ignore>
+          <token postag="(subst|ger|depr).*" postag_regexp="yes"/>
+        </unify>
+        </antipattern>
         <antipattern> <!-- oczekującemu „człowiekowi” -->
         <unify><feature id="case"/><feature id="number"/><feature id="gender"/>
           <token postag="(adj|ppas|pact).*" postag_regexp="yes"></token>
@@ -7637,7 +7647,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="(adj|ppas|pact).*" postag_regexp="yes"></token>
           <unify-ignore>
             <token min="0" max="2" postag="adv.*|qub" postag_regexp="yes"/>
-            <token postag="verb:.*:(sg|pl):.*|verb:(inf|imps).*" postag_regexp="yes"/>          
+            <token max="2" postag="verb:.*:(sg|pl):.*|verb:(inf|imps).*" postag_regexp="yes"/>          
           </unify-ignore>
           <token postag="(subst|adj|ppas|pact).*" postag_regexp="yes"/>
         </unify>
@@ -7737,6 +7747,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern>
           <token inflected="yes" regexp="yes">któryś|jeden|żaden|ten</token>
           <token inflected="yes" regexp="yes">z|spośród</token>        
+        </antipattern>
+        <antipattern>
+          <token inflected="yes" regexp="yes">z|spośród</token>        
+          <token inflected="yes">wszystek</token>
         </antipattern>
         <antipattern>
         <unify><feature id="case"/><feature id="number"/><feature id="gender"/>
@@ -7871,7 +7885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern>
           <token>bez</token>
-          <token regexp="yes">ładu|miary|pośpiechu|porównania|problemu|racji|trudu|wątpienia|zaprzeczenia</token>        
+          <token regexp="yes">końca|ładu|miary|pośpiechu|porównania|problemu|racji|trudu|wątpienia|zaprzeczenia</token>        
         </antipattern>
         <antipattern>
           <token>co</token>
@@ -7889,6 +7903,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern>
           <token>do</token>
           <token regexp="yes">dzisiaj|dziś|głębi|gruntu|okruszynki|połowy|szczętu</token>
+        </antipattern>
+        <antipattern>
+          <token>mimo</token>
+          <token regexp="yes">woli|wszystko</token>        
         </antipattern>
         <antipattern>
           <token>na</token>
@@ -7959,7 +7977,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern>
           <token>z</token>
-          <token regexp="yes">dodatkiem|dołu|góry|gruntu|kolei|kretesem|łatwością|mozołem|natury|pewnością|początku|pozoru|reguły|trudem|wyglądu|założenia</token>        
+          <token regexp="yes">dodatkiem|dołu|góry|gruntu|kolei|kretesem|łatwością|mozołem|natury|oburzeniem|pewnością|początku|pozoru|reguły|trudem|wyglądu|założenia</token>        
         </antipattern>
         <antipattern>
           <token>ze</token>
@@ -8128,10 +8146,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <marker>
               <token postag="(?:subst|ppron|ger|depr).*acc.*" postag_regexp="yes"/>
             </marker>
+            <token min="0" regexp="yes">&apost;</token>
+            <token min="0" regexp="yes">a|ego</token>
           </unify-ignore> 
           <token postag="ppas:.*nom.*" postag_regexp="yes"/>
         </unify>
         </antipattern>
+        <antipattern> <!-- ppas + przez -->
+        <unify><feature id="number"/><feature id="gender"/><feature id="case"/>
+        <marker>
+          <token postag="ppas:.*" postag_regexp="yes"/>
+          </marker>
+          <unify-ignore>
+            <token>przez</token>
+            <token postag="(?:subst|ppron|ger|depr).*acc.*" postag_regexp="yes"/>
+            <token min="0" regexp="yes">&apost;</token>
+            <token min="0" regexp="yes">a|ego</token>
+          </unify-ignore> 
+          <token postag="(adj|pact|ppas|subst|ger|depr).*" postag_regexp="yes"/>
+        </unify>
+        </antipattern>
+        
         <antipattern> <!-- strona bierna praet/pot -->
         <unify><feature id="number"/><feature id="gender"/>
           <token postag="ppas:.*nom.*" postag_regexp="yes"/>        
@@ -8394,7 +8429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes" regexp="yes">(?:nie)?(?:znany|obojętny|przeciwny|potrzebny|równy|wdzięczny|wierny|obcy|drogi|zbędny|rad|wstrętny|straszny|życzliwy)|(?:winny|wiadomy|właściwy|bliski|podległy|podszyć|wydawać)</token>
         </antipattern>
         <antipattern> <!-- rzeczowniki wymagające dopełniacza -->
-          <token inflected="yes" regexp="yes">funkcja|towarzystwo|wrażenie|miano|nazwa|treść|obraz|typ|rodzaj|brak|większość|pół|grono|mnóstwo|masa|lista|poziom|postać|szereg|para|połowa|rola|tłum|liczba|tysiąc|milion|kolejka</token>
+          <token inflected="yes" regexp="yes">funkcja|towarzystwo|wrażenie|miano|nazwa|treść|obraz|typ|rodzaj|brak|większość|pół|grono|mnóstwo|masa|lista|poziom|postać|powód|przyczyna|skutek|szereg|para|połowa|rola|tłum|liczba|tysiąc|milion|kolejka</token>
           <token postag="(adj|ppas|pact|subst).*gen.*" postag_regexp="yes"/>        
         </antipattern>
         <antipattern> <!-- przymiotniki wymagające „w” + locativus -->
@@ -8435,7 +8470,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern> <!-- przymiotniki wymagające „z” + gen-->
           <token inflected="yes">z</token>
           <token postag="(subst|ger).*gen.*" postag_regexp="yes"/>
-          <token inflected="yes" regexp="yes">niezadowolony|zadowolony|wyzuty|opadać|zwlec</token>
+          <token inflected="yes" regexp="yes">jednaki|niezadowolony|zadowolony|wyzuty|opadać|zwlec</token>
         </antipattern>
         <antipattern> <!-- przymiotniki wymagające „z” + inst -->
           <token inflected="yes">z</token>
@@ -8444,6 +8479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern> <!-- Mickiewicz… -->
             <token>o</token>
+            <token min="0">,</token>
             <token>roku</token>
             <token>ów</token>        
         </antipattern>
@@ -8522,7 +8558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception postag="subst.*" postag_regexp="yes" case_sensitive="yes" regexp="yes" inflected="yes">\p{Lu}\p{Ll}+</exception>        
           </token>          
           <token postag="(adj|ppas|pact):.*" postag_regexp="yes">
-            <exception regexp="yes">me|od|to|ci|sie|był[ya]|piękna|musza|mamy|tyle|niechcący|można|niemusi|niemożna|gęsiego|smacznego|Facebookowi</exception>
+            <exception regexp="yes">niepodobna|dali|jadła|me|od|to|ci|sie|był[ya]|piękna|musza|mamy|tyle|niechcący|można|niemusi|niemożna|gęsiego|smacznego|Facebookowi</exception>
             <exception inflected="yes" regexp="yes">ten|który|jaki|każdy|sam|on|tenże</exception>
             <exception postag="(subst|ger|adv|verb|num):.*" postag_regexp="yes"/>           
           </token>
@@ -8581,6 +8617,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Przecież kibic takiego np. Ruchu ma prawo przyjechać do Gdyni rano.</example>
       <example>Proboszcz, jeszcze bardziej od innych zdziwiony, obydwie ręce położył mu na ranie.</example>
       <example>To rzecz z jednej strony atrakcyjna swą nowością, z drugiej niepokojąca.</example>
+      <example>Zerwała się z piersią jak u ptaka skłonną do śpiewu.</example>
+      <example>To ludzie, poddani wyższej niż folwarczna konieczności.</example>
+      <example>Ta myśl była mu ze wszystkich najprzykrzejsza.</example>
+      <example>Dżek znalazł na półce u mister Tafta napisaną przez Verne'a piękną książkę.</example>
 		</rule>
 		  <rulegroup id="DWA_LUB_WIECEJ" name="„dwa lub więcej” (co najmniej dwa)">
       <rule>
