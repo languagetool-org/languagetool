@@ -965,9 +965,9 @@ A própria Jane escreveu a carta.
       </antipattern>
 <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-05/11/14/15 (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-05/11/14/15 + 2022-07-03 (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='[DP][ADIP].[NF].+|SPS00:[DP][ADIP].[NF].+|CC|CS|RG|V.+' postag_regexp='yes'/>
+		<token postag='[DP][ADIPR].[NF].+|SPS00:[DP][ADIPR].[NF].+|CC|CS|RG|V.+|I|SPS00' postag_regexp='yes'/>
 		<token min="1" max="2" postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
 		<token postag='SPS.+' postag_regexp='yes'/>
 		<token postag='AQ.+|NC.+' postag_regexp='yes'/>
@@ -978,11 +978,11 @@ A própria Jane escreveu a carta.
 		<example>...ísica abre: Para as compras realizadas nestes dias, as regras de entrega são as mesmas de segunda a sábado descritas acima.</example>
 		<example>Isto tendo em conta as técnicas de engenharia de software mundialmente estabelecidas.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-05/11/14/15 (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-05/11/14/15 + 2022-07-03 (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-11/14 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-11/14 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='[DP]..M.+|V.+|Z0[MN].+|SPS.+|CC|CS|RG' postag_regexp='yes'/>
+		<token postag='[DP]..M.+|V.+|Z0[MN].+|SPS.+|CC|CS|RG|I' postag_regexp='yes'/>
 		<token min="1" max="2" postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
 		<token postag='NP.+' postag_regexp='yes'/>
 		<example>Com a marca, um <marker>exclusivo Auchan</marker>.</example>
@@ -992,12 +992,12 @@ A própria Jane escreveu a carta.
 		<example>O navio português Santa Catarina foi capturado pela Companhia da Índia holandesa.</example>
 		<example>Vale lembrar que o guia Europa de Cinema está cheio de dicas interessantíssimas de Londres.</example>
 	  </antipattern>
-<!-- MARCOAGPINTO 2022-06-11/14 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-11/14 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-14/15 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-14/15 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='AQ.+|NC.+|V.+|CS|CC|RG' postag_regexp='yes'/>
-		<token min="1" max="2" postag='[DP][ADIP].F.+' postag_regexp='yes'/>
+		<token postag='AQ.+|NC.+|V.+|CS|CC|RG|I|SPS00' postag_regexp='yes'/>
+		<token min="1" max="2" postag='[DP][ADIPR].F.+' postag_regexp='yes'/>
 		<token postag='AQ.[CF].+|NC[CF].+|V.+' postag_regexp='yes'/>
 		<example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
 		<example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
@@ -1008,15 +1008,15 @@ A própria Jane escreveu a carta.
 		<example>Se um homem quer que sua mulher o ouça, ele só precisa falar com outra.</example>
 		<example>Em pouco tempo viveremos como no velho oeste, na base da bala onde cada um carrega a sua arma para defender aquilo que é seu.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-14/15 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-14/15 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-14/16  (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-14/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='AQ.[CM].+|NC[CM].+|CC|CS|RG|[DP]..[CM].+|SPS00:[DP]..[CM].+|SPS00|V.+|SENT_START' postag_regexp='yes'/>
+		<token postag='AQ.[CM].+|NC[CM].+|CC|CS|RG|I|[DP]..[CM].+|SPS00:[DP]..[CM].+|SPS00|V.+|SENT_START' postag_regexp='yes'/>
 		<token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
 		<token postag='AQ.[CM].+|NC[CM].+|CC|CS|RG|[DP]..M.+|SPS00:[DP]..M.+' postag_regexp='yes'/>
 		<token postag='V.....M|AQ.M.+|NCM.+' postag_regexp='yes'/>	
-		<token min="0" max="1" postag='[DP][ADIP].F.+|SPS00|SPS00:[DP][ADIP].F.+|CC|CS|RG' postag_regexp='yes'/> <!-- "Um beijo MINHA linda!" -->
+		<token min="0" max="1" postag='[DP][ADIPR].F.+|SPS00|SPS00:[DP][ADIPR].F.+|CC|CS|RG' postag_regexp='yes'/> <!-- "Um beijo MINHA linda!" -->
 		<token postag='AQ0F.+|NCF.+' postag_regexp='yes'/>
 		<example>Até esse humano multiplicado inúmeras vezes.</example>
 		<example>São artes marciais que incluem tanto golpes de combate em pé quanto técnicas de luta no chão.</example>
@@ -1029,14 +1029,14 @@ A própria Jane escreveu a carta.
 		<example>Mas já foi em tempos, quando em finais dos anos 90, passava no pequeno ecrã séries e filmes a horas decentes.</example>
 		<example>"Os portugueses têm ao seu dispor mais alternativas, o que permitiu uma nova dinâmica de diálogo social, político e cultural.</example>
 	  </antipattern>
-<!-- MARCOAGPINTO 2022-06-14/16  (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-14/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-15/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		  <token postag='[DP][ADIP].M.+|SPS00|SPS00:[DP][ADIP].M.+|_PUNCT|CC|CS|RG|Z0CN0|SENT_START' postag_regexp='yes'/>
+		  <token postag='[DP][ADIPR].M.+|SPS00|SPS00:[DP][ADIPR].M.+|_PUNCT|CC|CS|RG|I|Z0CN0|SENT_START' postag_regexp='yes'/>
 		  <token min="1" max="2"  postag='NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
 		  <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-		  <token min="0" max="1" postag='CC|CS|RG|SPS00' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='CC|CS|RG|SPS00|I' postag_regexp='yes'/>
 		  <token postag='Z0[CF].+' postag_regexp='yes'/>
 		  <token postag='NC.+|AQ.+' postag_regexp='yes'/>
 		  <example>Precisa agora de estar em retiro 1 dia.</example>
@@ -1047,14 +1047,14 @@ A própria Jane escreveu a carta.
 		  <example>Estiveram presentes no chat 120 pessoas e agora você pode ler, na integra, como foi o bate-papo.</example>
 		  <example>A WNPower tem suporte sólido, incluindo suporte por chat ao vivo, telefone, e-mail e ticket 24 horas por dia, 7 dias por semana.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-15/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-15/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='[DP][ADIP].[NM].+|SPS00:[DP][ADIP].[NM].+|CC|CS|RG|NCM.+|AQ0M.+|VMN0000|SPS00|SENT_START|VMP00.+|VMIP3.+|VMM02.+|VMIS1.+|VMIP2.+' postag_regexp='yes'/>
-		<token min="0" max="1" postag='_PUNCT|[DP][ADIP].[NC].+|SPS00:[DP][ADIP].[NC].+|SPS00|CC|CS|RG' postag_regexp='yes'/>
+		<token postag='I|[DP][ADIPR].[NM].+|SPS00:[DP][ADIPR].[NM].+|CC|CS|RG|NCM.+|AQ0M.+|VMN0000|SPS00|SENT_START|VMP00.+|VMIP3.+|VMM02.+|VMIS1.+|VMIP2.+' postag_regexp='yes'/>
+		<token min="0" max="1" postag='_PUNCT|[DP][ADIPR].[NC].+|SPS00:[DP][ADIPR].[NC].+|SPS00|CC|CS|RG|I' postag_regexp='yes'/>
 		<token postag='NCMS000|AQ0MS0|NP.+|VMP00SM' postag_regexp='yes'/>
-		<token min="0" max="1" postag='[DP][ADIP].[NF].+|SPS00:[DP][ADIP].[NF].+|CC|CS|RG|SPS00|_PUNCT' postag_regexp='yes'/>
+		<token min="0" max="1" postag='[DP][ADIPR].[NF].+|SPS00:[DP][ADIPR].[NF].+|CC|CS|RG|SPS00|I|_PUNCT' postag_regexp='yes'/>
 		<token postag='NCFS000|AQ0FS0|VMP00SF' postag_regexp='yes'/>
 		<example>No ponto borboleta, as diferentes superfícies são importantes.</example>
 		<example>Não traduza inglês para japonês palavra por palavra.</example>
@@ -1063,11 +1063,11 @@ A própria Jane escreveu a carta.
 		<example>Não tenho nenhum interesse em comer comida inglesa.</example>
 		<example>A medicina é uma das muitas áreas do conhecimento ligada à manutenção e restauração da saúde.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-15/16 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-15/16 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-19 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-19 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='CC|CS|RG|SPS00|[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token postag='I|CC|CS|RG|SPS00|[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
 		<token regexp='yes'>princípios?</token>
 		<token postag='NC.S.+|AQ0.S.+|NP.+' postag_regexp='yes'/>
 		<example>ao princípio Mãe.</example>
@@ -1085,11 +1085,11 @@ A própria Jane escreveu a carta.
 		<example>e princípio Mãe.</example>
 		<example>que princípio Mãe.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-19 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-19 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-19 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		  <token postag='VMIP3.+|SPS00|RG|CS|CC|[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		  <token postag='VMIP3.+|SPS00|RG|CS|CC|I|[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
 		  <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
 		  <token postag='AQ.F.+|NCF.+|VMP00.+|AQ0CS0' postag_regexp='yes'/>
 		  <example>O Rui aprende e sugere ele próprio mensagens como sendo verdadeiras.</example>
@@ -1098,7 +1098,7 @@ A própria Jane escreveu a carta.
 		  <example>Eu disse a Tom coisas que não deveria.</example>
 		  <example>Meu irmãozinho disse que ele teve um sonho terrível noite passada.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-19 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <antipattern>
         <token>duas</token>
@@ -1174,21 +1174,21 @@ A própria Jane escreveu a carta.
     </rule>
     <rule>
 
-<!-- MARCOAGPINTO 2022-06-20 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-20 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='AQ.+|NC.+|V.+|CS|CC|RG' postag_regexp='yes'/>
-		<token min="1" max="2" postag='[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token postag='AQ.+|NC.+|V.+|CS|CC|RG|SPS00|I' postag_regexp='yes'/>
+		<token min="1" max="2" postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
 		<token postag='AQ.[CM].+|NC[CM].+|V.+' postag_regexp='yes'/>
-		<token postag='[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
 		<token postag='AQ.[CM].+|NC[CM].+|NP[NM].+' postag_regexp='yes'/>
 		<example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
 		<example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
       </antipattern>
       <antipattern>
-		<token postag='AQ.+|NC.+|V.+|CS|CC|RG' postag_regexp='yes'/>
-		<token min="1" max="2" postag='[DP][ADIP].M.+|SPS00:[DP][ADIP].M.+' postag_regexp='yes'/>
+		<token postag='AQ.+|NC.+|V.+|CS|CC|RG|SPS00|I' postag_regexp='yes'/>
+		<token min="1" max="2" postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
 		<token postag='AQ.[CM].+|NC[CM].+|V.+' postag_regexp='yes'/>
-		<token postag='[DP][ADIP].F.+|SPS00:[DP][ADIP].F.+' postag_regexp='yes'/>
+		<token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp='yes'/>
 		<token postag='AQ.[CF].+|NC[CF].+|NP[NF].+' postag_regexp='yes'/>
 		<example>Esta medida drástica está sendo tomada com o intuito de auxiliar no controle da disseminação do Covid-19 pelo Brasil.</example>
 		<example>É a capacidade de colocar no papel suas ideologias a respeito de determinado assunto.</example>
@@ -1196,7 +1196,7 @@ A própria Jane escreveu a carta.
 		<example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
 		<example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-20 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-20 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
@@ -1328,11 +1328,11 @@ Sujeito nojento, devia levar uns tapas.
       </antipattern>
 <!-- MARCOAGPINTO 2022-05-08 (1-JAN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-23 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-23 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
 	      <token postag='V.+' postag_regexp='yes'/>
 		  <token postag='SPS00|CC|DA.M.+|SPS00:DA.M.+|CS' postag_regexp='yes'/>
-	      <token postag='D[ADI].+|SPS00:D[ADI].+|NC.+|AQ.+' postag_regexp='yes'>
+	      <token postag='D[ADIR].+|SPS00:D[ADIR].+|NC.+|AQ.+' postag_regexp='yes'>
             <exception regexp='yes'>divers[ao]s</exception>
 		  </token>
 	      <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
@@ -1342,11 +1342,11 @@ Sujeito nojento, devia levar uns tapas.
 		  <example>O senhor Hirose ensina aos alunos gramática inglesa.</example>
 		  <example>Eles forneceram aos soldados água e comida em quantidade suficiente.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-23 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-23 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-24 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-24 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		<token postag='NP.+|NC.+|AQ0.+|[DP][ADIP].F.+|SPS00:[DP][ADIP].F.+|SPS00|CS|CC|V.+|RG' postag_regexp='yes'>
+		<token postag='NP.+|NC.+|AQ0.+|[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+|SPS00|CS|CC|V.+|RG|I' postag_regexp='yes'>
 			<exception postag_regexp='yes' postag='VMP00.M'/>
 		</token>
 		<token postag='Z0[CF].+' postag_regexp='yes'/>
@@ -1360,11 +1360,11 @@ Sujeito nojento, devia levar uns tapas.
 		<example>Esta é uma variante cem por cento ganhadora.</example>
 		<example>Ele estuda os livros três horas por dia.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-24 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-24 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-<!-- MARCOAGPINTO 2022-06-25 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-25 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
-		  <token postag='NC[CM].+|AQ.[CM].+|V.+|[DP][ADIP].[CM].+|SPS00:[DP][ADIP].[CM].+|SPS00|CC|CS|RG' postag_regexp='yes'/>
+		  <token postag='NC[CM].+|AQ.[CM].+|V.+|[DP][ADIPR].[CM].+|SPS00:[DP][ADIPR].[CM].+|SPS00|CC|CS|RG|I' postag_regexp='yes'/>
 		  <token postag='NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
 		  <token postag='NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
 		  <example>A soma não dá valores ordenados sequenciais crescentes.</example>
@@ -1373,7 +1373,7 @@ Sujeito nojento, devia levar uns tapas.
 		  <example>Como de costume, ela chegou quinze minutos atrasada.</example>
 		  <example>Tom não sabia quantos anos Maria tinha.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-25 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-25 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <antipattern>
         <token postag="Z.*" postag_regexp="yes"/>
@@ -1440,18 +1440,18 @@ Sujeito nojento, devia levar uns tapas.
 
     <rule>
 
-<!-- MARCOAGPINTO 2022-06-29 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- MARCOAGPINTO 2022-06-29 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
 		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
 		<token postag='V.+' postag_regexp='yes'>
 			<exception postag_regexp='yes' postag='VMP00.M'/>
 		</token>
-		<token postag='[DP][ADIP].[CF].+' postag_regexp='yes'/>
+		<token postag='[DP][ADIPR].[CF].+|SPS00:[DP][ADIPR].[CF].+' postag_regexp='yes'/>
 		<token postag='VMP00.F' postag_regexp='yes'/>
 		<example>A água é nos trazida até à porta.</example>
 		<example>A agente é nos trazida até à porta.</example>
       </antipattern>
-<!-- MARCOAGPINTO 2022-06-29 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+<!-- MARCOAGPINTO 2022-06-29 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;</token>
