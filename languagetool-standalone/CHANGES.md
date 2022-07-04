@@ -1,5 +1,10 @@
 # LanguageTool Change Log
 
+## 5.9 (release planned for 2022-09-28)
+
+...
+
+
 ## 5.8 (2022-07-01)
 
 #### Catalan
