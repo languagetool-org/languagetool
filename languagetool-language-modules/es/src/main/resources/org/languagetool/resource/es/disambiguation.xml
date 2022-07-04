@@ -1633,6 +1633,22 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="NCMP000"/>
         </rule>
     </rulegroup>
+    <rulegroup id="telegraphic_writing" name="escritura telegráfica">
+        <rule>
+            <pattern>
+                <token regexp="yes">abierto|cerrado</token>
+                <token regexp="yes" inflected="yes">mañana|tarde|noche|víspera|festivo|&dias_semana;</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">solicitud</token>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">certificado</token>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="nombre_aposicion" name="nombre en aposición">
         <rule>
             <pattern>
@@ -6899,15 +6915,6 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rulegroup id="telegraphic_writing" name="escritura telegráfica">
-        <rule>
-            <pattern>
-                <token regexp="yes">abierto|cerrado</token>
-                <token regexp="yes" inflected="yes">mañana|tarde|noche|víspera|festivo|&dias_semana;</token>
-            </pattern>
-            <disambig action="immunize"/>
-        </rule>
-    </rulegroup>
     <rulegroup id="IGNORE_SPELLING_OF_ABBREVIATIONS" name="Ignore spelling of some uppercase abbreviations">
         <rule>
             <!-- lowercase word + abbreviation with no vowels -->

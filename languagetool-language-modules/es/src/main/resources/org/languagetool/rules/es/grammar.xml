@@ -27797,8 +27797,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>31</token>
                     <token min="0" regexp="yes">-|/</token>
                     <token regexp="yes">0?[469]|11</token>
-                    <token regexp="yes">piezas|días|semanas|meses|años|toneladas|&unidades;</token>
+                    <token regexp="yes">piezas|días|semanas|meses|años|toneladas</token>
                     <example>31 4 piezas</example>
+                </antipattern>
+                <antipattern>
+                    <token>31</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">0?[469]|11</token>
+                    <token regexp="yes" case_sensitive="yes">&unidades;</token>
+                    <example>31 4 MBps</example>
                 </antipattern>
                 <antipattern>
                     <token>n</token>
@@ -27883,8 +27890,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">3[01]</token>
                     <token min="0" regexp="yes">-|/</token>
                     <token regexp="yes">0?2</token>
-                    <token regexp="yes">días|semanas|meses|años|toneladas|&unidades;</token>
+                    <token regexp="yes">días|semanas|meses|años|toneladas</token>
                     <example>30 - 2 días</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">3[01]</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">0?2</token>
+                    <token regexp="yes" case_sensitive="yes">&unidades;</token>
+                    <example>30 - 2 MBps</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">\d\d\d\d</token>

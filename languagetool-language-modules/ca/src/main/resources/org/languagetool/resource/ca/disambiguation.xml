@@ -3926,6 +3926,22 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rulegroup id="telegraphic_writing" name="escriptura telegràfica">
+        <rule>
+            <pattern>
+                <token regexp="yes">obert|tancat</token>
+                <token regexp="yes" inflected="yes">matí|tarda|vesprada|vespre|nit|vespra|víspera|festiu|&dies_setmana;</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">sol·licitud</token>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">certificat</token>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
