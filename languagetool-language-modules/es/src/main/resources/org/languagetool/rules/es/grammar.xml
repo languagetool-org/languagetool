@@ -21300,15 +21300,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="de">Son objeto <marker>des</marker> discusión.</example>
         </rule>
         <rule id="PAR_POR" name="par -> por">
+            <antipattern>
+                <token>a</token>
+                <token>la</token>
+                <token>par</token>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token>par</token>
+            </antipattern>
+            <antipattern>
+                <token postag="D..[MC][SN].|SP:DA" postag_regexp="yes"></token>
+                <token postag="A..[MC][SN]." postag_regexp="yes"></token>
+                <token>par</token>
+            </antipattern>
             <pattern>
-                <token><exception postag="D..[MC][SN]," postag_regexp="yes"/></token>
+                <token><exception postag="D..[MC][SN].|SP:DA" postag_regexp="yes"/></token>
                 <marker>
                     <token>par</token>
                 </marker>
                 <token postag="D.*" postag_regexp="yes"/>
             </pattern>
             <message>¿Quería decir <suggestion>por</suggestion>?</message>
-            <example correction="Por"><marker>Par</marker> ese motivo se separaron.</example>
+            <suggestion>para</suggestion>
+            <example correction="Por|Para"><marker>Par</marker> ese motivo se separaron.</example>
+            <example>Del par 21.</example>
+            <example>Un par 23 (cromosomas)</example>
+            <example>de par en par dos segundos</example>
+            <example>En el último par 23.</example>
         </rule>
         <rule id="CON_O_SIN" name="con *a sin -> con o sin">
             <pattern>
