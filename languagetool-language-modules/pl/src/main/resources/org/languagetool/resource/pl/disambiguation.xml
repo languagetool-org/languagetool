@@ -1994,7 +1994,17 @@
     	<disambig action="remove" postag="prep:acc.*"/>
     	<example type="untouched">To było już godzinę temu.</example>
     	<example type="ambiguous" inputform="temu[temu/prep:acc,ten/adj:sg:dat:m1.m2.m3.n1.n2:pos,to/subst:sg:dat:n2]" outputform="temu[ten/adj:sg:dat:m1.m2.m3.n1.n2:pos,to/subst:sg:dat:n2]">Dziwię się <marker>temu</marker> zachowaniu.</example>
-    </rule>     
+    </rule>
+
+    <rule id="O_prep" name="wiadomości, informacje o --> prep">
+        <pattern>
+            <token inflected="yes" regexp="yes">wiadomość|informacja|książka</token>
+            <marker>
+                <token>o</token>
+            </marker>
+        </pattern>
+        <disambig postag="prep:loc"/>
+    </rule>
     
     <rulegroup name="O - dezambiguacja" id="O_brev_interj">
     	<rule>
@@ -2045,6 +2055,11 @@
                     </unify-ignore>
                 <token postag="adj.*" postag_regexp="yes"/>
                 </unify>
+            </antipattern>
+            <antipattern>
+                <token>o</token>
+                <token skip="-1" inflected="yes" regexp="yes">który|jaki</token>
+                <token>?</token>
             </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
@@ -3234,7 +3249,7 @@
             <marker>
                 <token>to</token>
             </marker>
-                <token skip="-1" postag="subst.*nom.*" postag_regexp="yes"><exception regexp="yes">to|miał|miały</exception>
+                <token skip="-1" postag="subst.*nom.*" postag_regexp="yes"><exception regexp="yes">to|mamy|miał|miały</exception>
                     <exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes"/></token>
             <token postag="interp:comma|SENT_END" postag_regexp="yes"/>
         </pattern>
@@ -3244,6 +3259,7 @@
         <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]"
         outputform="to[to/pred]">Ściśle rzecz biorąc, pomidor <marker>to</marker> owoc.</example>
         <example type="untouched">Bylem tylko dostał do rączki to hrabstwo, to już wiem, że dam sobie radę...</example>
+        <example type="untouched">No to mamy problem.</example>
     </rule>
 
 
@@ -5657,6 +5673,10 @@
         </rule>
 
         <rule id="PREP_ADV_SUBST_2">
+            <antipattern>
+                <token postag="prep:(loc|inst|dat).*" postag_regexp="yes"/>
+                <token>tym</token>
+            </antipattern>
             <pattern>
                 <unify> <feature id="case"/>
                     <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*|qub|subst:sg:nom:f" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
@@ -6314,15 +6334,26 @@
         <antipattern>
             <unify><feature id="case"><type id="acc"></type><type id="loc"/></feature><feature id="number"/><feature id="gender"></feature>
                    <token postag="subst.*" postag_regexp="yes"></token>
+                <marker>
                 <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
+                </marker>
             </unify>
         </antipattern>
+        <antipattern>
+            <token postag="prep:loc.*" postag_regexp="yes"/>
+            <token postag="(pact|adj|ppas).*loc.*|num.*loc.*:congr" postag_regexp="yes"/>
+            <marker>
+                <token postag="(subst|ger|depr).*loc.*" postag_regexp="yes"/>
+            </marker>
+        </antipattern>
         <pattern>
+            <marker>
             <token postag=".*inst.*" postag_regexp="yes">
                 <exception postag="(?:adj|subst|depr|pact|ppas).*" postag_regexp="yes" negate_pos="yes"/>
                 <exception scope="previous" postag="prep.*" postag_regexp="yes"/>
             </token>
             <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
+            </marker>
         </pattern>
         <disambig action="filterall"/>
         <example type="untouched">On wart jest stu takich drabów.</example>
@@ -8345,7 +8376,22 @@
         </rule>
     </rulegroup>
 
+    <rule id="nieslychanie_adv" name="niesłychanie + adj ->adv">
+        <antipattern>
+            <token>silnie</token>
+            <token postag="adj:.*:(com|sup)" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <token postag="adv(:pos)?" postag_regexp="yes" regexp="yes">beztrosko|ciepło|czytelnie|drogo|iście|jeno|jutro|licho|materialnie|mile|nieodparcie|nieopisanie|nieporównanie|niesłychanie|nieskończenie|niezrównanie|piekielnie|pięknie|pokojowo|przesadnie|rano|sądownie|silnie|skrajnie|szalenie|święcie|tajnie|tęgo|umiarkowanie|uparcie|zawzięcie|zbyt|zdecydowanie</token>
+            <token postag="adj:.*|(?:pact|ppas|verb).*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Funkcje takie jak silnie najczęstsze są w jego rachunkach.</example>
+        <example type="ambiguous" inputform="silnie[silnia/subst:pl:acc:f,silnia/subst:pl:nom:f,silnia/subst:pl:voc:f,silnie/adv:pos]"
+                 outputform="silnie[silnie/adv:pos]">Generał miał twarz <marker>silnie</marker> ogorzałą.</example>
 
+    </rule>
+    
     <rule id="to_pred_byc" name="to + jest/są -> predykatyw">
         <pattern>
             <marker>
@@ -8914,17 +8960,6 @@
                  inputform="równie[rówień/subst:pl:acc:f,rówień/subst:pl:nom:f,rówień/subst:pl:voc:f,równia/subst:pl:acc:f,równia/subst:pl:nom:f,równia/subst:pl:voc:f,równie/adv:pos]">Dulcynea z Toboso jest <marker>równie</marker> dobrą księżniczką.</example>
     </rule>
 
-    <rule id="SILNIE" name="silnie jako adv:pos">
-    <pattern>
-        <marker><token>silnie</token></marker>
-        <token postag="adj.*:pos" postag_regexp="yes"/>
-    </pattern>
-    <disambig postag="adv:pos"/>
-        <example type="untouched">Funkcje takie jak silnie najczęstsze są w jego rachunkach.</example>
-        <example type="ambiguous" inputform="silnie[silnia/subst:pl:acc:f,silnia/subst:pl:nom:f,silnia/subst:pl:voc:f,silnie/adv:pos]"
-                 outputform="silnie[silnie/adv:pos]">Generał miał twarz <marker>silnie</marker> ogorzałą.</example>
-    </rule>
-
     <rulegroup id="SMIALO_ADV" name="śmiało jako przysłówek">
         <rule>
         <pattern>
@@ -9002,6 +9037,14 @@
     </rule>
 
     <rulegroup id="LUBI_VERB" name="lubi + acc /się -> czasownik">
+        <rule>
+            <pattern>
+                <token postag="qub">nie</token>
+                <token postag="verb:fin:sg:ter:imperf:nonrefl">lubi</token>
+                <token postag=".*gen.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
         <rule>
         <pattern>
             <token postag="verb:fin:sg:ter:imperf:nonrefl">lubi</token>
@@ -10696,14 +10739,6 @@
         <example type="untouched">Lubię ekstremalne zimno Alaski.</example>
     </rule>
 
-    <rule id="nieslychanie_adv" name="niesłychanie + adj ->adv">
-        <pattern>
-            <token postag="adv(:pos)?" postag_regexp="yes" regexp="yes">beztrosko|ciepło|czytelnie|drogo|iście|jeno|licho|mile|nieodparcie|nieopisanie|nieporównanie|niesłychanie|nieskończenie|niezrównanie|piekielnie|pięknie|pokojowo|przesadnie|rano|sądownie|silnie|skrajnie|szalenie|święcie|tajnie|tęgo|umiarkowanie|uparcie|zawzięcie|zbyt|zdecydowanie</token>
-            <token postag="(?:adj|pact|ppas|verb).*" postag_regexp="yes"></token>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-
     <rule id="taki_adj" name="unifikacja taki + adj/pact/ppas">
         <pattern>
             <marker>
@@ -11348,11 +11383,22 @@
                      outputform="miały[mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]">Wczoraj kobiety nadal <marker>miały</marker> dużo pracy.</example>
         </rule>
         <rule> <!-- 6 -->
+            <antipattern>
+                <unify>
+                    <feature id="number"/><feature id="gender"/><feature id="case"><type id="gen"/><type id="acc"/><type id="dat"/><type id="loc"/><type id="inst"/></feature>
+                    <token postag="(adj|ppas|pact).*" postag_regexp="yes"/>
+                    <token postag="(subst|ger|depr).*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
             <pattern>
                 <marker>
                     <unify>
                         <feature id="number"/>
-                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception><exception scope="previous">nie</exception><exception regexp="yes">[tj]ak[ia]</exception></token>
+                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes">
+                            <exception postag="verb:winien:.*" postag_regexp="yes"/>
+                            <exception scope="previous" regexp="yes">był[ao]?</exception>
+                            <exception scope="previous">nie</exception><exception regexp="yes">[tj]ak[ia]</exception>
+                        <exception scope="previous" postag="prep:(acc|gen).*" postag_regexp="yes"/></token>
                         <token postag="verb:fin:.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
                     </unify>
                 </marker>
@@ -11362,6 +11408,7 @@
             <example type="ambiguous" inputform="stanowi[stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]">To, co <marker>stanowi</marker> treść ich wyobraźni ma charakter intersubiektywny i postrzegalny także przez innych.</example>
             <example type="untouched">A to był kostur pastuszy.</example>
             <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
+            <example type="untouched">Na wszystko jest odpowiedź.</example>
             <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>
         </rule>
         <rule> <!-- 7 -->
@@ -11506,12 +11553,15 @@
             <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>
         </rule>
 
-        <rule> <!-- 12 -->
+        <rule id="adsa"> <!-- 12 -->
             <pattern>
                 <marker>
                     <unify>
                         <feature id="number"/>
-                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception><exception scope="previous">nie</exception><exception regexp="yes">[tj]ak[ia]</exception></token>
+                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes">
+                            <exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception><exception scope="previous">nie</exception><exception regexp="yes">[tj]ak[ia]</exception>
+                            <exception scope="previous" postag="prep:(acc|gen).*" postag_regexp="yes"/>
+                        </token>
                         <token postag="verb:bedzie:.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
                     </unify>
                 </marker>
@@ -11529,7 +11579,13 @@
                 <marker>
                     <unify>
                         <feature id="number"/>
-                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception><exception scope="previous">nie</exception><exception regexp="yes">[tj]ak[ia]</exception></token>
+                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes">
+                            <exception postag="verb:winien:.*" postag_regexp="yes"/>
+                            <exception scope="previous" regexp="yes">był[ao]?</exception>
+                            <exception scope="previous">nie</exception>
+                            <exception regexp="yes">[tj]ak[ia]|od</exception>
+                            <exception scope="previous" postag="prep:(acc|gen).*" postag_regexp="yes"/>
+                    </token>
                         <unify-ignore>
                             <token postag="adv(?::pos)?|qub" postag_regexp="yes"><exception postag="conj|comp.*" postag_regexp="yes"/><exception>jak</exception></token>
                         </unify-ignore>
@@ -11810,16 +11866,21 @@
 
     <rule name="bądź i lub jako spójniki w ogóle między dwoma przymiotnikami" id="badz_lub">
         <pattern>
+            <unify><feature id="case"/>
             <token postag="(?:adj|pact|subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst|depr|ger).*"/></token>
-            <token min="0" max="1">,</token>
-            <marker><token regexp="yes" postag="conj">bądź|lub</token></marker>
+                <unify-ignore>
+                    <token min="0" max="1">,</token>
+                    <marker><token regexp="yes" postag="conj">bądź|lub</token></marker>
+                </unify-ignore>
             <token postag="(?:adj|pact|subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst|depr|ger).*|SENT_END"/></token>
+            </unify>
         </pattern>
         <disambig action="filter" postag="conj|comp:comma"></disambig>
         <example type="untouched">Bądź zdrów!</example>
         <example type="untouched">Ludwiku, bądź zdrów!</example>
         <example type="untouched">Lub lubelskie!</example>
         <example type="untouched">Ludwiku, lub lubelskie!</example>
+        <example type="untouched">Jeśli chcesz być szczęśliwym, bądź szczęśliwy.</example>
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
                  outputform="bądź[bądź/comp:comma,bądź/conj]">Połysk: najczęściej szklisty, tłusty <marker>bądź</marker> perłowy</example>
     </rule>
