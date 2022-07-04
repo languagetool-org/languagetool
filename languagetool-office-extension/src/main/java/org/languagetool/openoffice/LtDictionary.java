@@ -22,10 +22,13 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -211,7 +214,7 @@ public class LtDictionary {
     try (InputStream stream = new FileInputStream(path);
          InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
          BufferedReader br = new BufferedReader(reader)
-    ) {
+        ) {
       String line;
       while ((line = br.readLine()) != null) {
         lines.add(line);
@@ -253,11 +256,16 @@ public class LtDictionary {
         MessageHandler.printToLogFile("getLTDictionaryFile: LT dictionary file doesn't exist: start to create");
       }
       List<String> words = getManualWordList(locale, linguServices);
-      BufferedWriter writer = new BufferedWriter(new FileWriter(path));
-      for (String word : words) {
-        writer.write(word + "\n");
+      try (OutputStream stream = new FileOutputStream(path);
+          OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
+          BufferedWriter br = new BufferedWriter(writer)
+          ) {
+        for (String word : words) {
+          writer.write(word + "\n");
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
-      writer.close();
       long endTime = System.currentTimeMillis();
       if (debugMode) {
         MessageHandler.printToLogFile(words.size() + "written to file " + path);
