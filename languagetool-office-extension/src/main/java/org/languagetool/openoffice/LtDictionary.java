@@ -253,7 +253,7 @@ public class LtDictionary {
         MessageHandler.printToLogFile("getLTDictionaryFile: LT dictionary file doesn't exist: start to create");
       }
       List<String> words = getManualWordList(locale, linguServices);
-      BufferedWriter writer = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(path));
       for (String word : words) {
         writer.write(word + "\n");
       }
