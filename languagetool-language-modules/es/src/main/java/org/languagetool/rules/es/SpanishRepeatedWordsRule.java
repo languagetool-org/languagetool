@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Tag;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
@@ -52,6 +53,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
   public SpanishRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new Spanish());
     antiPatterns = cacheAntiPatterns(new Spanish(), ANTI_PATTERNS);
+    super.setTags(Arrays.asList(Tag.picky));
     // super.setDefaultTempOff();
   }
 
