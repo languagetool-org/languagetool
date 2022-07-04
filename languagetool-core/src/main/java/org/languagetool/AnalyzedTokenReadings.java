@@ -322,12 +322,10 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   
   /**
    * Returns the first reading that matches a given lemma.
-   *
-   * @param posTagRegex POS tag regular expression to look for
    * @since 5.8
    */
   public AnalyzedToken readingWithLemma(String lemma) {
-    boolean found = false;
+    boolean found;
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getLemma() != null) {
         found = reading.getLemma().equals(lemma);
