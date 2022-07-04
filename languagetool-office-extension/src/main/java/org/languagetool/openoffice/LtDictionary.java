@@ -161,8 +161,8 @@ public class LtDictionary {
               lineWords = lineWords[0].trim().split("/");
               lineWords[0] = lineWords[0].replaceAll("_","");
               if (!lineWords[0].isEmpty()) {
-                if (!words.contains(lineWords[0]) && !linguServices.isCorrectSpell(lineWords[0], locale)) {
-//                if (!words.contains(lineWords[0])) {
+//                if (!words.contains(lineWords[0]) && !linguServices.isCorrectSpell(lineWords[0], locale)) {
+                if (!words.contains(lineWords[0])) {
                   words.add(lineWords[0]);
                 }
                 if (lineWords.length > 1) {
@@ -171,8 +171,8 @@ public class LtDictionary {
                     if (lineWords[1].charAt(n) == 'A') {
                       for (String add : ADD_ALL) {
                         String word = lineWords[0] + add;
-                        if (!words.contains(word) && !linguServices.isCorrectSpell(word, locale)) {
-//                        if (!words.contains(word)) {
+//                        if (!words.contains(word) && !linguServices.isCorrectSpell(word, locale)) {
+                        if (!words.contains(word)) {
                           words.add(word);
                         }
                       }
@@ -253,7 +253,7 @@ public class LtDictionary {
         MessageHandler.printToLogFile("getLTDictionaryFile: LT dictionary file doesn't exist: start to create");
       }
       List<String> words = getManualWordList(locale, linguServices);
-      BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(path, StandardCharsets.UTF_8));
       for (String word : words) {
         writer.write(word + "\n");
       }
