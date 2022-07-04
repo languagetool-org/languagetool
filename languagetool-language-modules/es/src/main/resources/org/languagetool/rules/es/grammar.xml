@@ -10818,6 +10818,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="re$1"/></suggestion>
                 <example correction="reactiva">Se <marker>re activa</marker>.</example>
+                <example correction="revictimización">La <marker>re victimización</marker>.</example>
                 <example>Siroe Re di Persia</example>
                 <example>Concierto en re mayor.</example>
                 <example>en la tonalidad de re bemol menor.</example>
@@ -15921,6 +15922,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
+            <antipattern>
+                <token regexp="yes">la|las</token>
+                <token>re</token>
+                <token min="0">-</token>
+                <token postag="NCF.*" postag_regexp="yes"/>
+            </antipattern>
             <antipattern>
                 <token regexp="yes">al|del|el|un|los|unos</token>
                 <token regexp="yes">/|y|o</token>
