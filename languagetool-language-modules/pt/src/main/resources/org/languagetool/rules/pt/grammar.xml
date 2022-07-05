@@ -342,6 +342,43 @@ title="Easy editing stylesheet" ?>
 
  <category id='GRAMMAR' name="Gramática Geral" type="grammar">
 
+<rule id="CONFUSION_OF_MAS_MAIS" name="confusion of mais and mas" default="temp_off">
+        <antipattern>
+        <token>mais</token>
+        <token postag='AQ.+' postag_regexp='yes'/>
+        </antipattern>
+        <antipattern>
+        <token>nunca</token>
+        <token>mais</token>
+        </antipattern>
+        <antipattern>
+        <token>quanto|quem</token>
+        <token>mais</token>
+        </antipattern>
+        <antipattern>
+        <token>quanto|quem</token>
+        <token>mais</token>
+        <token skip="-1">mais</token>
+        </antipattern>
+        <antipattern>
+        <token>mais</token>
+        <token regexp='yes'>cedo|tarde|devagar|rápido|um|uma|algum|alguma|poderes|poder</token>
+        </antipattern>
+        <antipattern>
+        <token case_sensitive='yes'>Mais</token>
+        <token postag='RN|RG' postag_regexp='yes'/>
+        </antipattern>
+        <pattern>
+        <token regexp='yes'>,</token>
+        <marker>
+        <token regexp="yes">mais</token>
+        </marker>
+        <token postag='RN|RG|V.+' postag_regexp='yes'/>
+    </pattern>
+    <message>A palavra "mais" indica adição. Verifique se não quis dizer "mas".</message>
+    <suggestion>mas</suggestion>
+    <example correction="mas">Os resultados mostraram progresso, <marker>mais</marker> não o suficiente.</example>
+</rule>
 
 	<!-- ESCREVE-LO escrevê-lo -->
     <rule id='ACENTUAÇÃO_VOGAL_ÊNCLISE' name="Acentuação vogal ênclise">
@@ -16976,7 +17013,7 @@ NOTICE THE ANTIPATTERN CREATED HERE IN THE COMMA "MAS" RULE, SO THAT IT TRIGGERS
 
 Vamos fazer exercício durante mas meses. → Vamos fazer exercício durante mais meses.
 É uma estratégia um pouco mas trabalhosa. → É uma estratégia um pouco mais trabalhosa.
-Quanto mas informação reunir, mais condições esse investidor vai ter. → Quanto mais informação reunir, mais condições esse investidor vai ter.
+Quanto maQuanto mas informação reunir, mais condições esse investidor vai ter. → Quanto mais informação reunir, mais condições esse investidor vai ter.
 Temos muitos modelos para eleger, dos mas curtinhos aos longos, dos mas justos aos larguinhos. → Temos muitos modelos para eleger, dos mais curtinhos aos longos, dos mais justos aos larguinhos.
 -->
       <antipattern>
