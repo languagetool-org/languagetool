@@ -1109,6 +1109,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Is this <marker>your</marker> 900 page document?</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="DT|PRP\$|NN|NN:UN?|JJ.*" postag_regexp="yes" />
+                    </marker>
+                    <token case_sensitive="yes">doc</token><!-- "doc" short form for document -->
+                </pattern>
+                <example correction="">Here's a <marker>test</marker> doc:</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
             <rule>
