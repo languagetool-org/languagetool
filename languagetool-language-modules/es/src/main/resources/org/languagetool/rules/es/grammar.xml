@@ -6907,6 +6907,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sería">Debido al gran interes de este tema <marker>seria</marker> de gran utilidad.</example>
                 <example>Una evaluación seria de todo el proceso.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>seria<exception postag="_GN_FS"/></token>
+                    </marker>
+                    <token regexp="yes">en</token>
+                </pattern>
+                <message>Si es del v. 'ser', se escribe con tilde</message>
+                <suggestion>sería</suggestion>
+                <example correction="sería">El próximo pago <marker>seria</marker> en agosto.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PARIS" name="Paris/París" default="on">
             <antipattern>
@@ -13883,6 +13894,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
+                <token>por</token>
+                <token>hay</token>
+            </antipattern>
+            <antipattern>
                 <!-- es.wikipedia.org-->
                 <token>es</token>
                 <token spacebefore="no">.</token>
@@ -17296,6 +17311,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
             <antipattern>
+                <token regexp="yes">verde|azul|amarillo|rojo|marrón|negro|blanco</token>
+                <token regexp="yes">claro|ob?scuro|marino</token>
+                <example>Lleva una camisa verde oscuro</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">sera|seras|esta|estas</token>
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
@@ -17377,7 +17397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!-- invariable adjectives or verbs -->
-                <token regexp="yes">estándar|adidas?|estéreo|aceptas?</token>
+                <token regexp="yes">estándar|adidas?|estéreo|aceptas?|quedo|queda|quedas</token>
             </antipattern>
             <antipattern>
                 <token/>
@@ -17476,7 +17496,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>justo</token>
-                <token regexp="yes">a|al|afuera|adentro|fuera|dentro|aquí|allí|ahí|allá|en|como|delante|detrás|antes|después</token>
+                <token regexp="yes">a|al|afuera|adentro|fuera|dentro|aquí|allí|ahí|allá|en|como|delante|detrás|antes|después|donde</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">producto|objeto|fruto|resultado</token>
@@ -17527,9 +17547,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes" skip="3">despertar|cruzar|llevar|ir|venir|entrar|volver|salir|estar|levantar|quedar|permanecer|pillar|coger|llegar|pasar|reposar|descansar</token>
                 <token min="0" regexp="yes">a|en|de|al|del</token>
                 <token postag="D[ADP].*" postag_regexp="yes" min="0"/>
-                <token regexp="yes" inflected="yes">meta|casa|cama|concierto|cine|teatro|fiesta|esquina|calle|carretera|avenida</token>
+                <token regexp="yes" inflected="yes">meta|casa|habitación|cama|concierto|cine|teatro|fiesta|esquina|calle|carretera|avenida</token>
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+                <example>Estoy en mi habitación sentado en la cama.</example>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes" skip="3">pasar|permanecer|estar|llevar</token>
@@ -18029,6 +18050,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A veces muy unidos y otras muy enojados.</example>
                 <example>No podemos dar de alta más usuarios.</example>
                 <example>Quiero dar de baja usuarios antiguos.</example>
+                <example>¿En qué andas perdido?</example>
+                <example>El sistema valida la zona.</example>
                 <!--
                 La eternidad dura harto.
                 Ella fue al concierto acompañada de una amiga.
