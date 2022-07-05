@@ -43275,6 +43275,92 @@ Vão-me obrigar a ir lá para marcar a consulta. → Vão-me obrigar a ir lá ma
     </rule>
 
 
+	<!-- NÃO SABIA/SABIAM NADA nada sabia/sabiam -->
+    <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style">
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-05 (5-JUN-2022+)      -->
+	<!--
+O Rui não sabia nada do assunto. → O Rui nada sabia do assunto.
+Tu não sabias nada do assunto. → Tu nada sabias do assunto.
+Os amigos não sabiam nada do assunto. → Os amigos nada sabiam do assunto.
+	-->
+	  <antipattern>
+			<token>não</token>
+			<token postag='VMI[ISM].+' postag_regexp='yes'/>
+			<token>nada</token>
+			<token>do</token>
+			<token>que</token>
+			<example>Como falavam em chinês, não percebi nada do que eles disseram.</example>
+			<example>Não entendemos nada do que você diz.</example>
+			<example>Eu não gostei nada do que ele disse.</example>
+			<example>A menina não fez nada do que eu dissera.</example>
+	  </antipattern>
+
+	  <antipattern>
+			<token>não</token>
+			<token postag='VMI[ISM].+' postag_regexp='yes'/>
+			<token>nada</token>
+			<token postag='CS' postag_regexp='no'/>
+			<token postag='[DP][ADIPR].+' postag_regexp='yes'/>
+			<example>Ela não disse nada que o deixaria nervoso.</example>
+			<example>Não havia nada que eu pudesse fazer para ajudar.</example>
+			<example>O Tom logo percebeu que não havia nada que ele pudesse fazer para ajudar.</example>
+	  </antipattern>
+
+	  <antipattern>
+			<token>não</token>
+			<token postag='VMI[ISM].+' postag_regexp='yes'/>
+			<token>nada</token>
+			<token postag='CC' postag_regexp='no'/>
+			<token postag='[DP][ADIPR].+' postag_regexp='yes'/>
+			<token postag='SENT_END' postag_regexp='no'/>
+			<example>Você não disse nada para ele?</example>
+			<example>Não consegui nada para você.</example>
+			<example>Eu não fiz nada para você.</example>
+			<example>Tom não disse nada para ninguém.</example>
+			<example>Por que você não contou nada para ela?</example>
+	  </antipattern>
+
+      <pattern>
+		<marker>
+			<token>não</token>
+			<token postag='VMI[ISM].+' postag_regexp='yes'/>
+			<token>nada</token>
+		</marker>
+		<token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+		<or>
+			<token><exception postag='AQ.+|NC.+|PI.+|SPS00:PI.+|PP.C.+|SPS00:PP.C.+|D[ADIPR].+|V.+|RG|NP.+|SENT_END' postag_regexp='yes'/></token>
+			<token postag='CC|CS|SPS00' postag_regexp='yes'/>
+		</or>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+	  <suggestion>\3 \2</suggestion>
+	  <example correction="nada sabia">O Rui <marker>não sabia nada</marker> do assunto.</example>
+	  <example correction="nada sabias">Tu <marker>não sabias nada</marker> do assunto.</example>
+	  <example correction="nada sabiam">Os amigos <marker>não sabiam nada</marker> do assunto.</example>
+	  <example>Eu não esperava nada muito além do que foi lançado, mas os bugs realmente irritam.</example>
+	  <example>Não dormi nada bem esta noite.</example>
+	  <example>Ele não comeu nada ontem.</example>
+	  <example>Você não viu nada ainda.</example>
+	  <example>O Tom não tinha nada mais para fazer.</example>
+	  <example>Eu ainda não comi nada hoje.</example>
+	  <example>Eu não encontrei nada melhor.</example>
+	  <example>Eu não vi nada.</example>
+	  <example>Você tem certeza de que não esqueceu nada?</example>
+	  <example>E ela não fez nada.Fiquei quieto e não disse nada.</example>
+	  <example>O ladrão disse à polícia que não roubara nada.</example>
+	  <example>Ela não quis nada filmado no Jardim botânico, parque lage, praia… escolheu um clipe mais radical.</example>
+	  <example>Como resposta, o argentino me disse que quem não entendia nada era eu.</example>
+	  <example>Ele não ficou nada satisfeito.</example>
+	  <example>Devo dizer que eles não pareciam nada surpresos.</example>
+	  <example>Ele não fez nada errado.</example>
+	  <example>Não aprendi nada desse professor.</example>
+	  <example>Eu não notei nada suspeito.</example>
+	  <example>Não vi nada estranho.</example>
+	  <example>Não resolveu nada o artigo!</example>
+	  <example>Eles não viram nada novo.</example>
+    </rule>
+
+
 	<!-- O QUE ORIGINA originando -->
     <rule id='SIMPLIFICAR_O_QUE_VERBO_VERBOGERUNDIO' name="Simplificar: O que + V. → V. Gerúndio" type="style">
     <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-08-13/15/17/19/21 (1-JAN-2022+)      -->
