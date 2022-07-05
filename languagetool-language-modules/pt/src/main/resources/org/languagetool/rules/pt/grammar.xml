@@ -341,44 +341,41 @@ title="Easy editing stylesheet" ?>
 
 
  <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-
-<rule id="CONFUSION_OF_MAS_MAIS" name="confusion of mais and mas" default="temp_off">
+     <rule id="CONFUSION_OF_MAS_MAIS" name="confusion of mais and mas" default="temp_off">
         <antipattern>
-        <token>mais</token>
-        <token postag='AQ.+' postag_regexp='yes'/>
+            <token>mais</token>
+            <token postag='AQ.+' postag_regexp='yes'/>
+            <example>Stefani Joanne, mais conhecida como Lady Gaga, é uma cantora estadunidense.</example>
         </antipattern>
         <antipattern>
-        <token>nunca</token>
-        <token>mais</token>
+            <token regexp='yes'>quanto|quem</token>
+            <token skip="-1">mais</token>
+            <token>mais</token>
+            <example>Quanto mais eu durmo, mais sono tenho.</example>
         </antipattern>
         <antipattern>
-        <token>quanto|quem</token>
-        <token>mais</token>
+            <token skip="-1">mais</token>
+            <token>,</token>
+            <token>mais</token>
+            <example>Este mercado tem mais ofertas, mais opções e mais economia.</example>
         </antipattern>
         <antipattern>
-        <token>quanto|quem</token>
-        <token>mais</token>
-        <token skip="-1">mais</token>
-        </antipattern>
-        <antipattern>
-        <token>mais</token>
-        <token regexp='yes'>cedo|tarde|devagar|rápido|um|uma|algum|alguma|poderes|poder</token>
-        </antipattern>
-        <antipattern>
-        <token case_sensitive='yes'>Mais</token>
-        <token postag='RN|RG' postag_regexp='yes'/>
+             <token>,</token>
+             <token>mais</token>
+            <token regexp='yes'>cedo|tarde|à|adiante|nada|ou|devagar|rápido|um|uma|algum|alguma|poderes|poder</token>
+            <example>O local é perto do shopping, mais adiante.</example>
         </antipattern>
         <pattern>
-        <token regexp='yes'>,</token>
-        <marker>
-        <token regexp="yes">mais</token>
-        </marker>
-        <token postag='RN|RG|V.+' postag_regexp='yes'/>
-    </pattern>
-    <message>A palavra "mais" indica adição. Verifique se não quis dizer "mas".</message>
-    <suggestion>mas</suggestion>
-    <example correction="mas">Os resultados mostraram progresso, <marker>mais</marker> não o suficiente.</example>
-</rule>
+            <token>,</token>
+            <marker>
+                <token>mais</token>
+            </marker>
+            <token postag='RN|RG|V.+' postag_regexp='yes'/>
+        </pattern>
+        <message>A palavra "mais" indica adição. Verifique se não quis dizer "mas".</message>
+        <suggestion>mas</suggestion>
+        <example correction="mas">Os resultados mostraram progresso, <marker>mais</marker> não o suficiente.</example>
+    </rule>
 
 	<!-- ESCREVE-LO escrevê-lo -->
     <rule id='ACENTUAÇÃO_VOGAL_ÊNCLISE' name="Acentuação vogal ênclise">
