@@ -596,6 +596,7 @@ public class English extends Language implements AutoCloseable {
       case "KNOW_AWARE_REDO":           return -60;
       case "EN_REDUNDANCY_REPLACE":     return -510;  // style rules should always have the lowest priority.
       case "EN_PLAIN_ENGLISH_REPLACE":  return -511;  // style rules should always have the lowest priority.
+      case "REP_PASSIVE_VOICE":         return -599;  // higher prio than PASSIVE_VOICE for testing purposes, but lower than other style rules
       case "THREE_NN":                  return -600;  // style rules should always have the lowest priority.
       case "SENT_START_NUM":            return -600;  // style rules should always have the lowest priority.
       case "PASSIVE_VOICE":             return -600;  // style rules should always have the lowest priority.
