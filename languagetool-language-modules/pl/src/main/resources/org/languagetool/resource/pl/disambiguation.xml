@@ -8391,6 +8391,17 @@
                  outputform="silnie[silnie/adv:pos]">Generał miał twarz <marker>silnie</marker> ogorzałą.</example>
 
     </rule>
+
+    <rule id="gra_acc" name="gra + adj/acc -> verb">
+        <pattern>
+            <marker>
+                <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">gra</token>
+                <token postag="(adj|pact|ppas):sg:acc.*" postag_regexp="yes"><exception postag="(adj|ppas|pact):sg:nom\.voc:f.*" postag_regexp="yes"/></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Gra indywidualna polskich zawodników przypominała zapasy w kisielu.</example>
+    </rule>
     
     <rule id="to_pred_byc" name="to + jest/są -> predykatyw">
         <pattern>
