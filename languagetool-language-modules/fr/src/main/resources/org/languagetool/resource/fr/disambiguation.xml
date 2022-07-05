@@ -143,6 +143,20 @@ RB => Règles Brutes
         </pattern>
         <disambig action="replace" postag="N f s"/>
     </rule>
+    <rule id="TOUT_LE_MONDE" name="tout le monde">
+        <pattern>
+            <token>tout</token>
+            <token>le</token>
+            <token>monde</token>
+            <marker>
+                <and>
+                <token postag="V imp pres 2 s"/>
+                <token postag="V ind pres 3 s"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V imp pres 2 s"/>
+    </rule>
     <rule id="FIN" name="fin">
         <pattern>
             <token><exception>en</exception></token>
