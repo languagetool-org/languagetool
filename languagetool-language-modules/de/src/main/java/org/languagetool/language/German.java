@@ -382,6 +382,7 @@ public class German extends Language implements AutoCloseable {
       case "DE_PROHIBITED_COMPOUNDS_PREMIUM": return -1; // prefer other rules (e.g. AUS_MITTEL)
       case "VER_INF_VER_INF": return -1; // prefer case rules
       case "DE_COMPOUND_COHERENCY": return -1;  // prefer EMAIL
+      case "VER_INFNOMEN": return -1;  // prefer other more specific rules
       case "GEFEATURED": return -1; // prefer over spell checker
       case "NUMBER_SUB": return -1; // prefer over spell checker
       case "VER123_VERAUXMOD": return -1; // prefer casing rules
