@@ -415,8 +415,7 @@ public class HunspellRule extends SpellingCheckRule {
       }
       return (
               isAlphabetic && !"--".equals(word)
-              && ((hunspell != null && !hunspell.spell(word)) 
-                  || (Tools.isExternSpeller() && !Tools.getLinguisticServices().isCorrectSpell(word, language)))  // external speller for LO/OO
+              && (hunspell != null && !hunspell.spell(word)) 
               && !ignoreWord(word)
              )
              || isProhibited(cutOffDot(word));

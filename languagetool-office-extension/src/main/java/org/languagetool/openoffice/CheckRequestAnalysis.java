@@ -745,7 +745,7 @@ class CheckRequestAnalysis {
     if (debugModeTm) {
       long runTime = System.currentTimeMillis() - startTime1;
       if (runTime > OfficeTools.TIME_TOLERANCE) {
-        MessageHandler.printToLogFile("Time to run changesInNumberOfParagraph (getNumberOfAllFlatPara): " + runTime);
+        MessageHandler.printToLogFile("Time to run changesInNumberOfParagraph (docCache.isEqualCacheSize): " + runTime);
       }
     }
 //    if (nFParas == docCache.size()) {
