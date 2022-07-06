@@ -36560,13 +36560,18 @@ As forças estão organizadas numa hierarquia C2.
       <example>Paga 25 %.</example>
     </rule>
 
-  <rulegroup id='DASH_RULE' name='Hífen, Meio-Travessão e Travessão'>
+  <rulegroup id='DASH_RULE' name='Hífen, Meio-Travessão e Travessão' tags="picky">
     <!-- Created by Tiago F. Santos, 2017-01-23 -->
       <url>https://pt.wikipedia.org/wiki/Travessão</url>
       <antipattern>
           <token regexp='yes'>&hifen;</token>
           <token regexp='yes'>&hifen;</token>
           <token regexp='yes'>&hifen;</token>
+      </antipattern>
+      <antipattern><!-- markdown -->
+        <token postag="SENT_START" />
+        <token>-</token>
+        <token>[</token>
       </antipattern>
     <rule>
       <pattern>
@@ -39062,7 +39067,7 @@ O Rui esteve lá no período 2013 –2021. → O Rui esteve lá no período 2013
   </rulegroup>
 
 
-    <rule default="on" id='SENT_START_NUM' name="Número no início da frase">
+    <rule default="on" id='SENT_START_NUM' name="Número no início da frase" tags="picky">
     <!--  Based on English CAPITALIZATION rule, by Tiago F. Santos, 2017-05-09      -->
       <antipattern>
           <token postag="SENT_START"/>
@@ -39126,8 +39131,9 @@ André 23:07, 14 nov 2004 (UTC).
 		<marker>
           <token regexp="yes">[\d,.]+</token>
         </marker>
-          <token>
+          <token skip="-1">
             <exception postag_regexp='yes' postag='_PUNCT|Z.+'/></token>
+          <token postag="SENT_END" regexp="yes">[.!?»]</token>
       </pattern>
       <message>Números no início de frases devem ser escritos por extenso.</message>
       <short>Número no início da frase</short>
