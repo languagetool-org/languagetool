@@ -612,6 +612,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">That a local phone number was disconnected is <marker>irrelevant</marker> because keegan called my cell phone number and spoke with my fiance.</example>
             </rule>
             <rule>
+                <regexp mark="1">[\-@]([a-z0-9äöüßéèàáóòíì]+)\sbecause</regexp>
+                <example correction="">These rules get some special treatments in our add-<marker>on</marker> because not every double space is a double space.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token/>
@@ -1117,6 +1121,27 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token case_sensitive="yes">doc</token><!-- "doc" short form for document -->
                 </pattern>
                 <example correction="">Here's a <marker>test</marker> doc:</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>first</token>
+                    </marker>
+                    <token regexp="yes">glimpse|look</token>
+                    <token>at</token>
+                </pattern>
+                <example correction=""><marker>First</marker> look at the ‘Nothing’ phone.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token postag="RB" regexp="yes">.+ly</token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                    <token>:</token>
+                </pattern>
+                <example correction=""><marker>Finally</marker> official: Netflix will create a new ad-supported tier.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
