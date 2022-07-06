@@ -39127,8 +39127,9 @@ André 23:07, 14 nov 2004 (UTC).
 <!-- MARCOAGPINTO 2022-01-21 (Checked/Enhanced) (1-JAN-2022+) *END* -->
 
       <pattern>
-        <phraseref idref="ALL_SENT_START"/>
-		<marker>
+        <token postag="SENT_START"/>
+        <token regexp="yes" min="0" max="3">\p{P}</token>
+		    <marker>
           <token regexp="yes">[\d,.]+</token>
         </marker>
           <token skip="-1">
@@ -39136,10 +39137,11 @@ André 23:07, 14 nov 2004 (UTC).
           <token postag="SENT_END" regexp="yes">[.!?»]</token>
       </pattern>
       <message>Números no início de frases devem ser escritos por extenso.</message>
+      <suggestion><match no="3" postag="_spell_number_" case_conversion="firstupper"/></suggestion>
       <short>Número no início da frase</short>
-      <example correction=""><marker>12</marker> meses no ano.</example>
-      <example correction="">«<marker>12</marker> meses no ano.»</example>
-      <example correction="">—<marker>1000</marker> vezes! Já o disse 1000 vezes!</example>
+      <example correction="Doze"><marker>12</marker> meses no ano.</example>
+      <example correction="Doze">«<marker>12</marker> meses no ano.»</example>
+      <example correction="Mil">—<marker>1000</marker> vezes! Já o disse 1000 vezes!</example>
       <example>Doze meses no ano.</example>
       <example>Mil vezes! Já o disse 1000 vezes!</example>
       <example><marker>1.</marker> Introdução</example>
