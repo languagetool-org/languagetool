@@ -8982,6 +8982,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="SPS00"/>
     </rule>
+    <rule id="segons" name="segons (preposició)">
+        <pattern>
+            <marker>
+                <token postag="SPS00">segons</token>
+            </marker>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="[NA].*|PR.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="SPS00"/>
+    </rule>
+    <rule id="fons" name="fons (singular o plural)">
+        <pattern>
+            <marker>
+                <token>fons</token>
+            </marker>
+            <token postag="A...P.*|V.P..PM." postag_regexp="yes"/>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="fons" pos="NCMP000"/>
+        </disambig>
+    </rule>
     <rulegroup id="grups_adj_n" name="grups d'ajectius i noms">
         <rule>
             <pattern>
