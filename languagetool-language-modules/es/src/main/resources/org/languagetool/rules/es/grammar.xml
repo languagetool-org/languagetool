@@ -15064,7 +15064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Para mañana no si no lo puedes acabar.</example>
             </rule>
         </rulegroup>
-        <rule id="MALO_AMIGO_MAL_AMIGO" name="«malo» y «bueno» se apocopan delante de sustantivos masculinos en singular">
+        <rule id="MALO_AMIGO_MAL_AMIGO" name="«malo» y «bueno» se apocopan delante de sustantivos masculinos en singular" default="temp_off">
             <antipattern>
                 <token postag="V.*|DE0CN0" postag_regexp="yes" skip="1" min="0"/>
                 <token regexp="yes" skip="1">malo|bueno</token>
@@ -15097,6 +15097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">malo|bueno</token>
                 <token postag="VMP.*" postag_regexp="yes"/>
                 <example>El autor publicó un libro bueno escrito.</example> <!--correcto: bien escrito-->
+                <example>Más vale malo conocido que bueno por conocer.</example>
             </antipattern>
             <antipattern>
                 <token regexp="yes">malo|bueno</token>
@@ -15109,15 +15110,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>bueno</token>
                 <example>Los militares contaron con el visto bueno directo del gobierno de Manuel Azaña.</example>
             </antipattern>
-            <pattern>
+            <pattern raw_pos="yes">
                 <marker>
                     <token regexp="yes" case_sensitive="yes">malo|bueno</token>
                 </marker>
-                <token postag="NCMS.*" postag_regexp="yes"/>
+                <token postag="NC[MC][SN].*" postag_regexp="yes"/>
             </pattern>
             <message>Use la forma apocopada <suggestion><match no="1" regexp_match="o$" regexp_replace=""/></suggestion> en vez de '<match no="1"/>' o ponga una coma después de '<match no="1"/>'.</message>
             <example correction="mal">La vida es demasiado corta para beber <marker>malo</marker> vino.</example>
             <example correction="buen">Gracias por ayudarme, eres un <marker>bueno</marker> amigo.</example>
+            <example correction="mal">Juan es un <marker>malo</marker> amigo.</example>
         </rule>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
