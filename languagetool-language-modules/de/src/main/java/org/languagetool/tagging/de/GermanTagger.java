@@ -210,9 +210,14 @@ public class GermanTagger extends BaseTagger {
           taggerTokens = new ArrayList<>();
           taggerTokens.addAll(getWordTagger().tag(word));
           taggerTokens.addAll(getWordTagger().tag(word + sentenceTokens.get(idxPos+2)));
-        } else if (sentenceTokens.get(idxPos+2).matches("in(nen)-[A-ZÖÄÜ][a-zöäüß-]+")) {  // "jede*r", "sein*e"
+        } else if (sentenceTokens.get(idxPos+2).matches("in(nen)-[A-ZÖÄÜ][a-zöäüß-]+")) {
           // e.g. Werkstudent:innen-Zielgruppe -> take tags of 'Zielgruppe':
           String lastPart = sentenceTokens.get(idxPos+2).replaceFirst(".*-", "");
+          taggerTokens = new ArrayList<>(getWordTagger().tag(lastPart));
+        } else if (sentenceTokens.get(idxPos+2).matches("innen[a-zöäüß-]+")) {
+          // e.g. Werkstudent:innenzielgruppe -> take tags of 'Zielgruppe':
+          int idx = sentenceTokens.get(idxPos+2).lastIndexOf("innen");
+          String lastPart = StringTools.uppercaseFirstChar(sentenceTokens.get(idxPos+2).substring(idx + "innen".length()));
           taggerTokens = new ArrayList<>(getWordTagger().tag(lastPart));
         }
       }

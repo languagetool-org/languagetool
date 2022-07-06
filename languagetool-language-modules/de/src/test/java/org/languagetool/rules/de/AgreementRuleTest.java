@@ -296,6 +296,10 @@ public class AgreementRuleTest {
     assertGood("Ich habe deshalb allen Freund_innen Bescheid gegeben.");
     assertGood("Ich habe deshalb allen Freund:innen Bescheid gegeben.");
     assertGood("Das betrifft auch eure Werkstudent:innen-Zielgruppe.");
+    assertBad("Das betrifft auch eure Werkstudent:innen-Xihfrisfgds.");
+    assertGood("Das betrifft auch eure Werkstudent:innenzielgruppe.");
+    assertGood("Das betrifft auch eure Jurist:innenausbildung.");
+    assertBad("Das betrifft auch eure Jurist:innenxyzdfsdf.");
     assertGood("Sein*e Mitarbeiter*in ist davon auch betroffen.");
     assertGood("Jede*r Mitarbeiter*in ist davon betroffen.");
     assertGood("Alle Professor*innen");
