@@ -3963,6 +3963,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">compte</token>
+                </marker>
+                <token regexp="yes">expansió|negocis</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">compte</token>
+                <marker>
+                    <token regexp="yes">expansió|negocis</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes" regexp="yes">projecte|pla|acció</token>
                 <marker>
                     <token>marc</token>
@@ -7096,10 +7114,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                    <marker>
-                        <token>cada</token>
-                        <token regexp="yes" inflected="yes">vegada|volta|cop|colp|pic|dia</token>
-                    </marker>
+                <marker>
+                    <token>cada</token>
+                    <token regexp="yes" inflected="yes">vegada|volta|cop|colp|pic|dia</token>
+                </marker>
                 <token>més</token>
                 <token>i</token>
                 <token>més</token>
@@ -16124,7 +16142,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="persona"/>
                     <token postag="P0[12]0.*" postag_regexp="yes"/>
                     <unify-ignore>
-                        <token postag="V.[SI].3S.." postag_regexp="yes" inflected="yes" regexp="yes" skip="4">agradar|encatar|encisar|caldre|convenir|permetre</token>
+                        <token postag="V.[SI].3S.." postag_regexp="yes" inflected="yes" regexp="yes" skip="4">agradar|encatar|encisar|caldre|convenir|permetre|costar</token>
                         <marker>
                             <token postag="V.N.*" postag_regexp="yes"/>
                         </marker>
