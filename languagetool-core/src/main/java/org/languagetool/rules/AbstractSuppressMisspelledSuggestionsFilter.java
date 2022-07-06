@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,13 +63,14 @@ public abstract class AbstractSuppressMisspelledSuggestionsFilter extends RuleFi
 
   public boolean isMisspelled(String s) throws IOException {
     SpellingCheckRule spellerRule = language.getDefaultSpellingRule();
-    if (spellerRule == null) return false;
+//    if (spellerRule == null) return false;
 
     try  {
       List<String> tokens = language.getWordTokenizer().tokenize(s);
       boolean isMisspelled = false;
       for (String token : tokens) {
-        isMisspelled = isMisspelled || spellerRule.isMisspelled(token);
+        isMisspelled = isMisspelled || (spellerRule != null && spellerRule.isMisspelled(token))
+            || (Tools.isExternSpeller() && !Tools.getLinguisticServices().isCorrectSpell(token, language));
       }
       return isMisspelled;
     } catch(IOException e) {

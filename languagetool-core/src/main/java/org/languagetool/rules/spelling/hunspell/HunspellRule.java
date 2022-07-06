@@ -32,6 +32,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.RuleWithLanguage;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -414,7 +415,8 @@ public class HunspellRule extends SpellingCheckRule {
       }
       return (
               isAlphabetic && !"--".equals(word)
-              && (hunspell != null && !hunspell.spell(word))
+              && ((hunspell != null && !hunspell.spell(word)) 
+                  || (Tools.isExternSpeller() && !Tools.getLinguisticServices().isCorrectSpell(word, language)))  // external speller for LO/OO
               && !ignoreWord(word)
              )
              || isProhibited(cutOffDot(word));
