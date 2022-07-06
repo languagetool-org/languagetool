@@ -5962,6 +5962,18 @@ Foram lançadas novas rendas.
       <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
     <rule>
       <antipattern>
+          <token postag='NC.S.+' postag_regexp='no'/>
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token postag='SPS00' postag_regexp='no'/>
+          <example>Fora casos de ausência por questões de saúde, não é permitido faltar.</example>
+          <example>Não é permitido faltar, fora casos de ausência por questões de saúde.</example>
+      </antipattern>
+      <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='NCMP000' postag_regexp='no'/>
+          <example>Estou 100% com você.</example>
+      </antipattern>
+      <antipattern>
           <token>o</token>
           <token>valor</token>
           <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
