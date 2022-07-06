@@ -43274,7 +43274,7 @@ Vão-me obrigar a ir lá para marcar a consulta. → Vão-me obrigar a ir lá ma
 
 	<!-- NÃO SABIA/SABIAM NADA nada sabia/sabiam -->
     <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style">
-    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-05 (5-JUN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-05 + 2022-07-06 (5-JUN-2022+)      -->
 	<!--
 O Rui não sabia nada do assunto. → O Rui nada sabia do assunto.
 Tu não sabias nada do assunto. → Tu nada sabias do assunto.
@@ -43297,24 +43297,49 @@ Os amigos não sabiam nada do assunto. → Os amigos nada sabiam do assunto.
 			<token postag='VMI[ISM].+' postag_regexp='yes'/>
 			<token>nada</token>
 			<token postag='CS' postag_regexp='no'/>
-			<token postag='[DP][ADIPR].+' postag_regexp='yes'/>
+			<token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
 			<example>Ela não disse nada que o deixaria nervoso.</example>
 			<example>Não havia nada que eu pudesse fazer para ajudar.</example>
 			<example>O Tom logo percebeu que não havia nada que ele pudesse fazer para ajudar.</example>
 	  </antipattern>
 
 	  <antipattern>
-			<token>não</token>
+			<token>não
+				<exception scope="previous" postag='CC' postag_regexp='no'/>
+			</token>
 			<token postag='VMI[ISM].+' postag_regexp='yes'/>
 			<token>nada</token>
-			<token postag='CC' postag_regexp='no'/>
-			<token postag='[DP][ADIPR].+' postag_regexp='yes'/>
-			<token postag='SENT_END' postag_regexp='no'/>
+			<token min="0" max="1" postag='CC' postag_regexp='no'/>
+			<token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+			<token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
 			<example>Você não disse nada para ele?</example>
 			<example>Não consegui nada para você.</example>
 			<example>Eu não fiz nada para você.</example>
 			<example>Tom não disse nada para ninguém.</example>
 			<example>Por que você não contou nada para ela?</example>
+			<example>Eu não entendi nada daquilo.</example>
+			<example>Não era nada disso.</example>
+	  </antipattern>
+
+	  <antipattern>
+			<token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+			<token min="0" max="1" postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+			<token>não</token>
+			<token postag='VMI[ISM].+' postag_regexp='yes'/>
+			<token>nada</token>
+			<token min="0" max="1" postag='SPS00' postag_regexp='no'/>
+			<token min="0" max="1" postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+			<token postag='_PUNCT|SENT_END' postag_regexp='yes'>
+				<exception postag='_QUOT' postag_regexp='no'/>
+			</token>
+			<example>Eu não dei nada a ele.</example>
+			<example>Eu não dei nada a ela.</example>
+			<example>Olha, eu não falei nada, mas concordo com você.</example>
+			<example>Não chutei nada, mostrei o que a Escritura diz.</example>
+			<example>Não foi nada, não se preocupe, ele está bem.</example>
+			<example>A magra devorou a gorda, mas não engordou nada...</example>
+			<example>Você não viu nada, viu?</example>
+			<example>"Como isso foi acontecer?" "Relaxe, não foi nada."</example>
 	  </antipattern>
 
       <pattern>
