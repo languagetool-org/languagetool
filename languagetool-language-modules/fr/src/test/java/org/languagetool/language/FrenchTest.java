@@ -69,7 +69,7 @@ public class FrenchTest {
     List<RuleMatch> matches = lt.check("Fête des mères et remise de l'insigne \" Morts pour la France \".");
     assertEquals(0, matches.size());
     // ACCORD_V_QUESTION2[1]
-    List<RuleMatch> matches2 = lt.check("D'autre part je ne soutiens pas du tout le système actuel en france mais je sais qu'au train où l'on va que notre prochaine étape sera celle de la Grèce ou de l'Argentine.");
+    List<RuleMatch> matches2 = lt.check("D'autre part, je ne soutiens pas du tout le système actuel en france mais je sais qu'au train où l'on va que notre prochaine étape sera celle de la Grèce ou de l'Argentine.");
     assertEquals(1, matches2.size());
   }
 
