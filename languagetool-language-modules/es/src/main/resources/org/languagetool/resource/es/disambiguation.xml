@@ -1983,6 +1983,15 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="replace" postag="NCFS000"/>
     </rule>
+    <rule id="amigo_n" name="amigo not adj">
+        <pattern>
+            <token regexp="yes" inflected="yes">bueno|malo|mal</token>
+            <marker>
+                <token inflected="yes" postag="N.*" postag_regexp="yes">amigo</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*"></disambig>
+    </rule>
     <rule id="paso_pasa" name="paso,pasa not adj">
         <pattern>
             <token><exception regexp="yes" inflected="yes">higo|uva</exception></token>
