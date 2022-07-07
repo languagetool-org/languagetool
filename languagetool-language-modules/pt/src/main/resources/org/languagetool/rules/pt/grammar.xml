@@ -10,6 +10,7 @@ title="Easy editing stylesheet" ?>
  Copyright © 2012-2022 Marco A.G.Pinto (www.marcoagpinto.com)
  Copyright © 2016-2022 Tiago F. Santos (tiagofsantos81@sapo.pt)
  Copyright © 2022 Ricardo Joseh Lima
+ Copyright © 2022 Susana Boatto
 
  Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Christopher Blum,
  Udo Mai and Yakov Reztsov who mentored the project.
@@ -929,45 +930,6 @@ Isto é boa. → Isto é bom.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
       </antipattern>
-
-<!-- MARCOAGPINTO 2020-07-30 (2-JUL-2020+) *START* -->
-<!-- "Uma informação o mais simples e o mais rica." -->
-      <antipattern>
-          <token postag='DA0MS0|PD0MS000|PP3MSA00' postag_regexp='yes'/>
-          <token postag='NC[CM]S000|NC[CM]N000|RG' postag_regexp='yes'/>
-          <token postag='AQ0[CF]S0|NC[CF]S000' postag_regexp='yes'/>
-		  <token negate="yes" regexp='yes'>em|da|do|que</token>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-07-30 (2-JUL-2020+) *END* -->
-
-<!-- MARCOAGPINTO 2020-08-18 (2-JUL-2020+) *START* -->
-<!-- "Uma máquina a motor mais pesada que o ar." -->
-<!-- "Uma máquina a gasolina mais pesada que o ar." -->
-<!-- "A entrar no Império tão grande quantidade de escravos africanos." -->
-      <antipattern>
-		<token postag='V.+|NC[CFM]S000|AQ0[CFM]S0|CS|I|PT0CN000|RG' postag_regexp='yes'/>
-		<token regexp='yes'>a|ao|no|do|se|de|muito|pouco|cada|para|grande|pequeno|maior|menor</token>
-		<token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
-		<token postag='NC[CM]S000|NC[CM]N000|RG' postag_regexp='yes'/>
-		<token postag='NC[CF]S000|AQ0[CF]S0|VMP00SF' postag_regexp='yes'/>
-      </antipattern>	  
-<!-- MARCOAGPINTO 2020-08-18 (2-JUL-2020+) *END* -->
-
-<!-- MARCOAGPINTO 2020-09-14 (2-JUL-2020+) *START* -->
-<!-- "Não devia ser necessário petições para legalizar a profissão." -->
-      <antipattern>
-		  <token postag='V.+|NC[CM]S000|CS|I|RG|VMP00SM' postag_regexp='yes'/>
-	      <token postag='AQ0[CM]S0|NC[CF]S000' postag_regexp='yes'/>
-		  <token postag='NC[CF]P000' postag_regexp='yes'/>
-	  </antipattern>
-	  <!-- "Suspeita-se que tenham, em escalas de tempo, levado quantidades significativas de água." -->
-      <antipattern>
-		  <token regexp='yes'>[,]|de|e</token>
-	      <token postag='AQ0[CM]S0|NC[CF]S000' postag_regexp='yes'/>
-		  <token postag='NC[CF]P000' postag_regexp='yes'/>
-	  </antipattern>	  	  
-<!-- MARCOAGPINTO 2020-09-14 (2-JUL-2020+) *END* -->
-
 <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *START* -->
 <!--
 Autentifique-se com a sua conta LanguageTool.
@@ -1134,6 +1096,34 @@ A própria Jane escreveu a carta.
       </antipattern>
 <!-- MARCOAGPINTO 2022-06-19 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+		<token min="0" max="1" postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
+		<token min="1" max="2" postag='RG' postag_regexp='no'/>
+	    <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+		<token postag='CC' postag_regexp='no'/>
+		<token min="0" max="1" postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
+		<token min="1" max="2" postag='RG' postag_regexp='no'/>
+		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+		<example>Uma informação o mais simples e o mais rica.</example>
+		<example>Uma informação mais simples e mais rica.</example>
+		<example>Uma informação muito mais simples e muito mais rica.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='VMP00.M' postag_regexp='yes'/>
+		<token min="0" max="1" postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp='yes'/>
+		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+	    <token postag='AQ.[CF].+|NC[CF].+|SPS00|CC|CS|RG' postag_regexp='yes'/>
+		<example>Suspeita-se que tenham, em escalas de tempo, levado quantidades significativas de água.</example>
+		<example>Os suspeitos fugiram com o veículo, abandonado horas depois no Bairro Monte Alegre, em Camboriú.</example>
+		<example>Hoje no Brasil são mais de 10 milhões que se dizem evangélicos e não frequentam mais a igreja devido feridas profundas.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
       <antipattern>
         <token>duas</token>
         <token postag="NCFP000"/>
@@ -1178,19 +1168,15 @@ A própria Jane escreveu a carta.
       <example>Tem consistência tipo água.</example><!-- informality -->
       <example>De acordo com uma fonte do Governo britânico ouvida pelo The Telegr…</example>
       <example>Deixe-me dirigir o seu novo Toyota.</example>
-	  <example type='correct'>Uma informação o mais simples e <marker>o mais rica</marker>.</example>
+	  
 	  <example type='correct'>O desaparecimento de um equilíbrio, <marker>denominado catástrofe</marker>.</example>
 	  <example type='correct'>Uma máquina a <marker>motor mais pesada</marker> que o ar.</example>
 	  <example type='correct'>Uma máquina a <marker>gasolina mais pesada</marker> que o ar.</example>
-	  <example type='correct'>A entrar no <marker>Império tão grande quantidade</marker> de escravos africanos.</example>
 
-	  <example type='correct'>Não devia ser <marker>necessário petições</marker> para legalizar a profissão.</example>
-	  <example type='correct'>Suspeita-se que tenham, em escalas de tempo<marker>, levado quantidades</marker> significativas de água.</example>
-	  
 	  <example type='correct'><marker>Dez funções</marker> da inteligência multifocal.</example>
 
 	  <example>O Isaac apanhou <marker>um escalda</marker> rabos tão grande.</example>
-	  
+
 	  <example>Ele confundiu o rapaz com um borrego, <marker>seu tira</marker> moncos.</example>
 	  <example>Ele confundiu o rapaz com um borrego, sua tira moncos.</example>
 	  <example>Ele confundiu o rapaz com um borrego, teu tira moncos.</example>
