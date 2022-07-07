@@ -341,7 +341,7 @@ title="Easy editing stylesheet" ?>
 
 
  <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-     <rule id="CONFUSÃO_MAIS_MAS_VÍRGULA" name="confusao de mais e mas após a vírgula" default="temp_off">
+    <rule id="CONFUSÃO_MAIS_MAS_VÍRGULA" name="confusao de mais e mas após a vírgula" default="temp_off">
         <antipattern>
             <token>,</token>
             <token>mais</token>
@@ -420,7 +420,7 @@ title="Easy editing stylesheet" ?>
              <token postag="C.+|I.+|enfim|opa" postag_regexp="yes"/>
              <token>,</token>
              <token>mais</token>
-             <token regexp='yes' min='0'>'N.+|PD.+|DD.+'</token>
+             <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
              <example>O país é mais desenvolvido e, portanto, mais industrializado.</example>
         </antipattern>
         <antipattern>
@@ -455,8 +455,16 @@ title="Easy editing stylesheet" ?>
             <token>mais</token>
             <token postag='VMP00SM' min='0'/>
             <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo|</token>
-            <token regexp='yes'>\.|,|C.+|SPS00</token>
+            <token regexp='yes'>\.|,</token>
             <example>Já gostava de chocolate - e agora, mais ainda.</example>
+        </antipattern>
+        <antipattern>
+            <token>,</token>
+            <token>mais</token>
+            <token postag='VMP00SM' min='0'/>
+            <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo|</token>
+            <token postag='C.+|SPS00' postag_regexp='yes'/>
+            <example>Ele sentiu muito os efeitos dessa decisão, mais intensamente ainda do que antes.</example>
         </antipattern>
         <pattern>
             <token>,</token>
