@@ -1094,16 +1094,29 @@ Isto é boa. → Isto é bom.
       </antipattern>
 <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- It was the old rule: "duas" + "NCFP000" -->
       <antipattern>
-        <token>duas</token>
-        <token postag="NCFP000"/>
+		<token postag='Z0[CF].+' postag_regexp='yes'/>
+		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+		<example>É perigoso duas pessoas andarem ao mesmo tempo numa bicicleta.</example>
+		<example>Almofadas de assento: fixas, espuma BIO 30 certificada e calandrada e manta de fibra.</example>
+		<example>Clique aqui para assinar o 10 Jardas.</example>
       </antipattern>
+<!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+<!-- It was the old rule: "duas" + "ou" + "três" + "NCFP000" -->
       <antipattern>
-        <token>duas</token>
-        <token>ou</token>
-        <token>três</token>
-        <token postag="NCFP000"/>
+		<token postag='Z0[CF].+' postag_regexp='yes'/>
+		<token postag="CC"/>
+		<token postag='Z0[CF].+' postag_regexp='yes'/>
+		<token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+		<example>Que você acha mais importante: saber duas ou três línguas nacionais ou, além da sua materna, apenas o Esperanto? - Acho mais importante saber...</example>
+		<example>Todo dia duas ou três pessoas vêm nos pedir emprego.</example>
       </antipattern>
+<!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
