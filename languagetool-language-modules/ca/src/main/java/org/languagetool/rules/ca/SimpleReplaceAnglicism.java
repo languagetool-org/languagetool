@@ -49,7 +49,7 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
     super(messages, new Catalan());
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    super.setTags(Arrays.asList(Tag.picky));
+    //super.setTags(Arrays.asList(Tag.picky));
   }
 
   @Override
