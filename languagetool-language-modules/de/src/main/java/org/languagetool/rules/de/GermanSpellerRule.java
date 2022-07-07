@@ -1165,6 +1165,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("vllt", w -> Arrays.asList("vielleicht", "vllt."));
     put("rauch", w -> Arrays.asList("Rauch", "rauche"));
     put("liebs", w -> Arrays.asList("liebe es", "liebes", "liebe"));
+    put("as", w -> Arrays.asList("aß", "das", "als"));
     put("mags", "mag es");
     put("abzügl", "abzgl");
     put("gefielts", "gefielt es");
@@ -2675,6 +2676,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Wieviel": return topMatch("Wie viel");
       case "gets": return topMatch("gehts");
       case "Quillbot": return topMatch("QuillBot");
+      case "Ohje": return topMatch("Oje");
+      case "ohje": return topMatch("oje");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
     return Collections.emptyList();
