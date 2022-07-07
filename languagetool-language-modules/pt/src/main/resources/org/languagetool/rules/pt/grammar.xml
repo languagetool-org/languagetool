@@ -1253,26 +1253,6 @@ Isto é boa. → Isto é bom.
     <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
       </antipattern>
-
-<!-- MARCOAGPINTO 2020-08-01 (2-JUL-2020+) *START* -->
-<!-- "Foram muitos os portugueses vítimas da seca." -->
-<!-- "O Rui comeu dois sanduíches de queijo." (INCORRECT "DOIS" MALE PLURAL) -->
-<!-- "Eu vi-os juntos várias vezes e em diversos lugares." -->
-      <antipattern>
-		<token negate="yes" regexp='no'>dos</token>
-		<token postag='NC[CM]P000' postag_regexp='yes'>
-		<exception postag_regexp='no' postag='Z0MP0'/></token>
-        <token postag='AQ0[CF]P0|NC[CF]P000' postag_regexp='yes'/>
-		<token regexp='yes'>até|com|das?|de|dos?|[.,]|e|em|nas?|nos?|por|que|desde|vezes</token>
-      </antipattern>
-      <antipattern>
-		<token postag='AQ0[CM]P0|NC[CM]P000' postag_regexp='yes'>
-		<exception postag_regexp='no' postag='Z0MP0'/></token>
-        <token postag='AQ0[CF]P0|NC[CF]P000' postag_regexp='yes'/>
-		<token postag='V.+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2020-08-01 (2-JUL-2020+) *END* -->
-
 <!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *START* -->
 <!--
 THE FIRST TWO BLOCKS BELOW WERE TAKEN FROM TWO DELETED ANTIPATTERNS REPLACED BY THIS NEW ONE.
@@ -1370,6 +1350,27 @@ Sujeito nojento, devia levar uns tapas.
       </antipattern>
 <!-- MARCOAGPINTO 2022-06-25 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
+<!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		<token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+|SPS00|CC|CS|RG|AQ.[CM].+|NC[CM].+|Z0[CM].+' postag_regexp='yes'>
+			<exception scope="previous" postag_regexp='yes' postag='AQ.M.+|NCM.+'/>
+		</token>
+		<token min="0" max="1" postag='_PUNCT|RG' postag_regexp='yes'/>
+		<token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+		<token postag='AQ.F.+|NCF.+' postag_regexp='yes'/>
+		<example>A produção original da HBO PSI trouxe em seus episódios discussões sobre temas diversos.</example>
+		<example>A melhor forma de tornar seus sonhos realidade é acordar.</example>
+		<example>No período foram vendidos 2.003.500 veículos, com média diária anual chegando a 10.068 unidades.</example>
+		<example>Sempre damos atenção às testemunhas de Jeová quando batem à nossa porta.</example>
+		<example>Quem não gostaria de ler a revista em quadrinhos escrita por Ross Gueller ainda criança, sobre um super-herói que gostava de Ciências?</example>
+		<example>A minha segunda escolha é ainda menos original: o final de uma aclamada série de culto, por muitos considerada a melhor série de sempre.</example>
+		<example>A melhor forma de tornar seus sonhos realidade é acordar.</example>
+		<example>Como você pode deixar uma criança de quatro anos sozinha?</example>
+		<example>Nestes animais, os dedos são formados por dois ou três ossos, chamados falanges.</example>
+		<example>Esta também fornece sugestões para pesquisas e endereços Web à medida que escreve, dispondo ainda da funcionalidade de preenchimento automático.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
       <antipattern>
         <token postag="Z.*" postag_regexp="yes"/>
         <token regexp="yes" inflected="yes">&expressoes_de_tempo;</token>
@@ -1404,7 +1405,7 @@ Sujeito nojento, devia levar uns tapas.
       <example>Os rios Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
       <example correction="As escolas|Os, escolas"><marker>Os escolas</marker> Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa têm sido bem avaliadas.</example>
       <example>Cento e oitenta línguas indígenas são faladas em áreas remotas e diversas…</example>
-      <example type='triggers_error'>...gicos exibem a notável similaridade de unidades e processos discutida na secção anterior.</example>
+<!--      <example type='triggers_error'>...gicos exibem a notável similaridade de unidades e processos discutida na secção anterior.</example> --> <!-- DON'T KNOW WHAT THIS IS - 2022-07-07 - MARCOAGPINTO -->
 	  <example type='correct'>Foram os textos reformados e <marker>adaptados infinitas</marker> vezes.</example>
 	  <example type='correct'>Foram os textos reformados e <marker>adaptados inúmeras</marker> vezes.</example>
 	  <example type='correct'>Foram os textos reformados e <marker>adaptado infinitas</marker> vezes.</example>
