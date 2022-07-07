@@ -13830,9 +13830,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Quiero saber el porqué.</example>
                 <example>Aún no se sabe la razón del porqué no va.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">de|ocurrir|entender|pensar</token>
+                    <token regexp="yes" inflected="yes">sobre|de|ocurrir|entender|pensar</token>
                     <marker>
                         <token>por</token>
                         <token>que</token>
@@ -13841,6 +13841,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo')?</message>
                 <example correction="por qué">No tengo la menor idea de <marker>por que</marker> ha venido.</example>
                 <example correction="por qué">No se me ocurre <marker>por que</marker> razón.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>por</token>
+                        <token>que</token>
+                    </marker>
+                    <token regexp="yes">razón|motivo</token>
+                </pattern>
+                <message>Se escribe con tidle.</message>
+                <suggestion>por qué</suggestion>
+                <example correction="por qué">No entiendo <marker>por que</marker> razón.</example>
             </rule>
             <rule>
                 <antipattern>
