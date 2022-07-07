@@ -71,7 +71,7 @@ class AgreementRuleAntiPatterns2 {
       posRegex("VER:3:SIN.*")
     ),
     Arrays.asList( // "Es gibt viele solcher Bilder"
-      tokenRegex("viele|wenige|einige|mehrere"),
+      tokenRegex("viele|etliche|wenige|einige|mehrere"),
       csToken("solcher"),
       posRegex("SUB:GEN:PLU:.*")
     ),
@@ -531,7 +531,7 @@ class AgreementRuleAntiPatterns2 {
       pos("SUB:NOM:SIN:FEM")
     ),
     Arrays.asList( // "Wie viele Paar Schuhe braucht er?"
-      csRegex("vielen?|wenigen?|einigen?"),
+      csRegex("vielen?|etliche|wenigen?|einigen?"),
       csToken("Paar"),
       posRegex("SUB:NOM:PLU:...")
     ),

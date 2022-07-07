@@ -219,7 +219,7 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       token("von"),  // "von denen viele Open-Source-Software sind"
       token("denen"),
-      tokenRegex("viele|alle|einige|manche|mehrere|wenige"),
+      tokenRegex("viele|etliche|alle|einige|manche|mehrere|wenige"),
       new PatternTokenBuilder().posRegex("SUB:.*SIN:.*").setSkip(-1).build(),
       tokenRegex("sind|seien|sein|waren|wären")
     ),
@@ -697,7 +697,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       tokenRegex("von|bei"),
-      csRegex("vielen|allen"),
+      csRegex("vielen|allen|etlichen"),
       posRegex("PA2:.*|ADJ:AKK:PLU:.*")  // "ein von vielen bewundertes Haus" / "Das weckte bei vielen ungute Erinnerungen."
     ),
     Arrays.asList(
@@ -713,7 +713,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       token("für"),
-      csRegex("(viele|alle|[dm]ich|ihn|sie|uns|andere|jeden)"),
+      csRegex("(viele|etliche|alle|[dm]ich|ihn|sie|uns|andere|jeden)"),
       posRegex("ADJ:NOM:.*")  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
