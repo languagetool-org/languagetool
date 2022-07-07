@@ -45,6 +45,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
           "x86",
           "ⓒ",
+          "ø", // used as bullet point
           "cc" // cc @daniel => "Cc @daniel" is strange
   ));
 
