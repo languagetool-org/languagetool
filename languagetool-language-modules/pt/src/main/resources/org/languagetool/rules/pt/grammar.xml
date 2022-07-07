@@ -43092,7 +43092,7 @@ Como é o caso do Firefox. → Como no caso do Firefox.
 
 	<!-- COMO SENDO A(S)/O(S)/UM/UNS/UMA(S) a(s)/o(s)/um/uns/uma(s) -->
     <rule id='SIMPLIFICAR_COMO_SENDO' name="Simplificar: Como sendo + a(s)/o(s)/um/uns/uma(s) → a(s)/o(s)/um/uns/uma(s)" type="style">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-06-05 (Checked/Enhanced) (5-JUN-2022+)      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-06-05 + 2022-07-07 (Checked/Enhanced) (5-JUN-2022+)      -->
 	<!--
 Foi considerado por muitos cientistas como sendo o pai da Matemática. → Foi considerado por muitos cientistas o pai da Matemática.
 Uma sessão de login é considerada como sendo a vida útil de um processo de usuário. → Uma sessão de login é considerada a vida útil de um processo de usuário.
@@ -43129,16 +43129,20 @@ Uma sessão de login é considerada como sendo a vida útil de um processo de us
 		<marker>
 			<token>como</token>
 			<token>sendo</token>
-			<token postag='[DP][ADIP].+' postag_regexp='yes'/>
+			<token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
 		</marker>
-		<token postag='NC.+|AQ.+|NP.+|AO.+|V.+' postag_regexp='yes'/>
+		<token postag='SPS00|CC|CS|RG|NC.+|AQ.+|NP.+|AO.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag='V.+'/>
+		</token>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
 	  <suggestion>\4</suggestion>
-      <example correction="o">Foi considerado por muitos cientistas <marker>como sendo o</marker> pai da Matemática</example>
+      <example correction="o">Foi considerado por muitos cientistas <marker>como sendo o</marker> pai da Matemática.</example>
+	  <example correction="o">O procedimento é considerado <marker>como sendo o</marker> que faltou à polícia.</example>
 	  <example>Uma sessão de login é considerada a vida útil de um processo de usuário.</example>
 	  <example>A polícia definiu o termo como sendo os atos de guerra contra os estados.</example>
 	  <example>de representações sociais como nesse trabalho, enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.</example>
+	  <example>O Sistema de Crenças é definido como sendo o conjunto de argumentos e os respetivos pesos.</example>
     </rule>
 
 
