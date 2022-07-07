@@ -3784,6 +3784,191 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nunca escucha lo que intento decirle.</example>
                 <example>Unos momentos que hay que saber capturar.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="3">\p{P}</token>
+                    <marker>
+                        <token>que<exception scope="previous">¿</exception></token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes" min="0"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="Qué"><marker>Que</marker> mujer tan inteligente.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">más|menos|antes|después</token>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>que<exception scope="previous">¿</exception><exception postag="LOC_CS"/></token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes" min="0"><exception postag="_possible_NP"/></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="_possible_NP|V.[ISM].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="Qué"><marker>Que</marker> mujer tan inteligente.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">más|menos|antes|después</token>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>que<exception scope="previous">¿</exception><exception postag="LOC_CS"/></token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_possible_NP"/></token>
+                    <token postag="V.I.*|_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="Qué"><marker>Que</marker> divertido.</example>
+                <example correction="Qué"><marker>Que</marker> divertido es verte alegre.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="10">que</token>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*lo</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" inflected="yes">explicar|saber|ocurrir|entender|concebir|que</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token min="0" max="3" inflected="yes" regexp="yes">poder|estar|haber</token>
+                    <token regexp="yes" inflected="yes">hacer|ocurrir|decir|empujar|pensar|suceder</token>
+                </pattern>
+                <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">Explícame <marker>que</marker> ocurrió.</example>
+                <example correction="qué">No sé <marker>que</marker> piensas de él.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token inflected="yes">haber</token>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">haber</token>
+                    <token>que</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">haber</token>
+                    <token postag="LOC_ADV|RG" postag_regexp="yes" min="0" max="4"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" inflected="yes">explicar|saber|ocurrir</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token min="0" max="3" inflected="yes" regexp="yes">poder|estar</token>
+                    <token inflected="yes">haber</token>
+                </pattern>
+                <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">Ni si quiera sabía <marker>que</marker> había en la caja.</example>
+                <example>Sabía que había cierta animadversión.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="10">que</token>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*lo</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" inflected="yes">explicar|saber|ocurrir|decidir</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No sabía <marker>que</marker> pensar de él.</example>
+                <example correction="qué">Debería decidir <marker>que</marker> hacer con él.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" inflected="yes">preguntar|saber</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.IC.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No sabía <marker>que</marker> sería capaz de hacer.</example>
+                <example>No sabia que sería capaz de hacerlo.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" inflected="yes">preguntar|saber</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="V.IC.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No sabía <marker>que</marker> problema sería el correcto.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token>más</token>
+                    <token regexp="yes">da|daba|daría</token>
+                </pattern>
+                <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="Qué"><marker>Que</marker> más da.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token>va</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="Qué"><marker>Que</marker> va.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" inflected="yes">preguntar|saber</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token inflected="yes">tener</token>
+                    <token>que</token>
+                    <token>ver</token>
+                </pattern>
+                <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No sabía <marker>que</marker> tiene que ver con aquello.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="QUE_SIN_TILDE" name="qué -> que">
             <antipattern>
@@ -13832,18 +14017,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">sobre|de|ocurrir|entender|pensar</token>
-                    <marker>
-                        <token>por</token>
-                        <token>que</token>
-                    </marker>
-                </pattern>
-                <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo')?</message>
-                <example correction="por qué">No tengo la menor idea de <marker>por que</marker> ha venido.</example>
-                <example correction="por qué">No se me ocurre <marker>por que</marker> razón.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <marker>
                         <token>por</token>
                         <token>que</token>
@@ -13853,6 +14026,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Se escribe con tidle.</message>
                 <suggestion>por qué</suggestion>
                 <example correction="por qué">No entiendo <marker>por que</marker> razón.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">sobre|de|ocurrir|entender|pensar|ni|ver</token>
+                    <marker>
+                        <token>por</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>por qué</suggestion> ('por qué motivo')?</message>
+                <example correction="por qué">No tengo la menor idea de <marker>por que</marker> ha venido.</example>
+                <example correction="por qué">No se me ocurre <marker>por que</marker> razón.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -13908,6 +14093,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>por</token>
                 <token>hay</token>
+            </antipattern>
+            <antipattern>
+                <token>sabe</token>
+                <token>Dios</token>
+                <token regexp="yes">qué|cuál|cuáles</token>
             </antipattern>
             <antipattern>
                 <!-- es.wikipedia.org-->
@@ -15109,7 +15299,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">malo|bueno</token>
                 <token postag="VMP.*" postag_regexp="yes"/>
-                <example>El autor publicó un libro bueno escrito.</example> <!--correcto: bien escrito-->
+                <example>El autor publicó un libro bueno escrito.</example>
+                <!--correcto: bien escrito-->
                 <example>Más vale malo conocido que bueno por conocer.</example>
             </antipattern>
             <antipattern>
@@ -21432,8 +21623,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>par</token>
             </antipattern>
             <antipattern>
-                <token postag="D..[MC][SN].|SP:DA" postag_regexp="yes"></token>
-                <token postag="A..[MC][SN]." postag_regexp="yes"></token>
+                <token postag="D..[MC][SN].|SP:DA" postag_regexp="yes"/>
+                <token postag="A..[MC][SN]." postag_regexp="yes"/>
                 <token>par</token>
             </antipattern>
             <pattern>
