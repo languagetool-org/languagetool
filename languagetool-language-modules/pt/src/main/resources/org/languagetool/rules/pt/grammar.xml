@@ -341,7 +341,7 @@ title="Easy editing stylesheet" ?>
 
 
  <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-     <rule id="CONFUSION_OF_MAS_MAIS_COMMA" name="confusion of mais and mas after comma" default="temp_off">
+     <rule id="CONFUSÃO_MAIS_MAS_VÍRGULA" name="confusao de mais e mas após a vírgula" default="temp_off">
         <antipattern>
             <token>,</token>
             <token>mais</token>
@@ -391,7 +391,7 @@ title="Easy editing stylesheet" ?>
         <antipattern>
             <token>,</token>
             <token>mais</token>
-            <token regexp='no' min='0'>de</token>
+            <token min='0'>de</token>
             <token postag='Z.+' postag_regexp='yes'/>
             <example>Foram seis dias de folga, mais dois com o fim de semana.</example>
         </antipattern>
@@ -405,14 +405,14 @@ title="Easy editing stylesheet" ?>
         <antipattern>
             <token>,</token>
             <token skip="-1">mais</token>
-            <token regexp='no' min='0'>ou</token>
+            <token min='0'>ou</token>
             <token>menos</token>
             <example>Ele vai ganhar, mais voto ou menos voto.</example>
         </antipattern>
         <antipattern>
-            <token regexp='no' min='0'>ainda</token>
+            <token min='0'>ainda</token>
             <token skip="-1">mais</token>
-            <token regexp='no' min='0'>do</token>
+            <token min='0'>do</token>
             <token>que</token>
             <example>Este grupo, pouco conhecido, mais afasta do que atrai fiéis.</example>
         </antipattern>
@@ -453,15 +453,9 @@ title="Easy editing stylesheet" ?>
         <antipattern>
             <token>,</token>
             <token>mais</token>
-            <token regexp='no' min='0'>'VMP00SM'</token>
+            <token min='0'>'VMP00SM'</token>
             <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo|</token>
             <token regexp='yes'>.|,|C.+|SPS00</token>
-            <example>Já gostava de chocolate - e agora, mais ainda.</example>
-        </antipattern>
-        <antipattern>
-            <token>,</token>
-            <token>mais</token>
-            <token regexp='yes'>esperança|</token>
             <example>Já gostava de chocolate - e agora, mais ainda.</example>
         </antipattern>
         <pattern>
