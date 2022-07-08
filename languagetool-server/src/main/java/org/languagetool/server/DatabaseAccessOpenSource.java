@@ -65,6 +65,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
         properties.setProperty("username", config.getDatabaseUsername());
         properties.setProperty("password", config.getDatabasePassword());
         properties.setProperty("premium", Premium.isPremiumVersion() ? "Premium" : "OpenSource");
+        properties.setProperty("timeout", String.valueOf(config.getDbTimeoutSeconds()));
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
 
         // try to close connections even on hard restart
