@@ -2715,7 +2715,7 @@ RB => Règles Brutes
     </rule>
     <rule name="moteur" id="MOTEUR">
         <pattern>
-            <token postag="N.*" postag_regexp="yes" regexp="yes">pannes?|voyants?|vidange|huile|essence|température|préparation</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">pannes?|voyants?|vidange|anodes?|avaries?|huile|essence|parties?|température|préparation</token>
             <token postag="N m s">moteur</token>
         </pattern>
         <disambig action="filterall"/>
@@ -2781,10 +2781,24 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule name="indemnité carburant" id="INDEMNITE_CARBURANT">
+        <pattern>
+            <token postag="N .*" postag_regexp="yes" inflected="yes">indemnité</token>
+            <token postag="N .*" postag_regexp="yes">carburant</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="suivi objectif" id="SUIVI_OBJECTIF">
+        <pattern>
+            <token postag="N .*" postag_regexp="yes" inflected="yes">suivi</token>
+            <token postag="N .*" postag_regexp="yes" regexp="yes">objectifs?</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule name="dimensions produit" id="DIMENSIONS_PRODUIT">
         <pattern>
-            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">connaissance|démos?|exploitations?|équipes?|qualités?|expériences?|top|innovation|expiration|nouveauté|dimension|fiche|retour|photo|recherche|image|page</token>
-            <token postag="N.*" postag_regexp="yes" inflected="yes">produit</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">connaissance|actus?|informations?|affichages?|informations?|démos?|tables?|exploitations?|équipes?|qualités?|expériences?|top|innovation|expiration|nouveauté|dimension|fiche|retour|photo|recherche|image|page</token>
+            <token postag="N.*" postag_regexp="yes" inflected="yes">produits?</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -3512,7 +3526,7 @@ RB => Règles Brutes
         <pattern>
             <token>formation</token>
             <marker>
-                <token>continue</token>
+                <token regexp="yes">coordinateur|continue</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="J f s"/>
@@ -5840,7 +5854,7 @@ RB => Règles Brutes
             <marker>
                 <token postag="V.*" postag_regexp="yes">dure</token>
             </marker>
-            <token postag="[AYK]|D.*" postag_regexp="yes" min="0" max="4">
+            <token postag="[AYKJ]|D.*" postag_regexp="yes" min="0" max="4">
                 <exception>longtemps</exception></token>
             <token regexp="yes" inflected="yes">&expressions_temps;|&unites_temps;|longtemps</token>
         </pattern>
