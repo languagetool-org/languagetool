@@ -6058,27 +6058,118 @@ Foram lançadas novas rendas.
     </rulegroup>
 
   <rulegroup id='LINKING_VERB_PREDICATE_AGREEMENT' name='Concordância Verbal: Complementos com o verbo copulativo' default='on'>
-    <!-- TODO Low Prority - Check regression and add enumeration tests and exceptions -->
-    <!-- Created by Tiago F. Santos, 2017-01-17 -->
       <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
     <rule>
       <antipattern>
-          <token postag='NC.S.+' postag_regexp='no'/>
+          <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token>fake</token>
+          <token>news</token>
+          <example>Esse artigo é fake news.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token>gente</token>
+          <example>Ele precisa saber que somos gente.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' regexp='yes'>virar</token>
+          <token>chaves</token>
+          <example>O ocorrido virou chaves.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token regexp='yes'>anos|meses|dias|décadas|séculos|horas|minutos|segundos</token>
+          <example>Ontem ele viu um velho amigo que estivera anos sem ver.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token regexp='yes'>ontem|hoje|amanhã|segunda|terça|quarta|quinta|sexta|sábado|domingo|quase</token>
+          <example>Estivemos sábado na premiação.</example>
+          <example>Os bebês estavam quase dormindo.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token>notícia</token>
+          <token>em</token>
+          <token>todo</token>
+          <token>o</token>
+          <token>mundo</token>
+          <example>Esses acontecimentos foram notícia em todo o mundo.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token postag='RM' min='0'/>
+          <token postag='NC.S.+|AQ..S.+' postag_regexp='yes'/>
+         <token regexp='yes'>,|e</token>
+          <token postag='NC.S.+|AQ..S.+' postag_regexp='yes'/>
+          <example>As cores selecionadas foram principalmente azul, amarelo e vermelho.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token postag='NC.S.+|AQ..S.+' postag_regexp='yes'/>
+          <token skip='-1'>(</token>
+          <token>)</token>
+          <token regexp='yes'>,|e</token>
+          <token min='0'>mais</token>
+          <token postag='NC.S.+|AQ..S.+' postag_regexp='yes'/>
+          <example>Os sintomas mais frequentes são febre (acima de 37 graus) e dor de garganta.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token>palco</token>
+          <token regexp='yes'>para|pra</token>
+          <example>Esses eventos foram palco para uma série de situações.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token>notícia</token>
+          <token postag='_PUNCT'/>
+          <example>O jornalista cobriu diversos escândalos que foram notícia.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token regexp='yes'>mero|puro|pura|mera</token>
+          <token postag='NC.S.+' postag_regexp='yes'/>
+          <example>Estes chocolates são puro prazer.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token regexp='yes'>cara|frente</token>
+          <token>a</token>
+          <token regexp='yes'>cara|frente</token>
+          <example>Estivemos sábado na premiação.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token min='0'>por</token>
+          <token postag='RG'/>
+          <token>tempo</token>
+          <example>Ficamos por algum tempo em silêncio.</example>
+      </antipattern>
+      <antipattern case_sensitive="yes">
+          <token>São</token>
+          <token postag='NPMS000'/>
+          <token>tempo</token>
+          <example>São Joaquim é o padroeiro da cidade.</example>
+      </antipattern>
+      <antipattern>
+          <token>fora</token>
+          <token postag='D...P.+' postag_regexp='yes' min='0'/>
           <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
-          <token postag='SPS00' postag_regexp='no'/>
+          <token postag='SPS00' postag_regexp='yes' min='0'/>
           <example>Fora casos de ausência por questões de saúde, não é permitido faltar.</example>
+          <example>Jogou fora as cerejas estragadas.</example>
           <example>Não é permitido faltar, fora casos de ausência por questões de saúde.</example>
       </antipattern>
       <antipattern>
-          <token postag='V.+' postag_regexp='yes'/>
+          <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
           <token postag='NCMP000' postag_regexp='no'/>
           <example>Estou 100% com você.</example>
       </antipattern>
       <antipattern>
-          <token>o</token>
-          <token>valor</token>
-          <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
-          <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]</token>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token postag='NCMP000' postag_regexp='no'/>
+          <example>Estamos 1% com você.</example>
       </antipattern>
 <!-- MARCOAGPINTO 2020-07-06 (2-JUL-2020+) *START* -->
 <!-- "Esta é agrupada em cinco eras principais." -->
