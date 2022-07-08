@@ -162,7 +162,7 @@ public class FlatParagraphTools {
    * Change text of flat paragraph nPara 
    * delete characters between nStart and nStart + nLen, insert newText at nStart
    */
-  public XFlatParagraph getFlatParagraphAt (int nPara) {
+  synchronized public XFlatParagraph getFlatParagraphAt (int nPara) {
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -211,7 +211,7 @@ public class FlatParagraphTools {
    * Returns Current Paragraph Number from FlatParagaph
    * Returns -1 if it fails
    */
-  int getCurNumFlatParagraph() {
+  synchronized public int getCurNumFlatParagraph() {
     try {
       XFlatParagraph xFlatPara = getCurrentFlatParagraph();
       if (xFlatPara == null) {
@@ -389,7 +389,7 @@ public class FlatParagraphTools {
    * Returns Number of all FlatParagraphs of Document from current FlatParagraph
    * Returns negative value if it fails
    */
-  int getNumberOfAllFlatPara() {
+  synchronized public int getNumberOfAllFlatPara() {
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -475,7 +475,7 @@ public class FlatParagraphTools {
   /**
    * Marks all paragraphs as checked with exception of the paragraphs "from" to "to"
    */
-  void setFlatParasAsChecked(int from, int to, List<Boolean> isChecked) {
+  synchronized public void setFlatParasAsChecked(int from, int to, List<Boolean> isChecked) {
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -531,7 +531,7 @@ public class FlatParagraphTools {
   /**
    * Marks all paragraphs as checked
    */
-  void setFlatParasAsChecked() {
+  synchronized public void setFlatParasAsChecked() {
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -558,7 +558,7 @@ public class FlatParagraphTools {
   /**
    * Get information of checked status of all paragraphs
    */
-  List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
+  synchronized public List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
     List<Boolean> isChecked = new ArrayList<>();
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -593,7 +593,7 @@ public class FlatParagraphTools {
    * else the marks are added to the existing marks
    */
 
-  public void markParagraphs(Map<Integer, List<SentenceErrors>> changedParas, DocumentCache docCache, boolean override, DocumentCursorTools docCursor) {
+  synchronized public void markParagraphs(Map<Integer, List<SentenceErrors>> changedParas, DocumentCache docCache, boolean override, DocumentCursorTools docCursor) {
     try {
       if (changedParas == null || changedParas.isEmpty() || docCache == null || docCursor == null) {
         return;
@@ -743,7 +743,7 @@ public class FlatParagraphTools {
    * Change text of flat paragraph nPara 
    * delete characters between nStart and nStart + nLen, insert newText at nStart
    */
-  public void changeTextOfParagraph (int nPara, int nStart, int nLen, String newText) {
+  synchronized public void changeTextOfParagraph (int nPara, int nStart, int nLen, String newText) {
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -777,7 +777,7 @@ public class FlatParagraphTools {
    * Change text of flat paragraph nPara 
    * delete characters between nStart and nStart + nLen, insert newText at nStart
    */
-  public void setLanguageOfParagraph (int nPara, int nStart, int nLen, Locale locale) {
+  synchronized public void setLanguageOfParagraph (int nPara, int nStart, int nLen, Locale locale) {
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {

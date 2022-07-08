@@ -125,6 +125,9 @@ public class DocumentCache implements Serializable {
    */
   public void refresh(DocumentCursorTools docCursor, FlatParagraphTools flatPara
       , Locale docLocale, XComponent xComponent, int fromWhere) {
+    if (isReset) {
+      return;
+    }
     isReset = true;
     if (debugMode) {
       MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
@@ -593,7 +596,8 @@ public class DocumentCache implements Serializable {
    * get Number of Flat Paragraph from Number of Text Paragraph
    */
   public synchronized int getFlatParagraphNumber(TextParagraph textParagraph) {
-    if (textParagraph.type == CURSOR_TYPE_UNKNOWN || !isFinished()) {
+//    if (textParagraph.type == CURSOR_TYPE_UNKNOWN || !isFinished()) {
+    if (textParagraph.type == CURSOR_TYPE_UNKNOWN) {
       return -1;
     }
     return toParaMapping.get(textParagraph.type).get(textParagraph.number);

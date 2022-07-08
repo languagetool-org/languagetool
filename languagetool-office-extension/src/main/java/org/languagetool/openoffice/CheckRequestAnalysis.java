@@ -740,16 +740,16 @@ class CheckRequestAnalysis {
     if (debugModeTm) {
       startTime1 = System.currentTimeMillis();
     }
-    boolean noChange = docCache.isEqualCacheSize(docCursor);
-//    int nFParas = flatPara.getNumberOfAllFlatPara();
+//    boolean noChange = docCache.isEqualCacheSize(docCursor);
+    int nFParas = flatPara.getNumberOfAllFlatPara();
     if (debugModeTm) {
       long runTime = System.currentTimeMillis() - startTime1;
       if (runTime > OfficeTools.TIME_TOLERANCE) {
         MessageHandler.printToLogFile("Time to run changesInNumberOfParagraph (docCache.isEqualCacheSize): " + runTime);
       }
     }
-//    if (nFParas == docCache.size()) {
-    if (noChange) {
+    if (nFParas == docCache.size()) {
+//    if (noChange) {
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
