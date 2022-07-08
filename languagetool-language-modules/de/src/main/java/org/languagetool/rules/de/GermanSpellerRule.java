@@ -2678,6 +2678,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Quillbot": return topMatch("QuillBot");
       case "Ohje": return topMatch("Oje");
       case "ohje": return topMatch("oje");
+      case "beispielweise": return topMatch("beispielsweise");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
     return Collections.emptyList();
