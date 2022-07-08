@@ -4723,7 +4723,7 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="PR.*" postag_regexp="yes"><exception>como</exception><exception scope="previous" regexp="yes">para|por</exception></token>
                 <marker>
                     <and>
-                        <token postag="N.*" postag_regexp="yes"><exception>disparates</exception></token>
+                        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">disparates?|desgracias?|penas?</exception></token>
                         <token postag="VM[SI].*" postag_regexp="yes"><exception postag="VMIP1S0" postag_regexp="yes"/></token>
                     </and>
                 </marker>
@@ -5299,6 +5299,12 @@ Copyright (C) 2011 Juan Martorell
             </and>
         </pattern>
         <disambig action="remove" postag="V.[MSI].*"/>
+    </rule>
+    <rule id="no_verbo2" name="not verb">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">disparate|cosa|misión|grado|desgracia|pena</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"></disambig>
     </rule>
     <rulegroup id="not_adj_special" name="not adjective (special cases)">
         <rule>
