@@ -342,17 +342,25 @@ title="Easy editing stylesheet" ?>
 
 
  <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-     <rule id="CONFUSION_OF_MAS_MAIS" name="confusion of mais and mas" default="temp_off">
+     <rule id="CONFUSÃO_MAIS_MAS_VÍRGULA" name="confusao de mais e mas após a vírgula" default="temp_off">
         <antipattern>
+            <token>,</token>
             <token>mais</token>
             <token postag='AQ.+' postag_regexp='yes'/>
             <example>Stefani Joanne, mais conhecida como Lady Gaga, é uma cantora estadunidense.</example>
         </antipattern>
         <antipattern>
             <token regexp='yes'>quanto|quem</token>
-            <token skip="-1">mais</token>
+            <token skip="-1" postag='RG|AQ0CS0' postag_regexp='yes'/>
             <token>mais</token>
             <example>Quanto mais eu durmo, mais sono tenho.</example>
+        </antipattern>
+        <antipattern>
+            <token>à</token>
+            <token>medida</token>
+            <token skip="-1">que</token>
+            <token>mais</token>
+            <example>À medida que o tempo passa, mais esperança tenho.</example>
         </antipattern>
         <antipattern>
             <token skip="-1">mais</token>
@@ -361,10 +369,110 @@ title="Easy editing stylesheet" ?>
             <example>Este mercado tem mais ofertas, mais opções e mais economia.</example>
         </antipattern>
         <antipattern>
+            <token>mais</token>
+            <token>e</token>
+            <token>mais</token>
+            <example>Quando penso nos motivos, mais e mais compreendo.</example>
+        </antipattern>
+        <antipattern>
+            <token>,</token>
+            <token skip="-1">mais</token>
+            <token>e</token>
+            <token postag='N.+' postag_regexp='yes'/>
+            <example>Eram três quartos, mais sala de jantar e escritório.</example>
+        </antipattern>
+        <antipattern>
+            <token>menos</token>
+            <token postag='N.+' postag_regexp='yes'/>
+            <token>,</token>
+            <token>mais</token>
+            <token postag='N.+' postag_regexp='yes'/>
+            <example>Menos conversa, mais ação.</example>
+        </antipattern>
+        <antipattern>
+            <token>,</token>
+            <token>mais</token>
+            <token min='0'>de</token>
+            <token postag='Z.+' postag_regexp='yes'/>
+            <example>Foram seis dias de folga, mais dois com o fim de semana.</example>
+        </antipattern>
+        <antipattern>
+            <token>a</token>
+            <token>cada</token>
+            <token skip="-1">,</token>
+            <token>mais</token>
+            <example>A cada garfada, mais feliz ficava.</example>
+        </antipattern>
+        <antipattern>
+            <token>,</token>
+            <token skip="-1">mais</token>
+            <token min='0'>ou</token>
+            <token>menos</token>
+            <example>Ele vai ganhar, mais voto ou menos voto.</example>
+        </antipattern>
+        <antipattern>
+            <token min='0'>ainda</token>
+            <token skip="-1">mais</token>
+            <token min='0'>do</token>
+            <token>que</token>
+            <example>Este grupo, pouco conhecido, mais afasta do que atrai fiéis.</example>
+        </antipattern>
+        <antipattern>
+             <token postag="C.+|I.+" postag_regexp="yes"/>
              <token>,</token>
              <token>mais</token>
-            <token regexp='yes'>cedo|tarde|à|adiante|nada|ou|devagar|rápido|um|uma|algum|alguma|poderes|poder</token>
+             <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
+             <example>O país é mais desenvolvido e, portanto, mais industrializado.</example>
+        </antipattern>
+        <antipattern>
+             <token regexp= 'yes'>enfim|opa</token>
+             <token>,</token>
+             <token>mais</token>
+             <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
+             <example>Enfim, mais refrescos para nós.</example>
+        </antipattern>
+        <antipattern>
+             <token>com</token>
+             <token>isso</token>
+             <token>,</token>
+             <token>mais</token>
+             <example>Com isso, mais pessoas virão.</example>
+        </antipattern>
+        <antipattern>
+            <token>sendo</token>
+            <token>assim</token>
+            <token>,</token>
+            <token>mais</token>
+            <example>Sendo assim, mais pessoas virão.</example>
+        </antipattern>
+        <antipattern>
+            <token>,</token>
+            <token>mais</token>
+            <token>do</token>
+            <token>mesmo</token>
+            <example>É sempre assim, mais do mesmo.</example>
+        </antipattern>
+        <antipattern>
+            <token>,</token>
+            <token>mais</token>
+            <token regexp='yes'>cedo|tarde|à|precisamente|frequentemente|recentemente|detalhadamente|adiante|acima|abaixo|atrás|ao|para|vale|nada|ou|devagar|rápido|um|uma|algum|alguma</token>
             <example>O local é perto do shopping, mais adiante.</example>
+        </antipattern>
+        <antipattern>
+            <token>,</token>
+            <token>mais</token>
+            <token postag='VMP00SM' min='0'/>
+            <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo</token>
+            <token regexp='yes'>\.|,</token>
+            <example>Já gostava de chocolate - e agora, mais ainda.</example>
+        </antipattern>
+        <antipattern>
+            <token>,</token>
+            <token>mais</token>
+            <token postag='VMP00SM' min='0'/>
+            <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo</token>
+            <token postag='C.+|SPS00' postag_regexp='yes'/>
+            <example>Ele sentiu muito os efeitos dessa decisão, mais intensamente ainda do que antes.</example>
         </antipattern>
         <pattern>
             <token>,</token>
@@ -5907,16 +6015,115 @@ Foram lançadas novas rendas.
       <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
     <rule>
       <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token>fake</token>
+          <token>news</token>
+          <example>Esse artigo é fake news.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token>gente</token>
+          <example>Ele precisa saber que somos gente.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' regexp='yes'>virar</token>
+          <token>chaves</token>
+          <example>O ocorrido virou chaves.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token regexp='yes'>anos|meses|dias|décadas|séculos|horas|minutos|segundos</token>
+          <example>Ontem ele viu um velho amigo que estivera anos sem ver.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token regexp='yes'>ontem|hoje|amanhã|segunda|terça|quarta|quinta|sexta|sábado|domingo|quase</token>
+          <example>Estivemos sábado na premiação.</example>
+          <example>Os bebês estavam quase dormindo.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token>notícia</token>
+          <token>em</token>
+          <token>todo</token>
+          <token>o</token>
+          <token>mundo</token>
+          <example>Esses acontecimentos foram notícia em todo o mundo.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token postag='RM' min='0'/>
+          <token postag='NC.S.+|AQ..S.+' postag_regexp='yes'/>
+         <token regexp='yes'>,|e</token>
+          <token postag='NC.S.+|AQ..S.+' postag_regexp='yes'/>
+          <example>As cores selecionadas foram principalmente azul, amarelo e vermelho.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token postag='NC.S.+|AQ..S.+' postag_regexp='yes'/>
+          <token skip='-1'>(</token>
+          <token>)</token>
+          <token regexp='yes'>,|e</token>
+          <token min='0'>mais</token>
+          <token postag='NC.S.+|AQ..S.+' postag_regexp='yes'/>
+          <example>Os sintomas mais frequentes são febre (acima de 37 graus) e dor de garganta.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token>palco</token>
+          <token regexp='yes'>para|pra</token>
+          <example>Esses eventos foram palco para uma série de situações.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token>notícia</token>
+          <token postag='_PUNCT'/>
+          <example>O jornalista cobriu diversos escândalos que foram notícia.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token regexp='yes'>mero|puro|pura|mera</token>
           <token postag='NC.S.+' postag_regexp='yes'/>
+          <example>Estes chocolates são puro prazer.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token regexp='yes'>cara|frente</token>
+          <token>a</token>
+          <token regexp='yes'>cara|frente</token>
+          <example>Estivemos sábado na premiação.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token min='0'>por</token>
+          <token postag='RG'/>
+          <token>tempo</token>
+          <example>Ficamos por algum tempo em silêncio.</example>
+      </antipattern>
+      <antipattern case_sensitive="yes">
+          <token>São</token>
+          <token postag='NPMS000'/>
+          <token>tempo</token>
+          <example>São Joaquim é o padroeiro da cidade.</example>
+      </antipattern>
+      <antipattern>
+          <token>fora</token>
+          <token postag='D...P.+' postag_regexp='yes' min='0'/>
           <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
-          <token postag='SPS00' postag_regexp='no'/>
+          <token postag='SPS00' postag_regexp='yes' min='0'/>
           <example>Fora casos de ausência por questões de saúde, não é permitido faltar.</example>
+          <example>Jogou fora as cerejas estragadas.</example>
           <example>Não é permitido faltar, fora casos de ausência por questões de saúde.</example>
       </antipattern>
       <antipattern>
-          <token postag='V.+' postag_regexp='yes'/>
+          <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
           <token postag='NCMP000' postag_regexp='no'/>
           <example>Estou 100% com você.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes' postag_regexp='yes' postag='V....P.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token postag='NCMP000' postag_regexp='no'/>
+          <example>Estamos 1% com você.</example>
       </antipattern>
       <antipattern>
           <token>o</token>
