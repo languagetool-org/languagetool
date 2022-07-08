@@ -15267,7 +15267,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Para mañana no si no lo puedes acabar.</example>
             </rule>
         </rulegroup>
-        <rule id="MALO_AMIGO_MAL_AMIGO" name="«malo» y «bueno» se apocopan delante de sustantivos masculinos en singular" default="temp_off">
+        <rule id="MALO_AMIGO_MAL_AMIGO" name="«malo» y «bueno» se apocopan delante de sustantivos masculinos en singular">
             <antipattern>
                 <token postag="V.*|DE0CN0" postag_regexp="yes" skip="1" min="0"/>
                 <token regexp="yes" skip="1">malo|bueno</token>
@@ -18408,6 +18408,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>seguro</token>
                 <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token postag="A...P." postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token regexp="yes">y|e</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <example>Incluía entonces a las actuales Casma y Huarmey.</example>
             </antipattern>
             <antipattern>
                 <unify>
