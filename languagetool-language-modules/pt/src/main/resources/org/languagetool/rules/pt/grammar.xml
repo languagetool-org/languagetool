@@ -417,11 +417,18 @@ title="Easy editing stylesheet" ?>
             <example>Este grupo, pouco conhecido, mais afasta do que atrai fiéis.</example>
         </antipattern>
         <antipattern>
-             <token postag="C.+|I.+|enfim|opa" postag_regexp="yes"/>
+             <token postag="C.+|I.+" postag_regexp="yes"/>
              <token>,</token>
              <token>mais</token>
              <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
              <example>O país é mais desenvolvido e, portanto, mais industrializado.</example>
+        </antipattern>
+        <antipattern>
+             <token regexp= 'yes'>enfim|opa</token>
+             <token>,</token>
+             <token>mais</token>
+             <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
+             <example>Enfim, mais refrescos para nós.</example>
         </antipattern>
         <antipattern>
              <token>com</token>
@@ -454,7 +461,7 @@ title="Easy editing stylesheet" ?>
             <token>,</token>
             <token>mais</token>
             <token postag='VMP00SM' min='0'/>
-            <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo|</token>
+            <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo</token>
             <token regexp='yes'>\.|,</token>
             <example>Já gostava de chocolate - e agora, mais ainda.</example>
         </antipattern>
@@ -462,7 +469,7 @@ title="Easy editing stylesheet" ?>
             <token>,</token>
             <token>mais</token>
             <token postag='VMP00SM' min='0'/>
-            <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo|</token>
+            <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo</token>
             <token postag='C.+|SPS00' postag_regexp='yes'/>
             <example>Ele sentiu muito os efeitos dessa decisão, mais intensamente ainda do que antes.</example>
         </antipattern>
