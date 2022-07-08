@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+  <properties>
+    <property name="timeout" value="10"/>
+  </properties>
   <settings>
     <setting name="logImpl" value="SLF4J"/>
+    <setting name="defaultStatementTimeout" value="${timeout}"/>
   </settings>
   <typeAliases>
     <typeAlias type="org.languagetool.server.DBGroup" alias="Group"/>
