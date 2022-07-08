@@ -411,10 +411,10 @@ regexp case-insensitive maken : (?i)
 				<example type="incorrect">Dit <marker>kan gebeuren</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij , jouw → we, ze, je, me" tags="picky">
+		<rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij/jou/jouw, mij → we, ze, je, me" tags="picky">
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">Wij|Zij|Jij</token><token regexp="yes">van|en|als</token></antipattern>
-				<antipattern><token regexp="yes">volgens|voor</token><token>mij</token></antipattern>
+				<antipattern><token regexp="yes">bovenover|door|over|tegen|volgens|voor</token><token>mij</token></antipattern>
 				<antipattern><token>jou</token><token regexp="yes">en|of</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>mij</token><token>is</token></antipattern>
 				<antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
@@ -423,6 +423,12 @@ regexp case-insensitive maken : (?i)
 				<antipattern><token>je</token><token>je</token><token>mij</token></antipattern>
 				<antipattern><token>zij</token><token>het</token></antipattern>
 				<antipattern><token>zij</token><token>'</token><token>t</token></antipattern>
+                <antipattern><token regexp="yes">ten|dank</token><token>zij</token></antipattern>
+                <antipattern><token>God</token><token>zij</token><token>dank</token></antipattern>
+                <antipattern><token>zij</token><token>mij</token></antipattern>
+                <antipattern><token regexp="yes">niet|van</token><token regexp="yes">jij|mij</token></antipattern>
+                <antipattern><token regexp="yes">met|bij</token><token>mij</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
+                <antipattern><token regexp="yes">hij|jij|wij|zij|mij</token><token>of</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
 				<pattern>
 					<token regexp="yes">jij|wij|zij|mij<exception postag="UNKNOWN"/></token>
 				</pattern>
@@ -434,6 +440,10 @@ regexp case-insensitive maken : (?i)
 				<example correction="Ze"><marker>Zij</marker> vinden er hun tweede huis.</example>
 			</rule>
 			<rule>
+                <antipattern><token regexp="yes">bovenover|door|over|tegen|volgens|voor</token><token regexp="yes">jouw|jou</token></antipattern>
+                <antipattern><token>zij</token><token>jou</token></antipattern>
+                <antipattern><token>jou</token><token>en</token><token>je</token></antipattern>
+                <antipattern><token regexp="yes">met|bij</token><token>jou</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
 				<pattern>
 					<token regexp="yes">jouw|jou</token>
 				</pattern>
