@@ -1253,55 +1253,6 @@ Isto é boa. → Isto é bom.
     <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:[NZ].|A..)F[NP].+' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *START* -->
-<!--
-THE FIRST TWO BLOCKS BELOW WERE TAKEN FROM TWO DELETED ANTIPATTERNS REPLACED BY THIS NEW ONE.
-
-Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.
-
-Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.
-Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.
-
-Em dez anos muita coisa mudou.
-No decorrer desses 4 anos muita coisa aconteceu.
--->
-      <antipattern>
-		  <token postag='NC[CM].+|AQ0[CM].+|NP.+' postag_regexp='yes'/>
-		  <token postag='D[ADIP]0[CF].+' postag_regexp='yes'/>
-		  <token postag='NC[CF].+|AQ0[CF].+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *END* -->
-
-<!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *START* -->
-<!--
-Muitos parabéns galinha.
-Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.
-Abram os olhos porra!
-O carinho sem terremoto, os amigos ausência de terremoto, o vazio da emoção permitindo permanecer.
-Com que frequência você lava os lençóis cama?
-Os bois vez por outra paravam, quando encontravam capim novo em algum local.
--->
-      <antipattern>
-
-		  <token postag='D[ADIP]0[CM].+' postag_regexp='yes'/>
-		  <token postag='NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
-		  <token min="0" max="1" postag='RG' postag_regexp='no'/>
-		  <token postag='NC[CF].+|AQ.[CF].+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *END* -->
-
-<!-- MARCOAGPINTO 2022-05-08 (1-JAN-2022+) *START* -->
-<!--
-Poderia me emprestar uns grafites de lapiseira?
-Sujeito nojento, devia levar uns tapas.
-...e tantas outra inacabadas, muitas ficaram perdidas em fitas k7 violão e voz.. na maioria…outras são muitos bonitas.
--->
-      <antipattern>
-		  <token postag='VMIP3.+|VMM02S0|VMN0000' postag_regexp='yes'/>
-		  <token postag='DI0[CM].+' postag_regexp='yes'/>
-		  <token postag='NC[CF].+|AQ.[CF].+' postag_regexp='yes'/>
-      </antipattern>
-<!-- MARCOAGPINTO 2022-05-08 (1-JAN-2022+) *END* -->
 
 <!-- MARCOAGPINTO 2022-06-23 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
       <antipattern>
@@ -1370,6 +1321,38 @@ Sujeito nojento, devia levar uns tapas.
 		<example>Esta também fornece sugestões para pesquisas e endereços Web à medida que escreve, dispondo ainda da funcionalidade de preenchimento automático.</example>
       </antipattern>
 <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-07-08 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		  <token postag='NCM.+|AQ0M.+|NP.+' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='NC.+|AQ.+|NP.+|V.+' postag_regexp='yes'/>
+		  <token postag='[DP][ADIPR].[CF].+|SPS00:[DP][ADIPR].[CF].+|SPS00|CC|CS|RG|I' postag_regexp='yes'/>
+		  <token postag='NC[CF].+|AQ0[CF].+' postag_regexp='yes'/>
+		  <example>Diferente de boa parte do país, por possuir melhores indicadores sociais e renda média elevada,o idoso de Brasília ocupa um papel financeiro importante dentro da família.</example>
+		  <example>A tradição Reiki, porém, já era mencionada em sânscrito pelos antigos sutras da Índia, há mais de 2.500 anos.</example>
+		  <example>Sobre Pedro e Paulo: eu os vi juntos várias vezes.</example>
+		  <example>Pós Graduação em Administração de RH: Fundação Armando Álvares Penteado - FAAP.</example>
+		  <example>Domingos 9h da manhã.</example>
+		  <example>Você é três centímetros mais alta que eu.</example>
+		  <example>A tela Campo de Trigo em Auvers com Casa Branca exibe uma paleta de amarelos e azuis mais tímida, criando um sentimento de harmonia idílica.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-07-08 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+<!-- MARCOAGPINTO 2022-07-08 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+		  <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='VMIS1.+|VMG0000|VMM03.+'/>
+		  </token>
+		  <token postag='[DP][ADIPR].[CM].+|SPS00:[DP][ADIPR].[CM].+|SPS00|CC|CS|RG|I' postag_regexp='yes'/>
+		  <token postag='NC[CF].+|AQ.[CF].+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AO.+'/>
+		  </token>
+		  <example>Poderia me emprestar uns grafites de lapiseira?</example>
+		  <example>Sujeito nojento, devia levar uns tapas.</example>
+		  <example>...e tantas outra inacabadas, muitas ficaram perdidas em fitas k7 violão e voz.. na maioria…outras são muitos bonitas.</example>
+		  <example>... em tese, deveria ser protetor, nos oferecendo toda possibilidade de nos despirmos de tudo e sermos nós mesmas.</example>
+      </antipattern>
+<!-- MARCOAGPINTO 2022-07-08 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
       <antipattern>
         <token postag="Z.*" postag_regexp="yes"/>
