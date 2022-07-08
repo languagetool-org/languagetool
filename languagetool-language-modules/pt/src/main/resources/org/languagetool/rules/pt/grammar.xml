@@ -39293,7 +39293,10 @@ André 23:07, 14 nov 2004 (UTC).
         <token postag="SENT_START"/>
         <token regexp="yes" min="0" max="3">\p{P}</token>
 		    <marker>
-          <token regexp="yes">[\d,.]+</token>
+          <token regexp="yes">
+            [\d,.]+
+            <exception regexp="yes">0.*</exception>
+          </token>
         </marker>
           <token skip="-1">
             <exception postag_regexp='yes' postag='_PUNCT|Z.+'/></token>
