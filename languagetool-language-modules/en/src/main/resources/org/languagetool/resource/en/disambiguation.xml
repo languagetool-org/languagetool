@@ -16049,4 +16049,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="remove" postag="W.*" />
     </rule>
+
+    <rule id="ING" name="ignore spelling of 'go(ing)'">
+        <pattern>
+            <token regexp="yes">\(|/</token>
+            <marker>
+                <token regexp="yes">ing|ed</token>
+            </marker>
+        </pattern>
+       <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
