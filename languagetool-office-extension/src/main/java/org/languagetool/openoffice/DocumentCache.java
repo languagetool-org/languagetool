@@ -89,7 +89,9 @@ public class DocumentCache implements Serializable {
     isReset = true;
     debugMode = OfficeTools.DEBUG_MODE_DC;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
-    add(in);
+    if (in.size() > 0) {
+      add(in);
+    }
     docType = in.docType;
     isReset = false;
   }

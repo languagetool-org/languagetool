@@ -448,6 +448,13 @@ class SingleDocument {
   /**
    *  Get document cache of the document
    */
+  List<ResultCache> getParagraphsCache() {
+    return paragraphsCache;
+  }
+  
+  /**
+   *  Get document cache of the document
+   */
   DocumentCache getDocumentCache() {
     return docCache;
   }

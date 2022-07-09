@@ -199,7 +199,9 @@ public class ViewCursorTools {
       }
       xParagraphCursor.gotoStartOfParagraph(false);
       xParagraphCursor.goRight((short) nStart, false);
-      xParagraphCursor.goRight((short) nLength, true);
+      if (nLength > 0) {
+        xParagraphCursor.goRight((short) nLength, true);
+      }
       xParagraphCursor.setString(replace);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
