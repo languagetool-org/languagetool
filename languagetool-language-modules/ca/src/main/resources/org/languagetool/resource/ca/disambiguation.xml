@@ -3575,7 +3575,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token>jo</token>
                 <marker>
-                    <token postag="VM[IS]P1S0.?" postag_regexp="yes"><exception regexp="yes">fem|inquiet|sol|com|despert|intern</exception><exception postag="V..I1S0.?" postag_regexp="yes"/></token>
+                    <token postag="VM[IS]P1S0.?" postag_regexp="yes"><exception regexp="yes">fem|inquiet|sol|com|despert|intern|igual</exception><exception postag="V..I1S0.?" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.[IS]P1S0.?"/>
@@ -3968,7 +3968,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">pilot|pastor|compositora|bombera</token>
             </pattern>
-            <disambig action="add"><wd lemma="dona" pos="_GN_FS"></wd></disambig>
+            <disambig action="add">
+                <wd lemma="dona" pos="_GN_FS"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
@@ -3977,7 +3979,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">pilots?|pastors?|compositores|bomberes</token>
             </pattern>
-            <disambig action="add"><wd lemma="dona" pos="_GN_FP"></wd></disambig>
+            <disambig action="add">
+                <wd lemma="dona" pos="_GN_FP"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
@@ -7327,7 +7331,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <token postag="D.*" postag_regexp="yes"/>
             <marker>
-                <token regexp="yes">deliris?|objectes?|plaça|places|taula|taules</token>
+                <token regexp="yes">deliris?|objectes?|plaça|places|taula|taules|revista|revistes</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="N.*|_GN_.*"/>
@@ -13441,7 +13445,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <!--  paraules que habitualment no són participi si no han concordat (darrere de "de"?: base de dades, sistema de partits -->
             <pattern>
                 <and>
-                    <token postag="V.P.*" postag_regexp="yes" regexp="yes">vista|partida|dada|dades|partits?|estats?|beguda|begudes<exception postag="_GN_.*|_GV_" postag_regexp="yes"/></token>
+                    <token postag="V.P.*" postag_regexp="yes" regexp="yes">vista|partida|dada|dades|partits?|estats?|beguda|begudes<exception postag="_GN_.*|_GV_" postag_regexp="yes"/><exception scope="previous" regexp="yes">e|as|em|eu|an</exception></token>
                     <token postag="N.*" postag_regexp="yes"/>
                 </and>
             </pattern>
@@ -15650,7 +15654,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="V.S.*" postag_regexp="yes"/>
-                        <token postag="V.I.*" postag_regexp="yes"/>
+                        <token postag="V.I.*" postag_regexp="yes"><exception>revistes</exception></token>
                     </and>
                 </marker>
             </pattern>
@@ -15710,7 +15714,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="VMIP..00" postag_regexp="yes"/>
-                        <token postag="VMSP..0V" postag_regexp="yes"/>
+                        <token postag="VMSP..0V" postag_regexp="yes"><exception>revistes</exception></token>
                     </and>
                 </marker>
             </pattern>
@@ -17646,6 +17650,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add">
                 <wd pos="NPCN000"/>
             </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="lletres_minuscules" name="lletres soltes minúscules">
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">ordre|dimensió</token>
+                <marker>
+                    <token regexp="yes">m|n|x|y|z</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
     <rule id="plurals" name="alguns plurals">
