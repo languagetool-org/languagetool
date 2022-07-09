@@ -43,6 +43,7 @@ import org.languagetool.tools.StringTools;
 import java.io.*;
 import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -86,6 +87,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist|[Ff]ick).*");
   
   private static final int MAX_TOKEN_LENGTH = 200;
+  private static final Pattern GENDER_STAR_PATTERN = Pattern.compile("[A-ZÖÄÜ][a-zöäüß]{1,25}[*:][a-zöäüß]{1,25}");  // z.B. "Jurist:innenausbildung"
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
@@ -1395,6 +1397,29 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[Üü]bergrifflich(e[mnrs]?)?", "lich", "ig");
     put("löchen", w -> Arrays.asList("löschen", "löchern", "Köchen"));
     put("wergen",  w -> Arrays.asList("werfen", "werben", "werten"));
+  }
+
+  @Override
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    RuleMatch[] matches = super.match(sentence);
+    return removeGenderCompoundMatches(sentence, matches);
+  }
+
+  // ":" and "*" are not in the tokenised text for the speller, so it's easier to remove matches for
+  // e.g. "Jurist:innenausbildung" as a cleanup step after the speller has run:
+  @NotNull
+  private RuleMatch[] removeGenderCompoundMatches(AnalyzedSentence sentence, RuleMatch[] matches) {
+    List<RuleMatch> filteredMatches = Arrays.asList(matches);
+    Matcher m = GENDER_STAR_PATTERN.matcher(sentence.getText());  // Jurist:innenausbildung -> 'Jurist', ':innenausbildung'
+    int pos = 0;
+    while (m.find(pos)) {
+      if (!isMisspelled(m.group().replaceFirst("[*:]", ""))) {  // "_" is not tokenized anyway, so no need to handle it here
+        // e.g. "Jurist:innenausbildung" with the ":" removed should be accepted:
+        filteredMatches = filteredMatches.stream().filter(k -> !(m.start() < k.getFromPos() && m.end() == k.getToPos())).collect(Collectors.toList());
+      }
+      pos = m.end();
+    }
+    return filteredMatches.toArray(RuleMatch.EMPTY_ARRAY);
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {

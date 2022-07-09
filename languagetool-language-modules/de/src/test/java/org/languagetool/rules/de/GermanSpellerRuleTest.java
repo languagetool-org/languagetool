@@ -1011,6 +1011,25 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.isMisspelled("Eigenschaften"));
     assertFalse(rule.isMisspelled("wirtschafte"));
   }
+
+  @Test
+  public void testGenderCompound() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+
+    assertThat(rule.match(lt.getAnalyzedSentence("Jurist:innenausbildunk")).length, is(1));
+    assertThat(rule.match(lt.getAnalyzedSentence("Jurrist:innenausbildung")).length, is(2));
+    assertThat(rule.match(lt.getAnalyzedSentence("Jurist:innenausbildung")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Ein Satz. Die Jurist:innenausbildung und die Jurist*innenausbildung.")).length, is(0));
+
+    assertThat(rule.match(lt.getAnalyzedSentence("Jurist*innenausbildunk")).length, is(1));
+    assertThat(rule.match(lt.getAnalyzedSentence("Jurrist*innenausbildung")).length, is(2));
+    assertThat(rule.match(lt.getAnalyzedSentence("Jurist*innenausbildung")).length, is(0));
+
+    assertThat(rule.match(lt.getAnalyzedSentence("Jurist_innenausbildunk")).length, is(1));
+    assertThat(rule.match(lt.getAnalyzedSentence("Jurrist_innenausbildung")).length, is(2));
+    //assertThat(rule.match(lt.getAnalyzedSentence("Jurist_innenausbildung")).length, is(0));  // TODO
+  }
   
   @Test
   @Ignore("testing a potential bug in Morfologik")
