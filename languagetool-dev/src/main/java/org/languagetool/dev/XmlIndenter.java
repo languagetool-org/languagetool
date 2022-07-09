@@ -56,13 +56,16 @@ public class XmlIndenter {
       if (line.startsWith("</rule>")) { inRule = false; }
       if (line.startsWith("</rulegroup")) { inRuleGroup = false; }
       if (line.startsWith("</category")) { inCategory = false; }
-      int level = (inCategory ? INDENT : 0) + (inRuleGroup ? INDENT : 0) + (inRule ? INDENT : 0) +
+      int level = INDENT + (inCategory ? INDENT : 0) + (inRuleGroup ? INDENT : 0) + (inRule ? INDENT : 0) +
         (inPattern ? INDENT : 0) + (inAntiPattern ? INDENT : 0) + (inMarker ? INDENT : 0) + (inToken ? INDENT : 0);
+      if (line.startsWith("<category") || line.startsWith("</category")) {
+        level = INDENT;
+      }
       if (line.equals("</token>")) {
         level -= INDENT;
       }
       String indentSpaces = StringUtils.repeat(' ', level);
-      if (inCategory) {
+      if (!line.isEmpty() && (inCategory || line.startsWith("<category") || line.startsWith("</category"))) {
         System.out.println(indentSpaces + line);
       } else {
         System.out.println(origLine);
