@@ -3778,7 +3778,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="(DD|PD).*|V.*|P[P0].*|NP.*|NC.*" postag_regexp="yes"><exception postag="C.*|R.*|DA.*|V.N.*|PT.*" postag_regexp="yes"/><exception regexp="yes">tu|e[mts]|[mts]e|ens|us|[mtsln]'|'[mtsln]|'ls|'ns|li|els?|la|les|en|hi|ho|any|dia|hem</exception></token>
                 <marker>
                     <and>
-                        <token postag="V.[IS].2S0." postag_regexp="yes"><exception regexp="yes">menges|creus|penses|esperes|deus|trobes|dius|vas|prens|pots|vols|sols|tens|confesses|veus|traus|acceptes|eres</exception></token>
+                        <token postag="V.[IS].2S0." postag_regexp="yes"><exception regexp="yes">menges|creus|penses|esperes|deus|trobes|dius|vas|prens|pots|vols|sols|tens|confesses|veus|traus|acceptes|eres|portes</exception></token>
                         <token postag="N.*|A.*|V.P.*" postag_regexp="yes"/>
                     </and>
                 </marker>
@@ -3961,6 +3961,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rulegroup id="noms_aposicio" name="noms en aposició">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCFS000">dona</token>
+                </marker>
+                <token regexp="yes">pilot|pastor|compositora|bombera</token>
+            </pattern>
+            <disambig action="add"><wd lemma="dona" pos="_GN_FS"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="NCFP000">dones</token>
+                </marker>
+                <token regexp="yes">pilots?|pastors?|compositores|bomberes</token>
+            </pattern>
+            <disambig action="add"><wd lemma="dona" pos="_GN_FP"></wd></disambig>
+        </rule>
         <rule>
             <pattern>
                 <marker>
