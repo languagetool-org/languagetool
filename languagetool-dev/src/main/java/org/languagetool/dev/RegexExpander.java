@@ -32,6 +32,11 @@ import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 
 /**
  * "Expand" regular expressions like {@code [Ss](?:e[gx]|áb)} to make them readable.
+ * To use this, you need a list of "all" words, e.g. exported (using 'unmunch') from the spell
+ * checker's *.dic files. Then copy the regexp in question to `String regex = ...` here,
+ * set the file to the list of words at `String wordListFile = ...` and run the main
+ * method to print the expanded regex. Note that words that are not in your list of
+ * words but that the regex would match will be missing from the new regex.
  */
 public class RegexExpander {
 
