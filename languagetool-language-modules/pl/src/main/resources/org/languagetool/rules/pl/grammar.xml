@@ -7821,6 +7821,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="num:.*" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
+            <token>po</token>
+            <marker>
+            <unify><feature id="gender"/><feature id="number"/>
+            <token postag="num.*loc.*:congr" postag_regexp="yes"/>
+            <token postag="(subst|depr|ger).*loc.*" postag_regexp="yes"/>
+            </unify>
+            </marker>
+        </antipattern>
+        <antipattern>
           <token>o</token>
           <token regexp="yes">\d+</token>
           <token postag="subst:.*" postag_regexp="yes"/>
@@ -7862,6 +7871,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern>
           <token>przed</token>
           <token regexp="yes" postag="adj:sg:inst:f:pos" inflected="yes">&numord;</token>
+        </antipattern>
+        <antipattern>
+        <unify><feature id="case"/><feature id="gender"/>
+          <token inflected="yes">jeden</token>
+          <unify-ignore>
+          <token postag="conj"></token>
+          </unify-ignore>
+          <token inflected="yes">dwa</token>
+        </unify>
         </antipattern>
         <antipattern> <!-- składnia porównania -->
           <token postag="adj.*" postag_regexp="yes"/>
@@ -8423,6 +8441,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="(ger|pact):.*" postag_regexp="yes" inflected="yes">być</token>
           <token postag=".*inst.*" postag_regexp="yes"/>        
         </antipattern>
+        <antipattern> <!-- czynić coś jakimś -->
+          <token skip="10" inflected="yes" regexp="yes">czynić|uczynić
+            <exception scope="next" postag="verb.*|comp:comma" postag_regexp="yes"/>
+          </token>
+          <marker>
+            <token postag="(ppas|pact|adj).*inst.*" postag_regexp="yes"/>          
+          </marker>        
+        </antipattern>
+        <antipattern>
+          <marker>
+            <token skip="9" postag="(ppas|pact|adj).*inst.*" postag_regexp="yes">
+            <exception scope="next" postag="verb.*|comp:comma" postag_regexp="yes"/>
+            </token>          
+          </marker>
+          <token inflected="yes" regexp="yes">czynić|uczynić</token>
+        </antipattern>
         <antipattern> <!-- społeczność niszczące, rząd obalające -->
             <token postag="(subst|ger|depr):.*acc.*" postag_regexp="yes"/>
             <token postag="pact.*" postag_regexp="yes"/>        
@@ -8574,7 +8608,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>          
           <token postag="(adj|ppas|pact):.*" postag_regexp="yes">
             <exception regexp="yes">niepodobna|dali|jadła|me|od|to|ci|sie|był[ya]|piękna|musza|mamy|tyle|niechcący|można|niemusi|niemożna|gęsiego|smacznego|Facebookowi</exception>
-            <exception inflected="yes" regexp="yes">ten|który|jaki|każdy|sam|on|tenże</exception>
+            <exception inflected="yes" regexp="yes">ten|tamten|który|jaki|każdy|sam|on|tenże</exception>
             <exception postag="(subst|ger|adv|verb|num):.*" postag_regexp="yes"/>           
           </token>
         </unify>
@@ -8637,6 +8671,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Ta myśl była mu ze wszystkich najprzykrzejsza.</example>
       <example>Dżek znalazł na półce u mister Tafta napisaną przez Verne'a piękną książkę.</example>
       <example>On będzie jutro zajęty.</example>
+      <example>Nikomu z transportowców nie zarzucili oszustwa podatkowego.</example>
+      <example>Zasłabł po paru minutach zaczętej z panią Barbarą rozmowy.</example>
+      <example>Słyszałem, że jedzenie jednej czy dwóch porcji ryby tygodniowo może zmniejszyć zagrożenie chorobą serca.</example>
 		</rule>
 		  <rulegroup id="DWA_LUB_WIECEJ" name="„dwa lub więcej” (co najmniej dwa)">
       <rule>
