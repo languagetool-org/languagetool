@@ -311,6 +311,8 @@ public class AgreementRuleTest {
     assertGood("Das macht jedem Angst.");
     assertGood("Dann macht das Sinn.");
     assertGood("Das sind beides Lichtschalter.");
+    assertGood("Spielst du vielleicht auf das Bordell neben unserm Hotel an?");
+    assertGood("Spielst du vielleicht auf das Bordell neben unsrem Hotel an?");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");

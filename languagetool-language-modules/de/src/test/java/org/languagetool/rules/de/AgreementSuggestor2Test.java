@@ -124,6 +124,7 @@ public class AgreementSuggestor2Test {
     assertSuggestion1("die Haus", "[das Haus, dem Haus, die Häuser]", true);
     assertSuggestion1("die Hauses", "[des Hauses, die Häuser]", true);
     assertSuggestion1("die Häusern", "[die Häuser, den Häusern]", true);
+    assertSuggestion1("unsere Buch", "[unser Buch, unserem Buch, unsere Bücher]", true);
   }
 
   @Test
