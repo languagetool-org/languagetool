@@ -93,6 +93,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY verbos_de_ligacao "(?:andar|continuar|estar|ficar|parecer|permanecer|assemelhar|semelhar|ser|virar|viver)">
     <!ENTITY verbos_transitivos_diretos "(?:abandonar|abençoar|aborrecer|abraçar|acompanhar|acusar|admirar|adorar|alegrar|ameaçar|amolar|amparar|auxiliar|castigar|condenar|conhecer|conservar|convidar|defender|eleger|estimar|humilhar|namorar|ouvir|prejudicar|prezar|proteger|respeitar|socorrer|suportar|ver|visitar)">
     <!ENTITY haver_impessoal "(?:há|haja|haverá|haveria|havia|houve|houver|houvera|houvesse)">
+    <!ENTITY verbos_pronominais "apelidar|chamar|denominar">
 
     <!ENTITY adj_nomes_paronimos_a "(?:(?:p(?:á(?:(?:gin|sco|ri)a|(?:bul|li)o|ti(?:na|o))|r(?:(?:e(?:sság|fác)|ontuár)io|átic[ao])|lá(?:ci(?:d[ao]|to)|gio)|ará(?:grafo|lise)|erdulári[ao]|sicanálise|osfácio)|á(?:(?:t(?:rop|ic)|f(?:ric|i)|bson)[ao]|r(?:i(?:c[ao]|a)|bitr[ao]|vore)|c(?:(?:er|id)[ao]|aro)|(?:s(?:cu|i)|[vx]il)a|g(?:raf[ao]|ua)|(?:lvidr|dit)o|pod[aeo])|c(?:á(?:(?:l(?:cul|am)|dmi)o|r(?:(?:cer|i)e|dia)|(?:ps|b)ula)|o(?:nt(?:rári[ao]|ágio)|missári[ao])|a(?:tál(?:ise|ogo)|ntárid[ae]))|a(?:n(?:iversário|álise)|má(?:si[ao]|lgama)|(?:lgáli|záfam)a|(?:pan|d)ágio|cárid[ao])|g(?:á(?:(?:strul|bi|zu)a|lic[ao]|rrulo)|(?:r(?:amátic|ávid)|inástic)[ao]|ládio)|s(?:(?:e(?:cretári|lvátic)|u(?:bsecret|m)ári)[ao]|á(?:(?:tur|bi)a|culo)|alário)|l(?:á(?:(?:ce|za)r[ao]|(?:gr|st)ima|pid[ae]|tego)|arápi[ao])|e(?:(?:pigramátic|mpresári)[ao]|(?:ficá|nxár)cia|stá[dg]io)|r(?:á(?:b(?:i(?:d[ao]|a)|ano|ula)|dio|fia)|essábio|ipária)|má(?:(?:scar|cul|fi)a|g(?:ic[ao]|oa)|t(?:ico|ria))|v(?:á(?:lid[ao]|ria)|oluntári[ao]|iático)|h(?:emodiálise|ilári[ao]|á[bl]ito)|d(?:i(?:cionário|álise)|ádiva)|t(?:ráf(?:eg[ao]|ico)|ábula)|in(?:flacionária|ventário)|bá(?:scul[ao]|lsamo|tega)|f(?:áb(?:ric|ul)|aláci)a|jáculo))s?">
     <!ENTITY adj_nomes_paronimos_a_2 "(?:mágic[ao])s?">
@@ -2824,6 +2825,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example type='incorrect'>Ela estava <marker>ao ponto de</marker> perder o controlo emocional.</example>
     </rule>
 
+
+    <!-- CHAMAR/DENOMINAR DE chamar/denominar -->
+    <rulegroup id='VERBO_PRONOMINAL_DE' name="V. Pronominal + de → V. Pronominal" type="style">
+      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-10 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <!--
+      Temos uma teoria denominada de matemática. → Temos uma teoria denominada matemática.
+      A teoria, denominaram-lha de matemática. → A teoria, denominaram-lha matemática.
+      -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-dos-verbos-chamar-e-denominar-ii/34550</url>
+      <rule>
+
+        <antipattern>
+          <token min="1" max="2" postag='[DP][ADIPR].MP.+|SPS00:[DP][ADIPR].MP.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
+          <token postag='VMSF2S0' postag_regexp='no'/>
+          <token>de</token>
+          <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
+          <example>Queremos os chamares de Marco.</example>
+        </antipattern>
+
+        <antipattern>
+          <token regexp='yes' inflected='yes'>alterar|banir|bloquear|enviar|modificar|receber</token>
+          <token min="0" max="1" postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
+          <token inflected='yes'>chamar</token>
+          <token>de</token>
+          <example>Simão recebe chamada de Augusto para ir a um jantar mais logo.</example>
+          <example>APIs também estão disponíveis para permitir que aplicativos no modo de núcleo filtrem e modifiquem chamadas de registro feitas por outros aplicativos.</example>
+          <example>Meu primo recebeu o chamado de Deus e virou padre.</example>
+          <example>Tom recebeu uma chamada de Mary.</example>
+        </antipattern>
+
+        <pattern>
+          <marker>
+            <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
+            <token>de</token>
+          </marker>
+          <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'>
+            <exception regexp='yes'>regresso|retorno|volta</exception>
+          </token>
+        </pattern>
+        <message>Este verbo é pronominal, a redação correta é sem a preposição 'de'.</message>
+        <suggestion>\1</suggestion>
+        <example correction="denominada">Temos uma teoria <marker>denominada de</marker> matemática.</example>
+        <example>Ele foi chamado de volta, em meio à sua viagem.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
+            <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+            <token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+            <token>de</token>
+          </marker>
+          <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'>
+            <exception regexp='yes'>regresso|retorno|volta</exception>
+          </token>
+        </pattern>
+        <message>Este verbo é pronominal, a redação correta é sem a preposição 'de'.</message>
+        <suggestion>\1\2\3</suggestion>
+        <example correction="denominaram-lha">A teoria, <marker>denominaram-lha de</marker> matemática.</example>
+        <example>Chamaram-no de volta, em meio à sua viagem.</example>
+      </rule>
+    </rulegroup>
+
+
     <!-- QUE EM NC SER VERBO NUM ser verbo em nc num -->
     <rule id='QUE_EM_NC_SER_VERBO_NUM' name="Que + Em + Nome + Ser + Verbo + Num → Verbo + em + Nome + num" type='style'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-22 (25-JUN-2021+)      -->
@@ -2865,65 +2934,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Eu vi a professora Gómez ontem.</example>
       <example>Quando eles vieram a receita quiseram fazer logo.</example>
     </rule>
-
-    <!-- CHAMAR/DENOMINAR DE chamar/denominar -->
-    <rulegroup id='CHAMAR_DENOMINAR_DE' name="Chamar/Denominar de → Chamar/Denominar" type="style">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-07 + 2021-07-08 + 2021-08-20 + 2021-08-21 (25-JUN-2021+)      -->
-      <!--
-      Temos uma teoria denominada de matemática. → Temos uma teoria denominada matemática.
-      A teoria, denominaram-lha de matemática. → A teoria, denominaram-lha matemática.
-      Ele foi chamado de volta, em meio à sua viagem.
-      Chamaram-no de volta, em meio à sua viagem.
-      -->
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-dos-verbos-chamar-e-denominar-ii/34550</url>
-      <rule>
-        <!-- MARCOAGPINTO 2021-08-22 (25-JUN-2021+) *START* -->
-        <!--
-        Queremos os chamares de Marco.
-        -->
-        <antipattern>
-          <token postag='DA0MP0|PD0MP000|PP3MPA00' postag_regexp='yes'/>
-          <token>chamares</token>
-          <token>de</token>
-          <token min="0" max="1" regexp='yes'>["'’“«]</token>
-          <token postag='NP.+|AQ0.+|NC.+|UNKNOWN' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-08-22 (25-JUN-2021+) *END* -->
-        <pattern>
-          <marker>
-            <token regexp='yes' inflected='yes'>chamar|denominar</token>
-            <token>de</token>
-          </marker>
-          <token min="0" max="1" regexp='yes'>["'’“«]</token>
-          <token postag='NP.+|AQ0.+|NC.+|UNKNOWN' postag_regexp='yes'>
-            <exception regexp='yes'>regresso|volta</exception>
-          </token>
-        </pattern>
-        <message>Os verbos 'chamar' e 'denominar' são pronominais, a redação correta é sem preposição.</message>
-        <suggestion>\1</suggestion>
-        <example correction="denominada">Temos uma teoria <marker>denominada de</marker> matemática.</example>
-        <example>Ele foi chamado de volta, em meio à sua viagem.</example>
-      </rule>
-	  
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp='yes' inflected='yes'>chamar|denominar</token>
-            <token regexp='yes' spacebefore='no'>&hifen;</token>
-            <token regexp='yes' spacebefore='no'>as?|os?|las?|los?|lhas?|lhes?|nos?|me|se|te|vos</token>
-            <token>de</token>
-          </marker>
-          <token min="0" max="1" regexp='yes'>["'’“«]</token>
-          <token postag='NP.+|AQ0.+|NC.+|UNKNOWN' postag_regexp='yes'>
-            <exception regexp='yes'>regresso|volta</exception>
-          </token>
-        </pattern>
-        <message>Os verbos 'chamar' e 'denominar' são pronominais, a redação correta é sem preposição.</message>
-        <suggestion>\1\2\3</suggestion>
-        <example correction="denominaram-lha">A teoria, <marker>denominaram-lha de</marker> matemática.</example>
-        <example>Chamaram-no de volta, em meio à sua viagem.</example>
-      </rule>
-    </rulegroup>
 
     <!-- HAVIA_PRESENTE_CONJUNTIVO_IMPESSOAL  Havia Pretérito Imp Con -->
     <rule id='HAVIA_PRESENTE_CONJUNTIVO_IMPESSOAL' name="Havia + Presente Conj/Imp → Havia + Pretérito Imp Con">
