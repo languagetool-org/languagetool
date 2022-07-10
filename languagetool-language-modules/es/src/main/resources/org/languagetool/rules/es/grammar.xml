@@ -327,8 +327,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes">Julio</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">cariño|amistad|amor</token>
-                    <token>de</token>
+                    <token regexp="yes">cariño|amistad|amor|hola|días|noches|tardes|buenas|saludos|cumple|cumpleaños</token>
+                    <token regexp="yes">de|,</token>
                     <token case_sensitive="yes">Julio</token>
                 </antipattern>
                 <pattern>
@@ -350,6 +350,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Con Julio Manrique y Julio Iglesias.</example>
                 <example>¡Noviembre está cada vez más cerca!</example>
                 <example type="triggers_error">Pero Julio es una buena persona.</example>
+                <example>Hola, Julio.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6126,7 +6127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar</token>
+                <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer</token>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
@@ -10641,6 +10642,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes">L</token>
                     <token regexp="yes">\d+</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d[\d\.,]+</token>
+                    <token>l</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>l</token>
@@ -10662,6 +10667,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">en|la</token>
                     <token case_sensitive="yes">L</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d[\d\.,]+</token>
+                    <token>l</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -14784,6 +14793,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Está segura de que</marker> lo que decís es cierto.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <!-- missing comma -->
+                    <token>no</token>
+                    <token regexp="yes">te|se|os</token>
+                    <token inflected="yes">preocupar</token>
+                    <token>que</token>
+                </antipattern>
                 <pattern>
                     <and>
                         <token inflected="yes" regexp="yes">alegrar|sorprender|entristecer|agobiar|emocionar|aburrir|preocupar|enterar<exception postag="VM..3.." postag_regexp="yes"/></token>
