@@ -23,6 +23,7 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,36 +41,47 @@ import static org.languagetool.tools.StringTools.uppercaseFirstChar;
  */
 public class RegexExpander {
 
-  private final static String regex = "(?:c(?:a(?:m(?:i(?:nhos?|sas)|a(?:rada|s)?|elos|po)|r(?:t(?:ilha|as?)|ác?ter|amujo|ros?|ne)|s(?:t(?:el(?:hanos|o)|igo)|as?|os?|ca)|p(?:it(?:a(?:is|l)|ães)|richos?|as)|b(?:reiros|otino|eça)|l(?:deiradas|çado|or)|ch(?:orrinho|aça)|(?:ntinh|gaç)o|u(?:dal|sas)|valos?|tarse|ça|os)|o(?:n(?:t(?:r(?:abandistas|ole)|estar)|f(?:iança|orto)|se(?:lhos|nso))|m(?:p(?:romisso|anhia)|bate|ida|um|o)?|(?:b(?:r(?:anç)?|ertur)|us|v)a|i(?:sa(?:-ruim)?|ros)|adjutor)|h(?:a(?:ma(?:riz)?|nce|ves)|e(?:(?:iro|que)s|fes?)|oque|uva|á)|r(?:i(?:a(?:(?:nça|do)s|tura)|m(?:inoso|es?)|se)|ase)|e(?:r(?:t(?:ezas?|as)|imônia)|go(?:nha)?|ntro)|l(?:a(?:ro-escuro|sse)|i(?:entel|m)a|ube)|i(?:n(?:e(?:asta|mas?)|co)|úmes|pó)|u(?:l(?:pado|tura)|ra)|á(?:lculo)?|éu)|a(?:l(?:g(?:u(?:ma?|ns)|as)|(?:caid|arm|fac)e|t(?:ernativas|a)|m(?:oço|a)|deias|vará|i)|m(?:(?:bulante|igo|pla)s|a(?:nuense|rgura)|or)|t(?:a(?:ques?|lhos)|mosfera|rasos?|eus|é)|p(?:e(?:tite|nas)|o(?:ios?|sta)|lausos)|r(?:istocracias|t(?:ista|e)|voredo|ma)|s(?:s(?:i(?:stentes|m)|adura)|pas)?|(?:g(?:ricultur|end)|ind)a|c(?:(?:úmul|ord)o|ademias)|(?:n(?:imai|o)|forismo)s|u(?:to(?:móvel|r)|las)|qu(?:el(?:as?|es?)|i)|b(?:ertura|rigo)|ju(?:ste|da)|z(?:uis|ar)|(?:vanç)?o|dmirar|í)|d(?:e(?:s(?:e(?:(?:mpreg|rt)o|jar)|(?:graçad|leix|tin)o|c(?:ulpas?|anso)|(?:vio|sa)s|pedida|ordem|ar)|(?:u(?:se)?|talhe)s|n(?:úncias|tro)|certo|ver|z)?|i(?:v(?:i(?:dendos|nas?)|ergências)|f(?:iculdades|erenças?)|s(?:[st]o|farce)|a(?:(?:bo)?s)?|(?:plom|et)a|rec?tor|álogo)|o(?:u(?:tr(?:ina|os)|s)|r(?:mi(?:mos|r))?|(?:ming|l)o|enças?|çura|ce|is)?|u(?:(?:que|a)s|vidar)|(?:r(?:am|og)|ívid)a|a(?:dos|ta)|úvidas?)|e(?:s(?:t(?:(?:(?:údi|ud)o|ratégia)s|a(?:tísticas)?|ômago|es?)|c(?:ol(?:as|ha)|ândalo|ravos|apar)|p(?:erança|écies|aços?)|s(?:es?|a)|forços)|m(?:p(?:a(?:t(?:es|ia)|das)|(?:lastr|reg)o|enhos?)|bargo)?|n(?:c(?:arregados|ontro)|fermidades|ganos?|ergia|tre)|(?:x(?:ager|empl)|goísm)o|(?:vidência|lefante)s|pi(?:demias?|sódio)|r(?:ros?|mos|va)|conomia|quipes?)?|p(?:r(?:o(?:gr(?:esso|ama)|blemas?|dígio|tetor|vas?)|a(?:z(?:er|o)|xe)|incípios?|essas?)|e(?:r(?:(?:plexidade|spec?tiva|íodo)s|igo|da)|s(?:soa[ls]?|ar)|nedos|ixe)|o(?:r(?:tugueses|que|ém)?|lí(?:ticas?|cias)|(?:esi|t)a|der|sse|is|vo)|a(?:(?:ciênci|lavr)a|r(?:tidos?|a)|ssagem|pel|ís|i)|i(?:o(?:lhos|r)|stas)|úblico|lanos)|b(?:a(?:n(?:(?:h(?:eir)?o|quete|ana)s|[cd]o)|l(?:a(?:nça|s)|iza)|r(?:racas|co)|i(?:le|a)|gatelas|se)|o(?:n(?:ança|de|zo|s)|t(?:equim|a)|m(?:bas)?|(?:rd)?a|gas)|e(?:l(?:(?:ez)?a|os)|rnarda|ijo|m)|r(?:aços?|uxas)|i(?:cho|rra)|álsamo|uracos)|m(?:e(?:n(?:digo|ina)|d(?:ida|o)|s(?:as|mo)|ios?|lhor)|o(?:t(?:orista|ivos)|l(?:éstia|hos)|delos?|rte|ça)|a(?:l(?:andro|es)?|(?:nhã)?s|i(?:or|s)|rgem)|(?:á(?:scar|go)|úsic)a|u(?:danças|itas?|lher)|é(?:dicos?|todos?)|i(?:lagre|ster)|ãos)|r(?:e(?:c(?:u(?:rsos?|os)|ei(?:tas|o))|f(?:(?:erência|ugiado)s|orma)|g(?:ist(?:ros?|o)|ra)|s(?:postas?|ervas)|m(?:édi|ors)o|i)|a(?:ci(?:ocínios|smo)|ças|paz)|i(?:queza|scos?)|osas|ua)|s(?:e(?:n(?:ti(?:do|r)|ador)|g(?:redos?|unda)|r(?:viço|eia)?|mpre|quer|is)|u(?:b(?:tileza|sídio)s|rf)|o(?:(?:cia)?l|bre|no|m)|i(?:na(?:is|l)|mpatia)|a(?:ngue|ída|las)|ó)|t(?:e(?:(?:r(?:apêutic|r)|cnologi)a|m(?:or|po)|stemunhas)|r(?:a(?:balho|gédia)|(?:eva|ê)s|istezas?|áfico|opa)|a(?:(?:ref|nt)a|l(?:vez)?|mbém)|(?:o[dl]|ip)o)|n(?:e(?:nhu(?:ma?|ns)|s(?:t[ae]|sa)|g(?:ros|ar)|l(?:es?|a)|m)|o(?:(?:v(?:idade|o)|t(?:íci)?a)?s|mes?|ite)?|a(?:(?:scente)?s|da)?|i(?:nguém|sso)|úmeros)|f(?:o(?:r(?:ças?|mas?|tuna)|me)|a(?:l(?:ar|ta)|mília|to)|i(?:dalgos|lósofo|m)|u(?:(?:tur|m)o|gir)|e(?:stas?|bre)|é(?:rias)?|órmulas?)|v(?:e(?:r(?:(?:dadeir|s)os)?|stígio|detas)|i(?:n(?:gança|ho)|slumbrar|zinhos|da)|a(?:ci(?:lar|na)|idades|gas?|lor)|o(?:ltas?|z)|éu)|i(?:(?:m(?:possívei|agen)|deologia)s|n(?:teresse|dícios|imigo)|gual)|g(?:r(?:a(?:ndes?|des|ça)|upos)|o(?:nçalinh|vern|st)o|arantias?)|l(?:i(?:nguagem|mites?|vros?|ames|xo)|u(?:[az]|tas?|gar)|eis?|á)|o(?:u(?:tr(?:os?|a)|ro)?|(?:bstácul|lh)os|fensa|rdem|nde)?|h(?:o(?:me(?:ns|m)|nra|je)|ipótese)|qu(?:a(?:(?:is|l)quer|se)|em?)|j(?:o(?:rnai|go)s|ustiça|á)|á(?:r(?:vore|ea)|lbum|gua)|u(?:m(?:as?)?|topias)|é(?:pocas?)?|ânimo)";
+  private final static List<String> regexesOrEntities = Arrays.asList(
+      "   <!ENTITY barbarismos \"(?:s(?:t(?:r(?:ip(?:tease[rs]?|per|s)?|ess.*|ogonoff|aight)|a(?:nd(?:ard|s)?|ccato|rtup|ff)|o(?:ryboard|kes|ck|p)|i(?:ck|lb)|e(?:nt|p))|p(?:r(?:int(?:er|s)?|ead|ay|ue)|in(?:naker|s)?|a[ms]?|ot)|u(?:b(?:-holding|woofer)|s(?:pense|hi)|perstar|doku|rf)|h(?:ar(?:eware|-pei)|o(?:[tw]|pping)|iatsu|ekel|unt)|a(?:(?:xhor|loo)n|mple[rs]?|shimi|vart)|c(?:herz(?:and)?o|rewball|o[np]e|at)|n(?:o(?:wboard|oker|b)|ack(?:-bar)?)|o(?:(?:cialit|ttovoc|ftwar)e|ul)|m(?:o(?:(?:kin)?g|rzando)|ash)|l(?:i(?:ck|de|p)|alom|ogan)|e(?:t(?:-point|ter)?|xy)|w(?:eat(?:shirt|er)|ing)|i(?:decar|evert|ngle|c)|fo(?:rzand|gat)o|k(?:ipper|ate)|quash)|c(?:a(?:n(?:ta(?:bile|ta)|yoning|iche)|r(?:diofitness|paccio|ré)|(?:che-sex|lzon)e|m(?:p(?:us)?|ber)|t(?:ering|gut)|sh-and-carry)|o(?:r(?:don-bleu|pus)|u(?:lomb|ntry)|(?:spla|wbo)y|(?:ck|v)er|loratura|ntinuum|okie)|h(?:a(?:r(?:leston|treuse)|ise-longue)|e(?:ong-sam|ck-in|ddar)|utney)|l(?:ear(?:ance|s)?|u(?:ster|b)|ipboard|oisonné|arke)|r(?:o(?:issan|que)t|evasse)|zar(?:s?ti|ina)|(?:élad|ân)on|u(?:mbia|p)|ódex|ent)|p(?:a(?:nach(?:és?|es?)|t(?:chouli|hos)|intball|parazzi|hoehoe|lmier|anga|rsec|ssim)|i(?:n(?:s(?:cher)?|ce-nez|g-pong|-?up)?|(?:anofort|ckl)e|ercing|dgin|lé)|o(?:st(?:er(?:iori|s)|-it)|(?:odl|ch|is)e|ltergeist|t-?pourri|grom|p)|e(?:(?:tit-suiss|nc)e|restroika|corino)|r(?:i(?:ori|se)|omenade|essing|áxis)|lay(?:b(?:ack|oy)|station|maker)|hot(?:o(?:-finish|maton)|s)?|u(?:tter|zzle|nk|b))|t(?:a(?:(?:sk-forc|wni)e|l(?:k-show|iban)|ke(?:away|s)?|n(?:dem|k)|volatura|ekwondo|i-chi|blet)|u(?:t(?:(?:ilimúnd|t)i|u)|rbo-diesel|pperware|grik)|r(?:i(?:p(?:-hop|lex)|al)|a(?:velling|iler)|emolo)|i(?:me(?:-sharing|share)|e-break|ramisu|cket)|e(?:le(?:marketing|x)|(?:rylen)?e|chno|flon)|o(?:p(?:(?:les)?s)?|ner|fu|ri)|h(?:esaur(?:us|i)|ink)|(?:w(?:ee|is)|-shir)t|sunami|ópos)|b(?:a(?:by-(?:sitter|doll|grow)|(?:varois|din)e|ckup|ht|rn)|r(?:e(?:akdance|nt)|u(?:shing|nch)|ainstorming|ie)|e(?:ta-tester|nedictus|cquerel|agle|bop)|o(?:bsleigh|dyboard|nsai|xers|ate|rt)|i(?:t(?:map|s)?|odesign|g-bang|p)|u(?:ngee-jumping)|l(?:ister|ague|ues|og)|yte)|k(?:i(?:l(?:o(?:(?:vol|wat)t|b(?:yte|it))|im|t)|t(?:chenette|s(?:ch)?)?|ckbox(?:ing|er)|n[ag]|butz|p)|a(?:r(?:a(?:oke|té)|bovanet|ting)|lash(?:nikov|s)?|mikaze|sba)|r(?:(?:ípto|emli)n|aft|ill)|wa(?:(?:ch|nz)a|shiorkor)|e(?:f(?:fieh|ir)|tchup)|un(?:g-fu|a)|yat)|r(?:o(?:c(?:k(?:er|s)?|aille)|(?:entge|ll-o)n|ttweiler|quefort|aming|okie|deo)|e(?:a(?:lpolitik|dy-made)|p(?:rise|s)|dneck|ggae|m)|i(?:n(?:forzando|ggit|k)|ckettsia|tardando|ff)|a(?:l(?:lentando|enti)|p(?:per|s)?|fting|ve)|é(?:veillon|gie|tro)|öntgen|ubato)|m(?:a(?:t(?:ch-point|rioska)|r(?:keting|chand)|(?:estos|mb)o|(?:st?e|yo)r|na(?:ger|t)|gnificat|jorette|xwell|quis)|i(?:l(?:curie|ady)|s(?:erere|ter)|ndfulness|crofarad)|o(?:d(?:e(?:rato|m)|us)|hair)|e(?:morandum|dley)|u(?:sic-hall|esli)|vdol)|f(?:o(?:[bg]|x(?:-terrier|trot)?|r(?:tran|int)|ndue|yer|lk)|a(?:i(?:t-divers|r-play)|rad(?:ay|s)?|nfreluche|twa|x)|l(?:a(?:sh(?:es)?|menco|t)|i(?:p-flop|nt)|ute)|u(?:n(?:board|ky?)|gato|ton)|r(?:anchising|eeware)|ermata|itness|öhn)|a(?:n(?:ti(?:-(?:establishment|apartheid|dumping)|trust)|gström)|p(?:felstrudel|paratchik|artheid|lomb)|l(?:legr(?:ett)?o|zheimer|ibi)|c(?:celerandos?|id-jazz)|uto(?:pullman|cross)|git(?:-?prop|ato)|yurveda|mabile|irbus)|d(?:o(?:p(?:ing|pler)|wnhill|car|jo|ng)|r(?:ive(?:[rs]|-in)?|ugstore)|e(?:sign(?:er)?|ficit|bye)|i(?:s(?:cman|eur)|rham)|u(?:mping|plex|ce)|a(?:nzón|tcha))|g(?:i(?:ga(?:byte|watt)|rlsband|lbert|nseng)|o(?:(?:odwil|spe)l|belet|uda)|l(?:a(?:snost|mour)|ide)|u(?:aracha|lag)|ru(?:yèr|ng)e|a[ly]|eyser)|h(?:a(?:b(?:it(?:at|us)|anera)|(?:m-ioc-chon|shta)g|rd-rock)|i(?:p(?:p(?:ie|y)|-hop)|drospeed)|o(?:rseball|lding|mo)|eavy-metal|usky|ype)|v(?:i(?:de(?:ocl(?:ip(?:es)?|ub)|s)?|(?:t(?:rin|a)|ntag|vac)e|brato)|e(?:r(?:nissage|sus)|lcro|gan)|o(?:lt(?:e-face|s)?|yeur)|audeville)|l(?:e(?:[dk]|a(?:sing|d)|itmotiv|gato)|o(?:c(?:kout|us)|oping|ess|gin)|a(?:rghetto|ser|mé|ts)|i(?:ngerie|fting))|o(?:ff(?:s(?:hore|et)|ice-boy|line)|s(?:tpolitik|sobuco)|u(?:tsider|guiya)|verbooking|n-?line|ersted|rigami|pus)|j(?:a(?:m(?:-session|boree)|c(?:kpot|uzzi)|zz)|o(?:int-ventur|ul)e|u(?:kebox|nkie)|et-(?:lag|set)|iu-jitsu)|w(?:a(?:(?:lkie-talki|ffl)e|rrant|sp|d)|e(?:b(?:er|s)?|stern)|i(?:ld-card|ndsurf)|o(?:rkshop|n)|hist)|i(?:n(?:ter(?:f(?:eron|ace)|net)|f(?:otainment|luenza)|-octavo|s)|(?:bid|t)em|mpedimenta|ppon|d)|n(?:e(?:(?:cessair|w-ag)e|(?:tspli)?t)|o(?:menklatura|ir)|apalm|uance|ylon)|e(?:n(?:s(?:alada|emble)|tente)|r(?:satz|g)|mmenthal|cstasy|vasé|dam)|qu(?:a(?:lifying|ntum|rk)|i(?:lohertz|che))|z(?:e(?:itgeist|kel|n)|apping)|y(?:u(?:ppie|an)|ang|eti|in)|u(?:ndergroun|ploa)d)\">\n",
+      "   <!ENTITY barbarismos2 \"b(?:irdwatching|lockchains?|odyboarders?)|backdoors?|bots?|c(?:hipset|rowdfunding)s?|desktops?|DNA|dominatrix(?:es)?|draft|geocach(?:ing|ers?)|h(?:atchback|ijab|otspot|overboard)s?|icebergs?|jetpacks?|k(?:ernels?|evlar)|m(?:alware|illennial)s?|n(?:etworking|otch|uggets?)|overclock(?:ings?)|p(?:arkour|hishing|odcast|unchline)s?|RNA|s(?:martwatch(?:es)|ext(?:ing|ortion)|tormtroppers?|treaming)|trackpads?|w(?:ebsite|halewatching|oks?)\">\n");
   private final static String wordListFile = "/home/dnaber/lt/pt-words.txt";
   private final static Set<String> printed = new HashSet<>();
 
   public static void main(String[] args) throws IOException {
-    Pattern p = Pattern.compile(regex);
-    //System.out.println(p.matcher("Sáb").matches());
+    //Pattern tempP = Pattern.compile("(?:e(?:stere|ur|g)|(?:cent|sac)r|a(?:str|udi)|t(?:erm|urb)|f(?:il|ot)|i(?:ntr|d)|bronc|labi|mon|vas|zo)o");
+    //System.out.println(tempP.matcher("estereo").matches());
     //System.exit(0);
     List<String> lines = Files.readAllLines(Paths.get(wordListFile));
-    int i = 0;
-    for (String line : lines) {
-      line = line.trim();
-      boolean lcMatch = false;
-      boolean ucMatch = false;
-      if (p.matcher(line).matches()) {
-        lcMatch = true;
+    for (String s : regexesOrEntities) {
+      if (s.contains("<!ENTITY")) {
+        s = s.replaceFirst("<!ENTITY .*? \"(.*)\">", "$1").trim();
       }
-      if (StringTools.startsWithLowercase(line) && p.matcher(uppercaseFirstChar(line)).matches()) {
-        ucMatch = true;
+      System.out.println(s);
+      System.out.println("=>");
+      Pattern p = Pattern.compile(s);
+      int i = 0;
+      for (String line : lines) {
+        line = line.trim();
+        boolean lcMatch = false;
+        boolean ucMatch = false;
+        if (p.matcher(line).matches()) {
+          lcMatch = true;
+        }
+        if (StringTools.startsWithLowercase(line) && p.matcher(uppercaseFirstChar(line)).matches()) {
+          ucMatch = true;
+        }
+        if (lcMatch && ucMatch) {
+          printToken(i, "[" + uppercaseFirstChar(line).charAt(0) + StringTools.lowercaseFirstChar(line).charAt(0) + "]" + line.substring(1));
+          i++;
+        } else if (lcMatch && !printed.contains(line)) {
+          printToken(i, line);
+          i++;
+        } else if (ucMatch && !printed.contains(uppercaseFirstChar(line))) {
+          printToken(i, uppercaseFirstChar(line));
+          i++;
+        }
       }
-      if (lcMatch && ucMatch) {
-        printToken(i, "[" + uppercaseFirstChar(line).charAt(0) + StringTools.lowercaseFirstChar(line).charAt(0) + "]" + line.substring(1));
-        i++;
-      } else if (lcMatch && !printed.contains(line)) {
-        printToken(i, line);
-        i++;
-      } else if (ucMatch && !printed.contains(uppercaseFirstChar(line))) {
-        printToken(i, uppercaseFirstChar(line));
-        i++;
-      }
+      System.out.println("\n");
     }
   }
 
