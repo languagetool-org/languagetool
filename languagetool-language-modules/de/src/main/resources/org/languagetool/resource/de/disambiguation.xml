@@ -1743,7 +1743,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>aus</token>
             </antipattern>
             <pattern case_sensitive="yes">
-                <token postag_regexp="yes" postag="PRP.+"><exception>gleich</exception></token>
+                <token postag_regexp="yes" postag="PRP.+">
+                    <exception>gleich</exception>
+                    <exception postag_regexp="yes" postag="PRP:NOM.*"/>
+                </token>
                 <marker>
                     <and>
                         <token postag_regexp="yes" postag=".+NOM:.+"></token>
@@ -1752,6 +1755,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 </marker>
             </pattern>
             <disambig action="remove" postag=".+:NOM:.+"/>
+            <example type="untouched">Es gilt als das wichtigste Schriftstück des 20. Jhds.</example>
         </rule>
     </rulegroup>
     <rulegroup id="ZURATE" name="'zurate' keine Verbform in Verbindung mit 'ziehen'">
