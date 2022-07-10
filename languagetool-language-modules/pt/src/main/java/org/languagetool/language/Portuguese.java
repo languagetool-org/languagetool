@@ -235,6 +235,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "UNPAIRED_BRACKETS":         return -5;
       case "PROFANITY":                 return -6;
       case "PT_BARBARISMS_REPLACE":     return -10;
+      case "BARBARISMS_PT_PT_V2":       return -10;
       case "PT_PT_SIMPLE_REPLACE":      return -11;
       case "PT_REDUNDANCY_REPLACE":     return -12;
       case "PT_WORDINESS_REPLACE":      return -13;
