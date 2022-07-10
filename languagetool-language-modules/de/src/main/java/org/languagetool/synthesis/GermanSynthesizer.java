@@ -26,10 +26,7 @@ import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * German word form synthesizer. Also supports compounds.
@@ -37,7 +34,9 @@ import java.util.Set;
  * @since 2.4
  */
 public class GermanSynthesizer extends BaseSynthesizer {
+
   public static final GermanSynthesizer INSTANCE = new GermanSynthesizer(Languages.getLanguageForShortCode("de-DE"));
+  private static final Set<String> REMOVE = new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer"));
 
   public GermanSynthesizer(Language lang) {
     super("de/de.sor", "/de/german_synth.dict", "/de/german_tags.txt", lang);
@@ -52,7 +51,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
       // https://github.com/languagetool-org/languagetool/issues/4712
       boolean lcLemma = StringTools.startsWithLowercase(lemma);
       boolean lcLookup = StringTools.startsWithLowercase(s);
-      if (lcLemma == lcLookup || lemma.equals("mein") || lemma.equals("ich")) {  // mein/ich wegen Ihr/Sie
+      if (lcLemma == lcLookup || lemma.equals("mein") || lemma.equals("ich") && !REMOVE.contains(s)) {  // mein/ich wegen Ihr/Sie
         results.add(s);
       }
     }
@@ -65,7 +64,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
     if (result.length == 0) {
       return getCompoundForms(token, posTag, false);
     }
-    return result;
+    return Arrays.stream(result).filter(k -> !REMOVE.contains(k)).toArray(String[]::new);
   }
   
   @Override
@@ -74,7 +73,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
     if (result.length == 0) {
       return getCompoundForms(token, posTag, posTagRegExp);
     }
-    return result;
+    return Arrays.stream(result).filter(k -> !REMOVE.contains(k)).toArray(String[]::new);
   }
 
   @NotNull

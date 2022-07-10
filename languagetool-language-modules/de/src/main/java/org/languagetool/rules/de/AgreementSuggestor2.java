@@ -55,6 +55,8 @@ class AgreementSuggestor2 {
   private final static List<String> gender = Arrays.asList("MAS", "FEM", "NEU");
   private final static List<String> cases = Arrays.asList("NOM", "AKK", "DAT", "GEN");
   private final static List<String> nounCases = Arrays.asList("NOM", "AKK", "DAT", "GEN");
+  private final static Set<String> skipSuggestions =
+    new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer"));
 
   private final Synthesizer synthesizer;
   private final AnalyzedTokenReadings determinerToken;
@@ -241,6 +243,7 @@ class AgreementSuggestor2 {
       String origFirstChar = detReading.getToken().substring(0, 1);
       synthesized.addAll(Arrays.stream(tmp)
         .filter(k -> k.toLowerCase().startsWith(origFirstChar.toLowerCase()))
+        .filter(k -> !skipSuggestions.contains(k.toLowerCase()))
         .map(k -> Character.isUpperCase(origFirstChar.charAt(0)) ? StringTools.uppercaseFirstChar(k) : k)  // don't suggest "dein" for "mein" etc.
         .collect(Collectors.toList()));
     }
