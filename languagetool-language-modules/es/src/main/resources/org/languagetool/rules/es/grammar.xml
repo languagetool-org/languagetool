@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
 <!ENTITY pronombre_personal_no_articulo "me|te|se|nos|os|le|les|lo"> <!--|los-->
 <!--aguadulce, aguasal, aguaviva-->
-<!ENTITY nombre_fem_el "acqua|Ática|abra|África|acta|afta|agua|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
+<!ENTITY nombre_fem_el "acqua|Ática|abra|África|acta|afta|agua|ala|alba|alca|ALCA|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
 <!ENTITY dias_semana_may "Lunes|Martes|Miércoles|Jueves|Viernes|Sábados?|Domingos?">
 <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
 <!ENTITY dias_semana_abrv "lu|ma|mi|ju|vi|sa|do">
@@ -17259,6 +17259,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>la</token>
                 <token>alta</token>
             </antipattern>
+            <antipattern>
+                <token>alma</token>
+                <token regexp="yes">máter|mater</token>
+            </antipattern>
             <pattern>
                 <token>la</token>
                 <token regexp="yes">&nombre_fem_el;<exception postag="V.[IS].*" postag_regexp="yes" regexp="yes">ama|haya|abra</exception><exception postag="_possible_NP">Haya</exception><exception case_sensitive="yes">ática</exception></token>
@@ -17288,6 +17292,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>En la alta y baja edad media.</example>
             <example>Ni en la alta ni en la baja edad media.</example>
             <example>Ni en la alta ni en la baja.</example>
+            <example>La alma máter.</example>
+            <example>La alma mater.</example>
         </rule>
         <rule id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal" default="off">
             <pattern>
@@ -18874,7 +18880,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_NP" postag_regexp="yes"/><exception inflected="yes">junto</exception></token>
+                        <token postag="A.*|PX.*" postag_regexp="yes"><exception postag="NP.*|complement.*|ignore_concordance|_possible_NP|_GV_" postag_regexp="yes"/><exception inflected="yes">junto</exception></token>
                         <token postag="N.F.*" postag_regexp="yes"><exception postag="_possilbe_NP|N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </unify>
                 </pattern>
@@ -18897,6 +18903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A buen hambre no hay pan duro.</example>
                 <example>Veánse cuadros pp. 455-456.</example>
                 <example>Ver cuadro p. 34.</example>
+                <example>Toman en serio cosas que nosotros no consideramos.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21570,7 +21577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>la</token>
                 <token case_sensitive="yes">a</token>
-                <token postag="NC[FC][SN].*" postag_regexp="yes"/>
+                <token postag="NC[FC][SN].*" postag_regexp="yes"><exception regexp="yes">inicial|final</exception></token>
             </pattern>
             <message>Posible confusión. ¿Quería decir <suggestion>\1 \3</suggestion></message>
             <example correction="la propuesta">No entiendo <marker>la a propuesta</marker>.</example>

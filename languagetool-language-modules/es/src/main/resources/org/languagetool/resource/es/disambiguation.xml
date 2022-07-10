@@ -2714,6 +2714,31 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="tomar_en_serio" name="tomar en serio (verb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">tomar</token>
+                    <token postag="SPS00">en</token>
+                    <token postag="AQ0MS0">serio</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">tomar</token>
+                <marker>
+                    <token postag="SPS00">en</token>
+                    <token postag="AQ0MS0">serio</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="traer_de_vuelta" name="traer de vuelta (verb)">
         <rule>
             <pattern>
