@@ -93,6 +93,8 @@ public class AgreementRule extends Rule {
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
+    "überraschend",
+    "ungeahnt",
     "absolut",
     "ausgesprochen",
     "außergewöhnlich",
