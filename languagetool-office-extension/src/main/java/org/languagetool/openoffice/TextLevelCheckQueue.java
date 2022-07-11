@@ -626,6 +626,7 @@ public class TextLevelCheckQueue {
                   }
                   lastStart = null;
                   lastEnd = null;
+                  lastLanguage = null;
                   queueWaits = true;
                   interruptCheck = false;
                   queueWakeup.wait();

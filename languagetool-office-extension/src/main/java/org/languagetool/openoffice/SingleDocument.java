@@ -137,13 +137,13 @@ class SingleDocument {
     if (config != null) {
       setConfigValues(config);
     }
-    resetCache();
+    resetResultCache();
     ignoredMatches = new IgnoredMatches();
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
     docCache = new DocumentCache(docType);
-    if (config != null && config.saveLoCache() && xComponent != null && !mDocHandler.isTestMode()) {
+    if (config != null && config.saveLoCache() && !config.noBackgroundCheck() && xComponent != null && !mDocHandler.isTestMode()) {
       readCaches();
     }
     if (xComponent != null) {
@@ -509,7 +509,7 @@ class SingleDocument {
    * write caches to file
    */
   void writeCaches() {
-    if (numParasToCheck != 0) {
+    if (numParasToCheck != 0 && !config.noBackgroundCheck()) {
       DocumentCache docCache = new DocumentCache(this.docCache);
       List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
       for (int i = 0; i < this.paragraphsCache.size(); i++) {
@@ -522,7 +522,7 @@ class SingleDocument {
   /** 
    * Reset all caches of the document
    */
-  void resetCache() {
+  void resetResultCache() {
     for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
       paragraphsCache.get(i).removeAll();
     }

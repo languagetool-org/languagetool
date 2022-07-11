@@ -278,7 +278,7 @@ public class LanguageToolMenus {
           config.setCurrentProfile(profile);
           config.addProfiles(saveProfiles);
           config.saveConfiguration(document.getLanguage());
-          document.resetDocument();
+          document.getMultiDocumentsHandler().resetConfiguration();
         } catch (IOException e) {
           MessageHandler.showError(e);
         }

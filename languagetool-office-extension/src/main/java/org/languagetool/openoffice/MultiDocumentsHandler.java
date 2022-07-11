@@ -194,7 +194,7 @@ public class MultiDocumentsHandler {
         isSameLanguage = langForShortName.equals(docLanguage) && lt != null;
       }
       if (!isSameLanguage || recheck) {
-        boolean initDocs = lt == null || recheck;
+        boolean initDocs = (lt == null || recheck);
         if (!isSameLanguage) {
           docLanguage = langForShortName;
           this.locale = locale;
@@ -933,9 +933,7 @@ public class MultiDocumentsHandler {
         textLevelQueue.setReset();
       }
     }
-    for (SingleDocument document : documents) {
-      document.resetCache();
-    }
+    resetResultCaches();
   }
   
   /**
@@ -944,6 +942,15 @@ public class MultiDocumentsHandler {
   void resetIgnoredMatches() {
     for (SingleDocument document : documents) {
       document.resetIgnoreOnce();
+    }
+  }
+
+  /**
+   * Reset result caches
+   */
+  void resetResultCaches() {
+    for (SingleDocument document : documents) {
+      document.resetResultCache();
     }
   }
 
@@ -1011,6 +1018,9 @@ public class MultiDocumentsHandler {
     config.saveNoBackgroundCheck(noBackgroundCheck, docLanguage);
     for (SingleDocument document : documents) {
       document.setConfigValues(config);
+    }
+    if (noBackgroundCheck) {
+      resetResultCaches();
     }
     return true;
   }
@@ -1356,6 +1366,7 @@ public class MultiDocumentsHandler {
     linguServices = null;
     noBackgroundCheck = false;
     resetIgnoredMatches();
+    resetResultCaches();
     resetDocument();
   }
 
@@ -1458,6 +1469,7 @@ public class MultiDocumentsHandler {
         }
         resetIgnoredMatches();
         resetDocumentCaches();
+        resetResultCaches();
         resetDocument();
       } else if ("writeAnalyzedParagraphs".equals(sEvent)) {
         new AnalyzedParagraphsCache(this); 
@@ -1642,7 +1654,7 @@ public class MultiDocumentsHandler {
       setConfigValues(config, lt);
       MessageHandler.showMessage(messages.getString("loExtHeapMessage"));
       for (SingleDocument document : documents) {
-        document.resetCache();
+        document.resetResultCache();
         document.resetDocumentCache();
       }
       return false;
