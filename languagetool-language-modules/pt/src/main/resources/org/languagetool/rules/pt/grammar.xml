@@ -1648,18 +1648,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *END* -->
-        <!-- MARCOAGPINTO 2020-11-01 (21-OCT-2020+) *START* -->
-        <!-- "Penso que esta é uma foto mistério das mais lixadas." -->
-        <antipattern>
-          <token regexp='yes'>a|à|boa|cada|com|como|cuja|da|desta|em|essa|grande|maior|maioria|minoria|na|naquela|nesta|nossa|ou|pela|por|qual|sua|tal|toda|uma|[,(]</token>
-          <token postag='AQ0[CF]S0|NC[CF]S000' postag_regexp='yes'/>
-          <token postag='AQ0[CM]S0|NC[CM]S000' postag_regexp='yes'/>
-          <and>
-          <token negate="yes" regexp='yes'>de|na</token>
-          <token negate_pos="yes" postag='AQ0MS0|NCMS000' postag_regexp='yes'/>
-          </and>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-11-01 (21-OCT-2020+) *END* -->
         <!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *START* -->
         <!--
         Dez funções da inteligência multifocal.
@@ -1885,6 +1873,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Passei a noite deitado na grama olhando as estrelas.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-09 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-11 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token postag='[DP][ADIPR].[CF].+|SPS00:[DP][ADIPR].[CF].+|SPS00|CC|CS|RG|I|RM|RN|AQ.[CF].+|NC[CF].+|Z0[CF].+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='_PUNCT|CC' postag_regexp='yes'/>
+          <token postag='AQ.C.+|NC[CF].+|V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='VMP00.M'/>
+          </token>
+          <token postag='AQ.C.+|NC[CM].+|[DP][ADIPR].[CM].+|SPS00:[DP][ADIPR].[CM].+' postag_regexp='yes'>
+            <exception scope="next" postag_regexp='yes' postag='SPS00|[DP][ADIPR].[CM].+|SPS00:[DP][ADIPR].[CM].+|'/>
+          </token>
+          <token min="0" max="1" postag='_PUNCT|CC' postag_regexp='yes'/>
+          <token postag='SENT_END|[DP][ADIPR].[CM].+|SPS00:[DP][ADIPR].[CM].+|AQ.[CF].+|NC[CF].+|RG|CS|NP.+|I|RM|RN|SPS00|V.+' postag_regexp='yes'>
+            <exception regexp='yes'>ao|para</exception>
+            <exception postag_regexp='yes' postag='VMG0000|VMIP1S0|VMP00.M'/>
+          </token>
+          <example>Obs: Piso em cerâmica, pintura látex, gradeada, Interfone.</example>
+          <example>(Não há nada de errado em uma mulher querer ser mãe nessa idade e em um relacionamento estável.)</example>
+          <example>Por volta das 10h eles bloqueavam a rua Jaraguá, em frente à delegacia, e começavam a organizar um novo protesto na universidade.</example>
+          <example>Nosso voo chegou uma hora atrasado.</example>
+          <example>Tens uma foto peixe ou um coral que queiras partilhar?</example>
+          <example>Exemplo de workshop e assuntos típicos vão desde barracas, mochilas cargueiras, alimentação outdoor e outros assuntos são colocados como tema.</example>
+          <example>Só que não consegui nem chegar perto, tava lotado de gente.</example>
+          <example>Diário de uma mãe polvo!</example>
+          <example>Para mim é uma tristeza saber que você vai deixar esta cidade.</example>
+          <example>É uma bomba relógio.</example>
+          <example>Tom estava usando uma camisa polo rosa com a gola levantada.</example>
+          <example>Isto é uma asa delta.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-11 (Checked/Enhanced) (5-JUN-2022+) *START* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
