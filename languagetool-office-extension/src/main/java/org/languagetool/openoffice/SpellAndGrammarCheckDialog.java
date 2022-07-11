@@ -1278,7 +1278,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       if (!initCursor()) {
         return;
       }
-      runCheckForNextError(false);
+//      runCheckForNextError(false);
+      gotoNextError(false);
     }
 
     /**
@@ -1408,7 +1409,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * Runs findNextError in a loop
      * waits after getting the next error till gotoNextError was triggered by a button
      * NOTE: the loop is needed because a direct call of a action event will not change the state of dialog elements
-     */
+     *//*
     private void runCheckForNextError(boolean startAtBegin) {
       for(;;) {
         synchronized(checkWakeup) {
@@ -1448,7 +1449,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
 
     /**
      * goto next match is triggered by action event
-     */
+     *//*
     private void gotoNextError() {
       if (debugMode) {
         MessageHandler.printToLogFile("CheckDialog: gotoNextError called");
@@ -1464,124 +1465,133 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * fill the elements of the dialog with the information of the match
      * @throws Throwable 
      */
-    private void findNextError(boolean startAtBegin) throws Throwable {
-      if (!documents.isEnoughHeapSpace()) {
-        closeDialog();
-        return;
-      }
-      setInitialButtonState();
-      if (debugMode) {
-        MessageHandler.printToLogFile("CheckDialog: findNextError: start getNextError");
-      }
-      CheckError checkError = getNextError(startAtBegin);
-      if (debugMode) {
-        MessageHandler.printToLogFile("CheckDialog: findNextError: Error is " + (checkError == null ? "Null" : "NOT Null"));
-      }
-      error = checkError == null ? null : checkError.error;
-      locale = checkError == null ? null : checkError.locale;
-      dialog.setEnabled(true);
-      help.setEnabled(true);
-      options.setEnabled(true);
-      close.setEnabled(true);
-      activateRule.setEnabled(true);
-      if (sentenceIncludeError == null || errorDescription == null || suggestions == null) {
-        MessageHandler.printToLogFile("CheckDialog: findNextError: SentenceIncludeError == null || errorDescription == null || suggestions == null");
-        error = null;
-      }
-      
-      if (error != null) {
-        checkStatus.setText(checkStatusResult);
-        checkStatus.setForeground(defaultForeground);
-        ignoreOnce.setEnabled(true);
-        ignoreAll.setEnabled(true);
-        isSpellError = error.aRuleIdentifier.equals(spellRuleId);
-        sentenceIncludeError.setEnabled(true);
-        sentenceIncludeError.setText(docCache.getFlatParagraph(y));
-        setAttributesForErrorText(error);
-        errorDescription.setText(error.aFullComment);
+    private void gotoNextError() {
+      gotoNextError(true);
+    }
+    
+    private void gotoNextError(boolean startAtBegin) {
+//    private void findNextError(boolean startAtBegin) throws Throwable {
+      try {
+        if (!documents.isEnoughHeapSpace()) {
+          closeDialog();
+          return;
+        }
+        setInitialButtonState();
         if (debugMode) {
-          MessageHandler.printToLogFile("CheckDialog: findNextError: Error Text set");
+          MessageHandler.printToLogFile("CheckDialog: findNextError: start getNextError");
         }
-        if (error.aSuggestions != null && error.aSuggestions.length > 0) {
-          suggestions.setListData(error.aSuggestions);
-          suggestions.setSelectedIndex(0);
-          suggestions.setEnabled(true);
-          change.setEnabled(true);
-          changeAll.setEnabled(true);
-        } else {
-          suggestions.setListData(new String[0]);
-          change.setEnabled(false);
-          changeAll.setEnabled(false);
-        }
+        CheckError checkError = getNextError(startAtBegin);
         if (debugMode) {
-          MessageHandler.printToLogFile("CheckDialog: findNextError: Suggestions set");
+          MessageHandler.printToLogFile("CheckDialog: findNextError: Error is " + (checkError == null ? "Null" : "NOT Null"));
         }
-        Language lang = locale == null ? lt.getLanguage() : documents.getLanguage(locale);
-        if (debugMode && lt.getLanguage() == null) {
-          MessageHandler.printToLogFile("CheckDialog: findNextError: LT language == null");
-        }
-        lastLang = lang.getTranslatedName(messages);
-        language.setEnabled(true);
-        language.setSelectedItem(lang.getTranslatedName(messages));
-        if (debugMode) {
-          MessageHandler.printToLogFile("CheckDialog: findNextError: Language set");
-        }
-        Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap(OfficeTools.localeToString(locale));
-        if (!deactivatedRulesMap.isEmpty()) {
-          activateRule.removeAllItems();
-          activateRule.addItem(messages.getString("loContextMenuActivateRule"));
-          for (String ruleId : deactivatedRulesMap.keySet()) {
-            activateRule.addItem(deactivatedRulesMap.get(ruleId));
-          }
-          activateRule.setVisible(true);
-        } else {
-          activateRule.setVisible(false);
+        error = checkError == null ? null : checkError.error;
+        locale = checkError == null ? null : checkError.locale;
+        dialog.setEnabled(true);
+        help.setEnabled(true);
+        options.setEnabled(true);
+        close.setEnabled(true);
+        activateRule.setEnabled(true);
+        if (sentenceIncludeError == null || errorDescription == null || suggestions == null) {
+          MessageHandler.printToLogFile("CheckDialog: findNextError: SentenceIncludeError == null || errorDescription == null || suggestions == null");
+          error = null;
         }
         
-        if (isSpellError) {
-          addToDictionary.setVisible(true);
-          changeAll.setVisible(true);
-          deactivateRule.setVisible(false);
-          addToDictionary.setEnabled(true);
-          changeAll.setEnabled(true);
+        if (error != null) {
+          checkStatus.setText(checkStatusResult);
+          checkStatus.setForeground(defaultForeground);
+          ignoreOnce.setEnabled(true);
+          ignoreAll.setEnabled(true);
+          isSpellError = error.aRuleIdentifier.equals(spellRuleId);
+          sentenceIncludeError.setEnabled(true);
+          sentenceIncludeError.setText(docCache.getFlatParagraph(y));
+          setAttributesForErrorText(error);
+          errorDescription.setText(error.aFullComment);
+          if (debugMode) {
+            MessageHandler.printToLogFile("CheckDialog: findNextError: Error Text set");
+          }
+          if (error.aSuggestions != null && error.aSuggestions.length > 0) {
+            suggestions.setListData(error.aSuggestions);
+            suggestions.setSelectedIndex(0);
+            suggestions.setEnabled(true);
+            change.setEnabled(true);
+            changeAll.setEnabled(true);
+          } else {
+            suggestions.setListData(new String[0]);
+            change.setEnabled(false);
+            changeAll.setEnabled(false);
+          }
+          if (debugMode) {
+            MessageHandler.printToLogFile("CheckDialog: findNextError: Suggestions set");
+          }
+          Language lang = locale == null ? lt.getLanguage() : documents.getLanguage(locale);
+          if (debugMode && lt.getLanguage() == null) {
+            MessageHandler.printToLogFile("CheckDialog: findNextError: LT language == null");
+          }
+          lastLang = lang.getTranslatedName(messages);
+          language.setEnabled(true);
+          language.setSelectedItem(lang.getTranslatedName(messages));
+          if (debugMode) {
+            MessageHandler.printToLogFile("CheckDialog: findNextError: Language set");
+          }
+          Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap(OfficeTools.localeToString(locale));
+          if (!deactivatedRulesMap.isEmpty()) {
+            activateRule.removeAllItems();
+            activateRule.addItem(messages.getString("loContextMenuActivateRule"));
+            for (String ruleId : deactivatedRulesMap.keySet()) {
+              activateRule.addItem(deactivatedRulesMap.get(ruleId));
+            }
+            activateRule.setVisible(true);
+          } else {
+            activateRule.setVisible(false);
+          }
+          
+          if (isSpellError) {
+            addToDictionary.setVisible(true);
+            changeAll.setVisible(true);
+            deactivateRule.setVisible(false);
+            addToDictionary.setEnabled(true);
+            changeAll.setEnabled(true);
+          } else {
+            addToDictionary.setVisible(false);
+            changeAll.setVisible(false);
+            deactivateRule.setVisible(true);
+            deactivateRule.setEnabled(true);
+          }
+          informationUrl = getUrl(error);
+          more.setVisible(informationUrl != null);
+          more.setEnabled(informationUrl != null);
+          undo.setEnabled(undoList != null && !undoList.isEmpty());
+          if (debugMode) {
+            MessageHandler.printToLogFile("CheckDialog: findNextError: All set");
+          }
         } else {
-          addToDictionary.setVisible(false);
+          ignoreOnce.setEnabled(false);
+          ignoreAll.setEnabled(false);
+          deactivateRule.setEnabled(false);
+          change.setEnabled(false);
           changeAll.setVisible(false);
-          deactivateRule.setVisible(true);
-          deactivateRule.setEnabled(true);
+          addToDictionary.setVisible(false);
+          deactivateRule.setVisible(false);
+          more.setVisible(false);
+          focusLost = false;
+          suggestions.setListData(new String[0]);
+          undo.setEnabled(undoList != null && !undoList.isEmpty());
+          errorDescription.setForeground(Color.RED);
+          errorDescription.setText(endOfDokumentMessage == null ? "" : endOfDokumentMessage);
+          sentenceIncludeError.setText("");
+          if (docCache.size() > 0) {
+            locale = docCache.getFlatParagraphLocale(docCache.size() - 1);
+          }
+          Language lang = locale == null || !documents.hasLocale(locale)? lt.getLanguage() : documents.getLanguage(locale);
+          language.setSelectedItem(lang.getTranslatedName(messages));
+          checkStatus.setText(checkStatusResult);
+          checkStatus.setForeground(defaultForeground);
+          checkProgress.setValue(docCache != null && docCache.size() > 0 ? docCache.size() : 100);
+          //  Note: a delay interval is needed to update the dialog before wait
+  //        Thread.sleep(500);
         }
-        informationUrl = getUrl(error);
-        more.setVisible(informationUrl != null);
-        more.setEnabled(informationUrl != null);
-        undo.setEnabled(undoList != null && !undoList.isEmpty());
-        if (debugMode) {
-          MessageHandler.printToLogFile("CheckDialog: findNextError: All set");
-        }
-      } else {
-        ignoreOnce.setEnabled(false);
-        ignoreAll.setEnabled(false);
-        deactivateRule.setEnabled(false);
-        change.setEnabled(false);
-        changeAll.setVisible(false);
-        addToDictionary.setVisible(false);
-        deactivateRule.setVisible(false);
-        more.setVisible(false);
-        focusLost = false;
-        suggestions.setListData(new String[0]);
-        undo.setEnabled(undoList != null && !undoList.isEmpty());
-        errorDescription.setForeground(Color.RED);
-        errorDescription.setText(endOfDokumentMessage == null ? "" : endOfDokumentMessage);
-        sentenceIncludeError.setText("");
-        if (docCache.size() > 0) {
-          locale = docCache.getFlatParagraphLocale(docCache.size() - 1);
-        }
-        Language lang = locale == null || !documents.hasLocale(locale)? lt.getLanguage() : documents.getLanguage(locale);
-        language.setSelectedItem(lang.getTranslatedName(messages));
-        checkStatus.setText(checkStatusResult);
-        checkStatus.setForeground(defaultForeground);
-        checkProgress.setValue(docCache != null && docCache.size() > 0 ? docCache.size() : 100);
-        //  Note: a delay interval is needed to update the dialog before wait
-        Thread.sleep(500);
+      } catch (Throwable e) {
+        MessageHandler.showError(e);
       }
     }
 
