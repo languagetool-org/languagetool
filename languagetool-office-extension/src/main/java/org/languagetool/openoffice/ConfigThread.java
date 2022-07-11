@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+import java.awt.Frame;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,7 +51,7 @@ class ConfigThread extends Thread {
     }
     this.config = config;
     this.lt = lt;
-    this.documents = documents; 
+    this.documents = documents;
     cfgDialog = new ConfigurationDialog(null, true, config);
   }
 
@@ -59,6 +60,7 @@ class ConfigThread extends Thread {
     if(!documents.javaVersionOkay()) {
       return;
     }
+    documents.setConfigurationDialog(cfgDialog);
     try {
       List<Rule> allRules = lt.getAllRules();
       Set<String> disabledRulesUI = documents.getDisabledRules(docLanguage.getShortCodeWithCountryAndVariant());
@@ -83,6 +85,7 @@ class ConfigThread extends Thread {
     } catch (Throwable e) {
       MessageHandler.showError(e);
     }
+    documents.setConfigurationDialog(null);
   }
   
 }

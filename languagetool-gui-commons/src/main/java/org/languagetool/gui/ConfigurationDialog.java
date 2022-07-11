@@ -172,6 +172,10 @@ public class ConfigurationDialog implements ActionListener {
     return configChanged;
   }
     
+  public void close() {
+    dialog.setVisible(false);
+  }
+
   public boolean showPanel(List<Rule> rules) {
     configChanged = false;
     if (original != null && !restartShow) {
@@ -1922,5 +1926,5 @@ public class ConfigurationDialog implements ActionListener {
     });
     return ruleOptionsPanel;
   }
-
+  
 }

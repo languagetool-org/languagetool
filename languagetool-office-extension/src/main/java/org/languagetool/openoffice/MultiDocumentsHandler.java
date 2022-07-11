@@ -39,6 +39,7 @@ import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
+import org.languagetool.gui.ConfigurationDialog;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.SingleDocument.RuleDesc;
@@ -103,6 +104,7 @@ public class MultiDocumentsHandler {
   private final List<Rule> extraRemoteRules;        //  store of rules supported by remote server but not locally
   private final LtDictionary dictionary;            //  internal dictionary of LT defined words 
   private LtCheckDialog ltDialog = null;            //  LT spelling and grammar check dialog
+  private ConfigurationDialog cfgDialog = null;     //  configuration dialog (show only one configuration panel)
   private boolean dialogIsRunning = false;          //  The dialog was started     
   
   private XComponentContext xContext;               //  The context of the document
@@ -327,6 +329,13 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   *  Set pointer to configuration dialog
+   */
+  public void setConfigurationDialog(ConfigurationDialog dialog) {
+    cfgDialog = dialog;
+  }
+  
+  /**
    *  Set pointer to LT spell and grammar check dialog
    */
   public void setLtDialog(LtCheckDialog dialog) {
@@ -345,6 +354,14 @@ public class MultiDocumentsHandler {
    */
   public void setConfigFileName(String name) {
     configFile = name;
+  }
+  
+  /**
+   *  close configuration dialog
+   */
+  private void closeConfigurationDialog() {
+    cfgDialog.close();
+    cfgDialog = null;
   }
   
   /**
@@ -1361,6 +1378,12 @@ public class MultiDocumentsHandler {
         return;
       }
       if ("configure".equals(sEvent)) {
+        if (cfgDialog != null) {
+          closeConfigurationDialog();
+        }
+        if (ltDialog != null) {
+          ltDialog.closeDialog();
+        } 
         runOptionsDialog();
       } else if ("about".equals(sEvent)) {
         AboutDialogThread aboutThread = new AboutDialogThread(messages);
@@ -1391,6 +1414,9 @@ public class MultiDocumentsHandler {
         if (ltDialog != null) {
           ltDialog.closeDialog();
         } 
+        if (cfgDialog != null) {
+          closeConfigurationDialog();
+        }
         if (dialogIsRunning) {
           return;
         }
