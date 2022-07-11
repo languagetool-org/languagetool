@@ -1168,6 +1168,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("rauch", w -> Arrays.asList("Rauch", "rauche"));
     put("liebs", w -> Arrays.asList("liebe es", "liebes", "liebe"));
     put("as", w -> Arrays.asList("aß", "das", "als"));
+    put("unterscheid", "Unterschied");
     put("mags", "mag es");
     put("abzügl", "abzgl");
     put("gefielts", "gefielt es");
@@ -2453,6 +2454,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Mußt": return topMatch("Musst");
       case "müßt": return topMatch("müsst");
       case "Müßt": return topMatch("Müsst");
+      case "heisst": return topMatch("heißt");
+      case "heissen": return topMatch("heißen");
       case "mußten": return topMatch("mussten");
       case "mußte": return topMatch("musste");
       case "mußtest": return topMatch("musstest");

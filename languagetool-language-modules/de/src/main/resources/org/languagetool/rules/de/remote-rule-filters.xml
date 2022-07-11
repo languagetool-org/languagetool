@@ -527,6 +527,42 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
+                    <token regexp="yes" case_sensitive="yes">@[A-ZÄÖÜ].*</token>
+                    <token regexp="yes">v[ao]n</token>
+                    <token regexp="yes" min="0">der?</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Emanuel van der <marker>Vet</marker> trifft das auch auf dich zu?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" case_sensitive="yes">@[A-ZÄÖÜ].*</token>
+                    <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</token>
+                    <marker>
+                        <token regexp="yes">der|die|das</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Emanuel Peter <marker>das</marker> trifft auch auf euch zu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" case_sensitive="yes">@[A-ZÄÖÜ].*</token>
+                    <token regexp="yes">v[ao]n</token>
+                    <token regexp="yes" min="0">der?</token>
+                    <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</token>
+                    <marker>
+                        <token regexp="yes">der|die|das</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Emanuel van der Vet <marker>das</marker> trifft auch auf dich zu?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token postag="ADV:(MOD|TMP)" postag_regexp="yes"/>
                     </marker>

@@ -312,6 +312,7 @@ public class German extends Language implements AutoCloseable {
       case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
       case "SEIT_LAENGEREN": return 1; // prefer over DE_CASE
       case "WO_VON": return 1; // prefer over most agreement rules
+      case "ICH_BIN_STAND_JETZT_KOMMA": return 1; // prefer over most agreement rules
       case "EIN_LOGGEN": return 1; // prefer over most agreement rules
       case "ZU_GENÜGE" : return 1;   // prefer over ZU_KOENNE
       case "IMPFLICHT" : return 1;   // prefer over agreement rules DE_AGREEMENT
@@ -416,6 +417,7 @@ public class German extends Language implements AutoCloseable {
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
+      case "ZUSAMMENGESETZTE_VERBEN": return -4;
       case "DE_VERBAGREEMENT": return -4; // prefer more specific rules (e.g DU_WUENSCHT) and speller
       case "PUNKT_ENDE_DIREKTE_REDE": return -4; // prefer speller
       case "LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN": return -4; // prefer speller
