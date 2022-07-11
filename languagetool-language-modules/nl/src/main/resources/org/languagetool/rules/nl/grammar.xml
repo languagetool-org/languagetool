@@ -415,7 +415,6 @@ regexp case-insensitive maken : (?i)
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">Wij|Zij|Jij</token><token regexp="yes">van|en|als</token></antipattern>
 				<antipattern><token regexp="yes">bovenover|door|over|tegen|volgens|voor</token><token>mij</token></antipattern>
-				<antipattern><token>jou</token><token regexp="yes">en|of</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>mij</token><token>is</token></antipattern>
 				<antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
 				<antipattern><token>en</token><token regexp="yes">jij|wij|zij</token><token>?</token></antipattern>
@@ -438,11 +437,19 @@ regexp case-insensitive maken : (?i)
 				<example correction="We"><marker>Wij</marker> vinden het fout.</example>
 				<example correction="We"><marker>Wij</marker> geven u een schatting van de kosten.</example>
 				<example correction="Ze"><marker>Zij</marker> vinden er hun tweede huis.</example>
+                <example><marker>Wij</marker> als parlementsleden zouden zu iets niet toelaten.</example>
+                <example>Ze kozen haar over <marker>mij</marker>.</example>
+                <example><marker>Mij</marker> is meegedeeld dat u op zoek naar werk bent.</example>
+                <example>Ik vond het leuk, en <marker>jij</marker>?</example>
+                <example>Voor <marker>mij</marker> hoeft het niet, hoor.</example>
+                <example>Ik wou dat zij <marker>mij</marker> een verklaring zou geven.</example>
+                <example>Wil je met <marker>mij</marker> dansen?</example>
+                <example>Want hij of <marker>zij</marker> moet gewoon een goede luisteraar zijn.</example>
 			</rule>
 			<rule>
                 <antipattern><token regexp="yes">bovenover|door|over|tegen|volgens|voor</token><token regexp="yes">jouw|jou</token></antipattern>
                 <antipattern><token>zij</token><token>jou</token></antipattern>
-                <antipattern><token>jou</token><token>en</token><token>je</token></antipattern>
+                <antipattern><token>jou</token><token regexp="yes">en|of</token></antipattern>
                 <antipattern><token regexp="yes">met|bij</token><token>jou</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
 				<pattern>
 					<token regexp="yes">jouw|jou</token>
@@ -451,9 +458,13 @@ regexp case-insensitive maken : (?i)
 				<url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
 				<short>Nadruk?</short>
 				<example correction="je">Ik zie <marker>jouw</marker> auto</example>
+                <example>Wie zal so iets tegen <marker>jou</marker> willen zeggen?</example>
+                <example><marker>Jou</marker> en je zus mogen meekomen.</example>
+                <example>Je wilt bewuste keuzes maken die echt bij <marker>jou</marker> passen.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="MEEST_GEWOON" name="Meest gewoon/gewoonst" tags="picky">
+        <!-- TODO: add exceptions for adjectives ending in -de, -isch, -sd, -sk or -st -->
 			<rule>
 				<pattern>
 					<token>meest</token>
@@ -461,7 +472,7 @@ regexp case-insensitive maken : (?i)
 				</pattern>
 				<message>Sommigen vinden dit 'te Engels' en geven de voorkeur aan: <suggestion><match no="2" postag_regexp="yes" postag="(BNW:STL:)(.*)" postag_replace="BNW:OVR:$2"/></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/meest-origineel-origineelst</url>
-				<short>Germanisme</short>
+				<short>Anglicisme</short>
 				<example correction="normaalst">Hij is wel het <marker>meest normaal</marker> van allemaal.</example>
 			</rule>
 		</rulegroup>
