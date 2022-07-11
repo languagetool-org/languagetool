@@ -64,6 +64,13 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     String desiredPostag = getRequired("desiredPostag", arguments);
     String priorityPostag = getOptional("priorityPostag", arguments);
     String removeSuggestionsRegexp = getOptional("removeSuggestionsRegexp", arguments);
+    // supress match if there are no suggestions
+    String suppressMatch = getOptional("suppressMatch", arguments);
+    boolean bSuppressMatch = false;
+    if (suppressMatch != null && suppressMatch.equalsIgnoreCase("true")) {
+      bSuppressMatch = true;
+    }
+    
     // diacriticsMode: return only changes in diacritics. If there is none, the
     // match is removed.
     String mode = getOptional("Mode", arguments);
@@ -217,6 +224,9 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
     if (!definitiveReplacements.isEmpty()) {
       ruleMatch.setSuggestedReplacements(definitiveReplacements);
+    }
+    if (ruleMatch.getSuggestedReplacements().isEmpty() && bSuppressMatch) {
+      return null;
     }
     return ruleMatch;
   }
