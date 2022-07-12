@@ -18,8 +18,6 @@
  */
 package org.languagetool.rules.ca;
 
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Tag;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
