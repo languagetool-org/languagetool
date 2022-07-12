@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
 <!ENTITY pronombre_personal_no_articulo "me|te|se|nos|os|le|les|lo"> <!--|los-->
 <!--aguadulce, aguasal, aguaviva-->
-<!ENTITY nombre_fem_el "acqua|Ática|abra|África|acta|afta|agua|ala|alba|alca|ALCA|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
+<!ENTITY nombre_fem_el "acqua|Ática|abra|África|acta|afta|agua|ala|alba|alca|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|harpa|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
 <!ENTITY dias_semana_may "Lunes|Martes|Miércoles|Jueves|Viernes|Sábados?|Domingos?">
 <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
 <!ENTITY dias_semana_abrv "lu|ma|mi|ju|vi|sa|do">
@@ -4410,7 +4410,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </and>
                     </marker>
                 </pattern>
-                <message>Si el verbo está en pasado, falta un acento.</message>
+                <message>Si el verbo está en pasado, se escribe con tilde.</message>
                 <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
                 <example correction="vengó|vino">Se <marker>vengo</marker></example>
                 <example correction="creyó|creó">Se <marker>creo</marker></example>
@@ -4483,7 +4483,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </and>
                     </marker>
                 </pattern>
-                <message>Si el verbo está en pasado, falta un acento.</message>
+                <message>Si el verbo está en pasado, se escribe con tilde.</message>
                 <suggestion><match no="3" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
                 <example correction="vengó|vino">Él <marker>vengo</marker></example>
                 <example correction="habló">Ella <marker>hablo</marker></example>
@@ -4519,7 +4519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </and>
                     </marker>
                 </pattern>
-                <message>Si el verbo está en pasado, falta un acento.</message>
+                <message>Si el verbo está en pasado, se escribe con tilde.</message>
                 <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
                 <example correction="determinó">Nos lo <marker>determino</marker></example>
                 <example correction="determinó">Nos <marker>determino</marker> el resultado.</example>
@@ -4540,7 +4540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </and>
                     </marker>
                 </pattern>
-                <message>Si el verbo está en pasado, falta un acento; o puede que falte una coma.</message>
+                <message>Si el verbo está en pasado, se escribe con tilde.</message>
                 <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0" case_conversion="alllower"/></suggestion>
                 <example correction="colaboró">La policía <marker>colaboro</marker> con el juez</example>
                 <example correction="habló">Juan <marker>hablo</marker> con ella.</example>
@@ -4588,9 +4588,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </and>
                     </marker>
                 </pattern>
-                <message>Si el verbo está en pasado, falta un acento; o puede que falte una coma.</message>
+                <message>Si el verbo está en pasado, se escribe con tilde.</message>
                 <suggestion><match no="5" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0" case_conversion="alllower"/></suggestion>
                 <example correction="llamó">"Time Magazine" <marker>llamo</marker> a su campaña "una comedia".</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>creo</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="NP.*" postag_regexp="yes" min="0" max="4"/>
+                    <token postag="_QM_OPEN|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"><exception postag="C.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <and>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*|_possible_NP" postag_regexp="yes"/></token>
+                            <token inflected="yes" regexp="yes">.+ar<exception inflected="yes" regexp="yes">.+ir</exception></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si el verbo está en pasado, se escribe con tilde.</message>
+                <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0" case_conversion="alllower"/></suggestion>
+                <example correction="pagó">Uber <marker>pago</marker> a reputados economistas.</example>
             </rule>
         </rulegroup>
         <rule id="PROMEDIO" name="promedio/promedió">
