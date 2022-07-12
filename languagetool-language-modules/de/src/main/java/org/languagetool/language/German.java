@@ -352,6 +352,7 @@ public class German extends Language implements AutoCloseable {
       case "JEDEN_FALLS": return 1;
       case "UST_ID": return 1;
       case "INS_FITNESS": return 1; // prefer over DE_AGREEMENT
+      case "MIT_UNTER": return 1; // prefer over agreement rules
       case "SEIT_VS_SEID": return 1; // prefer over some agreement rules (HABE_BIN from premium)
       case "ZU_KOMMEN_LASSEN": return 1; // prefer over INFINITIVGRP_VERMOD_PKT
       case "ZU_SCHICKEN_LASSEN": return 1; // prefer over INFINITIVGRP_VERMOD_PKT
@@ -417,7 +418,6 @@ public class German extends Language implements AutoCloseable {
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
-      case "ZUSAMMENGESETZTE_VERBEN": return -4;
       case "DE_VERBAGREEMENT": return -4; // prefer more specific rules (e.g DU_WUENSCHT) and speller
       case "PUNKT_ENDE_DIREKTE_REDE": return -4; // prefer speller
       case "LEERZEICHEN_NACH_VOR_ANFUEHRUNGSZEICHEN": return -4; // prefer speller
@@ -438,6 +438,8 @@ public class German extends Language implements AutoCloseable {
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -12;
+      case "ZUSAMMENGESETZTE_VERBEN": return -12; // less prio than most more specific rules and AI
+      case "PRP_VER_PRGK": return -13; // lower prio than ZUSAMMENGESETZTE_VERBEN
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -13; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI) but higher prio than style
       case "SAGT_RUFT": return -13; // prefer case rules, DE_VERBAGREEMENT, AI and speller
       case "GERMAN_WORD_REPEAT_RULE": return -14; // prefer SAGT_RUFT
