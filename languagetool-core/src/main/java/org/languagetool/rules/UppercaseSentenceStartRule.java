@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -53,13 +54,21 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
 
   /** @since 3.3 */
   public UppercaseSentenceStartRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, CorrectExample correctExample) {
+    this(messages, language, incorrectExample, correctExample, null);
+  }
+
+  /** @since 5.9 */
+  public UppercaseSentenceStartRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, CorrectExample correctExample,
+                                    URL url) {
     super(messages);
     super.setCategory(Categories.CASING.getCategory(messages));
     this.language = language;
     setLocQualityIssueType(ITSIssueType.Typographical);
-    setUrl(Tools.getUrl("https://languagetool.org/insights/post/spelling-capital-letters/"));
     if (incorrectExample != null && correctExample != null) {
       addExamplePair(incorrectExample, correctExample);
+    }
+    if (url != null) {
+      setUrl(url);
     }
   }
 

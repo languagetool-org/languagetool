@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -34,10 +35,17 @@ import org.languagetool.tools.Tools;
 public class DoublePunctuationRule extends Rule {
 
   public DoublePunctuationRule(ResourceBundle messages) {
+    this(messages, null);
+  }
+
+  /** @since 5.9 */
+  public DoublePunctuationRule(ResourceBundle messages, URL url) {
     super(messages);
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Typographical);
-    setUrl(Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-are-periods"));
+    if (url != null) {
+      setUrl(url);
+    }
   }
 
   @Override
