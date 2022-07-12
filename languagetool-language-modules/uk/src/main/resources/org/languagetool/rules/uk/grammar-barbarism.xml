@@ -2059,8 +2059,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>вибачення</token>
         </pattern>
         <message>Правильно: <suggestion>перепрошувати</suggestion></message>
-        <example correction="перепрошувати">газета веж <marker>принесла вибачення</marker>.</example>
-        <example correction="перепрошувати"><marker>принесу глибокі вибачення</marker>.</example>
+        <suggestion>просити вибачення</suggestion>
+        <example correction="перепрошувати|просити вибачення">газета веж <marker>принесла вибачення</marker>.</example>
+        <example correction="перепрошувати|просити вибачення"><marker>принесу глибокі вибачення</marker>.</example>
         <example>Просити вибачення</example>
       </rule>
     </rulegroup>
@@ -5388,24 +5389,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rule id="PERESLIDUVATY_METU" name="Переслідувати мету">
-      <pattern>
-        <token inflected="yes">переслідувати</token>
-        <token postag_regexp="yes" postag="(adj|numr):f:v_zna.*" min="0"/>
-        <token>мету</token>
-      </pattern>
-      <message>Правильно: <suggestion>мати на меті</suggestion>, <suggestion>ставити собі (мати) за мету</suggestion></message>
-      <example correction="мати на меті|ставити собі (мати) за мету">команди <marker>переслідують різну мету</marker> в чемпіонаті</example>
-      <example correction="мати на меті|ставити собі (мати) за мету">команди <marker>переслідують одну мету</marker> в чемпіонаті</example>
-    </rule>
+    <rulegroup id="PERESLIDUVATY_METU" name="Переслідувати мету">
+      <rule>
+        <pattern>
+          <token inflected="yes">переслідувати</token>
+          <token postag_regexp="yes" postag="(adj|numr):f:v_zna.*" min="0"/>
+          <token>мету</token>
+        </pattern>
+        <message>Правильно: <suggestion>мати на меті</suggestion>, <suggestion>ставити собі (мати) за мету</suggestion></message>
+        <example correction="мати на меті|ставити собі (мати) за мету">команди <marker>переслідують різну мету</marker> в чемпіонаті</example>
+        <example correction="мати на меті|ставити собі (мати) за мету">команди <marker>переслідують одну мету</marker> в чемпіонаті</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes">переслідувати</token>
+          <token postag_regexp="yes" postag="(adj|numr):[fp]:v_zna.*" min="0">
+            <exception>цілі</exception>
+          </token>
+          <token inflected="yes" postag_regexp="yes" postag="noun:inanim:[fp]:v_zna.*">ціль</token>
+        </pattern>
+        <message>За винятком випадків з фізичною ціллю правильно: <suggestion>мати на меті</suggestion>, <suggestion>ставити собі (мати) за мету</suggestion></message>
+        <example correction="мати на меті|ставити собі (мати) за мету">команди <marker>переслідують різні цілі</marker> в чемпіонаті</example>
+        <example correction="мати на меті|ставити собі (мати) за мету">команди <marker>переслідують одну ціль</marker> в чемпіонаті</example>
+      </rule>
+    </rulegroup>
 
     <rule id="KORYSNA_META" name="Корисна мета">
       <pattern>
-        <token inflected="yes">корисний</token>
-        <token inflected="yes">мета</token>
+        <marker>
+          <token inflected="yes">корисний</token>
+        </marker>
+        <token inflected="yes" regexp="yes">мета|міркування|мотив|інтерес|ціль</token>
       </pattern>
-      <message>Правильно: <suggestion>корислива мета</suggestion></message>
-      <example correction="корислива мета">використати ділянку з якоюсь <marker>корисною метою</marker></example>
+      <message>Правильно: <suggestion><match no="1" regexp_match="корисн(.+)" regexp_replace="корислив$1"/></suggestion></message>
+      <example correction="корисливою">використати ділянку з якоюсь <marker>корисною</marker> метою</example>
     </rule>
 
     <rule id="Z_LYSHNIM" name="З лишнім">

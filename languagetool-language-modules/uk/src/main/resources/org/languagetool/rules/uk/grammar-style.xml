@@ -2239,7 +2239,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <marker>
               <token inflected="yes">військовий</token>
             </marker>
-            <token inflected="yes" regexp="yes">репортаж|комунізм|час|перемога|стан</token>
+            <token inflected="yes" regexp="yes">репортаж|комунізм|час|перемога|стан|злочин</token>
           </unify>
         </pattern>
         <message>Правильно: <suggestion><match no="1" postag="adj.*">воєнний</match></suggestion></message>
@@ -2278,6 +2278,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>різні коноплі</example>
     </rule>
 
+    <rule id="khresnyi_khreschenyi" name="хресний і хрещений">
+      <pattern>
+        <marker>
+          <token inflected="yes">хресний</token>
+        </marker>
+        <token regexp="yes" inflected="yes">батько|мати</token>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1" regexp_match="хресн(.+)" regexp_replace="хрещен$1"/></suggestion></message>
+      <example correction="хрещена">його <marker>хресна</marker> мати.</example>
+    </rule>
+
     <rule id="LAVKA" name="Лавка">
       <pattern>
         <unify>
@@ -2306,6 +2317,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       -->
       <example correction="недбалістю">службовою <marker>халатністю</marker></example>
       <example correction="Недбале"><marker>Халатне</marker> відношення</example>
+      <!--
+      досить рідке
+      <example>халатні рукави</example>
+      -->
     </rule>
 
 <!-- "ставити питання" є в АС та словнику Виргана, Пилинської -->
