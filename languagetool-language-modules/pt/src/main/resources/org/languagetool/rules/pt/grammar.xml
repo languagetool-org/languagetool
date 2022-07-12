@@ -19538,49 +19538,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Vamos analisar, facto por facto.</example>
     </rule>
 
-    <rule id='REPEATED_WORDS_3X' name="Palavras repetidas (3x)" default='on'>
-      <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 	-->
-      <antipattern>
-        <token>de</token>
-        <token/>
-        <token regexp='yes'>em|pa?ra</token>
-        <token><match no='2'/></token>
-      </antipattern>
-      <pattern>
-        <token>
-          <exception regexp='yes'>&hifen;</exception></token>
-        <token skip='-1' regexp="yes">\p{L}+</token>
-        <token><match no='1'/></token>
-        <token skip='-1'/>
-        <marker>
-          <token><match no='1'/>
-          <exception postag='(?:C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_' postag_regexp='yes'/>
-          <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_passado;</exception>
-          <exception regexp='yes'>que|e|d[aeo]s?|ou|são|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
-          <exception regexp='yes'>[\d,. ]*['"/\|%º°′″‴]*(&unidades_de_medida;){0,1}</exception>
-        </token>
-        </marker>
-        <token negate='yes' regexp='yes'>&hifen;</token>
-      </pattern>
-      <message>Para melhorar o texto, procure variar mais os termos utilizados.</message>
-      <url>https://pt.wikiversity.org/wiki/Norma_padrão_da_língua_portuguesa/Repetições_e_elipses</url>
-      <short>Problema de estilo. Palavra repetida</short>
-      <example type='incorrect'>A astronomia profissional foi dividido em dois ramos: a astronomia observacional e a <marker>astronomia</marker> teórica.</example>
-      <example type='incorrect'>Repetições... as repetições empobrecem o texto, porque as <marker>repetições</marker> são aborrecidas de ler.</example>
-      <example>Saiu de carro, logo depois de pegar nas chaves do <marker>carro</marker>.</example>
-      <example>Não virá mais.</example>
-      <example>Desconheço o significado da palavra "impossível".</example>
-      <example>Proteínas são biopolímeros cujas unidades monoméricas são os aminoácidos.</example>
-      <example>…pela posse do diploma fornecido pela autoridade educacional e…</example>
-      <example>Clube de Choro do Rio de Janeiro</example>
-      <example>Grupos indígenas Pataxó, Pataxó-hã-hã-hãe, Quiriri e o extinto Camacã.</example>
-      <example>371 575 m³ para Gás Natural Comprimido, 243 024 m³ para usuários comerciais, 120 119 m³ para</example>
-      <example>99,6% com iluminação pública, 99,3% com coleta de resíduos e 99,7% dos lares tem</example>
-      <example correction="">Principalmente migrantes têm procurado residência principalmente em Alagoas, estabelecendo-se <marker>principalmente</marker> na região litorânea</example>
-      <example>Principalmente migrantes têm procurado residência em Alagoas, estabelecendo-se <marker>principalmente</marker> na região litorânea</example>
-    </rule>
-
-
   </category>
 
 
