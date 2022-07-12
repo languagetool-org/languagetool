@@ -92,6 +92,11 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Verliebter",
+    "Verliebte",
+    "Beängstigendes",
+    "Oppositioneller",
+    "Oppositionelle",
     "Verantwortlicher",
     "Verantwortliche",
     "Verantwortlichen",

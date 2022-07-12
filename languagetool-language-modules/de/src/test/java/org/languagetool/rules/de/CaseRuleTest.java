@@ -322,7 +322,8 @@ public class CaseRuleTest {
     
     // used to trigger error because of "abbreviation"
     assertGood("Sie fällt auf durch ihre hilfsbereite Art. Zudem zeigt sie soziale Kompetenz.");
-    
+
+    assertGood("Die Lieferadresse ist Obere Brandstr. 4-7");
     assertGood("Das ist es: kein Satz.");
     assertGood("Werner Dahlheim: Die Antike.");
     assertGood("1993: Der talentierte Mr. Ripley");
