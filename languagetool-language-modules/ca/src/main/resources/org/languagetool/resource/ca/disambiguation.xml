@@ -2702,6 +2702,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="V.*"/>
     </rule>
     <rulegroup id="nom_seguitde_nompropi" name="nom seguit de nom propi: el mont Or">
+        <antipattern>
+            <token regexp="yes">el|els|les</token>
+            <token>marca</token>
+        </antipattern>
         <rule>
             <pattern>
                 <token inflected="yes" regexp="yes">&nom_seguitde_nompropi;</token>
@@ -4659,7 +4663,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token>zona</token>
                 <marker>
-                    <token>centre</token>
+                    <token regexp="yes">centre|pícnic|fumadors</token>
                 </marker>
             </pattern>
             <disambig action="replace" postag="AQ0FS0"/>
@@ -10029,7 +10033,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="PR.*" postag_regexp="yes"><exception>com</exception></token>
                 <marker>
                     <and>
-                        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">nous?|reis|deu</exception></token>
+                        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">nous?|reis|deu</exception><exception regexp="yes">\p{Lu}.*</exception></token>
                         <token postag="VM.*" postag_regexp="yes"><exception postag="VMIP1S0.?" postag_regexp="yes"/></token>
                     </and>
                 </marker>
