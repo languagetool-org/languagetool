@@ -1234,6 +1234,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="LOCUCIONS" name="locucions adverbials, preposicionals, conjuntives">
         <!-- locucions concretes-->
+        <rule id="gota_a_gota" name="gota a gota (locución adverbial)">
+            <pattern>
+                <token><exception postag="D.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>gota</token>
+                    <token>a</token>
+                    <token>gota</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="gota a gota" pos="LOC_ADV"/>
+                <wd lemma="gota a gota" pos="LOC_ADV"/>
+                <wd lemma="gota a gota" pos="LOC_ADV"/>
+            </disambig>
+        </rule>
         <rule id="duna_banda" name="d'una banda (locució conj.)">
             <pattern>
                 <token>,</token>
@@ -1986,7 +2001,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </antipattern>
             <pattern>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes"><exception>de</exception></token>
+                    <token postag="N.*" postag_regexp="yes"><exception regexp="yes">de|gota</exception></token>
                     <token regexp="yes">per|darrere|rere|a</token>
                     <token><match no="0"/></token>
                 </marker>
