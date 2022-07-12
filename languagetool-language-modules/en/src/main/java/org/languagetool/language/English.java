@@ -177,8 +177,7 @@ public class English extends Language implements AutoCloseable {
     allRules.addAll(Arrays.asList(
         new CommaWhitespaceRule(messages,
                 Example.wrong("We had coffee<marker> ,</marker> cheese and crackers and grapes."),
-                Example.fixed("We had coffee<marker>,</marker> cheese and crackers and grapes."),
-                Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-are-parentheses")),
+                Example.fixed("We had coffee<marker>,</marker> cheese and crackers and grapes.")),
         new DoublePunctuationRule(messages),
         new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("This house is old. <marker>it</marker> was built in 1950."),
