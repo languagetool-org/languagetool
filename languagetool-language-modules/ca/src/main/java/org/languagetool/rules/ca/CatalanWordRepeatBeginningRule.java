@@ -75,8 +75,8 @@ public class CatalanWordRepeatBeginningRule extends WordRepeatBeginningRule {
   private static final List<String> CAUSE_EXPRESSIONS = Arrays.asList("Ja que", "Per tal com", "Pel fet que",
       "Puix que");
 
-  private static final List<String> EXCEPCIONS_START = Arrays.asList("el", "la", "els", "les", "punt", "article",
-      "mòdul", "part", "sessió", "unitat", "tema", "a", "per");
+  private static final List<String> EXCEPCIONS_START = Arrays.asList("l'", "el", "la", "els", "les", "punt", "article",
+      "mòdul", "part", "sessió", "unitat", "tema", "a", "per", "en");
 
   static {
     // based on https://www.pinterest.com/pin/229542912245527548/

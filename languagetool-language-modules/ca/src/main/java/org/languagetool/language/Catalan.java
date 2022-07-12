@@ -89,6 +89,7 @@ public class Catalan extends Language {
             new SimpleReplaceVerbsRule(messages, this),
             new SimpleReplaceBalearicRule(messages),
             new SimpleReplaceRule(messages),
+            new SimpleReplaceMultiwordsRule(messages),
             new ReplaceOperationNamesRule(messages, this),
             new SimpleReplaceDiacriticsIEC(messages),
             new SimpleReplaceAnglicism(messages), 
