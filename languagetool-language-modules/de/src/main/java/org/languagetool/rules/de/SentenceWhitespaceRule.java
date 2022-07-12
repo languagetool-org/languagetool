@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import org.languagetool.rules.*;
+import org.languagetool.tools.Tools;
 
 import java.util.ResourceBundle;
 
@@ -34,6 +35,7 @@ public class SentenceWhitespaceRule extends org.languagetool.rules.SentenceWhite
     super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Whitespace);
+    setUrl(Tools.getUrl("https://languagetool.org/insights/de/beitrag/grammatik-leerzeichen/#fehler-1-leerzeichen-vor-und-nach-satzzeichen"));
     addExamplePair(Example.wrong("Hier steht ein Satz.<marker>Das</marker> ist ein weiterer Satz."),
                    Example.fixed("Hier steht ein Satz.<marker> Das</marker> ist ein weiterer Satz."));
   }

@@ -39,6 +39,7 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.de.GermanRuleDisambiguator;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
+import org.languagetool.tools.Tools;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,7 +135,8 @@ public class German extends Language implements AutoCloseable {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                     Example.wrong("Die Partei<marker> ,</marker> die die letzte Wahl gewann."),
-                    Example.fixed("Die Partei<marker>,</marker> die die letzte Wahl gewann.")),
+                    Example.fixed("Die Partei<marker>,</marker> die die letzte Wahl gewann."),
+                    Tools.getUrl("https://languagetool.org/insights/de/beitrag/grammatik-leerzeichen/#fehler-1-leerzeichen-vor-und-nach-satzzeichen")),
             new GermanUnpairedBracketsRule(messages, this),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Das Haus ist alt. <marker>es</marker> wurde 1950 gebaut."),

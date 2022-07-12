@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,7 +26,6 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tools.StringTools;
-import org.languagetool.tools.Tools;
 
 import static org.languagetool.tools.StringTools.isEmpty;
 
@@ -39,16 +39,23 @@ public class CommaWhitespaceRule extends Rule {
 
   private boolean quotesWhitespaceCheck;
 
-  /** @since 3.3 */
-  public CommaWhitespaceRule(ResourceBundle messages, IncorrectExample incorrectExample, CorrectExample correctExample) {
+  /** @since 5.9 */
+  public CommaWhitespaceRule(ResourceBundle messages, IncorrectExample incorrectExample, CorrectExample correctExample, URL url) {
     super(messages);
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Whitespace);
-    setUrl(Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-are-parentheses"));
     if (incorrectExample != null && correctExample != null) {
       addExamplePair(incorrectExample, correctExample);
     }
+    if (url != null) {
+      setUrl(url);
+    }
     this.quotesWhitespaceCheck = true;
+  }
+
+  /** @since 3.3 */
+  public CommaWhitespaceRule(ResourceBundle messages, IncorrectExample incorrectExample, CorrectExample correctExample) {
+    this(messages, incorrectExample, correctExample, null);
   }
 
   public CommaWhitespaceRule(ResourceBundle messages, boolean quotesWhitespace) { 
