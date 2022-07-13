@@ -15077,23 +15077,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!-- QUE [NÃO] HÁ [não] haver -->
     <rulegroup id='QUE_HÁ_QUE_NÃO_HÁ' name="Que [não] há → [Não] haver" type="style">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-10 + 2021-07-11 (25-JUN-2021+)      -->
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-10 + 2021-07-11 + 2022-07-14 (25-JUN-2021+)      -->
       <!--
       É assumido que há substituição de jogadores durante a partida. → É assumido haver substituição de jogadores durante a partida.
       É assumido que não há substituição de jogadores durante a partida. → É assumido não haver substituição de jogadores durante a partida.
       -->
       <rule>
+        <antipattern>
+          <token postag='VMIP1S0' postag_regexp='no'/>
+          <token>que</token>
+          <token>há</token>
+          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <example>Acho que há um homem lá.</example>
+          <example>Acho que há algo errado com você.</example>
+          <example>Eu sei que há algo que você não quer me dizer.</example>
+          <example>Acredito que há muitos que comem compulsivamente devido a estresse.</example>
+          <example>Acho que há um problema.</example>
+          <example>Eu sei que há um quarto disponível.</example>
+          <example>Acho que há ratos no sótão.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='PP.+' postag_regexp='yes'/>
+          <token postag='VMIP3S0|VMII3S0' postag_regexp='yes'/>
+          <token>que</token>
+          <token>há</token>
+          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN|NP.+' postag_regexp='yes'> 
+            <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+          </token>
+          <example>Ele acha que há um espião entre nós.</example>
+          <example>Você sabia que há uma cidade no Brasil chamada Natal?</example>
+          <example>Você acha que há alguém nos vendo?</example>
+        </antipattern>	
+
         <pattern>
           <token postag='V.+' postag_regexp='yes'>
             <exception>sendo</exception>
+            <exception scope="previous" regexp='yes'>mais|menos|sempre|como|onde</exception> <!-- Some RG caused false positives, adding here the ones I found doing that. -->
+            <exception scope="previous" regexp='yes'>se</exception> <!-- Some CS caused false positives, adding here the ones I found doing that. -->
+            <exception postag_regexp='yes' postag='VMIF3.+|VMN0000|VMSF1S0'/>
           </token>
           <marker>
             <token>que</token>
             <token>há</token>
           </marker>
           <or>
-          <token negate_pos="yes" postag='Z0.+|DI.+' postag_regexp='yes'/>
-          <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
+            <token negate_pos="yes" postag='Z0.+|DI.+|PP.+|SPS00' postag_regexp='yes'/>
+            <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
           </or>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
@@ -15102,11 +15132,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Pode-se afirmar que há poucas décadas a antropologia conquistou seu lugar entre as ciências.</example>
         <example>Penso haver um homem lá.</example>
         <example>Lajos disse que há três anos queria morar em Szeged.</example>
+        <example>As simulações são o mais realistas que há.</example>
+        <example>Por favor, onde é que há um telefone?</example>
+        <example>Será que há a possibilidade da volta do banco de reserva?</example>
+        <example>Será que há vida em Marte?</example>
+        <example>Será que há vida extraterrestre?</example>
+        <example>Há poucos erros, se é que há algum.</example>
+        <example>Pode-se dizer que não há vida para aqueles que não têm tempo.</example>
+        <example>Que é que há contigo, cavaleiro armado?</example>
+        <example>O que é que há de errado comigo?</example>
       </rule>
       <rule>
         <pattern>
           <token postag='V.+' postag_regexp='yes'>
             <exception>sendo</exception>
+            <exception scope="previous" regexp='yes'>mais|menos|sempre|como|onde</exception> <!-- Some RG caused false positives, adding here the ones I found doing that. -->
+            <exception scope="previous" regexp='yes'>se</exception> <!-- Some CS caused false positives, adding here the ones I found doing that. -->
+            <exception postag_regexp='yes' postag='VMIF3.+'/> <!-- With "não" there is no VMN0000+VMSF1S0 because it won't repeat two infinitive verbs: "É uma ilusão acreditar que não há ilusões." -->
           </token>
           <marker>
             <token>que</token>
@@ -15114,19 +15156,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>há</token>
           </marker>
           <or>
-          <token negate_pos="yes" postag='Z0.+|DI.+' postag_regexp='yes'/>
-          <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
+            <token negate_pos="yes" postag='Z0.+|DI.+|PP.+' postag_regexp='yes'/> <!-- With "não" there is no SPS00 -->
+            <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
           </or>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
         <suggestion>\3 haver</suggestion>
         <example correction="não haver">É assumido <marker>que não há</marker> substituição de jogadores durante a partida.</example>
-	  
         <example>Pode-se afirmar que há poucas décadas a antropologia conquistou seu lugar entre as ciências.</example>
         <example>Penso haver um homem lá.</example>
         <example>Lajos disse que há três anos queria morar em Szeged.</example>
+        <example>As simulações são o mais realistas que há.</example>
+        <example>Por favor, onde é que há um telefone?</example>
+        <example>Será que há a possibilidade da volta do banco de reserva?</example>
+        <example>Será que há vida em Marte?</example>
+        <example>Será que há vida extraterrestre?</example>
+        <example>Há poucos erros, se é que há algum.</example>
+        <example>Pode-se dizer que não há vida para aqueles que não têm tempo.</example>
+        <example>Que é que há contigo, cavaleiro armado?</example>
+        <example>O que é que há de errado comigo?</example>
       </rule>
     </rulegroup>
+
 
     <!-- SER CAPAZ DE conseguir -->
     <rule id='SER_CAPAZ_DE_CONSEGUIR' name="Ser capaz de → Conseguir" type="style">
