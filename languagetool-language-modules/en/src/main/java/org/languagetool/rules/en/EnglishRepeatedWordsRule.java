@@ -64,6 +64,12 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
     ),
 
     Arrays.asList(
+      tokenRegex("as"),       // "doesn't apply to the group as a whole"
+      tokenRegex("a"),
+      tokenRegex("whole")
+    ),
+
+    Arrays.asList(
       token("more"),
       token("often"),
       token("than"),
