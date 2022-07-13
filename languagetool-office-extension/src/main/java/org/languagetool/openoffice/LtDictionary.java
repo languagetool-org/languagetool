@@ -55,6 +55,7 @@ public class LtDictionary {
   
   private final static String[] ADD_ALL = { "e", "er", "es", "en", "em" };
   private final static int MAX_DICTIONARY_SIZE = 30000;
+  private final static int NUM_PATHS = 7;
   
   private static boolean debugMode; //  should be false except for testing
 
@@ -141,8 +142,12 @@ public class LtDictionary {
       return "/" + locale.Language + "/hunspell/spelling.txt";
     } else if (i == 3) {
       return "/" + locale.Language + "/hunspell/spelling-" + locale.Language + "-" + locale.Country + ".txt";
-    } else {
+    } else if (i == 4) {
       return "/" + locale.Language + "/hunspell/spelling-" + locale.Language + "_" + locale.Country + ".txt";
+    } else if (i == 5) {
+      return "/" + locale.Language + "/hunspell/spelling_merged.txt";
+    } else {
+      return "/" + locale.Language + "/hunspell/spelling_custom.txt";
     }
   }
   
@@ -152,7 +157,7 @@ public class LtDictionary {
   private List<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
     List<String> words = new ArrayList<>();
     String path;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < NUM_PATHS; i++) {
       path = getSpellingFilePath(locale, i);
       if (JLanguageTool.getDataBroker().resourceExists(path)) {
         List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
@@ -190,8 +195,8 @@ public class LtDictionary {
                       } else if (lineWords[1].charAt(n) == 'F') {
                         word += "in";
                       }
-                      if (!words.contains(word) && !linguServices.isCorrectSpell(word, locale)) {
-//                      if (!words.contains(word)) {
+//                      if (!words.contains(word) && !linguServices.isCorrectSpell(word, locale)) {
+                      if (!words.contains(word)) {
                         words.add(word);
                       }
                     }
@@ -235,7 +240,7 @@ public class LtDictionary {
     }
     long startTime = System.currentTimeMillis();
     URL url = null;
-    for (int i = 0; i < 5 && url == null; i++) {
+    for (int i = 0; i < NUM_PATHS && url == null; i++) {
       url = JLanguageTool.getDataBroker().getAsURL(JLanguageTool.getDataBroker().getResourceDir() + getSpellingFilePath(locale, i));
     }
     if (url == null) {
