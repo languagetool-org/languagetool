@@ -693,6 +693,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Bei der Fülle an gesetzlichen <marker>Vorgaben</marker> kann man schnell etwas vergessen.</example>
                 <example correction="">Deutsch: Neben ausführlichem <marker>Schriftverkehr</marker> füllst du auch viele Formulare aus.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">hey|hi|moin|hallo|servus|gr[üu]e?zi</token>
+                    </marker>
+                    <token postag="EIG.*|UNKNOWN" postag_regexp="yes" />
+                </pattern>
+                <example correction=""><marker>Hey</marker> Lennart, wie gehts?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>

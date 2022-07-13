@@ -1946,7 +1946,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>An-</token>
             <token regexp="yes">und|oder</token>
-            <token regexp="yes">(Ver|Zu)kauf</token>
+            <token regexp="yes">(Ver|Zu|Abver)kauf</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -3115,6 +3115,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>in-</token>
             <token regexp='yes'>und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus</token>
             <token regexp='yes'>ausländisch(e[mnrs]?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="an- und abgewöhnen" id="AN_UND_ABGEWOEHNEN">
+        <pattern>
+            <marker>
+                <token>an-</token>
+            </marker>
+            <token regexp='yes'>und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus</token>
+            <token regexp='yes'>ab.+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
