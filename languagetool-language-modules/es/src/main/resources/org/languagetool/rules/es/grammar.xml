@@ -4599,7 +4599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="NP.*" postag_regexp="yes" min="0" max="4"/>
+                    <token postag="NP.*" postag_regexp="yes" min="1" max="4"/>
                     <token postag="_QM_OPEN|R.*|LOC_ADV" postag_regexp="yes" min="0" max="4"><exception postag="C.*" postag_regexp="yes"/></token>
                     <marker>
                         <and>
@@ -4611,6 +4611,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si el verbo está en pasado, se escribe con tilde.</message>
                 <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0" case_conversion="alllower"/></suggestion>
                 <example correction="pagó">Uber <marker>pago</marker> a reputados economistas.</example>
+                <example>Acabo de encontrar por casualidad el anuncio.</example>
             </rule>
         </rulegroup>
         <rule id="PROMEDIO" name="promedio/promedió">
