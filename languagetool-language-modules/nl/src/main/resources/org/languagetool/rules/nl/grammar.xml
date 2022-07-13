@@ -9734,7 +9734,30 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
-		
+		<rulegroup id="LANGUAGE_TOOL" name="Language Tool (LanguageTool)" default="temp_off">
+		    <rule>
+                <pattern>
+                    <token regexp="yes">langu?au?ge</token>
+                    <token regexp="yes">tools?</token>
+                </pattern>
+                <message>Bedoel je <suggestion>LanguageTool</suggestion>, je favoriete schrijfassistent?</message>
+                <url>https://en.wikipedia.org/wiki/LanguageTool</url>
+                <short>Productnaam</short>
+                <example correction="LanguageTool">We gebruiken <marker>Language Tool</marker> elke dag.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">langu?au?ge</token>
+                    <token regexp="yes">tools</token>
+                    <token postag_regexp="yes" postag="BNW.*VRB" min="0"/>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+                <message>Bedoel je hier een genitiefconstructie met je favoriete schrijfassistent: LanguageTool?<suggestion>LanguageTools \3 \4</suggestion></message>
+                <url>https://en.wikipedia.org/wiki/LanguageTool</url>
+                <short>Productnaam</short>
+                <example correction="LanguageTools nieuwe website">Heb je al <marker>Language Tools nieuwe website</marker> gezien?</example>
+            </rule>
+        </rulegroup>
 		<!-- 1e-jaars* -->
 		<rulegroup id="XE_JAARS" name="1e jaarsstudent/1e-jaarsstudent">
 			<rule>
@@ -9895,7 +9918,7 @@ onwaarschijnlijk
 					</marker>
 				</pattern>
 				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
-				<message>Als dit een samenstelling is (dus samen naar een enkel ding verwijst) , hoort het aaneengeschreven.</message>
+				<message>Als dit een samenstelling is (dus samen naar een enkel ding verwijst), hoort het aaneengeschreven.</message>
 				<suggestion>\2\3</suggestion>
 				<url>https://vrttaal.net/taaladvies-spelling/samenstellingen-met-een-eigennaam</url>
 				<example correction="eBayobject">Het is een <marker>eBay object</marker>.</example>
