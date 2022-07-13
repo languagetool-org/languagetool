@@ -3810,6 +3810,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Unos momentos que hay que saber capturar.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token skip="-1">que<exception scope="next">que</exception></token>
+                    <token postag="V.S.*" postag_regexp="yes"/>
+                    <example>¡Que Dios los bendiga!</example>
+                    <example>"Que Yahvé os examine y os juzgue."</example>
+                    <example>¡Que Yahvé esté con vosotros!</example>
+                    <example>Que Mary Boom no sea conocida en el hampa ha resultado ser una gran baza.</example>
+                    <example>¡Que Dios salve la Reina!</example>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="3">\p{P}</token>
@@ -3817,11 +3826,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que<exception scope="previous">¿</exception></token>
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes" min="0"/>
-                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="NC.*" postag_regexp="yes"><exception inflected="yes">numeral</exception><exception postag="_possible_NP"/></token>
                 </pattern>
                 <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
                 <example correction="Qué"><marker>Que</marker> mujer tan inteligente.</example>
+                <example correction="Qué">¡<marker>Que</marker> suerte que te tocase la lotería!</example>
+                <example>Que 3/4 de Argentina y el MUNDO ENTERO se equivoca.</example>
             </rule>
             <rule default="temp_off">
                 <antipattern>
@@ -3843,7 +3854,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que<exception scope="previous">¿</exception><exception postag="LOC_CS"/></token>
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes" min="0"><exception postag="_possible_NP"/></token>
-                    <token postag="NC.*" postag_regexp="yes"><exception postag="_possible_NP|V.[ISMN].*" postag_regexp="yes"/></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="_possible_NP|V.[ISMN].*" postag_regexp="yes"/><exception inflected="yes">numeral</exception></token>
                 </pattern>
                 <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
@@ -3877,7 +3888,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que<exception scope="previous">¿</exception><exception postag="LOC_CS"/></token>
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes" min="0"><exception postag="_possible_NP"/></token>
-                    <token postag="NC.*" postag_regexp="yes"><exception postag="_possible_NP|V.[ISM].*" postag_regexp="yes"/></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="_possible_NP|V.[ISM].*" postag_regexp="yes"/><exception inflected="yes">numeral</exception></token>
                 </pattern>
                 <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
