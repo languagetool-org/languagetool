@@ -9412,17 +9412,26 @@ RB => Règles Brutes
         <disambig action="filter" postag="V.*"/>
     </rule>
     <!-- CATEGORY: complementary rules -->
-    <rule name="abréviation point" id="ABREVIATION_POINT">
-    <pattern>
-    <token regexp="yes">[a-z][a-z][a-z]?</token>
-    <token spacebefore="no" regexp="yes">[\.\-]</token>
-    <token regexp="yes">[a-z][a-z][a-z]?</token>
-    <token spacebefore="no">.</token>
-    <token regexp="yes" case_sensitive="yes">[a-z].*</token>
-    </pattern>
-        <disambig action="remove" postag="SENT_END"/>
-    </rule>
-    <rulegroup id="NOMS_EPICENES" name="noms épicènes">
+    <rulegroup name="abréviation point" id="ABREVIATION_POINT">
+        <rule>
+            <pattern>
+                <token regexp="yes">[a-z][a-z][a-z]?</token>
+                <token spacebefore="no" regexp="yes">[\.\-]</token>
+                <token regexp="yes">[a-z][a-z][a-z]?</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+            </pattern>
+            <disambig action="remove" postag="SENT_END"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">ambass|assoc|ch|pr|collab|commiss|cons|coord|dép|dir|gér|secour|sén|gén|abrév|ac|adj|adr|anon|app|append|av|auj|bibl|bibliogr|bdc|boul|bull|bur|cap|caar|cat|cell|chap|cir|comm?|compl|cf|corres|dest|dict|div|doc|dom|dr|édit|édif|éd|électr|élém|encycl|ex|fig|fl|hab|graph|hist|hyp|ill-imm-imp|impr|incl|inc|ind|in[gtvf]|jur|lat|litt|liq|loc|liv|livr|méd|mém|pl|réd|rel|sc|suiv|sup|suppl|trad|univ|mus|pharm|soc|pol|compt|urb|act|compos|confect|exp|réal|prov|introd|inv|tial|enr|ép|équiv|esp|étym|excl|exc|ap|arr|arch|art|ass|adv|al|anc|angl|ann|gest|gouv|min|prés|rect|représ|resp|scrut|vol|coll|réf|id|sqq?|janv|fév|avr|juill|sept|oct|nov|déc|admin</token>
+                <token spacebefore="no">.</token>
+            </pattern>
+            <disambig action="remove" postag="SENT_END"/>
+        </rule>
+</rulegroup>
+<rulegroup id="NOMS_EPICENES" name="noms épicènes">
         <antipattern>
             <token>(</token>
             <token>les</token>
