@@ -105,6 +105,7 @@ public class MultiDocumentsHandler {
   private final LtDictionary dictionary;            //  internal dictionary of LT defined words 
   private LtCheckDialog ltDialog = null;            //  LT spelling and grammar check dialog
   private ConfigurationDialog cfgDialog = null;     //  configuration dialog (show only one configuration panel)
+  private static Frame aboutDialog = null;          //  about dialog (show only one about panel)
   private boolean dialogIsRunning = false;          //  The dialog was started     
   
   private XComponentContext xContext;               //  The context of the document
@@ -358,10 +359,20 @@ public class MultiDocumentsHandler {
   
   /**
    *  close configuration dialog
+   * @throws Throwable 
    */
-  private void closeConfigurationDialog() {
-    cfgDialog.close();
-    cfgDialog = null;
+  private void closeDialogs() throws Throwable {
+    if (ltDialog != null) {
+      ltDialog.closeDialog();
+    } 
+    if (cfgDialog != null) {
+      cfgDialog.close();
+      cfgDialog = null;
+    }
+    if (aboutDialog != null) {
+      aboutDialog.setVisible(false);
+      aboutDialog = null;
+    }
   }
   
   /**
@@ -1389,14 +1400,10 @@ public class MultiDocumentsHandler {
         return;
       }
       if ("configure".equals(sEvent)) {
-        if (cfgDialog != null) {
-          closeConfigurationDialog();
-        }
-        if (ltDialog != null) {
-          ltDialog.closeDialog();
-        } 
+        closeDialogs();
         runOptionsDialog();
       } else if ("about".equals(sEvent)) {
+        closeDialogs();
         AboutDialogThread aboutThread = new AboutDialogThread(messages);
         aboutThread.start();
       } else if ("switchOff".equals(sEvent)) {
@@ -1422,12 +1429,7 @@ public class MultiDocumentsHandler {
           }
           return;
         }
-        if (ltDialog != null) {
-          ltDialog.closeDialog();
-        } 
-        if (cfgDialog != null) {
-          closeConfigurationDialog();
-        }
+        closeDialogs();
         if (dialogIsRunning) {
           return;
         }
@@ -1698,9 +1700,12 @@ public class MultiDocumentsHandler {
       // Note: null can cause the dialog to appear on the wrong screen in a
       // multi-monitor setup, but we just don't have a proper java.awt.Component
       // here which we could use instead:
-      AboutDialog about = new AboutDialog(messages, null);
+      aboutDialog = new Frame();
+      aboutDialog.setVisible(true);
+      AboutDialog about = new AboutDialog(messages, aboutDialog);
       about.show();
     }
+    
   }
 
   /**
