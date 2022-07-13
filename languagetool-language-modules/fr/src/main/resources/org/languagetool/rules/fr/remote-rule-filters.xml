@@ -264,5 +264,126 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">La différence est dans le fond de comparer les <marker>partis</marker> les mieux gérer.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_FR_HYDRA_LEO_MISSING_PERIOD" name="">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z].*</token>
+                    <token>etc</token>
+                </marker>
+            </pattern>
+            <example correction="">Ce revers n'était pas une défaite irréversible, mais il fut exploité par la propagande <marker>communiste etc</marker> s'ajouta en France.</example>
+        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">des|d'|de</token>
+                        <token postag="[YK]" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Carrière de rencontres en pétrole, j'aime la structuration initiale <marker>de 8785</marker> applications iphone montreal le long parcours du président de protection de surveiller, de tlemcen, un genre et d'assurer la paix, le poursuit-elle.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[a-z].*</token>
+                        <token>vert</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Quelques notes de musique, une phrase culte et un maître à <marker>penser vert</marker> font (entre autres) de cet objet culturel une oeuvre identifiable même par celles et ceux qui ne la regarde pas (oui oui ça existe …).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>été</token>
+                        <token postag="V.* inf" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Une horreur ce truc, impossible de savoir où ils avaient <marker>été pondre</marker> (enfin si, sans doute dans les joints du frigo et tous les petits trous inaccessibles pour nous, puisque le bestiau mesure un demi milimètre à peine) ils revenaient sans cesse.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">M</token>
+                        <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Malgré les pressions des armateurs et de <marker>M Bourgeois</marker> les témoignages des marins ukrainiens rescapés sont un élément clé : le bateau était en mauvais état.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][A-Z].*</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                </pattern>
+                <example correction="">Combien d'entre nous ont pris des benzos sur plusieurs mois voire plusieurs <marker>années SUR</marker> prescription de leur médecin ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>une</token>
+                    <token>fois</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                        <token postag="Z.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Ils descendent tout les deux de la voiture, une fois <marker>dehors Sara</marker> regarde autour d'elle avant de se mettre à sourire et de regarder Michael.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <marker>
+                        <token regexp="yes">[a-z].*</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Eclectique, les éditions G.L.<marker>M</marker> sont traversées par les grands courants de cette période particulièrement créatrice.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="J.*" postag_regexp="yes"/>
+                        <token postag="J.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>:</token>
+                </pattern>
+                <example correction="">C'est la folie sur Twitter, sur Facebook et dans le monde <marker>entier réveillé</marker> : NBC vient d'annoncer il y a quelques minutes qu'Oussama Ben Laden a été tué après une opération pour le capturer au Pakistan, dans la ville d'Abbottabad.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token>rarement</token>
+                    </marker>
+                    <token postag="D.*|(P\+)?D.*" postag_regexp="yes"/>
+                    <token postag="[JN].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Les sterculiacées – Les plantes de la famille des sterculiacées sont des arbres et <marker>arbustes rarement</marker> des herbacées et lianes qui ont des feuilles stipulées et des fleurs en cymes ou en corymbes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="A" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="R rel.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">A l'heure actuelle, les formations d'animateurs dans telle ou telle activité s'organisent dans les <marker>clubs directement</marker> où les animateurs plus expérimentés partagent leurs savoirs aux nouveaux ou débutants dans l'animation.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]</token>
+                        <token case_sensitive="yes">Le</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                </pattern>
+                <example correction="">à propos de traces d'huile autour du bateau, <marker>J Le</marker> Coz a demandé qu'on le prévienne si cela continuait.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
