@@ -1992,6 +1992,18 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
+                <token postag="N f.*" postag_regexp="yes"/>
+                <token min="0" max="1">des?|du|d'</token>
+                <token postag="[YK]" postag_regexp="yes" min="0" max="1"/>
+                <marker>
+                    <token inflected="yes" regexp="yes">rester</token>
+                </marker>
+                <token postag="J f.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes">avoir</token>
                 <token>que</token>
                 <token>rarement</token>
@@ -7431,7 +7443,7 @@ RB => Règles Brutes
                     <exception>même</exception>
                     <exception postag="P"/></token>
                 <token postag="N.*|J.*|V ppa.*" postag_regexp="yes">
-                    <exception regexp="yes">a|dans|envers|si|fut|plus|avoir|fait|autres?|mais</exception>
+                    <exception regexp="yes">a|dans|envers|si|cours|fut|plus|avoir|fait|autres?|mais</exception>
                     <exception postag="K"/>
                     <exception postag="J e sp"/></token>
             </unify>
