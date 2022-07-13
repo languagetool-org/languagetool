@@ -7613,7 +7613,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token min="0" max="2" postag="adv.*|qub" postag_regexp="yes"/>
             <token min="0" postag="prep.*" postag_regexp="yes"/>
             <token min="0" postag="(subst|ger|adjp).*" postag_regexp="yes"/>
-            <token regexp="yes">[…»«‚„&quot;\(\*]|&apost;|\d+</token>          
+            <token regexp="yes">[…»«‚„&quot;\(\*–—\-]|&apost;|\d+</token>          
           </unify-ignore>
           <token postag="(subst|ger|depr|num|adj|ppas|pact).*" postag_regexp="yes"/>
         </unify>
@@ -8484,12 +8484,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern> <!-- przymiotniki wymagające „w” + locativus -->
             <token inflected="yes">w</token>
             <token postag="subst.*:loc.*" postag_regexp="yes"/>
-            <token inflected="yes" regexp="yes">dobry|fatalny|trudny|ważny|wyczuwalny|nieprzenikniony|niezachwiany|zaparty|żywy|ginąć|liczyć|obeznać|pędzić|pogrążyć|sterczeć|tętnić|trzymać|ukryć|unurzać|unosić|utopić|uwędzić|wędrować|wkopać|wrosnąć|wymienić|wymieniać|zgiąć|zakopać|zamknąć|zawiesić|zanurzyć|zatopić</token>        
+            <token inflected="yes" regexp="yes">dobry|fatalny|trudny|ważny|wyczuwalny|nieprzenikniony|niezachwiany|zaparty|żywy|ginąć|liczyć|obeznać|pędzić|pogrążyć|schować|sterczeć|tętnić|trzymać|ukryć|unurzać|unosić|utopić|uwędzić|wędrować|wkopać|wrosnąć|wymienić|wymieniać|zgiąć|zakopać|zamknąć|zawiesić|zanurzyć|zatopić</token>        
         </antipattern>
          <antipattern> <!-- przymiotniki i ppas wymagające „na” + locativus -->
             <token inflected="yes">na</token>
             <token postag="subst.*:loc.*" postag_regexp="yes"/>
-            <token inflected="yes" regexp="yes">czatować|jechać|kończyć|położyć|powalić|oprzeć|przykleić|przywiązać|rozpiąć|siedzieć|skradać|wystawić|zarzucić|zbudować</token>        
+            <token inflected="yes" regexp="yes">czatować|dyndać|jechać|kończyć|położyć|powalić|oprzeć|przykleić|przywiązać|rozpiąć|siedzieć|skradać|wystawić|zarzucić|zbudować</token>        
         </antipattern>
         <antipattern> <!-- przymiotniki wymagające „do” -->
           <token>do</token>
@@ -8519,7 +8519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern> <!-- przymiotniki wymagające „z” + gen-->
           <token inflected="yes">z</token>
           <token postag="(subst|ger).*gen.*" postag_regexp="yes"/>
-          <token inflected="yes" regexp="yes">jednaki|niezadowolony|zadowolony|wyzuty|ocknąć|opadać|zwlec</token>
+          <token inflected="yes" regexp="yes">jednaki|niezadowolony|ułożony|zadowolony|wyzuty|ocknąć|opadać|zwlec</token>
         </antipattern>
         <antipattern> <!-- przymiotniki wymagające „z” + inst -->
           <token inflected="yes">z</token>
@@ -8591,6 +8591,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern>
           <token>święto</token>
           <token inflected="yes">krzyski</token>        
+        </antipattern>
+        <antipattern>
+          <token>dam</token>
+          <token>rade</token>
         </antipattern>
         <antipattern>
             <token inflected="yes" negate="yes" regexp="yes">dowód|nacisk</token>
@@ -23813,6 +23817,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="DAM_RADE" name="„dam rade” (dam radę)">
+      <pattern>
+          <token inflected="yes">dać</token>
+          <marker>
+            <token>rade</token>          
+          </marker>      
+      </pattern>
+      <message>Czy chodziło o <suggestion>radę</suggestion>?</message>
+      <short>Literówka</short>
+      <example correction="radę">Ale dam <marker>rade</marker>.</example>    
+    </rule>
     <rulegroup id="W_POROWNANIU_INST" name="„w porównaniu nim” (w porównaniu z nim)">
         <rule>
             <pattern>
