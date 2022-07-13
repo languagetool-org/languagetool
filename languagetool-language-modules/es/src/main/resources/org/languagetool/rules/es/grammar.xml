@@ -3836,11 +3836,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <antipattern>
-                    <token regexp="yes">más|menos|antes|después|mejor|peor</token>
+                    <token regexp="yes" skip="-1">mas|más|menos|antes|después|mejor|peor</token>
+                    <token>que</token>
+                    <example>Tom encuentra mucho más fácil hablar inglés que francés.</example>
+                    <example>Más valen amigos en la plaza que dinero en el arca.</example>
+                    <example>Es mejor una palabra a tiempo, que dos a destiempo.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">mismo|sino|algún|así</token>
                     <token>que</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception regexp="yes">hasta|sobre|hacia</exception></token>
+                    <token>que</token>
+                    <token regexp="yes" inflected="yes">mil|millón|ciento</token>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token regexp="yes">\d[\d,.]+%?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SPS00|LOC_PREP|PD.*" postag_regexp="yes"><exception regexp="yes">hasta|sobre|hacia</exception></token>
+                    <token>que</token>
+                    <example>Es por eso que perseverancia y disciplina son dos palabras clave.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">qué</token>
                     <token>que</token>
                 </antipattern>
                 <antipattern>
@@ -3848,6 +3868,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token/>
                     <token postag="_possible_NP|NP.*" postag_regexp="yes"/>
                     <example>por qué razón afirma usted que sir Arthur estaba cansado</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="[NA].*|V.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">saber|ver|mirar|conocer|elegir</exception></token>
+                    <token>que</token>
+                    <example>Es posible que millones de personas no tengan acceso.</example>
+                    <example>Esto no impidió que numerosos intelectuales se unieran al Partido</example>
+                    <example>Puedo inferir que loco no está.</example>
+                </antipattern>
+                <antipattern>
+                    <token>gracias</token>
+                    <token regexp="yes">por|a</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -3859,7 +3890,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
                 <example correction="Qué"><marker>Que</marker> mujer tan inteligente.</example>
+                <example correction="qué">Es para ver <marker>que</marker> resultados obtengo.</example>
+                <example correction="qué">Elegir <marker>que</marker> tipo de pago vas a realizar.</example>
                 <example>¿Qué más hay que saber?</example>
+                <example>Prefiero leche que jugo.</example>
             </rule>
             <rule default="temp_off">
                 <!-- like the previous one minus one antipattern -->
