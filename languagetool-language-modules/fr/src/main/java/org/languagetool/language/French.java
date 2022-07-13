@@ -259,7 +259,6 @@ public class French extends Language implements AutoCloseable {
       case "PLURIEL_AL2": return 100; // greater than other rules for pluriel al
       case "FR_SPLIT_WORDS_HYPHEN": return 100; // greater than MOTS_INCOMP
       case "PAS_DE_TRAIT_UNION": return 50; //  // greater than agreement rules
-      case "MOTS_INCOMP": return 50; // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
       case "PRIME-TIME": return 50; //  // greater than agreement rules
       case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
       case "DE_OU_DES": return 20; // greater than PAS_ADJ
@@ -345,6 +344,7 @@ public class French extends Language implements AutoCloseable {
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
       case "TOUT_MAJUSCULES": return -400;
       case "VIRG_NON_TROUVEE": return -400;
+      case "MOTS_INCOMP": return -400; // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "MOT_TRAIT_MOT": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "FRENCH_WORD_REPEAT_BEGINNING_RULE": return -350; // less than REPETITIONS_STYLE
