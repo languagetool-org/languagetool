@@ -20,6 +20,7 @@ package org.languagetool.rules.ca;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.Tag;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatBeginningRule;
 
@@ -35,6 +36,7 @@ public class CatalanWordRepeatBeginningRule extends WordRepeatBeginningRule {
 
   public CatalanWordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages, language);
+    super.setTags(Collections.singletonList(Tag.picky));
     //super.setDefaultTempOff();
     addExamplePair(Example.wrong("Però el carrer és tot modernista. <marker>Però</marker> té nom de poeta."),
         Example.fixed("Però el carrer és tot modernista. Així i tot, té nom de poeta."));

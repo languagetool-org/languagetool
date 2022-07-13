@@ -20,6 +20,7 @@ package org.languagetool.rules.es;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.Tag;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatBeginningRule;
 
@@ -35,6 +36,7 @@ public class SpanishWordRepeatBeginningRule extends WordRepeatBeginningRule {
   
   public SpanishWordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages, language);
+    super.setTags(Collections.singletonList(Tag.picky));
     //super.setDefaultTempOff();
     addExamplePair(Example.wrong("Asimismo, la calle es casi toda residencial. <marker>Asimismo</marker>, lleva el nombre de un poeta."),
                    Example.fixed("Además, la calle es casi toda residencal. También lleva el nombre de un poeta."));
