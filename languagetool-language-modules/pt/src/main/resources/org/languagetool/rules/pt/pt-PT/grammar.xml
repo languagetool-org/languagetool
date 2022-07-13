@@ -4638,13 +4638,11 @@ Vinte e três Plantas Pra Ter Dentro De Apartamento Com Muito Charme!
       <pattern case_sensitive='yes'>
           <token negate_pos='yes' postag='SENT_START'/>
         <marker>
-          <token regexp='yes'>(?:Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>[Ff]eiras?</token>
+          <token regexp='yes'>(?:Segunda|Terça|Quarta|Quinta|Sexta)s?-[Ff]eiras?</token>
         </marker>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os dias da semana deixam de ser capitalizados.</message>
-        <suggestion><match no='2' case_conversion='alllower'/>-<match no='4' case_conversion='alllower'/></suggestion>
+        <suggestion><match no='2' case_conversion='alllower'/></suggestion>
       <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
       <example correction='segundas-feiras'>As <marker>Segundas-feiras</marker> são sempre difíceis.</example>
       <example>Segundas-feiras são sempre difíceis.</example>
@@ -4778,14 +4776,13 @@ Vinte e três Plantas Pra Ter Dentro De Apartamento Com Muito Charme!
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(?:segunda|terça|quarta|quinta|sexta)s?|(?:seg|ter|qua|qui|sex)</token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>[Ff]eiras?</token>
+        <token regexp='yes'>(?:segunda|terça|quarta|quinta|sexta)s?-[Ff]eiras?|(?:seg|ter|qua|qui|sex)-[Ff]eiras?</token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os dias da semana são capitalizados.</message>
-        <suggestion><match no='1' case_conversion='startupper'/>-\3</suggestion>
+        <suggestion><match no='1' regexp_match="Feiras" regexp_replace="feiras" case_conversion='startupper'/></suggestion>
       <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
       <example correction='Segundas-feiras'>As <marker>segundas-feiras</marker> são sempre difíceis.</example>
+      <!-- TODO: another rule: <example correction='Segundas-feiras'>As <marker>segundas-Feiras</marker> são sempre difíceis.</example>-->
     <!--<example correction='Ter'>A última temporada estreou em <marker>ter</marker>, 27 Dez 2016.</example>--><!-- TODO seperate abrev and exclude ter -->
     </rule>
   </rulegroup>

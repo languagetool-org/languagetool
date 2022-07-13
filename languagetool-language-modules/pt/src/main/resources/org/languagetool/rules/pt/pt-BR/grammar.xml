@@ -911,13 +911,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern case_sensitive='yes'>
           <token negate_pos='yes' postag='SENT_START'/>
           <marker>
-            <token regexp='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
-            <token regexp='yes'>-|–|—</token>
-            <token regexp='yes'>[Ff]eiras?</token>
+            <token regexp='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?-[Ff]eiras?</token>
           </marker>
         </pattern>
         <message>Segundo o Acordo Ortográfico de 90, os dias da semana deixam de ser capitalizados.</message>
-        <suggestion><match no='2' case_conversion='alllower'/>-<match no='4' case_conversion='alllower'/></suggestion>
+        <suggestion><match no='2' case_conversion='alllower'/></suggestion>
         <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
         <example correction='segundas-feiras'>As <marker>Segundas-feiras</marker> são sempre difíceis.</example>
         <example>Segundas-feiras são sempre difíceis.</example>

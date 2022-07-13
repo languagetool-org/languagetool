@@ -190,12 +190,10 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(segunda|terça|quarta|quinta|sexta)s?|(seg|ter|qua|qui|sex)</token>
-          <token regexp='yes'>-|–|—</token>
-          <token regexp='yes'>[Ff]eiras?</token>
+        <token regexp='yes'>(segunda|terça|quarta|quinta|sexta)s?-[Ff]eiras?|(seg|ter|qua|qui|sex)-[Ff]eiras?</token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os dias da semana são capitalizados.</message>
-        <suggestion><match no='1' case_conversion='startupper'/>-\3</suggestion>
+        <suggestion><match no='1' case_conversion='startupper' regexp_match="Feira" regexp_replace="feira"/></suggestion>
       <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
       <example correction='Segundas-feiras'>As <marker>segundas-feiras</marker> são sempre difíceis.</example>
     <!--<example correction='Ter'>A última temporada estreou em <marker>ter</marker>, 27 Dez 2016.</example>--><!-- TODO seperate abrev and exclude ter -->

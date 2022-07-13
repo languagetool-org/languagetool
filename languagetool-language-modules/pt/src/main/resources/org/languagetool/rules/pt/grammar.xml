@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY meses_ano_abrev "(?:[Aa]br|[Aa]go|[Dd]ez|[Ff]ev|[Jj]an|[Jj]ul|[Jj]un|mai|mar|[Nn]ov|[Oo]ut|[Ss]et)">
     <!ENTITY meses_ano "(?:[Aa]bril|[Aa]gosto|[Dd]ezembro|[Ff]evereiro|[Jj]aneiro|[Jj]ulho|[Jj]unho|[Mm]aio|[Mm]arço|[Nn]ovembro|[Oo]utubro|[Ss]etembro)">
     <!ENTITY dias_semana_abrev "(?:[Ss]ex|[Ss]eg|[Ss]áb|[Dd]om|[Qq]ui|[Tt]er)">
-    <!ENTITY dias_semana "(?:[Dd]omingo|[Qq]uarta|[Qq]uinta|[Ss]ábado|[Ss]egunda|[Ss]exta|[Tt]erça)">
+    <!ENTITY dias_semana "(?:[Dd]omingo|[Qq]uarta(-feira)?|[Qq]uinta(-feira)?|[Ss]ábado|[Ss]egunda(-feira)?|[Ss]exta(-feira)?|[Tt]erça(-feira)?|(seg|ter|qua|qui|sex)-feira)">
     <!ENTITY partes_do_dia "madrugada|manhã|matina|noite|tarde">
     <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes">
 	<!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
@@ -10335,13 +10335,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token case_sensitive='no' regexp='yes'>(?:&dias_semana;|&meses_ano;|&meses_ano_abrev;)s?</token>
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token min='0'>feira</token>
-          <token>à</token>
+          <marker>
+            <token>à</token>  
+          </marker>
           <token case_sensitive='no' regexp='yes'>(?:&dias_semana;|&meses_ano;|&meses_ano_abrev;)s?</token>
         </pattern>
         <message>Neste contexto não se utiliza a crase.</message>
-        <suggestion><match no='1' include_skipped='all'/><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/> a \5</suggestion>
-        <example correction='segunda-feira a sexta'>A semana de trabalho é de <marker>segunda-feira à sexta</marker>-feira.</example>
-        <example correction='Junho a Setembro'>Os melhores meses para ir de férias é de <marker>Junho à Setembro</marker>.</example>
+        <suggestion>a</suggestion>
+        <example correction='a'>A semana de trabalho é de segunda-feira <marker>à</marker> sexta-feira.</example>
+        <example correction='a'>Os melhores meses para ir de férias é de Junho <marker>à</marker> Setembro.</example>
       </rule>
       <rule>
         <antipattern>
@@ -38297,17 +38299,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rule id='WEEKDAY_TO_WEEKDAY' name="Datas: redundâcia de '-feira'">
       <!--       Created by Tiago F. Santos,  2019-09-05      -->
       <pattern>
-        <token regexp='yes'>&dias_semana;</token>
-        <token regexp='yes' spacebefore='no'>&hifen;</token>
-        <token spacebefore='no'>feira</token>
+        <token regexp='yes'>.+-feira</token>
         <token regexp='yes'>a|à|e|,</token>
-        <token regexp='yes'>&dias_semana;
-          <exception regexp='yes'>sábado|domingo</exception></token>
-        <token regexp='yes' spacebefore='no'>&hifen;</token>
-        <token spacebefore='no'>feira</token>
+        <token regexp='yes'>.+-feira</token>
       </pattern>
       <message>Redundância não gramatical.</message>
-      <suggestion>\1 a \5\6\7</suggestion>
+      <suggestion><match no="1" regexp_match="(?iu)-feira" regexp_replace=""/> a \3</suggestion>
       <example correction="segunda a sexta-feira">Podem visitar o museu de <marker>segunda-feira a sexta-feira</marker>.</example>
     </rule>
 
@@ -38613,15 +38610,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
           <!-- "Segunda, 7 Outubro" -->
           <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
-          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
-          <token min='0'>feira</token>
           <token>,</token>
           <token regexp="yes">\d\d?</token>
           <token min='0'>de</token>
           <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
         </pattern>
-        <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
-        <message>Refere-se ao ano atual? \5 de \7, {currentYear} não é {day}, mas sim {realDay}.</message>
+        <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
+        <message>Refere-se ao ano atual? \3 de \5, {currentYear} não é {day}, mas sim {realDay}.</message>
         <example correction="">Festival Pop/Rock - <marker>Segunda-feira, 7 de Outubro</marker></example>
         <example correction="">Festival Pop/Rock - <marker>Seg, 7 Outubro</marker></example>
         <example correction="">Festival Pop/Rock - <marker>Seg, 7 Outubro</marker></example>
@@ -42149,7 +42144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>para</token>
           <marker>
             <token regexp='yes'>[ao]</token>
-            <token regexp='yes'>segunda|terça|quarta|quinta|sexta|sábado|domingo</token>
+            <token regexp='yes'>&dias_semana;</token>
             <token>de</token>
             <token>hoje</token>
           </marker>
@@ -42157,25 +42152,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <message>Esta perífrase poderá ser simplificada.</message>
         <suggestion><match no='2' postag='DA0(.)S0' postag_replace='DD0$1S0'>este</match> \3</suggestion>
         <example correction="este domingo">Quero isto para <marker>o domingo de hoje</marker>.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token>para</token>
-          <marker>
-            <token regexp='yes'>[ao]</token>
-            <token regexp='yes'>segunda|terça|quarta|quinta|sexta</token>
-            <token spacebefore='no' regexp='yes'>[-]</token>
-            <token spacebefore='no'>feira</token>
-            <token>de</token>
-            <token>hoje</token>
-          </marker>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion><match no='2' postag='DA0(.)S0' postag_replace='DD0$1S0'>este</match> \3\4\5</suggestion>
         <example correction="esta segunda-feira">Quero isto para <marker>a segunda-feira de hoje</marker>.</example>
       </rule>
-
     </rulegroup>
 
 
