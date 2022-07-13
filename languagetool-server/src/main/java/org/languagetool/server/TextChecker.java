@@ -262,8 +262,6 @@ abstract class TextChecker {
     String userAgent = httpExchange.getRequestHeaders().getFirst("User-Agent");
 
     if (!config.isAnonymousAccessAllowed() && limits.getPremiumUid() == null) {
-      databaseLogger.log(new DatabaseAccessLimitLogEntry("AnonymousAccessOnRestrictedServer", logServerId, agentId, userId,
-        "", referrer, userAgent));
       throw new AuthException("Anonymous access is prohibited on this server, please provide authentication.");
     }
 
@@ -273,7 +271,6 @@ abstract class TextChecker {
     }
     if (length > limits.getMaxTextLength()) {
       String msg = "limit: " + limits.getMaxTextLength() + ", size: " + length;
-      databaseLogger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, msg, referrer, userAgent));
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_TEXT_SIZE);
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + length + " characters). Please submit a shorter text.");
@@ -282,7 +279,7 @@ abstract class TextChecker {
     if (!config.isLocalApiMode()) {
       
     try {
-      RequestLimiter.checkUserLimit(referrer, userAgent, agentId, logServerId, limits);
+      RequestLimiter.checkUserLimit(referrer, userAgent, limits);
     } catch(TooManyRequestsException e) {
       String response = "Error: Access denied: " + e.getMessage();
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, response.getBytes(ENCODING).length);
@@ -500,7 +497,6 @@ abstract class TextChecker {
       future.cancel(true);
       if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
         ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.TOO_MANY_ERRORS);
-        databaseLogger.log(new DatabaseCheckErrorLogEntry("ErrorRateTooHigh", logServerId, agentId, userId, lang, detLang.getDetectedLanguage(), textSize, "matches: " + ruleMatchesSoFar.size()));
       }
       if (qParams.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
         log.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
@@ -538,8 +534,6 @@ abstract class TextChecker {
                 String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
       } else {
         ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);
-        databaseLogger.log(new DatabaseCheckErrorLogEntry("MaxCheckTimeExceeded",
-          logServerId, agentId, limits.getPremiumUid(), lang, detLang.getDetectedLanguage(), textSize, "load: "+ loadInfo));
         throw new RuntimeException(message, e);
       }
     }
@@ -652,8 +646,6 @@ abstract class TextChecker {
         if (limits.getRequestsPerDay() != null) {
           DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
             lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
-          logEntry.setRuleMatches(new DatabaseRuleMatchLogEntry(
-            config.isSkipLoggingRuleMatches() ? Collections.emptyMap() : ruleMatchCount));
           databaseLogger.log(logEntry);
         }
       }

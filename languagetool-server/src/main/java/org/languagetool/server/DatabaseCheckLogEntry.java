@@ -39,7 +39,6 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
   private final Long textSessionId;
   private final Calendar date;
   private final String checkMode;
-  private DatabaseRuleMatchLogEntry ruleMatches = null;
 
   public DatabaseCheckLogEntry(Long userId, Long client, Long server, int textSize, int matches,
                                Language lang, Language langDetected, int computationTime,
@@ -55,10 +54,6 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
     this.textSessionId = textSessionId;
     this.checkMode = checkMode;
     this.date = Calendar.getInstance();
-  }
-
-  public void setRuleMatches(DatabaseRuleMatchLogEntry entry) {
-    ruleMatches = entry;
   }
 
   @Override
@@ -84,17 +79,6 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
   @Override
   public String getMappingIdentifier() {
     return "org.languagetool.server.LogMapper.logCheck";
-  }
-
-  @Override
-  public DatabaseLogEntry followup() {
-    if (ruleMatches == null) {
-      throw new IllegalStateException("No rule matches provided for check_log entry: " + getMapping());
-    }
-    if (ruleMatches.getMatchCount() == 0) {
-      return null;
-    }
-    return ruleMatches;
   }
 
 }
