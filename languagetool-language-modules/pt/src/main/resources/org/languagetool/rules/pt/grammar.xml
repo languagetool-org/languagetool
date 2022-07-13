@@ -19160,6 +19160,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example type='correct'>O quê<marker>?!</marker></example>
       </rule>
       <rule>
+        <antipattern>
+          <token regexp='yes' skip='-1'>\d+|&operadores_matematicos;</token>
+          <token min='2'>-</token>
+          <example>38 -- 29</example>
+          <example>--[5]--</example>
+        </antipattern>
+        <antipattern>
+          <token min='2'>-</token>
+        <token regexp='yes' skip='-1'>\d+|&operadores_matematicos;</token>
+        <example>38 -- 29</example>
+        <example>--[5]--</example>
+        </antipattern>
+        <antipattern>
+          <token>-</token>
+          <token spacebefore='no' min='2'>-</token>
+        </antipattern>
+        <antipattern>
+          <token min='2'>-</token>
+          <token min='2'>-</token>
+        </antipattern>
         <pattern>
           <token>-</token>
           <token spacebefore='no'>-</token>
