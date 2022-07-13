@@ -108,7 +108,8 @@ class SingleDocument {
   private boolean isLastIntern = false;           //  true: last check was intern
   private boolean isRightButtonPressed = false;   //  true: right mouse Button was pressed
   private String lastSinglePara = null;           //  stores the last paragraph which is checked as single paragraph
-  private Language docLanguage = null;            //  Language used for check
+  private Language docLanguage;                   //  docLanguage (usually the Language of the first paragraph)
+  private final Language fixedLanguage;           //  fixed language (by configuration); if null: use language of document (given by LO/OO)
   private LanguageToolMenus ltMenus = null;       //  LT menus (tools menu and context menu)
 
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
@@ -127,6 +128,7 @@ class SingleDocument {
     }
     xComponent = xComp;
     mDocHandler = mDH;
+    fixedLanguage = config.getDefaultLanguage();
     changedParas = new HashMap<Integer, String>();
     setDokumentListener(xComponent);
     List<ResultCache> paraCache = new ArrayList<>();
@@ -215,8 +217,8 @@ class SingleDocument {
         if (docCursor == null) {
           docCursor = new DocumentCursorTools(xComponent);
         }
-        docCache.refresh(docCursor, flatPara, 
-            docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 6);
+        docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), 
+            LinguisticServices.getLocale(docLanguage),xComponent, 6);
       }
       resetDocCache = false;
     }
@@ -238,7 +240,7 @@ class SingleDocument {
       boolean isDialogRequest = (nPara >= 0 || (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT));
       
       CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara,
-          proofInfo, numParasToCheck, this, paragraphsCache, viewCursor, changedParas);
+          proofInfo, numParasToCheck, fixedLanguage, docLanguage, this, paragraphsCache, viewCursor, changedParas);
       long startTime = 0;
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
@@ -276,7 +278,7 @@ class SingleDocument {
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
       }
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, 
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage,
           docLanguage, ignoredMatches, numParasToCheck, isDialogRequest, isMouseRequest, isIntern);
       paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, lt, paraNum, 
           paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, lastChangedPara);
@@ -670,7 +672,8 @@ class SingleDocument {
    */
   public void runQueueEntry(TextParagraph nStart, TextParagraph nEnd, int cacheNum, int nCheck, boolean override, SwJLanguageTool lt) {
     if (!disposed && flatPara != null && docCache.isFinished() && nStart.number < docCache.textSize(nStart)) {
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false, false, false);
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara,
+          fixedLanguage, docLanguage, ignoredMatches, numParasToCheck, false, false, false);
       singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, 
           nEnd.number == nStart.number + 1, override, false, hasFootnotes);
     }
@@ -678,7 +681,8 @@ class SingleDocument {
   
   private void remarkChangedParagraphs(List<Integer> changedParas, boolean isIntern) {
     if (!disposed) {
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, docLanguage, ignoredMatches, numParasToCheck, false, false, isIntern);
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage, docLanguage, 
+          ignoredMatches, numParasToCheck, false, false, isIntern);
       if (docCursor == null) {
         docCursor = new DocumentCursorTools(xComponent);
       }

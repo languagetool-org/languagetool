@@ -60,11 +60,14 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.UserConfig;
 import org.languagetool.JLanguageTool.ParagraphHandling;
+import org.languagetool.gui.Configuration;
 import org.languagetool.gui.Tools;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.RemoteCheck;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import com.sun.star.beans.PropertyState;
@@ -140,6 +143,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private final ExtensionSpellChecker spellChecker;
   
   private SwJLanguageTool lt;
+  private SwJLanguageTool ltSpellChecker = null;
+  private Language lastSpellLanguage = null;
   private Language lastLanguage;
   private Locale locale;
   private int checkType = 0;
@@ -196,7 +201,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private void actualizeNonWriterDocumentCache(SingleDocument document) {
     if (docType != DocumentType.WRITER) {
       DocumentCache oldCache = new DocumentCache(docCache);
-      docCache.refresh(null, null, null, document.getXComponent(), 7);
+      docCache.refresh(null, null, null, null, document.getXComponent(), 7);
       if (!oldCache.isEmpty()) {
         boolean isSame = true;
         if (oldCache.size() != docCache.size()) {
@@ -224,7 +229,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       XComponent xComponent = document.getXComponent();
       DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
       DocumentCache oldCache = new DocumentCache(docCache);
-      docCache.refresh(docCursor, document.getFlatParagraphTools(), locale, xComponent, 8);
+      docCache.refresh(docCursor, document.getFlatParagraphTools(), 
+          LinguisticServices.getLocale(documents.getConfiguration().getDefaultLanguage()), locale, xComponent, 8);
       if (!oldCache.isEmpty() && !docCache.isEmpty()) {
         if (oldCache.size() != docCache.size()) {
           int from = 0;
@@ -316,7 +322,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       } else if (docCache.size() == 0) {
         XComponent xComponent = currentDocument.getXComponent();
         DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
-        docCache.refresh(docCursor, currentDocument.getFlatParagraphTools(), locale, xComponent, 8);
+        docCache.refresh(docCursor, currentDocument.getFlatParagraphTools(), 
+            LinguisticServices.getLocale(documents.getConfiguration().getDefaultLanguage()), locale, xComponent, 8);
       } else if (actualize) {
         actualizeWriterDocumentCache(currentDocument);
       }
@@ -445,9 +452,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
       DocumentCursorTools docTools) throws Throwable {
     String text = docCache.getFlatParagraph(nFPara);
     locale = docCache.getFlatParagraphLocale(nFPara);
+//    MessageHandler.printToLogFile("CheckDialog: getNextErrorInParagraph(" + nFPara + ", 1): locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale)));
     if (locale.Language.equals("zxx")) { // unknown Language 
       locale = documents.getLocale();
     }
+//    MessageHandler.printToLogFile("CheckDialog: getNextErrorInParagraph(" + nFPara + ", 2): locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale)));
     int[] footnotePosition = docCache.getFlatParagraphFootnotes(nFPara);
 
     CheckError sError = null;
@@ -458,6 +467,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (checkType != 1) {
       gError = getNextGrammatikErrorInParagraph(x, nFPara, text, footnotePosition, locale, document);
     }
+//    MessageHandler.printToLogFile("CheckDialog: getNextErrorInParagraph(" + nFPara + ", 3): locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale)));
     if (sError != null) {
       if (gError != null && gError.nErrorStart < sError.error.nErrorStart) {
         return new CheckError(locale, gError);
@@ -476,11 +486,14 @@ public class SpellAndGrammarCheckDialog extends Thread {
    */
   private CheckError getNextSpellErrorInParagraph (int x, int nPara, String text, Locale locale, SingleDocument document) throws Throwable {
     List<CheckError> spellErrors;
+/*
     if (lt.isRemote()) {
       spellErrors = getRemoteSpellErrorInParagraph(nPara, text, locale, document);
     } else {
       spellErrors = spellChecker.getSpellErrors(nPara, text, locale, document);
     }
+*/
+    spellErrors = getSpellErrorInParagraph(nPara, text, locale, document);
     if (spellErrors != null) {
       for (CheckError spellError : spellErrors) {
         if (spellError.error != null && spellError.error.nErrorStart >= x) {
@@ -497,12 +510,28 @@ public class SpellAndGrammarCheckDialog extends Thread {
   /**
    * Get the first grammatical error in the flat paragraph y at or after character position x
    */
-  private List<CheckError> getRemoteSpellErrorInParagraph(int nPara, String text, Locale locale, SingleDocument document) throws Throwable {
+  private List<CheckError> getSpellErrorInParagraph(int nPara, String text, Locale locale, SingleDocument document) throws Throwable {
     if (text == null || text.isEmpty()) {
       return null;
     }
     List<CheckError> errorArray = new ArrayList<CheckError>();
-    List<RuleMatch> matches = lt.check(text, true, ParagraphHandling.ONLYNONPARA, RemoteCheck.ONLY_SPELL);
+    List<RuleMatch> matches;
+    if (lt.isRemote()) {
+      matches = lt.check(text, true, ParagraphHandling.ONLYNONPARA, RemoteCheck.ONLY_SPELL);
+    } else {
+      Language language = documents.getLanguage(locale);
+      if (ltSpellChecker == null || lastLanguage == null || !lastSpellLanguage.equals(language)) {
+        lastSpellLanguage = language;
+        Configuration config = documents.getConfiguration();
+        ltSpellChecker = new SwJLanguageTool(language, config.getMotherTongue(), null, config, null, false);
+        for (Rule rule : ltSpellChecker.getAllActiveOfficeRules()) {
+          if (!rule.isDictionaryBasedSpellingRule()) {
+            ltSpellChecker.disableRule(rule.getId());
+          }
+        }
+      }
+      matches = ltSpellChecker.check(text, true, ParagraphHandling.ONLYNONPARA, RemoteCheck.ONLY_SPELL);
+    }
     for (RuleMatch match : matches) {
       String word = text.substring(match.getFromPos(), match.getToPos());
       if (!document.isIgnoreOnce(match.getFromPos(), match.getToPos(), nPara, spellRuleId)
@@ -851,7 +880,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private List<UndoContainer> undoList;
     private Locale locale;
 
-    private Object checkWakeup = new Object();
+//    private Object checkWakeup = new Object();
 
     /**
      * the constructor of the class creates all elements of the dialog
@@ -1486,6 +1515,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
         }
         error = checkError == null ? null : checkError.error;
         locale = checkError == null ? null : checkError.locale;
+//        MessageHandler.printToLogFile("CheckDialog: findNextError: locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale)));
+        
         dialog.setEnabled(true);
         help.setEnabled(true);
         options.setEnabled(true);
@@ -1528,6 +1559,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             MessageHandler.printToLogFile("CheckDialog: findNextError: LT language == null");
           }
           lastLang = lang.getTranslatedName(messages);
+//          MessageHandler.printToLogFile("CheckDialog: findNextError: lang: " + lang.getShortCodeWithCountryAndVariant() + "; translated: " + lastLang);
           language.setEnabled(true);
           language.setSelectedItem(lang.getTranslatedName(messages));
           if (debugMode) {
@@ -1848,7 +1880,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         documents.setLtDialog(null);
         documents.setLtDialogIsRunning(false);
         isRunning = false;
-        gotoNextError();
+//        gotoNextError();
       }
       dialog.setVisible(false);
     }

@@ -54,7 +54,8 @@ class CheckRequestAnalysis {
   private final MultiDocumentsHandler mDocHandler;  //  handles the different documents loaded in LO/OO
   private final SingleDocument singleDocument;      //  handles one document
   private final List<Integer> minToCheckPara;       //  List of minimal to check paragraphs for different classes of text level rules
-  private final Language docLanguage;               //  fixed language (by configuration); if null: use language of document (given by LO/OO)
+  private final Language docLanguage;               //  docLanguage (usually the Language of the first paragraph)
+  private final Language fixedLanguage;             //  fixed language (by configuration); if null: use language of document (given by LO/OO)
   private final boolean useQueue;                   //  true: use queue to check text level rules (given by configuration)
   private final DocumentType docType;               //  save the type of document
   private final int proofInfo;                      //  Information about proof request (supported by LO > 6.4 otherwise: 0 == UNKNOWN)
@@ -73,7 +74,7 @@ class CheckRequestAnalysis {
   private int numParasToChange = -1;                //  Number of paragraphs to change for n-paragraph cache
   private int paraNum;                              //  Number of current checked paragraph
 
-  CheckRequestAnalysis(int numLastVCPara, int numLastFlPara, int proofInfo, int numParasToCheck,
+  CheckRequestAnalysis(int numLastVCPara, int numLastFlPara, int proofInfo, int numParasToCheck, Language fixedLanguage, Language docLanguage,
       SingleDocument singleDocument, List<ResultCache> paragraphsCache, ViewCursorTools viewCursor, Map<Integer, String> changedParas) {
     debugMode = OfficeTools.DEBUG_MODE_CR;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
@@ -84,6 +85,8 @@ class CheckRequestAnalysis {
     this.proofInfo = proofInfo;
     this.paragraphsCache = paragraphsCache;
     this.changedParas = changedParas;
+    this.fixedLanguage = fixedLanguage;
+    this.docLanguage = docLanguage;
     mDocHandler = singleDocument.getMultiDocumentsHandler();
     xContext = mDocHandler.getContext();
     xComponent = singleDocument.getXComponent();
@@ -93,7 +96,6 @@ class CheckRequestAnalysis {
     docCache = singleDocument.getDocumentCache();
     flatPara = singleDocument.getFlatParagraphTools();
     Configuration config = mDocHandler.getConfiguration();
-    docLanguage = config.getUseDocLanguage() ? null : singleDocument.getLanguage();
     this.numParasToCheck = mDocHandler.isTestMode() ? 0 : numParasToCheck;
     useQueue = (numParasToCheck != 0 && proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && config.useTextLevelQueue());
     for (int minPara : minToCheckPara) {
@@ -128,7 +130,7 @@ class CheckRequestAnalysis {
     setFlatParagraphTools(xComponent);
     if (docCache.isEmpty()) {
       docCursor = new DocumentCursorTools(xComponent);
-      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 1);
+      docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 1);
       if (debugMode > 0) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: actualizeDocumentCache: resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
@@ -402,7 +404,7 @@ class CheckRequestAnalysis {
       startTime = System.currentTimeMillis();
     }
     if (docType != DocumentType.WRITER && docCache.isEmpty()) {
-      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 3);
+      docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 3);
     }
 
     if (nPara >= 0) {
@@ -419,7 +421,7 @@ class CheckRequestAnalysis {
 
     if (docCache.isEmpty()) {
       docCursor = new DocumentCursorTools(xComponent);
-      docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 4);
+      docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 4);
       if (debugMode > 0) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
@@ -772,7 +774,7 @@ class CheckRequestAnalysis {
 //    if (docCursor == null) {
 //      docCursor = new DocumentCursorTools(xComponent);
 //    }
-    docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 5);
+    docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 5);
     if (docCache.isEmpty() || isDisposed()) {
       return -1;
     }

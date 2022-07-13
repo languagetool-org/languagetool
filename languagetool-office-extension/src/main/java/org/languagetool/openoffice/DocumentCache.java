@@ -77,12 +77,12 @@ public class DocumentCache implements Serializable {
     this.docType = docType;
   }
 
-  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale,
+  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale fixedLocale, Locale docLocale,
       XComponent xComponent, DocumentType docType) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
     this.docType = docType;
-    refresh(docCursor, flatPara, docLocale, xComponent, 0);
+    refresh(docCursor, flatPara, fixedLocale, docLocale, xComponent, 0);
   }
 
   DocumentCache(DocumentCache in) {
@@ -125,8 +125,8 @@ public class DocumentCache implements Serializable {
   /**
    * Refresh the cache
    */
-  public void refresh(DocumentCursorTools docCursor, FlatParagraphTools flatPara
-      , Locale docLocale, XComponent xComponent, int fromWhere) {
+  public void refresh(DocumentCursorTools docCursor, FlatParagraphTools flatPara,
+      Locale fixedLocale, Locale docLocale, XComponent xComponent, int fromWhere) {
     if (isReset) {
       return;
     }
@@ -137,7 +137,7 @@ public class DocumentCache implements Serializable {
     if (docType != DocumentType.WRITER) {
       refreshImpressCalcCache(xComponent);
     } else {
-      refreshWriterCache(docCursor, flatPara, docLocale, fromWhere);
+      refreshWriterCache(docCursor, flatPara, fixedLocale, docLocale, fromWhere);
     }
     isReset = false;
   }
@@ -146,7 +146,8 @@ public class DocumentCache implements Serializable {
    * reset the document cache load the actual state of the document into the cache
    * is only used for writer documents
    */
-  private void refreshWriterCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale, int fromWhere) {
+  private void refreshWriterCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, 
+      Locale fixedLocale, Locale docLocale, int fromWhere) {
     try {
       long startTime = System.currentTimeMillis();
       List<String> paragraphs = new ArrayList<String>();
@@ -169,6 +170,11 @@ public class DocumentCache implements Serializable {
       documentTexts.set(CURSOR_TYPE_FOOTNOTE, docCursor.getTextOfAllFootnotes());
       documentTexts.set(CURSOR_TYPE_ENDNOTE, docCursor.getTextOfAllEndnotes());
       documentTexts.set(CURSOR_TYPE_HEADER_FOOTER, docCursor.getTextOfAllHeadersAndFooters());
+      for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+        if(documentTexts.get(i) == null) {
+          documentTexts.set(i, docCursor.new DocumentText());
+        }
+      }
       nText = documentTexts.get(CURSOR_TYPE_TEXT).paragraphs.size();
       nTable = documentTexts.get(CURSOR_TYPE_TABLE).paragraphs.size();
       nFootnote = documentTexts.get(CURSOR_TYPE_FOOTNOTE).paragraphs.size();
@@ -193,7 +199,7 @@ public class DocumentCache implements Serializable {
           chapterBegins.add(documentText.headingNumbers);
           deletedChars.add(documentText.deletedCharacters);
         }
-        paragraphContainer = flatPara.getAllFlatParagraphs(docLocale);
+        paragraphContainer = flatPara.getAllFlatParagraphs(fixedLocale);
         if (paragraphContainer == null) {
           MessageHandler.printToLogFile(
               "WARNING: DocumentCache: refresh: paragraphContainer == null - ParagraphCache not initialised");
@@ -383,6 +389,11 @@ public class DocumentCache implements Serializable {
         MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of locales: " + locales.size());
         MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Number of Deleted Chars: " + deletedCharacters.size());
       }
+/*
+      for (int i = 0; i < locales.size(); i++) {
+        MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Num: " + i + " locale: " + locales.get(i).toString());
+      }
+*/
     }
   }
 
@@ -934,7 +945,14 @@ public class DocumentCache implements Serializable {
     }
 
     /**
-     * return the language as Locale without multilingual label
+     *  Get a String from SerialLocale
+     */
+    public String toString() {
+      return Language + (Country.isEmpty() ? "" : "-" + Country) + (Variant.isEmpty() ? "" : "-" + Variant);
+    }
+
+    /**
+     * return the Locale as String
      */
     Locale toLocaleWithoutLabel() {
       if (Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {

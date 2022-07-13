@@ -238,7 +238,7 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  public FlatParagraphContainer getAllFlatParagraphs(Locale docLocale) {
+  public FlatParagraphContainer getAllFlatParagraphs(Locale fixedLocale) {
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -258,7 +258,7 @@ public class FlatParagraphTools {
         allParas.add(0, text);
         footnotePositions.add(0, getPropertyValues("FootnotePositions", tmpFlatPara));
         // add just one local for the whole paragraph
-        locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, docLocale, locale, false);
+        locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, fixedLocale, locale, false);
         locales.add(0, locale);
         tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
       }
@@ -268,7 +268,7 @@ public class FlatParagraphTools {
         int len = text.length();
         allParas.add(text);
         footnotePositions.add(getPropertyValues("FootnotePositions", tmpFlatPara));
-        locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, docLocale, locale, false);
+        locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, fixedLocale, locale, false);
         locales.add(locale);
         if (debugMode) {
           printPropertyValueInfo(tmpFlatPara);
@@ -317,10 +317,10 @@ public class FlatParagraphTools {
    * Get the main language of paragraph 
    * @throws IllegalArgumentException 
    */
-  public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale docLocale, 
+  public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale fixedLocale, 
       Locale lastLocale, boolean onlyPrimary) throws IllegalArgumentException {
-    if (docLocale != null) {
-      return docLocale;
+    if (fixedLocale != null) {
+      return fixedLocale;
     }
     if (len == 0 && lastLocale != null) {
       return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 

@@ -727,6 +727,12 @@ class DocumentCursorTools {
     List<Integer> headingNumbers;
     List<List<Integer>> deletedCharacters;
     
+    DocumentText() {
+      this.paragraphs = new ArrayList<String>();
+      this.headingNumbers = new ArrayList<Integer>();
+      this.deletedCharacters = new ArrayList<List<Integer>>();
+    }
+    
     DocumentText(List<String> paragraphs, List<Integer> headingNumbers, List<List<Integer>> deletedCharacters) {
       this.paragraphs = paragraphs;
       this.headingNumbers = headingNumbers;

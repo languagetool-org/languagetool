@@ -211,6 +211,9 @@ public class LinguisticServices extends LinguServices {
    * Get a Locale from a LT defined language
    */
   public static Locale getLocale(Language lang) {
+    if (lang == null) {
+      return null;
+    }
     Locale locale = new Locale();
     locale.Language = lang.getShortCode();
     if ((lang.getCountries() == null || lang.getCountries().length != 1) && lang.getDefaultLanguageVariant() != null) {

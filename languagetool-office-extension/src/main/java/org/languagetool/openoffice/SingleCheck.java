@@ -85,7 +85,8 @@ class SingleCheck {
   private final boolean isMouseRequest;             //  true: check was initiated by right mouse click
   private final boolean isIntern;                   //  true: check was initiated by intern check dialog
   private final boolean useQueue;                   //  true: use queue to check text level rules (will be overridden by config)
-  private final Language docLanguage;               //  Language used for check
+  private final Language docLanguage;               //  docLanguage (usually the Language of the first paragraph)
+  private final Language fixedLanguage;             //  fixed language (by configuration); if null: use language of document (given by LO/OO)
   private final IgnoredMatches ignoredMatches;      //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
   private DocumentCursorTools docCursor;            //  Save document cursor for the single document
   private FlatParagraphTools flatPara;              //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
@@ -97,7 +98,7 @@ class SingleCheck {
   private List<Integer> changedParas;               //  List of changed paragraphs after editing the document
   
   SingleCheck(SingleDocument singleDocument, List<ResultCache> paragraphsCache, DocumentCursorTools docCursor,
-      FlatParagraphTools flatPara, Language docLanguage, IgnoredMatches ignoredMatches, 
+      FlatParagraphTools flatPara, Language fixedLanguage, Language docLanguage, IgnoredMatches ignoredMatches, 
       int numParasToCheck, boolean isDialogRequest, boolean isMouseRequest, boolean isIntern) {
     debugMode = OfficeTools.DEBUG_MODE_SC;
     this.singleDocument = singleDocument;
@@ -109,6 +110,7 @@ class SingleCheck {
     this.isMouseRequest = isMouseRequest;
     this.isIntern = isIntern;
     this.docLanguage = docLanguage;
+    this.fixedLanguage = fixedLanguage;
     this.ignoredMatches = ignoredMatches;
     mDocHandler = singleDocument.getMultiDocumentsHandler();
     xComponent = singleDocument.getXComponent();
@@ -203,8 +205,8 @@ class SingleCheck {
         if (docCursor == null) {
           docCursor = new DocumentCursorTools(xComponent);
         }
-        this.docCache.refresh(docCursor, flatPara, 
-            docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 7);
+        this.docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), 
+            LinguisticServices.getLocale(docLanguage), xComponent, 7);
         docCache = new DocumentCache(this.docCache);
         tPara = docCache.getNumberOfTextParagraph(nFPara);
         if (tPara.type < 0 || tPara.number < 0) {
