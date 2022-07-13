@@ -2312,20 +2312,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="освічений"><marker>освідчений</marker> політик</example>
     </rule>
 
-    <rule id="pryiniaty_v_shtyky" name="прийняти в штики">
-      <pattern>
-        <token inflected="yes" regexp="yes">прийняти|приймати|приймаючи|приймавши</token>
-        <token postag_regexp="yes" postag="noun:.*v_zna.*pron.*" min="0"/>
-        <marker>
-          <token regexp="yes">[ву]</token>
-          <token>штики</token>
-        </marker>
-      </pattern>
-      <message>Краще: <suggestion>\3 багнети</suggestion></message>
-      <suggestion>багнетами</suggestion>
-      <example correction="у багнети|багнетами">він приймав <marker>у штики</marker>.</example>
-      <example correction="у багнети|багнетами">він приймав це <marker>у штики</marker>.</example>
-    </rule>
+    <rulegroup id="pryiniaty_v_shtyky" name="прийняти в штики">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">прийняти|приймати|приймаючи|приймавши</token>
+          <token postag_regexp="yes" postag="noun:.*v_zna.*pron.*" min="0"/>
+          <marker>
+            <token regexp="yes">[ву]</token>
+            <token>штики</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>\3 багнети</suggestion></message>
+        <suggestion>багнетами</suggestion>
+        <example correction="у багнети|багнетами">він приймав <marker>у штики</marker>.</example>
+        <example correction="у багнети|багнетами">він приймав це <marker>у штики</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]</token>
+            <token>штики</token>
+          </marker>
+          <token inflected="yes" regexp="yes">прийняти|приймати|приймаючи|приймавши</token>
+        </pattern>
+        <message>Краще: <suggestion>\1 багнети</suggestion></message>
+        <suggestion>багнетами</suggestion>
+        <example correction="у багнети|багнетами">він <marker>у штики</marker> приймав усе</example>
+      </rule>
+    </rulegroup>
 
     <rule id="knyzhnyi_knyzhkovyi" name="Книжний і книжковий">
       <pattern>
@@ -3446,6 +3461,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="перепрошувати|просити вибачення">Я <marker>вибачився</marker> і пішов.</example>
         <example>Я вибачаюсь і йду</example>
       </rule>
+    </rulegroup>
+
+    <rulegroup id="hiena_heena" name="Гієна та геєна">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">в?огненний|в?огняний|вічний|лютий|в|у</token>
+          <marker>
+            <token inflected="yes">гієна</token>
+          </marker>
+        </pattern>
+        <message>Можливо: <suggestion>геєна</suggestion>?</message>
+        <example correction="геєна">в люту <marker>гієну</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">гієна</token>
+          </marker>
+          <token regexp="yes" inflected="yes">в?огненний|в?огняний|вічний|лютий</token>
+        </pattern>
+        <message>Можливо: <suggestion>геєна</suggestion>?</message>
+        <example correction="геєна">в <marker>гієну</marker> люту.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">смердючий|голодний|дикий|підступний|виття|зграя|сміх|сміятися</token>
+          <marker>
+            <token inflected="yes">геєна</token>
+          </marker>
+        </pattern>
+        <message>Можливо: <suggestion>гієна</suggestion>?</message>
+        <example correction="гієна">сміх <marker>геєни</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">геєна</token>
+          </marker>
+          <token regexp="yes" inflected="yes">смердючий|голодний|дикий|підступний|сміятися|вити</token>
+        </pattern>
+        <message>Можливо: <suggestion>гієна</suggestion>?</message>
+        <example correction="гієна"><marker>геєна</marker> сміється.</example>
+      </rule>
+
     </rulegroup>
 
 <!--
