@@ -9393,6 +9393,16 @@ RB => Règles Brutes
         <disambig action="filter" postag="V.*"/>
     </rule>
     <!-- CATEGORY: complementary rules -->
+    <rule name="abréviation point" id="ABREVIATION_POINT">
+    <pattern>
+    <token regexp="yes">[a-z][a-z][a-z]?</token>
+    <token spacebefore="no" regexp="yes">[\.\-]</token>
+    <token regexp="yes">[a-z][a-z][a-z]?</token>
+    <token spacebefore="no">.</token>
+    <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+    </pattern>
+        <disambig action="remove" postag="SENT_END"/>
+    </rule>
     <rulegroup id="NOMS_EPICENES" name="noms épicènes">
         <antipattern>
             <token>(</token>
