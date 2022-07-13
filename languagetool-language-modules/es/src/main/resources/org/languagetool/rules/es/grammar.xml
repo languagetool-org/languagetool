@@ -17792,6 +17792,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AGREEMENT_POSTPONED_ADJ" name="concordancia de adjetivo pospuesto a sustantivos">
             <antipattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">comparar</token>
+                    <unify-ignore>
+                        <token>con</token>
+                        <token min="0" regexp="yes">\p{P}</token>
+                    </unify-ignore>
+                    <token postag="[DA].*" postag_regexp="yes"/>
+                </unify>
+                <example>Son de simple aficionado comparadas con (algunas) organizaciones de taxistas.</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">verde|azul|amarillo|rojo|marrón|negro|blanco</token>
                 <token regexp="yes">claro|ob?scuro|marino</token>
                 <example>Lleva una camisa verde oscuro</example>
