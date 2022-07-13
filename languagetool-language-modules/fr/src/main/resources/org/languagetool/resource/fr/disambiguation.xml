@@ -2809,8 +2809,15 @@ RB => Règles Brutes
     </rule>
     <rule name="dimensions produit" id="DIMENSIONS_PRODUIT">
         <pattern>
-            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">connaissance|fiches?|actus?|affichages?|informations?|démos?|tables?|exploitations?|équipes?|qualités?|expériences?|top|innovation|expiration|nouveauté|dimension|fiche|retour|photo|recherche|image|page</token>
-            <token postag="N.*" postag_regexp="yes" regexp="yes">produits?</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">connaissance|expertises?|références?|figurations?|test|cessions?|fiches?|actus?|affichages?|informations?|démos?|tables?|exploitations?|équipes?|qualités?|expériences?|top|innovation|expiration|nouveauté|dimension|fiche|retour|photo|recherche|image|page</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">produits?|marchés?|droit</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="expérience candidat" id="EXPERIENCE_CANDIDAT">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">expériences?|pages?|candidatures?</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">candidate?s?</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -2936,7 +2943,7 @@ RB => Règles Brutes
     </rule>
     <rule name="atelier découverte" id="ATELIR_DECOUVERTE">
         <pattern>
-            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">atelier|stage|vol|parcours|achat|offre|mention|promotion|séjour|voyage</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">atelier|stage|entretien|vol|parcours|achat|offre|mention|promotion|séjour|voyage</token>
             <token postag="N.*" postag_regexp="yes" inflected="yes">découverte</token>
         </pattern>
         <disambig action="filterall"/>
