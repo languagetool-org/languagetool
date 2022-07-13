@@ -2384,6 +2384,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="chy_chy" name="Кома: чи ... чи">
+      <rule>
+        <pattern>
+          <token>чи</token>
+          <token max="5"><exception regexp="yes">[,;:-]|чи</exception></token>
+          <marker>
+            <token>чи</token>
+          </marker>
+        </pattern>
+        <message>Перед повторюваним сполучником чи ставимо кому</message>
+        <suggestion>, \3</suggestion>
+        <example correction=", чи">чи літо<marker> чи</marker> зима.</example>
+        <example correction=", чи">чи холодне літо<marker> чи</marker> зима.</example>
+        <example><marker>чи холодне літо; чи вже прилетіли птахи</marker> зима.</example>
+      </rule>
+    </rulegroup>
+
   <!-- 
       <rule>
         <pattern>

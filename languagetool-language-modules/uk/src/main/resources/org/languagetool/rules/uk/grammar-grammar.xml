@@ -2293,6 +2293,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
 
     </rulegroup>
+
+    <rulegroup id="adres_adresa" name="адреса і адрес">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="adj:m:v_(naz|zna).*pron:pos"/>
+          <marker>
+            <token>адрес</token>
+          </marker>
+        </pattern>
+        <message>Можливо, ви мали на увазі <suggestion>адреса</suggestion></message>
+        <example correction="адреса">дав йому свій <marker>адрес</marker>.</example>
+        <example>дав йому свою адресу</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">домашній|електронний|поштовий|зворотний|теперіншій</token>
+          <marker>
+            <token>адрес</token>
+          </marker>
+        </pattern>
+        <message>Можливо, ви мали на увазі <suggestion>адреса</suggestion></message>
+        <example correction="адреса">дав йому домашній <marker>адрес</marker>.</example>
+        <example>дав йому поштових адрес</example>
+      </rule>
+<!-- TODO: needs dictionary update
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token postag_regexp="yes" postag="adj:m:(?!.*pron:pos).*"/>
+            <marker>
+              <token inflected="yes">адрес</token>
+            </marker>
+          </unify>
+        </pattern>
+        <message>Можливо, ви мали на увазі <suggestion>адреса</suggestion></message>
+        <example correction="адреса">дав йому домашній <marker>адрес</marker>.</example>
+        <example>на домашній <marker>адресі</marker>.</example>
+      </rule>
+-->
+    </rulegroup>
+
   </category>
 
 </rules>
