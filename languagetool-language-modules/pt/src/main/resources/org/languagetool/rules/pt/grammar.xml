@@ -1648,15 +1648,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *END* -->
-        <!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *START* -->
-        <!--
-        Dez funções da inteligência multifocal.
-        -->
-        <antipattern>
-          <token postag='Z0CP0'/>
-          <token postag='NC.+|NP.+|AQ0.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *START* -->
         <!--
         Autentifique-se com a sua conta LanguageTool.
@@ -2114,12 +2105,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-05-05 *START* -->
-        <!-- "Isto cabe a todas nós." -->
-        <antipattern>
-          <token postag='DI0FP0'/>
-          <token postag='PP1CP000'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-05-05 *END* -->
         <!-- MARCOAGPINTO 2020-07-19 (2-JUL-2020+) *START* -->
         <!-- "De acordo com as equações por nós implementadas." -->
         <antipattern>
@@ -2154,15 +2139,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ0[CM]P0' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-07-19 (2-JUL-2020+) *END* -->
-        <!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *START* -->
-        <!--
-        Dez funções da inteligência multifocal.
-        -->
-        <antipattern>
-          <token postag='Z0CP0'/>
-          <token postag='NC.+|NP.+|AQ0.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-01-13 (1-JAN-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *START* -->
         <!--
         Autentifique-se com a sua conta LanguageTool.
@@ -2193,6 +2169,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='NP.+' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-13 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token postag='[DP][ADIPR].[CF].+|SPS00:[DP][ADIPR].[CF].+' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+          <token postag='V.+|[DP][ADIPR].[CF].+|SPS00:[DP][ADIPR].[CF].+|Z0[CF].+|RG' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RG' postag_regexp='no'/>
+          <token postag='_PUNCT|[DP][ADIPR].[CF].+|SPS00:[DP][ADIPR].[CF].+|AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+          <example>Eu entendo que o excesso de cuidado vem de um medo que todas nós temos.</example>
+          <example>Todas nós sentimos a tua falta.</example>
+          <example>Este prêmio é para todas nós três.</example>
+          <example>Todas nós estamos solteiras.</example>
+          <example>Todas nós sentimos saudade de você.</example>
+          <example>E todas nós, em silêncio, começamos a googla-lo.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-13 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+		
         <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;</token>
           <marker>
