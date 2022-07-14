@@ -336,7 +336,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
   <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-    <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="temp_off">
+    <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="on">
       <antipattern>
         <token>,</token>
         <token>mais</token>
@@ -42877,9 +42877,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
-    <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" type="style" tags="picky">
+    <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="temp_off" type="style" tags="picky">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29/30 + 2021-07-02 + 2021-10-31 (25-JUN-2021+)      -->
-
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes' min='0'>&aspas;|'|"</token>
+        <token regexp='yes'>miau|auau</token>
+        <token regexp='yes' min='0'>&aspas;|'|"</token>
+        <example>O gato faz "miau".</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='SPS00'/>
+        <example>Fiz daquilo o meu lema.</example>
+        <example>Meu objetivo é fazer dos mares o meu lar.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes' min='0'>um|algum</token>
+        <token inflected='yes'>dinheiro</token>
+      </antipattern>
       <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *START* -->
       <!--
       Hoje faz 21 anos que entrei para a empresa.
@@ -43159,11 +43176,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!</example>
         <example>O que faz uma piada ser uma piada?</example>
       </rule>
-      <rule>
         <!--
         Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
         -->
-        <pattern>
+      <rule>
+         <antipattern>
+          <marker>
+            <token inflected='yes'>fazer</token>
+          </marker>
+            <token regexp='yes'>um|algum</token>
+            <token inflected='yes'>dinheiro</token>
+            <example>Vou fazer algum dinheiro com a pesquisa.</example>
+         </antipattern>
+         <pattern>
           <marker>
             <token inflected='yes'>fazer</token>
           </marker>
