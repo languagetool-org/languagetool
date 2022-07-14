@@ -1679,26 +1679,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='NP.+' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2021-04-15 (17-MAR-2021+) *END* -->
-        <!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *START* -->
-        <!--
-        Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.
-        Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.
-        -->
-        <antipattern>
-          <token/>
-          <token regexp='yes'>vários?</token>
-          <token postag='AQ0[CM].+|NC[CM].+' postag_regexp='yes'/>
-        </antipattern>
-        <!--
-        Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.
-        Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.
-        -->
-        <antipattern>
-          <token/>
-          <token regexp='yes'>várias?</token>
-          <token postag='AQ0[CF].+|NC[CF].+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-08-27 (25-JUN-2021+) *START* -->
         <!--
         A sua adopção no Pentium foi uma novidade significativa na linha da plataforma x86 que até então era totalmente CISC.
@@ -1896,6 +1876,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-11 (Checked/Enhanced) (5-JUN-2022+) *START* -->
 
+        <!-- MARCOAGPINTO 2022-07-15 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp='yes'/>
+          <token postag='AQ.[CF].+|NC[CF].+|VMP00.F' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
+          <token postag='AQ.[CM].+|NC[CM].+|VMP00.M' postag_regexp='yes'/>
+          <example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
+          <example>Também consta na sua lista vários trabalhos na televisão e participações em videoclipes musicais.</example>
+          <example>...s, social e economicamente, apresentavam maior condensação de massa cinzenta numa região do cérebro chamada cíngulo anterior.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-15 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
         <pattern>
           <token/> <!-- MARCOAGPINTO - The other "so clever" fix I used in the line below in 2019 caught fewer errors - 2022-07-12 -->
 <!--          <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <- MARCOAGPINTO 2019-12-31 -> -->
@@ -1950,11 +1942,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>A bacia Beethoven tem um tamanho similar de material ejetado e uma borda de 625 km de diâmetro.</example>
         <example>Durante a dinastia Ming (no início do século XV) havia a Cidade Proibida no centro de Pequim.</example>
         <example>A própria Jane escreveu a carta.</example>
-
-        <example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
-        <example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
-        <example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
-        <example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
 
         <example>A sua adopção no Pentium foi uma novidade significativa na linha da plataforma x86 que até então era totalmente CISC.</example>
 
