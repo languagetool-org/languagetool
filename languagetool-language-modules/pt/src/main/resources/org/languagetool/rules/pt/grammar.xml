@@ -17109,7 +17109,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example correction="deixe ninguém usá-la">Não <marker>deixe ninguém, usá-la</marker> com você e ganhar o jogo.</example>
     </rule>
 
-    <rulegroup id='VERB_COMMA_CONJUNCTION' name="Locuções entre vírgulas: portanto, por exemplo, na verdade">
+    <rulegroup id='VERB_COMMA_CONJUNCTION' name="Locuções entre vírgulas: portanto, por exemplo, na verdade" default='temp_off'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
       <!-- <url>http://www.lpeu.com.br/q/v73qc</url>               -->
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/a-virgula-em-4-regras-simples/3191</url>
@@ -17621,17 +17621,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes'>&quot;</token>
           <token spacebefore='no'>no</token>
         </antipattern>
+        <antipattern>
+          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+          <token>no</token>
+          <token>entanto</token>
+          <example>No entanto, os problemas não afetaram os resultados.</example>
+          <example>Não foi, no entanto, algo que afetou os resultados.</example>
+        </antipattern>
         <pattern>
-          <token>
-            <exception regexp="yes">“|«</exception>
-            <exception regexp='yes'>&separadores_de_oracoes;</exception>
-            <exception postag='SENT_START'/></token>
           <token>no</token>
           <token>entanto</token>
         </pattern>
         <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
-        <suggestion>\1, <match no='2' case_conversion="preserve"/> \3</suggestion>
-        <example correction="mas, no entanto">Foi feito com distinção <marker>mas no entanto</marker>, que não está bem feito.</example>
+        <suggestion>, no entanto</suggestion>
+        <example correction=", no entanto">Foi feito com distinção mas<marker> no entanto</marker>, que não está bem feito.</example>
       </rule>
       <rule>
         <antipattern>
@@ -17812,6 +17815,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token>mas</token>
           <token>também</token>
+        </antipattern>
+        <antipattern>
+            <token>,</token>
+            <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
+            <token>,</token>
         </antipattern>
         <pattern>
           <marker>
@@ -18063,7 +18071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
           <token>
             <exception regexp='yes'>de|estufa</exception>
-            <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
+            <exception postag_regexp='yes' postag="_PUNCT|AQ.+'"/></token>
         </pattern>
         <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1 \2,</suggestion>
@@ -18081,9 +18089,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag_regexp='yes' postag="_PUNCT|SENT_END"/>
         </antipattern>
         <pattern>
-          <token postag_regexp='yes' postag="_PUNCT|SENT_START"/>
+            <token postag_regexp='yes' postag="_PUNCT|SENT_START"/>
           <marker>
-            <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo</token>
+            <token regexp="yes">aliás|entretanto|outrossim|porém|portanto|contudo</token>
             <token>
               <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
           </marker>
