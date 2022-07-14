@@ -50,6 +50,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("robe", "Kleidungsstück", "probe", "Test, Kontrolle"),
           new Pair("mode", "Kleidung", "monde", "Begleiter eines Planeten"),
           new Pair("eigen", "'selbst', z.B. 'Eigenzitat'", "eingen", "Möglicher Tippfehler"),
           new Pair("stümpfe", "Rest eines Körpergliedes", "strümpfe", "Bekleidungsstück für den Fuß"),
