@@ -4061,7 +4061,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token skip="10">que</token>
-                    <!-- -->
                     <token regexp="yes" inflected="yes">suceder|ocurrir|pasar</token>
                     <token postag_regexp="yes" postag="RG|LOC_ADV" min="0" max="4"/>
                     <token postag="D.*" postag_regexp="yes"/>
@@ -4073,7 +4072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- suceder, ocurrir, pasar-->
                     <token regexp="yes" inflected="yes">hacer|decir|empujar|pensar|mirar</token>
                     <token postag_regexp="yes" postag="RG|LOC_ADV" min="0" max="4"/>
-                    <token postag="D.*|PD.*|[NA].*" postag_regexp="yes"/>
+                    <token postag="D.*|P[DI].*|[NA].*" postag_regexp="yes"/>
                     <example>¡Que sepáis que habéis hecho el ridículo! </example>
                     <example>Sé que te he dicho esto antes.</example>
                     <example>No sabía que pudieras hacer eso.</example>
@@ -4143,13 +4142,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">haber</token>
-                    <token>que</token>
+                    <token regexp="yes">que|de</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
+                    <example>Sé que he de estar mejor. </example>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes">haber</token>
-                    <token postag="LOC_ADV|RG" postag_regexp="yes" min="0" max="4"/>
-                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="LOC_ADV|RG|_QM.*" postag_regexp="yes" min="0" max="4"/>
+                    <token postag="[DNA].*|P[DI].*" postag_regexp="yes"/>
+                    <example>Veo que hay buenas atracciones.</example>
+                    <example>¿Sabíais que hay tortugas carnívoras?</example>
+                    <example>Vieron que había “muchos jóvenes a los que no les llegaba”.</example>
+                    <example>Sabía que habría algo de comer.</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes">explicar|saber|ocurrir|ver</token>
@@ -4163,7 +4167,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>qué</suggestion>
                 <example correction="qué">Ni si quiera sabía <marker>que</marker> había en la caja.</example>
                 <example correction="qué">Veamos <marker>que</marker> hay al otro lado.</example>
+                <example correction="qué">Me muero de curiosidad por saber <marker>que</marker> hay en aquella enorme caja azul. </example>
+                <example correction="qué">No sé <marker>que</marker> hay ahí dentro.</example>
                 <example>Sabía que había cierta animadversión.</example>
+                
             </rule>
             <rule default="temp_off">
                 <!-- 100 -->
