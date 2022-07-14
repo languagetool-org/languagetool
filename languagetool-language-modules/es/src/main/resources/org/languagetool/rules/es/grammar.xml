@@ -4237,18 +4237,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>que</token>
                     </marker>
-                    <token min="0" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token postag="V.IC.*" postag_regexp="yes"/>
+                    <token inflected="yes">ser</token>
+                    <token>capaz</token>
+                    <token>de</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
                 <example correction="qué">No sabía <marker>que</marker> sería capaz de hacer.</example>
-                <example correction="qué">No quería ni pensar <marker>que</marker> le gustaría.</example>
+                <example>No quería ni pensar <marker>que</marker> le gustaría.</example>
                 <example>No sabía que sería capaz de hacerlo.</example>
                 <example>No quería ni pensar que tendría que hacerlo</example>
                 <example>Sabes que haría cualquier cosa para ayudarte. </example>
+                <example>Sabía que te enfadarías.</example>
             </rule>
             <rule default="temp_off">
+                <!-- 12 -->
                 <pattern>
                     <token regexp="yes" inflected="yes">preguntar|saber|plantear|proponer|pensar|cuestionar</token>
                     <marker>
@@ -4261,8 +4265,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
                 <example correction="qué">No sabía <marker>que</marker> problema sería el correcto.</example>
+                <example correction="qué">¿Sabes <marker>que</marker> libro le gustaría leer? </example>
             </rule>
             <rule default="temp_off">
+                <!-- 13 -->
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
@@ -4277,6 +4283,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Qué"><marker>Que</marker> más da.</example>
             </rule>
             <rule default="temp_off">
+                <!-- 14 -->
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
@@ -4290,6 +4297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Qué"><marker>Que</marker> va.</example>
             </rule>
             <rule default="temp_off">
+                <!-- 15 -->
                 <pattern>
                     <token regexp="yes" inflected="yes">preguntar|saber</token>
                     <marker>
@@ -4304,7 +4312,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">No sabe <marker>que</marker> tiene que ver con aquello.</example>
             </rule>
             <rule default="temp_off">
+                <!-- 16 -->
                 <pattern>
+                    <token postag="SENT_START|_PUNCT.*|V.N.*" postag_regexp="yes"/>
                     <token regexp="yes">a|de|sobre</token>
                     <marker>
                         <token>que</token>
@@ -4316,20 +4326,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
                 <example correction="qué">Me gustaría saber a <marker>que</marker> viene todo esto.</example>
+                <example correction="qué">¡A <marker>que</marker> esperas.</example>
+                <example>Los arrendamientos de bienes efectuados por las Entidades a que se refiere el presente apartado.</example>
+                <example>Estoy seguro de que vendrá.</example>
             </rule>
             <rule default="temp_off">
+                <!-- 17 -->
                 <pattern>
                     <token postag="SPS00"/>
                     <marker>
                         <token>que</token>
                     </marker>
-                    <token postag="CC"/>
+                    <token postag="CC"><exception>sea</exception></token>
                 </pattern>
                 <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
                 <example correction="qué">Quíen era, en <marker>que</marker> o cómo influía.</example>
+                <example>Tenemos que llevarle al hospital antes de que sea demasiado tarde.</example>
             </rule>
             <rule default="temp_off">
+                <!-- 18 -->
                 <pattern>
                     <marker>
                         <token>que</token>
@@ -4342,6 +4358,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Qué"><marker>Que</marker> y cómo influía.</example>
             </rule>
             <rule default="temp_off">
+                <!-- 19 -->
+                <antipattern>
+                    <token>que</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </antipattern>
                 <pattern>
                     <token postag="V.*" postag_regexp="yes"/>
                     <marker>
@@ -4353,8 +4376,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>qué</suggestion>
                 <example correction="qué">Para hacer <marker>que</marker>.</example>
                 <example correction="qué">Pero no recordaba <marker>que</marker>.</example>
+                <example>Disculpe, pero la verdad es que...</example>
+                <example>¿Sabías que...?</example>
             </rule>
             <rule default="temp_off">
+                <!-- 20 -->
                 <pattern>
                     <marker>
                         <token>que</token>
@@ -4366,6 +4392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">¿Y ahora <marker>que</marker>?</example>
             </rule>
             <rule default="temp_off">
+                <!-- 21 -->
                 <antipattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <token skip="-1">que</token>
@@ -4407,6 +4434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Quieres que conteste?</example>
             </rule>
             <rule default="temp_off">
+                <!-- 23 -->
                 <pattern>
                     <token regexp="yes">a|de|sobre</token>
                     <marker>
