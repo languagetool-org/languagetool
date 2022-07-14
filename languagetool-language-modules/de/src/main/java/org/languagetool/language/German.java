@@ -335,6 +335,7 @@ public class German extends Language implements AutoCloseable {
       case "AUF_ZACK" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "UNTER_DRUCK" : return 1;   // prefer over ZUSAMMENGESETZTE_VERBEN
       case "ZUCCHINIS" : return 1;   // overwrite spell checker
+      case "PASSWORTE" : return 1;   // overwrite agreement rules
       case "ANGL_PA_ED_UNANGEMESSEN" : return 1;   // overwrite spell checker
       case "ANFUEHRUNGSZEICHEN_DE_AT": return 1; // higher prio than UNPAIRED_BRACKETS
       case "ANFUEHRUNGSZEICHEN_CH_FR": return 1; // higher prio than UNPAIRED_BRACKETS
@@ -392,7 +393,6 @@ public class German extends Language implements AutoCloseable {
       case "VER123_VERAUXMOD": return -1; // prefer casing rules
       case "DE_AGREEMENT": return -1;  // prefer RECHT_MACHEN, MONTAGS, KONJUNKTION_DASS_DAS, DESWEITEREN, DIES_BEZUEGLICH and other
       case "DE_AGREEMENT2": return -1;  // prefer WILLKOMMEN_GROSS and other rules that offer suggestions
-      case "MEIN_KLEIN_HAUS": return -1; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
       case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
       case "KOMMA_NEBEN_UND_HAUPTSATZ": return -1;  // prefer SAGT_RUFT
       case "FALSCHES_RELATIVPRONOMEN": return -1; // prefer dass/das rules
@@ -402,6 +402,8 @@ public class German extends Language implements AutoCloseable {
       case "IM_ERSCHEINUNG": return -1; // prefer ZUM_FEM_NOMEN
       case "SPACE_BEFORE_OG": return -1; // higher prio than spell checker
       case "EINZELBUCHSTABE_PREMIUM": return -1;  // lower prio than "A_LA_CARTE"
+      case "SCHOENE_WETTER": return -2; // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)
+      case "MEIN_KLEIN_HAUS": return -2; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
       case "UNPAIRED_BRACKETS": return -2;
       case "ICH_GEHE_DU_BLEIBST": return -2; // prefer ICH_GLAUBE_FUER_EUCH
       case "ICH_GLAUBE_FUER_EUCH": return -2; // prefer agreement rules

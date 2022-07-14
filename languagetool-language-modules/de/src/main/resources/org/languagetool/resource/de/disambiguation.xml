@@ -5104,6 +5104,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="SUB:.+" />
     </rule>
+    <rule id="BLIND_KEIN_ADJ" name="'Blind' kein Substantiv in 'Blind Date'">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Blind</token>
+            </marker>
+            <token regexp="yes">Date.*</token>
+        </pattern>
+        <disambig action="remove" postag="(ADJ|ZUS).*" />
+    </rule>
 
     <rule id="UNION_JACK" name="'Union' kein fem. Substantiv in 'Union Jack'">
         <pattern>
