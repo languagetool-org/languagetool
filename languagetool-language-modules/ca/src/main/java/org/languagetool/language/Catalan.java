@@ -197,11 +197,11 @@ public class Catalan extends Language {
       case "CONFUSIONS": return 30;
       case "CA_SIMPLE_REPLACE": return 30; // greater than CA_SIMPLE_REPLACE_VERBS
       case "INCORRECT_WORDS_IN_CONTEXT": return 25; // similar to but lower than CONFUSIONS
+      case "PRONOMS_FEBLES_SOLTS2": return 25;  // greater than PRONOMS_FEBLES_SOLTS and ES
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
       case "MOTS_SENSE_GUIONETS": return 20; // greater than CONCORDANCES_NUMERALS
       case "PASSAT_PERIFRASTIC": return 20;
-      case "PRONOMS_FEBLES_SOLTS2": return 20;  // greater than PRONOMS_FEBLES_SOLTS
       case "ORDINALS": return 20; // greater than SEPARAT
       case "SUPER": return 20;
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
