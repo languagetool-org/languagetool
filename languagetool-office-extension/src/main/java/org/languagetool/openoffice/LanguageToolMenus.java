@@ -67,7 +67,7 @@ public class LanguageToolMenus {
   private XComponentContext xContext;
   private SingleDocument document;
   private Configuration config;
-  private boolean switchOff;
+//  private boolean switchOff;
   private boolean isRemote;
   @SuppressWarnings("unused")
   private LTHeadMenu ltHeadMenu;
@@ -88,7 +88,7 @@ public class LanguageToolMenus {
   
   void setConfigValues(Configuration config) {
     this.config = config;
-    switchOff = config.noBackgroundCheck();
+//    switchOff = config.noBackgroundCheck();
     isRemote = config.doRemoteCheck();
   }
   
@@ -169,12 +169,12 @@ public class LanguageToolMenus {
         return;
       }
       
-      if (MESSAGES.getString("loMenuSwitchOff").equals(ltMenu.getItemText(switchOffId))) {
+      if (MESSAGES.getString("loMenuSwitchedOff").equals(ltMenu.getItemText(switchOffId))) {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: LT menu already installed");
         return;
       } else {
         ltMenu.removeItem(switchOffPos, (short) 1);
-        ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuSwitchOff"), MenuItemStyle.CHECKABLE, switchOffPos);
+        ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuSwitchedOff"), MenuItemStyle.CHECKABLE, switchOffPos);
       }
       toolsMenu.addMenuListener(this);
       if (debugMode) {
@@ -195,7 +195,7 @@ public class LanguageToolMenus {
      * placed as submenu at the LO/OO tools menu
      */
     private void setLtMenu() {
-      if (switchOff) {
+      if (document.getMultiDocumentsHandler().isSwitchedOff()) {
         ltMenu.checkItem(switchOffId, true);
       } else {
         ltMenu.checkItem(switchOffId, false);
