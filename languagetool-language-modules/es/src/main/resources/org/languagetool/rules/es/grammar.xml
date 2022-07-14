@@ -4173,10 +4173,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 
             </rule>
             <rule default="temp_off">
-                <!-- 100 -->
+                <!-- 10 -->
                 <antipattern>
                     <token skip="6">que<exception scope="next" postag="CC"/></token>
                     <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*lo</token>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token postag="[DNA].*|P[DI].*" postag_regexp="yes"/>
+                    <example>No sabía que mostrar la papeleta constituye un delito menos grave. </example>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="V.N.*" postag_regexp="yes" skip="50"/>
+                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <example>Los vendedores saben que vender a través de Amazon les reporta beneficios.</example>
+                    <example>¿Sabías que cambiarte el nombre de hecho es posible?</example>
+                    <example>Sé que bajar música del Internet sin pagar está mal.</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes">explicar|saber|ocurrir|decidir|ni</token>
@@ -4189,6 +4203,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>qué</suggestion>
                 <example correction="qué">No sabía <marker>que</marker> pensar de él.</example>
                 <example correction="qué">Debería decidir <marker>que</marker> hacer con él.</example>
+                <example correction="qué">Ella no sabía <marker>que</marker> regalarle a los niños para la navidad.</example>
+                <example correction="qué">Tom debe decidir <marker>que</marker> hacer en seguida.</example>
             </rule>
             <rule default="temp_off">
                 <!-- 11 -->
