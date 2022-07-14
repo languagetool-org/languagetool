@@ -52,7 +52,7 @@ class ConfigThread extends Thread {
     this.config = config;
     this.lt = lt;
     this.documents = documents;
-    cfgDialog = new ConfigurationDialog(null, true, config);
+    cfgDialog = new ConfigurationDialog(null, true, OfficeTools.getLtImage(), config);
   }
 
   @Override
