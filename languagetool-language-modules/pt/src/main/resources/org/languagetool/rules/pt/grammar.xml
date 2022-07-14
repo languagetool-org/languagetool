@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 -->
 
 <!DOCTYPE rules [
+    <!ENTITY aspas "(«“‘’”»)">
     <!ENTITY meses_ano_abrev "(?:[Aa]br|[Aa]go|[Dd]ez|[Ff]ev|[Jj]an|[Jj]ul|[Jj]un|mai|mar|[Nn]ov|[Oo]ut|[Ss]et)">
     <!ENTITY meses_ano "(?:[Aa]bril|[Aa]gosto|[Dd]ezembro|[Ff]evereiro|[Jj]aneiro|[Jj]ulho|[Jj]unho|[Mm]aio|[Mm]arço|[Nn]ovembro|[Oo]utubro|[Ss]etembro)">
     <!ENTITY dias_semana_abrev "(?:[Ss]ex|[Ss]eg|[Ss]áb|[Dd]om|[Qq]ui|[Tt]er)">
@@ -44240,31 +44241,339 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>ménage à trois</example>
     </rule>
 
-    <rulegroup id='INTERNET_ABBREVIATIONS' name="Erro ortográfico: Abreviaturas da internet">
+    <rulegroup id='INTERNET_ABBREVIATIONS' name="Erro ortográfico: Abreviaturas da internet" default="temp_off">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2019-08-12 -->
       <url>https://pt.wikipedia.org/wiki/Internet%C3%AAs</url>
       <short>'Internetês'</short>
-      <antipattern>
-        <token regexp='yes'>[npq]</token>
-        <token regexp='yes' skip='-1'>\d+|&operadores_matematicos;</token>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes'>\d+|&operadores_matematicos;</token>
-        <token regexp='yes'>\p{L}</token>
-      </antipattern>
-      <rule>
+    <rule>
+        <antipattern>
+	       <token regexp='yes'>\d+|&operadores_matematicos;</token>
+           <token>n</token>
+		<example>q = p + n</example>
+        </antipattern>
+        <antipattern>
+          <token>n</token>
+          <token regexp='yes'>\d+|&operadores_matematicos;</token>
+	    <example>n = q + r</example>
+        </antipattern>
+        <antipattern>
+	      <token>valor</token>
+	      <token min='0'>de</token>
+          <token>n</token>
+		<example>Encontre o valor de n.</example>
+        </antipattern>
+        <antipattern>
+           <token regexp="yes">&aspas;|"|'</token>
+           <token>n</token>
+           <token regexp="yes">&aspas;|"|'</token>
+		<example>Neste caso "n" representa o número.</example>
+        </antipattern>
         <pattern>
-          <token regexp='yes'>bbiab|n|ñ|pq?|q(?:nd|ts)?|lol|vc|b(jos?|lz)|kk+|tbm?|omg|rotfl|wtf
-            <exception case_sensitive='yes'>N</exception></token>
+           <token regexp='yes'>n|ñ|naum<exception case_sensitive='yes'>N</exception></token>
         </pattern>
-        <message>Linguagem de Internet. Escreva por extenso.</message>
-        <example type="incorrect"><marker>ñ</marker></example>
-        <example><marker>não</marker></example>
-        <example>p = q + r</example>
-        <example>Será que não dá? ;)</example>
-        <example>Angola é uma derivação portuguesa do termo bantu N’gola.</example>
-      </rule>
-    </rulegroup>
+          <message>Linguagem de Internet. Considere escrever <suggestion>não</suggestion> por extenso. Se quis dizer "n", coloque entre aspas.</message>
+		<example correction="não">Ele <marker>n</marker> me mandou mensagem ontem.</example>
+    </rule>
+    <rule>
+        <antipattern>
+	       <token regexp='yes'>\d+|&operadores_matematicos;</token>
+	       <token>q</token>
+		 <example>n = p + q</example>
+        </antipattern>
+        <antipattern>
+	       <token>q</token>
+	       <token regexp='yes'>\d+|&operadores_matematicos;</token>
+		 <example>q = n + r</example>
+        </antipattern>
+        <antipattern>
+	       <token>valor</token>
+	       <token>de</token>
+	       <token>q</token>
+		 <example>Encontre o valor de q.</example>
+        </antipattern>
+        <antipattern>
+           <token regexp="yes">&aspas;|"|'</token>
+	       <token>q</token>
+           <token regexp="yes">&aspas;|"|'</token>
+		<example>Neste caso "q" representa a quota.</example>
+        </antipattern>
+        <pattern>
+           <token case_sensitive='yes'>q</token>
+        </pattern>
+        <message>Se for linguagem de Internet, considere escrever <suggestion>que</suggestion> por extenso. Se quis dizer "q", coloque entre aspas.</message>
+		<example correction="que">Ele <marker>q</marker> me mandou mensagem ontem.</example>
+    </rule>
+    <rule>
+        <antipattern>
+	       <token>/</token>
+           <token>p</token>
+           <token>/</token>
+	    <example>Calcule o valor de /p/ de acordo com a equação.</example>
+        </antipattern>
+        <antipattern>
+           <token>p</token>
+           <token>/</token>
+           <token regexp='yes'>[a-z]</token>
+	    <example>A redução de 30 p/s para 7,5 p/s resulta em uma economia de dose de 75%.</example>
+        </antipattern>
+        <antipattern>
+           <token>p</token>
+           <token>/</token>
+           <token>mil</token>
+	    <example>Mortalidade infantil: 27,4 p/mil.</example>
+        </antipattern>
+        <antipattern>
+           <token>p</token>
+           <token>/</token>
+           <token>b</token>
+	    <example>A foto deve ser p/b.</example>
+        </antipattern>
+        <pattern>
+           <token>p<exception case_sensitive='yes'>P</exception></token>
+           <token>/</token>
+        </pattern>
+         <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion> por extenso.</message>
+		<example correction="para">A ação foi <marker>p/</marker> aumentar os lucros.</example>
+    </rule>
+    <rule>
+        <antipattern>
+           <token regexp='yes'>\d+|&operadores_matematicos;</token>
+           <token>p</token>
+		<example>p = n + q</example>
+        </antipattern>
+        <antipattern>
+           <token>p</token>
+           <token regexp='yes'>\d+|&operadores_matematicos;</token>
+		<example>p = n + r</example>
+        </antipattern>
+        <antipattern>
+           <token>valor</token>
+           <token>de</token>
+           <token>p</token>
+		<example>Encontre o valor de p.</example>
+        </antipattern>
+        <antipattern>
+           <token regexp="yes">&aspas;|"|'</token>
+           <token>p</token>
+           <token regexp="yes">&aspas;|"|'</token>
+		<example>Neste caso "p" representa a porcentagem.</example>
+        </antipattern>
+        <pattern>
+           <token case_sensitive='yes'>p</token>
+        </pattern>
+         <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
+		<example correction="para">A ação foi <marker>p</marker> aumentar os lucros.</example>
+    </rule>
+    <rule>
+        <pattern>
+           <token>vc</token>
+        </pattern>
+          <message>Linguagem de Internet. Considere escrever <suggestion>você</suggestion> por extenso.</message>
+         <example correction="você">Eu falei com <marker>vc</marker> ontem.</example>
+	     <example correction="Você"><marker>Vc</marker> vai cuidar do projeto?</example>
+    </rule>
+    <rule>
+        <pattern>
+           <token>blz</token>
+        </pattern>
+           <message>Linguagem de Internet. Considere escrever <suggestion>beleza</suggestion> por extenso.</message>
+          <example correction="beleza">Então <marker>blz</marker>, finalizo amanhã.</example>
+    </rule>
+    <rule>
+        <pattern>
+           <token regexp='yes' case_sensitive='yes'>qnd|qd</token>
+        </pattern>
+         <message>Se for linguagem de Internet, considere escrever <suggestion>quando</suggestion> por extenso.</message>
+        <example correction="quando">Queria saber <marker>qnd</marker> vai ser o evento.</example>
+    </rule>
+    <rule>
+	    <antipattern>
+           <token>qt</token>
+           <token regexp='yes'>\d+|&operadores_matematicos;</token>
+		  <example>qt = 16</example>
+        </antipattern>
+        <pattern>
+           <token regexp='yes' case_sensitive='yes'>qnt|qt</token>
+        </pattern>
+           <message>Se for linguagem de Internet, considere escrever <suggestion>quanto</suggestion> por extenso.</message>
+          <example correction="quanto">Sabe dizer <marker>qnt</marker> está o lanche?</example>
+    </rule>
+    <rule>
+        <pattern>
+           <token regexp='yes'>qnts|qts</token>
+        </pattern>
+           <message>Se for linguagem de Internet, considere escrever <suggestion>quantos</suggestion> por extenso.</message>
+          <example correction="quantos">Sabe dizer <marker>qnts</marker> pessoas virão?</example>
+    </rule>
+    <rule>
+        <pattern>
+	       <token regexp='yes'>bj|bjo</token>
+	    </pattern>
+           <message>Linguagem de Internet. Considere escrever <suggestion>beijo</suggestion> por extenso.</message>
+         <example correction="beijo">Obrigada, <marker>bjo</marker>.</example>
+         <example correction="Beijo">Até mais. <marker>Bj</marker>.</example>
+    </rule>
+    <rule>
+        <pattern>
+	       <token regexp='yes'>bjs|bjos</token>
+	    </pattern>
+          <message>Linguagem de Internet. Considere escrever <suggestion>beijos</suggestion> por extenso.</message>
+         <example correction="beijos">Obrigada, <marker>bjos</marker>.</example>
+         <example correction="Beijos">Até mais. <marker>Bjs</marker>.</example>
+    </rule>
+    <rule>
+        <pattern>
+	       <token>abs</token>
+        </pattern>
+          <message>Linguagem de Internet. Considere escrever <suggestion>abraços</suggestion> por extenso.</message>
+         <example correction="abraços">Grato, <marker>abs</marker>.</example>
+	     <example correction="Abraços"><marker>Abs</marker>.</example>
+    </rule>
+    <rule>
+         <pattern>
+	       <token regexp='yes'>tb|tbm</token>
+        </pattern>
+          <message>Linguagem de Internet. Considere escrever <suggestion>também</suggestion> por extenso.</message>
+         <example correction="também">Eu <marker>tbm</marker>.</example>
+	     <example correction="também">O departamento financeiro <marker>tb</marker> vai participar.</example>
+    </rule>
+    <rule>
+        <antipattern>
+	       <token regexp='yes'>o|um|algum|nenhum|esse|desse|este|deste|neste|nesse|aquele|daquele|do</token>
+	       <token>pq</token>
+	       <token regexp='yes'>[\.\?!;]</token>
+		 <example>Quero saber o pq.</example>
+		 <example>Isso não tem algum pq.</example>
+		 <example>Isso tem algum pq?</example>
+        </antipattern>
+        <pattern>
+	       <token>pq</token>
+	       <token regexp='yes'>[\.\?!;]</token>
+        </pattern>
+          <message>Linguagem de Internet. "Por quê" é utilizado no final de frases. Considere escrever <suggestion>por quê</suggestion> por extenso.</message>
+	     <example correction="por quê">Quero saber <marker>pq.</marker></example>
+	     <example correction="por quê">E tudo isso <marker>pq?</marker></example>
+	     <example correction="Por quê">Eu não posso ir. <marker>Pq?</marker></example>
+    </rule>
+    <rule>
+        <pattern>
+	       <token regexp='yes'>o|os|um|uns|algum|alguns|nenhum|nenhuns|esse|esses|desse|desses|este|estes|deste|destes|neste|nestes|nesse|nesses|aquele|aqueles|daquele|daqueles|do|dos</token>
+         <marker><token regexp='yes'>pq|pqs</token></marker>
+           <token regexp='yes'>das?|de|dos?|[nd]isso|dest[ae]s?|dess[ae]s?|[nd]isto|daquilo|daquel[ea]s?|nest[ae]s?|ness[ae]s?|naquilo|naquela|naqueles?|[\.\?!;]</token>        </pattern>
+         <message>Linguagem de Internet; escreva por extenso. A forma <suggestion>porquê</suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
+        <example correction="porquê">Tem algum <marker>pq</marker> nisso tudo?</example>
+    </rule>
+    <rule>
+        <pattern>
+          <marker><token>pq</token></marker>
+	       <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
+        </pattern>
+		  <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "(razão/motivo) pelo qual", deve utilizar <suggestion>por que</suggestion>.</message>
+		  <example correction="por que">Não sei <marker>pq</marker> motivo o plano não funcionou.</example>
+		  <example correction="por que">Gostaria de saber <marker>pq</marker> razões recusou o convite.</example>
+    </rule>
+    <rule>
+        <pattern>
+	       <token regexp='yes'>o|as|os|a|,</token>
+	       <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
+          <marker><token>pq</token></marker>
+        </pattern>
+		  <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "(razão/motivo) pelo qual", deve utilizar <suggestion>por que</suggestion>.</message>
+		  <example correction="por que">Não sei o motivo <marker>pq</marker> o plano não funcionou.</example>
+		  <example correction="por que">Gostaria de saber as razões <marker>pq</marker> recusou o convite.</example>
+    </rule>
+    <rule>
+        <antipattern>
+	       <token>pq</token>
+           <token>?</token>
+           <example>Pq?</example>
+        </antipattern>
+        <pattern>
+           <token postag='_PUNCT'/>
+         <marker>
+           <token skip='-1'>pq</token>
+         </marker>
+	       <token>?</token>
+        </pattern>
+           <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion> por extenso.</message>
+		  <example correction="por que">Se não houve erro algum, <marker>pq</marker> não entregou o documento?</example>
+		  <example correction="por que">E faria tudo isso de novo, <marker>pq</marker> não?</example>
+		  <example correction="por que">O relatório foi entregue; <marker>pq</marker> não houve mudanças?</example>
+    </rule>
+    <rule>
+        <antipattern>
+	       <token>pq</token>
+           <token>?</token>
+          <example>Pq?</example>
+        </antipattern>
+        <pattern>
+	       <token postag='SENT_START'/>
+         <marker>
+           <token skip='-1'>pq</token>
+         </marker>
+	       <token>?</token>
+        </pattern>
+           <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion> por extenso.</message>
+		  <example correction="Por que"><marker>Pq</marker> não entregou o documento?</example>
+    </rule>
+    <rule>
+        <antipattern>
+           <token>pq</token>
+           <token postag='_PUNCT'/>
+          <example>Ele não veio e eu nem sei pq.</example>
+        </antipattern>
+        <antipattern>
+	       <token>,</token>
+	     <marker>
+           <token skip='-1'>pq</token>
+         </marker>
+           <token>?</token>
+          <example>Ele não veio, pq?</example>
+        </antipattern>
+        <pattern>
+	       <token>,</token>
+	     <marker>
+           <token skip='-1'>pq</token>
+         </marker>
+           <token postag='_PUNCT'/>
+        </pattern>
+           <message>Linguagem de Internet. Se "pq" expressar uma justificativa, considere escrever <suggestion>porque</suggestion> por extenso. Se puder substituir por "(razão) pela qual" ou se for uma pergunta, utilize "por que".</message>
+		  <example correction="porque">Ele não se importou, <marker>pq</marker> acabou voltando.</example>
+    </rule>
+    <rule>
+        <antipattern>
+           <token regexp='yes'>o|os|um|uns|algum|alguns|nenhum|nenhuns|esse|esses|desse|desses|este|estes|deste|destes|neste|nestes|nesse|nesses|aquele|aqueles|daquele|daqueles|do|dos</token>
+         <marker><token regexp='yes'>pq|pqs</token></marker>
+           <token regexp='yes'>das?|de|dos?|[nd]isso|dest[ae]s?|dess[ae]s?|[nd]isto|daquilo|daquel[ea]s?|nest[ae]s?|ness[ae]s?|naquilo|naquela|naqueles?|[\.\?!;]</token>           <example>Quero saber o pq disso.</example>
+        </antipattern>
+        <antipattern>
+	  	   <token regexp='yes'>o|um|algum|nenhum|esse|desse|este|deste|neste|nesse|aquele|daquele|do</token>
+           <token>pq</token>
+		   <example>Quero saber o pq.</example>
+		   <example>Isso não tem algum pq.</example>
+        </antipattern>
+        <antipattern>
+           <token>pq</token>
+           <token postag='_PUNCT'/>
+		   <example>Isso não tem pq.</example>
+		   <example>Sabe dizer pq?</example>
+        </antipattern>
+        <antipattern>
+           <token postag='SENT_START'/>
+         <marker>
+           <token skip='-1'>pq</token>
+         </marker>
+	       <token>?</token>
+        <example>Pq ele não veio?</example>
+        </antipattern>
+        <pattern>
+	       <token>pq</token>
+        </pattern>
+             <message>Linguagem de Internet. Se "pq" expressar uma justificativa, considere escrever <suggestion>porque</suggestion> por extenso. Se for o início de uma pergunta ou se puder substituir por "(razão) pela qual", utilize <suggestion>por que</suggestion>.</message>
+		   <example correction="porque|por que">Queria apenas entender <marker>pq</marker> não ligaram de volta.</example>
+		   <example correction="porque|por que">Teve que fazer o diagnóstico <marker>pq</marker> não havia mais ninguém na sala.</example>
+    </rule>
+</rulegroup>
 
     <rule id="AU" name="Erro ortográfico: au/Au [unidade astronómica/ouro]">
       <!-- Localized from English grammar by Tiago F. Santos, 12-08-2019 -->
