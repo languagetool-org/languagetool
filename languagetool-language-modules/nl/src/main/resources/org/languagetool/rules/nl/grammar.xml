@@ -9749,7 +9749,7 @@ onwaarschijnlijk
                 <pattern>
                     <marker>
                         <token regexp="yes">langu?au?ge</token>
-                        <token regexp="yes">tools</token>
+                        <token>tools</token>
                     </marker>
                     <token postag_regexp="yes" postag="BNW.*VRB" min="0"/>
                     <token postag_regexp="yes" postag="ZNW.*"/>
@@ -13643,6 +13643,35 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="CASING" name="Hoofdlettergebruik">
+	    <rulegroup id="ETC_ZONDER_HOOFDLETTERS" name="ETC./etc." type="misspelling" default="temp_off">
+			<rule>
+				<pattern>
+					<token regexp="yes" case_sensitive="yes">E[Tt][Cc]</token>
+				    <token>.</token>
+				</pattern>
+				<message>Deze afkorting hoort zonder hoofdletter(s).</message>
+				<suggestion><match no="1" case_conversion="alllower"/>.</suggestion>
+				<short>Zonder hoofdletters</short>
+				<example correction="etc.">We gaan kleding, schoenen <marker>ETc.</marker> in de winkel kopen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="TEL_ZONDER_HOOFDLETTERS" name="TEL./tel." type="misspelling" default="temp_off">
+			<rule>
+			    <antipattern>
+			        <token postag_regexp="yes" postag="SENT_START|START"/>
+			        <token regexp="yes" case_sensitive="yes">Tel|TEL</token>
+			        <token>.</token>
+			    </antipattern>
+				<pattern>
+					<token regexp="yes" case_sensitive="yes">T[Ee][Ll]</token>
+				    <token>.</token>
+				</pattern>
+				<message>Behalve aan het begin van de zin schrijf je de afkorting voor telefoon zonder hoofdletter(s).</message>
+				<suggestion><match no="1" case_conversion="alllower"/>.</suggestion>
+				<short>Zonder hoofdletters</short>
+				<example correction="tel.">Je kunt me altijd via <marker>Tel.</marker> opbellen.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="JARIGE_JOB" name="Job/job" type="misspelling">
 			<rule>
 				<pattern>
