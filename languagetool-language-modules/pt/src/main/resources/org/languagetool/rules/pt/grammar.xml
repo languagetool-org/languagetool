@@ -2344,16 +2344,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rule>
         <!-- MARCOAGPINTO 2021-05-14 (17-MAR-2021+) *START* -->
         <!--
-        O termo refere-se a hardware ou a software.
-        Ele refere-se a software bom.
-        Atribui-se a Newton as leis da mecânica clássica.
-        -->
-        <antipattern>
-          <token postag='V.+|PP.+|CC' postag_regexp='yes'/>
-          <token>a</token>
-          <token postag='NP.+|NCM.+|AQ0M.+' postag_regexp='yes'/>
-        </antipattern>
-        <!--
         A Portugal coube o setor oriental do continente.
         A César o que é de César.
         -->
@@ -2368,6 +2358,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>ver</token>
         </antipattern>
         <!-- MARCOAGPINTO 2021-05-14 (17-MAR-2021+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-15 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token postag='CC|PP3.+|V.+' postag_regexp='yes'/>
+          <token>a</token>
+          <token postag='NP.+|NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
+          <token postag='NP.+|NC[CM].+|AQ.[CM].+|[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+|CC|AO0CN0' postag_regexp='yes'/>
+          <example>Vendo a bom preço rena Rodolfo (do Pai Natal) !!!</example>
+          <example>Atribui-se a João Batista o batismo de Jesus.</example>
+          <example>Atualmente, 81 chácaras e propriedades do bairro despejam o esgoto gerado em fossas sépticas ou a céu aberto.</example>
+          <example>Meteu-se a orador e fugiram-lhe as palavras.</example>
+          <example>Ele refere-se a software bom.</example>
+          <example>Atribui-se a Newton as leis da mecânica clássica.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-15 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-15 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token>nem</token>
+          <token>a</token>
+          <token>pau</token>
+          <example>Em 99% das pessoas não bate o CDI nem a pau.</example>
+          <example>"Você me empresta o carro?" "Nem a pau!"</example>
+          <example>Na parada, saí pra fazer xixi (já repararam que não uso o banheiro do ônibus nem a pau, né?</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-15 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
         <pattern>
           <token>a
             <exception scope='previous'>não</exception>
@@ -2385,9 +2402,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example><marker>A César o</marker> que é de César.</example>
         <example>Atribuem-se <marker>a Newton as</marker> leis da mecânica clássica.</example>
 
-        <example>O termo refere-se a hardware ou <marker>a software</marker>.</example>
-        <example>Ele refere-se a software bom.</example>
-        <example>Atribui-se a Newton as leis da mecânica clássica.</example>
         <example>A Portugal coube o setor oriental do continente.</example>
         <example>Você não se importa com a Mary.</example>
         <example>Atribui-se ainda a Saturno a criação de divindades como Juno ou Hércules e de heróis como Rómulo.</example>
