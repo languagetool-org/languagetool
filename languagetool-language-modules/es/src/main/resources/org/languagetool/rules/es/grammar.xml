@@ -3741,13 +3741,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="QUE_TILDE" name="que -> qué">
             <antipattern>
-                <token regexp="yes">salvo|siempre|desde|sino</token>
+                <token regexp="yes">salvo|siempre|desde|sino|tal</token>
                 <token>que</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">el|la|lo|los|las|para</token>
+                <token regexp="yes">el|la|lo|los|las|para|al|del</token>
                 <token>que</token>
                 <token><exception regexp="yes">\.|\?|!</exception></token>
+                <example>Al que mal vive, el miedo le sigue.</example>
             </antipattern>
             <antipattern>
                 <token inflected="yes">haber</token>
@@ -3757,7 +3758,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>que</token>
                 <!-- error tenia>tenía -->
-                <token>tenia</token>
+                <token regexp="yes">tenia|venia|sera</token>
             </antipattern>
             <antipattern>
                 <token>que</token>
@@ -3820,7 +3821,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nunca escucha lo que intento decirle.</example>
                 <example>Unos momentos que hay que saber capturar.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- 4 -->
                 <antipattern>
                     <token skip="-1">que<exception scope="next">que</exception></token>
@@ -3845,19 +3846,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Qué"><marker>Que</marker> mujer tan inteligente.</example>
                 <example correction="Qué">¡<marker>Que</marker> suerte que te tocase la lotería!</example>
                 <example>Que 3/4 de Argentina y el MUNDO ENTERO se equivoca.</example>
+                <example reason="ambiguous" type="triggers_error">Que claro que no es por mí.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- 5 -->
                 <antipattern>
-                    <token regexp="yes" skip="-1">mas|más|menos|antes|después|mejor|peor</token>
+                    <token skip="-1">que<exception scope="next">que</exception></token>
+                    <token postag="V.S.*" postag_regexp="yes"/>
+                    <example>Que dios las bendiga siempre.</example>
+                    <example>¡Que Dios los bendiga!</example>
+                    <example>"Que Yahvé os examine y os juzgue."</example>
+                    <example>¡Que Yahvé esté con vosotros!</example>
+                    <example>Que Mary Boom no sea conocida en el hampa ha resultado ser una gran baza.</example>
+                    <example>¡Que Dios salve la Reina!</example>
+                </antipattern>
+                <antipattern>
+                    <token>hasta</token>
+                    <token skip="-1">que<exception scope="next">que</exception></token>
+                    <token postag="V.I.*" postag_regexp="yes"/>
+                    <example>Todos éramos felices, hasta que terceras personas irrumpieron en nuestra vida.</example>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token inflected="yes" skip="-1">otro</token>
+                    <token postag="V.I.*" postag_regexp="yes"/>
+                    <example>He allí que otro soldado viene en nuestro auxilio y me ayudan con el herido.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">mas|más|menos|antes|después|mejor|peor|igual</token>
                     <token>que</token>
                     <example>Tom encuentra mucho más fácil hablar inglés que francés.</example>
                     <example>Más valen amigos en la plaza que dinero en el arca.</example>
                     <example>Es mejor una palabra a tiempo, que dos a destiempo.</example>
+                    <example>Tom habla alemán igual de bien que inglés.</example>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" regexp="yes">mismo|sino|algún|así</token>
+                    <token inflected="yes" regexp="yes">mismo|sino|algún|así|alguno</token>
                     <token>que</token>
+                    <example>y alguna que otra información</example>
+                    <example>como algún que otro dinosaurio.</example>
                 </antipattern>
                 <antipattern>
                     <token>que</token>
@@ -3890,15 +3917,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Puedo inferir que loco no está.</example>
                 </antipattern>
                 <antipattern>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token skip="-1">que</token>
+                    <token>y</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <example>En todo caso recuerda que es solo mi punto de vista, y que otros extranjeros pueden ver las cosas de forma distinta.</example>
+                </antipattern>
+                <antipattern>
                     <token>gracias</token>
                     <token regexp="yes">por|a</token>
                 </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                    <token postag="V.S.*|D.*" postag_regexp="yes"/>
+                    <example>acompañado del capitán de cuartel del Tercio, que dicho sea de paso, se portó de maravillas con nosotros.</example>
+                    <example>-Ahí tienes -murmuró dirigiéndose a su sobrina, que pasado el espasmo se había quedado como aturdida.</example>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="RG"/>
+                    <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <example>¿Sabes que igual llueve mañana?</example>
+                    <example>Intentalo allá que seguro conseguirás algo.</example>
+                    <example>Todos hacen un ñom ñom característico y que seguro te harán soltar alguna carcajada.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">ser</token>
+                    <token skip="-1">por</token>
+                    <token>que</token>
+                    <example>Es por ello que músicos y sellos independientes se retiran.</example>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token>que<exception scope="previous">¿</exception><exception postag="LOC_CS"/></token>
+                        <token>que<exception scope="previous" regexp="yes">¿|\)</exception><exception postag="LOC_CS"/></token>
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes" min="0"><exception postag="_possible_NP"/></token>
-                    <token postag="NC.*" postag_regexp="yes"><exception postag="_possible_NP|V.[ISMN].*" postag_regexp="yes"/><exception inflected="yes">numeral</exception></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="_possible_NP|V.[ISMN].*|RG|DN.*" postag_regexp="yes"/><exception inflected="yes">numeral</exception><exception inflected="yes" regexp="yes">&unidades_tiempo;|&estaciones_ano;|&dias_semana;</exception><exception regexp="yes">felicidades|igual|claro</exception></token>
                 </pattern>
                 <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
@@ -3907,6 +3965,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">Elegir <marker>que</marker> tipo de pago vas a realizar.</example>
                 <example>¿Qué más hay que saber?</example>
                 <example>Prefiero leche que jugo.</example>
+                <example>José Teodoro de Souza, que años antes había estado interesado en ello.</example>
+                <example>Les recuerda que domingo tras domingo visten una camiseta que representa a un pueblo.</example>
+                <example>Vamos, que felicidades.</example>
+                <example>el lugar que merece en nuestra historia, que otros escritores e historiadores se animen</example>
+                <example>hasta que otra mujer lo llame nuevamente para cumplir sus deseos</example>
+                <example>Intentalo allá que seguro que conseguirás algo.</example>
+                <example>Sé que es muy complicado y doloroso para vosotras, que otra madre, llamada de acogida disfrute, conviva con vuestros hijos.</example>
+                <example>Sin embargo, realizar sentadillas cerca del fallo muscular (fatiga) causó un aumento de la flexión lumbar inducido por el agotamiento y las cargas altas (peso) que combinado con esta flexión lumbar favorece el riesgo de hernia discal.</example>
+                <example>Qué bueno saber que personas como usted, que están iniciando un preescolar, se interesen por temas como estos</example>
+                <example>Es cierto que otros sectores han crecido mucho.</example>
+                <example>y que años después se encuentran envueltos en su asesinato</example>
+                <example>No es infrecuente tampoco que normas éticas se conviertan en legales.</example>
+                <example>Todos saben que dos más dos es cuatro.</example>
+                <example>Y sabemos que solos no podemos.</example>
             </rule>
             <rule default="temp_off">
                 <!-- 6 -->
@@ -3983,15 +4055,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
                 <example correction="qué">¿A <marker>que</marker> hora viniste a casa?</example>
+                <example correction="qué">para que se vea hasta <marker>que</marker> punto es difícil demostrar la relación</example>
                 <example>con la salvedad de que dicha comunicación de datos este amparada en una obligación legal </example>
                 <example>Ella tenía la esperanza de que otro muchacho la invitase a bailar.</example>
             </rule>
             <rule default="temp_off">
                 <!-- 7 -->
                 <antipattern>
-                    <token regexp="yes" skip="1">mas|más|menos|antes|después|mejor|peor</token>
+                    <token regexp="yes" skip="-1">mas|más|menos|antes|después|mejor|peor|igual</token>
                     <token>que</token>
                     <example>Es más cortés decir delgado que flaco. </example>
+                    <example>Él habla español igual de bien que francés. </example>
                 </antipattern>
                 <antipattern>
                     <token postag="SPS00|LOC_PREP|LOC_ADV" postag_regexp="yes"/>
@@ -4170,7 +4244,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">Me muero de curiosidad por saber <marker>que</marker> hay en aquella enorme caja azul. </example>
                 <example correction="qué">No sé <marker>que</marker> hay ahí dentro.</example>
                 <example>Sabía que había cierta animadversión.</example>
-                
             </rule>
             <rule default="temp_off">
                 <!-- 10 -->
@@ -15851,6 +15924,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>visto</token>
                 <token>bueno</token>
                 <example>Los militares contaron con el visto bueno directo del gobierno de Manuel Azaña.</example>
+            </antipattern>
+            <antipattern>
+                <token>qué</token>
+                <token>bueno</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <example>Qué bueno saber que personas como usted, que están iniciando un preescolar, se interesen por temas como estos.</example>
             </antipattern>
             <pattern>
                 <marker>
