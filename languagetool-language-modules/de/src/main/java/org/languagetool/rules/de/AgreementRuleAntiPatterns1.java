@@ -1190,6 +1190,12 @@ class AgreementRuleAntiPatterns1 {
       csToken("Wirtschaft")
     ),
     Arrays.asList(
+      // Das passiert, weil die Schiss haben.
+      token("die"),
+      csRegex("Schiss|Mut|Respekt"),
+      tokenRegex("haben|h[äa]tten?|zeigt?en|zollt?en")
+    ),
+    Arrays.asList(
       // "Inwiefern soll denn das romantische Hoffnungen begründen?"
       new PatternTokenBuilder().pos("ADV:MOD+INR").setSkip(-1).build(),
       new PatternTokenBuilder().posRegex("VER.*:[123]:SIN:.*").setSkip(1).build(),

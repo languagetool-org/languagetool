@@ -5113,6 +5113,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="(ADJ|ZUS).*" />
     </rule>
+    <rule id="JOUR_FIXE_KEIN_ADJ" name="'fixe' kein ADJ in 'Jour fixe'">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Jour</token>
+            </marker>
+            <token regexp="yes">fixe?s?</token>
+        </pattern>
+        <disambig action="remove" postag="(ADJ|VER).*" />
+    </rule>
 
     <rule id="UNION_JACK" name="'Union' kein fem. Substantiv in 'Union Jack'">
         <pattern>

@@ -313,6 +313,8 @@ public class German extends Language implements AutoCloseable {
       case "VOR_BEI": return 1; // prefer over BEI_BEHALTEN
       case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
       case "SEIT_LAENGEREN": return 1; // prefer over DE_CASE
+      case "SEIT_KLEIN_AUF": return 1; // prefer over agreement rules
+      case "SEIT_GEBURT_AUF": return 1; // prefer over agreement rules
       case "WO_VON": return 1; // prefer over most agreement rules
       case "ICH_BIN_STAND_JETZT_KOMMA": return 1; // prefer over most agreement rules
       case "EIN_LOGGEN": return 1; // prefer over most agreement rules
@@ -435,6 +437,7 @@ public class German extends Language implements AutoCloseable {
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
       case "DAS_WETTER_IST": return -5; // lower prio than spell checker
+      case "VERBEN_PRAEFIX_AUS": return -5; // lower prio than spell checker
       case "ANFUEHRUNG_VERSCHACHTELT": return -5;  // lower prio than speller and FALSCHES_ANFUEHRUNGSZEICHEN
       case "SATZBAU_AN_DEN_KOMMT": return -5;  // lower prio than rules that give a suggestion
       case "SUBJECT_VERB_AGREEMENT": return -5; // prefer more specific rules that offer a suggestion (e.g. DE_VERBAGREEMENT)
