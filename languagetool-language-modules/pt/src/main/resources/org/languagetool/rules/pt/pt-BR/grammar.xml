@@ -19,6 +19,12 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
+  <!DOCTYPE rules [
+        <!ENTITY depreciativo "baianada|bandalho|china|chinoca|ciganada|ciganagem|veado|bicha|piranha|piranhagem|periguete|retardado|João-sem-braço|cegueta|imbecil|japa|marica|maricas|maricona|cuzão|bundão|queima-rosca|traveco|travecão|travecona|boiola|maricão|mariconço|mentecapto|monhé|morcão|portuga|pretalhada|pretaria|caralho|chupa-rola|boqueteiro|boqueteira">
+
+
+        ]>
+
 <rules lang="pt-BR" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <category id="MISC" name="Gramática Geral">
@@ -1075,6 +1081,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>#¿$?%!¡</suggestion>
       <example correction="#¿$?%!¡">O <marker>puto</marker> é bom!</example>
     </rule>
+
+    <rule id='DEPRECIATIVO_PT_BR' name="Termos depreciativos" type="style" default='temp_off'>
+    <pattern>
+      <token regexp='yes' inflected="yes">&depreciativo;
+        <exception postag_regexp='yes' postag='NP.+'/>
+      </token>
+    </pattern>
+    <message>Este termo é depreciativo, pondere empregar um termo alternativo.</message>
+    <short>Termo depreciativo</short>
+    <example type="incorrect">Vou à loja do <marker>traveco</marker>.</example>
+    <example>Vou à loja da <marker>travesti</marker>.</example>
+  </rule>
 	
   </category>
 
