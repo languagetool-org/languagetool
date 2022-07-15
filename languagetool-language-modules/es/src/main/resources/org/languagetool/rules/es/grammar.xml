@@ -3392,8 +3392,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>a</token>
-                    <token skip="2">que</token>
-                    <token inflected="yes" regexp="yes">ser|molar|conocer|hacer|divertir</token>
+                    <token skip="4">que</token>
+                    <token inflected="yes" regexp="yes">ser|molar|conocer|hacer|divertir|acordar|gustar|parecer|odiar|amar</token>
+                    <example>¿A que te ha gustado la película?</example>
+                    <example>¿A que odias las películas de miedo?</example>
+                    <example>¿A que te acuerdas de mí?</example>
+                    <example>¿A que hoy nos hemos divertido mucho juntos?</example>
+                    <example>¿A que te ha gustado la película?</example>
+                    <example>¿A que te parece adorable?</example>
+                    <example>Puede ser, ¿que ya sean las ocho? </example>
                 </antipattern>
                 <antipattern>
                     <token>a</token>
@@ -3409,6 +3416,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>qué</token>
                     <example>¿Que ha hecho qué?</example>
                 </antipattern>
+                <antipattern>
+                    <token>¿</token>
+                    <marker>
+                        <token skip="-1">que</token>
+                    </marker>
+                    <token skip="4">no</token>
+                    <token inflected="yes" regexp="yes">tener|venir</token>
+                    <example>¿Que los alemanes no tienen sentido del humor?</example>
+                    <example>¿Que no vienes?</example>
+                    <example>¿Que no quieres venir? </example>
+                </antipattern>
+                <antipattern>
+                    <token>¿</token>
+                    <token skip="3">que</token>
+                    <token inflected="yes" regexp="yes">ver|querer|olvidar|tocar</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="[NA].*" postag_regexp="yes"><exception regexp="yes" inflected="yes">&unidades_tiempo;|&dias_semana;|&meses_ano;|vez</exception></token>
+                    <example>¿Que has visto un ovni?</example>
+                    <example>¿Que quieres este libro?</example>
+                    <example>¿Que te has olvidado el dinero?</example>
+                    <example>¿Que te ha tocado la lotería?</example>
+                </antipattern>
+                <antipattern>
+                    <token>¿</token>
+                    <token skip="2">que</token>
+                    <token skip="2">lo</token>
+                    <token inflected="yes" regexp="yes">ver|querer|tener</token>
+                    <example>¿Que no lo viste?</example>
+                    <example>¿Que lo tengo yo?</example>
+                </antipattern>
+                <antipattern>
+                    <token>¿</token>
+                    <token skip="3">que</token>
+                    <token inflected="yes" regexp="yes">estar|ser|tener</token>
+                    <token postag="[AN].*|V.P.*" postag_regexp="yes"/>
+                    <example>¿Que realmente estás arrepentido?</example>
+                    <example>¿Que el Luisma es tonto, no?</example>
+                    <example>¿Que tienes experiencia?</example>
+                    <example>¿Que estás malo?</example>
+                </antipattern>
+                <antipattern>
+                    <token>¿</token>
+                    <token>que</token>
+                    <token>acaso</token>
+                    <example>¿Que acaso no somos todos africanos?</example>
+                </antipattern>
+                <antipattern>
+                    <token>¿</token>
+                    <token skip="3">que</token>
+                    <token inflected="yes">ir<exception postag_regexp="yes" postag="V.N.*" scope="next"/></token>
+                    <token postag="SENT_END"/>
+                    <example>¿Que no irás?</example>
+                </antipattern>
+                <antipattern>
+                    <token>¿</token>
+                    <token skip="-1">que<exception scope="next">que</exception></token>
+                    <token postag="V.S.*" postag_regexp="yes"/>
+                    <example>¿Que le importe si es feliz o no, o si es rica o pobre, o si su amante le corresponde su amor o no, o si su madre está enferma o sana, o si es respetada en la sociedad o no, o si sus enemigos la golpearán o sus amigos la abandonarán, o si sobre sus esperanzas cae la ruina o si sus ambiciones políticas fracasan, o si morirá en el seno de su familia o abandonada y despreciada en un país extranjero?</example>
+                </antipattern>
                 <pattern>
                     <token>¿</token>
                     <token min="0">a</token>
@@ -3420,17 +3486,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
                 <suggestion>qué</suggestion>
                 <example correction="Qué">¿<marker>Que</marker> quieres que te diga?</example>
+                <example correction="Qué">¿<marker>Que</marker> vas a hacer?</example>
+                <example correction="Qué">¿<marker>Que</marker> quieres esta vez?</example>
                 <example correction="Qué">¿<marker>Que</marker> te has dejado en casa?</example>
                 <example correction="qué">¿A <marker>que</marker> está jugando aquel hombre alto?</example>
                 <example type="triggers_error">¿Que te has dejado las llaves en casa?</example>
                 <!--This can't be detected, but infrequent-->
-                <example type="triggers_error">¿Que los alemanes no tienen sentido del humor?</example>
                 <example type="triggers_error">¿Que me quiere?</example>
                 <example>¿A que hoy hace viento?</example>
                 <example>¡Que te diviertas!</example>
                 <example>¿A que no?</example>
                 <example>Tom es muy popular, ¿a que sí? </example>
                 <example>¿A que te he hecho reír?</example>
+                <example type="triggers_error">¿A que ese estudiante corre mucho?</example>
+                <example type="triggers_error" reason="ambiguous">¿Que estás sufriendo?</example>
+                <example type="triggers_error">¿A que te has comprado un coche? </example>
+                <example type="triggers_error">¿Que el vecino fue a verte? </example>
+                <example type="triggers_error">¿Que tienes que volver?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -4041,7 +4113,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                 </antipattern>
                 <antipattern>
-                    <token skip="-1">que<exception scope="next">que</exception></token>
+                    <marker>
+                        <token skip="-1">que<exception scope="next">que</exception></token>
+                    </marker>
                     <token postag="V.S.*" postag_regexp="yes"/>
                     <example>Ahí, la araña espera a que insectos pequeños como mariposas y libélulas caigan en la trampa.</example>
                 </antipattern>
@@ -4050,8 +4124,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>que<exception scope="previous">¿</exception><exception postag="LOC_CS"/></token>
                     </marker>
-                    <token postag="A.*|V.P.*" postag_regexp="yes" min="0"><exception postag="_possible_NP"/><exception inflected="yes" regexp="yes">dicho|otro</exception></token>
-                    <token postag="NC.*" postag_regexp="yes"><exception postag="_possible_NP|V.[ISM].*" postag_regexp="yes"/><exception inflected="yes">numeral</exception></token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes" min="0"><exception postag="_possible_NP"/><exception inflected="yes" regexp="yes">dicho|otro</exception></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="_possible_NP|V.[ISM].*|AO.*" postag_regexp="yes"/><exception inflected="yes">numeral</exception></token>
                 </pattern>
                 <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
@@ -4059,8 +4133,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">para que se vea hasta <marker>que</marker> punto es difícil demostrar la relación</example>
                 <example>con la salvedad de que dicha comunicación de datos este amparada en una obligación legal </example>
                 <example>Ella tenía la esperanza de que otro muchacho la invitase a bailar.</example>
+                <example>Todos éramos felices, hasta que terceras personas irrumpieron en nuestra vida.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- 7 -->
                 <antipattern>
                     <token regexp="yes" skip="-1">mas|más|menos|antes|después|mejor|peor|igual|mayor|menor</token>
@@ -4193,7 +4268,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Quiero que sepas que hiciste un gran trabajo.</example>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes">explicar|saber|ocurrir|entender|concebir|que|averiguar</token>
+                    <token regexp="yes" inflected="yes">contar|explicar|saber|ocurrir|entender|concebir|que|averiguar</token>
                     <token min="0" postag="RG"/>
                     <marker>
                         <token>que</token>
@@ -4245,7 +4320,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Sabía que habría algo de comer.</example>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes">explicar|saber|ocurrir|ver</token>
+                    <token regexp="yes" inflected="yes">contar|explicar|saber|ocurrir|ver</token>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -4281,7 +4356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Sé que bajar música del Internet sin pagar está mal.</example>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes">explicar|saber|ocurrir|decidir|ni</token>
+                    <token regexp="yes" inflected="yes">contar|explicar|saber|ocurrir|decidir|ni</token>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -4532,6 +4607,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!-- 22 -->
+                <antipattern>
+                    <token>seguro</token>
+                    <token>que</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="5" postag_regexp="yes" postag="CC|P.*|RG|LOC_ADV|SPS00|_PUNCT.*"><exception>que</exception></token>
@@ -4559,6 +4638,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- 23 -->
                 <!-- Previous rule slightly modified because of a bug -->
+                <antipattern>
+                    <token>seguro</token>
+                    <token>que</token>
+                    <example>¿Seguro que nos ayudarán?</example>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="5" postag_regexp="yes" postag="CC|P.*|RG|LOC_ADV|SPS00|_PUNCT.*"><exception>que</exception></token>
@@ -14737,7 +14821,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- catch-all rule -->
                 <antipattern>
-                    <token regexp="yes" inflected="yes">ansioso|deseoso|optar|preocupación|preocupar|rezar</token>
+                    <token regexp="yes" inflected="yes">impaciente|ansioso|deseoso|optar|preocupación|preocupar|rezar</token>
                     <token>por</token>
                     <token skip="5">que</token>
                     <token postag="V.S.*" postag_regexp="yes"/>
@@ -14763,6 +14847,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El motivo por que vinimos no es este.</example>
                 <example>Nos expresó su preocupación por que los niños pudieran irse.</example>
                 <example correction="porque|por qué" type="triggers_error">Los premios <marker>por que</marker> competían eran atractivos.</example>
+                <example>Yo estaba impaciente por que el juego comenzara.</example>
+                <!-- No puedo responder por que él sea un deshonesto. -->
             </rule>
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
