@@ -196,6 +196,8 @@ public class Catalan extends Language {
       case "GERUNDI_PERD_T": return 30;
       case "CONFUSIONS": return 30;
       case "CA_SIMPLE_REPLACE": return 30; // greater than CA_SIMPLE_REPLACE_VERBS
+      case "CA_SIMPLE_REPLACE_VERBS": return 28; // greater than PRONOMS_FEBLES_SOLTS2
+      case "REEMPRENDRE": return 28; // equal to CA_SIMPLE_REPLACE_VERBS
       case "INCORRECT_WORDS_IN_CONTEXT": return 25; // similar to but lower than CONFUSIONS
       case "PRONOMS_FEBLES_SOLTS2": return 25;  // greater than PRONOMS_FEBLES_SOLTS and ES
       case "CONFUSIONS_ACCENT": return 20;
@@ -211,7 +213,6 @@ public class Catalan extends Language {
       case "CAP_ELS_CAP_ALS": return 10; // greater than DET_GN
       case "CASING": return 10; // greater than CONCORDANCES_DET_NOM
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
-      case "CA_SIMPLE_REPLACE_VERBS": return 10;
       case "CONCORDANCES_DET_NOM": return 5;
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "VENIR_NO_REFLEXIU": return 5;
