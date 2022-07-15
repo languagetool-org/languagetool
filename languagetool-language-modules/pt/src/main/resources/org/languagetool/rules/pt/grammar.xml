@@ -1681,21 +1681,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-03-08 (1-JAN-2022+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-05-09 (1-JAN-2022+) *START* -->
-        <!--
-        O cartão refeição imposto pela chefia reduz o salário.
-        Cravejado por cristal safira envolto por zirconias brancas.
-        O homem é uma pobre criatura comparado com a mulher.
-        -->
-        <antipattern>
-          <token postag='NC[CM].+|AQ0[CM].+' postag_regexp='yes'/>
-          <token postag='NC[CF].+|AQ0[CF].+' postag_regexp='yes'>
-            <exception regexp='yes'>&partes_do_dia;</exception> <!-- to remove false positives: "Sentiu o terremoto noite passado?" -->
-          </token>
-          <token postag='V.....M' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-05-09 (1-JAN-2022+) *END* -->
-
         <!-- MARCOAGPINTO 2022-06-29 + 2022-06-30 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
           <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'>
@@ -1848,6 +1833,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-15 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-07-15 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token postag='NC[CM].+|AQ.[CM].+' postag_regexp='yes'/>
+          <token postag='NC[CF].+|AQ.[CF].+' postag_regexp='yes'/>
+          <token postag='V.....M' postag_regexp='yes'/>
+          <token postag='SPS00|CC|CS|RG|I|RM|RN|V.+|[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp='yes'/>
+          <example>É engraçado que o termo geringonça aplicado à política vem no Milagre Segundo Salomé, de José Rodrigues Miguéis: «o problema é essencialmente e...</example>
+          <example>Aplicação de tinta a base de epóxi especial modificado poliamida pigmentado com alumínio e inertes especiais - Norma PETROBRÁS N-2288.</example>
+          <example>No Estado de São Paulo, 2% dos surtos de doenças transmitidas por alimentos água notificados são por shigella envolvendo em média 300 pessoas por ano.</example>
+          <example>O cartão refeição imposto pela chefia reduz o salário.</example>
+          <example>Cravejado por cristal safira envolto por zirconias brancas.</example>
+          <example>O homem é uma pobre criatura comparado com a mulher.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-15 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
         <pattern>
           <token/> <!-- MARCOAGPINTO - The other "so clever" fix I used in the line below in 2019 caught fewer errors - 2022-07-12 -->
 <!--          <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <- MARCOAGPINTO 2019-12-31 -> -->
@@ -1906,10 +1906,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Tive um professor na faculdade que disse que o BASIC era programação spaghetti.</example>
         <example>Iniciou o Chegou a Hora em parceria, mas conquistou carreira solo e agora decola com seus novos projetos.</example>
         <example>Molho para acompanhar massa esparguete.</example>
-
-        <example>O cartão refeição imposto pela chefia reduz o salário.</example>
-        <example>Cravejado por cristal safira envolto por zirconias brancas.</example>
-        <example>O homem é uma pobre criatura comparado com a mulher.</example>
       </rule>
 
       <rule>
