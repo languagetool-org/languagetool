@@ -19450,6 +19450,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 		-->
       <!-- XXX If the user finds this rule too intrusive, they will disable it and use REPEATED_WORDS_3X as a fallback		 	-->
       <antipattern>
+        <token>Acesso</token>
+		<token min='0'>em</token>
+        <token regexp='yes'>[1-31]</token>
+		<token min='0'>de</token>
+		<token regexp='yes' min='0'>&meses_ano;|&meses_ano_abrev;</token>
+      </antipattern>
+	  <antipattern>
+        <token>Disponível</token>
+		<token>em</token>
+        <token>:</token>
+      </antipattern>
+      <antipattern>
         <token regexp='yes'>cara|dia|face|frente|passo|porta|tempos?|terra|t[éê]te|pessoa</token> <!-- MARCOAGPINTO 2020-06-19 - Improved -->
         <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
         <token regexp='yes'>[àa]o?</token>
