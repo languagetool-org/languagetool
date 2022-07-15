@@ -7510,7 +7510,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token min="0" postag="(adj|pact|num):.*" postag_regexp="yes"/>
             <token min="0" regexp="yes">\d+</token>
             <token postag="(subst|ppron|siebie|ger|adv).*" postag_regexp="yes"/>
-            <token min="0" max="2" postag="(subst|ger|depr).*gen.*" postag_regexp="yes"/>          
+            <token min="0" max="2" postag="(subst|ger|depr).*gen.*" postag_regexp="yes"/>
+            <token min="0">,</token>
             </unify-ignore>
           <token postag="(subst|adj|ppas).*" postag_regexp="yes"/>
         </unify>
@@ -8452,7 +8453,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern>
           <marker>
             <token skip="9" postag="(ppas|pact|adj).*inst.*" postag_regexp="yes">
-            <exception scope="next" postag="verb.*|comp:comma" postag_regexp="yes"/>
+            <exception scope="next" postag="comp:comma"/>
+            <exception scope="next" postag="verb.*" postag_regexp="yes" inflected="yes" regexp="yes" negate="yes">czynić|uczynić</exception>
             </token>          
           </marker>
           <token inflected="yes" regexp="yes">czynić|uczynić</token>
@@ -8519,7 +8521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <antipattern> <!-- przymiotniki wymagające „z” + gen-->
           <token inflected="yes">z</token>
           <token postag="(subst|ger).*gen.*" postag_regexp="yes"/>
-          <token inflected="yes" regexp="yes">jednaki|niezadowolony|ułożony|zadowolony|wyzuty|ocknąć|opadać|zwlec</token>
+          <token inflected="yes" regexp="yes">jednaki|niezadowolony|ułożony|zadowolony|wyzuty|ocknąć|opadać|wykuć|zwlec</token>
         </antipattern>
         <antipattern> <!-- przymiotniki wymagające „z” + inst -->
           <token inflected="yes">z</token>
@@ -8687,6 +8689,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Zasłabł po paru minutach zaczętej z panią Barbarą rozmowy.</example>
       <example>Słyszałem, że jedzenie jednej czy dwóch porcji ryby tygodniowo może zmniejszyć zagrożenie chorobą serca.</example>
       <example>Odpłacił napastnikowi świetną satyrą w drugiej części swego Don Kichota.</example>
+      <example>Ciało się wasze potężniejszym czyni.</example>
+      <example>Buchnął gwar potężny, podobny do huku bijących o skały, rozszalałych fal morskich.</example>
 		</rule>
 		  <rulegroup id="DWA_LUB_WIECEJ" name="„dwa lub więcej” (co najmniej dwa)">
       <rule>
