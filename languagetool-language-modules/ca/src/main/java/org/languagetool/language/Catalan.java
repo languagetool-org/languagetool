@@ -206,6 +206,7 @@ public class Catalan extends Language {
       case "PASSAT_PERIFRASTIC": return 20;
       case "ORDINALS": return 20; // greater than SEPARAT
       case "SUPER": return 20;
+      case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
       case "ACCENTUATION_CHECK": return 10;
       case "CONCORDANCES_NUMERALS": return 10;
