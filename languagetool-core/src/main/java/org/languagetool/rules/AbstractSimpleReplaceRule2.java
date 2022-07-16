@@ -138,6 +138,12 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     {
       String line;
       while ((line = br.readLine()) != null) {
+        String[] origLineParts = line.split("=");
+        if (origLineParts.length == 2 && origLineParts[0].trim().equals(origLineParts[1].trim())) {
+          throw new IOException("Format error in file " +  JLanguageTool.getDataBroker().getFromRulesDirAsUrl(filename)
+            + ". Found same word on left and right side of '='. Line: " + line);
+        }
+
         line = line.trim();
         if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
           continue;
