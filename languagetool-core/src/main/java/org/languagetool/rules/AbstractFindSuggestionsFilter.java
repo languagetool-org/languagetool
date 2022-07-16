@@ -183,7 +183,9 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     if (diacriticsMode && replacements.size() == 0) {
       return null;
     }
-
+    if (replacements.size() + replacements2.size() == 0 && bSuppressMatch) {
+      return null;
+    }
     String message = match.getMessage();
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
         message, match.getShortMessage());
@@ -224,9 +226,6 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
     if (!definitiveReplacements.isEmpty()) {
       ruleMatch.setSuggestedReplacements(definitiveReplacements);
-    }
-    if (ruleMatch.getSuggestedReplacements().isEmpty() && bSuppressMatch) {
-      return null;
     }
     return ruleMatch;
   }
