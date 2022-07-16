@@ -15112,6 +15112,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
         <rule>
+            <!-- tant partidaris com altres opositors -->
+            <pattern>
+                <marker>
+                    <token>tant</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes" skip="20"/>
+                <token>com</token>
+                <token postag="[AD].*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="allow_tant"/>
+            </disambig>
+        </rule>
+        <rule>
             <pattern>
                 <token regexp="yes" skip="1">tant?|tantes|tants</token>
                 <token postag="N.*" postag_regexp="yes" skip="20"/>
