@@ -44359,6 +44359,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 		<example correction="para|por|pela">A ação foi <marker>p</marker> aumentar os lucros.</example>
     </rule>
     <rule>
+    <antipattern>
+           <token regexp="yes">&aspas;|"|'</token>
+	       <token regexp='yes'>lol|lmao|kk+|rotfl</token>
+           <token regexp="yes">&aspas;|"|'</token>
+		<example>Cada vez mais jovens utilizam "lol" para expressar risos.</example>
+        </antipattern>
          <pattern>
 	       <token regexp='yes'>lol|lmao|kk+|rotfl</token>
         </pattern>
@@ -44366,22 +44372,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          <example correction="haha|APAGAR">Haverá reunião aos sábados <marker>kkk</marker>.</example>
     </rule>
     <rule>
+    <antipattern>
+           <token regexp="yes">&aspas;|"|'</token>
+           <token>omg</token>
+           <token regexp="yes">&aspas;|"|'</token>
+		<example>Cada vez mais jovens utilizam "omg" em suas conversas.</example>
+        </antipattern>
         <pattern>
-	       <marker>
+	      <marker>
 	       <token>omg</token>
+	      </marker>
 		   <token postag='_PUNCT' min='0'/>
-		   </marker>
         </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion>minha nossa!</suggestion>, <suggestion>meu Deus!</suggestion>, <suggestion>não acredito!</suggestion> ou <suggestion>nossa!</suggestion> por extenso.</message>
-         <example correction="minha nossa!|meu Deus!|não acredito!|nossa!">Que novidade, <marker>omg.</marker></example>
+          <message>Linguagem de Internet. Considere as alternativas.</message>
+          <suggestion>minha nossa</suggestion>
+          <suggestion>meu Deus</suggestion>
+          <suggestion>não acredito</suggestion>
+          <suggestion>nossa</suggestion>
+         <example correction="minha nossa|meu Deus|não acredito|nossa">Que novidade, <marker>omg</marker>!</example>
     </rule>
     <rule>
+       <antipattern>
+           <token regexp="yes">&aspas;|"|'</token>
+           <token>wtf</token>
+           <token regexp="yes">&aspas;|"|'</token>
+		<example>Cada vez mais jovens utilizam "wtf" em suas conversas.</example>
+        </antipattern>
         <pattern>
+          <marker>
 	       <token>wtf</token>
+	      </marker>
 		   <token postag='_PUNCT' min='0'/>
         </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion>como assim?</suggestion>, <suggestion>o que é isso?</suggestion>, <suggestion>não entendo!</suggestion> ou <suggestion>não faz sentido!</suggestion>por extenso.</message>
-         <example correction="como assim?|o que é isso?|não entendo!|não faz sentido!">É inacreditável, <marker>wtf.</marker></example>
+          <message>Linguagem de Internet. Considere as alternativas.</message>
+          <suggestion>como assim</suggestion>
+          <suggestion>que diabos</suggestion>
+          <suggestion>o que é isso</suggestion>
+          <suggestion>não entendo</suggestion>
+          <suggestion>não faz sentido</suggestion>
+          <suggestion>sem noção</suggestion>
+         <example correction="como assim|que diabos|o que é isso|não entendo|não faz sentido|sem noção">É inacreditável, <marker>wtf</marker>!</example>
     </rule>
     <rule>
         <pattern>
