@@ -3745,19 +3745,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-05-24 (Checked/Enhanced) (24-MAY-2022+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-05-30 (24-MAY-2022+) *START* -->
-        <!--
-        Seu relógio está dez minutos atrasado.
-        O fato de chegar seis minutos atrasado justifica deixá-lo sem nenhuma aula?
-        O morto passava setenta dias imerso em água saturada de soda.
-        -->
-        <antipattern>
-          <token postag='Z0.P.+' postag_regexp='yes'/>
-          <token regexp='yes'>segundos|minutos|horas|dias|quinzenas|meses|anos|décadas|séculos|mil[éê]nios</token>
-          <token postag='VMP00S.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-05-30 (24-MAY-2022+) *END* -->
-
         <!-- MARCOAGPINTO 2022-06-29 (5-JUN-2022+) *START* -->
         <!-- These two antipatterns were placed both in male and female parts -->
         <antipattern>
@@ -3885,6 +3872,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-17 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-07-17 (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token><exception postag_regexp='yes' postag='V....P.+'/></token>
+          <token postag='Z0.P.+' postag_regexp='yes'/>
+          <token regexp='yes'>&expressoes_de_tempo_simples;
+            <exception postag_regexp='yes' postag='AQ..S.+|NC.S.+'/>
+          </token>
+          <token postag='VMP00S.+|AQ..S.+|NC.S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+' postag_regexp='yes'/>
+          <example>Seu relógio está dez minutos atrasado.</example>
+          <example>O fato de chegar seis minutos atrasado justifica deixá-lo sem nenhuma aula?</example>
+          <example>O morto passava setenta dias imerso em água saturada de soda.</example>
+          <example>Cheguei dez minutos atrasado à escola.</example>
+          <example>O fato de chegar seis minutos atrasado justifica deixá-lo sem nenhuma aula?</example>
+          <example>Ele apareceu de repente, depois de três anos ausente.</example>
+          <example>Passou a maior parte dos seus últimos dias sedado após mais de dois meses internado no Hospital Santa Lena por conta das fortes dores.</example>
+          <example>Ele apareceu de repente, depois de três anos ausente.</example>
+          <example>Aos cinco anos ele já sabia esquiar.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-17 (5-JUN-2022+) *END* -->
+
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
@@ -3987,10 +3994,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>A interpretação psicológica dos sonhos deve muito a Freud.</example>
         <example>Eu até aos domingos trabalho.</example>
         <example>Quando pego nas cores pinto tudo.</example>
-
-        <example>Seu relógio está dez minutos atrasado.</example>
-        <example>O fato de chegar seis minutos atrasado justifica deixá-lo sem nenhuma aula?</example>
-        <example>O morto passava setenta dias imerso em água saturada de soda.</example>
 
         <example>Melhores dias virão.</example>
       </rule>
