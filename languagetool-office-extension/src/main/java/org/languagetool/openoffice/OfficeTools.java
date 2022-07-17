@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -36,6 +37,7 @@ import com.sun.star.beans.Property;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.beans.XPropertySetInfo;
+import com.sun.star.container.XNameAccess;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XDispatchHelper;
@@ -46,6 +48,7 @@ import com.sun.star.frame.XModel;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
+import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.linguistic2.XSearchableDictionaryList;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.ui.XUIElement;
@@ -73,6 +76,7 @@ class OfficeTools {
     ONLY_GRAMMAR  //  only grammar check
   }
     
+  public static final String EXTENSION_MAINTAINER = "Fred Kruse";
   public static final String LT_SERVICE_NAME = "org.languagetool.openoffice.Main";
   public static final int PROOFINFO_UNKNOWN = 0;
   public static final int PROOFINFO_GET_PROOFRESULT = 1;
@@ -528,6 +532,59 @@ class OfficeTools {
   }
   
   /**
+   * Get LanguageTool Image
+   */
+  public static ImageIcon getLtImageIcon(boolean big) {
+    URL url;
+    if (big) {
+      url = OfficeTools.class.getResource("/images/LanguageToolBig.png");
+    } else {
+      url = OfficeTools.class.getResource("/images/LanguageToolSmall.png");
+    }
+    return new ImageIcon(url);
+  }
+  
+  /**
+   * get information of LO/OO office product
+   */
+  public static OfficeProductInfo getOfficeProductInfo(XComponentContext xContext) {
+    try {
+      if (xContext == null) {
+        return null;
+      }
+      XMultiServiceFactory xMSF = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContext.getServiceManager());
+      if (xMSF == null) {
+        MessageHandler.printToLogFile("XMultiServiceFactory == null");
+        return null;
+      }
+      Object oConfigProvider = xMSF.createInstance("com.sun.star.configuration.ConfigurationProvider");
+      XMultiServiceFactory confMsf = UnoRuntime.queryInterface(XMultiServiceFactory.class, oConfigProvider);
+
+      final String sView = "com.sun.star.configuration.ConfigurationAccess";
+
+      Object args[] = new Object[1];
+      PropertyValue aPathArgument = new PropertyValue();
+      aPathArgument.Name = "nodepath";
+      aPathArgument.Value = "org.openoffice.Setup/Product";
+      args[0] = aPathArgument;
+      Object oConfigAccess =  confMsf.createInstanceWithArguments(sView, args);
+      
+      XNameAccess xName = UnoRuntime.queryInterface(XNameAccess.class, oConfigAccess);
+      
+//      for (String name : xName.getElementNames()) {
+//        MessageHandler.printToLogFile("config Element: " + name + " = " + xName.getByName(name));
+//      }
+      return (new OfficeProductInfo(xName.getByName("ooName"), xName.getByName("ooSetupVersion"), 
+          xName.getByName("ooSetupExtension"), xName.getByName("ooVendor")));
+      
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;           // Return null as method failed
+    }
+
+  }
+  
+  /**
    * Get a boolean value from an Object
    */
   public static boolean getBooleanValue(Object o) {
@@ -617,4 +674,24 @@ class OfficeTools {
     }
   }
 
+  public static class OfficeProductInfo {
+    public String ooName;
+    public String ooVersion;
+    public String ooExtension;
+    public String ooVendor;
+    
+    OfficeProductInfo(Object name, Object version, Object extension, Object vendor) {
+      ooName = (String) name;
+      ooVersion = (String) version;
+      ooExtension = (String) extension;
+      ooVendor = (String) vendor;
+    }
+    
+    OfficeProductInfo(String name, String version, String extension, String vendor) {
+      ooName = name;
+      ooVersion = version;
+      ooExtension = extension;
+      ooVendor = vendor;
+    }
+  }
 }

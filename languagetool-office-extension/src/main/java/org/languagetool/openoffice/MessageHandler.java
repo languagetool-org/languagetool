@@ -29,7 +29,10 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.tools.Tools;
+
+import com.sun.star.uno.XComponentContext;
 
 /**
  * Writes Messages to screen or log-file
@@ -44,18 +47,25 @@ class MessageHandler {
   
   private static boolean testMode;
   
-  MessageHandler() {
-    initLogFile();
+  MessageHandler(XComponentContext xContext) {
+    initLogFile(xContext);
   }
 
   /**
    * Initialize log-file
    */
-  private static void initLogFile() {
+  private static void initLogFile(XComponentContext xContext) {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath()))) {
       Date date = new Date();
-      bw.write("LT office integration log from " + date + logLineBreak);
-      bw.write(OfficeTools.getJavaInformation() + logLineBreak);
+      OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
+      bw.write("LT office integration log from " + date + logLineBreak + logLineBreak);
+      bw.write("LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " 
+          + JLanguageTool.GIT_SHORT_ID + ")" + logLineBreak);
+      bw.write("OS: " + System.getProperty("os.name") + " " 
+          + System.getProperty("os.version") + " on " + System.getProperty("os.arch") + logLineBreak);
+      bw.write(officeInfo.ooName + " on " + officeInfo.ooVersion + officeInfo.ooExtension
+          + "(" + officeInfo.ooVendor +")" + logLineBreak);
+      bw.write(OfficeTools.getJavaInformation() + logLineBreak + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
@@ -64,8 +74,8 @@ class MessageHandler {
   /**
    * Initialize MessageHandler
    */
-  static void init() {
-    initLogFile();
+  static void init(XComponentContext xContext) {
+    initLogFile(xContext);
   }
 
   /**
