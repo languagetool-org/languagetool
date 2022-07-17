@@ -63,8 +63,10 @@ class MessageHandler {
           + JLanguageTool.GIT_SHORT_ID + ")" + logLineBreak);
       bw.write("OS: " + System.getProperty("os.name") + " " 
           + System.getProperty("os.version") + " on " + System.getProperty("os.arch") + logLineBreak);
-      bw.write(officeInfo.ooName + " on " + officeInfo.ooVersion + officeInfo.ooExtension
-          + "(" + officeInfo.ooVendor +")" + logLineBreak);
+      if (officeInfo != null) { 
+        bw.write(officeInfo.ooName + " on " + officeInfo.ooVersion + officeInfo.ooExtension
+            + "(" + officeInfo.ooVendor +")" + logLineBreak);
+      }
       bw.write(OfficeTools.getJavaInformation() + logLineBreak + logLineBreak);
     } catch (Throwable t) {
       showError(t);
