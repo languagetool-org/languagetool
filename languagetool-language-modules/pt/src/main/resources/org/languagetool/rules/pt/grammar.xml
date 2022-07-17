@@ -11714,6 +11714,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rule id="UPPERCASE_AFTER_COMMA" name="Maiúsculas depois de uma vírgula">
       <!-- Based on English forum rule https://forum.languagetool.org/t/case-sensitive-postag-check/3567/2,
       by Tiago F. Santos, 2018-11-23    -->
+      <antipattern>
+        <token case_sensitive='yes' regexp='yes'>[A-Z]*|[0-9]*</token>
+        <token>:</token>
+        <token spacebefore='yes' case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
+        <example>BRENDA: Foi uma longa viagem.</example>
+        <example>Título: Memórias póstumas de Brás Cubas</example>
+        <example>Palavra-chave: Museu</example>
+        <example>Aula 2: Equações matemáticas.</example>
+      </antipattern>
+      <antipattern>
+        <token case_sensitive='yes' regexp='yes'>[A-Z]+</token>
+        <token>,</token>
+        <token spacebefore='yes' case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
+        <example>SOBRENOME, Nome. Título: "Título aqui".</example>
+      </antipattern>
       <antipattern><!-- Acronyms explained in reverse order, unrecognized proper names, titles -->
         <token>,</token>
         <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
