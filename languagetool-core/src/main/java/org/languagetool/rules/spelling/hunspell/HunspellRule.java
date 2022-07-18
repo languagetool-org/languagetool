@@ -259,12 +259,9 @@ public class HunspellRule extends SpellingCheckRule {
           }
           ruleMatches.add(ruleMatch);
           float enRatio = (float)misspelledButEnglish / (sentLength - notMisspelledButCouldBeEnglish);
-          float otherRatio = (float)ruleMatches.size() / sentLength;
           
           if (enRatio == 1.0 || (sentLength >= 3 && enRatio > 0.66)) {
             ruleMatch.setErrorLimitLang("en");
-          } else if (otherRatio == 1.0 || (sentLength >= 3 && otherRatio > 0.66)) {
-            ruleMatch.setErrorLimitLang(NoopLanguage.SHORT_CODE);
           }
         }
         if (ignoredEnglishWordsForMultiLanguageTexts.contains(word.toLowerCase())) {
