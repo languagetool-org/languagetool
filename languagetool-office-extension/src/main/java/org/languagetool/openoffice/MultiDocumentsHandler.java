@@ -1397,7 +1397,7 @@ public class MultiDocumentsHandler {
    */
   public void trigger(String sEvent) {
     try {
-      MessageHandler.printToLogFile("Event: " + sEvent);
+//      MessageHandler.printToLogFile("Event: " + sEvent);
       if (!testDocLanguage(true)) {
         MessageHandler.printToLogFile("Test for document language failed: Can't trigger event: " + sEvent);
         return;

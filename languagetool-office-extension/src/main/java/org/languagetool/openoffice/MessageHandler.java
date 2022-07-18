@@ -64,8 +64,8 @@ class MessageHandler {
       bw.write("OS: " + System.getProperty("os.name") + " " 
           + System.getProperty("os.version") + " on " + System.getProperty("os.arch") + logLineBreak);
       if (officeInfo != null) { 
-        bw.write(officeInfo.ooName + " on " + officeInfo.ooVersion + officeInfo.ooExtension
-            + "(" + officeInfo.ooVendor +")" + logLineBreak);
+        bw.write(officeInfo.ooName + officeInfo.ooVersion + officeInfo.ooExtension
+            + "(" + officeInfo.ooVendor +"), " + officeInfo.ooLocale + logLineBreak);
       }
       bw.write(OfficeTools.getJavaInformation() + logLineBreak + logLineBreak);
     } catch (Throwable t) {

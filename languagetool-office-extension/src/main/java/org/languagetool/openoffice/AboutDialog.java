@@ -107,9 +107,9 @@ public class AboutDialog {
       techPane.setOpaque(false);
       techPane.setText(String.format("<html>"
           + "<p>LanguageTool %s (%s, %s)<br>"
-          + "OS: %s %s on %s<br>"
-          + "%s %s%s (%s)<br>"
-          + "Java version: %s from %s<br>"
+          + "OS: %s %s (%s)<br>"
+          + "%s %s%s (%s), %s<br>"
+          + "Java version: %s (%s)<br>"
           + "Java max/total/free memory: %sMB, %sMB, %sMB</p>"
           + "</html>", 
            JLanguageTool.VERSION,
@@ -122,6 +122,7 @@ public class AboutDialog {
            officeInfo.ooVersion,
            officeInfo.ooExtension,
            officeInfo.ooVendor,
+           officeInfo.ooLocale,
            System.getProperty("java.version"),
            System.getProperty("java.vm.vendor"),
            Runtime.getRuntime().maxMemory()/1024/1024,
@@ -177,7 +178,7 @@ public class AboutDialog {
 //      dialog.add(panel);
       dialog.pack();
       dialog.setAutoRequestFocus(true);
-      MessageHandler.printToLogFile("set dialog visible");
+//      MessageHandler.printToLogFile("set dialog visible");
       dialog.setVisible(true);
       dialog.toFront();
     } catch (Throwable t) {

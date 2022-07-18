@@ -568,14 +568,18 @@ class OfficeTools {
       aPathArgument.Value = "org.openoffice.Setup/Product";
       args[0] = aPathArgument;
       Object oConfigAccess =  confMsf.createInstanceWithArguments(sView, args);
-      
       XNameAccess xName = UnoRuntime.queryInterface(XNameAccess.class, oConfigAccess);
+      
+      aPathArgument.Value = "org.openoffice.Setup/L10N";
+      Object oConfigAccess1 =  confMsf.createInstanceWithArguments(sView, args);
+      
+      XNameAccess xName1 = UnoRuntime.queryInterface(XNameAccess.class, oConfigAccess1);
       
 //      for (String name : xName.getElementNames()) {
 //        MessageHandler.printToLogFile("config Element: " + name + " = " + xName.getByName(name));
 //      }
       return (new OfficeProductInfo(xName.getByName("ooName"), xName.getByName("ooSetupVersion"), 
-          xName.getByName("ooSetupExtension"), xName.getByName("ooVendor")));
+          xName.getByName("ooSetupExtension"), xName.getByName("ooVendor"), xName1.getByName("ooLocale")));
       
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
@@ -679,19 +683,22 @@ class OfficeTools {
     public String ooVersion;
     public String ooExtension;
     public String ooVendor;
+    public String ooLocale;
     
-    OfficeProductInfo(Object name, Object version, Object extension, Object vendor) {
+    OfficeProductInfo(Object name, Object version, Object extension, Object vendor, Object locale) {
       ooName = (String) name;
       ooVersion = (String) version;
       ooExtension = (String) extension;
       ooVendor = (String) vendor;
+      ooLocale = (String) locale;
     }
     
-    OfficeProductInfo(String name, String version, String extension, String vendor) {
+    OfficeProductInfo(String name, String version, String extension, String vendor, String locale) {
       ooName = name;
       ooVersion = version;
       ooExtension = extension;
       ooVendor = vendor;
+      ooLocale = locale;
     }
   }
 }
