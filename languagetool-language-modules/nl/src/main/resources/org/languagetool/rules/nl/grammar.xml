@@ -12156,6 +12156,14 @@ onwaarschijnlijk
 				<message>U bedoelt vast: <suggestion>Ed</suggestion> (naam), <suggestion>e.d.</suggestion> (en dergelijke) of <suggestion>ed.</suggestion> (editie).</message>
 				<example correction="Ed|e.d.|ed.">Ik houd van raketten <marker>ed</marker> sinds mijn jeugd.</example>
 			</rule>
+			<rule>
+				<pattern case_sensitive="yes">
+					<marker><token>Ed</token>
+					<token>.</token></marker>
+				</pattern>
+				<message>Als u <suggestion><match no="1" case_conversion="alllower"/>.</suggestion> (editie) bedoelt, hoort het zonder hoofdletter.</message>
+				<example correction="ed.">Ik lees de 1e <marker>Ed.</marker>. van haar boek.</example>
+			</rule>
 		</rulegroup>
 		<rulegroup id="VON" name="von → v.o.n.">
 			<antipattern><token>von</token><token case_sensitive="yes" regexp="yes">[A-Z].*|der</token></antipattern><!-- van Neumann etc. -->
