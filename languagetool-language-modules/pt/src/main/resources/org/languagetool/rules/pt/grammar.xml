@@ -12451,10 +12451,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Eu encontrei o seu casaco após você ter saído da casa.</example>
       <example>Ele chegou após eu sair.</example>
     </rule>
-	
+
     <!-- DIFERENTES diferem	-->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-11 + 2022-06-23 (2-JUL-2020+)     -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-11 + 2022-06-23 + 2022-07-18 (2-JUL-2020+)     -->
     <rule id='DIFERENTES' name="Diferir">
+
+      <!-- 2022-07-18 - workaround, rule needs to be rewritten to remove the negate="yes" -->
+      <antipattern>
+        <token regexp="yes">eu|tu</token>
+        <token inflected='yes'>ser</token>
+        <token regexp="yes">diferentes?</token>
+        <token postag='_PUNCT|CC|DA0.+|SPS00:DA0.+|SPS00' postag_regexp='yes'/>
+        <example>Mas eu era diferente das pessoas comuns.</example>
+      </antipattern>
+
       <pattern>
         <marker>
           <token inflected='yes'>ser
@@ -12470,8 +12480,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <message>Substitua por</message>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>diferir</match></suggestion>
       <example correction="diferem">Os terroristas <marker>são diferentes</marker> dos criminosos comuns.</example>
+      <example>Mas eu era diferente das pessoas comuns.</example>
     </rule>
-	
+
     <!-- EM CASO caso -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-12-09 (21-OCT-2020+)  *START*   -->
     <rule id='EM_CASO_CASO' name="Em caso > caso">
