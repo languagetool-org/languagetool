@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Use this builder to create input of text with markup for LanguageTool, so that it
@@ -52,6 +53,8 @@ public class AnnotatedTextBuilder {
   private final List<TextPart> parts = new ArrayList<>();
   private final Map<AnnotatedText.MetaDataKey, String> metaData = new HashMap<>();
   private final Map<String, String> customMetaData = new HashMap<>();
+  
+  private final String HiddenChars = "\u00AD\u202D\u202c";
 
   public AnnotatedTextBuilder() {
   }
@@ -82,7 +85,15 @@ public class AnnotatedTextBuilder {
    * {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
    */
   public AnnotatedTextBuilder addText(String text) {
-    parts.add(new TextPart(text, TextPart.Type.TEXT));
+    StringTokenizer st = new StringTokenizer(text, HiddenChars, true);
+    while (st.hasMoreElements()) {
+      String token = (String) st.nextElement();
+      if (HiddenChars.indexOf(token) < 0) {
+        parts.add(new TextPart(token, TextPart.Type.TEXT));
+      } else {
+        parts.add(new TextPart(token, TextPart.Type.MARKUP));
+      }
+    }
     return this;
   }
 
