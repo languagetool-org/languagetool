@@ -132,6 +132,91 @@
       <disambig action="add"><wd pos="SENT_END"/></disambig>
     </rule>
   </rulegroup-->
+
+  <rulegroup id="CONJ_COMPOSTAS" name="Conjunções compostas">
+    <rule>
+      <pattern>
+        <marker>
+          <token>ou</token>
+          <token>seja</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add"><wd pos="CC"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>isto</token>
+          <token>é</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add"><wd pos="CC"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>com</token>
+          <token regexp='yes'>isto|isso</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add"><wd pos="CC"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>por</token>
+          <token min='0'>tudo</token>
+          <token regexp='yes'>isto|isso</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add"><wd pos="CC"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>neste|nesse</token>
+          <token>sentido</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add"><wd pos="CC"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>deste|desse</token>
+          <token>modo</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add"><wd pos="CC"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>diante</token>
+          <token regexp='yes'>disto|disso</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add"><wd pos="CC"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>neste|nesse</token>
+          <token>caso</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add"><wd pos="CC"/></disambig>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="RARE_POS" name="rare POS tags">
     <rule>
       <pattern>
