@@ -12013,13 +12013,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
   <category id='MISC' name="Sem Categoria Definida" type="uncategorized">
 
+
     <rule id='SUBSTANTIVO_PLURAL_E_CHAVE_BASE' name="Substantivo -chave/-base">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-06-08 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-06-08 + 2022-07-18 (Checked/Enhanced) (5-JUN-2022+)      -->
+
+      <antipattern>
+        <token postag='CS|RG' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token regexp='yes'>chaves|bases</token>
+        <example>Vamos apostar mais no euromilhões visto já termos chaves suficientes na BD.</example>
+      </antipattern>
+
       <antipattern>
         <token postag='NC.P.+' postag_regexp='yes'/>
         <token regexp='yes'>[-]</token>
         <token regexp='yes'>chave|base</token>
       </antipattern>
+
       <pattern>
         <marker>
           <token postag='NC.P.+' postag_regexp='yes'>
@@ -12035,6 +12045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Jorge Forbes foi um interlocutor inquieto, identificando pontos-chave, provocando, estimulando.</example>
       <example>Palavras-chave: Sustentabilidade na Arquitetura, desenvolvimento sustentável, recursos naturais.</example>
     </rule>
+
 
     <rulegroup id='À_MINHA-TUA-SUA-VOSSA_VERB' name="à + minha/tua/sua/vossa(s) + verb" >
       <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-07 (2-JUL-2020+) -->
