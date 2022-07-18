@@ -45,7 +45,7 @@ public class SimpleReplaceMultiwordsRule extends AbstractSimpleReplaceRule2 {
 
   public SimpleReplaceMultiwordsRule(final ResourceBundle messages) throws IOException {
     super(messages, new Catalan());
-    super.setCategory(Categories.STYLE.getCategory(messages));
+    super.setCategory(Categories.GRAMMAR.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
   }
 

@@ -3625,6 +3625,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rulegroup id="PrimPersPresSing" name="verb primera persona present singular ">
         <rule>
+            <antipattern>
+                <token postag="D..MS." postag_regexp="yes"/>
+                <token>jo</token>
+            </antipattern>
             <pattern>
                 <token>jo</token>
                 <marker>
@@ -3952,6 +3956,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <!-- exception: davant d'ell el seu triomf -->
+            <antipattern>
+                <token>el</token>
+                <token>tema</token>
+            </antipattern>
             <pattern>
                 <token><exception postag="SPS00"/></token>
                 <token regexp="yes">ella?</token>
@@ -4011,6 +4019,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="N.*" postag_regexp="yes" inflected="yes">certificat</token>
             </pattern>
             <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">total|import|preu|remesa</token>
+                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">factura|entrada|proveïdor|client</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">total|import|preu</token>
+                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">factura|entrada|albarà</token>
+            </pattern>
+            <disambig action="immunize"/>
         </rule>
     </rulegroup>
     <rulegroup id="noms_aposicio" name="noms en aposició">
@@ -5034,6 +5056,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="NC.*|A.*"/>
         </rule>
         <rule>
+            <antipattern>
+                <token postag="D..FS." postag_regexp="yes"/>
+                <token>fera</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="V.*" postag_regexp="yes" inflected="yes">fer<exception regexp="yes">fets?|feres|feu|fe</exception><exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
@@ -8281,6 +8307,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="[^N].*"/>
+    </rule>
+    <rule id="tema" name="tema (nom)">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes" min="0" max="3">\p{P}</token>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">tema</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
     </rule>
     <rule id="resulta" name="resulta (no nom)">
         <pattern>
