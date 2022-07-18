@@ -1129,23 +1129,7 @@ public class GermanSpellerRuleTest {
       i++;
     }
   }
-
-  @Test
-  public void testErrorLimitReached() throws IOException {
-    HunspellRule rule1 = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
-    RuleMatch[] matches1 = rule1.match(lt.getAnalyzedSentence("Ein schöner Satz."));
-    assertThat(matches1.length, is(0));
-    RuleMatch[] matches2 = rule1.match(lt.getAnalyzedSentence("But this is English."));
-    assertThat(matches2.length, is(4));
-    assertNull(matches2[0].getErrorLimitLang());
-    assertNull(matches2[1].getErrorLimitLang());
-    assertThat(matches2[2].getErrorLimitLang(), is("zz"));  // 'en' is not known in this module, thus 'zz'
-    RuleMatch[] matches3 = rule1.match(lt.getAnalyzedSentence("Und er sagte, this is a good test."));
-    assertThat(matches3.length, is(4));
-    assertNull(matches3[3].getErrorLimitLang());
-  }
-
+  
   /**
    * number of suggestions seems to depend on previously checked text.
    * fixed by not reusing morfologik Speller object
