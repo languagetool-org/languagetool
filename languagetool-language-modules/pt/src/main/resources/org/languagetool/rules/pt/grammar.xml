@@ -11725,7 +11725,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
 		<token spacebefore="yes" case_sensitive="yes" regexp="yes" min='0'>\p{Lu}\p{Ll}+</token>
 		<token postag='SPS00|CC' postag_regexp='yes'/>
-		<token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+		<token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+<exception>Deus</exception></token>
 		<example>São membros do programa: Comissão Nacional de Proteção dos direitos; Comissão Eleitoral Municipal; Comissão Nacional de Ética em Pesquisa.</example>
 		<example>Disciplina disponível: Teoria e Metodologia Científicas.</example>
       </antipattern>
@@ -11734,6 +11734,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 		<token>:</token>
         <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
         <example>Livro intitulado: Dragões Eternos</example>
+      </antipattern>
+      <antipattern>
+		<token>:</token>
+		<token postag='I'/>
+        <example>Ele disse: Oh, mas que surpresa!</example>
       </antipattern>
       <antipattern>
         <token>veja</token>
