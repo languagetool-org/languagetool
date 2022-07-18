@@ -50,11 +50,11 @@ import java.util.StringTokenizer;
  */
 public class AnnotatedTextBuilder {
 
+  private final static String hiddenChars = "\u00AD\u202D\u202c";
+
   private final List<TextPart> parts = new ArrayList<>();
   private final Map<AnnotatedText.MetaDataKey, String> metaData = new HashMap<>();
   private final Map<String, String> customMetaData = new HashMap<>();
-  
-  private final String HiddenChars = "\u00AD\u202D\u202c";
 
   public AnnotatedTextBuilder() {
   }
@@ -85,10 +85,10 @@ public class AnnotatedTextBuilder {
    * {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
    */
   public AnnotatedTextBuilder addText(String text) {
-    StringTokenizer st = new StringTokenizer(text, HiddenChars, true);
+    StringTokenizer st = new StringTokenizer(text, hiddenChars, true);
     while (st.hasMoreElements()) {
       String token = (String) st.nextElement();
-      if (HiddenChars.indexOf(token) < 0) {
+      if (!hiddenChars.contains(token)) {
         parts.add(new TextPart(token, TextPart.Type.TEXT));
       } else {
         parts.add(new TextPart(token, TextPart.Type.MARKUP));
