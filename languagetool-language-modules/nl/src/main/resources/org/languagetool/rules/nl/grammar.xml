@@ -36035,9 +36035,10 @@ steenwijk;Steenwijk
 				<example correction="bezigheid">Zulke inkomsten worden dus behaald in de uitoefening van de <marker>beroepswerkzaamheid</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BREUKSTREEP" name="/" default="on" tags="picky"> 
+		<rulegroup id="BREUKSTREEP" name="/" default="off" tags="picky">
 			<rule>
-				<!-- TODO: individuele gevallen zoeken; het is anders een wel heel algemene melding -->
+				<!-- TODO: update according to https://onzetaal.nl/taalloket/schuine-streep
+				and https://taaladvies.net/gebruik-van-schuine-streep-slash-duitse-komma/ -->
 				<antipattern><token regexp="yes" skip="-1">http.*</token><token postag="SENT_END"/></antipattern>
 				<antipattern><token regexp="yes">[0-9]+</token><token>/</token><token regexp="yes">[0-9]+</token></antipattern>
 				<antipattern><token>en</token><token>/</token><token>of</token></antipattern>
@@ -36050,7 +36051,7 @@ steenwijk;Steenwijk
 					</marker>
 				</pattern>
 				<message>Vermijd als het even kan de / buiten berekeningen of eenheden.</message>
-				<url>https://onzetaal.nl/taaladvies/schuine-streep-en-backslash/</url>
+				<url>https://onzetaal.nl/taaladvies/schuine-streep-en-backslash/</url> <!-- link no longer exists -->
 				<example type="incorrect"><marker>Hij/zij</marker> is vandaag 3 jaar oud.</example>
 				<example type="correct">Kijk eens naar <marker>https://www.languagetool.org/nl</marker> of het klopt.</example>
 			</rule>
