@@ -56,7 +56,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getShort() {
-    return "Wrong word";
+    return "Falsches Wort";
   }
 
   @Override

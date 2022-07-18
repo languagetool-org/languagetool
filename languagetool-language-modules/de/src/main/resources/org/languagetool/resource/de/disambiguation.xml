@@ -6857,6 +6857,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="ICH_MAIL" name="Verben erste Person ohne 'e' am Ende">
         <rule>
             <pattern>
+                <token>ich</token>
+                <marker>
+                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
+                    <token case_sensitive="yes">helf</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">ich|bitte|dann</token>
                 <marker>
                     <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
@@ -6869,11 +6879,30 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern>
                 <marker>
                     <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
-                    <token case_sensitive="yes" regexp="yes">betreib|mail|rat|bau|besuch</token>
+                    <token case_sensitive="yes" regexp="yes">betreib|mail|rat|bau|besuch|helf</token>
                 </marker>
                 <token>ich</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="SIEBEN_KEIN_VERB" name="'sieben' kein Verb">
+        <pattern>
+            <marker>
+                <token>sieben</token>
+            </marker>
+            <token regexp="yes">Tagen?|Monaten?|Zwergen?|Todsünden|Leben|Weltwundern?|Schwestern?</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="SCHOEN_KEIN_ADJ" name="'schön' kein Adjektiv">
+        <!-- https://de.wikipedia.org/wiki/Sch%C3%B6n_Klinik -->
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Schön</token>
+            </marker>
+            <token regexp="yes">Klinik.*</token>
+        </pattern>
+        <disambig action="remove" postag="ADJ.*"/>
+    </rule>
 </rules>
