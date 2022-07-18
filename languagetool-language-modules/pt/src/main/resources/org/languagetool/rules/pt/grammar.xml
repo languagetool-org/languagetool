@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes">
 	<!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
+	<!ENTITY titulos_militares "Almirante|Marechal|General|Tenente|Vice-Almirante|Major|Brigadeiro|Contra-Almirante|Capitão|Tenente-Coronel|Coronel|Primeiro-Tenente|Segundo-Tenente|Terceiro-Tenente|Guarda-Marinha|Aspirante|Suboficial|Subtenente|Primeiro-Sargento|Segundo-Sargento|Terceiro-Sargento|Sargento|Cabo|Marinheiro|Soldado">
     <!ENTITY pontos_cardeais "(?:este|nascente|nordeste|noroeste|norte|ocidente|oeste|oriente|poente|sudeste|sul)">
     <!ENTITY adverbios_de_intensidade "(?:assaz|bastante|bem|demais|demasiado|imenso|mais|menos|mesmo|muita|muito|nada|não|pouca|pouco|quanto|quão|quase|tanto|tão|todo|tudo|várias|vários|.+mente)">
     <!ENTITY adverbios_de_lugar "(?:abaixo|acima|adentro|adiante|afora|aí|além|algures|alhures|ali|aquém|atrás|cá|dentro|embaixo|externamente|lá|longe|nenhures|perto)">
@@ -81,7 +82,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY naipes "(?:o[iu]ros|copas|espadas|paus|trunfos?)">
 
     <!ENTITY pronomes_retos "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
-    <!ENTITY pronomes_de_tratamento "Alteza|Altezas|Beatitude|Beatitudes|Divindade|Divindades|Eminência|Eminências|Excelência|Excelências|Graça|Graças|Magnificência|Magnificências|Majestade|Majestades|Paternidade|Paternidades|Realeza|Realezas|Reverência|Reverências|Reverendíssima|Reverendíssimas|Reverendíssimo|Reverendíssimos|Santidade|Santidades|Senhoria|Senhorias">
+    <!ENTITY pronomes_de_tratamento "Alteza|Altezas|Beatitude|Beatitudes|Divindade|Divindades|Eminência|Eminências|Excelência|Excelências|Graça|Graças|Magnificência|Magnificências|Majestade|Majestades|Paternidade|Paternidades|Realeza|Realezas|Reverência|Reverências|Reverendíssima|Reverendíssimas|Reverendíssimo|Reverendíssimos|Santidade|Santidades|Senhor|Senhora|Senhoria|Senhorias">
     <!ENTITY pronomes_ambiguos "a|as|mas|nos|o|os|se">
     <!ENTITY pronomes_nao_ambiguos "la|las|lha|lhas|lhe|lhes|lho|lhos|lo|los|ma|me|mo|mos|ta|tas|te|to|tos|vos">
 
@@ -11704,17 +11705,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   <category id='CASING' name='Capitalização' type='grammar'>
 
 
-    <rule id="UPPERCASE_AFTER_COMMA" name="Maiúsculas depois de uma vírgula">
+    <rule id="UPPERCASE_AFTER_COMMA" name="Maiúsculas depois de uma vírgula" default='temp_off'>
       <!-- Based on English forum rule https://forum.languagetool.org/t/case-sensitive-postag-check/3567/2,
       by Tiago F. Santos, 2018-11-23    -->
       <antipattern>
-        <token case_sensitive='yes' regexp='yes'>[A-Z]*|[0-9]*</token>
+        <token case_sensitive='yes' regexp='yes'>[A-Z]*|[0-9]*|\)|keyword|keywords</token>
         <token>:</token>
         <token spacebefore='yes' case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
         <example>BRENDA: Foi uma longa viagem.</example>
         <example>Título: Memórias póstumas de Brás Cubas</example>
         <example>Palavra-chave: Museu</example>
         <example>Aula 2: Equações matemáticas.</example>
+        <example>Aula 2 (Álgebra): Equações matemáticas.</example>
+        <example>Primary keyword: Jogos</example>
+      </antipattern>
+      <antipattern>
+		<token regexp='yes'>[\,\;\:]</token>
+        <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+		<token spacebefore="yes" case_sensitive="yes" regexp="yes" min='0'>\p{Lu}\p{Ll}+</token>
+		<token postag='SPS00|CC' postag_regexp='yes'/>
+		<token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+		<example>São membros do programa: Comissão Nacional de Proteção dos direitos; Comissão Eleitoral Municipal; Comissão Nacional de Ética em Pesquisa.</example>
+		<example>Disciplina disponível: Teoria e Metodologia Científicas.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>intitulado|denominado|chamado|designado|nomeado|apelidado|batizado</token>
+		<token>:</token>
+        <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+        <example>Livro intitulado: Dragões Eternos</example>
+      </antipattern>
+      <antipattern>
+        <token>veja</token>
+        <token>também</token>
+        <token>:</token>
+        <token spacebefore='yes' case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
+        <example>Veja também: Dez histórias de ninar</example>
       </antipattern>
       <antipattern>
         <token case_sensitive='yes' regexp='yes'>[A-Z]+</token>
@@ -11784,7 +11809,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <exception scope='previous' case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</exception><!-- References --></token>
         <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+<!-- TODO letters are usually uppercased, but misses 'A' and 'O'  add second sub-rule -->
           <exception postag_regexp="yes" postag="NP.+|UNKNOWN"/>
-          <exception regexp='yes'>L[aeo]s?|A(?:lameda|venida)|Largo|Pr(?:aça|aceta)|Rua|Terreiro|Porto|&pronomes_de_tratamento;</exception></token>
+          <exception regexp='yes'>L[aeo]s?|A(?:lameda|venida)|Largo|Pr(?:aça|aceta)|Rua|Terreiro|Travessa|Lei|Igreja|Porto|Ele|Deusa|Associação|Comissão|Comitê|Instituição|Diretório|Organização|Grupo|Pi|Pf|diz|disse|afirma|afirmou|&titulos_militares;|&pronomes_de_tratamento;</exception></token>
       </pattern>
       <message>Utilize a palavra capitalizada somente se estiver a iniciar uma frase ou a escrever nomes próprios.</message>
       <suggestion>\1 <match no='2' case_conversion="alllower"/></suggestion>
