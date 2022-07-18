@@ -111,6 +111,11 @@ public class JLanguageToolTest {
       assertNoError("He explained his errand, but without bothering much to make it plausible, for he felt something well up in him which was the reason he had fled the army.", lt);
       assertNoError("I think it's better, and it's not a big deal.", lt);
 
+      // with hidden characters, separated with annotated text
+      assertNoError("This\u202D\u202C \u202D\u202Cis\u202D\u202C \u202D\u202Ca\u202D\u202C "
+          + "\u202D\u202Ctest\u202D\u202C \u202D\u202Csentence,\u202D\u202C \u202D\u202Cwith"
+          + "\u202D\u202C \u202D\u202Cstrange\u202D\u202C \u202D\u202Chidden\u202D\u202C \u202D\u202Ccharacters.", lt);
+      
       assertOneError("A test test that should give errors.", lt);
       assertOneError("I can give you more a detailed description.", lt);
       assertTrue(lt.getAllRules().size() > 1000);
