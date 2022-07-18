@@ -3110,6 +3110,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="на милування нема силування|силою не бути милою"><marker>насильно милим не будеш</marker>.</example>
     </rule>
 
+    <rulegroup id="gladyty_prasuvaty" name="Гладити і прасувати">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">(по)?гладити</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_zna.*" min="0"/>
+          <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">білизна|сорочка|річ|штани|костюм</token>
+        </pattern>
+        <message>Правильно: <suggestion>прасувати</suggestion></message>
+        <suggestion>попрасувати</suggestion>
+        <suggestion>випрасувати</suggestion>
+        <example correction="прасувати|попрасувати|випрасувати">він <marker>погладив</marker> штани.</example>
+        <example correction="прасувати|попрасувати|випрасувати"><marker>гладили</marker> постільну білизну.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">(по)?гладжений</token>
+          </marker>
+          <token regexp="yes" inflected="yes">білизна|сорочка|річ|штани|костюм</token>
+        </pattern>
+        <message>Правильно: <suggestion>попрасований</suggestion></message>
+        <example correction="попрасований">його <marker>погладжена</marker> сорочку.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">гладильний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">дошка|прес</token>
+        </pattern>
+        <message>Правильно: <suggestion>прасувальний</suggestion></message>
+        <example correction="прасувальний">на <marker>гладильну</marker> дошку.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="TRYMATY_V_UMI" name="Тримати в умі">
       <pattern>
         <token inflected="yes">тримати</token>
