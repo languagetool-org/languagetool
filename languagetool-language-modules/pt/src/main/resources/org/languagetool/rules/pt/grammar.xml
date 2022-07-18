@@ -13927,19 +13927,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example correction="desde que haja">Isso é possível <marker>desde que hajam</marker> condições.</example>
     </rule>
 
-    <rule id='DEVE_DE' name="Deve">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+
+    <rule id='DEVE_DE' name="V. Dever + de → V. Dever">
+      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-18 (Checked/Enhanced) (5-JUN-2022+)      -->
       <pattern>
-        <token inflected='yes'>dever
-          <exception regexp='yes'>dever|deveres</exception></token>
-        <token>de</token>
+        <marker>
+          <token inflected='yes'>dever
+            <exception regexp='yes'>dever|dever[ae]s</exception>
+          </token>
+          <token>de</token>
+          <token postag='VMN0000' postag_regexp='no'/>
+        </marker>
       </pattern>
-      <message>Substitua por <suggestion>\1</suggestion>.</message>
+      <message>A preposição 'de' não é necessária neste caso.</message>
+      <suggestion>\1 \3</suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/dever-de/4260</url>
-      <example correction="deve">Ele <marker>deve de</marker> vir mais tarde.</example>
-      <example correction="devem">Eles <marker>devem de</marker> vir mais tarde.</example>
+      <example correction="deve vir">Ele <marker>deve de vir</marker> mais tarde.</example>
+      <example correction="devem vir">Eles <marker>devem de vir</marker> mais tarde.</example>
       <example>Consagrava-se dia e noite aos deveres de seu ministério.</example>
     </rule>
+
 
     <rule id='EMBORA_QUE_SEJA' name="Embora seja">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
