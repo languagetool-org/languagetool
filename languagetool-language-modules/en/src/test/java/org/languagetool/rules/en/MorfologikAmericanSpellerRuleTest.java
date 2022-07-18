@@ -206,7 +206,8 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     List<RuleMatch> ruleMatchesWithoutMerge = lt.check("sux\u00AD tainability");
     assertEquals(2, ruleMatchesWithoutMerge.size());
     // make sure we offset correctly for ignored characters
-    assertEquals(Arrays.asList(0, 4), Arrays.asList(ruleMatchesWithoutMerge.get(0).getFromPos(), ruleMatchesWithoutMerge.get(0).getToPos()));
+    // changed 0,4 -> 0,3 after \00AD is handled by annotated text
+    assertEquals(Arrays.asList(0, 3), Arrays.asList(ruleMatchesWithoutMerge.get(0).getFromPos(), ruleMatchesWithoutMerge.get(0).getToPos()));
     assertEquals(Arrays.asList(5, 16), Arrays.asList(ruleMatchesWithoutMerge.get(1).getFromPos(), ruleMatchesWithoutMerge.get(1).getToPos()));
 
     // see issue #1769
