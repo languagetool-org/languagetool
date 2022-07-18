@@ -24,7 +24,6 @@ import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.tools.StringTools;
 
@@ -37,6 +36,8 @@ import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+
+import static org.languagetool.JLanguageTool.getDataBroker;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. 
@@ -68,7 +69,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    */
   public String getSuggestionsSeparator() {
     return ", ";
-  };
+  }
   /**
    * locale used on case-conversion
    */
@@ -109,8 +110,6 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     return false;
   }
 
-
-
   /**
    * @return the list of wrong words for which this rule can suggest corrections. The list cannot be modified.
    */
@@ -131,18 +130,22 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   private static List<Map<String, SuggestionWithMessage>> loadWords(String filename, Language lang, boolean caseSensitive, boolean checkingCase)
           throws IOException {
     List<Map<String, SuggestionWithMessage>> list = new ArrayList<>();
-    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename);
+    InputStream stream = getDataBroker().getFromRulesDirAsStream(filename);
     try (
       InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
       BufferedReader br = new BufferedReader(isr)) 
     {
       String line;
       while ((line = br.readLine()) != null) {
+        String[] origLineParts = line.split("=");
+        if (origLineParts.length == 2 && origLineParts[0].trim().equals(origLineParts[1].trim())) {
+          throw new IOException("Format error in file " +  getDataBroker().getFromRulesDirAsUrl(filename)
+            + ". Found same word on left and right side of '='. Line: " + line);
+        }
         line = line.trim();
         if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
           continue;
         }
-
         if (checkingCase) {
           String[] parts = line.split("=");
           line = parts[0].toLowerCase().trim() + "=" + parts[0].trim();
@@ -150,14 +153,11 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             line = line + "\t" + parts[1].trim();
           } 
         }
-
         String[] parts = line.split("=");
         if (parts.length != 2) {
-          throw new IOException("Format error in file "
-                  + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(filename)
+          throw new IOException("Format error in file " + getDataBroker().getFromRulesDirAsUrl(filename)
                   + ". Expected exactly 1 '=' character. Line: " + line);
         }
-
         String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
         for (String wrongForm : wrongForms) {
           int wordCount = 0;

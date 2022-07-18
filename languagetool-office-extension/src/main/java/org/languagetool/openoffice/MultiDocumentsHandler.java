@@ -37,7 +37,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.UserConfig;
-import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
@@ -105,7 +104,7 @@ public class MultiDocumentsHandler {
   private final LtDictionary dictionary;            //  internal dictionary of LT defined words 
   private LtCheckDialog ltDialog = null;            //  LT spelling and grammar check dialog
   private ConfigurationDialog cfgDialog = null;     //  configuration dialog (show only one configuration panel)
-  private static Frame aboutDialog = null;          //  about dialog (show only one about panel)
+  private static AboutDialog aboutDialog = null;           //  about dialog (show only one about panel)
   private boolean dialogIsRunning = false;          //  The dialog was started     
   
   private XComponentContext xContext;               //  The context of the document
@@ -137,7 +136,7 @@ public class MultiDocumentsHandler {
     configFile = OfficeTools.CONFIG_FILE;
     configDir = OfficeTools.getLOConfigDir();
     oldConfigFile = OfficeTools.getOldConfigFile();
-    MessageHandler.init();
+    MessageHandler.init(xContext);
     documents = new ArrayList<>();
     disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
@@ -370,7 +369,7 @@ public class MultiDocumentsHandler {
       cfgDialog = null;
     }
     if (aboutDialog != null) {
-      aboutDialog.setVisible(false);
+      aboutDialog.close();
       aboutDialog = null;
     }
   }
@@ -1404,7 +1403,7 @@ public class MultiDocumentsHandler {
         runOptionsDialog();
       } else if ("about".equals(sEvent)) {
         closeDialogs();
-        AboutDialogThread aboutThread = new AboutDialogThread(messages);
+        AboutDialogThread aboutThread = new AboutDialogThread(messages, xContext);
         aboutThread.start();
       } else if ("switchOff".equals(sEvent)) {
         if (toggleSwitchedOff()) {
@@ -1690,9 +1689,11 @@ public class MultiDocumentsHandler {
   private static class AboutDialogThread extends Thread {
 
     private final ResourceBundle messages;
+    private final XComponentContext xContext;
 
-    AboutDialogThread(ResourceBundle messages) {
+    AboutDialogThread(ResourceBundle messages, XComponentContext xContext) {
       this.messages = messages;
+      this.xContext = xContext;
     }
 
     @Override
@@ -1700,10 +1701,8 @@ public class MultiDocumentsHandler {
       // Note: null can cause the dialog to appear on the wrong screen in a
       // multi-monitor setup, but we just don't have a proper java.awt.Component
       // here which we could use instead:
-      aboutDialog = new Frame();
-      aboutDialog.setVisible(true);
-      AboutDialog about = new AboutDialog(messages, aboutDialog);
-      about.show();
+      aboutDialog = new AboutDialog(messages);
+      aboutDialog.show(xContext);
     }
     
   }

@@ -4016,6 +4016,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                    <token inflected="yes">papallona</token>
+                <marker>
+                    <token regexp="yes">mussol|bufaforats|safranera|zebra</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token postag="NCFS000">dona</token>
                 </marker>
@@ -4065,7 +4074,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">acció|guerra|manifestació|intervenció|batalla|invasió</token>
+                <token inflected="yes" regexp="yes">acció|guerra|manifestació|intervenció|batalla|invasió|viatge|visita</token>
                 <marker>
                     <token>llampec</token>
                 </marker>
@@ -4235,7 +4244,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">casella|client|clientela</token>
+                <token inflected="yes" regexp="yes">casella|client|clientela|públic</token>
                 <marker>
                     <token>objectiu</token>
                 </marker>
@@ -15096,6 +15105,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token postag="N.*" postag_regexp="yes" skip="20"/>
                 <token>com</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="allow_tant"/>
+            </disambig>
+        </rule>
+        <rule>
+            <!-- tant partidaris com altres opositors -->
+            <pattern>
+                <marker>
+                    <token>tant</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes" skip="20"/>
+                <token>com</token>
+                <token postag="[AD].*" postag_regexp="yes"/>
                 <token postag="N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add">

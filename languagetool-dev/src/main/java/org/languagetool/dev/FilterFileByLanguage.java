@@ -30,9 +30,10 @@ import java.util.Scanner;
 
 public class FilterFileByLanguage {
 
-  private final static String fastTextBinary = "/prg/fastText-0.1.0/fasttext";
-  private final static String fastTextModel = "/prg/fastText-0.1.0/data/lid.176.bin";
-  private final static float skipThreshold = 0.98f; // only skip of confidence is higher than this
+  private final static String fastTextBinary = "/home/languagetool/fasttext/fasttext";
+  private final static String fastTextModel = "/home/languagetool/fasttext/lid.176.bin";
+  private final static String nGramData = "/home/languagetool/model_ml50_new.zip";
+  private final static float skipThreshold = 0.95f; // only skip if confidence is higher than this
 
   public static void main(String[] args) throws IOException {
     if (args.length != 2) {
@@ -42,7 +43,8 @@ public class FilterFileByLanguage {
     String expectedLang = args[0];
     File input = new File(args[1]);
     File output = new File(input.getAbsoluteFile() + ".filtered");
-    LanguageIdentifier ident = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(0, null, new File(fastTextBinary), new File(fastTextModel));
+    LanguageIdentifier ident = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(0,
+      new File(nGramData), new File(fastTextBinary), new File(fastTextModel));
     Scanner sc = new Scanner(input);
     int skipCount = 0;
     try (FileWriter fw = new FileWriter(output)) {
