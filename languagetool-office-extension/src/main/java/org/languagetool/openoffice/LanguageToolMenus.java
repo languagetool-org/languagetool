@@ -108,7 +108,8 @@ public class LanguageToolMenus {
     private static final String TOOLS_COMMAND = ".uno:ToolsMenu";             //  Command to open tools menu
     private static final String COMMAND_BEFORE_LT_MENU = ".uno:LanguageMenu";   //  Command for Language Menu (LT menu is installed after)
                                                       //  Command to Switch Off/On LT
-    private static final String LT_SWITCH_OFF_COMMAND = "service:org.languagetool.openoffice.Main?switchOff";   
+    private static final String LT_TOGGLE_BACKGROUND_CHECK_COMMAND = "service:org.languagetool.openoffice.Main?toggleBackgroundCheck";   
+    private static final String LT_Options_COMMAND = "service:org.languagetool.openoffice.Main?configure";   
     private static final String LT_PROFILE_COMMAND = "service:org.languagetool.openoffice.Main?profileChangeTo:";
     private final static String LT_ACTIVATE_RULE = "service:org.languagetool.openoffice.Main?activateRule_";
     
@@ -158,9 +159,9 @@ public class LanguageToolMenus {
       
       for (short i = 0; i < ltMenu.getItemCount(); i++) {
         String command = ltMenu.getCommand(ltMenu.getItemId(i));
-        if (LT_SWITCH_OFF_COMMAND.equals(command)) {
-          switchOffId = ltMenu.getItemId(i);
-          switchOffPos = i;
+        if (LT_Options_COMMAND.equals(command)) {
+          switchOffId = (short)101;
+          switchOffPos = (short)(i - 1);
           break;
         }
       }
@@ -168,15 +169,17 @@ public class LanguageToolMenus {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: switchOffId not found");
         return;
       }
-      
-      if (MESSAGES.getString("loMenuSwitchedOff").equals(ltMenu.getItemText(switchOffId))) {
-        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: LT menu already installed");
-        return;
-      } else {
-        ltMenu.removeItem(switchOffPos, (short) 1);
-        ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuSwitchedOff"), MenuItemStyle.CHECKABLE, switchOffPos);
-      }
+//      if (MESSAGES.getString("loMenuSwitchedOff").equals(ltMenu.getItemText(switchOffId))) {
+//        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: LT menu already installed");
+//        return;
+//      } else {
+//        ltMenu.removeItem(switchOffPos, (short) 1);
+//        ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuSwitchedOff"), MenuItemStyle.CHECKABLE, switchOffPos);
+//      }
+      ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuEnableBackgroundCheck"), (short)0, switchOffPos);
+      ltMenu.setCommand(switchOffId, LT_TOGGLE_BACKGROUND_CHECK_COMMAND);
       toolsMenu.addMenuListener(this);
+      ltMenu.addMenuListener(this);
       if (debugMode) {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: Menu listener set");
       }
@@ -195,10 +198,12 @@ public class LanguageToolMenus {
      * placed as submenu at the LO/OO tools menu
      */
     private void setLtMenu() {
-      if (document.getMultiDocumentsHandler().isSwitchedOff()) {
-        ltMenu.checkItem(switchOffId, true);
+      if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
+        ltMenu.setItemText(switchOffId, MESSAGES.getString("loMenuEnableBackgroundCheck"));
+//        ltMenu.checkItem(switchOffId, true);
       } else {
-        ltMenu.checkItem(switchOffId, false);
+        ltMenu.setItemText(switchOffId, MESSAGES.getString("loMenuDisableBackgroundCheck"));
+//        ltMenu.checkItem(switchOffId, false);
       }
       short profilesId = (short)(switchOffId + 10);
       short profilesPos = (short)(switchOffPos + 2);
@@ -336,26 +341,34 @@ public class LanguageToolMenus {
     }
     @Override
     public void itemSelected(MenuEvent event) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("LanguageToolMenus: setActivateRuleMenu: event id: " + ((int)event.MenuId));
-      }
-      if (event.MenuId == switchOffId + SUBMENU_ID_DIFF) {
-        runProfileAction(null);
-      } else if (event.MenuId > switchOffId + SUBMENU_ID_DIFF && event.MenuId <= switchOffId + SUBMENU_ID_DIFF + definedProfiles.size()) {
-        runProfileAction(definedProfiles.get(event.MenuId - switchOffId - 22));
-      } else if (event.MenuId > switchOffId + SUBMENU_ID_DIFF + definedProfiles.size()) {
-        Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
-        short j = (short)(switchOffId + SUBMENU_ID_DIFF + definedProfiles.size() + 1);
-        for (String ruleId : deactivatedRulesMap.keySet()) {
-          if(event.MenuId == j) {
-            if (debugMode) {
-              MessageHandler.printToLogFile("LanguageToolMenus: setActivateRuleMenu: activate rule: " + ruleId);
-            }
-            document.getMultiDocumentsHandler().activateRule(ruleId);
-            return;
+      try {
+//        if (debugMode) {
+          MessageHandler.printToLogFile("LanguageToolMenus: setActivateRuleMenu: event id: " + ((int)event.MenuId));
+//        }
+        if (event.MenuId == switchOffId) {
+          if (document.getMultiDocumentsHandler().toggleNoBackgroundCheck()) {
+            document.getMultiDocumentsHandler().resetCheck(); 
           }
-          j++;
+        } else if (event.MenuId == switchOffId + SUBMENU_ID_DIFF) {
+          runProfileAction(null);
+        } else if (event.MenuId > switchOffId + SUBMENU_ID_DIFF && event.MenuId <= switchOffId + SUBMENU_ID_DIFF + definedProfiles.size()) {
+          runProfileAction(definedProfiles.get(event.MenuId - switchOffId - 22));
+        } else if (event.MenuId > switchOffId + SUBMENU_ID_DIFF + definedProfiles.size()) {
+          Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
+          short j = (short)(switchOffId + SUBMENU_ID_DIFF + definedProfiles.size() + 1);
+          for (String ruleId : deactivatedRulesMap.keySet()) {
+            if(event.MenuId == j) {
+              if (debugMode) {
+                MessageHandler.printToLogFile("LanguageToolMenus: setActivateRuleMenu: activate rule: " + ruleId);
+              }
+              document.getMultiDocumentsHandler().activateRule(ruleId);
+              return;
+            }
+            j++;
+          }
         }
+      } catch (IOException e) {
+        MessageHandler.showError(e);
       }
     }
 

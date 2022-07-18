@@ -343,7 +343,7 @@ class SingleCheck {
    */
   public void remarkChangedParagraphs(List<Integer> changedParas, DocumentCursorTools docCursor, 
       FlatParagraphTools flatPara, SwJLanguageTool lt, boolean override) {
-    if (!isDisposed() && !mDocHandler.isSwitchedOff() && (!isDialogRequest || isIntern)) {
+    if (!isDisposed() && !mDocHandler.isBackgroundCheckOff() && (!isDialogRequest || isIntern)) {
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
       for (int i = 0; i < changedParas.size(); i++) {
         List<SentenceErrors> sentencesErrors = getSentencesErrosAsList(changedParas.get(i), lt);

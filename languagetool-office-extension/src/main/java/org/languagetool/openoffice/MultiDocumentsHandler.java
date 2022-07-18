@@ -1004,7 +1004,7 @@ public class MultiDocumentsHandler {
   /**
    * true, if LanguageTool is switched off
    */
-  public boolean isSwitchedOff() {
+  public boolean isBackgroundCheckOff() {
     return noBackgroundCheck;
   }
 
@@ -1012,7 +1012,8 @@ public class MultiDocumentsHandler {
    *  Toggle Switch Off / On of LT
    *  return true if toggle was done 
    */
-  public boolean toggleSwitchedOff() throws IOException {
+  public boolean toggleNoBackgroundCheck() throws IOException {
+//    MessageHandler.printToLogFile("MultiDocumentsHandler: setNoBackgroundCheck: noCheck = " + noCheck + ", noBackgroundCheck = " + noBackgroundCheck);
     if (docLanguage == null) {
       docLanguage = getLanguage();
     }
@@ -1374,7 +1375,9 @@ public class MultiDocumentsHandler {
    */
   void resetConfiguration() {
     linguServices = null;
-    noBackgroundCheck = false;
+    if (config != null) {
+      noBackgroundCheck = config.noBackgroundCheck();
+    }
     resetIgnoredMatches();
     resetResultCaches();
     resetDocument();
@@ -1394,6 +1397,7 @@ public class MultiDocumentsHandler {
    */
   public void trigger(String sEvent) {
     try {
+      MessageHandler.printToLogFile("Event: " + sEvent);
       if (!testDocLanguage(true)) {
         MessageHandler.printToLogFile("Test for document language failed: Can't trigger event: " + sEvent);
         return;
@@ -1405,8 +1409,9 @@ public class MultiDocumentsHandler {
         closeDialogs();
         AboutDialogThread aboutThread = new AboutDialogThread(messages, xContext);
         aboutThread.start();
-      } else if ("switchOff".equals(sEvent)) {
-        if (toggleSwitchedOff()) {
+//      } else if ("switchOff".equals(sEvent)) {
+      } else if ("toggleNoBackgroundCheck".equals(sEvent)) {
+        if (toggleNoBackgroundCheck()) {
           resetCheck(); 
         }
       } else if ("ignoreOnce".equals(sEvent)) {
@@ -1457,14 +1462,14 @@ public class MultiDocumentsHandler {
         }
         checkDialog.start();
       } else if ("nextError".equals(sEvent)) {
-        if (this.isSwitchedOff()) {
+        if (this.isBackgroundCheckOff()) {
           MessageHandler.showMessage(messages.getString("loExtSwitchOffMessage"));
           return;
         }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         checkDialog.nextError();
       } else if ("refreshCheck".equals(sEvent)) {
-        if (this.isSwitchedOff()) {
+        if (this.isBackgroundCheckOff()) {
           MessageHandler.showMessage(messages.getString("loExtSwitchOffMessage"));
           return;
         }
