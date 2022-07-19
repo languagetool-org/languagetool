@@ -36873,6 +36873,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <antipattern>
+		  <token min='0'>)</token>
+          <token regexp="yes">\d{5}</token>
+          <token regexp="yes">–|&hifen;</token>
+          <token regexp="yes">\d{4}</token>
+          <example>O telefone é 99999-9999.</example>
+        </antipattern>
+        <antipattern>
+		  <token regexp='yes' min='0' skip='-1'>CEP</token>
+        </antipattern>
+        <antipattern>
           <token>Estrada</token>
           <token>Nacional</token>
           <token regexp="yes">\d{3}</token>
@@ -36885,6 +36895,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes">\d{3}</token>
           <token>
             <exception case_sensitive='yes'>a</exception></token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">\d{5}</token>
+          <token regexp="yes">–|&hifen;</token>
+          <token regexp="yes">\d{3}</token>
+          <example>O CEP é 22222-222.</example>
         </antipattern>
         <antipattern><!-- XXX YYYY-XX-XX date formats and XX-XX-YYYY -->
           <token regexp="yes">\d{2}|\d{4}</token>
