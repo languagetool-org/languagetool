@@ -3437,23 +3437,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ0MS0'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-06-20 *END* -->
-        <!-- MARCOAGPINTO 2020-07-31 (2-JUL-2020+) *START* -->
-        <!-- "O campo B pode ser definido de muitas formas equivalentes baseado nos seus efeitos sobre o ambiente." -->
-        <!-- "O campo B pode ser definido de muitas formas equivalentes baseada nas suas influências sobre o ambiente." -->
+
+
+
+
+		
+		
+		
+<!-- WORK IN PROGRESS, WILL CONTINUE AT NIGHT *START* -->
+		
+        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
-          <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
-          <token postag='VMP00S[FM]' postag_regexp='yes'/>
-          <token regexp='yes'>as?|os?|pelas?|pelos?|nas?|nos?|com|em|de|um|uma|por|para|nestas?|nestes?</token>
+<token>tokenfalsafalso</token>
+		  <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AQ..S.+|NC.S.+'/>
+		  </token>
+		  <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|RG' postag_regexp='yes'/>
+		  <token min="0" max="1" postag='RG' postag_regexp='no'/>
+		  <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+		  <token postag='AQ..S.+|NC.S.+|_PUNCT' postag_regexp='yes'/>
+
+
+<!--
+		  <example>Pedro, comes muito queijo.</example>
+		  <example></example>
+		  <example></example>
+		  <example></example>
+		  <example></example>
+		  <example></example>
+		  <example></example>
+		  <example></example>
+		  <example></example>
+		  <example></example>
+		  <example></example>
+-->		  
         </antipattern>
-        <!-- MARCOAGPINTO 2020-07-31 (2-JUL-2020+) *END* -->
+        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->		
+		
+		
+		
         <!-- MARCOAGPINTO 2020-10-15 (2-JUL-2020+) *START* -->
         <!-- "Pedro, comes muito queijo." -->
         <antipattern>
+<token>tokenfalsafalso</token>
           <token postag='V.+' postag_regexp='yes'/>
           <token postag='DI0MS0|NCMS000|PI0MS000|RG' postag_regexp='yes'/>
           <token postag='DI0[FM]S0|NC[CFM]S000|PI0[FM]S000|RG' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-10-15 (2-JUL-2020+) *END* -->
+
+<!-- WORK IN PROGRESS, WILL CONTINUE AT NIGHT *START* -->
+
+
+
+
+
+
         <!-- MARCOAGPINTO 2020-11-05 (21-OCT-2020+) *START* -->
         <!-- "Demos tempo ao tempo porque, a seu tempo, sorriremos de novo." -->
         <antipattern>
@@ -3888,6 +3927,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Seu relógio está dez minutos mais atrasado.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-17 (5-JUN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token postag='VMP00S.+' postag_regexp='yes'/>
+          <token postag='SPS00|CC|CS|RG|I|RM|RN|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+|AQ..P.+|NC.P.+|V.+' postag_regexp='yes'/>
+          <example>O campo B pode ser definido de muitas formas equivalentes baseado nos seus efeitos sobre o ambiente.</example>
+          <example>O campo B pode ser definido de muitas formas equivalentes baseada nas suas influências sobre o ambiente.</example>
+          <example>O resultado está à vista, tendo os novos estabelecimentos surgido como cogumelos.</example>
+          <example>e isso é tão certo quanto o fato de terem as tribos selvagens deixado de comer umas às outras quando entraram em contato com as mais civilizadas.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
