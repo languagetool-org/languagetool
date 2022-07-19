@@ -81,8 +81,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY tabela_periodica "(?:[UVW]|C[adeflmnorsu]?|N[abdehiop]?|P[abdmortu]?|S[bcegimnr]?|T[abcehilms]|A[cglmrstu]|R[abefghnu]|B[aehikr]?|H[efgos]?|M[cdgnot]|F[elmr]?|L[airuv]|D[bsy]|E[rsu]|G[ade]|I[nr]?|O[gs]?|Z[nr]|Kr?|Yb?|Xe|[₁₂₃₄₅₆₇₈₉₀])">
     <!ENTITY naipes "(?:o[iu]ros|copas|espadas|paus|trunfos?)">
 
-    <!ENTITY pronomes "[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
+    <!ENTITY pronomes_obliquos "[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
     <!ENTITY pronomes_retos "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
+    <!ENTITY pronomes_contracao "das?|de|dos?|[nd]isso|dest[ae]s?|dess[ae]s?|[nd]isto|daquilo|daquel[ea]s?|nest[ae]s?|ness[ae]s?|naquilo|naquela|naqueles?">
     <!ENTITY pronomes_de_tratamento "Alteza|Altezas|Beatitude|Beatitudes|Divindade|Divindades|Eminência|Eminências|Excelência|Excelências|Graça|Graças|Magnificência|Magnificências|Majestade|Majestades|Paternidade|Paternidades|Realeza|Realezas|Reverência|Reverências|Reverendíssima|Reverendíssimas|Reverendíssimo|Reverendíssimos|Santidade|Santidades|Senhor|Senhora|Senhoria|Senhorias">
     <!ENTITY pronomes_ambiguos "a|as|mas|nos|o|os|se">
     <!ENTITY pronomes_nao_ambiguos "la|las|lha|lhas|lhe|lhes|lho|lhos|lo|los|ma|me|mo|mos|ta|tas|te|to|tos|vos">
@@ -43042,7 +43043,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Tanto faz, é a mesma coisa.</example>
       </antipattern>
       <antipattern>
-        <token regexp='yes'>me|te|lhe|o|a|se|nos|vos|lhes|os|as</token>
+        <token regexp='yes'>&pronomes_obliquos;</token>
         <token inflected='yes'>fazer</token>
         <token postag='AQ+' postag_regexp='yes'/>
         <example>Te farei feliz, não importa o quanto tente.</example>
@@ -43078,7 +43079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
-        <token regexp='yes'>das?|de|dos?|[nd]isso|dest[ae]s?|dess[ae]s?|[nd]isto|daquilo|daquel[ea]s?|nest[ae]s?|ness[ae]s?|naquilo|naquela|naqueles?</token>
+        <token regexp='yes'>&pronomes_contracao;</token>
         <example>Fiz daquilo o meu lema.</example>
         <example>Meu objetivo é fazer dos mares o meu lar.</example>
         <example>Faça da enxada a sua espada.</example>
@@ -44824,7 +44825,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
 	       <token regexp='yes'>o|os|um|uns|algum|alguns|nenhum|nenhuns|esse|esses|desse|desses|este|estes|deste|destes|neste|nestes|nesse|nesses|aquele|aqueles|daquele|daqueles|do|dos</token>
          <marker><token regexp='yes'>pq|pqs</token></marker>
-           <token regexp='yes'>das?|de|dos?|[nd]isso|dest[ae]s?|dess[ae]s?|[nd]isto|daquilo|daquel[ea]s?|nest[ae]s?|ness[ae]s?|naquilo|naquela|naqueles?|[\.\?!;]</token>        </pattern>
+        <token regexp='yes'>&pronomes_contracao;</token>
+        </pattern>
          <message>Linguagem de Internet; escreva por extenso. A forma <suggestion>porquê</suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
          <suggestion>PORQUÊ</suggestion>
         <example correction="porquê|PORQUÊ">Tem algum <marker>pq</marker> nisso tudo?</example>
@@ -44936,7 +44938,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
            <token regexp='yes'>o|os|um|uns|algum|alguns|nenhum|nenhuns|esse|esses|desse|desses|este|estes|deste|destes|neste|nestes|nesse|nesses|aquele|aqueles|daquele|daqueles|do|dos</token>
          <marker><token regexp='yes'>pq|pqs</token></marker>
-           <token regexp='yes'>das?|de|dos?|[nd]isso|dest[ae]s?|dess[ae]s?|[nd]isto|daquilo|daquel[ea]s?|nest[ae]s?|ness[ae]s?|naquilo|naquela|naqueles?|[\.\?!;]</token>           <example>Quero saber o pq disso.</example>
+        <token regexp='yes'>&pronomes_contracao;</token>
         </antipattern>
         <antipattern>
 	  	   <token regexp='yes'>o|um|algum|nenhum|esse|desse|este|deste|neste|nesse|aquele|daquele|do</token>
