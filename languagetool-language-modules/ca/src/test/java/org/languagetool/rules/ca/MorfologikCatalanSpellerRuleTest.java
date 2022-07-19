@@ -600,5 +600,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("En 1993", matches[0].getSuggestedReplacements().get(0));
         
+        // camel case
+        matches = rule.match(lt.getAnalyzedSentence("polÃtiques")); 
+        assertEquals(1, matches.length);
+        assertEquals(3, matches[0].getSuggestedReplacements().size());
+        assertEquals("polítiques", matches[0].getSuggestedReplacements().get(0));
     }
 }

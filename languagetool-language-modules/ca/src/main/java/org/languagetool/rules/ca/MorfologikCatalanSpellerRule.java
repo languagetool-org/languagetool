@@ -39,7 +39,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern PARTICULA_INICIAL = Pattern.compile(
       "^(no|en|a|els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CAMEL_CASE = Pattern.compile("^(.[\\p{Ll}·]+)(\\p{Lu}[\\p{Ll}·]+)$", Pattern.UNICODE_CASE);
+  private static final Pattern CAMEL_CASE = Pattern.compile("^(.[\\p{Ll}·]+)([A-ZÀÈÉÍÒÓÚÇ][\\p{Ll}·]+)$", Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
       "^(pod|ultra|eco|tele|anti|re|des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro|g) (..+)|.+ s$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
