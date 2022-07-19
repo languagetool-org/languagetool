@@ -104,7 +104,7 @@
         <!-- правильно: (з)воротний, народний, природний, бездвірний, зворотний, заможний, заробітний, пружний
         забу́тній/забутни́й
         але дорожній, дочірній, незабутній -->
-        <token postag_regexp="yes" postag="adj(?!.*:bad).*" regexp="yes">.*(воротн|двірн|дорожн|додатн|забутн|заможн|західн|заробітн|народн|погодн|приватн|природн|пружн|самотн|старожитн|сухопутн|східн)(і[йм]?)</token>
+        <token postag_regexp="yes" postag="adj(?!.*:bad).*" regexp="yes">.*(воротн|двірн|дорожн|додатн|забутн|заможн|західн|заробітн|народн|погодн|поздовжн|приватн|природн|пружн|самотн|старожитн|сухопутн|східн)(і[йм]?)</token>
       </marker>
     </pattern>
     <disambig action="remove" postag="adj.*?:bad.*" />
@@ -1306,20 +1306,6 @@
     <example type="untouched">ніде правди діти.</example>
   </rule>
 
-  <rule name="Трускавці - місто" id="Truskavci_misto">
-    <pattern>
-      <token negate_pos="yes" postag="SENT_START"/>
-      <marker>
-        <token case_sensitive="yes">Трускавці</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:m:.*:prop.*"/>
-    <example type="ambiguous"
-        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav:coll,трускавка/noun:inanim:f:v_mis:coll]"
-        outputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo]">В <marker>Трускавці</marker>.</example>
-    <example type="untouched">Трускавці треба тепло.</example>
-  </rule>
-
   <rule name="пристрою - іменник" id="prystroyu-noun">
     <pattern>
       <token postag_regexp="yes" postag="adj:m:v_rod.*|prep.*"/>
@@ -1575,105 +1561,6 @@
         outputform="17-а[0-а/number,17-й/adj:f:v_naz:&amp;numr]">На вул. Рубчака <marker>17-а</marker>.</example>
     <example type="untouched">17-а сторінка.</example>
   </rule>
-
-  <!-- Великі літери в середині слова -->
-
-  <rule name="Люба з великої літери в середині речення - ім'я" id="fem_name_inside_sent">
-    <pattern case_sensitive="yes">
-      <and>
-        <token inflected="yes" postag_regexp="yes" postag="noun:anim:f:.*fname.*" regexp="yes">Люба|Злата
-          <exception scope="previous" postag="SENT_START"/>
-          <exception scope="previous" regexp="yes">[«„“\[\](—–-]</exception>
-        </token>
-        <token postag_regexp="yes" postag="adj.*"/>
-      </and>
-    </pattern>
-    <disambig action="filter" postag="noun:anim:f:.*fname.*"/>
-    <example type="ambiguous" 
-        inputform="Люба[&lt;/S&gt;,Люба/noun:anim:f:v_naz:prop:fname,любий/adj:f:v_kly:compb,любий/adj:f:v_naz:compb]" 
-        outputform="Люба[&lt;/S&gt;,Люба/noun:anim:f:v_naz:prop:fname]">Агов <marker>Люба</marker></example>
-    <example type="untouched">«Люба формула.</example>
-  </rule>
-
-  <rule name="Люба з прізвищем/по батькові - ім'я" id="fem_name_with_lastname">
-    <pattern case_sensitive="yes">
-      <marker>
-        <token inflected="yes" postag_regexp="yes" postag="noun:anim:f.*fname.*" regexp="yes">Люба|Злата</token>
-      </marker>
-      <token postag_regexp="yes" postag="noun:anim:f.*?:[lp]name.*"/>
-    </pattern>
-    <disambig action="filter" postag="noun:anim:f.*fname.*"/>
-    <example type="ambiguous" 
-        inputform="Люба[Люба/noun:anim:f:v_naz:prop:fname,любий/adj:f:v_kly:compb,любий/adj:f:v_naz:compb]" 
-        outputform="Люба[Люба/noun:anim:f:v_naz:prop:fname]"><marker>Люба</marker> Михайлівна</example>
-    <example type="ambiguous" 
-        inputform="Злата[Злата/noun:anim:f:v_naz:prop:fname,златий/adj:f:v_kly:arch,златий/adj:f:v_naz:arch,злато/noun:inanim:n:v_rod:arch]" 
-        outputform="Злата[Злата/noun:anim:f:v_naz:prop:fname]"><marker>Злата</marker> Прокопенко</example>
-    <example type="untouched">Така Люба.</example>
-    <example type="untouched">Люба преференція.</example>
-  </rule>
-
-
-  <rule name="Едгар По" id="DIS_EDGAR_PO">
-    <pattern case_sensitive="yes">
-      <token postag_regexp="yes" postag="noun.*?fname.*"/>
-      <marker>
-        <token>По</token>
-      </marker>
-    </pattern>
-    <disambig><wd pos="noun:anim:m:nv:prop:lname" lemma="По"/></disambig>
-    <example type="ambiguous" 
-        inputform="По[&lt;/S&gt;,по/prep]"
-        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Аллана <marker>По</marker></example>
-    <example type="ambiguous"
-        inputform="По[&lt;/S&gt;,по/prep]" 
-        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Едгара <marker>По</marker></example>
-    <example type="untouched">ганяли Едгара по полю.</example>
-  </rule>
-
-  <rule name="Едгар Аллан По" id="DIS_EDGAR_PO_2">
-    <pattern case_sensitive="yes">
-      <token regexp="yes">[А-ЯІЇЄҐ]\.|ім'я|родина</token>
-      <marker>
-        <token>По</token>
-      </marker>
-    </pattern>
-    <disambig><wd pos="noun:anim:m:nv:prop:lname" lemma="По"/></disambig>
-    <example type="ambiguous" 
-        inputform="По[&lt;/S&gt;,по/prep]"
-        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Едгара А. <marker>По</marker></example>
-    <example type="untouched">ганяли Едгара по полю.</example>
-  </rule>
-
-  <rule name="Поліна" id="POLINA">
-    <pattern case_sensitive="yes">
-      <marker>
-        <token regexp="yes">Полін[аиіу]</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:anim.*?:fname.*"/>
-    <example type="ambiguous" 
-        inputform="Поліну[Поліна/noun:anim:f:v_zna:prop:fname,поліно/noun:inanim:n:v_dav]"
-        outputform="Поліну[Поліна/noun:anim:f:v_zna:prop:fname]">Знали <marker>Поліну</marker>.</example>
-    <example type="untouched">Поліном</example>
-  </rule>
-
-<!-- 
-  <rule name="Однолітерні скорочення лише з малої" id="SINGLE_CHAR_ABBR_NO_CAPS">
-    <pattern>
-      <token case_sensitive="yes" postag_regexp="yes" postag="noun.*?:abbr.*" regexp="yes">[А-ЯІЇЄҐ]\.
-        <exception postag_regexp="yes" postag="noun.*?[fp]name.*"/>
-      </token>
-    </pattern>
-    <disambig action="remove" postag=".*"/>
-    <example type="ambiguous" 
-        inputform="С.[с./noun:inanim:n:v_dav:nv:abbr,с./noun:inanim:n:v_naz:nv:abbr,с./noun:inanim:n:v_oru:nv:abbr,с./noun:inanim:n:v_rod:nv:abbr,с./noun:inanim:n:v_zna:nv:abbr]" 
-        outputform="С.[С.]"><marker>С.</marker> Мокітмі.</example>
-    <example type="ambiguous" 
-        inputform="С.[С./noun:anim:m:v_naz:abbr:prop:fname]"
-        outputform="С.[С.]"><marker>С.</marker> Макаров.</example>
-  </rule>
- -->
  
   <rule name="га - гектар 1" id="HA_HEKTAR_1">
     <pattern>
@@ -1704,91 +1591,6 @@
         inputform="га[га/intj,га/noun:inanim:m:v_dav:nv:abbr,га/noun:inanim:m:v_naz:nv:abbr,га/noun:inanim:m:v_oru:nv:abbr,га/noun:inanim:m:v_rod:nv:abbr,га/noun:inanim:m:v_zna:nv:abbr,га/noun:inanim:p:v_dav:nv:abbr,га/noun:inanim:p:v_naz:nv:abbr,га/noun:inanim:p:v_oru:nv:abbr,га/noun:inanim:p:v_rod:nv:abbr,га/noun:inanim:p:v_zna:nv:abbr]" 
         outputform="га[га/noun:inanim:m:v_dav:nv:abbr,га/noun:inanim:m:v_naz:nv:abbr,га/noun:inanim:m:v_oru:nv:abbr,га/noun:inanim:m:v_rod:nv:abbr,га/noun:inanim:m:v_zna:nv:abbr,га/noun:inanim:p:v_dav:nv:abbr,га/noun:inanim:p:v_naz:nv:abbr,га/noun:inanim:p:v_oru:nv:abbr,га/noun:inanim:p:v_rod:nv:abbr,га/noun:inanim:p:v_zna:nv:abbr]">10 ц/<marker>га</marker>.</example>
     <example type="untouched">каже йому: га?</example>
-  </rule>
-
-
-  <rule name="Прізвище після імені" id="last_name_after_first_name">
-    <pattern>
-      <token postag_regexp="yes" postag="noun:anim.*?fname.*"/>
-      <marker>
-        <token postag_regexp="yes" postag="noun:anim.*?lname.*"/>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:.*?prop.*"></disambig>
-    <!-- allow other :prop for now, e.g. Андрій Макарів (місто) не любив... -->
-    <example type="ambiguous"
-        inputform="Кіска[Кіска/noun:anim:m:v_naz:prop:lname,кіска/noun:inanim:f:v_naz]"
-        outputform="Кіска[Кіска/noun:anim:m:v_naz:prop:lname]"
-            >його привітав Андрей <marker>Кіска</marker>.</example>
-    <example type="untouched">довга Кіска</example>
-  </rule>
-
-  <!-- Загальне правило не працює, бо часто загальні іменники можуть вживатися з великої: «але для Ігор у Турині зробили виняток»
-  <rule name="Іменник з великої літери в середині речення - власна назва" id="CAPITAL_INSIDE_SENTENCE_IS_PROP_NOUN">
-    <pattern case_sensitive="yes">
-      <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun.*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
-              <exception scope="previous" postag="SENT_START"/>
-              <exception scope="previous" regexp="yes">[«„“\[\](—–-]</exception>
-              <exception postag_regexp="yes" postag="adj.*"></exception>
-            </token>
-    </pattern>
-    <disambig><match no="1" postag="noun.*:prop.*|part:pers" postag_regexp="yes"/></disambig>
-    <example type="ambiguous" 
-        inputform="Острогу[Острог/noun:inanim:m:v_dav:prop,Острог/noun:inanim:m:v_mis:prop,острог/noun:inanim:m:v_dav,острог/noun:inanim:m:v_mis,остріг/noun:inanim:m:v_dav,остріг/noun:inanim:m:v_mis,остріг/noun:inanim:m:v_rod]" 
-        outputform="Острогу[Острог/noun:inanim:m:v_dav:prop,Острог/noun:inanim:m:v_mis:prop]">Прах хороброго лицаря з <marker>Острогу</marker>.</example>
-    <example type="untouched">За Вільну демократичну партію.</example>
-    <example type="untouched">Люба формула.</example>
-  </rule>
-
-  <!- Вилучає багато файльшивих, але також ховає справжні, бо часто загальні пишуть з великої в середині, як власні ->
-  <rule name="Іменник з великої літери в середині речення без власної назви" id="DIS_CAPITAL_INSIDE_SENTENCE_WITHOUT_PROP_NOUN">
-    <pattern case_sensitive="yes">
-      <token regexp="yes" postag_regexp="yes" postag="noun.*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
-              <exception scope="previous" postag="SENT_START"/>
-              <exception scope="previous" regexp="yes">[«„“\[\](—–-] </exception>
-              <exception postag_regexp="yes" postag="adj.*|.*:prop.*"/>
-              <exception inflected="yes">бог</exception>
-              <exception>Авт</exception>
-            </token>
-    </pattern>
-    <disambig action="immunize"/>
-    <example type="ambiguous"
-        inputform="Лахті[лахта/noun:inanim:f:v_dav,лахта/noun:inanim:f:v_mis]"
-        outputform="Лахті[лахта/noun:inanim:f:v_dav,лахта/noun:inanim:f:v_mis{!}]">Приїхав у <marker>Лахті</marker>.</example>
-    <example type="untouched">За Вільну демократичну партію.</example>
-    <example type="untouched">Люба формула.</example>
-  </rule>
-  -->
-
-  <rule name="в Досі - іменник" id="dosi_noun">
-    <pattern>
-      <token regexp="yes">[ву]</token>
-      <marker>
-        <token case_sensitive="yes">Досі</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:f:v_mis:prop:geo"/>
-    <example type="ambiguous"
-      inputform="Досі[Доха/noun:inanim:f:v_dav:prop:geo,Доха/noun:inanim:f:v_mis:prop:geo,досі/adv:&amp;pron:dem]"
-      outputform="Досі[Доха/noun:inanim:f:v_mis:prop:geo]">збірна в <marker>Досі</marker> медаль не виборола.
-    </example>
-    <example type="untouched">Досі незнайома</example>
-  </rule>
-
-  <rule name="Досі - прийменник" id="Dosi_adv">
-    <pattern>
-      <marker>
-        <token case_sensitive="yes">Досі
-          <exception scope="previous" regexp="yes">[ву]</exception>
-        </token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="adv.*"/>
-    <example type="ambiguous"
-      inputform="Досі[Доха/noun:inanim:f:v_dav:prop:geo,досі/adv:&amp;pron:dem]"
-      outputform="Досі[досі/adv:&amp;pron:dem]">І <marker>Досі</marker> Непереможений.
-    </example>
-    <example type="untouched">в Досі не виграли</example>
   </rule>
 
   <rule name="ласка - inanim" id="laska_inanim">
@@ -1881,6 +1683,455 @@
     <example type="untouched">велика і мала кілька.</example>
   </rule>
 
+
+  <!-- 
+        Великі літери в середині слова + власні назви
+  -->
+  <!--  точніші правила -->
+
+  <rule name="Люба з великої літери в середині речення - ім'я" id="fem_name_inside_sent">
+    <pattern case_sensitive="yes">
+      <and>
+        <token inflected="yes" postag_regexp="yes" postag="noun:anim:f:.*fname.*" regexp="yes">Люба|Злата
+          <exception scope="previous" postag="SENT_START"/>
+          <exception scope="previous" regexp="yes">[«„“\[\](—–-]</exception>
+        </token>
+        <token postag_regexp="yes" postag="adj.*"/>
+      </and>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:f:.*fname.*"/>
+    <example type="ambiguous" 
+        inputform="Люба[&lt;/S&gt;,Люба/noun:anim:f:v_naz:prop:fname,любий/adj:f:v_kly:compb,любий/adj:f:v_naz:compb]" 
+        outputform="Люба[&lt;/S&gt;,Люба/noun:anim:f:v_naz:prop:fname]">Агов <marker>Люба</marker></example>
+    <example type="untouched">«Люба формула.</example>
+  </rule>
+
+  <rule name="Люба з прізвищем/по батькові - ім'я" id="fem_name_with_lastname">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token inflected="yes" postag_regexp="yes" postag="noun:anim:f.*fname.*" regexp="yes">Люба|Злата</token>
+      </marker>
+      <token postag_regexp="yes" postag="noun:anim:f.*?:[lp]name.*"/>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:f.*fname.*"/>
+    <example type="ambiguous" 
+        inputform="Люба[Люба/noun:anim:f:v_naz:prop:fname,любий/adj:f:v_kly:compb,любий/adj:f:v_naz:compb]" 
+        outputform="Люба[Люба/noun:anim:f:v_naz:prop:fname]"><marker>Люба</marker> Михайлівна</example>
+    <example type="ambiguous" 
+        inputform="Злата[Злата/noun:anim:f:v_naz:prop:fname,златий/adj:f:v_kly:arch,златий/adj:f:v_naz:arch,злато/noun:inanim:n:v_rod:arch]" 
+        outputform="Злата[Злата/noun:anim:f:v_naz:prop:fname]"><marker>Злата</marker> Прокопенко</example>
+    <example type="untouched">Така Люба.</example>
+    <example type="untouched">Люба преференція.</example>
+  </rule>
+
+
+  <rule name="Едгар По" id="DIS_EDGAR_PO">
+    <pattern case_sensitive="yes">
+      <token postag_regexp="yes" postag="noun.*?fname.*"/>
+      <marker>
+        <token>По</token>
+      </marker>
+    </pattern>
+    <disambig><wd pos="noun:anim:m:nv:prop:lname" lemma="По"/></disambig>
+    <example type="ambiguous" 
+        inputform="По[&lt;/S&gt;,по/prep]"
+        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Аллана <marker>По</marker></example>
+    <example type="ambiguous"
+        inputform="По[&lt;/S&gt;,по/prep]" 
+        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Едгара <marker>По</marker></example>
+    <example type="untouched">ганяли Едгара по полю.</example>
+  </rule>
+
+  <rule name="Едгар Аллан По" id="DIS_EDGAR_PO_2">
+    <pattern case_sensitive="yes">
+      <token regexp="yes">[А-ЯІЇЄҐ]\.|ім'я|родина</token>
+      <marker>
+        <token>По</token>
+      </marker>
+    </pattern>
+    <disambig><wd pos="noun:anim:m:nv:prop:lname" lemma="По"/></disambig>
+    <example type="ambiguous" 
+        inputform="По[&lt;/S&gt;,по/prep]"
+        outputform="По[&lt;/S&gt;,По/noun:anim:m:nv:prop:lname]">Знали Едгара А. <marker>По</marker></example>
+    <example type="untouched">ганяли Едгара по полю.</example>
+  </rule>
+
+
+  <rule name="Поліна" id="POLINA">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token regexp="yes">Полін[аиіу]</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:anim.*?:fname.*"/>
+    <example type="ambiguous" 
+        inputform="Поліну[Поліна/noun:anim:f:v_zna:prop:fname,поліно/noun:inanim:n:v_dav]"
+        outputform="Поліну[Поліна/noun:anim:f:v_zna:prop:fname]">Знали <marker>Поліну</marker>.</example>
+    <example type="untouched">Поліном</example>
+  </rule>
+
+  <rule name="Трускавці - місто" id="Truskavci_misto">
+    <pattern>
+      <token negate_pos="yes" postag="SENT_START"/>
+      <marker>
+        <token case_sensitive="yes">Трускавці</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:.*:prop.*"/>
+    <example type="ambiguous"
+        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav:coll,трускавка/noun:inanim:f:v_mis:coll]"
+        outputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo]">В <marker>Трускавці</marker>.</example>
+    <example type="untouched">Трускавці треба тепло.</example>
+  </rule>
+
+  <rule name="Прізвище після імені" id="last_name_after_first_name">
+    <pattern>
+      <token postag_regexp="yes" postag="noun:anim.*?fname.*"/>
+      <marker>
+        <token postag_regexp="yes" postag="noun:anim.*?lname.*"/>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:.*?prop.*"></disambig>
+    <!-- allow other :prop for now, e.g. Андрій Макарів (місто) не любив... -->
+    <example type="ambiguous"
+        inputform="Кіска[Кіска/noun:anim:m:v_naz:prop:lname,кіска/noun:inanim:f:v_naz]"
+        outputform="Кіска[Кіска/noun:anim:m:v_naz:prop:lname]"
+            >його привітав Андрей <marker>Кіска</marker>.</example>
+    <example type="untouched">довга Кіска</example>
+  </rule>
+
+  <rule name="Ізюм" id="CAPITAL_LETTER_IZUM">
+    <pattern>
+      <token>
+        <exception postag="SENT_START"/>
+      </token>
+      <marker>
+        <and>
+          <token inflected="yes">Ізюм</token>
+          <token inflected="yes">ізюм</token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*:prop:geo"/>
+    <example type="ambiguous"
+        inputform="Ізюму[Ізюм/noun:inanim:m:v_dav:prop:geo,Ізюм/noun:inanim:m:v_rod:prop:geo:ua_2019,ізюм/noun:inanim:m:v_dav:bad,ізюм/noun:inanim:m:v_rod:bad]"
+        outputform="Ізюму[Ізюм/noun:inanim:m:v_dav:prop:geo]">Приїхав з <marker>Ізюму</marker>.</example>
+    <example type="untouched">вироби з ізюму.</example>
+  </rule>
+
+  <rule name="Київ" id="KYYIV">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes">Київ</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_(naz|zna):prop:geo"/>
+    <example type="ambiguous"
+        inputform="Київ[Київ/noun:inanim:m:v_naz:prop:geo,Київ/noun:inanim:m:v_zna:prop:geo,кий/noun:inanim:p:v_rod]"
+        outputform="Київ[Київ/noun:inanim:m:v_naz:prop:geo,Київ/noun:inanim:m:v_zna:prop:geo]"
+            >в <marker>Київ</marker>.</example>
+    <example type="untouched">принесли Києві</example>
+  </rule>
+
+  <rule name="Йорк" id="York">
+    <pattern>
+      <marker>
+        <token inflected="yes">Йорк</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_...:prop:geo"/>
+    <example type="ambiguous"
+        inputform="Йорк[Йорк/noun:inanim:m:v_naz:prop:geo,Йорк/noun:inanim:m:v_zna:prop:geo,йорк/noun:anim:m:v_naz:coll]"
+        outputform="Йорк[Йорк/noun:inanim:m:v_naz:prop:geo,Йорк/noun:inanim:m:v_zna:prop:geo]"
+            >в <marker>Йорк</marker>.</example>
+    <example type="untouched">прибіг йорк</example>
+  </rule>
+
+  <rule name="Кривий Ріг" id="kryviy_rih">
+    <pattern>
+      <token inflected="yes">кривий</token>
+      <marker>
+        <token inflected="yes">Ріг</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_...:prop:geo" />
+    <example type="ambiguous"
+      inputform="Ріг[Ріг/noun:inanim:m:v_naz:prop:geo,Ріг/noun:inanim:m:v_zna:prop:geo,ріг/noun:inanim:m:v_naz:xp1,ріг/noun:inanim:m:v_naz:xp2,ріг/noun:inanim:m:v_naz:xp3,ріг/noun:inanim:m:v_zna:xp1,ріг/noun:inanim:m:v_zna:xp2,ріг/noun:inanim:m:v_zna:xp3]"
+      outputform="Ріг[Ріг/noun:inanim:m:v_naz:prop:geo,Ріг/noun:inanim:m:v_zna:prop:geo]">Поїхав в Кривий <marker>Ріг</marker>.
+    </example>
+    <example type="untouched">кривий ріг</example>
+  </rule>
+
+  <rule name="В Україні" id="V_UKRAYINI">
+    <pattern>
+      <token regexp="yes">[ву]|на</token>
+      <marker>
+        <token>Україні</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.:v_mis:prop:geo"/>
+    <example type="ambiguous"
+        inputform="Україні[Україна/noun:inanim:f:v_dav:prop:geo,Україна/noun:inanim:f:v_mis:prop:geo]"
+        outputform="Україні[Україна/noun:inanim:f:v_mis:prop:geo]"
+            >в <marker>Україні</marker>.</example>
+    <example type="untouched">принесли Україні.</example>
+  </rule>
+
+  <rule name="в Досі - іменник" id="dosi_noun">
+    <pattern>
+      <token regexp="yes">[ву]</token>
+      <marker>
+        <token case_sensitive="yes" regexp="yes">Досі|Києві</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.:v_mis:prop:geo"/>
+    <example type="ambiguous"
+      inputform="Досі[Доха/noun:inanim:f:v_dav:prop:geo,Доха/noun:inanim:f:v_mis:prop:geo,досі/adv:&amp;pron:dem]"
+      outputform="Досі[Доха/noun:inanim:f:v_mis:prop:geo]">збірна в <marker>Досі</marker> медаль не виборола.
+    </example>
+    <example type="ambiguous"
+        inputform="Києві[Кий/noun:anim:m:v_dav:prop:fname,Кий/noun:anim:m:v_mis:prop:fname,Київ/noun:inanim:m:v_mis:prop:geo,кий/noun:inanim:m:v_dav,кий/noun:inanim:m:v_mis]"
+        outputform="Києві[Київ/noun:inanim:m:v_mis:prop:geo]"
+            >в <marker>Києві</marker>.</example>
+    <example type="untouched">Досі незнайома</example>
+  </rule>
+
+  <rule name="Досі - прийменник" id="Dosi_adv">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes">Досі
+          <exception scope="previous" regexp="yes">[ву]</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="adv.*"/>
+    <example type="ambiguous"
+      inputform="Досі[Доха/noun:inanim:f:v_dav:prop:geo,досі/adv:&amp;pron:dem]"
+      outputform="Досі[досі/adv:&amp;pron:dem]">І <marker>Досі</marker> Непереможений.
+    </example>
+    <example type="untouched">в Досі не виграли</example>
+  </rule>
+
+  <rule name="Рада - іменник 0" id="rada_noun_0">
+    <pattern>
+      <token regexp="yes" postag_regexp="yes" postag="adj:.*" inflected="yes">верховний|обласний|міський|сільський|районний|центральний|громадський|народний|[ву]чений|студентський</token>
+      <marker>
+        <token inflected="yes">рада</token>
+      </marker>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
+        outputform="Раду[рада/noun:inanim:f:v_zna]"
+            >у Верховну <marker>Раду</marker>.</example>
+    <example type="untouched">не міг дати собі ради.</example>
+    <example type="untouched">сама рада.</example>
+  </rule>
+
+  <rule name="Рада - іменник 1" id="rada_noun_1">
+    <pattern>
+      <marker>
+        <token inflected="yes">рада</token>
+      </marker>
+      <token regexp="yes">безпеки|національної|міністрів|керівників|директорів|суддів|ЄС|Євро.*|[XVIХІ]+</token>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
+        outputform="Раду[рада/noun:inanim:f:v_zna]"
+            >у <marker>Раду</marker> Міністрів.</example>
+    <example type="untouched">не міг дати собі ради.</example>
+  </rule>
+
+  <rule name="Рада - іменник 2" id="rada_noun_2">
+    <pattern>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+        <token postag_regexp="yes" postag="adj:f:.(?!.*pron).*"/>
+        <marker>
+          <token inflected="yes">рада</token>
+        </marker>
+      </unify>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="раду[рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
+        outputform="раду[рада/noun:inanim:f:v_zna]"
+            >таємну <marker>раду</marker>.</example>
+    <example type="untouched">вона й рада старатися</example>
+  </rule>
+
+  <rule name="Рада - іменник 3" id="rada_noun_3">
+    <pattern>
+      <token regexp="yes">[ву]</token>
+      <marker>
+        <token>раду</token>
+      </marker>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
+        outputform="Раду[рада/noun:inanim:f:v_zna]"
+            >в <marker>Раду</marker>.</example>
+    <example type="untouched">не міг дати собі ради.</example>
+    <example type="untouched">сама рада.</example>
+  </rule>
+
+  <rule name="Святого Юра" id="sviatogo_yura">
+    <pattern>
+      <token>святого</token>
+      <marker>
+        <token case_sensitive="yes">Юра</token>
+      </marker>
+    </pattern>
+    <disambig postag="noun:anim:m:v_rod:prop:fname"/>
+    <example type="ambiguous" 
+        inputform="Юра[Юра/noun:anim:f:v_naz:prop:lname,Юра/noun:anim:m:v_naz:prop:fname,Юра/noun:anim:m:v_naz:prop:lname,Юра/noun:inanim:f:v_naz:prop:geo,юра/noun:inanim:f:v_naz]" 
+        outputform="Юра[Юра/noun:anim:m:v_rod:prop:fname]">святого <marker>Юра</marker>.</example>
+    <example type="untouched">Юра прийшов додому.</example>
+  </rule>
+
+  <rule name="Кім Чен Ір" id="kim_chen_ir">
+    <pattern>
+      <token>Чен</token>
+      <marker>
+        <token case_sensitive="yes" regexp="yes">Ір(а|у|і)?</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:m:.*lname.*"/>
+    <example type="ambiguous" 
+        inputform="Іра[Ір/noun:anim:m:v_rod:prop:lname,Ір/noun:anim:m:v_zna:prop:lname,Іра/noun:anim:f:v_naz:prop:fname]" 
+        outputform="Іра[Ір/noun:anim:m:v_rod:prop:lname,Ір/noun:anim:m:v_zna:prop:lname]">до Кім Чен <marker>Іра</marker>.</example>
+    <example type="untouched">Приїхала Іра.</example>
+  </rule>
+
+  <rule name="Іра" id="ira">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes" regexp="yes">Ір(а|у|і)?</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:f:.*fname.*"/>
+    <example type="ambiguous" 
+        inputform="Іра[Ір/noun:anim:m:v_rod:prop:lname,Ір/noun:anim:m:v_zna:prop:lname,Іра/noun:anim:f:v_naz:prop:fname]" 
+        outputform="Іра[Іра/noun:anim:f:v_naz:prop:fname]">Приїхала <marker>Іра</marker>.</example>
+  </rule>
+
+  <rule name="Кім Ір Сен" id="kim_ir_sen">
+    <pattern>
+      <token>Ір</token>
+      <marker>
+        <token case_sensitive="yes" regexp="yes">Сен(а|у|і)</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:m:.*lname.*"/>
+    <example type="ambiguous" 
+        inputform="Сена[Сен/noun:anim:m:v_rod:prop:lname,Сен/noun:anim:m:v_zna:prop:lname,Сена/noun:inanim:f:v_naz:prop:geo]" 
+        outputform="Сена[Сен/noun:anim:m:v_rod:prop:lname,Сен/noun:anim:m:v_zna:prop:lname]">до Кім Ір <marker>Сена</marker>.</example>
+    <example type="untouched">річка Сена.</example>
+  </rule>
+
+  <rule name="Сена" id="sena">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes" regexp="yes">Сен(а|у|і)</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:anim:m:.*lname.*"/>
+    <example type="ambiguous" 
+        inputform="Сена[Сен/noun:anim:m:v_rod:prop:lname,Сен/noun:anim:m:v_zna:prop:lname,Сена/noun:inanim:f:v_naz:prop:geo]" 
+        outputform="Сена[Сена/noun:inanim:f:v_naz:prop:geo]">річка <marker>Сена</marker>.</example>
+  </rule>
+
+  <rule name="Отто - ім'я" id="otto_name">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes">Отто</token>
+      </marker>
+      <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*|фон</token>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:.*:fname.*" />
+    <example type="ambiguous"
+      inputform="Отто[Отто/noun:anim:m:v_dav:nv:prop:fname,Отто/noun:anim:m:v_kly:nv:prop:fname,Отто/noun:anim:m:v_naz:nv:prop:fname,Отто/noun:anim:m:v_oru:nv:prop:fname,Отто/noun:anim:m:v_rod:nv:prop:fname,Отто/noun:anim:m:v_zna:nv:prop:fname,отто/part:arch]"
+      outputform="Отто[Отто/noun:anim:m:v_dav:nv:prop:fname,Отто/noun:anim:m:v_kly:nv:prop:fname,Отто/noun:anim:m:v_naz:nv:prop:fname,Отто/noun:anim:m:v_oru:nv:prop:fname,Отто/noun:anim:m:v_rod:nv:prop:fname,Отто/noun:anim:m:v_zna:nv:prop:fname]"><marker>Отто</marker> Мюллер.
+    </example>
+    <example type="untouched">Оттож вже насміявсь</example>
+  </rule>
+
+  <!-- Загальне правило не працює, бо часто загальні іменники можуть вживатися з великої: «але для Ігор у Турині зробили виняток»
+  <rule name="Іменник з великої літери в середині речення - власна назва" id="CAPITAL_INSIDE_SENTENCE_IS_PROP_NOUN">
+    <pattern case_sensitive="yes">
+      <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun.*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
+              <exception scope="previous" postag="SENT_START"/>
+              <exception scope="previous" regexp="yes">[«„“\[\](—–-]</exception>
+              <exception postag_regexp="yes" postag="adj.*"></exception>
+            </token>
+    </pattern>
+    <disambig><match no="1" postag="noun.*:prop.*|part:pers" postag_regexp="yes"/></disambig>
+    <example type="ambiguous" 
+        inputform="Острогу[Острог/noun:inanim:m:v_dav:prop,Острог/noun:inanim:m:v_mis:prop,острог/noun:inanim:m:v_dav,острог/noun:inanim:m:v_mis,остріг/noun:inanim:m:v_dav,остріг/noun:inanim:m:v_mis,остріг/noun:inanim:m:v_rod]" 
+        outputform="Острогу[Острог/noun:inanim:m:v_dav:prop,Острог/noun:inanim:m:v_mis:prop]">Прах хороброго лицаря з <marker>Острогу</marker>.</example>
+    <example type="untouched">За Вільну демократичну партію.</example>
+    <example type="untouched">Люба формула.</example>
+  </rule>
+
+  <!- Вилучає багато файльшивих, але також ховає справжні, бо часто загальні пишуть з великої в середині, як власні ->
+  <rule name="Іменник з великої літери в середині речення без власної назви" id="DIS_CAPITAL_INSIDE_SENTENCE_WITHOUT_PROP_NOUN">
+    <pattern case_sensitive="yes">
+      <token regexp="yes" postag_regexp="yes" postag="noun.*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
+              <exception scope="previous" postag="SENT_START"/>
+              <exception scope="previous" regexp="yes">[«„“\[\](—–-] </exception>
+              <exception postag_regexp="yes" postag="adj.*|.*:prop.*"/>
+              <exception inflected="yes">бог</exception>
+              <exception>Авт</exception>
+            </token>
+    </pattern>
+    <disambig action="immunize"/>
+    <example type="ambiguous"
+        inputform="Лахті[лахта/noun:inanim:f:v_dav,лахта/noun:inanim:f:v_mis]"
+        outputform="Лахті[лахта/noun:inanim:f:v_dav,лахта/noun:inanim:f:v_mis{!}]">Приїхав у <marker>Лахті</marker>.</example>
+    <example type="untouched">За Вільну демократичну партію.</example>
+    <example type="untouched">Люба формула.</example>
+  </rule>
+
+  <rule name="Власні і загальні назви" id="prop_gen_noun">
+    <antipattern>
+      <token postag="SENT_START"/>
+      <token regexp="yes" min="0">[«„“"*•/\[\]:(—–-]|.*&gt;</token>
+      <token postag_regexp="yes" postag="noun.*prop.*"/>
+    </antipattern>
+    <antipattern>
+      <token regexp="yes" postag_regexp="yes" postag="adj.*">[А-ЯІЇЄҐ].+</token>
+      <token postag_regexp="yes" postag="noun.*prop.*"/>
+    </antipattern>
+    <pattern>
+      <marker>
+        <and>
+          <token postag_regexp="yes" postag="noun(?!.*v_kly).*prop:geo.*">
+            <exception postag_regexp="yes" postag="adj.*" regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].+</exception>
+          </token>
+          <token postag_regexp="yes" postag="noun(?!.*prop).*"/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:.*prop.*"/>
+    <example type="ambiguous"
+        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav:coll,трускавка/noun:inanim:f:v_mis:coll]"
+        outputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo]">В <marker>Трускавці</marker>.</example>
+    <example type="ambiguous"
+        inputform="Грушівкою[Грушівка/noun:inanim:f:v_oru:prop:geo,грушівка/noun:inanim:f:v_oru]"
+        outputform="Грушівкою[Грушівка/noun:inanim:f:v_oru:prop:geo]">За <marker>Грушівкою</marker>.</example>
+    <example type="untouched">Трускавці треба тепло.</example>
+    <example type="untouched">у могутні Максимові обійми.</example>
+    <example type="untouched">Єлісейські Поля.</example>
+    <example type="untouched">Леонідів Кравчука та Кучму</example>
+    <example type="untouched">— Борщ зварила добре</example>
+    <example type="untouched">поїхали в Поле.</example>
+    <example type="untouched">у Блок Солідарності</example>
+  </rule>
+-->
+
   <rule name="Слова з великої літери в середині речення - це іменники або прикметники" id="DIS_PROPER_NOUN_INSIDE_SENTENCE">
     <pattern case_sensitive="yes">
       <and>
@@ -1950,25 +2201,6 @@
         outputform="Авт[авт/noun:inanim:m:v_naz:abbr,авто/noun:inanim:p:v_rod:alt]">перерозподіл (власності. — <marker>Авт</marker>. ).</example>
     <example type="untouched">під час аварій власних авт чи мотоциклів.</example>
     <example type="untouched">Авт не було зовсім.</example>
-  </rule>
-
-  <rule name="Ізюм" id="CAPITAL_LETTER_IZUM">
-    <pattern>
-      <token>
-        <exception postag="SENT_START"/>
-      </token>
-      <marker>
-        <and>
-          <token inflected="yes">Ізюм</token>
-          <token inflected="yes">ізюм</token>
-        </and>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun.*:prop:geo"/>
-    <example type="ambiguous"
-        inputform="Ізюму[Ізюм/noun:inanim:m:v_dav:prop:geo,Ізюм/noun:inanim:m:v_rod:prop:geo:ua_2019,ізюм/noun:inanim:m:v_dav:bad,ізюм/noun:inanim:m:v_rod:bad]"
-        outputform="Ізюму[Ізюм/noun:inanim:m:v_dav:prop:geo]">Приїхав з <marker>Ізюму</marker>.</example>
-    <example type="untouched">вироби з ізюму.</example>
   </rule>
 
   <rule name="Петра з українськими прізвищами" id="PETRA_FNAME_MASC">
@@ -2081,6 +2313,10 @@
     <example type="untouched">На Україна та Іспанія</example>
     <example type="untouched">червоне - зелене</example>
   </rule>
+
+  <!-- 
+        Кінець: Великі літери в середині слова + власні назви
+  -->
 
   <rule name="Лютого" id="LYUTYI">
     <pattern>
@@ -2921,50 +3157,6 @@
     <example type="untouched">без мого відома.</example>
   </rule>
 
-  <rule name="В Україні" id="V_UKRAYINI">
-    <pattern>
-      <token regexp="yes">в|на</token>
-      <marker>
-        <token>Україні</token>
-      </marker>
-    </pattern>
-    <disambig postag="noun:inanim:f:v_mis:prop:geo"/>
-    <example type="ambiguous"
-        inputform="Україні[Україна/noun:inanim:f:v_dav:prop:geo,Україна/noun:inanim:f:v_mis:prop:geo]"
-        outputform="Україні[Україна/noun:inanim:f:v_mis:prop:geo]"
-            >в <marker>Україні</marker>.</example>
-    <example type="untouched">принесли Україні.</example>
-  </rule>
-
-  <rule name="В Києві" id="V_KYJEVI">
-    <pattern>
-      <token regexp="yes">[ву]</token>
-      <marker>
-        <token>Києві</token>
-      </marker>
-    </pattern>
-    <disambig postag="noun:inanim:m:v_mis:prop:geo"/>
-    <example type="ambiguous"
-        inputform="Києві[Кий/noun:anim:m:v_dav:prop:fname,Кий/noun:anim:m:v_mis:prop:fname,Київ/noun:inanim:m:v_mis:prop:geo,кий/noun:inanim:m:v_dav,кий/noun:inanim:m:v_mis]"
-        outputform="Києві[Київ/noun:inanim:m:v_mis:prop:geo]"
-            >в <marker>Києві</marker>.</example>
-    <example type="untouched">принесли Києві</example>
-  </rule>
-
-  <rule name="Київ" id="KYYIV">
-    <pattern>
-      <marker>
-        <token case_sensitive="yes">Київ</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:m:v_(naz|zna):prop:geo"/>
-    <example type="ambiguous"
-        inputform="Київ[Київ/noun:inanim:m:v_naz:prop:geo,Київ/noun:inanim:m:v_zna:prop:geo,кий/noun:inanim:p:v_rod]"
-        outputform="Київ[Київ/noun:inanim:m:v_naz:prop:geo,Київ/noun:inanim:m:v_zna:prop:geo]"
-            >в <marker>Київ</marker>.</example>
-    <example type="untouched">принесли Києві</example>
-  </rule>
-
   <rule name="Дієслово «дій»" id="VERB_DIY">
     <pattern>
       <marker>
@@ -3314,71 +3506,23 @@
     -->
   </rule>
 
-  <rule name="Рада - іменник 0" id="rada_noun_0">
-    <pattern>
-      <token regexp="yes" postag_regexp="yes" postag="adj:.*" inflected="yes">верховний|обласний|міський|сільський|районний|центральний|громадський|народний|[ву]чений|студентський</token>
-      <marker>
-        <token inflected="yes">рада</token>
-      </marker>
-    </pattern>
-    <disambig action="filter"><match no="1">рада</match></disambig>
-    <example type="ambiguous"
-        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
-        outputform="Раду[рада/noun:inanim:f:v_zna]"
-            >у Верховну <marker>Раду</marker>.</example>
-    <example type="untouched">не міг дати собі ради.</example>
-    <example type="untouched">сама рада.</example>
-  </rule>
 
-  <rule name="Рада - іменник 1" id="rada_noun_1">
+<!-- 
+  <rule name="Однолітерні скорочення лише з малої" id="SINGLE_CHAR_ABBR_NO_CAPS">
     <pattern>
-      <marker>
-        <token inflected="yes">рада</token>
-      </marker>
-      <token regexp="yes">безпеки|національної|міністрів|керівників|директорів|суддів|ЄС|Євро.*|[XVIХІ]+</token>
+      <token case_sensitive="yes" postag_regexp="yes" postag="noun.*?:abbr.*" regexp="yes">[А-ЯІЇЄҐ]\.
+        <exception postag_regexp="yes" postag="noun.*?[fp]name.*"/>
+      </token>
     </pattern>
-    <disambig action="filter"><match no="1">рада</match></disambig>
-    <example type="ambiguous"
-        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
-        outputform="Раду[рада/noun:inanim:f:v_zna]"
-            >у <marker>Раду</marker> Міністрів.</example>
-    <example type="untouched">не міг дати собі ради.</example>
+    <disambig action="remove" postag=".*"/>
+    <example type="ambiguous" 
+        inputform="С.[с./noun:inanim:n:v_dav:nv:abbr,с./noun:inanim:n:v_naz:nv:abbr,с./noun:inanim:n:v_oru:nv:abbr,с./noun:inanim:n:v_rod:nv:abbr,с./noun:inanim:n:v_zna:nv:abbr]" 
+        outputform="С.[С.]"><marker>С.</marker> Мокітмі.</example>
+    <example type="ambiguous" 
+        inputform="С.[С./noun:anim:m:v_naz:abbr:prop:fname]"
+        outputform="С.[С.]"><marker>С.</marker> Макаров.</example>
   </rule>
-
-  <rule name="Рада - іменник 2" id="rada_noun_2">
-    <pattern>
-      <unify>
-        <feature id="gender"/>
-        <feature id="case"/>
-        <token postag_regexp="yes" postag="adj:f:.(?!.*pron).*"/>
-        <marker>
-          <token inflected="yes">рада</token>
-        </marker>
-      </unify>
-    </pattern>
-    <disambig action="filter"><match no="1">рада</match></disambig>
-    <example type="ambiguous"
-        inputform="раду[рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
-        outputform="раду[рада/noun:inanim:f:v_zna]"
-            >таємну <marker>раду</marker>.</example>
-    <example type="untouched">вона й рада старатися</example>
-  </rule>
-
-  <rule name="Рада - іменник 3" id="rada_noun_3">
-    <pattern>
-      <token regexp="yes">[ву]</token>
-      <marker>
-        <token>раду</token>
-      </marker>
-    </pattern>
-    <disambig action="filter"><match no="1">рада</match></disambig>
-    <example type="ambiguous"
-        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna:compb]"
-        outputform="Раду[рада/noun:inanim:f:v_zna]"
-            >в <marker>Раду</marker>.</example>
-    <example type="untouched">не міг дати собі ради.</example>
-    <example type="untouched">сама рада.</example>
-  </rule>
+ -->
 
   <rule name="ч. - чайна" id="ch_chaina">
     <pattern>
@@ -3688,58 +3832,6 @@
     <example type="untouched">Тра 2 ведра взять.</example>
   </rule>
 
-  <rule name="Кім Чен Ір" id="kim_chen_ir">
-    <pattern>
-      <token>Чен</token>
-      <marker>
-        <token case_sensitive="yes" regexp="yes">Ір(а|у|і)?</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:anim:m:.*lname.*"/>
-    <example type="ambiguous" 
-        inputform="Іра[Ір/noun:anim:m:v_rod:prop:lname,Ір/noun:anim:m:v_zna:prop:lname,Іра/noun:anim:f:v_naz:prop:fname]" 
-        outputform="Іра[Ір/noun:anim:m:v_rod:prop:lname,Ір/noun:anim:m:v_zna:prop:lname]">до Кім Чен <marker>Іра</marker>.</example>
-    <example type="untouched">Приїхала Іра.</example>
-  </rule>
-
-  <rule name="Іра" id="ira">
-    <pattern>
-      <marker>
-        <token case_sensitive="yes" regexp="yes">Ір(а|у|і)?</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:anim:f:.*fname.*"/>
-    <example type="ambiguous" 
-        inputform="Іра[Ір/noun:anim:m:v_rod:prop:lname,Ір/noun:anim:m:v_zna:prop:lname,Іра/noun:anim:f:v_naz:prop:fname]" 
-        outputform="Іра[Іра/noun:anim:f:v_naz:prop:fname]">Приїхала <marker>Іра</marker>.</example>
-  </rule>
-
-  <rule name="Кім Ір Сен" id="kim_ir_sen">
-    <pattern>
-      <token>Ір</token>
-      <marker>
-        <token case_sensitive="yes" regexp="yes">Сен(а|у|і)</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:anim:m:.*lname.*"/>
-    <example type="ambiguous" 
-        inputform="Сена[Сен/noun:anim:m:v_rod:prop:lname,Сен/noun:anim:m:v_zna:prop:lname,Сена/noun:inanim:f:v_naz:prop:geo]" 
-        outputform="Сена[Сен/noun:anim:m:v_rod:prop:lname,Сен/noun:anim:m:v_zna:prop:lname]">до Кім Ір <marker>Сена</marker>.</example>
-    <example type="untouched">річка Сена.</example>
-  </rule>
-
-  <rule name="Сена" id="sena">
-    <pattern>
-      <marker>
-        <token case_sensitive="yes" regexp="yes">Сен(а|у|і)</token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="noun:anim:m:.*lname.*"/>
-    <example type="ambiguous" 
-        inputform="Сена[Сен/noun:anim:m:v_rod:prop:lname,Сен/noun:anim:m:v_zna:prop:lname,Сена/noun:inanim:f:v_naz:prop:geo]" 
-        outputform="Сена[Сена/noun:inanim:f:v_naz:prop:geo]">річка <marker>Сена</marker>.</example>
-  </rule>
-
   <rule name="Мету - іменник" id="metu_noun">
     <pattern>
       <token>мету
@@ -3765,20 +3857,6 @@
         inputform="одяг[одяг/noun:inanim:m:v_naz,одяг/noun:inanim:m:v_zna,одягти/verb:perf:past:m]" 
         outputform="одяг[одяг/noun:inanim:m:v_naz,одяг/noun:inanim:m:v_zna]">і <marker>одяг</marker>.</example>
     <example type="untouched">Він одяг пальто.</example>
-  </rule>
-
-  <rule name="Святого Юра" id="sviatogo_yura">
-    <pattern>
-      <token>святого</token>
-      <marker>
-        <token case_sensitive="yes">Юра</token>
-      </marker>
-    </pattern>
-    <disambig postag="noun:anim:m:v_rod:prop:fname"/>
-    <example type="ambiguous" 
-        inputform="Юра[Юра/noun:anim:f:v_naz:prop:lname,Юра/noun:anim:m:v_naz:prop:fname,Юра/noun:anim:m:v_naz:prop:lname,Юра/noun:inanim:f:v_naz:prop:geo,юра/noun:inanim:f:v_naz]" 
-        outputform="Юра[Юра/noun:anim:m:v_rod:prop:fname]">святого <marker>Юра</marker>.</example>
-    <example type="untouched">Юра прийшов додому.</example>
   </rule>
 
 
@@ -4328,21 +4406,6 @@
     <example type="untouched">суворо оглядів</example>
   </rule>
 
-  <rule name="Отто - ім'я" id="otto_name">
-    <pattern>
-      <marker>
-        <token case_sensitive="yes">Отто</token>
-      </marker>
-      <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*|фон</token>
-    </pattern>
-    <disambig action="filter" postag="noun:anim:.*:fname.*" />
-    <example type="ambiguous"
-      inputform="Отто[Отто/noun:anim:m:v_dav:nv:prop:fname,Отто/noun:anim:m:v_naz:nv:prop:fname,Отто/noun:anim:m:v_oru:nv:prop:fname,Отто/noun:anim:m:v_rod:nv:prop:fname,Отто/noun:anim:m:v_zna:nv:prop:fname,отто/part:arch]"
-      outputform="Отто[Отто/noun:anim:m:v_dav:nv:prop:fname,Отто/noun:anim:m:v_naz:nv:prop:fname,Отто/noun:anim:m:v_oru:nv:prop:fname,Отто/noun:anim:m:v_rod:nv:prop:fname,Отто/noun:anim:m:v_zna:nv:prop:fname]"><marker>Отто</marker> Мюллер.
-    </example>
-    <example type="untouched">Оттож вже насміявсь</example>
-  </rule>
-
   <rule name="так - conj" id="tak_conj">
     <pattern>
       <token>,</token>
@@ -4373,21 +4436,6 @@
       outputform="так[так/adv:&amp;pron:dem]"><marker>так</marker>, щоб йому було
     </example>
     <example type="untouched">Так тобі й треба</example>
-  </rule>
-
-  <rule name="Кривий Ріг" id="kryviy_rih">
-    <pattern>
-      <token inflected="yes">кривий</token>
-      <marker>
-        <token inflected="yes">Ріг</token>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun:inanim:m:v_...:prop:geo" />
-    <example type="ambiguous"
-      inputform="Ріг[Ріг/noun:inanim:m:v_naz:prop:geo,Ріг/noun:inanim:m:v_zna:prop:geo,ріг/noun:inanim:m:v_naz:xp1,ріг/noun:inanim:m:v_naz:xp2,ріг/noun:inanim:m:v_naz:xp3,ріг/noun:inanim:m:v_zna:xp1,ріг/noun:inanim:m:v_zna:xp2,ріг/noun:inanim:m:v_zna:xp3]"
-      outputform="Ріг[Ріг/noun:inanim:m:v_naz:prop:geo,Ріг/noun:inanim:m:v_zna:prop:geo]">Поїхав в Кривий <marker>Ріг</marker>.
-    </example>
-    <example type="untouched">кривий ріг</example>
   </rule>
 
   <rule name="сходу - іменник" id="skhodu_noun1">

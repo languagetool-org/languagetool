@@ -630,11 +630,11 @@ public class UkrainianHybridDisambiguationTest {
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     // don't handle yet
-    TestTools.myAssert("два Рима", 
-        "/[null]SENT_START "
-        + "два/[два]numr:p:v_naz|два/[два]numr:p:v_zna  "
-        + "/[null]null Рима/[Рим]noun:inanim:m:v_rod:prop:geo:xp1|Рима/[рим]noun:inanim:m:v_rod|Рима/[рима]noun:inanim:f:v_naz",
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
+//    TestTools.myAssert("два Рима", 
+//        "/[null]SENT_START "
+//        + "два/[два]numr:p:v_naz|два/[два]numr:p:v_zna  "
+//        + "/[null]null Рима/[Рим]noun:inanim:m:v_rod:prop:geo:xp1|Рима/[рим]noun:inanim:m:v_rod|Рима/[рима]noun:inanim:f:v_naz",
+//        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 }
 

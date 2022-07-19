@@ -3518,6 +3518,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     </rulegroup>
 
+    <rulegroup id="stosunky_vidnosyny" name="Відносини і стосунки">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes" postag_regexp="yes" postag="adj:p.*">майновий|виробничий|суспільний|економічний|торг[іо]вельний</token>
+          <marker>
+            <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim:p.*">відношення|стосунок</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>відносини</suggestion></message>
+        <example correction="відносини">і економічні <marker>відношення</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:p.*">романтичний|любовний|сексуальний</token>
+          <marker>
+            <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun:inanim:p.*">відношення|відносини</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>стосунки</suggestion></message>
+        <example correction="стосунки">і романтичні <marker>відношення</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="likarsky_likarnyanyi" name="Лікарський і лікарняний">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">лікарський</token>
+          </marker>
+          <token inflected="yes" regexp="yes">листок|ліжко|корпус|режим</token>
+        </pattern>
+        <message>Правильно: <suggestion>лікарняний</suggestion></message>
+        <example correction="лікарняний">і <marker>лікарський</marker> листок</example>
+        <!-- лікарська палата - може бути правильне -->
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">лікарняний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">дільниця|діяльність|халат|обхід|клятва|таємниця|рецепт</token>
+        </pattern>
+        <message>Правильно: <suggestion>лікарський</suggestion></message>
+        <example correction="лікарський">і <marker>лікарняна</marker> дільниця</example>
+      </rule>
+    </rulegroup>
+
 <!--
     схоже, «відсутній» не має такого чіткого розділення
 
