@@ -271,18 +271,24 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="VEEL_DAGEN" name="2021 dagen" >
 			<rule>
 				<pattern>
-					<token regexp="yes">[1-9][0-9]{3}</token>
-					<token regexp="yes">maanden|dagen|uren|minuten|seconden</token>
+				    <token negate="yes">,</token>
+				    <marker>
+                        <token regexp="yes">[1-9][0-9]{3}</token>
+                        <token regexp="yes">maanden|dagen|uren|minuten|seconden</token>
+					</marker>
 				</pattern>
-				<message>Dat is wel een verdacht groot getal voor een aantal \2.</message>
+				<message>Dat is wel een verdacht groot getal voor een aantal \3.</message>
 				<example type="incorrect">Het festival is <marker>2021 dagen</marker> uitgesteld.</example>
 			</rule>
 			<rule>
 				<pattern>
-					<token regexp="yes">[4-9][0-9]{2}</token>
-					<token regexp="yes">maanden|dagen|uren|minuten|seconden</token>
+				    <token negate="yes">,</token>
+				    <marker>
+                        <token regexp="yes">[4-9][0-9]{2}</token>
+                        <token regexp="yes">maanden|dagen|uren|minuten|seconden</token>
+					</marker>
 				</pattern>
-				<message>Dat is wel een verdacht groot getal voor een aantal \2. Als het geen fout is, kunt u het wellicht beter anders noteren.</message>
+				<message>Dat is wel een verdacht groot getal voor een aantal \3. Als het geen fout is, kunt u het wellicht beter anders noteren.</message>
 				<example type="incorrect">Het duurde <marker>400 maanden</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -12162,7 +12168,7 @@ onwaarschijnlijk
 					<token>.</token></marker>
 				</pattern>
 				<message>Als u <suggestion><match no="1" case_conversion="alllower"/>.</suggestion> (editie) bedoelt, hoort het zonder hoofdletter.</message>
-				<example correction="ed.">Ik lees de 1e <marker>Ed.</marker>. van haar boek.</example>
+				<example correction="ed.">Ik lees de 1e <marker>Ed.</marker> van haar boek.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="VON" name="von → v.o.n.">
