@@ -41,6 +41,8 @@ public class SpanishUnpairedBracketsRuleTest {
     // correct sentences:
     assertMatches("Soy un hombre (muy honrado).", 0);
     assertMatches("D'Hondt.", 0);
+    assertMatches("Guns N’ Roses", 0);
+    assertMatches("Guns N' Roses", 0);
     assertMatches("D’Hondt.", 0);
     assertMatches("L’Équipe", 0);
     assertMatches("rock ’n’ roll", 0);

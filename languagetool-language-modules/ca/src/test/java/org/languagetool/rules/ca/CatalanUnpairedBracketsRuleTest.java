@@ -48,6 +48,7 @@ public class CatalanUnpairedBracketsRuleTest {
   public void testRule() throws IOException {
     
     // correct sentences:
+    assertMatches("Guns N' Roses", 0);
     assertMatches("L'«home és així»", 0);
     assertMatches("l'«home»", 0);
     assertMatches("«\"És així\" o no»", 0);

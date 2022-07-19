@@ -29822,6 +29822,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Vladímir</suggestion>
                 <example correction="Vladímir">En la zona de <marker>Vladimir</marker>.</example>
             </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Guns</token>
+                    <token spacebefore="yes">N</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="yes">Roses</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>guns</token>
+                        <token min="0" regexp="yes">['’‘]</token>
+                        <token regexp="yes">'n|n|n'</token>
+                        <token min="0" regexp="yes">['’‘]</token>
+                        <token regexp="yes">roses?</token>
+                    </marker>
+                </pattern>
+                <message>¿Quiso decir <suggestion>Guns N' Roses</suggestion>, grupo musical?</message>
+                <url>https://es.wikipedia.org/wiki/Guns_N%27_Roses</url>
+                <example correction="Guns N' Roses"><marker>guns'n'roses</marker>.</example>
+                <example correction="Guns N' Roses"><marker>guns 'n'roses</marker>.</example>
+                <example correction="Guns N' Roses"><marker>guns n’roses</marker>.</example>
+                <example correction="Guns N' Roses"><marker>guns 'n' roses</marker>.</example>
+                <example correction="Guns N' Roses"><marker>guns ' n roses</marker>.</example>
+                <example correction="Guns N' Roses"><marker>guns 'n roses</marker>.</example>
+                <example>Guns N’ Roses</example>
+            </rule>
         </rulegroup>
     </category>
 </rules>

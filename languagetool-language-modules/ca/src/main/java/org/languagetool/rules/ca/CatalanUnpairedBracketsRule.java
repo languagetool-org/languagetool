@@ -59,6 +59,11 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     if (i < 1) {
       return true;
     }
+    
+    if ((tokenStr.equals("’") || tokenStr.equals("'"))
+        && (tokens[i].hasPosTagStartingWith("N") || tokens[i].hasPosTagStartingWith("A"))) {
+      return false;
+    }
 
     final boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace, symbolStack);
     if (superException) {
