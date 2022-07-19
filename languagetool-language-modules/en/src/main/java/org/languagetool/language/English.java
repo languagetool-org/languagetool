@@ -544,7 +544,6 @@ public class English extends Language implements AutoCloseable {
       case "CANT_JJ":                   return -2;  // prefer other more specific rules
       case "WOULD_A":                   return -2;  // prefer other more specific rules
       case "I_AM_VB":                   return -2;  // prefer other rules
-      case "MD_PRP_QUESTION_MARK":      return -2;  // less prio than YOU_YOUR and YOU_YOUR_2
       case "BE_VBP_IN":                 return -2;  // prefer over BEEN_PART_AGREEMENT
       case "GONNA_TEMP":                return -3;
       case "A_INFINITIVE":              return -3;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
