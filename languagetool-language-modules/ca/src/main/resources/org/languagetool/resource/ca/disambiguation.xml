@@ -1283,8 +1283,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token><exception regexp="yes" inflected="yes">com|per|dedicar</exception></token>
                 <marker>
                     <token>a</token>
-                    <token>espai</token>
+                    <token case_sensitive="yes">espai</token>
                 </marker>
+                <token><exception postag="AQ0[MC][SN].|V.P..SM." postag_regexp="yes"/></token>
             </pattern>
             <disambig action="replace">
                 <wd lemma="a espai" pos="LOC_ADV"/>
@@ -3450,7 +3451,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="CC"/>
             <token regexp="yes" inflected="yes">tornada|vinguda</token>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
     </rule>
     <rulegroup id="carboni" name="carboni / mescla (no verb)">
         <rule>
@@ -4038,7 +4039,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
-                    <token inflected="yes">papallona</token>
+                <token inflected="yes">papallona</token>
                 <marker>
                     <token regexp="yes">mussol|bufaforats|safranera|zebra</token>
                 </marker>
@@ -11169,6 +11170,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="AQ.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">animal</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
         </rule>
     </rulegroup>
     <rulegroup id="numeral_nom" name="numeral + nom plural">
