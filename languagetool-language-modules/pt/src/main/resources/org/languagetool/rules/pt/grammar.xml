@@ -39577,7 +39577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
     <!--          Style rules from English grammar.xml      - START-->
-    <rule id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" tags="picky">
+        <rule id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" tags="picky" default='temp_off'>
       <antipattern>
         <token>ou</token>
         <token>seja</token>
@@ -39586,14 +39586,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='SENT_START'/>
         <marker>
           <token regexp="yes">E|Mas|Ou|Porém</token>
+		  <token></token>
         </marker>
       </pattern>
       <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+	  <suggestion><match no='3' case_conversion='startupper'/></suggestion>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
       <short>Problema de estilo</short>
-      <example correction=""><marker>E</marker> sim, isto mostra problemas de estilo ao começar a frase com 'e'.</example>
+      <example correction="Sim"><marker>E sim</marker>, isto mostra problemas de estilo ao começar a frase com 'e'.</example>
       <example>Sim, mostra problemas de estilo começar a frase com 'e'.</example>
-      <example correction=""><marker>Mas</marker> não é bom costume começar a frase com 'mas'.</example>
+      <example correction="Não"><marker>Mas não</marker> é bom costume começar a frase com 'mas'.</example>
       <example>Não é um bom estilo de escrita começar uma frase com 'mas'.</example>
     </rule>
     <!--          Style rules from English grammar.xml      - END  -->
