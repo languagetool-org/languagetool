@@ -3437,69 +3437,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ0MS0'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-06-20 *END* -->
-
-
-
-
-		
-		
-		
-<!-- WORK IN PROGRESS, WILL CONTINUE AT NIGHT *START* -->
-		
-        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *START* -->
-        <antipattern>
-<token>tokenfalsafalso</token>
-		  <token postag='V.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='AQ..S.+|NC.S.+'/>
-		  </token>
-		  <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|RG' postag_regexp='yes'/>
-		  <token min="0" max="1" postag='RG' postag_regexp='no'/>
-		  <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
-		  <token postag='AQ..S.+|NC.S.+|_PUNCT' postag_regexp='yes'/>
-
-
-<!--
-		  <example>Pedro, comes muito queijo.</example>
-		  <example></example>
-		  <example></example>
-		  <example></example>
-		  <example></example>
-		  <example></example>
-		  <example></example>
-		  <example></example>
-		  <example></example>
-		  <example></example>
-		  <example></example>
--->		  
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->		
-		
-		
-		
-        <!-- MARCOAGPINTO 2020-10-15 (2-JUL-2020+) *START* -->
-        <!-- "Pedro, comes muito queijo." -->
-        <antipattern>
-<token>tokenfalsafalso</token>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='DI0MS0|NCMS000|PI0MS000|RG' postag_regexp='yes'/>
-          <token postag='DI0[FM]S0|NC[CFM]S000|PI0[FM]S000|RG' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-10-15 (2-JUL-2020+) *END* -->
-
-<!-- WORK IN PROGRESS, WILL CONTINUE AT NIGHT *START* -->
-
-
-
-
-
-
-        <!-- MARCOAGPINTO 2020-11-05 (21-OCT-2020+) *START* -->
-        <!-- "Demos tempo ao tempo porque, a seu tempo, sorriremos de novo." -->
-        <antipattern>
-          <token inflected='yes'>dar</token>
-          <token>tempo</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-11-05 (21-OCT-2020+) *END* -->
         <!-- MARCOAGPINTO 2020-11-09 (21-OCT-2020+) *START* -->
         <!-- "Ele não escrevia os ditados direitinho." -->
         <antipattern>
@@ -3939,6 +3876,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>O campo B pode ser definido de muitas formas equivalentes baseada nas suas influências sobre o ambiente.</example>
           <example>O resultado está à vista, tendo os novos estabelecimentos surgido como cogumelos.</example>
           <example>e isso é tão certo quanto o fato de terem as tribos selvagens deixado de comer umas às outras quando entraram em contato com as mais civilizadas.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AQ..S.+|NC.S.+'/>
+          </token>
+          <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RG' postag_regexp='no'/>
+          <token postag='AQ..S.+|NC.S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|VMN0000' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+|_PUNCT|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+' postag_regexp='yes'/>
+          <example>Pedro, comes muito queijo.</example>
+          <example>Realizam eleições gerais todo ano.</example>
+          <example>...cais de compra do produto junto às refinarias para a Secretaria avaliar se o aumento está dentro da média praticável.</example>
+          <example>Ele, depois, nem a pediu em casamento, nem sequer quis mais saber dela.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token postag='V.+|AQ..P.+|NC.P.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AQ..S.+|NC.S.+'/>
+            <exception scope="previous" postag_regexp='yes' postag='SPS00|CC|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+|AQ..P.+|NC.P.+|V.+'/>
+          </token>
+          <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RG' postag_regexp='no'/>
+          <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|SPS00' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+          <example>Dia 27/11 as 15:00 hs! Mais detalhes clique na foto!</example>
+          <example>O cantor de 64 anos teve uma isquemia durante a gravação de seu último CD e agora se recupera de uma infecção causada por pn...</example>
+          <example>No mesmo período, a taxa entre os não negros teve uma redução de 6,8%", diz o relatório.</example>
+          <example>Declara 4 variáveis objeto do tipo Arquivo.</example>
+          <example>Demos banho no cachorro.</example>
+          <example>Demos tempo ao tempo porque, a seu tempo, sorriremos de novo.</example>
+          <example>Olhos cor de turquesa, mas alma escura qual fuligem.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
