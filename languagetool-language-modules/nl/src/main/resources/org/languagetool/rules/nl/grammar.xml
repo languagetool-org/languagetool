@@ -12384,7 +12384,7 @@ onwaarschijnlijk
 		<rulegroup id="AFKO_PUNT" name="dhr → dhr.">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
-				<antipattern><token regexp="yes" case_sensitive="yes">ING|Max|WW|BW|MAX|NL|DIV|DS|dS|FAM|FA|IR|MLD|MR</token></antipattern>
+				<antipattern><token regexp="yes" case_sensitive="yes">ING|Max|WW|BW|MAX|NL|DIV|DS|dS|E[Tt][Cc]|FAM|FA|IR|MLD|MR</token></antipattern>
 				<antipattern><token regexp="yes">geen|het</token><token>ov</token></antipattern>
 				<antipattern><token>de</token><token>MR</token></antipattern>
 				<antipattern><token regexp="yes">art|no</token><token regexp="yes" negate="yes">[0-9]*</token></antipattern> <!-- tegen art house , no nonsense etc -->
@@ -13651,19 +13651,28 @@ onwaarschijnlijk
 		</rulegroup>
 	</category>
 	<category id="CASING" name="Hoofdlettergebruik">
-	    <rulegroup id="ETC_ZONDER_HOOFDLETTERS" name="ETC./etc." type="misspelling" default="temp_off">
+	    <rulegroup id="ETC_ZONDER_HOOFDLETTERS" name="ETC./etc." type="misspelling">
 			<rule>
 				<pattern>
 					<token regexp="yes" case_sensitive="yes">E[Tt][Cc]</token>
-				    <token min="0">.</token>
+				    <token>.</token>
 				</pattern>
 				<message>Deze afkorting hoort zonder hoofdletter(s).</message>
 				<suggestion><match no="1" case_conversion="alllower"/>.</suggestion>
 				<short>Zonder hoofdletters</short>
 				<example correction="etc.">We gaan kleding, schoenen <marker>ETc.</marker> in de winkel kopen.</example>
 			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes" case_sensitive="yes">E[Tt][Cc]</token>
+				</pattern>
+				<message>Deze afkorting hoort zonder hoofdletter(s).</message>
+				<suggestion><match no="1" case_conversion="alllower"/>.</suggestion>
+				<short>Zonder hoofdletters</short>
+				<example correction="etc.">We gaan kleding, schoenen <marker>ETc</marker> in de winkel kopen.</example>
+			</rule>
 		</rulegroup>
-		<rulegroup id="TEL_ZONDER_HOOFDLETTERS" name="TEL./tel." type="misspelling" default="temp_off">
+		<rulegroup id="TEL_ZONDER_HOOFDLETTERS" name="TEL./tel." type="misspelling">
 			<rule>
 			    <antipattern>
 			        <token postag_regexp="yes" postag="SENT_START|START"/>
