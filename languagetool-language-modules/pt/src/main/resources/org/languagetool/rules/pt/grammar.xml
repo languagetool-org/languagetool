@@ -62,6 +62,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY divisas "bolívares|cêntimos|coroas|dinares|dólares|euros|florins|francos|ienes|iuanes|kwanzas|libras|meticais|patacas|pesos|rublos|zlótis|[€£¥$₽]">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
+    <!ENTITY separadores_de_abertura "\(|\{\[">
+    <!ENTITY separadores_de_fecho "\)|\}\]">
     <!ENTITY hifen "(?:[-‑])">
     <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
     <!ENTITY negacoes "jamais|nada|não|nem|nenhum|nenhuma|nenhumas|nenhuns|ninguém|nunca|sem|tampouco">
@@ -11100,8 +11102,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rule id="NO_VERB" name="Síntaxe: ausência de verbo" default="temp_off" tags="picky">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
       <antipattern>
-        <token case_sensitive='yes' regexp='yes'>[A-Z]*|[0-9]*|\)|keyword|keywords</token>
-        <token regexp='yes' min='0'>[\)\]]</token>
+        <token case_sensitive='yes' regexp='yes'>[A-Z]*|[0-9]*|\)|keywords?</token>
+        <token regexp='yes' min='0'>&separadores_de_fecho;</token>
         <token>:</token>
         <token spacebefore='yes' case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
           <example>BRENDA: Foi uma longa viagem.</example>
