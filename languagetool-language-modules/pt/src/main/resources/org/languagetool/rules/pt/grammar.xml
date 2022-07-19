@@ -11098,6 +11098,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <rule id="NO_VERB" name="Síntaxe: ausência de verbo" default="temp_off" tags="picky">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
+      <antipattern>
+        <token case_sensitive='yes' regexp='yes'>[A-Z]*|[0-9]*|\)|keyword|keywords</token>
+        <token regexp='yes' min='0'>[\)\]]</token>
+        <token>:</token>
+        <token spacebefore='yes' case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
+          <example>BRENDA: Foi uma longa viagem.</example>
+          <example>Título: Memórias póstumas de Brás Cubas</example>
+          <example>Palavra-chave: Museu</example>
+          <example>Aula 2: Equações matemáticas.</example>
+          <example>Aula 2 (Álgebra): Equações matemáticas.</example>
+          <example>Primary keyword: Jogos</example>
+          <example>[Lisboa] : Nuvem de Letras, 2018.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+		<token spacebefore="yes" case_sensitive="yes" regexp="yes" min='0'>\p{Lu}\p{Ll}+</token>
+		<token postag='SPS00|CC' postag_regexp='yes'/>
+		<token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+<exception>Deus</exception></token>
+		  <example>São membros do programa: Comissão Nacional de Proteção dos direitos; Comissão Eleitoral Municipal; Comissão Nacional de Ética em Pesquisa.</example>
+		  <example>Disciplina disponível: Teoria e Metodologia Científicas.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token min='0'></token>
+        <token>a</token>
+        <token>partir</token>
+        <token>de</token>
+          <example>Preços a partir de R$ 49,90.</example>
+		  <example>A partir de 5 anos.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+		<token postag='I|AQ' postag_regexp='yes'/>
+		  <example>Oi, John.</example>
+		  <example>Feliz aniversário.</example>
+		  <example>Muito bem, Tom!</example>
+	  </antipattern>
+	  <antipattern>
+	    <token postag='SENT_START'/>
+        <token>mais</token>
+        <token>informações</token>
+		  <example>Mais informações pelo telefone 99999-9999.</example>
+	  </antipattern>
+      <antipattern>
+        <token postag='_PUNCT'/>
+		<token postag='Z0CN0'/>
+		<token postag='Z0CN0' min='0'/>
+		<token postag='_PUNCT'/>
+		  <example>278 (52): 52914–8.</example>
+	  </antipattern>
       <antipattern><!-- long holophrases -->
         <token postag='SENT_START'/>
         <token max='2'/>
@@ -11152,12 +11203,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token min='2'>
             <exception postag='V.+|UNKNOWN' postag_regexp='yes'/>
             <exception postag="NCFS000" regexp="yes">.+ção</exception>
+            <exception case_sensitive='yes'>Lei</exception>
           </token>
           <token skip='-1'>
             <exception postag='V.+|UNKNOWN' postag_regexp='yes'/>
             <exception scope="next" postag='V.+|UNKNOWN' postag_regexp='yes'/>
             <exception postag="NCFS000" regexp="yes">.+ção</exception>
             <exception scope="next" postag="NCFS000" regexp="yes">.+ção</exception>
+            <exception case_sensitive='yes'>Lei</exception>
+            <exception scope="next" case_sensitive='yes'>Lei</exception>
           </token>
           <and>
           <token regexp='yes'>[.?!…”»]|&quot;</token>
