@@ -211,15 +211,11 @@ class SingleDocument {
     }
 
     if (resetDocCache) {
-      if (nPara >= 0) {
-        docCache.clear();
-      } else {
-        if (docCursor == null) {
-          docCursor = new DocumentCursorTools(xComponent);
-        }
-        docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), 
-            LinguisticServices.getLocale(docLanguage),xComponent, 6);
+      if (docCursor == null) {
+        docCursor = new DocumentCursorTools(xComponent);
       }
+      docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), 
+          LinguisticServices.getLocale(docLanguage),xComponent, 6);
       resetDocCache = false;
     }
     if (docLanguage == null) {

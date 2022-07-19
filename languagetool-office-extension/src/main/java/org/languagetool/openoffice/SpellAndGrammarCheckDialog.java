@@ -875,7 +875,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private int lastPara = -1;
     private boolean isSpellError = false;
     private boolean focusLost = false;
-    private boolean isRunning = false;
+    private boolean atWork = false;
     private String wrongWord;
     private List<UndoContainer> undoList;
     private Locale locale;
@@ -939,6 +939,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             Locale locale = null;
             FlatParagraphTools flatPara= null;
             if (changeLanguage.getSelectedIndex() > 0) {
+              setAtWorkButtonState();
               String selectedLang = (String) language.getSelectedItem();
               locale = getLocaleFromLanguageName(selectedLang);
               flatPara = currentDocument.getFlatParagraphTools();
@@ -970,6 +971,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
           } catch (Throwable t) {
             MessageHandler.showError(t);
+            closeDialog();
           }
         }
       });
@@ -1048,18 +1050,21 @@ public class SpellAndGrammarCheckDialog extends Thread {
       checkTypeButtons[0].setBounds(begFirstCol + 3*widFirstCol/16, yFirstCol, 3*widFirstCol/16 - 1, 30);
       checkTypeButtons[0].setSelected(true);
       checkTypeButtons[0].addActionListener(e -> {
+        setAtWorkButtonState();
         checkType = 0;
         gotoNextError();
       });
       checkTypeButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckSpellingButton")));
       checkTypeButtons[1].setBounds(begFirstCol + 6*widFirstCol/16, yFirstCol, 5*widFirstCol/16 - 1, 30);
       checkTypeButtons[1].addActionListener(e -> {
+        setAtWorkButtonState();
         checkType = 1;
         gotoNextError();
       });
       checkTypeButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckGrammarButton")));
       checkTypeButtons[2].setBounds(begFirstCol + 11*widFirstCol/16, yFirstCol, 5*widFirstCol/16 - 1, 30);
       checkTypeButtons[2].addActionListener(e -> {
+        setAtWorkButtonState();
         checkType = 2;
         gotoNextError();
       });
@@ -1151,6 +1156,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (e.getStateChange() == ItemEvent.SELECTED) {
           if (addToDictionary.getSelectedIndex() > 0) {
             try {
+              setAtWorkButtonState();
               String dictionary = (String) addToDictionary.getSelectedItem();
               documents.getLtDictionary().addWordToDictionary(dictionary, wrongWord, xContext);
               addUndo(y, "addToDictionary", dictionary, wrongWord);
@@ -1158,6 +1164,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
               gotoNextError();
             } catch (Throwable t) {
               MessageHandler.showError(t);
+              closeDialog();
             }
           }
         }
@@ -1197,6 +1204,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
               int j = 1;
               for(String ruleId : deactivatedRulesMap.keySet()) {
                 if (j == selectedIndex) {
+                  setAtWorkButtonState();
                   documents.activateRule(ruleId);
                   addUndo(y, "activateRule", ruleId, null);
                   activateRule.setSelectedIndex(0);
@@ -1207,6 +1215,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
           } catch (Throwable t) {
             MessageHandler.showError(t);
+            closeDialog();
           }
         }
       });
@@ -1216,14 +1225,15 @@ public class SpellAndGrammarCheckDialog extends Thread {
         @Override
         public void windowGainedFocus(WindowEvent e) {
           try {
-            dialog.setEnabled(false);
+//            dialog.setEnabled(false);
             Point p = dialog.getLocation();
             dialogX = p.x;
             dialogY = p.y;
-            if (focusLost) {
+            if (focusLost && !atWork) {
               if (debugMode) {
                 MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: Window Focus gained: Event = " + e.paramString());
               }
+              setAtWorkButtonState();
               currentDocument = getCurrentDocument(true);
               if (currentDocument == null) {
                 closeDialog();
@@ -1237,7 +1247,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
                 docId = newDocId;
                 undoList = new ArrayList<UndoContainer>();
               }
-              dialog.setEnabled(false);
+//              dialog.setEnabled(false);
               if (!initCursor()) {
                 closeDialog();
                 return;
@@ -1246,11 +1256,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
                 MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: cache refreshed - size: " + docCache.size());
               }
               gotoNextError();
-              dialog.setEnabled(true);
+//              dialog.setEnabled(true);
               focusLost = false;
             }
           } catch (Throwable t) {
             MessageHandler.showError(t);
+            closeDialog();
           }
         }
         @Override
@@ -1258,6 +1269,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           if (debugMode) {
             MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: Window Focus lost: Event = " + e.paramString());
           }
+          setAtWorkButtonState(false);
           focusLost = true;
         }
       });
@@ -1285,8 +1297,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       if (debugMode) {
         MessageHandler.printToLogFile("CheckDialog: show: Goto next Error");
       }
-      dialog.setEnabled(false);
-      dialog.setEnabled(true);
+//      dialog.setEnabled(false);
+//      dialog.setEnabled(true);
       if (dialogX < 0 || dialogY < 0) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameSize = dialog.getSize();
@@ -1294,14 +1306,14 @@ public class SpellAndGrammarCheckDialog extends Thread {
         dialogY = screenSize.height / 2 - frameSize.height / 2;
       }
       dialog.setLocation(dialogX, dialogY);
-      isRunning = true;
-      setInitialButtonState();
       dialog.setAutoRequestFocus(true);
       dialog.setVisible(true);
+      setAtWorkButtonState();
       try {
         Thread.sleep(500);
       } catch (InterruptedException e) {
         MessageHandler.printException(e);
+        closeDialog();
       }
       dialog.toFront();
       if (!initCursor()) {
@@ -1413,7 +1425,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
     /**
      * Initial button state
      */
-    private void setInitialButtonState() {
+    private void setAtWorkButtonState() {
+      setAtWorkButtonState(true);
+    }
+    
+    private void setAtWorkButtonState(boolean work) {
       ignoreOnce.setEnabled(false);
       ignoreAll.setEnabled(false);
       deactivateRule.setEnabled(false);
@@ -1430,8 +1446,14 @@ public class SpellAndGrammarCheckDialog extends Thread {
       activateRule.setEnabled(false);
       endOfDokumentMessage = null;
       sentenceIncludeError.setEnabled(false);
+      sentenceIncludeError.setBackground(Color.LIGHT_GRAY);
       suggestions.setEnabled(false);
+      suggestions.setBackground(Color.LIGHT_GRAY);
+      errorDescription.setEnabled(false);
       errorDescription.setForeground(defaultForeground);
+      errorDescription.setBackground(Color.LIGHT_GRAY);
+//      dialog.setEnabled(false);
+      atWork = work;
     }
     
     /**
@@ -1439,6 +1461,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * waits after getting the next error till gotoNextError was triggered by a button
      * NOTE: the loop is needed because a direct call of a action event will not change the state of dialog elements
      *//*
+//  TODO: Delete after tests
     private void runCheckForNextError(boolean startAtBegin) {
       for(;;) {
         synchronized(checkWakeup) {
@@ -1505,7 +1528,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
           closeDialog();
           return;
         }
-        setInitialButtonState();
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: start getNextError");
         }
@@ -1517,11 +1539,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
         locale = checkError == null ? null : checkError.locale;
 //        MessageHandler.printToLogFile("CheckDialog: findNextError: locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale)));
         
-        dialog.setEnabled(true);
+//        dialog.setEnabled(true);
         help.setEnabled(true);
         options.setEnabled(true);
         close.setEnabled(true);
         activateRule.setEnabled(true);
+        atWork = false;
         if (sentenceIncludeError == null || errorDescription == null || suggestions == null) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: SentenceIncludeError == null || errorDescription == null || suggestions == null");
           error = null;
@@ -1534,9 +1557,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
           ignoreAll.setEnabled(true);
           isSpellError = error.aRuleIdentifier.equals(spellRuleId);
           sentenceIncludeError.setEnabled(true);
+          sentenceIncludeError.setBackground(Color.white);
           sentenceIncludeError.setText(docCache.getFlatParagraph(y));
           setAttributesForErrorText(error);
           errorDescription.setText(error.aFullComment);
+          errorDescription.setEnabled(true);
+          errorDescription.setBackground(Color.white);
           if (debugMode) {
             MessageHandler.printToLogFile("CheckDialog: findNextError: Error Text set");
           }
@@ -1544,6 +1570,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             suggestions.setListData(error.aSuggestions);
             suggestions.setSelectedIndex(0);
             suggestions.setEnabled(true);
+            suggestions.setBackground(Color.white);
             change.setEnabled(true);
             changeAll.setEnabled(true);
           } else {
@@ -1610,6 +1637,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
           undo.setEnabled(undoList != null && !undoList.isEmpty());
           errorDescription.setForeground(Color.RED);
           errorDescription.setText(endOfDokumentMessage == null ? "" : endOfDokumentMessage);
+          errorDescription.setBackground(Color.white);
+          errorDescription.setEnabled(true);
           sentenceIncludeError.setText("");
           if (docCache.size() > 0) {
             locale = docCache.getFlatParagraphLocale(docCache.size() - 1);
@@ -1624,6 +1653,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         }
       } catch (Throwable e) {
         MessageHandler.showError(e);
+        closeDialog();
       }
     }
 
@@ -1843,16 +1873,22 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (action.getActionCommand().equals("close")) {
           closeDialog();
         } else if (action.getActionCommand().equals("ignoreOnce")) {
+          setAtWorkButtonState();
           ignoreOnce();
         } else if (action.getActionCommand().equals("ignoreAll")) {
+          setAtWorkButtonState();
           ignoreAll();
         } else if (action.getActionCommand().equals("deactivateRule")) {
+          setAtWorkButtonState();
           deactivateRule();
         } else if (action.getActionCommand().equals("change")) {
+          setAtWorkButtonState();
           changeText();
         } else if (action.getActionCommand().equals("changeAll")) {
+          setAtWorkButtonState();
           changeAll();
         } else if (action.getActionCommand().equals("undo")) {
+          setAtWorkButtonState();
           undo();
         } else if (action.getActionCommand().equals("more")) {
           Tools.openURL(informationUrl);
@@ -1865,23 +1901,25 @@ public class SpellAndGrammarCheckDialog extends Thread {
         }
       } catch (Throwable e) {
         MessageHandler.showError(e);
+        closeDialog();
       }
     }
 
     /**
      * closes the dialog
      */
-    public void closeDialog() throws Throwable {
-      if (isRunning) {
+    public void closeDialog() {
+//      if (isRunning) {
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: closeDialog: Close Spell And Grammar Check Dialog");
         }
         undoList = null;
         documents.setLtDialog(null);
         documents.setLtDialogIsRunning(false);
-        isRunning = false;
+        atWork = false;
+//        isRunning = false;
 //        gotoNextError();
-      }
+//      }
       dialog.setVisible(false);
     }
     
@@ -2251,6 +2289,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         gotoNextError();
       } catch (Throwable e) {
         MessageHandler.showError(e);
+        closeDialog();
       }
     }
     
