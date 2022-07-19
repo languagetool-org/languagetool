@@ -3814,7 +3814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="QUE_TILDE" name="que -> qué">
             <antipattern>
-                <token regexp="yes">salvo|siempre|desde|sino|tal</token>
+                <token regexp="yes">salvo|siempre|desde|sino|tal|algo</token>
                 <token>que</token>
             </antipattern>
             <antipattern>
@@ -3831,7 +3831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>que</token>
                 <!-- error tenia>tenía -->
-                <token regexp="yes">tenia|venia|sera</token>
+                <token regexp="yes">tenia|venia|sera|veras</token>
             </antipattern>
             <antipattern>
                 <token>que</token>
@@ -4028,7 +4028,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>que<exception scope="previous" regexp="yes">¿|\)</exception><exception postag="LOC_CS"/></token>
                     </marker>
-                    <token postag="A.*|V.P.*" postag_regexp="yes" min="0"><exception postag="_possible_NP"/></token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes" min="0"><exception postag="_possible_NP"/><exception inflected="yes" regexp="yes">dicho|otro</exception></token>
                     <token postag="NC.*" postag_regexp="yes"><exception postag="_possible_NP|V.[ISMN].*|RG|DN.*" postag_regexp="yes"/><exception inflected="yes">numeral</exception><exception inflected="yes" regexp="yes">&unidades_tiempo;|&estaciones_ano;|&dias_semana;</exception><exception regexp="yes">felicidades|igual|claro</exception></token>
                 </pattern>
                 <message>Como adjetivo exclamativo o interrogativo, se escribe con tilde.</message>
@@ -4052,6 +4052,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No es infrecuente tampoco que normas éticas se conviertan en legales.</example>
                 <example>Todos saben que dos más dos es cuatro.</example>
                 <example>Y sabemos que solos no podemos.</example>
+                <example>Es importante saber que dichos productos no son buenos.</example>
             </rule>
             <rule>
                 <!-- 6 -->
@@ -4189,7 +4190,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>que<exception scope="previous">¿</exception><exception postag="LOC_CS"/></token>
                     </marker>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_possible_NP|PI.*|RG|LOC_ADV" postag_regexp="yes"/></token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"><exception postag="_possible_NP|PI.*|RG|LOC_ADV" postag_regexp="yes"/></token>
                     <token min="0" max="2" postag_regexp="yes" postag="&pronombre_personal_atono_POS;"/>
                     <token postag="V.I.*|_PUNCT.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/>
                 </pattern>
@@ -4203,6 +4204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es digno mencionar que chichimecas y tlaxcaltecas se conservaron independientes, sin mezclarse y manteniendo cada grupo sus usos y costumbres por mucho tiempo.</example>
                 <example>Su pérdida de memoria es más bien una discapacidad psíquica que física.</example>
                 <example>Ama de verdad a Elisabeth pero se encuentra siempre dividido entre ella y Venus, que insinuante y cercana, se le ofrece abiertamente.</example>
+                <example>Es algo que CMI va a proponer.</example>
             </rule>
             <rule>
                 <!-- 8 -->
@@ -4266,6 +4268,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" inflected="yes">&unidades_tiempo;|tiempo</token>
                     <example>Sabías que hace ya mucho tiempo que Mary saldó sus deudas?</example>
                     <example>Quiero que sepas que hiciste un gran trabajo.</example>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token min="0" max="3" inflected="yes" regexp="yes">poder|estar|haber|querer</token>
+                    <token inflected="yes">mirar</token>
+                    <example>Yo sé que me miras.</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes">contar|explicar|saber|ocurrir|entender|concebir|que|averiguar</token>
@@ -4618,7 +4627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que</token>
                     </marker>
                     <!--<token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>-->
-                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <token postag="V.I.*" postag_regexp="yes"/>
                     <!--    <token min="0" postag="V.[PGN].*" postag_regexp="yes"/>-->
                     <token>?</token>
                 </pattern>
@@ -4634,6 +4643,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Quieres que conteste?</example>
                 <example>¿Hay algo que podamos hacer? </example>
                 <example>¿De verdad que quieres ir?</example>
+                <example>¿Algo más que necesite?</example>
             </rule>
             <rule>
                 <!-- 23 -->
@@ -4650,7 +4660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>que</token>
                     </marker>
                     <token min="1" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <token postag="V.I.*" postag_regexp="yes"/>
                     <!--    <token min="0" postag="V.[PGN].*" postag_regexp="yes"/>-->
                     <token>?</token>
                 </pattern>
