@@ -25,6 +25,9 @@ USA
 Filter for remote matches.
 To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
 -->
+<!DOCTYPE rules [
+    <!ENTITY apostrophe "['’`´‘ʻ]">
+]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
         <rulegroup id="AI_HYDRA_LEO_APOSTROPHE_S_XS" name="">
@@ -448,6 +451,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">We are going to <marker>the</marker> zoo to eat the rhinos.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_HYDRA_LEO_CP_YOU_YOUARE" name="">
+            <rule>
+                <pattern>
+                    <token postag="MD" />
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                    <token postag="VBN|JJ" postag_regexp="yes" />
+                </pattern>
+                <example correction="">Would <marker>you</marker> available?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes">'re|a?ren?|weren?|haven?</token>
+                </pattern>
+                <example correction=""><marker>You</marker> are happy.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_THE" name="">
