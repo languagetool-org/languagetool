@@ -11080,7 +11080,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- on té molt poc pes -->
         <pattern>
             <marker>
-                <token inflected="yes" regexp="yes">pe|posterior|estaria|truca|espera<exception postag="_GN_F.*" postag_regexp="yes"/></token>
+                <and>
+                    <token inflected="yes" regexp="yes">pe|posterior|estaria|truca|espera<exception postag="_GN_F.*" postag_regexp="yes"/></token>
+                    <token postag="NCF.*" postag_regexp="yes" negate_pos="yes"/>
+                </and>
             </marker>
         </pattern>
         <disambig action="remove" postag="NCF.*"/>
