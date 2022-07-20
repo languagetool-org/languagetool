@@ -1075,35 +1075,34 @@ class AgreementRuleAntiPatterns1 {
       new PatternTokenBuilder().posRegex("ADV.*").min(0).max(2).build(),
       posRegex("VER:INF:.*")
     ),
-    // TODO: comment in
-    // Arrays.asList(
-    //   // die gegnerischen Shooting Guards
-    //   posRegex("ART.*NOM:PLU"),
-    //   posRegex("(ADJ|PA[12]).*NOM:PLU.*"),
-    //   posRegex("SUB.*SIN.*"),
-    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
-    // ),
-    // Arrays.asList(
-    //   // die gegnerischen Shooting Guards
-    //   posRegex("ART.*GEN:PLU"),
-    //   posRegex("(ADJ|PA[12]).*GEN:PLU.*"),
-    //   posRegex("SUB.*SIN.*"),
-    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
-    // ),
-    // Arrays.asList(
-    //   // die gegnerischen Shooting Guards
-    //   posRegex("ART.*DAT:PLU"),
-    //   posRegex("(ADJ|PA[12]).*DAT:PLU.*"),
-    //   posRegex("SUB.*SIN.*"),
-    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
-    // ),
-    // Arrays.asList(
-    //   // die gegnerischen Shooting Guards
-    //   posRegex("ART.*AKK:PLU"),
-    //   posRegex("(ADJ|PA[12]).*AKK:PLU.*"),
-    //   posRegex("SUB.*SIN.*"),
-    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
-    // ),
+    Arrays.asList(
+      // die gegnerischen Shooting Guards
+      posRegex("(ART|PRO:POS).*NOM:PLU"),
+      posRegex("(ADJ|PA[12]).*NOM:PLU.*"),
+      posRegex("SUB.*SIN.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
+    Arrays.asList(
+      // die gegnerischen Shooting Guards
+      posRegex("(ART|PRO:POS).*GEN:PLU"),
+      posRegex("(ADJ|PA[12]).*GEN:PLU.*"),
+      posRegex("SUB.*SIN.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
+    Arrays.asList(
+      // die gegnerischen Shooting Guards
+      posRegex("(ART|PRO:POS).*DAT:PLU"),
+      posRegex("(ADJ|PA[12]).*DAT:PLU.*"),
+      posRegex("SUB.*SIN.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
+    Arrays.asList(
+      // die gegnerischen Shooting Guards
+      posRegex("(ART|PRO:POS).*AKK:PLU"),
+      posRegex("(ADJ|PA[12]).*AKK:PLU.*"),
+      posRegex("SUB.*SIN.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
     // Arrays.asList(
     //   // den leidenschaftlichen Lobpreis der texanischen Gateway Church aus
     //   posRegex("ART.*DAT:SIN.*"),
