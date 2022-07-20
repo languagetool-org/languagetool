@@ -39648,17 +39648,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
     <!--          Style rules from English grammar.xml      - START-->
-        <rule id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" tags="picky" default='temp_off'>
-      <antipattern>
-        <token>ou</token>
-        <token>seja</token>
-      </antipattern>
+<rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" tags="picky" default='temp_off'>
+    <rule>
       <pattern>
         <token postag='SENT_START'/>
         <marker>
-          <token regexp="yes">E|Mas|Ou|Porém</token>
-		  <token></token>
-        </marker>
+          <token>E</token>
+		  <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|&aspas;|\.|'|"</exception></token>
+	    </marker>
       </pattern>
       <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
 	  <suggestion><match no='3' case_conversion='startupper'/></suggestion>
@@ -39666,9 +39663,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <short>Problema de estilo</short>
       <example correction="Sim"><marker>E sim</marker>, isto mostra problemas de estilo ao começar a frase com 'e'.</example>
       <example>Sim, mostra problemas de estilo começar a frase com 'e'.</example>
-      <example correction="Não"><marker>Mas não</marker> é bom costume começar a frase com 'mas'.</example>
+      <example correction="Não"><marker>E não</marker> é bom costume começar a frase com 'mas'.</example>
       <example>Não é um bom estilo de escrita começar uma frase com 'mas'.</example>
     </rule>
+    <rule>
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token regexp='yes'>Mas|Porém</token>
+          <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|&aspas;|\.|'|"</exception></token>
+	    </marker>
+      </pattern>
+	  <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+	  <suggestion><match no='3' case_conversion='startupper'/></suggestion>
+	  <suggestion>No entanto,</suggestion>
+	  <suggestion>Contudo,</suggestion>
+	  <suggestion>Apesar disso,</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
+      <short>Problema de estilo</short>
+      <example correction="Não|No entanto,|Contudo,|Apesar disso,"><marker>Mas não</marker> é bom costume começar a frase com 'mas'.</example>
+    </rule>
+    <rule>
+      <pattern>
+	    <marker>
+          <token regexp='yes'>[\.\?\!\:]</token>
+          <token regexp='yes' spacebefore='yes' case_sensitive='yes'>Mas|Porém</token>
+	    </marker>
+          <token></token>
+      </pattern>
+	  <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+	  <suggestion>; <match no='2' case_conversion='alllower'/></suggestion>
+	  <suggestion>, <match no='2' case_conversion='alllower'/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
+      <short>Problema de estilo</short>
+      <example correction="; mas|, mas">Pausas são necessárias<marker>: Mas</marker> não é bom costume começar a frase com 'mas'.</example>
+      <example correction="; porém|, porém">Pausas são necessárias<marker>: Porém</marker> não é bom costume começar a frase com 'mas'.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token>ou</token>
+          <token>seja</token>
+      </antipattern>
+      <pattern>
+	    <marker>
+          <token regexp='yes'>[\.\?\!\:]</token>
+          <token spacebefore='yes' case_sensitive='yes'>Ou</token>
+	    </marker>
+		  <token></token>
+      </pattern>
+	  <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+	  <suggestion>; <match no='2' case_conversion='alllower'/></suggestion>
+	  <suggestion>, <match no='2' case_conversion='alllower'/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
+      <short>Problema de estilo</short>
+      <example correction="; ou|, ou">Pausas são necessárias<marker>: Ou</marker> não é bom costume começar a frase com 'ou'?</example>
+    </rule>
+</rulegroup>
     <!--          Style rules from English grammar.xml      - END  -->
     <!--	      Style rules from Spanish grammar.xml    - START  -->
 
