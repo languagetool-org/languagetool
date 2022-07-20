@@ -3460,46 +3460,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='(?:NC|A..)[MC]P.+' postag_regexp='yes'/>
           <token regexp='yes'>alvo|padrão</token>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-06-20 *START* -->
-        <!-- "Segure o ovo direito ou vai quebrá-lo." -->
-        <!-- "Segure os ovos direito ou vai quebrá-los." -->
-        <!-- "Segure a caneta direito ou vai quebrá-la." -->
-        <!-- "Segure as canetas direito ou vai quebrá-las." -->
-        <!-- "Segure o agente direito ou vai quebrá-lo." -->
-        <!-- "Segure os agentes direito ou vai quebrá-los." -->
-        <antipattern>
-          <token postag='VMSP3S0|VMP00SF|VMM0[23]S0|VMI[SP]3S0|VM[IS]P1S0|VMG0000' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag="SPS00|CS|I|PT0CN000|RG"/></token>
-          <token postag='DA0[FM][SP]0' postag_regexp='yes'/>
-          <token postag='NC[CFM][SP]000' postag_regexp='yes'/>
-          <token postag='AQ0MS0'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-20 *END* -->
-        <!-- MARCOAGPINTO 2020-11-09 (21-OCT-2020+) *START* -->
-        <!-- "Ele não escrevia os ditados direitinho." -->
-        <antipattern>
-          <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
-          <token postag='AQC[CFM]S0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-11-09 (21-OCT-2020+) *END* -->
-        <!-- MARCOAGPINTO 2020-11-18 (21-OCT-2020+) *START* -->
-        <!-- "Os ficheiros cache são carregados no início." -->
-        <!-- "As palavras passe são carregadas no início." -->
-        <antipattern>
-          <token regexp='yes'>as|os</token>
-          <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-          <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-          <token postag='VMIP3P0|VMIM3P0|VMIS3P0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- "Portugal exporta para os mercados europeu, asiático e americano." -->
-        <antipattern>
-          <token regexp='yes'>as|os</token>
-          <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-          <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-          <token regexp='yes'>[.,(]</token>
-          <token negate_pos="yes" postag='SPS.+|V.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-11-18 (21-OCT-2020+) *END* -->
         <!-- MARCOAGPINTO 2020-12-03 (21-OCT-2020+) *START* -->
         <!-- "Foram substituídos em posteriores textos ecológicos um texto posterior." -->
         <!-- "Desejo a todos um Feliz Natal." -->
@@ -3952,6 +3912,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Olhos cor de turquesa, mas alma escura qual fuligem.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-20 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='NP.+'/>
+          </token>
+          <token min="0" max="1" postag='_PUNCT|RG|CC' postag_regexp='yes'>
+            <exception postag_regexp='no' postag='CS'/>
+          </token>
+          <token postag='V....P.+|VMG0000|AQ..S.+|NC.S.+' postag_regexp='yes'/>
+          <token postag='_PUNCT|AQ..S.+|NC.S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|SPS00|CC|CS|RG|I|RM|RN|V....P.+' postag_regexp='yes'/>
+          <example>Os ficheiros cache são carregados no início.</example>
+          <example>As palavras passe são carregadas no início.</example>
+          <example>Os raios laser são muito utilizados na restauração de obras antigas.</example>
+          <example>...ns aos outros pelo vínculo de uma federação criminosa e dos seus projetos ocultos, prestam-se esses adeptos mútuo apoio e se provocam entre si a ousar e a fazer o mal.</example>
+          <example>A cor também está associada aos signos Aquário, Libra, Sagitário e Peixes.</example>
+          <example>: 31 de Março de 2020 Redação O momento requer todos os esforços possível contra este agente biológico COVID-19 que tem ceifado vidas no mundo inteiro.</example>
+          <example>Contamos com diversas potências nas cores Branco Frio e Branco Quente e todas elas possuem 14 meses de garantia.</example>
+          <example>...is interessantes para a Praça da Ribeira, designadamente a construção de uma arcada que fecharia os lados poente/sul/nascente, conferindo, assim, ao espaço uma grande unidade.</example>
+          <example>Nossa escola se livrou dos uniformes ano passado.</example>
+          <example>Exemplo: Pergunta: Qual o número de ouro do ano 2016 nos calendários juliano ou gregoriano?</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-20 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
