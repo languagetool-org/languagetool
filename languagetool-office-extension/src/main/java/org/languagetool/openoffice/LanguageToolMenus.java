@@ -63,6 +63,8 @@ public class LanguageToolMenus {
   private static final int SUBMENU_ID_DIFF = 21;
 
   private static boolean debugMode;   //  should be false except for testing
+  private static boolean debugModeTm;  //  should be false except for testing
+  private static boolean isRunning = false;
   
   private XComponentContext xContext;
   private SingleDocument document;
@@ -76,6 +78,7 @@ public class LanguageToolMenus {
 
   LanguageToolMenus(XComponentContext xContext, XComponent xComponent, SingleDocument document, Configuration config) {
     debugMode = OfficeTools.DEBUG_MODE_LM;
+    debugModeTm = OfficeTools.DEBUG_MODE_TM;
     this.document = document;
     this.xContext = xContext;
     setConfigValues(config);
@@ -429,6 +432,16 @@ public class LanguageToolMenus {
     @Override
     public ContextMenuInterceptorAction notifyContextMenuExecute(ContextMenuExecuteEvent aEvent) {
       try {
+        if (isRunning) {
+          MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: no change in Menu");
+          return ContextMenuInterceptorAction.IGNORED;
+        }
+        isRunning = true;
+        long startTime = 0;
+        if (debugModeTm) {
+          startTime = System.currentTimeMillis();
+          MessageHandler.printToLogFile("Generate context menu started");
+        }
         XIndexContainer xContextMenu = aEvent.ActionTriggerContainer;
         int count = xContextMenu.getCount();
         
@@ -518,7 +531,13 @@ public class LanguageToolMenus {
               xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
               xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
               xContextMenu.insertByIndex(nId, xNewMenuEntry);
-  
+              if (debugModeTm) {
+                long runTime = System.currentTimeMillis() - startTime;
+                if (runTime > OfficeTools.TIME_TOLERANCE) {
+                  MessageHandler.printToLogFile("Time to generate context menu: " + runTime);
+                }
+              }
+              isRunning = false;
               return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
             }
           }
@@ -553,13 +572,19 @@ public class LanguageToolMenus {
         xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
         xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
         xContextMenu.insertByIndex(nId, xNewMenuEntry);
-
+        if (debugModeTm) {
+          long runTime = System.currentTimeMillis() - startTime;
+          if (runTime > OfficeTools.TIME_TOLERANCE) {
+            MessageHandler.printToLogFile("Time to generate context menu: " + runTime);
+          }
+        }
+        isRunning = false;
         return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
 
       } catch (Throwable t) {
         MessageHandler.printException(t);
       }
-      
+      isRunning = false;
       MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: no change in Menu");
       return ContextMenuInterceptorAction.IGNORED;
     }

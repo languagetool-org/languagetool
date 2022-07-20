@@ -92,7 +92,7 @@ class OfficeTools {
   public static final int NUMBER_TEXTLEVEL_CACHE = 4;  // Number of caches for matches of text level rules
   public static final String MULTILINGUAL_LABEL = "99-";  // Label added in front of variant to indicate a multilingual paragraph (returned is the main language)
   public static final int CHECK_MULTIPLIKATOR = 40;   //  Number of minimum checks for a first check run
-  public static final int TIME_TOLERANCE = 100;   //  Minimal milliseconds to show message in TM debug mode
+  public static int TIME_TOLERANCE = 100;   //  Minimal milliseconds to show message in TM debug mode
   
   public static int DEBUG_MODE_SD = 0;            //  Set Debug Mode for SingleDocument
   public static int DEBUG_MODE_SC = 0;            //  Set Debug Mode for SingleCheck
@@ -669,8 +669,17 @@ class OfficeTools {
           DEBUG_MODE_IO = true;
         } else if (level.equals("sr")) {
           DEBUG_MODE_SR = true;
-        } else if (level.equals("tm")) {
-          DEBUG_MODE_TM = true;
+        } else if (level.startsWith("tm")) {
+          String[] levelTm = level.split(":");
+          if (levelTm[0].equals("tm")) {
+            DEBUG_MODE_TM = true;
+            if(levelTm.length > 1) {
+              int time = Integer.parseInt(levelTm[1]);
+              if (time >= 0) {
+                TIME_TOLERANCE = time;
+              }
+            }
+          }
         } else if (level.equals("dev")) {
           DEVELOP_MODE = true;
         }
