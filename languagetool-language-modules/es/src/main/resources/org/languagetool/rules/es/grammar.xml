@@ -16128,16 +16128,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.N.*" postag_regexp="yes"/>
                 <example>Qué bueno saber que personas como usted, que están iniciando un preescolar, se interesen por temas como estos.</example>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">malo|bueno</token>
+                <token regexp="yes">\d+%?</token>
+                <example>Apoyo interdisciplinario bueno 58%</example>
+                <!--Faltan dos puntos-->
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">lo|algo|nada</token>
+                <token regexp="yes">malo|bueno</token>
+                <token regexp="yes" min="0">y|o</token>
+                <token regexp="yes" min="0">malo|bueno</token>
+                <example>El ensayo trata de lo malo y bueno universal.</example>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">malo|bueno</token>
                 </marker>
                 <token postag="NC[MC][SN].*" postag_regexp="yes"/>
             </pattern>
-            <message>Use la forma apocopada <suggestion><match no="1" regexp_match="o$" regexp_replace=""/></suggestion> en vez de '<match no="1"/>' o ponga una coma después de '<match no="1"/>'.</message>
-            <example correction="mal">La vida es demasiado corta para beber <marker>malo</marker> vino.</example>
-            <example correction="buen">Gracias por ayudarme, eres un <marker>bueno</marker> amigo.</example>
-            <example correction="mal">Juan es un <marker>malo</marker> amigo.</example>
+            <message>Use la forma apocopada <suggestion><match no="1" regexp_match="o$" regexp_replace=""/></suggestion> en vez de '<match no="1"/>' o ponga una coma después: <suggestion><match no="1"/>,</suggestion>.</message>
+            <example correction="buen|bueno,">¡Qué <marker>bueno</marker> muchacho!</example>
         </rule>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
