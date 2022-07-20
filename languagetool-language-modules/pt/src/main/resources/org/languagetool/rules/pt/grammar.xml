@@ -339,7 +339,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
   <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-    <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="on">
+    <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="temp_off">
+      <antipattern>
+        <token postag='N.+' postag_regexp='yes'/>
+		<token postag='AQ.+' postag_regexp='yes' min='0'/>
+        <token>,</token>
+        <token>mais</token>
+        <token postag='VMP.+' postag_regexp='yes'/>
+          <example>A secretaria da empresa, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
+		  <example>A secretaria da empresa nova, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token>mais</token>
+        <token postag='SPS00|CS' postag_regexp='yes'/>
+          <example>Foram quinze feridos, mais até, se parar pra pensar.</example>
+          <example>Foram quinze feridos, mais do que o normal.</example>
+          <example>Foram quinze feridos, mais que o ano anterior.</example>
+          <example>Era muita coisa para lidar, mais do que estava acostumado.</example>
+          <example>Fiz tudo o que ele pediu, mais até, se parar pra pensar.</example>
+      </antipattern>
       <antipattern>
         <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
         <token postag='CS|CC|SPS00|SPS00:DA0MS0|RM' postag_regexp='yes' skip='-1'/>
