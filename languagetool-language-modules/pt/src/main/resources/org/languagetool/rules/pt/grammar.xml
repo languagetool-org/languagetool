@@ -3917,13 +3917,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
           <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
-          <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='NP.+'/>
-          </token>
-          <token min="0" max="1" postag='_PUNCT|RG|CC' postag_regexp='yes'>
+          <token postag='AQ..S.+|NC.S.+|NP.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='_PUNCT|RG|CC|I|RM|RN|SPS00' postag_regexp='yes'>
             <exception postag_regexp='no' postag='CS'/>
           </token>
-          <token postag='V....P.+|VMG0000|AQ..S.+|NC.S.+' postag_regexp='yes'/>
+          <token postag='V....P.+|VMG0000|AQ..S.+|NC.S.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='NP.+'/>
+          </token>
           <token postag='_PUNCT|AQ..S.+|NC.S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|SPS00|CC|CS|RG|I|RM|RN|V....P.+' postag_regexp='yes'/>
           <example>Os ficheiros cache são carregados no início.</example>
           <example>As palavras passe são carregadas no início.</example>
@@ -3935,6 +3935,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>...is interessantes para a Praça da Ribeira, designadamente a construção de uma arcada que fecharia os lados poente/sul/nascente, conferindo, assim, ao espaço uma grande unidade.</example>
           <example>Nossa escola se livrou dos uniformes ano passado.</example>
           <example>Exemplo: Pergunta: Qual o número de ouro do ano 2016 nos calendários juliano ou gregoriano?</example>
+          <example>Há quantos anos Tânia mora aqui?</example>
+          <example>As duas receberam os troféus Tony de Melhor Atriz e Atriz Coadjuvante e a peça o de Melhor Espetáculo em 1996 na Broadway dentre outr...</example>
+          <example>Nos modelos top de linha e com configurações mais robustas, é possível encontrar telas que cobrem toda a parte fron...</example>
+          <example>Os cabelos cor de trigo sarraceno emolduravam-lhe o rosto róseo e delicado, com olhos redondos e inocentes, sobran...</example>
+          <!-- The two examples below are hard to tell if they are false positives, I need to find the antipattern that removes NP.+ PLUS NP.+ and fix it -->
+          <example>A primeira, conduzida pela Comissão Finanças e Orçamento, da qual fazem parte os vereadores Jane Veiga (presidente), Gedai (vice-presidente) e Marco Santo Antônio (membro), será referente à presta...</example>
+          <example>Os apresentadores César Filho, da Record, e Celso Portiolli, do SBT, também marcaram presença na cerimônia e na festa íntim...</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-20 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
