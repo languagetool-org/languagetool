@@ -618,7 +618,7 @@ public class English extends Language implements AutoCloseable {
       return -9; // higher than MORFOLOGIK_*, for testing
     }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
-      if (id.startsWith("AI_HYDRA_LEO_CP_YOU")) {
+      if (id.startsWith("AI_HYDRA_LEO_CP_YOU_YOUARE")) {
         return -1;
       }
       if (id.startsWith("AI_HYDRA_LEO_CP")) {
