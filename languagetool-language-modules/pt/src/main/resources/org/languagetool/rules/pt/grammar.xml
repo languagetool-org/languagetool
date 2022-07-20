@@ -339,184 +339,184 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
   <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-    <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="temp_off">
-      <antipattern>
-        <token postag='N.+' postag_regexp='yes'/>
-		<token postag='AQ.+' postag_regexp='yes' min='0'/>
-        <token>,</token>
-        <token>mais</token>
-        <token postag='VMP.+' postag_regexp='yes'/>
-          <example>A secretaria da empresa, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
-		  <example>A secretaria da empresa nova, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
-      </antipattern>
-      <antipattern>
-        <token>,</token>
-        <token>mais</token>
-        <token postag='SPS00|CS' postag_regexp='yes'/>
-           <example>Foram quinze feridos, mais até, se parar pra pensar.</example>
-           <example>Foram quinze feridos, mais do que o normal.</example>
-           <example>Foram quinze feridos, mais que o ano anterior.</example>
-           <example>Era muita coisa para lidar, mais do que estava acostumado.</example>
-           <example>Fiz tudo o que ele pediu, mais até, se parar pra pensar.</example>
-      </antipattern>
-      <antipattern>
-        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
-        <token postag='CS|CC|SPS00|SPS00:DA0MS0|RM' postag_regexp='yes' skip='-1'/>
-        <token>,</token>
-        <token>mais</token>
-        <token postag='N.+' postag_regexp='yes'/>
-          <example>Se seguir a nossa página, mais dicas ficarão disponíveis.</example>
-          <example>Sendo assim, mais pessoas virão.</example>
-          <example>Ao seguir a nossa página, mais dicas ficarão disponíveis.</example>
-          <example>Com a opção "seguir", mais dicas ficam disponíveis.</example>
-          <example>E com a opção "seguir", mais dicas ficam disponíveis.</example>
-		  <example>No interior, mais pessoas relaxam.</example>
-		  <example>Consequentemente, mais lucro.</example>
-		  <example>Pode fornecer, por gentileza, mais detalhes sobre o assunto?</example>
-		  <example>Com o problema de ignição, mais erros apareceram.</example>
-      </antipattern>
-      <antipattern>
-        <token>,</token>
-        <token>mais</token>
-        <token postag='AQ.+' postag_regexp='yes'/>
-          <example>Stefani Joanne, mais conhecida como Lady Gaga, é uma cantora estadunidense.</example>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes'>quanto|quem</token>
-        <token skip="-1" postag='RG|AQ0CS0' postag_regexp='yes'/>
-        <token>mais</token>
-          <example>Quanto mais eu durmo, mais sono tenho.</example>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes'>quanto|quem</token>
-        <token skip="-1">menos</token>
-        <token>mais</token>
-          <example>Quanto menos eu falo, mais penso.</example>
-      </antipattern>
-      <antipattern>
-        <token>à</token>
-        <token>medida</token>
-        <token skip="-1">que</token>
-        <token>mais</token>
-          <example>À medida que o tempo passa, mais esperança tenho.</example>
-      </antipattern>
-      <antipattern>
-        <token skip="-1">mais</token>
-        <token>,</token>
-        <token>mais</token>
-          <example>Este mercado tem mais ofertas, mais opções e mais economia.</example>
-      </antipattern>
-      <antipattern>
-        <token>mais</token>
-        <token>e</token>
-        <token>mais</token>
-          <example>Quando penso nos motivos, mais e mais compreendo.</example>
-      </antipattern>
-      <antipattern>
-        <token>,</token>
-        <token skip="-1">mais</token>
-        <token>e</token>
-        <token postag='N.+' postag_regexp='yes'/>
-          <example>Eram três quartos, mais sala de jantar e escritório.</example>
-      </antipattern>
-      <antipattern>
-        <token>menos</token>
-        <token postag='N.+' postag_regexp='yes'/>
-        <token>,</token>
-        <token>mais</token>
-        <token postag='N.+' postag_regexp='yes'/>
-          <example>Menos conversa, mais ação.</example>
-      </antipattern>
-      <antipattern>
-        <token>,</token>
-        <token>mais</token>
-        <token min='0'>de</token>
-        <token postag='Z.+' postag_regexp='yes'/>
-          <example>Foram seis dias de folga, mais dois com o fim de semana.</example>
-      </antipattern>
-      <antipattern>
-        <token>a</token>
-        <token>cada</token>
-        <token skip="-1">,</token>
-        <token>mais</token>
-          <example>A cada garfada, mais feliz ficava.</example>
-      </antipattern>
-      <antipattern>
-        <token>,</token>
-        <token skip="-1">mais</token>
-        <token min='0'>ou</token>
-        <token>menos</token>
-          <example>Ele vai ganhar, mais voto ou menos voto.</example>
-      </antipattern>
-      <antipattern>
-        <token min='0'>ainda</token>
-        <token skip="-1">mais</token>
-        <token min='0'>do</token>
-        <token>que</token>
-          <example>Este grupo, pouco conhecido, mais afasta do que atrai fiéis.</example>
-      </antipattern>
-      <antipattern>
-        <token postag="C.+|I.+" postag_regexp="yes"/>
-        <token>,</token>
-        <token>mais</token>
-        <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
-          <example>O país é mais desenvolvido e, portanto, mais industrializado.</example>
-      </antipattern>
-      <antipattern>
-        <token regexp= 'yes'>enfim|opa</token>
-        <token>,</token>
-        <token>mais</token>
-        <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
-          <example>Enfim, mais refrescos para nós.</example>
-      </antipattern>
-      <antipattern>
-        <token postag='CC'/>
-        <token>,</token>
-        <token>mais</token>
-        <example>Com isso, mais pessoas virão.</example>
-          <example>Sendo assim, mais pessoas virão.</example>
-      </antipattern>
-      <antipattern>
-        <token>,</token>
-        <token>mais</token>
-        <token>do</token>
-        <token>mesmo</token>
-          <example>É sempre assim, mais do mesmo.</example>
-      </antipattern>
-      <antipattern>
-        <token>,</token>
-        <token>mais</token>
-        <token regexp='yes'>cedo|tarde|à|precisamente|frequentemente|recentemente|detalhadamente|adiante|acima|abaixo|atrás|ao|para|vale|nada|ou|devagar|rápido|um|uma|algum|alguma</token>
-          <example>O local é perto do shopping, mais adiante.</example>
-      </antipattern>
-      <antipattern>
-        <token>,</token>
-        <token>mais</token>
-        <token postag='VMP00SM' min='0'/>
-        <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo|multa|multas|taxa|taxas|imposto|impostos</token>
-        <token regexp='yes'>\.|,</token>
-          <example>Já gostava de chocolate - e agora, mais ainda.</example>
-          <example>O valor final ficou trinta dólares, mais taxas.</example>
-      </antipattern>
-      <antipattern>
-        <token>,</token>
-        <token>mais</token>
-        <token postag='VMP00SM' min='0'/>
-        <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo</token>
-        <token postag='C.+|SPS00' postag_regexp='yes'/>
-          <example>Ele sentiu muito os efeitos dessa decisão, mais intensamente ainda do que antes.</example>
-      </antipattern>
-      <pattern>
-        <token>,</token>
-        <marker>
-          <token>mais</token>
-        </marker>
-        <token postag='RN|RG|V.+' postag_regexp='yes'/>
-      </pattern>
-      <message>A palavra "mais" indica adição. Verifique se não quis dizer "mas".</message>
-      <suggestion>mas</suggestion>
-        <example correction="mas">Os resultados mostraram progresso, <marker>mais</marker> não o suficiente.</example>
-    </rule>
+        <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="temp_off">
+            <antipattern>
+                   <token postag='N.+' postag_regexp='yes'/>
+                   <token postag='AQ.+' postag_regexp='yes' min='0'/>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token postag='VMP.+' postag_regexp='yes'/>
+                   <example>A secretaria da empresa, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
+                   <example>A secretaria da empresa nova, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
+            </antipattern>
+            <antipattern>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token postag='SPS00|CS' postag_regexp='yes'/>
+                   <example>Foram quinze feridos, mais até, se parar pra pensar.</example>
+                   <example>Foram quinze feridos, mais do que o normal.</example>
+                   <example>Foram quinze feridos, mais que o ano anterior.</example>
+                   <example>Era muita coisa para lidar, mais do que estava acostumado.</example>
+                   <example>Fiz tudo o que ele pediu, mais até, se parar pra pensar.</example>
+            </antipattern>
+            <antipattern>
+                   <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+                   <token postag='CS|CC|SPS00|SPS00:DA0MS0|RM' postag_regexp='yes' skip='-1'/>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token postag='N.+' postag_regexp='yes'/>
+                   <example>Se seguir a nossa página, mais dicas ficarão disponíveis.</example>
+                   <example>Sendo assim, mais pessoas virão.</example>
+                   <example>Ao seguir a nossa página, mais dicas ficarão disponíveis.</example>
+                   <example>Com a opção "seguir", mais dicas ficam disponíveis.</example>
+                   <example>E com a opção "seguir", mais dicas ficam disponíveis.</example>
+                   <example>No interior, mais pessoas relaxam.</example>
+                   <example>Consequentemente, mais lucro.</example>
+                   <example>Pode fornecer, por gentileza, mais detalhes sobre o assunto?</example>
+                   <example>Com o problema de ignição, mais erros apareceram.</example>
+            </antipattern>
+            <antipattern>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token postag='AQ.+' postag_regexp='yes'/>
+                   <example>Stefani Joanne, mais conhecida como Lady Gaga, é uma cantora estadunidense.</example>
+            </antipattern>
+            <antipattern>
+                   <token regexp='yes'>quanto|quem</token>
+                   <token skip="-1" postag='RG|AQ0CS0' postag_regexp='yes'/>
+                   <token>mais</token>
+                   <example>Quanto mais eu durmo, mais sono tenho.</example>
+            </antipattern>
+            <antipattern>
+                   <token regexp='yes'>quanto|quem</token>
+                   <token skip="-1">menos</token>
+                   <token>mais</token>
+                   <example>Quanto menos eu falo, mais penso.</example>
+            </antipattern>
+            <antipattern>
+                   <token>à</token>
+                   <token>medida</token>
+                   <token skip="-1">que</token>
+                   <token>mais</token>
+                   <example>À medida que o tempo passa, mais esperança tenho.</example>
+            </antipattern>
+            <antipattern>
+                   <token skip="-1">mais</token>
+                   <token>,</token>
+                   <token>mais</token>
+                   <example>Este mercado tem mais ofertas, mais opções e mais economia.</example>
+            </antipattern>
+            <antipattern>
+                   <token>mais</token>
+                   <token>e</token>
+                   <token>mais</token>
+                   <example>Quando penso nos motivos, mais e mais compreendo.</example>
+            </antipattern>
+            <antipattern>
+                   <token>,</token>
+                   <token skip="-1">mais</token>
+                   <token>e</token>
+                   <token postag='N.+' postag_regexp='yes'/>
+                   <example>Eram três quartos, mais sala de jantar e escritório.</example>
+            </antipattern>
+            <antipattern>
+                   <token>menos</token>
+                   <token postag='N.+' postag_regexp='yes'/>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token postag='N.+' postag_regexp='yes'/>
+                   <example>Menos conversa, mais ação.</example>
+            </antipattern>
+            <antipattern>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token min='0'>de</token>
+                   <token postag='Z.+' postag_regexp='yes'/>
+                   <example>Foram seis dias de folga, mais dois com o fim de semana.</example>
+            </antipattern>
+            <antipattern>
+                   <token>a</token>
+                   <token>cada</token>
+                   <token skip="-1">,</token>
+                   <token>mais</token>
+                   <example>A cada garfada, mais feliz ficava.</example>
+            </antipattern>
+            <antipattern>
+                   <token>,</token>
+                   <token skip="-1">mais</token>
+                   <token min='0'>ou</token>
+                   <token>menos</token>
+                   <example>Ele vai ganhar, mais voto ou menos voto.</example>
+            </antipattern>
+            <antipattern>
+                   <token min='0'>ainda</token>
+                   <token skip="-1">mais</token>
+                   <token min='0'>do</token>
+                   <token>que</token>
+                   <example>Este grupo, pouco conhecido, mais afasta do que atrai fiéis.</example>
+            </antipattern>
+            <antipattern>
+                   <token postag="C.+|I.+" postag_regexp="yes"/>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
+                   <example>O país é mais desenvolvido e, portanto, mais industrializado.</example>
+            </antipattern>
+            <antipattern>
+                   <token regexp= 'yes'>enfim|opa</token>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
+                   <example>Enfim, mais refrescos para nós.</example>
+            </antipattern>
+            <antipattern>
+                   <token postag='CC'/>
+                   <token>,</token>
+                   <token>mais</token>
+                   <example>Com isso, mais pessoas virão.</example>
+                   <example>Sendo assim, mais pessoas virão.</example>
+            </antipattern>
+            <antipattern>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token>do</token>
+                   <token>mesmo</token>
+                   <example>É sempre assim, mais do mesmo.</example>
+            </antipattern>
+            <antipattern>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token regexp='yes'>cedo|tarde|à|precisamente|frequentemente|recentemente|detalhadamente|adiante|acima|abaixo|atrás|ao|para|vale|nada|ou|devagar|rápido|um|uma|algum|alguma</token>
+                   <example>O local é perto do shopping, mais adiante.</example>
+            </antipattern>
+            <antipattern>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token postag='VMP00SM' min='0'/>
+                   <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo|multa|multas|taxa|taxas|imposto|impostos</token>
+                   <token regexp='yes'>\.|,</token>
+                   <example>Já gostava de chocolate - e agora, mais ainda.</example>
+                   <example>O valor final ficou trinta dólares, mais taxas.</example>
+            </antipattern>
+            <antipattern>
+                   <token>,</token>
+                   <token>mais</token>
+                   <token postag='VMP00SM' min='0'/>
+                   <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo</token>
+                   <token postag='C.+|SPS00' postag_regexp='yes'/>
+                   <example>Ele sentiu muito os efeitos dessa decisão, mais intensamente ainda do que antes.</example>
+            </antipattern>
+            <pattern>
+                   <token>,</token>
+                <marker>
+                   <token>mais</token>
+                </marker>
+                   <token postag='RN|RG|V.+' postag_regexp='yes'/>
+            </pattern>
+            <message>A palavra "mais" indica adição. Verifique se não quis dizer "mas".</message>
+            <suggestion>mas</suggestion>
+            <example correction="mas">Os resultados mostraram progresso, <marker>mais</marker> não o suficiente.</example>
+        </rule>
 
     <!-- ESCREVE-LO escrevê-lo -->
     <rule id='ACENTUAÇÃO_VOGAL_ÊNCLISE' name="Acentuação vogal ênclise">
