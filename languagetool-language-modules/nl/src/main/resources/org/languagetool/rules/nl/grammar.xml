@@ -58,6 +58,9 @@ regexp case-insensitive maken : (?i)
 <!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
 <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
 <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
+<!ENTITY timeOfDayToday "vanmorgen|vanmiddag|vanavond|vannacht">
+<!ENTITY timeOfDayGeneral "morgen|middag|avond|nacht">
+<!ENTITY timeOfDayAdverbial "[`'‘’]s (morgens|middags|avonds|nachts)">
 
 <!ENTITY DVW "uit|af|op|in|door|weg|na|terug|mee|om|over|rond|bij|toe|voor|binnen|vast|neer|samen|dicht|open|voort|los|dood|leeg|onder|vol|omhoog|her|bijeen|mis|droog|aaneen|tegen|vooruit|vrij|voorbij|schoon|achteruit|uiteen|buiten|ineen|kapot|plat|langs|heen|recht|stuk|omver|fijn|mede|klaar|thuis|achter|achterover|gelijk|opzij|glad|goed|stil|achterna|herin|herop|omlaag|boven|dooreen|kaal|achterom|weer|opeen|krom|scheef|gereed|nat|achterop|onderuit|terecht|weder|beet|achteraan|hard|kwijt|verder|voorop|warm|plaats|bloot|proef|blind|dubbel|heraan|terneer|wel|zoek|tegemoet|heruit|hoog|school|zwart|klem|lek|rechtop|schuil|voorin|voorover|overhoop|waar|overeen|kennis|gevangen|groot|klein|gaar|lam|vlak|vuil|deel|dwars|thee|hout|scheel|stijf|grijs|tussen|tekort|vooraf|bekend|tentoon|koffie|teniet|dienst|daar|neder">
 <!ENTITY ROMAN_NUM "(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))">
@@ -38206,9 +38209,30 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KORT_2" name="Zinnen van 2 woorden" tags="picky">
 			<rule>
-				<antipattern><token>Hoofdstuk</token><token regexp="yes">[0-9]*</token></antipattern>
-				<antipattern><token>Tot</token><token>ziens</token></antipattern>
-				<antipattern><token>Alvast</token><token>bedankt</token></antipattern>
+				<antipattern><token regexp="yes">Artikel|Figuur|Hoofdstuk|Opdracht|Stap|Voorbeeld</token><token regexp="yes">[0-9]{1,3}[a-z]?</token></antipattern>
+				<antipattern><token regexp="yes">Alvast|Hartelijk</token><token regexp="yes">bedankt|dank</token></antipattern>
+				<antipattern><token regexp="yes">Dat|Het</token><token regexp="yes">kan|moet</token></antipattern>
+				<antipattern><token regexp="yes">Kan|Moet</token><token regexp="yes">dat|het</token></antipattern>
+				<antipattern><token regexp="yes">Heel|Helemaal</token><token regexp="yes">duidelijk|fijn|goed|graag|mooi|prima</token></antipattern>
+				<antipattern><token regexp="yes">Ga|Lees|Loop|Rij</token><token regexp="yes">(recht)?door|verder</token></antipattern>
+				<antipattern><token regexp="yes">Fijne?|Goede?|Goeie|Prettige?</token><token regexp="yes">&timeOfDayGeneral;|&weekdays;|dag|feestdagen|kerstdagen|nieuws|paasdagen|reis|vakantie|vraag|week|weekeind|weekend|zo</token></antipattern>
+				<antipattern><token regexp="yes">Dat|Dit|Het</token><token>klopt</token></antipattern>
+				<antipattern><token regexp="yes">Pas|Let</token><token>op</token></antipattern>
+				<antipattern><token regexp="yes">Mijn|M'n|Onze</token><token>excuses</token></antipattern>
+				<antipattern><token regexp="yes">Smakk?elijk</token><token>eten</token></antipattern>
+				<antipattern><token>Eet</token><token regexp="yes">smakk?elijk</token></antipattern>
+				<antipattern><token>Tot</token><token regexp="yes">&months;|&timeOfDayToday;|&weekdays;|dan|gauw|morgen|snel|straks|ziens</token></antipattern>
+				<antipattern><token>Klopt</token><token regexp="yes">dat|dit|het</token></antipattern>
+				<antipattern><token>Geen</token><token regexp="yes">dank|haast|idee|kans|paniek|probleem</token></antipattern>
+				<antipattern><token>Veel</token><token regexp="yes">plezier|succes</token></antipattern>
+				<antipattern><token>Ja</token><token regexp="yes">graag|natuurlijk|zeker</token></antipattern>
+				<antipattern><token>Zie</token><token regexp="yes">bijlage|(scherm)?afbeelding</token></antipattern>
+				<antipattern><token>Zeker</token><token>weten</token></antipattern>
+				<antipattern><token>Dank</token><token>je</token></antipattern>
+				<antipattern><token>Klik</token><token>hier</token></antipattern>
+				<antipattern><token>Et</token><token>cetera</token></antipattern>
+				<antipattern><token>Graag</token><token>gedaan</token></antipattern>
+				<antipattern><token>Gefeliciteerd</token><token/></antipattern>
 				<pattern>
 					<token postag_regexp="yes" postag="SENT_START|START"/>
 					<marker>
@@ -38222,6 +38246,12 @@ steenwijk;Steenwijk
 				<example>Hij kan het.</example>
 				<example type="incorrect"><marker>Vergeet het.</marker></example>
 				<example type="incorrect"><marker>Geweldig artikel!</marker></example>
+				<example><marker>Figuur 23b.</marker></example>
+				<example><marker>Tot vanavond!</marker></example>
+				<example><marker>Klopt dat?</marker></example>
+				<example><marker>Goeie middag.</marker></example>
+				<example><marker>Zie schermafbeelding.</marker></example>
+				<example><marker>Gefeliciteerd Henk!</marker></example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="AMPEL_AMPER_a" name="Ampel en amper">
