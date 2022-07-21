@@ -39,6 +39,7 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.de.GermanRuleDisambiguator;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
+import org.languagetool.tokenizers.de.GermanWordTokenizer;
 import org.languagetool.tools.Tools;
 
 import java.io.File;
@@ -228,6 +229,11 @@ public class German extends Language implements AutoCloseable {
       new GermanConfusionProbabilityRule(messages, languageModel, this),
       new ProhibitedCompoundRule(messages, languageModel, userConfig)
     );
+  }
+
+  @Override
+  public Tokenizer createDefaultWordTokenizer() {
+    return new GermanWordTokenizer();
   }
 
   /** @since 4.0 */
