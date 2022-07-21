@@ -26,8 +26,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!ENTITY separadores_de_fecho "\)|\}\]">
         <!ENTITY hifen "(?:[-‑])">
         <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
+        <!ENTITY aspas "(«“‘’”»)">
 
-        ]>
+        <!ENTITY meses_ano_abrev "(?:[Aa]br|[Aa]go|[Dd]ez|[Ff]ev|[Jj]an|[Jj]ul|[Jj]un|mai|mar|[Nn]ov|[Oo]ut|[Ss]et)">
+        <!ENTITY meses_ano "(?:[Aa]bril|[Aa]gosto|[Dd]ezembro|[Ff]evereiro|[Jj]aneiro|[Jj]ulho|[Jj]unho|[Mm]aio|[Mm]arço|[Nn]ovembro|[Oo]utubro|[Ss]etembro)">
+        <!ENTITY dias_semana_abrev "(?:[Ss]ex|[Ss]eg|[Ss]áb|[Dd]om|[Qq]ui|[Tt]er)">
+        <!ENTITY dias_semana "(?:[Dd]omingo|[Qq]uarta(-feira)?|[Qq]uinta(-feira)?|[Ss]ábado|[Ss]egunda(-feira)?|[Ss]exta(-feira)?|[Tt]erça(-feira)?|(seg|ter|qua|qui|sex)-feira)">
+
+
+          ]>
 
 <rules lang="pt-BR" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -974,7 +981,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>Há lugar na Segunda e na Primeira Classes.</example>
         </antipattern>
         <antipattern>
-           <token case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
+           <token case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+<exception>&dias_semana;</exception></token>
            <token postag='SPS00'/>
            <token regexp='yes' case_sensitive='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
            <example>Escrito por Redação em Quinta.</example>
