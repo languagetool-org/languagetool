@@ -21,7 +21,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
   <!DOCTYPE rules [
         <!ENTITY depreciativo "baianada|bandalho|china|chinoca|ciganada|ciganagem|veado|bicha|piranha|piranhagem|periguete|retardado|João-sem-braço|cegueta|imbecil|japa|marica|maricas|maricona|cuzão|bundão|queima-rosca|traveco|travecão|travecona|boiola|maricão|mariconço|mentecapto|monhé|morcão|portuga|pretalhada|pretaria|caralho|chupa-rola|boqueteiro|boqueteira">
-
+        <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
+        <!ENTITY separadores_de_abertura "\(|\{\[">
+        <!ENTITY separadores_de_fecho "\)|\}\]">
+        <!ENTITY hifen "(?:[-‑])">
+        <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
 
         ]>
 
@@ -940,11 +944,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>A maioria faz parte da Décima Segunda ou Décima Terceira Divisão.</example>
         </antipattern>
         <antipattern case_sensitive='yes'>
-           <token regexp='yes'>-|:</token>
+           <token regexp='yes'>&tracos_de_separacao;|:</token>
          <marker>
            <token regexp='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
          </marker>
          <example>5- Quinta parte.</example>
+          <example>5 – Quinta vantagem</example>
          <example>Atendimento: Segunda a domingo.</example>
         </antipattern>
         <antipattern case_sensitive='yes'>
@@ -968,14 +973,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <token regexp='yes'>Classe|Classes</token>
          <example>Há lugar na Segunda e na Primeira Classes.</example>
         </antipattern>
-        <antipattern case_sensitive='yes'>
-           <token>Papo</token>
-           <token>de</token>
-         <marker>
-           <token>Segunda</token>
-         </marker>
-         <example>Confira o programa Papo de Segunda.</example>
+        <antipattern>
+           <token case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
+           <token postag='SPS00'/>
+           <token regexp='yes' case_sensitive='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
+           <example>Escrito por Redação em Quinta.</example>
+           <example>Este é o Futebol de Quinta.</example>
+           <example>Confira o programa Papo de Segunda.</example>
         </antipattern>
+        <antipattern case_sensitive='yes'>
+           <token negate_pos='yes' postag='SENT_START'/>
+           <token regexp='yes'>(Segunda|Terça|Quarta|Quinta|Sexta)s?-[Ff]eiras?|(Segunda|Terça|Quarta|Quinta|Sexta)s?</token>
+           <token min='0'>de</token>
+           <token regexp='yes'>Cinzas|Santa</token>
+           <example>Era Quarta-Feira de Cinzas.</example>
+           <example>Viajaram na Sexta-Feira Santa.</example>
+      </antipattern>
         <pattern case_sensitive='yes'>
            <token negate_pos='yes' postag='SENT_START'/>
           <marker>
