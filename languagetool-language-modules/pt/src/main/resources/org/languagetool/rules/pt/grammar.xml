@@ -9167,12 +9167,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
     </rulegroup>
 
+
     <rulegroup id='NON_IMPERSONAL_VERBS' name="Concordância Verbal: Verbos não-impessoais: existir, bastar, faltar, etc.">
-      <!-- Created by Tiago F. Santos , Portuguese rule, 2017-02-27 -->
+      <!--      Created by Tiago F. Santos (2017-02-27) and improved by Marco A.G.Pinto and Ricardo Joseh Lima, Portuguese rule 2022-07-21 (Checked/Enhanced) (5-JUN-2022+)      -->
+	  <!-- Ricardo suggested more verbs (chegar, acabar, ficar, sair, entrar) and Marco added an exception with scope 'before' to fix false positives -->
       <rule>
         <pattern>
-          <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar
-            <exception>sobre</exception></token>
+          <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar|chegar|acabar|ficar|sair|entrar
+            <exception>sobre</exception>
+			<exception scope='previous' regexp='yes'>&pronomes_retos;</exception> <!-- Added by MARCOAGPINTO - 2022-07-21 -->
+			<exception postag_regexp='no' postag='SPS00'/> <!-- Fix for "entre" by MARCOAGPINTO - 2022-07-21 -->
+		  </token>
           <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'/></token>
         </pattern>
@@ -9183,7 +9188,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <pattern>
-          <token postag_regexp='yes' postag='V...3P.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar</token>
+          <token postag_regexp='yes' postag='V...3P.+' inflected='yes' regexp='yes'>existir|bastar|faltar|restar|sobrar|chegar|acabar|ficar|sair|entrar
+            <exception>sobre</exception> <!-- copied from above - MARCOAGPINTO - 2022-07-01 -->
+			<exception scope='previous' regexp='yes'>&pronomes_retos;</exception> <!-- Added by MARCOAGPINTO - 2022-07-21 -->
+			<exception postag_regexp='no' postag='SPS00'/> <!-- Fix for "entre" by MARCOAGPINTO - 2022-07-21 -->
+		  </token>
           <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'/></token>
         </pattern>
@@ -9193,6 +9202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example correction="existe muita|existem muitas">Na vida <marker>existem muita</marker> coisas boas.</example>
       </rule>
     </rulegroup>
+
 
     <rule id="ESPERA_QUE_INDICATIVO" name="Concordâcia Verbal: Esperar que + Indicativo">
       <!-- Localized from Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
