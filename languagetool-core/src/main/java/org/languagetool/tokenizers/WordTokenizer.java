@@ -52,7 +52,7 @@ public class WordTokenizer implements Tokenizer {
    * \u2011 non-breaking hyphen (not included): similar to hyphen 
    * \u2013 en dash (included): it can be used sometimes as hyphen (not included) and rules need changes in some languages 
    * \u00b7 middle dot (·) (included): excluded in Catalan because it is a word character
-   * \u005f underscore, low line (_) (not included): included in English, Dutch
+   * \u005f underscore, low line (_) (not included): included in English, Dutch, German
    */
   private static final String TOKENIZING_CHARACTERS = 
       "\u0020\u00A0\u115f\u1160\u1680"

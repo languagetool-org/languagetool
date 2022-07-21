@@ -87,7 +87,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist|[Ff]ick).*");
   
   private static final int MAX_TOKEN_LENGTH = 200;
-  private static final Pattern GENDER_STAR_PATTERN = Pattern.compile("[A-ZÖÄÜ][a-zöäüß]{1,25}[*:][a-zöäüß]{1,25}");  // z.B. "Jurist:innenausbildung"
+  private static final Pattern GENDER_STAR_PATTERN = Pattern.compile("[A-ZÖÄÜ][a-zöäüß]{1,25}[*:_][a-zöäüß]{1,25}");  // z.B. "Jurist:innenausbildung"
+  private static final Pattern FILE_UNDERLINE_PATTERN = Pattern.compile("[a-zA-Z]{1,25}_[a-zA-Z]{1,25}\\.[a-zA-Z]{1,5}");
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
@@ -1421,15 +1422,22 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @NotNull
   private RuleMatch[] removeGenderCompoundMatches(AnalyzedSentence sentence, RuleMatch[] matches) {
     List<RuleMatch> filteredMatches = Arrays.asList(matches);
-    Matcher m = GENDER_STAR_PATTERN.matcher(sentence.getText());  // Jurist:innenausbildung -> 'Jurist', ':innenausbildung'
+    Matcher genderPattern = GENDER_STAR_PATTERN.matcher(sentence.getText());  // Jurist:innenausbildung -> 'Jurist', ':innenausbildung'
     int pos = 0;
-    while (m.find(pos)) {
-      if (!isMisspelled(m.group().replaceFirst("[*:]", ""))) {  // "_" is not tokenized anyway, so no need to handle it here
+    while (genderPattern.find(pos)) {
+      if (!isMisspelled(genderPattern.group().replaceFirst("[*:_]", ""))) {  // "_" is not tokenized anyway, so no need to handle it here
         // e.g. "Jurist:innenausbildung" with the ":" removed should be accepted:
-        filteredMatches = filteredMatches.stream().filter(k -> !(m.start() < k.getFromPos() && m.end() == k.getToPos())).collect(Collectors.toList());
+        filteredMatches = filteredMatches.stream().filter(k -> !(genderPattern.start() < k.getFromPos() && genderPattern.end() == k.getToPos())).collect(Collectors.toList());
       }
-      pos = m.end();
+      pos = genderPattern.end();
     }
+    Matcher filePattern = FILE_UNDERLINE_PATTERN.matcher(sentence.getText());
+    pos = 0;
+    while (filePattern.find(pos)) {
+      filteredMatches = filteredMatches.stream().filter(k -> !(filePattern.start() <= k.getFromPos() && filePattern.end() >= k.getToPos())).collect(Collectors.toList());
+      pos = filePattern.end();
+    }
+    
     return filteredMatches.toArray(RuleMatch.EMPTY_ARRAY);
   }
 
