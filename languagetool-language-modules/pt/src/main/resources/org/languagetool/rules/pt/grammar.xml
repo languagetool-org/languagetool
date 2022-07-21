@@ -340,184 +340,184 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
   <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-        <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="on">
-            <antipattern>
-                   <token postag='N.+' postag_regexp='yes'/>
-                   <token postag='AQ.+' postag_regexp='yes' min='0'/>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token postag='VMP.+' postag_regexp='yes'/>
-                   <example>A secretaria da empresa, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
-                   <example>A secretaria da empresa nova, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
-            </antipattern>
-            <antipattern>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token postag='SPS00|CS' postag_regexp='yes'/>
-                   <example>Foram quinze feridos, mais até, se parar pra pensar.</example>
-                   <example>Foram quinze feridos, mais do que o normal.</example>
-                   <example>Foram quinze feridos, mais que o ano anterior.</example>
-                   <example>Era muita coisa para lidar, mais do que estava acostumado.</example>
-                   <example>Fiz tudo o que ele pediu, mais até, se parar pra pensar.</example>
-            </antipattern>
-            <antipattern>
-                   <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
-                   <token postag='CS|CC|SPS00|SPS00:DA0MS0|RM' postag_regexp='yes' skip='-1'/>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token postag='N.+' postag_regexp='yes'/>
-                   <example>Se seguir a nossa página, mais dicas ficarão disponíveis.</example>
-                   <example>Sendo assim, mais pessoas virão.</example>
-                   <example>Ao seguir a nossa página, mais dicas ficarão disponíveis.</example>
-                   <example>Com a opção "seguir", mais dicas ficam disponíveis.</example>
-                   <example>E com a opção "seguir", mais dicas ficam disponíveis.</example>
-                   <example>No interior, mais pessoas relaxam.</example>
-                   <example>Consequentemente, mais lucro.</example>
-                   <example>Pode fornecer, por gentileza, mais detalhes sobre o assunto?</example>
-                   <example>Com o problema de ignição, mais erros apareceram.</example>
-            </antipattern>
-            <antipattern>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token postag='AQ.+' postag_regexp='yes'/>
-                   <example>Stefani Joanne, mais conhecida como Lady Gaga, é uma cantora estadunidense.</example>
-            </antipattern>
-            <antipattern>
-                   <token regexp='yes'>quanto|quem</token>
-                   <token skip="-1" postag='RG|AQ0CS0' postag_regexp='yes'/>
-                   <token>mais</token>
-                   <example>Quanto mais eu durmo, mais sono tenho.</example>
-            </antipattern>
-            <antipattern>
-                   <token regexp='yes'>quanto|quem</token>
-                   <token skip="-1">menos</token>
-                   <token>mais</token>
-                   <example>Quanto menos eu falo, mais penso.</example>
-            </antipattern>
-            <antipattern>
-                   <token>à</token>
-                   <token>medida</token>
-                   <token skip="-1">que</token>
-                   <token>mais</token>
-                   <example>À medida que o tempo passa, mais esperança tenho.</example>
-            </antipattern>
-            <antipattern>
-                   <token skip="-1">mais</token>
-                   <token>,</token>
-                   <token>mais</token>
-                   <example>Este mercado tem mais ofertas, mais opções e mais economia.</example>
-            </antipattern>
-            <antipattern>
-                   <token>mais</token>
-                   <token>e</token>
-                   <token>mais</token>
-                   <example>Quando penso nos motivos, mais e mais compreendo.</example>
-            </antipattern>
-            <antipattern>
-                   <token>,</token>
-                   <token skip="-1">mais</token>
-                   <token>e</token>
-                   <token postag='N.+' postag_regexp='yes'/>
-                   <example>Eram três quartos, mais sala de jantar e escritório.</example>
-            </antipattern>
-            <antipattern>
-                   <token>menos</token>
-                   <token postag='N.+' postag_regexp='yes'/>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token postag='N.+' postag_regexp='yes'/>
-                   <example>Menos conversa, mais ação.</example>
-            </antipattern>
-            <antipattern>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token min='0'>de</token>
-                   <token postag='Z.+' postag_regexp='yes'/>
-                   <example>Foram seis dias de folga, mais dois com o fim de semana.</example>
-            </antipattern>
-            <antipattern>
-                   <token>a</token>
-                   <token>cada</token>
-                   <token skip="-1">,</token>
-                   <token>mais</token>
-                   <example>A cada garfada, mais feliz ficava.</example>
-            </antipattern>
-            <antipattern>
-                   <token>,</token>
-                   <token skip="-1">mais</token>
-                   <token min='0'>ou</token>
-                   <token>menos</token>
-                   <example>Ele vai ganhar, mais voto ou menos voto.</example>
-            </antipattern>
-            <antipattern>
-                   <token min='0'>ainda</token>
-                   <token skip="-1">mais</token>
-                   <token min='0'>do</token>
-                   <token>que</token>
-                   <example>Este grupo, pouco conhecido, mais afasta do que atrai fiéis.</example>
-            </antipattern>
-            <antipattern>
-                   <token postag="C.+|I.+" postag_regexp="yes"/>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
-                   <example>O país é mais desenvolvido e, portanto, mais industrializado.</example>
-            </antipattern>
-            <antipattern>
-                   <token regexp= 'yes'>enfim|opa</token>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
-                   <example>Enfim, mais refrescos para nós.</example>
-            </antipattern>
-            <antipattern>
-                   <token postag='CC'/>
-                   <token>,</token>
-                   <token>mais</token>
-                   <example>Com isso, mais pessoas virão.</example>
-                   <example>Sendo assim, mais pessoas virão.</example>
-            </antipattern>
-            <antipattern>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token>do</token>
-                   <token>mesmo</token>
-                   <example>É sempre assim, mais do mesmo.</example>
-            </antipattern>
-            <antipattern>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token regexp='yes'>cedo|tarde|à|precisamente|frequentemente|recentemente|detalhadamente|adiante|acima|abaixo|atrás|ao|para|vale|nada|ou|devagar|rápido|um|uma|algum|alguma</token>
-                   <example>O local é perto do shopping, mais adiante.</example>
-            </antipattern>
-            <antipattern>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token postag='VMP00SM' min='0'/>
-                   <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo|multa|multas|taxa|taxas|imposto|impostos</token>
-                   <token regexp='yes'>\.|,</token>
-                   <example>Já gostava de chocolate - e agora, mais ainda.</example>
-                   <example>O valor final ficou trinta dólares, mais taxas.</example>
-            </antipattern>
-            <antipattern>
-                   <token>,</token>
-                   <token>mais</token>
-                   <token postag='VMP00SM' min='0'/>
-                   <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo</token>
-                   <token postag='C.+|SPS00' postag_regexp='yes'/>
-                   <example>Ele sentiu muito os efeitos dessa decisão, mais intensamente ainda do que antes.</example>
-            </antipattern>
-            <pattern>
-                   <token>,</token>
-                <marker>
-                   <token>mais</token>
-                </marker>
-                   <token postag='RN|RG|V.+' postag_regexp='yes'/>
-            </pattern>
-            <message>A palavra "mais" indica adição. Verifique se não quis dizer "mas".</message>
-            <suggestion>mas</suggestion>
-            <example correction="mas">Os resultados mostraram progresso, <marker>mais</marker> não o suficiente.</example>
-        </rule>
+    <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="on">
+      <antipattern>
+        <token postag='N.+' postag_regexp='yes'/>
+        <token postag='AQ.+' postag_regexp='yes' min='0'/>
+        <token>,</token>
+        <token>mais</token>
+        <token postag='VMP.+' postag_regexp='yes'/>
+        <example>A secretaria da empresa, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
+        <example>A secretaria da empresa nova, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token>mais</token>
+        <token postag='SPS00|CS' postag_regexp='yes'/>
+        <example>Foram quinze feridos, mais até, se parar pra pensar.</example>
+        <example>Foram quinze feridos, mais do que o normal.</example>
+        <example>Foram quinze feridos, mais que o ano anterior.</example>
+        <example>Era muita coisa para lidar, mais do que estava acostumado.</example>
+        <example>Fiz tudo o que ele pediu, mais até, se parar pra pensar.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token postag='CS|CC|SPS00|SPS00:DA0MS0|RM' postag_regexp='yes' skip='-1'/>
+        <token>,</token>
+        <token>mais</token>
+        <token postag='N.+' postag_regexp='yes'/>
+        <example>Se seguir a nossa página, mais dicas ficarão disponíveis.</example>
+        <example>Sendo assim, mais pessoas virão.</example>
+        <example>Ao seguir a nossa página, mais dicas ficarão disponíveis.</example>
+        <example>Com a opção "seguir", mais dicas ficam disponíveis.</example>
+        <example>E com a opção "seguir", mais dicas ficam disponíveis.</example>
+        <example>No interior, mais pessoas relaxam.</example>
+        <example>Consequentemente, mais lucro.</example>
+        <example>Pode fornecer, por gentileza, mais detalhes sobre o assunto?</example>
+        <example>Com o problema de ignição, mais erros apareceram.</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token>mais</token>
+        <token postag='AQ.+' postag_regexp='yes'/>
+        <example>Stefani Joanne, mais conhecida como Lady Gaga, é uma cantora estadunidense.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>quanto|quem</token>
+        <token skip="-1" postag='RG|AQ0CS0' postag_regexp='yes'/>
+        <token>mais</token>
+        <example>Quanto mais eu durmo, mais sono tenho.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>quanto|quem</token>
+        <token skip="-1">menos</token>
+        <token>mais</token>
+        <example>Quanto menos eu falo, mais penso.</example>
+      </antipattern>
+      <antipattern>
+        <token>à</token>
+        <token>medida</token>
+        <token skip="-1">que</token>
+        <token>mais</token>
+        <example>À medida que o tempo passa, mais esperança tenho.</example>
+      </antipattern>
+      <antipattern>
+        <token skip="-1">mais</token>
+        <token>,</token>
+        <token>mais</token>
+        <example>Este mercado tem mais ofertas, mais opções e mais economia.</example>
+      </antipattern>
+      <antipattern>
+        <token>mais</token>
+        <token>e</token>
+        <token>mais</token>
+        <example>Quando penso nos motivos, mais e mais compreendo.</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token skip="-1">mais</token>
+        <token>e</token>
+        <token postag='N.+' postag_regexp='yes'/>
+        <example>Eram três quartos, mais sala de jantar e escritório.</example>
+      </antipattern>
+      <antipattern>
+        <token>menos</token>
+        <token postag='N.+' postag_regexp='yes'/>
+        <token>,</token>
+        <token>mais</token>
+        <token postag='N.+' postag_regexp='yes'/>
+        <example>Menos conversa, mais ação.</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token>mais</token>
+        <token min='0'>de</token>
+        <token postag='Z.+' postag_regexp='yes'/>
+        <example>Foram seis dias de folga, mais dois com o fim de semana.</example>
+      </antipattern>
+      <antipattern>
+        <token>a</token>
+        <token>cada</token>
+        <token skip="-1">,</token>
+        <token>mais</token>
+        <example>A cada garfada, mais feliz ficava.</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token skip="-1">mais</token>
+        <token min='0'>ou</token>
+        <token>menos</token>
+        <example>Ele vai ganhar, mais voto ou menos voto.</example>
+      </antipattern>
+      <antipattern>
+        <token min='0'>ainda</token>
+        <token skip="-1">mais</token>
+        <token min='0'>do</token>
+        <token>que</token>
+        <example>Este grupo, pouco conhecido, mais afasta do que atrai fiéis.</example>
+      </antipattern>
+      <antipattern>
+        <token postag="C.+|I.+" postag_regexp="yes"/>
+        <token>,</token>
+        <token>mais</token>
+        <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
+        <example>O país é mais desenvolvido e, portanto, mais industrializado.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp= 'yes'>enfim|opa</token>
+        <token>,</token>
+        <token>mais</token>
+        <token postag="N.+|PD.+|DD.+" postag_regexp="yes" min='0'/>
+        <example>Enfim, mais refrescos para nós.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='CC'/>
+        <token>,</token>
+        <token>mais</token>
+        <example>Com isso, mais pessoas virão.</example>
+        <example>Sendo assim, mais pessoas virão.</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token>mais</token>
+        <token>do</token>
+        <token>mesmo</token>
+        <example>É sempre assim, mais do mesmo.</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token>mais</token>
+        <token regexp='yes'>cedo|tarde|à|precisamente|frequentemente|recentemente|detalhadamente|adiante|acima|abaixo|atrás|ao|para|vale|nada|ou|devagar|rápido|um|uma|algum|alguma</token>
+        <example>O local é perto do shopping, mais adiante.</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token>mais</token>
+        <token postag='VMP00SM' min='0'/>
+        <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo|multa|multas|taxa|taxas|imposto|impostos</token>
+        <token regexp='yes'>\.|,</token>
+        <example>Já gostava de chocolate - e agora, mais ainda.</example>
+        <example>O valor final ficou trinta dólares, mais taxas.</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token>mais</token>
+        <token postag='VMP00SM' min='0'/>
+        <token regexp='yes'>ainda|cedo|tarde|adiante|abaixo</token>
+        <token postag='C.+|SPS00' postag_regexp='yes'/>
+        <example>Ele sentiu muito os efeitos dessa decisão, mais intensamente ainda do que antes.</example>
+      </antipattern>
+      <pattern>
+        <token>,</token>
+        <marker>
+          <token>mais</token>
+        </marker>
+        <token postag='RN|RG|V.+' postag_regexp='yes'/>
+      </pattern>
+      <message>A palavra "mais" indica adição. Verifique se não quis dizer "mas".</message>
+      <suggestion>mas</suggestion>
+      <example correction="mas">Os resultados mostraram progresso, <marker>mais</marker> não o suficiente.</example>
+    </rule>
 
     <!-- ESCREVE-LO escrevê-lo -->
     <rule id='ACENTUAÇÃO_VOGAL_ÊNCLISE' name="Acentuação vogal ênclise">
@@ -1652,7 +1652,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
-        </antipattern>	
+        </antipattern>
         <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *START* -->
         <!-- "Ao testar um modelo tendo por base dados." -->
         <!-- "Ao testar um modelo tendo por resultado dados." -->
@@ -1874,7 +1874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <pattern>
           <token/> <!-- MARCOAGPINTO - The other "so clever" fix I used in the line below in 2019 caught fewer errors - 2022-07-12 -->
-<!--          <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <- MARCOAGPINTO 2019-12-31 -> -->
+          <!--          <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <- MARCOAGPINTO 2019-12-31 -> -->
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM]S.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
@@ -2340,14 +2340,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
     <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordância de género: A + Masculino">
       <pattern>
-          <token>a</token>
-          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
-          <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/></token>
-          <token postag='(?:[NZ].|A..)MS.+' postag_regexp='yes'>
-            <exception postag='(?:[NZ].|A..)MS.+' postag_regexp='yes' negate_pos='yes'/>
-            <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|exemplo|fim|favor|sério|tempo|lado|uso|direito</exception>
-            <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
+        <token>a</token>
+        <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+        <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
+          <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/></token>
+        <token postag='(?:[NZ].|A..)MS.+' postag_regexp='yes'>
+          <exception postag='(?:[NZ].|A..)MS.+' postag_regexp='yes' negate_pos='yes'/>
+          <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|exemplo|fim|favor|sério|tempo|lado|uso|direito</exception>
+          <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
       </pattern>
       <message>&MSG_ECG;</message>
       <suggestion suppress_misspelled="yes">o <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> \4</suggestion>
@@ -3075,17 +3075,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       Difere da guerra porque os conflitos são uma luta entre radicais. → Difere da guerra por os conflitos serem uma luta entre radicais.
       -->
       <pattern>
-          <token>porque
-            <exception scope='previous' postag_regexp='yes' postag='SPS.+'/>
-          </token>
-          <token/>
-          <token postag='NP.+|AQ0.+|NC.+' postag_regexp='yes'/>
-          <and>
-          <token inflected='yes'>ser
-            <exception inflected='yes'>ir</exception>
-          </token>
-          <token postag='VMIP3.+' postag_regexp='yes'/>
-          </and>
+        <token>porque
+          <exception scope='previous' postag_regexp='yes' postag='SPS.+'/>
+        </token>
+        <token/>
+        <token postag='NP.+|AQ0.+|NC.+' postag_regexp='yes'/>
+        <and>
+        <token inflected='yes'>ser
+          <exception inflected='yes'>ir</exception>
+        </token>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        </and>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
       <suggestion>por \2 \3 <match no='4' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
@@ -3779,7 +3779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <!-- MARCOAGPINTO 2022-07-16/17 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
-		  <token postag='Z0.P.+|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+          <token postag='Z0.P.+|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
           <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
           <token postag='RG' postag_regexp='no'/>
           <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
@@ -10351,7 +10351,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
           <token min='0'>feira</token>
           <marker>
-            <token>à</token>  
+            <token>à</token>
           </marker>
           <token case_sensitive='no' regexp='yes'>(?:&dias_semana;|&meses_ano;|&meses_ano_abrev;)s?</token>
         </pattern>
@@ -11138,23 +11138,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp='yes' min='0'>&separadores_de_fecho;</token>
         <token>:</token>
         <token spacebefore='yes' case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
-          <example>BRENDA: Foi uma longa viagem.</example>
-          <example>Título: Memórias póstumas de Brás Cubas</example>
-          <example>Palavra-chave: Museu</example>
-          <example>Aula 2: Equações matemáticas.</example>
-          <example>Aula 2 (Álgebra): Equações matemáticas.</example>
-          <example>Primary keyword: Jogos</example>
-          <example>[Lisboa] : Nuvem de Letras, 2018.</example>
-          <example>Veja também: Dez histórias de ninar</example>
+        <example>BRENDA: Foi uma longa viagem.</example>
+        <example>Título: Memórias póstumas de Brás Cubas</example>
+        <example>Palavra-chave: Museu</example>
+        <example>Aula 2: Equações matemáticas.</example>
+        <example>Aula 2 (Álgebra): Equações matemáticas.</example>
+        <example>Primary keyword: Jogos</example>
+        <example>[Lisboa] : Nuvem de Letras, 2018.</example>
+        <example>Veja também: Dez histórias de ninar</example>
       </antipattern>
       <antipattern>
         <token postag='SENT_START'/>
         <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
-		<token spacebefore="yes" case_sensitive="yes" regexp="yes" min='0'>\p{Lu}\p{Ll}+</token>
-		<token postag='SPS00|CC' postag_regexp='yes'/>
-		<token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+<exception>Deus</exception></token>
-		  <example>São membros do programa: Comissão Nacional de Proteção dos direitos; Comissão Eleitoral Municipal; Comissão Nacional de Ética em Pesquisa.</example>
-		  <example>Disciplina disponível: Teoria e Metodologia Científicas.</example>
+        <token spacebefore="yes" case_sensitive="yes" regexp="yes" min='0'>\p{Lu}\p{Ll}+</token>
+        <token postag='SPS00|CC' postag_regexp='yes'/>
+        <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+<exception>Deus</exception></token>
+        <example>São membros do programa: Comissão Nacional de Proteção dos direitos; Comissão Eleitoral Municipal; Comissão Nacional de Ética em Pesquisa.</example>
+        <example>Disciplina disponível: Teoria e Metodologia Científicas.</example>
       </antipattern>
       <antipattern>
         <token postag='SENT_START'/>
@@ -11162,35 +11162,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token>a</token>
         <token>partir</token>
         <token>de</token>
-          <example>Preços a partir de R$ 49,90.</example>
-		  <example>A partir de 5 anos.</example>
+        <example>Preços a partir de R$ 49,90.</example>
+        <example>A partir de 5 anos.</example>
       </antipattern>
       <antipattern>
         <token postag='SENT_START'/>
-		<token postag='I|AQ' postag_regexp='yes'/>
-		  <example>Oi, John.</example>
-		  <example>Feliz aniversário.</example>
-		  <example>Muito bem, Tom!</example>
-	  </antipattern>
-	  <antipattern>
-	    <token postag='SENT_START'/>
+        <token postag='I|AQ' postag_regexp='yes'/>
+        <example>Oi, John.</example>
+        <example>Feliz aniversário.</example>
+        <example>Muito bem, Tom!</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
         <token>mais</token>
         <token>informações</token>
-		  <example>Mais informações pelo telefone 99999-9999.</example>
-	  </antipattern>
+        <example>Mais informações pelo telefone 99999-9999.</example>
+      </antipattern>
       <antipattern>
         <token postag='_PUNCT'/>
-		<token postag='Z0CN0'/>
-		<token postag='Z0CN0' min='0'/>
-		<token postag='_PUNCT'/>
-		  <example>278 (52): 52914–8.</example>
-	  </antipattern>
-	  <antipattern>
-          <token regexp="yes">\d</token>
-          <token regexp="yes">–|&hifen;</token>
-          <example>1 - Trajetória pessoal e da pesquisa.</example>
-          <example>2 – E o Pedro?</example>
-        </antipattern>
+        <token postag='Z0CN0'/>
+        <token postag='Z0CN0' min='0'/>
+        <token postag='_PUNCT'/>
+        <example>278 (52): 52914–8.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">\d</token>
+        <token regexp="yes">–|&hifen;</token>
+        <example>1 - Trajetória pessoal e da pesquisa.</example>
+        <example>2 – E o Pedro?</example>
+      </antipattern>
       <antipattern><!-- long holophrases -->
         <token postag='SENT_START'/>
         <token max='2'/>
@@ -11843,23 +11843,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Primary keyword: Jogos</example>
       </antipattern>
       <antipattern>
-		<token regexp='yes'>[\,\;\:]</token>
+        <token regexp='yes'>[\,\;\:]</token>
         <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
-		<token spacebefore="yes" case_sensitive="yes" regexp="yes" min='0'>\p{Lu}\p{Ll}+</token>
-		<token postag='SPS00|CC' postag_regexp='yes'/>
-		<token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+<exception>Deus</exception></token>
-		<example>São membros do programa: Comissão Nacional de Proteção dos direitos; Comissão Eleitoral Municipal; Comissão Nacional de Ética em Pesquisa.</example>
-		<example>Disciplina disponível: Teoria e Metodologia Científicas.</example>
+        <token spacebefore="yes" case_sensitive="yes" regexp="yes" min='0'>\p{Lu}\p{Ll}+</token>
+        <token postag='SPS00|CC' postag_regexp='yes'/>
+        <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+<exception>Deus</exception></token>
+        <example>São membros do programa: Comissão Nacional de Proteção dos direitos; Comissão Eleitoral Municipal; Comissão Nacional de Ética em Pesquisa.</example>
+        <example>Disciplina disponível: Teoria e Metodologia Científicas.</example>
       </antipattern>
       <antipattern>
         <token regexp='yes'>intitulado|denominado|chamado|designado|nomeado|apelidado|batizado</token>
-		<token>:</token>
+        <token>:</token>
         <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
         <example>Livro intitulado: Dragões Eternos</example>
       </antipattern>
       <antipattern>
-		<token>:</token>
-		<token postag='I'/>
+        <token>:</token>
+        <token postag='I'/>
         <example>Ele disse: Oh, mas que surpresa!</example>
       </antipattern>
       <antipattern>
@@ -15237,13 +15237,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='VMIP3S0|VMII3S0' postag_regexp='yes'/>
           <token>que</token>
           <token>há</token>
-          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN|NP.+' postag_regexp='yes'> 
+          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN|NP.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
           </token>
           <example>Ele acha que há um espião entre nós.</example>
           <example>Você sabia que há uma cidade no Brasil chamada Natal?</example>
           <example>Você acha que há alguém nos vendo?</example>
-        </antipattern>	
+        </antipattern>
 
         <pattern>
           <token postag='V.+' postag_regexp='yes'>
@@ -15257,8 +15257,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>há</token>
           </marker>
           <or>
-            <token negate_pos="yes" postag='Z0.+|DI.+|PP.+|SPS00' postag_regexp='yes'/>
-            <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
+          <token negate_pos="yes" postag='Z0.+|DI.+|PP.+|SPS00' postag_regexp='yes'/>
+          <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
           </or>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
@@ -15291,8 +15291,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>há</token>
           </marker>
           <or>
-            <token negate_pos="yes" postag='Z0.+|DI.+|PP.+' postag_regexp='yes'/> <!-- With "não" there is no SPS00 -->
-            <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
+          <token negate_pos="yes" postag='Z0.+|DI.+|PP.+' postag_regexp='yes'/> <!-- With "não" there is no SPS00 -->
+          <token regexp='yes'>um|uns|umas?|outr[ao]s?|nenhum|nenhuns|qualquer|quaisquer|algum|alguns|algumas?|vári[ao]s|muit[ao]s?</token>
           </or>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
@@ -17952,9 +17952,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>também</token>
         </antipattern>
         <antipattern>
-            <token>,</token>
-            <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
-            <token>,</token>
+          <token>,</token>
+          <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
+          <token>,</token>
         </antipattern>
         <pattern>
           <marker>
@@ -18224,7 +18224,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag_regexp='yes' postag="_PUNCT|SENT_END"/>
         </antipattern>
         <pattern>
-            <token postag_regexp='yes' postag="_PUNCT|SENT_START"/>
+          <token postag_regexp='yes' postag="_PUNCT|SENT_START"/>
           <marker>
             <token regexp="yes">aliás|entretanto|outrossim|porém|portanto|contudo</token>
             <token>
@@ -19346,9 +19346,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <antipattern>
           <token min='2'>-</token>
-        <token regexp='yes' skip='-1'>\d+|&operadores_matematicos;</token>
-        <example>38 -- 29</example>
-        <example>--[5]--</example>
+          <token regexp='yes' skip='-1'>\d+|&operadores_matematicos;</token>
+          <example>38 -- 29</example>
+          <example>--[5]--</example>
         </antipattern>
         <antipattern>
           <token>-</token>
@@ -19482,124 +19482,124 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Onko — É café “sem cafeína”</example>
     </rule>
 
-        <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!" default='on'>
+    <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!" default='on'>
       <!--  Created by Tiago F. Santos, 2017-04-28      -->
       <rule>
         <pattern>
-            <token postag='SENT_START'/>
-            <token skip="-1">que<exception scope='next' regexp='yes'>[,:]</exception><exception scope='next' postag='V.+' postag_regexp='yes'/></token>
-            <token postag='AQ.+' postag_regexp='yes'/>
-            <token postag='N.+' postag_regexp='yes' min='0'/>
-            <marker>
+          <token postag='SENT_START'/>
+          <token skip="-1">que<exception scope='next' regexp='yes'>[,:]</exception><exception scope='next' postag='V.+' postag_regexp='yes'/></token>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <token postag='N.+' postag_regexp='yes' min='0'/>
+          <marker>
             <token postag='SENT_END'>.</token>
-            </marker>
+          </marker>
         </pattern>
-           <message>Se é uma exclamação, deve terminar com <suggestion>!</suggestion>, caso contrário, as orações deve ser separadas por vírgulas. Se for um prolongamento de ideias, utilize as reticências.</message>
-           <suggestion>...</suggestion>
-           <suggestion>,</suggestion>
-           <example correction="!|...|,">Que belo dia<marker>.</marker></example>
+        <message>Se é uma exclamação, deve terminar com <suggestion>!</suggestion>, caso contrário, as orações deve ser separadas por vírgulas. Se for um prolongamento de ideias, utilize as reticências.</message>
+        <suggestion>...</suggestion>
+        <suggestion>,</suggestion>
+        <example correction="!|...|,">Que belo dia<marker>.</marker></example>
       </rule>
       <rule>
         <antipattern>
-            <token postag='I'/>
-            <token spacebefore='no'>-</token>
-            <token spacebefore='no'></token>
-            <example>Ei-lo de volta de sua viagem.</example>
+          <token postag='I'/>
+          <token spacebefore='no'>-</token>
+          <token spacebefore='no'></token>
+          <example>Ei-lo de volta de sua viagem.</example>
         </antipattern>
         <antipattern>
-            <token postag='I'/>
-            <token>.</token>
-            <token>.</token>
-            <token>.</token>
-            <example>Hum...</example>
+          <token postag='I'/>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+          <example>Hum...</example>
         </antipattern>
         <antipattern>
-            <token regexp='yes'>&aspas;|'|"|&separadores_de_abertura;</token>
-            <token postag='I'/>
-            <token regexp='yes'>&aspas;|'|"|&separadores_de_fecho;</token>
-            <example>"Oi".</example>
-            <example>(Oi").</example>
+          <token regexp='yes'>&aspas;|'|"|&separadores_de_abertura;</token>
+          <token postag='I'/>
+          <token regexp='yes'>&aspas;|'|"|&separadores_de_fecho;</token>
+          <example>"Oi".</example>
+          <example>(Oi").</example>
         </antipattern>
         <antipattern>
-            <token postag='I'/>
-            <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'><exception regexp='yes'>[\,\!\?:\)]</exception></token>
-            <example>Parabéns por essa nova jornada.</example>
+          <token postag='I'/>
+          <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'><exception regexp='yes'>[\,\!\?:\)]</exception></token>
+          <example>Parabéns por essa nova jornada.</example>
         </antipattern>
         <antipattern>
-            <token postag='I'/>
-            <token regexp='yes'>&separadores_de_abertura;</token>
-            <example>Feliz aniversário (atrasado) e muitas bençãos em sua vida.</example>
+          <token postag='I'/>
+          <token regexp='yes'>&separadores_de_abertura;</token>
+          <example>Feliz aniversário (atrasado) e muitas bençãos em sua vida.</example>
         </antipattern>
         <antipattern>
-            <token postag='I'/>
-            <token regexp='yes'>&separadores_de_abertura;</token>
-            <example>Feliz aniversário (atrasado) e muitas bençãos em sua vida.</example>
+          <token postag='I'/>
+          <token regexp='yes'>&separadores_de_abertura;</token>
+          <example>Feliz aniversário (atrasado) e muitas bençãos em sua vida.</example>
         </antipattern>
         <antipattern>
-            <token regexp='yes' spacebefore='no'>&separadores_de_abertura;</token>
-            <token case_sensitive='yes'>OH</token>
-            <example>(FeO(OH.</example>
+          <token regexp='yes' spacebefore='no'>&separadores_de_abertura;</token>
+          <token case_sensitive='yes'>OH</token>
+          <example>(FeO(OH.</example>
         </antipattern>
         <antipattern>
-            <token regexp='yes'>&tracos_de_separacao;</token>
-            <token spacebefore='no' postag='I'/>
-            <example>Distribuição de Ho-Oh</example>
-            <example>Investiu uma grande quantidade de energia em sigilo e cover-ups.</example>
-            <example>Verifique se o navegador está bloqueando pop-ups.</example>
+          <token regexp='yes'>&tracos_de_separacao;</token>
+          <token spacebefore='no' postag='I'/>
+          <example>Distribuição de Ho-Oh</example>
+          <example>Investiu uma grande quantidade de energia em sigilo e cover-ups.</example>
+          <example>Verifique se o navegador está bloqueando pop-ups.</example>
         </antipattern>
         <antipattern>
-            <token>poxa</token>
-            <token>vida</token>
-            <token>,</token>
+          <token>poxa</token>
+          <token>vida</token>
+          <token>,</token>
         </antipattern>
         <antipattern>
-            <token>até</token>
-            <token>amanhã</token>
-            <token postag='SPS00'/>
-            <example>Até amanhã de manhã!</example>
-            <example>Até amanhã à tarde!</example>
+          <token>até</token>
+          <token>amanhã</token>
+          <token postag='SPS00'/>
+          <example>Até amanhã de manhã!</example>
+          <example>Até amanhã à tarde!</example>
         </antipattern>
         <antipattern>
-            <token postag='I'/>
-            <token postag='VMP.+' postag_regexp='yes'/>
-			<example>Muito bem colocado!</example>
-		    <example>Parabéns adiantado!</example>
+          <token postag='I'/>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <example>Muito bem colocado!</example>
+          <example>Parabéns adiantado!</example>
         </antipattern>
         <antipattern>
-            <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
-            <token>quem</token>
-            <token regexp='yes'>me|lhe</token>
-            <token skip='-1'>dera</token>
-            <token postag='V.+' postag_regexp='yes'/>
-            <example>Quem me dera ter a oportunidade de fazer isso.</example>
+          <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
+          <token>quem</token>
+          <token regexp='yes'>me|lhe</token>
+          <token skip='-1'>dera</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Quem me dera ter a oportunidade de fazer isso.</example>
         </antipattern>
         <antipattern>
-            <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
-            <token>valeu</token>
-            <token>a</token>
-			<token>pena</token>
-            <token postag='PP.+' postag_regexp='yes' min='0'/>
-            <token postag='VMI.+' postag_regexp='yes'/>
-            <example>Valeu a pena ele esperar pelo prêmio.</example>
+          <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
+          <token>valeu</token>
+          <token>a</token>
+          <token>pena</token>
+          <token postag='PP.+' postag_regexp='yes' min='0'/>
+          <token postag='VMI.+' postag_regexp='yes'/>
+          <example>Valeu a pena ele esperar pelo prêmio.</example>
         </antipattern>
         <antipattern>
-            <token>hip</token>
-            <token spacebefore='no' regexp='yes' min='0'>&hifen;</token>
-            <token spacebefore='no'>hop</token>
+          <token>hip</token>
+          <token spacebefore='no' regexp='yes' min='0'>&hifen;</token>
+          <token spacebefore='no'>hop</token>
         </antipattern>
         <antipattern>
-            <token>tá</token>
-            <token spacebefore='no' regexp='yes'>&hifen;</token>
-            <token spacebefore='no'>se</token>
+          <token>tá</token>
+          <token spacebefore='no' regexp='yes'>&hifen;</token>
+          <token spacebefore='no'>se</token>
         </antipattern>
         <antipattern>
-            <token skip='3'>,</token>
-            <token regexp='yes'>[\!\?:\)]</token>
+          <token skip='3'>,</token>
+          <token regexp='yes'>[\!\?:\)]</token>
         </antipattern>
         <pattern>
-            <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
-            <token postag='I'><exception>Oxalá</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception><exception>alto</exception></token>
-            <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
+          <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
+          <token postag='I'><exception>Oxalá</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception><exception>alto</exception></token>
+          <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
         </pattern>
         <message>Quando não estão acompanhadas de vocativo, as interjeições devem ser finalizadas com pontos de exclamação ou interrogação. Quando houver vocativo, deve usar a vírgula. Para indicar hesitação ou prolongamento de ideias, utilize as reticências.</message>
         <suggestion>\2!</suggestion>
@@ -19616,66 +19616,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Ena, que surpresa!</example>
       </rule>
       <rule>
-      <antipattern>
-            <token postag='I'/>
-            <token>.</token>
-            <token>.</token>
-            <token>.</token>
-            <example>Até logo...</example>
+        <antipattern>
+          <token postag='I'/>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+          <example>Até logo...</example>
         </antipattern>
         <antipattern>
-            <token regexp='yes'>&aspas;|'|"|&separadores_de_abertura;</token>
-            <token postag='I'/>
-            <token regexp='yes'>&aspas;|'|"|&separadores_de_fecho;</token>
-            <example>Eles ainda gravaram a faixa "Até logo"</example>
+          <token regexp='yes'>&aspas;|'|"|&separadores_de_abertura;</token>
+          <token postag='I'/>
+          <token regexp='yes'>&aspas;|'|"|&separadores_de_fecho;</token>
+          <example>Eles ainda gravaram a faixa "Até logo"</example>
         </antipattern>
         <antipattern>
-            <token>até</token>
-            <token>amanhã</token>
-            <token postag='SPS00'/>
-            <example>Até amanhã de manhã!</example>
-            <example>Até amanhã à tarde!</example>
+          <token>até</token>
+          <token>amanhã</token>
+          <token postag='SPS00'/>
+          <example>Até amanhã de manhã!</example>
+          <example>Até amanhã à tarde!</example>
         </antipattern>
         <antipattern>
-            <token postag='I'/>
-            <token postag='VMP.+' postag_regexp='yes'/>
-			<example>Muito bem colocado!</example>
-		    <example>Parabéns adiantado!</example>
+          <token postag='I'/>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <example>Muito bem colocado!</example>
+          <example>Parabéns adiantado!</example>
         </antipattern>
         <antipattern>
-            <token regexp='yes'>aniversário|parabéns</token>
-            <token postag='VMP00SM'/>
-			<example>Feliz aniversário atrasado!</example>
-		    <example>Parabéns adiantado!</example>
+          <token regexp='yes'>aniversário|parabéns</token>
+          <token postag='VMP00SM'/>
+          <example>Feliz aniversário atrasado!</example>
+          <example>Parabéns adiantado!</example>
         </antipattern>
         <antipattern>
-            <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
-            <token>quem</token>
-            <token regexp='yes'>me|lhe</token>
-            <token skip='-1'>dera</token>
-            <token postag='V.+' postag_regexp='yes'/>
-            <example>Quem me dera ter a oportunidade de fazer isso.</example>
+          <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
+          <token>quem</token>
+          <token regexp='yes'>me|lhe</token>
+          <token skip='-1'>dera</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Quem me dera ter a oportunidade de fazer isso.</example>
         </antipattern>
         <antipattern>
-            <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
-            <token>valeu</token>
-            <token>a</token>
-			<token>pena</token>
-            <token postag='PP.+' postag_regexp='yes' min='0'/>
-            <token postag='VMI.+' postag_regexp='yes'/>
-            <example>Valeu a pena ele esperar pelo prêmio.</example>
+          <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
+          <token>valeu</token>
+          <token>a</token>
+          <token>pena</token>
+          <token postag='PP.+' postag_regexp='yes' min='0'/>
+          <token postag='VMI.+' postag_regexp='yes'/>
+          <example>Valeu a pena ele esperar pelo prêmio.</example>
         </antipattern>
         <antipattern>
-            <token>hip</token>
-            <token spacebefore='no' regexp='yes' min='0'>&hifen;</token>
-            <token spacebefore='no'>hop</token>
+          <token>hip</token>
+          <token spacebefore='no' regexp='yes' min='0'>&hifen;</token>
+          <token spacebefore='no'>hop</token>
         </antipattern>
         <pattern>
           <token postag="SENT_START"/>
           <token postag='I'/>
           <marker>
-          <token postag='I'><exception>Oxalá</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception></token>
-          <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
+            <token postag='I'><exception>Oxalá</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception></token>
+            <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
           </marker>
         </pattern>
         <message>Quando não estão acompanhadas de vocativo, as interjeições devem ser finalizadas com pontos de exclamação ou interrogação. Quando houver vocativo, deve usar a vírgula. Para indicar hesitação ou prolongamento de ideias, utilize as reticências.</message>
@@ -19684,7 +19684,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion>\3!?</suggestion>
         <suggestion>\3,</suggestion>
         <suggestion>\3...</suggestion>
-		<example correction="logo!|logo?|logo!?|logo,|logo...">Até <marker>logo.</marker></example>
+        <example correction="logo!|logo?|logo!?|logo,|logo...">Até <marker>logo.</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -19808,17 +19808,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- XXX If the user finds this rule too intrusive, they will disable it and use REPEATED_WORDS_3X as a fallback		 	-->
       <antipattern>
         <token skip='-1'>Acesso</token>
-		<token>Acesso</token>
-		<token min='0'>em</token>
+        <token>Acesso</token>
+        <token min='0'>em</token>
         <token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
-		<token min='0'>de</token>
-		<token regexp='yes' min='0'>&meses_ano;|&meses_ano_abrev;</token>
-		<example>Acesso em 15 jul 2022. Disponível em: www.seusiteaqui.com.br. Acesso em 15 jul 2022.</example>
+        <token min='0'>de</token>
+        <token regexp='yes' min='0'>&meses_ano;|&meses_ano_abrev;</token>
+        <example>Acesso em 15 jul 2022. Disponível em: www.seusiteaqui.com.br. Acesso em 15 jul 2022.</example>
       </antipattern>
-	  <antipattern>
-	    <token skip='-1'>Disponível</token>
+      <antipattern>
+        <token skip='-1'>Disponível</token>
         <token>Disponível</token>
-		<token>em</token>
+        <token>em</token>
         <token>:</token>
         <example>Disponível em: www.seuprimeirositeaqui.com.br. Disponível em: www.seusiteaqui.com.br</example>
       </antipattern>
@@ -37032,17 +37032,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp='yes'>&hifen;</token>
       </antipattern>
       <antipattern>
-	      <token regexp='yes' min='0' skip='-1'>°|º</token>
-          <token regexp="yes">\d</token>
-          <token regexp="yes">–|&hifen;</token>
-          <example>TC n°.1390218-0.</example>
-        </antipattern>
+        <token regexp='yes' min='0' skip='-1'>°|º</token>
+        <token regexp="yes">\d</token>
+        <token regexp="yes">–|&hifen;</token>
+        <example>TC n°.1390218-0.</example>
+      </antipattern>
       <antipattern>
-          <token regexp="yes">\d{5}</token>
-          <token regexp="yes">–|&hifen;</token>
-          <token regexp="yes">\d{1}</token>
-          <example>Conta-corrente 99999-9.</example>
-        </antipattern>
+        <token regexp="yes">\d{5}</token>
+        <token regexp="yes">–|&hifen;</token>
+        <token regexp="yes">\d{1}</token>
+        <example>Conta-corrente 99999-9.</example>
+      </antipattern>
       <antipattern><!-- markdown -->
         <token postag="SENT_START" />
         <token>-</token>
@@ -37108,7 +37108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <antipattern>
-		  <token min='0'>)</token>
+          <token min='0'>)</token>
           <token regexp="yes">\d{5}</token>
           <token regexp="yes">–|&hifen;</token>
           <token regexp="yes">\d{4}</token>
@@ -39772,77 +39772,77 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
     <!--          Style rules from English grammar.xml      - START-->
-<rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" tags="picky" default='on'>
-    <rule>
-      <pattern>
-        <token postag='SENT_START'/>
-        <marker>
-          <token>E</token>
-		  <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|&aspas;|\.|'|"</exception></token>
-	    </marker>
-      </pattern>
-      <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
-	  <suggestion><match no='3' case_conversion='startupper'/></suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
-      <short>Problema de estilo</short>
-      <example correction="Sim"><marker>E sim</marker>, isto mostra problemas de estilo ao começar a frase com 'e'.</example>
-      <example>Sim, mostra problemas de estilo começar a frase com 'e'.</example>
-      <example correction="Não"><marker>E não</marker> é bom costume começar a frase com 'mas'.</example>
-      <example>Não é um bom estilo de escrita começar uma frase com 'mas'.</example>
-    </rule>
-    <rule>
-      <pattern>
+    <rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" tags="picky" default='on'>
+      <rule>
+        <pattern>
           <token postag='SENT_START'/>
-        <marker>
-          <token regexp='yes'>Mas|Porém</token>
-          <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|&aspas;|\.|'|"</exception></token>
-	    </marker>
-      </pattern>
-	  <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
-	  <suggestion><match no='3' case_conversion='startupper'/></suggestion>
-	  <suggestion>No entanto,</suggestion>
-	  <suggestion>Contudo,</suggestion>
-	  <suggestion>Apesar disso,</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
-      <short>Problema de estilo</short>
-      <example correction="Não|No entanto,|Contudo,|Apesar disso,"><marker>Mas não</marker> é bom costume começar a frase com 'mas'.</example>
-    </rule>
-    <rule>
-      <pattern>
-	    <marker>
-          <token regexp='yes'>[\.\?\!\:]</token>
-          <token regexp='yes' spacebefore='yes' case_sensitive='yes'>Mas|Porém</token>
-	    </marker>
+          <marker>
+            <token>E</token>
+            <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|&aspas;|\.|'|"</exception></token>
+          </marker>
+        </pattern>
+        <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+        <suggestion><match no='3' case_conversion='startupper'/></suggestion>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
+        <short>Problema de estilo</short>
+        <example correction="Sim"><marker>E sim</marker>, isto mostra problemas de estilo ao começar a frase com 'e'.</example>
+        <example>Sim, mostra problemas de estilo começar a frase com 'e'.</example>
+        <example correction="Não"><marker>E não</marker> é bom costume começar a frase com 'mas'.</example>
+        <example>Não é um bom estilo de escrita começar uma frase com 'mas'.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag='SENT_START'/>
+          <marker>
+            <token regexp='yes'>Mas|Porém</token>
+            <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|&aspas;|\.|'|"</exception></token>
+          </marker>
+        </pattern>
+        <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+        <suggestion><match no='3' case_conversion='startupper'/></suggestion>
+        <suggestion>No entanto,</suggestion>
+        <suggestion>Contudo,</suggestion>
+        <suggestion>Apesar disso,</suggestion>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
+        <short>Problema de estilo</short>
+        <example correction="Não|No entanto,|Contudo,|Apesar disso,"><marker>Mas não</marker> é bom costume começar a frase com 'mas'.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp='yes'>[\.\?\!\:]</token>
+            <token regexp='yes' spacebefore='yes' case_sensitive='yes'>Mas|Porém</token>
+          </marker>
           <token></token>
-      </pattern>
-	  <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
-	  <suggestion>; <match no='2' case_conversion='alllower'/></suggestion>
-	  <suggestion>, <match no='2' case_conversion='alllower'/></suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
-      <short>Problema de estilo</short>
-      <example correction="; mas|, mas">Pausas são necessárias<marker>: Mas</marker> não é bom costume começar a frase com 'mas'.</example>
-      <example correction="; porém|, porém">Pausas são necessárias<marker>: Porém</marker> não é bom costume começar a frase com 'mas'.</example>
-    </rule>
-    <rule>
-      <antipattern>
+        </pattern>
+        <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+        <suggestion>; <match no='2' case_conversion='alllower'/></suggestion>
+        <suggestion>, <match no='2' case_conversion='alllower'/></suggestion>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
+        <short>Problema de estilo</short>
+        <example correction="; mas|, mas">Pausas são necessárias<marker>: Mas</marker> não é bom costume começar a frase com 'mas'.</example>
+        <example correction="; porém|, porém">Pausas são necessárias<marker>: Porém</marker> não é bom costume começar a frase com 'mas'.</example>
+      </rule>
+      <rule>
+        <antipattern>
           <token>ou</token>
           <token>seja</token>
-      </antipattern>
-      <pattern>
-	    <marker>
-          <token regexp='yes'>[\.\?\!\:]</token>
-          <token spacebefore='yes' case_sensitive='yes'>Ou</token>
-	    </marker>
-		  <token></token>
-      </pattern>
-	  <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
-	  <suggestion>; <match no='2' case_conversion='alllower'/></suggestion>
-	  <suggestion>, <match no='2' case_conversion='alllower'/></suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
-      <short>Problema de estilo</short>
-      <example correction="; ou|, ou">Pausas são necessárias<marker>: Ou</marker> não é bom costume começar a frase com 'ou'?</example>
-    </rule>
-</rulegroup>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp='yes'>[\.\?\!\:]</token>
+            <token spacebefore='yes' case_sensitive='yes'>Ou</token>
+          </marker>
+          <token></token>
+        </pattern>
+        <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
+        <suggestion>; <match no='2' case_conversion='alllower'/></suggestion>
+        <suggestion>, <match no='2' case_conversion='alllower'/></suggestion>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
+        <short>Problema de estilo</short>
+        <example correction="; ou|, ou">Pausas são necessárias<marker>: Ou</marker> não é bom costume começar a frase com 'ou'?</example>
+      </rule>
+    </rulegroup>
     <!--          Style rules from English grammar.xml      - END  -->
     <!--	      Style rules from Spanish grammar.xml    - START  -->
 
@@ -43311,7 +43311,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='VMN+' postag_regexp='yes'/>
         <example>Farei você pagar por isso.</example>
         <example>Farei-lhe pagar por isso.</example>
-		<example>Farei você se arrepender por isso.</example>
+        <example>Farei você se arrepender por isso.</example>
       </antipattern>
       <antipattern>
         <token case_sensitive='yes'>FI</token>
@@ -43338,40 +43338,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
       <antipattern>
         <token inflected='yes' min='0' skip='-1'>saber</token>
-	    <token>o</token>
-	    <token>que</token>
+        <token>o</token>
+        <token>que</token>
         <token inflected='yes'>fazer</token>
         <example>Não sei mais o que fazer.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
-	    <token regexp='yes'>as|a</token>
-	    <token regexp='yes'>mala|malas</token>
+        <token regexp='yes'>as|a</token>
+        <token regexp='yes'>mala|malas</token>
         <example>Já fiz as malas.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
-	    <token postag='D+' postag_regexp='yes' min='0'/>
-	    <token regexp='yes'>sopas?|chás?|receitas?|almoço?|jantar|jantares|café|ceia|bolos?
-</token>
+        <token postag='D+' postag_regexp='yes' min='0'/>
+        <token regexp='yes'>sopas?|chás?|receitas?|almoço?|jantar|jantares|café|ceia|bolos?
+        </token>
         <example>Gostaria de fazer um almoço na terça.</example>
       </antipattern>
       <antipattern>
         <token>Faria</token>
-	    <token>Lima</token>
+        <token>Lima</token>
         <example>Moro na Avenida Brigadeiro Faria Lima.</example>
       </antipattern>
       <antipattern>
         <token>modo</token>
-	    <token>de</token>
-		<token>fazer</token>
+        <token>de</token>
+        <token>fazer</token>
         <example>Modo de fazer: Misture os ingredientes secos.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
-	    <token regexp='yes' min='0'>toda|muita|bastante|grande</token>
-	    <token regexp='yes' min='0'>a</token>
-	    <token min='0'>diferença</token>
+        <token regexp='yes' min='0'>toda|muita|bastante|grande</token>
+        <token regexp='yes' min='0'>a</token>
+        <token min='0'>diferença</token>
         <example>Prestar atenção faz toda diferença.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *START* -->
@@ -43653,17 +43653,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!</example>
         <example>O que faz uma piada ser uma piada?</example>
       </rule>
-        <!--
-        Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
-        -->
+      <!--
+      Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
+      -->
       <rule>
-         <antipattern>
-            <token inflected='yes'>fazer</token>
-            <token regexp='yes'>um|algum</token>
-            <token inflected='yes'>dinheiro</token>
-            <example>Vou fazer algum dinheiro com a pesquisa.</example>
-         </antipattern>
-         <pattern>
+        <antipattern>
+          <token inflected='yes'>fazer</token>
+          <token regexp='yes'>um|algum</token>
+          <token inflected='yes'>dinheiro</token>
+          <example>Vou fazer algum dinheiro com a pesquisa.</example>
+        </antipattern>
+        <pattern>
           <marker>
             <token inflected='yes'>fazer</token>
           </marker>
@@ -44745,464 +44745,464 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- Created by Tiago F. Santos, Portuguese rule, 2019-08-12 -->
       <url>https://pt.wikipedia.org/wiki/Internet%C3%AAs</url>
       <short>'Internetês'</short>
-    <rule>
+      <rule>
         <antipattern>
-	       <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
-           <token>n</token>
-		<example>q = p + n</example>
-		<example>[n + 2 = z]</example>
+          <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+          <token>n</token>
+          <example>q = p + n</example>
+          <example>[n + 2 = z]</example>
         </antipattern>
         <antipattern>
           <token>n</token>
           <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
-	    <example>n = q + r</example>
-	    <example>[a + b = n].</example>
+          <example>n = q + r</example>
+          <example>[a + b = n].</example>
         </antipattern>
         <antipattern>
-	      <token>valor</token>
-	      <token min='0'>de</token>
+          <token>valor</token>
+          <token min='0'>de</token>
           <token>n</token>
-		<example>Encontre o valor de n.</example>
+          <example>Encontre o valor de n.</example>
         </antipattern>
         <antipattern>
-           <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'</token>
-           <token>n</token>
-           <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'</token>
-		<example>Neste caso "n" representa o número.</example>
-		<example>Encontre o valor de [n].</example>
+          <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'</token>
+          <token>n</token>
+          <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'</token>
+          <example>Neste caso "n" representa o número.</example>
+          <example>Encontre o valor de [n].</example>
         </antipattern>
         <pattern>
-           <token regexp='yes'>n|ñ|naum<exception case_sensitive='yes'>N</exception></token>
+          <token regexp='yes'>n|ñ|naum<exception case_sensitive='yes'>N</exception></token>
         </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion>não</suggestion> por extenso. Se quis dizer "n", coloque entre aspas.</message>
-          <suggestion>"n"</suggestion>
-		<example correction='não|"n"'>Ele <marker>n</marker> me mandou mensagem ontem.</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Considere escrever <suggestion>não</suggestion> por extenso. Se quis dizer "n", coloque entre aspas.</message>
+        <suggestion>"n"</suggestion>
+        <example correction='não|"n"'>Ele <marker>n</marker> me mandou mensagem ontem.</example>
+      </rule>
+      <rule>
         <antipattern>
-	       <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
-	       <token>q</token>
-		 <example>n = p + q</example>
-		 <example>[q + 2 = z]</example>
+          <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+          <token>q</token>
+          <example>n = p + q</example>
+          <example>[q + 2 = z]</example>
         </antipattern>
         <antipattern>
-	       <token>q</token>
-	       <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
-		 <example>q = n + r</example>
-		 <example>[n + 2 = q]</example>
+          <token>q</token>
+          <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+          <example>q = n + r</example>
+          <example>[n + 2 = q]</example>
         </antipattern>
         <antipattern>
-	       <token>valor</token>
-	       <token>de</token>
-	       <token>q</token>
-		 <example>Encontre o valor de q.</example>
+          <token>valor</token>
+          <token>de</token>
+          <token>q</token>
+          <example>Encontre o valor de q.</example>
         </antipattern>
         <antipattern>
-           <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'|[\(\)\[\]\{\}]</token>
-	       <token>q</token>
-           <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'|[\(\)\[\]\{\}]</token>
-		<example>Neste caso "q" representa a quota.</example>
-		<example>Encontre o valor de [q]</example>
+          <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'|[\(\)\[\]\{\}]</token>
+          <token>q</token>
+          <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'|[\(\)\[\]\{\}]</token>
+          <example>Neste caso "q" representa a quota.</example>
+          <example>Encontre o valor de [q]</example>
         </antipattern>
         <pattern>
-           <token case_sensitive='yes'>q</token>
+          <token case_sensitive='yes'>q</token>
         </pattern>
         <message>Se for linguagem de Internet, considere escrever <suggestion>que</suggestion> por extenso. Se quis dizer "q", coloque entre aspas.</message>
-		<suggestion>"q"</suggestion>
-		<example correction='que|"q"'>Ele <marker>q</marker> me mandou mensagem ontem.</example>
-    </rule>
-    <rule>
+        <suggestion>"q"</suggestion>
+        <example correction='que|"q"'>Ele <marker>q</marker> me mandou mensagem ontem.</example>
+      </rule>
+      <rule>
         <antipattern>
-	       <token>/</token>
-           <token>p</token>
-           <token>/</token>
-	    <example>Calcule o valor de /p/ de acordo com a equação.</example>
+          <token>/</token>
+          <token>p</token>
+          <token>/</token>
+          <example>Calcule o valor de /p/ de acordo com a equação.</example>
         </antipattern>
         <antipattern>
-           <token>p</token>
-           <token>/</token>
-           <token regexp='yes'>[a-z]</token>
-	    <example>A redução de 30 p/s para 7,5 p/s resulta em uma economia de dose de 75%.</example>
+          <token>p</token>
+          <token>/</token>
+          <token regexp='yes'>[a-z]</token>
+          <example>A redução de 30 p/s para 7,5 p/s resulta em uma economia de dose de 75%.</example>
         </antipattern>
         <antipattern>
-           <token>p</token>
-           <token>/</token>
-           <token>mil</token>
-	    <example>Mortalidade infantil: 27,4 p/mil.</example>
+          <token>p</token>
+          <token>/</token>
+          <token>mil</token>
+          <example>Mortalidade infantil: 27,4 p/mil.</example>
         </antipattern>
         <antipattern>
-           <token>p</token>
-           <token>/</token>
-           <token>b</token>
-	    <example>A foto deve ser p/b.</example>
+          <token>p</token>
+          <token>/</token>
+          <token>b</token>
+          <example>A foto deve ser p/b.</example>
         </antipattern>
         <pattern>
-           <token>p<exception case_sensitive='yes'>P</exception></token>
-           <token>/</token>
+          <token>p<exception case_sensitive='yes'>P</exception></token>
+          <token>/</token>
         </pattern>
-         <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
-         <suggestion>"p"</suggestion>
-		<example correction='para|por|pela|"p"'>A ação foi <marker>p/</marker> aumentar os lucros.</example>
-    </rule>
-    <rule>
+        <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
+        <suggestion>"p"</suggestion>
+        <example correction='para|por|pela|"p"'>A ação foi <marker>p/</marker> aumentar os lucros.</example>
+      </rule>
+      <rule>
         <antipattern>
-           <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
-           <token>p</token>
-		<example>p = n + q</example>
-		<example>[p + 2 = z]</example>
+          <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+          <token>p</token>
+          <example>p = n + q</example>
+          <example>[p + 2 = z]</example>
         </antipattern>
         <antipattern>
-           <token>p</token>
-           <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
-		<example>p = n + r</example>
-		<example>[n + 2 = p]</example>
+          <token>p</token>
+          <token regexp='yes'>\d+|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+          <example>p = n + r</example>
+          <example>[n + 2 = p]</example>
         </antipattern>
         <antipattern>
-           <token>valor</token>
-           <token>de</token>
-           <token>p</token>
-		<example>Encontre o valor de p.</example>
+          <token>valor</token>
+          <token>de</token>
+          <token>p</token>
+          <example>Encontre o valor de p.</example>
         </antipattern>
         <antipattern>
-           <token regexp="yes">&aspas;|"|'|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
-           <token>p</token>
-           <token regexp="yes">&aspas;|"|'|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
-		<example>Neste caso "p" representa a porcentagem.</example>
-		<example>Encontre o valor de [p]</example>
+          <token regexp="yes">&aspas;|"|'|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+          <token>p</token>
+          <token regexp="yes">&aspas;|"|'|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+          <example>Neste caso "p" representa a porcentagem.</example>
+          <example>Encontre o valor de [p]</example>
         </antipattern>
         <pattern>
-           <token case_sensitive='yes'>p</token>
+          <token case_sensitive='yes'>p</token>
         </pattern>
-         <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
-         <suggestion>"p"</suggestion>
-		<example correction='para|por|pela|"p"'>A ação foi <marker>p</marker> aumentar os lucros.</example>
-    </rule>
-    <rule>
-    <antipattern>
-           <token regexp="yes">&aspas;|\"|\'</token>
-	       <token regexp='yes'>lol|lmao|kk+|rotfl</token>
-           <token regexp="yes">&aspas;|\"|\'</token>
-		<example>Cada vez mais jovens utilizam "lol" para expressar risos.</example>
-        </antipattern>
-         <pattern>
-	       <token regexp='yes'>lol|lmao|kk+|rotfl</token>
-        </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion>haha</suggestion> por extenso ou <suggestion>APAGAR</suggestion>.</message>
-         <example correction="haha|APAGAR">Haverá reunião aos sábados <marker>kkk</marker>.</example>
-    </rule>
-    <rule>
-    <antipattern>
-           <token regexp="yes">&aspas;|\"|\'</token>
-           <token>omg</token>
-           <token regexp="yes">&aspas;|\"|\'</token>
-		<example>Cada vez mais jovens utilizam "omg" em suas conversas.</example>
+        <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
+        <suggestion>"p"</suggestion>
+        <example correction='para|por|pela|"p"'>A ação foi <marker>p</marker> aumentar os lucros.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes">&aspas;|\"|\'</token>
+          <token regexp='yes'>lol|lmao|kk+|rotfl</token>
+          <token regexp="yes">&aspas;|\"|\'</token>
+          <example>Cada vez mais jovens utilizam "lol" para expressar risos.</example>
         </antipattern>
         <pattern>
-	      <marker>
-	       <token>omg</token>
-	      </marker>
-		   <token postag='_PUNCT' min='0'/>
+          <token regexp='yes'>lol|lmao|kk+|rotfl</token>
         </pattern>
-          <message>Linguagem de Internet. Considere as alternativas.</message>
-          <suggestion><match no='1' regexp_match="omg" regexp_replace="minha nossa" case_conversion='preserve'/></suggestion>
-          <suggestion><match no='1' regexp_match="omg" regexp_replace="meu Deus" case_conversion='preserve'/></suggestion>
-          <suggestion><match no='1' regexp_match="omg" regexp_replace="não acredito" case_conversion='preserve'/></suggestion>
-          <suggestion><match no='1' regexp_match="omg" regexp_replace="nossa" case_conversion='preserve'/></suggestion>
-         <example correction="minha nossa|meu Deus|não acredito|nossa">Que novidade, <marker>omg</marker>!</example>
-    </rule>
-    <rule>
-       <antipattern>
-           <token regexp="yes">&aspas;|\"|\'</token>
-           <token>wtf</token>
-           <token regexp="yes">&aspas;|\"|\'</token>
-		<example>Cada vez mais jovens utilizam "wtf" em suas conversas.</example>
+        <message>Linguagem de Internet. Considere escrever <suggestion>haha</suggestion> por extenso ou <suggestion>APAGAR</suggestion>.</message>
+        <example correction="haha|APAGAR">Haverá reunião aos sábados <marker>kkk</marker>.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes">&aspas;|\"|\'</token>
+          <token>omg</token>
+          <token regexp="yes">&aspas;|\"|\'</token>
+          <example>Cada vez mais jovens utilizam "omg" em suas conversas.</example>
         </antipattern>
         <pattern>
           <marker>
-	       <token>wtf</token>
-	      </marker>
-		   <token postag='_PUNCT' min='0'/>
+            <token>omg</token>
+          </marker>
+          <token postag='_PUNCT' min='0'/>
         </pattern>
-          <message>Linguagem de Internet. Considere as alternativas.</message>
-          <suggestion>como assim</suggestion>
-          <suggestion>que diabos</suggestion>
-          <suggestion>não faz sentido</suggestion>
-          <suggestion>sem noção</suggestion>
-          <suggestion>não entendo</suggestion>
-          <suggestion>o que é isso</suggestion>
-         <example correction="como assim|que diabos|não faz sentido|sem noção|não entendo|o que é isso">É inacreditável, <marker>wtf</marker>!</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Considere as alternativas.</message>
+        <suggestion><match no='1' regexp_match="omg" regexp_replace="minha nossa" case_conversion='preserve'/></suggestion>
+        <suggestion><match no='1' regexp_match="omg" regexp_replace="meu Deus" case_conversion='preserve'/></suggestion>
+        <suggestion><match no='1' regexp_match="omg" regexp_replace="não acredito" case_conversion='preserve'/></suggestion>
+        <suggestion><match no='1' regexp_match="omg" regexp_replace="nossa" case_conversion='preserve'/></suggestion>
+        <example correction="minha nossa|meu Deus|não acredito|nossa">Que novidade, <marker>omg</marker>!</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes">&aspas;|\"|\'</token>
+          <token>wtf</token>
+          <token regexp="yes">&aspas;|\"|\'</token>
+          <example>Cada vez mais jovens utilizam "wtf" em suas conversas.</example>
+        </antipattern>
         <pattern>
-           <token>vc</token>
+          <marker>
+            <token>wtf</token>
+          </marker>
+          <token postag='_PUNCT' min='0'/>
         </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="c" regexp_replace="ocê" case_conversion='preserve'/></suggestion> por extenso.</message>
-         <example correction="você">Eu falei com <marker>vc</marker> ontem.</example>
-	     <example correction="Você"><marker>Vc</marker> vai cuidar do projeto?</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Considere as alternativas.</message>
+        <suggestion>como assim</suggestion>
+        <suggestion>que diabos</suggestion>
+        <suggestion>não faz sentido</suggestion>
+        <suggestion>sem noção</suggestion>
+        <suggestion>não entendo</suggestion>
+        <suggestion>o que é isso</suggestion>
+        <example correction="como assim|que diabos|não faz sentido|sem noção|não entendo|o que é isso">É inacreditável, <marker>wtf</marker>!</example>
+      </rule>
+      <rule>
         <pattern>
-           <token>qm</token>
+          <token>vc</token>
         </pattern>
-           <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="m" regexp_replace="uem" case_conversion='preserve'/></suggestion> por extenso.</message>
-          <example correction="Quem"><marker>Qm</marker> vai à conferência?</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="c" regexp_replace="ocê" case_conversion='preserve'/></suggestion> por extenso.</message>
+        <example correction="você">Eu falei com <marker>vc</marker> ontem.</example>
+        <example correction="Você"><marker>Vc</marker> vai cuidar do projeto?</example>
+      </rule>
+      <rule>
         <pattern>
-           <token>hj</token>
+          <token>qm</token>
         </pattern>
-           <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="j" regexp_replace="oje" case_conversion='preserve'/></suggestion> por extenso.</message>
-          <example correction="hoje">Vou à reunião <marker>hj</marker>.</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="m" regexp_replace="uem" case_conversion='preserve'/></suggestion> por extenso.</message>
+        <example correction="Quem"><marker>Qm</marker> vai à conferência?</example>
+      </rule>
+      <rule>
         <pattern>
-           <token>blz</token>
+          <token>hj</token>
         </pattern>
-           <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="lz" regexp_replace="eleza" case_conversion='preserve'/></suggestion> por extenso.</message>
-          <example correction="beleza">Então <marker>blz</marker>, finalizo amanhã.</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="j" regexp_replace="oje" case_conversion='preserve'/></suggestion> por extenso.</message>
+        <example correction="hoje">Vou à reunião <marker>hj</marker>.</example>
+      </rule>
+      <rule>
         <pattern>
-           <token regexp='yes' case_sensitive='yes'>qnd|qd</token>
+          <token>blz</token>
         </pattern>
-         <message>Se for linguagem de Internet, considere escrever <suggestion>quando</suggestion> por extenso.</message>
+        <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="lz" regexp_replace="eleza" case_conversion='preserve'/></suggestion> por extenso.</message>
+        <example correction="beleza">Então <marker>blz</marker>, finalizo amanhã.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp='yes' case_sensitive='yes'>qnd|qd</token>
+        </pattern>
+        <message>Se for linguagem de Internet, considere escrever <suggestion>quando</suggestion> por extenso.</message>
         <example correction="quando">Queria saber <marker>qnd</marker> vai ser o evento.</example>
-    </rule>
-    <rule>
-	    <antipattern>
-           <token>qt</token>
-           <token regexp='yes'>\d+|&operadores_matematicos;</token>
-		  <example>qt = 16</example>
-        </antipattern>
-        <pattern>
-           <token regexp='yes' case_sensitive='yes'>qnt|qt</token>
-        </pattern>
-           <message>Se for linguagem de Internet, considere escrever <suggestion>quanto</suggestion> ou <suggestion>quantidade</suggestion> por extenso.</message>
-          <example correction="quanto|quantidade">Sabe dizer <marker>qnt</marker> está o lanche?</example>
-    </rule>
-    <rule>
-        <pattern>
-           <token regexp='yes'>qnts|qts</token>
-        </pattern>
-           <message>Se for linguagem de Internet, considere escrever <suggestion>quantos</suggestion> ou <suggestion>quantidades</suggestion> por extenso.</message>
-          <example correction="quantos|quantidades">Sabe dizer <marker>qnts</marker> pessoas virão?</example>
-    </rule>
-    <rule>
-        <pattern>
-	       <token regexp='yes'>bj|bjo</token>
-	    </pattern>
-           <message>Linguagem de Internet. Considere escrever <suggestion>beijo</suggestion> por extenso.</message>         <example correction="beijo">Obrigada, <marker>bjo</marker>.</example>
-         <example correction="Beijo">Até mais. <marker>Bj</marker>.</example>
-    </rule>
-    <rule>
+      </rule>
+      <rule>
         <antipattern>
-           <token case_sensitive='yes'>BJ</token>
-           <token case_sensitive='yes'>Penn</token>
+          <token>qt</token>
+          <token regexp='yes'>\d+|&operadores_matematicos;</token>
+          <example>qt = 16</example>
         </antipattern>
         <pattern>
-	       <token regexp='yes'>bjs|bjos</token>
-	    </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion>beijos</suggestion> por extenso.</message>
-         <example correction="beijos">Obrigada, <marker>bjos</marker>.</example>
-         <example correction="Beijos">Até mais. <marker>Bjs</marker>.</example>
-    </rule>
-    <rule>
+          <token regexp='yes' case_sensitive='yes'>qnt|qt</token>
+        </pattern>
+        <message>Se for linguagem de Internet, considere escrever <suggestion>quanto</suggestion> ou <suggestion>quantidade</suggestion> por extenso.</message>
+        <example correction="quanto|quantidade">Sabe dizer <marker>qnt</marker> está o lanche?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp='yes'>qnts|qts</token>
+        </pattern>
+        <message>Se for linguagem de Internet, considere escrever <suggestion>quantos</suggestion> ou <suggestion>quantidades</suggestion> por extenso.</message>
+        <example correction="quantos|quantidades">Sabe dizer <marker>qnts</marker> pessoas virão?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp='yes'>bj|bjo</token>
+        </pattern>
+        <message>Linguagem de Internet. Considere escrever <suggestion>beijo</suggestion> por extenso.</message>         <example correction="beijo">Obrigada, <marker>bjo</marker>.</example>
+        <example correction="Beijo">Até mais. <marker>Bj</marker>.</example>
+      </rule>
+      <rule>
         <antipattern>
-           <token case_sensitive='yes'>ABS</token>
+          <token case_sensitive='yes'>BJ</token>
+          <token case_sensitive='yes'>Penn</token>
         </antipattern>
         <pattern>
-	       <token>abs</token>
+          <token regexp='yes'>bjs|bjos</token>
         </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion>abraços</suggestion> por extenso. Se for uma sigla, utilize <suggestion>ABS</suggestion> em letras maiúsculas.</message>
-         <example correction="abraços|ABS">Grato, <marker>abs</marker>.</example>
-	     <example correction="Abraços|ABS"><marker>Abs</marker>.</example>
-    </rule>
-    <rule>
-    <antipattern>
-           <token postag='Z.+|DA.+' postag_regexp='yes'/>
-	       <token case_sensitive='yes'>TB</token>
-	       <example>Armazenamento de 1 TB de rotação.</example>
-	       <example>O TB não ia dar esse mole.</example>
-        </antipattern>
+        <message>Linguagem de Internet. Considere escrever <suggestion>beijos</suggestion> por extenso.</message>
+        <example correction="beijos">Obrigada, <marker>bjos</marker>.</example>
+        <example correction="Beijos">Até mais. <marker>Bjs</marker>.</example>
+      </rule>
+      <rule>
         <antipattern>
-           <token>
-             <exception postag='SENT_START'/>
-           </token>
-	       <token case_sensitive='yes'>Tb</token>
-	       <example>O térbio é um elemento químico de símbolo Tb.</example>
+          <token case_sensitive='yes'>ABS</token>
         </antipattern>
-         <pattern>
-	       <token regexp='yes'>tb|tbm</token>
+        <pattern>
+          <token>abs</token>
         </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion>também</suggestion> por extenso.</message>
-         <example correction="também">Eu <marker>tbm</marker>.</example>
-         <example correction="Também"><marker>Tb</marker> quero viajar.</example>
-	     <example correction="também">O departamento financeiro <marker>tb</marker> vai participar.</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Considere escrever <suggestion>abraços</suggestion> por extenso. Se for uma sigla, utilize <suggestion>ABS</suggestion> em letras maiúsculas.</message>
+        <example correction="abraços|ABS">Grato, <marker>abs</marker>.</example>
+        <example correction="Abraços|ABS"><marker>Abs</marker>.</example>
+      </rule>
+      <rule>
         <antipattern>
-	       <token regexp='yes'>o|um|algum|nenhum|esse|desse|este|deste|neste|nesse|aquele|daquele|do</token>
-	       <token>pq</token>
-	       <token regexp='yes'>[\.\?!;]</token>
-		 <example>Quero saber o pq.</example>
-		 <example>Isso não tem algum pq.</example>
-		 <example>Isso tem algum pq?</example>
+          <token postag='Z.+|DA.+' postag_regexp='yes'/>
+          <token case_sensitive='yes'>TB</token>
+          <example>Armazenamento de 1 TB de rotação.</example>
+          <example>O TB não ia dar esse mole.</example>
         </antipattern>
         <antipattern>
-           <token postag_regexp='yes' postag='NP.+'/>
-           <token case_sensitive='yes'>Pq</token>
-	       <token>.</token>
-		 <example>Yoshi Pq.</example>
-		 <example>Mário Pq.</example>
+          <token>
+            <exception postag='SENT_START'/>
+          </token>
+          <token case_sensitive='yes'>Tb</token>
+          <example>O térbio é um elemento químico de símbolo Tb.</example>
         </antipattern>
         <pattern>
-	       <token>pq</token>
-	       <token regexp='yes'>[\.\?!;]</token>
+          <token regexp='yes'>tb|tbm</token>
         </pattern>
-          <message>Linguagem de Internet. "Por quê" é utilizado no final de frases. Considere escrever <suggestion><match no='1' regexp_match="q" regexp_replace="or quê" case_conversion='preserve'/></suggestion> por extenso.</message>
-	     <example correction="por quê">Quero saber <marker>pq.</marker></example>
-	     <example correction="por quê">E tudo isso <marker>pq?</marker></example>
-	     <example correction="Por quê">Eu não posso ir. <marker>Pq?</marker></example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Considere escrever <suggestion>também</suggestion> por extenso.</message>
+        <example correction="também">Eu <marker>tbm</marker>.</example>
+        <example correction="Também"><marker>Tb</marker> quero viajar.</example>
+        <example correction="também">O departamento financeiro <marker>tb</marker> vai participar.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp='yes'>o|um|algum|nenhum|esse|desse|este|deste|neste|nesse|aquele|daquele|do</token>
+          <token>pq</token>
+          <token regexp='yes'>[\.\?!;]</token>
+          <example>Quero saber o pq.</example>
+          <example>Isso não tem algum pq.</example>
+          <example>Isso tem algum pq?</example>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='NP.+'/>
+          <token case_sensitive='yes'>Pq</token>
+          <token>.</token>
+          <example>Yoshi Pq.</example>
+          <example>Mário Pq.</example>
+        </antipattern>
         <pattern>
-	       <token regexp='yes'>o|os|um|uns|algum|alguns|nenhum|nenhuns|esse|esses|desse|desses|este|estes|deste|destes|neste|nestes|nesse|nesses|aquele|aqueles|daquele|daqueles|do|dos</token>
-         <marker><token regexp='yes'>pq|pqs</token></marker>
-        <token regexp='yes'>&pronomes_contracao;</token>
+          <token>pq</token>
+          <token regexp='yes'>[\.\?!;]</token>
         </pattern>
-         <message>Linguagem de Internet; escreva por extenso. A forma <suggestion><match no='2' regexp_match="q" regexp_replace="orquê" case_conversion='preserve'/></suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
+        <message>Linguagem de Internet. "Por quê" é utilizado no final de frases. Considere escrever <suggestion><match no='1' regexp_match="q" regexp_replace="or quê" case_conversion='preserve'/></suggestion> por extenso.</message>
+        <example correction="por quê">Quero saber <marker>pq.</marker></example>
+        <example correction="por quê">E tudo isso <marker>pq?</marker></example>
+        <example correction="Por quê">Eu não posso ir. <marker>Pq?</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp='yes'>o|os|um|uns|algum|alguns|nenhum|nenhuns|esse|esses|desse|desses|este|estes|deste|destes|neste|nestes|nesse|nesses|aquele|aqueles|daquele|daqueles|do|dos</token>
+          <marker><token regexp='yes'>pq|pqs</token></marker>
+          <token regexp='yes'>&pronomes_contracao;</token>
+        </pattern>
+        <message>Linguagem de Internet; escreva por extenso. A forma <suggestion><match no='2' regexp_match="q" regexp_replace="orquê" case_conversion='preserve'/></suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
         <example correction="porquê">Tem algum <marker>pq</marker> nisso tudo?</example>
-    </rule>
-    <rule>
+      </rule>
+      <rule>
         <pattern>
           <marker><token>pq</token></marker>
-	       <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
+          <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
         </pattern>
-		  <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "(a razão/o motivo) pelo(a) qual", deve utilizar <suggestion><match no='1' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
-		  <example correction="por que">Não sei <marker>pq</marker> motivo o plano não funcionou.</example>
-		  <example correction="por que">Gostaria de saber <marker>pq</marker> razões recusou o convite.</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "(a razão/o motivo) pelo(a) qual", deve utilizar <suggestion><match no='1' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
+        <example correction="por que">Não sei <marker>pq</marker> motivo o plano não funcionou.</example>
+        <example correction="por que">Gostaria de saber <marker>pq</marker> razões recusou o convite.</example>
+      </rule>
+      <rule>
         <pattern>
-	       <token regexp='yes'>o|as|os|a|,</token>
-	       <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
+          <token regexp='yes'>o|as|os|a|,</token>
+          <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
           <marker><token>pq</token></marker>
         </pattern>
-		  <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "a razão/o motivo) pelo(a) qual", deve utilizar <suggestion><match no='3' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
-          <example correction="por que">Não sei o motivo <marker>pq</marker> o plano não funcionou.</example>
-		  <example correction="por que">Gostaria de saber as razões <marker>pq</marker> recusou o convite.</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "a razão/o motivo) pelo(a) qual", deve utilizar <suggestion><match no='3' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
+        <example correction="por que">Não sei o motivo <marker>pq</marker> o plano não funcionou.</example>
+        <example correction="por que">Gostaria de saber as razões <marker>pq</marker> recusou o convite.</example>
+      </rule>
+      <rule>
         <antipattern>
-	       <token>pq</token>
-           <token>?</token>
-           <example>Pq?</example>
-        </antipattern>
-        <pattern>
-           <token postag='_PUNCT'/>
-         <marker>
-           <token skip='-1'>pq</token>
-         </marker>
-	       <token>?</token>
-        </pattern>
-           <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion> por extenso.</message>
-		  <example correction="por que">Se não houve erro algum, <marker>pq</marker> não entregou o documento?</example>
-		  <example correction="por que">E faria tudo isso de novo, <marker>pq</marker> não?</example>
-		  <example correction="por que">O relatório foi entregue; <marker>pq</marker> não houve mudanças?</example>
-    </rule>
-    <rule>
-        <antipattern>
-	       <token>pq</token>
-           <token>?</token>
+          <token>pq</token>
+          <token>?</token>
           <example>Pq?</example>
         </antipattern>
         <pattern>
-	       <token postag='SENT_START'/>
-         <marker>
-           <token skip='-1'>pq</token>
-         </marker>
-	       <token>?</token>
+          <token postag='_PUNCT'/>
+          <marker>
+            <token skip='-1'>pq</token>
+          </marker>
+          <token>?</token>
         </pattern>
-           <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion> por extenso.</message>
-		  <example correction="Por que"><marker>Pq</marker> não entregou o documento?</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion> por extenso.</message>
+        <example correction="por que">Se não houve erro algum, <marker>pq</marker> não entregou o documento?</example>
+        <example correction="por que">E faria tudo isso de novo, <marker>pq</marker> não?</example>
+        <example correction="por que">O relatório foi entregue; <marker>pq</marker> não houve mudanças?</example>
+      </rule>
+      <rule>
         <antipattern>
-           <token>pq</token>
-           <token postag='_PUNCT'/>
+          <token>pq</token>
+          <token>?</token>
+          <example>Pq?</example>
+        </antipattern>
+        <pattern>
+          <token postag='SENT_START'/>
+          <marker>
+            <token skip='-1'>pq</token>
+          </marker>
+          <token>?</token>
+        </pattern>
+        <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion> por extenso.</message>
+        <example correction="Por que"><marker>Pq</marker> não entregou o documento?</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>pq</token>
+          <token postag='_PUNCT'/>
           <example>Ele não veio e eu nem sei pq.</example>
         </antipattern>
         <antipattern>
-	       <token>,</token>
-	     <marker>
-           <token skip='-1'>pq</token>
-         </marker>
-           <token>?</token>
+          <token>,</token>
+          <marker>
+            <token skip='-1'>pq</token>
+          </marker>
+          <token>?</token>
           <example>Ele não veio, pq?</example>
         </antipattern>
         <pattern>
-	       <token>,</token>
-	     <marker>
-           <token skip='-1'>pq</token>
-         </marker>
-           <token postag='_PUNCT'/>
+          <token>,</token>
+          <marker>
+            <token skip='-1'>pq</token>
+          </marker>
+          <token postag='_PUNCT'/>
         </pattern>
-           <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="orque" case_conversion='preserve'/></suggestion> por extenso.</message>
-		  <example correction="porque">Ele não se importou, <marker>pq</marker> acabou voltando.</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="orque" case_conversion='preserve'/></suggestion> por extenso.</message>
+        <example correction="porque">Ele não se importou, <marker>pq</marker> acabou voltando.</example>
+      </rule>
+      <rule>
         <antipattern>
-	       <token postag='SENT_START'/>
-	     <marker>
-           <token skip='-1'>pq</token>
-         </marker>
-           <token>?</token>
+          <token postag='SENT_START'/>
+          <marker>
+            <token skip='-1'>pq</token>
+          </marker>
+          <token>?</token>
           <example>Pq ele não veio?</example>
         </antipattern>
         <pattern>
-	       <token postag='SENT_START'/>
-	     <marker>
-           <token skip='-1'>pq</token>
-         </marker>
-           <token postag='_PUNCT'/>
+          <token postag='SENT_START'/>
+          <marker>
+            <token skip='-1'>pq</token>
+          </marker>
+          <token postag='_PUNCT'/>
         </pattern>
-           <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="orque" case_conversion='preserve'/></suggestion> por extenso. Se for uma pergunta, utilize <suggestion><match no='2' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
-		  <example correction="Porque|Por que"><marker>Pq</marker> ele não quis.</example>
-    </rule>
-    <rule>
+        <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="orque" case_conversion='preserve'/></suggestion> por extenso. Se for uma pergunta, utilize <suggestion><match no='2' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
+        <example correction="Porque|Por que"><marker>Pq</marker> ele não quis.</example>
+      </rule>
+      <rule>
         <antipattern>
-           <token regexp='yes'>o|os|um|uns|algum|alguns|nenhum|nenhuns|esse|esses|desse|desses|este|estes|deste|destes|neste|nestes|nesse|nesses|aquele|aqueles|daquele|daqueles|do|dos</token>
-         <marker><token regexp='yes'>pq|pqs</token></marker>
-        <token regexp='yes'>&pronomes_contracao;</token>
+          <token regexp='yes'>o|os|um|uns|algum|alguns|nenhum|nenhuns|esse|esses|desse|desses|este|estes|deste|destes|neste|nestes|nesse|nesses|aquele|aqueles|daquele|daqueles|do|dos</token>
+          <marker><token regexp='yes'>pq|pqs</token></marker>
+          <token regexp='yes'>&pronomes_contracao;</token>
         </antipattern>
         <antipattern>
-	  	   <token regexp='yes'>o|um|algum|nenhum|esse|desse|este|deste|neste|nesse|aquele|daquele|do</token>
-           <token>pq</token>
-		   <example>Quero saber o pq.</example>
-		   <example>Isso não tem algum pq.</example>
+          <token regexp='yes'>o|um|algum|nenhum|esse|desse|este|deste|neste|nesse|aquele|daquele|do</token>
+          <token>pq</token>
+          <example>Quero saber o pq.</example>
+          <example>Isso não tem algum pq.</example>
         </antipattern>
         <antipattern>
-           <token>pq</token>
-           <token postag='_PUNCT'/>
-		   <example>Isso não tem pq.</example>
-		   <example>Sabe dizer pq?</example>
+          <token>pq</token>
+          <token postag='_PUNCT'/>
+          <example>Isso não tem pq.</example>
+          <example>Sabe dizer pq?</example>
         </antipattern>
         <antipattern>
-           <token postag='SENT_START'/>
-         <marker>
-           <token skip='-1'>pq</token>
-         </marker>
-	       <token>?</token>
-        <example>Pq ele não veio?</example>
+          <token postag='SENT_START'/>
+          <marker>
+            <token skip='-1'>pq</token>
+          </marker>
+          <token>?</token>
+          <example>Pq ele não veio?</example>
         </antipattern>
         <pattern>
-	       <token>pq</token>
+          <token>pq</token>
         </pattern>
-             <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion><match no='1' regexp_match="q" regexp_replace="orque" case_conversion='preserve'/></suggestion> por extenso. Se for o início de uma pergunta ou se puder substituir por "a razão/o motivo) pelo(a) qual", utilize <suggestion><match no='1' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
-		   <example correction="porque|por que">Queria apenas entender <marker>pq</marker> não ligaram de volta.</example>
-		   <example correction="porque|por que">Teve que fazer o diagnóstico <marker>pq</marker> não havia mais ninguém na sala.</example>
-    </rule>
-</rulegroup>
+        <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion><match no='1' regexp_match="q" regexp_replace="orque" case_conversion='preserve'/></suggestion> por extenso. Se for o início de uma pergunta ou se puder substituir por "a razão/o motivo) pelo(a) qual", utilize <suggestion><match no='1' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
+        <example correction="porque|por que">Queria apenas entender <marker>pq</marker> não ligaram de volta.</example>
+        <example correction="porque|por que">Teve que fazer o diagnóstico <marker>pq</marker> não havia mais ninguém na sala.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="AU" name="Erro ortográfico: au/Au [unidade astronómica/ouro]">
       <!-- Localized from English grammar by Tiago F. Santos, 12-08-2019 -->
