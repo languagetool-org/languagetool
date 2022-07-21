@@ -52,12 +52,12 @@ class LanguageDetectionMinLengthEval {
     File fastTextBin = new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext");
     File fastTextModel = new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin");
 //    Daniel's paths:
+//    File ngrams = new File("/home/languagetool/model_ml50_new.zip");
 //    File fastTextBin = new File("/home/languagetool/fasttext/fasttext");
-//    File fastTextBin = new File("/home/languagetool/fasttext/lid.176.bin");
+//    File fastTextModel = new File("/home/languagetool/fasttext/lid.176.bin");
     languageIdentifier = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(0, ngrams, fastTextBin, fastTextModel);
 //    languageIdentifier = LanguageIdentifierFactory.INSTANCE.getLocalLanguageIdentifier(Arrays.asList("de-DE", "en-US"));
 //    languageIdentifier = LanguageIdentifierFactory.INSTANCE.getLocalLanguageIdentifier(null);
-
   }
 
   private float evaluate(Language language) throws IOException {
