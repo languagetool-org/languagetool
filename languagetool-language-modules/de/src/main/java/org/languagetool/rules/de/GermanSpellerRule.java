@@ -1169,6 +1169,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("liebs", w -> Arrays.asList("liebe es", "liebes", "liebe"));
     put("as", w -> Arrays.asList("aß", "das", "als"));
     put("bekommste", w -> Arrays.asList("bekommst du", "bekommst"));
+    put("under", w -> Arrays.asList("unser", "unter"));
+    put("dis", w -> Arrays.asList("die", "dies"));
+    put("veil", w -> Arrays.asList("viel", "weil", "teil"));
+    put("mak", w -> Arrays.asList("mag", "mak", "lag"));
+    put("Wiso", "Wieso");
+    put("angefordet", "angefordert");
+    put("onlein", "online");
+    put("Studen", "Stunden");
     put("weils", "weil es");
     put("unterscheid", "Unterschied");
     put("mags", "mag es");
@@ -2712,6 +2720,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Schwupps": return topMatch("Schwups");
       case "Massnahme": return topMatch("Maßnahme");
       case "Massnahmen": return topMatch("Maßnahmen");
+      case "gehhrte": return topMatch("geehrte");
+      case "gehhrten": return topMatch("geehrten");
+      case "gehhrtes": return topMatch("geehrtes");
       case "beispielweise": return topMatch("beispielsweise");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }

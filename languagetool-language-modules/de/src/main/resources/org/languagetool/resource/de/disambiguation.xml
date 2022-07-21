@@ -6914,4 +6914,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="ADJ.*"/>
     </rule>
+    <rule id="BMW_KEIN_SUB" name="'BMW' kein Nomen">
+        <pattern>
+            <marker>
+                <token>BMW</token>
+            </marker>
+            <token regexp="yes" case_sensitive="yes">i?[ZXM].+|[zmx]\d+</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="THREE_D_SECURE" name="'3D-Secure'">
+        <!-- adding this to spelling.txt does not work -->
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">3D-Secure(-(Verfahren|Bezahlverfahren)s?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>

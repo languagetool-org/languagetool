@@ -41,6 +41,23 @@ class AgreementRuleAntiPatterns1 {
       new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
     ),
     Arrays.asList(
+      posRegex("PRP.*(DAT|AKK)"),  // "zur Learning Academy"
+      posRegex("SUB:.*"),
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
+    Arrays.asList(
+      posRegex("PRP.*DAT"),  // "zur neuen Learning Academy"
+      posRegex("ADJ.*DAT.*"),  
+      posRegex("SUB:.*"),
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
+    Arrays.asList(
+      posRegex("PRP.*AKK"),  // "zur neuen Learning Academy"
+      posRegex("ADJ.*AKK.*"),  
+      posRegex("SUB:.*"),
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
+    Arrays.asList(
       posRegex("PRO.*"),  // "Es gibt viele verschiedene Stock Screener."
       posRegex("(ADJ|PA2).*"),
       posRegex("SUB:.*"),

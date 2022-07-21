@@ -611,6 +611,7 @@ public class AgreementRuleTest {
     assertGood("Es gibt viele Stock Screener.");
     assertBad("Auf dieser Website werden allerdings keine solche Daten weiterverxxx.");  // "weiterverxxx" = unbekanntes Wort
     assertBad("Bei größeren Gruppen und/oder mehrere Tagen gibts einen nennenswerten Nachlass.");
+    assertGood("Wir gehen zur Learning Academy.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
