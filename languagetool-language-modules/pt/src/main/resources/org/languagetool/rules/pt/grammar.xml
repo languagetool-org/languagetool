@@ -11151,6 +11151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Aula 2 (Álgebra): Equações matemáticas.</example>
           <example>Primary keyword: Jogos</example>
           <example>[Lisboa] : Nuvem de Letras, 2018.</example>
+          <example>Veja também: Dez histórias de ninar</example>
       </antipattern>
       <antipattern>
         <token postag='SENT_START'/>
@@ -11190,6 +11191,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 		<token postag='_PUNCT'/>
 		  <example>278 (52): 52914–8.</example>
 	  </antipattern>
+	  <antipattern>
+          <token regexp="yes">\d</token>
+          <token regexp="yes">–|&hifen;</token>
+          <example>1 - Trajetória pessoal e da pesquisa.</example>
+          <example>2 – E o Pedro?</example>
+        </antipattern>
       <antipattern><!-- long holophrases -->
         <token postag='SENT_START'/>
         <token max='2'/>
@@ -19481,20 +19488,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Onko — É café “sem cafeína”</example>
     </rule>
 
-    <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!" default='temp_off'>
+        <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!" default='temp_off'>
       <!--  Created by Tiago F. Santos, 2017-04-28      -->
       <rule>
         <pattern>
             <token postag='SENT_START'/>
-            <token skip="-1">que<exception scope='next' regexp='yes'>[,:]</exception></token>
+            <token skip="-1">que<exception scope='next' regexp='yes'>[,:]</exception><exception scope='next' postag='V.+'/></token>
             <token postag='AQ.+' postag_regexp='yes'/>
             <token postag='N.+' postag_regexp='yes' min='0'/>
             <marker>
             <token postag='SENT_END'>.</token>
             </marker>
         </pattern>
-           <message>Se é uma exclamação, deve terminar com <suggestion>!</suggestion>, caso contrário, as orações deve ser separadas por vírgulas.</message>
-           <example correction="!">Que lindo dia<marker>.</marker></example>
+           <message>Se é uma exclamação, deve terminar com <suggestion>!</suggestion>, caso contrário, as orações deve ser separadas por vírgulas. Se for um prolongamento de ideias, utilize as reticências.</message>
+           <suggestion>...</suggestion>
+           <suggestion>,</suggestion>
+           <example correction="!|...|,">Que lindo dia<marker>.</marker></example>
       </rule>
       <rule>
         <antipattern>
@@ -19511,10 +19520,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Hum...</example>
         </antipattern>
         <antipattern>
-            <token regexp='yes'>&aspas;|'|"</token>
+            <token regexp='yes'>&aspas;|'|"|&separadores_de_abertura;</token>
             <token postag='I'/>
-            <token regexp='yes'>&aspas;|'|"</token>
+            <token regexp='yes'>&aspas;|'|"|&separadores_de_fecho;</token>
             <example>"Oi".</example>
+            <example>(Oi").</example>
         </antipattern>
         <antipattern>
             <token postag='I'/>
@@ -19527,8 +19537,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <example>Feliz aniversário (atrasado) e muitas bençãos em sua vida.</example>
         </antipattern>
         <antipattern>
+            <token postag='I'/>
+            <token regexp='yes'>&separadores_de_abertura;</token>
+            <example>Feliz aniversário (atrasado) e muitas bençãos em sua vida.</example>
+        </antipattern>
+        <antipattern>
+            <token regexp='yes' spacebefore='no'>&separadores_de_abertura;</token>
+            <token case_sensitive='yes'>OH</token>
+            <example>(FeO(OH.</example>
+        </antipattern>
+        <antipattern>
+            <token regexp='yes'>&tracos_de_separacao;</token>
+            <token spacebefore='no' postag='I'/>
+            <example>Distribuição de Ho-Oh</example>
+            <example>Investiu uma grande quantidade de energia em sigilo e cover-ups.</example>
+            <example>Verifique se o navegador está bloqueando pop-ups.</example>
+        </antipattern>
+        <antipattern>
+            <token>poxa</token>
+            <token>vida</token>
+            <token>,</token>
+        </antipattern>
+        <antipattern>
+            <token>até</token>
+            <token>amanhã</token>
+            <token postag='SPS00'/>
+            <example>Até amanhã de manhã!</example>
+            <example>Até amanhã à tarde!</example>
+        </antipattern>
+        <antipattern>
+            <token postag='I'/>
+            <token postag='VMP.+'/>
+			<example>Muito bem colocado!</example>
+		    <example>Parabéns adiantado!</example>
+        </antipattern>
+        <antipattern>
+            <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
+            <token>quem</token>
+            <token regexp='yes'>me|lhe</token>
+            <token skip='-1'>dera</token>
+            <token postag='V.+'/>
+            <example>Quem me dera ter a oportunidade de fazer isso.</example>
+        </antipattern>
+        <antipattern>
+            <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
+            <token>valeu</token>
+            <token>a</token>
+			<token>pena</token>
+            <token postag='PP.+' postag_regexp='yes' min='0'/>
+            <token postag='VMI.+' postag_regexp='yes'/>
+            <example>Valeu a pena ele esperar pelo prêmio.</example>
+        </antipattern>
+        <antipattern>
             <token>hip</token>
-            <token spacebefore='no' regexp='yes'>&hifen;</token>
+            <token spacebefore='no' regexp='yes' min='0'>&hifen;</token>
             <token spacebefore='no'>hop</token>
         </antipattern>
         <antipattern>
@@ -19542,37 +19604,93 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <pattern>
             <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
-            <token postag='I'><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception><exception>alto</exception></token>
-            <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)]</exception></token>
+            <token postag='I'><exception>Oxalá</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception><exception>alto</exception></token>
+            <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
         </pattern>
-        <message>Quando não estão acompanhadas de vocativo, as interjeições devem ser finalizadas com pontos de exclamação ou interrogação. Quando houver vocativo, deve usar a vírgula.</message>
+        <message>Quando não estão acompanhadas de vocativo, as interjeições devem ser finalizadas com pontos de exclamação ou interrogação. Quando houver vocativo, deve usar a vírgula. Para indicar hesitação ou prolongamento de ideias, utilize as reticências.</message>
         <suggestion>\2!</suggestion>
         <suggestion>\2?</suggestion>
         <suggestion>\2!?</suggestion>
         <suggestion>\2,</suggestion>
+        <suggestion>\2...</suggestion>
         <url>https://pt.wikipedia.org/wiki/Interjei%C3%A7%C3%A3o</url>
-        <example correction="Oi!|Oi?|Oi!?|Oi,"><marker>Oi.</marker> Como vais?.</example>
-        <example correction="Ah!|Ah?|Ah!?|Ah,"><marker>Ah.</marker> quando eles se encontrarão novamente?</example>
+        <example correction="Oi!|Oi?|Oi!?|Oi,|Oi..."><marker>Oi.</marker> Como vais?.</example>
+        <example correction="Ah!|Ah?|Ah!?|Ah,|Ah..."><marker>Ah.</marker> quando eles se encontrarão novamente?</example>
         <example>Agradecido, mas não rendido.</example>
         <!--example>Francamente, ela não vê por que deveria haver alguém mais</example-->
         <example>É uma explicação insuficiente, pois, há outra bem melhor: se tomarmos o…</example>
         <example>Ena, que surpresa!</example>
       </rule>
       <rule>
+      <antipattern>
+            <token postag='I'/>
+            <token>.</token>
+            <token>.</token>
+            <token>.</token>
+            <example>Até logo...</example>
+        </antipattern>
+        <antipattern>
+            <token regexp='yes'>&aspas;|'|"|&separadores_de_abertura;</token>
+            <token postag='I'/>
+            <token regexp='yes'>&aspas;|'|"|&separadores_de_fecho;</token>
+            <example>Eles ainda gravaram a faixa "Até logo"</example>
+        </antipattern>
+        <antipattern>
+            <token>até</token>
+            <token>amanhã</token>
+            <token postag='SPS00'/>
+            <example>Até amanhã de manhã!</example>
+            <example>Até amanhã à tarde!</example>
+        </antipattern>
+        <antipattern>
+            <token postag='I'/>
+            <token postag='VMP.+'/>
+			<example>Muito bem colocado!</example>
+		    <example>Parabéns adiantado!</example>
+        </antipattern>
+        <antipattern>
+            <token regexp='yes'>aniversário|parabéns</token>
+            <token postag='VMP00SM'/>
+			<example>Feliz aniversário atrasado!</example>
+		    <example>Parabéns adiantado!</example>
+        </antipattern>
+        <antipattern>
+            <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
+            <token>quem</token>
+            <token regexp='yes'>me|lhe</token>
+            <token skip='-1'>dera</token>
+            <token postag='V.+'/>
+            <example>Quem me dera ter a oportunidade de fazer isso.</example>
+        </antipattern>
+        <antipattern>
+            <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
+            <token>valeu</token>
+            <token>a</token>
+			<token>pena</token>
+            <token postag='PP.+' postag_regexp='yes' min='0'/>
+            <token postag='VMI.+' postag_regexp='yes'/>
+            <example>Valeu a pena ele esperar pelo prêmio.</example>
+        </antipattern>
+        <antipattern>
+            <token>hip</token>
+            <token spacebefore='no' regexp='yes' min='0'>&hifen;</token>
+            <token spacebefore='no'>hop</token>
+        </antipattern>
         <pattern>
           <token postag="SENT_START" postag_regexp='yes'/>
           <token postag='I'/>
           <marker>
-          <token postag='I'><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception></token>
-          <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)]</exception></token>
+          <token postag='I'><exception>Oxalá</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception></token>
+          <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
           </marker>
         </pattern>
-        <message>Quando não estão acompanhadas de vocativo, as interjeições devem ser finalizadas com pontos de exclamação ou interrogação. Quando houver vocativo, deve usar a vírgula.</message>
+        <message>Quando não estão acompanhadas de vocativo, as interjeições devem ser finalizadas com pontos de exclamação ou interrogação. Quando houver vocativo, deve usar a vírgula. Para indicar hesitação ou prolongamento de ideias, utilize as reticências.</message>
         <suggestion>\3!</suggestion>
         <suggestion>\3?</suggestion>
         <suggestion>\3!?</suggestion>
         <suggestion>\3,</suggestion>
-		<example correction="logo!|logo?|logo!?|logo,">Até <marker>logo.</marker></example>
+        <suggestion>\3...</suggestion>
+		<example correction="logo!|logo?|logo!?|logo,|logo...">Até <marker>logo.</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -19586,14 +19704,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception postag_regexp='yes' postag="SPS.+|CS|PP.+"/> <!-- MARCOAGPINTO 2020-11-13 (21-OCT-2020+) -->
           </token>
         </pattern>
-        <message>Quando não estão acompanhadas de vocativo, as interjeições devem ser finalizadas com pontos de exclamação ou interrogação. Quando houver vocativo, deve usar a vírgula.</message>
+        <message>Quando não estão acompanhadas de vocativo, as interjeições devem ser finalizadas com pontos de exclamação ou interrogação. Quando houver vocativo, deve usar a vírgula. Para indicar hesitação ou prolongamento de ideias, utilize as reticências.</message>
         <suggestion>\1!</suggestion>
         <suggestion>\1?</suggestion>
         <suggestion>\1!?</suggestion>
         <suggestion>\1,</suggestion>
+        <suggestion>\1...</suggestion>
         <url>https://pt.wikipedia.org/wiki/Interjei%C3%A7%C3%A3o</url>
-        <example correction="Oi!|Oi?|Oi!?|Oi,"><marker>Oi</marker> tudo bem?.</example>
-        <example correction="Apre!|Apre?|Apre!?|Apre,"><marker>Apre</marker> dizes tu.</example>
+        <example correction="Oi!|Oi?|Oi!?|Oi,|Oi..."><marker>Oi</marker> tudo bem?.</example>
+        <example correction="Apre!|Apre?|Apre!?|Apre,|Apre..."><marker>Apre</marker> dizes tu.</example>
         <example>Agradecido, mas não rendido.</example>
         <example>Ano de Nosso Senhor Jesus Cristo</example>
         <example>É uma explicação insuficiente, pois, há outra bem melhor: se tomarmos o…</example>
