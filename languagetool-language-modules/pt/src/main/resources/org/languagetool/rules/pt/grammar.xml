@@ -100,7 +100,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY verbos_transitivos_diretos "(?:abandonar|abençoar|aborrecer|abraçar|acompanhar|acusar|admirar|adorar|alegrar|ameaçar|amolar|amparar|auxiliar|castigar|condenar|conhecer|conservar|convidar|defender|eleger|estimar|humilhar|namorar|ouvir|prejudicar|prezar|proteger|respeitar|socorrer|suportar|ver|visitar)">
     <!ENTITY haver_impessoal "(?:há|haja|haverá|haveria|havia|houve|houver|houvera|houvesse)">
     <!ENTITY verbos_pronominais "apelidar|chamar|denominar">
-	<!ENTITY verbos_nao_impessoais "acabar|bastar|chegar|entrar|existir|faltar|ficar|restar|sair|sobrar">
+    <!ENTITY verbos_nao_impessoais "acabar|bastar|chegar|entrar|existir|faltar|ficar|restar|sair|sobrar">
 
     <!ENTITY adj_nomes_paronimos_a "(?:(?:p(?:á(?:(?:gin|sco|ri)a|(?:bul|li)o|ti(?:na|o))|r(?:(?:e(?:sság|fác)|ontuár)io|átic[ao])|lá(?:ci(?:d[ao]|to)|gio)|ará(?:grafo|lise)|erdulári[ao]|sicanálise|osfácio)|á(?:(?:t(?:rop|ic)|f(?:ric|i)|bson)[ao]|r(?:i(?:c[ao]|a)|bitr[ao]|vore)|c(?:(?:er|id)[ao]|aro)|(?:s(?:cu|i)|[vx]il)a|g(?:raf[ao]|ua)|(?:lvidr|dit)o|pod[aeo])|c(?:á(?:(?:l(?:cul|am)|dmi)o|r(?:(?:cer|i)e|dia)|(?:ps|b)ula)|o(?:nt(?:rári[ao]|ágio)|missári[ao])|a(?:tál(?:ise|ogo)|ntárid[ae]))|a(?:n(?:iversário|álise)|má(?:si[ao]|lgama)|(?:lgáli|záfam)a|(?:pan|d)ágio|cárid[ao])|g(?:á(?:(?:strul|bi|zu)a|lic[ao]|rrulo)|(?:r(?:amátic|ávid)|inástic)[ao]|ládio)|s(?:(?:e(?:cretári|lvátic)|u(?:bsecret|m)ári)[ao]|á(?:(?:tur|bi)a|culo)|alário)|l(?:á(?:(?:ce|za)r[ao]|(?:gr|st)ima|pid[ae]|tego)|arápi[ao])|e(?:(?:pigramátic|mpresári)[ao]|(?:ficá|nxár)cia|stá[dg]io)|r(?:á(?:b(?:i(?:d[ao]|a)|ano|ula)|dio|fia)|essábio|ipária)|má(?:(?:scar|cul|fi)a|g(?:ic[ao]|oa)|t(?:ico|ria))|v(?:á(?:lid[ao]|ria)|oluntári[ao]|iático)|h(?:emodiálise|ilári[ao]|á[bl]ito)|d(?:i(?:cionário|álise)|ádiva)|t(?:ráf(?:eg[ao]|ico)|ábula)|in(?:flacionária|ventário)|bá(?:scul[ao]|lsamo|tega)|f(?:áb(?:ric|ul)|aláci)a|jáculo))s?">
     <!ENTITY adj_nomes_paronimos_a_2 "(?:mágic[ao])s?">
@@ -9171,14 +9171,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <rulegroup id='NON_IMPERSONAL_VERBS' name="Concordância Verbal: Verbos não-impessoais: existir, bastar, faltar, etc.">
       <!--      Created by Tiago F. Santos (2017-02-27) and improved by Marco A.G.Pinto and Ricardo Joseh Lima, Portuguese rule 2022-07-21 (Checked/Enhanced) (5-JUN-2022+)      -->
-	  <!-- Ricardo suggested more verbs (chegar, acabar, ficar, sair, entrar) and Marco added an exception with scope 'before' to fix false positives -->
+      <!-- Ricardo suggested more verbs (chegar, acabar, ficar, sair, entrar) and Marco added an exception with scope 'before' to fix false positives -->
       <rule>
         <pattern>
           <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
             <exception>sobre</exception>
-			<exception scope='previous' regexp='yes'>&pronomes_retos;</exception> <!-- Added by MARCOAGPINTO - 2022-07-21 -->
-			<exception postag_regexp='no' postag='SPS00'/> <!-- Fix for "entre" by MARCOAGPINTO - 2022-07-21 -->
-		  </token>
+            <exception scope='previous' regexp='yes'>&pronomes_retos;</exception> <!-- Added by MARCOAGPINTO - 2022-07-21 -->
+            <exception postag_regexp='no' postag='SPS00'/> <!-- Fix for "entre" by MARCOAGPINTO - 2022-07-21 -->
+          </token>
           <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'/></token>
         </pattern>
@@ -9191,9 +9191,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
           <token postag_regexp='yes' postag='V...3P.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
             <exception>sobre</exception> <!-- copied from above - MARCOAGPINTO - 2022-07-01 -->
-			<exception scope='previous' regexp='yes'>&pronomes_retos;</exception> <!-- Added by MARCOAGPINTO - 2022-07-21 -->
-			<exception postag_regexp='no' postag='SPS00'/> <!-- Fix for "entre" by MARCOAGPINTO - 2022-07-21 -->
-		  </token>
+            <exception scope='previous' regexp='yes'>&pronomes_retos;</exception> <!-- Added by MARCOAGPINTO - 2022-07-21 -->
+            <exception postag_regexp='no' postag='SPS00'/> <!-- Fix for "entre" by MARCOAGPINTO - 2022-07-21 -->
+          </token>
           <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'/></token>
         </pattern>
