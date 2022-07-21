@@ -340,7 +340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
   <category id='GRAMMAR' name="Gramática Geral" type="grammar">
-        <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="temp_off">
+        <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="on">
             <antipattern>
                    <token postag='N.+' postag_regexp='yes'/>
                    <token postag='AQ.+' postag_regexp='yes' min='0'/>
@@ -11131,7 +11131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
   <category id='SYNTAX' name='Sintaxe' type='grammar'>
 
-    <rule id="NO_VERB" name="Síntaxe: ausência de verbo" default="temp_off" tags="picky">
+    <rule id="NO_VERB" name="Síntaxe: ausência de verbo" default="on" tags="picky">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
       <antipattern>
         <token case_sensitive='yes' regexp='yes'>[A-Z]*|[0-9]*|\)|keywords?</token>
@@ -11828,7 +11828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
   <category id='CASING' name='Capitalização' type='grammar'>
 
 
-    <rule id="UPPERCASE_AFTER_COMMA" name="Maiúsculas depois de uma vírgula" default='temp_off'>
+    <rule id="UPPERCASE_AFTER_COMMA" name="Maiúsculas depois de uma vírgula" default='on'>
       <!-- Based on English forum rule https://forum.languagetool.org/t/case-sensitive-postag-check/3567/2,
       by Tiago F. Santos, 2018-11-23    -->
       <antipattern>
@@ -19482,12 +19482,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Onko — É café “sem cafeína”</example>
     </rule>
 
-        <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!" default='temp_off'>
+        <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!" default='on'>
       <!--  Created by Tiago F. Santos, 2017-04-28      -->
       <rule>
         <pattern>
             <token postag='SENT_START'/>
-            <token skip="-1">que<exception scope='next' regexp='yes'>[,:]</exception><exception scope='next' postag='V.+'/></token>
+            <token skip="-1">que<exception scope='next' regexp='yes'>[,:]</exception><exception scope='next' postag='V.+' postag_regexp='yes'/></token>
             <token postag='AQ.+' postag_regexp='yes'/>
             <token postag='N.+' postag_regexp='yes' min='0'/>
             <marker>
@@ -19497,7 +19497,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            <message>Se é uma exclamação, deve terminar com <suggestion>!</suggestion>, caso contrário, as orações deve ser separadas por vírgulas. Se for um prolongamento de ideias, utilize as reticências.</message>
            <suggestion>...</suggestion>
            <suggestion>,</suggestion>
-           <example correction="!|...|,">Que lindo dia<marker>.</marker></example>
+           <example correction="!|...|,">Que belo dia<marker>.</marker></example>
       </rule>
       <rule>
         <antipattern>
@@ -19561,7 +19561,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <antipattern>
             <token postag='I'/>
-            <token postag='VMP.+'/>
+            <token postag='VMP.+' postag_regexp='yes'/>
 			<example>Muito bem colocado!</example>
 		    <example>Parabéns adiantado!</example>
         </antipattern>
@@ -19570,7 +19570,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>quem</token>
             <token regexp='yes'>me|lhe</token>
             <token skip='-1'>dera</token>
-            <token postag='V.+'/>
+            <token postag='V.+' postag_regexp='yes'/>
             <example>Quem me dera ter a oportunidade de fazer isso.</example>
         </antipattern>
         <antipattern>
@@ -19638,7 +19638,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <antipattern>
             <token postag='I'/>
-            <token postag='VMP.+'/>
+            <token postag='VMP.+' postag_regexp='yes'/>
 			<example>Muito bem colocado!</example>
 		    <example>Parabéns adiantado!</example>
         </antipattern>
@@ -19653,7 +19653,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>quem</token>
             <token regexp='yes'>me|lhe</token>
             <token skip='-1'>dera</token>
-            <token postag='V.+'/>
+            <token postag='V.+' postag_regexp='yes'/>
             <example>Quem me dera ter a oportunidade de fazer isso.</example>
         </antipattern>
         <antipattern>
@@ -19671,7 +19671,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token spacebefore='no'>hop</token>
         </antipattern>
         <pattern>
-          <token postag="SENT_START" postag_regexp='yes'/>
+          <token postag="SENT_START"/>
           <token postag='I'/>
           <marker>
           <token postag='I'><exception>Oxalá</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception></token>
@@ -39772,7 +39772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
     <!--          Style rules from English grammar.xml      - START-->
-<rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" tags="picky" default='temp_off'>
+<rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" tags="picky" default='on'>
     <rule>
       <pattern>
         <token postag='SENT_START'/>
@@ -43267,7 +43267,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
-    <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="temp_off" type="style" tags="picky">
+    <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29/30 + 2021-07-02 + 2021-10-31 (25-JUN-2021+)      -->
       <antipattern>
         <token inflected='yes'>fazer</token>
@@ -44741,7 +44741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>ménage à trois</example>
     </rule>
 
-    <rulegroup id='INTERNET_ABBREVIATIONS' name="Erro ortográfico: Abreviaturas da internet" default="temp_off">
+    <rulegroup id='INTERNET_ABBREVIATIONS' name="Erro ortográfico: Abreviaturas da internet" default="on">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2019-08-12 -->
       <url>https://pt.wikipedia.org/wiki/Internet%C3%AAs</url>
       <short>'Internetês'</short>
@@ -44765,16 +44765,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 		<example>Encontre o valor de n.</example>
         </antipattern>
         <antipattern>
-           <token regexp="yes">&aspas;|&operadores_matematicos;|"|'</token>
+           <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'</token>
            <token>n</token>
-           <token regexp="yes">&aspas;|&operadores_matematicos;|"|'</token>
+           <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'</token>
 		<example>Neste caso "n" representa o número.</example>
 		<example>Encontre o valor de [n].</example>
         </antipattern>
         <pattern>
            <token regexp='yes'>n|ñ|naum<exception case_sensitive='yes'>N</exception></token>
         </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion>não</suggestion> por extenso. Se quis dizer <suggestion>"n"</suggestion>, coloque entre aspas.</message>
+          <message>Linguagem de Internet. Considere escrever <suggestion>não</suggestion> por extenso. Se quis dizer "n", coloque entre aspas.</message>
+          <suggestion>"n"</suggestion>
 		<example correction='não|"n"'>Ele <marker>n</marker> me mandou mensagem ontem.</example>
     </rule>
     <rule>
@@ -44797,16 +44798,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 		 <example>Encontre o valor de q.</example>
         </antipattern>
         <antipattern>
-           <token regexp="yes">&aspas;|&operadores_matematicos;|"|'|[\(\)\[\]\{\}]</token>
+           <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'|[\(\)\[\]\{\}]</token>
 	       <token>q</token>
-           <token regexp="yes">&aspas;|&operadores_matematicos;|"|'|[\(\)\[\]\{\}]</token>
+           <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'|[\(\)\[\]\{\}]</token>
 		<example>Neste caso "q" representa a quota.</example>
 		<example>Encontre o valor de [q]</example>
         </antipattern>
         <pattern>
            <token case_sensitive='yes'>q</token>
         </pattern>
-        <message>Se for linguagem de Internet, considere escrever <suggestion>que</suggestion> por extenso. Se quis dizer <suggestion>"q"</suggestion>, coloque entre aspas.</message>
+        <message>Se for linguagem de Internet, considere escrever <suggestion>que</suggestion> por extenso. Se quis dizer "q", coloque entre aspas.</message>
+		<suggestion>"q"</suggestion>
 		<example correction='que|"q"'>Ele <marker>q</marker> me mandou mensagem ontem.</example>
     </rule>
     <rule>
@@ -44839,7 +44841,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            <token>/</token>
         </pattern>
          <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
-		<example correction="para|por|pela">A ação foi <marker>p/</marker> aumentar os lucros.</example>
+         <suggestion>"p"</suggestion>
+		<example correction='para|por|pela|"p"'>A ação foi <marker>p/</marker> aumentar os lucros.</example>
     </rule>
     <rule>
         <antipattern>
@@ -44870,14 +44873,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
            <token case_sensitive='yes'>p</token>
         </pattern>
-         <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer <suggestion>"p"</suggestion>, coloque entre aspas.</message>
+         <message>Se for linguagem de Internet, considere escrever <suggestion>para</suggestion>, <suggestion>por</suggestion> ou <suggestion>pela</suggestion> por extenso. Se quis dizer "p", coloque entre aspas.</message>
+         <suggestion>"p"</suggestion>
 		<example correction='para|por|pela|"p"'>A ação foi <marker>p</marker> aumentar os lucros.</example>
     </rule>
     <rule>
     <antipattern>
-           <token regexp="yes">&aspas;|"|'</token>
+           <token regexp="yes">&aspas;|\"|\'</token>
 	       <token regexp='yes'>lol|lmao|kk+|rotfl</token>
-           <token regexp="yes">&aspas;|"|'</token>
+           <token regexp="yes">&aspas;|\"|\'</token>
 		<example>Cada vez mais jovens utilizam "lol" para expressar risos.</example>
         </antipattern>
          <pattern>
@@ -44888,9 +44892,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
     <rule>
     <antipattern>
-           <token regexp="yes">&aspas;|"|'</token>
+           <token regexp="yes">&aspas;|\"|\'</token>
            <token>omg</token>
-           <token regexp="yes">&aspas;|"|'</token>
+           <token regexp="yes">&aspas;|\"|\'</token>
 		<example>Cada vez mais jovens utilizam "omg" em suas conversas.</example>
         </antipattern>
         <pattern>
@@ -44900,17 +44904,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 		   <token postag='_PUNCT' min='0'/>
         </pattern>
           <message>Linguagem de Internet. Considere as alternativas.</message>
-          <suggestion>minha nossa</suggestion>
-          <suggestion>meu Deus</suggestion>
-          <suggestion>não acredito</suggestion>
-          <suggestion>nossa</suggestion>
+          <suggestion><match no='1' regexp_match="omg" regexp_replace="minha nossa" case_conversion='preserve'/></suggestion>
+          <suggestion><match no='1' regexp_match="omg" regexp_replace="meu Deus" case_conversion='preserve'/></suggestion>
+          <suggestion><match no='1' regexp_match="omg" regexp_replace="não acredito" case_conversion='preserve'/></suggestion>
+          <suggestion><match no='1' regexp_match="omg" regexp_replace="nossa" case_conversion='preserve'/></suggestion>
          <example correction="minha nossa|meu Deus|não acredito|nossa">Que novidade, <marker>omg</marker>!</example>
     </rule>
     <rule>
        <antipattern>
-           <token regexp="yes">&aspas;|"|'</token>
+           <token regexp="yes">&aspas;|\"|\'</token>
            <token>wtf</token>
-           <token regexp="yes">&aspas;|"|'</token>
+           <token regexp="yes">&aspas;|\"|\'</token>
 		<example>Cada vez mais jovens utilizam "wtf" em suas conversas.</example>
         </antipattern>
         <pattern>
@@ -44930,41 +44934,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
     <rule>
         <pattern>
-           <token>vc
-           <exception case_sensitive='yes'>VC</exception>
-           </token>
+           <token>vc</token>
         </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion>você</suggestion> por extenso.</message>
+          <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="c" regexp_replace="ocê" case_conversion='preserve'/></suggestion> por extenso.</message>
          <example correction="você">Eu falei com <marker>vc</marker> ontem.</example>
 	     <example correction="Você"><marker>Vc</marker> vai cuidar do projeto?</example>
     </rule>
     <rule>
         <pattern>
-           <token case_sensitive='yes'>VC</token>
-        </pattern>
-          <message>Linguagem de Internet. Considere escrever <suggestion>VOCÊ</suggestion> por extenso.</message>
-         <example correction="VOCÊ">Eu falei com <marker>VC</marker> ontem.</example>
-	     <example correction="VOCÊ"><marker>VC</marker> vai cuidar do projeto?</example>
-    </rule>
-    <rule>
-        <pattern>
            <token>qm</token>
         </pattern>
-           <message>Linguagem de Internet. Considere escrever <suggestion>quem</suggestion> por extenso.</message>
+           <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="m" regexp_replace="uem" case_conversion='preserve'/></suggestion> por extenso.</message>
           <example correction="Quem"><marker>Qm</marker> vai à conferência?</example>
     </rule>
     <rule>
         <pattern>
            <token>hj</token>
         </pattern>
-           <message>Linguagem de Internet. Considere escrever <suggestion>hoje</suggestion> por extenso.</message>
+           <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="j" regexp_replace="oje" case_conversion='preserve'/></suggestion> por extenso.</message>
           <example correction="hoje">Vou à reunião <marker>hj</marker>.</example>
     </rule>
     <rule>
         <pattern>
            <token>blz</token>
         </pattern>
-           <message>Linguagem de Internet. Considere escrever <suggestion>beleza</suggestion> por extenso.</message>
+           <message>Linguagem de Internet. Considere escrever <suggestion><match no='1' regexp_match="lz" regexp_replace="eleza" case_conversion='preserve'/></suggestion> por extenso.</message>
           <example correction="beleza">Então <marker>blz</marker>, finalizo amanhã.</example>
     </rule>
     <rule>
@@ -44997,10 +44991,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
 	       <token regexp='yes'>bj|bjo</token>
 	    </pattern>
-           <message>Linguagem de Internet. Considere escrever <suggestion>beijo</suggestion> por extenso.</message>
-           <suggestion>BEIJO</suggestion>
-         <example correction="beijo|BEIJO">Obrigada, <marker>bjo</marker>.</example>
-         <example correction="Beijo|BEIJO">Até mais. <marker>Bj</marker>.</example>
+           <message>Linguagem de Internet. Considere escrever <suggestion>beijo</suggestion> por extenso.</message>         <example correction="beijo">Obrigada, <marker>bjo</marker>.</example>
+         <example correction="Beijo">Até mais. <marker>Bj</marker>.</example>
     </rule>
     <rule>
         <antipattern>
@@ -45011,9 +45003,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 	       <token regexp='yes'>bjs|bjos</token>
 	    </pattern>
           <message>Linguagem de Internet. Considere escrever <suggestion>beijos</suggestion> por extenso.</message>
-         <suggestion>BEIJOS</suggestion>
-         <example correction="beijos|BEIJOS">Obrigada, <marker>bjos</marker>.</example>
-         <example correction="Beijos|BEIJOS">Até mais. <marker>Bjs</marker>.</example>
+         <example correction="beijos">Obrigada, <marker>bjos</marker>.</example>
+         <example correction="Beijos">Até mais. <marker>Bjs</marker>.</example>
     </rule>
     <rule>
         <antipattern>
@@ -45027,6 +45018,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 	     <example correction="Abraços|ABS"><marker>Abs</marker>.</example>
     </rule>
     <rule>
+    <antipattern>
+           <token postag='Z.+|DA.+' postag_regexp='yes'/>
+	       <token case_sensitive='yes'>TB</token>
+	       <example>Armazenamento de 1 TB de rotação.</example>
+	       <example>O TB não ia dar esse mole.</example>
+        </antipattern>
         <antipattern>
            <token>
              <exception postag='SENT_START'/>
@@ -45062,11 +45059,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 	       <token>pq</token>
 	       <token regexp='yes'>[\.\?!;]</token>
         </pattern>
-          <message>Linguagem de Internet. "Por quê" é utilizado no final de frases. Considere escrever <suggestion>por quê</suggestion> por extenso.</message>
-	     <suggestion>POR QUÊ</suggestion>
-	     <example correction="por quê|POR QUÊ">Quero saber <marker>pq.</marker></example>
-	     <example correction="por quê|POR QUÊ">E tudo isso <marker>pq?</marker></example>
-	     <example correction="Por quê|POR QUÊ">Eu não posso ir. <marker>Pq?</marker></example>
+          <message>Linguagem de Internet. "Por quê" é utilizado no final de frases. Considere escrever <suggestion><match no='1' regexp_match="q" regexp_replace="or quê" case_conversion='preserve'/></suggestion> por extenso.</message>
+	     <example correction="por quê">Quero saber <marker>pq.</marker></example>
+	     <example correction="por quê">E tudo isso <marker>pq?</marker></example>
+	     <example correction="Por quê">Eu não posso ir. <marker>Pq?</marker></example>
     </rule>
     <rule>
         <pattern>
@@ -45074,19 +45070,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          <marker><token regexp='yes'>pq|pqs</token></marker>
         <token regexp='yes'>&pronomes_contracao;</token>
         </pattern>
-         <message>Linguagem de Internet; escreva por extenso. A forma <suggestion>porquê</suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
-         <suggestion>PORQUÊ</suggestion>
-        <example correction="porquê|PORQUÊ">Tem algum <marker>pq</marker> nisso tudo?</example>
+         <message>Linguagem de Internet; escreva por extenso. A forma <suggestion><match no='2' regexp_match="q" regexp_replace="orquê" case_conversion='preserve'/></suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
+        <example correction="porquê">Tem algum <marker>pq</marker> nisso tudo?</example>
     </rule>
     <rule>
         <pattern>
           <marker><token>pq</token></marker>
 	       <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
         </pattern>
-		  <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "(a razão/o motivo) pelo(a) qual", deve utilizar <suggestion>por que</suggestion>.</message>
-		  <suggestion>POR QUE</suggestion>
-		  <example correction="por que|POR QUE">Não sei <marker>pq</marker> motivo o plano não funcionou.</example>
-		  <example correction="por que|POR QUE">Gostaria de saber <marker>pq</marker> razões recusou o convite.</example>
+		  <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "(a razão/o motivo) pelo(a) qual", deve utilizar <suggestion><match no='1' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
+		  <example correction="por que">Não sei <marker>pq</marker> motivo o plano não funcionou.</example>
+		  <example correction="por que">Gostaria de saber <marker>pq</marker> razões recusou o convite.</example>
     </rule>
     <rule>
         <pattern>
@@ -45094,10 +45088,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 	       <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
           <marker><token>pq</token></marker>
         </pattern>
-		  <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "a razão/o motivo) pelo(a) qual", deve utilizar <suggestion>por que</suggestion>.</message>
-		  <suggestion>POR QUE</suggestion>
-          <example correction="por que|POR QUE">Não sei o motivo <marker>pq</marker> o plano não funcionou.</example>
-		  <example correction="por que|POR QUE">Gostaria de saber as razões <marker>pq</marker> recusou o convite.</example>
+		  <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "a razão/o motivo) pelo(a) qual", deve utilizar <suggestion><match no='3' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
+          <example correction="por que">Não sei o motivo <marker>pq</marker> o plano não funcionou.</example>
+		  <example correction="por que">Gostaria de saber as razões <marker>pq</marker> recusou o convite.</example>
     </rule>
     <rule>
         <antipattern>
@@ -45112,11 +45105,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
 	       <token>?</token>
         </pattern>
-           <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion> por extenso.</message>
-		   <suggestion>POR QUE</suggestion>
-		  <example correction="por que|POR QUE">Se não houve erro algum, <marker>pq</marker> não entregou o documento?</example>
-		  <example correction="por que|POR QUE">E faria tudo isso de novo, <marker>pq</marker> não?</example>
-		  <example correction="por que|POR QUE">O relatório foi entregue; <marker>pq</marker> não houve mudanças?</example>
+           <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion> por extenso.</message>
+		  <example correction="por que">Se não houve erro algum, <marker>pq</marker> não entregou o documento?</example>
+		  <example correction="por que">E faria tudo isso de novo, <marker>pq</marker> não?</example>
+		  <example correction="por que">O relatório foi entregue; <marker>pq</marker> não houve mudanças?</example>
     </rule>
     <rule>
         <antipattern>
@@ -45131,9 +45123,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
 	       <token>?</token>
         </pattern>
-           <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion> por extenso.</message>
-		   <suggestion>POR QUE</suggestion>
-		  <example correction="Por que|POR QUE"><marker>Pq</marker> não entregou o documento?</example>
+           <message>Linguagem de Internet. Se "pq" estiver no início de uma pergunta, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion> por extenso.</message>
+		  <example correction="Por que"><marker>Pq</marker> não entregou o documento?</example>
     </rule>
     <rule>
         <antipattern>
@@ -45156,9 +45147,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
            <token postag='_PUNCT'/>
         </pattern>
-           <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso.</message>
-           <suggestion>PORQUE</suggestion>
-		  <example correction="porque|PORQUE">Ele não se importou, <marker>pq</marker> acabou voltando.</example>
+           <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="orque" case_conversion='preserve'/></suggestion> por extenso.</message>
+		  <example correction="porque">Ele não se importou, <marker>pq</marker> acabou voltando.</example>
     </rule>
     <rule>
         <antipattern>
@@ -45176,10 +45166,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
            <token postag='_PUNCT'/>
         </pattern>
-           <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se for uma pergunta, utilize <suggestion>Por que</suggestion>.</message>
-           <suggestion>PORQUE</suggestion>
-           <suggestion>POR QUE</suggestion>
-		  <example correction="Porque|Por que|PORQUE|POR QUE"><marker>Pq</marker> ele não quis.</example>
+           <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion><match no='2' regexp_match="q" regexp_replace="orque" case_conversion='preserve'/></suggestion> por extenso. Se for uma pergunta, utilize <suggestion><match no='2' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
+		  <example correction="Porque|Por que"><marker>Pq</marker> ele não quis.</example>
     </rule>
     <rule>
         <antipattern>
@@ -45210,11 +45198,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
 	       <token>pq</token>
         </pattern>
-             <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se for o início de uma pergunta ou se puder substituir por "a razão/o motivo) pelo(a) qual", utilize <suggestion>por que</suggestion>.</message>
-             <suggestion>POR QUE</suggestion>
-             <suggestion>PORQUE</suggestion>
-		   <example correction="porque|por que|POR QUE|PORQUE">Queria apenas entender <marker>pq</marker> não ligaram de volta.</example>
-		   <example correction="porque|por que|POR QUE|PORQUE">Teve que fazer o diagnóstico <marker>pq</marker> não havia mais ninguém na sala.</example>
+             <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion><match no='1' regexp_match="q" regexp_replace="orque" case_conversion='preserve'/></suggestion> por extenso. Se for o início de uma pergunta ou se puder substituir por "a razão/o motivo) pelo(a) qual", utilize <suggestion><match no='1' regexp_match="q" regexp_replace="or que" case_conversion='preserve'/></suggestion>.</message>
+		   <example correction="porque|por que">Queria apenas entender <marker>pq</marker> não ligaram de volta.</example>
+		   <example correction="porque|por que">Teve que fazer o diagnóstico <marker>pq</marker> não havia mais ninguém na sala.</example>
     </rule>
 </rulegroup>
 
