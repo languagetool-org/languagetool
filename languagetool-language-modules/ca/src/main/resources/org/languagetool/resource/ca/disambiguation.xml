@@ -8339,6 +8339,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="V.*"/>
     </rule>
     <rule id="mostra" name="mostra (no nom)">
+        <antipattern>
+            <token postag="D..[FC]S." postag_regexp="yes"/>
+            <token postag="A..[FC]S." postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+        </antipattern>
         <pattern>
             <token><exception postag="D[^D].FS.|SPS00|LOC_PREP" postag_regexp="yes"/></token>
             <marker>
@@ -8684,6 +8688,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filterall"/>
     </rule>
     <rule id="alt_baix" name="alt/baix adjectius davant de nom">
+        <antipattern>
+            <token postag="&pronom_feble;" postag_regexp="yes"/>
+            <token>baixa</token>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="nombre"/>
