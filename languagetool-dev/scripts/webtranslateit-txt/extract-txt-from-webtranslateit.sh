@@ -39,17 +39,18 @@ path=$project/src/_locales
 
 for lang in ca de en es fr it nl pl pt_BR pt_PT ru uk
 do
-	grep '"message": ' $path/$lang/messages.json | sed 's/.*"message": "\(.*\)"/\1/' | sed 's/<[^>]*>//g'> text-files/$lang-$project.txt
+	langcode=`echo "$lang" | sed 's/_/-/' | sed 's/^pt$/pt-PT/' | sed 's/^en$/en-US/' | sed 's/^de$/de-DE/'`
+	grep '"message": ' $path/$lang/messages.json | sed 's/.*"message": "\(.*\)"/\1/' | sed 's/<[^>]*>//g'> "text-files/${langcode}_$project.txt"
 done
 
 project=website-languagetool-org
 path=$project/resources/lang
 
 for lang in ca de en es fr it nl pl pt pt-BR ru uk
-#TODO: normalize the language codes for Portuguese
 do
-	python3 extract-txt-from-php.py $path/$lang/js.php > text-files/$lang-$project.txt
-	python3 extract-txt-from-php.py $path/$lang/messages.php >> text-files/$lang-$project.txt
+	langcode=`echo "$lang" | sed 's/_/-/' | sed 's/^pt$/pt-PT/' | sed 's/^en$/en-US/' | sed 's/^de$/de-DE/'`
+	python3 extract-txt-from-php.py $path/$lang/js.php > text-files/${langcode}_$project.txt
+	python3 extract-txt-from-php.py $path/$lang/messages.php >> text-files/${langcode}_$project.txt
 	
 done
 
@@ -57,7 +58,7 @@ project=lt-core
 #English
 lang="en"
 file=$project/languagetool-core/src/main/resources/org/languagetool/MessagesBundle_$lang.properties
-python3 extract-txt-from-ltcore.py $file >text-files/$lang-$project.txt
+python3 extract-txt-from-ltcore.py $file >text-files/en-US_$project.txt
 #other languages
 for lang in ar ast be br ca da de el eo es fa fr gl it ja km lt nl pl pt_BR pt_PT ro ru sk sl sv ta tl uk zh
 do 
@@ -66,15 +67,15 @@ do
 	then
 		langdir="pt"
 	fi
+	langcode=`echo "$lang" | sed 's/_/-/' | sed 's/^pt$/pt-PT/' | sed 's/^en$/en-US/' | sed 's/^de$/de-DE/'`
 	file=$project/languagetool-language-modules/$langdir/src/main/resources/org/languagetool/MessagesBundle_$lang.properties
-	python3 extract-txt-from-ltcore.py $file >text-files/$lang-$project.txt
+	python3 extract-txt-from-ltcore.py $file >text-files/${langcode}_$project.txt
 done
 
 project="apple-apps"
 for lang in de en es fr
 do
+	langcode=`echo "$lang" | sed 's/_/-/' | sed 's/^pt$/pt-PT/' | sed 's/^en$/en-US/' | sed 's/^de$/de-DE/'`
 	file=$project/src/LanguageTool/$lang.lproj/Localizable.strings
-	grep " = " $file | sed 's/".*" = "\(.*\)";/\1/' > text-files/$lang-$project.txt
+	grep " = " $file | sed 's/".*" = "\(.*\)";/\1/' > text-files/${langcode}_$project.txt
 done
-
-
