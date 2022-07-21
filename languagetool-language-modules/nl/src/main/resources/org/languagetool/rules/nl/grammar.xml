@@ -28917,11 +28917,15 @@ steenwijk;Steenwijk
 		<rulegroup id="OP_BASIS_VAN" name="op basis van" tags="picky">
 			<rule>
 				<pattern>
-					<token>op</token><token>basis</token><token>van</token>
+				    <token postag_regexp="yes" postag="ZNW.*"/>
+				    <marker>
+					    <token>op</token><token>basis</token><token>van</token>
+					</marker>
 				</pattern>
 				<message>&vlotter_mess; <suggestion>gemaakt met</suggestion>, <suggestion>met</suggestion> of nog anders.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="gemaakt met|met">Inkt <marker>op basis van</marker> water.</example>
+				<example>Hij zegt dat <marker>op basis van</marker> zijn ervaring.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="OP_DEZE_WIJZE" name="op deze wijze" tags="picky">
