@@ -56,8 +56,19 @@ public class CleanOverlappingFilter implements RuleMatchFilter {
         throw new IllegalArgumentException(
             "The list of rule matches is not ordered. Make sure it is sorted by start position.");
       }
+      // juxtaposed errors adding a comma in the same place
+      boolean isJuxtaposedComma = false;
+      if (ruleMatch.getFromPos() == prevRuleMatch.getToPos()
+          && ruleMatch.getSuggestedReplacements().size() > 0
+          && prevRuleMatch.getSuggestedReplacements().size() > 0) {
+        String suggestion = ruleMatch.getSuggestedReplacements().get(0);
+        String prevSuggestion = prevRuleMatch.getSuggestedReplacements().get(0);
+        if (prevSuggestion.endsWith(",") && suggestion.startsWith(", ")) {
+          isJuxtaposedComma = true;
+        }
+      }
       // no overlapping (juxtaposed errors are not removed)
-      if (ruleMatch.getFromPos() >= prevRuleMatch.getToPos()) {
+      if (ruleMatch.getFromPos() >= prevRuleMatch.getToPos() && !isJuxtaposedComma) {
         cleanList.add(prevRuleMatch);
         prevRuleMatch = ruleMatch;
         continue;
