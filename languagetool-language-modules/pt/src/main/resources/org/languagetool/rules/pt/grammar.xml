@@ -3683,8 +3683,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-05-24 (Checked/Enhanced) (24-MAY-2022+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-06-29 (5-JUN-2022+) *START* -->
-        <!-- These two antipatterns were placed both in male and female parts -->
+        <!-- MARCOAGPINTO 2022-06-29 + 2022-07-22 (5-JUN-2022+) *START* -->
+        <!-- These two antipatterns were placed both in male and female parts, notice that this one has changes that the other still hasn't been updated - 2022-07-22 -->
         <antipattern>
           <token postag='PP2CSN00'/>
           <token postag='VMN02S0'/>
@@ -3694,8 +3694,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <antipattern>
           <token postag='VMIP2S0'/>
-          <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
-          <token postag='_PUNCT|NP.+|Z0CN0|AQ.+|NC.+|SPS00|CC|CS|RG|[DP][ADIP]..[SN].+|SPS00:[DP][ADIP]..[SN].+' postag_regexp='yes'/>
+          <token min="1" max="2" postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+          <token postag='_PUNCT|NP.+|Z0CN0|AQ.+|NC.+|SPS00|CC|CS|RG|[DP][ADIPR]..[SN].+|SPS00:[DP][ADIPR]..[SN].+' postag_regexp='yes'/>
           <example>Sabes inglês?</example>
           <example>Bernadette sentindo necessidade de falar, de contar aquela maravilhosa experiência, em duas palavras narra tudo a Antonieta.</example>
           <example>Tu consegues ser cada vez mais besta e a este progresso chamas Civilização!</example>
@@ -3706,7 +3706,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>A arte da tributação consiste simplesmente em depenar o ganso de forma a obter tantas penas quanto possível, com a menor gritaria possível.</example>
           <example>Por que andas preocupada?</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-06-29 (5-JUN-2022+) *END* -->
+        <!-- MARCOAGPINTO 2022-06-29 + 2022-07-22 (5-JUN-2022+) *END* -->
 
         <!-- MARCOAGPINTO 2022-07-02 (5-JUN-2022+) *START* -->
         <!-- This antipattern was placed both in male and female parts -->
@@ -3723,14 +3723,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-02 (5-JUN-2022+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-07-02 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <!-- MARCOAGPINTO 2022-07-02/22 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <!-- This antipattern was placed both in male and female parts -->
         <antipattern>
           <token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+|AQ..P.+|NC.P.+|V.+|SENT_START' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='VMP00S.+'/>
           </token>
           <token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
-          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token min="1" max="2" postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
           <token min="0" max="1" postag='RN'/>
           <token postag='VMI.3S.+|VMIP.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'>
             <exception postag='VMM02S0'/>
@@ -3742,7 +3742,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>A vitória custou aos cartaginenses muito sangue.</example>
           <example>Há quantos anos ele já frequenta esta escola?</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-07-02 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+        <!-- MARCOAGPINTO 2022-07-02/22 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
         <!-- MARCOAGPINTO 2022-07-15/21 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
@@ -3759,10 +3759,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-15/21 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-07-16/17 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <!-- MARCOAGPINTO 2022-07-16/17/22 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
           <token postag='Z0.P.+|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
-          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token min="1" max="2" postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
           <token postag='RG' postag_regexp='no'/>
           <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
           <example>Vocês mães fazem uma ligação com os vossos filhos mais emocional do que racional.</example>
@@ -3772,7 +3772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Ele só é dois anos mais velho do que eu.</example>
           <example>O que você faria se fosse dez anos mais novo?</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-07-16/17 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+        <!-- MARCOAGPINTO 2022-07-16/17/22 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
         <!-- MARCOAGPINTO 2022-07-16 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
@@ -3863,13 +3863,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <!-- MARCOAGPINTO 2022-07-19/22 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
           <token postag='V.+|AQ..P.+|NC.P.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='AQ..S.+|NC.S.+'/>
             <exception scope="previous" postag_regexp='yes' postag='SPS00|CC|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+|AQ..P.+|NC.P.+|V.+'/>
           </token>
-          <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+          <token min="1" max="2" postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
           <token min="0" max="1" postag='RG' postag_regexp='no'/>
           <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|SPS00' postag_regexp='yes'/>
           <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
@@ -3881,12 +3881,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Demos tempo ao tempo porque, a seu tempo, sorriremos de novo.</example>
           <example>Olhos cor de turquesa, mas alma escura qual fuligem.</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-07-19 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+        <!-- MARCOAGPINTO 2022-07-19/22 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-07-20 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <!-- MARCOAGPINTO 2022-07-20/22 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
           <token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
-          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token min="1" max="2" postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
           <token postag='AQ..S.+|NC.S.+|NP.+' postag_regexp='yes'/>
           <token min="0" max="1" postag='_PUNCT|RG|CC|I|RM|RN|SPS00' postag_regexp='yes'>
             <exception postag_regexp='no' postag='CS'/>
@@ -3912,8 +3912,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <!-- The two examples below are hard to tell if they are false positives, I need to find the antipattern that removes NP.+ PLUS NP.+ and fix it -->
           <example>A primeira, conduzida pela Comissão Finanças e Orçamento, da qual fazem parte os vereadores Jane Veiga (presidente), Gedai (vice-presidente) e Marco Santo Antônio (membro), será referente à presta...</example>
           <example>Os apresentadores César Filho, da Record, e Celso Portiolli, do SBT, também marcaram presença na cerimônia e na festa íntim...</example>
+          <example>Geralmente, os smartphones com maior quantidade desse tipo de memória são os chamados smartphones top de linha.</example>
+          <example>Os ladrilhos hidráulicos modelo Tulipa, em tons de verde e roxo, da Dalle Piagge revestem a caixa de concreto que serve de bancada....</example>
+          <example>É difícil para os estudantes estrangeiros falar bem o inglês.</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-07-20 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+        <!-- MARCOAGPINTO 2022-07-20/22 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
         <!-- MARCOAGPINTO 2022-07-21 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
@@ -9181,7 +9184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- First for nouns -->
       <antipattern>
         <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'>
-			<exception regexp='yes'>n[ao]s?</exception> 
+          <exception regexp='yes'>n[ao]s?</exception> 
         </token>
         <token min="1" max="2" postag='NC.+|AQ.+' postag_regexp='yes'/>
         <token min="0" max="1" postag='RN' postag_regexp='no'/>
@@ -9196,7 +9199,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- Second for Proper Names -->
       <antipattern>
         <token min="0" max="1" postag='DA.+|SPS00:DA.+' postag_regexp='yes'>
-			<exception regexp='yes'>n[ao]s?</exception> 
+          <exception regexp='yes'>n[ao]s?</exception> 
         </token>
         <token min="1" max="2" postag='NP.+' postag_regexp='yes'/>
         <token min="0" max="1" postag='RN' postag_regexp='no'/>
@@ -9204,7 +9207,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>A BBC existe décadas fornece e também divulga globalmente objetivo para as pessoas que quer aprender inglês.</example>
         <example>O Tomás não sai connosco.</example>
         <example>Bill ficou horas chorando.</example>
-        <example>Na casa, uma cena sensual se desenrola e Michael fica dias pensando em Hanna, sonhando com ela, imaginando-a de diversas formas, sem paz, decide então ...</example>
+        <example>Na casa, uma cena sensual se desenrola e Michael fica dias pensando em Hanna, sonhando com ela, imaginando-a de diversas formas, sem paz, decide en...</example>
         <example>Tom fica vários dias sem fumar cigarro.</example>
         <example>Tom chegou alguns minutos mais cedo.</example>
         <example>Maria ficou alguns dias em Paris.</example>
