@@ -84,6 +84,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY naipes "(?:o[iu]ros|copas|espadas|paus|trunfos?)">
 
     <!ENTITY pronomes_obliquos "[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
+    <!ENTITY pronomes_obliquos_singular "[ao]|l[ao]|lh[aeo]|n[ao]|me|se|te|vos">
+    <!ENTITY pronomes_obliquos_plural "[ao]s|l[ao]s|lh[aeo]s|n[ao]s|me|se|te|vos">
     <!ENTITY pronomes_retos "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
     <!ENTITY pronomes_contracao "das?|de|dos?|[nd]isso|dest[ae]s?|dess[ae]s?|[nd]isto|daquilo|daquel[ea]s?|nest[ae]s?|ness[ae]s?|naquilo|naquela|naqueles?">
     <!ENTITY pronomes_de_tratamento "Alteza|Altezas|Beatitude|Beatitudes|Divindade|Divindades|Eminência|Eminências|Excelência|Excelências|Graça|Graças|Magnificência|Magnificências|Majestade|Majestades|Paternidade|Paternidades|Realeza|Realezas|Reverência|Reverências|Reverendíssima|Reverendíssimas|Reverendíssimo|Reverendíssimos|Santidade|Santidades|Senhor|Senhora|Senhoria|Senhorias">
@@ -9214,13 +9216,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Tom saiu horas atrás.</example>
         <example>O caso de Sami acabou meses atrás.</example>
       </antipattern>
+      <!-- Part of a compound subject (for plural verbs) -->
+      <antipattern>
+        <and>
+          <token regexp='yes' inflected="yes">&verbos_nao_impessoais;</token>
+          <token postag='V....P.+' postag_regexp='yes'/>
+        </and>
+        <token min="1" max="2" postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='CC|_PUNCT' postag_regexp='yes'/>
+        <token min="1" max="2" postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <example>Faltam convicção, coragem e determinação para um salto de qualidade.</example>
+        <example>No primeiro treino da epoca, faltaram Camião, Ganhão, Resende e Bruno Aires que se encontam de ferias ou por motivos profissionais.</example>
+        <example>Não lhe faltam dignidade e elegância.</example>
+      </antipattern>
 
       <rule>
         <pattern>
           <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
             <exception>sobre</exception>
-            <exception scope='previous' regexp='yes'>&pronomes_retos;</exception> <!-- Added by MARCOAGPINTO - 2022-07-21 -->
-            <exception postag_regexp='yes' postag='SPS00|VMN0000'/> <!-- Fix for "entre" by MARCOAGPINTO and infinitive by Ricardo Joseh Lima - 2022-07-21 -->
+
+            <!-- Fixes by MARCOAGPINTO/RICARDOJOSEHLIMA - 2022-07-21/22 *START*-->
+            <exception scope='previous' regexp='yes'>&pronomes_retos;</exception>
+            <exception postag_regexp='yes' postag='SPS00|VMN0000'/>
+            <exception scope='next' regexp='yes'>a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
+            <exception scope='previous' postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
+            <!-- Fixes by MARCOAGPINTO/RICARDOJOSEHLIMA - 2022-07-21/22 *END*-->
+
           </token>
           <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'/></token>
@@ -9229,13 +9250,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion><match no='1' postag_regexp='yes' postag='(V...)3S(.+)' postag_replace='$13P$2'/> \2</suggestion>
         <suggestion>\1 <match no='2' postag_regexp='yes' postag='(D...|P...|N..|A...)P(.+)' postag_replace='$1S$2'/></suggestion>
         <example correction="existem muitas|existe muita">Na vida <marker>existe muitas</marker> coisas boas.</example>
+        <example>Por favor, basta nos enviar o inquérito para mais detalhes sobre nossos liquidificadores de alimentos elétricos.</example>
+        <example>...s, como eles próprios o são. Os rebanhos, os bens e todos os animais domésticos serão assim nossos. Basta lhes darmos o consentimento e eles habitarão conosco.</example>
       </rule>
       <rule>
         <pattern>
           <token postag_regexp='yes' postag='V...3P.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
             <exception>sobre</exception> <!-- copied from above - MARCOAGPINTO - 2022-07-01 -->
-            <exception scope='previous' regexp='yes'>&pronomes_retos;</exception> <!-- Added by MARCOAGPINTO - 2022-07-21 -->
-            <exception postag_regexp='yes' postag='SPS00|VMN0000'/> <!-- Fix for "entre" by MARCOAGPINTO and infinitive by Ricardo Joseh Lima - 2022-07-21 -->
+
+            <!-- Fixes by MARCOAGPINTO/RICARDOJOSEHLIMA - 2022-07-21/22 *START*-->
+            <exception scope='previous' regexp='yes'>&pronomes_retos;</exception>
+            <exception postag_regexp='yes' postag='SPS00|VMN0000'/>
+            <exception scope='next' regexp='yes'>a|n[ao]s|me|se|te|lh[aeo]s?|vos|comigo|contigo</exception>
+            <exception scope='previous' postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
+            <!-- Fixes by MARCOAGPINTO/RICARDOJOSEHLIMA - 2022-07-21/22 *END*-->
+
           </token>
           <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'/></token>
@@ -9244,6 +9273,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion><match no='1' postag_regexp='yes' postag='(V...)3P(.+)' postag_replace='$13S$2'/> \2</suggestion>
         <suggestion>\1 <match no='2' postag_regexp='yes' postag='(D...|P...|N..|A...)S(.+)' postag_replace='$1P$2'/></suggestion>
         <example correction="existe muita|existem muitas">Na vida <marker>existem muita</marker> coisas boas.</example>
+        <example>Sai de lá antes que saíssem comigo, pois até rebelde, de anti-cristo já me chamavam.</example>
+        <example>Enquanto tudo isso acontecia, outras mães no quarto ficavam me olhando.</example>
+        <example>Além do mais passavam ao nosso lado quase todos os aviões e respectivos pilotos quando acabavam a sua exibição!</example>
+        <example>Fiquei sismado por ficarem me encarando.</example>
+        <example>Funcionários da Flórida dizem que ainda não chegaram a uma conclusão. Ainda estão procurando descobrir o método pelo qual o vírus é transmitido.</example>
+        <example>Durante quarenta anos os israelitas tiveram maná para comer, até chegarem a uma terra habitada, isto é, até que chegaram à fronteira de Canaã.</example>
+        <example>SERA QUE E MENTIRA,QUE PESSOAS FICAM IGUAL A LIXO NOS CHAOS DOS HOSPITAIS????</example>
+        <example>Todas disponíveis no Netflix, mas as duas últimas sairão junho ou julho.</example>
       </rule>
     </rulegroup>
 
