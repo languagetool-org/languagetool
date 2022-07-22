@@ -283,17 +283,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token postag="V.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
-                <example correction="">Depuis plusieurs années, il est bien entendu approprié de dire que leur façon de s'occuper de leur <marker>foyer persiste</marker>de manière somme toute fort appropriée et accepté par tous.</example>
+                <example correction="">Depuis plusieurs années, il est bien entendu approprié de dire que leur façon de s'occuper de leur <marker>foyer persiste</marker> de manière somme toute fort appropriée et accepté par tous.</example>
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">["»«]</token>
                     <marker>
-                        <token regexp="yes">["»«]</token>
-                        <token regexp="yes">\d\d</token>
+                        <token regexp="yes">\d.*</token>
                         <token regexp="yes">[a-z].*</token>
                     </marker>
                 </pattern>
-                <example correction="">"Ce revers n'était pas une défaite irréversible, mais il fut exploité par la propagande" <marker>236 Pour</marker>cela s'ajouta en France de nombreuses formes de protestations contre ce genre de pratiques fermement condamnées et hautement répréhensibles qui sont bien sûr méprisaient par l'ensemble de la popoulation depuis des temps immémorables.</example>
+                <example correction="">"Ce revers n'était pas une défaite irréversible, mais il fut exploité par la propagande" <marker>236 Pour</marker> cela s'ajouta en France de nombreuses formes de protestations contre ce genre de pratiques fermement condamnées et hautement répréhensibles qui sont bien sûr méprisaient par l'ensemble de la popoulation depuis des temps immémorables.</example>
             </rule>
             <rule>
                 <pattern>
@@ -377,7 +377,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <pattern>
                     <token>,</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                        <token>exemple</token>
                         <token regexp="yes" case_sensitive="yes">[a-z].*</token>
                     </marker>
                 </pattern>
