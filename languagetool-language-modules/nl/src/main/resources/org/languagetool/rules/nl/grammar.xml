@@ -424,8 +424,9 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij/jou/jouw, mij → we, ze, je, me" tags="picky">
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">Wij|Zij|Jij</token><token regexp="yes">van|en|als</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">Wij|Jij</token><token postag="BNW:STL:VRB" min="0" max="1"/><token postag_regexp="yes" postag="ZNW:MRV.*"/></antipattern>
 				<antipattern><token regexp="yes">bovenover|door|over|tegen|volgens|voor</token><token>mij</token></antipattern>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>mij</token><token>is</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>mij</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
 				<antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
 				<antipattern><token>en</token><token regexp="yes">jij|wij|zij</token><token>?</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>voor</token><token>mij</token></antipattern>
@@ -448,6 +449,7 @@ regexp case-insensitive maken : (?i)
 				<example correction="We"><marker>Wij</marker> geven u een schatting van de kosten.</example>
 				<example correction="Ze"><marker>Zij</marker> vinden er hun tweede huis.</example>
                 <example><marker>Wij</marker> als parlementsleden zouden zo iets niet toelaten.</example>
+                <example><marker>Jij</marker> slimme mensen vinden zeker een oplossing.</example>
                 <example>Ze kozen haar over <marker>mij</marker>.</example>
                 <example><marker>Mij</marker> is meegedeeld dat u op zoek naar werk bent.</example>
                 <example>Ik vond het leuk, en <marker>jij</marker>?</example>
