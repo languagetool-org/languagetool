@@ -39874,12 +39874,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </pattern>
         <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
         <suggestion><match no='3' case_conversion='startupper'/></suggestion>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
+        <short>Problema de estilo</short>
+        <example correction="Não"><marker>Mas não</marker> é bom costume começar a frase com 'mas'.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag='SENT_START'/>
+          <marker>
+            <token regexp='yes'>Mas|Porém</token>
+          </marker>
+            <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|&aspas;|\.|'|"</exception></token>
+        </pattern>
+        <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático. Caso a palavra \2 seja necessária, procure escrever uma frase só juntando esta com a anterior.</message>
+        <suggestion><match no='3' case_conversion='startupper'/></suggestion>
         <suggestion>No entanto,</suggestion>
         <suggestion>Contudo,</suggestion>
         <suggestion>Apesar disso,</suggestion>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
         <short>Problema de estilo</short>
-        <example correction="Não|No entanto,|Contudo,|Apesar disso,"><marker>Mas não</marker> é bom costume começar a frase com 'mas'.</example>
+        <example correction="Não|No entanto,|Contudo,|Apesar disso,"><marker>Mas</marker> não é bom costume começar a frase com 'mas'.</example>
       </rule>
       <rule>
         <pattern>
@@ -39899,22 +39913,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <antipattern>
+          <token skip='-1'>ou</token>
+          <token>ou</token>
+          <example>Ou uma coisa ou outra.</example>
+        </antipattern>
+        <antipattern>
           <token>ou</token>
           <token>seja</token>
         </antipattern>
+        <antipattern>
+          <token>ou</token>
+          <token>mesmo</token>
+        </antipattern>
+        <antipattern>
+          <token>ou</token>
+          <token>então</token>
+        </antipattern>
         <pattern>
           <marker>
-            <token regexp='yes'>[\.\?\!\:]</token>
-            <token spacebefore='yes' case_sensitive='yes'>Ou</token>
+            <token case_sensitive='yes'>Ou</token>
           </marker>
           <token></token>
         </pattern>
         <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
-        <suggestion>; <match no='2' case_conversion='alllower'/></suggestion>
-        <suggestion>, <match no='2' case_conversion='alllower'/></suggestion>
+        <suggestion>De outra forma,</suggestion>
+        <suggestion>Será que</suggestion>
+        <suggestion>Talvez</suggestion>
+        <suggestion>Alternativalente</suggestion>
+        <suggestion><match no='3' case_conversion='startupper'/></suggestion>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-conjuncao-porem-no-inicio-de-frase/22597</url>
         <short>Problema de estilo</short>
-        <example correction="; ou|, ou">Pausas são necessárias<marker>: Ou</marker> não é bom costume começar a frase com 'ou'?</example>
+        <example correction="De outra forma,|Será que|Talvez|Alternativalente|Não"><marker>Ou</marker> não é bom costume começar a frase com essa palavra?</example>
       </rule>
     </rulegroup>
     <!--          Style rules from English grammar.xml      - END  -->
