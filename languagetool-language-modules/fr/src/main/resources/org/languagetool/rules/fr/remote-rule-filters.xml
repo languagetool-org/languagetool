@@ -26,6 +26,7 @@ Filter for remote matches.
 To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
 -->
 <!DOCTYPE rules [
+<!ENTITY unites_temps "matinée|journée|an|année|veille|décade|décennie|h(eure)?|j(our)?|lustre|millénaire|min(ute)?|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre|secs?">
 <!ENTITY unites_de_mesure "min|(centi|milli|déci|déca|hecto|kilo|atto|exa|mega|giga|tera|peta|zetta|yotta|micro|nano|pico|femto|zepto|yocto)?[mètre|gramme|litre]|degré|[mchkd][wglm]|dag|dal|dam|volt|watt|hz|hertz|bits?|ms|s|cs|cc|dB|go|kw">
 <!ENTITY monnaies "afghani|rand|lek|d[ie]nar|euro|kwanza|dollar|florin|riyal|peso|dram|manat|taka|rouble|franc|r(h)?oupie|boliviano|mark|pula|couronne|real|(bulgarian)? lev|riel|peso|escudo|yuan|livre|won|kuna|colon|dirham|birr|dalasi|lari|ghana cedi|quetzal|gourde|lempira|forint|rupiah|rial|yen|tenge|shilling|som|kip|rans|loti|lats|litas|pataca|malagasy|ringgit|kwacha|rufiyaa|ouguija|leu|tugrik|metical|kyat|rand|cordoba|naira|soum|balboa|kina|guarani|(nouveau)? sol|zloty|tala|dobra|leone|lilangeni|somoni|baht|pa'anga|manat|hryvnia|vatu|bolivar|dong|kwacha">
         ]>
@@ -276,6 +277,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rule>
             <rule>
                 <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Depuis plusieurs années, il est bien entendu approprié de dire que leur façon de s'occuper de leur <marker>foyer persiste</marker>de manière somme toute fort appropriée et accepté par tous.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">["»«]</token>
+                        <token regexp="yes">\d\d</token>
+                        <token regexp="yes">[a-z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">"Ce revers n'était pas une défaite irréversible, mais il fut exploité par la propagande" <marker>236 Pour</marker>cela s'ajouta en France de nombreuses formes de protestations contre ce genre de pratiques fermement condamnées et hautement répréhensibles qui sont bien sûr méprisaient par l'ensemble de la popoulation depuis des temps immémorables.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token regexp="yes">[a-z].*</token>
                         <token>tes</token>
@@ -341,6 +362,44 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Ils descendent tout les deux de la voiture, une fois <marker>dehors Sara</marker> regarde autour d'elle avant de se mettre à sourire et de regarder Michael.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                        <token postag="Z.*" postag_regexp="yes"/>
+                    </marker>
+                    <token>,</token>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y <marker>mets Hugo</marker>, mais avant de te mettre à sourire et de regarder Michael laisse-moi t'expliquer mon cas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                        <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y mets, <marker>exemple un</marker> jour tu comprendras, mais avant de te mettre à sourire et de regarder Michael laisse-moi t'expliquer mon cas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes" case_sensitive="yes">&unites_temps;</token>
+                        <token regexp="yes" case_sensitive="yes">\d.*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y mettrai dans la <marker>semaine 32</marker> le 8 ou le 9 août de l'année prochaine je pense mais je dois encore vérifier.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="[NJZ].*" postag_regexp="yes"/>
+                        <token postag="V.* ppr" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y mettrai et que la <marker>force opposant</marker> notre volonté disparaitra avec le temps, fais-moi confiance sur ce coup-là.</example>
             </rule>
             <rule>
                 <pattern>
