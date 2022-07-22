@@ -36,6 +36,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 public class GermanTest extends LanguageSpecificTest {
   
   @Test
@@ -124,6 +127,18 @@ public class GermanTest extends LanguageSpecificTest {
         }
       }
     }
+  }
+  
+  @Test
+  public void testGenderCharsAgainstAllRules() throws IOException {
+    Language lang = Languages.getLanguageForShortCode("de-DE");
+    JLanguageTool lt = new JLanguageTool(lang);
+    assertThat(lt.check("Die Jurist_innenausbildung ist schwer.").size(), is(0));
+    assertThat(lt.check("Die Jurist*innenausbildung ist schwer.").size(), is(0));
+    assertThat(lt.check("Die Jurist:innenausbildung ist schwer.").size(), is(0));
+    assertThat(lt.check("Die Datei heißt Juriest_innenausbieldung.mfgjg und ist leer.").size(), is(0));
+    assertThat(lt.check("Alles richtig_stimmt.").size(), is(0)); //not treated by GermanSpellerRule.removeGenderCompoundMatches
+    assertThat(lt.check("Das ist flasch_nittrichtig.").size(), is(2)); //not treated by GermanSpellerRule.removeGenderCompoundMatches
   }
 
   // test that patterns with 'ß' also contain that pattern with 'ss' so the rule can match for de-CH users
