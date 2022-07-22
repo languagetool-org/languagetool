@@ -1437,7 +1437,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       filteredMatches = filteredMatches.stream().filter(k -> !(filePattern.start() <= k.getFromPos() && filePattern.end() >= k.getToPos())).collect(Collectors.toList());
       pos = filePattern.end();
     }
-    
     return filteredMatches.toArray(RuleMatch.EMPTY_ARRAY);
   }
 

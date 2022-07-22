@@ -1028,7 +1028,54 @@ public class GermanSpellerRuleTest {
 
     assertThat(rule.match(lt.getAnalyzedSentence("Jurist_innenausbildunk")).length, is(1));
     assertThat(rule.match(lt.getAnalyzedSentence("Jurrist_innenausbildung")).length, is(2));
-    //assertThat(rule.match(lt.getAnalyzedSentence("Jurist_innenausbildung")).length, is(0));  // TODO
+    assertThat(rule.match(lt.getAnalyzedSentence("Jurist_innenausbildung")).length, is(0));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Häuser der Juriest_innen sind grün.")).length, is(1));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Häuser der Juriest*innen sind grün.")).length, is(1));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Häuser der Juriest:innen sind grün.")).length, is(1));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Häuser der Jurist_innen sind grün.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Häuser der Jurist*innen sind grün.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Häuser der Jurist:innen sind grün.")).length, is(0));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Jurist_innenausbildung ist schwer.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Jurist*innenausbildung ist schwer.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Jurist:innenausbildung ist schwer.")).length, is(0));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Jurist_innenausbieldung ist schwer.")).length, is(1));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Jurist*innenausbieldung ist schwer.")).length, is(1));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Jurist:innenausbieldung ist schwer.")).length, is(1));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest_innenausbildung ist schwer.")).length, is(2));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest*innenausbildung ist schwer.")).length, is(2));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest:innenausbildung ist schwer.")).length, is(2));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest_innenausbieldung ist schwer.")).length, is(2));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest*innenausbieldung ist schwer.")).length, is(2));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Juriest:innenausbieldung ist schwer.")).length, is(2));
+    
+    //check common file name with _
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Jurist_innen.txt.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Jurist_innen.txt und ist leer.")).length, is(0));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Juriest_innen.txt.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Juriest_innen.txt und ist leer.")).length, is(0));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Juriest_innenausbieldung.txt.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Juriest_innenausbieldung.txt und ist leer.")).length, is(0));
+    
+    //check uncommon file name with _
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Jurist_innen.mfgjg.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Jurist_innen.mfgjg und ist leer.")).length, is(0));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Juriest_innen.mfgjg.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Juriest_innen.mfgjg und ist leer.")).length, is(0));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Juriest_innenausbieldung.mfgjg.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt Juriest_innenausbieldung.mfgjg und ist leer.")).length, is(0));
+    
+    assertThat(rule.match(lt.getAnalyzedSentence("richtig_stimmt")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("flasch_nittrichtig")).length, is(2));
   }
   
   @Test
