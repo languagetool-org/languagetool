@@ -33555,6 +33555,14 @@ steenwijk;Steenwijk
 			</rule>
 			<rule>
 				<pattern>
+					<token>heel</token>
+					<token>erg</token>
+				</pattern>
+				<message>Is dit niet \1 \2 overdreven? Misschien is <suggestion>\1</suggestion> of <suggestion>\2</suggestion> al voldoende.</message>
+				<example correction="heel|erg">Wij vonden het <marker>heel erg</marker> saai.</example>
+			</rule>
+			<rule>
+				<pattern>
 					<token regexp="yes">(giga|mega|super|ultra|über)...*<exception regexp="yes">^(giga|mega)(pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|superfoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*|übermensch.*|überhaupt|Super-G</exception><exception postag="UNKNOWN"/></token>
 				</pattern>
 				<message>Dit lijkt wat overdreven. Is <suggestion><match no="1" regexp_match="^(giga|mega|super|ultra|über)-?" regexp_replace=""/></suggestion> niet genoeg?</message>
