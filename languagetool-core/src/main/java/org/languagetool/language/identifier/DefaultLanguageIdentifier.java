@@ -298,6 +298,10 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
               Languages.getLanguageForShortCode(result.getKey(), additionalLangs),
               result.getValue().floatValue(), source);
     } else {
+      if (preferredLangs.size() > 0 && Languages.isLanguageSupported(preferredLangs.get(0))) {
+        source += "+fallbackToPrefLang";
+        return new DetectedLanguage(null, Languages.getLanguageForShortCode(preferredLangs.get(0)), 0.1f, source);
+      }
       return null;
     }
   }
