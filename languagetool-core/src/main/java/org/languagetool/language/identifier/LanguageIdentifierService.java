@@ -76,6 +76,21 @@ public enum LanguageIdentifierService {
     return this.simpleIdentifier;
   }
 
+  /**
+   * Try to get an already initialized LanguageIdentifier
+   * @return defaultIdentifier or if null simpleIdentifier or null
+   */
+  @Nullable
+  public LanguageIdentifier getInitialized() {
+    if (defaultIdentifier != null) {
+      return this.defaultIdentifier;
+    } else if (simpleIdentifier != null) {
+      return this.simpleIdentifier;
+    } else {
+      return null;
+    }
+  }
+
   public boolean canLanguageBeDetected(String langCode, List<String> additionalLanguageCodes) {
     return Languages.isLanguageSupported(langCode) || additionalLanguageCodes.contains(langCode);
   }
