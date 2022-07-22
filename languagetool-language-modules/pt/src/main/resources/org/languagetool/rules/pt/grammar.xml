@@ -95,6 +95,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY conjuncoes_coordenativas "contudo|e|então|entretanto|logo|mas|nem|ou|pois|porém|porquanto|portanto|todavia">
     <!ENTITY introduz_conjuntivo "(?:caso|conquanto|embora|que|quando|se|talvez|tomara)">
 
+    <!ENTITY verbos_ambiguos "passa|queima|lida|berra|data|toca|vá|cura|melhora|muda|continha|lia|toma|custa|escova|mora|brinca|chora|tá">
     <!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
     <!ENTITY verbos_auxiliares_aspectuais "(?:andar|ir|vir|começar|continuar|tornar|voltar|costumar|acabar|deixar)">
     <!ENTITY verbos_auxiliares_modais "(?:dever|poder|querer|conseguir|pretender|tentar|chegar)">
@@ -11223,10 +11224,75 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rule id="NO_VERB" name="Síntaxe: ausência de verbo" default="temp_off" tags="picky">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
       <antipattern>
-        <token case_sensitive='yes' regexp='yes'>[A-Z]*|[0-9]*|\)|keywords?</token>
-        <token regexp='yes' min='0'>&separadores_de_fecho;</token>
-        <token>:</token>
+        <token postag='SENT_START'/>
+        <token regexp='yes' min='0'>\d{1,2}</token>
+        <token min='0'>de</token>
+        <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
+        <token min='0'>de</token>
+        <token regexp='yes'>\d{2,4}</token>
+        <token postag='SENT_END'/>
+        <example>6 de janeiro de 1986.</example>
+        <example>Abril de 1992.</example>
+        <example>21 jul 1958.</example>
+      </antipattern>
+       <antipattern>
+        <token postag='SENT_START'/>
+        <token>ainda</token>
+        <token skip='-1'>mais</token>
+        <token postag='SENT_END'/>
+        <example>Ainda mais contra uma senhora.</example>
+        <example>Ainda mais ele!</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes' skip='-1'>&separadores_de_abertura;</token>
+        <token regexp='yes'>&separadores_de_fecho;</token>
+        <token skip='-1' min='0'></token>
+        <token postag='SENT_END' min='0'/>
+        <example>(Carga horária: 3h)</example>
+        <example>(Chula de Capoeira)</example>
+        <example>(café) de aroma de amêndoa.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp='yes' skip='-1'>&operadores_matematicos;</token>
+        <token postag='SENT_END'/>
+        <example>* Campos de preenchimento obrigatório.</example>
+        <example>*Ingredientes de origem biológica.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp="yes">\d</token>
+        <token regexp='yes' skip='-1'>&separadores_de_fecho;</token>
+        <token postag='SENT_END'/>
+        <example>4) Fatores biológicos de alta importância.</example>
+        <example>6) por último, o fato mais relevante.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
         <token spacebefore='yes' case_sensitive='yes' regexp='yes'>\p{Lu}\p{Ll}+</token>
+        <token regexp='yes' skip='-1'>&separadores_de_abertura;</token>
+        <token regexp='yes' skip='-1'>&separadores_de_fecho;</token>
+        <token postag='SENT_END'/>
+        <example>Lemos (1980).</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp='yes' skip='-1'>&aspas;|\"|\'</token>
+        <token regexp='yes' skip='-1'>&aspas;|\"|\'</token>
+        <token postag='SENT_END'/>
+        <example>"Fogo na floresta".</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START' skip='-1'/>
+        <token skip='-1'>:</token>
+        <token postag='SENT_END'/>
+        <example>Ônibus: linhas 184, 610 e 904.</example>
+        <example>Alta rotatividade: Sim.</example>
+        <example>Belgrado: Instituto de estatística da República da Sérvia.</example>
+        <example>Chuva Ácida: Qual a grande obra?</example>
+        <example>Desenvolvimento sustentável: um desafio para as ciências.</example>
+        <example>Especialidade: queijos, compotas, geleias, biscoitos, licores e cachaça.</example>
+        <example>Fonte: Guia do Estudante.</example>
         <example>BRENDA: Foi uma longa viagem.</example>
         <example>Título: Memórias póstumas de Brás Cubas</example>
         <example>Palavra-chave: Museu</example>
@@ -11237,10 +11303,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Veja também: Dez histórias de ninar</example>
       </antipattern>
       <antipattern>
+        <token case_sensitive='yes' regexp='yes'>[A-Z]*</token>
+        <token>,</token>
+        <token spacebefore="yes" case_sensitive="yes" regexp="yes" skip='-1'>\p{Lu}\p{Ll}+</token>
+        <token postag='SENT_END'/>
+        <example>COSTA, Américo de Oliveira.</example>
+      </antipattern>
+      <antipattern>
         <token postag='SENT_START'/>
         <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
         <token spacebefore="yes" case_sensitive="yes" regexp="yes" min='0'>\p{Lu}\p{Ll}+</token>
-        <token postag='SPS00|CC' postag_regexp='yes'/>
+        <token postag='SPS00|CC|SPS00:DA0MS0' postag_regexp='yes'/>
         <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+<exception>Deus</exception></token>
         <example>São membros do programa: Comissão Nacional de Proteção dos direitos; Comissão Eleitoral Municipal; Comissão Nacional de Ética em Pesquisa.</example>
         <example>Disciplina disponível: Teoria e Metodologia Científicas.</example>
@@ -11279,6 +11352,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp="yes">–|&hifen;</token>
         <example>1 - Trajetória pessoal e da pesquisa.</example>
         <example>2 – E o Pedro?</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp="yes" skip='-1'>\d</token>
+        <token postag='SENT_END'/>
+        <example>1 - Trajetória pessoal e da pesquisa.</example>
+        <example>2 – E o Pedro?</example>
+        <example>2 Banheiros.</example>
+        <example>2006 (Poesia e Música: letras).</example>
+        <example>6 1 2 3.</example>
       </antipattern>
       <antipattern><!-- long holophrases -->
         <token postag='SENT_START'/>
@@ -11333,6 +11416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <marker>
           <token min='2'>
             <exception postag='V.+|UNKNOWN' postag_regexp='yes'/>
+            <exception regexp="yes">&verbos_ambiguos;</exception>
             <exception postag="NCFS000" regexp="yes">.+ção</exception>
             <exception case_sensitive='yes'>Lei</exception>
           </token>
@@ -11343,6 +11427,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception scope="next" postag="NCFS000" regexp="yes">.+ção</exception>
             <exception case_sensitive='yes'>Lei</exception>
             <exception scope="next" case_sensitive='yes'>Lei</exception>
+            <exception regexp="yes">&verbos_ambiguos;</exception>
           </token>
           <and>
           <token regexp='yes'>[.?!…”»]|&quot;</token>
