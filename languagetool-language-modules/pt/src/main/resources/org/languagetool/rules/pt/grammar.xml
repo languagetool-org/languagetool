@@ -3755,7 +3755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Mas nããão, preferem manter seus spreads a níveis absurdos solapado sob discurso de uma eventual armadilha de liquidez.</example>
           <example>Como pontos memoráveis escolho o estilo inconfundível e as escadas de ferro em caracol.</example>
           <example>[130][nota 10] Sua disposição irregular fez com que os armazéns norte fossem duas vezes mais numerosos do que os do sul.</example>
-		  <example>Não é possível para os humanos viver para sempre.</example>
+          <example>Não é possível para os humanos viver para sempre.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-15/21 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
@@ -9174,14 +9174,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <rulegroup id='NON_IMPERSONAL_VERBS' name="Concordância Verbal: Verbos não-impessoais: existir, bastar, faltar, etc.">
-      <!--      Created by Tiago F. Santos (2017-02-27) and improved by Marco A.G.Pinto and Ricardo Joseh Lima, Portuguese rule 2022-07-21 (Checked/Enhanced) (5-JUN-2022+)      -->
-      <!-- Ricardo suggested more verbs (chegar, acabar, ficar, sair, entrar) and Marco added an exception with scope 'before' to fix false positives -->
+      <!--      Created by Tiago F. Santos (2017-02-27) and improved by Marco A.G.Pinto and Ricardo Joseh Lima, Portuguese rule 2022-07-21/22 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <!-- Ricardo suggested more verbs (chegar, acabar, ficar, sair, entrar) and Marco added exceptions and antipatterns to fix false positives -->
+
+      <!-- Antipatterns global for this rulegroup -->
+      <!-- First for nouns -->
+      <antipattern>
+        <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'>
+			<exception regexp='yes'>n[ao]s?</exception> 
+        </token>
+        <token min="1" max="2" postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='RN' postag_regexp='no'/>
+        <token regexp='yes' inflected="yes">&verbos_nao_impessoais;</token>
+        <example>A ambulância chegou poucos instantes depois do acidente.</example>
+        <example>A polícia chegou alguns instantes depois do furto.</example>
+        <example>Ah ganda António, até os tomates ficaram cor-de-laranja!</example>
+        <example>Eu não gosto que as pessoas fiquem me olhando.</example>
+        <example>E logo ao lado da porta ficam o espelho, o cesto de roupas sujas e os ganchos para pendurar roupas (nesta primeira foto o pijaminha...</example>
+        <example>...oje em dia que há 20 anos atrás seriam inconcebíveis, mas é assim mesmo se os finais dos tempos não chegarem Jesus não volta e não usufruímos da morada celestial a qual ele tem preparado na casa de seu Pai.</example>
+      </antipattern>
+      <!-- Second for Proper Names -->
+      <antipattern>
+        <token min="0" max="1" postag='DA.+|SPS00:DA.+' postag_regexp='yes'>
+			<exception regexp='yes'>n[ao]s?</exception> 
+        </token>
+        <token min="1" max="2" postag='NP.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='RN' postag_regexp='no'/>
+        <token regexp='yes' inflected="yes">&verbos_nao_impessoais;</token>
+        <example>A BBC existe décadas fornece e também divulga globalmente objetivo para as pessoas que quer aprender inglês.</example>
+        <example>O Tomás não sai connosco.</example>
+        <example>Bill ficou horas chorando.</example>
+        <example>Na casa, uma cena sensual se desenrola e Michael fica dias pensando em Hanna, sonhando com ela, imaginando-a de diversas formas, sem paz, decide então ...</example>
+        <example>Tom fica vários dias sem fumar cigarro.</example>
+        <example>Tom chegou alguns minutos mais cedo.</example>
+        <example>Maria ficou alguns dias em Paris.</example>
+        <example>Tom saiu horas atrás.</example>
+        <example>O caso de Sami acabou meses atrás.</example>
+      </antipattern>
+
       <rule>
         <pattern>
           <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
             <exception>sobre</exception>
             <exception scope='previous' regexp='yes'>&pronomes_retos;</exception> <!-- Added by MARCOAGPINTO - 2022-07-21 -->
-            <exception postag_regexp='no' postag='SPS00'/> <!-- Fix for "entre" by MARCOAGPINTO - 2022-07-21 -->
+            <exception postag_regexp='yes' postag='SPS00|VMN0000'/> <!-- Fix for "entre" by MARCOAGPINTO and infinitive by Ricardo Joseh Lima - 2022-07-21 -->
           </token>
           <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)P.+'/></token>
@@ -9196,7 +9232,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag_regexp='yes' postag='V...3P.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
             <exception>sobre</exception> <!-- copied from above - MARCOAGPINTO - 2022-07-01 -->
             <exception scope='previous' regexp='yes'>&pronomes_retos;</exception> <!-- Added by MARCOAGPINTO - 2022-07-21 -->
-            <exception postag_regexp='no' postag='SPS00'/> <!-- Fix for "entre" by MARCOAGPINTO - 2022-07-21 -->
+            <exception postag_regexp='yes' postag='SPS00|VMN0000'/> <!-- Fix for "entre" by MARCOAGPINTO and infinitive by Ricardo Joseh Lima - 2022-07-21 -->
           </token>
           <token postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:D...|P...|N..|A...)S.+'/></token>
