@@ -1960,6 +1960,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="Ver- und Ent-" id="VER_HYPHEN">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">[Vv]er-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">[Ee]nt.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
     <rule name="IPv4/6" id="IPVx">
         <pattern>
@@ -5113,6 +5123,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="SUB:.+" />
     </rule>
+    <rule id="EUROPA_KEIN_SUB" name="'Europa' kein Substantiv in 'Europa League'">
+        <pattern>
+            <marker>
+                <token>Europa</token>
+            </marker>
+            <token regexp="yes">League.*|Conference.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB:.+" />
+    </rule>
     <rule id="BLIND_KEIN_ADJ" name="'Blind' kein Substantiv in 'Blind Date'">
         <pattern>
             <marker>
@@ -5431,7 +5450,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token case_sensitive="yes">Bad</token>
             </marker>
             <!-- "Moms" and "Meets" are english words commonly used with "Bad" ("Bad meets evil") -->
-            <token case_sensitive="yes" regexp="yes">Moms|[mM]eets|(Kreuznach|Soden|Urach|Wildungen|Wimpfen|Salzuflen|Teinach-Zavelstein|Vilbel|Vöslau|Saulgau|Tölz|Arolsen|Aibling|Ischl|Oldesloe|Pyrmont|Neuenahr|Bergzabern|Essen|Erlach|Langensalza|Lippspringe|Münstereifel|Ems|Gams|Honnef|Kissingen|Fallingbostel|Reichenhall|Friedrichshall|Rappenau|Cannstatt|Wurzach|[A-ZÄÖÜ].+(heim|berg|burg|hof|hofen|st[ea]dt|stein|bach|see|dorf|tal|hausen|walde|felde?|hafen|ingen))(s|er[ns]?|erin|erinnen|aner[ns]?|anerin|anerinnen)?</token>
+            <token case_sensitive="yes" regexp="yes">Kissinger[sn]?|Moms|[mM]eets|(Kreuznach|Soden|Urach|Wildungen|Wimpfen|Salzuflen|Teinach-Zavelstein|Vilbel|Vöslau|Saulgau|Tölz|Arolsen|Aibling|Ischl|Oldesloe|Pyrmont|Neuenahr|Bergzabern|Essen|Erlach|Langensalza|Lippspringe|Münstereifel|Ems|Gams|Honnef|Kissingen|Fallingbostel|Reichenhall|Friedrichshall|Rappenau|Cannstatt|Wurzach|[A-ZÄÖÜ].+(heim|berg|burg|hof|hofen|st[ea]dt|stein|bach|see|dorf|tal|hausen|walde|felde?|hafen|ingen))(s|er[ns]?|erin|erinnen|aner[ns]?|anerin|anerinnen)?</token>
         </pattern>
         <disambig action="remove" postag="SUB.+" />
     </rule>
@@ -6929,5 +6948,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token case_sensitive="yes" regexp="yes">3D-Secure(-(Verfahren|Bezahlverfahren)s?)?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="VORS_KEINE_PRAEPOSITION" name="'vors' kein PRP">
+        <pattern>
+            <marker>
+                <token>vors</token>
+            </marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig action="remove" postag="PRP.*"/>
     </rule>
 </rules>

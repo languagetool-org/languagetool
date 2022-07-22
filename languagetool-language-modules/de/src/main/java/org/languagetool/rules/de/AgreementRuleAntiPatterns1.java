@@ -1120,34 +1120,34 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB.*SIN.*"),
       new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
     ),
-    // Arrays.asList(
-    //   // den leidenschaftlichen Lobpreis der texanischen Gateway Church aus
-    //   posRegex("ART.*DAT:SIN.*"),
-    //   posRegex("(ADJ|PA[12]).*DAT:SIN.*"),
-    //   posRegex("SUB.*SIN.*"),
-    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
-    // ),
-    // Arrays.asList(
-    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
-    //   posRegex("ART.*GEN:SIN.*"),
-    //   posRegex("(ADJ|PA[12]).*GEN:SIN.*"),
-    //   posRegex("SUB.*SIN.*"),
-    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
-    // ),
-    // Arrays.asList(
-    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
-    //   posRegex("ART.*NOM:SIN.*"),
-    //   posRegex("(ADJ|PA[12]).*NOM:SIN.*"),
-    //   posRegex("SUB.*SIN.*"),
-    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
-    // ),
-    // Arrays.asList(
-    //   // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
-    //   posRegex("ART.*AKK:SIN.*"),
-    //   posRegex("(ADJ|PA[12]).*AKK:SIN.*"),
-    //   posRegex("SUB.*SIN.*"),
-    //   new PatternTokenBuilder().posRegex("UNKNOWN").tokenRegex("(?i)[A-ZÄÖÜ].+").build()
-    // ),
+    Arrays.asList(
+      // den leidenschaftlichen Lobpreis der texanischen Gateway Church aus
+      posRegex("(ART|PRO:POS).*DAT:SIN.*"),
+      posRegex("(ADJ|PA[12]).*DAT:SIN.*"),
+      posRegex("SUB.*SIN.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
+    Arrays.asList(
+      // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+      posRegex("(ART|PRO:POS).*GEN:SIN.*"),
+      posRegex("(ADJ|PA[12]).*GEN:SIN.*"),
+      posRegex("SUB.*SIN.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
+    Arrays.asList(
+      // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+      posRegex("(ART|PRO:POS).*NOM:SIN.*"),
+      posRegex("(ADJ|PA[12]).*NOM:SIN.*"),
+      posRegex("SUB.*SIN.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
+    Arrays.asList(
+      // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
+      posRegex("(ART|PRO:POS).*AKK:SIN.*"),
+      posRegex("(ADJ|PA[12]).*AKK:SIN.*"),
+      posRegex("SUB.*SIN.*"),
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+    ),
     Arrays.asList(
       // Von der ersten Spielminute an machten die Münsteraner Druck und ...
       new PatternTokenBuilder().matchInflectedForms().tokenRegex("machen").build(),
