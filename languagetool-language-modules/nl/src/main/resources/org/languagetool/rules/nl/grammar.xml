@@ -7310,7 +7310,7 @@ onwaarschijnlijk
 	</category>
 
 	<category id="BE_NL" name="Verschil België en Nederland" type="style">
-		<rulegroup id="ZO_N_MEERVOUD" name="Zo'n vingers/zulke vingers">
+		<rulegroup id="ZO_N_MEERVOUD" name="Zo'n vingers/zulke vingers" tags="clarity">
 			<rule>
 				<antipattern><token>zo'n</token><token postag="BNW:STF"/><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
 				<pattern>
@@ -7325,16 +7325,16 @@ onwaarschijnlijk
 				<example correction="zulke">Ik heb <marker>zo'n</marker> dikke vingers.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="ZINS_ZINNENS" name="Verschil in gebruikelijkheid 'zins/zinnens">
+		<rulegroup id="ZINS_ZINNENS" name="Verschil in gebruikelijkheid 'zins/zinnens" tags="clarity">
 			<rule>
 				<pattern>
 					<token regexp="yes">zins|zinnens</token>
 				</pattern>
-				<message>'Zinnens zijn' en 'van zins zijn' kunnen voor begrijpelijkheid in zowel België and Nederland beter geschrven worden als 'van plan zijn'.</message>
+				<message>'Zinnens zijn' en 'van zins zijn' kunnen voor begrijpelijkheid in zowel België and Nederland beter geschreven worden als 'van plan zijn'.</message>
 				<example correction="">Ik was dat niet van <marker>zins</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BE_NL_VERSCHIL" name="Verschil in betekenis">
+		<rulegroup id="BE_NL_VERSCHIL" name="Verschil in betekenis" tags="clarity">
 			<rule>
 				<pattern>
 					<token>onthaal</token>
@@ -7412,7 +7412,7 @@ onwaarschijnlijk
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="LEESBAARHEID" name="Leesbaarheid" type="style">
+	<category id="LEESBAARHEID" name="Leesbaarheid" type="style" tags="clarity">
 		<rulegroup id="LANG_WOORD" name="Lang woord" tags="picky" default="off">
 			<rule>
 				<pattern>
@@ -10301,7 +10301,7 @@ onwaarschijnlijk
 				<example correction="doorrijbotsing">Het was een vreemde <marker>doorrijd botsing</marker>.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="AAN_DE_RECYCLE" name="aan de recycle" type="style" >
+		<rulegroup id="AAN_DE_RECYCLE" name="aan de recycle" type="style" tags="clarity">
 			<rule>
 				<pattern>
 					<marker>
@@ -10315,7 +10315,7 @@ onwaarschijnlijk
 				<example correction="aan het recyclen">Ik ben <marker>aan de recycle</marker>.</example>
 			</rule>			
 		</rulegroup>
-		<rulegroup id="VOOR_DE_RECYCLE" name="aan de recycle" type="style" >
+		<rulegroup id="VOOR_DE_RECYCLE" name="aan de recycle" type="style" tags="clarity">
 			<rule>
 				<pattern>
 					<marker>
@@ -13586,7 +13586,7 @@ onwaarschijnlijk
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten" type="style">
+	<category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten" type="style" tags="professional objective">
 		<rulegroup id="NADRUKTEKENS" name= "optionele accenten" tags="picky">
 			<rule>
 				<antipattern><token negate_pos="yes" postag="SENT_START"/><token regexp="yes" case_sensitive="yes">^[A-Z].*</token></antipattern>
@@ -13620,7 +13620,7 @@ onwaarschijnlijk
 				<example correction="">Hij is <marker>éénzaam</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky">
+		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky clarity">
 			<rule>
 				<antipattern><token regexp="yes">(paars|rood|geel|grijs|oranje|zwart|wit|blauw|groen)-(paarse?|rood|rode|geel|gele|grijs|grijze|oranje|zwarte?|wit|witte|blauwe?|groene?)</token></antipattern><!-- afwisseled gekleurd -->
 				<antipattern><token regexp="yes">[a-z]+-en-[a-z+]-(stel(len)?|combinaties?)</token></antipattern>
@@ -17698,7 +17698,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="COLLOQUIALISMS" name="Informeel" type="style">
+	<category id="COLLOQUIALISMS" name="Informeel" type="style" tags="professional clarity">
 		<rulegroup id="EN_ZO" name="Enzo / en zo/ en zo meer">
 			<rule>
 				<pattern>
@@ -17851,7 +17851,7 @@ steenwijk;Steenwijk
 				<example correction="veel te">Sterker nog, wat snoeven is dagelijkse koek voor de <marker>veels te</marker> rustige lobbes.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DOOR_DE_WAR" name="door de war">
+		<rulegroup id="DOOR_DE_WAR" name="door de war" tags="creative">
 			<!-- 2014-08-19 TaalTik: regel werkt prima, url toegevoegd -->
 			<rule>
 				<pattern>
@@ -17866,7 +17866,7 @@ steenwijk;Steenwijk
 				<example correction="in de war">Om de verschillende draden niet <marker>door de war</marker> te laten raken windt hij die rond houtjes.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="BEZIG_GAAN_MET" name="bezig gaan met">
+		<rulegroup id="BEZIG_GAAN_MET" name="bezig gaan met" tags="creative">
 			<!-- 2017-06-24 TaalTik -->
 			<rule>
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">[,:;]</token><token postag_regexp="yes" postag="SENT_START|START"/></antipattern>
@@ -17925,7 +17925,7 @@ steenwijk;Steenwijk
 				<example>Het is een <marker>zelfgemaakte</marker> taart.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MENEER" name="meneer" type="style" tags="picky">
+		<rulegroup id="MENEER" name="meneer" type="style" tags="picky professional customer">
 			<!-- 2014-08-21 TaalTik -->
 			<rule>
 				<pattern>
@@ -19855,7 +19855,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="LEENWOORDEN" name="Leenwoorden met een gangbaar alternatief" type="style">
+	<category id="LEENWOORDEN" name="Leenwoorden met een gangbaar alternatief" type="style" tags="creative elegant clarity">
 		<rulegroup id="GOAL" name="goal → doel(punt)" tags="picky">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
@@ -20051,7 +20051,7 @@ steenwijk;Steenwijk
 				<example correction="imago|afbeelding">Het voortdurend kultiveren van het eigen <marker>image</marker> en de beperking daarop.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MANAGEMENT" name="management → leiding" tags="picky">
+		<rulegroup id="MANAGEMENT" name="management → leiding" tags="picky professional customer">
 			<!-- 2014-08-20 TaalTik -->
 			<rule>
 				<pattern>
@@ -20062,7 +20062,7 @@ steenwijk;Steenwijk
 				<example>Verzorg het <marker>beheer</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="COMMERCIAL" name="commercial → reclame">
+		<rulegroup id="COMMERCIAL" name="commercial → reclame" tags="professional customer">
 			<rule>
 				<!-- 2014-08-22 TaalTik -->
 				<pattern>
@@ -20217,7 +20217,7 @@ steenwijk;Steenwijk
 				<example correction="beroemdheid|ster">Met zijn boek is hij nu een heuse <marker>celebrity</marker> geworden.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="MEETING" name="meeting → bijeenkomst" tags="picky">
+		<rulegroup id="MEETING" name="meeting → bijeenkomst" tags="picky professional customer">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<pattern>
@@ -20232,7 +20232,7 @@ steenwijk;Steenwijk
 				<example correction="vergadering|bijeenkomst">Die zondag liep ook Kevin een <marker>meeting</marker> mis.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="FEEDBACK" name="feedback → terugkoppeling" tags="picky">
+		<rulegroup id="FEEDBACK" name="feedback → terugkoppeling" tags="picky professional customer">
 			<rule>
 				<!-- 2014-08-22 TaalTik -->
 				<pattern>
@@ -20680,7 +20680,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 		-->
 	</category>
-	<category id="NOTATIES" name="Notaties" type="style">
+	<category id="NOTATIES" name="Notaties" type="style" tags="clarity professional">
 
 		<rulegroup id="EURO_TEKEN" name="€ teken → €-teken">
 			<rule>
@@ -20764,7 +20764,7 @@ steenwijk;Steenwijk
 				<example correction="62 cm">Zij wordt <marker>62cm</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="GRADEN_KELVIN" name="Kelvin hoort zonder gradenteken">
+		<rulegroup id="GRADEN_KELVIN" name="Kelvin hoort zonder gradenteken" tags="objective academic">
 			<!-- TaalTik 2014-08-18 -->
 			<rule>
 				<pattern>
@@ -20814,7 +20814,7 @@ steenwijk;Steenwijk
 				<example correction="1234 AB"><marker>1234AB</marker></example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="TIJD" name="tijdnotaties">
+		<rulegroup id="TIJD" name="tijdnotaties" tags="objective academic">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<pattern>
@@ -20845,7 +20845,7 @@ steenwijk;Steenwijk
 				<example correction="8.30 uur|8.30 u.">Tot <marker>8u.15</marker> is de school gesloten.</example>
 				<example correction="15.30 uur|15.30 u.">Dinsdag om <marker>15u.30</marker> zijn ze verwacht.</example>
 			</rule>
-			<rule>
+			<rule> <!-- later: tags="!academic" -->
 				<!--
 				2014-08-22 TaalTik -->
 				<pattern>
@@ -20883,7 +20883,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="OUDERWETS" name="Ouderwets" type="style">
+	<category id="OUDERWETS" name="Ouderwets" type="style" tags="creative clarity professional">
 		<rulegroup id="BIJ_MIDDEL_VAN" name="Bij middel van → door middel van">
 			<!-- 2014-09-08 TaalTik -->
 			<rule>
@@ -20967,7 +20967,7 @@ steenwijk;Steenwijk
 				<example correction="zegge en schrijve">Er is <marker>zeggen en schrijven</marker> maar een voorbeeld.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="TEN_DEZE" name="Ten deze(n) → hierbij">
+		<rulegroup id="TEN_DEZE" name="Ten deze(n) → hierbij"> <!-- later: tags="!professional" -->
 			<!-- 2014-09-08 TaalTik -->
 			<rule>
 				<pattern>
@@ -21153,7 +21153,7 @@ steenwijk;Steenwijk
 			</rule>
 
 		</rulegroup>
-		<rulegroup id="DEN_HAAG_b" name="'s-Gravenhage of Den Haag">
+		<rulegroup id="DEN_HAAG_b" name="'s-Gravenhage of Den Haag"> <!-- later: tags="!professional" -->
 			<!-- 2014-08-23 TaalTik -->
 			<rule>
 				<pattern>
@@ -21169,7 +21169,7 @@ steenwijk;Steenwijk
 				<example correction="Den Haag">Architect van den bouw is geweest Nicolaas Molenaar van <marker>'s Gravenhage</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DEN_BOSCH" name="'s-Hertogenbosch of Den Bosch">
+		<rulegroup id="DEN_BOSCH" name="'s-Hertogenbosch of Den Bosch"> <!-- later: tags="!professional" -->
 			<!-- 2014-08-23 TaalTik regel werkt goed -->
 			<rule>
 				<pattern>
@@ -22690,7 +22690,7 @@ steenwijk;Steenwijk
 				<example correction="Behalve"><marker>Afgezien van</marker> hun talent en hun passie lijken ze alles tegen te hebben om door te breken in de conservatieve balletwereld.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="AFRONDEN" name="afronden" tags="picky">
+		<rulegroup id="AFRONDEN" name="afronden" tags="picky"> <!-- later: tags="!objective !academic"-->
 			<antipattern><token regexp="yes" inflected="yes" skip="10">rekening|berekening|getal</token><token inflected="yes">afronden</token></antipattern>
 			<antipattern><token inflected="yes" skip="10">afronden</token><token regexp="yes" inflected="yes">berekening|getal</token></antipattern>
 			<rule>
@@ -22932,7 +22932,7 @@ steenwijk;Steenwijk
 				<example correction="">Die <marker>appreciatie</marker> doet deugd.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="A_PRIORI" name="a priori">
+		<rulegroup id="A_PRIORI" name="a priori"> <!-- later: tags="!objective !academic"-->
 			<rule>
 				<pattern>
 					<token>a</token><token>priori</token>
@@ -33265,7 +33265,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="STYLE" name="Stijl" type="style">
+	<category id="STYLE" name="Stijl" type="style" tags="clarity">
 		<rulegroup id="ZOVEEL_DAN" name="In/over" tags="picky">
 			<rule>
 				<antipattern><token skip="-1">zoveel</token><token>,</token></antipattern>
@@ -33498,7 +33498,7 @@ steenwijk;Steenwijk
 				<example correction=""><marker>Er mist</marker> een moertje.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="VAAG" name="vage taal" tags="picky">
+		<rulegroup id="VAAG" name="vage taal" tags="picky objective professional">
 			<rule>
 				<pattern>
 					<token>dingen</token>
@@ -33537,7 +33537,7 @@ steenwijk;Steenwijk
 				<example correction=""><marker>Men</marker> is niemand.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="OVERDRIJVING" name="mogelijke overdrijving" tags="picky">
+		<rulegroup id="OVERDRIJVING" name="mogelijke overdrijving" tags="picky objective professional">
 			<rule>
 				<pattern>
 					<token inflected="yes">gigantisch</token>
@@ -33572,16 +33572,18 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="STREEKTAAL" name="Streektaal" type="style">
+	<category id="STREEKTAAL" name="Streektaal" type="style" tags="clarity">
 		<rulegroup id="TE_BED" name="te bed">
 			<rule>
 				<pattern>
-					<token>te</token>
+				    <marker>
+					    <token>te</token>
+					</marker>
 					<token>bed</token>
 				</pattern>
 				<message>Gebruikelijker is <suggestion>naar</suggestion> of <suggestion>op</suggestion> bed.</message>
-				<example correction="naar|op">De laatsen gingen even over middernacht <marker>te bed</marker>.</example>
-				<example correction="naar|op">Beiden lagen nu doodziek <marker>te bed</marker> en wanneer zij niet genezen, moet de moeder van gebrek omkomen.</example>
+				<example correction="naar|op">De laatsen gingen even over middernacht <marker>te</marker> bed.</example>
+				<example correction="naar|op">Beiden lagen nu doodziek <marker>te</marker> bed en wanneer zij niet genezen, moet de moeder van gebrek omkomen.</example>
 			</rule>
 		</rulegroup>
 	</category>
@@ -33645,7 +33647,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="VOLUIT_SCHRIJVEN" name="Voluit schrijven" type="style" >
+	<category id="VOLUIT_SCHRIJVEN" name="Voluit schrijven" type="style" tags="professional clarity">
 		<rulegroup id="M" name="'m">
 			<rule>
 				<pattern>
@@ -38426,7 +38428,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="CLICHES" name="Uit: Hoe bereidt je een paard? : clichés" type="style">
+	<category id="CLICHES" name="Uit: Hoe bereidt je een paard? : clichés" type="style" tags="clarity professional objective"> <!-- later: tags="!creative" -->
 		<rulegroup id="KASSA_RINKELT" name="De kassa rinkelt">
 			<rule>
 				<pattern>
@@ -38490,7 +38492,7 @@ steenwijk;Steenwijk
 				<example correction="">Maar aan het eind nagelt ze niemand <marker>aan de schandpaal</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="SPOOR_BIJSTER" name="Met open vizier">
+		<rulegroup id="SPOOR_BIJSTER" name="Spoor bijster">
 			<rule>
 				<pattern>
 					<token>spoor</token>
@@ -38500,7 +38502,7 @@ steenwijk;Steenwijk
 				<example correction="">De achtervolgers geraken zijn <marker>spoor bijster</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="STOELEN_BANKEN" name="Met open vizier">
+		<rulegroup id="STOELEN_BANKEN" name="Onder stoelen of banken">
 			<rule>
 				<pattern>
 					<token>onder</token>
@@ -39543,7 +39545,7 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 	</category>
-	<category id="AARSRIVALEN" name="Uit: Aarsrivalen, scheldkarbonades en terminale baden" type="style">
+	<category id="AARSRIVALEN" name="Uit: Aarsrivalen, scheldkarbonades en terminale baden" type="style" tags="clarity creative">
 		<rulegroup id="VLUCHTHAVEN" name="vluchthaven → luchthaven">
 			<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">.*(varen|eiland|kustwacht|anker|schip|scheep|misdaad|misdad|snelweg|vluchtstrook).*</token><token postag="SENT_END"/></antipattern>
 			<rule>
@@ -40262,7 +40264,7 @@ steenwijk;Steenwijk
 	</category>
 
 	
-	<category id="SEKSE_ZAKEN" name="stimuleren sekseneutraal schrijven" type="style">
+	<category id="SEKSE_ZAKEN" name="stimuleren sekseneutraal schrijven" type="style" tags="professional customer jobapp">
 		
 		<rulegroup id="SEKSE_VOLGORDE" name="misschien volgorde omdraaien" tags="picky">
 			<rule>
