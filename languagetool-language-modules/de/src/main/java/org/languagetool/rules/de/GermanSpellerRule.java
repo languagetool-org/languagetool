@@ -88,7 +88,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   
   private static final int MAX_TOKEN_LENGTH = 200;
   private static final Pattern GENDER_STAR_PATTERN = Pattern.compile("[A-ZÖÄÜ][a-zöäüß]{1,25}[*:_][a-zöäüß]{1,25}");  // z.B. "Jurist:innenausbildung"
-  private static final Pattern FILE_UNDERLINE_PATTERN = Pattern.compile("[a-zA-Z]{1,25}_[a-zA-Z]{1,25}\\.[a-zA-Z]{1,5}");
+  private static final Pattern FILE_UNDERLINE_PATTERN = Pattern.compile("[a-zA-Z0-9-]{1,25}_[a-zA-Z0-9-]{1,25}\\.[a-zA-Z]{1,5}");
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
