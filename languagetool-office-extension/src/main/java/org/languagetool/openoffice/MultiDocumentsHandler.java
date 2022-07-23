@@ -368,10 +368,10 @@ public class MultiDocumentsHandler {
       cfgDialog.close();
       cfgDialog = null;
     }
-    if (aboutDialog != null) {
-      aboutDialog.close();
-      aboutDialog = null;
-    }
+//    if (aboutDialog != null) {
+//      aboutDialog.close();
+//      aboutDialog = null;
+//    }
   }
   
   /**
@@ -1406,7 +1406,11 @@ public class MultiDocumentsHandler {
         closeDialogs();
         runOptionsDialog();
       } else if ("about".equals(sEvent)) {
-        closeDialogs();
+//        closeDialogs();
+        if (aboutDialog != null) {
+          aboutDialog.close();
+          aboutDialog = null;
+        }
         AboutDialogThread aboutThread = new AboutDialogThread(messages, xContext);
         aboutThread.start();
 //      } else if ("switchOff".equals(sEvent)) {

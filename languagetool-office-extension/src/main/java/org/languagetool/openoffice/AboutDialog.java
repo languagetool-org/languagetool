@@ -180,6 +180,7 @@ public class AboutDialog {
       dialog.setAutoRequestFocus(true);
 //      MessageHandler.printToLogFile("set dialog visible");
       dialog.setVisible(true);
+      dialog.setAlwaysOnTop(true);
       dialog.toFront();
     } catch (Throwable t) {
       MessageHandler.showError(t);
