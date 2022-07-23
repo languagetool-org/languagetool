@@ -2734,6 +2734,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Schwupps": return topMatch("Schwups");
       case "Massnahme": return topMatch("Maßnahme");
       case "Massnahmen": return topMatch("Maßnahmen");
+      case "Linkedin": return topMatch("LinkedIn");
       case "gehhrte": return topMatch("geehrte");
       case "gehhrten": return topMatch("geehrten");
       case "gehhrtes": return topMatch("geehrtes");
