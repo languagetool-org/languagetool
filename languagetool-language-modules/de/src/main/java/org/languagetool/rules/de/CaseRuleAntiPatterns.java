@@ -777,6 +777,14 @@ class CaseRuleAntiPatterns {
       regex("[A-ZÄÜÖ].*")
     ),
     Arrays.asList(
+      // @b_fischer Der Bonussemester-Antrag oder der Widerspruch?
+      SENT_START,
+      regex("@.+"),
+      token("_"),
+      regex("[a-z].*"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
       // M3.2 Deine Idee ...
       SENT_START,
       regex("[A-Z]\\d+"),
