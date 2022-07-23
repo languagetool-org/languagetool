@@ -1077,6 +1077,7 @@ public class GermanSpellerRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt counterelements4_0.xsd")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt counter-elements4_0.xsd")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Die Datei heißt counterelements4_0.mfgjg und ist leer.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Der @bla_xyz hat das gesagt")).length, is(0));
 
     assertThat(rule.match(lt.getAnalyzedSentence("richtig_stimmt")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("flasch_nittrichtig")).length, is(2));
