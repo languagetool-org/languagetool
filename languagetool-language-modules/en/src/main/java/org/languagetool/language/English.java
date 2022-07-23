@@ -336,6 +336,7 @@ public class English extends Language implements AutoCloseable {
       case "HEAR_HERE":                 return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
       case "THE_FRENCH":                return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
       case "A_HEADS_UP":                return 1;   // higher prio than some plural agreement rules (e.g. THERE_S_MANY)
+      case "UNITES_UNITED":             return 1;   // higher prio than IS_VBZ
       case "THIS_MISSING_VERB":         return 1;   // higher priority than A_MY
       case "YOURE":                     return 1;   // prefer over EN_CONTRACTION_SPELLING
       case "LIFE_COMPOUNDS":            return 1;
