@@ -129,7 +129,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!ENTITY arcaismos "(?:a(?:bominábil|borrimento|bsentar|bsumir|ceiro|chacar|coiteza|contista|có|dvogacia|guazil|H|lacrão|lantíase|lbora|lfaça|lgibebe|lguazil|lgur|lmeida|lmenara|lvazir|mictório|morar|mículo|nrique|ntigüidade|ntão|periente|quessa|quesse|questa|queste|questo|rcocentro|tá|utopse|çucre)|b(?:andir|anguê|enção|oa-venturança|odalha|ofé|ródio|uliço)|Brazil|c(?:afofo|alendairo|arpinteiragem|assar|ham|hara|oidar|omest[ao]|ommummente|omua|oncassor|onvescote|recimento|relgo|réligo|ã|ôvado)|d(?:esemparar|esnobre|evisar|iabro|iese|ino|iésis|olor|orosamente|oroso|íesis)|e(?:mpacar|ngrês|ntonce|ntrelocutor|sto|xprimentava)|f(?:acha|atexa|enestra|imatíase|imia|logose)|g(?:alactooligossacarídeo|alripo|asista|iolhos|odalho|odeme|ramasso|uanabarense|uanabarino)|heréu|i(?:migo|mpida|ngrês|nté)|j(?:au|avaril|ericocim|ugadar|órnea)|l(?:eixar|erpe|oar|oeste|ucivelo|ucivéu|umiar|üa)|Lixboa|m(?:armeluta|eadade|ecê|olher|oínho|uitieramá|uxica)|n(?:ace|am|aom|aqueste|osomania)|o(?:bfirmar|bseqüente|cisão|nte|urinol)|p(?:aje|ascigo|assal|harmácia|ortuguez|roditor)|querena|r(?:eferta|oldar|uidento)|s(?:ainho|alhar|alvanor|apanga|apaão|ene|ilvano|oer|upresso|uso|énio)|t(?:artamelar|aubateense|avolagem|eed.+|ábula|ávola)|unun-héxio|v(?:ascongadas|assuncê|iado|itando|osco|osmecê|ossancê))">
 
-    <!ENTITY infantil "(?:b[aá]bá|bichano|bilau|bobalhão|bumbum|caca|cachorrês|cocó|cocô|cuti|dodói|escapulir|flango|formiguês|lelé|mamã|maminha|miau|mimir|nananinanão|nana[rs]|oba|oiê|ohoh|olhinho|papá|Papai|pap(?:ar|ei|aste|ou)|peixa|pepeta|pipi|piu|pum|susu|titi[ao]|totó|totô|vovô|xixi)|memés?|pilocas?|pirilaus?">
+    <!ENTITY infantil "(?:b[aá]bá|auau|auaus|bichano|bilau|bumbum|caca|cachorrês|cocó|cocô|cuti|dodói|escapulir|flango|formiguês|lelé|mamã|maminha|miau|mimir|nana[rs]|ohoh|olhinho|papá|pap(?:ar|ei|aste|ou)|peixa|pepeta|pipi|piu|pum|susu|totó|totô|xixi)|memés?|pilocas?|pirilaus?">
 
     <!ENTITY obscenidades "(?:b(?:abaca|acanal|acorinha|acurinha|adalo|adamerda|aranga|ardamerda|edamerda|eita|enga|erdamerda|ichana|ilha|imba|imbada|oceta|oiola|olagato|roche|ruaca|uceta)|c(?:[uú]|abaço|abrão|abrões|acete|adela|agada|agalh(ão|ões)|agar|aralhada|aralho|atatau|atraia|havasca|huchu|huleta|hupeta|omua|ona|onaça|onanas|onsolo|oxanga|rica|roquete|unete|uzão)|f(?:iote|od.+|orunf.+|uampa|ufa|urico|urunf.+)|g(?:aita|relo|rutinha|ulosa)|j(?:eba)|l(?:angonha|ola)|m(?:amado|angalho|armelar|einha|erda|erdeiro|essalina|inete|oca)|nhonhoca|p(?:andeiro|aneleiro|assaralho|atolar|eid.+|ene|entelho|iça|ind?oc.+|intudo|iroca|irrola|ito|iupiu|ixa|otranca|unheta|unheteiro|uta|utada|utaria|utedo|utice)|q(?:ueca|uenga|uirica)|(qui|co)lh(ão|ões)|r(?:abeta|acha|apidinha|ata)|s(?:apatão|apatona|iririca|uruba|urubandê)|t(?:abaca|anajura|esão|esud[ao]|eta|oba|repada|roca-troca)|x(?:ana|arifa|arol[ao]|ereca|ibungo|imbica|iranha|iri|o(?:xo)ta))|cagalhão|cagalhões|caganças?|cagão|cagões|cagãozinho|cagueiros?|caralhão|caralhões|enconadas?|enconados?|esporradelas?|esporras?|merdices?|merdilheiro|merdosas?|merdosos?|pachachas?|peidas?|piças?|pichas?|putanheiros?|putazinhas?|putéfias?|putinhas?|putonas?">
 
@@ -40365,7 +40365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
     </rulegroup>
 
-    <rulegroup id='CHILDISH_LANGUAGE' name="3. Linguagem infantil" default='temp_off' tags="picky">
+    <rulegroup id='CHILDISH_LANGUAGE' name="3. Linguagem infantil" default='temp_off'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-05-09 -->
       <url>https://pt.wiktionary.org/wiki/Categoria:Infantil_(Portugu%C3%AAs)</url>
       <short>Linguagem infantil</short>
@@ -40375,22 +40375,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>nas</token>
           <token>costas</token>
         </antipattern>
+        <antipattern>
+          <token regexp='yes'>[«»“”"'‘’]</token>
+          <token regexp="yes">(?:&infantil;)s?</token>
+          <token regexp='yes'>[«»“”"'‘’]</token>
+          <example>O cão fez "auau".</example>
+        </antipattern>
         <pattern>
           <token regexp="yes">(?:&infantil;)s?
             <exception>papeis</exception></token>
         </pattern>
-        <message>Linguagem infantil. Considere as alternativas.</message>
-        <example type="incorrect">O <marker>papá</marker> dele foi para o estrangeiro.</example>
-        <example>O <marker>pai</marker> dele foi para o estrangeiro.</example>
+        <message>Linguagem infantil. Considere colocar entre aspas.</message>
+        <suggestion>“<match no='1'/>”</suggestion>
+        <example correction='“papá”'>O <marker>papá</marker> dele foi para o estrangeiro.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token regexp='yes'>[«»“”"'‘’]</token>
+          <token regexp="yes" spacebefore='yes'>ãos?</token>
+          <token regexp='yes'>[«»“”"'‘’]</token>
+          <example>O cão fez "ão".</example>
+        </antipattern>
         <pattern>
           <token regexp="yes" spacebefore='yes'>ãos?</token>
         </pattern>
-        <message>Linguagem infantil. Considere as alternativas.</message>
-        <example type="incorrect">O cão fez <marker>ão</marker> para mim.</example>
-        <example>O cão <marker>latiu</marker> para mim.</example>
-        <example> As restantes ter-se-ão recusado a sair, refere a nota.</example>
+        <message>Linguagem infantil.colocar entre aspas.</message>
+         <suggestion>“<match no='1'/>”</suggestion>
+        <example correction='“ão”'>O cão fez <marker>ão</marker> para mim.</example>
       </rule>
     </rulegroup>
 
