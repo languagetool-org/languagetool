@@ -95,7 +95,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY conjuncoes_coordenativas "contudo|e|então|entretanto|logo|mas|nem|ou|pois|porém|porquanto|portanto|todavia">
     <!ENTITY introduz_conjuntivo "(?:caso|conquanto|embora|que|quando|se|talvez|tomara)">
 
-    <!ENTITY verbos_ambiguos "passa|queima|lida|berra|data|toca|vá|cura|melhora|muda|continha|lia|toma|custa|escova|mora|brinca|chora|tá">
+    <!ENTITY verbos_ambiguos "passa|queima|lida|berra|data|ama|toca|vá|cura|melhora|muda|continha|lia|toma|custa|escova|mora|brinca|chora|tá">
     <!ENTITY verbos_auxiliares_part_passado "(?:ser|estar|ter|haver|ficar)">
     <!ENTITY verbos_auxiliares_aspectuais "(?:andar|ir|vir|começar|continuar|tornar|voltar|costumar|acabar|deixar)">
     <!ENTITY verbos_auxiliares_modais "(?:dever|poder|querer|conseguir|pretender|tentar|chegar)">
@@ -11273,10 +11273,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
       <antipattern>
         <token postag='SENT_START'/>
-        <token regexp='yes' skip='-1'>&aspas;|\"|\'</token>
-        <token regexp='yes' skip='-1'>&aspas;|\"|\'</token>
+        <token regexp='yes' skip='-1'>[«»“”"'‘’]</token>
+        <token regexp='yes' skip='-1'>[«»“”"'‘’]</token>
         <token postag='SENT_END'/>
         <example>"Fogo na floresta".</example>
+        <example>“O melhor, claro”.</example>
+        <example>«Sinopse por setores».</example>
+      </antipattern>
+      <antipattern>
+        <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+        <token postag='I' min='1' skip='-1'/>
+        <token postag='_PUNCT'/>
+        <example>— Bom dia, senhor.</example>
+        <example>Bom dia, senhor.</example>
       </antipattern>
       <antipattern>
         <token postag='SENT_START' skip='-1'/>
@@ -11337,11 +11346,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Mais informações pelo telefone 99999-9999.</example>
       </antipattern>
       <antipattern>
-        <token postag='_PUNCT'/>
-        <token postag='Z0CN0'/>
-        <token postag='Z0CN0' min='0'/>
+        <token postag='SENT_START'/>
+        <token regexp='yes' min='0'>Artigos?</token>
+        <token postag='Z0CN0' skip='-1'/>
         <token postag='_PUNCT'/>
         <example>278 (52): 52914–8.</example>
+        <example>1059 1082108610751086 1077108910901100.</example>
+        <example>11 94183-4191 Carol.</example>
+        <example>111 45 dias aproximadamente.</example>
+        <example>15 de outubro.</example>
+        <example>1520 — Início da Revolta dos Comuneiros</example>
+        <example>39, I, do Código de Defesa do Consumidor.</example>
+        <example>26 de novembro, 9h da manhã.</example>
+        <example>458 por mês.</example>
+        <example>Artigos 53 a 59; 136 a 137.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp='yes' skip='-1'>Beijos?|Beijinhos?|Abraços?</token>
+        <token postag='_PUNCT'/>
+        <example>Beijos, até amanhã.</example>
+        <example>Abraços a todos.</example>
       </antipattern>
       <antipattern>
         <token regexp="yes">\d</token>
@@ -19684,9 +19709,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Hum...</example>
         </antipattern>
         <antipattern>
-          <token regexp='yes'>&aspas;|'|"|&separadores_de_abertura;</token>
+          <token regexp='yes'>[«»“”"'‘’]|&separadores_de_abertura;</token>
           <token postag='I'/>
-          <token regexp='yes'>&aspas;|'|"|&separadores_de_fecho;</token>
+          <token regexp='yes'>[«»“”"'‘’]|&separadores_de_fecho;</token>
           <example>"Oi".</example>
           <example>(Oi").</example>
         </antipattern>
@@ -19794,9 +19819,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Até logo...</example>
         </antipattern>
         <antipattern>
-          <token regexp='yes'>&aspas;|'|"|&separadores_de_abertura;</token>
+          <token regexp='yes'>[«»“”"'‘’]|&separadores_de_abertura;</token>
           <token postag='I'/>
-          <token regexp='yes'>&aspas;|'|"|&separadores_de_fecho;</token>
+          <token regexp='yes'>[«»“”"'‘’]|&separadores_de_fecho;</token>
           <example>Eles ainda gravaram a faixa "Até logo"</example>
         </antipattern>
         <antipattern>
@@ -39954,7 +39979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='SENT_START'/>
           <marker>
             <token>E</token>
-            <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|&aspas;|\.|'|"</exception></token>
+            <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|[«»“”"'‘’]</exception></token>
           </marker>
         </pattern>
         <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
@@ -39971,7 +39996,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='SENT_START'/>
           <marker>
             <token regexp='yes'>Mas|Porém</token>
-            <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|&aspas;|\.|'|"</exception></token>
+            <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|[«»“”"'‘’]</exception></token>
           </marker>
         </pattern>
         <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático.</message>
@@ -39986,7 +40011,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <marker>
             <token regexp='yes'>Mas|Porém</token>
           </marker>
-            <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|&aspas;|\.|'|"</exception></token>
+            <token><exception regexp="yes" spacebefore='no'>&separadores_de_oracoes;|[«»“”"'‘’]</exception></token>
         </pattern>
         <message>Estilisticamente '\2' só deve ser utilizado no início da frase raramente, e para um efeito dramático. Caso a palavra \2 seja necessária, procure escrever uma frase só juntando esta com a anterior.</message>
         <suggestion><match no='3' case_conversion='startupper'/></suggestion>
@@ -43476,9 +43501,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29/30 + 2021-07-02 + 2021-10-31 (25-JUN-2021+)      -->
       <antipattern>
         <token inflected='yes'>fazer</token>
-        <token regexp='yes' min='0'>&aspas;|'|"</token>
+        <token regexp='yes' min='0'>[«»“”"'‘’]</token>
         <token regexp='yes'>miau|auau</token>
-        <token regexp='yes' min='0'>&aspas;|'|"</token>
+        <token regexp='yes' min='0'>[«»“”"'‘’]</token>
         <example>O gato faz "miau".</example>
       </antipattern>
       <antipattern>
@@ -44970,9 +44995,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Encontre o valor de n.</example>
         </antipattern>
         <antipattern>
-          <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'</token>
+          <token regexp="yes">&aspas;|&operadores_matematicos;|[«»“”"'‘’]</token>
           <token>n</token>
-          <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'</token>
+          <token regexp="yes">[«»“”"'‘’]|&operadores_matematicos;</token>
           <example>Neste caso "n" representa o número.</example>
           <example>Encontre o valor de [n].</example>
         </antipattern>
@@ -45003,9 +45028,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Encontre o valor de q.</example>
         </antipattern>
         <antipattern>
-          <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'|[\(\)\[\]\{\}]</token>
+          <token regexp="yes">[«»“”"'‘’]|&operadores_matematicos;|“|”|\"|\'|[\(\)\[\]\{\}]</token>
           <token>q</token>
-          <token regexp="yes">&aspas;|&operadores_matematicos;|\"|\'|[\(\)\[\]\{\}]</token>
+          <token regexp="yes">[«»“”"'‘’]|&operadores_matematicos;|“|”|\"|\'|[\(\)\[\]\{\}]</token>
           <example>Neste caso "q" representa a quota.</example>
           <example>Encontre o valor de [q]</example>
         </antipattern>
@@ -45069,9 +45094,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Encontre o valor de p.</example>
         </antipattern>
         <antipattern>
-          <token regexp="yes">&aspas;|"|'|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+          <token regexp="yes">[«»“”"'‘’]|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
           <token>p</token>
-          <token regexp="yes">&aspas;|"|'|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
+          <token regexp="yes">[«»“”"'‘’]|&operadores_matematicos;|[\(\)\[\]\{\}]</token>
           <example>Neste caso "p" representa a porcentagem.</example>
           <example>Encontre o valor de [p]</example>
         </antipattern>
@@ -45084,9 +45109,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <antipattern>
-          <token regexp="yes">&aspas;|\"|\'</token>
+          <token regexp="yes">[«»“”"'‘’]</token>
           <token regexp='yes'>lol|lmao|kk+|rotfl</token>
-          <token regexp="yes">&aspas;|\"|\'</token>
+          <token regexp="yes">[«»“”"'‘’]</token>
           <example>Cada vez mais jovens utilizam "lol" para expressar risos.</example>
         </antipattern>
         <pattern>
@@ -45097,9 +45122,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <antipattern>
-          <token regexp="yes">&aspas;|\"|\'</token>
+          <token regexp="yes">[«»“”"'‘’]</token>
           <token>omg</token>
-          <token regexp="yes">&aspas;|\"|\'</token>
+          <token regexp="yes">[«»“”"'‘’]</token>
           <example>Cada vez mais jovens utilizam "omg" em suas conversas.</example>
         </antipattern>
         <pattern>
@@ -45117,9 +45142,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <antipattern>
-          <token regexp="yes">&aspas;|\"|\'</token>
+          <token regexp="yes">[«»“”"'‘’]</token>
           <token>wtf</token>
-          <token regexp="yes">&aspas;|\"|\'</token>
+          <token regexp="yes">[«»“”"'‘’]</token>
           <example>Cada vez mais jovens utilizam "wtf" em suas conversas.</example>
         </antipattern>
         <pattern>
