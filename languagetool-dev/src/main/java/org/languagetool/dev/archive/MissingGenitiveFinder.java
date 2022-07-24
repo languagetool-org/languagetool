@@ -19,7 +19,6 @@
 package org.languagetool.dev.archive;
 
 import morfologik.fsa.FSA;
-import org.apache.commons.io.FileUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LuceneLanguageModel;
@@ -46,24 +45,10 @@ public class MissingGenitiveFinder {
 
   private final LuceneLanguageModel lm;
 
-  private MissingGenitiveFinder() throws IOException {
+  private MissingGenitiveFinder() {
     lm = new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de"));
   }
 
-  @SuppressWarnings("unchecked")
-  private Map<String, Integer> loadOccurrences(String filename) throws IOException {
-    System.err.println("Loading " + filename);
-    Map<String, Integer> map = new HashMap<>();
-    List<String> lines = FileUtils.readLines(new File(filename));
-    for (String line : lines) {
-      String[] parts = line.split(" ");
-      map.put(parts[0], Integer.valueOf(parts[1]));
-    }
-    System.err.println("Loaded " + map.size() + " occurrence items");
-    return map;
-  }
-
-  @SuppressWarnings("UnnecessaryParentheses")
   private void run() throws IOException {
     GermanTagger tagger = new GermanTagger();
     final FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
