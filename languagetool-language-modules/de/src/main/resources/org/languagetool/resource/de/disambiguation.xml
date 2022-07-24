@@ -5124,11 +5124,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="SUB:.+" />
     </rule>
     <rule id="EUROPA_KEIN_SUB" name="'Europa' kein Substantiv in 'Europa League'">
+        <!-- Namen: Europa Nations League, Europa League, Europa Conference League -->
         <pattern>
             <marker>
                 <token>Europa</token>
             </marker>
-            <token regexp="yes">League.*|Conference.*</token>
+            <token regexp="yes">League.*|Conference.*|Nations.*</token>
         </pattern>
         <disambig action="remove" postag="SUB:.+" />
     </rule>
@@ -6888,17 +6889,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>ich</token>
                 <marker>
                     <!-- verben, die auch mit einem Imperativ (e.g. helf vs hilf) verwechselt werden könnten -->
-                    <token case_sensitive="yes">helf</token>
-                </marker>
-            </pattern>
-            <disambig action="ignore_spelling"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">ich|bitte|dann</token>
-                <marker>
-                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
-                    <token case_sensitive="yes" regexp="yes">betreib|mail|rat|bau|besuch</token>
+                    <token case_sensitive="yes" regexp="yes">helf|ess|fress</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -6906,8 +6897,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <marker>
+                    <!-- verben, die auch mit einem Imperativ (e.g. helf vs hilf) verwechselt werden könnten -->
+                    <token case_sensitive="yes" regexp="yes">helf|ess|fress</token>
+                </marker>
+                <token>ich</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">ich|bitte|dann|daher|deswegen</token>
+                <marker>
                     <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
-                    <token case_sensitive="yes" regexp="yes">betreib|mail|rat|bau|besuch|helf</token>
+                    <token case_sensitive="yes" regexp="yes">verrat|kontrollier|betreib|mail|rat|bau|besuch|stream|knutsch</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
+                    <token case_sensitive="yes" regexp="yes">verrat|kontrollier|betreib|mail|rat|bau|besuch|helf|stream|knutsch</token>
                 </marker>
                 <token>ich</token>
             </pattern>
@@ -6938,7 +6949,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>BMW</token>
             </marker>
-            <token regexp="yes" case_sensitive="yes">i?[ZXM].+|[zmx]\d+</token>
+            <token regexp="yes" case_sensitive="yes">i?[ZXM].+|[zmxi]\d+|Isetta</token>
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
@@ -6967,12 +6978,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rule id="VORS_KEINE_PRAEPOSITION" name="'vors' kein PRP">
+    <rule id="VORS_KEIN_PRP" name="'vors' kein PRP">
         <pattern>
             <marker>
                 <token>vors</token>
             </marker>
             <token spacebefore="no">.</token>
+        </pattern>
+        <disambig action="remove" postag="PRP.*"/>
+    </rule>
+    <rule id="IN_KEIN_PRP" name="'in' kein PRP">
+        <pattern>
+            <token spacebefore="no" regexp="yes">[_\*:]</token>
+            <marker>
+                <token spacebefore="no">in</token>
+            </marker>
         </pattern>
         <disambig action="remove" postag="PRP.*"/>
     </rule>
