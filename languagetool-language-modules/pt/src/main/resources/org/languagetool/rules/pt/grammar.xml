@@ -3464,18 +3464,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='(?:NC|A..)[MC]P.+' postag_regexp='yes'/>
           <token regexp='yes'>alvo|padrão</token>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-12-17 (21-OCT-2020+) *START* -->
-        <!--
-        Muitos parabéns corno.
-        A ilha está muitos quilômetros distante da costa.
-        -->
-        <antipattern>
-          <token postag='DI0.P0' postag_regexp='yes'/>
-          <token postag='AQ0.P0|NC.P000' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='V.+|RM'/></token>
-          <token postag='AQ0.S0|NC.S000|NP.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-12-17 (21-OCT-2020+) *END* -->
         <!-- MARCOAGPINTO 2021-01-25 (1-JAN-2021+) *START* -->
         <!--
         Rui, por ti os vossos livros troco.
@@ -3947,6 +3935,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>...a está sendo enfrentado não apenas pelos mencionados, como também por muitos outros administradores públicos Brasil a fora.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-21 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-24 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <!-- It only seems to work with "D[IP]" -->
+        <antipattern>
+          <token postag='D[IP]..P.+|SPS00:D[IP]..P.+' postag_regexp='yes'/>
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='_PUNCT|RG' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+|NP.+|VMP00S.+' postag_regexp='yes'>
+            <exception scope='next' regexp='no'>perto</exception>
+          </token>
+          <example>A ilha está muitos quilômetros distante da costa.</example>
+          <example>Faça seus deveres sozinho.</example>
+          <example>O justo emprego de algumas palavras é em alguns casos difícil.</example>
+          <example>Tom poderia chegar alguns minutos atrasado.</example>
+          <example>Meu irmão está há muitos anos condenado à inatividade física.</example>
+          <example>Fadil lutou para criar seus filhos sozinho.</example>
+          <example>Faz teus deveres sozinho.</example>
+          <example>Por isso uma obra pode ter vários números ISBN diferentes.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-24 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
