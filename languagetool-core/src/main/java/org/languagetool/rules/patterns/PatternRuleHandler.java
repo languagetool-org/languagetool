@@ -209,6 +209,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
 
         correctExamples = new ArrayList<>();
+        antipatternExamples = new ArrayList<>();
         incorrectExamples = new ArrayList<>();
         errorTriggeringExamples = new ArrayList<>();
         suggestionMatches.clear();
@@ -266,7 +267,15 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case EXAMPLE:
         String typeVal = attrs.getValue(TYPE);
-        if ("incorrect".equals(typeVal) || attrs.getValue("correction") != null) {
+        if (inAntiPattern) {
+          if (inRuleGroup && !inRule) {
+            inAntiPatternForRuleGroupExample = true;
+            antiPatternForRuleGroupExample = new StringBuilder();
+          } else {
+            inAntiPatternExample = true;
+            antiPatternExample = new StringBuilder();
+          }
+        } else if ("incorrect".equals(typeVal) || attrs.getValue("correction") != null) {
           inIncorrectExample = true;
           incorrectExample = new StringBuilder();
           if (attrs.getValue("correction") != null) {
@@ -350,6 +359,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (distanceTokensStr2 != null) {
           ruleGroupDistanceTokens = Integer.parseInt(distanceTokensStr2);  
         }
+        antipatternForRuleGroupsExamples = new ArrayList<>();
         break;
       case MATCH:
         setMatchElement(attrs, inSuggestion && (isSuggestionSuppressMisspelled || isRuleSuppressMisspelled));
@@ -503,9 +513,14 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inAntiPattern = false;
         endPos = -1;
         startPos = -1;
+        inAntiPatternExample = false;
         break;
       case EXAMPLE:
-        if (inCorrectExample) {
+        if (inAntiPatternExample) {
+          antipatternExamples.add(new CorrectExample(antiPatternExample.toString()));
+        } else if (inAntiPatternForRuleGroupExample) {
+          antipatternForRuleGroupsExamples.add(new CorrectExample(antiPatternForRuleGroupExample.toString()));
+        } else if (inCorrectExample) {
           correctExamples.add(new CorrectExample(correctExample.toString()));
         } else if (inIncorrectExample) {
           if (inAntiPattern) {
@@ -533,6 +548,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
         incorrectExample = new StringBuilder();
         errorTriggerExample = new StringBuilder();
         exampleCorrection = null;
+        antiPatternExample = new StringBuilder();
+        antiPatternForRuleGroupExample = new StringBuilder();
+        inAntiPatternExample = false;
+        inAntiPatternForRuleGroupExample = false;
         break;
       case MESSAGE:
         suggestionMatches = addLegacyMatches(suggestionMatches, message.toString(), true);
@@ -580,6 +599,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         ruleGroupMinPrevMatches = 0;
         ruleGroupDistanceTokens = 0;
         ruleGroupTags.clear();
+        antipatternForRuleGroupsExamples.clear();
         break;
       case MARKER:
         if (inCorrectExample) {
@@ -733,8 +753,12 @@ public class PatternRuleHandler extends XMLRuleHandler {
     }
     startPos = -1;
     endPos = -1;
-    if (!correctExamples.isEmpty()) {
-      rule.setCorrectExamples(correctExamples);
+    List<CorrectExample> allCorrectExamples = new ArrayList<>();
+    allCorrectExamples.addAll(correctExamples);
+    allCorrectExamples.addAll(antipatternExamples);
+    allCorrectExamples.addAll(antipatternForRuleGroupsExamples);
+    if (!allCorrectExamples.isEmpty()) {
+      rule.setCorrectExamples(allCorrectExamples);
     }
     if (!incorrectExamples.isEmpty()) {
       rule.setIncorrectExamples(incorrectExamples);
@@ -822,6 +846,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
       elements.append(s);
     } else if (inCorrectExample) {
       correctExample.append(s);
+    } else if (inAntiPatternExample) {
+      antiPatternExample.append(s);
+    } else if (inAntiPatternForRuleGroupExample) {
+      antiPatternForRuleGroupExample.append(s);
     } else if (inIncorrectExample) {
       incorrectExample.append(s);
     } else if (inErrorTriggerExample) {

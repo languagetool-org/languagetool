@@ -26,11 +26,11 @@ import org.languagetool.language.Demo;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class DemoPatternRuleTest extends PatternRuleTest {
 
@@ -39,6 +39,10 @@ public class DemoPatternRuleTest extends PatternRuleTest {
   @Test
   public void testRules() throws IOException {
     runTestForLanguage(new Demo());
+    // TOOD: cannot catch test failure like this:
+    //try {
+    //  runTestForLanguage(new DemoWithGrammarFile("grammar-fail1.xml"));
+    //} catch (Exception expected) {}
   }
 
   @Test
@@ -145,4 +149,14 @@ public class DemoPatternRuleTest extends PatternRuleTest {
     return makePatternRule(s, false, false);
   }
 
+  static class DemoWithGrammarFile extends Demo {
+    private final String filename;
+    public DemoWithGrammarFile(String filename) {
+      this.filename = filename;
+    }
+    @Override
+    public List<String> getRuleFileNames() {
+      return Arrays.asList("/org/languagetool/rules/xx/" + filename);
+    }
+  }
 }
