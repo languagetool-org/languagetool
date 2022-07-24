@@ -17633,18 +17633,101 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='DI.+|CC' postag_regexp='yes'/>
         </antipattern>
         <pattern>
-          <token negate="yes" regexp='yes'>e|que|mas</token>
           <marker>
+            <token negate="yes" regexp='yes'>e|que|mas|,</token>
             <token>sim</token>
           </marker>
-          <token negate="yes" regexp='yes'>[.,!?]</token>
+          <token negate="yes" regexp='yes'>[.,;!?-]|&separadores_de_oracoes;</token>
+        </pattern>
+        <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1, \2,</suggestion>
+        <example correction="ali, sim,">Havia alguém <marker>ali sim</marker> tia Ana.</example>
+        <example correction="Devemos, sim,"><marker>Devemos sim</marker> lutar por igualdade.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp='yes'>e|que|mas</token>
+          <token regexp='yes'>["“”«»]</token>
+          <token spacebefore="no">sim</token>
+          <token spacebefore="no" regexp='yes'>["“”«»]</token>
+        </antipattern>
+        <antipattern>
+          <token>sim</token>
+          <token max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
+          <token spacebefore="no" regexp='yes'>[.,!?]</token>
+        </antipattern>
+        <antipattern>
+          <token>sim</token>
+          <token min="0" max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
+          <token postag='DI.+|CC' postag_regexp='yes'/>
+        </antipattern>
+        <pattern>
+            <token>,</token>
+		  <marker>
+            <token>sim</token>
+          </marker>
+          <token negate="yes" regexp='yes'>[.,;!?-]|&separadores_de_oracoes;|à|ao</token>
+        </pattern>
+        <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\2,</suggestion>
+        <example correction="sim,">Havia alguém ali, <marker>sim</marker> tia Ana.</example>
+        <example correction="sim,">Devemos, <marker>sim</marker> lutar por igualdade.</example>
+		<example correction="sim,">Grande feito, <marker>sim</marker> senhor!</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp='yes'>e|que|mas</token>
+          <token regexp='yes'>["“”«»]</token>
+          <token spacebefore="no">sim</token>
+          <token spacebefore="no" regexp='yes'>["“”«»]</token>
+        </antipattern>
+        <antipattern>
+          <token>sim</token>
+          <token max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
+          <token spacebefore="no" regexp='yes'>[.,!?]</token>
+        </antipattern>
+        <antipattern>
+          <token>sim</token>
+          <token min="0" max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
+          <token postag='DI.+|CC' postag_regexp='yes'/>
+        </antipattern>
+        <pattern>
+		  <marker>
+		    <token negate="yes" regexp='yes'>e|que|mas|,</token>
+            <token>sim</token>
+          </marker>
+            <token>,</token>
+        </pattern>
+        <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\1, \2</suggestion>
+        <example correction="ali, sim">Havia alguém <marker>ali sim</marker>, tia Ana.</example>
+        <example correction="Devemos, sim"><marker>Devemos sim</marker>, lutar por igualdade.</example>
+		<example correction="feito, sim">Grande <marker>feito sim</marker>, senhor!</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>sim</token>
+          <token max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
+          <token spacebefore="no" regexp='yes'>[.,!?]</token>
+        </antipattern>
+        <antipattern>
+          <token>sim</token>
+          <token min="0" max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
+          <token postag='DI.+|CC' postag_regexp='yes'/>
+        </antipattern>
+        <pattern>
+		  <marker>
+		    <token postag='SENT_START'/>
+            <token>sim</token>
+          </marker>
+          <token negate="yes" regexp='yes'>[.,;!?-]|&separadores_de_oracoes;|à|ao</token>
         </pattern>
         <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\2,</suggestion>
         <example correction="Sim,"><marker>Sim</marker> tia Ana.</example>
         <example><marker>Sim,</marker> tia Ana.</example>
+        <example><marker>Sim -</marker> tia Ana.</example>
       </rule>
-	
       <rule>
         <antipattern>
           <token regexp='yes'>&quot;</token>
@@ -17684,17 +17767,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token spacebefore='no'>por</token>
         </antipattern>
         <pattern>
+         <marker>
           <token>
             <exception regexp="yes">“|«</exception>
             <exception regexp='yes'>&separadores_de_oracoes;</exception>
-            <exception postag='SENT_START'/></token>
+            <exception postag='SENT_START|_PUNCT' postag_regexp='yes'/></token>
           <token>por</token>
           <token>exemplo</token>
+         </marker>
+          <token>,</token>
         </pattern>
         <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
-        <suggestion>\1, <match no='2' case_conversion="preserve"/> \3</suggestion>
+        <suggestion>\1, \2 \3</suggestion>
         <example correction="Consideremos, por exemplo"><marker>Consideremos por exemplo</marker>, que não está bem feito.</example>
-        <example>Por exemplo, hoje é sexta-feira.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp='yes'>&quot;</token>
+          <token spacebefore='no'>por</token>
+        </antipattern>
+        <pattern>
+         <marker>
+          <token>
+            <exception regexp="yes">“|«</exception>
+            <exception regexp='yes'>&separadores_de_oracoes;</exception>
+            <exception postag='SENT_START|_PUNCT' postag_regexp='yes'/></token>
+          <token>por</token>
+          <token>exemplo</token>
+          <token>
+            <exception regexp='yes'>&separadores_de_oracoes;</exception>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/>
+		  </token>
+		 </marker>
+        </pattern>
+        <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no ínicio duma frase para efeitos de estilo.</message>
+        <suggestion>\1, \2 \3, \4</suggestion>
+        <example correction="Consideremos, por exemplo, que"><marker>Consideremos por exemplo que</marker> não está bem feito.</example>
       </rule>
       <rule>
         <antipattern>
@@ -18030,6 +18138,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule-->
       <rule>
         <pattern>
+            <token>,</token>
           <marker>
             <token>por</token>
             <token>exemplo</token>
@@ -18038,9 +18147,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception postag_regexp='yes' postag="_PUNCT|''"/></token>
         </pattern>
         <message>Esta locução deve ser separada por vírgulas.</message>
-        <suggestion>\1 \2,</suggestion>
+        <suggestion>\2 \3,</suggestion>
         <example correction="por exemplo,">Consideremos, <marker>por exemplo</marker> que não está bem feito.</example>
-        <example>Por exemplo, hoje é sexta-feira.</example>
+      </rule>
+      <rule>
+        <pattern>
+            <token postag='SENT_START'/>
+          <marker>
+            <token>por</token>
+            <token>exemplo</token>
+          </marker>
+          <token>
+            <exception postag_regexp='yes' postag="_PUNCT|''"/>
+          </token>
+        </pattern>
+        <message>Esta locução deve ser separada por vírgulas.</message>
+        <suggestion>\2 \3,</suggestion>
+        <example correction="Por exemplo,"><marker>Por exemplo</marker> hoje é sexta-feira.</example>
       </rule>
       <rule>
         <pattern>
