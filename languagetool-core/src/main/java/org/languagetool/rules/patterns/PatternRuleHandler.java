@@ -192,7 +192,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
           throw new RuntimeException("id is null for rule with name '" + name + "'");
         }
         id = idPrefix != null ? idPrefix + id : id;
-
         if (inRuleGroup && ruleGroupDefaultOff && attrs.getValue(DEFAULT) != null) {
           throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
         }
@@ -207,7 +206,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
           defaultOff = OFF.equals(attrs.getValue(DEFAULT));
           defaultTempOff = TEMP_OFF.equals(attrs.getValue(DEFAULT));
         }
-
         correctExamples = new ArrayList<>();
         antipatternExamples = new ArrayList<>();
         incorrectExamples = new ArrayList<>();
@@ -429,10 +427,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
           // but for phraserefs this depends on the position where the phraseref is used
           // not where it's defined. Thus we have to copy the elements so each use of
           // the phraseref can carry their own information:
-
           List<PatternToken> tmpPatternTokens = new ArrayList<>();
           createRules(new ArrayList<>(patternTokens), tmpPatternTokens, 0);
-
         } else {
           if (!patternTokens.isEmpty()) {
             for (List<PatternToken> ph : phrasePatternTokens) {

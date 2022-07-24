@@ -488,11 +488,9 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected void setToken(Attributes attrs) throws SAXException {
     inToken = true;
-
     if (lastPhrase) {
       patternTokens.clear();
     }
-
     lastPhrase = false;
     tokenNegated = YES.equals(attrs.getValue(NEGATE));
     tokenInflected = YES.equals(attrs.getValue(INFLECTED));
@@ -506,7 +504,6 @@ public class XMLRuleHandler extends DefaultHandler {
       maxOccurrence = Integer.parseInt(attrs.getValue(MAX));
     }
     elements = new StringBuilder();
-    // POSElement creation
     if (attrs.getValue(POSTAG) != null) {
       posToken = internString(attrs.getValue(POSTAG));
       posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
@@ -521,16 +518,13 @@ public class XMLRuleHandler extends DefaultHandler {
       chunkTag = new ChunkTag(internString(attrs.getValue(CHUNKTAG_REGEXP)), true);
     }
     regExpression = YES.equals(attrs.getValue(REGEXP));
-
     if (attrs.getValue(SPACEBEFORE) != null) {
       tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
       tokenSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));
     }
-
     if (!inAndGroup && !inOrGroup) {
       tokenCounter++;
     }
-
     if (attrs.getValue(CASE_SENSITIVE) != null) {
       tokenLevelCaseSet = true;
       tokenLevelCaseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
