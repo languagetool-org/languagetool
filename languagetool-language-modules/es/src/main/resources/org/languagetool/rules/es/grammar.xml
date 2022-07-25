@@ -1604,9 +1604,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="FALTA_ELEMENTO_ENTRE_VERBOS" name="Falta un elemento entre verbos: hay algo *(que) es claro">
             <antipattern>
                 <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 <example>Solicito se tengan como pruebas.</example>
+                <example>Solicita se le dé respuesta.</example>
             </antipattern>
             <antipattern>
                 <token>ya</token>
@@ -6098,17 +6099,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="SENT_START"/>
                 <token min="0">(</token>
-                <token regexp="yes">[a-z]|\d+</token>
+                <token regexp="yes">[a-z]|\d+|</token>
                 <token regexp="yes" skip="10">\p{P}<exception>,</exception></token>
                 <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
-                <!--<example>1. Se envíe el teléfono.</example>-->
+                <!--<example>1. Se envíe el teléfono.</example> Problem: "1." is in a different sentence -->
                 <example>2.) Le sean asignados los números.</example>
                 <example>a) Se incapaciten física o intelectualmente.</example>
             </antipattern>
             <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">.<exception regexp="yes">[a-z]</exception></token>
+                <token regexp="yes" skip="10"/>
+                <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
+                <example>✅ Te desarrolles profesionalmente.</example>
+            </antipattern>
+            <antipattern>
                 <!-- rarely used as verbs -->
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
-                <token regexp="yes">pasaportes|dimensiones|proporciones|reacciones|promociones</token>
+                <token regexp="yes">pasaportes|dimensiones|proporciones|reacciones|promociones|funciones|acciones</token>
                 <example>Promociones VIP</example>
                 <example>Reacciones ácido-base.</example>
             </antipattern>
@@ -6121,14 +6129,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">solícito|solícita</token>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
-                <example>Deseando se encuentre bien.</example>
-                <example>Esperando se encuentre bien.</example>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                 <token postag="VMS[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 <example>Deseando se encuentre bien.</example>
                 <example>Esperando se encuentre bien.</example>
@@ -6143,9 +6149,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.S.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">bunas|tampoco|ni|no|nunca|nadie|quizás?|probablemente|posiblemente|apenas</token>
+                <token regexp="yes">buenas|tampoco|ni|no|nunca|nadie|quizás?|probablemente|posiblemente|apenas</token>
                 <token postag_regexp="yes" postag="P.*|RG" min="0" max="4"/>
                 <token postag="V.S.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>mucho</token>
+                <token>menos</token>
+                <token postag_regexp="yes" postag="P.*|RG" min="0" max="4"/>
+                <token postag="V.S.*" postag_regexp="yes"/>
+                <example>Mucho menos me vuelvas a llamar.</example>
             </antipattern>
             <antipattern>
                 <token postag="RN"/>
@@ -6170,6 +6183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>o</token>
                 <token postag_regexp="yes" postag="P.*" min="0" max="2"/>
                 <token postag="V.S.*" postag_regexp="yes"/>
+                <example>Ganes o pierdas, ¡disfruta!</example>
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
@@ -6284,7 +6298,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[IM].*|P[TR].*|CS|LOC_CS" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*|SENT_END" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder|deber|parecer</exception><exception regexp="yes">haya|uno|unas?</exception></token>
+                        <token postag="V.S.*" postag_regexp="yes"><exception postag="V.[IM].*|[NA].*|_possible_NP|R.*|LOC_.*|D.*|SENT_END" postag_regexp="yes"/><exception postag="V.SI.*" postag_regexp="yes" inflected="yes" regexp="yes">querer|haber|poder|deber|parecer</exception><exception regexp="yes">haya|uno|unas?</exception><exception regexp="yes">\p{Lu}+</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:marker desiredPostag:V.I.*|NC.*|A.*"/>
@@ -6387,6 +6401,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>New York Times</example>
                 <example>The New York Times</example>
                 <example>Times Square</example>
+                <example>- Ganes o pierdas, ¡disfruta!</example>
+                <example>ROAS (Retorno de la inversión).</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
@@ -6439,7 +6455,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer</token>
-                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                     <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -10617,20 +10633,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es un verbo, se escribe sin tilde.</message>
                 <suggestion><match no="2" regexp_match="(?iu)í" regexp_replace="i" case_conversion="preserve"/></suggestion>
                 <example correction="Solicito"><marker>Solícito</marker>:</example>
-                <example correction="Solicito"><marker>Solícito</marker> que se ejecute la sentncia.</example>
+                <example correction="Solicito"><marker>Solícito</marker> que se ejecute la sentencia.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">solícito|solícita</token>
                     </marker>
-                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                     <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es un verbo, se escribe sin tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)í" regexp_replace="i" case_conversion="preserve"/></suggestion>
                 <example correction="solicita">El demandante <marker>solícita</marker> se presenten los documentos.</example>
                 <example correction="Solicito"><marker>Solícito</marker> me sean entregados los documentos.</example>
+                <example correction="Solicita"><marker>Solícita</marker> se le dé respuesta.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MAS" name="mas/más">
@@ -14228,7 +14245,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="DOS_VERBOS_MODALES" name="dos verbos modales seguidos" default="temp_off">
             <antipattern>
                 <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 <example>Solicito se tengan como pruebas.</example>
             </antipattern>
@@ -14280,7 +14297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DOS_VERBOS" name="dos verbos juntos" default="temp_off">
             <antipattern>
                 <token regexp="yes" inflected="yes">esperar|desear|rogar|solicitar|agradecer|acordar|ofrecer</token>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0"/>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 <example>Agradecería se mantenga en línea.</example>
             </antipattern>
