@@ -29,7 +29,7 @@ RB => Règles Brutes
     <!ENTITY unites_temps "an|année|décade|décennie|heure|jour|lustre|millénaire|minute|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre">
     <!ENTITY expressions_temps "temps|passé|présent|avenir">
     <!ENTITY unites_de_mesure "min|(centi|milli|déci|déca|hecto|kilo|atto|exa|mega|giga|tera|peta|zetta|yotta|micro|nano|pico|femto|zepto|yocto)?[mètre|gramme|litre]|degré|[mchkd][wglm]|dag|dal|dam|volt|watt|hz|hertz|bits?|ms|s|cs|cc|dB|go|kw">
-    <!ENTITY noms_apres_faire "allusion|appel|mine|surface|attention|résonn?ance|carrière|confiance|demi-tour|débat|erreur|face|faillite|figure|fortune|fureur|gaffe|gymnastique|horreur|intrusion|irruption|lecture|main|mal|mention|montre|part|partie|peur|place|plaisir|pression|preuve|profil|référence|saillie|semblant|signe|silence|suite|usage|écho|étalage">
+    <!ENTITY noms_apres_faire "allusion|appel|autorité|foi|mine|surface|attention|résonn?ance|carrière|confiance|demi-tour|débat|erreur|face|faillite|figure|fortune|fureur|gaffe|gymnastique|horreur|intrusion|irruption|lecture|main|mal|mention|montre|part|partie|peur|place|plaisir|pression|preuve|profil|référence|saillie|semblant|signe|silence|suite|usage|écho|étalage">
     <!ENTITY mois_annee "jan(v?ier)?|f[eé]v(rier)?|mars|avril|mai|juin|jui(llet)?|ao[uû]t|sept?(embre)?|oct(obre)?|nov(embre)?|d[eé]c(embre)?">
 ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -2477,6 +2477,15 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="V ind pres 3 s"/>
     </rule>
+    <rule id="PARLANT_AFFAIRE" name="parlant affaire">
+        <pattern>
+            <marker>
+                <token>parlant</token>
+            </marker>
+            <token regexp="yes">affaires?</token>
+        </pattern>
+        <disambig action="filter" postag="V ppr"/>
+    </rule>
     <rule id="TRAITE_DE" name="traite de">
         <pattern>
             <marker>
@@ -2810,10 +2819,17 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule name="touche raccourci" id="TOUCHE_RACCOURCI">
+        <pattern>
+            <token postag="N .*" postag_regexp="yes" inflected="yes">touche</token>
+            <token postag="N .*" postag_regexp="yes" regexp="yes">raccourci?</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule name="dimensions produit" id="DIMENSIONS_PRODUIT">
         <pattern>
-            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">connaissance|expertises?|amélioration|contrôle|mutuelle|carte|locations?|références?|figurations?|test|cessions?|fiches?|actus?|affichages?|informations?|démos?|tables?|exploitations?|équipes?|qualités?|expériences?|top|innovation|expiration|nouveauté|dimension|fiche|retour|photo|recherche|image|page</token>
-            <token postag="N.*" postag_regexp="yes" regexp="yes">produits?|marchés?|droit|logiciels?|imprimantes?|citoyen|artisan|caractérisitique</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">connaissance|expertises?|amélioration|contrôle|mariée?s?|mutuelle|carte|locations?|références?|figurations?|test|cessions?|fiches?|actus?|affichages?|informations?|démos?|tables?|exploitations?|équipes?|qualités?|expériences?|top|innovation|expiration|nouveauté|dimension|fiche|retour|photo|recherche|image|page</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">produits?|marchés?|droit|logiciels?|imprimantes?|citoyen|artisan|créateur|caractérisitique</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
