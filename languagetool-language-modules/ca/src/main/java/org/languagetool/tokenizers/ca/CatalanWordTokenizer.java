@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tools.StringTools;
 
 
 /**
@@ -118,7 +119,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    String auxText=text;
+    String auxText = StringTools.normalizeNFKC(text);
 
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
