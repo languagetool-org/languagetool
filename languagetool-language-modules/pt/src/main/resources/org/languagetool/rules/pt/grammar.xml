@@ -39999,6 +39999,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!--          Style rules from English grammar.xml      - START-->
     <rulegroup id='E_NO_COMECO' name="Frase começa com 'E', 'Mas' ou 'Ou'" tags="picky" default='temp_off'>
       <rule>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token>E</token>
+          <token regexp='yes'>.|&separadores_de_fecho;|&tracos_de_separacao;</token>
+          <example>E.</example>
+          <example>e) A execução fiscal apenas poderá ser promovida contra o devedor e o fiador.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token>E</token>
+          <token postag='PP.+' postag_regexp='yes' min='0' max='2'/>
+          <token postag='V.+' postag_regexp='yes' inflected='yes'/>
+          <token postag='SENT_END'/>
+          <example>E é.</example>
+          <example>E ele é.</example>
+          <example>E amou.</example>
+          <example>E eu lhe darei.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token>E</token>
+          <token postag='PP.+' postag_regexp='yes' min='0'/>
+          <token postag='V.+' postag_regexp='yes' inflected='yes'/>
+          <token postag='SPS00' min='0'/>
+          <token postag='PP.+' postag_regexp='yes' min='0'/>
+          <token postag='SENT_END'/>
+          <example>E eu darei a ele.</example>
+          <example>E darei a ele.</example>
+          <example>E darei.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token>E</token>
+          <token>quanto</token>
+          <token regexp='yes' skip='-1'>ao|aos|às|à|a</token>
+          <token>?</token>
+          <example>E quanto a você, o que faria no meu lugar?</example>
+          <example>E quanto a ele, como proceder?</example>
+          <example>E quanto ao lixo, o que faremos?</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token>E</token>
+          <token postag='PP.+' postag_regexp='yes'/>
+          <token regexp='yes' skip='-1'>&separadores_de_oracoes;</token>
+          <token>?</token>
+          <example>E ele, gostou do presente?</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token>E</token>
+          <token postag='PP.+' postag_regexp='yes'/>
+          <token>?</token>
+          <example>E vocês?</example>
+        </antipattern>
         <pattern>
           <token postag='SENT_START'/>
           <marker>
