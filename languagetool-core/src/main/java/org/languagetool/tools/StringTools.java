@@ -495,6 +495,10 @@ public final class StringTools {
   public static String normalizeNFKC(String str) {
     return Normalizer.normalize(str, Normalizer.Form.NFKC);
   }
+  
+  public static String normalizeNFC(String str) {
+    return Normalizer.normalize(str, Normalizer.Form.NFC);
+  }
 
   @Nullable
   public static String asString(CharSequence s) {

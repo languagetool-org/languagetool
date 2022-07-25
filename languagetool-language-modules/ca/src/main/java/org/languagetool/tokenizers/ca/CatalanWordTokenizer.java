@@ -119,7 +119,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    String auxText = StringTools.normalizeNFKC(text);
+    String auxText = StringTools.normalizeNFC(text);
 
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
