@@ -29593,64 +29593,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!--NUMBER_DAYS_MONTH[14]-->
-                <antipattern>
-                    <token regexp="yes">29\.02\.([13579][26]00|[2468][048]00)</token>
-                    <!-- 2000 is a leap year (divisible by 400) -->
-                    <!--<example>Nació el <marker>29.02.2000</marker>.</example>-->
-                    <!-- 2004 is a leap year (divisible by 4) -->
-                    <example>Nació el<marker>29.02.2004</marker>.</example>
-                    <!-- 2008 is a leap year (divisible by 4) -->
-                    <example>Nació el<marker>29.02.2008</marker>.</example>
-                    <!-- 2012 is a leap year (divisible by 4) -->
-                    <example>Nació el<marker>29.02.2012</marker>.</example>
-                    <!-- 2016 is a leap year (divisible by 4) -->
-                    <example>Nació el <marker>29.02.2016</marker>.</example>
-                    <!-- 2020 is a leap year (divisible by 4) -->
-                    <example>Nació el <marker>29.02.2020</marker>.</example>
-                </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">29\.02\.\d\d(00|\d[13579]|[02468][26]|[13579][048])</token>
+                        <token regexp="yes">29\.02\.\d\d(00|\d[13579]|[02468][26]|[13579][048]) <exception regexp="yes">29\.02\.([13579][26]00|[2468][048]00)</exception> </token>
                     </marker>
                 </pattern>
                 <message>El mes de febrero solo tiene 28 días, porque este año no es bisiesto.</message>
+                <!--1900 is not a leap year -->
                 <example correction="">Nació el <marker>29.02.1900</marker>.</example>
                 <example>Nació el <marker>28.02.1900</marker>.</example>
+                <!-- 2000 is a leap year (divisible by 400) -->
+                <example>Nació el <marker>29.02.2000</marker>.</example>
+                <!-- 2004 is a leap year (divisible by 4) -->
+                <example>Nació el<marker>29.02.2004</marker>.</example>
+                <!-- 2008 is a leap year (divisible by 4) -->
+                <example>Nació el<marker>29.02.2008</marker>.</example>
+                <!-- 2012 is a leap year (divisible by 4) -->
+                <example>Nació el<marker>29.02.2012</marker>.</example>
+                <!-- 2016 is a leap year (divisible by 4) -->
+                <example>Nació el <marker>29.02.2016</marker>.</example>
+                <!-- 2020 is a leap year (divisible by 4) -->
+                <example>Nació el <marker>29.02.2020</marker>.</example>
                 <!-- 2100 is not a leap year (divisible by 100) -->
-                <example correction="">El <marker>29.02.2100</marker>.</example>
+                <example correction="">Sucederá el <marker>29.02.2100</marker>.</example>
                 <example>Sucederá el <marker>28.02.2100</marker>.</example>
             </rule>
             <rule>
                 <!--NUMBER_DAYS_MONTH[15]-->
-                <antipattern>
-                    <token regexp="yes">29\.2</token>
-                    <token>.</token>
-                    <token regexp="yes">([13579][26]00|[2468][048]00)</token>
-                    <!-- 2000 is a leap year (divisible by 400) -->
-                    <!--<example>Nació el <marker>29.2.2000</marker>.</example>-->
-                    <!-- 2004 is a leap year (divisible by 4) -->
-                    <example>Nació el<marker>29.2.2004</marker>.</example>
-                    <!-- 2008 is a leap year (divisible by 4) -->
-                    <example>Nació el<marker>29.2.2008</marker>.</example>
-                    <!-- 2012 is a leap year (divisible by 4) -->
-                    <example>Nació el<marker>29.2.2012</marker>.</example>
-                    <!-- 2016 is a leap year (divisible by 4) -->
-                    <example>Nació el <marker>29.2.2016</marker>.</example>
-                    <!-- 2020 is a leap year (divisible by 4) -->
-                    <example>Nació el <marker>29.2.2020</marker>.</example>
-                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">29\.2</token>
                         <token>.</token>
-                        <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])</token>
+                        <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])<exception regexp="yes">([13579][26]00|[2468][048]00)</exception> </token>
                     </marker>
                 </pattern>
                 <message>El mes de febrero solo tiene 28 días, porque este año no es bisiesto.</message>
+                <!--1900 is not a leap year -->
                 <example correction="">Nació el <marker>29.2.1900</marker>.</example>
                 <example>Nació el <marker>28.2.1900</marker>.</example>
+                <!-- 2000 is a leap year (divisible by 400) -->
+                <example>Nació el <marker>29.2.2000</marker>.</example>
+                <!-- 2004 is a leap year (divisible by 4) -->
+                <example>Nació el<marker>29.2.2004</marker>.</example>
+                <!-- 2008 is a leap year (divisible by 4) -->
+                <example>Nació el<marker>29.2.2008</marker>.</example>
+                <!-- 2012 is a leap year (divisible by 4) -->
+                <example>Nació el<marker>29.2.2012</marker>.</example>
+                <!-- 2016 is a leap year (divisible by 4) -->
+                <example>Nació el <marker>29.2.2016</marker>.</example>
+                <!-- 2020 is a leap year (divisible by 4) -->
+                <example>Nació el <marker>29.2.2020</marker>.</example>
                 <!-- 2100 is not a leap year (divisible by 100) -->
-                <example correction="">El <marker>29.2.2100</marker>.</example>
+                <example correction="">Sucederá el <marker>29.2.2100</marker>.</example>
                 <example>Sucederá el <marker>28.2.2100</marker>.</example>
             </rule>
         </rulegroup>
