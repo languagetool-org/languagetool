@@ -36,6 +36,34 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      token("zu"),
+      tokenRegex("Kopfe?|Zwecken?|Ohren|Füßen|Händen")
+    ),
+    Arrays.asList(  // "die zu basisdemokratischen Prozessen benötigte Mitbestimmung"
+      token("die"),
+      token("zu"),
+      posRegex("ADJ.*"),
+      posRegex("SUB:.*"),
+      tokenRegex("nötigen?|benötigten?|erforderlichen?")
+    ),
+    Arrays.asList(
+      posRegex("PRO:.*|ART.*"),
+      token("zu"),
+      tokenRegex("wenige|viele|verschiedene|höheren|günstigeren"),
+      posRegex("SUB:.*PLU.*")
+    ),
+    Arrays.asList(
+      posRegex("PRO:.*|ART.*"),
+      token("zu"),
+      token("Hause")
+    ),
+    Arrays.asList(  // "Und das zu guter Qualität."
+      posRegex("PRO:.*|ART.*"),
+      token("zu"),
+      posRegex("ADJ:DAT:SIN:FEM:GRU:SOL"),
+      token("Qualität")
+    ),
+    Arrays.asList(
       posRegex("PRO.*"),  // "Es gibt viele Stock Screener."
       posRegex("SUB:.*"),
       new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()

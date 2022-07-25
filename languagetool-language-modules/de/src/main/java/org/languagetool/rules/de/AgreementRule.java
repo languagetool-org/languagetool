@@ -93,6 +93,7 @@ public class AgreementRule extends Rule {
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
+    "zu",
     "überraschend",
     "ungeahnt",
     "absolut",
@@ -526,6 +527,11 @@ public class AgreementRule extends Rule {
       if (startsWithUppercase(token4.getToken()) && startsWithUppercase(nextToken.getToken())) {
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
         String testPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
+        if (token4.getStartPos() == nextToken.getStartPos()) {
+          // avoids a strange bug that suggests e.g. "Machtmach" in sentence like this:
+          // "Denn die einzelnen sehen sich einer sehr verschieden starken Macht des..."
+          return null;
+        }
         String hyphenPotentialCompound = token4.getToken() + "-" + nextToken.getToken();
         String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + hyphenPotentialCompound;
         return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);
@@ -637,12 +643,6 @@ public class AgreementRule extends Rule {
     RuleMatch ruleMatch = null;
     if (set.isEmpty()) {
       RuleMatch compoundMatch = getCompoundError(token1, token2, token3, token4, tokenPos, sentence);
-      if (tokenPos + 4 < sentence.getTokensWithoutWhitespace().length &&
-          token4.getToken().equals(sentence.getTokensWithoutWhitespace()[tokenPos+4].getToken())) {
-        // avoids a strange bug that suggests "Machtmach" in sentence like this:
-        // "Denn die einzelnen sehen sich einer sehr verschieden starken Macht des..."
-        return null;
-      }
       if (compoundMatch != null) {
         return compoundMatch;
       }
