@@ -21,6 +21,7 @@
 package org.languagetool.rules.ca;
 
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -609,5 +610,19 @@ public class MorfologikCatalanSpellerRuleTest {
         // combining characters
         matches = rule.match(lt.getAnalyzedSentence("dema\u0300"));
         assertEquals(0, matches.length);
+        
+        assertEquals(9, "demanàren".length());
+        assertEquals(10, "demana\u0300ren".length());
+        
+        matches = rule.match(lt.getAnalyzedSentence("demanàren"));
+        assertEquals(1, matches.length);
+        assertEquals(0, matches[0].getFromPos());
+        assertEquals(9, matches[0].getToPos());
+        
+        AnalyzedSentence as = lt.getAnalyzedSentence("demana\u0300ren");
+        matches = rule.match(as);
+        assertEquals(1, matches.length);
+        assertEquals(0, matches[0].getFromPos());
+        assertEquals(10, matches[0].getToPos());
     }
 }

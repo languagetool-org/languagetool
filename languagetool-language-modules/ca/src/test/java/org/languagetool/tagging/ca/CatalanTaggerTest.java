@@ -58,6 +58,6 @@ public class CatalanTaggerTest {
     TestTools.myAssert("FRANÇA",
         "FRANÇA/[França]NPFSG00", tokenizer, tagger);
     // combining characters
-    TestTools.myAssert("dema\u0300", "demà/[demà]NCMS000|demà/[demà]RG", tokenizer, tagger);
+    TestTools.myAssert("dema\u0300", "dema\u0300/[demà]NCMS000|dema\u0300/[demà]RG", tokenizer, tagger);
   }
 }
