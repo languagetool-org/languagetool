@@ -62,8 +62,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY divisas "bolívares|cêntimos|coroas|dinares|dólares|euros|florins|francos|ienes|iuanes|kwanzas|libras|meticais|patacas|pesos|rublos|zlótis|[€£¥$₽]">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
-    <!ENTITY separadores_de_abertura "\(|\{\[">
-    <!ENTITY separadores_de_fecho "\)|\}\]">
+    <!ENTITY separadores_de_abertura "(?:\(|\{|\[)">
+    <!ENTITY separadores_de_fecho "(?:\)|\}|\])">
     <!ENTITY hifen "(?:[-‑])">
     <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
     <!ENTITY negacoes "jamais|nada|não|nem|nenhum|nenhuma|nenhumas|nenhuns|ninguém|nunca|sem|tampouco">
@@ -11032,6 +11032,93 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
       <antipattern>
         <token postag='SENT_START'/>
+        <token case_sensitive='yes'>MP|Resolução|Resoluções</token>
+        <token postag='Z0CN0' skip='-1'/>
+        <token postag='SENT_END'/>
+        <example>MP 1.</example>
+        <example>Resoluções 763 e 764/</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token>Diário</token>
+        <token>Oficial</token>
+        <token>da</token>
+        <token skip='-1'>União</token>
+        <token postag='SENT_END'/>
+        <example>Diário Oficial da União, Brasília, 2011.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START' skip='-1'/>
+        <token regexp='yes'>&separadores_de_fecho;</token>
+        <example>Estudos Diversos, 16).</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token skip='-1'></token>
+        <token regexp='yes'>&separadores_de_oracoes;</token>
+        <token regexp='yes'>\d</token>
+        <token postag='SENT_END'/>
+        <example>Compreensão oral; 4.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token skip='-1'>ISBN</token>
+        <token postag='SENT_END'/>
+        <example>ISBN 978-0-19-505236-7.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token>válido</token>
+        <token skip='-1'>até</token>
+        <token postag='SENT_END'/>
+        <example>Válido até 31/05.</example>
+        <example>Vpalido até dezembro.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token postag='NP..G.+' postag_regexp='yes' max='7'/>
+        <token>,</token>
+        <token regexp='yes'>\d{4}</token>
+        <token postag='SENT_END'/>
+        <example>São Paulo, 1986.</example>
+        <example>Rio de Janeiro, 1992.</example>
+        <example>Curitiba, 1958.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token postag='NP..G.+' postag_regexp='yes' max='7'/>
+        <token>,</token>
+        <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
+        <token min='0'>de</token>
+        <token regexp='yes'>\d{2,4}</token>
+        <token postag='SENT_END'/>
+        <example>São Paulo, abril de 1992.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token postag='NP..G.+' postag_regexp='yes' max='7'/>
+        <token>,</token>
+        <token regexp='yes'>\d{1,2}</token>
+        <token min='0'>de</token>
+        <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
+        <token min='0'>de</token>
+        <token regexp='yes'>\d{2,4}</token>
+        <token postag='SENT_END'/>
+        <example>São Paulo, 6 de janeiro de 1986.</example>
+        <example>Curitiba, 21 jul 1958.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='NP..G.+' postag_regexp='yes' max='7'/>
+        <token skip='-1'>,</token>
+        <token>,</token>
+        <token regexp='yes'>\d{4}</token>
+        <token postag='SENT_END'/>
+        <example>Rio de Janeiro, Paz e Terra, 1979.</example>
+        <example>Rio de Janeiro, Francisco Alves, 1982.</example>
+        <example>Curitiba, 21 jul 1958.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
         <token regexp='yes' min='0'>\d{1,2}</token>
         <token min='0'>de</token>
         <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
@@ -11068,11 +11155,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
       <antipattern>
         <token postag='SENT_START'/>
+        <token regexp='yes' min='0'>&separadores_de_abertura;</token>
         <token regexp="yes">\d</token>
         <token regexp='yes' skip='-1'>&separadores_de_fecho;</token>
         <token postag='SENT_END'/>
         <example>4) Fatores biológicos de alta importância.</example>
         <example>6) por último, o fato mais relevante.</example>
+        <example>(4) Fatores biológicos de alta importância.</example>
+        <example>[6] por último, o fato mais relevante.</example>
       </antipattern>
       <antipattern>
         <token postag='SENT_START'/>
