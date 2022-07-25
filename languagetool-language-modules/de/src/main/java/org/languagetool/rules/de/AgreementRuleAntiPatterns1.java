@@ -38,30 +38,30 @@ class AgreementRuleAntiPatterns1 {
     Arrays.asList(
       posRegex("PRO.*"),  // "Es gibt viele Stock Screener."
       posRegex("SUB:.*"),
-      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       posRegex("PRP.*(DAT|AKK)"),  // "zur Learning Academy"
       posRegex("SUB:.*"),
-      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       posRegex("PRP.*DAT"),  // "zur neuen Learning Academy"
       posRegex("ADJ.*DAT.*"),  
       posRegex("SUB:.*"),
-      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       posRegex("PRP.*AKK"),  // "zur neuen Learning Academy"
       posRegex("ADJ.*AKK.*"),  
       posRegex("SUB:.*"),
-      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       posRegex("PRO.*"),  // "Es gibt viele verschiedene Stock Screener."
       posRegex("(ADJ|PA2).*"),
       posRegex("SUB:.*"),
-      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().pos("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       tokenRegex("[(\\[]"),   // "... (ich meine Pfeil, nicht Raute) ..."
@@ -689,10 +689,18 @@ class AgreementRuleAntiPatterns1 {
       token("?")
     ),
     Arrays.asList(
-      csRegex("w[äa]r|ist"),
+      csRegex("w[äa]r|ist|sei"),
       token("das"),
       csRegex("Zufall|Spa(ß|ss)"),
-      token(".")
+      csRegex("\\.|\\?|!|,|…")
+    ),
+    Arrays.asList(
+      // Dann sei das Zufall gewesen
+      csRegex("w[äa]r|ist|sei"),
+      token("das"),
+      csRegex("Zufall|Spa(ß|ss)"),
+      csRegex("gewesen"),
+      csRegex("\\.|\\?|!|…|,")
     ),
     Arrays.asList(
        // "War das Zufall, dass es ging?"
@@ -1097,56 +1105,56 @@ class AgreementRuleAntiPatterns1 {
       posRegex("(ART|PRO:POS).*NOM:PLU"),
       posRegex("(ADJ|PA[12]).*NOM:PLU.*"),
       posRegex("SUB.*SIN.*"),
-      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       // die gegnerischen Shooting Guards
       posRegex("(ART|PRO:POS).*GEN:PLU"),
       posRegex("(ADJ|PA[12]).*GEN:PLU.*"),
       posRegex("SUB.*SIN.*"),
-      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       // die gegnerischen Shooting Guards
       posRegex("(ART|PRO:POS).*DAT:PLU"),
       posRegex("(ADJ|PA[12]).*DAT:PLU.*"),
       posRegex("SUB.*SIN.*"),
-      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       // die gegnerischen Shooting Guards
       posRegex("(ART|PRO:POS).*AKK:PLU"),
       posRegex("(ADJ|PA[12]).*AKK:PLU.*"),
       posRegex("SUB.*SIN.*"),
-      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       // den leidenschaftlichen Lobpreis der texanischen Gateway Church aus
       posRegex("(ART|PRO:POS).*DAT:SIN.*"),
       posRegex("(ADJ|PA[12]).*DAT:SIN.*"),
       posRegex("SUB.*SIN.*"),
-      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
       posRegex("(ART|PRO:POS).*GEN:SIN.*"),
       posRegex("(ADJ|PA[12]).*GEN:SIN.*"),
       posRegex("SUB.*SIN.*"),
-      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]").build()
     ),
     Arrays.asList(
       // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
       posRegex("(ART|PRO:POS).*NOM:SIN.*"),
       posRegex("(ADJ|PA[12]).*NOM:SIN.*"),
       posRegex("SUB.*SIN.*"),
-      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
       posRegex("(ART|PRO:POS).*AKK:SIN.*"),
       posRegex("(ADJ|PA[12]).*AKK:SIN.*"),
       posRegex("SUB.*SIN.*"),
-      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][a-zöäüß-]+").build()
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       // Von der ersten Spielminute an machten die Münsteraner Druck und ...

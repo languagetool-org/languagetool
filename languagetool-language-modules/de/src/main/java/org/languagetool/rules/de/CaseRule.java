@@ -110,6 +110,9 @@ public class CaseRule extends Rule {
     "Apart", // eng
     "Smart", // eng
     "Different", // eng
+    "Light", // eng
+    "Legal", // eng
+    "Fit", // eng
     "Fair", // eng
     "Viral", // eng
     "Tough", // eng
