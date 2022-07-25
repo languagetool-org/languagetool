@@ -470,6 +470,10 @@ public class ConfigurationDialog implements ActionListener {
       }
     }
     dialog.setAutoRequestFocus(true);
+    
+    if(insideOffice) {
+      dialog.setAlwaysOnTop(true);
+    }
     dialog.setVisible(true);
     dialog.toFront();
     return configChanged;

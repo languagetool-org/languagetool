@@ -136,7 +136,7 @@ public class AboutDialog {
       aboutPane.setEditable(false);
       aboutPane.setOpaque(false);
       aboutPane.setText(String.format("<html>"
-          + "<p>Maintainer of the office extension : %s</p>"
+          + "<p>Maintainer of the office extension: %s</p>"
           + "<p>Maintainers or former maintainers of the language modules -<br>"
           + "(*) means language is unmaintained in LanguageTool:</p><br>"
           + "</html>", OfficeTools.EXTENSION_MAINTAINER));
