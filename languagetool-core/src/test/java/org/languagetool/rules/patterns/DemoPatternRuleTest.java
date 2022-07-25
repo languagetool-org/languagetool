@@ -38,12 +38,11 @@ public class DemoPatternRuleTest extends PatternRuleTest {
 
   @Test
   public void testRules() throws IOException {
-    runTestForLanguage(new DemoWithGrammarFile("grammar-fail1.xml"));
-  }
-
-  @Override
-  protected PatternRuleErrorCollector createPatternRuleErrorCollector() {
-    return new PatternRuleErrorCollector(true);
+    runTestForLanguage(new Demo());
+    // TOOD: cannot catch test failure like this:
+    //try {
+    //  runTestForLanguage(new DemoWithGrammarFile("grammar-fail1.xml"));
+    //} catch (Exception expected) {}
   }
 
   @Test
