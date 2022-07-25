@@ -62,6 +62,15 @@ regexp case-insensitive maken : (?i)
 <!ENTITY timeOfDayGeneral "morgen|middag|avond|nacht">
 <!ENTITY timeOfDayAdverbial "[`'‘’]s (morgens|middags|avonds|nachts)">
 
+<!ENTITY measurementUnitPrefix "&#x0045;|Exa|&#x0050;|Peta|&#x0054;|Tera|&#x0047;|Giga|&#x004D;|Mega|&#x006B;|kilo|&#x0068;|hecto|&#x0064;&#x0061;|deca|&#x0064;|deci|&#x0063;|centi|&#x006D;|milli|&#x0075;|&mu;|&micro;|micro|&#x006E;|nano|licht">
+<!ENTITY measurementUnitsTime "&measurementUnitPrefix;?(s(ec)?|seconde(n|s)?)|min(uut)?|minuten|u(ur)?|uren|hr?|d|dag(en)?|we(ek|ken)|ma(and|nden)|kwarta(al|len)|ja(ar|ren)|decenni(um|a|ën)|centenni(um|a)|euuw(en)?|millenni(um|a)">
+<!ENTITY measurementUnitsLength "&measurementUnitPrefix;?(&#x006D;|meter)|mijl|&#x0070;&#x0063;|parsec|&#x0041;&#x0045;">
+<!ENTITY measurementUnitsMass "&measurementUnitPrefix;?(&#x0067;|gram)|ons|pond|ton">
+<!ENTITY measurementUnitsTemperature "&#x004B;|kelvin|°C(elsius)?|°F(ahrenheit)?">
+<!ENTITY measurementUnitsElectroMagnetism "&measurementUnitPrefix;?(&#x004A;|joule|&#x0043;|coulomb|&#x0041;|ampere|&#x0056;|volt|&ohm;|ohm|&#x0057;|watt|&#x0046;|farad|&#x0053;|siemens|&#x0054;|tesla|&#x0057;&#x0062;|weber|&#x0048;|henry)">
+<!ENTITY measurementUnitsMisc "&measurementUnitPrefix;?(mol|&#x0063;&#x0064;|candela|&#x006C;&#x0078;|lux|&#x0042;&#x0071;|becquerel|&#x0064;&#x0042;|decibel|cal(orie)?|&#x0050;&#x0061;|pascal|bar|atm)">
+<!ENTITY measurementUnitsComputing "(&measurementUnitPrefix;|kibi|mebi|gibi|tebi|pebi|exbi|zebi|yobi)?(bits?|bytes?|&#x0048;&#x007A;|hertz|hash|FLOPS)">
+
 <!ENTITY DVW "uit|af|op|in|door|weg|na|terug|mee|om|over|rond|bij|toe|voor|binnen|vast|neer|samen|dicht|open|voort|los|dood|leeg|onder|vol|omhoog|her|bijeen|mis|droog|aaneen|tegen|vooruit|vrij|voorbij|schoon|achteruit|uiteen|buiten|ineen|kapot|plat|langs|heen|recht|stuk|omver|fijn|mede|klaar|thuis|achter|achterover|gelijk|opzij|glad|goed|stil|achterna|herin|herop|omlaag|boven|dooreen|kaal|achterom|weer|opeen|krom|scheef|gereed|nat|achterop|onderuit|terecht|weder|beet|achteraan|hard|kwijt|verder|voorop|warm|plaats|bloot|proef|blind|dubbel|heraan|terneer|wel|zoek|tegemoet|heruit|hoog|school|zwart|klem|lek|rechtop|schuil|voorin|voorover|overhoop|waar|overeen|kennis|gevangen|groot|klein|gaar|lam|vlak|vuil|deel|dwars|thee|hout|scheel|stijf|grijs|tussen|tekort|vooraf|bekend|tentoon|koffie|teniet|dienst|daar|neder">
 <!ENTITY ROMAN_NUM "(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))">
 <!-- definieer macro voor gespelde afkortingen als cd -->
@@ -309,11 +318,22 @@ regexp case-insensitive maken : (?i)
 				<antipattern><token regexp="yes">[0-9]+</token><token postag_regexp="yes" postag="MEH.*"/></antipattern>
 				<antipattern><token regexp="yes">[0-9]+</token><token regexp="yes">&abbrevMonths;</token></antipattern>
 				<antipattern><token regexp="yes">[+]|[-]|=|/|[*]|:|×|÷</token><token regexp="yes">[0-9]+</token></antipattern>
-				<antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO|groep'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
+				<antipattern>
+				    <token regexp="yes">[A-Z][a-z].*(boulevard|dreef|laan|plein|steeg|straat|weg)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO|groep'</token>
+				    <token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
+				    <token/>
+                </antipattern>
 				<antipattern><token regexp="yes">[^a-z]+</token><token regexp="yes">[0-9]+</token><token regexp="yes">[^a-z]+</token></antipattern>
-				<antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
+				<antipattern>
+				    <token/>
+				    <token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
+				    <token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB|K|V</token>
 				</antipattern>
-				<antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">en|of</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
+				<antipattern>
+				    <token/>
+				    <token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
+				    <token regexp="yes">en|of</token>
+				    <token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
 				</antipattern>
 				<antipattern><token regexp="yes">[0-9]{1,2}</token><token>:</token><token regexp="yes">[0-9]{1,2}</token></antipattern>
 				<pattern>
