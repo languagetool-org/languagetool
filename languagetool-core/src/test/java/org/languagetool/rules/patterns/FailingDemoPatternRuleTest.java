@@ -22,16 +22,19 @@ package org.languagetool.rules.patterns;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
 
 import java.io.IOException;
 
 public class FailingDemoPatternRuleTest extends PatternRuleTest{
   
   @Test
-  public void testRules() throws IOException {
+  public void testRulesWithErrors1() throws IOException {
     runTestForLanguage(new DemoPatternRuleTest.DemoWithGrammarFile("grammar-fail1.xml"));
+  }
+
+  @Test
+  public void testRulesWithErrors2() throws IOException {
+    runTestForLanguage(new DemoPatternRuleTest.DemoWithGrammarFile("grammar-fail2.xml"));
   }
 
   @Override

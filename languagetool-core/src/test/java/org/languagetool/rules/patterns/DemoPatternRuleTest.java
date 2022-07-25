@@ -39,14 +39,10 @@ public class DemoPatternRuleTest extends PatternRuleTest {
   @Test
   public void testRules() throws IOException {
     runTestForLanguage(new Demo());
-    // TOOD: cannot catch test failure like this:
-    //try {
-    //  runTestForLanguage(new DemoWithGrammarFile("grammar-fail1.xml"));
-    //} catch (Exception expected) {}
   }
 
   @Test
-  public void testGrammarRulesFromXML2() throws IOException {
+  public void testGrammarRulesFromXML2() {
     new PatternRule("-1", language, Collections.emptyList(), "", "", "");
   }
 

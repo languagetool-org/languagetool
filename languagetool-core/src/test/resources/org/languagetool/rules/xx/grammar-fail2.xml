@@ -21,13 +21,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../main/resources/org/languagetool/rules/rules.xsd">
 
     <category id="MISC" name="misc">
-        <rule id="FAIL1" name="...">
+        <rule id="FAIL2" name="...">
+            <antipattern>
+                <token>foo</token>
+                <token>bar</token>
+            </antipattern>
+            <antipattern>
+                <token>my</token>
+                <token>bXd</token>
+                <token>English</token>
+                <example>bla bla</example>
+                <example>this is my bed English</example><!-- matches because of incorrect antipattern -->
+            </antipattern>
             <pattern>
                 <token>bed</token>
                 <token>English</token>
             </pattern>
             <message>message</message>
-            <example correction="">This is <marker>bed French</marker>.</example><!-- fails due to wrong word in example -->
+            <example correction="">This is <marker>bed English</marker>.</example>
         </rule>
     </category>
 
