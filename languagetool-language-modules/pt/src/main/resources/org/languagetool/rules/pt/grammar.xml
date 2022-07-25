@@ -343,6 +343,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
   <category id='GRAMMAR' name="Gramática Geral" type="grammar">
+    <rule id="SEPARACAO_SUJEITO_VERBO" name="Separação indevida entre sujeito e verbo" default="temp_off">
+        <pattern>
+          <token postag='SENT_START'/>
+          <token min='0'>E</token>
+          <token postag='PP.+' postag_regexp='yes'/>
+         <marker>
+          <token>,</token>
+          <token postag='V.+' postag_regexp='yes'/>
+         </marker>
+        </pattern>
+      <message>Não se deve separar o sujeito do verbo.</message>
+      <suggestion>? <match no='5' case_conversion='startupper'/></suggestion>
+      <suggestion><match no='5'/></suggestion>
+      <example correction="? Gostou|gostou">E ele<marker>, gostou</marker> do presente?</example>
+    </rule>
     <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="on">
       <antipattern>
         <token postag='N.+' postag_regexp='yes'/>
@@ -40010,7 +40025,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='SENT_START'/>
           <token>E</token>
           <token postag='PP.+' postag_regexp='yes' min='0' max='2'/>
-          <token postag='V.+' postag_regexp='yes' inflected='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>
           <token postag='SENT_END'/>
           <example>E é.</example>
           <example>E ele é.</example>
@@ -40021,7 +40036,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='SENT_START'/>
           <token>E</token>
           <token postag='PP.+' postag_regexp='yes' min='0'/>
-          <token postag='V.+' postag_regexp='yes' inflected='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>
           <token postag='SPS00' min='0'/>
           <token postag='PP.+' postag_regexp='yes' min='0'/>
           <token postag='SENT_END'/>
@@ -40038,14 +40053,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>E quanto a você, o que faria no meu lugar?</example>
           <example>E quanto a ele, como proceder?</example>
           <example>E quanto ao lixo, o que faremos?</example>
-        </antipattern>
-        <antipattern>
-          <token postag='SENT_START'/>
-          <token>E</token>
-          <token postag='PP.+' postag_regexp='yes'/>
-          <token regexp='yes' skip='-1'>&separadores_de_oracoes;</token>
-          <token>?</token>
-          <example>E ele, gostou do presente?</example>
         </antipattern>
         <antipattern>
           <token postag='SENT_START'/>
