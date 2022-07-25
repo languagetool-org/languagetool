@@ -44173,7 +44173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- PROCURA PROVAR prova provará -->
-    <rulegroup id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="Tese Doutoramento: Evitar expressões do tipo 'procura provar'" tags="picky">
+    <rulegroup id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="Tese Doutoramento: Evitar expressões do tipo 'procura provar'" tags="picky" default='temp_off'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 + 2021-02-25 + 2021-03-02 + 2021-03-07 + 2022-03-02 (1-JAN-2021+)      -->
       <!--
       A nossa tese procura provar a métrica. → A nossa tese provará a métrica.
@@ -44205,17 +44205,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rule>
         <pattern>
           <and>
-          <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar|ir</token>
+          <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar|ir<exception>tentei</exception></token>
           <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
           </and>
           <token postag='VMN0000'/>
         </pattern>
-        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP|IF)\b1."/>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IF)\b1."/>
         <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
         <suggestion>{suggestion}</suggestion>
-        <example correction="provará|prova">A nossa tese <marker>procura provar</marker> a métrica.</example>
-        <example correction="provaremos|provamos">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
-        <example correction="provarei|provo">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>visar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
+        <example correction="provará|visa provar|tem em vista provar">A nossa tese <marker>procura provar</marker> a métrica.</example>
+        <example correction="provaremos|visamos provar|tivemos em vista provar">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
+        <example correction="provarei|viso provar|tenho em vista provar">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
       </rule>
       <!--
       A nossa tese procurou provar a métrica. → A nossa tese provou a métrica.
@@ -44270,7 +44272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <pattern>
           <and>
-          <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar|ir</token>
+          <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar|ir<exception>tentei</exception></token>
           <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
             <exception postag='VMIF1S0'/>
           </token>
@@ -44282,10 +44284,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
         <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
         <suggestion>{suggestion}</suggestion>
-        <example correction="provou">A nossa tese <marker>procurou provar</marker> a métrica.</example>
-        <example correction="provámos">Na nossa tese <marker>procurámos provar</marker> a métrica.</example>
-        <example correction="provei">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
-        <example correction="resolveu">como o <marker>tentou resolver</marker></example>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>visar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
+        <example correction="provou|visou provar|teve em vista provar">A nossa tese <marker>procurou provar</marker> a métrica.</example>
+        <example correction="provei|visei provar|tive em vista provar">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
+        <example correction="resolveu|visou resolver|teve em vista resolver">como o <marker>tentou resolver</marker></example>
         <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
         <example>A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.</example>
         <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>
