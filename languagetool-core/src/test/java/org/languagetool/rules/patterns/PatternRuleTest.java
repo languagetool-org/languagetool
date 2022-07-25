@@ -29,7 +29,10 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,13 +74,39 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
   // for calling PatternRuleTest.main(), e.g. from scripts; allow to check and fail at the end
   static class PatternRuleErrorCollector extends ErrorCollector {
+
+    private final boolean expectToFail;
+    
+    PatternRuleErrorCollector() {
+      this.expectToFail = false;
+    }
+    
+    PatternRuleErrorCollector(boolean expectToFail) {
+      this.expectToFail = expectToFail;
+    }
+
     public void check() throws Throwable {
-      verify();
+      this.verify();
+    }
+
+    @Override
+    protected void verify() throws Throwable {
+      if (expectToFail) {
+        Throwable throwable = assertThrows(Throwable.class, () -> super.verify());
+        System.out.println("PatternRuleErrorCollector verify fails as expected.");
+        throwable.printStackTrace();
+      } else {
+        super.verify();
+      }
     }
   }
 
   @org.junit.Rule
-  public final PatternRuleErrorCollector ruleErrors = new PatternRuleErrorCollector();
+  public final PatternRuleErrorCollector ruleErrors = createPatternRuleErrorCollector();
+  
+  protected PatternRuleErrorCollector createPatternRuleErrorCollector() {
+    return new PatternRuleErrorCollector();
+  }
 
   @Test
   public void testSupportsLanguage() {
