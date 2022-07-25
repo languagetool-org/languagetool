@@ -6099,7 +6099,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="SENT_START"/>
                 <token min="0">(</token>
-                <token regexp="yes">[a-z]|\d+|</token>
+                <token regexp="yes">[a-z]|\d+</token>
                 <token regexp="yes" skip="10">\p{P}<exception>,</exception></token>
                 <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 <!--<example>1. Se envíe el teléfono.</example> Problem: "1." is in a different sentence -->
@@ -6108,15 +6108,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">.<exception regexp="yes">[a-z]</exception></token>
-                <token regexp="yes" skip="10"/>
+                <!-- any bullet point character -->
+                <token regexp="yes" skip="10">.<exception regexp="yes">[a-z]</exception></token>
                 <token postag="V.S[IP](3S|3P|2S)0" postag_regexp="yes"/>
                 <example>✅ Te desarrolles profesionalmente.</example>
             </antipattern>
             <antipattern>
                 <!-- rarely used as verbs -->
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
-                <token regexp="yes">pasaportes|dimensiones|proporciones|reacciones|promociones|funciones|acciones</token>
+                <token regexp="yes">pasaportes|dimensiones|proporciones|reacciones|promociones|funciones|acciones|redes|tiendas</token>
                 <example>Promociones VIP</example>
                 <example>Reacciones ácido-base.</example>
             </antipattern>
@@ -6177,7 +6177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>o</token>
             </antipattern>
             <antipattern>
-                <token postag="SENT_START"/>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <token postag_regexp="yes" postag="P.*" min="0" max="2"/>
                 <token postag="V.S.*" postag_regexp="yes"/>
                 <token>o</token>
@@ -6237,7 +6237,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>.</token>
             </antipattern>
             <antipattern>
-                <token skip="3" regexp="yes" case_sensitive="yes">DIOS|dios|Dios|cielo|Señor</token>
+                <token skip="3" regexp="yes" case_sensitive="yes">DIOS|dios|Dios|cielo|Señor|señor|Jehová|Alá</token>
                 <!--<token inflected="yes" regexp="yes">bendecir|permitir|perdonar|salvar</token>-->
                 <token postag="V.S.*" postag_regexp="yes"/>
                 <example>El cielo nos asista.</example>
@@ -6282,6 +6282,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.S.*" postag_regexp="yes"/>
                 <example>catáramos/cantásemos</example>
             </antipattern>
+            <rule>
+                <!-- exceptions to next rule -->
+                <pattern>
+                    <marker>
+                        <token>estés</token>
+                    </marker>
+                    <token regexp="yes">atento|atenta|tranquilo|tranquila|quieto|quieta</token>
+                </pattern>
+                <message>Forma incorrecta de imperativo.</message>
+                <suggestion>estate</suggestion>
+                <suggestion>esté</suggestion>
+                <example correction="estate|esté">Por favor, <marker>estés</marker> atento a las novedades.</example>
+            </rule>
             <rule>
                 <!-- exceptions to next rule -->
                 <pattern>
@@ -6403,6 +6416,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Times Square</example>
                 <example>- Ganes o pierdas, ¡disfruta!</example>
                 <example>ROAS (Retorno de la inversión).</example>
+                <example>23,19% impresiones respecto al mes pasado.</example>
+                <example>- Ganes o pierdas, ¡te encantará!</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
