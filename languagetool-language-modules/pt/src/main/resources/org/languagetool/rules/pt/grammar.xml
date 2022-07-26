@@ -3155,7 +3155,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       -->
       <rule>
         <pattern>
-          <token regexp='yes'>[,]</token>
+          <token>,</token>
           <marker>
             <token>que</token>
             <token regexp='yes'>foram|foi|são|é</token>
@@ -3181,7 +3181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         Os inhames são em geral vendidos a peso, sendo comum serem cortados nos mercados para serem comercializados em porções.
         -->
         <antipattern>
-          <token regexp='yes'>[,]</token>
+          <token>,</token>
           <token inflected='yes'>ser</token>
           <token postag='NC.+|AQ.+' postag_regexp='yes'/>
           <token postag='V.+' postag_regexp='yes'/>
@@ -3197,7 +3197,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         A Argélia é rica em petróleo e gás natural, sendo também membro da OPEP.
         -->
         <antipattern>
-          <token regexp='yes'>[,]</token>
+          <token>,</token>
           <token inflected='yes'>ser</token>
           <token negate_pos="yes" postag='RG|VMP00.+|NC.+|AQ.+|CC' postag_regexp='yes'/>
           <token postag='NC.+|AQ.+' postag_regexp='yes'/>
@@ -3209,7 +3209,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         O não cognitivismo teológico afirma que a declaração "Deus existe" não expressa uma proposição, sendo antes absurda ou cognitivamente sem sentido.
         -->
         <antipattern>
-          <token regexp='yes'>[,]</token>
+          <token>,</token>
           <token inflected='yes'>ser</token>
           <token postag='NC.+|AQ.+|RG' postag_regexp='yes'/>
           <token postag='RM'/>
@@ -3222,7 +3222,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         Ele não possui quaisquer poderes governativos, sendo as suas funções essencialmente do foro cerimonial.
         -->
         <antipattern>
-          <token regexp='yes'>[,]</token>
+          <token>,</token>
           <token inflected='yes'>ser</token>
           <token/>
           <token postag='DP.+' postag_regexp='yes'/>
@@ -3236,7 +3236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         ...je, com apoio da Polícia Rodoviária Federal (PRF), caminhão foi abordado quando deixava Ponta Porã, sendo encontrada a carga de 265 quilos de cocaína no veículo.
         -->
         <antipattern>
-          <token regexp='yes'>[,]</token>
+          <token>,</token>
           <token inflected='yes'>ser</token>
           <token postag='VMP00.+' postag_regexp='yes'/>
           <token regexp='yes'>[ao]s?</token>
@@ -3246,7 +3246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!-- MARCOAGPINTO 2022-03-03 (1-JAN-2022+) *END* -->
 
         <pattern>
-          <token regexp='yes'>[,]</token>
+          <token>,</token>
           <marker>
             <token>sendo</token>
             <token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'>
@@ -4959,7 +4959,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         Estas divindades dignam-se descer a objectos rituais de forma temporária ou permanente, a instâncias dos fiéis.
         -->
         <antipattern>
-          <token regexp='yes'>[,]</token>
+          <token>,</token>
           <token negate_pos="yes" postag='DI0.S.+|PR0.S.+|Z0.S.+' postag_regexp='yes'/>
           <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
           <token postag='SPS.+' postag_regexp='yes'/>
@@ -6119,7 +6119,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='VMIP3S0|VMM02S0|VMIP2S0' postag_regexp='yes'/>
           <token postag='NC.P000|NP.P[0GS]00|AQ0.P0' postag_regexp='yes'/>
           <token negate_pos="yes" postag='NC.P000|NP.P[0GS]00|AQ0.P0' postag_regexp='yes'>
-            <exception negate="no" regexp='yes'>[.,!?]</exception></token>
+            <exception negate="no" regexp='yes'>[\.,!\?]</exception></token>
         </antipattern>
         <!--
         O plural de cavalo é cavalos.
@@ -6127,7 +6127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token postag='VMIP3S0|VMM02S0|VMIP2S0' postag_regexp='yes'/>
           <token postag='NC.P000|NP.P[0GS]00|AQ0.P0' postag_regexp='yes'/>
-          <token regexp='yes'>[.,!?]</token>
+          <token regexp='yes'>[\.,!\?]</token>
         </antipattern>
         <!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *END* -->
 
@@ -12800,7 +12800,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='V.+|RG' postag_regexp='yes'>
           <exception postag_regexp='yes' postag='SPS.+|AQ..S.+|VMI[MS]3P.+|I'/>
         </token>
-        <token regexp='yes'>[,]</token>
+        <token>,</token>
         </or>
         <marker>
           <token>à</token>
@@ -14124,7 +14124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>de</token>
           <token>vocês</token>
         </marker>
-        <token regexp='yes'>[.,!?]|e|ou|com|como|que|por</token>
+        <token regexp='yes'>[\.,!\?]|e|ou|com|como|que|por</token>
       </pattern>
       <message>Substitua por <suggestion>vossas</suggestion>.</message>
       <example correction="vossas">Temos saudades <marker>de vocês</marker>.</example>
@@ -14876,7 +14876,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>estar</token>
           <token min="0" max="1" regexp='yes'>fisicamente|pessoalmente|presencialmente</token>
           <token>presente</token>
-          <token regexp='yes'>[.,!?]</token>
+          <token regexp='yes'>[\.,!\?]</token>
         </pattern>
         <message>Substitua por <suggestion>é presencial\6</suggestion>.</message>
         <example correction="É presencial?"><marker>É necessário estar presente?</marker></example>
@@ -15124,7 +15124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>quem</token>
           <token postag='VMSI[13][SP]0' postag_regexp='yes'/>
         </marker>
-        <token negate="yes" regexp='yes'>[.,!?]</token>
+        <token negate="yes" regexp='yes'>[\.,!\?]</token>
       </pattern>
       <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
       <suggestion>\2 <match no='4' postag='VMSI[13][SP]0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
@@ -15905,7 +15905,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>que</token>
             <token>é</token>
           </marker>
-          <token negate="yes" regexp='yes'>horas?|[.,!?]
+          <token negate="yes" regexp='yes'>horas?|[\.,!\?]
             <exception postag='CS'/>
           </token>
         </pattern>
@@ -15937,7 +15937,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>que</token>
             <token>são</token>
           </marker>
-          <token negate="yes" regexp='yes'>horas?|[.,!?]
+          <token negate="yes" regexp='yes'>horas?|[\.,!\?]
             <exception postag='CS'/>
           </token>
         </pattern>
@@ -15956,7 +15956,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>que</token>
             <token regexp="yes">é|são</token>
           </marker>
-          <token negate="yes" regexp='yes'>horas?|[.,!?]
+          <token negate="yes" regexp='yes'>horas?|[\.,!\?]
             <exception postag='CS'/>
           </token>
         </pattern>
@@ -17433,7 +17433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception postag_regexp='yes' postag='CS|CC|VMP00[SP][MF]|AQ.+|NC.+|NP.+|SPS.+|RG'/>
             <exception>é</exception>
           </token>
-          <token negate="yes" regexp='yes'>[.,!?]</token>
+          <token negate="yes" regexp='yes'>[\.,!\?]</token>
         </pattern>
         <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\3,</suggestion>
@@ -17716,7 +17716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token>sim</token>
           <token max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
-          <token spacebefore="no" regexp='yes'>[.,!?]</token>
+          <token spacebefore="no" regexp='yes'>[\.,!\?]</token>
         </antipattern>
         <antipattern>
           <token>sim</token>
@@ -17759,10 +17759,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <pattern>
           <marker>
-            <token negate="yes" regexp='yes'>e|que|mas|[.,;!?-]|&separadores_de_oracoes;</token>
+            <token negate="yes" regexp='yes'>e|que|mas|[\.,;!\?-]|&separadores_de_oracoes;</token>
             <token>sim</token>
           </marker>
-          <token negate="yes" regexp='yes'>[.,;!?-]|&separadores_de_oracoes;</token>
+          <token negate="yes" regexp='yes'>[\.,;!\?-]|&separadores_de_oracoes;</token>
         </pattern>
         <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\1, \2,</suggestion>
@@ -17779,7 +17779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token>sim</token>
           <token max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
-          <token spacebefore="no" regexp='yes'>[.,!?]</token>
+          <token spacebefore="no" regexp='yes'>[\.,!\?]</token>
         </antipattern>
         <antipattern>
           <token>sim</token>
@@ -17791,7 +17791,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 		  <marker>
             <token>sim</token>
           </marker>
-          <token negate="yes" regexp='yes'>[.,;!?-]|&separadores_de_oracoes;|à|ao</token>
+          <token negate="yes" regexp='yes'>[\.,;!\?-]|&separadores_de_oracoes;|à|ao</token>
         </pattern>
         <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\2,</suggestion>
@@ -17809,7 +17809,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token>sim</token>
           <token max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
-          <token spacebefore="no" regexp='yes'>[.,!?]</token>
+          <token spacebefore="no" regexp='yes'>[\.,!\?]</token>
         </antipattern>
         <antipattern>
           <token>sim</token>
@@ -17819,7 +17819,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token regexp='yes'>[«»“”"'‘’]|&tracos_de_separacao;|&separadores_de_abertura;</token>
           <token>sim</token>
-          <token spacebefore="no" regexp='yes'>[.,!?]</token>
+          <token spacebefore="no" regexp='yes'>[\.,!\?]</token>
           <example>"Sim, um pouco."</example>
           <example>(sim, é possível).</example>
           <example>- Sim, ele é fácil.</example>
@@ -17873,7 +17873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token>sim</token>
           <token max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
-          <token spacebefore="no" regexp='yes'>[.,!?]</token>
+          <token spacebefore="no" regexp='yes'>[\.,!\?]</token>
         </antipattern>
         <antipattern>
           <token>sim</token>
@@ -17885,7 +17885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 		  <marker>
             <token>sim</token>
           </marker>
-          <token negate="yes" regexp='yes'>[.,;!?-]|&separadores_de_oracoes;|à|ao</token>
+          <token negate="yes" regexp='yes'>[\.,;!\?-]|&separadores_de_oracoes;|à|ao</token>
         </pattern>
         <message>Esta locução deve ser separada por vírgulas.</message>
         <suggestion>\2,</suggestion>
@@ -18205,7 +18205,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token>pois</token>
           <token>é</token>
-          <token regexp='yes'>[.,!?]</token>
+          <token regexp='yes'>[\.,!\?]</token>
         </antipattern>
         <antipattern>
           <token regexp='yes'>&quot;</token>
@@ -44348,7 +44348,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <antipattern>
         <token postag='V.+' postag_regexp='yes'/>
         <token postag='VMN0000'/>
-        <token regexp='yes'>[,]</token>
+        <token>,</token>
         <token postag='VMN0000|VMIS.+' postag_regexp='yes'>
           <exception postag='RG'/>
         </token>
@@ -44379,7 +44379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <antipattern>
         <token postag='V.+' postag_regexp='yes'/>
         <token postag='VMN0000'/>
-        <token regexp='yes'>[,]</token>
+        <token>,</token>
         <token postag='VMN0000|VMIS.+' postag_regexp='yes'>
           <exception postag='RG'/>
         </token>
@@ -44527,7 +44527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <pattern>
           <and>
-          <token regexp='yes' inflected="yes">ir</token>
+          <token inflected="yes">ir</token>
           <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
             <exception postag='VMIF1S0'/>
           </token>
