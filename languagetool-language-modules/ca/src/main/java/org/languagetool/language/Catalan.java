@@ -182,7 +182,8 @@ public class Catalan extends Language {
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
-      case "CA_SIMPLE_REPLACE_BALEARIC": return 100;
+      case "CA_SIMPLE_REPLACE_MULTIWORDS": return 70;
+      case "CA_SIMPLE_REPLACE_BALEARIC": return 60;
       case "CA_COMPOUNDS": return 50;
       case "INCORRECT_EXPRESSIONS": return 50;
       case "PERSONATGES_FAMOSOS": return 50;
@@ -196,7 +197,6 @@ public class Catalan extends Language {
       case "GERUNDI_PERD_T": return 30;
       case "CONFUSIONS": return 30;
       case "PRONOMS_FEBLES_DARRERE_VERB": return 30; // greater than PRONOMS_FEBLES_SOLTS2
-      case "CA_SIMPLE_REPLACE_MULTIWORDS": return 30;
       case "CA_SIMPLE_REPLACE": return 30; // greater than CA_SIMPLE_REPLACE_VERBS
       case "CA_SIMPLE_REPLACE_VERBS": return 28; // greater than PRONOMS_FEBLES_SOLTS2
       case "REEMPRENDRE": return 28; // equal to CA_SIMPLE_REPLACE_VERBS

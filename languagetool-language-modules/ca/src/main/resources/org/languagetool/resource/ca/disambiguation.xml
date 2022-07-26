@@ -11,7 +11,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY masculi_inusual "policia|justícia|part[123]">
     <!ENTITY nom_o_verb "angoixa|coma|boxa|taula|suïcida|revés|revolta|predomini|revista|debat|mofa|força|crani|imperi|consum|forma|revenja|col·loqui|poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta|veu|copa|extermini|dona|esquerra|roba|bot">
-    <!ENTITY nom_seguitde_nompropi "copa|casa|abat|informe|senyor|estàndard|tipus|adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema|revista|marca">
+    <!ENTITY nom_seguitde_nompropi "copa|casa|abat|informe|senyor|estàndard|tipus|adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema|revista|marca|cable">
     <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
@@ -2868,7 +2868,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="NP.*" postag_regexp="yes"/>
-                        <token postag="A.*|NC.*|V.[IM].*" postag_regexp="yes"><exception postag="VMIP1S0B"/><exception>Poe</exception></token>
+                        <token postag="A.*|NC.*|V.[IM].*" postag_regexp="yes"><exception postag="VMIP1S0B"/><exception regexp="yes">Poe|Vogue</exception></token>
                     </and>
                 </marker>
                 <token>,</token>
@@ -4285,9 +4285,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">línia|esdeveniment|escola|planta|centre|projecte|proposta|pis|apartament|casa|prova|capítol|habitatge|vivenda</token>
+                <token inflected="yes" regexp="yes">línia|esdeveniment|escola|planta|centre|projecte|proposta|pis|apartament|casa|prova|capítol|habitatge|vivenda|fase</token>
                 <marker>
                     <token>pilot</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">formatge</token>
+                <marker>
+                    <token regexp="yes">brie|cabrales|camembert|cantal|edam|emmental|feta|fontal|fontina|gorgonzola|gouda|gruyère|havarti|idiazabal|limburguès|manxec|maó|mascarpone|mimolette|montsec|mozzarella|parmesà parmesana|pirineus|ragusà|rocafort|roncal|tronxon</token>
                 </marker>
             </pattern>
             <disambig action="replace" postag="AQ0CN0"/>
@@ -8518,7 +8527,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <feature id="genere"/>
                 <token postag="D[TE].*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
                 </marker>
             </unify>
         </pattern>
@@ -9527,8 +9536,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="nombre"/>
                     <feature id="genere"/>
                     <marker>
-                        <token postag="D[AID].*" postag_regexp="yes"/>
-                        <token postag="DN0CP0"/>
+                        <token postag="D[AIDE].*" postag_regexp="yes"/>
+                        <token postag="DN0.P0" postag_regexp="yes"/>
                         <token postag="A.*|V.P.*|N.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
                     </marker>
                 </unify>
