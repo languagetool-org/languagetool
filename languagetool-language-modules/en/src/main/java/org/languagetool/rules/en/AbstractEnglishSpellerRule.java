@@ -1161,6 +1161,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Luv", Arrays.asList("Love"));
     s.put("Luvs", Arrays.asList("Loves"));
     s.put("islam", Arrays.asList("Islam"));
+    s.put("andit", Arrays.asList("and it"));
     s.put("wud", Arrays.asList("what", "mud", "bud"));
     s.put("Wud", Arrays.asList("What", "Mud", "Bud"));
     s.put("fablet", Arrays.asList("phablet", "tablet"));
@@ -1186,6 +1187,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Param", Arrays.asList("Parameter"));
     s.put("Params", Arrays.asList("Parameters"));
     s.put("amature", Arrays.asList("amateur"));
+    s.put("amatures", Arrays.asList("amateurs"));
     s.put("egoic", Arrays.asList("egoistic"));
     s.put("tarpit", Arrays.asList("tar pit"));
     s.put("tarpits", Arrays.asList("tar pits"));
