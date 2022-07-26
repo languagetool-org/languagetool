@@ -61,7 +61,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY precede_nome_proprio_M "bairro|café|concurso|curso|designação|designado|designados|estilo|festival|filme|fundo|furacão|galardão|género|grupo|hospital|império|instituto|intitulado|jornal|lago|liceu|livro|monte|museu|nau|navio|partido|prémio|programa|projeto|registo|registro|reino|relatório|rio|teatro|tema|tipo">
     <!ENTITY divisas "bolívares|cêntimos|coroas|dinares|dólares|euros|florins|francos|ienes|iuanes|kwanzas|libras|meticais|patacas|pesos|rublos|zlótis|[€£¥$₽]">
 
-    <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
+    <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(\)«“]|\-|\[)">
     <!ENTITY separadores_de_abertura "(?:\(|\{|\[)">
     <!ENTITY separadores_de_fecho "(?:\)|\}|\])">
     <!ENTITY hifen "(?:[-‑])">
@@ -17355,7 +17355,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example correction="deixe ninguém usá-la">Não <marker>deixe ninguém, usá-la</marker> com você e ganhar o jogo.</example>
     </rule>
 
-    <rulegroup id='VERB_COMMA_CONJUNCTION' name="Locuções entre vírgulas: portanto, por exemplo, na verdade" default='temp_off'>
+    <rulegroup id='VERB_COMMA_CONJUNCTION' name="Locuções entre vírgulas: portanto, por exemplo, na verdade" default='on'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
       <!-- <url>http://www.lpeu.com.br/q/v73qc</url>               -->
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/a-virgula-em-4-regras-simples/3191</url>
@@ -17723,9 +17723,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token min="0" max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
           <token postag='DI.+|CC' postag_regexp='yes'/>
         </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>[«»“”"'‘’]|&tracos_de_separacao;|&separadores_de_oracoes;</token>
+          <token skip='-1'>sim</token>
+          <token regexp='yes'>[«»“”"'‘’]|&tracos_de_separacao;|&separadores_de_oracoes;</token>
+          <example>"Sim, tudo."</example>
+          <example>(sim há mais conflitos)</example>
+          <example>(esses sim)</example>
+          <example>Às vezes digo "sim" mesmo pensando em dizer "não".</example>
+          <example>4) Sim, é possível.</example>
+          <example>"Porque sim" é a mais nova gíria falada no português brasileiro.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' inflected='yes'>dizer|falar</token>
+          <token>sim</token>
+          <example>Você disse sim ou não?</example>
+        </antipattern>
+        <antipattern>
+          <token>:</token>
+          <token>sim</token>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>ao|no|um|o|se|…</token>
+          <token>sim</token>
+        </antipattern>
+        <antipattern>
+          <token>Gevey</token>
+          <token>SIM</token>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token>sim</token>
+          <example>O velho respondeu: Sim ele era bom médico</example>
+          <example>Sim eu sou.</example>
+        </antipattern>
         <pattern>
           <marker>
-            <token negate="yes" regexp='yes'>e|que|mas|,</token>
+            <token negate="yes" regexp='yes'>e|que|mas|[.,;!?-]|&separadores_de_oracoes;</token>
             <token>sim</token>
           </marker>
           <token negate="yes" regexp='yes'>[.,;!?-]|&separadores_de_oracoes;</token>
@@ -17781,6 +17815,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>sim</token>
           <token min="0" max="1" spacebefore="no" regexp='yes'>["“”«»]</token>
           <token postag='DI.+|CC' postag_regexp='yes'/>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>[«»“”"'‘’]|&tracos_de_separacao;|&separadores_de_abertura;</token>
+          <token>sim</token>
+          <token spacebefore="no" regexp='yes'>[.,!?]</token>
+          <example>"Sim, um pouco."</example>
+          <example>(sim, é possível).</example>
+          <example>- Sim, ele é fácil.</example>
+        </antipattern>
+        <antipattern>
+          <token>pelo</token>
+          <token>sim</token>
+        </antipattern>
+        <antipattern>
+          <token>dia</token>
+          <token>sim</token>
+        </antipattern>
+        <antipattern>
+          <token>se</token>
+          <token>sim</token>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token>sim</token>
+          <example>O velho respondeu: Sim, ele era bom médico</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' inflected='yes'>dizer|falar</token>
+          <token>sim</token>
+          <example>Você disse sim, ou não?</example>
+        </antipattern>
+        <antipattern>
+          <token skip='-1'>resposta</token>
+          <token inflected='yes'>ser</token>
+          <token>sim</token>
+          <example>Se a resposta for sim, temos uma ótima notícia!</example>
+        </antipattern>
+        <antipattern>
+          <token case_sensitive='yes'>Sim</token>
+          <example>Se selecionar Sim, apenas você, o administrador e os moderadores poderão ver que está online.</example>
         </antipattern>
         <pattern>
 		  <marker>
@@ -17866,7 +17940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>por</token>
           <token>exemplo</token>
          </marker>
-          <token>,</token>
+          <token postag='_PUNCT'/>
         </pattern>
         <message>Esta locução deve ser separada por vírgulas, e só deve ser utilizada no início duma frase para efeitos de estilo.</message>
         <suggestion>\1, \2 \3</suggestion>
@@ -18229,7 +18303,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule-->
       <rule>
         <pattern>
-            <token>,</token>
+            <token postag='_PUNCT'/>
           <marker>
             <token>por</token>
             <token>exemplo</token>
