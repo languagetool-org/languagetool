@@ -81,6 +81,10 @@ public class ArtificialErrorEval {
       String inputFolder = prop.getProperty("inputFolder");
       String outpuFolder = prop.getProperty("outputFolder");
       String remoteServer = prop.getProperty("remoteServer");
+      String maxSentencesStr = prop.getProperty("maxSentences");
+      if (maxSentencesStr != null) {
+        maxLines = Integer.parseInt(maxSentencesStr);
+      }
       boolean printSummaryDetails = Boolean.parseBoolean(prop.getProperty("printSummaryDetails", "true"));
       boolean printHeader = Boolean.parseBoolean(prop.getProperty("printHeader", "true"));
       runEvaluationOnFolders(inputFolder, outpuFolder, remoteServer, printSummaryDetails, printHeader);
