@@ -283,26 +283,29 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="VEEL_DAGEN" name="2021 dagen" >
 			<rule>
 				<pattern>
-				    <token regexp="yes" negate="yes">[0-9]+[.,]</token>
+				    <token regexp="yes" negate="yes">[0-9]+</token>
+				    <token regexp="yes" negate="yes">[.,]</token>
 				    <marker>
                         <token regexp="yes">[1-9][0-9]{3}</token>
                         <token regexp="yes">maanden|dagen|uren|minuten|seconden</token>
 					</marker>
 				</pattern>
-				<message>Dat is wel een verdacht groot getal voor een aantal \3.</message>
+				<message>Dat is wel een verdacht groot getal voor een aantal \4.</message>
 				<example correction="">Het festival is <marker>2021 dagen</marker> uitgesteld.</example>
+				<example>Een tropisch jaar duurt ongeveer <marker>365,2422 dagen</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
-				    <token negate="yes">,</token>
+				    <token regexp="yes" negate="yes">[0-9]+</token>
+				    <token regexp="yes" negate="yes">[.,]</token>
 				    <marker>
                         <token regexp="yes">[4-9][0-9]{2}</token>
                         <token regexp="yes">maanden|dagen|uren|minuten|seconden</token>
 					</marker>
 				</pattern>
-				<message>Dat is wel een verdacht groot getal voor een aantal \3. Als het geen fout is, kunt u het wellicht beter anders noteren.</message>
+				<message>Dat is wel een verdacht groot getal voor een aantal \4. Als het geen fout is, kunt u het wellicht beter anders noteren.</message>
 				<example correction="">Het duurde <marker>400 maanden</marker>.</example>
-				<example>Een tropisch jaar duurt ongeveer <marker>365,2422 dagen</marker>.</example>
+				<example>Een tropisch jaar duurt minder dan <marker>365,400 dagen</marker>.</example>
 			</rule>
 		</rulegroup>
 		
