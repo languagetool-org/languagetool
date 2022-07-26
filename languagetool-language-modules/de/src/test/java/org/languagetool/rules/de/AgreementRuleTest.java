@@ -611,10 +611,15 @@ public class AgreementRuleTest {
     assertGood("Gelingt das mit Erregern rechtzeitig, könnte das Infektionen sogar oft verhindern.");
     assertGood("In der aktuellen Niedrigzinsphase bedeutet das sehr geringe Zinsen, die aber deutlich ansteigen können.");
     assertGood("Es gibt viele Stock Screener.");
+    assertBad("So soll er etwa Texte des linken Literaturwissenschaftler Helmut Lethen mit besonderem Interesse gelesen haben.");  // "weiterverxxx" = unbekanntes Wort
     assertBad("Auf dieser Website werden allerdings keine solche Daten weiterverxxx.");  // "weiterverxxx" = unbekanntes Wort
     assertBad("Bei größeren Gruppen und/oder mehrere Tagen gibts einen nennenswerten Nachlass.");
     assertGood("Wir gehen zur Learning Academy.");
     assertGood("Es ist ein stiller Bank Run.");
+    assertGood("Whirlpool Badewanne der europäische Marke SPAtec Modell Infinity.");
+    assertGood("1944 eroberte diese weite Teile von Südosteuropa.");
+    assertGood("Auch die Monopolstellung des staatlichen All India Radio, das in 24 Sprachen sendet");
+    assertGood("Das schwedischen Entwicklerstudio MachineGames hat uns vor drei Jahren mit Wolfenstein: The New Order positiv überrascht.");
     assertGood("In einem normalen Joint habe es etwa ein halbes Gramm Hanf.");
     assertGood("den leidenschaftlichen Lobpreis der texanischen Gateway Church aus");
     assertGood("die gegnerischen Shooting Guards");

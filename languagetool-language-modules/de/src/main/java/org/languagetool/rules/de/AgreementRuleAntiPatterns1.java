@@ -727,8 +727,7 @@ class AgreementRuleAntiPatterns1 {
       csRegex("w[äa]r|ist|sei"),
       token("das"),
       csRegex("Zufall|Spa(ß|ss)"),
-      csRegex("gewesen"),
-      csRegex("\\.|\\?|!|…|,")
+      csRegex("gewesen")
     ),
     Arrays.asList(
        // "War das Zufall, dass es ging?"
@@ -1168,7 +1167,7 @@ class AgreementRuleAntiPatterns1 {
       posRegex("(ART|PRO:POS).*GEN:SIN.*"),
       posRegex("(ADJ|PA[12]).*GEN:SIN.*"),
       posRegex("SUB.*SIN.*"),
-      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]").build()
+      new PatternTokenBuilder().posRegex("UNKNOWN").csTokenRegex("[A-ZÖÄÜ][A-ZÖÄÜa-zöäüß\\-]+").build()
     ),
     Arrays.asList(
       // den leidenschaftlichen Lobpreis des texanischen Gateway Church aus
@@ -1255,6 +1254,13 @@ class AgreementRuleAntiPatterns1 {
       new PatternTokenBuilder().posRegex("ADJ:.*PLU.*").min(0).build(),
       posRegex("SUB:.*PLU.*"),
       posRegex("VER.*INF:.*")
+    ),
+    Arrays.asList(
+      // 1944 eroberte diese weite Teile von Südosteuropa.
+      posRegex("VER.*"),
+      tokenRegex("diese[sr]?"),
+      token("weite"),
+      token("Teile")
     )
   );
 
