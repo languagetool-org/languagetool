@@ -39618,20 +39618,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
           <!-- "30 de Fevereiro, 2016" -->
           <token regexp="yes">3[01]</token>
-          <token min='0'>de</token>
+          <token regexp='yes' min='0'>de|/</token>
           <token regexp="yes">fevereiro|fev</token>
         </pattern>
         <message>Fevereiro só tem 28 dias, ou 29 dias em anos bissextos.</message>
         <example correction="">Isso aconteceu a <marker>30 Fev</marker>, 2014.</example>
+        <example correction="">Isso aconteceu em <marker>30/fev</marker>/2014.</example>
         <example>Isso aconteceu a <marker>29 de Fev</marker>, 2014.</example>
       </rule>
       <rule>
         <!-- Localized from French grammar.xml            -->
         <pattern>
           <token>29</token>
-          <token min="0" max="1">/</token>
+          <token regexp='yes' min="0" max="1">/|de</token>
           <token regexp="yes">fevereiro|fev|0?2</token>
-          <token min="0" max="1">/</token>
+          <token regexp='yes' min="0" max="1">/|de</token>
           <token regexp="yes">\d\d(?:00|\d[13579]|[02468][26]|[13579][048])
             <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
           </token>
@@ -39673,9 +39674,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rule>
         <pattern>
           <token>29</token>
-          <token regexp="yes">[-‑‐]</token>
+          <token regexp="yes">[-‑‐/]</token>
           <token regexp="yes">fevereiro|fev|0?2</token>
-          <token regexp="yes">[-‑‐]</token>
+          <token regexp="yes">[-‑‐/]</token>
           <token regexp="yes">\d\d(?:00|\d[13579]|[02468][26]|[13579][048])
             <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
           </token>
