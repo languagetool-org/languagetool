@@ -30,6 +30,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_HYDRA_LEO_CP_YOUR_YOU" name="">
+            <rule>
+                <pattern>
+                    <token chunk="B-PP" />
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token>does</token> <!-- 'does' is the only token I can find that triggers a match, other VBZ/NNS tokens do not cause FPs -->
+                </pattern>
+                <example correction="">Mine didn't sound as bad as <marker>your</marker> does, though.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_APOSTROPHE_S_XS" name="">
             <rule>
                 <pattern>
