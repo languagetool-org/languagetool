@@ -57,7 +57,7 @@ public class AgreementSuggestor2Test {
     assertSuggestion1("mehrere Kabels", "[mehrere Kabel, mehreren Kabeln, mehrerer Kabel]");
     assertSuggestion1("mehrere LAN-Kabels", "[mehrere LAN-Kabel, mehreren LAN-Kabeln, mehrerer LAN-Kabel]");
     assertSuggestion1("mehrere WLAN-LAN-Kabels", "[mehrere WLAN-LAN-Kabel, mehreren WLAN-LAN-Kabeln, mehrerer WLAN-LAN-Kabel]");
-    assertSuggestion1("Ihren Verständnis", "[Ihrem Verständnis, Ihr Verständnis, Ihrem Verständnisse, Ihres Verständnisses]");
+    assertSuggestion1("Ihren Verständnis", "[Ihrem Verständnis, Ihr Verständnis, Ihres Verständnisses]");
     assertSuggestion1("des Züchten", "[das Züchten, dem Züchten, des Züchtens]");
     assertSuggestion1("die Kühlschranktest", "[die Kühlschrankteste, die Kühlschranktests, der Kühlschranktest, den Kühlschranktest, " +
       "dem Kühlschranktest, des Kühlschranktests, den Kühlschranktests, der Kühlschrankteste, der Kühlschranktests, " +
