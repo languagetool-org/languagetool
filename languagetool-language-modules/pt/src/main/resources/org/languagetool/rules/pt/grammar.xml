@@ -43514,11 +43514,109 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token>diferença</token>
       </antipattern>
       <!-- MARCOAGPINTO 2022-03-22 (1-JAN-2022+) *END* -->
-
+      <antipattern>
+        <token inflected='yes'>ver</token>
+        <token>o</token>
+        <token>que</token>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ver</token>
+        <token>à</token>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>tô|tá|tão</token>
+        <token inflected='yes'>ver</token>
+        <example>Não tô vendo nada.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='AO.+' postag_regexp='yes'/>
+        <token>via</token>
+        <example>Retirei a segunda via do cartão.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='NC.S.+' postag_regexp='yes'/>
+        <token>via</token>
+        <example>Retirei a 2ª via do cartão.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>\d+</token>
+        <token regexp='yes'>via|vias</token>
+        <example>Retirei 01 via do cartão.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>&pronomes_obliquos;</token>
+        <token inflected='yes'>ver</token>
+        <example>Te vi chegar em casa ontem.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ver</token>
+        <token postag='PP.+' postag_regexp='yes'/>
+        <example>Vi você chegar em casa ontem.</example>
+      </antipattern>
+      <antipattern>
+        <token>o</token>
+        <token>que</token>
+        <token inflected='yes'>ver</token>
+        <token regexp='yes'>&contracoes_MS;|&contracoes_FS;|&contracoes_MP;|&contracoes_FP;</token>
+        <example>Não sei o que ele vê nela.</example>
+      </antipattern>
+      <antipattern>
+        <token>já</token>
+        <token inflected='yes'>ver</token>
+        <example>Já vi esse filme antes.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ver</token>
+        <token>a</token>
+        <token>hora</token>
+        <example>Não via a hora de chegar em casa.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ver</token>
+        <token>no</token>
+        <token>olho</token>
+        <example>Hoje vejo no olho dele que há algo de errado.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ver</token>
+        <token>o</token>
+        <token>melhor</token>
+        <example>Hoje vejo o melhor em mim.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ver</token>
+        <token>a</token>
+        <token>vida</token>
+        <example>Há tantas formas de ver a vida...</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes' inflected='yes'>estar|ir</token>
+        <token inflected='yes'>ver</token>
+        <example>Não está vendo que ela está infeliz?</example>
+        <example>Você vai ver o que é bom.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'/>
+        <token regexp='yes'>vias?</token>
+        <example>Por via das dúvidas, é melhor irmos juntas.</example>
+        <example>Acabei a encontrando na via principal.</example>
+      </antipattern>
+      <antipattern>
+        <token>via</token>
+        <token>de</token>
+        <token>regra</token>
+        <example>Via de regra, sempre dá errado.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>querer</token>
+        <token inflected='yes'>ver</token>
+        <example>Quero ver o que ele fará depois de perder tudo.</example>
+      </antipattern>
       <pattern>
         <marker>
           <token inflected='yes'>ver
-            <exception regexp='yes' inflected='yes'>vestir|ir</exception>
+            <exception regexp='yes' inflected='yes'>vestir|ir|virar</exception>
+            <exception>verde</exception>
           </token>
         </marker>
         <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
@@ -43527,7 +43625,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <message>Num contexto formal ou académico, é preferível escrever 'observar' ou 'constatar'.</message>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>constatar</match></suggestion>
-      <example correction="observar|constatar">É fácil como podem <marker>ver</marker> na figura.</example>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>avistar</match></suggestion>
+      <example correction="observar|constatar|conferir|avistar">É fácil como podem <marker>ver</marker> na figura.</example>
 
       <example>Ela não pode ter me visto na festa.</example>
       <example>Você se importaria em vir e me ver no sábado?</example>
