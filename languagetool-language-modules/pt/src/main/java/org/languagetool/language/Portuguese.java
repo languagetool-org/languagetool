@@ -268,6 +268,12 @@ public class Portuguese extends Language implements AutoCloseable {
       case "CACOPHONY":                 return -1500;
       case "UNKNOWN_WORD":              return -2000;
     }
+    if (id.startsWith("AI_PT_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.startsWith("AI_PT_HYDRA_LEO_MISSING_COMMA")) {
+        return -51; // prefer comma style rules.
+      }
+      return -51;
+    }
     return super.getPriorityForId(id);
   }
 }
