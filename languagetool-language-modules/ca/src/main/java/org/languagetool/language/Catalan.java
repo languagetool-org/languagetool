@@ -256,30 +256,30 @@ public class Catalan extends Language {
   
   
   private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
   
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-    if (enabledRules.contains("APOSTROF_TIPOGRAFIC") || !enabledRules.contains("DIACRITICS_TRADITIONAL_RULES")) {
-      List<RuleMatch> newRuleMatches = new ArrayList<>();
-      for (RuleMatch rm : ruleMatches) {
-        List<String> replacements = rm.getSuggestedReplacements();
-        List<String> newReplacements = new ArrayList<>();
-        for (String s : replacements) {
-          if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
-            s = s.replace("'", "’");
-          }
-          Matcher m = CA_OLD_DIACRITICS.matcher(s);
-          if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m.matches()) {
-            // skip this suggestion with traditional diacritics
-          } else {
-            newReplacements.add(s);
-          }
+    List<RuleMatch> newRuleMatches = new ArrayList<>();
+    for (RuleMatch rm : ruleMatches) {
+      List<String> replacements = rm.getSuggestedReplacements();
+      List<String> newReplacements = new ArrayList<>();
+      for (String s : replacements) {
+        if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
+          s = s.replace("'", "’");
         }
-        RuleMatch newMatch = new RuleMatch(rm, newReplacements);
-        newRuleMatches.add(newMatch);
+        Matcher m1 = CA_CONTRACTIONS.matcher(s);
+        s = m1.replaceAll("$1$2");
+        Matcher m2 = CA_OLD_DIACRITICS.matcher(s);
+        if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m2.matches()) {
+          // skip this suggestion with traditional diacritics
+        } else {
+          newReplacements.add(s);
+        }
       }
-      return newRuleMatches;
+      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
+      newRuleMatches.add(newMatch);
     }
-    return ruleMatches;
+    return newRuleMatches;
   }
 }
