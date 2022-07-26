@@ -1940,22 +1940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token>à</token>
           <token>lagareiro</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-02-09 *START* -->
-        <!-- "A médica escreveu numa/noutra 1 dia." -->
-        <!-- "A médica escreveu numa/noutra 30 dias." -->
-        <antipattern>
-          <token postag='SPS00.*' postag_regexp='yes'/>
-          <token>1</token>
-          <token postag='NCMS000'/>
-        </antipattern>
-        <antipattern>
-          <token postag='SPS00.*' postag_regexp='yes'/>
-          <token postag='Z0CN0'>
-            <exception>1</exception></token>
-          <token postag='NCMP000'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-02-09 *END* -->
+        </antipattern>		
         <!-- MARCOAGPINTO 2021-05-11 (17-MAR-2021+) *START* -->
         <!--
         Esta foi à Saramago!
@@ -1991,6 +1976,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>ate</token>
         </antipattern>
         <!-- MARCOAGPINTO 2022-04-08 (1-JAN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp='yes'/>
+          <token postag='Z0CN0'/>
+          <token postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
+          <example>A médica escreveu numa 1 dia.</example>
+          <example>A médica escreveu noutra 30 dias.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
