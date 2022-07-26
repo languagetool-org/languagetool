@@ -268,6 +268,6 @@ public class Portuguese extends Language implements AutoCloseable {
       case "CACOPHONY":                 return -1500;
       case "UNKNOWN_WORD":              return -2000;
     }
-    return 0;
+    return super.getPriorityForId(id);
   }
 }
