@@ -1657,26 +1657,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *START* -->
-        <!-- "Ao testar um modelo tendo por base dados." -->
-        <!-- "Ao testar um modelo tendo por resultado dados." -->
-        <!-- "Cerca de 500 pessoas foram executadas em Paris, na maioria nobres." -->
-        <!-- "Cerca de 500 pessoas foram executadas em Paris, na maioria senhores." -->
-        <!-- "Cerca de 500 pessoas foram executadas em Paris, na maioria senhoras." -->
-        <!-- "A ocupação soviética resultou na morte de afegãos, a maioria civis." -->
-        <!-- "A ocupação soviética resultou na morte de afegãos, a maioria homens." -->
-        <!-- "A ocupação soviética resultou na morte de afegãos, a maioria mulheres." -->
-        <antipattern>
-          <token regexp='yes'>a|à|boa|cada|com|como|cuja|da|desta|em|essa|grande|maior|maioria|minoria|na|naquela|nesta|nossa|ou|pela|por|qual|sua|tal|toda|uma|[,(]</token>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <antipattern>
-          <token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *END* -->
         <!-- MARCOAGPINTO 2022-02-02 (1-JAN-2022+) *START* -->
         <!--
         THIS ANTIPATTERN IS TO TRIGGER THE RULE: CONFUSÃO_ESTA_ESTÁ
@@ -1875,6 +1855,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>O homem é uma pobre criatura comparado com a mulher.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-15 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='V.+|CC|I|RG|AQ.[CF].+|NC[CF].+' postag_regexp='yes'>
+            <exception scope='previous' postag_regexp='yes' postag='NP.+|VMIP3.+|[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+|AQ.M.+|NCM.+'/>
+            <exception postag_regexp='no' postag='VMIP1P0X'/>
+          </token>
+          <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+|_PUNCT|Z.[CF].+' postag_regexp='yes'/>
+          <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='_PUNCT|RG' postag_regexp='yes'/>
+          <token postag='AQ.[CM].+|NC[CM].+|VMP00.M|NP.+|[DP][ADIPR].[CM].+|SPS00:[DP][ADIPR].[CM].+' postag_regexp='yes'/>
+          <token postag='SPS00|CC|CS|RG|I|RM|RN|Z.[CM].+' postag_regexp='yes'/>
+          <example>É uma covardia termos de ficar fiscalizando as convocações.</example>
+          <example>Letra maiúscula, fonte Times ou Arial, tamanho 12, negrito.</example>
+          <example>E depois, ainda fatie sua pizza e coloque na caixa de pizza para fazer uma entrega delivery para seus amigos!</example>
+          <example>No mesmo anúncio, a Universal teria declarado uma parte dois para “Trolls”, animação da Dreamworks que chegou a ser indicada a melhor canção no Oscar.</example>
+          <example>Há uma diferença sutil entre as duas palavras.</example>
+          <example>Vamos, portanto, fazer uma aliança nós dois para que sirva de garantia entre mim e ti.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
           <token/> <!-- MARCOAGPINTO - The other "so clever" fix I used in the line below in 2019 caught fewer errors - 2022-07-12 -->
