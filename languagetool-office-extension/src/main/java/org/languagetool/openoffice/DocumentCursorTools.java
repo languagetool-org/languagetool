@@ -53,6 +53,12 @@ import com.sun.star.uno.UnoRuntime;
  */
 class DocumentCursorTools {
   
+  public static enum TextType {
+    NORMAL,
+    HEADING,
+    AUTOMATIC
+  };
+  
   final static String HeaderFooterTypes[] = { "HeaderText", 
       "HeaderTextRight",
       "HeaderTextLeft",
@@ -220,6 +226,7 @@ class DocumentCursorTools {
     try {
       List<String> allParas = new ArrayList<>();
       List<Integer> headingNumbers = new ArrayList<Integer>();
+      List<Integer> automaticTextParagraphs = new ArrayList<Integer>();
       List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>();
       if (xPCursor == null) {
         return null;
@@ -230,20 +237,28 @@ class DocumentCursorTools {
       xPCursor.gotoEndOfParagraph(true);
       allParas.add(xPCursor.getString());
       deletedCharacters.add(getDeletedCharacters(xPCursor));
-      if (isHeadingOrTitle()) {
+      TextType textType = getTextType();
+      if (textType == TextType.HEADING) {
         headingNumbers.add(paraNum);
-      }
+      } else if (textType == TextType.AUTOMATIC) {
+        headingNumbers.add(paraNum);
+        automaticTextParagraphs.add(paraNum);
+      } 
       while (xPCursor.gotoNextParagraph(false)) {
         xPCursor.gotoStartOfParagraph(false);
         xPCursor.gotoEndOfParagraph(true);
         allParas.add(xPCursor.getString());
         deletedCharacters.add(getDeletedCharacters(xPCursor));
         paraNum++;
-        if (isHeadingOrTitle()) {
+        textType = getTextType();
+        if (textType == TextType.HEADING) {
           headingNumbers.add(paraNum);
-        }
+        } else if (textType == TextType.AUTOMATIC) {
+          headingNumbers.add(paraNum);
+          automaticTextParagraphs.add(paraNum);
+        } 
       }
-      return new DocumentText(allParas, headingNumbers, deletedCharacters);
+      return new DocumentText(allParas, headingNumbers, automaticTextParagraphs, deletedCharacters);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -253,16 +268,23 @@ class DocumentCursorTools {
   /**
    * Paragraph is Header or Title
    */
-  private boolean isHeadingOrTitle() {
+  private TextType getTextType() {
     String paraStyleName;
     try {
       XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
       paraStyleName = (String) xParagraphPropertySet.getPropertyValue("ParaStyleName");
     } catch (Throwable e) {
       MessageHandler.printException(e);
-      return false;
+      return TextType.NORMAL;
     }
-    return (paraStyleName.startsWith("Heading") || paraStyleName.startsWith("Contents") || paraStyleName.equals("Title") || paraStyleName.equals("Subtitle"));
+    if (paraStyleName.startsWith("Heading") || paraStyleName.equals("Title") || paraStyleName.equals("Subtitle")) {
+      return TextType.HEADING;
+    }
+    else if (paraStyleName.startsWith("Contents")) {
+      return TextType.AUTOMATIC;
+    } else {
+      return TextType.NORMAL;
+    }
   }
   
   /**
@@ -354,7 +376,7 @@ class DocumentCursorTools {
           }
         }
       }
-      return new DocumentText(sText, headingNumbers, deletedCharacters);
+      return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -406,7 +428,7 @@ class DocumentCursorTools {
           addAllParagraphsOfText(xFootnoteText, sText, deletedCharacters);
         }
       }
-      return new DocumentText(sText, headingNumbers, deletedCharacters);
+      return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -457,7 +479,7 @@ class DocumentCursorTools {
           addAllParagraphsOfText(xFootnoteText, sText, deletedCharacters);
         }
       }
-      return new DocumentText(sText, headingNumbers, deletedCharacters);
+      return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -555,7 +577,7 @@ class DocumentCursorTools {
           }
         }
       }
-      return new DocumentText(sText, headingNumbers, deletedCharacters);
+      return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -725,17 +747,20 @@ class DocumentCursorTools {
   public class DocumentText {
     List<String> paragraphs;
     List<Integer> headingNumbers;
+    List<Integer> automaticTextParagraphs;
     List<List<Integer>> deletedCharacters;
     
     DocumentText() {
       this.paragraphs = new ArrayList<String>();
       this.headingNumbers = new ArrayList<Integer>();
+      this.automaticTextParagraphs = new ArrayList<Integer>();
       this.deletedCharacters = new ArrayList<List<Integer>>();
     }
     
-    DocumentText(List<String> paragraphs, List<Integer> headingNumbers, List<List<Integer>> deletedCharacters) {
+    DocumentText(List<String> paragraphs, List<Integer> headingNumbers, List<Integer> automaticTextParagraphs, List<List<Integer>> deletedCharacters) {
       this.paragraphs = paragraphs;
       this.headingNumbers = headingNumbers;
+      this.automaticTextParagraphs = automaticTextParagraphs;
       this.deletedCharacters = deletedCharacters;
     }
   }

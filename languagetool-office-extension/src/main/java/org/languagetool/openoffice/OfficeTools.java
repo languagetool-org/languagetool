@@ -82,17 +82,18 @@ class OfficeTools {
   public static final int PROOFINFO_GET_PROOFRESULT = 1;
   public static final int PROOFINFO_MARK_PARAGRAPH = 2;
 
-  public static final String END_OF_PARAGRAPH = "\n\n";  //  Paragraph Separator like in standalone GUI
+  public static final String END_OF_PARAGRAPH = "\n\n";   //  Paragraph Separator like in standalone GUI
   public static final int NUMBER_PARAGRAPH_CHARS = END_OF_PARAGRAPH.length();  //  number of end of paragraph characters
   public static final String SINGLE_END_OF_PARAGRAPH = "\n";
-  public static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
-  public static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
+  public static final String MANUAL_LINEBREAK = "\r";     //  to distinguish from paragraph separator
+  public static final String ZERO_WIDTH_SPACE = "\u200B"; // Used to mark footnotes
+  public static final String IGNORE_LANGUAGE = "zxx";     // Used from LT to mark automatic generated text like indexes
   public static final String LOG_LINE_BREAK = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
-  public static final int MAX_SUGGESTIONS = 15;  // Number of suggestions maximal shown in LO/OO
-  public static final int NUMBER_TEXTLEVEL_CACHE = 4;  // Number of caches for matches of text level rules
+  public static final int MAX_SUGGESTIONS = 15;           // Number of suggestions maximal shown in LO/OO
+  public static final int NUMBER_TEXTLEVEL_CACHE = 4;     // Number of caches for matches of text level rules
   public static final String MULTILINGUAL_LABEL = "99-";  // Label added in front of variant to indicate a multilingual paragraph (returned is the main language)
-  public static final int CHECK_MULTIPLIKATOR = 40;   //  Number of minimum checks for a first check run
-  public static int TIME_TOLERANCE = 100;   //  Minimal milliseconds to show message in TM debug mode
+  public static final int CHECK_MULTIPLIKATOR = 40;       //  Number of minimum checks for a first check run
+  public static int TIME_TOLERANCE = 100;                 //  Minimal milliseconds to show message in TM debug mode
   
   public static int DEBUG_MODE_SD = 0;            //  Set Debug Mode for SingleDocument
   public static int DEBUG_MODE_SC = 0;            //  Set Debug Mode for SingleCheck

@@ -451,6 +451,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
    */
   private CheckError getNextErrorInParagraph (int x, int nFPara, SingleDocument document, 
       DocumentCursorTools docTools) throws Throwable {
+    if (docCache.isAutomaticGenerated(nFPara)) {
+      return null;
+    }
     String text = docCache.getFlatParagraph(nFPara);
     locale = docCache.getFlatParagraphLocale(nFPara);
 //    MessageHandler.printToLogFile("CheckDialog: getNextErrorInParagraph(" + nFPara + ", 1): locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale)));
