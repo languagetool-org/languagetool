@@ -189,6 +189,12 @@ public class Dutch extends Language {
       case "TE-VREEMD": return -20;  // below spell checker and simple replace rule
       // category style : -50
     }
+    if (id.startsWith("AI_NL_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.startsWith("AI_NL_HYDRA_LEO_MISSING_COMMA")) {
+        return -51; // prefer comma style rules.
+      }
+      return -5;
+    }
     return super.getPriorityForId(id);
   }
 
