@@ -44361,7 +44361,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rule>
         <pattern>
           <and>
-          <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar|ir<exception>tentei</exception></token>
+          <token regexp='yes' inflected="yes">procurar|buscar|pretender</token>
           <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
           </and>
           <token postag='VMN0000'/>
@@ -44375,6 +44375,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example correction="provaremos|visamos provar|tivemos em vista provar">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
         <example correction="provarei|viso provar|tenho em vista provar">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
       </rule>
+      <rule>
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='VMN0000'/>
+        <token regexp='yes'>[,]</token>
+        <token postag='VMN0000|VMIS.+' postag_regexp='yes'>
+          <exception postag='RG'/>
+        </token>
+        <token negate="yes">de</token>
+        <token negate="yes">forma</token>
+        <token negate="yes">a</token>
+      </antipattern>
+        <pattern>
+          <and>
+          <token inflected="yes">ir</token>
+          <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
+          </and>
+          <token postag='VMN0000'/>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP|IF)\b1."/>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion>{suggestion}</suggestion>
+        <example correction="provará|prova">A nossa tese <marker>vai provar</marker> a métrica.</example>
+        <example correction="provaremos|provamos">Na nossa tese <marker>vamos provar</marker> a métrica.</example>
+        <example correction="provarei|provo">Na nossa tese <marker>vou provar</marker> a métrica.</example>      </rule>
       <!--
       A nossa tese procurou provar a métrica. → A nossa tese provou a métrica.
       Na nossa tese procurámos provar a métrica. → Na nossa tese provámos a métrica.
@@ -44428,7 +44453,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <pattern>
           <and>
-          <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar|ir<exception>tentei</exception></token>
+          <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar<exception>tentei</exception></token>
           <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
             <exception postag='VMIF1S0'/>
           </token>
@@ -44445,6 +44470,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example correction="provou|visou provar|teve em vista provar">A nossa tese <marker>procurou provar</marker> a métrica.</example>
         <example correction="provei|visei provar|tive em vista provar">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
         <example correction="resolveu|visou resolver|teve em vista resolver">como o <marker>tentou resolver</marker></example>
+        <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
+        <example>A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.</example>
+        <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>
+      </rule>
+<!--
+      A nossa tese procurou provar a métrica. → A nossa tese provou a métrica.
+      Na nossa tese procurámos provar a métrica. → Na nossa tese provámos a métrica.
+      Na nossa tese procurei provar a métrica. → Na nossa tese provei a métrica.
+      -->
+      <rule>
+
+        <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *START* -->
+        <!--
+        Uma das críticas a Ana foi escrever no seu livro de receitas o básico.
+        A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.
+        A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.
+        -->
+        <antipattern>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS.+|DI.+|V.+' postag_regexp='yes'/>
+        </antipattern>
+
+        <!--
+        DP.+ = NOSSO
+        A dificuldade no desenvolvimento do nosso modelo foi criar as ferramentas estatísticas.
+        O objetivo deste trabalho foi avaliar os efeitos da radiação gama na conservação da polpa de amora.
+        O objetivo deste trabalho foi revisar a literatura referente ao tema.
+        -->
+        <antipattern>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='SPS00:DA.+' postag_regexp='yes'/>
+          <token postag='DP.+|SPS00:PD.+' postag_regexp='yes'/>
+          <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS.+|DI.+|V.+|DA.+' postag_regexp='yes'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *START* -->
+        <!--
+        IT SEEMS I COULD ONLY TEST IT WITH THE VERB "TER", IT ONLY REMOVED ONE HIT IN 600 000 SENTENCES.
+        (dois empregos, tentei ter vida normal);
+        -->
+        <antipattern>
+          <token postag='VMIS1[SP]0' postag_regexp='yes'/>
+          <token inflected="yes">ter</token>
+          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *END* -->
+
+        <pattern>
+          <and>
+          <token regexp='yes' inflected="yes">ir</token>
+          <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
+            <exception postag='VMIF1S0'/>
+          </token>
+          </and>
+          <token postag='VMN0000'>
+            <exception postag='VMIF1S0'/>
+          </token>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion>{suggestion}</suggestion>
+        <example correction="provou">A nossa tese <marker>foi provar</marker> a métrica.</example>
+        <example correction="provei">Na nossa tese <marker>fui provar</marker> a métrica.</example>
+        <example correction="resolveu">como o <marker>foi resolver</marker></example>
         <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
         <example>A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.</example>
         <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>
