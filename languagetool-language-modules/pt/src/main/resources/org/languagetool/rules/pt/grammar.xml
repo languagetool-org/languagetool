@@ -20643,6 +20643,97 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-11 -->
       <url>https://pt.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Prolixidade_ou_preciosismo</url>
       <short>Expressão prolixa</short>
+    <rule>
+        <pattern>
+          <token>que</token>
+          <token postag='VMI.+' postag_regexp='yes'/>
+         <marker>
+          <token>todos</token>
+          <token>os</token>
+          <token>dias</token>
+         </marker>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>diariamente</suggestion>
+        <example correction='diariamente'>Há diretrizes que seguimos <marker>todos os dias</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token
+          postag='VMI.+' postag_regexp='yes'/>
+         <marker>
+          <token>todos</token>
+          <token>os</token>
+          <token>dias</token>
+         </marker>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>diariamente</suggestion>
+        <example correction='diariamente'>E me machuca <marker>todos os dias</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+         <marker>
+          <token>todos</token>
+          <token>os</token>
+          <token>dias</token>
+         </marker>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='VMI.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>diariamente</suggestion>
+        <example correction='diariamente'>E <marker>todos os dias</marker> me machuca.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <token>todos</token>
+          <token>os</token>
+          <token>dias</token>
+          <example>Para se sentir motivado todos os dias, basta uma boa caminhada</example>
+        </antipattern>
+        <pattern>
+         <marker>
+          <token>todos</token>
+          <token>os</token>
+          <token>dias</token>
+         </marker>
+          <token inflected='yes' min='0'>ser</token>
+          <token postag='VMP.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>diariamente</suggestion>
+        <example correction='diariamente'>E <marker>todos os dias</marker> são levantados problemas.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected='yes'>agradecer</token>
+         <marker>
+          <token>todos</token>
+          <token>os</token>
+          <token>dias</token>
+         </marker>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>diariamente</suggestion>
+        <example correction='diariamente'>E agradeço <marker>todos os dias</marker> por isso.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag='VMP.+' postag_regexp='yes' skip='-1'/>
+         <marker>
+          <token>todos</token>
+          <token>os</token>
+          <token>dias</token>
+         </marker>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>diariamente</suggestion>
+        <example correction='diariamente'>Muitos problemas são levantados <marker>todos os dias</marker>.</example>
+        <example correction='diariamente'>Isso tem feito a diferença <marker>todos os dias</marker>.</example>
+      </rule>
       <rule>
         <pattern>
           <token inflected='yes'>dar</token>
