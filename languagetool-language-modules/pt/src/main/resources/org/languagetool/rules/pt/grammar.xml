@@ -58,7 +58,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!ENTITY legendas "apartado|apartados|artigo|artigos|capítulo|capítulos|decreto|decretos|figura|figuras|foto|fotografia|fotografias|fotos|gráfico|gráficos|imagem|lei|leis|mapa|mapas|partida|partidas|ponto|pontos|revisão|revisões|seção|secção|secções|seções|tabela|tabelas|ver|versão|versões">
     <!ENTITY precede_nome_proprio_F "agência|associação|avenida|balneário|canção|coleção|colecção|coligação|cometa|condecoração|copa|designada|designadas|distribuição|dupla|editora|escola|estação|família|fragata|fundação|galeria|geração|herdade|ilha|iniciativa|lagoa|marca|novela|obra|orquestra|praça|quinta|revista|rua|saga|série|serra|sonda|taça|tempestade|universidade">
-    <!ENTITY precede_nome_proprio_M "bairro|café|concurso|curso|designação|designado|designados|estilo|festival|filme|fundo|furacão|galardão|género|grupo|hospital|império|instituto|intitulado|jornal|lago|liceu|livro|monte|museu|nau|navio|partido|prémio|programa|projeto|registo|registro|reino|relatório|rio|teatro|tema|tipo">
+    <!ENTITY precede_nome_proprio_M "bairro|café|concurso|curso|designação|designado|designados|estilo|festival|filme|fundo|furacão|galardão|género|gênero|grupo|hospital|império|instituto|intitulado|jornal|lago|liceu|livro|monte|museu|nau|navio|partido|prémio|programa|projeto|registo|registro|reino|relatório|rio|teatro|tema|tipo">
     <!ENTITY divisas "bolívares|cêntimos|coroas|dinares|dólares|euros|florins|francos|ienes|iuanes|kwanzas|libras|meticais|patacas|pesos|rublos|zlótis|[€£¥$₽]">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(\)«“]|\-|\[)">
@@ -2986,7 +2986,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
           <token negate_pos="yes" postag='SPS.+|RG|V.+|NP.+|NC.+|AQ0.+|CS|PE.+|PR.+0|PT.+|DI.+|PI.+' postag_regexp='yes'/>
         </pattern>
-        <message>O ritmo desta frase resultaria mais natural se colocar o advérbio depois do objeto.</message>
+        <message>Para um ritmo mais natural, coloque o advérbio depois do objeto.</message>
         <suggestion>\4 \5 \2 \3</suggestion>
         <example correction="um número no ecrã">Assim aparece <marker>no ecrã um número</marker>.</example>
         <example>Dormimos numa cama muito grande.</example>
@@ -3016,7 +3016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
           <token negate_pos="yes" postag='SPS.+|RG|V.+|NP.+|NC.+|AQ0.+|CS|PE.+|PR.+0|PT.+|DI.+|PI.+' postag_regexp='yes'/>
         </pattern>
-        <message>O ritmo desta frase resultaria mais natural se colocar o advérbio depois do objeto.</message>
+        <message>Para um ritmo mais natural, coloque o advérbio depois do objeto.</message>
         <suggestion>\4 \5 \6 \2 \3</suggestion>
         <example correction="um número grande no ecrã">Assim aparece <marker>no ecrã um número grande</marker>.</example>
         <example>Os pastores avistaram uma estrela luminosa no oriente.</example>
@@ -3046,7 +3046,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
           <token negate_pos="yes" postag='SPS.+|RG|V.+|NP.+|NC.+|AQ0.+|CS|PE.+|PR.+0|PT.+|DI.+|PI.+' postag_regexp='yes'/>
         </pattern>
-        <message>O ritmo desta frase resultaria mais natural se colocar o advérbio depois do objeto.</message>
+        <message>Para um ritmo mais natural, coloque o advérbio depois do objeto.</message>
         <suggestion>\4 \5 \6 \7 \2 \3</suggestion>
         <example correction="um número muito grande no ecrã">Assim aparece <marker>no ecrã um número muito grande</marker>.</example>
       </rule>
@@ -6281,11 +6281,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </pattern>
         <message>Este nome geográfico é precedido de um artigo.</message>
         <suggestion><match no='2' postag="NP(..).+" postag_regexp="yes" postag_replace="DA0$1." case_conversion="alllower">o</match> \2</suggestion>
-        <example correction="o Perú">Vão a <marker>Perú</marker>.</example><!-- XXX a o handled by CONTRACOES_OBRIGATORIAS -->
+        <example correction="o Peru">Vão a <marker>Peru</marker>.</example><!-- XXX a o handled by CONTRACOES_OBRIGATORIAS -->
         <example correction="os EUA">Vão a <marker>EUA</marker>.</example><!-- XXX a os handled by CONTRACOES_OBRIGATORIAS -->
         <!--example correction="a China">...entre os EUA e <marker>China</marker>...</example--><!-- TODO rethink postag_regexp='yes' CC|SENT_START Belize, Honduras e Panamá usam também a língua inglesa.-->
         <example correction="a China">para <marker>China</marker></example>
-        <example>Perú</example>
+        <example>Peru</example>
         <example>Vão aos EUA</example>
         <example>Cerca de 500 km a oeste de Dakar, Senegal</example>
         <example>A ilha de Honshū, Japão.</example>
@@ -6575,7 +6575,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
           </marker>
         </pattern>
-        <message>O conjuntivo é utilizado em condicionais ('se ...'). Será que pretende utilizar a forma reflexiva?</message>
+        <message>O conjuntivo é utilizado em condicionais ('se...'). Será que pretende utilizar a forma reflexiva?</message>
         <suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
         <example correction='chega-se'>Ela <marker>chegasse</marker> mais perto, a cada palavra.</example>
       </rule>
@@ -6589,7 +6589,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception negate_pos='yes' postag_regexp='yes' postag='VMSI.+'/></token>
           </marker>
         </pattern>
-        <message>O conjuntivo é utilizado em condicionais ('se ...'). Será que pretende utilizar a forma reflexiva?</message>
+        <message>O conjuntivo é utilizado em condicionais ('se...'). Será que pretende utilizar a forma reflexiva?</message>
         <suggestion><match no='2' regexp_match='(.+)sse' regexp_replace='$1-se'/></suggestion>
         <example correction='chega-se'>A cada palavra, ela <marker>chegasse</marker> mais perto.</example>
       </rule>
@@ -6603,7 +6603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token spacebefore='no'>se</token>
           </marker>
         </pattern>
-        <message>O conjuntivo no pretérito imperfeito é utilizada em condicionais do tipo: 'se PASSADO então ...'. Considere se esta não é uma dessas situações.</message>
+        <message>O conjuntivo no pretérito imperfeito é utilizado em orações condicionais. Considere se esta não é uma dessas situações.</message>
         <suggestion>\2sse</suggestion>
         <example correction='lavasse'>Se <marker>lava-se</marker> os pratos, é que era bom.</example>
         <example correction='trabalhasse'>Embora Tchecov  <marker>trabalha-se</marker> como médico, enriqueceu a sua escrita com…</example>
@@ -9093,7 +9093,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
 
-    <rule id="ESPERA_QUE_INDICATIVO" name="Concordâcia Verbal: Esperar que + Indicativo">
+    <rule id="ESPERA_QUE_INDICATIVO" name="Concordância Verbal: Esperar que + Indicativo">
       <!-- Localized from Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
       <antipattern>
         <marker>
@@ -9818,7 +9818,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='DEQUEISMO_QUEISMO' name="Queísmos e dequeismos" type="grammar">
       <!-- DEQUEISMO_QUEISMO rules from Spanish grammar.xml  - START-->
       <!--    Localized by Tiago F. Santos, Portuguese rule, 2016-11-25     -->
-      <rule id='INF_PP_QUE' name="Infinitivo do tipo convencer + pron.pers + que">
+      <rule id='INF_PP_QUE' name="Infinitivo do tipo convencer + pron.pess. + que">
         <pattern>
           <token regexp="yes">(?:alegrar<!--|saber-->|informar|duvidar|convencer|fartar|queixar|protestar)</token>
           <token regexp='yes'>&tracos_de_separacao;</token>
@@ -10395,7 +10395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp='yes'>a|à</token>
         <token regexp='yes'>abertura|abrigo|academias|acordo|acúmulo|admirar|aforismos|agenda|agricultura|água|aí|ainda|ajuda|ajuste|alarme|álbum|alcaide|aldeias|alface|algas|algum|alguma|alguns|ali|alma|almoço|alta|alternativas|alvará|amanuense|amargura|ambulantes|amigos|amor|amplas|animais|ânimo|anos|ao|apenas|apetite|aplausos|apoio|apoios|aposta|aquela|aquelas|aquele|aqueles|aqui|área|aristocracias|arma|arte|artista|árvore|arvoredo|as|aspas|assadura|assim|assistentes|atalhos|ataque|ataques|até|ateus|atmosfera|atraso|atrasos|aulas|automóvel|autor|avanço|azar|azuis|bagatelas|baia|baile|balança|balas|baliza|bálsamo|bananas|banco|bando|banheiros|banhos|banquetes|barco|barracas|base|beijo|bela|beleza|belos|bem|bernarda|bicho|birra|boa|bogas|bom|bombas|bonança|bonde|bons|bonzo|borda|bota|botequim|braço|braços|bruxas|buracos|cá|cabeça|cabotino|cabreiros|caça|cachaça|cachorrinho|cagaço|calçado|cálculo|caldeiradas|calor|cama|camarada|camas|camelos|caminho|caminhos|camisas|campo|cantinho|caos|capas|capitães|capitais|capital|capricho|caprichos|carácter|caramujo|caráter|carne|carro|carros|carta|cartas|cartilha|casa|casas|casca|caso|casos|castelhanos|castelo|castigo|catarse|caudal|causas|cavalo|cavalos|cego|cegonha|centro|cerimônia|certas|certeza|certezas|céu|chá|chama|chamariz|chance|chaves|chefe|chefes|cheiros|cheques|choque|chuva|cinco|cineasta|cinema|cinemas|cipó|ciúmes|claro-escuro|classe|clientela|clima|clube|coadjutor|cobertura|cobra|cobrança|coiros|coisa|coisa-ruim|com|combate|comida|como|companhia|compromisso|comum|confiança|conforto|conselhos|consenso|contestar|contrabandistas|controle|cousa|cova|crase|criados|crianças|criatura|crime|crimes|criminoso|crise|culpado|cultura|cura|dados|data|de|decerto|dentro|denúncias|desar|descanso|desculpa|desculpas|desejar|desemprego|deserto|desgraçado|desleixo|desordem|despedida|dessas|destino|desvios|detalhes|deus|deuses|dever|dez|dia|diabos|diálogo|dias|dieta|diferença|diferenças|dificuldades|diploma|diretor|disfarce|disso|disto|divergências|dívida|dividendos|divina|divinas|do|doce|doçura|doença|doenças|dois|dolo|domingo|dor|dormimos|dormir|dous|doutrina|doutros|drama|droga|duas|duques|dúvida|duvidar|dúvidas|e|é|economia|egoísmo|elefantes|em|embargo|empadas|empates|empatia|empenho|empenhos|emplastro|emprego|encarregados|encontro|energia|enfermidades|engano|enganos|entre|epidemia|epidemias|episódio|época|épocas|equipe|equipes|ermos|erro|erros|erva|escândalo|escapar|escolas|escolha|escravos|esforços|espaço|espaços|espécies|esperança|essa|esse|esses|esta|estatísticas|este|estes|estômago|estratégias|estúdios|estudos|evidências|exagero|exemplo|falar|falta|família|fato|fé|febre|férias|festa|festas|fidalgos|filósofo|fim|fome|força|forças|forma|formas|fórmula|fórmulas|fortuna|fugir|fumo|futuro|garantia|garantias|gonçalinho|gosto|governo|graça|grades|grande|grandes|grupos|hipótese|hoje|homem|homens|honra|ideologias|igual|imagens|impossíveis|indícios|inimigo|interesse|já|jogos|jornais|justiça|lá|lei|leis|liames|limite|limites|linguagem|livro|livros|lixo|lua|lugar|luta|lutas|luz|mágoa|maior|mais|mal|malandro|males|manhãs|mãos|margem|mas|máscara|médico|médicos|medida|medo|meio|meios|melhor|mendigo|menina|mesas|mesmo|método|métodos|milagre|mister|moça|modelo|modelos|moléstia|molhos|morte|motivos|motorista|mudanças|muita|muitas|mulher|música|na|nada|nas|nascentes|negar|negros|nela|nele|neles|nem|nenhum|nenhuma|nenhuns|nessa|nesta|neste|ninguém|nisso|no|noite|nome|nomes|nos|notas|notícias|novidades|novos|números|o|obstáculos|ofensa|olhos|onde|ordem|ou|ouro|outra|outro|outros|paciência|pai|país|palavra|papel|para|partido|partidos|passagem|peixe|penedos|perda|perigo|períodos|perplexidades|perspectivas|perspetivas|pesar|pessoa|pessoal|pessoas|piolhos|pior|pistas|planos|poder|poesia|pois|polícias|política|políticas|por|porém|porque|portugueses|posse|pota|povo|praxe|prazer|prazo|pressa|pressas|princípio|princípios|problema|problemas|prodígio|programa|progresso|protetor|prova|provas|público|quaisquer|qualquer|quase|que|quem|raças|raciocínios|racismo|rapaz|receio|receitas|recuos|recurso|recursos|referências|reforma|refugiados|registo|registro|registros|regra|rei|remédio|remorso|reservas|resposta|respostas|riqueza|risco|riscos|rosas|rua|saída|salas|sangue|segredo|segredos|segunda|seis|sempre|senador|sentido|sentir|sequer|ser|sereia|serviço|simpatia|sinais|sinal|só|sobre|social|sol|som|sono|subsídios|subtilezas|surf|tal|talvez|também|tanta|tarefa|tecnologia|temor|tempo|terapêutica|terra|testemunhas|tipo|todo|tolo|trabalho|tráfico|tragédia|três|trevas|tristeza|tristezas|tropa|um|uma|umas|utopias|vacilar|vacina|vaga|vagas|vaidades|valor|vedetas|ver|verdadeiros|versos|vestígio|véu|vida|vingança|vinho|vislumbrar|vizinhos|volta|voltas|voz</token>
       </pattern>
-      <message>Falta uma vírgula, ou há confunsão de palavras. As formas do verbo haver têm sempre 'h'.</message>
+      <message>Falta uma vírgula, ou há confusão de palavras. As formas do verbo haver têm sempre 'h'.</message>
       <suggestion>\1 há \3</suggestion>
       <suggestion>\1, \2 \3</suggestion>
       <example correction='Não há paciência|Não, a paciência'><marker>Não a paciência</marker> para este tipo de coisas</example>
@@ -11025,7 +11025,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
   <category id='SYNTAX' name='Sintaxe' type='grammar'>
 
-    <rule id="NO_VERB" name="Síntaxe: ausência de verbo" default="temp_off" tags="picky">
+    <rule id="NO_VERB" name="Sintaxe: ausência de verbo" default="temp_off" tags="picky">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-16 -->
       <antipattern>
         <token postag='SENT_START'/>
@@ -11594,7 +11594,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception regexp='yes' case_sensitive='yes'>a|A|De|Sem|['’]</exception>
             <exception negate_pos='yes' postag_regexp='yes' postag='SP.+'/></token>
         </pattern>
-        <message>Duas preposição seguidas. Verifique.</message>
+        <message>Duas preposições seguidas. Verifique.</message>
         <suggestion>\1</suggestion>
         <suggestion>\2</suggestion>
         <example correction="em|de">Coloque <marker>em de</marker> paralelo fora para dentro.</example>
@@ -11607,7 +11607,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes'>com|em</token>
           <token case_sensitive="yes">entre</token>
         </pattern>
-        <message>Duas preposição seguidas. Verifique.</message>
+        <message>Duas preposições seguidas. Verifique.</message>
         <suggestion>\1</suggestion>
         <suggestion>\2</suggestion>
         <example correction='em|entre'><marker>em entre</marker>.</example>
@@ -11625,7 +11625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes'>a|às?|aos?</token>
           <token regexp='yes'>a|às?|aos?</token>
         </pattern>
-        <message>Duas preposição seguidas. Verifique.</message>
+        <message>Duas preposições seguidas. Verifique.</message>
         <suggestion>\1</suggestion>
         <suggestion>\2</suggestion>
         <example correction='a|ao'>Vai <marker>a ao</marker> mercado.</example>
@@ -11793,7 +11793,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
     </rulegroup>
 
-    <rule id="DE_MANEIRA_ADVERBIO_MODO" name="Síntaxe: 'de modo' + advébio de modo">
+    <rule id="DE_MANEIRA_ADVERBIO_MODO" name="Sintaxe: 'de modo' + advérbio de modo">
       <!--  Based on Catalan grammar.xml by Tiago F. Santos, 2017-06-30      -->
       <pattern>
         <marker>
@@ -11815,7 +11815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>De maneira minimamente ordenada.</example>
     </rule>
 
-    <rulegroup id="ADVERBIOS_MODO_EM_SEQUENCIA" name="Síntaxe: sequências de advébio de modo">
+    <rulegroup id="ADVERBIOS_MODO_EM_SEQUENCIA" name="Sintaxe: sequências de advérbio de modo">
       <!--  Created by Tiago F. Santos, 2017-09-03      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/adverbios-de-modo-coordenados/33758</url>
       <rule>
@@ -12035,7 +12035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <message>Utilize a palavra capitalizada somente se estiver a iniciar uma frase ou a escrever nomes próprios.</message>
       <suggestion>\1 <match no='2' case_conversion="alllower"/></suggestion>
       <suggestion>. \2</suggestion>
-      <example correction=", chá|. Chá">Quero café<marker>, Chá</marker>, e gin.</example>
+      <example correction=", chá|. Chá">Quero café<marker>, Chá</marker> e gin.</example>
       <!--example correction=", tácito|. Tácito|, Tácito,">Outro romano<marker>, Tácito</marker> analisou a vida das tribos germânicas, baseando-s...</example-->
       <example>…ua e Barbuda, Bahamas, Barbados, Dominica, Granada, Santa Lúcia, São Cristóvão e Névis, São Vicente e Grana…</example>
       <example>…mportação de produtos de países americanos — a TEC, Tarifa Externa Comum.</example>
@@ -12054,7 +12054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rule>
         <regexp>(?-i)\b((grand [cC]anyon)|(monte Ev[ae]reste))\b</regexp>
         <message>Capitalize nomes de regiões geográficas: <suggestion><match no='1' regexp_match="( .+)" regexp_replace="$1" case_conversion="startupper"/></suggestion></message>
-        <example correction="Monte Evareste">Demorou um mês a subir o <marker>monte Evareste</marker>.</example>
+        <example correction="Monte Evereste">Demorou um mês a subir o <marker>monte Evereste</marker>.</example>
         <example>Siga para <marker>sul</marker> três blocos e depois, vire à esquerda.</example>
         <example>As ilhas Britânicas e o noroeste da Europa.</example>
       </rule>
@@ -12202,7 +12202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception regexp='yes'>DJ|FC</exception></token>
           </marker>
         </pattern>
-        <message>Unidades do Sistema Internacional iguais ou inferiores a "kilo" são escritas com minúsculas.</message>
+        <message>Unidades do Sistema Internacional iguais ou inferiores a "quilo" são escritas com minúsculas.</message>
         <suggestion><match no='2' case_conversion="startlower"/></suggestion>
         <example correction="km">A 30 <marker>Km</marker> de distância.</example>
         <example correction="km²">..estado no ano de 2010, foi de 4,68 habitantes por <marker>Km²</marker>, sendo a vigésima quarta maior do Brasil e a quin…</example>
@@ -12217,7 +12217,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception>pH</exception></token>
           </marker>
         </pattern>
-        <message>Unidades do Sistema Internacional superiores a "kilo" são escritas com minúsculas.</message>
+        <message>Unidades do Sistema Internacional superiores a "quilo" são escritas com minúsculas.</message>
         <suggestion><match no='2' case_conversion="startupper"/></suggestion>
         <example correction="TJ">Estimaram-se forças de 30 <marker>tJ</marker> por m².</example>
         <example correction="GW">120 <marker>gW</marker> de potência</example>
@@ -12286,7 +12286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
-    <rulegroup id='À_MINHA-TUA-SUA-VOSSA_VERB' name="à + minha/tua/sua/vossa(s) + verb" >
+    <rulegroup id='À_MINHA-TUA-SUA-VOSSA_VERB' name="à + minha/tua/sua/vossa(s) + verbo" >
       <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-07 (2-JUL-2020+) -->
       <rule>
         <pattern>
@@ -18243,7 +18243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception spacebefore='no' regexp='yes'>[.!?»”\)\"]</exception>
             <exception postag='SENT_END'/></token>
         </pattern>
-        <message>Esta conjunção deve ser separada por vírgulas, e só deve ser utilizada no início duma frase para efeitos de estilo.</message>
+        <message>Esta conjunção deve ser separada por vírgulas e só deve ser utilizada no início duma frase para efeitos de estilo.</message>
         <suggestion>\1, <match no='2' case_conversion="preserve"/></suggestion>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/pontuacao-virgula-antes-de-mas/7047</url>
         <example correction="digas, portanto">Terminei a prova com antecedência, não me <marker>digas portanto</marker> que não posso sair.</example>
