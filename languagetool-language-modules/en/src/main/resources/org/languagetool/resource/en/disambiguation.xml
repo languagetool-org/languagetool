@@ -7073,6 +7073,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule id="PRP_VBNNN_VBN" name="pronoun + vbn/nn->vbn">
+    <antipattern>
+        <token>one</token>
+        <token>thought</token>
+        <token regexp="yes">that|which|s?he|I|we</token>
+    </antipattern>
     <pattern>
       <token postag="PRP"><exception regexp="yes">me|her|its|him|us|them</exception><exception regexp="yes" scope="previous">have|ha[sd]</exception></token>
       <marker>
@@ -16059,5 +16064,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
         </pattern>
        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="LEAF_NO_VERB" name="leaf no verb in 'leaf green'">
+        <pattern>
+            <marker>
+                <token chunk_re=".-NP.*">leaf</token>
+            </marker>
+            <token>green</token>
+        </pattern>
+        <disambig action="remove" postag="VB.*" />
     </rule>
 </rules>

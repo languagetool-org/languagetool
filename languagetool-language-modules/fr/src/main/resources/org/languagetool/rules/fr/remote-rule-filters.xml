@@ -264,6 +264,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">La différence est dans le fond de comparer les <marker>partis</marker> les mieux gérer.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="[JN].*" postag_regexp="yes"/>
+                    </marker>
+                    <token><match no="0"/></token>
+                </pattern>
+                <example correction="">Se relever du canapé commence a être <marker>dur</marker> dur.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_FR_HYDRA_LEO_MISSING_PERIOD" name="">
         <rule>
@@ -280,7 +289,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="D.*" postag_regexp="yes"/>
                     <marker>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="V.*" postag_regexp="yes"/>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z].*</token>
                     </marker>
                 </pattern>
                 <example correction="">Depuis plusieurs années, il est bien entendu approprié de dire que leur façon de s'occuper de leur <marker>foyer persiste</marker> de manière somme toute fort appropriée et accepté par tous.</example>
@@ -396,7 +405,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <pattern>
                     <marker>
                         <token postag="[NJZ].*" postag_regexp="yes"/>
-                        <token postag="V.* ppr" postag_regexp="yes"/>
+                        <token postag="V.* ppr" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z].*</token>
                     </marker>
                 </pattern>
                 <example correction="">Pour pour la dernière fois, je te dis que je m'y mettrai et que la <marker>force opposant</marker> notre volonté disparaitra avec le temps, fais-moi confiance sur ce coup-là.</example>
@@ -416,7 +425,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="N.*" postag_regexp="yes"/>
                     <marker>
                         <token postag="J.*" postag_regexp="yes"/>
-                        <token postag="J.*" postag_regexp="yes"/>
+                        <token postag="J.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z].*
+                            <exception postag="N.*" postag_regexp="yes"/></token>
                     </marker>
                     <token>:</token>
                 </pattern>

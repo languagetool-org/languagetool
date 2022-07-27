@@ -37,7 +37,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       token("zu"),
-      tokenRegex("Kopfe?|Zwecken?|Ohren|Füßen|Händen")
+      tokenRegex("Kopfe?|Zwecken?|Ohren|Füßen|Fuß|Händen|Beginn|Anfang|Geld|Gesicht")
     ),
     Arrays.asList(  // "die zu basisdemokratischen Prozessen benötigte Mitbestimmung"
       token("die"),
