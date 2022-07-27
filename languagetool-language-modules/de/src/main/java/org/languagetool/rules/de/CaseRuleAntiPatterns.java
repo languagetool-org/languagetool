@@ -1373,8 +1373,13 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // Das sagen meine Kunden:
       posRegex("SENT_START|PKT"),
       token("das"),
-      csRegex("sagen|beweisen|zeigen|schaffen|machen"),
-      csRegex("[dms]eine|eure|die|unse?re|mehrere|einige|viele|manche|sonstige|diese|solche|andere|alle|wenige")
+      csRegex("sagen|beweisen|zeigen|schaffen|machen|halten"),
+      new PatternTokenBuilder().posRegex("ADV.*").min(0).build(),
+      csRegex("[dms]eine|eure|die|unse?re|mehrere|einige|viele|manche|sonstige|diese|solche|andere|alle|wenige|jene|nicht|koennt?en|zwar|wird")
+    ),
+    Arrays.asList(
+      csToken("das"),
+      csRegex("sieben")
     ),
     Arrays.asList( // Das belegen mehrere Studien
       token("das"),

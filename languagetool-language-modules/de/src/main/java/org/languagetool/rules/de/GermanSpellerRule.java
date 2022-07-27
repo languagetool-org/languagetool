@@ -1175,7 +1175,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("dis", w -> Arrays.asList("die", "dies"));
     put("veil", w -> Arrays.asList("viel", "weil", "teil"));
     put("mak", w -> Arrays.asList("mag", "mak", "lag"));
+    put("daum", w -> Arrays.asList("da um", "darum", "kaum", "Raum"));
+    put("daum", w -> Arrays.asList("da um", "darum", "kaum", "Raum"));
+    put("gechickt", w -> Arrays.asList("geschickt", "gecheckt"));
     put("Wiso", "Wieso");
+    put("gebs", "gebe es");
     put("angefordet", "angefordert");
     put("onlein", "online");
     put("Studen", "Stunden");
@@ -2736,6 +2740,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Massnahmen": return topMatch("Maßnahmen");
       case "Linkedin": return topMatch("LinkedIn");
       case "Wordpress": return topMatch("WordPress");
+      case "gleichzeit": return topMatch("gleichzeitig");
+      case "DAnke": return topMatch("Danke");
+      case "trifftigen": return topMatch("triftigen");
+      case "trifftigem": return topMatch("triftigem");
+      case "trifftige": return topMatch("triftige");
+      case "trifftiges": return topMatch("triftiges");
+      case "trifftiger": return topMatch("triftiger");
       case "gehhrte": return topMatch("geehrte");
       case "gehhrten": return topMatch("geehrten");
       case "gehhrtes": return topMatch("geehrtes");
