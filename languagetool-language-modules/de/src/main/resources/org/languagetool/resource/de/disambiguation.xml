@@ -755,8 +755,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 </token>
                 <marker>
                     <and>
-                        <token postag_regexp="yes" postag=".+NOM:.+"></token>
-                        <token postag_regexp="yes" postag=".+(AKK|DAT|GEN):.+"></token>
+                        <token postag_regexp="yes" postag=".+NOM:.+"/>
+                        <token postag_regexp="yes" postag=".+(AKK|DAT|GEN):.+"/>
                     </and>
                 </marker>
             </pattern>
@@ -1080,7 +1080,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="'Der' am Satzanfang (kein Genitiv Singular)" id="SENT_START_DER">
         <pattern case_sensitive="yes">
-            <token postag="SENT_START"></token>
+            <token postag="SENT_START"/>
             <marker>
                 <token>Der</token>
             </marker>
@@ -1091,7 +1091,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="ICH_VERB" name="Ich am Satzanfang">
         <rule>
             <pattern>
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token case_sensitive="yes">Ich</token>
                 <marker>
                     <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
@@ -1125,12 +1125,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern>
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token case_sensitive="yes" regexp="yes">D(a|ie)s</token>
                 <marker>
                     <and>
                         <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
-                        <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes"></token>
+                        <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes"/>
                     </and>
                 </marker>
                 <token>ich</token>
@@ -1144,7 +1144,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token inflected="yes" skip="10">sein
                     <exception>sein</exception>
-                    <exception postag="PKT" scope="next"></exception>
+                    <exception postag="PKT" scope="next"/>
                 </token>
                 <marker>
                     <and>
@@ -1153,7 +1153,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                     </and>
                 </marker>
                 <token>worden</token>
-                <token postag="PKT"></token>
+                <token postag="PKT"/>
             </pattern>
             <disambig action="filter" postag="VER:PA2:.+"/>
             <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT]">Er ist gestern <marker>verhaftet</marker> worden.</example>
@@ -1167,7 +1167,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                         <token postag="VER:[123].+" postag_regexp="yes"/>
                     </and>
                 </marker>
-                <token postag="PKT"></token>
+                <token postag="PKT"/>
             </pattern>
             <disambig action="filter" postag="VER:PA2.*"/>
             <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT]">Er wurde gestern <marker>verhaftet</marker>.</example>
@@ -1203,14 +1203,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup name="kein Nominativ nach 'Ich habe'/'Du hast'" id="KEIN_NOMINATIV">
         <rule>
             <pattern case_sensitive="yes">
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token postag="PRO:PER:NOM:.+" postag_regexp="yes"><exception postag="PRO:PER:NOM:.+" postag_regexp="yes" negate_pos="yes"/></token>
                 <token inflected="yes">haben</token>
-                <token postag="ADV.*" postag_regexp="yes" min="0"></token>
+                <token postag="ADV.*" postag_regexp="yes" min="0"/>
                 <marker>
                     <and>
-                        <token postag="ART.*:NOM:.+" postag_regexp="yes"></token>
-                        <token postag="ART.*:(DAT|AKK).+" postag_regexp="yes"></token>
+                        <token postag="ART.*:NOM:.+" postag_regexp="yes"/>
+                        <token postag="ART.*:(DAT|AKK).+" postag_regexp="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -1226,7 +1226,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                         [a-zäöü]+en<exception postag="PRO:IND:DAT:SIN.*" postag_regexp="yes"/>
                     </token>
                 </marker>
-                <token postag="SUB:DAT:SIN:NEU.*" postag_regexp="yes"></token>
+                <token postag="SUB:DAT:SIN:NEU.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add"><wd pos="PRO:IND:DAT:SIN:NEU"/></disambig>
         </rule>
@@ -1236,8 +1236,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <marker>
                     <and>
-                        <token postag="ZUS"></token>
-                        <token postag_regexp="yes" postag="PRP:.+"></token>
+                        <token postag="ZUS"/>
+                        <token postag_regexp="yes" postag="PRP:.+"/>
                     </and>
                 </marker>
                 <token>,</token>
@@ -1251,8 +1251,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token postag_regexp="yes" postag="VER:[123]:.+" skip="-1"/>
                 <marker>
                     <and>
-                        <token postag="ZUS"></token>
-                        <token postag_regexp="yes" postag="PRP:.+"></token>
+                        <token postag="ZUS"/>
+                        <token postag_regexp="yes" postag="PRP:.+"/>
                     </and>
                 </marker>
                 <token postag="SENT_END" regexp="yes">\W</token>
@@ -1278,7 +1278,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
             <token postag="SENT_END" regexp="yes">[\!\.\?]</token>
         </pattern>
-        <disambig postag="ZUS"></disambig>
+        <disambig postag="ZUS"/>
     </rule>
     <rule name="FIDEL" id="FIDEL">
         <pattern case_sensitive="yes">
@@ -1382,7 +1382,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                     <and>
                         <token postag_regexp="yes" postag="SUB:.+:INF" regexp="yes">[A-ZÄÖÜ].+</token>
-                        <token postag_regexp="yes" postag="VER:INF.+"></token>
+                        <token postag_regexp="yes" postag="VER:INF.+"/>
                     </and>
             </marker>
         </pattern>
@@ -1415,18 +1415,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule id="MODALVERB_MIT_INFINITIV" name="Infinitiv mit Modalverb">
         <pattern case_sensitive="yes">
             <marker>
-                <token postag_regexp="yes" postag="VER:INF:.+"></token>
+                <token postag_regexp="yes" postag="VER:INF:.+"/>
             </marker>
-            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"></token>
+            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"/>
         </pattern>
         <disambig action="remove" postag="VER:[1-3]:.+"/>
         <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Ich glaube nicht , dass er es <marker>sehen</marker> wird.</example>
     </rule>
     <rule id="MODALVERB_MIT_INFINITIV_2" name="Infinitiv mit Modalverb">
         <pattern case_sensitive="yes">
-            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"></token>
+            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"/>
             <marker>
-                <token postag_regexp="yes" postag="VER:INF:.+"></token>
+                <token postag_regexp="yes" postag="VER:INF:.+"/>
             </marker>
         </pattern>
         <disambig action="remove" postag="VER:[1-3]:.+"/>
@@ -1512,8 +1512,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>ich</token>
                 <marker>
                     <and>
-                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"></token>
-                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"></token>
+                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"/>
+                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -1525,8 +1525,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>er</token>
                 <marker>
                     <and>
-                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"></token>
-                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"></token>
+                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"/>
+                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -1559,7 +1559,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern>
-                <token skip="5">,<exception scope="next" regexp="yes">,|ich</exception><exception scope="next" postag="PA[12]:.+|VER:.*INF.*" postag_regexp="yes"></exception></token>
+                <token skip="5">,<exception scope="next" regexp="yes">,|ich</exception>
+                    <exception scope="next" postag="PA[12]:.+|VER:.*INF.*" postag_regexp="yes"/></token>
                 <marker>
                     <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
                 </marker>
@@ -1583,7 +1584,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token postag="SENT_START"/>
-                <token postag="EIG:NOM:SIN.+" postag_regexp="yes"></token>
+                <token postag="EIG:NOM:SIN.+" postag_regexp="yes"/>
                 <marker>
                     <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
                 </marker>
@@ -1663,7 +1664,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <token postag="VER:MOD:1:PLU:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+en</token>
                 </marker>
-                <token postag="VER:INF.*" postag_regexp="yes"></token>
+                <token postag="VER:INF.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="remove" postag="VER.*:(3|I..).*"/>
             <example type="ambiguous" inputform="können[können/VER:MOD:1:PLU:KJ1,können/VER:MOD:1:PLU:PRÄ,können/VER:MOD:3:PLU:KJ1,können/VER:MOD:3:PLU:PRÄ,können/VER:MOD:INF]" outputform="können[können/VER:MOD:1:PLU:KJ1,können/VER:MOD:1:PLU:PRÄ]">Wir <marker>können</marker> sagen, dass wir alles alles versucht haben.</example>
@@ -1673,7 +1674,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>wir</token>
                 <token postag="VER:MOD:1:PLU:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+en</token>
                 <marker>
-                    <token postag="VER:INF.*" postag_regexp="yes"></token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="remove" postag="VER.*:[13].*"/>
@@ -1709,7 +1710,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
          <rule>
             <pattern>
                 <token postag_regexp="yes" postag="PRO:PER:NOM:.+">ich<exception postag_regexp="yes" postag="PRO:PER:NOM:.+" negate_pos="yes"/></token>
-                <marker><token postag_regexp="yes" postag="VER:IMP:SIN:.+"></token></marker>
+                <marker>
+                    <token postag_regexp="yes" postag="VER:IMP:SIN:.+"/></marker>
             </pattern>
             <disambig action="remove" postag="VER:IMP.+"/>
             <example type="ambiguous" inputform="geh[gehen/VER:1:SIN:PRÄ:NON,gehen/VER:IMP:SIN:NON]" outputform="geh[gehen/VER:1:SIN:PRÄ:NON]">Ich <marker>geh</marker> zu ihm.</example>
@@ -1726,11 +1728,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="PRP_NOM" name="kein Nominativ nach Präposition">
         <rule>
             <pattern case_sensitive="yes">
-                <token postag_regexp="yes" postag="PRP:LOK(\+TMP)?:DAT"></token>
+                <token postag_regexp="yes" postag="PRP:LOK(\+TMP)?:DAT"/>
                 <marker>
                     <and>
-                        <token postag_regexp="yes" postag=".+(NOM|AKK):.+"></token>
-                        <token postag_regexp="yes" postag=".+(DAT|GEN):.+"></token>
+                        <token postag_regexp="yes" postag=".+(NOM|AKK):.+"/>
+                        <token postag_regexp="yes" postag=".+(DAT|GEN):.+"/>
                     </and>
                 </marker>
             </pattern>
@@ -1750,8 +1752,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 </token>
                 <marker>
                     <and>
-                        <token postag_regexp="yes" postag=".+NOM:.+"></token>
-                        <token postag_regexp="yes" postag=".+(AKK|DAT|GEN):.+"></token>
+                        <token postag_regexp="yes" postag=".+NOM:.+"/>
+                        <token postag_regexp="yes" postag=".+(AKK|DAT|GEN):.+"/>
                     </and>
                 </marker>
             </pattern>
@@ -1780,10 +1782,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="PRAEP_DAT" name="Präposition mit Dativ">
         <rule>
             <pattern>
-                <token postag="PRP:TMP+MOD+CAU:DAT"></token>
+                <token postag="PRP:TMP+MOD+CAU:DAT"/>
                 <marker>
-                    <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes" min="0">[a-zäöüß]-+</token> 
-                    <token postag="SUB:.+" postag_regexp="yes"></token>
+                    <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes" min="0">[a-zäöüß]-+</token>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="remove" postag=".*:(NOM|AKK):.*"/>
@@ -1817,7 +1819,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]{3,30}beamte</token>
             </pattern>
-            <disambig postag="SUB:NOM:SIN:MAS"></disambig>
+            <disambig postag="SUB:NOM:SIN:MAS"/>
             <example type="ambiguous" inputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]" outputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS]">Beamte, <marker>Schalterbeamte</marker>.</example>
         </rule>
         <rule>
@@ -1839,7 +1841,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token regexp="yes">ich|er|sie<exception scope="previous" inflected="yes" regexp="yes">werden|sein</exception></token>
-                <marker><token case_sensitive="yes">weiß<exception scope="next" postag="VER:.*(INF|1|3).*" postag_regexp="yes"></exception></token></marker>
+                <marker><token case_sensitive="yes">weiß
+                    <exception scope="next" postag="VER:.*(INF|1|3).*" postag_regexp="yes"/></token></marker>
             </pattern>
             <disambig action="remove" postag="ADJ:PRD:GRU"/>
             <example type="untouched">Ich glaube, dass er weiß streichen wird.</example>
@@ -1878,7 +1881,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <and>
                         <token postag="PA2:.+" postag_regexp="yes"/>
-                        <token postag="ADJ:PRD:GRU"></token>
+                        <token postag="ADJ:PRD:GRU"/>
                     </and>
                 </marker>
                 <token regexp="yes">w[eo]rden</token>
@@ -1891,10 +1894,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <and>
                         <token postag="PA2:.+" postag_regexp="yes"/>
-                        <token postag="ADJ:PRD:GRU"></token>
+                        <token postag="ADJ:PRD:GRU"/>
                     </and>
                 </marker>
-                <token postag="PKT"></token>
+                <token postag="PKT"/>
             </pattern>
             <disambig action="remove" postag="ADJ:PRD:GRU"/>
         </rule>
@@ -1914,7 +1917,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="VER_3" name="Entferne 1./2. Person von Verb">
         <rule>
             <pattern case_sensitive="yes">
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token regexp="yes">D(a|ie)s|E[rs]|Sie</token>
                 <marker>
                     <and>
@@ -4170,7 +4173,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="hin- und hergerissen" id="HIN_HER">
       <pattern case_sensitive="yes">
         <marker><token regexp="yes">(a[bn]|aus|um|über|unter|auf|hin|nach|vor|zurück)-</token></marker>
-        <token postag="KON:.+" postag_regexp="yes"></token>
+          <token postag="KON:.+" postag_regexp="yes"/>
         <token regexp="yes">(a[bn]|aus|um|über|unter|auf|her|hin|nach|vor|weg|zurück)\w+</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -4186,7 +4189,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Auf- oder Abwertung" id="HIN_HER_GROSS">
       <pattern case_sensitive="yes">
         <marker><token regexp="yes">(A[bn]|Aus|Um|Über|Unter|Auf|Hin|Nach|Vor|Zurück)-</token></marker>
-        <token postag="KON:.+" postag_regexp="yes"></token>
+          <token postag="KON:.+" postag_regexp="yes"/>
         <token regexp="yes">(A[bn]|Aus|Um|Über|Unter|Auf|Her|Hin|Nach|Vor|Weg|Zurück)\w+</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -4281,7 +4284,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="WOODS" id="WOODS"><!-- Bretton/Tiger Woods-->
       <pattern case_sensitive="yes">
-        <token postag="UNKNOWN|EIG:.+" postag_regexp="yes"></token>
+          <token postag="UNKNOWN|EIG:.+" postag_regexp="yes"/>
         <token>Woods</token>
       </pattern>
       <disambig action="ignore_spelling"/>
