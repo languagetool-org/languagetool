@@ -25,6 +25,7 @@ import org.languagetool.rules.patterns.PatternTokenBuilder;
 import java.util.*;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 class AgreementRuleAntiPatterns1 {
 
@@ -37,7 +38,58 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       token("zu"),
-      tokenRegex("Kopfe?|Zwecken?|Ohren|Füßen|Fuß|Händen|Beginn|Anfang|Geld|Gesicht")
+      tokenRegex("Kopfe?|Zwecken?|Ohren|Füßen|Fuß|Händen|Beginn|Anfang|Geld|Gesicht|Recht|Unrecht|.*stein")
+    ),
+    Arrays.asList(
+      posRegex("ART.*"),
+      token("zu"),
+      tokenRegex("gleichen|großen|kleinen"),
+      token("Teilen")
+    ),
+    Arrays.asList(  //"Bald läppert sich das zu richtigem Geld zusammen."
+      new PatternTokenBuilder().tokenRegex("läppern|summieren").matchInflectedForms().build(),
+      token("sich"),
+      posRegex("PRO:DEM.*"),
+      token("zu"),
+      posRegex("ADJ:DAT.*"),
+      posRegex("SUB:DAT.*")
+    ),
+    Arrays.asList(  //"Die Weimarer Parks laden ja förmlich ein zu Fotos im öffentlichen Raum."
+      new PatternTokenBuilder().token("laden").matchInflectedForms().setSkip(-1).build(),
+      token("ein"),
+      token("zu"),
+      posRegex("SUB:AKK.*")
+    ),
+    Arrays.asList( //"Es is schwierig für mich, diese zu Sätzen zu verbinden."
+      posRegex("PRO:DEM.*"),
+      token("zu"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB.*"),
+      new PatternTokenBuilder().token("zu").min(0).build(),
+      tokenRegex("verbinden|verhelfen|fähig")
+    ),
+    Arrays.asList( //"Es kam zum einen zu technischen Problemen, zum anderen wurde es unübersichtlich."
+      token("zum"),
+      token("einen"),
+      token("zu"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      new PatternTokenBuilder().posRegex("SUB.*").setSkip(-1).build(),
+      token("zum"),
+      token("anderen")
+    ),
+    Arrays.asList( //"Das Spiel wird durch den zu neuer Größe gewachsenen Torwart dominiert."
+      posRegex("ART.*|PRO:POS.*"),
+      token("zu"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).max(2).build(),
+      posRegex("SUB.*"),
+      posRegex("PA2.*")
+    ),
+    Arrays.asList( //"Dort findet sich schlicht und einfach alles & das zu sagenhafter Hafenkulisse."
+      tokenRegex("und|&"),
+      posRegex("ART:DEF.*"),
+      token("zu"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*")
     ),
     Arrays.asList(  // "die zu basisdemokratischen Prozessen benötigte Mitbestimmung"
       token("die"),
