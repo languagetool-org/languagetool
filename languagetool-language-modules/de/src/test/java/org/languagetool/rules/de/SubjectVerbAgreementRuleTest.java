@@ -431,6 +431,7 @@ public class SubjectVerbAgreementRuleTest {
         "Auch Polizisten zu Fuß sind unterwegs.",
         "Julia sagte, dass Vater und Mutter zu Hause sind.",
         "Damit müssen sie zurechtkommen, wenn Kinder zu Hause sind.",
+        "Auch Studien zu Zink sind vielversprechend.",
         "Die Züge vor Ort sind nicht klimatisiert."
     );
     for (String sentence : sentences) {

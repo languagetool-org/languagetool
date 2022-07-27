@@ -796,7 +796,7 @@ public class AgreementRuleTest {
   @Test
   public void testBugFixes() throws IOException {
     assertBad("Denn die einzelnen sehen sich einer sehr verschieden starken Macht des...", "einer verschiedenen starken Macht");  // TODO: not actually a bug
-    assertBadWithNoSuggestion("Das passiert nur, wenn der zu Pflegende bereit ist.");  // TODO: not actually a bug
+    assertGood("Das passiert nur, wenn der zu Pflegende bereit ist.");
   }
 
   private void assertGood(String s) throws IOException {

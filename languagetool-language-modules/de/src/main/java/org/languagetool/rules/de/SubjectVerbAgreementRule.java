@@ -80,6 +80,13 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("NEG|PA2:.+").build()
     ),
     Arrays.asList(
+      // "Auch Studien zu Zink sind vielversprechend."
+      posRegex("SUB:NOM:PLU:.*"),
+      token("zu"),
+      posRegex("SUB:.*"),
+      tokenRegex("sind|waren")
+    ),
+    Arrays.asList(
       // "Glaubt wirklich jemand, dass gute Fotos keine Arbeit sind?"
       posRegex("SUB:.*:PLU:.*"),
       regex("keine|wenig|kaum|viel"),
