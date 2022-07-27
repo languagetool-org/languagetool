@@ -60,7 +60,9 @@ regexp case-insensitive maken : (?i)
 <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
 <!ENTITY timeOfDayToday "vanmorgen|vanmiddag|vanavond|vannacht">
 <!ENTITY timeOfDayGeneral "morgen|middag|avond|nacht">
-<!ENTITY timeOfDayAdverbial "[`'‘’]s (morgens|middags|avonds|nachts)">
+
+<!ENTITY commonStreetNames "[A-Z][a-z].*(boulevard|dijk|dreef|einde|gracht|hof|kamp|laan|molen|pad|plaats|plein|poort|singel|steeg|straat|veld|weg)">
+<!ENTITY documentParts "aanhangsel|afb\.|afbeelding|afdeeling|artikel|attachment|bijlage|bijvoegsel|caput|chapiter|deel|figuur|hoofdstuk|kapittel|onderdeel|paragraaf|plaat|tabel">
 
 <!ENTITY measurementUnitPrefix "E(xa)?|P(eta)?|T(era)?|G(iga)?|M(ega)?|k(ilo)?|h(ecto)?|d(ec)?a|d(eci)?|c(enti)?|m(illi)?|u|&#x03BC;|micro|n(ano)?|licht">
 <!ENTITY measurementUnitsTime "(&measurementUnitPrefix;)?(s(ec)?|seconde(n|s)?)|min(uut)?|minuten|u(ur)?|uren|hr?|d|dag(en)?|we(ek|ken)|ma(and|nden)|kwarta(al|len)|ja(ar|ren)|decenni(um|a|ën)|centenni(um|a)|euuw(en)?|millenni(um|a)">
@@ -332,6 +334,23 @@ regexp case-insensitive maken : (?i)
 	                <token regexp="yes">[0-9]{1,2}</token>
                     <token regexp="yes">&abbrevMonths;|&months;</token>
 	            </antipattern>
+	            <antipattern>
+	                <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+	                <token>v</token>
+                    <token>.</token>
+                    <token regexp="yes">Chr|Christ|Christus</token>
+                    <token min="0">.</token>
+	            </antipattern>
+	            <antipattern>
+				    <token regexp="yes">&commonStreetNames;|&documentParts;</token>
+				    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+				    <token/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[0-9]{1,2}</token>
+                    <token>:</token>
+                    <token regexp="yes">[0-9]{1,2}</token>
+                </antipattern>
 	            <pattern>
 	                <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
 	            </pattern>
@@ -343,7 +362,7 @@ regexp case-insensitive maken : (?i)
 				<example>De rekening 2 + 2 = 5 klopt helemaal niet.</example>
 				<example>Hij deed hat 2,5 keer.</example>
 				<example>Zij liep de 100 m in 11 s.</example>
-				<example>Han Solo deed de Kessel run in minder dan 12 parsec.</example>
+				<example>Han Solo deed de Kessel run in minder dan 12 parsecs.</example>
 				<example>Hun ASICs genereren meer dan 200 Petahash.</example>
 				<example>Dat zijn maar 80 millimol.</example>
 				<example>Dat zijn maar 17°Celsius.</example>
@@ -353,6 +372,9 @@ regexp case-insensitive maken : (?i)
 				<example>Dat zijn maar 5 €.</example>
 				<example>Het gebeurde op 03 jan.</example>
 				<example>Het gebeurde op 3 januari.</example>
+				<example>Loop maar recht door naar de Hugo de Grootstraat 30.</example>
+				<example>Zie figuur 21.</example>
+				<example>Het is gedateerd op 7 v.Chr.</example>
 	        </rule>
 	    </rulegroup>
 
