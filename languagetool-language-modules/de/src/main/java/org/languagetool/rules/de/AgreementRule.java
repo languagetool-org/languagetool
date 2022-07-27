@@ -488,6 +488,11 @@ public class AgreementRule extends Rule {
     if (tokenPos != -1 && tokenPos + 2 < sentence.getTokensWithoutWhitespace().length) {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 2];
       if (startsWithUppercase(nextToken.getToken())) {
+        if (token2.getStartPos() == nextToken.getStartPos()) {
+          // avoids a strange bug that suggests e.g. "Pflegende-Pflegende" in sentence like this:
+          // "Das passiert nur, wenn der zu Pflegende bereit ist."
+          return null;
+        }
         String potentialCompound = token2.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
         String testPhrase = origToken1 + " " + potentialCompound;
@@ -506,6 +511,10 @@ public class AgreementRule extends Rule {
     if (tokenPos != -1 && tokenPos + 3 < sentence.getTokensWithoutWhitespace().length) {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 3];
       if (startsWithUppercase(nextToken.getToken())) {
+        if (token3.getStartPos() == nextToken.getStartPos()) {
+          // avoids a strange bug, see above
+          return null;
+        }
         String potentialCompound = token3.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
         String testPhrase = origToken1 + " " + token2.getToken() + " " + potentialCompound;
@@ -525,13 +534,13 @@ public class AgreementRule extends Rule {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 4];
       String potentialCompound = token4.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
       if (startsWithUppercase(token4.getToken()) && startsWithUppercase(nextToken.getToken())) {
-        String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
-        String testPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
         if (token4.getStartPos() == nextToken.getStartPos()) {
           // avoids a strange bug that suggests e.g. "Machtmach" in sentence like this:
           // "Denn die einzelnen sehen sich einer sehr verschieden starken Macht des..."
           return null;
         }
+        String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
+        String testPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
         String hyphenPotentialCompound = token4.getToken() + "-" + nextToken.getToken();
         String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + hyphenPotentialCompound;
         return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);

@@ -793,6 +793,12 @@ public class AgreementRuleTest {
     assertBad("Die Höhe kommt oft darauf an, ob die richtigen Leuten gut mit einen können oder nicht.");
   }
 
+  @Test
+  public void testBugFixes() throws IOException {
+    assertBad("Denn die einzelnen sehen sich einer sehr verschieden starken Macht des...", "einer verschiedenen starken Macht");  // TODO: not actually a bug
+    assertBadWithNoSuggestion("Das passiert nur, wenn der zu Pflegende bereit ist.");  // TODO: not actually a bug
+  }
+
   private void assertGood(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertEquals("Found unexpected match in sentence '" + s + "': " + Arrays.toString(matches), 0, matches.length);
