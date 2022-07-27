@@ -623,6 +623,12 @@ public class AgreementRuleTest {
     assertGood("In einem normalen Joint habe es etwa ein halbes Gramm Hanf.");
     assertGood("den leidenschaftlichen Lobpreis der texanischen Gateway Church aus");
     assertGood("die gegnerischen Shooting Guards");
+    assertGood("Bald läppert sich das zu richtigem Geld zusammen.");
+    assertGood("Die Weimarer Parks laden ja förmlich ein zu Fotos im öffentlichen Raum.");
+    assertGood("Es is schwierig für mich, diese zu Sätzen zu verbinden.");
+    assertGood("Es kam zum einen zu technischen Problemen, zum anderen wurde es unübersichtlich.");
+    assertGood("Das Spiel wird durch den zu neuer Größe gewachsenen Torwart dominiert.");
+    assertGood("Dort findet sich schlicht und einfach alles & das zu sagenhafter Hafenkulisse.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
