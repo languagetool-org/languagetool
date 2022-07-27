@@ -143,6 +143,26 @@ RB => Règles Brutes
         </pattern>
         <disambig action="replace" postag="N f s"/>
     </rule>
+    <rule id="VOUS_VERBE" name="vous verbe">
+        <pattern>
+            <token><exception regexp="yes">ne|qui|je|tu|ils?|elles?|[nv]ous</exception></token>
+            <marker>
+                <token>vous</token>
+            </marker>
+            <token postag="V ind pres 2 p" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="R pers suj 2 p"/>
+    </rule>
+    <rule id="DIALOGUE_SENT_START_WRONG" name="wrong sent_start tag in dialogs">
+        <pattern>
+            <marker>
+                <token postag="SENT_START"/>
+            </marker>
+            <token inflected="yes" postag="V.* 3 ." postag_regexp="yes" regexp="yes">répéter|enquérir|exclamer|maugréer|rétorquer|grogner|déclarer|renchérir|rire|rigoler|ricaner|chantonner|sifflotter|interroger|dire|affirmer|ajouter|murmurer|chuchoter|crier|hurler|vociférer|répondre|soupirer|répliquer|reprendre</token>
+            <token regexp="yes">-ils?|-t-ils?|-elle?|-t-elles?</token>
+        </pattern>
+        <disambig action="replace" postag=""/>
+    </rule>
     <rule id="TOUT_LE_MONDE" name="tout le monde">
         <pattern>
             <token>tout</token>
