@@ -43984,11 +43984,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
-        <token regexp='yes'>exercício|exercícios|sucesso|mal|efeito</token>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <example>Desta vez ele fê-lo mesmo.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='DI.+' postag_regexp='yes' min='0'/>
+        <token regexp='yes'>exercícios?|sucesso|mal|bem|pose|silêncio|efeito|questão|fogueiras?|ciúmes?</token>
         <example>Tenho dificuldade em fazer exercícios.</example>
         <example>O filme faz sucesso entre os jovens.</example>
         <example>Espere o medicamento fazer efeito.</example>
         <example>Isso me fez mal.</example>
+        <example>Tentei fazer uma fogueira.</example>
+        <example>Tentei fazer alguma questão.</example>
+        <example>Eles fizeram algumas fogueiras.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>o</token>
+        <token regexp='yes'>que|quê</token>
+        <token postag='SENT_END'/>
+        <example>Não consegui, mas fazer o quê?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes' skip='-1'>fazer</token>
+        <token>ao</token>
+        <token>mesmo</token>
+        <token>tempo</token>
+        <example>Você quer fazer tudo ao mesmo tempo!</example>
+        <example>Não tente fazer duas coisas ao mesmo tempo!</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token min='0'>algo</token>
+        <token>da</token>
+        <token postag='DP.+' postag_regexp='yes' min='0'/>
+        <token>vida</token>
+        <example>Tento fazer algo da vida da minha filha.</example>
+        <example>Não sei o que fazer da vida.</example>
+        <example>Você não sabe o que fazer da sua vida?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>alguma</token>
+        <token>coisa</token>
+        <token skip='-1'>da</token>
+        <token postag='DP.+' postag_regexp='yes' min='0'/>
+        <token>vida</token>
+        <example>Tento fazer alguma coisa da minha vida.</example>
+        <example>Não sei o que fazer da vida.</example>
       </antipattern>
       <antipattern>
         <token>tanto</token>
@@ -44058,7 +44102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <antipattern>
         <token inflected='yes'>fazer</token>
         <token skip='-1'></token>
-        <token regexp='yes'>sopas?|chás?|receitas?|almoço?|jantar|jantares|café|ceia|bolos?</token>
+        <token regexp='yes'>sopas?|chás?|receitas?|almoço?|jantar|jantares|café|ceia|bolos?|farinha|pão|pães</token>
         <example>Gostaria de fazer um almoço na terça.</example>
         <example>Farei para ti o café da manhã.</example>
       </antipattern>
