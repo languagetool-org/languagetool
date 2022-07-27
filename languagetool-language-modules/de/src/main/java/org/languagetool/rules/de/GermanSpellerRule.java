@@ -1176,7 +1176,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("veil", w -> Arrays.asList("viel", "weil", "teil"));
     put("mak", w -> Arrays.asList("mag", "mak", "lag"));
     put("daum", w -> Arrays.asList("da um", "darum", "kaum", "Raum"));
-    put("daum", w -> Arrays.asList("da um", "darum", "kaum", "Raum"));
     put("gechickt", w -> Arrays.asList("geschickt", "gecheckt"));
     put("Wiso", "Wieso");
     put("gebs", "gebe es");
