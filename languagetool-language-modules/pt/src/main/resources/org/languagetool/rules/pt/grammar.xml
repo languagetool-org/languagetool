@@ -10277,7 +10277,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!--                     Loosely based on CoGrOO rules                 -->
         <pattern>
           <token regexp='yes'>às?</token>
-          <token regexp='yes'>mim|ti|si|el[ea]s?|nós|vós|vos</token>
+          <token regexp='yes'>mim|ti|si|el[ea]s?|nós|vós|vos|vocês?</token>
         </pattern>
         <message>Neste contexto não se utiliza a crase.</message>
         <suggestion>a \2</suggestion>
@@ -44561,9 +44561,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token negate="yes">forma</token>
         <token negate="yes">a</token>
       </antipattern>
+      <antipattern>
+          <token>vai</token>
+          <token regexp='yes'>ver|saber</token>
+          <example>Vai saber o que ele fez!</example>
+          <example>Vai ver, ele está voltando!</example>
+          <example>Você vai ver o que é bom pra tosse!</example>
+        </antipattern>
         <pattern>
           <and>
-          <token inflected="yes">ir</token>
+          <token inflected="yes">ir<exception postag='VMIC.+' postag_regexp='yes'/></token>
           <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
           </and>
           <token postag='VMN0000'/>
@@ -44698,16 +44705,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *END* -->
-
+        <antipattern>
+          <token postag='VMIS.+' postag_regexp='yes' skip='-1'/>
+          <token>foi</token>
+          <token postag='VMN0000'/>
+          <example>Tudo que fiz foi abrir a porta</example>
+          <example>Só o que consegui fazer na hora foi abrir a porta.</example>
+          <example>Só o que consegui fazer naquele momento foi abrir a porta.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='AQ.+|NC.|RG' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</token>
+          <token regexp="yes">foi|foram</token>
+          <token postag='VMN0000'/>
+          <example>O primeiro passo foi acabar com a fome.</example>
+          <example>A medida principal foi acabar com a fome.</example>
+          <example>O mais urgente foi acabar com a fome.</example>
+          <example>As medidas principais foram acabar com a fome, diminuir o preconceito e reduzir o aquecimento global.</example>
+          <example>As principais medidas foram acabar com a fome, diminuir o preconceito e reduzir o aquecimento global.</example>
+          <example>O primeiro deles foi acabar com a fome.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'/>
+          <token postag='NP.+|PP.+' postag_regexp='yes'/>
+          <token regexp="yes">foi|foram</token>
+          <token postag='VMN0000'/>
+          <example>Uma das primeiras decisões da Inglaterra foi reunir alguns guardas.</example>
+          <example>A coisa mais importante para Luana foi chegar no horário.</example>
+          <example>A coisa mais importante para ela foi chegar no horário.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'/>
+          <token postag='NP.+' postag_regexp='yes'/>
+          <token regexp="yes">foi|foram</token>
+          <token postag='VMN0000'/>
+          <example>Uma das primeiras decisões da Inglaterra foi reunir alguns guardas.</example>
+          <example>A coisa mais importante para Luana foi chegar no horário.</example>
+        </antipattern>
+        <antipattern>
+          <token>quando</token>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>Quando fui mostrar, já havia acabado.</example>
+        </antipattern>
         <pattern>
           <and>
+          <token negate="yes">e</token>
           <token inflected="yes">ir</token>
           <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
-            <exception postag='VMIF1S0'/>
+            <exception postag='VMIF1S0|AQ.+' postag_regexp='yes'/>
           </token>
           </and>
           <token postag='VMN0000'>
             <exception postag='VMIF1S0'/>
+            <exception regexp='yes'>ver|visitar|passear|viver|dormir|nadar|pescar|surfar|procurar|acampar|arrumar|averiguar|brincar|caminhar|comemorar|comentar|confirmar|vulgar</exception>
           </token>
         </pattern>
         <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
