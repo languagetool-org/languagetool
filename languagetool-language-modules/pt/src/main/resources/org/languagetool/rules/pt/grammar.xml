@@ -11945,10 +11945,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Disciplina disponível: Teoria e Metodologia Científicas.</example>
       </antipattern>
       <antipattern>
-        <token regexp='yes'>intitulado|denominado|chamado|designado|nomeado|apelidado|batizado</token>
+        <token regexp='yes'>intitulado|denominado|chamado|designado|nomeado|apelidado|batizado|título|subtítulo</token>
         <token>:</token>
         <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
         <example>Livro intitulado: Dragões Eternos</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token postag='N.+' postag_regexp='yes'/>
+        <token>:</token>
+        <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+        <example>Luana: Baixa concorrência e muito lucro.</example>
       </antipattern>
       <antipattern>
         <token>:</token>
