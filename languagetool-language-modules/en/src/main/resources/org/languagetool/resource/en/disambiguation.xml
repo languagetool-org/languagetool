@@ -8276,6 +8276,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN(:UN)?" postag_regexp="yes" chunk_re=".-VP" /><!-- incorrect chunking -->
             <token postag="VB[DZ]" postag_regexp="yes" chunk_re=".-VP" />
         </antipattern>
+        <antipattern><!-- let the police know about this -->
+            <token>let</token>
+            <token chunk_re="B-NP.*" min="0" />
+            <token chunk_re="E-NP.*" />
+            <token postag="VB" />
+        </antipattern>
         <pattern>
             <and>
                 <token chunk="E-NP-plural"/>
@@ -8923,6 +8929,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">that|this</token>
             <token postag="VBZ" />
             <token postag="JJ" />
+        </antipattern>
+        <antipattern>
+            <token>one</token>
+            <token>thought</token>
+            <token regexp="yes" min="0">that|which</token>
+            <token postag="PRP_S.*|DT|NNP" postag_regexp="yes" />
         </antipattern>
         <pattern>
             <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">be|have</exception></token>

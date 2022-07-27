@@ -416,6 +416,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("semi ") &&
                    !k.getReplacement().toLowerCase().startsWith("infra ") &&
                    !k.getReplacement().toLowerCase().startsWith("hypo ") &&
+                   !k.getReplacement().toLowerCase().startsWith("syn ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().toLowerCase().startsWith("ed ") &&
                    !k.getReplacement().toLowerCase().startsWith("ac ") &&
