@@ -153,6 +153,16 @@ RB => Règles Brutes
         </pattern>
         <disambig action="replace" postag=""/>
     </rule>
+    <rule id="CUILLER_A_SOUPE" name="wrong sent_start">
+        <pattern>
+            <marker>
+                <token postag="SENT_START"/>
+            </marker>
+            <token regexp="yes">[aà]</token>
+            <token regexp="yes">soupe|café</token>
+        </pattern>
+        <disambig action="replace" postag=""/>
+    </rule>
     <rule id="TOUT_LE_MONDE" name="tout le monde">
         <pattern>
             <token>tout</token>
@@ -3514,7 +3524,7 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="N m s"/>
     </rule>
-    <rule id="MILLE_MARIN" name="mille marin">
+    <rule id="UN_ACTION" name="Un action">
         <pattern>
             <marker>
                 <token>UN</token>
