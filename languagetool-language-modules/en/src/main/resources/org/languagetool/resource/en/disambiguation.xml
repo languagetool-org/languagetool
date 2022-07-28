@@ -5071,6 +5071,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="JJ" />
             <token postag="VB" />
         </antipattern>
+        <antipattern>
+            <token postag="MD" />
+            <token min="0" inflected="yes">not</token>
+            <token regexp="yes">this|that|th[oe]se</token>
+            <token postag="VB" />
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$">
                 <exception postag_regexp="yes" postag="WDT|RB"/>
@@ -5299,6 +5305,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBP" postag_regexp="yes" />
             <token regexp="yes">it|them</token>
             <token postag="IN" />
+        </antipattern>
+        <antipattern><!-- Would this evening work better? -->
+            <token postag="MD" />
+            <token inflected="yes" min="0">not</token>
+            <token postag="DT|PRP\$" postag_regexp="yes" />
+            <token postag="NN.*" postag_regexp="yes" chunk_re="I-NP.*" />
+            <token postag="VB" postag_regexp="yes" />
         </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
@@ -7958,6 +7971,29 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">it|them</token>
             <token>all</token>
         </antipattern>
+        <antipattern><!-- Does he fucking care? -->
+            <token inflected="yes" regexp="yes">do|will|should|can|let</token>
+            <token chunk_re="B-NP.*" min="0" />
+            <token chunk_re="[IE]-NP.*" />
+            <token postag="VBP?" postag_regexp="yes" chunk="E-NP-singular" />
+        </antipattern>
+        <antipattern><!-- Can the new team change … -->
+            <token inflected="yes" regexp="yes">do|will|should|can|let</token>
+            <token chunk_re="B-NP.*" />
+            <token chunk_re="I-NP.*" />
+            <token chunk_re="[IE]-NP.*" />
+            <token postag="VBP?" postag_regexp="yes" chunk="E-NP-singular" />
+        </antipattern>
+        <antipattern>
+            <token postag="PRP_S.*" postag_regexp="yes" />
+            <token regexp="yes">fuckin[g']?|freakin[g']?|effin[g']?</token>
+            <token postag="VBP" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token postag="NNP" />
+            <token postag="VBP" chunk="E-NP-singular" />
+            <token regexp="yes">you|it</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7977,6 +8013,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="NN:UN"/>
         <example type="untouched">They disputed a claim.</example>
+        <example type="untouched">Does he fucking care?</example>
+        <example type="untouched">Jess text you asking if it ...</example>
+        <example type="untouched">Can the new assistant contact you regarding the studs</example>
         <example type="untouched">Loving to work is the key to happiness.</example>
         <example type="untouched">Love to party!</example>
         <example type="untouched">You sure look exhausted.</example>
@@ -8397,7 +8436,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           </and>
           </marker>
           <token min="0" max="1" postag="RB"/>
-          <token postag="VBP?" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VBP?"/></token>
+          <token postag="VBP?" postag_regexp="yes">
+            <exception negate_pos="yes" postag_regexp="yes" postag="VBP?"/>
+          </token>
       </pattern>
       <disambig postag="NNS"/>
       <example type="untouched">They should pass the waters.</example>
@@ -8831,7 +8872,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBD" />
         </antipattern>
         <pattern>
-            <token inflected="yes" regexp="yes">be|have</token>
+            <token inflected="yes" regexp="yes">
+                be|have
+                <exception>'d</exception>
+            </token>
             <token min="0" max="2" postag="PRP|NN.*|RB" postag_regexp="yes" />
             <marker>
                 <and>
@@ -8846,6 +8890,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">He has a car.</example>
         <example type="untouched">He is quite <marker>confused</marker> to be in this situation.</example>
         <example type="untouched">If it is next please let me know.</example>
+        <example type="untouched">Why’d you shut Randy down?</example>
         <example type="untouched">the man believed to be Hood got out and began shooting</example>
         <example type="untouched">She was not very <marker>pleased</marker> about the result.</example>
         <example type="untouched">Incorrect grammar. The primary problem was <marker>it's cost</marker>.</example>
