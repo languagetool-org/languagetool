@@ -9657,6 +9657,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          <example correction='porquê'>Aquilo não tinha nenhum <marker>por que</marker>.</example>
       </rule>
       <rule>
+        <antipattern>
+           <token>por</token>
+           <token>quê</token>
+	       <token>?</token>
+	       <example>Por quê?</example>
+	       </antipattern>
         <pattern>
            <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
          <marker>
@@ -9669,8 +9675,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 		  <example correction="por que|porque">Se não houve erro algum, <marker>por quê</marker> não entregou o documento?</example>
 		  <example correction="por que|porque">E faria tudo isso de novo, <marker>por quê</marker> não?</example>
 		  <example correction="por que|porque">O relatório foi entregue; <marker>por quê</marker> não houve mudanças?</example>
-    </rule>
-    <rule>
+      </rule>
+      <rule>
         <pattern>
 	       <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
 	     <marker>
@@ -9699,7 +9705,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
            <token regexp='yes'>os?|dos?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
 	       <token regexp='yes'>porquês?</token>
-	       <token regexp='yes'>[\.\?!;]|d[ao]s?|de|[nd]is[st]o|[nd]es[st][ae]s?|[dn]aquel[ea]s?|[dn]aquilo</token>
+	       <token regexp='yes'>[\.\?!;]|&tracos_de_separacao;|&separadores_de_oracoes;|d[ao]s?|de|[nd]is[st]o|[nd]es[st][ae]s?|[dn]aquel[ea]s?|[dn]aquilo</token>
 	       <example>Isso tem algum porquê?</example>
 	       <example>Isso não tem algum porquê.</example>
 	       <example>Não sei o porquê disso.</example>
