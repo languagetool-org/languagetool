@@ -512,6 +512,8 @@ public class AgreementRuleTest {
     assertBad("Ich gebe dir das kleinem Kaninchen.");
     assertBad("Ich gebe dir das kleiner Kaninchen.");
     assertBad("Geprägt ist der Platz durch einen 142 Meter hoher Obelisken", "einen 142 Meter hohen Obelisken");
+    assertBad("Es birgt für mich ein überraschend hohes juristische Risiko.", "ein überraschend hohes juristisches Risiko");
+    assertBad("Es birgt für mich ein zu hohes juristische Risiko.", "ein zu hohes juristisches Risiko");
     //assertBad("Ich gebe dir das kleines Kaninchen.");  // already detected by ART_ADJ_SOL
     //assertBad("Ich gebe dir das klein Kaninchen.");  // already detected by MEIN_KLEIN_HAUS
     assertGood("Ich gebe dir das kleine Kaninchen.");
@@ -795,7 +797,7 @@ public class AgreementRuleTest {
 
   @Test
   public void testBugFixes() throws IOException {
-    assertBad("Denn die einzelnen sehen sich einer sehr verschieden starken Macht des...", "einer verschiedenen starken Macht");  // TODO: not actually a bug
+    assertBad("Denn die einzelnen sehen sich einer sehr verschieden starken Macht des...", "einer sehr verschiedenen starken Macht");  // TODO: not actually a bug
     assertGood("Das passiert nur, wenn der zu Pflegende bereit ist.");
   }
 

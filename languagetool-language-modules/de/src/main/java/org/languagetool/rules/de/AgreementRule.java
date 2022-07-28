@@ -346,7 +346,7 @@ public class AgreementRule extends Rule {
             }
           } else if (tokenPos+1 < tokens.length && hasReadingOfType(tokens[tokenPos+1], POSType.NOMEN) && GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.ADJEKTIV)) {
             RuleMatch ruleMatch = checkDetAdjAdjNounAgreement(maybePreposition, tokens[i],
-              nextToken, tokens[tokenPos], tokens[tokenPos+1], sentence, i, replMap);
+              nextToken, tokens[tokenPos], tokens[tokenPos+1], sentence, i, replMap, skippedStr);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
@@ -648,7 +648,7 @@ public class AgreementRule extends Rule {
 
   private RuleMatch checkDetAdjAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedTokenReadings token4,
-                                             AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
+                                             AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap, String skippedStr) {
     Set<String> set = retainCommonCategories(token1, token2, token3, token4);
     RuleMatch ruleMatch = null;
     if (set.isEmpty()) {
@@ -663,6 +663,7 @@ public class AgreementRule extends Rule {
       if (replMap != null) {
         AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, token4, replMap.get(tokenPos));
         suggestor.setPreposition(maybePreposition);
+        suggestor.setSkipped(skippedStr);
         ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
       }
     }
