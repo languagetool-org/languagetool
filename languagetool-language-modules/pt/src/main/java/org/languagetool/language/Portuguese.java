@@ -251,7 +251,6 @@ public class Portuguese extends Language implements AutoCloseable {
       case "PT_AGREEMENT_REPLACE":      return -35;
       case "PT_DIACRITICS_REPLACE":     return -45;   // prefer over spell checker
       case "HUNSPELL_RULE":             return -50;
-      case "NO_VERB":                   return -52;
       case "CRASE_CONFUSION":           return -55;
       case "FINAL_STOPS":               return -75;
       case "EU_NÓS_REMOVAL":            return -90;
@@ -267,6 +266,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "READABILITY_RULE_DIFFICULT_PT":    return -1101;
       case "CACOPHONY":                 return -1500;
       case "UNKNOWN_WORD":              return -2000;
+      case "NO_VERB":                   return -2100;
     }
     if (id.startsWith("AI_PT_HYDRA_LEO")) { // prefer more specific rules (also speller)
       if (id.startsWith("AI_PT_HYDRA_LEO_MISSING_COMMA")) {

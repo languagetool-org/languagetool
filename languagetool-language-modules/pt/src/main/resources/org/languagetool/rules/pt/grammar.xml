@@ -11318,6 +11318,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes'>[.!?]</token>
         </marker>
       </antipattern>
+        <antipattern>
+            <!-- short sentences-->
+            <token postag="SENT_START"/>
+            <token min="0" max="15"><exception postag="SENT_END"/></token>
+            <token postag="SENT_END"/>
+        </antipattern>
       <pattern>
         <token postag='SENT_START'/>
         <marker>
@@ -11343,9 +11349,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </marker>
       </pattern>
       <message>Esta frase não tem verbo. Confirme que não é uma holófrase.</message>
-      <url>https://letratura.blogspot.pt/2007/03/apostila-ao-ciberdvidas-frase-sem-verbo.html</url><!--_XXX_artigo_do_Ciberdúvidas_está_offline_-->
+      <url>https://letratura.blogspot.pt/2007/03/apostila-ao-ciberdvidas-frase-sem-verbo.html</url>
+      <!--_XXX_artigo_do_Ciberdúvidas_está_offline_-->
       <short>Frase sem verbo</short>
-      <example type="incorrect"><marker>Isto um exemplo.</marker></example>
+      <!--<example type="incorrect"><marker>Isto um exemplo.</marker></example>
+      <example type="incorrect"><marker>Este exemplo também.</marker></example>-->
+      <!-- foi inicialmente -->
+      <example correction=""><marker>Pais, vossos filhos, compromissos inadiáveis sob os moldes indissolúveis da ética, moral e do caráter.</marker></example>
       <!--example type="incorrect"><marker>Isto um exemplo!</marker></example-->
       <example><marker>Isto é um exemplo.</marker></example>
       <example><marker>Isto -  Um exemplo</marker></example><!-- XXX Possível título -->
@@ -11358,7 +11368,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Basta!</example>
       <example>Ó Meu Deus!</example>
       <example>Ó Deus do Céu!</example>
-      <example type="incorrect"><marker>Este exemplo também.</marker></example>
       <example><marker>Este exemplo também está.</marker></example>
       <example>Tu tinhas um bocado de tempo.</example>
       <example>Quem compra este tipo de arte?</example>
