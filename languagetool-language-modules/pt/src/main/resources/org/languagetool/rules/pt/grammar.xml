@@ -2499,7 +2499,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ..P.+|NC.P.+|CS|CC|VM...P.+|SPS00|RN|RM|RG' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-01-07 (1-JAN-2022+) *END* -->
-
+       <antipattern>
+          <token postag='SENT_START'/>
+          <token>A</token>
+          <token postag='NPM.+' postag_regexp='yes' skip='-1'/>
+          <token>,</token>
+          <example>A Antonio Roberto Espinosa e Aluizio Leite, editores aos quais coube a difícil tarefa de conduzir esse imenso trabalho.</example>
+        </antipattern>
         <pattern>
           <token>a
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/>
