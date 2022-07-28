@@ -1953,18 +1953,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2021-06-01 (17-MAR-2021+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-04-08 (1-JAN-2022+) *START* -->
-        <!--
-        THIS ANTIPATTERN FIXES THE RULE: id='CONFUSÃO_ATE_ATÉ'
-
-        O atacante Gabriel Jesus, titular da equipe, foi decisivo na ate então inédita conquista.
-        -->
-        <antipattern>
-          <token postag='SPS.+' postag_regexp='yes'/>
-          <token>ate</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-04-08 (1-JAN-2022+) *END* -->
-
         <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <antipattern>
           <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
@@ -1974,6 +1962,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>A médica escreveu noutra 30 dias.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- This antipattern fixes the rule: id='CONFUSÃO_ATE_ATÉ' -->
+        <antipattern>
+          <token/>
+          <token>ate</token>
+          <example>O atacante Gabriel Jesus, titular da equipe, foi decisivo na ate então inédita conquista.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
