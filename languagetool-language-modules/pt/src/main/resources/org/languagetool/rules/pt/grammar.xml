@@ -20602,6 +20602,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>os</token>
           <token>dias</token>
          </marker>
+          <token><exception regexp='yes'>d[aeo]s?|que</exception></token>
         </pattern>
         <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion>diariamente</suggestion>
@@ -20623,13 +20624,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rule>
         <pattern>
           <token regexp='yes'>&pronomes_obliquos;</token>
-          <token
-          postag='VMI.+' postag_regexp='yes'/>
+          <token postag='VMI.+' postag_regexp='yes'/>
          <marker>
           <token>todos</token>
           <token>os</token>
           <token>dias</token>
          </marker>
+          <token><exception regexp='yes'>d[aeo]s?|que</exception></token>
         </pattern>
         <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion>diariamente</suggestion>
@@ -20637,6 +20638,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <pattern>
+          <token><exception regexp='yes'>de|em</exception></token>
          <marker>
           <token>todos</token>
           <token>os</token>
@@ -20658,6 +20660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Para se sentir motivado todos os dias, basta uma boa caminhada</example>
         </antipattern>
         <pattern>
+          <token><exception regexp='yes'>de|em</exception></token>
          <marker>
           <token>todos</token>
           <token>os</token>
@@ -20678,6 +20681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>os</token>
           <token>dias</token>
          </marker>
+         <token><exception regexp='yes'>d[aeo]s?</exception></token>
         </pattern>
         <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion>diariamente</suggestion>
@@ -20685,12 +20689,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <pattern>
-          <token postag='VMP.+' postag_regexp='yes' skip='-1'/>
+          <token postag='VMP.+' postag_regexp='yes' skip='-1'>
+             <exception regexp='yes'>de|em</exception></token>
          <marker>
           <token>todos</token>
           <token>os</token>
           <token>dias</token>
          </marker>
+         <token><exception regexp='yes'>d[aeo]s?|que</exception></token>
         </pattern>
         <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion>diariamente</suggestion>
