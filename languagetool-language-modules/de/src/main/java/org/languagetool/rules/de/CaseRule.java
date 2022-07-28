@@ -682,7 +682,11 @@ public class CaseRule extends Rule {
     "Eure",
     "Eurem",
     "Euren",
-    "Eures"
+    "Eures",
+    "Eueren",
+    "Euerem",
+    "Eueres",
+    "Euerer"
   };
   
   private static final Set<StringMatcher[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
