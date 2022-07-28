@@ -52,6 +52,7 @@ public class GermanSRXSentenceTokenizerTest {
     testSplit("In der 1. Bundesliga kam es zum Eklat.");
     testSplit("Dies ist, z. B., ein Satz."); 
 
+    testSplit("Das 1. Internationale Filmfestival findet nächste Woche statt.");
     testSplit("Friedrich I., auch bekannt als Friedrich der Große.");
     testSplit("Friedrich II., auch bekannt als Friedrich der Große.");
     testSplit("Friedrich IIXC., auch bekannt als Friedrich der Große.");

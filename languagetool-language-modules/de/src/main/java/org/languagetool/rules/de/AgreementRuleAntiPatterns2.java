@@ -251,7 +251,7 @@ class AgreementRuleAntiPatterns2 {
     Arrays.asList( // Sie ist über die Maßen schön.
       csToken("über"),
       csToken("die"),
-      csToken("Maßen")
+      tokenRegex("Ma(ß|ss)en")
     ),
     Arrays.asList( // Was nützt einem Gesundheit, wenn man sonst ein Idiot ist?
       token("was"),

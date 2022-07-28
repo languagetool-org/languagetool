@@ -38,12 +38,12 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       token("zu"),
-      tokenRegex("Kopfe?|Zwecken?|Ohren|Füßen|Fuß|Händen|Beginn|Anfang|Geld|Gesicht|Recht|Unrecht|.*stein")
+      tokenRegex("Kopfe?|Zwecken?|Ohren|Fü(ß|ss)en|Fu(ß|ss)|Händen|Beginn|Anfang|Geld|Gesicht|Recht|Unrecht|.*stein")
     ),
     Arrays.asList(
-      posRegex("ART.*"),
+      posRegex("ART.*|PRO:POS.*"),
       token("zu"),
-      tokenRegex("gleichen|großen|kleinen"),
+      tokenRegex("gleichen|gro(ß|ss)en|kleinen"),
       token("Teilen")
     ),
     Arrays.asList(  //"Bald läppert sich das zu richtigem Geld zusammen."
@@ -232,7 +232,7 @@ class AgreementRuleAntiPatterns1 {
       // "Die ersten Drei bekommen einen Preis." / "Die geheimen Sechs"
       tokenRegex("den|die"),
       tokenRegex(".+n"),
-      csRegex("Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf|Zwanzig|Dreißig|Vierzig|Fünzig|Hundert|Tausend")
+      csRegex("Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf|Zwanzig|Drei(ß|ss)ig|Vierzig|Fünzig|Hundert|Tausend")
     ),
     Arrays.asList(
       // "sie zog allem anderen kindliche Spiele vor"
@@ -373,7 +373,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       token("der"),  // "der fließend Englisch sprechende Mitarbeiter"
-      token("fließend"),
+      tokenRegex("flie(ß|ss)end"),
       tokenRegex(".*"),
       token("sprechende")
     ),
@@ -496,7 +496,7 @@ class AgreementRuleAntiPatterns1 {
       regex("Waltons|Einen")
     ),
     Arrays.asList(
-      regex("Große[sn]?"),
+      regex("Gro(ß|ss)e[sn]?"),
       regex("(Bundes)?Verdienstkreuz(es)?")
     ),
     Arrays.asList( // "Adiponitril und Acetoncyanhydrin, beides Zwischenprodukte der Kunststoffproduktion."
@@ -821,14 +821,14 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ADJ:NOM:.*")  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("flößen|machen|jagen").matchInflectedForms().build(),
+      new PatternTokenBuilder().tokenRegex("flö(ß|ss)en|machen|jagen").matchInflectedForms().build(),
       csRegex("einem|jedem|keinem"),
       csToken("Angst")  // "Dinge, die/ Etwas, das einem Angst macht"
     ),
     Arrays.asList(
       tokenRegex("einem|jedem|keinem"),
       csToken("Angst"),  // "Was einem Angst macht"
-      new PatternTokenBuilder().tokenRegex("machen|ein(flößen|jagen)").matchInflectedForms().build()
+      new PatternTokenBuilder().tokenRegex("machen|ein(flö(ß|ss)en|jagen)").matchInflectedForms().build()
     ),
     Arrays.asList(
       token("einem"),
@@ -1028,7 +1028,7 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("Schnee|Regen")
     ),
     Arrays.asList(
-      token("Außenring"),
+      tokenRegex("Au(ß|ss)enring"),
       token("Autobahn")
     ),
     Arrays.asList(

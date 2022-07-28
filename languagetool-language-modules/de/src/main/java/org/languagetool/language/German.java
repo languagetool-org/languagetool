@@ -464,6 +464,8 @@ public class German extends Language implements AutoCloseable {
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
       case "DATIV_NACH_PRP": return -14; // spelling and AI rules
+      case "SENT_START_SIN_PLU": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
+      case "SENT_START_PLU_SIN": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "VER_INFNOMEN": return -14;  // prefer spelling and AI rules
       case "TOO_LONG_PARAGRAPH": return -15;
       case "ALL_UPPERCASE": return -15;
