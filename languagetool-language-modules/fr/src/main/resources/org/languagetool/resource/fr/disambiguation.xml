@@ -143,12 +143,103 @@ RB => Règles Brutes
         </pattern>
         <disambig action="replace" postag="N f s"/>
     </rule>
+    <rule id="WRONG_SENT_END" name="wrong sent_end">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">ambass|p|liv|assoc|bibl|ENREG|al|circ|concl|deb|dest|dupl|éd|écon|incl?|ital|jur|juris|jurispr|larg|lex|législ|longit|(?-i)RR|(?-i)ÉÉm|(?-i)EExc|métr|méd|néol|obs|plur|préf|prog|publ|trib|trim|suiv|(?-i)LL|env|élem|ér|ét|hon|hypexp|conj|coop|ch|alph|anglic|app|pr|collab|paragr|sect|para|commiss|coord|dép|dir|gér|secour|sén|gén|abrév|adj|adr|anon|append|av|auj|bibl|bibliogr|bdc|boul|bull|bur|caar|cat|cell|chap|cir|compl|cf|corres|dest|dict|div|dom|dr|édif|éd|électr|élém|encycl|fig|fl|graph|hist|hyp|ill-imm-imp|impr|incl|inc|ind|in[gtvf]|jur|lat|litt|liq|loc|liv|livr|méd|mém|pl|réd|rel|sc|suiv|sup|suppl|trad|univ|mus|pharm|soc|pol|compt|urb|act|confect|exp|réal|prov|introd|inv|tial|enr|ép|équiv|esp|étym|excl|exc|ap|arr|arch|adv|al|anc|angl|ann|gest|gouv|prés|rect|représ|resp|scrut|vol|coll|réf|id|sqq?|janv|fév|avr|juill|oct|nov|déc|admin
+            <marker>
+                <token regexp="yes">[\.]</token>
+            </marker>
+            <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+        </pattern>
+        <disambig action="remove" postag="SENT_END"/>
+    </rule>
+    <rulegroup id="WRONG_SENT_START" name="wrong sent_start">
+        <rule>
+        <pattern>
+            <token regexp="yes">\d.*</token>
+            <token regexp="yes" case_sensitive="yes">AED|AFN|ALL|AMD|ANG|AOA|ARS|AUD|AWG|AZN|BAM|BBD|BDT|BGN|BHD|BIF|BMD|BND|BOB|BOV|BRL|BSD|BTN|BWP|BYN|BZD|CAD|CDF|CHE|CHF|CHW|CLF|CLP|CNY|COP|COU|CRC|CUC|CUP|CVE|CZK|DJF|DKK|DOP|DZD|EGP|ERN|ETB|EUR|FJD|FKP|GBP|GEL|GHS|GIP|GMD|GNF|GTQ|GYD|HKD|HNL|HRK|HTG|HUF|IDR|ILS|INR|IQD|IRR|ISK|JMD|JOD|JPY|KES|KGS|KHR|KMF|KPW|KRW|KWD|KYD|KZT|LAK|LBP|LKR|LRD|LSL|LYD|MAD|MDL|MGA|MKD|MMK|MNT|MOP|MRU|MUR|MVR|MWK|MXN|MXV|MYR|MZN|NAD|NGN|NIO|NOK|NPR|NZD|OMR|PAB|PEN|PGK|PHP|PKR|PLN|PYG|QAR|RON|RSD|RUB|RWF|SAR|SBD|SCR|SDG|SEK|SGD|SHP|SLL|SOS|SRD|SSP|STN|SVC|SYP|SZL|THB|TJS|TMT|TND|TOP|TRY|TTD|TWD|TZS|UAH|UGX|USD|USN|UYI|UYU|UYW|UZS|VES|VND|VUV|WST|XAF|XCD|XDR|XOF|XPF|XSU|XUA|YER|ZAR|ZMW|ZWL</token>
+           <marker>
+            <token postag="SENT_END">.</token>
+           </marker>
+        </pattern>
+        <disambig action="remove" postag="SENT_END"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="SENT_START"/>
+                </marker>
+                <token regexp="yes">de|par</token>
+                <token postag="Z.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="SENT_START"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="SENT_START"/>
+                </marker>
+                <token regexp="yes">de|par</token>
+                <token regexp="yes">&unites_de_mesure;</token>
+            </pattern>
+            <disambig action="remove" postag="SENT_START"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="SENT_START"/>
+                </marker>
+                <token regexp="yes">de|par</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="SENT_START"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="SENT_START"/>
+                </marker>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token regexp="yes">]</token>
+            </pattern>
+            <disambig action="remove" postag="SENT_START"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="SENT_START"/>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">ambass|pp?|liv|assoc|bibl|ENREG|al|circ|concl|deb|dest|dupl|éd|écon|incl?|ital|jur|juris|jurispr|larg|lex|législ|longit|(?-i)RR|(?-i)ÉÉm|(?-i)EExc|métr|méd|néol|obs|plur|préf|prog|publ|trib|trim|suiv|(?-i)LL|env|élem|ér|ét|hon|hypexp|conj|coop|ch|alph|anglic|app|pr|collab|paragr|sect|para|commiss|coord|dép|dir|gér|secour|sén|gén|abrév|adj|adr|anon|append|av|auj|bibl|bibliogr|bdc|boul|bull|bur|caar|cat|cell|chap|cir|compl|cf|corres|dest|dict|div|dom|dr|édif|éd|électr|élém|encycl|fig|fl|graph|hist|hyp|ill-imm-imp|impr|incl|inc|ind|in[gtvf]|jur|lat|litt|liq|loc|liv|livr|méd|mém|pl|réd|rel|sc|suiv|sup|suppl|trad|univ|mus|pharm|soc|pol|compt|urb|act|confect|exp|réal|prov|introd|inv|tial|enr|ép|équiv|esp|étym|excl|exc|ap|arr|arch|adv|al|anc|angl|ann|gest|gouv|prés|rect|représ|resp|scrut|vol|coll|réf|id|sqq?|janv|fév|avr|juill|oct|nov|déc|admin
+            </pattern>
+            <disambig action="remove" postag="SENT_START"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="SENT_START"/>
+                </marker>
+                <token regexp="yes">oct|déc|jan|fév|avr|juil|sept|nov</token>
+            </pattern>
+            <disambig action="remove" postag="SENT_START"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="SENT_START"/>
+                </marker>
+                <token postag="_IS_URL"/>
+            </pattern>
+            <disambig action="remove" postag="SENT_START"/>
+        </rule>
+    </rulegroup>
+    
     <rule id="DIALOGUE_SENT_START_WRONG" name="wrong sent_start tag in dialogs">
         <pattern>
             <marker>
                 <token postag="SENT_START"/>
             </marker>
-            <token inflected="yes" postag="V.* 3 ." postag_regexp="yes" regexp="yes">répéter|enquérir|exclamer|maugréer|rétorquer|grogner|déclarer|renchérir|rire|rigoler|ricaner|chantonner|sifflotter|interroger|dire|affirmer|ajouter|murmurer|chuchoter|crier|hurler|vociférer|répondre|soupirer|répliquer|reprendre</token>
+            <token regexp="yes" min="0" max="1">[mts]e|[nv]ous|leur|lui</token>
+            <token inflected="yes" postag="V.* 3 ." postag_regexp="yes" regexp="yes">répéter|demander|couper|enquérir|exclamer|maugréer|rétorquer|grogner|déclarer|renchérir|rire|rigoler|ricaner|chantonner|sifflotter|interroger|dire|affirmer|ajouter|murmurer|chuchoter|crier|hurler|vociférer|répondre|soupirer|répliquer|reprendre</token>
             <token regexp="yes">-ils?|-t-ils?|-elle?|-t-elles?</token>
         </pattern>
         <disambig action="replace" postag=""/>
