@@ -29028,6 +29028,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">0?[469]|11</token>
                     <example>N.º 31/09</example>
                 </antipattern>
+                <antipattern>
+                    <token>31</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">0?[469]|11</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">\d\d?\d?\d?</token>
+                    <token min="0" regexp="yes">-|/</token>
+                    <token regexp="yes">\d\d+</token>
+                    <example>31-6-55-32-22-87</example>
+                    <example>31-06-0-1234</example>
+                    <example>31 4 1234 5678</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>31</token>
@@ -29050,11 +29062,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">-|/</token>
                     <token regexp="yes">0?2</token>
                     <token min="0">:</token>
-                    <token regexp="yes">\d\d?|pm|am</token>
+                    <token regexp="yes">\d\d?|pm|am|.*pm|.*am</token>
                     <example>01:30 - 02:30</example>
                     <example>12:30 - 2 pm pausa</example>
                     <example>hace 1:30/2:00 Hs</example>
                     <example>01:55 - 02:31 / 02:54 - 04:15</example>
+                    <example>10:30-2:30pm</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">\d\d?</token>
@@ -29102,8 +29115,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">3[01]</token>
                     <token min="0" regexp="yes">-|/</token>
                     <token regexp="yes">0?2</token>
-                    <token regexp="yes">días|semanas|meses|años|toneladas</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">horas|días|semanas|meses|años|toneladas|BFC</token>
                     <example>30 - 2 días</example>
+                    <example>1:30/2 horas</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">3[01]</token>
@@ -29130,6 +29145,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">-|/</token>
                     <token regexp="yes">0?2</token>
                     <example>N.º 31/02</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">0?[1-9]|10|11|12</token>
+                    <token regexp="yes" min="0">-|/</token>
+                    <token regexp="yes">0?[1-9]|1[0-9]|2[0-9]|3[01]</token>
+                    <token regexp="yes" min="0">-|/</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">-|a</token>
+                    <token regexp="yes">0?[1-9]|10|11|12</token>
+                    <token regexp="yes" min="0">-|/</token>
+                    <token regexp="yes">3[01]</token>
+                    <token regexp="yes" min="0">-|/</token>
+                    <token regexp="yes">0?2</token>
+                    <example>5/24/2022 - 06/30/2</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">0?[0-9]|1[0-9]|2[0-4]</token>
+                    <token>:</token>
+                    <token regexp="yes">[0-5][0-9]</token>
+                    <token regexp="yes">-|a</token>
+                    <token regexp="yes">0?[0-9]|1[0-9]|2[0-4]</token>
+                    <token>:</token>
+                    <token regexp="yes">3[01]</token>
+                    <token regexp="yes" min="0">-|/</token>
+                    <token regexp="yes">0?2</token>
+                    <example>19:45 a 22:31 / 2</example>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -29211,7 +29252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>9 41 OCT 16 2005</example>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" inflected="yes" skip="-1">número|ley|decreto|nº|ordenanza|pag|página|#|edición|resolución|concepto|modelo</token>
+                    <token regexp="yes" inflected="yes" skip="-1">número|ley|decreto|nº|ordenanza|pag|página|#|edición|resolución|concepto|modelo|factura|sentencia</token>
                     <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
                     <token min="0" regexp="yes">[-/]|de|a</token>
                     <token regexp="yes" min="0">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
@@ -29221,9 +29262,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>resolución 142 de febrero de 2021 </example>
                     <example>el concepto 556 de mayo del 2022</example>
                     <example>el modelo 200 de julio.</example>
+                    <example>sentencia T-123 de junio de 2003</example>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" inflected="yes">número|ley|decreto|nº|ordenanza|pag|página|#|edición|resolución|concepto|modelo</token>
+                    <token regexp="yes" inflected="yes">número|ley|decreto|nº|ordenanza|pag|página|#|edición|resolución|concepto|modelo|factura|sentencia</token>
                     <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
                     <token>/</token>
                     <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
@@ -29231,6 +29273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" min="0">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
                     <example>resolución 57/249 de diciembre de 2002.</example>
+                    <example>ley 70/71 de octubre de 1989</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes" min="0">&meses_ano;|&meses_ano_abrv;</token>
@@ -29261,7 +29304,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">[-/]|de</token>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
                     <token>.</token>
-                    <example> (12) 345 67 89 58 mar.kape.2304</example>
+                    <example>(12) 345 67 89 58 mar.kape.2304</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">\d\d+</token>
+                    <token regexp="yes">\d\d+</token>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
+                    <example>1 123 456 de mar</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
+                    <token regexp="yes">&meses_ano;</token>
+                    <token regexp="yes">St|street</token>
+                    <example>405 Mayo St</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
@@ -29290,7 +29347,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>ISBN 978-84-01-1074-83</example>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">número|N°|nº|n\d+|\+|#|teléfono|expediente|FSE|URCG|CAD</token>
+                    <token regexp="yes" skip="-1">número|N°|nº|n\d+|\+|#|teléfono|expediente|FSE|URCG|CAD|VFID|salida|ZS|ds|línea</token>
                     <token regexp="yes" min="0">:|-|/</token>
                     <token regexp="yes">\d+</token>
                     <token regexp="yes" min="0">-|/</token>
@@ -29304,6 +29361,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>(S)FSE-123/07/2021/UE-</example>
                     <example>URCG-38-06-2019</example>
                     <example>CAD/123/12/2021</example>
+                    <example>oficio VFID/123/04/2016</example>
+                    <example>salida 1234-06-1890</example>
+                    <example>línea gratuita 800-12-2021</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">\d\d\d\d\d\d</token>
@@ -29335,7 +29395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>2021-01 - 2021-12</example>
                 </antipattern>
                 <antipattern>
-                    <token>n</token>
+                    <token regexp="yes">n</token>
                     <token>.</token>
                     <token>º</token>
                     <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
@@ -29427,7 +29487,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>02/19/1954.</example>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" skip="-1">número?s|nº|Cel|Tel|n\d+|cédula|al|acuerdo|P</token>
+                    <token regexp="yes" skip="-1">número?s|nº|Cel|Tel|n\d+|cédula|al|acuerdo|P|N°</token>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes" min="0">-|/</token>
                     <token regexp="yes">1[3-9]|[2-9]\d</token>
@@ -29440,6 +29500,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>al 01-800-2656-345</example>
                     <example>del Acuerdo 17-17-2020</example>
                     <example>P. 32-38-1970</example>
+                    <example>N° 99/73/2022</example>
                 </antipattern>
                 <antipattern>
                     <token>n</token>
@@ -29451,6 +29512,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">-|/</token>
                     <token regexp="yes">[12]\d{3}</token>
                     <example>N.º 93-07-2019</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">-|/</token>
+                    <token regexp="yes">1[3-9]|[2-9]\d</token>
+                    <token regexp="yes">-|/</token>
+                    <token regexp="yes">[12]\d{3}</token>
+                    <token regexp="yes">-|/</token>
+                    <token regexp="yes">\d+</token>
+                    <example>13-46-2021-123</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">\d\d?</token>
