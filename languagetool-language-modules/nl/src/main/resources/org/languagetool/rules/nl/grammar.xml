@@ -12856,10 +12856,14 @@ onwaarschijnlijk
 					<token>uur</token>
 					</antipattern><!-- 0.00 – 1.00 uur -->
 				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,2}</token><token spacebefore="no">.</token><token regexp="yes">[0-9]{1,2}</token></antipattern>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token min="0" max="4"/><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token/><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token/><token/><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token/><token/><token/><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<marker>
-						<token regexp="yes" postag="PARA_END">[\p{L}]+</token>
+						<token regexp="yes" postag="SENT_END">[\p{L}]+</token>
 					</marker>
 				</pattern>
 				<message>Onverwacht einde. Als dit geen kop is, voeg dan een leesteken (., ! of ?) toe of koppel de teksten.</message>
@@ -12869,7 +12873,6 @@ onwaarschijnlijk
 				<short>Geen einde</short>
 				<example correction="fout.|fout?|fout!">Deze wat langere zin is <marker>fout</marker></example>
 				<example>Dit is correct.</example>
-				<example>Deze zin wordt na de spatie nog iets langer </example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ALS_ZIJNDE" name="als .. zijnde">
