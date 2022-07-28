@@ -5033,7 +5033,19 @@ Vinte e três Plantas Pra Ter Dentro De Apartamento Com Muito Charme!
 
 <category id="STYLE" name="Style" type="style">
 
-
+    <rule id='FAZER_DESPORTO' name="Praticar desporto">
+        <!--      Created by Marco A.G.Pinto     -->
+        <pattern>
+            <marker>
+                <token inflected='yes'>fazer</token>
+            </marker>
+            <token min="0" regexp="yes">muito|pouco|algum|bastante|nenhum|mais|menos</token>
+            <token>desporto</token>
+        </pattern>
+        <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
+        <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
+    </rule>
     <!-- ESTRANGEIRISMOS ESPECÍFICOS pt_PT -->
     <rule id='BARBARISMS_PT_PT_V3' name="Estrangeirismos específicos pt_PT" type="style">
     <!--      Created by Tiago F. Santos (2017-02-09) and improved by Marco A.G.Pinto and Ricardo Joseh Lima, Portuguese rule 2022-07-26 (Checked/Enhanced) (25-JUL-2022+)      -->

@@ -1052,6 +1052,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   </category>
 
   <category id="STYLE" name="Style" type="style">
+    <rule id='FAZER_ESPORTE' name="Praticar esporte">
+    <!--      Created by Marco A.G.Pinto     -->
+    <pattern>
+      <marker>
+        <token inflected='yes'>fazer</token>
+      </marker>
+      <token min="0" regexp="yes">muito|pouco|algum|bastante|nenhum|mais|menos</token>
+      <token>esporte</token>
+    </pattern>
+    <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>.</message>
+    <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
+    <example correction="praticar">Vou <marker>fazer</marker> muito esporte.</example>
+  </rule>
     <rulegroup id="EMAIL" name="E-mail (correio eletrônico)">
       <rule>
         <pattern>

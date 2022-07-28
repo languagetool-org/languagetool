@@ -87,6 +87,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY pronomes_obliquos_singular "[ao]|l[ao]|lh[aeo]|n[ao]|me|se|te|vos">
     <!ENTITY pronomes_obliquos_plural "[ao]s|l[ao]s|lh[aeo]s|n[ao]s|me|se|te|vos">
     <!ENTITY pronomes_retos "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
+    <!ENTITY pronomes_tonicos "mim|comigo|ti|contigo|ele|ela|si|nós|connosco|conosco|vós|convosco|eles|elas">
     <!ENTITY pronomes_contracao "das?|de|dos?|[nd]isso|dest[ae]s?|dess[ae]s?|[nd]isto|daquilo|daquel[ea]s?|nest[ae]s?|ness[ae]s?|naquilo|naquela|naqueles?">
     <!ENTITY pronomes_de_tratamento "Alteza|Altezas|Beatitude|Beatitudes|Divindade|Divindades|Eminência|Eminências|Excelência|Excelências|Graça|Graças|Magnificência|Magnificências|Majestade|Majestades|Paternidade|Paternidades|Realeza|Realezas|Reverência|Reverências|Reverendíssima|Reverendíssimas|Reverendíssimo|Reverendíssimos|Santidade|Santidades|Senhor|Senhora|Senhoria|Senhorias">
     <!ENTITY pronomes_ambiguos "a|as|mas|nos|o|os|se">
@@ -2947,7 +2948,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
     <!-- APARECE NO ECRÃ UM NÚMERO aparece um número no ecrã -->
-    <rulegroup id='COLOCACAO_ADVERBIOS_LUGAR' name="Colocação advérbios no lugar">
+    <rulegroup id='COLOCACAO_ADVERBIOS_LUGAR' name="Colocação de advérbios no lugar">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-13 (17-MAR-2021+)      -->
       <!-- Jaume suggested creating three rules since there was a bug with max="3" -->
 	
@@ -12651,7 +12652,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>depois</token>
           <token>de</token>
         </marker>
-        <token min="0" max="1" postag='DA.+|PD.+|PP.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='DA.+|PD.+|PP.+' postag_regexp='yes'>
+          <exception regexp='yes'>&pronomes_tonicos;</exception>
+        </token>
         <token postag='V.+|NC.+|AQ0.+' postag_regexp='yes'>
           <exception postag_regexp="yes" postag='NP.+'/>
           <exception regexp="yes">amanhã|hoje</exception>
@@ -12769,6 +12772,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='VMIP3S0'/>
         <token>de</token>
         <token postag='RG|NP.+|AQ.+|NC.+|PI.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+        <token>à</token>
+        <token>prova</token>
+        <token>de</token>
       </antipattern>
       <pattern>
         <token negate="yes">se</token>
@@ -13537,7 +13545,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example correction="a dizer a verdade">Eles estão <marker>a dizer verdade</marker>.</example>
     </rule>
 
-    <rule id='A_GUARDA-NOCTURNO' name="A guarda-nocturna">
+    <rule id='A_GUARDA-NOTURNO' name="A guarda-noturna">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
         <token>a</token>
@@ -13545,8 +13553,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp='yes'>&tracos_de_separacao;</token>
         <token regexp='yes'>noc?turno</token>
       </pattern>
-      <message>Substitua por <suggestion>a guarda-nocturna</suggestion>.</message>
-      <example correction="a guarda-nocturna">Vamos ver <marker>a guarda-nocturno</marker>.</example>
+      <message>Substitua por <suggestion>a guarda-noturna</suggestion>.</message>
+      <example correction="a guarda-noturna">Vamos ver <marker>a guarda-noturno</marker>.</example>
     </rule>
 
     <rule id='À_MAIS_EM' name="Há mais em">
@@ -14265,19 +14273,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example correction="falou-se de">Hoje <marker>falaram-se de</marker> de vários problemas.</example>
     </rule>
 
-    <rule id='FAZER_DESPORTO' name="Praticar desporto">
-      <!--      Created by Marco A.G.Pinto     -->
-      <pattern>
-        <marker>
-          <token inflected='yes'>fazer</token>
-        </marker>
-        <token min="0" regexp="yes">muito|pouco|algum|bastante|nenhum|mais|menos</token>
-        <token>desporto</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>.</message>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
-      <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
-    </rule>
 
     <rule id='FOI_ATRAVÉS_DAS_QUAIS' name="Foi pelas quais">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
@@ -15253,7 +15248,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example correction="facilitar">As regras vão <marker>tornar mais fácil</marker> o jogo.</example>
     </rule>
 	
-    <rule id='TORNAR_MAIS_FORTE' name="Fortelecer">
+    <rule id='TORNAR_MAIS_FORTE' name="Fortalecer">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-24 (21-OCT-2020+)     -->
       <pattern>
         <marker>
@@ -16216,7 +16211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!-- RULES TU/TI -> EU/MIM *START* -->
     <!-- ***************************** -->
-    <rulegroup id='TU_TI_EU_MIM' name='Uso de pronomes obliquos (eu,mim;tu,ti)'>
+    <rulegroup id='TU_TI_EU_MIM' name='Uso de pronomes oblíquos (eu, mim; tu,ti)'>
       <url>https://duvidas.dicio.com.br/entre-mim-e-ti-ou-entre-tu-e-eu/</url>
       <!-- Rules below fixed by MARCOAGPINTO 2022-03-15 (1-JAN-2022+) -->
  
@@ -17246,7 +17241,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion>\1, <match no='3' include_skipped='all'/> \4 \5 <match no='6' include_skipped='all'/> \7</suggestion>
         <suggestion>\1 \2 <match no='3' include_skipped='all'/> \4, \5 <match no='6' include_skipped='all'/> \7</suggestion>
         <url>https://superioringles.com.br/2016/09/27/virgula-oxford/</url>
-        <short>Reveja a pontuação em enumareções</short>
+        <short>Reveja a pontuação em enumereções</short>
         <example correction="grande, confortável e bem|grande e confortável, e bem">A casa é <marker>grande e confortável e bem</marker> desenhada.</example>
         <example correction="sala, um quarto e uma cozinha|sala e um quarto, e uma cozinha">A casa tem uma <marker>sala e um quarto e uma cozinha</marker>.</example>
         <example correction="sul, oeste e o Suriname|sul e oeste, e o Suriname">...esa a norte, o Oceano Atlântico a leste, o Pará a <marker>sul e oeste e o Suriname</marker> a noroeste.</example>
@@ -19040,7 +19035,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token regexp="yes">[-\.:!;]</token>
           </marker>
         </pattern>
-        <message>As saudações formais devem ser terminadas com um vírgula.</message>
+        <message>As saudações formais devem ser terminadas com uma vírgula.</message>
         <suggestion>,</suggestion>
         <example correction=",">Estimado Senhor Doutor Santos<marker>!</marker></example>
         <example correction=",">Estimado Senhor Santos<marker>!</marker></example>
@@ -19059,7 +19054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception regexp="yes">Dr|Prof</exception></token>
           </marker>
         </pattern>
-        <message>As saudações formais devem ser terminadas com um vírgula.</message>
+        <message>As saudações formais devem ser terminadas com uma vírgula.</message>
         <suggestion>\6,</suggestion>
         <example correction="Santos,">Estimado Senhor Dr. <marker>Santos</marker></example>
         <example correction="Santos,">Estimado Dr. <marker>Santos</marker></example>
@@ -19074,7 +19069,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token regexp="yes" min='0' postag='SENT_END'>[Ss]enhor[ae]?s?</token>
           </marker>
         </pattern>
-        <message>As saudações formais devem ser terminadas com um vírgula.</message>
+        <message>As saudações formais devem ser terminadas com uma vírgula.</message>
         <suggestion>\5,</suggestion>
         <example correction="Senhoras,">Estimados Senhores e <marker>Senhoras</marker></example>
       </rule>
@@ -19757,7 +19752,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Acho que dá! ;)</example>
     </rule>
 
-    <rulegroup id='INTERROGATIVES_PUNTUATION' name="Pontuação interrogações: Porquê?">
+    <rulegroup id='INTERROGATIVES_PUNTUATION' name="Pontuação em interrogações: Por quê?" default='temp_off'>
       <!--  Created by Tiago F. Santos, 2017-XX-XX      -->
       <antipattern>
         <token>.</token>
@@ -19773,7 +19768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token postag='SENT_END'>.</token>
           </marker>
         </pattern>
-        <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações deve ser separadas por vírgulas.</message>
+        <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações devem ser separadas por vírgulas.</message>
         <example correction="?">Porque é que dizes isso<marker>.</marker></example>
         <example>Como sabes, gosto destas coisas.</example>
         <example>Quem sabe, sabe.</example>
@@ -19790,7 +19785,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token postag='SENT_END'>.</token>
           </marker>
         </pattern>
-        <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações deve ser separadas por vírgulas.</message>
+        <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações devem ser separadas por vírgulas.</message>
         <example correction="?">O que achas disto<marker>.</marker></example>
         <example>O que o Dr. Mário disse, eu bem sei.</example>
       </rule>
@@ -19808,7 +19803,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token postag='SENT_END'>.</token>
           </marker>
         </pattern>
-        <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações deve ser separadas por vírgulas.</message>
+        <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações devem ser separadas por vírgulas.</message>
         <example correction="?">De onde vem isso<marker>.</marker></example>
         <example>O que ele mais quer é jogar no Benfica.</example>
       </rule>
@@ -19860,7 +19855,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token postag='SENT_END'>.</token>
           </marker>
         </pattern>
-        <message>Se é uma exclamação, deve terminar com <suggestion>!</suggestion>, caso contrário, as orações deve ser separadas por vírgulas. Se for um prolongamento de ideias, utilize as reticências.</message>
+        <message>Se é uma exclamação, deve terminar com <suggestion>!</suggestion>, caso contrário, as orações devem ser separadas por vírgulas. Se for um prolongamento de ideias, utilize as reticências.</message>
         <suggestion>...</suggestion>
         <suggestion>,</suggestion>
         <example correction="!|...|,">Que belo dia<marker>.</marker></example>
@@ -20637,6 +20632,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion>diariamente</suggestion>
         <example correction='diariamente'>Há diretrizes que seguimos <marker>todos os dias</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+         <marker>
+          <token>para</token>
+          <token>efeitos</token>
+          <token>de</token>
+         </marker>
+          <token postag='VMN0000'/>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
+        <suggestion>\1</suggestion>
+        <example correction='para'>Há diretrizes que seguimos <marker>para efeitos de</marker> transformar a causa.</example>
       </rule>
       <rule>
         <pattern>
@@ -46999,7 +47007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>John</token>
           <token regexp="yes">Stewar[td]</token>
         </pattern>
-        <message>Escreva <suggestion>Jon Stewart</suggestion> se se refere à humorista americano.</message>
+        <message>Escreva <suggestion>Jon Stewart</suggestion> se se refere ao humorista americano.</message>
         <url>https://pt.wikipedia.org/wiki/Jon_Stewart</url>
         <example correction="Jon Stewart"><marker>John Stewart</marker></example>
       </rule>
@@ -47175,7 +47183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes">Moo?u?ll?enaa?re?
             <exception>Moolenaar</exception></token>
         </pattern>
-        <message>Escreva <suggestion>Bram Moolenaar</suggestion> se se refere à autor do Vim.</message>
+        <message>Escreva <suggestion>Bram Moolenaar</suggestion> se se refere ao autor do Vim.</message>
         <url>https://en.wikipedia.org/wiki/Bram_Moolenaar</url>
         <example correction="Bram Moolenaar"><marker>Bram Moolenar</marker></example>
       </rule>
