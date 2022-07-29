@@ -78,6 +78,11 @@ public class VerbAgreementRule extends TextLevelRule {
       token("gehe")
     ),
     Arrays.asList(
+      // "Beim Betriebssystem müssen Nutzer mit Android 7.1 vorlieb nehmen." -> handled by different rule (-> vorliebnehmen)
+      token("vorlieb"),
+      token("nehmen")
+    ),
+    Arrays.asList(
       token("du"),
       token("schlafen"),
       token("gehst")
