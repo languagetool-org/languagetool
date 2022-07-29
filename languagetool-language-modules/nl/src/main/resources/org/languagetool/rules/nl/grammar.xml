@@ -12874,19 +12874,24 @@ onwaarschijnlijk
 			2020-01-07 uitzondering voor zinnen met paragraafnummer (kopjes)
 			-->
 			<rule>
-				<antipattern>
+				<antipattern><!-- 0.00 – 1.00 uur -->
 					<token postag_regexp="yes" postag="SENT_START|START"/>
 					<token regexp="yes">[0-9]{1,2}</token><token spacebefore="no" regexp="yes">[.:]</token><token regexp="yes">[0-9]{1,2}</token>
 					<token>-</token>
 					<token regexp="yes">[0-9]{1,2}</token><token spacebefore="no" regexp="yes">[.:]</token><token regexp="yes">[0-9]{1,2}</token>
 					<token>uur</token>
-					</antipattern><!-- 0.00 – 1.00 uur -->
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,2}</token><token spacebefore="no">.</token><token regexp="yes">[0-9]{1,2}</token></antipattern>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token postag="SENT_END"/></antipattern>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token postag="SENT_END"/></antipattern>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token/><token postag="SENT_END"/></antipattern>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token/><token/><token postag="SENT_END"/></antipattern>
-				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token/><token/><token/><token postag="SENT_END"/></antipattern>
+				</antipattern>
+				<antipattern><!-- paragraafnummer -->
+				    <token postag_regexp="yes" postag="SENT_START|START"/>
+				    <token regexp="yes">[0-9]{1,2}</token>
+				    <token spacebefore="no">.</token>
+				    <token regexp="yes">[0-9]{1,2}</token>
+                </antipattern>
+				<antipattern><!-- short sentences -->
+                    <token postag="SENT_START"/>
+                    <token min="0" max="12"><exception postag="SENT_END"/></token>
+                    <token postag="SENT_END"/>
+                </antipattern>
 				<pattern>
 					<marker>
 						<token regexp="yes" postag="SENT_END">[\p{L}]+</token>
@@ -12897,8 +12902,9 @@ onwaarschijnlijk
 				<suggestion>\1?</suggestion>
 				<suggestion>\1!</suggestion>
 				<short>Geen einde</short>
-				<example correction="fout.|fout?|fout!">Deze wat langere zin is <marker>fout</marker></example>
+				<example correction="fout.|fout?|fout!">Deze wat langere zin is ook na aanpassing van der regel nog altijd <marker>fout</marker></example>
 				<example>Dit is correct.</example>
+				<example>Een korte zin of kopje is acceptabel zonder leesteken</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ALS_ZIJNDE" name="als .. zijnde">
