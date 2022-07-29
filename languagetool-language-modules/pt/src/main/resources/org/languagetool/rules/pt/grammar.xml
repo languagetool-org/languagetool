@@ -7872,7 +7872,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- ME DISSE Disse-me / ME DISSERAM Disseram-me / TE PODERIA Poder-te-ia / NOS PODERIAM Poder-nos-iam -->
-    <rulegroup id='PROCLISE_COMECO_FRASE' name="Proclise começo frase">
+    <rulegroup id='PROCLISE_COMECO_FRASE' name="Próclise começo frase">
       <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-25 + 2021-12-02 (25-JUN-2021+)      -->
       <!--
       Me disse que ele veio. → Disse-me que ele veio.
@@ -8740,7 +8740,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception scope='previous' postag='VMN0000'/>
             <exception regexp='yes'>feira|para|fronteiras?</exception></token>
         </pattern>
-        <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro subsitua '-ra' por '-rá'.</message>
+        <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro substitua '-ra' por '-rá'.</message>
         <example correction=""><marker>Amanhã, enviara</marker> os livros antes do fecho.</example>
         <example correction=""><marker>Na próxima semana, o editor enviara</marker> os livros antes do fecho.</example>
         <example correction=""><marker>Na próxima semana enviaras</marker> os livros antes do fecho.</example>
@@ -8758,7 +8758,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <!--token min='0' max='3'/-->
           <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
         </pattern>
-        <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro subsitua '-ra' por '-rá'.</message>
+        <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro, substitua '-ra' por '-rá'.</message>
         <suggestion><match no='1' regexp_match='ra(s?)' regexp_replace='rá$1'/></suggestion>
         <example correction="Enviará"><marker>Enviara</marker> amanhã os livros.</example>
         <!-- FIXME token index doesn't work with variable size phrases >
@@ -10815,7 +10815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!-- TODO Use inflections to improve rule. Suggestion inflect='yes'>procurar<	-->
     <!-- Concordance error plural - PROCURA-SE > PROCURAM-SE -->
-    <rule id='PROCURA_SE-PROCURAM_SE' name="Erro de concordânica do plural PROCURA-SE > PROCURAM-SE">
+    <rule id='PROCURA_SE-PROCURAM_SE' name="Erro de concordância do plural PROCURA-SE > PROCURAM-SE">
       <pattern>
         <marker>
           <token>procura</token>
@@ -11903,7 +11903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
     </rulegroup>
 
-    <rule id="INCOMPLETE_SENTENCE" name="Síntaxe: Frase incompleta: falta verbo após o 'que'" default='off'><!-- XXX improve and set to default on again -->
+    <rule id="INCOMPLETE_SENTENCE" name="Sintaxe: Frase incompleta: falta verbo após o 'que'" default='off'><!-- XXX improve and set to default on again -->
       <!--    Localized from Catalan grammar.xml by Tiago F. Santos, 2017-11-29      -->
       <antipattern>
         <marker>
@@ -12305,7 +12305,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token regexp="yes">[0-8]</token>
           </marker>
         </pattern>
-        <message>Se se refere à dimenção do papel escreva <suggestion><match no='2' case_conversion="startupper"/>\4</suggestion>?</message>
+        <message>Caso se refira refere à dimensão do papel, escreva <suggestion><match no='2' case_conversion="startupper"/>\4</suggestion>?</message>
         <example correction="A3">O caderno de papel cavalinho tamanho <marker>A 3</marker> é o mais recomendado.</example>
       </rule>
     </rulegroup>
@@ -16278,7 +16278,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!-- RULES TU/TI -> EU/MIM *START* -->
     <!-- ***************************** -->
-    <rulegroup id='TU_TI_EU_MIM' name='Uso de pronomes oblíquos (eu, mim; tu,ti)'>
+    <rulegroup id='TU_TI_EU_MIM' name='Uso de pronomes oblíquos (eu, mim; tu, ti)'>
       <url>https://duvidas.dicio.com.br/entre-mim-e-ti-ou-entre-tu-e-eu/</url>
       <!-- Rules below fixed by MARCOAGPINTO 2022-03-15 (1-JAN-2022+) -->
  
@@ -17308,7 +17308,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion>\1, <match no='3' include_skipped='all'/> \4 \5 <match no='6' include_skipped='all'/> \7</suggestion>
         <suggestion>\1 \2 <match no='3' include_skipped='all'/> \4, \5 <match no='6' include_skipped='all'/> \7</suggestion>
         <url>https://superioringles.com.br/2016/09/27/virgula-oxford/</url>
-        <short>Reveja a pontuação em enumereções</short>
+        <short>Reveja a pontuação em enumerações</short>
         <example correction="grande, confortável e bem|grande e confortável, e bem">A casa é <marker>grande e confortável e bem</marker> desenhada.</example>
         <example correction="sala, um quarto e uma cozinha|sala e um quarto, e uma cozinha">A casa tem uma <marker>sala e um quarto e uma cozinha</marker>.</example>
         <example correction="sul, oeste e o Suriname|sul e oeste, e o Suriname">...esa a norte, o Oceano Atlântico a leste, o Pará a <marker>sul e oeste e o Suriname</marker> a noroeste.</example>
@@ -25405,8 +25405,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </pattern>
         <message>Frase-feita. Procure alternativas.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fingir</match> que não <match no='1' postag='V.+' postag_regexp='yes'>ver</match></suggestion>
-        <suggestion>relevar egligenciar</suggestion>
-        <example correction='fingi que não vi|relevar egligenciar'><marker>fiz vista grossa</marker>.</example>
+        <example correction='fingi que não vi'><marker>fiz vista grossa</marker>.</example>
       </rule>
       <rule id='CLICHE_3103_FINCAR' name='Clichê: Fincar o pé'>
         <pattern>
@@ -26774,7 +26773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes'>até|de|para|pra|por</token> <!-- MARCOAGPINTO - 2022-04-16 -->
           <token>onde</token>
         </antipattern>
-        <antipattern><!-- futuro perifrásico -->
+        <antipattern><!-- futuro perifrástico -->
           <token inflected='yes'>ir</token>
           <token postag='VMN0000'><!-- TODO add exceptions. e.g. "Onde vamos comer?" "Nós não decidimos onde vamos descansar."-->
             <exception>levar</exception> <!-- MARCOAGPINTO AND RICARDO JOSEH LIMA, MOTION VERBS - 2022-04-17 - "Onde você vai levar seu filho?" -->
@@ -37239,7 +37238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token spacebefore="no" regexp='yes'>[·.]</token>
           <token spacebefore="no">h</token>
         </pattern>
-        <message>O prefixo kilo deve ser escrito em minúsculas.</message>
+        <message>O prefixo "kilo" deve ser escrito em minúsculas.</message>
         <suggestion><match no='1' case_conversion="startlower"/>h</suggestion>
         <suggestion><match no='1' case_conversion="startlower"/>.h</suggestion>
         <example correction="kWh|kW.h">O aparelho consome 5 <marker>KW.h</marker>.</example>
@@ -37249,7 +37248,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern case_sensitive="yes">
           <token>KWh</token>
         </pattern>
-        <message>O prefixo kilo deve ser escrito em minúsculas.</message>
+        <message>O prefixo "kilo" deve ser escrito em minúsculas.</message>
         <suggestion><match no='1' case_conversion="startlower"/></suggestion>
         <example correction="kWh">O aparelho consome 5 <marker>KWh</marker>.</example>
         <example>O aparelho consome 5 kW·h.</example>
@@ -37817,7 +37816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>— Nada disso — afirmou abruptamente —, nada disso!</example>
     </rule>
 
-    <rulegroup id='HIPHEN_SPACE_RULES' name="Espaçamento em hífens e travessões" default="on" tags="picky">
+    <rulegroup id='HIPHEN_SPACE_RULES' name="Espaçamento em hifens e travessões" default="on" tags="picky">
       <!-- Created by Tiago F. Santos, 2017-XX-XX -->
       <rule>
         <antipattern>
@@ -38215,10 +38214,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rule id='LOOSE_ACCENTS' name="Acentos soltos">
       <!-- Based on Catalan grammar.xml, by Tiago F. Santos on 11-02-2017 -->
       <regexp>[`´]</regexp>
-      <message>Caratere incorreto. Utilize antes o apóstrofe ou reveja a acentuação.</message>
+      <message>Carácter incorreto. Utilize antes o apóstrofe ou reveja a acentuação.</message>
       <suggestion>’</suggestion>
       <suggestion/>
-      <short>Caractere incorreto</short>
+      <short>Carácter incorreto</short>
       <example correction="’|">Não e<marker>´</marker> comum encontrar erros deste tipo.</example>
     </rule>
 
@@ -38242,7 +38241,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example correction="d'El-rei">Aqui jaz <marker>d' El-rei</marker> D.Sebastião.</example>
     </rule>
 
-    <rulegroup id='PRIORITIZE_QUOTES' name="Prioritizar o tipo de aspas: «“‘...’”»." default="off">
+    <rulegroup id='PRIORITIZE_QUOTES' name="Priorizar o tipo de aspas: «“‘...’”»." default="off">
       <!--  Created by Tiago F. Santos, 2017-05-31      -->
       <rule>
         <pattern>
@@ -38336,11 +38335,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp="yes">\p{L}+?(_+\p{L}+)+
           <exception postag_regexp='yes' postag="NP.+"/></token>
       </pattern>
-      <message>Em portugês formal, as palavras não contêm traço baixo (_), nem são separadas por traços. Verifique que a palavra '\1' está correta.</message>
+      <message>Em português formal, as palavras não contêm traço baixo (_), nem são separadas por traços. Verifique que a palavra '\1' está correta.</message>
       <short>Erro tipográfico</short>
       <example type="incorrect">Este é um <marker>caso_de_teste</marker> com erro.</example>
       <example>Este é um <marker>caso-de-teste</marker> sem erro.</example>
-      <example type="incorrect">Este é um <marker>caso_de</marker>-teste com hífens.</example>
+      <example type="incorrect">Este é um <marker>caso_de</marker>-teste com hifens.</example>
       <example type="incorrect">Alguns testes <marker>são______desnecessários</marker>.</example><!-- The message does not show all the underscores. -->
       <example>Escreva o seu nome aqui: <marker>______________________</marker></example>
       <example>Teste de Idioma <marker>______________________</marker> 37</example>
@@ -38566,7 +38565,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token>.</token>
         <token>.</token>
       </pattern>
-      <message>Utilize o caractér tipográfico de reticências em vez de: <suggestion>…</suggestion>.</message>
+      <message>Utilize o carácter tipográfico de reticências em vez de: <suggestion>…</suggestion>.</message>
       <!--<example correction="…">Isto é importante <marker>. . .</marker> tanto quanto sei.</example>-->
       <example>Isto é importante – tanto quanto sei.</example>
       <example correction="…">Isto é importante<marker>...</marker> tanto quanto sei.</example>
@@ -39277,7 +39276,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
 
-    <rule id='WEEKDAY_TO_WEEKDAY' name="Datas: redundâcia de '-feira'">
+    <rule id='WEEKDAY_TO_WEEKDAY' name="Datas: redundância de '-feira'">
       <!--       Created by Tiago F. Santos,  2019-09-05      -->
       <pattern>
         <token regexp='yes'>.+-feira</token>
@@ -40007,7 +40006,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
     </rulegroup>
 
-    <rulegroup id="PORTUGUESE_ADDRESSES" name="Formato de emdereços em Portugal">
+    <rulegroup id="PORTUGUESE_ADDRESSES" name="Formato de endereços em Portugal">
       <!--  Localized from French, by Tiago F. Santos, 2017-10-01      -->
       <rule>
         <regexp type="exact" mark="1">\b(?:Rua|R\.|Arruamento|Avenida|Av\.|Praça|Pr\.|Cruzamento|Caminho|Via|Estrada|Piso)[  ][^,\n]+\s*[,\n]\s*(\p{Lu}[^,%\d\n]+[  ]\d{4}(?:\-\d{3})?)\s*[,\n]\s*(?:PORTUGAL|PORTOGALLO|PORTOGALIA)\b</regexp>
@@ -40079,7 +40078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>A reunião poderá ser às 15h00.</example>
     </rule>
 
-    <rulegroup id='IR_AS_FUTURE_AUXILIARY' name="Escrita Avançada: Futuro Perifrásico: IR + Infinitivo" default='off'>
+    <rulegroup id='IR_AS_FUTURE_AUXILIARY' name="Escrita Avançada: Futuro Perifrástico: IR + Infinitivo" default='off'>
       <!--    Created by Tiago F. Santos, 2017-04-12     -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-verbo-ir-como-auxiliar-de-si-proprio/5679</url>
       <short>Possível gerundismo</short>
@@ -43871,7 +43870,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
           <token negate_pos="yes" postag='DP.+' postag_regexp='yes'/>
         </pattern>
-        <message>Pode simplificar a parafrase empregando: <suggestion>por</suggestion>.</message>
+        <message>Pode simplificar a paráfrase empregando: <suggestion>por</suggestion>.</message>
         <example correction="por">O FBI soube disso <marker>através de</marker> carta.</example>
         <example>Os reis do Épiro alegavam descendência de Aquiles através de seu filho, Neoptólemo.</example>
         <example>A conexão do fruto com o talo da planta é feita através de um pedúnculo.</example>
@@ -43912,7 +43911,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
           <token negate_pos="yes" postag='DP.+' postag_regexp='yes'/>
         </pattern>
-        <message>Pode simplificar a parafrase empregando: <suggestion>por</suggestion>.</message>
+        <message>Pode simplificar a paráfrase empregando: <suggestion>por</suggestion>.</message>
         <example correction="por">O FBI respondeu-lhe <marker>através de</marker> carta.</example>
 
         <example>A bactéria do carbúnculo mata-os através de uma toxina.</example>
@@ -44629,7 +44628,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- PROCURA PROVAR prova provará -->
-    <rulegroup id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="Tese Doutoramento: Evitar expressões do tipo 'procura provar'" tags="picky" default='temp_off'>
+    <rulegroup id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="Tese Doutoramento: Evitar expressões do tipo 'procura provar'" tags="picky" default='on'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 + 2021-02-25 + 2021-03-02 + 2021-03-07 + 2022-03-02 (1-JAN-2021+)      -->
       <!--
       A nossa tese procura provar a métrica. → A nossa tese provará a métrica.
@@ -45410,7 +45409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp='yes' spacebefore='no'>&hifen;</token>
         <token regexp='yes' spacebefore='no'>l[ao]s?</token>
       </pattern>
-      <message>Formas verbais terminadas em r, s, z, quando seguidas por pronomes átonos, devem ser adapatadas.</message>
+      <message>Formas verbais terminadas em r, s, z, quando seguidas por pronomes átonos, devem ser adaptadas.</message>
       <url>http://www.migalhas.com.br/Gramatigalhas/10,MI23518,41046-Verbo+seguido+de+pronome</url>
       <example type='incorrect'><marker>Fiz-las</marker> há minutos.</example>
       <example><marker>Fi-las</marker> há minutos.</example>
@@ -45449,7 +45448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <pattern>
-          <token regexp='yes'>actoras?</token>
+          <token regexp='yes'>ac?toras?</token>
         </pattern>
         <message>O feminino de actor é <suggestion>actriz<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
         <suggestion>actor<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
@@ -45594,12 +45593,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <pattern>
-          <token regexp='yes'>heroinos?</token>
+          <token regexp='yes'>heroínos?</token>
         </pattern>
-        <message>O masculino de heroina é <suggestion>herói<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
-        <suggestion>heroina<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+        <message>O masculino de heroína é <suggestion>herói<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
+        <suggestion>heroína<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
         <url>https://pt.wiktionary.com/wiki/herói</url>
-        <example correction='herói|heroina'><marker>heroino</marker></example>
+        <example correction='herói|heroína'><marker>heroíno</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -46269,7 +46268,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes">Jimm?[yi]</token>
           <token regexp="yes">Hendrix|Hendric?ks</token>
         </pattern>
-        <message>Escreva <suggestion>Jimi Hendrix</suggestion> se se refere ao guitarista.</message>
+        <message>Escreva <suggestion>Jimi Hendrix</suggestion> se se refere ao guitarrista.</message>
         <url>https://pt.wikipedia.org/wiki/Jimi_Hendrix</url>
         <example correction="Jimi Hendrix"><marker>Jimi Hendricks</marker></example>
         <example correction="Jimi Hendrix"><marker>Jimmy Hendrix</marker></example>
@@ -46293,7 +46292,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes">Harpo|Chico|Groucho|Gummo|Zeppo|Léonard|Arthur|Julius|Milton|Herbert</token>
           <token>Max</token>
         </pattern>
-        <message>Escreva <suggestion>\1 Marx</suggestion> se se refere ao comédien americano.</message>
+        <message>Escreva <suggestion>\1 Marx</suggestion> se se refere ao comediante americano.</message>
         <url>https://pt.wikipedia.org/wiki/Marx_Brothers</url>
         <example correction="Groucho Marx"><marker>Groucho Max</marker></example>
       </rule>
@@ -46442,7 +46441,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes">Jimm?[iy]</token>
           <token regexp="yes">Pai?ge</token>
         </pattern>
-        <message>Escreva <suggestion>Jimmy Page</suggestion> se se refere ao guitarista dos Led Zeppelin.</message>
+        <message>Escreva <suggestion>Jimmy Page</suggestion> se se refere ao guitarrista dos Led Zeppelin.</message>
         <url>https://pt.wikipedia.org/wiki/Jimmy_page</url>
         <example correction="Jimmy Page"><marker>Jimmy Paige</marker></example>
         <example correction="Jimmy Page"><marker>Jimmi Page</marker></example>
@@ -46501,7 +46500,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes">Rand[yi]e?</token>
           <token regexp="yes">Rh?oa?de?s?</token>
         </pattern>
-        <message>Escreva <suggestion>Randy Rhoads</suggestion> se se refere ao guitarista americano.</message>
+        <message>Escreva <suggestion>Randy Rhoads</suggestion> se se refere ao guitarrista americano.</message>
         <url>https://pt.wikipedia.org/wiki/Randy_Rhoads</url>
         <example correction="Randy Rhoads"><marker>Randy Roads</marker></example>
       </rule>
@@ -46855,7 +46854,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes">Jh?arr?ett?h?
             <exception>Jarrett</exception></token>
         </pattern>
-        <message>Escreva <suggestion>Keith Jarrett</suggestion> se se refere ao pianiste americano.</message>
+        <message>Escreva <suggestion>Keith Jarrett</suggestion> se se refere ao pianista americano.</message>
         <url>https://pt.wikipedia.org/wiki/Keith_Jarrett</url>
         <example correction="Keith Jarrett"><marker>Keith Jarret</marker></example>
       </rule>
@@ -46864,7 +46863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>Keith</token>
           <token>Richard</token>
         </pattern>
-        <message>Escreva <suggestion>Keith Richards</suggestion> se se refere ao guitarista dos Rolling Stones.</message>
+        <message>Escreva <suggestion>Keith Richards</suggestion> se se refere ao guitarrista dos Rolling Stones.</message>
         <url>https://pt.wikipedia.org/wiki/Keith_Richards</url>
         <example correction="Keith Richards"><marker>Keith Richard</marker></example>
       </rule>
@@ -46904,7 +46903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes">All?ann?iss?e?</token>
           <token regexp="yes">M(?:o|e?au)rr?iss?ett?e?</token>
         </pattern>
-        <message>Escreva <suggestion>Alanis Morissette</suggestion> se se refere à cantora canadianone.</message>
+        <message>Escreva <suggestion>Alanis Morissette</suggestion> se se refere à cantora canadense.</message>
         <url>https://pt.wikipedia.org/wiki/Alanis_Morissette</url>
         <example correction="Alanis Morissette"><marker>Alanis Morrissette</marker></example>
       </rule>
@@ -47472,7 +47471,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>Ringo</token>
           <token regexp="yes">Stars?</token>
         </pattern>
-        <message>Escreva <suggestion>Ringo Starr</suggestion> se se refere ao membre dos Beatles.</message>
+        <message>Escreva <suggestion>Ringo Starr</suggestion> se se refere ao membro dos Beatles.</message>
         <url>https://pt.wikipedia.org/wiki/Ringo_Starr</url>
         <example correction="Ringo Starr"><marker>Ringo Star</marker></example>
       </rule>
@@ -47653,7 +47652,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes">Th?ie?rss?enn?
             <exception>Tiersen</exception></token>
         </pattern>
-        <message>Escreva <suggestion>Yann Tiersen</suggestion> se se refere ao pianiste francês.</message>
+        <message>Escreva <suggestion>Yann Tiersen</suggestion> se se refere ao pianista francês.</message>
         <url>https://pt.wikipedia.org/wiki/Yann_Tiersen</url>
         <example correction="Yann Tiersen"><marker>Yann Tiersenn</marker></example>
       </rule>
@@ -47812,7 +47811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <regexp>(?-i)(?!Artur Avila\b)(?i)\bArth?ur Avv?ill?a?\b</regexp>
-        <message>Escreva <suggestion>Artur Avila</suggestion> se se refere ao matemático brazilo-francês.</message>
+        <message>Escreva <suggestion>Artur Avila</suggestion> se se refere ao matemático franco-brasileiro.</message>
         <url>https://pt.wikipedia.org/wiki/Artur_Avila</url>
         <example correction="Artur Avila"><marker>Arthur Avila</marker></example>
       </rule>
@@ -48097,7 +48096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>Ulrike</token>
           <token>Meinhoff</token>
         </pattern>
-        <message>Pretende referir-se a <suggestion>Ulrike Meinhof</suggestion> (Mitglied der RAF)?</message>
+        <message>Pretende referir-se a <suggestion>Ulrike Meinhof</suggestion> (membro do RAF)?</message>
         <url>https://pt.wikipedia.org/wiki/Ulrike_Meinhof</url>
         <example correction="Ulrike Meinhof"><marker>Ulrike Meinhoff</marker></example>
       </rule>
@@ -48118,14 +48117,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>Gutenberg</token>
           </marker>
         </pattern>
-        <message>Pretende referir-se Karl-Theodor zu <suggestion>Guttenberg</suggestion>, den ehemaligen Bundesminister der Verteidigung?</message>
+        <message>Pretende referir-se Karl-Theodor zu <suggestion>Guttenberg</suggestion>, ex-Ministro Federal da Defesa?</message>
         <url>https://pt.wikipedia.org/wiki/Karl-Theodor_zu_Guttenberg</url>
         <example>Johannes <marker>Gutenberg</marker> o ex-ministro da Defesa.</example>
         <example correction="Guttenberg">Karl-Theodor renunciou <marker>Gutenberg</marker> por causa de um escândalo de plágio.</example>
       </rule>
       <rule>
         <regexp case_sensitive="yes">Eli[sz]abeth? (Selber|Selberth)\b</regexp>
-        <message>Pretende referir-se a <suggestion>Elisabeth Selbert</suggestion> (deutsche política)?</message>
+        <message>Pretende referir-se a <suggestion>Elisabeth Selbert</suggestion> (política alemã)?</message>
         <url>https://en.wikipedia.org/wiki/Elisabeth_Selbert</url>
         <example correction="Elisabeth Selbert"><marker>Elisabeth Selber</marker> foi uma das quatro "mães da Lei Básica".</example>
       </rule>
@@ -48140,7 +48139,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>Andreas</token>
           <token>Bader</token>
         </pattern>
-        <message>Pretende referir-se a <suggestion>Andreas Baader</suggestion> (Mitglied der RAF)?</message>
+        <message>Pretende referir-se a <suggestion>Andreas Baader</suggestion> (membro do RAF)?</message>
         <url>https://pt.wikipedia.org/wiki/Andreas_Baader</url>
         <example correction="Andreas Baader"><marker>Andreas Bader</marker></example>
       </rule>
@@ -48397,7 +48396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes">[EÉ]mm?ann?uel(lle)?</token>
           <token regexp="yes">Ma(?:c|c?k)a?ron</token>
         </pattern>
-        <message>Escreva <suggestion>Emmanuel Macron</suggestion> se se refere ao presidente da républica francês.</message>
+        <message>Escreva <suggestion>Emmanuel Macron</suggestion> se se refere ao presidente francês.</message>
         <url>https://pt.wikipedia.org/wiki/Emmanuel_Macron</url>
         <example correction="Emmanuel Macron"><marker>Emanuel Macron</marker></example>
         <example correction="Emmanuel Macron"><marker>Emmanuel Makron</marker></example>
