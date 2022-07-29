@@ -1357,8 +1357,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
             endOfRange = -1;
           }
         } else {
-          MessageHandler.showClosingInformationDialog(messages.getString("loDialogUnsupported"));
           closeDialog();
+          MessageHandler.showClosingInformationDialog(messages.getString("loDialogUnsupported"));
           return false;
         }
       } else {
@@ -1934,6 +1934,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * closes the dialog
      */
     public void closeDialog() {
+      dialog.setVisible(false);
 //      if (isRunning) {
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: closeDialog: Close Spell And Grammar Check Dialog");
@@ -1945,7 +1946,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
 //        isRunning = false;
 //        gotoNextError();
 //      }
-      dialog.setVisible(false);
     }
     
     /**

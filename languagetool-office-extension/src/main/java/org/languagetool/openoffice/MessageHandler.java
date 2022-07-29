@@ -194,6 +194,7 @@ class MessageHandler {
       JOptionPane pane = new JOptionPane(text, JOptionPane.INFORMATION_MESSAGE);
       dialog = pane.createDialog(null, UIManager.getString("OptionPane.messageDialogTitle", null));
       dialog.setModal(false);
+      dialog.setAutoRequestFocus(true);
       dialog.setAlwaysOnTop(true);
       dialog.addWindowFocusListener(new WindowFocusListener() {
         @Override

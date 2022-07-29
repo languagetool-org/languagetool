@@ -679,7 +679,7 @@ public class DocumentCache implements Serializable {
   public int getFlatParagraphNumber(TextParagraph textParagraph) {
     waitForFinish(-1);
 //    if (textParagraph.type == CURSOR_TYPE_UNKNOWN || !isFinished()) {
-    if (textParagraph.type == CURSOR_TYPE_UNKNOWN || toParaMapping.get(textParagraph.type).size() < textParagraph.number) {
+    if (textParagraph.type == CURSOR_TYPE_UNKNOWN || toParaMapping.get(textParagraph.type).size() <= textParagraph.number) {
       return -1;
     }
     return toParaMapping.get(textParagraph.type).get(textParagraph.number);
