@@ -68,6 +68,11 @@ public class VerbAgreementRule extends TextLevelRule {
       token("ich")
     ),
     Arrays.asList(
+      // "Im Jenseits wird ihnen eine schwere Strafe zuteil."
+      new PatternTokenBuilder().token("werden").matchInflectedForms().setSkip(8).build(),
+      token("zuteil")
+    ),
+    Arrays.asList(
       token("ich"),
       token("schlafen"),
       token("gehe")
