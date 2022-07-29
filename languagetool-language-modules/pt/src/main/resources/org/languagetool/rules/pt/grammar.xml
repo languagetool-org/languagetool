@@ -9535,9 +9535,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rule>
         <pattern>
           <token regexp='yes'>porque|porquê</token>
-          <token regexp='yes'>raz(?:ão|ões)|motivos?|causas?</token>
+          <token regexp='yes'>raz(?:ão|ões)|motivos?</token>
         </pattern>
-        <message>Sempre que puder substituir por expressões equivalentes a "por qual" ou "por quais", deve utilizar <suggestion>por que \2</suggestion>.</message>
+        <message>Sempre que puder substituir "\1" por expressões equivalentes a "por qual" ou "por quais", deve utilizar <suggestion>por que \2</suggestion>.</message>
         <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/pelourinho/falta-apurar-e-nao-faltam-apurar--por-que-vs-porque/309</url>
         <example correction="Por que motivo"><marker>Porque motivo</marker> tem uma atitude tão indiferente?</example>
         <example correction="Por que motivo"><marker>Porquê motivo</marker> tem uma atitude tão indiferente?</example>
@@ -9546,40 +9546,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
           <token>por</token>
           <token>quê</token>
-          <token regexp='yes'>raz(?:ão|ões)|motivos?|causas?</token>
+          <token regexp='yes'>raz(?:ão|ões)|motivos?</token>
         </pattern>
-        <message>Sempre que puder substituir por expressões equivalentes a "por qual" ou "por quais", deve utilizar <suggestion>por que \3</suggestion>.</message>
+        <message>Sempre que puder substituir "\1 \2" por expressões equivalentes a "por qual" ou "por quais", deve utilizar <suggestion>por que \3</suggestion>.</message>
         <example correction="Por que motivo"><marker>Por quê motivo</marker> tem uma atitude tão indiferente?</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp='yes'>raz(?:ão|ões)|motivos?|causas?</token>
+          <token regexp='yes'>raz(?:ão|ões)|motivos?</token>
          <marker>
           <token>por</token>
           <token>quê</token>
          </marker>
         </pattern>
-        <message>Sempre que puder substituir por expressões equivalentes a "por/pela qual" ou "por/pelas quais", deve utilizar <suggestion>por que</suggestion>.</message>
+        <message>Sempre que puder substituir "\2 \3" por expressões equivalentes a "por qual" ou "por quais", deve utilizar <suggestion>por que</suggestion>.</message>
         <example correction="por que">Foi esta a razão <marker>por quê</marker> chorei</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp='yes'>raz(?:ão|ões)|motivos?|causas?</token>
+          <token regexp='yes'>raz(?:ão|ões)|motivos?</token>
          <marker>
           <token regexp='yes'>porquê|porque</token>
          </marker>
         </pattern>
-        <message>Sempre que puder substituir por expressões equivalentes a "por/pela qual" ou "por/pelas quais", deve utilizar <suggestion>por que</suggestion>.</message>
+        <message>Sempre que puder substituir "\2" por expressões equivalentes a "por qual" ou "por quais", deve utilizar <suggestion>por que</suggestion>.</message>
         <example correction="por que">Foi esta a razão <marker>porquê</marker> chorei.</example>
       </rule>
       <rule>
         <antipattern>
-	       <token regexp='yes'>o|do|um|algum|alguns|nenhum|[dn]es[st]e|aquele|daquele</token>
-	       <token>porquê</token>
+	       <token regexp='yes'>o|[nda]o|um|em|algum|alguns|nenhum|[dn]es[st]e|aquele|daquele</token>
+	       <token postag='AQ.+' postag_regexp='yes' min='0'/>
+	       <token regexp='yes'>porque|porquê</token>
 	       <token regexp='yes'>[\.\?!;]</token>
 		 <example>Quero saber o porquê.</example>
 		 <example>Isso não tem algum porquê.</example>
 		 <example>Isso tem algum porquê?</example>
+        </antipattern>
+        <antipattern>
+	      <token regexp='yes'>porque|porquê</token>
+          <token min='2'>.</token>
+		 <example>Porque...</example>
+		 <example>Irei explicar porquê...</example>
         </antipattern>
         <pattern>
           <token regexp='yes'>porque|porquê</token>
@@ -9590,6 +9597,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example correction="por quê?">E tudo isso <marker>porque?</marker></example>
       </rule>
       <rule>
+        <pattern>
+         <marker>
+	      <token>porquê</token>
+	      <token>.</token>
+	      <token>.</token>
+	     </marker>
+        </pattern>
+        <message>"Por quê" é utilizado no final de frases. Se for uma explicação, utilize "porque".</message>
+        <suggestion>por quê\2\3</suggestion>
+        <suggestion>porque\2\3</suggestion>
+        <example correction="por quê..|porque..">Irei explicar <marker>porquê..</marker>.</example>
+      </rule>
+      <rule>
+        <antipattern>
+	      <token>por</token>
+          <token>que</token>
+          <token min='2'>.</token>
+		 <example>Por que...</example>
+        </antipattern>
+        <antipattern>
+	       <token regexp='yes'>o|[nda]o|um|em|algum|alguns|nenhum|[dn]es[st]e|aquele|daquele</token>
+	       <token postag='AQ.+' postag_regexp='yes' min='0'/>
+	       <token>por</token>
+           <token>que</token>
+	       <token postag='SENT_END'/>
+		 <example>Quero saber o porquê.</example>
+		 <example>Isso não tem algum porquê.</example>
+		 <example>Isso tem algum porquê?</example>
+        </antipattern>
         <pattern>
          <marker>
           <token>por</token>
@@ -9603,23 +9639,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <pattern>
-	       <token regexp='yes'>os?|dos?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
+	       <token regexp='yes'>os?|[nda]os?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
+	       <token postag='AQ.+' postag_regexp='yes' min='0'/>
 	      <marker>
 	       <token regexp='yes'>porques?</token>
 	      </marker>
-	       <token regexp='yes'>[\.\?!;,]|&tracos_de_separacao;|d[ao]s?|de|[nd]is[st]o|[nd]es[st][ae]s?|[dn]aquel[ea]s?|[dn]aquilo</token>
+	       <token regexp='yes'>[\.\?!;,]|&tracos_de_separacao;|que|em|[dn]el[ea]s?|d[ao]s?|de|[nd]is[st]o|[nd]es[st][ae]s?|[dn]aquel[ea]s?|[dn]aquilo</token>
         </pattern>
          <message>A forma <suggestion>porquê</suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
          <example correction="porquê">Quero saber o <marker>porque</marker>.</example>
       </rule>
       <rule>
         <pattern>
-	       <token regexp='yes'>os?|dos?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
+	       <token regexp='yes'>os?|[dna]os?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
+	       <token postag='AQ.+' postag_regexp='yes' min='0'/>
 	      <marker>
 	       <token>por</token>
 	       <token regexp='yes'>qu[eê]s?</token>
 	      </marker>
-	       <token regexp='yes'>[\.\?!;,]|&tracos_de_separacao;|d[ao]s?|de|[nd]is[st]o|[nd]es[st][ae]s?|[dn]aquel[ea]s?|[dn]aquilo</token>
+	       <token regexp='yes'>[\.\?!;,]|&tracos_de_separacao;|que|em|d[ao]s?|de|[dn]el[ea]s?|[nd]is[st]o|[nd]es[st][ae]s?|[dn]aquel[ea]s?|[dn]aquilo</token>
         </pattern>
          <message>A forma <suggestion>porquê</suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
          <example correction="porquê">Quero saber o <marker>por quê</marker>.</example>
@@ -9627,12 +9665,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          <example correction='porquê'>Aquilo não tinha nenhum <marker>por que</marker>.</example>
       </rule>
       <rule>
+        <pattern>
+	       <token regexp='yes'>os?|[dna]os?|um</token>
+	      <marker>
+	       <token>por</token>
+	       <token regexp='yes'>qu[eê]s?</token>
+	      </marker>
+        </pattern>
+         <message>A forma <suggestion>porquê</suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
+         <example correction="porquê">Quero saber o <marker>por quê</marker>.</example>
+         <example correction="porquê">Queria saber o <marker>por quê</marker> daquelas cartas.</example>
+      </rule>
+      <rule>
+        <pattern>
+	       <token regexp='yes'>os?|[dna]os?|um</token>
+	      <marker>
+	       <token>porque</token>
+	      </marker>
+        </pattern>
+         <message>A forma <suggestion>porquê</suggestion> é quase sempre precedida por um artigo, um pronome ou numeral, e tem a função de um substantivo.</message>
+         <example correction="porquê">Quero saber o <marker>porque</marker>.</example>
+         <example correction="porquê">Queria saber o <marker>porque</marker> daquelas cartas.</example>
+      </rule>
+      <rule>
         <antipattern>
            <token>por</token>
            <token>quê</token>
 	       <token>?</token>
 	       <example>Por quê?</example>
-	       </antipattern>
+	    </antipattern>
+	    <antipattern>
+           <token>por</token>
+           <token>quê</token>
+           <token skip='-1'>,</token>
+	       <token>?</token>
+	       <example>E por quê, sua religião não permite?</example>
+	    </antipattern>
         <pattern>
            <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
          <marker>
@@ -9641,12 +9709,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
 	       <token>?</token>
         </pattern>
-           <message>Se a expressão estiver no início de uma pergunta, considere escrever <suggestion>por que</suggestion>. Se for uma explicação, escreva <suggestion>porque</suggestion></message>
+           <message>Se puder substituir por "por qual razão", considere utilizar <suggestion>por que</suggestion>. Se for uma explicação, utilize <suggestion>porque</suggestion></message>
 		  <example correction="por que|porque">Se não houve erro algum, <marker>por quê</marker> não entregou o documento?</example>
 		  <example correction="por que|porque">E faria tudo isso de novo, <marker>por quê</marker> não?</example>
 		  <example correction="por que|porque">O relatório foi entregue; <marker>por quê</marker> não houve mudanças?</example>
       </rule>
       <rule>
+        <antipattern>
+           <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+           <token>por</token>
+           <token regexp='yes'>qu[eê]</token>
+           <token regexp='yes'>&tracos_de_separacao;|[\.!;,]</token>
+        </antipattern>
+        <antipattern>
+           <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+           <token>por</token>
+           <token regexp='yes' skip='-1'>qu[eê]</token>
+           <token>?</token>
+        </antipattern>
+        <antipattern>
+           <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+           <token>por</token>
+           <token regexp='yes'>qu[eê]</token>
+           <token>.</token>
+           <token>.</token>
+           <example>Por que...</example>
+        </antipattern>
         <pattern>
 	       <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
 	     <marker>
@@ -9655,11 +9743,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
            <token regexp='yes'>&tracos_de_separacao;|[\.!;,]</token>
         </pattern>
-           <message>Se "\2 \3" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso.</message>
-		  <example correction="porque">Ele não se importou, <marker>por que</marker> acabou voltando.</example>
-		  <example correction="porque"><marker>por que</marker> ele não quis!</example>
+           <message>Se "\2 \3" expressar uma explicação, considere escrever <suggestion>porque</suggestion>.</message>
+		  <example correction="Porque"><marker>Por que</marker> acabou voltando.</example>
+		  <example correction="Porque"><marker>Por que</marker> ele não quis!</example>
     </rule>
     <rule>
+        <antipattern>
+           <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+           <token>por</token>
+           <token>que</token>
+           <token regexp='yes'>&tracos_de_separacao;|[\.!;,]</token>
+        </antipattern>
+        <antipattern>
+           <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+           <token>por</token>
+           <token skip='-1'>que</token>
+           <token>?</token>
+           <example>Por que não?</example>
+        </antipattern>
+        <antipattern>
+           <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+           <token>por</token>
+           <token>que</token>
+           <token>.</token>
+           <token>.</token>
+           <example>Por que...</example>
+        </antipattern>
+        <pattern>
+	       <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+	       <token>por</token>
+           <token skip='-1'>que</token>
+         <marker>
+           <token regexp='yes'>[\.!]</token>
+         </marker>
+        </pattern>
+           <message>Se "\2 \3" expressar uma explicação, considere utilizar <suggestion>?</suggestion>.</message>
+		  <example correction="?">Por que acabou voltando<marker>.</marker></example>
+		  <example correction="?">Por que ele não quis<marker>!</marker></example>
+    </rule>
+    <rule>
+        <pattern>
+	       <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+	     <marker>
+           <token>porquê</token>
+         </marker>
+           <token regexp='yes' skip='-1'>&tracos_de_separacao;|&separadores_de_oracoes;|,</token>
+           <token>.</token>
+        </pattern>
+           <message>Se "\2" expressar uma explicação, considere escrever <suggestion>porque</suggestion>.</message>
+		  <example correction="Porque"><marker>Porquê</marker>, sendo assim, acabou voltando.</example>
+    </rule>
+    <rule>
+        <pattern>
+	       <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+	     <marker>
+           <token>porquê</token>
+         </marker>
+           <token regexp='yes' skip='-1'>,</token>
+           <token>?</token>
+        </pattern>
+           <message>Se "\2" for uma interrogação, considere escrever <suggestion>por quê</suggestion>.</message>
+		  <example correction="Por quê"><marker>Porquê</marker>, acabou voltando?</example>
+    </rule>
+    <rule>
+        <antipattern>
+           <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+           <token>porquê</token>
+           <token regexp='yes'>&tracos_de_separacao;|[\.!;,]</token>
+        </antipattern>
         <pattern>
 	       <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
 	     <marker>
@@ -9667,27 +9818,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
            <token regexp='yes'>&tracos_de_separacao;|[\.!;,]</token>
         </pattern>
-           <message>Se \2 expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso.</message>
-		  <example correction="porque">Ele não se importou, <marker>porquê</marker> acabou voltando.</example>
-		  <example correction="porque"><marker>porquê</marker> ele não quis!</example>
+           <message>Se "\2" expressar uma explicação, considere escrever <suggestion>porque</suggestion>.</message>
+		  <example correction="Porque"><marker>Porquê</marker> acabou voltando.</example>
+		  <example correction="Porque"><marker>Porquê</marker> ele não quis!</example>
     </rule>
     <rule>
         <antipattern>
-           <token regexp='yes'>os?|dos?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
+           <token regexp='yes'>os?|[nda]os?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
+           <token postag='AQ.+' postag_regexp='yes' min='0'/>
 	       <token regexp='yes'>porquês?</token>
-	       <token regexp='yes'>[\.\?!;]|&tracos_de_separacao;|&separadores_de_oracoes;|d[ao]s?|de|[nd]is[st]o|[nd]es[st][ae]s?|[dn]aquel[ea]s?|[dn]aquilo</token>
+	       <token regexp='yes'>[\.\?!;]|&tracos_de_separacao;|&separadores_de_oracoes;|em|que|d[ao]s?|de|[nd]is[st]o|[nd]es[st][ae]s?|[dn]el[ea]s?|[dn]aquel[ea]s?|[dn]aquilo</token>
 	       <example>Isso tem algum porquê?</example>
 	       <example>Isso não tem algum porquê.</example>
 	       <example>Não sei o porquê disso.</example>
 	    </antipattern>
+	    <antipattern>
+           <token regexp='yes'>o|[dn]es[st]e|es[st]e|aquele|[dn]aquele</token>
+           <token postag='DP.+' postag_regexp='yes' min='0'/>
+	       <token>porquê</token>
+	       <example>O teu porquê não me convence.</example>
+	    </antipattern>
         <pattern>
            <token>porquê</token>
         </pattern>
-             <message>Se \1 expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se for o início de uma pergunta ou se puder substituir por "a razão/o motivo pelo(a) qual", utilize <suggestion>por que</suggestion>.</message>
+             <message>Se "\1" expressar uma explicação, considere escrever <suggestion>porque</suggestion>. Se puder substituir por "por qual razão", utilize <suggestion>por que</suggestion>.</message>
 		   <example correction="porque|por que">Queria apenas entender <marker>porquê</marker> não ligaram de volta.</example>
 		   <example correction="porque|por que">Teve que fazer o diagnóstico <marker>porquê</marker> não havia mais ninguém na sala.</example>
     </rule>
     <rule>
+        <antipattern>
+           <token regexp='yes'>os?|[nda]os?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
+           <token postag='AQ.+' postag_regexp='yes' min='0'/>
+	       <token>por</token>
+           <token>quê</token>
+	       <token regexp='yes'>[\.\?!;]|&tracos_de_separacao;|&separadores_de_oracoes;|em|que|d[ao]s?|de|[dn]el[ea]s?|[nd]is[st]o|[nd]es[st][ae]s?|[dn]aquel[ea]s?|[dn]aquilo</token>
+	       <example>Quando perguntei o por quê em mentir, ele não respondeu.</example>
+	    </antipattern>
+        <antipattern>
+           <token inflected='yes' regexp='yes'>perguntar|questionar</token>
+           <token>por</token>
+           <token>quê</token>
+           <token>,</token>
+		   <example>Isso não tem por quê.</example>
+		   <example>Sabe dizer por quê?</example>
+        </antipattern>
         <antipattern>
            <token>por</token>
            <token>quê</token>
@@ -9699,7 +9873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            <token>por</token>
            <token>quê</token>
         </pattern>
-             <message>Se \1 \2 expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se for o início de uma pergunta ou se puder substituir por "a razão/o motivo pelo(a) qual", utilize <suggestion>por que</suggestion>.</message>
+             <message>Se \1 \2 expressar uma explicação, considere escrever <suggestion>porque</suggestion> Se puder substituir por "por qual razão", utilize <suggestion>por que</suggestion>.</message>
 		   <example correction="porque|por que">Queria apenas entender <marker>por quê</marker> não ligaram de volta.</example>
 		   <example correction="porque|por que">Teve que fazer o diagnóstico <marker>por quê</marker> não havia mais ninguém na sala.</example>
     </rule>
@@ -9731,7 +9905,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>,</token>
           </or>
         </pattern>
-        <message>\2 é quase sempre precedido por um artigo, um pronome ou numeral, e tem a função de um substantivo. Se for uma explicação, verifique se não quis dizer:</message>
+        <message>"Porquê" é quase sempre precedido por um artigo, um pronome ou numeral, e tem a função de um substantivo. Se for uma explicação, verifique se não quis dizer:</message>
         <suggestion>\1 porque</suggestion>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
         <example correction="até porque">Não é bem assim, <marker>até porquê</marker> uma reparação deste tipo não é dispendiosa.</example>
@@ -9777,12 +9951,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
           <token regexp='yes'>[ao]s?|não|eu|tu|[vn]ós|el[ea]s?</token>
         </pattern>
-        <message>\2 é quase sempre precedido por um artigo, um pronome ou numeral, e tem a função de um substantivo. Se for uma explicação, verifique se não quis dizer:</message>
+        <message>"Porquê" é quase sempre precedido por um artigo, um pronome ou numeral, e tem a função de um substantivo. Se for uma explicação, verifique se não quis dizer:</message>
         <suggestion>\1 porque</suggestion>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-por-que-e-porque/243</url>
         <example correction="é porque">Isto <marker>é porquê</marker> a atitude não agrada.</example>
       </rule>
       <rule>
+        <antipattern>
+          <marker>
+            <token postag_regexp='yes' postag='[CR].+'/>
+            <token>porquê</token>
+          </marker>
+          <token regexp='yes' skip='-1'>[ao]s?|não|eu|tu|[vn]ós|el[ea]s?</token>
+          <token>?</token>
+        </antipattern>
         <pattern>
           <marker>
             <token postag_regexp='yes' postag='[CR].+'/>
@@ -9790,7 +9972,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
           <token regexp='yes'>[ao]s?|não|eu|tu|[vn]ós|el[ea]s?</token>
         </pattern>
-        <message>\2 é quase sempre precedido por um artigo, um pronome ou numeral, e tem a função de um substantivo. Se for uma explicação, verifique se não quis dizer:</message>
+        <message>"Porquê" é quase sempre precedido por um artigo, um pronome ou numeral, e tem a função de um substantivo. Se for uma explicação, verifique se não quis dizer:</message>
         <suggestion>\1 porque</suggestion>
         <example correction="Só porque"><marker>Só porquê</marker> as casas estão vazias, não quer dizer que não tenham dono.</example>
       </rule>
@@ -46068,7 +46250,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <marker><token>pq</token></marker>
           <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
         </pattern>
-        <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "(a razão/o motivo) pelo(a) qual", deve utilizar <suggestion>por que</suggestion>.</message>
+        <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "por qual razão", deve utilizar <suggestion>por que</suggestion>.</message>
         <example correction="por que">Não sei <marker>pq</marker> motivo o plano não funcionou.</example>
         <example correction="por que">Gostaria de saber <marker>pq</marker> razões recusou o convite.</example>
       </rule>
@@ -46078,7 +46260,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes'>razão|razões|motivo|motivos|causa|causas</token>
           <marker><token>pq</token></marker>
         </pattern>
-        <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "(a razão/o motivo) pelo(a) qual", deve utilizar <suggestion>por que</suggestion>.</message>
+        <message>Linguagem de Internet; escreva por extenso. Sempre que for possível substituir por expressões equivalentes a "por qual razão", deve utilizar <suggestion>por que</suggestion>.</message>
         <example correction="por que">Não sei o motivo <marker>pq</marker> o plano não funcionou.</example>
         <example correction="por que">Gostaria de saber as razões <marker>pq</marker> recusou o convite.</example>
       </rule>
@@ -46188,7 +46370,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
           <token>pq</token>
         </pattern>
-        <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se for o início de uma pergunta ou se puder substituir por "(a razão/o motivo) pelo(a) qual", utilize <suggestion>por que</suggestion>.</message>
+        <message>Linguagem de Internet. Se "pq" expressar uma explicação, considere escrever <suggestion>porque</suggestion> por extenso. Se se puder substituir por "por qual razão", utilize <suggestion>por que</suggestion>.</message>
         <example correction="porque|por que">Queria apenas entender <marker>pq</marker> não ligaram de volta.</example>
         <example correction="porque|por que">Teve que fazer o diagnóstico <marker>pq</marker> não havia mais ninguém na sala.</example>
       </rule>
