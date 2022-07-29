@@ -190,7 +190,7 @@ public class SubjectVerbAgreementRule extends Rule {
     ),
     Arrays.asList(
       token("zu"),
-      csRegex("Fuß|Hause"),
+      csRegex("Fuß|Hause|Bein|Besuch"),
       tokenRegex("sind|waren")
     ),
     Arrays.asList( //Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret
