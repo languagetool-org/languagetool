@@ -12874,24 +12874,19 @@ onwaarschijnlijk
 			2020-01-07 uitzondering voor zinnen met paragraafnummer (kopjes)
 			-->
 			<rule>
-				<antipattern><!-- 0.00 – 1.00 uur -->
+				<antipattern>
 					<token postag_regexp="yes" postag="SENT_START|START"/>
 					<token regexp="yes">[0-9]{1,2}</token><token spacebefore="no" regexp="yes">[.:]</token><token regexp="yes">[0-9]{1,2}</token>
 					<token>-</token>
 					<token regexp="yes">[0-9]{1,2}</token><token spacebefore="no" regexp="yes">[.:]</token><token regexp="yes">[0-9]{1,2}</token>
 					<token>uur</token>
-				</antipattern>
-				<antipattern><!-- paragraafnummer -->
-				    <token postag_regexp="yes" postag="SENT_START|START"/>
-				    <token regexp="yes">[0-9]{1,2}</token>
-				    <token spacebefore="no">.</token>
-				    <token regexp="yes">[0-9]{1,2}</token>
-                </antipattern>
-				<antipattern><!-- short sentences -->
-                    <token postag="SENT_START"/>
-                    <token min="0" max="12"><exception postag="SENT_END"/></token>
-                    <token postag="SENT_END"/>
-                </antipattern>
+					</antipattern><!-- 0.00 – 1.00 uur -->
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,2}</token><token spacebefore="no">.</token><token regexp="yes">[0-9]{1,2}</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token/><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token/><token/><token postag="SENT_END"/></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token/><token/><token/><token/><token postag="SENT_END"/></antipattern>
 				<pattern>
 					<marker>
 						<token regexp="yes" postag="SENT_END">[\p{L}]+</token>
