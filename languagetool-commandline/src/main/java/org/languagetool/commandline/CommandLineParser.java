@@ -219,7 +219,7 @@ class CommandLineParser {
             + "  -b2, --bitext            check bilingual texts with a tab-separated input file,\n"
             + "                           see http://languagetool.wikidot.com/checking-translations-bilingual-texts\n"
             + "  --api                    print results as XML (deprecated, please use --json or the JSON API in server mode)\n"
-            + "  --json                   print results as JSON\n"
+            + "  --json                   print results as JSON (see https://languagetool.org/http-api/#!/default/post_check)\n"
             + "  -p, --profile            print performance measurements\n"
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
             + "  --version                print LanguageTool version number and exit\n"
