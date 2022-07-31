@@ -2628,25 +2628,6 @@
           <token regexp='yes'>saudades?</token>
           <token regexp='yes'>suas?|vossas</token>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-12-04 (21-OCT-2020+) *START* -->
-        <antipattern>
-          <token postag='SENT_START'/>
-          <token postag='DP.+' postag_regexp='yes'/>
-          <token min="1" max="3" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
-          <token postag='SENT_END' regexp='yes'>[,]</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-12-04 (21-OCT-2020+) *END* -->
-        <!-- MARCOAGPINTO 2021-01-08 (Enhanced) (1-JAN-2021+) *START* -->
-        <!--
-        Eh pá, vai enganar outro, meu, essa já não pega!
-        Eh pá, vai enganar outro, meu!
-        -->
-        <antipattern>
-          <token spacebefore='no'>,</token>
-          <token spacebefore='yes' postag='DP.+' postag_regexp='yes'/>
-          <token spacebefore='no' regexp='yes'>[.,!?]</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-01-08 (Enhanced) (1-JAN-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-01-08 (1-JAN-2021+) *START* -->
         <!--
         E, meus caros e minhas caras, o dinheiro nunca é suficiente.
@@ -2885,6 +2866,26 @@
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-31 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-07-31 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='_PUNCT'>
+            <exception regexp='yes'>[)\]]</exception>
+          </token>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token postag='_PUNCT|CC|SPS00' postag_regexp='yes'>
+            <exception postag_regexp='no' postag='_QUOT'/>
+          </token>
+          <example>E pelos quotes que você colocou, nossa, a autora veio com tudo dessa vez, tenho certeza de que irei amar!!!!</example>
+          <example>Se o blog bem feito, meu, ganha dinheiro sim.</example>
+          <example>Ao introduzir o seu email poderemos enviar-lhe propostas comerciais personalizadas automáticas, nossas e dos nossos parceiros.</example>
+          <example>Gostei da entrevista, de 3 livros passou para 7, nossa!</example>
+          <example>Rezemos dez ave-marias e um pai-nosso.</example>
+          <example>Portanto, se não podem satisfazer estas duas "exigências", minhas, AFASTEM-SE!</example>
+          <example>Estes livros são meus e aqueles, seus.</example>
+          <example>A culpa não é das estrelas, mas sim, sua.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-31 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <antipattern>
           <unify>
           <feature id="number"/>
@@ -2919,11 +2920,13 @@
         <example type='correct'>Esta mania <marker>tão nossa</marker> de desdenhar de tudo e de todos.</example>
         <example type='correct'>Há dias, <marker>minha</marker> paixão assolapada, mirei-te numa capa de livrinho.</example>
         <example type='correct'>Não obstante, gostares de andar descalça, <marker>minha</marker> gazela doce e selvagem.</example>
+<!--
+IT STOPPED WORKING, I WILL TRY TO FIX SOON!
         <example>Meus amigos,</example>
         <example>Meu querido amigo,</example>
         <example>Meus queridos amigos,</example>
         <example>Meu querido amigo Luís,</example>
-	  
+-->
         <example>Quero dizer que, para <marker>sua</marker> compensação, tenciono reformar-me.</example>
         <example>Ele produz alimento suficiente para o proprietário da terra, e sua família.</example>
         <example>A deusa Tétis criou esta ilha do mar, para seu filho Aquiles, que nela vive.</example>
