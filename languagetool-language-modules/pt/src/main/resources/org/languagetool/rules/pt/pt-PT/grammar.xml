@@ -2628,14 +2628,6 @@
           <token regexp='yes'>saudades?</token>
           <token regexp='yes'>suas?|vossas</token>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-10-21 (21-OCT-2020+) *START* -->
-        <!-- "Esta mania tão nossa de desdenhar de tudo e de todos." -->
-        <antipattern>
-          <token postag='RG' postag_regexp='no'/>
-          <token postag='DP.+' postag_regexp='yes'/>
-          <token postag='SPS.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-10-21 (21-OCT-2020+) *END* -->
         <!-- MARCOAGPINTO 2020-12-04 (21-OCT-2020+) *START* -->
         <antipattern>
           <token postag='SENT_START'/>
@@ -2875,9 +2867,23 @@
           <token postag='DP.+' postag_regexp='yes'/>
           <example>Com aquele seu jeito tipicamente oblíquo que nos encantava a todos, ela disse “Não”, o que naturalmente queria diz...</example>
           <example>E com aquele seu bom humor, que por vezes transbordava sem dique, foi entrando pela porta e não aguentou mais.</example>
-          <example>E com aquele seu bom humor, que por vezes transbordava sem dique, foi entrando pela porta e não aguentou mais.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-30 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-07-31 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='RG' postag_regexp='no'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token postag='SPS00|CC|RG|RM|RN' postag_regexp='yes'/>
+          <token postag='_PUNCT|VMN0000|AO.+|RG|VMIM.+|NP.+' postag_regexp='yes'>
+            <exception regexp='no'>a</exception> <!-- "dia a dia" = RG = False positive -->
+          </token>
+          <example>Então meu caro.</example>
+          <example>John não é meu irmão, e sim meu primo.</example>
+          <example>Com isto pretendemos disponibilizar sempre mecanismos directos para que o controlo dos dados seja sempre seu em primeira e última instância.</example>
+          <example>Engenhoso egoísmo que semeia a virtude de algo apenas nosso e nunca revelado, mesmo quando na troca de confissões intimas.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-07-31 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <antipattern>
           <unify>
