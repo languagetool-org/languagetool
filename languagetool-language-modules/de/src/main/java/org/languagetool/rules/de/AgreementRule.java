@@ -527,23 +527,24 @@ public class AgreementRule extends Rule {
     return null;
   }
 
-  // z.B. "die ganz neue Original Mail" -> "die ganz neue Originalmail"
+  // z.B. "die ganz neue Original Mail" -> "die ganz neue Originalmail",
+  // "Es ist ein sehr interessantes kostenloses Slot Spiel" -> "ein sehr interessantes kostenloses Slot-Spiel"
   @Nullable
   private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedTokenReadings token3,
-                                     AnalyzedTokenReadings token4, int tokenPos, AnalyzedSentence sentence) {
+                                     AnalyzedTokenReadings token4, int tokenPos, AnalyzedSentence sentence, String skippedStr) {
     if (tokenPos != -1 && tokenPos + 4 < sentence.getTokensWithoutWhitespace().length) {
-      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 4];
+      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 4 + (skippedStr != null ? 1 : 0)];
       String potentialCompound = token4.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
       if (startsWithUppercase(token4.getToken()) && startsWithUppercase(nextToken.getToken())) {
         if (token4.getStartPos() == nextToken.getStartPos()) {
-          // avoids a strange bug that suggests e.g. "Machtmach" in sentence like this:
+          // avoids a strange bug that suggests e.g. "Machtmach" in sentences like this:
           // "Denn die einzelnen sehen sich einer sehr verschieden starken Macht des..."
           return null;
         }
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
-        String testPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
+        String testPhrase = origToken1 + (skippedStr != null ? " " + skippedStr + " " : " ") + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
         String hyphenPotentialCompound = token4.getToken() + "-" + nextToken.getToken();
-        String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + hyphenPotentialCompound;
+        String hyphenTestPhrase = origToken1 + (skippedStr != null ? " " + skippedStr + " " : " ") + token2.getToken() + " " + token3.getToken() + " " + hyphenPotentialCompound;
         return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);
       }
     }
@@ -625,7 +626,7 @@ public class AgreementRule extends Rule {
         RuleMatch compoundMatch = getCompoundError(sentence.getTokensWithoutWhitespace()[tokenPos],
                 sentence.getTokensWithoutWhitespace()[tokenPos+1],
                 sentence.getTokensWithoutWhitespace()[tokenPos+2],
-                sentence.getTokensWithoutWhitespace()[tokenPos+3], tokenPos, sentence);
+                sentence.getTokensWithoutWhitespace()[tokenPos+3], tokenPos, sentence, null);
         if (compoundMatch != null) {
           return compoundMatch;
         }
@@ -652,7 +653,7 @@ public class AgreementRule extends Rule {
     Set<String> set = retainCommonCategories(token1, token2, token3, token4);
     RuleMatch ruleMatch = null;
     if (set.isEmpty()) {
-      RuleMatch compoundMatch = getCompoundError(token1, token2, token3, token4, tokenPos, sentence);
+      RuleMatch compoundMatch = getCompoundError(token1, token2, token3, token4, tokenPos, sentence, skippedStr);
       if (compoundMatch != null) {
         return compoundMatch;
       }
