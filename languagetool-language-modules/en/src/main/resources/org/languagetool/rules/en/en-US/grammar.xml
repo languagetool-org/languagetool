@@ -605,6 +605,46 @@ USA
 
     <category id="SEMANTICS" name="Semantics" type="inconsistency">
         <rulegroup id="DATE_FUTURE_VERB_PAST_US" name="Future date, but verb in past tense (US)">
+            <antipattern>
+                <token>due</token>
+                <token regexp="yes">&months;|&abbrevMonths;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">is|was|the</token>
+                &date_mdy_numbers;
+                <example>The date that was set is 12/31/2022.</example>
+                <example>The date given was the 08/28/2022.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">by|to|for</token>
+                &date_mdy_numbers;
+                <example>They were supposed to be finished by 8/20/2022.</example>
+                <example>They moved the expiration date to 08/28/2022.</example>
+                <example>They rescheduled for 08/28/2022.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" postag="SENT_START" />
+                <token skip="-1" postag="MD" />
+                <token postag="SENT_END" />
+                <example>We won't have it finished 8/2/2022.</example>
+                <example>I wanted to know if I could start on 08/28/2022.</example>
+                <example>They had agreed the project would begin from 08/28/2022  to 08/29/2022.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="VBN" />
+                <token>to</token>
+                <token skip="1" postag="VB" />
+                &date_mdy_numbers;
+                <example>It it set to auto-renew on 8/20/2022.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="VBN" />
+                <token>to</token>
+                <token>be</token>
+                <token skip="1" postag="VBN" />
+                &date_mdy_numbers;
+                <example>They were set to be processed 8/20/2022, but something came up and that date got pushed back even further.</example>
+            </antipattern>
             <rule> <!-- We have visited the client on 10/27/2040 -->
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
