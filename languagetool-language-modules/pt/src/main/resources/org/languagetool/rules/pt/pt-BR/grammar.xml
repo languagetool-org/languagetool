@@ -20,7 +20,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
   <!DOCTYPE rules [
-        <!ENTITY depreciativo "baianada|bandalho|china|chinoca|ciganada|ciganagem|veado|bicha|piranha|piranhagem|periguete|retardado|João-sem-braço|cegueta|imbecil|japa|marica|maricas|maricona|cuzão|bundão|queima-rosca|traveco|travecão|travecona|boiola|maricão|mariconço|mentecapto|monhé|morcão|portuga|pretalhada|pretaria|caralho|chupa-rola|boqueteiro|boqueteira|retardad[oa]s|denegrir|mulat[oa]s|gordice|judiar|homossexualismo|judieiera|judiação">
+        <!ENTITY depreciativo "baianada|bandalho|china|chinoca|ciganada|ciganagem|veado|bicha|piranha|piranhagem|periguete|retardado|João-sem-braço|cegueta|imbecil|japa|marica|maricas|maricona|cuzão|bundão|queima-rosca|traveco|travecão|travecona|boiola|maricão|mariconço|mentecapto|monhé|morcão|portuga|pretalhada|pretaria|caralho|chupa-rola|boqueteiro|boqueteira|retardad[oa]s?|denegrir|mulat[oa]s?|gordice|judiar|homossexualismo|judieiera|judiação|mongol|mancada|debiloide">
         <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
         <!ENTITY separadores_de_abertura "\(|\{\[">
         <!ENTITY separadores_de_fecho "\)|\}\]">
@@ -1257,6 +1257,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule>
       <pattern>
+        <token>débil</token>
+        <token spacebefore='no' min="0">-</token>
+        <token>mental</token>
+      </pattern>
+      <message>Este termo é capacitista. Pondere dizer <suggestion>desabilitado</suggestion> ou <suggestion>desabilitada</suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="desabilitado|desabilitada">Ele sempre dá uma de <marker>débil mental</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
         <token regexp="yes">inveja|invejinha</token>
         <token>branca</token>
       </pattern>
@@ -1288,6 +1298,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Termo depreciativo</short>
         <example correction="Não sou sua subordinada|Não sou seu subordinado"><marker>Não sou tuas negas</marker>!</example>
     </rule>
+    <rule>
+        <pattern>
+          <token inflected="yes">fingir</token>
+          <token>demência</token>
+        </pattern>
+        <message>Esta expressão é capacitista. Pondere dizer <suggestion>\1 desentendimento</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="fingiu desentendimento">Ela <marker>fingiu demência</marker> para meus argumentos.</example>
+      </rule>
   </rulegroup>
 	
   </category>
