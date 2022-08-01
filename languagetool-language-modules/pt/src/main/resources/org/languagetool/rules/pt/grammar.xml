@@ -9529,7 +9529,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example correction="a próxima">Mas gostava de poder ir... fica para <marker>aproxima</marker>.</example>
     </rule>
 
-    <rulegroup id='POR_QUE_PORQUE' name="Confusão: 'Por que', 'Por quê', Porquê e 'Porque'" default='temp_off'>
+    <rulegroup id='POR_QUE_PORQUE' name="Confusão: 'Por que', 'Por quê', Porquê e 'Porque'" default='on'>
       <!--    Created by Tiago F. Santos, 2017-02-27     -->
       <short>Possível confusão de termos</short>
       <rule>
@@ -9726,8 +9726,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
          <marker>
            <token>por</token>
-           <token skip='-1'>quê</token>
+           <token>quê</token>
          </marker>
+           <token min='0' skip='-1'>não</token>
 	       <token>?</token>
         </pattern>
            <message>Se puder substituir por "por qual razão", considere utilizar <suggestion>por que</suggestion>. Se for uma explicação, utilize <suggestion>porque</suggestion></message>
@@ -9759,14 +9760,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
            <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
            <token>por</token>
-           <token regexp='yes' skip='-1'>qu[eê]</token>
+           <token skip='-1'>que</token>
            <token>não</token>
            <token postag='_PUNCT'/>
            <example>É o melhor da cidade e, por que não, do país</example>
         </antipattern>
         <antipattern>
            <token regexp='yes'>&separadores_de_fecho;</token>
-           <token>por</token>
+           <token case_sensitive='yes'>por</token>
            <token>que</token>
            <example>Não entendemos (ou não entendíamos) por que estavam aqui.</example>
         </antipattern>
@@ -9779,7 +9780,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
            <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
            <token>por</token>
-           <token regexp='yes' skip='-1'>qu[eê]</token>
+           <token skip='-1'>que</token>
            <token>não</token>
            <token>,</token>
            <example>É o melhor da cidade e, por que não, do país</example>
@@ -9809,7 +9810,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            <token>por</token>
            <token regexp='yes' skip='-1'>qu[eê]</token>
          </marker>
-           <token regexp='yes'>&tracos_de_separacao;|[\.!;,]</token>
+           <token regexp='yes' spacebefore='no'>[»”"'’]|[\.!]</token>
         </pattern>
            <message>Se "\2 \3" expressar uma explicação, considere escrever <suggestion>porque</suggestion>.</message>
 		  <example correction="Porque"><marker>Por que</marker> acabou voltando.</example>
@@ -9912,7 +9913,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            <token regexp='yes' skip='-1'>&tracos_de_separacao;|&separadores_de_oracoes;|,</token>
            <token>.</token>
         </pattern>
-           <message>"\2" deve ser utilizado no final de frases. Se "\2" expressar uma explicação, considere escrever <suggestion>porque</suggestion>. Se puder substituir "\2" por "por qual razão", utiliza <suggestion>por que</suggestion></message>
+           <message>"\2" deve ser utilizado no final de frases. Se "\2" expressar uma explicação, considere escrever <suggestion>porque</suggestion>. Se puder substituir "\2" por "por qual razão", utilize <suggestion>por que</suggestion></message>
 		  <example correction="Porque|Por que"><marker>Porquê</marker>, sendo assim, acabou voltando.</example>
     </rule>
     <rule>
@@ -9968,10 +9969,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
            <token>porquê</token>
         </pattern>
-             <message>Se "\1" expressar uma explicação, considere escrever <suggestion>porque</suggestion>. Se puder substituir por "por qual razão", utilize <suggestion>por que</suggestion>. Se puder substituir por "o motivo", escreva <suggestion>o porquê</suggestion></message>
-		   <example correction="porque|por que|o porquê">Queria apenas entender <marker>porquê</marker> não ligaram de volta.</example>
-		   <example correction="porque|por que|o porquê">Teve que fazer o diagnóstico <marker>porquê</marker> não havia mais ninguém na sala.</example>
-		   <example correction="porque|por que|o porquê">Não se sabe <marker>porquê</marker>, mas não havia mais ninguém na sala.</example>
+             <message>Se puder substituir por "por qual razão", utilize <suggestion>por que</suggestion>. Se "\1" expressar uma explicação, considere escrever <suggestion>porque</suggestion>. Se puder substituir por "o motivo", escreva <suggestion>o porquê</suggestion></message>
+		   <example correction="por que|porque|o porquê">Queria apenas entender <marker>porquê</marker> não ligaram de volta.</example>
+		   <example correction="por que|porque|o porquê">Teve que fazer o diagnóstico <marker>porquê</marker> não havia mais ninguém na sala.</example>
+		   <example correction="por que|porque|o porquê">Não se sabe <marker>porquê</marker>, mas não havia mais ninguém na sala.</example>
     </rule>
     <rule>
         <antipattern>
