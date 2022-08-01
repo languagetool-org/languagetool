@@ -925,7 +925,10 @@ RB => Règles Brutes
                 <token>qui</token>
                 <token>l'</token>
                 <marker>
+                    <and>
                     <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="V ind pres 3 ." postag_regexp="yes"/>
+                    </and>
                 </marker>
             </pattern>
             <disambig action="replace" postag="V ind pres 3 s"/>
@@ -7456,11 +7459,11 @@ RB => Règles Brutes
         </disambig>
     </rule>
     <rule name="Pronoun + verb" id="PRON_VERB">
-        <!-- FIXME: this is not precise -->
+        <!-- FIXME: this is not precise eg:celui qui l'appui -->
         <pattern>
             <token postag="R .*" postag_regexp="yes"/>
             <token postag="V .*" postag_regexp="yes">
-                <exception postag="V .*" postag_regexp="yes" negate_pos="yes"/></token>
+                <exception postag="V .*|N.*" postag_regexp="yes" negate_pos="yes"/></token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -7475,7 +7478,7 @@ RB => Règles Brutes
                 <token postag="R .*" postag_regexp="yes"/>
                 <token postag="R .*" postag_regexp="yes"/>
                 <token postag="V .*" postag_regexp="yes">
-                    <exception postag="V .*" postag_regexp="yes" negate_pos="yes"/></token>
+                    <exception postag="V .*|N.*" postag_regexp="yes" negate_pos="yes"/></token>
             </pattern>
             <disambig action="filterall"/>
         </rule>
