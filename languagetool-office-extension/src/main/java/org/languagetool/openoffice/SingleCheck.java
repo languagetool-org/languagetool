@@ -765,6 +765,9 @@ class SingleCheck {
    * run cleanFootnotes if information about footnotes are not supported
    */
   static String removeFootnotes(String paraText, int[] footnotes, List<Integer> deletedChars) {
+    if (paraText == null) {
+      return null;
+    }
     if (deletedChars == null || deletedChars.isEmpty()) {
       if (footnotes == null) {
         return cleanFootnotes(paraText);

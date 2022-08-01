@@ -36,16 +36,19 @@ import com.sun.star.style.XStyleFamiliesSupplier;
 import com.sun.star.text.XEndnotesSupplier;
 import com.sun.star.text.XFootnote;
 import com.sun.star.text.XFootnotesSupplier;
+import com.sun.star.text.XPageCursor;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextTable;
 import com.sun.star.text.XTextTablesSupplier;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import com.sun.star.view.XViewCursor;
 
 /**
  * Information about Paragraphs of LibreOffice/OpenOffice documents
@@ -107,22 +110,36 @@ public class ViewCursorTools {
    * Returns null if method fails
    */
   XTextCursor getTextCursorBeginn() {
+    XTextViewCursor xVCursor = getViewCursor();
+    if (xVCursor == null) {
+      return null;
+    }
     try {
-      XTextViewCursor xVCursor = getViewCursor();
-      if (xVCursor == null) {
-        return null;
-      }
-      XText xDocumentText = xVCursor.getText();
-      if (xDocumentText == null) {
-        return null;
+      XText xDocumentText = null;
+      boolean toRight = true;
+      while (xDocumentText == null) {
+        try {
+          xDocumentText = xVCursor.getText();
+        } catch (Throwable t) {
+          if (toRight) {
+            if (!xVCursor.goRight((short) 1, false)) {
+              toRight = false;
+            }
+          } else {
+            if (!xVCursor.goLeft((short) 1, false)) {
+              return null;
+            }
+          }
+        }
       }
       return xDocumentText.createTextCursorByRange(xVCursor.getStart());
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return null;             // Return null as method failed
+      // Note: throws exception if a graphic element is selected
+      //       return: null 
+      return null;
     }
   }
-  
+
   /** 
    * Returns text cursor from end of ViewCursor 
    * Returns null if method fails
@@ -164,8 +181,9 @@ public class ViewCursorTools {
       }
       return UnoRuntime.queryInterface(XParagraphCursor.class, xModelCursor);
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return null;             // Return null as method failed
+      // Note: throws exception if a graphic element is selected
+      //       return: null 
+      return null;
     }
   }
   
@@ -212,12 +230,6 @@ public class ViewCursorTools {
    * Returns the text document for the current document
    */
   private XTextDocument getTextDocument() {
-/*
-    if (xDesktop == null) {
-      return null;
-    }
-    XComponent xComponent = xDesktop.getCurrentComponent();
-*/
     if (xComponent == null) {
       return null;
     }
@@ -406,7 +418,8 @@ public class ViewCursorTools {
         }
       }
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+    // Note: exception is thrown if graphic element is selected
+    //       return: unknown text paragraph
     }
     return new TextParagraph(DocumentCache.CURSOR_TYPE_UNKNOWN, -1);
   }

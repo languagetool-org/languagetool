@@ -101,8 +101,7 @@ class DocumentCursorTools {
       XText xText = curDoc.getText();
       if (xText == null) {
         return null;
-      }
-      else {
+      } else {
         XTextRange xStart = xText.getStart();
         try {
           return xText.createTextCursorByRange(xStart);
