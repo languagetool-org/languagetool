@@ -144,6 +144,15 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="VOUS_VERBE2P" name="vous verbe 2 p">
+        <pattern>
+            <marker>
+                <token>vous</token>
+            </marker>
+            <token postag="V .* 2 p" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="R pers obj 2 p"/>
+    </rule>
     <rule id="NOM_FEMININ" name="nom féminin">
         <pattern>
             <token postag="D f s"/>
