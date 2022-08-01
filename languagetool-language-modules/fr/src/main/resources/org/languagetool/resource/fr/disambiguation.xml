@@ -112,7 +112,8 @@ RB => Règles Brutes
             <wd pos="A"/>
         </disambig>
     </rule>
-    <rule name="taille neuf" id="TAILLE_NEUF">
+    <rulegroup name="taille neuf" id="TAILLE_NEUF">
+        <rule>
         <pattern>
             <token postag="N f s">taille</token>
             <marker>
@@ -120,7 +121,17 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig action="remove" postag="J m s"/>
-    </rule>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>neuf</token>
+                </marker>
+                <token postag="N f s">taille</token>
+            </pattern>
+            <disambig action="remove" postag="J m s"/>
+        </rule>
+    </rulegroup>
     <rule id="NEUF_CHIFFRE" name="neuf chiffre">
         <pattern>
             <token postag="[YK]" postag_regexp="yes"/>
