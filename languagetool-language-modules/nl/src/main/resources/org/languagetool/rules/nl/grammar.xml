@@ -62,14 +62,14 @@ regexp case-insensitive maken : (?i)
 <!ENTITY timeOfDayGeneral "morgen|middag|avond|nacht">
 
 <!ENTITY commonStreetNames "[A-Z][a-z].*(boulevard|dijk|dreef|einde|gracht|hof|kamp|laan|molen|pad|plaats|plein|poort|singel|steeg|straat|veld|weg)">
-<!ENTITY documentParts "aanhangsel|act|afbeelding|afdeeling|artikel|attachment|bijlage|bijvoegsel|caput|chapiter|deel|figuur|hoofdstuk|kapittel|lid|nummer|onderdeel|pagina|§|paragraaf|plaat|punt|tabel|track|vraag">
+<!ENTITY documentParts "aanhangsel|act|afbeelding|afdeeling|artikel|attachment|bijlage|bijvoegsel|caput|chapiter|deel|figuur|hoofdstuk|kapittel|lid|nummer|onderdeel|opus|pagina|§|paragraaf|plaat|punt|tabel|track|vraag">
 <!ENTITY currenciesISO4217 "AED|AFN|ALL|AMD|ANG|AOA|ARS|AUD|AWG|AZN|BAM|BBD|BDT|BGN|BHD|BIF|BMD|BND|BOB|BOV|BRL|BSD|BTN|BWP|BYN|BZD|CAD|CDF|CHE|CHF|CHW|CLF|CLP|CNY|COP|COU|CRC|CUC|CUP|CVE|CZK|DJF|DKK|DOP|DZD|EGP|ERN|ETB|EUR|FJD|FKP|GBP|GEL|GHS|GIP|GMD|GNF|GTQ|GYD|HKD|HNL|HRK|HTG|HUF|IDR|ILS|INR|IQD|IRR|ISK|JMD|JOD|JPY|KES|KGS|KHR|KMF|KPW|KRW|KWD|KYD|KZT|LAK|LBP|LKR|LRD|LSL|LYD|MAD|MDL|MGA|MKD|MMK|MNT|MOP|MRU|MUR|MVR|MWK|MXN|MXV|MYR|MZN|NAD|NGN|NIO|NOK|NPR|NZD|OMR|PAB|PEN|PGK|PHP|PKR|PLN|PYG|QAR|RON|RSD|RUB|RWF|SAR|SBD|SCR|SDG|SEK|SGD|SHP|SLE|SLL|SOS|SRD|SSP|STN|SVC|SYP|SZL|THB|TJS|TMT|TND|TOP|TRY|TTD|TWD|TZS|UAH|UGX|USD|USN|UYI|UYU|UYW|UZS|VED|VES|VND|VUV|WST|XAF|XAG|XAU|XBA|XBB|XBC|XBD|XCD|XDR|XOF|XPD|XPF|XPT|XSU|XTS|XUA|YER|ZAR|ZMW|ZWL">
 <!ENTITY abbrevBibleBooks "Ge?n|Ex|Le?v|Num|D(eu)?t|Jo?z|Ri|R[ei]cht|Sa?m|Ko?n|Kr[on]{0,2}|Neh?|Est?|Jb|Ps|Spr?|Pr[ed]{0,2}|H(oog)?l|Je?s|Je?r|Kl(aagl)?|Ez(ech)?|Dn|Ho?s|Jl|Am|Ob|Mc|Mi[ch]{0,2}|Nah|Hk|Hab|Zf|[SZ]ef|Ha?g|Zc|Zach|Ml|Mt|Mk|Mar|Lk|Jh|Hd|Ro?m|Gl|Ef|Fp|Ko|Th|Th?e[s]{1,2}|Tm|Ti?t|Fm|Fil(em)?|Hb|Hebr|Jk|Jac|Pe?tr|Joh|Jud|Openb|Wijsh|Tob|Sir|Makk">
 <!ENTITY fullBibleBooks "Genesis|Exodus|Leviticus|Numeri|Deuteronomium|Jozua|R[ei]chters|Samuel|Koningen|Kronieken|Nehemia|Esth?er|Job|Psalmen|Spreuken|Prediker|Hooglied|Jesa[ij]a|Jeremia|Klaagliederen|Ezechiël|Daniël|Hosea|Joël|Amos|Obadja|Jona|Micha|Nahum|Habakuk|[SZ]efan[ij]a|Haggai|Zacharia|Maleachi|Matt?eüs|Mar[ck]us|Lu[ck]as|Johannes|Handelingen|Romeinen|Korintiërs|Galaten|Efeziërs|Filippenzen|[CK]olossenzen|Th?ess?alonicenzen|Timoteüs|Titus|Filemon|Hebreeë(n|rs)|Ja[ck]ob(us)?|Petrus|Judas|Openbaring|Wijsheden|Tobi(as|t)|Sirach|Baruch|Makkabeeë(n|rs)">
 
 <!ENTITY measurementUnitPrefix "E(xa)?|P(eta)?|T(era)?|G(iga)?|M(ega)?|k(ilo)?|h(ecto)?|d(ec)?a|d(eci)?|c(enti)?|m(illi)?|u|&#x03BC;|micro|n(ano)?|licht">
 <!ENTITY measurementUnitsTime "(&measurementUnitPrefix;)?(s(ec)?|seconde(n|s)?)|min(uut)?|minuten|u(ur)?|uren|hr?|d|dag(en)?|we(ek|ken)|ma(and|nden)|kwarta(al|len)|ja(ar|ren)|decenni(um|a|ën)|centenni(um|a)|euuw(en)?|millenni(um|a)">
-<!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eter)?|mijl|p(arse)?cs?|AE">
+<!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eter)?|mijl|p(arse)?cs?|AE|AU">
 <!ENTITY measurementUnitsMass "(&measurementUnitPrefix;)?g(ram)?|ons|pond|ton">
 <!ENTITY measurementUnitsTemperature "K|&#x212A;|kelvin|℃|℉|°C(elsius)?|°F(ahrenheit)?|°|graad|graden">
 <!ENTITY measurementUnitsAngles "[°′″‴⁗'&quot;“]">
@@ -323,20 +323,31 @@ regexp case-insensitive maken : (?i)
 	-->
 	<category id="PICKY" name="Regels die meer voor een pietje-precies zijn." >
 	    <!-- TODO: design more sophisticated rule to suggest written out number replacement -->
-	    <rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky" default="temp_off">
+	    <rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
 	        <rule>
 	            <antipattern>
                     <token regexp="yes">[0-9]+|\p{L}|\p{InLetterlike_Symbols}|\p{Pe}</token>
-                    <token regexp="yes">\p{Sm}|[-–\/x,.]</token>
-                    <token regexp="yes">[0-9]+%?</token>
+                    <token regexp="yes">\p{Sm}|[\-\–\/x,.]</token>
+                    <token regexp="yes">[0-9]+(&measurementUnitsAll;|[%\-\–\/x])?</token>
 	            </antipattern>
 	            <antipattern>
-	                <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|[.,-]{2}|\p{Sc}</token>
+	                <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+                    <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}</token>
 	            </antipattern>
+	            <antipattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">.|,</token>
+                    <token regexp="yes">-|–</token>
+                </antipattern>
 	            <antipattern>
 	                <token regexp="yes">1?[0-9]</token>
                     <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="SENT_START|START"/>
+	                <token regexp="yes">1?[0-9]</token>
+                    <token regexp="yes">[:;\-\–]</token>
+                    <token spacebefore="yes"/>
                 </antipattern>
 	            <antipattern>
 	                <token regexp="yes">[0-9]{1,2}</token>
@@ -387,7 +398,9 @@ regexp case-insensitive maken : (?i)
 	            <example correction="">We hebben het al <marker>100</marker> keer gezegd.</example>
 				<example>De rekening 2 + 2 = 5 klopt helemaal niet.</example>
 				<example>Hij deed het 2,5 keer.</example>
+				<example>De temperatuurverschil van 0,5°C is heel klein.</example>
 				<example>3. Een derde punt</example>
+				<example>3 – De derde punt</example>
 				<example>Zij liep de 100 m in 11 s.</example>
 				<example>Han Solo deed de Kessel run in minder dan 12 parsecs.</example>
 				<example>Hun ASICs genereren meer dan 200 Petahash.</example>
@@ -405,6 +418,7 @@ regexp case-insensitive maken : (?i)
 				<example>Het is gedateerd op 7 v.Chr.</example>
 				<example>Ik vond 100 ¥ gewoon te duur.</example>
 				<example>Dat is geen € 100 waard.</example>
+				<example>Dat is geen 100,- waard.</example>
 				<example>Dat is geen EUR 100 waard.</example>
 				<example>Hij belde +49(0)1234567 op.</example>
 				<example>Als je zegt dat ℚ=3 juist is, ben je zeker geen mathematicus.</example>
