@@ -2951,8 +2951,8 @@ RB => Règles Brutes
     </rule>
     <rule name="expérience utilisateur" id="EXPERIENCE_UTILISATEUR">
         <pattern>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">réponse|identifiant|tuteur|identité|stratégie|spécifications|infos|réclamation|prospect|carte|création|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation|session|garantie|réglage|assurance|section|code</token>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">vendeur|consommateur|utilisateur|client|administrateur|parent|producteur|passager|entreprise|carburant|objectif|contenu|conducteur|constructeur</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">réponse|identifiant|commercial|nom|droit|tuteur|identité|stratégie|spécifications|infos|réclamation|prospect|carte|création|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation|session|garantie|réglage|assurance|section|code</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">vendeur|consommateur|utilisateur|client|visite|administrateur|parent|producteur|passager|entreprise|carburant|objectif|contenu|conducteur|constructeur</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -2960,6 +2960,13 @@ RB => Règles Brutes
         <pattern>
             <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">assurance|mutuelle</token>
             <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">animal|chien</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="joli vue" id="JOLI_VUE">
+        <pattern>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">joli</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">vues?</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -3010,6 +3017,13 @@ RB => Règles Brutes
         <pattern>
             <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">expériences?|pages?|candidatures?</token>
             <token postag="N.*" postag_regexp="yes" regexp="yes">candidate?s?</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="aspirateur poussière" id="ASPIRATEUR_POUSSIERE">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">aspirateur</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">poussières?</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
