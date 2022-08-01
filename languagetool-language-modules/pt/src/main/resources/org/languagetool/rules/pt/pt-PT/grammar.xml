@@ -2731,19 +2731,6 @@
           <token regexp='yes'>[.,!?();]|e|ou</token>
         </antipattern>
         <!-- MARCOAGPINTO 2021-01-20 (1-JAN-2021+) *END* -->
-        <!-- MARCOAGPINTO 2021-03-01 + 2021-03-02 (1-JAN-2021+) *START* -->
-        <!--
-        Olá minha gestora, quando voltas de férias?
-        Ó meu Deus! Está um caos completo!
-        -->
-        <antipattern>
-          <token postag='I' postag_regexp='no'>
-            <exception postag_regexp='yes' postag='RG|CC|V.+|SPS.+|CS'/>
-          </token>
-          <token postag='DP.+' postag_regexp='yes'/>
-          <token min="1" max="3" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-03-01 + 2021-03-02 (1-JAN-2021+) *END* -->
 
         <!-- MARCOAGPINTO 2021-11-05 (25-JUN-2021+) *START* -->
         <!--
@@ -2893,6 +2880,25 @@
           <example>A culpa não é das estrelas, mas sim, sua.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-31 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-01 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='I' postag_regexp='no'>
+            <exception postag_regexp='yes' postag='RG|CC|V.+|SPS00|CS|PD.+'/>
+          </token>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+          <example>Ó meu Deus! Está um caos completo!</example>
+          <example>Ó minha amada, que pele a tua!</example>
+          <example>Boa noite meus amores!</example>
+          <example>Oi minha gente linda!</example>
+          <example>Olá meus amores, como estão?</example>
+          <example>Que beleza tuas faces entre os brincos, teu pescoço, com colares!</example>
+          <example>Quando uma forma cria beleza tem na beleza sua própria justificativa.</example>
+          <example>Olá minha gestora, quando voltas de férias?</example>
+          <example>Ó meu Deus! Está um caos completo!</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-01 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <antipattern>
           <unify>
