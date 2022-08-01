@@ -25,9 +25,82 @@
 Filter for remote matches.
 To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
 -->
-<!DOCTYPE rules []>
+<!DOCTYPE rules [
+    <!ENTITY linuxDistros "Arch|CentOS|Debian|Fedora|Gentoo|Knoppix|Mint|(open)?SUSE|RHEL|Slackware|Slax">
+
+    <!ENTITY measurementUnitPrefix "E(xa)?|P(eta)?|T(era)?|G(iga)?|M(ega)?|k(ilo)?|h(ecto)?|d(ec)?a|d(eci)?|c(enti)?|m(illi)?|u|&#x03BC;|micro|n(ano)?|licht">
+    <!ENTITY measurementUnitsTime "(&measurementUnitPrefix;)?(s(ec)?|seconde(n|s)?)|min(uut)?|minuten|u(ur)?|uren|hr?|d|dag(en)?|we(ek|ken)|ma(and|nden)|kwarta(al|len)|ja(ar|ren)|decenni(um|a|ën)|centenni(um|a)|euuw(en)?|millenni(um|a)">
+    <!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eter)?|mijl|p(arse)?cs?|AE|AU">
+    <!ENTITY measurementUnitsMass "(&measurementUnitPrefix;)?g(ram)?|ons|pond|ton">
+    <!ENTITY measurementUnitsTemperature "K|&#x212A;|kelvin|℃|℉|°C(elsius)?|°F(ahrenheit)?|°|graad|graden">
+    <!ENTITY measurementUnitsAngles "[°′″‴⁗'&quot;“]">
+    <!ENTITY measurementUnitsElectroMagnetism "(&measurementUnitPrefix;)?(J|joule|C|coulomb|A|ampere|V|volt|&#x03A9;|ohm|W|watt|F|farad|S|siemens|T|tesla|Wb|weber|H|henry)">
+    <!ENTITY measurementUnitsMisc "(&measurementUnitPrefix;)?(mol|cd|candela|l(u)?x|Bq|becquerel|dB|decibel|cal(orie)?|Pa|pascal|bar|atm)">
+    <!ENTITY measurementUnitsComputing "(&measurementUnitPrefix;|kibi|mebi|gibi|tebi|pebi|exbi|zebi|yobi)?(B|bits?|bytes?|Hz|hertz|hash|FLOPS)">
+    <!ENTITY measurementUnitsAll "&measurementUnitsTime;|&measurementUnitsLength;|&measurementUnitsMass;|&measurementUnitsTemperature;|&measurementUnitsAngles;|&measurementUnitsElectroMagnetism;|&measurementUnitsMisc;|&measurementUnitsComputing;">
+
+]>
+
 <rules lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
-      <!-- TODO: fill me -->
+        <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&linuxDistros;</token>
+                    </marker>
+                    <token regexp="yes">GNU|Linux</token>
+                </pattern>
+                <example correction="">Er zijn een aantal projecten, waaronder <marker>Debian</marker> GNU/Linux, Blender, Python en Krita.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">MS|Microsoft</token>
+                    <marker>
+                        <token>Office</token>
+                    </marker>
+                    <token regexp="yes">Word|Excel|Powerpoint|Outlook|Access|Publisher|OneNote|InfoPath|Skype</token>
+                </pattern>
+                <example correction="">Computervaardigheden en kennis van MS <marker>Office</marker> Word en Excel, Apple-software en andere applicaties zijn belangrijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">aanbod|aansluiting|aantal(len)?|beleidsmedewerkers?|blik(ken|jes?)?|bouw|docent(en?)?|doos(jes?)?|dosis|financiering|hooglera(ar|re(n|s)?)</token>
+                    </marker>
+                    <token min="0" postag_regexp="yes" postag="BNW.*VRB"/>
+                    <token postag_regexp="yes" postag="ZNW.*|DVS"/>
+                </pattern>
+                <example correction="">Zo vindt u een veel ruimer <marker>aanbod</marker> keukenuitrusting.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="ENM:BEZ"/>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+                <example correction="">Ze keerden terug met vooral graan, <marker>Zweeds</marker> kruit, hout, ijzer en wapens, maar ook vele andere goederen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[1-2][0-9]{3}</token>
+                    </marker>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">&measurementUnitsAll;</token>
+                </pattern>
+                <example correction="">De oppervlakte bedroeg in <marker>2004</marker> 17160 km².</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9]+</token>
+                    </marker>
+                    <token regexp="yes">&measurementUnitsAll;</token>
+                </pattern>
+                <example correction="">Nog nooit werd het zo laat in het jaar in De Bilt nog tropisch warm (><marker>30</marker> °C).</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
