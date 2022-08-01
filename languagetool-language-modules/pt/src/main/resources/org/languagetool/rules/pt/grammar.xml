@@ -43813,7 +43813,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- VER observar/constatar -->
-    <rule id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style">
+    <rule id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-22 + 2022-02-06 (Checked/Enhanced) (1-JAN-2022+)      -->
       <!--
       É fácil como podem ver na figura. → É fácil como podem constatar na figura.
@@ -44068,9 +44068,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Via de regra, sempre dá errado.</example>
       </antipattern>
       <antipattern>
-        <token inflected='yes'>querer</token>
+        <token inflected='yes'>ver</token>
+        <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
+        <token regexp='yes'>vídeos?|looks?</token>
+        <example>Veja o vídeo e tire suas conclusões.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ver</token>
+        <token postag='DA.+|SPS00.DA.*' postag_regexp='yes' skip='-1'/>
+        <token regexp='yes'>vídeos?|looks?|tamanho|dimensão</token>
+        <example>Veja o caso da criança que fugiu!</example>
+        <example>Veja o tamanho disso!</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes' inflected='yes'>querer|ser</token>
         <token inflected='yes'>ver</token>
         <example>Quero ver o que ele fará depois de perder tudo.</example>
+        <example>Ele é visto como o herói da família.</example>
+      </antipattern>
+      <antipattern>
+        <token>nunca</token>
+        <token inflected='yes'>ver</token>
+        <example>Nunca vi isso na vida.</example>
       </antipattern>
       <pattern>
         <marker>
@@ -44082,12 +44101,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
         <token negate_pos="yes" postag='AQ.+|AO.+' postag_regexp='yes'/>
       </pattern>
-      <message>Num contexto formal ou académico, é preferível escrever 'observar' ou 'constatar'.</message>
+      <message>Num contexto formal, é preferível escrever 'observar' ou 'constatar'.</message>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>constatar</match></suggestion>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conferir</match></suggestion>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>avistar</match></suggestion>
-      <example correction="observar|constatar|conferir|avistar">É fácil como podem <marker>ver</marker> na figura.</example>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perceber</match></suggestion>
+      <example correction="observar|constatar|conferir|avistar|perceber">É fácil como podem <marker>ver</marker> na figura.</example>
 
       <example>Ela não pode ter me visto na festa.</example>
       <example>Você se importaria em vir e me ver no sábado?</example>
