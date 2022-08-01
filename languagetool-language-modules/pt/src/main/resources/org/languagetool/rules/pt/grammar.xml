@@ -43999,7 +43999,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Retirei a 2ª via do cartão.</example>
       </antipattern>
       <antipattern>
-        <token regexp='yes'>\d+</token>
+        <token regexp='yes'>\d+|uma|duas</token>
         <token regexp='yes'>via|vias</token>
         <example>Retirei 01 via do cartão.</example>
       </antipattern>
@@ -44076,7 +44076,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <antipattern>
         <token inflected='yes'>ver</token>
         <token postag='DA.+|SPS00.DA.*' postag_regexp='yes' skip='-1'/>
-        <token regexp='yes'>vídeos?|looks?|tamanho|dimensão</token>
+        <token regexp='yes'>vídeos?|looks?|tamanhos?|dimensão|dimensões</token>
         <example>Veja o caso da criança que fugiu!</example>
         <example>Veja o tamanho disso!</example>
       </antipattern>
@@ -44090,6 +44090,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token>nunca</token>
         <token inflected='yes'>ver</token>
         <example>Nunca vi isso na vida.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token>veja</token>
+        <example>Veja os comentários.</example>
       </antipattern>
       <pattern>
         <marker>
