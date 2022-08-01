@@ -20,7 +20,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
   <!DOCTYPE rules [
-        <!ENTITY depreciativo "baianada|bandalho|china|chinoca|ciganada|ciganagem|veado|bicha|piranha|piranhagem|periguete|retardado|João-sem-braço|cegueta|imbecil|japa|marica|maricas|maricona|cuzão|bundão|queima-rosca|traveco|travecão|travecona|boiola|maricão|mariconço|mentecapto|monhé|morcão|portuga|pretalhada|pretaria|caralho|chupa-rola|boqueteiro|boqueteira">
+        <!ENTITY depreciativo "baianada|bandalho|china|chinoca|ciganada|ciganagem|veado|bicha|piranha|piranhagem|periguete|retardado|João-sem-braço|cegueta|imbecil|japa|marica|maricas|maricona|cuzão|bundão|queima-rosca|traveco|travecão|travecona|boiola|maricão|mariconço|mentecapto|monhé|morcão|portuga|pretalhada|pretaria|caralho|chupa-rola|boqueteiro|boqueteira|retardad[oa]s|denegrir|mulat[oa]s|gordice|judiar|homossexualismo|judieiera|judiação">
         <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
         <!ENTITY separadores_de_abertura "\(|\{\[">
         <!ENTITY separadores_de_fecho "\)|\}\]">
@@ -1169,8 +1169,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="#¿$?%!¡">O <marker>puto</marker> é bom!</example>
     </rule>
 
-    <rule id='DEPRECIATIVO_PT_BR' name="Termos depreciativos" type="style" default='temp_off'>
-    <pattern>
+    <rulegroup id='DEPRECIATIVO_PT_BR' name="Termos depreciativos" type="style" default='temp_off'>
+    <rule>
+      <pattern>
       <token regexp='yes' inflected="yes">&depreciativo;
         <exception postag_regexp='yes' postag='NP.+'/>
       </token>
@@ -1179,7 +1180,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <short>Termo depreciativo</short>
     <example type="incorrect">Vou à loja do <marker>traveco</marker>.</example>
     <example>Vou à loja da <marker>travesti</marker>.</example>
-  </rule>
+    </rule>
+    <rule>
+      <pattern>
+        <token>João</token>
+        <token spacebefore='no' min="0">-</token>
+        <token>sem</token>
+        <token spacebefore='no' min="0">-</token>
+        <token>braço</token>
+      </pattern>
+      <message>Este termo é capacitista. Pondere dizer <suggestion>desentendido</suggestion> ou <suggestion>desentendida</suggestion>.</message>
+      <short>Termo depreciativo</short>
+        <example correction="desentendido|desentendida">Ele sempre dá uma de <marker>joão-sem-braço</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">inveja|invejinha</token>
+        <token>branca</token>
+      </pattern>
+      <message>Este termo remete ao racismo. Pondere dizer <suggestion>inveja leve</suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="inveja leve">Fiquei com <marker>inveja branca</marker> dele.</example>
+    </rule>
+    <rule>
+        <pattern>
+          <token>a</token>
+          <token>coisa</token>
+          <token regexp='yes' inflected="yes">estar|ficar</token>
+         <marker>
+          <token>preta</token>
+         </marker>
+        </pattern>
+      <message>Este termo remete ao racismo. Pondere dizer <suggestion>difícil</suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="difícil">A coisa ficou <marker>preta</marker>!</example>
+    </rule>
+    <rule>
+        <pattern>
+          <token>não</token>
+          <token inflected="yes">ser</token>
+          <token regexp="yes">tuas|sua|suas</token>
+          <token regexp="yes">negas?</token>
+        </pattern>
+        <message>Este termo remete ao racismo. Pondere dizer <suggestion>não \2 sua subordinada</suggestion> ou <suggestion>não \2 seu subordinado</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="Não sou sua subordinada|Não sou seu subordinado"><marker>Não sou tuas negas</marker>!</example>
+    </rule>
+  </rulegroup>
 	
   </category>
   
