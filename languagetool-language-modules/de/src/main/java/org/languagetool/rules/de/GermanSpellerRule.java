@@ -2723,7 +2723,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "amazon": return topMatch("Amazon");
       case "irgendeins": return topMatch("irgendeines");
       case "Communities": return topMatch("Communitys");
-      case "Spass": return topMatch("Spaß");
+      case "ansich": return topMatch("an sich");
+      // case "Spass": return topMatch("Spaß"); # de-ch(!)
       case "garkein": return topMatch("gar kein");
       case "garkeine": return topMatch("gar keine");
       case "garkeinen": return topMatch("gar keinen");

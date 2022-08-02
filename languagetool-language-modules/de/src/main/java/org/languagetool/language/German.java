@@ -411,6 +411,7 @@ public class German extends Language implements AutoCloseable {
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "BEENDE_IST_SENTEND": return -1; // prefer more specific rules
       case "VER_ADJ_ZU_SCHLAFEN": return -1; // prefer ETWAS_GUTES
+      case "MIO_PUNKT": return -1;
       case "IM_ERSCHEINUNG": return -1; // prefer ZUM_FEM_NOMEN
       case "SPACE_BEFORE_OG": return -1; // higher prio than spell checker
       case "VERMOD_SKIP_VER_PKT": return -1; // less prio than casing rules
