@@ -1284,6 +1284,15 @@
     </rule>
   </rulegroup>
 
+  <rule id="AMIGO" name="amigo (noun, not adjective">
+    <pattern>
+      <token postag="A.*|V.P.*" postag_regexp="yes"/>
+      <marker>
+        <token postag="N.*" postag_regexp="yes" inflected="yes">amigo</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="N.*"></disambig>
+  </rule>
   <rulegroup id="DNA" name="Det + Nom + Adj">
     <!-- DNA : Det + Nome + adjetivo-->
     <!-- 		based on from Spanish disambiguation.xml by Tiago F. Santos		-->
