@@ -20162,7 +20162,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Onko — É café “sem cafeína”</example>
     </rule>
 
-    <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!" default='on'>
+    <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!" default='temp_off'>
       <!--  Created by Tiago F. Santos, 2017-04-28      -->
       <rule>
         <pattern>
@@ -20181,6 +20181,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <antipattern>
+          <token>que</token>
+          <token skip='-1'>bom</token>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+          <example>Que bom que você veio...</example>
+        </antipattern>
+        <pattern>
+          <token postag='SENT_START'/>
+          <token>que</token>
+          <token skip='-1'>bom</token>
+          <marker>
+          <token postag="_PUNCT"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
+          </marker>
+        </pattern>
+        <message>Se é uma exclamação, deve terminar com <suggestion>!</suggestion>, caso contrário, as orações devem ser separadas por vírgulas. Se for um prolongamento de ideias, utilize as reticências.</message>
+        <suggestion>...</suggestion>
+        <suggestion>,</suggestion>
+        <example correction="!|...|,">Que bom que você veio<marker>.</marker></example>
+        <example correction="!|...|,">Que bom esse tempo<marker>.</marker></example>
+        <example correction="!|...|,">Que bom estar aqui<marker>.</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>quem</token>
+          <token>me</token>
+          <token skip='-1'>dera</token>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+          <example>Quem me dera ter dinheiro...</example>
+        </antipattern>
+        <pattern>
+          <token postag='SENT_START'/>
+          <token>quem</token>
+          <token>me</token>
+          <token skip='-1'>dera</token>
+          <marker>
+          <token postag="_PUNCT"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
+          </marker>
+        </pattern>
+        <message>Se é uma exclamação, deve terminar com <suggestion>!</suggestion>, caso contrário, as orações devem ser separadas por vírgulas. Se for um prolongamento de ideias, utilize as reticências.</message>
+        <suggestion>...</suggestion>
+        <suggestion>,</suggestion>
+        <example correction="!|...|,">Quem me dera que você ganhe<marker>.</marker></example>
+        <example correction="!|...|,">Quem me dera esse tempo melhorar<marker>.</marker></example>
+        <example correction="!|...|,">Quem me dera eu tivesse dinheiro<marker>.</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
           <token postag='I'/>
           <token spacebefore='no'>-</token>
           <token spacebefore='no'></token>
@@ -20194,11 +20244,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Hum...</example>
         </antipattern>
         <antipattern>
-          <token regexp='yes'>[«»“”"'‘’]|&separadores_de_abertura;</token>
-          <token postag='I'/>
+          <token regexp='yes' skip='-1'>[«»“”"'‘’]|&separadores_de_abertura;</token>
+          <token postag='I' skip='-1'/>
           <token regexp='yes'>[«»“”"'‘’]|&separadores_de_fecho;</token>
           <example>"Oi".</example>
           <example>(Oi").</example>
+          <example>Ela compôs "Eh Maravilha".</example>
         </antipattern>
         <antipattern>
           <token postag='I'/>
@@ -20236,8 +20287,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>até</token>
           <token>amanhã</token>
           <token postag='SPS00'/>
-          <example>Até amanhã de manhã!</example>
-          <example>Até amanhã à tarde!</example>
+          <example>Até amanhã de manhã.</example>
+          <example>Até amanhã à tarde.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>aniversário|parabéns</token>
+          <token postag='VMP00SM'/>
+          <example>Feliz aniversário atrasado!</example>
+          <example>Parabéns adiantado!</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>aniversário|parabéns</token>
+          <token regexp='yes'>.*?mente$</token>
+          <example>Feliz aniversário mais uma vez pessoalmente.</example>
+        </antipattern>
+        <antipattern>
+          <token skip="-1">que</token>
+          <token>bom</token>
+          <token skip='-1'></token>
+          <token postag='_PUNCT'/>
+          <example>Que bom estarmos juntos.</example>
         </antipattern>
         <antipattern>
           <token postag='I'/>
@@ -20263,6 +20332,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Valeu a pena ele esperar pelo prêmio.</example>
         </antipattern>
         <antipattern>
+          <token>que</token>
+          <token skip='-1'>coisa</token>
+          <token></token>
+          <example>Que coisa mais estranha.</example>
+        </antipattern>
+        <antipattern>
+          <token>Foda</token>
+          <token spacebefore='no'>-</token>
+          <token spacebefore='no'>se</token>
+          <token skip='-1' regexp="yes">\p{L}+</token>
+          <example>Foda-se o sistema.</example>
+        </antipattern>
+        <antipattern>
+          <token case_sensitive='yes'>UPS</token>
+          <example>UPS correios.</example>
+        </antipattern>
+        <antipattern>
           <token>hip</token>
           <token spacebefore='no' regexp='yes' min='0'>&hifen;</token>
           <token spacebefore='no'>hop</token>
@@ -20276,9 +20362,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token skip='3'>,</token>
           <token regexp='yes'>[\!\?:\)]</token>
         </antipattern>
+        <antipattern>
+          <token>,</token>
+          <token postag='I' max='3'/>
+          <token>e</token>
+          <example>A todos: bom dia, boa tarde e boa noite.</example>
+        </antipattern>
         <pattern>
           <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
-          <token postag='I'><exception>Oxalá</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception><exception>alto</exception></token>
+          <token postag='I'><exception regexp='yes'>Oxalá|him|sus|UF|ups|tate|caput|ena|fu|hui</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception><exception>alto</exception></token>
           <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
         </pattern>
         <message>Quando não estão acompanhadas de vocativo, as interjeições devem ser finalizadas com pontos de exclamação ou interrogação. Quando houver vocativo, deve usar a vírgula. Para indicar hesitação ou prolongamento de ideias, utilize as reticências.</message>
@@ -20304,8 +20396,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Até logo...</example>
         </antipattern>
         <antipattern>
-          <token regexp='yes'>[«»“”"'‘’]|&separadores_de_abertura;</token>
-          <token postag='I'/>
+          <token regexp='yes' skip='-1'>[«»“”"'‘’]|&separadores_de_abertura;</token>
+          <token postag='I' skip='-1'/>
           <token regexp='yes'>[«»“”"'‘’]|&separadores_de_fecho;</token>
           <example>Eles ainda gravaram a faixa "Até logo"</example>
         </antipattern>
@@ -20329,6 +20421,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Parabéns adiantado!</example>
         </antipattern>
         <antipattern>
+          <token regexp='yes' skip='-1'>aniversário|parabéns</token>
+          <token regexp='yes'>.*?mente$</token>
+          <example>Feliz aniversário mais uma vez pessoalmente.</example>
+        </antipattern>
+        <antipattern>
+          <token skip="-1">que</token>
+          <token>bom</token>
+          <token skip='-1'></token>
+          <token postag='_PUNCT'/>
+          <example>Que bom estarmos juntos.</example>
+        </antipattern>
+        <antipattern>
           <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
           <token>quem</token>
           <token regexp='yes'>me|lhe</token>
@@ -20346,15 +20450,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Valeu a pena ele esperar pelo prêmio.</example>
         </antipattern>
         <antipattern>
+          <token>que</token>
+          <token skip='-1'>coisa</token>
+          <token></token>
+          <example>Que coisa mais estranha.</example>
+        </antipattern>
+        <antipattern>
+          <token>Foda</token>
+          <token spacebefore='no'>-</token>
+          <token spacebefore='no'>se</token>
+          <token skip='-1' regexp="yes">\p{L}+</token>
+          <example>Foda-se o sistema.</example>
+        </antipattern>
+        <antipattern>
+          <token case_sensitive='yes'>UPS</token>
+          <example>UPS correios.</example>
+        </antipattern>
+        <antipattern>
           <token>hip</token>
           <token spacebefore='no' regexp='yes' min='0'>&hifen;</token>
-          <token spacebefore='no'>hop</token>
+          <token>hop</token>
         </antipattern>
         <pattern>
           <token postag="SENT_START"/>
-          <token postag='I'/>
+          <token postag='I'><exception regexp='yes'>Oxalá|him|sus|UF|tate|caput|ena|fu|hui</exception></token>
           <marker>
-            <token postag='I'><exception>Oxalá</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception></token>
+            <token postag='I'><exception regexp='yes'>Oxalá|him|jesus|sus|UF|tate|caput|ena|fu|hui</exception><exception negate_pos='yes' postag='I'/><exception case_sensitive='yes'>EIA</exception></token>
             <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
           </marker>
         </pattern>
@@ -20367,11 +20488,108 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example correction="logo!|logo?|logo!?|logo,|logo...">Até <marker>logo.</marker></example>
       </rule>
       <rule>
+        <antipattern>
+          <token postag='I' skip='-1'/>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+          <example>Que coisa horrível...</example>
+        </antipattern>
+       <pattern>
+          <token postag="SENT_START"/>
+          <token>que</token>
+          <token skip='-1'>coisa</token>
+          <marker>
+            <token postag_regexp='yes' postag="_PUNCT|''"><exception regexp='yes'>[\,\!\?:\)…]</exception></token>
+          </marker>
+       </pattern>
+        <message>Quando não estão acompanhadas de vocativo, as interjeições devem ser finalizadas com pontos de exclamação ou interrogação. Quando houver vocativo, deve usar a vírgula. Para indicar hesitação ou prolongamento de ideias, utilize as reticências.</message>
+        <suggestion>!</suggestion>
+        <suggestion>?</suggestion>
+        <suggestion>!?</suggestion>
+        <suggestion>,</suggestion>
+        <suggestion>...</suggestion>
+        <example correction="!|?|!?|,|...">Que coisa horrível<marker>.</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes">\p{L}+</token>
+          <token case_sensitive='yes'>Oi</token>
+          <example>A Oi tem novas ofertas.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">\p{L}+</token>
+          <token case_sensitive='yes'>Pumba</token>
+          <example>Timão e Pumba são personagens queridos.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' case_sensitive='yes'>UF|UI|UPS|Xi</token>
+          <example>Dominou a UF e a UI.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>aniversário|parabéns</token>
+          <token postag='VMP00SM'/>
+          <example>Feliz aniversário atrasado!</example>
+          <example>Parabéns adiantado!</example>
+        </antipattern>
+        <antipattern>
+          <token postag='I'/>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <example>Muito bem colocado!</example>
+          <example>Parabéns adiantado!</example>
+        </antipattern>
+        <antipattern>
+          <token>pra</token>
+          <token>caramba</token>
+          <token regexp='yes'>\p{L}+</token>
+          <example>Cozinhei pra caramba agora.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>\p{L}+</token>
+          <token>feliz</token>
+          <token postag='N.+' postag_regexp='yes'/>
+          <example>Queria desejar feliz Natal e um próspero Ano Novo.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>aniversário|parabéns</token>
+          <token regexp='yes'>.*?mente$</token>
+          <example>Feliz aniversário mais uma vez pessoalmente.</example>
+        </antipattern>
+        <antipattern>
+          <token skip="-1">que</token>
+          <token>bom</token>
+          <token skip='-1'></token>
+          <token postag='_PUNCT'/>
+          <example>Que bom estarmos juntos.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>\p{L}+</token>
+          <token regexp='yes'>bom|boa</token>
+          <token regexp='yes' skip='-1'>dia|tarde|noite</token>
+          <example>No geral, foi uma boa noite de sono.</example>
+        </antipattern>
+        <antipattern>
+          <token>por</token>
+          <token>quê</token>
+          <example>Por quê.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' inflected='yes'>dizer|falar|um|uma</token>
+          <token postag='I'/>
+          <example>Só veio para dizer olá e foi embora.</example>
+        </antipattern>
+        <antipattern>
+          <token>,</token>
+          <token postag='I' max='3'/>
+          <token>e</token>
+          <example>A todos: bom dia, boa tarde e boa noite.</example>
+        </antipattern>
         <pattern>
           <marker>
             <token postag='I'>
               <exception regexp='yes'>.*?mente$</exception>
-              <exception negate_pos='yes' postag='I'/></token>
+              <exception negate_pos='yes' postag='I'/>
+              <exception regexp='yes'>Oxalá|him|jesus|sus|UF|tate|wtf|omg|caput|ena|fu|hui|hum|pena|ups</exception></token>
           </marker>
           <token>
             <exception postag_regexp='yes' postag="I|_PUNCT|''"/>
@@ -20391,6 +20609,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Ano de Nosso Senhor Jesus Cristo</example>
         <example>É uma explicação insuficiente, pois, há outra bem melhor: se tomarmos o…</example>
         <example>Explique brevemente a sua teoria.</example>
+      </rule>
+      <rule>
+        <pattern>
+            <token regexp='yes' inflected='yes'>dizer|falar|mandar|um|desejar|dar</token>
+          <marker>
+            <token postag='I'/>
+          </marker>
+        </pattern>
+        <message>Se não é uma saudação, coloque entre aspas.</message>
+        <suggestion>"\2"</suggestion>
+        <example correction='"olá"'>Só passe para dizer <marker>olá</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+            <token regexp='yes' inflected='yes'>dizer|falar|mandar|um|desejar|dar</token>
+          <marker>
+            <token postag='I'/>
+            <token postag='I'/>
+          </marker>
+        </pattern>
+        <message>Se não é uma saudação, coloque entre aspas.</message>
+        <suggestion>"\2 \3"</suggestion>
+        <example correction='"bom dia"'>Só passei para dizer <marker>bom dia</marker>.</example>
       </rule>
     </rulegroup>
 
