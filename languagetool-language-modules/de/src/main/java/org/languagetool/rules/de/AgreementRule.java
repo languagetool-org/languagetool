@@ -109,6 +109,7 @@ public class AgreementRule extends Rule {
     "extrem",
     "fast",
     "ganz",
+    "entschieden",
     "geradezu",
     "zeitweise",
     "halbwegs",
