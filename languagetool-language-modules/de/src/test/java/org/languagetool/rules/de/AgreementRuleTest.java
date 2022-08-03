@@ -632,6 +632,7 @@ public class AgreementRuleTest {
     assertGood("Es kam zum einen zu technischen Problemen, zum anderen wurde es unübersichtlich.");
     assertGood("Das Spiel wird durch den zu neuer Größe gewachsenen Torwart dominiert.");
     assertGood("Dort findet sich schlicht und einfach alles & das zu sagenhafter Hafenkulisse.");
+    assertGood("Man darf gespannt sein, wen Müller für diese Aufgabe gewinnt.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
