@@ -129,6 +129,7 @@ public class AgreementRule extends Rule {
     "wirklich",
     "überwiegend",
     "gewollt",
+    "angestrengt",
     "ziemlich"
   ));
 

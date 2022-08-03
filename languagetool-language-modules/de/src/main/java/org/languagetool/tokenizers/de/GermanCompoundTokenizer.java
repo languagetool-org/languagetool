@@ -102,6 +102,10 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("karamelligen", asList("karamelligen"));  // != Karamel+Ligen
     wordSplitter.addException("Häkelnadel", asList("Häkel", "nadel"));
     wordSplitter.addException("Häkelnadeln", asList("Häkel", "nadeln"));
+    wordSplitter.addException("Freiberg", asList("Freiberg"));
+    wordSplitter.addException("Freibergs", asList("Freibergs"));
+    wordSplitter.addException("Kreuzberg", asList("Kreuzberg"));
+    wordSplitter.addException("Kreuzbergs", asList("Kreuzbergs"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
