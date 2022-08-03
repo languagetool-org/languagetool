@@ -128,6 +128,7 @@ public class AgreementRule extends Rule {
     "weit",
     "wirklich",
     "überwiegend",
+    "gewollt",
     "ziemlich"
   ));
 
@@ -138,6 +139,7 @@ public class AgreementRule extends Rule {
     "andere",
     "anderer",
     "anderen",
+    "sämtliche",
     "sämtlicher",
     "etliche",
     "etlicher",

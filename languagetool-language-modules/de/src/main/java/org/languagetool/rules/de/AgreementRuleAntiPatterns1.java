@@ -40,6 +40,16 @@ class AgreementRuleAntiPatterns1 {
       token("wen"),
       posRegex("EIG:.*")
     ),
+    Arrays.asList(  // "das Vereinslokal in welchem Zusammenkünfte"
+      tokenRegex("in|zu"),
+      tokenRegex("welche[nmrs]"),
+      posRegex("SUB.*PLU.*")
+    ),
+    Arrays.asList(  // "er lässt niemanden zu Wort kommen"
+      token("niemanden"),
+      token("zu"),
+      token("Wort")
+    ),
     Arrays.asList(
       token("zu"),
       tokenRegex("Kopfe?|Zwecken?|Ohren|Fü(ß|ss)en|Fu(ß|ss)|Händen|Beginn|Anfang|Geld|Gesicht|Recht|Unrecht|.*stein")
