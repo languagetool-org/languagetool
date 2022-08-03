@@ -57,7 +57,7 @@ regexp case-insensitive maken : (?i)
 <!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
 <!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
 <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
-<!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|o[ck]t|nov|dec">
+<!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sept?|o[ck]t|nov|dec">
 <!ENTITY timeOfDayToday "vanmorgen|vanmiddag|vanavond|vannacht">
 <!ENTITY timeOfDayGeneral "morgen|middag|avond|nacht">
 
@@ -69,7 +69,7 @@ regexp case-insensitive maken : (?i)
 
 <!ENTITY measurementUnitPrefix "E(xa)?|P(eta)?|T(era)?|G(iga)?|M(ega)?|k(ilo)?|h(ecto)?|d(ec)?a|d(eci)?|c(enti)?|m(illi)?|u|&#x03BC;|micro|n(ano)?|licht">
 <!ENTITY measurementUnitsTime "(&measurementUnitPrefix;)?(s(ec)?|seconde(n|s)?)|min(uut)?|minuten|u(ur)?|uren|hr?|d|dag(en)?|we(ek|ken)|ma(and|nden)|kwarta(al|len)|ja(ar|ren)|decenni(um|a|ën)|centenni(um|a)|euuw(en)?|millenni(um|a)">
-<!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eter)?|mijl|p(arse)?cs?|AE|AU">
+<!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eter)?|mijl|p(arse)?cs?|duim|inch(es)?|ft|AE|AU">
 <!ENTITY measurementUnitsMass "(&measurementUnitPrefix;)?g(ram)?|ons|pond|ton">
 <!ENTITY measurementUnitsTemperature "K|&#x212A;|kelvin|℃|℉|°C(elsius)?|°F(ahrenheit)?|°|graad|graden">
 <!ENTITY measurementUnitsAngles "[°′″‴⁗'&quot;“]">
@@ -332,7 +332,13 @@ regexp case-insensitive maken : (?i)
 	            </antipattern>
 	            <antipattern>
 	                <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
-                    <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}</token>
+                    <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}|euro|dollars?</token>
+	            </antipattern>
+	            <antipattern>
+	                <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+	                <token regexp="yes">en|tot</token>
+	                <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+                    <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}|euro|dollars?</token>
 	            </antipattern>
 	            <antipattern>
                     <token regexp="yes">[0-9]+</token>
@@ -355,7 +361,7 @@ regexp case-insensitive maken : (?i)
 	            </antipattern>
 	            <antipattern>
 	                <token regexp="yes">[1-3]</token>
-                    <token regexp="yes">Sam(uel)?|Kon(ingen)?|Kron(ieken)?|Kor(intiërs)?|Th?es?s(alonicenzen)?|Tim(oteüs)?|Petr?(us)|Joh(annes)?</token>
+                    <token regexp="yes">Sam(u(e|ë)l)?|Kon(ingen)?|Kron(ieken)?|Kor(intiërs)?|Th?es?s(alonicenzen)?|Tim(oteüs)?|Petr?(us)|Joh(annes)?</token>
 	            </antipattern>
 	            <antipattern>
 	                <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
@@ -365,7 +371,7 @@ regexp case-insensitive maken : (?i)
                     <token min="0">.</token>
 	            </antipattern>
 	            <antipattern>
-				    <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|top|poort(en)?|kaliber|afb|no|nr|p|#</token>
+				    <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|stap|top|poort(en)?|kaliber|psalm|euro|afb|no|nr|p|#</token>
 				    <token min="0">.</token>
 				    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
                 </antipattern>
@@ -397,6 +403,7 @@ regexp case-insensitive maken : (?i)
 	            <short>Uitschrijven</short>
 	            <example correction="">We hebben het al <marker>100</marker> keer gezegd.</example>
 				<example>De rekening 2 + 2 = 5 klopt helemaal niet.</example>
+				<example>We moeten het 1 tot 2 m de linkerkant opschuiven.</example>
 				<example>Hij deed het 2,5 keer.</example>
 				<example>De temperatuurverschil van 0,5°C is heel klein.</example>
 				<example>3. Een derde punt</example>
