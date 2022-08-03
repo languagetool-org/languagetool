@@ -208,7 +208,7 @@ public class BaseSynthesizer implements Synthesizer {
         return synthesizeForPosTags(token.getLemma(), tag -> p.matcher(tag).matches());
       } catch (PatternSyntaxException e) {
         throw new RuntimeException("Error trying to synthesize POS tag " + posTag +
-                " (posTagRegExp: " + posTagRegExp + ") from token " + token.getToken(), e);
+                " (posTagRegExp: true) from token " + token.getToken(), e);
       }
     }
     return removeExceptions(synthesize(token, posTag));
