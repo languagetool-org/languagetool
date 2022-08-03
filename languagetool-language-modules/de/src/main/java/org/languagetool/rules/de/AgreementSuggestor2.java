@@ -37,7 +37,8 @@ import static java.util.Collections.*;
 class AgreementSuggestor2 {
 
   private final static String detTemplate = "ART:IND/DEF:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU";
-  private final static String proPosTemplate = "PRO:POS:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:BEG";
+  private final static List<String> proPosTemplate = Arrays.asList("PRO:POS:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:BEG",
+    "PRO:POS:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S");
   private final static List<String> proDemTemplates = Arrays.asList(
     "PRO:DEM:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:BEG",
     "PRO:DEM:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S");
@@ -229,7 +230,7 @@ class AgreementSuggestor2 {
     } else if (detPos.contains("ART:")) {
       templates = singletonList(detTemplate);
     } else if (detPos.contains("PRO:POS:")) {
-      templates = singletonList(proPosTemplate);
+      templates = proPosTemplate;
     } else if (detPos.contains("PRO:DEM:")) {
       templates = proDemTemplates;
     } else if (detPos.contains("PRO:IND:")) {

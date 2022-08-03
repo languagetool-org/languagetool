@@ -84,6 +84,7 @@ public class AgreementSuggestor2Test {
     assertSuggestion1("demselben Frau", "[derselben Frau, dieselbe Frau]");
     assertSuggestion1("desselben Mann", "[denselben Mann, demselben Mann, desselben Manns, derselbe Mann, desselben Mannes]");
     assertSuggestion1("meinem Eltern", "[meine Eltern, meinen Eltern, meiner Eltern]");
+    assertSuggestion1("eure Auge", "[eurem Auge, eure Augen, euer Auge, euerem Auge, euerm Auge, eures Auges, euren Augen, eueres Auges, euerer Augen]");
   }
 
   @Test
