@@ -82,8 +82,16 @@ public class GermanSynthesizer extends BaseSynthesizer {
     if (parts.size() == 0) {
       return parts.toArray(new String[0]);
     }
-    String firstPart = String.join("", parts.subList(0, parts.size() - 1));
+    String maybeHyphen = "";
+    if (parts.size() == 1 && token.getLemma() != null) {
+      parts = Arrays.asList(token.getLemma().split("-"));
+      if (parts.size() > 1) {
+        maybeHyphen = "-";
+      }
+    }
+    String firstPart = String.join(maybeHyphen, parts.subList(0, parts.size() - 1));
     String lastPart = StringTools.uppercaseFirstChar(parts.get(parts.size() - 1));
+    boolean uppercaseLastPart = !maybeHyphen.equals("") && StringTools.startsWithUppercase(parts.get(parts.size() - 1));
     AnalyzedToken lastPartToken = new AnalyzedToken(lastPart, posTag, lastPart);
     String[] lastPartForms;
     if (posTagRegExp) {
@@ -93,7 +101,11 @@ public class GermanSynthesizer extends BaseSynthesizer {
     }
     Set<String> results = new LinkedHashSet<>();  // avoid dupes
     for (String part : lastPartForms) {
-      results.add(firstPart + StringTools.lowercaseFirstChar(part));
+      if (uppercaseLastPart) {
+        results.add(firstPart + maybeHyphen + part);
+      } else {
+        results.add(firstPart + maybeHyphen + StringTools.lowercaseFirstChar(part));
+      }
     }
     return results.toArray(new String[0]);
   }
