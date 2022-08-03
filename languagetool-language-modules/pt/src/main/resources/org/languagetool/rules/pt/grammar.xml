@@ -45348,11 +45348,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token negate="yes">a</token>
       </antipattern>
       <!-- MARCOAGPINTO 2022-03-02 (1-JAN-2022+) *END* -->
-
       <rule>
         <pattern>
           <and>
-          <token regexp='yes' inflected="yes">procurar|buscar|pretender</token>
+          <token inflected="yes">pretender</token>
+          <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
+          </and>
+          <token postag='VMN0000'/>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP)\b1."/>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion>{suggestion}</suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>cogitar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>planejar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>aspirar</match> <match no='2'/></suggestion>
+        <example correction="prova|cogita provar|planeja provar|aspira provar">A nossa tese <marker>pretende provar</marker> a métrica.</example>
+        <example correction="provamos|cogitamos provar|planejamos provar|aspiramos provar">Na nossa tese <marker>pretendemos provar</marker> a métrica.</example>
+        <example correction="provo|cogito provar|planejo provar|aspiro provar">Na nossa tese <marker>pretendo provar</marker> a métrica.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <and>
+          <token inflected="yes">pretender</token>
+          <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
+            <exception postag='VMIF1S0'/>
+          </token>
+          </and>
+          <token postag='VMN0000'>
+            <exception postag='VMIF1S0'/>
+          </token>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion>{suggestion}</suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>cogitar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>planejar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>aspirar</match> <match no='2'/></suggestion>
+        <example correction="provei|cogitei provar|planejei provar|aspirei provar">Na nossa tese <marker>pretendi provar</marker> a métrica.</example>
+        <example correction="resolveu|cogitou resolver|planejou resolver|aspirou resolver">como o <marker>pretendeu resolver</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <and>
+          <token regexp='yes' inflected="yes">procurar|buscar</token>
           <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
           </and>
           <token postag='VMN0000'/>
@@ -45451,7 +45489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <pattern>
           <and>
-          <token regexp='yes' inflected="yes">procurar|buscar|pretender|tentar<exception>tentei</exception></token>
+          <token regexp='yes' inflected="yes">buscar|procurar|tentar<exception>tentei</exception></token>
           <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
             <exception postag='VMIF1S0'/>
           </token>
