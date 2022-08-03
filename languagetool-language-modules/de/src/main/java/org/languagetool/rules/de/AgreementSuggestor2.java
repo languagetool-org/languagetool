@@ -227,6 +227,8 @@ class AgreementSuggestor2 {
     List<String> templates;
     if (detReading.getToken().matches("(das|der|die|dem|des)selben?")) {
       templates = singletonList("PRO:DEM:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU");
+    } else if (detReading.getToken().matches("welche[nmsr]?")) {
+      templates = singletonList("PRO:RIN:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU:B/S");
     } else if (detPos.contains("ART:")) {
       templates = singletonList(detTemplate);
     } else if (detPos.contains("PRO:POS:")) {
