@@ -40,6 +40,12 @@ class AgreementRuleAntiPatterns1 {
       token("zu"),
       tokenRegex("Kopfe?|Zwecken?|Ohren|Fü(ß|ss)en|Fu(ß|ss)|Händen|Beginn|Anfang|Geld|Gesicht|Recht|Unrecht|.*stein")
     ),
+    Arrays.asList(   // "Zum anderen verringert Zuversicht seelische Belastungen"
+      token("zum"),
+      token("anderen"),
+      posRegex("VER:3:SIN:(PRÄ|PRT):SFT"),
+      posRegex("SUB:NOM:SIN:.*")
+    ),
     Arrays.asList(
       token("an"),
       token("allem"),
