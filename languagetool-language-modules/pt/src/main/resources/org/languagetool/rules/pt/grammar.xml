@@ -44106,39 +44106,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='SIMPLIFICAR_VERBO_TER_MAIS_PARTICIPIO_PASSADO' name="Simplificar: V. Ter + Part. Passado → V. Pret. Perf. Ind. Part. Passado" type="style" tags='picky'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-23 (Checked/Enhanced) (1-JAN-2022+)      -->
       <rule>
-        <pattern>
+        <antipattern>
+          <token regexp='yes' inflected='yes'>pensar|achar|saber|acreditar|parecer</token>
+          <token skip='-1'>que</token>
           <token>tinha</token>
-          <token postag='VMP00SM'/>
+          <example>Pensei que tinha trancado a porta.</example>
+        </antipattern>
+        <pattern>
+          <token negate='yes'>já</token>
+         <marker>
+          <token>tinha</token>
+          <token postag='VMP00SM'><exception regexp='yes'>sentido|apego|seguro|namorado</exception></token>
+         </marker>
+          <token negate_pos="yes" postag='SENT_END|_PUNCT|PP.+|VMP00SM' postag_regexp='yes'/>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-        <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1S0|VMIS3S0|VMIM3S0'/></suggestion>
+        <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1S0|VMIS3S0|VMIM3S0'/></suggestion>
         <example correction="foi|fora|fui">Essa honra <marker>tinha sido</marker> entregue a Ernest Hemingway.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
+          <token regexp='yes' inflected='yes'>pensar|achar|saber|acreditar|parecer</token>
+          <token skip='-1'>que</token>
           <token>tinhas</token>
-          <token postag='VMP00SM'/>
+          <example>Pensei que tinhas trancado a porta.</example>
+        </antipattern>
+        <pattern>
+          <token negate='yes'>já</token>
+         <marker>
+          <token>tinhas</token>
+          <token postag='VMP00SM'><exception regexp='yes'>sentido|apego|seguro|namorado</exception></token>
+         </marker>
+          <token negate_pos="yes" postag='SENT_END|_PUNCT|VMP00SM' postag_regexp='yes'/>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-        <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS2P0|VMIM2S0|VMIS2S0'/></suggestion>
+        <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS2P0|VMIM2S0|VMIS2S0'/></suggestion>
         <example correction="estiveras|estiveste|estivestes">Tu <marker>tinhas estado</marker> na feira.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
+          <token regexp='yes' inflected='yes'>pensar|achar|saber|acreditar|parecer</token>
+          <token skip='-1'>que</token>
           <token>tinham</token>
-          <token postag='VMP00SM'/>
+          <example>Pensei que tinham trancado a porta.</example>
+        </antipattern>
+        <pattern>
+          <token negate='yes'>já</token>
+         <marker>
+          <token>tinham</token>
+          <token postag='VMP00SM'><exception regexp='yes'>sentido|apego|seguro|namorado</exception></token>
+         </marker>
+          <token negate_pos="yes" postag='SENT_END|_PUNCT|VMP00SM' postag_regexp='yes'/>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-        <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS3P0'/></suggestion>
+        <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS3P0'/></suggestion>
         <example correction="foram">Essas honras <marker>tinham sido</marker> entregues a Ernest Hemingway.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
+          <token regexp='yes' inflected='yes'>pensar|achar|saber|acreditar|parecer</token>
+          <token skip='-1'>que</token>
           <token>tínhamos</token>
-          <token postag='VMP00SM'/>
+          <example>Pensei que tínhamos trancado a porta.</example>
+        </antipattern>
+        <pattern>
+          <token negate='yes'>já</token>
+         <marker>
+          <token>tínhamos</token>
+          <token postag='VMP00SM'><exception regexp='yes'>sentido|apego|seguro|namorado</exception></token>
+         </marker>
+          <token negate_pos="yes" postag='SENT_END|_PUNCT|VMP00SM' postag_regexp='yes'/>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-        <suggestion><match no='2' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
+        <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
         <example correction="fomos">Nós <marker>tínhamos sido</marker> entregues à polícia.</example>
       </rule>
     </rulegroup>
