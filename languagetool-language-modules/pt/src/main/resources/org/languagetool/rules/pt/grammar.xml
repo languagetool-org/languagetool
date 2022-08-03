@@ -1671,26 +1671,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token negate_pos="yes" postag='V.+|NC.+' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-02-02 (1-JAN-2022+) *END* -->
-		
-        <!-- MARCOAGPINTO 2022-03-08 (1-JAN-2022+) *START* -->
-        <!--
-        THIS ANTIPATTERN FIXES THE ISSUE: VERB + FEMALE + MALE (VERB + programação + spaghetti)
-        ONLY USED NOUNS SINCE ADJECTIVES PRODUCE FALSE HITS.
-
-        Tive um professor na faculdade que disse que o BASIC era programação spaghetti.
-        Iniciou o Chegou a Hora em parceria, mas conquistou carreira solo e agora decola com seus novos projetos.
-        Molho para acompanhar massa esparguete.
-        -->
-        <antipattern>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='NCF.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='AQ.+|DI.+|PI.+|Z0.+'/>
-          </token>
-          <token postag='NCM.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='AQ.+|DI.+|PI.+|Z0.+'/>
-          </token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-03-08 (1-JAN-2022+) *END* -->
 
         <!-- MARCOAGPINTO 2022-06-29/30 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
