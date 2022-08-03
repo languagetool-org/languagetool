@@ -299,6 +299,12 @@ public abstract class AbstractPatternRulePerformer {
           }
           if (rule.isGetUnified()) {
             unifiedTokens = unifier.getFinalUnified();
+            //try {
+            //  unifiedTokens = unifier.getFinalUnified();
+            //} catch (Exception e) {
+            //  System.out.println("Crashing rule: " + rule.getFullId());
+            //  throw e;
+            //}
           }
           unifier.reset();
         }
