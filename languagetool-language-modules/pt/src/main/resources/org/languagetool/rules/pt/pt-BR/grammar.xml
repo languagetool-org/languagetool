@@ -1114,6 +1114,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   </category>
 
   <category id="STYLE" name="Style" type="style">
+    <!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/me/te/vos -->
+    <rule id='LHE_S_ME_TE_VOS_VERB' name="Lhe(s)/me/te/vos + Verbo">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-15 + 2021-02-16 (1-JAN-2021+)      -->
+      <!--
+      Lhe amo muito. → Amo-lhe muito.
+      Te vejo amanhã na biblioteca. → Vejo-te amanhã na biblioteca.
+      Te vejo por aí. → Vejo-te por aí.
+      Me manda uma foto sua, por favor. → Manda-me uma foto sua, por favor.
+      -->
+      <pattern>
+        <token postag='SENT_START'/>
+        <marker>
+          <token regexp='yes'>lhes?|vos</token>
+          <token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Substitua por <suggestion><match no='3' case_conversion='startupper'/>-<match no="2" case_conversion="alllower"/></suggestion>.</message>
+      <example correction="Amo-lhes"><marker>Lhes amo</marker> muito.</example>
+    </rule>
+    <rule id='FAZER_DESPORTO' name="Praticar desporto">
+      <!--      Created by Marco A.G.Pinto     -->
+      <pattern>
+        <marker>
+          <token inflected='yes'>fazer</token>
+        </marker>
+        <token min="0" regexp="yes">muito|pouco|algum|bastante|nenhum|mais|menos</token>
+        <token>desporto</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
+      <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
+    </rule>
     <rule id='FAZER_ESPORTE' name="Praticar esporte">
     <!--      Created by Marco A.G.Pinto     -->
     <pattern>
