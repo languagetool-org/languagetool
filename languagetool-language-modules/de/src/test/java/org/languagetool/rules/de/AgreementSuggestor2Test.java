@@ -83,6 +83,7 @@ public class AgreementSuggestor2Test {
     assertSuggestion1("derselben Mann", "[derselbe Mann, denselben Mann, demselben Mann, desselben Manns, desselben Mannes]");
     assertSuggestion1("demselben Frau", "[derselben Frau, dieselbe Frau]");
     assertSuggestion1("desselben Mann", "[denselben Mann, demselben Mann, desselben Manns, derselbe Mann, desselben Mannes]");
+    assertSuggestion1("Desselben Mann", "[Denselben Mann, Demselben Mann, Desselben Manns, Derselbe Mann, Desselben Mannes]");
     assertSuggestion1("meinem Eltern", "[meine Eltern, meinen Eltern, meiner Eltern]");
     assertSuggestion1("eure Auge", "[eurem Auge, eure Augen, euer Auge, euerem Auge, euerm Auge, eures Auges, euren Augen, eueres Auges, euerer Augen]");
     assertSuggestion1("welche Internetvideo", "[welches Internetvideo, welchem Internetvideo, welche Internetvideos, welches Internetvideos, welchen Internetvideos, welcher Internetvideos]");
@@ -90,6 +91,7 @@ public class AgreementSuggestor2Test {
     assertSuggestion1("welches Mann", "[welcher Mann, welchen Mann, welchem Mann, welches Manns, welches Mannes, welche Männer, welcher Männer, welchen Männern]");
     assertSuggestion1("welchem Frau", "[welche Frau, welcher Frau, welche Frauen, welchen Frauen, welcher Frauen]");
     assertSuggestion1("welcher Kind", "[welches Kind, welchem Kind, welcher Kinder, welchem Kinde, welches Kinds, welches Kindes, welche Kinder, welchen Kindern]");
+    assertSuggestion1("Welcher Kind", "[Welches Kind, Welchem Kind, Welcher Kinder, Welchem Kinde, Welches Kinds, Welches Kindes, Welche Kinder, Welchen Kindern]");
   }
 
   @Test

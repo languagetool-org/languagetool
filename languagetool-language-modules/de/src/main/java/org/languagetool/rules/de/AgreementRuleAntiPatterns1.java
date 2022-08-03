@@ -41,6 +41,11 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("Kopfe?|Zwecken?|Ohren|Fü(ß|ss)en|Fu(ß|ss)|Händen|Beginn|Anfang|Geld|Gesicht|Recht|Unrecht|.*stein")
     ),
     Arrays.asList(
+      token("an"),
+      token("allem"),
+      token("Schuld")
+    ),
+    Arrays.asList(
       posRegex("ART.*|PRO:POS.*"),
       token("zu"),
       tokenRegex("gleichen|gro(ß|ss)en|kleinen"),
@@ -488,7 +493,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       regex("die|der"),  // "die Querwild GmbH"
-      posRegex("SUB:.*"),
+      tokenRegex(".*"),
       token("GmbH")
     ),
     Arrays.asList(
