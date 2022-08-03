@@ -6137,6 +6137,29 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">dure</token>
+                </marker>
+                <token regexp="yes">jusque|jusqu'</token>
+                <token regexp="yes">aux?|à</token>
+                <token regexp="yes" inflected="yes">&expressions_temps;|&unites_temps;</token>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">dure</token>
+                </marker>
+                <token>pendant</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="J.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">&expressions_temps;|&unites_temps;</token>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="[NJ].*" postag_regexp="yes"/>
                 <marker>
                     <token postag="V.*" postag_regexp="yes">dure</token>
