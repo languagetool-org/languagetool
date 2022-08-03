@@ -76,6 +76,13 @@ public class AgreementSuggestor2Test {
     assertSuggestion2("ein anstrengenden Tag",
       "[ein anstrengender Tag, ein anstrengendes Tag, einen anstrengenden Tag, einem anstrengenden Tag, eines anstrengenden Tags, eines anstrengenden Tages]");
     //assertSuggestion2("vor allem Teams", "[vor allen Teams]");  // TODO: 'allen' is PRO:IND, 'allem' is PRO:DEM, so we don't map yet between those
+    assertSuggestion1("dasselbe Erinnerung", "[dieselbe Erinnerung, derselben Erinnerung]");
+    assertSuggestion1("derselbe Erinnerung", "[derselben Erinnerung, dieselbe Erinnerung]");
+    assertSuggestion1("derselbe Frau", "[derselben Frau, dieselbe Frau]");
+    assertSuggestion1("dieselben Erinnerung", "[dieselbe Erinnerung, derselben Erinnerung]");
+    assertSuggestion1("derselben Mann", "[derselbe Mann, denselben Mann, demselben Mann, desselben Manns, desselben Mannes]");
+    assertSuggestion1("demselben Frau", "[derselben Frau, dieselbe Frau]");
+    assertSuggestion1("desselben Mann", "[denselben Mann, demselben Mann, desselben Manns, derselbe Mann, desselben Mannes]");
   }
 
   @Test

@@ -216,7 +216,9 @@ class AgreementSuggestor2 {
     }
     boolean isDef = detPos.contains(":DEF:");
     List<String> templates;
-    if (detPos.contains("ART:")) {
+    if (detReading.getToken().matches("(das|der|die|dem|des)selben?")) {
+      templates = singletonList("PRO:DEM:NOM/AKK/DAT/GEN:SIN/PLU:MAS/FEM/NEU");
+    } else if (detPos.contains("ART:")) {
       templates = singletonList(detTemplate);
     } else if (detPos.contains("PRO:POS:")) {
       templates = singletonList(proPosTemplate);
