@@ -2724,7 +2724,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "irgendeins": return topMatch("irgendeines");
       case "Communities": return topMatch("Communitys");
       case "ansich": return topMatch("an sich");
-      // case "Spass": return topMatch("Spaß"); # de-ch(!)
+      case "Spass": return topMatch("Spaß");
       case "garkein": return topMatch("gar kein");
       case "garkeine": return topMatch("gar keine");
       case "garkeinen": return topMatch("gar keinen");
@@ -2732,6 +2732,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Wieviel": return topMatch("Wie viel");
       case "gets": return topMatch("gehts");
       case "Quillbot": return topMatch("QuillBot");
+      case "ebensowenig": return topMatch("ebenso wenig");
+      case "Wiedersehn": return topMatch("Wiedersehen");
+      case "wiedersehn": return topMatch("wiedersehen");
       case "Ohje": return topMatch("Oje");
       case "ohje": return topMatch("oje");
       case "schwupps": return topMatch("schwups");
@@ -2742,6 +2745,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Wordpress": return topMatch("WordPress");
       case "gleichzeit": return topMatch("gleichzeitig");
       case "DAnke": return topMatch("Danke");
+      case "Interior": return topMatch("Interieur");
+      case "Interiors": return topMatch("Interieurs");
       case "trifftigen": return topMatch("triftigen");
       case "trifftigem": return topMatch("triftigem");
       case "trifftige": return topMatch("triftige");

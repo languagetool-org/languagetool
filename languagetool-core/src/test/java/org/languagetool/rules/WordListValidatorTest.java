@@ -149,6 +149,7 @@ public class WordListValidatorTest {
           "Ñuñoa",
           "Stevanović",
           "Snæfellsjökull/S",
+          "Clément/S",
           "Snæfellsjökull",
           "Ibišević",
           "Fríður",
