@@ -38359,7 +38359,14 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KORT_1" name="Zin van 1 woord" tags="picky">
 			<rule>
-				<antipattern><token regexp="yes">^.{1,4}$</token><token>.</token></antipattern>
+				<antipattern>
+				    <token regexp="yes">^.{1,4}$</token>
+				    <token>.</token>
+                </antipattern>
+                <antipattern>
+				    <token regexp="yes">Als(je|tu)blieft|Bedankt|Dank|Dankje|Dank(je|u)wel|Gefeliciteerd|Welkom</token>
+				    <token regexp="yes">\?|\!|\.</token>
+                </antipattern>
 				<pattern>
 					<token postag_regexp="yes" postag="SENT_START|START"/>
 					<marker>
@@ -38369,6 +38376,7 @@ steenwijk;Steenwijk
 				</pattern>
 				<message>Zulke korte zinnen zijn niet fout, maar wel ongebruikelijk in officiële tekst.</message>
 				<example correction=""><marker>Hierzo.</marker></example>
+				<example>Dankjewel!</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="KORT_2" name="Zinnen van 2 woorden" tags="picky">
