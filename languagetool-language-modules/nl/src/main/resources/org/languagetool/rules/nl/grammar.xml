@@ -40270,12 +40270,27 @@ steenwijk;Steenwijk
     <category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
         <rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
             <rule>
-                <antipattern>
-                    <!-- smiley -->
-                    <token regexp="yes">[:;]</token>
-                    <token spacebefore="no" min="0">-</token>
-                    <token spacebefore="no" regexp="yes">[()D]</token>
-                </antipattern>
+				<antipattern>
+					<!-- smiley -->
+					<token regexp="yes">[:;]</token>
+					<token spacebefore="no" min="0" regexp="yes">['-oO0]</token>
+					<token spacebefore="no" regexp="yes">[()DPd\/\|]</token>
+				</antipattern>
+				<antipattern>
+					<token spacebefore="yes" skip="3">:</token>
+					<token spacebefore="no">:</token>
+					<example>Dit is :grin:</example>
+				</antipattern>
+				<antipattern>
+					<token>?</token>
+					<token>></token>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes">\d+</token>
+					<token>:</token>
+					<token regexp="yes">\d+</token>
+					<example>24 : 36 =</example>
+				</antipattern>
                 <pattern>
                     <token/>
                     <token spacebefore="yes" regexp="yes">[!?;,:]</token>
