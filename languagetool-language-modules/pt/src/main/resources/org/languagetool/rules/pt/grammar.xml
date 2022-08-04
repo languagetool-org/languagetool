@@ -16156,6 +16156,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
 
       <pattern>
+          <token negate_pos='yes' postag='SENT_START'/>
         <marker>
           <token>e</token>
           <token>que</token>
@@ -16164,7 +16165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='V.+|SPS.+|NC.+|AQ.+|DA.+|DI.+|RG|NP.+|RM' postag_regexp='yes'/>
       </pattern>
       <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-      <suggestion>e \3</suggestion>
+      <suggestion>e \4</suggestion>
       <example correction="e queria">Ele é o Rui <marker>e que queria</marker> comer bem.</example>
       <example>E que se supõe que devo fazer quando me xingar?</example>
 
@@ -20183,7 +20184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Onko — É café “sem cafeína”</example>
     </rule>
 
-    <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!" default='temp_off'>
+    <rulegroup id='INTERJECTIONS_PUNTUATION' name="Pontuação de interjeições: Olá!" default='on'>
       <!--  Created by Tiago F. Santos, 2017-04-28      -->
       <rule>
         <pattern>
@@ -20379,6 +20380,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes'>[\!\?:\)]</token>
         </antipattern>
         <antipattern>
+          <token>Foda</token>
+          <token spacebefore='no'>-</token>
+          <token spacebefore='no'>se</token>
+          <example>Foda-se o sistema.</example>
+        </antipattern>
+        <antipattern>
           <token>,</token>
           <token postag='I' max='3'/>
           <token>e</token>
@@ -20455,6 +20462,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token skip='-1'>dera</token>
           <token postag='V.+' postag_regexp='yes'/>
           <example>Quem me dera ter a oportunidade de fazer isso.</example>
+        </antipattern>
+        <antipattern>
+          <token>Foda</token>
+          <token spacebefore='no'>-</token>
+          <token spacebefore='no'>se</token>
+          <example>Foda-se o sistema.</example>
         </antipattern>
         <antipattern>
           <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
@@ -20565,17 +20578,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='I' spacebefore='no'/>
           <example>Ji-ah reconhece Yeon quando ele está deixando o local.</example>
         </antipattern>
-         <antipattern>
+        <antipattern>
           <token regexp='yes'>\p{L}+</token>
-          <token>eh</token>
+          <token regexp='yes'>eh|bum|ei|oi</token>
           <token regexp='yes'>\p{L}+</token>
           <example>Você eh maravilhosa.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>\p{L}+</token>
+          <token>cruz</token>
+          <token>credo</token>
+          <token regexp='yes'>\p{L}+</token>
+          <example>Mas cruz credo ele ganhar o jogo.</example>
+        </antipattern>
+        <antipattern>
+          <token>queira</token>
+          <token>Deus</token>
+          <token regexp='yes'>\p{L}+</token>
+          <example>Queira Deus isso não traga desgraça.</example>
+        </antipattern>
+        <antipattern>
+          <token>até</token>
+          <token>amanhã</token>
+          <token postag='RG'/>
+          <example>Até amanhã de manhã.</example>
+          <example>Até amanhã à tarde.</example>
+        </antipattern>
+        <antipattern>
+          <token>ainda</token>
+          <token>bem</token>
+          <token regexp='yes'>jovem|jovens|nov[ao]s?</token>
+          <example>Ainda bem jovem, começou os estudos em Mainz.</example>
         </antipattern>
         <antipattern>
           <token>pense</token>
           <token>bem</token>
           <token regexp='yes'>antes|se</token>
           <example>Pense bem antes de divulgar seu número.</example>
+        </antipattern>
+        <antipattern>
+          <token>meu</token>
+          <token>Deus</token>
+          <token postag="RG" min='0'/>
+          <token regexp='yes' min='0'>&pronomes_obliquos;</token>
+          <token postag="V...3S.+" postag_regexp='yes'/>
+          <example>O meu Deus nunca me abandona.</example>
         </antipattern>
         <antipattern>
           <token postag="_PUNCT|SENT_START" postag_regexp='yes'/>
@@ -20689,7 +20736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <pattern>
-            <token regexp='yes' inflected='yes'>dizer|falar|mandar|um|desejar|dar</token>
+            <token regexp='yes' inflected='yes'>dizer|falar</token>
           <marker>
             <token regexp='yes'>adeus|oi|olá|obrigad[oa]</token>
           </marker>
@@ -20702,8 +20749,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
             <token regexp='yes' inflected='yes'>dizer|falar|mandar|um|desejar|dar</token>
           <marker>
-            <token postag='I'/>
-            <token postag='I'/>
+            <token regexp='yes'>boa|bom|feliz</token>
+            <token regexp='yes'>dia|tarde|noite|aniversário</token>
           </marker>
         </pattern>
         <message>Se não é uma saudação, coloque entre aspas.</message>
