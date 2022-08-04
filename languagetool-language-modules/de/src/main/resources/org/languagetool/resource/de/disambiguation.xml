@@ -7029,4 +7029,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="SUB.*FEM.*"/>
     </rule>
+    <rule id="BITTE_KEIN_VER" name="'Bitte' kein Verb">
+        <pattern>
+            <token>wer</token>
+            <marker>
+                <token case_sensitive="yes">bitte</token>
+            </marker>
+            <token postag="VER.*" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
 </rules>
