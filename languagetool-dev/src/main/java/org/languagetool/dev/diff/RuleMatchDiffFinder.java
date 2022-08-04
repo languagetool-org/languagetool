@@ -439,7 +439,13 @@ public class RuleMatchDiffFinder {
       outputFiles.sort((f1, f2) -> {
           long added1 = f1.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count();
           long added2 = f2.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count();
-          return Long.compare(added2, added1);
+          if (added2 == added1) {
+            long removed1 = f1.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.REMOVED).count();
+            long removed2 = f2.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.REMOVED).count();
+            return Long.compare(removed2, removed1);
+          } else {
+            return Long.compare(added2, added1);
+          }
         }
       );
       for (OutputFile outputFile : outputFiles) {
