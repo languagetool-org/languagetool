@@ -18406,7 +18406,8 @@ steenwijk;Steenwijk
                 </antipattern>
                 <antipattern> <!-- smileys -->
                     <token regexp="yes">[:;]</token>
-                    <token spacebefore="no" regexp="yes">[D)(p\-\/]{1,2}</token>
+                    <token spacebefore="no" min="0" regexp="yes">['-oO0]</token>
+                    <token spacebefore="no" regexp="yes">[()DPd\/\|]</token>
                 </antipattern>
                 <antipattern> <!-- e.g. 15:00 -->
                     <token regexp="yes">[0-9]{1,2}</token>
@@ -40270,27 +40271,25 @@ steenwijk;Steenwijk
     <category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
         <rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
             <rule>
-				<antipattern>
-					<!-- smiley -->
-					<token regexp="yes">[:;]</token>
-					<token spacebefore="no" min="0" regexp="yes">['-oO0]</token>
-					<token spacebefore="no" regexp="yes">[()DPd\/\|]</token>
-				</antipattern>
-				<antipattern>
-					<token spacebefore="yes" skip="3">:</token>
-					<token spacebefore="no">:</token>
-					<example>Dit is :grin:</example>
-				</antipattern>
-				<antipattern>
-					<token>?</token>
-					<token>&gt;</token>
-				</antipattern>
-				<antipattern>
-					<token regexp="yes">\d+</token>
-					<token>:</token>
-					<token regexp="yes">\d+</token>
-					<example>24 : 36 =</example>
-				</antipattern>
+                <antipattern>
+                    <!-- smiley -->
+                    <token regexp="yes">[:;]</token>
+                    <token spacebefore="no" min="0" regexp="yes">['-oO0]</token>
+                    <token spacebefore="no" regexp="yes">[()DPd\/\|]</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" skip="3">:</token>
+                    <token spacebefore="no">:</token>
+                </antipattern>
+                <antipattern>
+                    <token>?</token>
+                    <token>&gt;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token>:</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
                 <pattern>
                     <token/>
                     <token spacebefore="yes" regexp="yes">[!?;,:]</token>
@@ -40305,6 +40304,8 @@ steenwijk;Steenwijk
                 -->
                 <example correction="),">Dit (is<marker>) ,</marker> toch?</example>
                 <example>Dit is :-)</example>
+                <example>Dit is :grin:</example>
+                <example>24 : 36 =</example>
             </rule>
         </rulegroup>
 
