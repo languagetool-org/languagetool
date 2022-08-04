@@ -25,9 +25,51 @@
 Filter for remote matches.
 To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
 -->
-<!DOCTYPE rules []>
+<!DOCTYPE rules [
+
+<!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes">
+<!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
+<!ENTITY livros_biblicos "Gênesis|Êxodo|Levítico|Deuteronômio|Josué|Juízes|Rute|Samuel|Reis|Crônicas|Esdras|Neemias|Ester|Jó|Salmos|Provérbios|Eclesiastes|Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|Oseias|Joel|Amós|Obadias|Jonas|Miqueias|Naum|Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Tobias|Judite|Macabeus|Sabedoria|Eclesiástico|Baruque|Mateus|Marcos|Lucas|João|Apóstolos|Romanos|Coríntios|Gálatas|Efésios|Filipenses|Colossenses|Tessalonicenses|Timóteo|Tito|Filémon|Hebreus|Tiago|Pedro|Judas|Apocalipse">
+<!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|bpm|ton|kWh|GWa|MWd|MWh|mAh|min|ha)">
+<!ENTITY unidades_de_medida_por_extenso "centigrama|centigramas|centilitro|centilitros|centímetro|centímetros|decigrama|decigramas|decilitro|decilitros|decímetro|decímetros|grama|gramas|grau|graus|hectares|litro|litros|metro|metros|micrograma|microgramas|microlitro|microlitros|micrometro|micrómetro|micrómetros|milha|milhas|miligrama|miligramas|mililitro|mililitros|milimetro|milímetro|milímetros|quilograma|quilogramas|quilolitro|quilolitros|quilometro|quilómetro|quilómetros|quilotonelada|quilotoneladas|segundo|segundos|tonelada|toneladas">
+<!ENTITY operadores_matematicos "[-x\.·\*\/\^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿→]|\=|\+">
+<!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
+
+]>
+
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
       <!-- TODO: fill me -->
+
+    <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="False alarms in missing comma rule">
+        <rule>
+            <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">&expressoes_de_tempo;|&operadores_matematicos;|&unidades_de_medida;|&unidades_de_medida_por_extenso;</token>
+            </pattern>
+            <example correction=""><marker>100 milissegundos</marker> de atraso.</example>
+            <example correction="">e um raio de <marker>85 ±</marker> 1,6 raios solares.</example>
+            <example correction="">Está localizada a <marker>63 km</marker> a ESE da ilha Kanton.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.+" postag_regexp="yes"/>
+                <token regexp="yes">&tracos_de_separacao;</token>
+                <token postag="N...G.+" postag_regexp="yes"/>
+            </pattern>
+            <example correction=""><marker>Campanha — Rio</marker> de Janeiro, 29 de abril de 1887.</example>
+        </rule>
+        <rule>
+            <pattern>
+                 <token postag="N.+" postag_regexp="yes"/>
+                 <token>acima</token>
+                 <token>de</token>
+                 <token>tudo</token>
+                 <token>,</token>
+                 <token negate_pos="yes" postag="V.+" postag_regexp="yes"/>
+            </pattern>
+            <example correction=""><marker>Deus acima de tudo, família</marker> meu maior patrimônio.</example>
+        </rule>
+    </rulegroup>
     </category>
 </rules>
