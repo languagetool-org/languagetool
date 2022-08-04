@@ -2136,23 +2136,87 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Idealizou-o este barão de Jaraguá, contribuindo dessa forma para o…</example>
         <example>A este nível, estas metas incluem, entre outros assuntos…</example>
       </rule>
-      <!-- MARCOAGPINTO 2020-05-20 *START* -->
+
+      <!-- MARCOAGPINTO 2022-08-04 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <!-- "Desta forma é promovida um ambiente de trabalho saudável e com grandes chances de desenvolvimento dos funcionários dentro da empresa." -->
       <rule>
+
+        <antipattern>
+          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+          <token min="0" max="2" postag='D[ADI].F.+|Z0[CF].+' postag_regexp="yes"/>
+          <token postag='AQ.[CF].+|NC[CF].+|NP[CF].+' postag_regexp='yes' skip='-1'>
+            <exception postag_regexp='yes' postag='SPS00:DA.F.+'/>
+          </token>
+          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMP00.F' postag_regexp="yes"/>
+          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp="yes"/>
+          <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
+          <example>A informação no fio metálico é transmitida pelo campo elétrico, que viaja à velocidade da luz.</example>
+          <example>As pessoas aqui são acostumadas ao frio.</example>
+          <example>A palavra “diabo” é originada do grego “diabolon”, que significa divisão, oposição.</example>
+          <example>A reunião dos dois sexos é mostrada pelo prefixo “ge”.</example>
+          <example>Amigo, a riqueza em viver está inserida no desprendimento de si.</example>
+          <example>A fronteira com a província de Akita ao oeste é formada pelos cumes mais altos das Montanhas Ou.</example>
+          <example>A cor também está associada aos signos Aquário, Libra, Sagitário e Peixes.</example>
+          <example>Toneladas de lixo são produzidas no país todos os dias.</example>
+          <example>Uma natureza morta de um pintor holandês está pendurada no quarto dele.</example>
+          <example>Muitas palavras do português são derivadas do grego e do latim, o que torna o estudo desses idiomas algo essencial.</example>
+          <example>Essa parte do processo está sujeita aos prazos da alfândega brasileira e, portanto, pode causar eventuais atrasos.</example>
+          <example>A Páscoa sempre é comemorada num domingo.</example>
+          <example>Todas as instituições registradas nesse órgão são reconhecidas pelo governo britânico.</example>
+          <example>Atualmente, nove empresas sociais são apoiadas pelo programa danone.communities e, juntos, buscam melhorar a vida quotidiana de mais de um milhão ...</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+          <token min="1" max="2" postag='D[ADI].F.+|Z0[CF].+' postag_regexp="yes"/>
+          <token min="1" max="2" postag='AQ.[CF].+|NC[CF].+|NP[CF].+' postag_regexp='yes' skip='-1'/>
+          <token postag='VMIP3.+' postag_regexp='yes' skip='-1'/>
+          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMP00.F' postag_regexp="yes"/>
+          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp="yes"/>
+          <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
+          <example>A cidadezinha, abandonada há muito tempo, parece congelada no tempo.</example>
+          <example>As inscrições para a 5ª Primavera dos Museus são feitas no site do Ibram (www.museus.gov.br).</example>
+          <example>Na capital e no interior, as motos são os maiores meios de transporte de locomoção, mas também são acusadas pelo maior aumento de óbitos.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='SPS00|DA.F.+' postag_regexp="yes"/>
+          <token min="1" max="2" postag='AQ.[CF].+|NC[CF].+|DI.F.+' postag_regexp="yes"/>
+          <token postag='SPS00|CC|CS|RG|I|RM|RN|SPS00:DA.M.+' postag_regexp="yes"/>
+          <token min="1" max="2" postag='AQ.[CM].+|NC[CM].+' postag_regexp="yes"/>
+          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMP00.F' postag_regexp="yes"/>
+          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp="yes"/>
+          <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
+          <example>Não há evidências de que a urina de cavalo está envolvida no processo.</example>
+          <example>...erimentação diversas vezes e se uma concorrência ou sequência de certas circunstâncias ou eventos é notada um número considerável de vezes, assume-se que os fatos ou eventos em questão estão conectados.</example>
+          <example>...tam roteiros turísticos pelo seu interior (por ser considerado sagrado), a área externa do templo é aberta ao público e é considerado uma importante atração turística de Salt Lake City.</example>
+        </antipattern>
+
         <pattern>
-          <token postag='RG'/>
-          <token postag='VMIP3S0'/>
+          <token postag='AQ.M.+|NCM.+|RG' postag_regexp="yes"/>
+          <token min="0" max="1" postag='_PUNCT|RG' postag_regexp="yes"/>
+          <token postag='VMIP3.+' postag_regexp="yes"/>
           <marker>
-            <token postag='VMP00SF'/>
+            <token postag='VMP00.F' postag_regexp="yes">
+            <exception postag_regexp='yes' postag='AQ.+|NC.+'/>
+          </token>
           </marker>
-          <token postag='DI0MS0'/>
-          <token postag='NCMS000'/>
+          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp="yes"/>
+          <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
         </pattern>
         <message>&MSG_ECG;</message>
-        <suggestion><match no='3' postag="VMP00SF" postag_replace='VMP00SM' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='4' postag="VMP00(.)F" postag_replace='VMP00$1M' postag_regexp="yes"/></suggestion>
         <example correction='promovido'>Desta forma é <marker>promovida</marker> um ambiente de trabalho saudável.</example>
+        <example>O poeta diz que nunca conseguiu ser parte isolada do movimento cultural de Nova Iguaçu.</example>
+        <example>Sua presença é notada quando surgem picadas pelo corpo, principalmente na região do pescoço.</example>
+        <example>Todos nós vamos ficar com fome, então traga comida o suficiente para todo o mundo.</example>
+        <example>Hoje dá entrevista ao Correio da Manhã, para realçar uma qualidade dúbia que é a de presidente executivo de uma empres...</example>
       </rule>
-      <!-- MARCOAGPINTO 2020-05-20 *END* -->
+      <!-- MARCOAGPINTO 2022-08-04 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
     </rulegroup>
 
 
