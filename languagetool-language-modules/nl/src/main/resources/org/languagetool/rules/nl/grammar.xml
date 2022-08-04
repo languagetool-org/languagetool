@@ -68,13 +68,13 @@ regexp case-insensitive maken : (?i)
 <!ENTITY fullBibleBooks "Genesis|Exodus|Leviticus|Numeri|Deuteronomium|Jozua|R[ei]chters|Samuel|Koningen|Kronieken|Nehemia|Esth?er|Job|Psalmen|Spreuken|Prediker|Hooglied|Jesa[ij]a|Jeremia|Klaagliederen|Ezechiël|Daniël|Hosea|Joël|Amos|Obadja|Jona|Micha|Nahum|Habakuk|[SZ]efan[ij]a|Haggai|Zacharia|Maleachi|Matt?eüs|Mar[ck]us|Lu[ck]as|Johannes|Handelingen|Romeinen|Korintiërs|Galaten|Efeziërs|Filippenzen|[CK]olossenzen|Th?ess?alonicenzen|Timoteüs|Titus|Filemon|Hebreeë(n|rs)|Ja[ck]ob(us)?|Petrus|Judas|Openbaring|Wijsheden|Tobi(as|t)|Sirach|Baruch|Makkabeeë(n|rs)">
 
 <!ENTITY measurementUnitPrefix "E(xa)?|P(eta)?|T(era)?|G(iga)?|M(ega)?|k(ilo)?|h(ecto)?|d(ec)?a|d(eci)?|c(enti)?|m(illi)?|u|&#x03BC;|micro|n(ano)?|licht">
-<!ENTITY measurementUnitsTime "(&measurementUnitPrefix;)?(s(ec)?|seconde(n|s)?)|min(uut)?|minuten|u(ur)?|uren|hr?|d|dag(en)?|we(ek|ken)|ma(and|nden)|kwarta(al|len)|ja(ar|ren)|decenni(um|a|ën)|centenni(um|a)|euuw(en)?|millenni(um|a)">
-<!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eter)?|mijl|p(arse)?cs?|duim|inch(es)?|ft|AE|AU">
-<!ENTITY measurementUnitsMass "(&measurementUnitPrefix;)?g(ram)?|ons|pond|ton">
+<!ENTITY measurementUnitsTime "(&measurementUnitPrefix;)?(s(ec)?|seconde(n|s)?)|min(uut)?|minuten|u(ur)?|uren|hr?|d|dag(en)?|we(ek|ken)|maa(nd|nden)|kwarta(al|len)|ja(ar|ren)|decenni(um|a|ën)|centenni(um|a)|euuw(en)?|millenni(um|a)">
+<!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eters?)?|mijl(en)?|p(arse)?cs?|duim|inch(es)?|ft|AE|AU">
+<!ENTITY measurementUnitsMass "(&measurementUnitPrefix;)?g(r(am)?)?|ons|pond|ton">
 <!ENTITY measurementUnitsTemperature "K|&#x212A;|kelvin|℃|℉|°C(elsius)?|°F(ahrenheit)?|°|graad|graden">
 <!ENTITY measurementUnitsAngles "[°′″‴⁗'&quot;“]">
 <!ENTITY measurementUnitsElectroMagnetism "(&measurementUnitPrefix;)?(J|joule|C|coulomb|A|ampere|V|volt|&#x03A9;|ohm|W|watt|F|farad|S|siemens|T|tesla|Wb|weber|H|henry)">
-<!ENTITY measurementUnitsMisc "(&measurementUnitPrefix;)?(mol|cd|candela|l(u)?x|Bq|becquerel|dB|decibel|cal(orie)?|Pa|pascal|bar|atm|l(iter)?)">
+<!ENTITY measurementUnitsMisc "(&measurementUnitPrefix;)?(mol|cd|candela|l(u)?x|Bq|becquerel|dB|decibel|cal(orie)?|Pa|pascal|bar|atm|l(iter)?)|el|eetlepels?|tl|theelepels?|hoogtemeters?|vierkante(meters?)?|kubieke|kuub">
 <!ENTITY measurementUnitsComputing "(&measurementUnitPrefix;|kibi|mebi|gibi|tebi|pebi|exbi|zebi|yobi)?(B|bits?|bytes?|Hz|hertz|hash|FLOPS)">
 <!ENTITY measurementUnitsAll "&measurementUnitsTime;|&measurementUnitsLength;|&measurementUnitsMass;|&measurementUnitsTemperature;|&measurementUnitsAngles;|&measurementUnitsElectroMagnetism;|&measurementUnitsMisc;|&measurementUnitsComputing;">
 
@@ -336,7 +336,7 @@ regexp case-insensitive maken : (?i)
 	            </antipattern>
 	            <antipattern>
 	                <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
-	                <token regexp="yes">en|tot</token>
+	                <token regexp="yes">bij|en|tot</token>
 	                <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
                     <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}|euro|dollars?</token>
 	            </antipattern>
@@ -376,8 +376,8 @@ regexp case-insensitive maken : (?i)
 				    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
                 </antipattern>
                 <antipattern>
-				    <token regexp="yes">bloedgroep|ISBN|ISSN|RAID</token>
-				    <token regexp="yes">[0-9]</token>
+				    <token regexp="yes">air|bloedgroep|fase|model|niveau|pro|ISBN|ISSN|RAID</token>
+				    <token regexp="yes">[1-2]?[0-9]</token>
                 </antipattern>
                 <antipattern>
 				    <token regexp="yes">&abbrevBibleBooks;|&fullBibleBooks;</token>
@@ -404,6 +404,7 @@ regexp case-insensitive maken : (?i)
 	            <example correction="">We hebben het al <marker>100</marker> keer gezegd.</example>
 				<example>De rekening 2 + 2 = 5 klopt helemaal niet.</example>
 				<example>We moeten het 1 tot 2 m de linkerkant opschuiven.</example>
+				<example>Het meet 2 bij 3 meters of 6 vierkantemeters.</example>
 				<example>Hij deed het 2,5 keer.</example>
 				<example>De temperatuurverschil van 0,5°C is heel klein.</example>
 				<example>3. Een derde punt</example>
