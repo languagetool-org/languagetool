@@ -15876,6 +15876,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='VMS.+' postag_regexp='yes'/>
           <example>Não há evidências de que seja melhor para o ambiente ou que contribua para o conceito.</example>
       </antipattern>
+      <antipattern>
+          <token>que</token>
+          <token>a</token>
+          <token regexp='yes'>mente|saúde</token>
+          <example>E é assim que a mente funciona.</example>
+      </antipattern>
+      <antipattern>
+          <token postag='VMIP.+' postag_regexp='yes' skip='-1'>
+          <exception inflected='yes'>ser</exception>
+          <exception scope='next' postag='VMN0000'/>
+          </token>
+          <token skip='-1'>que</token>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <example>Preciso apenas que você registre seu endereço.</example>
+      </antipattern>
       <rule>
         <pattern>
           <token postag='SPS00|CC' postag_regexp='yes'>
@@ -15906,8 +15921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token postag='PD.+|PP.+' postag_regexp='yes'/>
             <token postag='VMS[PI]...' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='SPS.+'/>
-              <exception regexp='yes' inflected='yes'>&verbos_auxiliares_part_passado;|poder|pacientar</exception>
-              <exception inflected='yes'>elar</exception>
+              <exception regexp='yes' inflected='yes'>&verbos_auxiliares_part_passado;|poder|pacientar|elar|aulir|carnar</exception>
             </token>
           </marker>
           <token negate_pos="yes" postag='SPS.+' postag_regexp='yes'/>
