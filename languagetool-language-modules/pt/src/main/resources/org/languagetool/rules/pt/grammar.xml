@@ -44381,6 +44381,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
 
+    <!-- TER NOME ter designação -->
+    <rulegroup id='TER_NOME_DESIGNAÇÃO' name="Ter Nome → Ter Designação">
+      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-05 (25-JUL-2022+)      -->
+      <!--
+      O projeto tem este nome por ser impressionante. → O projeto tem esta designação por ser impressionante.
+      (It may require the user to make small gender changes in the end of the sentence)
+      (Basically, it checks for "nome" and, next to it, "por/para/de")
+      -->
+
+      <rule>
+        <!--
+        O projeto tem este nome por ser impressionante. → O projeto tem esta designação por ser impressionante.
+        Os projetos têm este nome por ser impressionante. → Os projetos têm esta designação por ser impressionante.
+        -->
+        <pattern> 
+          <token regexp="yes">t[eê]m</token>
+          <marker>
+            <token>este</token>
+            <token>nome</token>
+          </marker>
+          <token postag='CC|SPS00' postag_regexp='yes'/>
+        </pattern>
+        <message>Se for um texto académico/científico, pondere empregar o termo 'designar'.</message>
+        <suggestion>esta designação</suggestion>
+        <example correction="esta designação">O projeto tem <marker>este nome</marker> por ser impressionante.</example>
+      </rule>
+
+      <rule>
+        <!--
+        O projeto é assim chamado por ser impressionante. → O projeto é assim designado por ser impressionante.
+        Os projetos são assim chamados por serem impressionantes. → Os projetos são assim designados por serem impressionantes.
+        A equação é assim chamada por ser brilhante. → A equação é assim designada por ser brilhante.
+        As equações são assim chamadas por serem brilhantes. → As equações são assim designadas por serem brilhantes.
+        -->
+        <pattern> 
+          <token regexp="yes">é|são</token>
+          <token postag='RG' postag_regexp='no'/>
+          <marker>
+            <token regexp="yes">chamad[ao]s?</token>
+          </marker>
+          <token postag='CC|SPS00' postag_regexp='yes'/>
+        </pattern>
+        <message>Se for um texto académico/científico, pondere empregar o termo 'designar'.</message>
+        <suggestion><match no='3' postag='NC(.)(.)000' postag_replace='VMP00$2$1'>designar</match></suggestion>
+        <example correction="designado">O projeto é assim <marker>chamado</marker> por ser impressionante.</example>
+        <example correction="designada">A equação é assim <marker>chamada</marker> por ser brilhante.</example>
+      </rule>
+
+    </rulegroup>
+
+
     <!-- VÁRIAS VEZES vári[ao]s -->
     <rule id='VÁRIAS_VEZES_VÁRIAS' name="Simplificar: Várias vezes → Vári[ao]s" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-23 (Checked/Enhanced) (1-JAN-2022+)      -->
