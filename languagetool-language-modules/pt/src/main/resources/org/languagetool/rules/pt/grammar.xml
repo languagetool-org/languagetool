@@ -20736,15 +20736,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <pattern>
-            <token regexp='yes' inflected='yes'>dizer|falar|mandar|um|desejar|dar</token>
+            <token regexp='yes' inflected='yes'>dizer|falar</token>
           <marker>
-            <token regexp='yes'>boa|bom|feliz</token>
-            <token regexp='yes'>dia|tarde|noite|aniversário</token>
+            <token regexp='yes'>boa|bom</token>
+            <token regexp='yes'>dia|tarde|noite</token>
           </marker>
         </pattern>
         <message>Se não é uma saudação, coloque entre aspas.</message>
         <suggestion>"\2 \3"</suggestion>
         <example correction='"bom dia"'>Só passei para dizer <marker>bom dia</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+            <token regexp='yes' inflected='yes'>dizer|falar</token>
+          <marker>
+            <token>feliz</token>
+            <token>aniversário</token>
+          </marker>
+        </pattern>
+        <message>Se não é uma saudação, coloque entre aspas.</message>
+        <suggestion>"\2 \3"</suggestion>
+        <example correction='"feliz aniversário"'>Só passei para dizer <marker>feliz aniversário</marker>.</example>
       </rule>
     </rulegroup>
 
