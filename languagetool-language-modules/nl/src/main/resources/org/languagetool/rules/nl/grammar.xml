@@ -40138,56 +40138,109 @@ steenwijk;Steenwijk
         </rulegroup>
     </category>
     <category id="REPETITIONS" name="Herhaling van woorden of woordgroepen." >
-
         <rulegroup id="DUBBEL_WOORD" name="Dubbel woord">
-            <antipattern><token>hoe</token><token>het</token><token>het</token></antipattern>
-            <antipattern><token postag_regexp="yes" postag="WKW.*"/><token>het</token><token>het</token><token postag="BNW:OVR:VRB"/></antipattern>
-            <antipattern><token>de</token><token>Sing</token><token>Sing</token></antipattern>
-            <antipattern><token>het</token><token>het</token><token>minst</token></antipattern>
-            <antipattern><token>het</token><token>het</token><token postag="BNW:OVR:ONV"/></antipattern>
-            <antipattern><token>Dai</token><token>Dai</token><token regexp="yes">N'?tab</token></antipattern>
-            <antipattern><token postag="WKW.*" postag_regexp="yes"/><token>wat</token><token>wat</token><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/></antipattern>
-            <antipattern><token postag="VGW"/><token>het</token><token>het</token><token postag_regexp="yes" postag="ZNW.*HET|BNW.*"/></antipattern><!-- alsof het het begin is -->
-            <antipattern><token/><token postag="WKW:TGW:1EP"/><token postag="WKW:TGW:1EP"/></antipattern>
-            <antipattern><token>de</token><token>een</token><token>een</token><token postag="ZNW:EKV.*" postag_regexp="yes"/></antipattern>
-            <antipattern><token>is</token><token>is</token></antipattern>
-            <antipattern><token>agar</token><token>agar</token></antipattern>
-            <antipattern><token>ja</token><token>ja</token></antipattern>
-            <antipattern><token>balletje</token><token>balletje</token></antipattern>
-            <antipattern><token>is</token><token>het</token><token>het</token><token>waard</token></antipattern>
-            <antipattern>
-                <!-- zich om om -->
-                <token>zich</token>
-                <token>om</token>
-                <token>om</token>
-            </antipattern>
-            <antipattern>
-                <!-- om om hulp te vragen -->
-                <token>om</token>
-                <token skip="4">om</token>
-                <token>te</token>
-                <token postag="WKW:TGW:INF"/>
-            </antipattern>
             <rule>
+                <antipattern>
+                    <token>de</token>
+                    <token>Sing</token>
+                    <token>Sing</token>
+                </antipattern>
+                <antipattern>
+                    <token>Dai</token>
+                    <token>Dai</token>
+                    <token regexp="yes">N'?tab</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="WKW.*" postag_regexp="yes"/>
+                    <token>wat</token>
+                    <token>wat</token>
+                    <token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token/>
+                    <token postag="WKW:TGW:1EP"/>
+                    <token postag="WKW:TGW:1EP"/>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>een</token>
+                    <token>een</token>
+                    <token postag="ZNW:EKV.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <!-- zich om om -->
+                    <token>zich</token>
+                    <token>om</token>
+                    <token>om</token>
+                </antipattern>
+                <antipattern>
+                    <!-- om om hulp te vragen -->
+                    <token>om</token>
+                    <token skip="4">om</token>
+                    <token>te</token>
+                    <token postag="WKW:TGW:INF"/>
+                </antipattern>
                 <pattern>
                     <token><exception>’</exception></token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">.*[a-z].*<exception postag_regexp="yes" postag="SENT_START|START"/></token>
-                        <token><match no="1"/><exception regexp="yes">lepeltje|sam|tom|sapiens|ai|leren|je|dat|van|die|aan|ze|haar|via|zijn|het|etc|enz|bling|lepeltje|ja|ha|nou</exception></token>
+                        <token regexp="yes" case_sensitive="yes">.*[a-z].*<exception postag_regexp="yes" postag="SENT_START|START"/></token> <!-- TODO: Look at full list of matches and re-assess regex -->
+                        <token><match no="1"/><exception regexp="yes">aan|agar|ai|balletje|bla|bling|bora|dat|die|enz|etc|ha|haar|het|hey|hi|hiep|hoi|is|ja|je|lepeltje|leren|nee|nou|sam|sapiens|toi|tom|van|via|ze|zijn</exception></token>
                     </marker>
                 </pattern>
                 <message>Een dubbel woord kan juist zijn, maar vaak is het een vergissing: <suggestion>\2</suggestion>.</message>
                 <example correction="de">Ik zie <marker>de de</marker> man.</example>
             </rule>
             <rule>
-                <antipattern><token>id</token><token>het</token><token>het</token></antipattern>
-                <antipattern><token>het</token><token>het</token><token postag="BNW.*e" postag_regexp="yes"/></antipattern>
+                <antipattern>
+                    <token regexp="yes">hoe|id</token>
+                    <token>het</token>
+                    <token>het</token>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token>het</token>
+                    <token>minst</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">zijn</token>
+                    <token>het</token>
+                    <token>het</token>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token skip="4">het</token>
+                    <token inflected="yes">zijn</token>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token>het</token>
+                    <token postag="BNW.*e" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="WKW.*"/>
+                    <token>het</token>
+                    <token>het</token>
+                    <token postag="BNW:OVR:VRB"/>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token>het</token>
+                    <token postag="BNW:OVR:ONV"/>
+                </antipattern>
+                <antipattern><!-- alsof het het begin is -->
+                    <token postag="VGW"/>
+                    <token>het</token>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="ZNW.*HET|BNW.*"/>
+                </antipattern>
                 <pattern>
                         <token>het</token>
                         <token>het</token>
                 </pattern>
                 <message>Een dubbel woord kan juist zijn, maar vaak is het een vergissing: <suggestion>\1</suggestion>.</message>
                 <example correction="het">Ik zie <marker>het het</marker> juist.</example>
+                <example>Daarom is het het best product voor ons.</example>
+                <example>We willen weten waarom het het best product voor ons was.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VAN_VAN" name="van van/van Van">
