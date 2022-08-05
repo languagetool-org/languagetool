@@ -515,6 +515,43 @@ public class GermanTaggerTest {
     assertFalse(res5.contains("VER"));
   }
 
+  @Test
+  public void testVerbAndPa2() throws IOException {
+    List<AnalyzedTokenReadings> result1 = tagger.tag(Collections.singletonList("erstickt"));
+    assertThat(result1.size(), is(1));
+    assertThat(result1.get(0).getReadings().size(), is(5));
+    String res1 = result1.toString();
+    assertTrue(res1.contains("ersticken/VER:2:PLU:PRÄ:SFT"));
+    assertTrue(res1.contains("ersticken/VER:3:SIN:PRÄ:SFT"));
+    assertTrue(res1.contains("ersticken/VER:IMP:PLU:SFT"));
+    assertTrue(res1.contains("ersticken/VER:PA2:SFT"));
+    assertTrue(res1.contains("erstickt/PA2:PRD:GRU:VER"));
+
+    List<AnalyzedTokenReadings> result2 = tagger.tag(Collections.singletonList("erstickte"));
+    assertThat(result2.size(), is(1));
+    assertThat(result2.get(0).getReadings().size(), is(19));
+    String res2 = result2.toString();
+    assertTrue(res2.contains("erstickt/PA2"));
+    assertTrue(res2.contains("ersticken/VER:1:SIN:KJ2:SFT"));
+    assertTrue(res2.contains("ersticken/VER:1:SIN:PRT:SFT"));
+    assertTrue(res2.contains("ersticken/VER:3:SIN:KJ2:SFT"));
+    assertTrue(res2.contains("ersticken/VER:3:SIN:PRT:SFT"));
+    assertFalse(res2.contains("NEB"));
+
+    List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("erstickend"));
+    assertThat(result3.size(), is(1));
+    assertThat(result3.get(0).getReadings().size(), is(2));
+    String res3 = result3.toString();
+    assertTrue(res3.contains("ersticken/VER:PA1:SFT"));
+    assertTrue(res3.contains("erstickend/PA1:PRD:GRU:VER"));
+
+    List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("erstickender"));
+    assertThat(result4.size(), is(1));
+    assertThat(result4.get(0).getReadings().size(), is(7));
+    String res4 = result4.toString();
+    assertTrue(res4.contains("erstickend/PA1:DAT:SIN:FEM:GRU:SOL:VER"));
+  }
+
   /**
    * Returns a string representation like {@code toString()}, but sorts
    * the elements alphabetically.
