@@ -12322,6 +12322,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
   <category id='CASING' name='Capitalização' type='grammar'>
 
+    <rule id="SUBSTANTIVOS_COMUNS_CAPITALIZADOS" name="Substantivos comuns com letra maiúscula" default='temp_off'>
+       <antipattern>
+           <token regexp='yes'>&tracos_de_separacao;|[«»“”"'‘’:]|&separadores_de_abertura;</token>
+           <token postag='NC.+' postag_regexp='yes'/>
+           <example>"Banana", ela disse.</example>
+           <example>Foi isso o que eu disse - Banana.</example>
+       </antipattern>
+       <pattern>
+           <token negate_pos='yes' postag='SENT_START'/>
+         <marker>
+           <token postag='NC.+' postag_regexp='yes'>
+           <exception regexp='yes'>\p{Ll}+</exception>
+           <exception regexp='yes'>\p{Lu}\p{Lu}+</exception>
+           </token>
+         </marker>
+       </pattern>
+      <message>Substantivos comuns não devem ser capitalizados.</message>
+      <suggestion><match no='2' case_conversion="alllower"/></suggestion>
+      <example correction="banana">Comi uma <marker>Banana</marker> ontem.</example>
+     </rule>
 
     <rule id="UPPERCASE_AFTER_COMMA" name="Maiúsculas depois de uma vírgula" default='on'>
       <!-- Based on English forum rule https://forum.languagetool.org/t/case-sensitive-postag-check/3567/2,
