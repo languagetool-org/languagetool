@@ -40,7 +40,9 @@ import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextFramesSupplier;
 import com.sun.star.text.XTextRange;
+import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextTable;
 import com.sun.star.text.XTextTablesSupplier;
 import com.sun.star.uno.UnoRuntime;
@@ -269,12 +271,21 @@ class DocumentCursorTools {
    */
   private TextType getTextType() {
     String paraStyleName;
+    XPropertySet xParagraphPropertySet = null;
     try {
-      XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
+      xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
       paraStyleName = (String) xParagraphPropertySet.getPropertyValue("ParaStyleName");
     } catch (Throwable e) {
       MessageHandler.printException(e);
       return TextType.NORMAL;
+    }
+    try {
+      XTextSection xTextSection = UnoRuntime.queryInterface(XTextSection.class, xParagraphPropertySet.getPropertyValue("TextSection"));
+      xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xTextSection);
+      if((boolean) xParagraphPropertySet.getPropertyValue("IsProtected")) {
+        return TextType.AUTOMATIC;
+      }
+    } catch (Throwable e) {
     }
     if (paraStyleName.startsWith("Heading") || paraStyleName.equals("Title") || paraStyleName.equals("Subtitle")) {
       return TextType.HEADING;
@@ -334,6 +345,58 @@ class DocumentCursorTools {
       num++;
     } while (xParagraphCursor.gotoNextParagraph(false));
     return num;
+  }
+  
+  /** 
+   * Returns all paragraphs of all text frames of a document
+   */
+  public DocumentText getTextOfAllFrames() {
+    try {
+      List<String> sText = new ArrayList<String>();
+      List<Integer> headingNumbers = new ArrayList<Integer>();
+      List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>();
+      XTextFramesSupplier xTextFrameSupplier = UnoRuntime.queryInterface(XTextFramesSupplier.class, curDoc);
+      XNameAccess xNamedFrames = xTextFrameSupplier.getTextFrames();
+      for (String name : xNamedFrames.getElementNames()) {
+        List<String> sTxt = new ArrayList<String>();
+        List<List<Integer>> delCharacters = new ArrayList<List<Integer>>();
+        Object o = xNamedFrames.getByName(name);
+        XText xFrameText = UnoRuntime.queryInterface(XText.class,  o);
+        addAllParagraphsOfText(xFrameText, sTxt, delCharacters);
+        for (int i = 0; i < headingNumbers.size(); i++) {
+          headingNumbers.set(i, headingNumbers.get(i) + sTxt.size());
+        }
+        headingNumbers.add(0, 0);
+        sText.addAll(0, sTxt);
+        deletedCharacters.addAll(0, delCharacters);
+      }
+      return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      return null;           // Return null as method failed
+    }
+  }
+  
+  /** 
+   * Returns all paragraphs of all text frames of a document
+   */
+  public int getNumberOfAllFrames() {
+    try {
+      int num = 0;
+      if (curDoc != null) {
+        XTextFramesSupplier xTextFrameSupplier = UnoRuntime.queryInterface(XTextFramesSupplier.class, curDoc);
+        XNameAccess xNamedFrames = xTextFrameSupplier.getTextFrames();
+        for (String name : xNamedFrames.getElementNames()) {
+          Object o = xNamedFrames.getByName(name);
+          XText xFrameText = UnoRuntime.queryInterface(XText.class,  o);
+          num += getNumberOfAllParagraphsOfText(xFrameText);
+        }
+      }
+      return num;
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      return 0;           // Return 0 as method failed
+    }
   }
   
   /** 

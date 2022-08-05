@@ -642,7 +642,7 @@ class CheckRequestAnalysis {
         if(!docCache.isEqual(nPara, chParaWithFootnotes, locale)) {
           actualizeDocumentCache(nPara, false);
           String dcText = SingleCheck.removeFootnotes(docCache.getFlatParagraph(nPara), footnotePositions, null);
-          if (!dcText.equals(chPara)) {
+          if (dcText == null || !dcText.equals(chPara)) {
             if (debugMode > 0) {
               MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog: cText != chPara: Number of Paragraph: " + nPara);
             }

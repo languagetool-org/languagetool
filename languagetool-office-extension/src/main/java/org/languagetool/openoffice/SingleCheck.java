@@ -457,7 +457,7 @@ class SingleCheck {
         int parasToCheck = minToCheckPara.get(i);
         if (i == 0 || mDocHandler.isSortedRuleForIndex(i)) {
           mDocHandler.activateTextRulesByIndex(i, lt);
-          if (debugMode > 1) {
+          if (debugMode > 0) {
             MessageHandler.printToLogFile("SingleCheck: checkTextRules: Index: " + i + "/" + minToCheckPara.size() 
             + "; paraNum: " + paraNum + "; numParasToCheck: " + parasToCheck + "; useQueue: " + useQueue);
           }
@@ -543,9 +543,13 @@ class SingleCheck {
           startSentencePos = paragraphsCache.get(0).getStartSentencePosition(nFPara, sentencePos);
           endSentencePos = paragraphsCache.get(0).getNextSentencePosition(nFPara, sentencePos);
           pErrors = paragraphsCache.get(cacheNum).getFromPara(nFPara, startSentencePos, endSentencePos);
-          if (debugMode > 1 && pErrors != null) {
+          if (debugMode > 0 && pErrors != null) {
+            String eInfo = ", ";
+            for (SingleProofreadingError error : pErrors) {
+              eInfo += "(" + error.nErrorStart + "/" + error.nErrorLength + "), ";
+            }
             MessageHandler.printToLogFile("SingleCheck: checkParaRules: Para: " + nFPara + "; pErrors from cache(" + cacheNum + "): " + pErrors.length
-                + ", start = " + startSentencePos + ", end = " + endSentencePos);
+                + ", start = " + startSentencePos + ", end = " + endSentencePos + eInfo);
           }
         }
       } else if (sentencePos == 0) {
