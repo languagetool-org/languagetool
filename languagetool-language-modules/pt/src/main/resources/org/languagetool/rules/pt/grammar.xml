@@ -3504,18 +3504,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-05-24 (Checked/Enhanced) (24-MAY-2022+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-05-24 (24-MAY-2022+) *START* -->
-        <!--
-        Ninguém quis comer.
-        É por isso que quis falar com vocês.
-        Quis saber se havia algo de novo.
-        -->
-        <antipattern>
-          <token postag='V..S.S.+' postag_regexp='yes'/>
-          <token postag='VMN0000'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-05-24 (24-MAY-2022+) *END* -->
-
         <!-- MARCOAGPINTO 2022-05-24 (Checked/Enhanced) (24-MAY-2022+) *START* -->
         <!--
         Aos sábados trabalho só pela manhã.
@@ -3854,6 +3842,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Procuramos os melhores gestores e fundos afim de enquadrar e montar uma carteira de acordo com o perfil.</example>
           <example>E, sem dar tempo a que Diogo Pacheco respondesse, prosseguiu: estais louco, Santo Deus!?</example>
           <example>É apaixonado pelos temas empreendedorismo, marketing digital, mobilidade urbana e recursos humanos.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-05 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-05 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='V..S.S.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RG' postag_regexp='no'/>
+          <token postag='VMN0000|VMG0000' postag_regexp='yes'/>
+          <example>A mulher que me atendeu não quis falar quantos haviam sido convocados.</example>
+          <example>Ninguém quis comer.</example>
+          <example>Quis saber se havia algo de novo.</example>
+          <example>É por isso que quis falar com vocês.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-05 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-05 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- 0 hits in 600 000 sentences -->
+        <antipattern>
+          <token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+|V.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token>anti</token>
+          <token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+          <example>Queremos os protestos anti Marco.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|V.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+          <token>anti</token>
+          <token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+          <example>Queremos o protesto anti Marco.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-05 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
