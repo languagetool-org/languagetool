@@ -16143,7 +16143,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='V.+|CC|SPS.+' postag_regexp='yes'/>
         <token negate_pos="yes" postag='DI.+' postag_regexp='yes'/>
       </antipattern>
-
+      <antipattern>
+          <token postag='V.+' postag_regexp='yes' skip='-1'/>
+          <token skip='-1'>que</token>
+          <token>e</token>
+          <token>que</token>
+          <example>Tom disse que Marta estava com sede e que queria ir pra casa.</example>
+      </antipattern>
+      <antipattern>
+        <token>Wall</token>
+        <token spacebefore='no'>-</token>
+        <token spacebefore='no'>E</token>
+      </antipattern>
+      <antipattern>
+        <token>vitamina</token>
+        <token>E</token>
+      </antipattern>
       <pattern>
           <token negate_pos='yes' postag='SENT_START'/>
         <marker>
@@ -16155,7 +16170,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </pattern>
       <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
       <suggestion>e \4</suggestion>
-      <example correction="e queria">Ele é o Rui <marker>e que queria</marker> comer bem.</example>
+      <suggestion>que \4</suggestion>
+      <example correction="e queria|que queria">Ele é o Rui <marker>e que queria</marker> comer bem.</example>
       <example>E que se supõe que devo fazer quando me xingar?</example>
 
       <example>Todos dizem que Kate é um gênio e que terá um futuro próspero.</example>
