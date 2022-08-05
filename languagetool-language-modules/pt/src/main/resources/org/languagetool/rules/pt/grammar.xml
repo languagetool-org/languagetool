@@ -44877,14 +44877,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>O gato faz "miau".</example>
       </antipattern>
       <antipattern>
+        <token inflected='yes'>vir</token>
+        <token inflected='yes'>fazer</token>
+        <example>O que veio fazer aqui?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>já</token>
+        <token inflected='yes'>fazer</token>
+        <example>Já faz anos que aconteceu.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ser</token>
+        <token>isso</token>
+        <token>que</token>
+        <token inflected='yes'>fazer</token>
+        <example>Foi exatamente isso que fiz.</example>
+      </antipattern>
+      <antipattern>
         <token inflected='yes'>fazer</token>
         <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
         <example>Desta vez ele fê-lo mesmo.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
-        <token postag='DI.+' postag_regexp='yes' min='0'/>
-        <token regexp='yes'>exercícios?|sucesso|mal|bem|turismo|pose|silêncio|efeito|questão|fogueiras?|ciúmes?</token>
+        <token postag='DA+' postag_regexp='yes' min='0'/>
+        <token postag='D.+|RG' postag_regexp='yes' min='0'/>
+        <token postag='N.+|AQ' postag_regexp='yes' min='0'/>
+        <token regexp='yes'>exercícios?|especialização|companhia|referências?|resumos?|downloads?|inscrição|inscrições|bem|mal|cursos?|apdaptação|adaptações|sorte|[i][n]justiça|descanso|visitas?|especializações|lembretes?|reflexão|reflexões|caras?|dietas?|sucesso|dinheiro|sinal|jus|sinais|merdas?|cafuné|diferença|ginásticas?|caridades?|mal|menção|menções|bem|turismo|pose|silêncio|efeito|questão|fogueiras?|ciúmes?</token>
         <example>Tenho dificuldade em fazer exercícios.</example>
         <example>O filme faz sucesso entre os jovens.</example>
         <example>Espere o medicamento fazer efeito.</example>
@@ -44899,6 +44918,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp='yes'>que|quê</token>
         <token postag='SENT_END'/>
         <example>Não consegui, mas fazer o quê?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes' skip='-1'>fazer<exception postag='>PUNCT' postag_regexp='yes' scope='next'/></token>
+        <token postag='VMN.+|VMS.+' postag_regexp='yes'/>
+        <example>Continuaram fazendo as meninas brincarem.</example>
+        <example>Ele fez com que ficasse animada.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>com</token>
+        <token postag='DI.+|DA.+' postag_regexp='yes'/>
+        <token postag='N.+|AQ.+' postag_regexp='yes'/>
+        <example>Você viu o que conseguiram fazer com o lugar?</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>que|assim</token>
+        <token inflected='yes'>fazer</token>
+        <token postag='D.+' postag_regexp='yes'/>
+        <token postag='N.+|AQ.+' postag_regexp='yes'/>
+        <example>A companhia que faz o lugar.</example>
+        <example>Assim fazem os bons moços.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='DI.+|SPS00' postag_regexp='yes'/>
+        <token>festa</token>
+        <example>Fazia tanta festa, lambia até minha testa.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
@@ -44943,16 +44989,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <antipattern>
         <token regexp='yes'>&pronomes_obliquos;</token>
         <token inflected='yes'>fazer</token>
-        <token postag='AQ+' postag_regexp='yes'/>
         <example>Te farei feliz, não importa o quanto tente.</example>
         <example>Não se preocupe, te farei relevante.</example>
+        <example>E ele me fez o questionamento a seguir.</example>
+        <example>As análises do produto se fazem necessárias.</example>
+        <example>Isso é o melhor a se fazer na vida.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
         <token spacebefore='no' min='0'>-</token>
-        <token postag='PP+' postag_regexp='yes'/>
+        <token postag='DA.+' postag_regexp='yes' min='0'/>
+        <token postag='PP+|D.+' postag_regexp='yes'/>
+        <token postag='N.+' postag_regexp='yes' min='0'/>
         <token postag='AQ+' postag_regexp='yes'/>
         <example>Sei que fiz você feliz.</example>
+        <example>Sei que fiz a minha família feliz.</example>
         <!--<example>Só queria fazer-lhe feliz.</example>-->
       </antipattern>
       <antipattern>
@@ -44983,11 +45034,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Faça da enxada a sua espada.</example>
       </antipattern>
       <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes' min='0'>um|algum</token>
-        <token inflected='yes'>dinheiro</token>
-      </antipattern>
-      <antipattern>
         <token>já</token>
         <token inflected='yes'>ter</token>
         <token skip='-1'>feito</token>
@@ -45010,9 +45056,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <antipattern>
         <token inflected='yes'>fazer</token>
         <token skip='-1'></token>
-        <token regexp='yes'>sopas?|chás?|receitas?|almoço?|jantar|jantares|café|ceia|bolos?|farinha|pão|pães</token>
+        <token regexp='yes'>sopas?|chás?|receitas?|almoço?|jantar|melhor|panquecas?|jantares|lanche|escolhas?|café|ceia|bolos?|farinha|pão|pães|ideia|sentido|conta?|errad[oa]|promessas?</token>
         <example>Gostaria de fazer um almoço na terça.</example>
         <example>Farei para ti o café da manhã.</example>
+        <example>Eles não fazem nenhuma ideia do que dizem.</example>
+        <example>Eles não fazem a menor ideia do que dizem.</example>
+        <example>Eles não fazem mais a menor ideia do que dizem.</example>
+        <example>Ela disse ter feito as contas.</example>
+        <example>Fiz muita coisa errada.</example>
+        <example>Isso não faz nenhum sentido.</example>
+      </antipattern>
+      <antipattern>
+          <token>como</token>
+          <token inflected='yes'>fazer</token>
+          <token postag='RG|SPS00|SPS00:D.+' postag_regexp='yes'/>
+          <example>Ela suspirou, como fazia quando estava triste.</example>
+      </antipattern>
+      <antipattern>
+          <token postag='D.+|SPS00:D.0M.+' postag_regexp='yes'/>
+          <token regexp='yes'>feitos?</token>
+          <example>Não pude acreditar naquele feito impossível.</example>
       </antipattern>
       <antipattern>
         <token>Faria</token>
@@ -45315,12 +45378,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
       -->
       <rule>
-        <antipattern>
-          <token inflected='yes'>fazer</token>
-          <token regexp='yes'>um|algum</token>
-          <token inflected='yes'>dinheiro</token>
-          <example>Vou fazer algum dinheiro com a pesquisa.</example>
-        </antipattern>
         <pattern>
           <marker>
             <token inflected='yes'>fazer</token>
