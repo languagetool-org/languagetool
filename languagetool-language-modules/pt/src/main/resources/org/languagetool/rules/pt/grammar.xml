@@ -15863,7 +15863,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='V.+' postag_regexp='yes'/>
       </antipattern>
       <!-- MARCOAGPINTO 2022-05-21 (15-MAY-2022+) *END* -->
-
+        <antipattern>
+          <token regexp='yes'>e|ou</token>
+          <token>que</token>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <example>E que vença o melhor!</example>
+        </antipattern>
+        <antipattern>
+          <token skip='-1'>que</token>
+          <token postag='VMS.+' postag_regexp='yes' skip='-1'/>
+          <token>que</token>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <example>Não há evidências de que seja melhor para o ambiente ou que contribua para o conceito.</example>
+      </antipattern>
       <rule>
         <pattern>
           <token postag='SPS00|CC' postag_regexp='yes'>
@@ -15874,6 +15886,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>que</token>
             <token postag='VMS[PI]...' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='SPS.+'/>
+              <exception inflected='yes'>elar</exception>
             </token>
           </marker>
           <token negate_pos="yes" postag='SPS.+' postag_regexp='yes'/>
@@ -15894,6 +15907,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token postag='VMS[PI]...' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='SPS.+'/>
               <exception regexp='yes' inflected='yes'>&verbos_auxiliares_part_passado;|poder|pacientar</exception>
+              <exception inflected='yes'>elar</exception>
             </token>
           </marker>
           <token negate_pos="yes" postag='SPS.+' postag_regexp='yes'/>
