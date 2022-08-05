@@ -20215,6 +20215,11 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="IMAGE" name="image → imago">
             <!-- 2014-08-22 TaalTik -->
+            <antipattern>
+                <token skip="5">image</token>
+                <token>.</token>
+                <token regexp="yes">bmp|gif|jpe?g|png|raw|tiff</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -20228,6 +20233,7 @@ steenwijk;Steenwijk
                 <example correction="imago|afbeelding">Het is mijn <marker>image</marker>.</example>
                 <example correction="imago|afbeelding">Hoe kunnen we het project gebruiken om het <marker>image</marker> van de gemeente te valoriseren?</example>
                 <example correction="imago|afbeelding">Het voortdurend kultiveren van het eigen <marker>image</marker> en de beperking daarop.</example>
+                <example>en:Image:evgkite.jpg</example>
             </rule>
         </rulegroup>
         <rulegroup id="MANAGEMENT" name="management → leiding" tags="picky professional customer">
