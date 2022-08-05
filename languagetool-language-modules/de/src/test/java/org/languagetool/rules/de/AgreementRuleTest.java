@@ -635,6 +635,7 @@ public class AgreementRuleTest {
     assertGood("Man darf gespannt sein, wen Müller für diese Aufgabe gewinnt.");
     assertGood("Das Vereinslokal in welchem Zusammenkünfte stattfinden.");
     assertGood("Er lässt niemanden zu Wort kommen.");
+    assertGood("Es war eine alles in allem spannende Geschichte.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

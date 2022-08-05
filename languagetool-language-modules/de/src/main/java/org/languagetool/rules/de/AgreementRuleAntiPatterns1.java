@@ -36,6 +36,11 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
     ),
+    Arrays.asList(  // "eine alles in allem spannende Geschichte"
+      token("alles"),
+      token("in"),
+      token("allem")
+    ),
     Arrays.asList(  // "Man darf gespannt sein, wen Müller für"
       token("wen"),
       posRegex("EIG:.*")
