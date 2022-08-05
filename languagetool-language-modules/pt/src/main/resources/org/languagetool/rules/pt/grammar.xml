@@ -3392,62 +3392,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='(?:NC|A..)[MC]P.+' postag_regexp='yes'/>
           <token regexp='yes'>alvo|padrão</token>
         </antipattern>
-        <!-- MARCOAGPINTO 2021-01-25 (1-JAN-2021+) *START* -->
-        <!--
-        Rui, por ti os vossos livros troco.
-        Rui, por ti os nossos livros troco.
-        Rui, por ti os meus livros troco.
-        Rui, por ti os seus livros troca.
-        Rui, por ti os teus livros trocas.
-        -->
-        <antipattern>
-          <token postag='DP..P.+' postag_regexp='yes'/>
-          <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-          <token postag='V.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='AQ.+|NP.+'/></token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-01-25 (1-JAN-2021+) *END* -->
-        <!-- MARCOAGPINTO 2021-02-04 (1-JAN-2021+) *START* -->
-        <!--
-        Tendo os seus protestos caído em saco-roto, preencheu os formulários do imposto.
-        Ele é relacionado aos ciclos lunares a qual em suas fases expressa a harmonia do universo.
-        Tendo os seus tripulantes conseguido ser resgatados.
-        -->
-        <antipattern>
-          <token postag='DP..P.+' postag_regexp='yes'/>
-          <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-          <token postag='NC.S.+|AQ0.S.+|VMP00S[FM]' postag_regexp='yes'/>
-          <token postag='SPS.+|SP0.+|DA0.S.+|VMN0000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-02-04 (1-JAN-2021+) *END* -->
-        <!-- MARCOAGPINTO 2021-03-30 (17-MAR-2021+) *START* -->
-        <!--
-        O LanguageTool é um extra para os navegadores Chrome/Firefox/Edge/Safari.
-        Pela ótica conservadora, a agricultura obedece aos conceitos cartesiano, simplista e reducionista.
-        Para além de Trajano, as principais perseguições foram ordenadas pelos imperadores Marco Aurélio, Décio, Valeriano e Diocleciano.
-        A Ucrânia é uma república com um sistema de governo semi-presidencial e poderes legislativo, executivo e judiciário separados.
-        -->
-        <antipattern>
-          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-          <token min="1" max="3" postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='V.+'/>
-          </token>
-          <token regexp='yes'>[,/]</token>
-          <token min="1" max="3" postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='V.+'/>
-          </token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-03-30 (17-MAR-2021+) *END* -->
-        <!-- MARCOAGPINTO 2021-05-30 (17-MAR-2021+) *START* -->
-        <!--
-        Queremos os protestos anti Marco.
-        -->
-        <antipattern>
-          <token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
-          <token>anti</token>
-          <token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-05-30 (17-MAR-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-12-19/20/21/24/25 (25-JUN-2021+) *START* -->
         <!--
         FIRST ANTIPATTERN:
@@ -3896,6 +3840,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-05 (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-08-05 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token min="1" max="3" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+|RG'/>
+          </token>
+          <token postag='_PUNCT|CC' postag_regexp='yes'/>
+          <token min="1" max="3" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+|RG'/>
+          </token>
+          <example>Estudou Composição com os professores António Sousa Dias, Sérgio Azevedo, António Pinho Vargas e Luís Tinoco e Orquestração com Roberto Perez.</example>
+          <example>Procuramos os melhores gestores e fundos afim de enquadrar e montar uma carteira de acordo com o perfil.</example>
+          <example>E, sem dar tempo a que Diogo Pacheco respondesse, prosseguiu: estais louco, Santo Deus!?</example>
+          <example>É apaixonado pelos temas empreendedorismo, marketing digital, mobilidade urbana e recursos humanos.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-05 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
@@ -3955,8 +3916,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Pela ótica conservadora, a agricultura obedece aos conceitos cartesiano, simplista e reducionista.</example>
         <example>Para além de Trajano, as principais perseguições foram ordenadas pelos imperadores Marco Aurélio, Décio, Valeriano e Diocleciano.</example>
         <example>A Ucrânia é uma república com um sistema de governo semi-presidencial e poderes legislativo, executivo e judiciário separados.</example>
-
-        <example>Queremos os protestos anti Marco.</example>
 
         <example>Como professor teve como alunos Paul Gauguin e seu filho Lucien Pissarro.</example>
         <example>Os programadores Debian elegem um líder para o projeto entre os seus rankings todos os anos.</example>
