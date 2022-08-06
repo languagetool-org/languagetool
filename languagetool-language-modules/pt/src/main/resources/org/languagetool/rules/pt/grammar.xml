@@ -4059,185 +4059,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-03-09 *START* -->
-        <!-- "Também determina se combate agentes inimigos." -->
-        <antipattern>
-          <token postag='VMIP3S0'/>
-          <token postag='NCCP000'/>
-          <token postag='NCMP000'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-03-09 *END* -->
-        <!-- MARCOAGPINTO 2020-05-15 *START* -->
-        <!-- "Usando para tal síndromes considerados bons." -->
-        <antipattern>
-          <token postag='CC|SPS00' postag_regexp='yes'/>
-          <token postag='DD0CS0|DI0CS0' postag_regexp='yes'/>
-          <token postag='NC[FMC]P000' postag_regexp='yes'/>
-          <token postag='AQ0[FM]P0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-05-15 *END* -->
-        <!-- MARCOAGPINTO 2020-05-24 *START* -->
-        <!-- "A vantagem de permitir a um país diferentes faixas climáticas." -->
-        <antipattern>
-          <token postag='NC[CM]S000' postag_regexp='yes'/>
-          <token postag='AQ0CP0'/>
-          <token postag='NCFP000'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-05-24 *END* -->
-        <!-- MARCOAGPINTO 2020-05-25 *START* -->
-        <!-- "Esculturas em argila colocadas sobre tumbas." -->
-        <!-- "Esculturas em cimento colocados sobre tumbas." -->
-        <antipattern>
-          <token postag='NC[FMC]S000' postag_regexp='yes'/>
-          <token postag='VMP00P[FM]' postag_regexp='yes'/>
-          <token postag='SPS00'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-05-25 *END* -->
-        <!-- MARCOAGPINTO 2020-05-28 *START* -->
-        <!-- "A justiça é responsável pelo julgamento das matérias de direito público relativos aos órgãos da administração pública do estado." -->
-        <!-- "A justiça é responsável pelo julgamento das matérias de direito público relativos a órgãos da administração pública do estado." -->
-        <antipattern>
-          <token negate='yes' regexp='yes'>a|o</token>
-          <token postag='AQ0MS0|NCMS000' postag_regexp='yes'/>
-          <token postag='AQ0MP0'/>
-          <token regexp='yes'>aos|a</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-05-28 *END* -->
-        <!-- MARCOAGPINTO 2020-05-29 *START* -->
-        <!-- "Fomos ao porto catar pedregulhos." -->
-        <!-- "Fomos ao porto catar pedras." -->
-        <!-- "Fomos ao porto catar colegas." -->
-        <antipattern>
-          <token postag='VMN0000'/>
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-05-29 *END* -->
-        <!-- MARCOAGPINTO 2020-06-01 *START* -->
-        <!-- "Desejo bons êxitos." -->
-        <antipattern>
-          <token postag='VMI[PS][13][PS]0' postag_regexp='yes'/>
-          <token postag='AQ0[CM]P0' postag_regexp='yes'/>
-          <token postag='NC[CM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-01 *END* -->
-        <!-- MARCOAGPINTO 2020-06-02 *START* -->
-        <!-- "O desenvolvimento de vários fatores culturais no Japão foram neste período evidentes na arquitetura." -->
-        <antipattern>
-          <token postag='VMI[MS]3P0' postag_regexp='yes'/>
-          <token regexp='yes'>neste|nesse|naquele.</token>
-          <token postag='NCMS000'/>
-          <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-02 *END* -->
-        <!-- MARCOAGPINTO 2020-06-04 *START* -->
-        <!-- "Quase nunca tomo produtos lácteos." -->
-        <antipattern>
-          <token postag='VMIP1S0'/>
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-          <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-04 *END* -->
-        <!-- MARCOAGPINTO 2020-06-04 *START* -->
-        <!-- "O balonete interno, que até então só havia lhe causado problemas, foi dispensado." -->
-        <antipattern>
-          <token negate_pos='yes' postag_regexp='yes' postag='SPS00|DA0FS0|PD0FS000|PP3FSA00|RG'/>
-          <token postag='VMP00SM'/>
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-04 *END* -->
-        <!-- MARCOAGPINTO 2020-06-06 + 2020-06-16 *START* -->
-        <!-- "5 aceitaram a proposta australiana e 3 prefeririam o paralelo 35° Sul." -->
-        <!-- "Sendo o menor índice 3,4%, registado no país." -->
-        <antipattern>
-          <token postag='DA0MS0'/>
-          <token min="0" postag='AQ0CS0'/>
-          <token postag='NCMS000'/>
-          <token regexp='yes'>\d.+</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-06 + 2020-06-16 *END* -->
-        <!-- MARCOAGPINTO 2020-06-16 *START* -->
-        <!-- "Sendo o maior 3,4%, registado no país." -->
-        <!-- "Sendo a maior 3,4%, registado no país." -->
-        <antipattern>
-          <token postag='DA0[FM]S0' postag_regexp='yes'/>
-          <token postag='AQ0CS0'/>
-          <token regexp='yes'>\d.+</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-16 *END* -->
-        <!-- MARCOAGPINTO 2020-06-16 *START* -->
-        <!-- "Em adultos acima de 25 anos era 11,7%." -->
-        <antipattern>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d.+</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-16 *END* -->
-        <!-- MARCOAGPINTO 2020-06-16 *START* -->
-        <!-- "Representando em conjunto 97% da área terrestre nacional." -->
-        <antipattern>
-          <token postag='DA0[FM]S0|SPS00' postag_regexp='yes'/>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token regexp='yes'>\d.+</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-16 *END* -->
-        <!-- MARCOAGPINTO 2020-06-06 *START* -->
-        <!-- "Para saber mais comandos de IRC, consulte o artigo sobre IRC." -->
-        <!-- "Para saber menos comandos de IRC, consulte o artigo sobre IRC." -->
-        <!-- "Para saber mais regras de IRC, consulte o artigo sobre IRC." -->
-        <!-- "Para saber menos regras de IRC, consulte o artigo sobre IRC." -->
-        <antipattern>
-          <token postag='CC|SPS00' postag_regexp='yes'/>
-          <token postag='NCM[SP]000' postag_regexp='yes'/>
-          <token postag='RG|NCMN000' postag_regexp='yes'/>
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-06 *END* -->
-        <!-- MARCOAGPINTO 2020-06-15 *START* -->
-        <!-- "As ciências exatas são em princípio capazes de fornecer resultados com elevado grau de precisão." -->
-        <antipattern>
-          <token postag='VMIP3P0'/>
-          <token regexp='yes'>no|em|num|por</token>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- "Fogem em pânico perseguidos pelos revoltosos." -->
-        <antipattern>
-          <token postag='VMIM3P0|VMIS3P0' postag_regexp='yes'/>
-          <token regexp='yes'>no|em|num|por</token>
-          <token postag='N[CFM]S000' postag_regexp='yes'/>
-          <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
-          <token regexp='yes'>pelos|pelas|por|de|das|dos</token>
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-15 *END* -->
-        <!-- MARCOAGPINTO 2020-06-17 *START* -->
-        <!-- "Eu só trago artigos de uso pessoal." -->
-        <!-- "Eu só trago agentes de uso pessoal." -->
-        <!-- "Eu só trago canetas de uso pessoal." -->
-        <antipattern>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-          <token regexp='yes'>de|para|com</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-17 *END* -->
-        <!-- MARCOAGPINTO 2020-06-18 *START* -->
-        <!-- "No verão nós conseguimos ver muitas estrelas à noite." -->
-        <!-- "No verão nós conseguiremos ver muitas estrelas à noite." -->
-        <antipattern>
-          <token postag='NCMS000'/>
-          <token postag='PP1CP000'/>
-          <token postag='VMI[FPS]1P0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-18 *END* -->
-        <!-- MARCOAGPINTO 2020-06-21 *START* -->
-        <!-- "A mulher sentiu-se tímida em relação ao padre momentos antes de se confessar." -->
-        <!-- "A mulher sentiu-se tímida em relação ao agente momentos antes de se confessar." -->
-        <!-- "A mulher sentiu-se tímida em relação à freira momentos antes de se confessar." -->
-        <antipattern>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='NCMP000'/>
-          <token postag='RG'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-21 *END* -->
         <!-- MARCOAGPINTO 2020-07-06 (2-JUL-2020+) *START* -->
         <!-- "Com coeficientes de rácio de atrito constantes e simétricos." -->
         <antipattern>
@@ -4491,6 +4312,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Rod Piazza é o nome blues desse festival ao lado do seu grupo The Mighty Flyers.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-02 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-06 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='AQ..S.+|NC.S.+|V.+|SENT_START|RG|CC' postag_regexp='yes'>
+            <exception scope="previous" postag_regexp='yes' postag='DI..S.+|VMN0000'/>
+            <exception regexp='no'>para</exception>
+          </token>
+          <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|SPS00|CC|CS|RG|I|RM|RN|VMN0000|VMG0000' postag_regexp='yes'>
+            <exception regexp='no'>tão</exception>
+          </token>
+          <token postag='AQ..S.+|NC.S.+|V....S.+' postag_regexp='yes'>
+            <exception regexp='yes'>grande|pequeno|enorme|crescente</exception> <!-- workaround to fix false positive in: "Um grande beijos e um forte abraço para todos que ajudaram no resgate." -->
+          </token>
+          <token min="0" max="1" postag='RG' postag_regexp='no'/>  
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/> 
+          <token postag='AQ..P.+|NC.P.+|V....P.+|SPS00|CC|CS|RG|I|RM|RN|_PUNCT' postag_regexp='yes'>
+            <exception regexp='no'>em</exception>
+          </token>
+          <example>Hoje, quando esse consumidor quer saber mais detalhes de um produto, basta um clique e um mundo de informações está ao seu alcançe.</example>
+          <example>A primeira delas é com relação às grandes marcas e seus modelos de máquinas de cartão de crédito tradicionais.</example>
+          <example>Todos os comentários são lidos e se possível respondidos.</example>
+          <example>Certamente, eles não estão querendo conciliar pontos de vista.</example>
+          <example>O principal responsável por este movimento foi o subgrupo alimentos processados, cuja taxa passou de 1,83% para 3,10%.</example>
+          <example>Esses dois são os mais recentes que comprei (não conhecia o azulzinho, que é pra cabelo secos ou quimicamente tratados).</example>
+          <example>A mulher sentiu-se tímida em relação ao padre momentos antes de se confessar.</example>
+          <example>Você não pode simplesmente copiar arquivos de uma imagem de disco ISO diretamente para sua unidade USB.</example>
+          <example>Atualmente, Limplex também disponibiliza no mercado produtos para cozinha, banheiro e qualquer objeto ou ambiente em uma casa, hospital e empresa.</example>
+          <example>Estas são as únicas botas de borracha para cão descartáveis, reutilizáveis e resistentes à água.</example>
+          <example>Quando ouvimos o apito nós atravessamos a rua.</example>
+          <example>Um dia nós viajaremos à Índia.</example>
+          <example>Queria que pudéssemos passar mais tempo juntos.</example>
+          <example>A cada aniversário, ficamos um ano mais velhos.</example>
+          <example>Quem está embriagado não guarda segredos.</example>
+          <example>Por que você acha que Tom quis se tornar psicólogo?</example>
+          <example>Estamos estudando Francês juntos.</example>
+          <example>Seus mundos oníricos eram para Tom mais reais que a realidade.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-06 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
