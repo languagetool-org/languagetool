@@ -263,14 +263,17 @@ public class DocumentCache implements Serializable {
     this.automaticParagraphs.addAll(automaticParagraphs);
   }
   
-  private boolean isEqualText(String flatPara, String TextPara) {
+  public static boolean isEqualText(String flatPara, String TextPara) {
+    return removeZeroWidthSpace(flatPara).equals(removeZeroWidthSpace(TextPara));
+/*    
     if (flatPara.equals(TextPara)) {
       return true;
     }
     String flPara = "";
     boolean changed = false;
     for (int i = 0; i < flatPara.length(); i++) {
-      if (!Character.isWhitespace(flatPara.charAt(i)) || flatPara.charAt(i) == ' ' || flatPara.charAt(i) == '\t') {
+      char c = flatPara.charAt(i);
+      if (c != '\u200B' && (!Character.isWhitespace(c) || c == ' ' || c == '\t')) {
         flPara += flatPara.substring(i, i + 1);
       } else {
         changed = true;
@@ -280,6 +283,7 @@ public class DocumentCache implements Serializable {
       return false;
     }
     return flPara.equals(TextPara);
+*/
   }
 
   /**
@@ -289,6 +293,7 @@ public class DocumentCache implements Serializable {
         List<List<Integer>> chapterBegins, List<SerialLocale> locales, List<int[]> footnotes, List<List<String>> textParas, 
         List<List<Integer>> deletedCharacters, List<List<List<Integer>>> deletedChars) {
     if (textParas != null && !textParas.isEmpty()) {
+      List<Integer> nTables = new ArrayList<>();
       List<Integer> nText = new ArrayList<>();
       for (int i = 0; i < textParas.size(); i++) {
         nText.add(0);
@@ -298,8 +303,11 @@ public class DocumentCache implements Serializable {
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         nUnknown += textParas.get(i).size();
       }
-      nUnknown = paragraphs.size() - nUnknown;
-      // nUnknown: number of headings of graphic elements
+      nUnknown = paragraphs.size() - nUnknown;  // nUnknown: number of headings of graphic elements
+      int nFrameTable = 0;  // Number of table paragraphs in Frames
+      if (debugMode) {
+        MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Unknown paragraphs: " + nUnknown);
+      }
       int numUnknown = 0;
       for (int i = 0; i < paragraphs.size(); i++) {
         boolean hasFootnote = footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0;
@@ -308,14 +316,17 @@ public class DocumentCache implements Serializable {
             && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size();
 //            && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
 //            && toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size();
+        boolean secondTextDone = firstTextDone && numUnknown >= nUnknown 
+            && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
+            && toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size();
         for (int n = 0; n < textParas.size(); n++) {
           if (n > 2 && !firstTextDone) {
             break;
           }
-          int j = nText.get(n);
-          if (j < textParas.get(n).size()) {
+          int j = n == CURSOR_TYPE_TABLE ? nFrameTable : nText.get(n);
+          if (j < textParas.get(n).size() && (n != CURSOR_TYPE_TABLE || nTables.size() < textParas.get(n).size())) {
             if (firstTextDone) {
-              if (numUnknown < nUnknown) {
+              if (!secondTextDone) {
                 if (n == CURSOR_TYPE_TEXT) {
                   continue;
                 } else {
@@ -323,7 +334,7 @@ public class DocumentCache implements Serializable {
                     isMapped = true;
                   }
                 }
-              } else if (nText.get(CURSOR_TYPE_TABLE) == textParas.get(CURSOR_TYPE_TABLE).size() 
+              } else if (nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size() 
                 || nText.get(CURSOR_TYPE_TEXT) == textParas.get(CURSOR_TYPE_TEXT).size()) {
                 isMapped = true;
               } else {
@@ -349,12 +360,43 @@ public class DocumentCache implements Serializable {
           }
         }
         if (!isMapped) {
-          if (firstTextDone && numUnknown == nUnknown) {
+          String flatPara = hasFootnote ? SingleCheck.removeFootnotes(paragraphs.get(i), footnotes.get(i), null)
+              : paragraphs.get(i);
+          for (int k = nFrameTable; k < textParas.get(CURSOR_TYPE_TABLE).size(); k++) {
+            if (!nTables.contains(k)) {
+              String textPara = hasFootnote ? SingleCheck.removeFootnotes(textParas.get(CURSOR_TYPE_TABLE).get(k), footnotes.get(i), null)
+                  : textParas.get(CURSOR_TYPE_TABLE).get(k);
+              if (isEqualText(flatPara, textPara)) {
+                toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
+                toParaMapping.get(CURSOR_TYPE_TABLE).add(i);
+                nTables.add(k);
+                isMapped = true;
+                nFrameTable = k < textParas.get(CURSOR_TYPE_TABLE).size() - 1 ? k + 1 : 0;
+                break;
+              }  
+            }
+          }
+          for (int k = 0; !isMapped && k < nFrameTable; k++) {
+            if (!nTables.contains(k)) {
+              String textPara = hasFootnote ? SingleCheck.removeFootnotes(textParas.get(CURSOR_TYPE_TABLE).get(k), footnotes.get(i), null)
+                  : textParas.get(CURSOR_TYPE_TABLE).get(k);
+              if (isEqualText(flatPara, textPara)) {
+                toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
+                toParaMapping.get(CURSOR_TYPE_TABLE).add(i);
+                nTables.add(k);
+                isMapped = true;
+                nFrameTable = k < textParas.get(CURSOR_TYPE_TABLE).size() - 1 ? k + 1 : 0;
+                break;
+              }  
+            }
+          }
+/*          
+          if (secondTextDone) {
             String flatPara = hasFootnote ? SingleCheck.removeFootnotes(paragraphs.get(i), footnotes.get(i), null)
                 : paragraphs.get(i);
             int j = nText.get(CURSOR_TYPE_TEXT) + 1;
             if (debugMode) {
-              MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Not mapped Paragraph(" + i + "): " + flatPara);
+              MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Try to map Paragraph(" + i + "): " + flatPara);
               MessageHandler.printToLogFile("DocumentCache: mapParagraphs: firstTextDone: " + firstTextDone + "; j = " + j);
             }
             if (j < textParas.get(CURSOR_TYPE_TEXT).size()) {
@@ -365,7 +407,7 @@ public class DocumentCache implements Serializable {
               }  
             }
             if (!isMapped) {
-              j = nText.get(CURSOR_TYPE_TABLE);
+              j = nFrameTable;
               String textPara = hasFootnote ? SingleCheck.removeFootnotes(textParas.get(CURSOR_TYPE_TABLE).get(j), footnotes.get(i), null)
                   : textParas.get(CURSOR_TYPE_TABLE).get(j);
               if (isEqualText(flatPara, textPara)) {
@@ -377,10 +419,60 @@ public class DocumentCache implements Serializable {
               toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
               nText.set(CURSOR_TYPE_TEXT, nText.get(CURSOR_TYPE_TEXT) + 1);
             } else {
-              toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, nText.get(CURSOR_TYPE_TABLE)));
-              toParaMapping.get(CURSOR_TYPE_TABLE).add(i);
-              nText.set(CURSOR_TYPE_TABLE, nText.get(CURSOR_TYPE_TABLE) + 1);
+              for (int k = nFrameTable; k < textParas.get(CURSOR_TYPE_TABLE).size(); k++) {
+                if (!nTables.contains(k)) {
+                  String textPara = hasFootnote ? SingleCheck.removeFootnotes(textParas.get(CURSOR_TYPE_TABLE).get(k), footnotes.get(i), null)
+                      : textParas.get(CURSOR_TYPE_TABLE).get(k);
+                  if (isEqualText(flatPara, textPara)) {
+                    toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
+                    toParaMapping.get(CURSOR_TYPE_TABLE).add(i);
+                    nTables.add(k);
+                    isMapped = true;
+                    nFrameTable = k < textParas.get(CURSOR_TYPE_TABLE).size() - 1 ? k + 1 : 0;
+                    break;
+                  }  
+                }
+              }
+              for (int k = 0; !isMapped && k < nFrameTable; k++) {
+                if (!nTables.contains(k)) {
+                  String textPara = hasFootnote ? SingleCheck.removeFootnotes(textParas.get(CURSOR_TYPE_TABLE).get(k), footnotes.get(i), null)
+                      : textParas.get(CURSOR_TYPE_TABLE).get(k);
+                  if (isEqualText(flatPara, textPara)) {
+                    toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
+                    toParaMapping.get(CURSOR_TYPE_TABLE).add(i);
+                    nTables.add(k);
+                    isMapped = true;
+                    nFrameTable = k < textParas.get(CURSOR_TYPE_TABLE).size() - 1 ? k + 1 : 0;
+                    break;
+                  }  
+                }
+              }
             }
+            if (isMapped) {
+              continue;
+            }
+          } else {
+            for (int k = nFrameTable; k < textParas.get(CURSOR_TYPE_TABLE).size(); k++) {
+              if (!nTables.contains(k)) {
+                String flatPara = hasFootnote ? SingleCheck.removeFootnotes(paragraphs.get(i), footnotes.get(i), null)
+                    : paragraphs.get(i);
+                String textPara = hasFootnote ? SingleCheck.removeFootnotes(textParas.get(CURSOR_TYPE_TABLE).get(k), footnotes.get(i), null)
+                    : textParas.get(CURSOR_TYPE_TABLE).get(k);
+                if (isEqualText(flatPara, textPara)) {
+                  toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
+                  toParaMapping.get(CURSOR_TYPE_TABLE).add(i);
+                  nTables.add(k);
+                  isMapped = true;
+                  nFrameTable = k < textParas.get(CURSOR_TYPE_TABLE).size() - 1 ? k + 1 : 0;
+                  break;
+                }  
+              }
+            }
+            if (isMapped) {
+              continue;
+            }
+*/
+          if (isMapped) {
             continue;
           }
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
@@ -393,7 +485,8 @@ public class DocumentCache implements Serializable {
             MessageHandler.printToLogFile("DocumentCache: mapParagraphs:");
             for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
               MessageHandler.printToLogFile("Actual Cursor Paragraph (Type " + k + "): "
-                  + (nText.get(k) < textParas.get(k).size() ? "'" + textParas.get(k).get(nText.get(k)) + "'"
+                  + (nText.get(k) < textParas.get(k).size() ? "'" 
+                  + (k == CURSOR_TYPE_TABLE ? textParas.get(k).get(nFrameTable) : textParas.get(k).get(nText.get(k))) + "'"
                       : "no paragraph left"));
             }
             MessageHandler.printToLogFile("Unknown Paragraphs: " + (numUnknown - 1) + " from " + nUnknown);
