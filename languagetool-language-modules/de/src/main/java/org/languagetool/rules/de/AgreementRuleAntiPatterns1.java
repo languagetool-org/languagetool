@@ -37,6 +37,16 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      tokenRegex("wusste|weiß"),   // "Da wusste keiner Bescheid"
+      tokenRegex("keiner?"),
+      token("Bescheid")
+    ),
+    Arrays.asList(
+      tokenRegex("keiner?"),  // "es braucht keiner Bescheid wissen"
+      token("Bescheid"),
+      token("wissen")
+    ),
+    Arrays.asList(
       token("von"),  // "eine von manchem geforderte Übergewinnsteuer"
       tokenRegex("manche[nmr]?"),
       posRegex("PA2:.*"),

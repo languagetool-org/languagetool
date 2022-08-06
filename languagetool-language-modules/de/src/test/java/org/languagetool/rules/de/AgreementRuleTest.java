@@ -641,6 +641,8 @@ public class AgreementRuleTest {
     assertGood("Und eine von manchem geforderte Übergewinnsteuer.");
     assertGood("Sie hat niemandem wirkliches Leid zugefügt.");
     assertGood("Die Organe eines gerade Verstorbenen");
+    assertGood("Da wusste keiner Bescheid bezüglich dieser Sache.");
+    assertGood("Es braucht keiner Bescheid wissen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
