@@ -36,6 +36,13 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
     ),
+    Arrays.asList(   // "Eine mehrere hundert Meter lange Startbahn."
+      tokenRegex("viele|mehrere"),
+      pos("ZAL"),
+      tokenRegex("Meter|.+meter"),
+      tokenRegex("lange[ns]?|kurze[ns]?|große[ns]?|kleine[ns]?"),
+      posRegex("SUB:.*")
+    ),
     Arrays.asList(  // "eine alles in allem spannende Geschichte"
       token("alles"),
       token("in"),
@@ -1056,6 +1063,11 @@ class AgreementRuleAntiPatterns1 {
       token("der"),
       token("viele"),
       tokenRegex("Schnee|Regen")
+    ),
+    Arrays.asList(
+      tokenRegex("der|die"),
+      tokenRegex("vielen?"),
+      token("Aufmerksamkeit")
     ),
     Arrays.asList(
       tokenRegex("Au(ß|ss)enring"),

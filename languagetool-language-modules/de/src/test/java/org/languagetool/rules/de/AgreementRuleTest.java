@@ -636,6 +636,7 @@ public class AgreementRuleTest {
     assertGood("Das Vereinslokal in welchem Zusammenkünfte stattfinden.");
     assertGood("Er lässt niemanden zu Wort kommen.");
     assertGood("Es war eine alles in allem spannende Geschichte.");
+    assertGood("Eine mehrere hundert Meter lange Startbahn.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
