@@ -637,6 +637,7 @@ public class AgreementRuleTest {
     assertGood("Er lässt niemanden zu Wort kommen.");
     assertGood("Es war eine alles in allem spannende Geschichte.");
     assertGood("Eine mehrere hundert Meter lange Startbahn.");
+    assertGood("Wir müssen jetzt um ein vielfaches höhere Preise zahlen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

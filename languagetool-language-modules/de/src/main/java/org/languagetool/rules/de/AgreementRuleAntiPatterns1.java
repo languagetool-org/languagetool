@@ -464,6 +464,11 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("(zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf).*fache")
     ),
     Arrays.asList(
+      token("ein"),  // "um ein vielfaches höhere Preise" -> Vielfaches, found by other rule
+      tokenRegex("(viel|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf).*faches"),
+      posRegex("ADJ.*KOM.*")
+    ),
+    Arrays.asList(
       token("diese"),  // "...damit diese ausreichend Sauerstoff geben."
       tokenRegex("genug|genügend|viel|hinreichend|ausreichend"),
       posRegex("SUB:NOM:SIN:.*"),
