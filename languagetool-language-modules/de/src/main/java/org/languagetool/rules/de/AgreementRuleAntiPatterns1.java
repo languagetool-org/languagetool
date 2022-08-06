@@ -461,7 +461,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       token("das"),  // "Einwohnerzahl stieg um das Zweieinhalbfache"
-      tokenRegex("(zwei|drei|vier|fünd|sechs|sieben|acht|neun|zehn|elf|zwölf).*fache")
+      tokenRegex("(zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf).*fache")
     ),
     Arrays.asList(
       token("diese"),  // "...damit diese ausreichend Sauerstoff geben."
