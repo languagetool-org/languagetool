@@ -127,6 +127,7 @@ public class AgreementRule extends Rule {
     "völlig",
     "weit",
     "wirklich",
+    "gerade",
     "überwiegend",
     "gewollt",
     "angestrengt",
