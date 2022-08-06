@@ -64,6 +64,7 @@ public class AgreementRule2Test {
     assertGood("Voller Mitleid");
     assertGood("Voll Mitleid");
     assertGood("Einzig Fernschüsse brachten Erfolgsaussichten.");
+    assertGood("Gelangweilt Dinge sortieren hilft als Ablenkung.");
   }
 
   private void assertGood(String s) throws IOException {
