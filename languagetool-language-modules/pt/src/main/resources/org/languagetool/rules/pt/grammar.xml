@@ -15904,8 +15904,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
       <antipattern>
           <token postag='VMIP.+' postag_regexp='yes' skip='-1'>
-          <exception inflected='yes'>ser</exception>
-          <exception scope='next' postag='VMN0000'/>
+            <exception inflected='yes'>ser</exception>
+            <exception scope='next' postag='VMN0000'/>
           </token>
           <token skip='-1'>que</token>
           <token postag='VMS.+' postag_regexp='yes'/>
@@ -43650,6 +43650,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       São regras muito simples e que permitem agir corretamente. → São regras muito simples que permitem agir corretamente.
       Recebemos um documento escrito em francês e que revelou uma lista de restaurantes. → Recebemos um documento escrito em francês que revelou uma lista de restaurantes.
       -->
+      <antipattern>
+        <token skip='-1'>que</token>
+        <token postag='VMS.+' postag_regexp='yes' skip='-1'/>
+        <token>que</token>
+        <token postag='VMS.+' postag_regexp='yes'/>
+        <example>Não há evidências de que seja melhor para o ambiente ou que contribua para o conceito.</example>
+      </antipattern>
       <pattern>
         <token postag='RG|SPS00' postag_regexp='yes'/>
         <token postag='AQ.+|NC.+' postag_regexp='yes'/>
