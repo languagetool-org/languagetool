@@ -71,13 +71,11 @@ public class GermanCompoundRule extends AbstractCompoundRule {
         }
       }
     }
-
     return data;
   }
   
   @Override
   public boolean isMisspelled(String word) throws IOException {
-    //return !GermanTagger.INSTANCE.tag(Arrays.asList(word)).get(0).isTagged();
     return GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(word);
   }
 }
