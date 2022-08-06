@@ -639,6 +639,7 @@ public class AgreementRuleTest {
     assertGood("Eine mehrere hundert Meter lange Startbahn.");
     assertGood("Wir müssen jetzt um ein vielfaches höhere Preise zahlen.");
     assertGood("Und eine von manchem geforderte Übergewinnsteuer.");
+    assertGood("Sie hat niemandem wirkliches Leid zugefügt.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

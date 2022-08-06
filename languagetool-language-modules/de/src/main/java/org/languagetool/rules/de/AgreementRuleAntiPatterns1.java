@@ -42,6 +42,11 @@ class AgreementRuleAntiPatterns1 {
       posRegex("PA2:.*"),
       posRegex("SUB:.*")
     ),
+    Arrays.asList(
+      token("niemandem"),  // "hat niemandem wirkliches Leid zugefügt"
+      posRegex("ADJ:NOM:SIN:NEU:.*"),
+      posRegex("SUB:.*SIN.*")
+    ),
     Arrays.asList(   // "Eine mehrere hundert Meter lange Startbahn."
       tokenRegex("viele|mehrere"),
       pos("ZAL"),
