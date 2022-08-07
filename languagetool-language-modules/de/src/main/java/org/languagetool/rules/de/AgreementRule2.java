@@ -267,7 +267,7 @@ public class AgreementRule2 extends Rule {
   @NotNull
   private Set<String> retainCommonCategories(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
     Set<AgreementRule.GrammarCategory> categoryToRelaxSet = Collections.emptySet();
-    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, false);
+    Set<String> set1 = AgreementTools.getAgreementSOLCategories(token1, categoryToRelaxSet);
     Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, false);
     set1.retainAll(set2);
     return set1;
