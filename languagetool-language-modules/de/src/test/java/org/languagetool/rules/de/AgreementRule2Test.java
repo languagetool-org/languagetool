@@ -68,6 +68,22 @@ public class AgreementRule2Test {
     assertGood("Ganzjährig Garten pflegen");
     assertGood("Herzlich Willkommen bei unseren günstigen Rezepten!");
     assertGood("10-tägiges Rückgaberecht");
+    assertGood("Angeblich Schüsse vor Explosionen gefallen");
+    assertGood("Dickes Danke auch an Elena");
+    assertGood("Dickes Dankeschön auch an Elena");
+    assertGood("Echt Scheiße");
+    assertGood("Entsprechende Automaten werden heute nicht mehr gebaut");
+    assertGood("Existenziell Bedrohte kriegen einen Taschenrechner");
+    assertGood("Flächendeckend Tempo 30");
+    assertGood("Frei Klavier spielen lernen");
+    assertGood("Ganz Eilige können es schaffen");
+    assertGood("Gering Gebildete laufen Gefahr ...");
+    assertGood("Ganz Ohr ist man hier");
+    assertGood("Gleichzeitig Muskeln aufbauen und Fett verlieren");
+    assertGood("Klar Schiff, Erster Offizier!");
+    assertGood("Kostenlos Bewegung schnuppern");
+    assertGood("Prinzipiell Anrecht auf eine Vertretung");
+    assertGood("Regelrecht Modell gestanden haben Michel");
   }
 
   @Test
