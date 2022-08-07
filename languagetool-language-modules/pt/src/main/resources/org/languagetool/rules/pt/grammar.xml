@@ -4377,6 +4377,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-07 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-08-07 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='SENT_START|V.+|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
+          <token postag='Z0.P.+|Z0CN0' postag_regexp='yes'>
+            <exception regexp='no'>1</exception>
+          </token>
+          <token min="0" max="1" postag='Z0MP0' postag_regexp='no'/> <!-- "Soma quase dois MIL dólares." -->
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>  
+          <example>O dinheiro soma quase dois mil dólares.</example>
+          <example>Pegou emprestado dois livros.</example>
+          <example>Esse navio media dez metros.</example>
+          <example>Tentar conciliar dois empregos de uma vez é, quase sempre, uma tarefa impossível.</example>
+          <example>O técnico foi demitido após o Eagles perder 10 partidas consecutivas.</example>
+          <example>Incluiu as doze faixas padrão mais três faixas inéditas.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-07 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
