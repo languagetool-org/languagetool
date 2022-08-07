@@ -67,6 +67,18 @@ public class AgreementRule2Test {
     assertGood("Gelangweilt Dinge sortieren hilft als Ablenkung.");
   }
 
+  @Test
+  public void testSuggestion() throws IOException {
+    assertBad("Kleiner Haus am Waldesrand", "Kleines Haus");
+    assertBad("Kleines Häuser am Waldesrand", "Kleine Häuser");
+    assertBad("Kleines Tisch reicht auch", "Kleiner Tisch");
+    assertGood("Junger Frau geht das Geld aus");
+    assertGood("Junge Frau gewinnt im Lotto");
+    assertBad("Junges Frau gewinnt im Lotto", "Junge Frau");
+    //assertBad("Jungen Frau gewinnt im Lotto", "Junge Frau");  TODO
+    assertBad("Wirtschaftlich Wachstum kommt ins Stocken", "Wirtschaftliches Wachstum");
+  }
+
   private void assertGood(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertThat(matches.length, is(0));
@@ -75,6 +87,13 @@ public class AgreementRule2Test {
   private void assertBad(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertThat(matches.length, is(1));
+  }
+
+  private void assertBad(String s, String suggestion) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
+    assertThat(matches.length, is(1));
+    assertTrue("Got suggestions: " + matches[0].getSuggestedReplacements() + ", expected: " + suggestion,
+      matches[0].getSuggestedReplacements().contains(suggestion));
   }
 
 }

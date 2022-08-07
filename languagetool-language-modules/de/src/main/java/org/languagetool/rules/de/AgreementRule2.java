@@ -20,7 +20,9 @@ package org.languagetool.rules.de;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Categories;
@@ -28,13 +30,16 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
 
 import static java.util.Arrays.*;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -124,12 +129,14 @@ public class AgreementRule2 extends Rule {
     asList(token("GmbH"))
   );
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
+  private final GermanSynthesizer synthesizer;
 
   public AgreementRule2(ResourceBundle messages, Language language) {
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Kleiner Haus</marker> am Waldrand"),
                    Example.fixed("<marker>Kleines Haus</marker> am Waldrand"));
     antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);
+    synthesizer = new GermanSynthesizer(language);
   }
 
   @Override
@@ -171,6 +178,8 @@ public class AgreementRule2 extends Rule {
           }
           RuleMatch ruleMatch = checkAdjNounAgreement(tokens[i], tokens[i+1], sentence);
           if (ruleMatch != null) {
+            List<String> suggestions = getSuggestions(tokens, i);
+            ruleMatch.setSuggestedReplacements(suggestions);
             ruleMatches.add(ruleMatch);
             break;
           }
@@ -181,6 +190,66 @@ public class AgreementRule2 extends Rule {
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @NotNull
+  private List<String> getSuggestions(AnalyzedTokenReadings[] tokens, int i) {
+    List<String> suggestions = new ArrayList<>();
+    AnalyzedToken adjToken = tokens[i].getAnalyzedToken(0);
+    for (int j = 0; j < tokens[i+1].getReadingsLength(); j++) {
+      AnalyzedToken nounToken = tokens[i+1].getAnalyzedToken(j);
+      if (nounToken.getPOSTag() == null) {
+        continue;
+      }
+      try {
+        String gender = getGender(nounToken);
+        if (gender == null) {
+          continue;
+        }
+        String number = getNumber(nounToken);
+        if (number == null) {
+          continue;
+        }
+        String[] forms = synthesizer.synthesize(adjToken, "ADJ:NOM:" + number + ":" + gender + ":GRU:SOL", true);
+        for (String s : forms) {
+          String fullSugg = uppercaseFirstChar(s) + " " + nounToken.getToken();
+          if (!suggestions.contains(fullSugg)) {
+            suggestions.add(fullSugg);
+          }
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return suggestions;
+  }
+
+  @Nullable
+  private static String getGender(AnalyzedToken nounToken) {
+    String gender;
+    if (nounToken.getPOSTag().contains(":MAS")) {
+      gender = "MAS";
+    } else if (nounToken.getPOSTag().contains(":FEM")) {
+      gender = "FEM";
+    } else if (nounToken.getPOSTag().contains(":NEU")) {
+      gender = "NEU";
+    } else {
+      return null;
+    }
+    return gender;
+  }
+
+  @Nullable
+  private static String getNumber(AnalyzedToken nounToken) {
+    String number;
+    if (nounToken.getPOSTag().contains(":SIN:")) {
+      number = "SIN";
+    } else if (nounToken.getPOSTag().contains(":PLU:")) {
+      number = "PLU";
+    } else {
+      return null;
+    }
+    return number;
   }
 
   private RuleMatch checkAdjNounAgreement(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedSentence sentence) {
