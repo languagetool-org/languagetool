@@ -54,10 +54,11 @@ public class AgreementRule2 extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(csRegex("Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|Spät|Länger|Vorrangig|Rechtzeitig|Typisch|Allwöchentlich|Wöchentlich|Inhaltlich|Tagtäglich|Täglich|Komplett|Genau|Gerade|Bewusst|Vereinzelt|Gänzlich|Ständig|Okay|Meist|Generell|Ausreichend|Genügend|Reichlich|Regelmäßig(e|es)?|Unregelmäßig|Hauptsächlich"), posRegex("SUB:.*")),  // "Regelmäßig Kiwis und Ananas zu essen...", "Reichlich Inspiration bietet..."
-    asList(csRegex("Überraschend|Entsprechend|Ordentlich|Gelangweilt"), posRegex("SUB:.*"), posRegex("VER:.*")),  // "Überraschend Besuch bekommt er dann von ..."
-    asList(regex("Nachhaltig|Direkt"), posRegex("SUB:NOM:.*"), pos("VER:INF:SFT")),  // 'nachhaltig Yoga praktizieren'
+    asList(csRegex("Ganzjährig|Überraschend|Entsprechend|Ordentlich|Gelangweilt"), posRegex("SUB:.*"), posRegex("VER:.*")),  // "Überraschend Besuch bekommt er dann von ..."
+    asList(regex("Nachhaltig|Direkt"), posRegex("SUB:NOM:.*"), posRegex("VER:INF:(SFT|NON)")),  // 'nachhaltig Yoga praktizieren'
     asList(regex("\\d0er"), regex("Jahren?")),
     asList(token("Schwäbisch"), token("Hall")),
+    asList(token("Herzlich"), token("Willkommen")),
     asList(regex("echt|absolut|voll|total"), regex("Wahnsinn|Klasse")),
     asList(pos("SENT_START"), pos("ADJ:PRD:GRU"), posRegex("SUB:NOM:SIN:NEU:INF")),  // "Ruhig Schlafen & Zentral Wohnen"
     asList(tokenRegex("voll|voller"), posRegex("SUB:NOM:SIN:.*")),  // "Voller Mitleid", "Voller Mitleid"
@@ -268,8 +269,11 @@ public class AgreementRule2 extends Rule {
   private Set<String> retainCommonCategories(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
     Set<AgreementRule.GrammarCategory> categoryToRelaxSet = Collections.emptySet();
     Set<String> set1 = AgreementTools.getAgreementSOLCategories(token1, categoryToRelaxSet);
+    //System.out.println(token1 + " -> " + set1);
     Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, false);
+    //System.out.println(token2 + " -> " + set2);
     set1.retainAll(set2);
+    //System.out.println("==>"+set1);
     return set1;
   }
 

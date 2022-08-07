@@ -65,6 +65,9 @@ public class AgreementRule2Test {
     assertGood("Voll Mitleid");
     assertGood("Einzig Fernschüsse brachten Erfolgsaussichten.");
     assertGood("Gelangweilt Dinge sortieren hilft als Ablenkung.");
+    assertGood("Ganzjährig Garten pflegen");
+    assertGood("Herzlich Willkommen bei unseren günstigen Rezepten!");
+    assertGood("10-tägiges Rückgaberecht");
   }
 
   @Test
