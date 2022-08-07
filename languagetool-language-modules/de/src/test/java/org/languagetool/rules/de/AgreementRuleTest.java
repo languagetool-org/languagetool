@@ -643,6 +643,7 @@ public class AgreementRuleTest {
     assertGood("Die Organe eines gerade Verstorbenen");
     assertGood("Da wusste keiner Bescheid bezüglich dieser Sache.");
     assertGood("Es braucht keiner Bescheid wissen.");
+    assertGood("Ein Haus für die weniger Glücklichen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

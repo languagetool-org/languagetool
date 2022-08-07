@@ -37,6 +37,11 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      tokenRegex("der|die|den"),   // "Ein Haus für die weniger Glücklichen."
+      token("weniger"),
+      posRegex("SUB:.*PLU:.*:ADJ")
+    ),
+    Arrays.asList(
       tokenRegex("wusste|weiß"),   // "Da wusste keiner Bescheid"
       tokenRegex("keiner?"),
       token("Bescheid")
