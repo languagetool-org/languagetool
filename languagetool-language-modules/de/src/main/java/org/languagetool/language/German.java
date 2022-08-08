@@ -365,6 +365,7 @@ public class German extends Language implements AutoCloseable {
       case "HIER_FUER": return 1; // prefer over agreement rules
       case "MIT_REISSEN": return 1; // prefer over agreement rules
       case "JEDEN_FALLS": return 1;
+      case "MOEGLICHER_WEISE_ETC": return 1; // prefer over agreement rules
       case "UST_ID": return 1;
       case "INS_FITNESS": return 1; // prefer over DE_AGREEMENT
       case "MIT_UNTER": return 1; // prefer over agreement rules
@@ -415,6 +416,7 @@ public class German extends Language implements AutoCloseable {
       case "AUSLASSUNGSPUNKTE_LEERZEICHEN": return -1; // higher prio than spell checker
       case "IM_ERSCHEINUNG": return -1; // prefer ZUM_FEM_NOMEN
       case "SPACE_BEFORE_OG": return -1; // higher prio than spell checker
+      case "VERSEHENTLICHERWEISE": return -1; // higher prio than spell checker
       case "VERMOD_SKIP_VER_PKT": return -1; // less prio than casing rules
       case "EINZELBUCHSTABE_PREMIUM": return -1;  // lower prio than "A_LA_CARTE"
       case "SCHOENE_WETTER": return -2; // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)
