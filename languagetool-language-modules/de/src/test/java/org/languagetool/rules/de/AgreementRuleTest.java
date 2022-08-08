@@ -645,6 +645,7 @@ public class AgreementRuleTest {
     assertGood("Es braucht keiner Bescheid wissen.");
     assertGood("Ein Haus für die weniger Glücklichen.");
     assertGood("Wir können sowas Mittwoch machen.");
+    assertGood("Den schlechter Verdienenden geht es schlecht.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
