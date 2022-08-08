@@ -41,9 +41,9 @@ opzoeken overeenkomende vorm:
 <match no="1" postag="WKW.*" postag_regexp="yes">
 <match no="1" postag=".*ZNW.*" postag_regexp="yes">
 <match no="1" postag="BNW.*" postag_regexp="yes">
-de wordt het : <match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:HET|$2|$3|$4">
-het wordt de : <match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">
-regexp case-insensitive maken : (?i)
+de wordt het: <match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:HET|$2|$3|$4">
+het wordt de: <match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">
+regexp case-insensitive maken: (?i)
 -->
 <!-- mogelijk ook te gebruiken!
 <rule ...>
@@ -222,7 +222,7 @@ regexp case-insensitive maken : (?i)
                     </marker>
                     <token/>
                 </pattern>
-                <message>Wilt u een pijl gebruiken of <suggestion>≤</suggestion> ? Suggesties: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
+                <message>Wilt u een pijl gebruiken of <suggestion>≤</suggestion>? Suggesties: <suggestion>←</suggestion>, <suggestion>⇽</suggestion>, <suggestion>⇇</suggestion>, <suggestion>⇐</suggestion>, <suggestion>⇦</suggestion>, <suggestion>⇚</suggestion></message>
                 <example>A ← B</example>
                 <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
             </rule>
@@ -238,7 +238,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="BE" name="be kan van alles zijn...">
+        <rulegroup id="BE" name="be kan van alles zijn…">
             <antipattern><token>.</token><token spacebefore="no">be</token></antipattern>
             <antipattern><token>to</token><token>be</token></antipattern>
             <antipattern><token>(</token><token>be</token><token>)</token></antipattern>
@@ -264,7 +264,7 @@ regexp case-insensitive maken : (?i)
                     <token>en</token>
                     <token>of</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>en/of</suggestion>?</message>
+                <message>Bedoelt u misschien <suggestion>en/of</suggestion>?</message>
                 <example correction="en/of">Ik houd van appels <marker>en of</marker> peren.</example>
             </rule>
         </rulegroup>
@@ -275,14 +275,14 @@ regexp case-insensitive maken : (?i)
                     <token>a</token>
                     <token>la</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>á la</suggestion>?</message>
+                <message>Bedoelt u misschien <suggestion>á la</suggestion>?</message>
                 <example correction="á la">Ik houd van spinazie <marker>a la</marker> crème.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>ala</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>á la</suggestion>?</message>
+                <message>Bedoelt u misschien <suggestion>á la</suggestion>?</message>
                 <example correction="á la">Ik houd van spinazie <marker>ala</marker> crème.</example>
             </rule>
         </rulegroup>
@@ -310,7 +310,7 @@ regexp case-insensitive maken : (?i)
                         <token regexp="yes">maanden|dagen|uren|minuten|seconden</token>
                     </marker>
                 </pattern>
-                <message>Dat is wel een verdacht groot getal voor een aantal \4. Als het geen fout is, kunt u het wellicht beter anders noteren.</message>
+                <message>Dat is wel een verdacht groot getal voor een aantal \4. Als het geen fout is, kunt u het misschien beter anders noteren.</message>
                 <example correction="">Het duurde <marker>400 maanden</marker>.</example>
                 <example>Een tropisch jaar duurt minder dan <marker>365,400 dagen</marker>.</example>
             </rule>
@@ -342,7 +342,7 @@ regexp case-insensitive maken : (?i)
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes">.|,</token>
+                    <token regexp="yes">\.|,</token>
                     <token regexp="yes">-|–</token>
                 </antipattern>
                 <antipattern>
@@ -397,7 +397,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                     <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
                 </pattern>
-                <message>Getallen onder de twintig en ronde getallen schrijven we in lopende tekst bij vorkeur uit.</message>
+                <message>Getallen onder de twintig en ronde getallen schrijven we in lopende tekst bij voorkeur uit.</message>
                 <suggestion></suggestion>
                 <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url>
                 <short>Uitschrijven</short>
@@ -2451,7 +2451,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>portscan</token>
                 </pattern>
-                <message>Wellicht is <suggestion>poortscan</suggestion> iets beter Nederlands? De betekenis is hetzelfde.</message>
+                <message>Misschien is <suggestion>poortscan</suggestion> iets beter Nederlands? De betekenis is hetzelfde.</message>
                 <example correction="poortscan">Het woord <marker>portscan</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -2686,7 +2686,7 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="ECHT_EGT" name="waarschuwing bij gebruik egt i.p.v. echt">
             <rule>
                 <pattern><token>egt</token></pattern>
-                <message>U bedoeltvast <suggestion>echt</suggestion>? Eggen is ploegen.</message>
+                <message>U bedoelt vast <suggestion>echt</suggestion>? Eggen is ploegen.</message>
                 <example correction="echt">Het woord <marker>egt</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -3053,7 +3053,7 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="ZIJDEN_ZEIDEN" name="waarschuwing bij gebruik zeiden i.p.v. zijden">
             <rule>
                 <pattern><marker><token>zeiden</token></marker><token postag_regexp="yes" postag="ZNW:.*"/></pattern>
-                <message>Bedoelt u misschien <suggestion>zijden</suggestion> (van zij gemaakt)? Of toch de vorm van 'zeggen'?</message>
+                <message>Bedoelt u misschien <suggestion>zijden</suggestion> (van zijde gemaakt)? Of toch de vorm van 'zeggen'?</message>
                 <example correction="zijden">Het woord <marker>zeiden</marker> deur kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -3101,7 +3101,7 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="AFRIJD_AFREIT" name="waarschuwing bij gebruik afreit i.p.v. afrijd">
             <rule>
                 <pattern><token>afreit</token></pattern>
-                <message>Bedoelt u misschien <suggestion>afrijd</suggestion> of <suggestion>afrijdt</suggestion> ?</message>
+                <message>Bedoelt u misschien <suggestion>afrijd</suggestion> of <suggestion>afrijdt</suggestion>?</message>
                 <example correction="afrijd|afrijdt">Het woord <marker>afreit</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -4078,7 +4078,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>kieser</token>
                 </pattern>
-                <message>Bedoelt u misschien <suggestion>kiezer</suggestion> (die de keuze maakt), of toch netter.?</message>
+                <message>Bedoelt u misschien <suggestion>kiezer</suggestion> (die de keuze maakt), of toch netter?</message>
                 <example correction="kiezer">Het woord <marker>kieser</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -4177,7 +4177,7 @@ regexp case-insensitive maken : (?i)
             <rule>
                 <antipattern><token postag=".*VRB" postag_regexp="yes"/><token>sagen</token></antipattern>
                 <pattern><token>sagen</token></pattern>
-                <message>Bedoelt u misschien <suggestion>zagen</suggestion> (met een zaag)? Of toch 'ĺegenden'?</message>
+                <message>Bedoelt u misschien <suggestion>zagen</suggestion> (met een zaag)? Of toch 'legenden'?</message>
                 <example correction="zagen">Het woord <marker>sagen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -5032,7 +5032,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>fessen</token>
                 </pattern>
-                <message>Bedoelt u misschien <suggestion>fezzen</suggestion> (hofddeksels) of <suggestion>flessen</suggestion>?</message>
+                <message>Bedoelt u misschien <suggestion>fezzen</suggestion> (hoofddeksels) of <suggestion>flessen</suggestion>?</message>
                 <example correction="fezzen|flessen">Het woord <marker>fessen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -5244,7 +5244,7 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="MOEDERSONDE_MOEDERZONDE" name="waarschuwing bij gebruik moedersonde i.p.v. moederzonde">
             <rule>
                 <pattern><token>moedersonde</token></pattern>
-                <message>Bedoelt u misschien <suggestion>moederzonde</suggestion> (wandaad), of toch een meetapparaat??</message>
+                <message>Bedoelt u misschien <suggestion>moederzonde</suggestion> (wandaad), of toch een meetapparaat?</message>
                 <example correction="moederzonde">Het woord <marker>moedersonde</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -5456,7 +5456,7 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="FADER_VADER" name="waarschuwing bij gebruik fader i.p.v. vader">
             <rule>
                 <pattern><token inflected="yes">fader</token></pattern>
-                <message>Bedoelt u misschien <suggestion><match no="1" regexp_match="fad" regexp_replace="vad"/></suggestion> (pa)? Een fader is iets met film- of geluidmontage.</message>
+                <message>Bedoelt u misschien <suggestion><match no="1" regexp_match="fad" regexp_replace="vad"/></suggestion> (pa)? Een fader is iets met film- of geluidsmontage.</message>
                 <example correction="vader">Het woord <marker>fader</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -5780,7 +5780,7 @@ regexp case-insensitive maken : (?i)
                     </marker>
                     <token>water</token>
                 </pattern>
-                <message>Bedoelt u misschien <suggestion><match no="1" regexp_match="golf" regexp_replace="golv" /></suggestion>? Golfen is onjuist als het om water gaat.</message>
+                <message>Bedoelt u misschien <suggestion><match no="1" regexp_match="golf" regexp_replace="golv" /></suggestion>? Golfen is verkeerd als het om water gaat.</message>
                 <example correction="golvende">Het <marker>golfende</marker> water is fout.</example>
             </rule>
             <rule>
@@ -5790,7 +5790,7 @@ regexp case-insensitive maken : (?i)
                         <token skip="-1" regexp="yes">golfen|golfend|golfende</token>
                     </marker>
                 </pattern>
-                <message>Bedoelt u misschien <suggestion><match no="2" regexp_match="golf" regexp_replace="golv" /></suggestion>? Golfen is onjuist als het om water gaat.</message>
+                <message>Bedoelt u misschien <suggestion><match no="2" regexp_match="golf" regexp_replace="golv" /></suggestion>? Golfen is verkeerd als het om water gaat.</message>
                 <example correction="golvende">Het water was <marker>golfende</marker>.</example>
             </rule>
         </rulegroup>
@@ -6400,7 +6400,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
         -->
-        <rulegroup id="GEVLOTEN_GEFLOTEN" name="waarschuwing bij gebruik gevloten i.p.v. gefloten">
+        <rulegroup id="GEVLOTEN_GEFLOTEN" name="waarschuwing bij gebruik gevloten i.p.v. gefloten"> <!-- TODO: Add "vlieten" and "vloeien" specifically for german native speakers (i.e. dutch learners) -->
             <rule>
                 <pattern><token>gevloten</token></pattern>
                 <message>Bedoelt u misschien <suggestion>gefloten</suggestion> (van fluiten)? Of toch 'gevloten' van 'vlieden'?</message>
@@ -7247,7 +7247,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token inflected="yes">kapo</token>
                 </pattern>
-                <message>Bedoelt u misschien <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">capo</match></suggestion> (maffiabaas) ? Kapo staat voor een nazi (kamppolitie).</message>
+                <message>Bedoelt u misschien <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">capo</match></suggestion> (maffiabaas)? Kapo staat voor een nazi (kamppolitie).</message>
                 <example correction="capo">Het woord <marker>kapo</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -9111,7 +9111,7 @@ onwaarschijnlijk
                     <token>Alanis</token>
                     <token regexp="yes">Morriss?ett?e</token>
                 </pattern>
-                <message>Schrijf <suggestion>Alanis Morissette</suggestion> als het gaat om de zangeres uit Canadane.</message>
+                <message>Schrijf <suggestion>Alanis Morissette</suggestion> als het gaat om de zangeres uit Canada.</message>
                 <url>https://nl.wikipedia.org/wiki/Alanis_Morissette</url>
                 <example correction="Alanis Morissette">Kent u <marker>Alanis Morrissette</marker>?</example>
                 <example>Kent u Alanis Morissette?</example>
@@ -9760,7 +9760,7 @@ onwaarschijnlijk
                 <example correction="Mark Zuckerberg">Kent u <marker>Mark Zuckerburg</marker>?</example>
                 <example>Kent u Mark Zuckerberg?</example>
                 <example correction="Mark Zuckerberg">We zijn niet allemaal <marker>Marc Zuckerberg</marker>.</example>
-                <example correction="Mark Zuckerberg">Wellicht past hierbij ook de oproep van <marker>Marc Zuckerberg</marker>.</example>
+                <example correction="Mark Zuckerberg">Misschien past hierbij ook de oproep van <marker>Marc Zuckerberg</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -9982,9 +9982,9 @@ onwaarschijnlijk
                 <pattern>
                     <token postag="VRZ"/>
                     <token>de</token>
-                    <token inflected="yes" postag="WKW:TGW:INF" regexp="yes">weg.....+</token>
+                    <token inflected="yes" postag="WKW:TGW:INF" regexp="yes">weg.{5,30}</token>
                 </pattern>
-                <message>Hier mist vast een spatie.</message>
+                <message>Hier ontbreekt vast een spatie.</message>
                 <suggestion>\1 \2 <match no="3" regexp_match="^weg" regexp_replace="weg "/></suggestion>
                 <example correction="van de weg raken">We mogen niet <marker>van de wegraken</marker>.</example>
             </rule>
@@ -10090,7 +10090,7 @@ onwaarschijnlijk
                     <token>heers</token>
                     <token postag_regexp="yes" postag="ZNW.*"/>
                 </pattern>
-                <message>Dit wordt als een mini-zin gezien, en schrijf je dus anders.</message>
+                <message>Dit wordt als een minizin gezien, en schrijf je dus anders.</message>
                 <suggestion>\1-en-\3\4</suggestion>
                 <example correction="verdeel-en-heersstrategie">Hij hanteert een <marker>verdeel en heers strategie</marker> tegen hen.</example>
             </rule>
@@ -10434,7 +10434,7 @@ onwaarschijnlijk
             <rule>
                 <pattern>
                     <marker>
-                        <token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">...+rijd$<exception>bevrijd</exception></token>
+                        <token postag_regexp="yes" postag="WKW:TGW:1EP.*" regexp="yes">.{3,30}rijd$<exception>bevrijd</exception></token>
                         <token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes">tegen|kunnen</exception></token>
                     </marker>
                 </pattern>
@@ -10767,7 +10767,7 @@ onwaarschijnlijk
                         <token>loos</token>
                     </marker>
                 </pattern>
-                <message>Waarschijnlijk bedoelt u: <suggestion>los</suggestion> (loos is verkeerd,fout).</message>
+                <message>Waarschijnlijk bedoelt u: <suggestion>los</suggestion> (loos is verkeerd, fout).</message>
                 <example correction="los">Het gaat weer eens <marker>loos</marker>!</example>
             </rule>
         </rulegroup>
@@ -10794,7 +10794,7 @@ onwaarschijnlijk
                     <token>voor</token>
                 </pattern>
                 <message>Juist is: <suggestion>dank je wel</suggestion>.</message>
-                <example correction="Dank je wel"><marker>Dankje wel</marker> voor deze fijne momenten samen !</example>
+                <example correction="Dank je wel"><marker>Dankje wel</marker> voor deze fijne momenten samen!</example>
             </rule>
             <rule>
                 <pattern>
@@ -10817,7 +10817,7 @@ onwaarschijnlijk
                     <token postag_regexp="yes" postag="ZNW.*MRV.*"><exception regexp="yes" case_sensitive="yes">[A-Z][a-z].*|van|heeft|een|bij|ons|mijner|[a-zA-Z]{1,4}</exception></token>
                 </pattern>
                 <message>Als de \2 collega's zijn, dan is het: <suggestion>\1-\2</suggestion>.</message>
-                <example correction="collega-middenstanders">De <marker>collega middenstanders</marker> ...</example>
+                <example correction="collega-middenstanders">De <marker>collega middenstanders</marker> …</example>
                 <example correction="collega-vissers">Er waren nog drie <marker>collega vissers</marker> in de boot.</example>
                 <example correction="collega-auteurs">Een mooie kans om de <marker>collega auteurs</marker> te ontmoeten.</example>
             </rule>
@@ -11214,7 +11214,7 @@ onwaarschijnlijk
                 </pattern>
                 <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>in plaats</suggestion> moet staan.</message>
                 <example correction="in plaats">Ze zijn gevlucht, <marker>inplaats</marker> van hun volk te leiden.</example>
-                <example correction="in plaats">Jos helemaal live voor me <marker>inplaats</marker> van áchter de camera .</example>
+                <example correction="in plaats">Jos helemaal live voor me <marker>inplaats</marker> van áchter de camera.</example>
                 <example correction="In plaats"><marker>Inplaats</marker> van door te zoeken naar de camping reden we een boerenerf op.</example>
                 <example correction="in plaats">Deze planten zullen <marker>inplaats</marker> van rechte wortels, wortels vormen in alle denkbare vormen.</example>
                 <example correction="In plaats"><marker>Inplaats</marker> van zijn pijlen te richten op de media zou het verstandiger zijn de rechters beter te selecteren.</example>
@@ -11288,8 +11288,8 @@ onwaarschijnlijk
                     <token>naar</token>
                 </pattern>
                 <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>op zoek</suggestion> moet staan.</message>
-                <example correction="op zoek">Ben <marker>opzoek</marker> naar een behanger .</example>
-                <example correction="Op zoek"><marker>Opzoek</marker> naar betaalbaar drukwerk ?</example>
+                <example correction="op zoek">Ben <marker>opzoek</marker> naar een behanger.</example>
+                <example correction="Op zoek"><marker>Opzoek</marker> naar betaalbaar drukwerk?</example>
                 <example correction="op zoek">Ik ben nog <marker>opzoek</marker> naar een nieuwe dagcrème.</example>
                 <example correction="op zoek">Ben dringend <marker>opzoek</marker> naar een lening.</example>
                 <example correction="op zoek">Momenteel zijn zij in Leuven <marker>opzoek</marker> naar een tweetalige tarificatiebeheerder.</example>
@@ -11323,7 +11323,7 @@ onwaarschijnlijk
                     <token inflected="yes" regexp="yes">zijn|gaan</token>
                 </pattern>
                 <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>op zoek</suggestion> moet staan.</message>
-                <example correction="op zoek">Als ik <marker>opzoek</marker> ben naar een behanger .</example>
+                <example correction="op zoek">Als ik <marker>opzoek</marker> ben naar een behanger.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AANDOEN" name="aandoen → aan doen">
@@ -11637,7 +11637,7 @@ onwaarschijnlijk
                 <example correction="à-la-carterestaurant">Maar je kan ook bij het appartement blijven en neerstrijken bij het <marker>à la carterestaurant</marker>.</example>
                 <example correction="à-la-carte-optie">Met de <marker>à la carte-optie</marker> kies je zelf waar en wanneer je een schoonheidsspecialiste nodig hebt.</example>
                 <example correction="à-la-carte-dienst">De <marker>à la carte-dienst</marker> zou bij de lancering al meer dan 50 videokanalen in het assortiment hebben, waarop je kan intekenen vanaf 1,99 dollar per kanaal per maand.</example>
-                <example correction="à-la-carte's">Fantastische architectuur, kwaliteit van A tot Z, megaveel plaats, geen handdoeken leggen, leuk animatieteam, prachtige shows, alle merken inclusief, zeer goede <marker>a la carte's</marker>...</example>
+                <example correction="à-la-carte's">Fantastische architectuur, kwaliteit van A tot Z, megaveel plaats, geen handdoeken leggen, leuk animatieteam, prachtige shows, alle merken inclusief, zeer goede <marker>a la carte's</marker>…</example>
                 <example correction="à-la-carteservicebeurten">Dat hebben de dealers goed begrepen: zo hanteren ze bijvoorbeeld soepele werktijden wanneer dat nodig blijkt, of bieden ze de klanten <marker>à la carteservicebeurten</marker> aan tijdens hun vakantie.</example>
                 <example correction="à-la-carterestaurant">Elke avond staat een uitgebreid buffet voor jou klaar, maar uiteraard kan je ook lekkere visspecialiteiten of Turkse gerechten proeven in het visrestaurant en het Turkse <marker>à la carterestaurant</marker> van het hotel.</example>
             </rule>
@@ -11709,7 +11709,7 @@ onwaarschijnlijk
                 <pattern>
                     <token regexp="yes">rode[-]kruis.*</token>
                 </pattern>
-                <message>bedoelt u <suggestion><match no="1" regexp_match="[rR]ode\-[kK]ruis" regexp_replace="Rode Kruis"/></suggestion>?</message>
+                <message>Bedoelt u <suggestion><match no="1" regexp_match="[rR]ode\-[kK]ruis" regexp_replace="Rode Kruis"/></suggestion>?</message>
                 <url>https://onzetaal.nl/taaladvies/advies/tweede-kamerlid-tweede-kamer-lid-tweede-kamerlid</url>
                 <example correction="Rode Kruishulp">Dit is <marker>rode-kruishulp</marker>.</example>
                 <example correction="Rode Kruis"><marker>Rode-Kruis</marker> Vlaanderen is permanent op zoek naar donoren die bloed willen geven.</example>
@@ -11938,7 +11938,7 @@ onwaarschijnlijk
                 <example correction="excl. btw">Bij pakketten die afwijken van de specificaties wordt 2,75 euro <marker>ex btw</marker> berekend per pakket.</example>
                 <example correction="excl. BTW">Opleiding gecertificeerd docent 95,00 euro <marker>ex BTW</marker> per niveau.</example>
                 <example correction="excl. btw">Prijs: 75,62 Prijs <marker>ex btw</marker> en 15 euro verzendkosten Super.</example>
-                <example correction="excl. BTW">Maak zelf factuur waarbij het gefactureerde bedrag <marker>ex BTW</marker> gelijk is aan het prijzengeld .</example>
+                <example correction="excl. BTW">Maak zelf factuur waarbij het gefactureerde bedrag <marker>ex BTW</marker> gelijk is aan het prijzengeld.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EX_" name="ex man → ex-man-">
@@ -12010,7 +12010,7 @@ onwaarschijnlijk
             <rule>
                 <pattern>
                     <token regexp="yes">[aA]rt</token>
-                    <token regexp="yes">[dD]eco....*</token>
+                    <token regexp="yes">[dD]eco.{3,30}</token>
                 </pattern>
                 <message>Dit moet vast zijn: <suggestion>art-<match no="2" case_conversion="startlower"/></suggestion>.</message>
                 <url/>
@@ -12054,7 +12054,7 @@ onwaarschijnlijk
                 <url/>
                 <example correction="bijna-doodervaringen">Ik geloof niet in <marker>bijna dood ervaringen</marker>.</example>
                 <example correction="bijna-doodervaring">Bij deze <marker>bijna dood ervaring</marker> bevond deze vrouw zich in een lange tunnel.</example>
-                <example correction="bijna-doodervaringen">Wie kent er als fietsforens niet de wekelijkse <marker>bijna dood ervaringen</marker>?.</example>
+                <example correction="bijna-doodervaringen">Wie kent er als fietsforens niet de wekelijkse <marker>bijna dood ervaringen</marker>?</example>
                 <example correction="bijna-doodervaringen">U moet mijn vorige post over <marker>bijna dood ervaringen</marker> eens lezen.</example>
                 <example correction="bijna-doodervaring">Dan doet een Nederlands man zijn verhaal over zijn <marker>bijna dood ervaring</marker>.</example>
             </rule>
@@ -12101,7 +12101,7 @@ onwaarschijnlijk
             <rule>
                 <pattern>
                     <token>derde</token>
-                    <token regexp="yes">wereld...*<exception regexp="yes">wereld(oorlog|kampioen|titel)</exception></token>
+                    <token regexp="yes">wereld.{2,30}<exception regexp="yes">wereld(oorlog|kampioen|titel)</exception></token>
                 </pattern>
                 <message>Als het om de 'derde wereld' gaat, moet het zijn: <suggestion><match no="1"/><match no="2" case_conversion="startlower"/></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/derde-wereld-derde-wereld</url>
@@ -12187,7 +12187,7 @@ onwaarschijnlijk
                 <example correction="6e">Het boeddhisme zou ontstaan zijn in de <marker>6 e</marker> eeuw v.c.</example>
                 <example correction="20e">De <marker>20 e</marker> eeuw zorgde voor een explosieve vooruitgang.</example>
                 <example correction="19e">Oude grafzerken sommige dateren van einde <marker>19 e</marker> eeuw.</example>
-                <example correction="200e">Vanavond op Veronica om 20.30 u de <marker>200 e</marker> uitzending .</example>
+                <example correction="200e">Vanavond op Veronica om 20.30 u de <marker>200 e</marker> uitzending.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12331,8 +12331,14 @@ onwaarschijnlijk
         </rulegroup>
         <rulegroup id="MI" name="mi → m.i.">
             <rule>
-                <antipattern><token skip ="5" regexp="yes">do|re|fa|so|sol|la|si|ti</token><token>mi</token></antipattern>
-                <antipattern><token skip ="5">mi</token><token regexp="yes">do|re|fa|so|sol|la|si|ti</token></antipattern>
+                <antipattern>
+                    <token skip ="5" regexp="yes">do|re|fa|so|sol|la|si|ti</token>
+                    <token>mi</token>
+                </antipattern>
+                <antipattern>
+                    <token skip ="5">mi</token>
+                    <token regexp="yes">do|re|fa|so|sol|la|si|ti</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token>mi</token>
                 </pattern>
@@ -12636,7 +12642,7 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
         <rulegroup id="BEGINNEN_WW" name="beginnen lopen → beginnen te lopen">
-            <!-- TODO: suggesties zijn fout bij samengestelde werkwoorden ! -->
+            <!-- TODO: suggesties zijn fout bij samengestelde werkwoorden! -->
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes">om|te</token>
@@ -12662,7 +12668,7 @@ onwaarschijnlijk
                         <token postag="WKW:TGW:INF" regexp="yes">(aan|door|mee|bij|in|op).*</token>
                     </marker>
                 </pattern>
-                <message>Dit is onjuist taalgebruik. Herformuleer.</message>
+                <message>Dit is onjuist taalgebruik, dus herformuleer je het beter.</message>
                 <url>https://taaladvies.net/taal/advies/vraag/84/beginnen_infinitief/</url>
                 <example correction="">Mijn eigen belangstelling zorgde dat ik als eerste dit thema ben <marker>beginnen aanboren</marker>.</example>
             </rule>
@@ -12864,7 +12870,7 @@ onwaarschijnlijk
                     <token><exception regexp="yes">morgens|ochtends|middags|avonds|nachts|werelds|konings</exception></token>
                 </pattern>
                 <message>Die spatie hoort er vast niet: <suggestion>\1'\3</suggestion>.</message>
-                <example correction="foto's">Zie <marker>foto 's</marker> !</example>
+                <example correction="foto's">Zie <marker>foto 's</marker>!</example>
                 <example correction="chipolata's">Gebakken spek, <marker>chipolata 's</marker> van kalf, gebakken schouderham.</example>
                 <example correction="risico's">De essentie van het leven is het gevaar, het nemen van <marker>risico 's</marker>.</example>
                 <example correction="mama's">Zij verlichten <marker>mama 's</marker> werk een beetje nu papa in het buitenland is.</example>
@@ -12949,7 +12955,7 @@ onwaarschijnlijk
                 <example correction="Als professional|Professional zijnde"><marker>Als professional zijnde</marker> moest hij wel doorzetten.</example>
                 <example><marker>Als professional</marker> moest hij wel doorzetten.</example>
                 <example correction="als liberaal|liberaal zijnde">En dat zeg ik <marker>als liberaal zijnde</marker>.</example>
-                <example correction="Als moderator|Moderator zijnde"><marker>Als moderator zijnde</marker> ben ik nu heel boos op mezelf !</example>
+                <example correction="Als moderator|Moderator zijnde"><marker>Als moderator zijnde</marker> ben ik nu heel boos op mezelf!</example>
                 <example correction="Als kind|Kind zijnde"><marker>Als kind zijnde</marker> kregen we kans om te leren en ons sociaal te ontplooien.</example>
                 <example correction="als mens|mens zijnde">Jezus, Gods Zoon, werd mens om <marker>als mens zijnde</marker> Gods wil te doen.</example>
                 <example correction="Als man|Man zijnde"><marker>Als man zijnde</marker>, wil je wel effen jouw vrouw, jouw lieffie jouw wijfie, gewoon lekker verwennen.</example>
@@ -13164,7 +13170,7 @@ onwaarschijnlijk
                 <url>https://nl.wikipedia.org/wiki/Wikipedia:Lijst_van_veelvuldig_gemaakte_fouten_in_het_Nederlands</url>
                 <example correction="cordon bleu">Ik lust geen <marker>cordon blue</marker>.</example>
                 <example>Ik ben dol op <marker>cordon bleu</marker>.</example>
-                <example correction="cordon bleu">Waarom een kant en klare <marker>cordon blue</marker> kopen als je dit ook zelf kan maken ?</example>
+                <example correction="cordon bleu">Waarom een kant en klare <marker>cordon blue</marker> kopen als je dit ook zelf kan maken?</example>
             </rule>
         </rulegroup>
         <rulegroup id="MISTTE" name="mistte of miste">
@@ -13476,7 +13482,7 @@ onwaarschijnlijk
         <token regexp="yes">(hoog|laag)(vlakte|land.*|te|ten)|alpen|archipel|bekken|bergland|binnenzee|bocht|eilanden|hoogten|kanaal|kustvlakte|gebergte|rug|schiereiland|woestijn|woud</token>
         <token regexp="yes">[A-Z].+</token>
         </pattern>
-        <message>Is het niet <suggestion><match no="2"></match> <match no="3" case_conversion="startupper"></match></suggestion>?.</message>
+        <message>Is het niet <suggestion><match no="2"></match> <match no="3" case_conversion="startupper"></match></suggestion>?</message>
         <short>Hoofdletter?</short>
         <example correction=""><marker>Het Belgisch laagland</marker>.</example>
         <example><marker>De Schotse Hooglanden</marker>.</example>
@@ -15847,7 +15853,7 @@ onwaarschijnlijk
                         <token case_sensitive="yes">abraham</token>
                     </marker>
                 </pattern>
-                <message>Een abraham is een pop van koek, de eigennaam is : <suggestion><match no="2" case_conversion="startupper"/></suggestion>.</message>
+                <message>Een abraham is een pop van koek, de eigennaam is: <suggestion><match no="2" case_conversion="startupper"/></suggestion>.</message>
                 <example correction="Abraham">Ik weet waar <marker>abraham</marker> de mosterd haalt.</example>
             </rule>
         </rulegroup>
@@ -15860,7 +15866,7 @@ onwaarschijnlijk
                         <token case_sensitive="yes">sara</token>
                     </marker>
                 </pattern>
-                <message>Een sara is een pop van koek, de eigennaam is : <suggestion><match no="2" case_conversion="startupper"/></suggestion>.</message>
+                <message>Een sara is een pop van koek, de eigennaam is: <suggestion><match no="2" case_conversion="startupper"/></suggestion>.</message>
                 <example correction="Sara">De vrouw van Kees heet <marker>sara</marker>.</example>
             </rule>
         </rulegroup>
@@ -16906,7 +16912,7 @@ steenwijk;Steenwijk
                 <example>Dit is een <marker>concept</marker>.</example>
             </rule>
         </rulegroup>
-        <!-- too many normal words are also names ...
+        <!-- too many normal words are also names …
         <rulegroup id="HOOFDL_OVERB" name="Hoofdletters overbodig" default="temp_off">
             <antipattern case_sensitive="yes"><token>de</token><token regexp="yes">Rijn|SS</token></antipattern>
             <antipattern case_sensitive="yes"><token postag_regexp="yes" postag="SENT_START|START"/><token>"</token></antipattern>
@@ -17750,7 +17756,7 @@ steenwijk;Steenwijk
                 <example correction="u">Wat <marker>U</marker> hier las, klinkt ongelofelijk.</example>
                 <example correction="u">Maar dat weet <marker>U</marker> zeker al.</example>
                 <example correction="u">Puur natuur, als <marker>U</marker> wilt.</example>
-                <example correction="u">Informateur zult <marker>U</marker> bedoelen ?</example>
+                <example correction="u">Informateur zult <marker>U</marker> bedoelen?</example>
                 <example correction="u">Daar kan ik <marker>U</marker> in volgen.</example>
             </rule>
         </rulegroup>
@@ -17796,7 +17802,7 @@ steenwijk;Steenwijk
                     </marker>
                     <token postag="SENT_END"><exception scope="current" regexp="yes">rijd.*|draaf.*</exception></token>
                 </pattern>
-                <message>Wanneer niet het soort paard wordt bedoeld maar de inwoner van IJsland, is juist: <suggestion>IJslander</suggestion>.</message>
+                <message>Wanneer niet het soort paard wordt bedoeld, maar de inwoner van IJsland, is juist: <suggestion>IJslander</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/roquefort-roquefort</url>
                 <short>IJslander?</short>
                 <example correction="IJslander">De <marker>ijslander</marker> woont in IJsland.</example>
@@ -17835,9 +17841,9 @@ steenwijk;Steenwijk
             <!-- 2014-08-21 TaalTik -->
             <rule>
                 <antipattern><token regexp="yes">wereldstem|.*(straat|plein|steeg)</token></antipattern>
-                <antipattern case_sensitive="yes"><token skip="1">een</token><token postag="UNKNOWN" regexp="yes">([w]ereld...*)|([a-z].*..(stichting|fonds|organisatie))</token></antipattern>
+                <antipattern case_sensitive="yes"><token skip="1">een</token><token postag="UNKNOWN" regexp="yes">([w]ereld.{2,30})|([a-z].*..(stichting|fonds|organisatie))</token></antipattern>
                 <pattern case_sensitive="yes">
-                    <token postag="UNKNOWN" regexp="yes">([w]ereld...*)|([a-z].*..(stichting|fonds|organisatie))</token>
+                    <token postag="UNKNOWN" regexp="yes">([w]ereld.{2,30})|([a-z].*..(stichting|fonds|organisatie))</token>
                 </pattern>
                 <message>Als dit een eigennaam is, dan: <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
                 <short>Hoofdletter?</short>
@@ -18390,19 +18396,19 @@ steenwijk;Steenwijk
                 </antipattern>
                 <antipattern>
                     <token spacebefore="no">:</token>
-                    <token spacebefore="no" regexp="yes">\p{IsLatin}{2,}</token>
+                    <token spacebefore="no" regexp="yes">\p{IsLatin}{2,30}</token>
                     <token spacebefore="no">:</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">\p{IsLatin}{2,}</token>
+                    <token regexp="yes">\p{IsLatin}{2,30}</token>
                     <token spacebefore="no">:</token>
                     <token spacebefore="no">:</token>
-                    <token spacebefore="no" regexp="yes">\p{IsLatin}{2,}</token>
+                    <token spacebefore="no" regexp="yes">\p{IsLatin}{2,30}</token>
                 </antipattern>
                 <antipattern>
                     <token spacebefore="no" regexp="yes">alerts|class|data|extension|goto|tags|write</token>
                     <token spacebefore="no">:</token>
-                    <token spacebefore="no" regexp="yes">\p{IsLatin}{2,}</token>
+                    <token spacebefore="no" regexp="yes">\p{IsLatin}{2,30}</token>
                 </antipattern>
                 <antipattern> <!-- smileys -->
                     <token regexp="yes">[:;]</token>
@@ -20107,7 +20113,7 @@ steenwijk;Steenwijk
         <pattern>
         <token>update</token>
         </pattern>
-        <message>Engels. Suggesties: <suggestion>opwaardering</suggestion>, <suggestion>nieuwe versie</suggestion>.</message>
+        <message>Dit is een anglicisme. Suggesties: <suggestion>opwaardering</suggestion>, <suggestion>nieuwe versie</suggestion>.</message>
         <short>Leenwoord</short>
         <example correction="">Het is geen <marker>update</marker>.</example>
         <example>Het is een <marker>nieuwe versie</marker>.</example>
@@ -20242,7 +20248,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>management</token>
                 </pattern>
-                <message>Engels. Suggesties: <suggestion>beheer</suggestion>, <suggestion>leiding</suggestion>.</message>
+                <message>Dit is een anglicisme. Suggesties: <suggestion>beheer</suggestion>, <suggestion>leiding</suggestion>.</message>
                 <example correction="beheer|leiding">Verzorg het <marker>management</marker>.</example>
                 <example>Verzorg het <marker>beheer</marker>.</example>
             </rule>
@@ -20428,7 +20434,7 @@ steenwijk;Steenwijk
                 <example correction="terugkoppeling">De student kan <marker>feedback</marker> ontvangen.</example>
                 <example correction="terugkoppeling">Zonder <marker>feedback</marker> is er geen zelfconceptverheldering.</example>
                 <example correction="terugkoppeling">Paar accounts aanmaken om positieve <marker>feedback</marker> te ontvangen.</example>
-                <example correction="terugkoppeling">Gebruik de <marker>feedback</marker> als een realitycheck .</example>
+                <example correction="terugkoppeling">Gebruik de <marker>feedback</marker> als een realitycheck.</example>
                 <example correction="terugkoppeling">Merci alvast voor de <marker>feedback</marker>!</example>
             </rule>
         </rulegroup>
@@ -20452,7 +20458,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>match</token>
                 </pattern>
-                <message>&leenwoord_mess;.</message>
+                <message>&leenwoord_mess;</message>
                 <suggestion>wedstrijd</suggestion>
                 <suggestion>kom overeen met</suggestion>
                 <example correction="wedstrijd|kom overeen met">De <marker>match</marker> is slecht.</example>
@@ -20461,7 +20467,7 @@ steenwijk;Steenwijk
         <rulegroup id="MATCH_COMPOUND" name="match → wedstrijd, overeenkomst">
             <rule>
                 <pattern>
-                    <token regexp="yes">match....+</token>
+                    <token regexp="yes">match.{4,30}</token>
                 </pattern>
                 <message>&leenwoord_mess; met 'overeenkomst', 'koppelaar', 'overeenkomst', 'wedstrijd' en hun vormen.</message>
                 <example correction="">Gebruik de <marker>matchmaker</marker>.</example>
@@ -20545,7 +20551,7 @@ steenwijk;Steenwijk
                 <suggestion>tempomaat</suggestion>
                 <example correction="snelheidsregeling|tempomaat">Gebruik de <marker>cruisecontrol</marker>.</example>
                 <example>Gebruik de <marker>snelheidsregeling</marker>.</example>
-                <example correction="snelheidsregeling|tempomaat">Op <marker>cruisecontrol</marker> tegen 120 km/h zat ik regelmatig aan de 8L .</example>
+                <example correction="snelheidsregeling|tempomaat">Op <marker>cruisecontrol</marker> tegen 120 km/h zat ik regelmatig aan de 8L.</example>
                 <example correction="snelheidsregeling|tempomaat">Toen speelde hij eerder op <marker>cruisecontrol</marker>.</example>
                 <example correction="snelheidsregeling|tempomaat">Hij presteerde het om op z’n <marker>cruisecontrol</marker> 1 op 29 te rijden.</example>
                 <example correction="snelheidsregeling|tempomaat">Ook de <marker>cruisecontrol</marker> en speedlimit is hierop handig in te stellen.</example>
@@ -21007,7 +21013,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>De voorkeur voor notatie van tijd is <suggestion><match no="1" regexp_match="u" regexp_replace="\."/> uur</suggestion> of <suggestion><match no="1" regexp_match="u" regexp_replace="\."/> u.</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/tijden-noteren</url>
-                <short>Tijdnotatie onjuist</short>
+                <short>Tijdnotatie verkeerd</short>
                 <example correction="8.30 uur|8.30 u.">Hij komt <marker>8u30</marker>.</example>
                 <example>Hij komt <marker>8.30</marker> uur.</example>
                 <example correction="14.00 uur|14.00 u.">Vertrek om <marker>14u00</marker>.</example>
@@ -21022,7 +21028,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>De voorkeur voor notatie van tijd is <suggestion><match no="1" regexp_match="u" regexp_replace=""/>.30 uur</suggestion> of <suggestion><match no="1" regexp_match="u" regexp_replace=""/>.30 u.</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/tijden-noteren</url>
-                <short>Tijdnotatie onjuist</short>
+                <short>Tijdnotatie verkeerd</short>
                 <example correction="8.30 uur|8.30 u.">Hij komt <marker>8u.30</marker>.</example>
                 <example>Hij komt <marker>8.30</marker> uur.</example>
                 <example correction="5.30 uur|5.30 u.">Ik klop af op <marker>5u.15</marker> u.</example>
@@ -21038,7 +21044,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>De h wordt alleen in wetenschappelijk/technische stukken gebruikt en dan als <suggestion><match no="1" regexp_match="h" regexp_replace=" h "/> min ## s</suggestion> (ISO-norm).</message>
                 <url>https://taaladvies.net/taal/advies/vraag/1278/</url>
-                <short>Tijdnotatie onjuist</short>
+                <short>Tijdnotatie verkeerd</short>
                 <example correction="8 h 30 min ## s">Hij komt <marker>8h30</marker>.</example>
                 <example>Hij komt <marker>8.30</marker> uur.</example>
                 <example correction="8 h 30 min ## s">Vertrek om <marker>8h30</marker>.</example>
@@ -21106,7 +21112,7 @@ steenwijk;Steenwijk
                 <example correction="die|dat">De man <marker>welke</marker> een fout maakte.</example>
                 <example correction="die|dat">We herinneren nogmaals aan de nieuwjaarsreceptie <marker>welke</marker> doorgaat op 16 januari 2003.</example>
                 <example correction="die|dat">Een model cv ketel <marker>welke</marker> energiezuiniger is.</example>
-                <example correction="die|dat">Je kan de Gps track <marker>welke</marker> het Vlaamse gedeelte aandoet downloaden via deze » link !</example>
+                <example correction="die|dat">Je kan de Gps track <marker>welke</marker> het Vlaamse gedeelte aandoet downloaden via deze » link!</example>
                 <example correction="die|dat">De porseleinen plaat zit vast in een slede <marker>welke</marker> tussen twee geleiders beweegt.</example>
             </rule>
         </rulegroup>
@@ -21420,7 +21426,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="DEWELKE" name="Dewelke → die">
             <!-- 2014-08-20 TaalTik -->
-            <!-- TODO : regel voor volgens dewelke -->
+            <!-- TODO: regel voor volgens dewelke -->
             <rule>
                 <antipattern><token>volgens</token><token>dewelke</token></antipattern>
                 <pattern>
@@ -21601,13 +21607,12 @@ steenwijk;Steenwijk
                         <token>alvorens</token>
                     </marker>
                 </pattern>
-                <message>Dit is ouderwets. Herschrijf met 'voordat'.</message>
+                <message>Dit is ouderwets. Herschrijf met <suggestion>voordat</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
-                <example correction="">Je moet inloggen <marker>alvorens</marker> je kan stemmen.</example>
-                <example correction=""><marker>Alvorens</marker> het zover was moesten vele moeilijke jaren voorbij gaan.</example>
-                <example correction="">Ik heb het 2x moeten lezen, <marker>alvorens</marker> ik het geloofde.</example>
-                <example correction="">Jullie spuiten dat toch ook op de aardappelen <marker>alvorens</marker> ze te rooien?</example>
-                <example correction="">Misschien nog wat jaren laten liggen <marker>alvorens</marker> een eindbalans te maken.</example>
+                <example correction="voordat">Je moet inloggen <marker>alvorens</marker> je kan stemmen.</example>
+                <example correction="voordat">Ik heb het 2x moeten lezen, <marker>alvorens</marker> ik het geloofde.</example>
+                <example correction="voordat">Jullie spuiten dat toch ook op de aardappelen <marker>alvorens</marker> ze te rooien?</example>
+                <example correction="voordat">Misschien nog wat jaren laten liggen <marker>alvorens</marker> een eindbalans te maken.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21616,9 +21621,10 @@ steenwijk;Steenwijk
                         <token>alvorens</token>
                     </marker>
                 </pattern>
-                <message>Dit is ouderwets. herschrijf met 'voordat'.</message>
+                <message>Dit is ouderwets. Herschrijf met <suggestion>Voordat</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
-                <example correction=""><marker>Alvorens</marker> ik ging, maakte ik een fout.</example>
+                <example correction="Voordat"><marker>Alvorens</marker> ik ging, maakte ik een fout.</example>
+                <example correction="Voordat"><marker>Alvorens</marker> het zover was moesten vele moeilijke jaren voorbij gaan.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALWAAR" name="Alwaar → waar">
@@ -21698,7 +21704,7 @@ steenwijk;Steenwijk
                 <example correction="over|deze">Voor de tweedemaal een incident <marker>betreffende</marker> het schaken van mij.</example>
                 <example correction="over|deze">Ik wil nog niet concreet op het denkspoor <marker>betreffende</marker> de werkzekerheid ingaan.</example>
                 <example correction="over|deze">Al uw vragen <marker>betreffende</marker> de LHC zijn trouwens hier al beantwoord.</example>
-                <example correction="over|deze">Waar op het Internet vind ik nog extra informatie <marker>betreffende</marker> dit verschijnsel ?</example>
+                <example correction="over|deze">Waar op het Internet vind ik nog extra informatie <marker>betreffende</marker> dit verschijnsel?</example>
                 <example correction="over|deze">Voor informatie <marker>betreffende</marker> de sportraad kan u de sportdienst contacteren.</example>
                 <example correction="over|deze">Ben er al over <marker>betreffende</marker> de klassementen.</example>
             </rule>
@@ -21956,7 +21962,7 @@ steenwijk;Steenwijk
                 <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
                 <example correction="verschil|tegenstrijdigheid">Vaak zit daar een <marker>discrepantie</marker> tussen.</example>
                 <example correction="verschil|verschillen|tegenstrijdigheden">Dat is een van die <marker>discrepanties</marker>.</example>
-                <example correction="verschil|tegenstrijdigheid">Wanneer ik hen die <marker>discrepantie</marker> voorleg, reageren ze .</example>
+                <example correction="verschil|tegenstrijdigheid">Wanneer ik hen die <marker>discrepantie</marker> voorleg, reageren ze.</example>
                 <example correction="verschil|tegenstrijdigheid">Als we een kleine evaluatie maken van de kostprijs voor de overheid van een dienstencheque in vergelijking met die van de plaatsen in de kinderopvang die vandaag worden gerealiseerd, zien we een heel grote <marker>discrepantie</marker>.</example>
                 <example correction="verschil|tegenstrijdigheid">De tragedie voltrekt zich hier niet als een gevolg van een inzicht of een handeling, maar als het gevolg van de innerlijke tegenstellingen van de personages en de complexiteit van hun individuele psyche: de tragische <marker>discrepantie</marker> tussen de verlangens en de beperkingen van een mens.</example>
             </rule>
@@ -21995,7 +22001,7 @@ steenwijk;Steenwijk
                 <example correction="ook niet|ook geen">Geen bloed, geen zweet en <marker>evenmin</marker> tranen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EVENWEL" name="Evenwel → echter, maar ..., toch, niettemin">
+        <rulegroup id="EVENWEL" name="Evenwel → echter, maar …, toch, niettemin">
             <!-- 2014-09-08 TaalTik -->
             <rule>
                 <pattern>
@@ -22024,7 +22030,7 @@ steenwijk;Steenwijk
                 <example correction="Ook"><marker>Evenzeer</marker> bidden wij voor de afgestorvenen in het vagevuur.</example>
                 <example correction="ook">Kan zijn, maar dit kan <marker>evenzeer</marker> gezegd worden over Cesar.</example>
                 <example correction="ook">De snelheid waarmee dat gebeurde fascineerde <marker>evenzeer</marker> als ze angst aanjoeg.</example>
-                <example correction="ook">Staat u die dan telkens <marker>evenzeer</marker> af "ter genezing" ?</example>
+                <example correction="ook">Staat u die dan telkens <marker>evenzeer</marker> af "ter genezing"?</example>
             </rule>
         </rulegroup>
         <rulegroup id="EXCEPTIONEEL" name="Exceptioneel → uitzonderlijk">
@@ -22237,7 +22243,7 @@ steenwijk;Steenwijk
                 <example correction="Niet|Zeker niet|Geen|Zeker geen"><marker>Geenszins</marker>, pixels bepalen voor alles de kleuren saturatie.</example>
                 <example correction="niet|zeker niet|geen|zeker geen">De vernietiging van het KB wil <marker>geenszins</marker> zeggen dat de vergunning is vernietigd.</example>
                 <example correction="niet|zeker niet|geen|zeker geen">In dit scenario zorgt de autonome auto <marker>geenszins</marker> voor een mobiliteitsrevolutie.</example>
-                <example correction="niet|zeker niet|geen|zeker geen">Van monopolies zijn ook in de mobiliteitssector <marker>geenszins</marker> enig heil te verwachten !</example>
+                <example correction="niet|zeker niet|geen|zeker geen">Van monopolies zijn ook in de mobiliteitssector <marker>geenszins</marker> enig heil te verwachten!</example>
                 <example correction="niet|zeker niet|geen|zeker geen">Ze bieden de plant <marker>geenszins</marker> bescherming tegen de koude.</example>
             </rule>
         </rulegroup>
@@ -22451,7 +22457,7 @@ steenwijk;Steenwijk
                 <example correction="">Ze gaan nooit al hun kaarten van bij <marker>aanvang</marker> op tafel leggen.</example>
                 <example correction="">De demobilisatie nam een <marker>aanvang</marker>.</example>
                 <example correction="">Onmiddellijk werd een <marker>aanvang</marker> ge nomen met het reddingswerk.</example>
-                <example correction="">Was dat misschien van in <marker>aanvang</marker> de bedoeling geweest ?</example>
+                <example correction="">Was dat misschien van in <marker>aanvang</marker> de bedoeling geweest?</example>
             </rule>
             <rule>
                 <pattern>
@@ -22496,7 +22502,7 @@ steenwijk;Steenwijk
         </rulegroup>
         -->
         <rulegroup id="AANWENDEN" name="aanwenden">
-            <!-- vanwege verwarring met aanwennen is er een probleem om het met inflection te doen.... -->
+            <!-- vanwege verwarring met aanwennen is er een probleem om het met inflection te doen… -->
             <rule>
                 <pattern>
                     <token>aanwenden</token>
@@ -22858,7 +22864,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>&vlotter_mess; <suggestion><match no="1" postag="BNW.*">bevestigend</match></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="bevestigend">Dus conclusie : ja, <marker>affirmatief</marker>.</example>
+                <example correction="bevestigend">Dus conclusie: ja, <marker>affirmatief</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AFGEZIEN_VAN" name="afgezien van" tags="picky">
@@ -22990,7 +22996,7 @@ steenwijk;Steenwijk
                 <example correction="dan|in dat geval|op dat moment">QQ <marker>alsdan</marker> QQQ.</example>
                 <example correction="Dan|In dat geval|Op dat moment"><marker>Alsdan</marker> mag het aantal borden de 50 niet overtreffen.</example>
                 <example correction="Dan|In dat geval|Op dat moment"><marker>Alsdan</marker> gaan we over tot het volgende punt op de agenda.</example>
-                <example correction="dan|in dat geval|op dat moment">Uitzondering wordt daarop gemaakt bij rangeering van het treinstel vóór het vertrek en na de aankomst of onderweg : <marker>alsdan</marker> worden voornoemde verrichtingen gedaan door den rangeerder van den dienst der exploitatie.</example>
+                <example correction="dan|in dat geval|op dat moment">Uitzondering wordt daarop gemaakt bij rangeering van het treinstel vóór het vertrek en na de aankomst of onderweg: <marker>alsdan</marker> worden voornoemde verrichtingen gedaan door den rangeerder van den dienst der exploitatie.</example>
                 <example correction="dan|in dat geval|op dat moment">Deze leefde nog in 1793, <marker>alsdan</marker> 74 j. oud.</example>
             </rule>
         </rulegroup>
@@ -23174,12 +23180,14 @@ steenwijk;Steenwijk
         <rulegroup id="BEHOEFTE_BESTAAT_AAN" name="behoefte bestaat aan" tags="picky">
             <rule>
                 <pattern>
-                    <token>behoefte</token><token>bestaat</token><token>aan</token>
+                    <token>behoefte</token>
+                    <token>bestaat</token>
+                    <token>aan</token>
                 </pattern>
                 <message>&vlotter_mess; 'is nodig' of 'is gevraagd'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="">QQ <marker>behoefte bestaat aan</marker> QQQ.</example>
-                <example>QQ <marker>... is nodig</marker>.</example>
+                <example>QQ <marker>… is nodig</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BEHOEVEN" name="behoeven" tags="picky">
@@ -23265,9 +23273,9 @@ steenwijk;Steenwijk
                 <pattern>
                     <token inflected="yes">beleidsimpuls</token>
                 </pattern>
-                <message>&vlotter_mess; <suggestion>goed plan</suggestion> of <suggestion>extra aandacht geven aan ...</suggestion>.</message>
+                <message>&vlotter_mess; <suggestion>goed plan</suggestion> of <suggestion>extra aandacht geven aan …</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="goed plan|extra aandacht geven aan ...">QQ <marker>beleidsimpuls</marker> QQQ.</example>
+                <example correction="goed plan|extra aandacht geven aan …">QQ <marker>beleidsimpuls</marker> QQQ.</example>
                 <example>QQ <marker>goed plan</marker>.</example>
             </rule>
         </rulegroup>
@@ -23416,10 +23424,10 @@ steenwijk;Steenwijk
         </pattern>
         <message>
         &vlotter_mess;
-        <suggestion>(deze stukken) gaan over</suggestion> of <suggestion>(deze periode) duurt van ... tot ...</suggestion>.
+        <suggestion>(deze stukken) gaan over</suggestion> of <suggestion>(deze periode) duurt van … tot …</suggestion>.
         </message>
         <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-        <example correction="(deze stukken) gaan over|(deze periode) duurt van ... tot ...">QQ <marker>bestrijken</marker> QQQ.</example>
+        <example correction="(deze stukken) gaan over|(deze periode) duurt van … tot …">QQ <marker>bestrijken</marker> QQQ.</example>
         <example>QQ <marker>(deze stukken) gaan over</marker>.</example>
         </rule>
         -->
@@ -23495,7 +23503,7 @@ steenwijk;Steenwijk
                 <message>&vlotter_mess; <suggestion>bekijken</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="bekijken">Valt nog te <marker>bezien</marker>.</example>
-                <example correction="Bekijken"><marker>Bezien</marker> wij nu eens fig .</example>
+                <example correction="Bekijken"><marker>Bezien</marker> wij nu eens fig. 5.</example>
                 <example correction="bekijken">Het wordt dus zeer moeilijk om de verhouding stof-geest, of geest-stof vanuit één standpunt te <marker>bezien</marker> zodat ze beide factoren geheel omschrijven.</example>
                 <example correction="bekijken">Of het consortium geleerd heeft uit zijn falen valt nog te <marker>bezien</marker>.</example>
                 <example correction="bekijken">Maar dat valt nog te <marker>bezien</marker>.</example>
@@ -23508,7 +23516,7 @@ steenwijk;Steenwijk
                 <message>&vlotter_mess; <suggestion>bekijkt</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="bekijkt">Het is echter hoe men dit <marker>beziet</marker>.</example>
-                <example correction="bekijkt">Daar moet ik u ook gelijk in geven en als je dan <marker>beziet</marker> gaan ze naar de winkel of ...., de auto gewrongen in een parking (die tegenwoordig zeker niet groter en breder geworden zijn) en dan een hoop leed.</example>
+                <example correction="bekijkt">Daar moet ik u ook gelijk in geven en als je dan <marker>beziet</marker> gaan ze naar de winkel of …, de auto gewrongen in een parking (die tegenwoordig zeker niet groter en breder geworden zijn) en dan een hoop leed.</example>
                 <example correction="bekijkt">Wie belangrijke zaken en gebeurtenissen in zijn leven steeds vanuit een negatief standpunt <marker>beziet</marker>, wordt somber, angstig of geïrriteerd.</example>
                 <example correction="bekijkt">Bent u estheet, ach, dan leunt u op uw gemak achterover en <marker>beziet</marker> het ijverige gekrioel om u heen.</example>
                 <example correction="bekijkt">Als ge de hele wereld onbevangen en met onverbogen zin <marker>beziet</marker>, dan zult ge haar opeens in het stralend licht (Gods) zien.</example>
@@ -23887,7 +23895,7 @@ steenwijk;Steenwijk
                 <example correction="bepaling|regel|voorbehoud">Wettelijk gezien mag de <marker>clausule</marker> niet tegenstrijdig zijn met de wet op de handelspraktijken.</example>
                 <example correction="bepaling|regel|voorbehoud">Indien men deze <marker>clausule</marker> toch voorziet, wil dit niet zeggen dat het automatisch in de BA autoverzekering is opgenomen.</example>
                 <example correction="bepaling|regel|voorbehoud">En wat gewordt er dan in Belgie van de <marker>clausule</marker> van de meeste begunstigde natie.</example>
-                <example correction="Bepaling|Regel|Voorbehoud"><marker>Clausule</marker> 2: Voor de permanente evaluatie (medewerking, ...) wordt geen 2e examenkans voorzien binnen hetzelfde academiejaar.</example>
+                <example correction="Bepaling|Regel|Voorbehoud"><marker>Clausule</marker> 2: Voor de permanente evaluatie (medewerking, …) wordt geen 2e examenkans voorzien binnen hetzelfde academiejaar.</example>
                 <example correction="bepaling|regel|voorbehoud">Die <marker>clausule</marker> noemen we het beding van voorafname.</example>
                 <example correction="bepaling|regel|voorbehoud">Dergelijke <marker>clausule</marker> is in het voordeel van de meerderheidsaandeelhouder(s).</example>
                 <example correction="bepaling|regel|voorbehoud">Een dergelijke <marker>clausule</marker> is perfect rechtsgeldig.</example>
@@ -24231,7 +24239,7 @@ steenwijk;Steenwijk
                 <message>&vlotter_mess; <suggestion>norm</suggestion>, <suggestion>richtlijn</suggestion> of <suggestion>eis</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="norm|richtlijn|eis">Dat is geen <marker>criterium</marker>.</example>
-                <example correction="Norm|Richtlijn|Eis"><marker>Criterium</marker> 4 : de waarborgen en zekerheid van naleverbaarheid.</example>
+                <example correction="Norm|Richtlijn|Eis"><marker>Criterium</marker> 4: de waarborgen en zekerheid van naleverbaarheid.</example>
                 <example correction="norm|richtlijn|eis">Het voornaamste <marker>criterium</marker> is de weer standheid tegenover bladziekten.</example>
                 <example correction="norm|richtlijn|eis">Per <marker>criterium</marker> kon men op een schaal van vijf het belang aanduiden.</example>
                 <example correction="norm|richtlijn|eis">Het enige <marker>criterium</marker> voor deze toeslag is voortaan de leeftijd.</example>
@@ -24517,7 +24525,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>&vlotter_mess; 'regels afschaffen' of 'versimpelen'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">In deze akkoorden staat 1 ding centraal : <marker>deregulering</marker>.</example>
+                <example correction="">In deze akkoorden staat een ding centraal: <marker>deregulering</marker>.</example>
                 <example correction=""><marker>Deregulering</marker> heeft geleid tot een verslechtering van de levensomstandigheden.</example>
                 <example correction="">Maar <marker>deregulering</marker>, liberalisering en privatisering staan nog steeds op het lijstje.</example>
                 <example correction="">De <marker>deregulering</marker> van de kapitaalmarkt is een van de dieper liggende oorzaken.</example>
@@ -24565,7 +24573,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token regexp="yes">desbetreffend|desbetreffende</token>
                 </pattern>
-                <message>&vlotter_mess; 'over' of 'de ... waarom het gaat', 'deze', 'die' of 'dit'.</message>
+                <message>&vlotter_mess; 'over' of 'de … waarom het gaat', 'deze', 'die' of 'dit'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="">Wij maken dan gebruik van vezels uit de <marker>desbetreffend</marker> tijd.</example>
             </rule>
@@ -24618,7 +24626,7 @@ steenwijk;Steenwijk
                 <message>&vlotter_mess; <suggestion>toen</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="toen">Zoals ik <marker>destijds</marker>.</example>
-                <example correction="Toen"><marker>Destijds</marker> was zij single ...</example>
+                <example correction="Toen"><marker>Destijds</marker> was zij single …</example>
                 <example correction="toen">Goed dat ik <marker>destijds</marker> een goed verdienende vakantiejob had.</example>
                 <example correction="toen">De Joden deden dat <marker>destijds</marker> ook om ermee weg te geraken.</example>
                 <example correction="toen">Iemand zoals Tijl Uilenspiegel <marker>destijds</marker>.</example>
@@ -25125,7 +25133,7 @@ steenwijk;Steenwijk
                 <message>&vlotter_mess; <suggestion>iedereen</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="iedereen">Volgens mijn dokter zou <marker>elkeen</marker> vanaf 50 jaar oud dagelijks een aspirine moeten slikken.</example>
-                <example correction="Iedereen"><marker>Elkeen</marker> die in de weg staat, moet “geneutraliseerd” worden .</example>
+                <example correction="Iedereen"><marker>Elkeen</marker> die in de weg staat, moet “geneutraliseerd” worden.</example>
                 <example correction="iedereen">Alle christenen zijn gezalfd opdat het chrisma <marker>elkeen</marker> zou bereiken.</example>
                 <example correction="iedereen">Onbewust, onwetend en toch op de eerste rij aanschuivend tot een grote gebeurtenis is <marker>elkeen</marker> aanwezig.</example>
             </rule>
@@ -25220,10 +25228,10 @@ steenwijk;Steenwijk
                 <example correction="">Luidens de inlichtingen zou deze bepaling <marker>ertoe strekken</marker> de pensioenaanspraken van de aangestelde personen veilig te stellen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ERVARING" name="...ervaring" tags="picky">
+        <rulegroup id="ERVARING" name="…ervaring" tags="picky">
             <rule>
                 <pattern>
-                    <token regexp="yes">...*ervaring</token>
+                    <token regexp="yes">.{2,30}ervaring</token>
                 </pattern>
                 <message>De tekst wordt vlotter als u dit woord vermijdt.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
@@ -25285,7 +25293,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>&vlotter_mess; <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">bespreken</match></suggestion>, <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">beoordelen</match></suggestion> of 'achteraf bespreken om ervan te leren'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="bespreek|beoordeel">Hoe <marker>evalueer</marker> je de oogstand ?</example>
+                <example correction="bespreek|beoordeel">Hoe <marker>evalueer</marker> je de oogstand?</example>
                 <example correction="besproken|beoordeeld">We hebben dat decreet <marker>geëvalueerd</marker>.</example>
                 <example correction="bespreekt|beoordeelt">De kijker analyseert en <marker>evalueert</marker>".</example>
                 <example correction="Bespreek|Beoordeel"><marker>Evalueer</marker> nu ook eens je eigen seizoen.</example>
@@ -25669,7 +25677,7 @@ steenwijk;Steenwijk
                 <example correction="Mooie|Goede"><marker>Fraaie</marker> schijf, of zo.</example>
                 <example correction="mooi|goed">Het is geen <marker>fraai</marker> zicht.</example>
                 <example correction="moois|goeds">Club bouwt aan iets <marker>fraais</marker>.</example>
-                <example correction="mooie|goede">Riant wonen op <marker>fraaie</marker> ligging !</example>
+                <example correction="mooie|goede">Riant wonen op <marker>fraaie</marker> ligging!</example>
                 <example correction="mooist|best">Het <marker>fraaist</marker> denkbare kabaal was de traktatie.</example>
                 <example correction="mooiste|beste">Zo is de Molièrelaan een van de <marker>fraaiste</marker> lanen van Brussel.</example>
             </rule>
@@ -25682,7 +25690,7 @@ steenwijk;Steenwijk
                 <message>Als u het figuurlijk bedoelt, is vlotter: 'basis' of 'grondslag'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="">De tekst is daarbij mijn <marker>fundament</marker>.</example>
-                <example correction="">Het vraaggebed : <marker>Fundament</marker> van alle gebed.</example>
+                <example correction="">Het vraaggebed: <marker>Fundament</marker> van alle gebeden.</example>
                 <example correction="">Op <marker>fundamenten</marker> van niet te weerleggen data.</example>
                 <example correction=""><marker>Fundamenten</marker> zijn nu wel iets sterker, mede dankzij § en zinkkoers.</example>
             </rule>
@@ -25814,7 +25822,7 @@ steenwijk;Steenwijk
                 <example correction="in delen uitgevoerde|in stappen uitgevoerde">Wij doen dit op een <marker>gefaseerde</marker> manier.</example>
                 <example correction="In delen uitgevoerde|In stappen uitgevoerde"><marker>Gefaseerde</marker> vaste vergoeding voor kwaliteitsverbeterende maatregelen en structuren die bijdragen tot de rationalisering van de zorgvoorziening.</example>
                 <example correction="in delen uitgevoerde|in stappen uitgevoerde">De <marker>gefaseerde</marker> timing van de kernuitstapwet maakt dat de sluiting van onze 7 kernreactoren niet holderdebolder gebeurt, maar geleidelijk aan over een periode van 10 jaar.</example>
-                <example correction="in delen uitgevoerde|in stappen uitgevoerde">De schepen stelt dat daar een <marker>gefaseerde</marker> bouw zou kunnen gebeuren van eerst een gevangenis, en later een arresthuis... wederom synergie-opportuniteiten.</example>
+                <example correction="in delen uitgevoerde|in stappen uitgevoerde">De schepen stelt dat daar een <marker>gefaseerde</marker> bouw zou kunnen gebeuren van eerst een gevangenis, en later een arresthuis… wederom synergie-opportuniteiten.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GEGROND_OP" name="gegrond op">
@@ -25897,7 +25905,8 @@ steenwijk;Steenwijk
         <rulegroup id="GELET_OP" name="gelet op">
             <rule>
                 <pattern>
-                    <token>gelet</token><token>op</token>
+                    <token>gelet</token>
+                    <token>op</token>
                 </pattern>
                 <message>De tekst wordt vlotter als u deze (als het kan) herschrijft met 'met het oog op', 'omdat', 'doordat'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
@@ -26087,7 +26096,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>&vlotter_mess; 'melden' of 'bekendmaken'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Het is natuurlijk, dat de Bantu in hun begroetingen <marker>gewag maken van</marker> levenssterkte en zeggen : Gij zijt sterk!</example>
+                <example correction="">Het is natuurlijk, dat de Bantu in hun begroetingen <marker>gewag maken van</marker> levenssterkte en zeggen: Gij zijt sterk!</example>
             </rule>
             <rule>
                 <pattern>
@@ -26312,12 +26321,16 @@ steenwijk;Steenwijk
         <rulegroup id="HET_WARE_TE_WENSEN_DAT" name="het ware te wensen dat">
             <rule>
                 <pattern>
-                    <token>het</token><token>ware</token><token>te</token><token>wensen</token><token>dat</token>
+                    <token>het</token>
+                    <token>ware</token>
+                    <token>te</token>
+                    <token>wensen</token>
+                    <token>dat</token>
                 </pattern>
-                <message>&vlotter_mess; <suggestion>we hopen ...</suggestion> of <suggestion>het zou beter zijn als</suggestion>.</message>
+                <message>&vlotter_mess; <suggestion>we hopen …</suggestion> of <suggestion>het zou beter zijn als</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="we hopen ...|het zou beter zijn als">QQ <marker>het ware te wensen dat</marker> QQQ.</example>
-                <example>QQ <marker>we hopen ...</marker>.</example>
+                <example correction="we hopen …|het zou beter zijn als">QQ <marker>het ware te wensen dat</marker> QQQ.</example>
+                <example>QQ <marker>we hopen …</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HETWELK" name="hetwelk">
@@ -26402,7 +26415,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>&vlotter_mess; 'hiervoor', 'om dit te doen' of 'met dit doel'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Hoe kunt u <marker>hiertoe</marker> bijdragen ?</example>
+                <example correction="">Hoe kunt u <marker>hiertoe</marker> bijdragen?</example>
                 <example correction=""><marker>Hiertoe</marker> rekent men spiering, mossel en alikruik.</example>
                 <example correction=""><marker>Hiertoe</marker> dient zij tot een kapitaalverhoging over te gaan.</example>
                 <example correction="">Tot op de dag van vandaag blijft hij ons <marker>hiertoe</marker> inspireren.</example>
@@ -26632,7 +26645,7 @@ steenwijk;Steenwijk
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="in de eerste plaats|eigenlijk|liever">Een schenking is <marker>in beginsel</marker> onherroepelijk.</example>
                 <example correction="In de eerste plaats|Eigenlijk|Liever"><marker>In beginsel</marker> betalen deze instanties voor het consult.</example>
-                <example correction="in de eerste plaats|eigenlijk|liever">Deze grondslagen zijn immers <marker>in beginsel</marker> identiek (22357-3) .</example>
+                <example correction="in de eerste plaats|eigenlijk|liever">Deze grondslagen zijn immers <marker>in beginsel</marker> identiek (22357-3).</example>
                 <example correction="in de eerste plaats|eigenlijk|liever">Vermits uw erkenning reeds een thema vermeldt, kan de gouverneur dit thema <marker>in beginsel</marker> niet wijzigen.</example>
                 <example correction="in de eerste plaats|eigenlijk|liever">Het bekkenbestuur beslist <marker>in beginsel</marker> bij consensus.</example>
             </rule>
@@ -26773,7 +26786,7 @@ steenwijk;Steenwijk
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="binnenkort|snel">We hopen dit <marker>in de nabije toekomst</marker> te kunnen verhelpen.</example>
                 <example correction="Binnenkort|Snel"><marker>In de nabije toekomst</marker> kan het bedrijf uitbreiden tot 20 ha glas.</example>
-                <example correction="binnenkort|snel">Dit is toch iets belangrijks om te delen als we <marker>in de nabije toekomst</marker> allemaal een auto aan het stopcontact gaan hangen s'avonds ?</example>
+                <example correction="binnenkort|snel">Dit is toch iets belangrijks om te delen als we <marker>in de nabije toekomst</marker> allemaal een auto aan het stopcontact gaan hangen s'avonds?</example>
                 <example correction="binnenkort|snel">Ze zullen <marker>in de nabije toekomst</marker> nog maar eens ongelijk krijgen.</example>
             </rule>
         </rulegroup>
@@ -28103,7 +28116,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>&vlotter_mess; <suggestion>halverwege</suggestion> of <suggestion>half</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="halverwege|half">Beschikbaar <marker>medio</marker> september .</example>
+                <example correction="halverwege|half">Beschikbaar <marker>medio</marker> september.</example>
                 <example correction="Halverwege|Half"><marker>Medio</marker> april komt de Looky op de markt.</example>
             </rule>
         </rulegroup>
@@ -28149,7 +28162,7 @@ steenwijk;Steenwijk
                 <message>&vlotter_mess; <suggestion>omdat</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="omdat">In de eerste maand van de crisis werden er al mensen ontslagen,<marker>met als reden</marker> dat het zo slecht ging.</example>
-                <example correction="omdat">Mis <marker>met als reden</marker> dat "hij bezwaar had tegen de theologie van die Mis" - een Mis die eeuwenlang door de heiligen werd bijgewoond .</example>
+                <example correction="omdat">Mis <marker>met als reden</marker> dat "hij bezwaar had tegen de theologie van die Mis" - een Mis die eeuwenlang door de heiligen werd bijgewoond.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MET_ALS_RESULTAAT_DAT" name="met als resultaat dat">
@@ -28220,7 +28233,7 @@ steenwijk;Steenwijk
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="zodat">QQ <marker>met het resultaat dat</marker> QQQ.</example>
                 <example correction="zodat">Je probeert vóór alles ook te beseffen hoe alle kennis en weten samenvloeien om <marker>met het resultaat dat</marker> eruit voortkomt iets te doen.</example>
-                <example correction="zodat">En <marker>met het resultaat dat</marker> reeds op voorhand moest vaststaan : Minder fijn stof ( op sommige punten ) en meer op andere in vergelijking met ' niets doen '.</example>
+                <example correction="zodat">En <marker>met het resultaat dat</marker> reeds op voorhand moest vaststaan: Minder fijn stof ( op sommige punten ) en meer op andere in vergelijking met 'niets doen'.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MET_NAME" name="met name" tags="picky">
@@ -28711,10 +28724,10 @@ steenwijk;Steenwijk
         <token>of,</token><token>en</token><token>zo</token><token>ja,</token><token>op</token><token>welke</token><token>wijze</token>
         </pattern>
         <message>
-        &vlotter_mess; <suggestion>of</suggestion> of <suggestion>en zo ja</suggestion> of <suggestion>hoe; of het zo is</suggestion> of <suggestion>en áls het zo is</suggestion> of <suggestion>hoe ...</suggestion>.
+        &vlotter_mess; <suggestion>of</suggestion> of <suggestion>en zo ja</suggestion> of <suggestion>hoe; of het zo is</suggestion> of <suggestion>en áls het zo is</suggestion> of <suggestion>hoe …</suggestion>.
         </message>
         <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-        <example correction="of|en zo ja|hoe; of het zo is|en áls het zo is|hoe ...">QQ <marker>of, en zo ja, op welke wijze</marker> QQQ.</example>
+        <example correction="of|en zo ja|hoe; of het zo is|en áls het zo is|hoe …">QQ <marker>of, en zo ja, op welke wijze</marker> QQQ.</example>
         <example>QQ <marker>of</marker>.</example>
         </rule>
         -->
@@ -28900,15 +28913,15 @@ steenwijk;Steenwijk
                 <example correction="Door"><marker>Onder invloed van</marker> spanning kunnen de klachten toenemen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ONDER_REFERTE_AAN" name="onder referte aan ...">
+        <rulegroup id="ONDER_REFERTE_AAN" name="onder referte aan …">
             <rule>
                 <pattern>
                     <token>onder</token><token>referte</token><token>aan</token>
                 </pattern>
-                <message>&vlotter_mess; 'zoals in ... staat'.</message>
+                <message>&vlotter_mess; 'zoals in … staat'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="">QQ <marker>onder referte aan</marker> QQQ.</example>
-                <example>QQ <marker>zoals in ... staat</marker>.</example>
+                <example>QQ <marker>zoals in … staat</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ONDERSCHEIDENLIJK" name="onderscheidenlijk">
@@ -28929,7 +28942,7 @@ steenwijk;Steenwijk
                 <example correction="duidelijke">De auteur verwijst daarin naar een verdrag,de afbakening bepalend omtrent de <marker>onderscheidenlijke</marker> rechten en inkomsten.</example>
             </rule>
         </rulegroup>
-        <!-- onder verwijzing naar is niet gelijk aan over !
+        <!-- onder verwijzing naar is niet gelijk aan over!
         <rulegroup id="ONDER_VERWIJZING_NAAR" name="onder verwijzing naar">
         <rule>
         <pattern>
@@ -29262,7 +29275,7 @@ steenwijk;Steenwijk
                 <message>&vlotter_mess; <suggestion>hoe</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="hoe">Hoe vaak en <marker>op welke wijze</marker> ontstaan recidieven?</example>
-                <example correction="Hoe"><marker>Op welke wijze</marker> het kapitaal van uw EBVBA optrekken ?</example>
+                <example correction="Hoe"><marker>Op welke wijze</marker> het kapitaal van uw EBVBA optrekken?</example>
             </rule>
         </rulegroup>
         <rulegroup id="OVER_DE_GEHELE_LINIE" name="over de gehele linie">
@@ -29331,9 +29344,9 @@ steenwijk;Steenwijk
         </pattern>
         <message>&vlotter_mess; <suggestion>handtekening</suggestion>.</message>
         <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-        <example correction="handtekening">Het was eigenlijk mijn bedoeling om te vragen of iets ondertekenen met een <marker>paraaf</marker> ( niet de handtekening zoals op je paspoort )achteraf tot discussie kan leiden of nietigheid indien de man of vrouw die ondertekent heeft achteraf beweerd dit nooit te hebben ondertekent en beweerd dat die paraaf niet van haar of hem is .</example>
+        <example correction="handtekening">Het was eigenlijk mijn bedoeling om te vragen of iets ondertekenen met een <marker>paraaf</marker> ( niet de handtekening zoals op je paspoort )achteraf tot discussie kan leiden of nietigheid indien de man of vrouw die ondertekent heeft achteraf beweerd dit nooit te hebben ondertekent en beweerd dat die paraaf niet van haar of hem is.</example>
         <example correction="handtekening">Op alle in de vorige twee leden bedoelde stembiljetten, schrijft de voorzitter de vermelding "geldig" en zet hij zijn <marker>paraaf</marker>.".</example>
-        <example correction="handtekening">Het was eigenlijk mijn bedoeling om te vragen of iets ondertekenen met een paraaf ( niet de handtekening zoals op je paspoort )achteraf tot discussie kan leiden of nietigheid indien de man of vrouw die ondertekent heeft achteraf beweerd dit nooit te hebben ondertekent en beweerd dat die <marker>paraaf</marker> niet van haar of hem is .</example>
+        <example correction="handtekening">Het was eigenlijk mijn bedoeling om te vragen of iets ondertekenen met een paraaf ( niet de handtekening zoals op je paspoort )achteraf tot discussie kan leiden of nietigheid indien de man of vrouw die ondertekent heeft achteraf beweerd dit nooit te hebben ondertekent en beweerd dat die <marker>paraaf</marker> niet van haar of hem is.</example>
         <example correction="handtekening">Het boekje vermeldt: “ 27 november 2008 Iasir Hassan - contre la chambre de conseil - 19.41 h." en dan een <marker>paraaf</marker> van een beambte.</example>
         </rule>
         </rulegroup>
@@ -29494,7 +29507,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token inflected="yes">portefeuille</token>
                 </pattern>
-                <message>Wanneer u een (politiek) takenpakket bedoelt kunt u dat ook beter schrijven: <suggestion>taken</suggestion>, <suggestion>takenpakket</suggestion> of <suggestion>beleidsterrein</suggestion>.</message>
+                <message>Wanneer u een (politiek) takenpakket bedoelt, kunt u dat ook beter schrijven: <suggestion>taken</suggestion>, <suggestion>takenpakket</suggestion> of <suggestion>beleidsterrein</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="taken|takenpakket|beleidsterrein">Voor mijn eigen <marker>portefeuille</marker> is dat natuurlijk plezierig nieuws.</example>
                 <example correction="taken|takenpakket|beleidsterrein">Voor hij me kan aanspreken heb ik dus mijn <marker>portefeuille</marker> al in de hand.</example>
@@ -29606,7 +29619,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token inflected="yes">preventief</token>
                 </pattern>
-                <message>&vlotter_mess; 'om ... te voorkomen'.</message>
+                <message>&vlotter_mess; 'om … te voorkomen'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction=""><marker>Preventief</marker> onderhoud is nuttig.</example>
                 <example correction="">Je kan natuurlijk ook wat <marker>preventiever</marker> te werk gaan.</example>
@@ -29715,7 +29728,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token inflected="yes">procedure</token>
                 </pattern>
-                <message>&vlotter_mess; <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">werkwijze</match></suggestion> of 'manier om iets te aan te pakken'.</message>
+                <message>&vlotter_mess; <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">werkwijze</match></suggestion> of 'manier om iets aan te pakken'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="werkwijze">De <marker>procedure</marker> loopt nog.</example>
                 <example correction="werkwijzen|werkwijzes">Ze wacht alle <marker>procedures</marker> af.</example>
@@ -30137,7 +30150,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token inflected="yes">restitutie</token>
                 </pattern>
-                <message>&vlotter_mess; 'teruggave', 'terugbetalen' of 'u krijgt ... euro terug'.</message>
+                <message>&vlotter_mess; 'teruggave', 'terugbetalen' of 'u krijgt … euro terug'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="">De <marker>restitutie</marker> is ook niet bekend.</example>
             </rule>
@@ -30366,7 +30379,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>slechts</token>
                 </pattern>
-                <message>&vlotter_mess; <suggestion>alleen</suggestion>, <suggestion>maar</suggestion>of <suggestion>alleen maar</suggestion>.</message>
+                <message>&vlotter_mess; <suggestion>alleen</suggestion>, <suggestion>maar</suggestion> of <suggestion>alleen maar</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="alleen|maar|alleen maar">Nu <marker>slechts</marker> 9,00.</example>
                 <example correction="alleen|maar|alleen maar">Moe ben ik <marker>slechts</marker> zelden.</example>
@@ -30493,7 +30506,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token inflected="yes">stringent</token>
                 </pattern>
-                <message>&vlotter_mess; <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">strak</match></suggestion> of <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">streng</match></suggestion> .</message>
+                <message>&vlotter_mess; <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">strak</match></suggestion> of <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">streng</match></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="strak|streng">Die vond dat het nogal <marker>stringent</marker> was.</example>
             </rule>
@@ -30611,7 +30624,7 @@ steenwijk;Steenwijk
                 <message>&vlotter_mess; <suggestion>veel</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="veel">Met <marker>tal van</marker> filmpjes.</example>
-                <example correction="Veel"><marker>Tal van</marker> mogelijkheden !</example>
+                <example correction="Veel"><marker>Tal van</marker> mogelijkheden!</example>
                 <example correction="veel">Er zijn <marker>tal van</marker> mogelijke systemen.</example>
             </rule>
         </rulegroup>
@@ -30671,7 +30684,7 @@ steenwijk;Steenwijk
         <rulegroup id="TECHNISCH" name="beleidstechnisch enz." tags="picky">
             <rule>
                 <pattern>
-                    <token regexp="yes">....*technisch</token>
+                    <token regexp="yes">.{3,30}technisch</token>
                 </pattern>
                 <message>De tekst wordt vlotter als u het achtervoegsel technisch vermijdt.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
@@ -30757,7 +30770,7 @@ steenwijk;Steenwijk
                 <example correction="">De oktoberrevolutie heeft oprecht haar verplichtingen <marker>ten aanzien van</marker> de vrouw vervuld.</example>
             </rule>
         </rulegroup>
-        <!-- lijkt niet zinvol   is ook ter attentie van ....
+        <!-- lijkt niet zinvol   is ook ter attentie van ….
         <rulegroup id="T_A_V" name="t.a.v.">
         <rule>
         <pattern>
@@ -30797,7 +30810,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>ten</token><token>bewijze</token><token>van</token>
                 </pattern>
-                <message>&vlotter_mess; <suggestion>als bewijs van</suggestion> of 'om ... te bewijzen'.</message>
+                <message>&vlotter_mess; <suggestion>als bewijs van</suggestion> of 'om … te bewijzen'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="als bewijs van">Het negotium is de rechtshandeling op zich en staat tegenover het instrumentum van de rechtshandeling, die het geschrift is <marker>ten bewijze van</marker> de rechtshandeling.</example>
             </rule>
@@ -31140,7 +31153,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>ter</token><token>zake</token><token>van</token>
                 </pattern>
-                <message>&vlotter_mess; <suggestion>in</suggestion> of <suggestion>als het gaat om</suggestion> of 'wat ... betreft'.</message>
+                <message>&vlotter_mess; <suggestion>in</suggestion> of <suggestion>als het gaat om</suggestion> of 'wat … betreft'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="in|als het gaat om">Dergelijke organisaties leggen in hun akten van formele bevestiging of toetreding vast in welke mate zij bevoegd zijn <marker>ter zake van</marker> aangelegenheden waarop dit Verdrag van toepassing is.</example>
                 <example correction="in|als het gaat om">De lidstaten verschillen <marker>ter zake van</marker> mening: sommige lidstaten willen de Europese samenwerking opvoeren terwijl een aantal andere lidstaten vooral hun nationale prerogatieven willen behouden.</example>
@@ -31272,7 +31285,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token inflected="yes">topic</token>
                 </pattern>
-                <message>&vlotter_mess; `onderwerp`.</message>
+                <message>&vlotter_mess; 'onderwerp'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="">Die <marker>topics</marker> al eens gelezen?</example>
             </rule>
@@ -31383,7 +31396,7 @@ steenwijk;Steenwijk
         <example correction="om">Aanbieders van niet openbare diensten vallen buiten de Telecommunicatiewet en zijn <marker>uit het oogpunt van</marker> opsporing in het algemeen van minder belang.</example>
         <example correction="Om"><marker>Uit het oogpunt van</marker> eenheid en samenwerking bij de bestrijding van criminaliteit was het veel beter geweest, voor de hele Europese Unie één termijn voor te schrijven, zonder keuzemogelijkheden.</example>
         <example correction="om">Op grond van het neutraliteitsbeginsel werd beslist dat soortgelijke goederen die met elkaar concurreren, <marker>uit het oogpunt van</marker> BTW niet ongelijk mogen worden behandeld.</example>
-        <example correction="om">Ecologische niche : een door een bepaalde soort ingenomen unieke plaats in het milieu, bezien <marker>uit het oogpunt van</marker> de feitelijke fysieke ruimte die wordt bezet, en van de binnen de gemeenschap of het ecosysteem vervulde functie.</example>
+        <example correction="om">Ecologische niche: een door een bepaalde soort ingenomen unieke plaats in het milieu, bezien <marker>uit het oogpunt van</marker> de feitelijke fysieke ruimte die wordt bezet, en van de binnen de gemeenschap of het ecosysteem vervulde functie.</example>
         <example correction="om">Deze luchtdichtheidseisen zijn niet alleen omwille van het energetische aspect belangrijk, maar ook <marker>uit het oogpunt van</marker> comfort en duurzaamheid zijn deze van belang.</example>
         <example correction="om">Een zweetkist heeft <marker>uit het oogpunt van</marker> gezondheid een voordeel boven de klassieke sauna: bij een zweetkist bevindt het hoofd zich buiten het warme gedeelte met stoom.</example>
         <example correction="om">De bouw van de Borobudur, althans het voltooien er van - vermoedelijk op wens van een der vorsten uit de boeddhistische Sailendra-dynastie - is alleen al <marker>uit het oogpunt van</marker> fysieke mankracht een enorme prestatie geweest.</example>
@@ -32082,7 +32095,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>&vlotter_mess; <suggestion>hierboven vermeld</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="hierboven vermeld">Dus, opgelet : deze vallen onder <marker>voormeld</marker> besluit!</example>
+                <example correction="hierboven vermeld">Dus, opgelet: deze vallen onder <marker>voormeld</marker> besluit!</example>
                 <example correction="hierboven vermeld">Naast <marker>voormeld</marker> centrum kan de scholengemeenschap uiterlijk [tot en met 31 augustus 2014] ook samenwerken met het centrum voor leerlingenbegeleiding van een school voor buitengewoon secundair onderwijs die tot de scholengemeenschap behoort.</example>
             </rule>
         </rulegroup>
@@ -32522,7 +32535,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>wortelopdruk</token>
                 </pattern>
-                <message>&vlotter_mess; 'wortels van bomen die de het wegdek omhoog duwen'.</message>
+                <message>&vlotter_mess; 'wortels van bomen die het wegdek omhoog duwen'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="">QQ <marker>wortelopdruk</marker> QQQ.</example>
             </rule>
@@ -32719,7 +32732,7 @@ steenwijk;Steenwijk
                 <message>&vlotter_mess; <suggestion>altijd</suggestion> of <suggestion>helemaal</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="Altijd|Helemaal"><marker>Zonder uitzondering</marker> was het hier net zo.</example>
-                <example correction="altijd|helemaal">Matchen : alle gespeelde matchen, <marker>zonder enige uitzondering</marker>.</example>
+                <example correction="altijd|helemaal">Matchen: alle gespeelde matchen, <marker>zonder enige uitzondering</marker>.</example>
                 <example correction="altijd|helemaal">Allemaal, <marker>zonder een uitzondering</marker>, acteren ze op hoog niveau.</example>
             </rule>
         </rulegroup>
@@ -32911,7 +32924,7 @@ steenwijk;Steenwijk
                     <token regexp="yes">.*-</token>
                     <token>ers</token>
                 </pattern>
-                <message>Hier hoort vast een apostrof tussen, een geen koppelteken.</message>
+                <message>Hier hoort vast een apostrof tussen, en geen koppelteken.</message>
                 <suggestion><match no="1" regexp_match="-$" regexp_replace=""/>'\2</suggestion>
                 <example correction="zzp'ers">Er werken veel <marker>zzp- ers</marker>.</example>
             </rule>
@@ -32921,7 +32934,7 @@ steenwijk;Steenwijk
                <token>re</token>
                <token postag_regexp="yes" postag="WKW:TGW:INF|BNW:STL:(VRB|ONV)"/>
            </pattern>
-           <message>Dit is vast een ocr-fout, waarbij de t als r is gezien.</message>
+           <message>Dit is vast een OCR-fout, waarbij de t als r is gezien.</message>
            <suggestion>te \2</suggestion>
            <example correction="te corrigeren">Hij heeft iets <marker>re corrigeren</marker>.</example>
        </rule>
@@ -33200,7 +33213,7 @@ steenwijk;Steenwijk
                     <token spacebefore="no" min="1" max="-1">_</token>
                     <token regexp="yes" spacebefore="no">[a-z-]+</token>
                 </pattern>
-                <message>Een liggende streep onderaan (underscore) is ongebruikelijk in gewone tekst. Het kan zijn dat u <suggestion>\1 \3</suggestion> of <suggestion>\1\3</suggestion>bedoelt.</message>
+                <message>Een liggende streep onderaan (underscore) is ongebruikelijk in gewone tekst. Het kan zijn dat u <suggestion>\1 \3</suggestion> of <suggestion>\1\3</suggestion> bedoelt.</message>
                 <short>Underscore</short>
                 <example correction="test geval|testgeval">Dit <marker>test_geval</marker> is onvoldoende.</example>
             </rule>
@@ -33288,7 +33301,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token case_sensitive="yes">hemen</token>
                 </pattern>
-                <message>Hoewel '<match no="1"/>' een correct woord is, is de kans aanwezig dat hier <suggestion>hem en</suggestion>, <suggestion>nemen</suggestion> of <suggestion>hemel</suggestion>moet staan.</message>
+                <message>Hoewel '<match no="1"/>' een correct woord is, is de kans aanwezig dat hier <suggestion>hem en</suggestion>, <suggestion>nemen</suggestion> of <suggestion>hemel</suggestion> moet staan.</message>
                 <example correction="hem en|nemen|hemel">Maar ja, steeds maar op kop rijden met zo enen aan je achterwiel belet het heldere denkwerk, zeker onder een koude, blauwe <marker>hemen</marker> en een zon die zich veel te vlug achter de bergen wil verschuilen.</example>
             </rule>
         </rulegroup>
@@ -33334,7 +33347,7 @@ steenwijk;Steenwijk
                 <url>https://onzetaal.nl/taaladvies/advies/meervoud-van-afkortingen</url>
                 <short>' mist</short>
                 <example correction="NPC's">Bij de <marker>NPCs</marker> die u missies geven.</example>
-                <example correction="DPM's">Zowel de <marker>DPMs</marker> als de drieassers .</example>
+                <example correction="DPM's">Zowel de <marker>DPMs</marker> als de drieassers.</example>
                 <example correction="DAW's">Tegenwoordig is het software, <marker>DAWs</marker>.</example>
                 <example correction="SS'ers">Plotseling schieten de <marker>SSers</marker> op de Joden af.</example>
                 <example correction="PM's"><marker>PMs</marker> moeten we daarvoor nu ook niet gaan sturen.</example>
@@ -33346,7 +33359,7 @@ steenwijk;Steenwijk
                 <message>Tussen een (gespeld) hoofdletterwoord en het achtervoegsel hoort een apostrof.</message>
                 <suggestion><match no="1" regexp_match="-(tje|tjes|er|ers|ertje|ertjes)$" regexp_replace="'$1"/></suggestion>
                 <url>https://onzetaal.nl/taaladvies/advies/hboer-hbo-er</url>
-                <example correction="SS'ers">De <marker>SS-ers</marker> die zagen we weinig .</example>
+                <example correction="SS'ers">De <marker>SS-ers</marker> die zagen we weinig.</example>
                 <example correction="NT'er">Meer dus dan de gemiddelde <marker>NT-er</marker>.</example>
                 <example correction="PVV'er">Op het moment dat je voor een traditionele Zwarte Piet bent, word je tegenwoordig al gauw weggezet als racist of <marker>PVV-er</marker>.</example>
                 <example correction="ex-TCW'ers">Interessant waren de <marker>ex-TCW-ers</marker>.</example>
@@ -33463,7 +33476,7 @@ steenwijk;Steenwijk
                         <token>dan</token>
                     </marker>
                 </pattern>
-                <message>Gebruikelijker is zoveel.. als.</message>
+                <message>Gebruikelijker is zoveel … als.</message>
                 <suggestion>als</suggestion>
                 <example correction="als">Er waren nog nooit zoveel besmettingen per dag geteld zijn <marker>dan</marker> vandaag.</example>
             </rule>
@@ -33568,7 +33581,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Velen vinden dat <suggestion>kun</suggestion> netter is als '\3' het onderwerp is. Kan mag echter ook.</message>
                 <url>https://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
-                <example><marker>Kun</marker> je het even doen voor mij?.</example>
+                <example><marker>Kun</marker> je het even doen voor mij?</example>
                 <example correction="Kun"><marker>Kan</marker> je nog weg?</example>
                 <example correction="kun">Wat <marker>kan</marker> je doen?</example>
                 <example correction="kun">Zo <marker>kan</marker> je het tonen.</example>
@@ -33644,7 +33657,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Velen zien <suggestion><match no="1"/> zult</suggestion> nog als beter.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
-                <example><marker>U zult</marker> dat toch wel even doen voor mij?.</example>
+                <example><marker>U zult</marker> dat toch wel even doen voor mij?</example>
                 <example correction="je zult">En jawel, <marker>je zal</marker> het merken.</example>
                 <example correction="U zult"><marker>U zal</marker> mij ooit nog gelijk geven.</example>
             </rule>
@@ -33748,7 +33761,7 @@ steenwijk;Steenwijk
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(giga|mega|super|ultra|über)...*<exception regexp="yes">^(giga|mega)(pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|superfoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*|übermensch.*|überhaupt|Super-G</exception><exception postag="UNKNOWN"/></token>
+                    <token regexp="yes">(giga|mega|super|ultra|über).{3,30}<exception regexp="yes">^(giga|mega)(pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|superfoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*|übermensch.*|überhaupt|Super-G</exception><exception postag="UNKNOWN"/></token>
                 </pattern>
                 <message>Dit lijkt wat overdreven. Is <suggestion><match no="1" regexp_match="^(giga|mega|super|ultra|über)-?" regexp_replace=""/></suggestion> niet genoeg?</message>
                 <example correction="slim">Ze is <marker>superslim</marker>.</example>
@@ -33790,7 +33803,7 @@ steenwijk;Steenwijk
                     <token>ad</token>
                     <token regexp="yes">hoc.+</token>
                 </pattern>
-                <message>Hier hoor een koppelteken: <suggestion>ad-<match no="2"/></suggestion>.</message>
+                <message>Hier hoort een koppelteken: <suggestion>ad-<match no="2"/></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/ad-hoc-oplossing</url>
                 <example correction="ad-hoc-beslissingen">Verkwanseld door <marker>ad hoc-beslissingen</marker> die het Brusselse stedenbouwkundige patchwork overtreffen.</example>
                 <example correction="ad-hoc-afwijking">Onderaan vindt u ook online formulieren voor de aanvraag van een <marker>ad hoc-afwijking</marker> en een afwijking voor lokaal vervoer.</example>
@@ -33997,7 +34010,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="ALS_HEM" name="als hem">
             <rule>
-                <!-- 2014-08-19 TaalTik : 'dan' verwijderd, vanwege false positives. -->
+                <!-- 2014-08-19 TaalTik: 'dan' verwijderd, vanwege false positives. -->
                 <pattern>
                     <marker>
                         <token>als</token>
@@ -34454,7 +34467,7 @@ steenwijk;Steenwijk
                     </marker>
                 </pattern>
                 <message>U bedoelt vast <suggestion><match no="2" regexp_match="t$" regexp_replace=""/> <match no="3"/></suggestion>.</message>
-                <example correction="Loop je"><marker>Loopt je</marker> naar huis?.</example>
+                <example correction="Loop je"><marker>Loopt je</marker> naar huis?</example>
             </rule>
         </rulegroup>
         -->
@@ -34511,7 +34524,7 @@ steenwijk;Steenwijk
         <rulegroup id="AN_ZICH" name="an zich/an sich" type="misspelling">
             <rule>
                 <pattern><token>an</token><token>zich</token></pattern>
-                <message>U bedoet vast <suggestion>\1 sich</suggestion>.</message>
+                <message>U bedoelt vast <suggestion>\1 sich</suggestion>.</message>
                 <short>Geen hoofdletter</short>
                 <example correction="An sich"><marker>An zich</marker> klopt het niet.</example>
             </rule>
@@ -34533,7 +34546,7 @@ steenwijk;Steenwijk
             </rule>
             <rule>
                 <pattern>
-                    <token>social</token><token regexp="yes" postag_regexp="yes" postag="ZNW.*">media...+</token>
+                    <token>social</token><token regexp="yes" postag_regexp="yes" postag="ZNW.*">media.{3,30}</token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
                 <message>Correct is <suggestion>\1\2</suggestion>.</message>
@@ -34640,7 +34653,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <token regexp="yes">lange|korte|langere</token>
-                    <token regexp="yes">termijn...*</token>
+                    <token regexp="yes">termijn.{3,30}</token>
                 </pattern>
                 <message>U bedoelt mogelijk: <suggestion>\1\2</suggestion>.</message>
                 <example correction="langetermijngeheugen">QQ <marker>lange termijngeheugen</marker> QQQ.</example>
@@ -34772,7 +34785,7 @@ steenwijk;Steenwijk
                     <token negate="yes">ter</token>
                     <token>perse</token>
                 </pattern>
-                <message>Bedoelt u <suggestion>ter <match no="2"/></suggestion>, <suggestion><match no="1"/> per se</suggestion> (echt) of <suggestion><match no="1"/> persen</suggestion>?.</message>
+                <message>Bedoelt u <suggestion>ter <match no="2"/></suggestion>, <suggestion><match no="1"/> per se</suggestion> (echt) of <suggestion><match no="1"/> persen</suggestion>?</message>
                 <example correction="ter perse|wil per se|wil persen">Ik <marker>wil perse</marker> een fout maken.</example>
                 <example>Ik wil het <marker>per se</marker> goed doen.</example>
                 <example correction="ter perse|niet per se|niet persen">Voor mij <marker>niet perse</marker>.</example>
@@ -34795,11 +34808,26 @@ steenwijk;Steenwijk
                 <example correction="hartenlust">Hij maakt vergissingen naar <marker>harte lust</marker>.</example>
             </rule>
             <rule>
-                <antipattern><token>harte</token><token>lust</token></antipattern>
-                <antipattern><token>ter</token><token>harte</token></antipattern>
-                <antipattern><token>van</token><token>harte</token></antipattern>
-                <antipattern><token>ganser</token><token>harte</token></antipattern>
-                <antipattern><token>met</token><token>harten</token></antipattern>
+                <antipattern>
+                    <token>harte</token>
+                    <token>lust</token>
+                </antipattern>
+                <antipattern>
+                    <token>ter</token>
+                    <token>harte</token>
+                </antipattern>
+                <antipattern>
+                    <token>van</token>
+                    <token>harte</token>
+                </antipattern>
+                <antipattern>
+                    <token>ganser</token>
+                    <token>harte</token>
+                </antipattern>
+                <antipattern>
+                    <token>met</token>
+                    <token>harten</token>
+                </antipattern>
                 <pattern>
                     <token/>
                     <token>harte</token>
@@ -34830,7 +34858,7 @@ steenwijk;Steenwijk
                         <token case_sensitive="yes">gene</token>
                     </marker>
                 </pattern>
-                <message>U bvedoelt vast: <suggestion>geen</suggestion> of <suggestion>gêne</suggestion>.</message>
+                <message>U bedoelt vast: <suggestion>geen</suggestion> of <suggestion>gêne</suggestion>.</message>
                 <example correction="geen|gêne">Nog altijd <marker>gene</marker> naam?</example>
                 <example correction="geen|gêne">In foto's trekken ben ik <marker>gene</marker> held.</example>
             </rule>
@@ -35048,7 +35076,7 @@ steenwijk;Steenwijk
         -->
         <!--
         2014-08-22 TaalTik
-        regel vangt vooral andere fouten ... uitgeschakeld
+        regel vangt vooral andere fouten … uitgeschakeld
         <rule id="nr559" name="name">
         <pattern>
         <token negate="yes" regexp="yes">ten|met</token>
@@ -35344,7 +35372,7 @@ steenwijk;Steenwijk
                     <token>en</token>
                     <token>of</token>
                 </pattern>
-                <message>U haalde vst de au en ou door elkaar.</message>
+                <message>U haalde vast de au en ou door elkaar.</message>
                 <suggestion>nou en of</suggestion>
                 <example correction="Nou en of"><marker>Nauw en of</marker>!</example>
             </rule>
@@ -35428,7 +35456,7 @@ steenwijk;Steenwijk
                             <token>president</token>
                         </marker>
                 </pattern>
-                <message>Bedooelt u misschien <suggestion>precedent</suggestion> (eerste geval) in plaats van president (voorzitter, leider)?</message>
+                <message>Bedoelt u misschien <suggestion>precedent</suggestion> (eerste geval) in plaats van president (voorzitter, leider)?</message>
                 <example correction="precedent">Ik hoor een gevaarlijk <marker>president</marker>.</example>
             </rule>
         </rulegroup>
@@ -35515,7 +35543,7 @@ steenwijk;Steenwijk
             <example correction="à">Met de giften kopen wij (nog 2 <marker>a</marker> 3 I.C.M. zusters) het hoogstnodige aan.</example>
             <example correction="à">Ik wissel langere tochten af met kortere van 1 <marker>a</marker> 2 uur.</example>
             <example correction="à">Er wordt natuurlijk <marker>a</marker> f en toe een andere knuffel geroepen.</example>
-            <example correction="à">Word tot 1 meter hoog, aangeboden planten zijn ongeveer 60 <marker>a</marker> 70 cm hoog .</example>
+            <example correction="à">Word tot 1 meter hoog, aangeboden planten zijn ongeveer 60 <marker>a</marker> 70 cm hoog.</example>
             <example correction="à">Ik blijf hopen op nog 3 <marker>a</marker> 4 versterkingen.</example>
             <example correction="à">Na 4 <marker>a</marker> 6 dagen kan de patiënt het ziekenhuis verlaten.</example>
             <example correction="à">De kopen 5, 6, 7 en 8, groot 28 <marker>a</marker> 19 ca kwamen aan Frans Tirry.</example>
@@ -35575,7 +35603,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Bent u een apostrof vergeten? <suggestion>\1's</suggestion>.</message>
                 <example correction="auto's">De <marker>auto s</marker> reden weg.</example>
-                <example correction="foto's">Wat een <marker>foto s</marker> zeg !</example>
+                <example correction="foto's">Wat een <marker>foto s</marker> zeg!</example>
                 <example correction="panorama's">Mooie <marker>panorama s</marker>.</example>
                 <example correction="dia's">Als je de <marker>dia s</marker> in de lounge ziet is het de hemel op aarde.</example>
             </rule>
@@ -35650,7 +35678,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token regexp="yes" case_sensitive="yes">[0-9]+x</token>
                 </pattern>
-                <message>Wanneer u met de x 'maal' of 'keer' bedoelt dan hoort er een spatie voor en zijn er betere tekens. Of gebruik woorden.</message>
+                <message>Wanneer u met de x 'maal' of 'keer' bedoelt dan hoort er een spatie voor en zijn er betere tekens. U kunt ook woorden gebruiken.</message>
                 <suggestion><match no="1" regexp_match="x" regexp_replace=" ×"/></suggestion>
                 <suggestion><match no="1" regexp_match="x" regexp_replace=" *"/></suggestion>
                 <suggestion><match no="1" regexp_match="x" regexp_replace=" maal"/></suggestion>
@@ -35954,7 +35982,7 @@ steenwijk;Steenwijk
                         <token spacebefore="yes" case_sensitive="yes">de</token>
                         </marker>
                 </pattern>
-                <message>Bedoelt u misschien een rangtelwoord?. De spatie hoort er dan niet in.</message>
+                <message>Bedoelt u misschien een rangtelwoord? De spatie hoort er dan niet in.</message>
                 <suggestion>\2\3</suggestion>
                 <suggestion>\2e</suggestion>
                 <example correction="18de|18e">Het komt op de <marker>18 de</marker>.</example>
@@ -36376,7 +36404,7 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Na NB komt geen dubbelepunt: <suggestion>NB</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/ps</url>
-                <example correction="NB"><marker>NB:</marker> De kerstboom is een spar, en geen dennenboom !</example>
+                <example correction="NB"><marker>NB:</marker> De kerstboom is een spar, en geen dennenboom!</example>
             </rule>
         </rulegroup>
         <rulegroup id="PS" name="P.S.">
@@ -36523,11 +36551,11 @@ steenwijk;Steenwijk
                     <token>ter</token>
                     <token>plekke</token>
                 </pattern>
-                <message>Dit kan ook: <suggestion>daar en op dat moment</suggestion>, <suggestion>meteen</suggestion>, <suggestion>onmiddelijk</suggestion>.</message>
+                <message>Dit kan ook: <suggestion>daar en op dat moment</suggestion>, <suggestion>meteen</suggestion>, <suggestion>onmiddellijk</suggestion>.</message>
                 <url>https://taaladvies.net/taal/advies/vraag/785/ter_plekke_ter_plaatse/6</url>
-                <example correction="daar en op dat moment|meteen|onmiddelijk">Ze stierf <marker>ter plekke</marker>.</example>
-                <example correction="Daar en op dat moment|Meteen|Onmiddelijk"><marker>Ter plekke</marker> geplaasterd.</example>
-                <example correction="daar en op dat moment|meteen|onmiddelijk">Je bent zelfs niet verplicht om <marker>ter plekke</marker> iets te consumeren.</example>
+                <example correction="daar en op dat moment|meteen|onmiddellijk">Ze stierf <marker>ter plekke</marker>.</example>
+                <example correction="Daar en op dat moment|Meteen|Onmiddellijk"><marker>Ter plekke</marker> geplaasterd.</example>
+                <example correction="daar en op dat moment|meteen|onmiddellijk">Je bent zelfs niet verplicht om <marker>ter plekke</marker> iets te consumeren.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LIJVE" name="uitdrukkingen met 'lijve'">
@@ -36831,7 +36859,7 @@ steenwijk;Steenwijk
                     </marker>
                     <token/>
                 </pattern>
-                <message>Da kans is groot dat u een spatie te veel hebt gezet.</message>
+                <message>De kans is groot dat u een spatie te veel hebt gezet.</message>
                 <suggestion>\1\2</suggestion>
                 <short>spatie te veel</short>
                 <example correction="spaarder">Hij is een groot <marker>spaar der</marker>.</example>
@@ -36863,7 +36891,7 @@ steenwijk;Steenwijk
                     </marker>
                     <token/>
                 </pattern>
-                <message>In moderne teksten past geen 'der' buiten staande uitdrukkingen. Moderner is <suggestion>van de</suggestion>. Of missschien bedoelt u <suggestion>haar</suggestion>?</message>
+                <message>In moderne teksten past geen 'der' buiten staande uitdrukkingen. Moderner is <suggestion>van de</suggestion>. Of misschien bedoelt u <suggestion>haar</suggestion>?</message>
                 <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
                 <short>staande uitdrukking</short>
                 <example correction="van de|haar">De helaasheid <marker>der</marker> dingen.</example>
@@ -36998,7 +37026,7 @@ steenwijk;Steenwijk
                     <token>langen</token>
                     <token/>
                 </pattern>
-                <message>U bedoel vast <suggestion>ten langen leste</suggestion>, of er is iets anders mis ('langen'?). Moderner mag natuurlijk ook.</message>
+                <message>U bedoelt vast <suggestion>ten langen leste</suggestion>, of er is iets anders mis ('langen'?). Moderner mag natuurlijk ook.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
                 <example correction="ten langen leste">Op <marker>de langen duur</marker> maar betaald en uitgestapt en te voet op pad gegaan.</example>
                 <example correction="ten langen leste">Het vastvaren van een schip kon den doorgang <marker>voor langen tijd</marker> belemmeren.</example>
@@ -37397,7 +37425,7 @@ steenwijk;Steenwijk
                 <example correction="Ja, hoor"><marker>Ja hoor</marker>!</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EN_EN_EN" name="En... en ... en ..." tags="picky">
+        <rulegroup id="EN_EN_EN" name="En … en … en …" tags="picky">
             <!-- bron: Onze Taal via Woordpost 2014-08-27 -->
             <rule>
                 <pattern>
@@ -38289,9 +38317,9 @@ steenwijk;Steenwijk
                 <pattern>
                     <token regexp="yes">[a-z]+-</token>
                     <token>en</token>
-                    <token regexp="yes">...+(combinaties?|groep|groepen)</token>
+                    <token regexp="yes">.{3,30}(combinaties?|groep|groepen)</token>
                 </pattern>
-                <message>Als het om niet gaat om \1<match no="3" regexp_replace="$2" regexp_match="(...+)(combinaties?|groep|groepen)" /> en \3<match no="3" regexp_replace="$2" regexp_match="(...+)(combinaties?|groep|groepen)" />, maar een combinatie, dan is de juiste schrijfwijze: <suggestion>\1\2-\3</suggestion>.</message>
+                <message>Als het om niet gaat om \1<match no="3" regexp_replace="$2" regexp_match="(.{3,30})(combinaties?|groep|groepen)" /> en \3<match no="3" regexp_replace="$2" regexp_match="(.{3,30})(combinaties?|groep|groepen)" />, maar een combinatie, dan is de juiste schrijfwijze: <suggestion>\1\2-\3</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
                 <example correction="bank-en-verzekeringsgroep">De <marker>bank- en verzekeringsgroep</marker> is groot.</example>
                 <example>Het is een <marker>peper-en-zoutstel</marker>.</example>
@@ -38564,7 +38592,7 @@ steenwijk;Steenwijk
                     <token regexp="yes">nog|noch</token>
                     <token>eendje</token>
                 </pattern>
-                <message>Dit is een woordspeling, of u bedoelt vast: <suggestion>nog een</suggestion> of <suggestion>nog eentje</suggestion> .</message>
+                <message>Dit is een woordspeling, of u bedoelt vast: <suggestion>nog een</suggestion> of <suggestion>nog eentje</suggestion>.</message>
                 <example correction="nog een|nog eentje">Ik doe er <marker>nog eendje</marker>.</example>
                 <example>Ik doe er <marker>nog eentje</marker>.</example>
             </rule>
@@ -39014,7 +39042,7 @@ steenwijk;Steenwijk
                 <example correction=""><marker>Tien tegen één</marker> dat het je kan overkomen dat er iets aan de gang is.</example>
                 <example correction="">Uit berekeningen blijkt immers dat de verhouding tussen lastenverlaging en lastenverhoging <marker>tien tegen één</marker> is.</example>
                 <example correction=""><marker>Tien tegen een</marker> dat er niks aan de hand is, maar de dokter snapt het heel goed als je toch even zijn advies wilt hebben.</example>
-                <example correction="">Doch nu, in onzen modernen tijd, is deze ge woonte in het vergetelhoekje geraakt en zendt een jonge man <marker>tien tegen een</marker> roode rozen, omdat hij nQg denkt te weten dat deze vurige liefde uitdrukken of ook omdat ze toevallig... de goedkoopste zijn.</example>
+                <example correction="">Doch nu, in onzen modernen tijd, is deze ge woonte in het vergetelhoekje geraakt en zendt een jonge man <marker>tien tegen een</marker> roode rozen, omdat hij nQg denkt te weten dat deze vurige liefde uitdrukken of ook omdat ze toevallig… de goedkoopste zijn.</example>
                 <example correction=""><marker>Tien tegen één</marker> dat als je de plek vindt waar Adhémar wordt vastgehouden, je daar de brieven zult aantreffen.?</example>
                 <example correction="">Hijack this downladen, scannen en het resultaat (de log) op zulk forum zetten: <marker>tien tegen één</marker> dat iemand je kan helpen.</example>
                 <example correction="">Degene die het filmde krijgt <marker>tien tegen één</marker> nog een boete wegens 't niet verlenen aan hulp (politie bellen zal wel niet genoeg zijn) en om zomaar te filmen.</example>
@@ -39088,7 +39116,7 @@ steenwijk;Steenwijk
                 <example correction="">De cardioloog neemt telefonisch contact wanneer er een geschikt <marker>hart is voor</marker> u.</example>
                 <example correction="">Goede Vrijdag, de dag waarop Jezus "zich helemaal <marker>hart heeft gemaakt voor</marker> mij".</example>
                 <example correction="">Spreken, met gezag, maar dan van hart tot <marker>hart, voor</marker> alle mensen die Hij tegenkwam.</example>
-                <example correction="">WIE oh WIE heeft er een plek in haar of zijn <marker>hart en thuis voor</marker> dit lieve schatje, !</example>
+                <example correction="">WIE oh WIE heeft er een plek in haar of zijn <marker>hart en thuis voor</marker> dit lieve schatje!</example>
                 <example correction="">Het <marker>hart staat voor</marker> liefde, voor van harte iets geven en jezelf van harte iets gunnen.</example>
                 <example correction="">Ik heb altijd een <marker>hart gehad voor</marker> maatschappijkritische hiphop, reggae en de kleinkunst."</example>
                 -->
@@ -40026,7 +40054,7 @@ steenwijk;Steenwijk
                     <token regexp="yes">vol|half</token>
                     <token>pensioen</token>
                 </pattern>
-                <message>Mischien bedoelt u: <suggestion>\1 pension</suggestion> (eten bij het hotel).</message>
+                <message>Misschien bedoelt u: <suggestion>\1 pension</suggestion> (eten bij het hotel).</message>
                 <example correction="vol pension">We boekten <marker>vol pensioen</marker>.</example>
             </rule>
         </rulegroup>
@@ -40356,7 +40384,7 @@ steenwijk;Steenwijk
                         <token>het</token>
                     </marker>
                 </pattern>
-                <message>Dubbel lidwoord, u bedoelt vast : <suggestion>de</suggestion> of <suggestion>het</suggestion>.</message>
+                <message>Dubbel lidwoord, u bedoelt vast: <suggestion>de</suggestion> of <suggestion>het</suggestion>.</message>
                 <example correction="de|het">Op dit punt is <marker>de het</marker> man niet correct.</example>
             </rule>
         </rulegroup>
@@ -42906,7 +42934,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token inflected="yes" regexp="yes">mannelijk|vrouwelijk</token>
                 </pattern>
-                <message>Is deze kwalificatie wel noodzakelijk? Zo niet, laat het dan weg <suggestion></suggestion>.</message>
+                <message>Is deze kwalificatie wel nodig? Zo niet, laat het dan weg <suggestion></suggestion>.</message>
                 <example correction="">We spreken de <marker>mannelijke</marker> bestuurder.</example>
             </rule>
         </rulegroup>
@@ -42962,7 +42990,7 @@ steenwijk;Steenwijk
                     </marker>
                     <token postag_regexp="yes" postag="BNW.*"/>
                 </pattern>
-                <message>U bedoet vast <suggestion>licht</suggestion> (gemakkelijk).</message>
+                <message>U bedoelt vast <suggestion>licht</suggestion> (gemakkelijk).</message>
                 <example correction="licht">Het is een <marker>ligt</marker> ontvlambare situatie.</example>
             </rule>
         </rulegroup>
@@ -43238,7 +43266,7 @@ steenwijk;Steenwijk
 
         <rulegroup id="LAATS" name="laats">
             <rule>
-                <!-- 2014-08-19 TaalTik : regel werkt heel behoorlijk -->
+                <!-- 2014-08-19 TaalTik: regel werkt heel behoorlijk -->
                 <pattern case_sensitive="yes">
                     <token negate="yes">iets</token>
                     <marker>
@@ -43285,7 +43313,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <token>grand</token>
-                    <token regexp="yes">prix...+</token>
+                    <token regexp="yes">prix.{3,30}</token>
                 </pattern>
                 <message>In de officiële spelling hoort dit anders.</message>
                 <suggestion><match no="1" case_conversion="startlower"/>-<match no="2" case_conversion="startlower"/></suggestion>
@@ -43294,7 +43322,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <token>grand</token>
-                    <token regexp="yes">slam...+</token>
+                    <token regexp="yes">slam.{3,30}</token>
                 </pattern>
                 <message>In de officiële spelling hoort dit anders.</message>
                 <suggestion><match no="1" case_conversion="startlower"/><match no="2" case_conversion="startlower"/></suggestion>
@@ -43304,7 +43332,7 @@ steenwijk;Steenwijk
         <rulegroup id="_24_UURS" name="24-uursding/24 uursding" >
             <rule>
                 <pattern>
-                    <token regexp="yes">24-uurs...+</token>
+                    <token regexp="yes">24-uurs.{3,30}</token>
                 </pattern>
                 <message>In de officiële spelling hoort dit anders.</message>
                 <suggestion><match no="1" regexp_match="24-" regexp_replace="24 "/></suggestion>
