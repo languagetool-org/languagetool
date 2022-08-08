@@ -85,6 +85,7 @@ public class AgreementRule2Test {
     assertGood("Prinzipiell Anrecht auf eine Vertretung");
     assertGood("Regelrecht Modell gestanden haben Michel");
     assertGood("Weitgehend Konsens, auch über ...");
+    assertGood("Alarmierte Polizeibeamte nahmen den Mann fest.");
   }
 
   @Test

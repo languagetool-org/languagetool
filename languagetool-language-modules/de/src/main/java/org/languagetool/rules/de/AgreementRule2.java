@@ -71,6 +71,7 @@ public class AgreementRule2 extends Rule {
     asList(token("Personal"), token("Shopper")),
     asList(token("Schwäbisch"), token("Hall")),
     asList(token("Herzlich"), token("Willkommen")),
+    asList(posRegex("ADJ.*"), tokenRegex(".+beamte")),  // "Alarmierte Polizeibeamte"
     asList(regex("echt|absolut|voll|total"), regex("Wahnsinn|Klasse")),
     asList(pos("SENT_START"), pos("ADJ:PRD:GRU"), posRegex("SUB:NOM:SIN:NEU:INF")),  // "Ruhig Schlafen & Zentral Wohnen"
     asList(tokenRegex("voll|voller"), posRegex("SUB:NOM:SIN:.*")),  // "Voller Mitleid", "Voller Mitleid"
