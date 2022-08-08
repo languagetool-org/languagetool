@@ -16177,9 +16177,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- MARCOAGPINTO 2022-05-21 (15-MAY-2022+) *END* -->
         <antipattern>
           <token regexp='yes'>e|ou</token>
-          <token>que</token>
+          <token skip='-1'>que</token>
           <token postag='VMS.+' postag_regexp='yes'/>
           <example>E que vença o melhor!</example>
+          <example>Boa sorte na Unigranrio e que ele melhore rapidamente.</example>
         </antipattern>
         <antipattern>
           <token skip='-1'>que</token>
@@ -16203,6 +16204,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='VMS.+' postag_regexp='yes'/>
           <example>Preciso apenas que você registre seu endereço.</example>
       </antipattern>
+      <antipattern>
+          <token postag='VMS.+' postag_regexp='yes' skip='-1'/>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <example>Preciso apenas que você registre e salve seu endereço.</example>
+      </antipattern>
+      <antipattern>
+          <token skip='-1'>que</token>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <token min='0'>que</token>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <example>Fez uma breve pausa para que fosse exibido um vídeo</example>
+          <example>Esperamos que, no futuro, isso sirva de lição e que você aprenda.</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>pedir</token>
+          <token postag='RG' min='0'/>
+          <token>que</token>
+          <token regexp='yes' min='0'>&pronomes_obliquos;</token>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <example>Peço também que as confirme.</example>
+      </antipattern>
+      <antipattern>
+          <token>que</token>
+          <token regexp='yes'>est[ea]s?</token>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <example>Deveria reconhecer um mestre, sem que este precise lhe mostrar um diploma.</example>
+      </antipattern>
+      <antipattern>
+          <token>assim</token>
+          <token>que</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START|_PUNCT" postag_regexp='yes'/>
+          <token>para</token>
+          <token skip='-1'>que</token>
+          <token>?</token>
+          <example>Para que queres um carro se não diriges?</example>
+      </antipattern>
       <rule>
         <pattern>
           <token postag='SPS00|CC' postag_regexp='yes'>
@@ -16213,7 +16252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token>que</token>
             <token postag='VMS[PI]...' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='SPS.+'/>
-              <exception inflected='yes'>elar</exception>
+              <exception regexp='yes' inflected='yes'>elar|professorar</exception>
             </token>
           </marker>
           <token negate_pos="yes" postag='SPS.+' postag_regexp='yes'/>
