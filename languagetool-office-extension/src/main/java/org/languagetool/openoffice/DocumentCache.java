@@ -293,6 +293,9 @@ public class DocumentCache implements Serializable {
       if (debugMode) {
         MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Unknown paragraphs: " + nUnknown);
       }
+      for (int i = 0; i < textParas.get(CURSOR_TYPE_TABLE).size(); i++) {
+        toParaMapping.get(CURSOR_TYPE_TABLE).add(-1);
+      }
       int numUnknown = 0;
       boolean thirdTextDone = false;
       for (int i = 0; i < paragraphs.size(); i++) {
@@ -336,7 +339,7 @@ public class DocumentCache implements Serializable {
                   : textParas.get(CURSOR_TYPE_TABLE).get(k);
               if (isEqualText(flatPara, textPara)) {
                 toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
-                toParaMapping.get(CURSOR_TYPE_TABLE).add(i);
+                toParaMapping.get(CURSOR_TYPE_TABLE).set(k, i);
                 nTables.add(k);
                 isMapped = true;
                 nFrameTable = k + 1;
@@ -392,7 +395,7 @@ public class DocumentCache implements Serializable {
           nTables.add(k);
           nFrameTable = k + 1;
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
-          toParaMapping.get(CURSOR_TYPE_TABLE).add(i);
+          toParaMapping.get(CURSOR_TYPE_TABLE).set(k, i);
           continue;
         } else {
           //  test for table
@@ -443,7 +446,7 @@ public class DocumentCache implements Serializable {
               nTables.add(k);
               nFrameTable = k + 1;
               toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
-              toParaMapping.get(CURSOR_TYPE_TABLE).add(i);
+              toParaMapping.get(CURSOR_TYPE_TABLE).set(k, i);
               continue;
             }
             isMapped = true;
