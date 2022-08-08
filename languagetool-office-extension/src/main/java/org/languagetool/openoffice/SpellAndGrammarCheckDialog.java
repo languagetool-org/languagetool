@@ -1952,7 +1952,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * TODO: The function works very temporarily
      */
     private void removeSpellingMark(int nFlat) throws Throwable {
-      XParagraphCursor pCursor = viewCursor.getParagraphCursorUnderViewCursor();
+      XParagraphCursor pCursor = viewCursor.getParagraphCursorFromViewCursor();
       pCursor.gotoStartOfParagraph(false);
       pCursor.goRight((short)error.nErrorStart, false);
       pCursor.goRight((short)error.nErrorLength, true);
