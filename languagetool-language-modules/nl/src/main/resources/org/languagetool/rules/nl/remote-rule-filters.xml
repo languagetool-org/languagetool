@@ -43,7 +43,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 
 <rules lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
-        <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
+        <rulegroup id="AI_NL_HYDRA_LEO_MISSING_COMMA" name="">
             <rule>
                 <pattern>
                     <marker>
@@ -66,7 +66,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">aanbod|aansluiting|aantal(len)?|beleidsmedewerkers?|blik(ken|jes?)?|bouw|docent(en?)?|doos(jes?)?|dosis|financiering|hooglera(ar|re(n|s)?)</token>
+                        <token regexp="yes">aanbod|aansluiting|aantal(len)?|beleidsmedewerkers?|blik(ken|jes?)?|bouw|docent(en?)?|doos(jes?)?|dosis|financiering|hooglera(ar|re(n|s)?)|portefeuille</token>
                     </marker>
                     <token min="0" postag_regexp="yes" postag="BNW.*VRB"/>
                     <token postag_regexp="yes" postag="ZNW.*|DVS"/>
@@ -100,6 +100,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token regexp="yes">&measurementUnitsAll;</token>
                 </pattern>
                 <example correction="">Nog nooit werd het zo laat in het jaar in De Bilt nog tropisch warm (><marker>30</marker> °C).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token regexp="yes">[1-2]?[0-9]{3}</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="WKW.*"/>
+                </pattern>
+                <example correction="">In <marker>1859</marker> wist Walachije zich onafhankelijk van de Turken te verklaren.</example>
             </rule>
         </rulegroup>
     </category>
