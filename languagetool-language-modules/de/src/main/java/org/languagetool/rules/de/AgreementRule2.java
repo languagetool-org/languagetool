@@ -30,6 +30,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
@@ -54,14 +55,14 @@ public class AgreementRule2 extends Rule {
 
   private static final String ADJ_GRU = "Weitgehend|Frei|Prinzipiell|Regelrecht|Kostenlos|Gleichzeitig|Ganzjährig|Überraschend|Entsprechend|Ordentlich|Gelangweilt";
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
-    asList(csRegex("Flächendeckend|Entsprechende|Angeblich|Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|" +
+    asList(csRegex("Diverse|Flächendeckend|Entsprechende|Angeblich|Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|" +
       "Spät|Länger|Vorrangig|Rechtzeitig|Typisch|Allwöchentlich|Wöchentlich|Inhaltlich|Tagtäglich|Täglich|Komplett|" +
       "Genau|Gerade|Bewusst|Vereinzelt|Gänzlich|Ständig|Okay|Meist|Generell|Ausreichend|Genügend|Reichlich|" +
       "Regelmäßig(e|es)?|Unregelmäßig|Hauptsächlich"), posRegex("SUB:.*")),  // "Regelmäßig Kiwis und Ananas zu essen...", "Reichlich Inspiration bietet..."
     asList(csRegex(ADJ_GRU), posRegex("SUB:.*"), posRegex("VER:.*")),  // "Überraschend Besuch bekommt er dann von ..."
     asList(csRegex(ADJ_GRU), posRegex("SUB:.*"), posRegex("PRP.*")),  // "Prinzipiell Anrecht auf eine Vertretung..."
     asList(csRegex(ADJ_GRU), posRegex("SUB:.*"), token(",")),  // "Weitgehend Konsens, auch über ..."
-    asList(csRegex("Existenziell|Ganz|Gering|Viel|Wenig"), posRegex("SUB:.*ADJ")),  // "Existenziell Bedrohte kriegen..."
+    asList(csRegex("Gut|Schlecht|Existenziell|Ganz|Gering|Viel|Wenig"), posRegex("SUB:.*ADJ")),  // "Existenziell Bedrohte kriegen..."
     asList(regex("Nachhaltig|Direkt"), posRegex("SUB:NOM:.*"), posRegex("VER:INF:(SFT|NON)")),  // 'nachhaltig Yoga praktizieren'
     asList(regex("\\d0er"), regex("Jahren?")),
     asList(token("Ganz"), token("Ohr")),
@@ -71,7 +72,11 @@ public class AgreementRule2 extends Rule {
     asList(token("Personal"), token("Shopper")),
     asList(token("Schwäbisch"), token("Hall")),
     asList(token("Herzlich"), token("Willkommen")),
+    asList(token("Gut"), token("Ding")),  // "Gut Ding will Weile haben"
+    asList(token("Responsive"), token("Design")),
+    asList(token("Deutsche"), csRegex("Grammophon|Wohnen")),
     asList(posRegex("ADJ.*"), tokenRegex(".+beamte")),  // "Alarmierte Polizeibeamte"
+    asList(new PatternTokenBuilder().token("Anderen").setSkip(5).build(), posRegex("VER:INF:(SFT|NON)")),  // "Anderen Brot und Arbeit ermöglichen - ..."
     asList(regex("echt|absolut|voll|total"), regex("Wahnsinn|Klasse")),
     asList(pos("SENT_START"), pos("ADJ:PRD:GRU"), posRegex("SUB:NOM:SIN:NEU:INF")),  // "Ruhig Schlafen & Zentral Wohnen"
     asList(tokenRegex("voll|voller"), posRegex("SUB:NOM:SIN:.*")),  // "Voller Mitleid", "Voller Mitleid"

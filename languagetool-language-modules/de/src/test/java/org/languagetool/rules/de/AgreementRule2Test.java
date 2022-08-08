@@ -86,6 +86,9 @@ public class AgreementRule2Test {
     assertGood("Regelrecht Modell gestanden haben Michel");
     assertGood("Weitgehend Konsens, auch über ...");
     assertGood("Alarmierte Polizeibeamte nahmen den Mann fest.");
+    assertGood("Anderen Brot und Arbeit ermöglichen - das ist ihr Ziel");
+    assertGood("Diverse Unwesen, mit denen sich Hellboy beschäftigen muss, ...");
+    assertGood("Gut Qualifizierte bekommen Angebote");
   }
 
   @Test
