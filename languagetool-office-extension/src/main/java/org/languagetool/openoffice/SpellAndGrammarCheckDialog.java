@@ -423,15 +423,16 @@ public class SpellAndGrammarCheckDialog extends Thread {
     } else {
       TextParagraph tPara = docCache.getNumberOfTextParagraph(nFPara);
       if (tPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
-        MessageHandler.printToLogFile("CheckDialog: changeTextOfParagraph: nStart = " + nStart 
-            + ", nLength = " + nLength + ", replace = " + replace);
         if (debugMode) {
+          MessageHandler.printToLogFile("CheckDialog: changeTextOfParagraph: nStart = " + nStart 
+              + ", nLength = " + nLength + ", replace = " + replace);
           MessageHandler.printToLogFile("CheckDialog: changeTextOfParagraph: set viewCursor");
         }
         setTextViewCursor(nStart, tPara, viewCursor);
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: changeTextOfParagraph: set setViewCursorParagraphText:" + replace);
         }
+        nStart = docCache.correctStartPoint(nStart, nFPara);
         viewCursor.setViewCursorParagraphText(nStart, nLength, replace);
       } else {
         document.getFlatParagraphTools().changeTextOfParagraph(nFPara, nStart, nLength, replace);
@@ -2047,8 +2048,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * @throws Throwable 
      */
     private void changeText() throws Throwable {
-      String word;
-      String replace;
+      String word = "";
+      String replace = "";
       String orgText;
       if (debugMode) {
         MessageHandler.printToLogFile("CheckDialog: changeText entered - docType: " + docType);
@@ -2116,10 +2117,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
           changeTextOfParagraph(y, firstChange, lastEqual - firstChange, replace, currentDocument, viewCursor);
           addSingleChangeUndo(firstChange, y, word, replace);
         } else if (suggestions.getComponentCount() > 0) {
-          word = orgText.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
-          replace = suggestions.getSelectedValue();
-          changeTextOfParagraph(y, error.nErrorStart, error.nErrorLength, replace, currentDocument, viewCursor);
-          addSingleChangeUndo(error.nErrorStart, y, word, replace);
+          if (orgText.length() >= error.nErrorStart + error.nErrorLength) {
+            word = orgText.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
+            replace = suggestions.getSelectedValue();
+            changeTextOfParagraph(y, error.nErrorStart, error.nErrorLength, replace, currentDocument, viewCursor);
+            addSingleChangeUndo(error.nErrorStart, y, word, replace);
+          }
         } else {
           MessageHandler.printToLogFile("CheckDialog: changeText: No text selected to change");
           return;

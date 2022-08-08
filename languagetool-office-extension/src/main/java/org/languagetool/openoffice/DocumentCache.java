@@ -717,6 +717,28 @@ public class DocumentCache implements Serializable {
   }
 
   /**
+   * correct a start point to change of flat paragraph by zero space characters
+   */
+  public int correctStartPoint(int nStart, int nFPara) {
+    int cor = 0;
+    for (int i = 0; i < nStart; i++) {
+      if (paragraphs.get(nFPara).charAt(i) == OfficeTools.ZERO_WIDTH_SPACE_CHAR) {
+        boolean isFootnote = false;
+        for (int n : footnotes.get(nFPara)) {
+          if (n == i) {
+            isFootnote = true;
+            break;
+          }
+        }
+        if (!isFootnote) {
+          cor++;
+        }
+      }
+    }
+    return nStart - cor;
+  }
+
+  /**
    * clear document cache
    */
   private void clear() {

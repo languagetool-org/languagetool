@@ -86,7 +86,8 @@ class OfficeTools {
   public static final int NUMBER_PARAGRAPH_CHARS = END_OF_PARAGRAPH.length();  //  number of end of paragraph characters
   public static final String SINGLE_END_OF_PARAGRAPH = "\n";
   public static final String MANUAL_LINEBREAK = "\r";     //  to distinguish from paragraph separator
-  public static final String ZERO_WIDTH_SPACE = "\u200B"; // Used to mark footnotes
+  public static final String ZERO_WIDTH_SPACE = "\u200B"; // Used to mark footnotes, functions, etc.
+  public static final char ZERO_WIDTH_SPACE_CHAR = '\u200B'; // Used to mark footnotes, functions, etc.
   public static final String IGNORE_LANGUAGE = "zxx";     // Used from LT to mark automatic generated text like indexes
   public static final String LOG_LINE_BREAK = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   public static final int MAX_SUGGESTIONS = 15;           // Number of suggestions maximal shown in LO/OO
