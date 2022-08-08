@@ -6576,7 +6576,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- "Variamos os argumentos caso estes representem resultados fracos." -->
       <rule>
         <pattern>
-          <token postag='CS'/>
+          <token postag='CS'>
+            <exception>se</exception>
+          </token>
           <token postag='PD0MP000'/>
           <marker>
             <token regexp='yes'>representam|apresentam|mostram|facilitam</token> <!-- MARCOAGPINTO workaround 2020-02-18 -->
@@ -6613,12 +6615,87 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>eu</token>
         </antipattern>
 
+        <antipattern>
+          <token>eu</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='VMIP3S0'>
+            <exception postag='VMM02S0|VMIC1S0|VMSP1S0|VMII1S0' postag_regexp='yes'/></token>
+        </antipattern>
+
+        <antipattern>
+          <token postag='D.+' postag_regexp='yes'/>
+          <token postag='RG' min='0'/>
+          <token postag='AQ.+' postag_regexp='yes' min='0'/>
+          <token case_sensitive='yes'>Eu</token>
+          <example>O verdadeiro Eu não é o corpo.</example>
+        </antipattern>
+
+        <antipattern>
+          <token regexp='yes' skip='-1'>tanto|nem</token>
+          <token regexp='yes'>quanto|nem|como</token>
+          <token>eu</token>
+          <example>Tanto Tom quanto eu passamos frio.</example>
+        </antipattern>
+
+        <antipattern>
+          <token>se</token>
+          <token>como</token>
+          <token>eu</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Se como eu forem passar uns dias na cidade, levem capa de chuva.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='D.+|PP.+|CS' postag_regexp='yes'/>
+          <token postag='N.+' postag_regexp='yes' min='0'/>
+          <token>como</token>
+          <token>eu</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Um homem como eu precisa de um chapéu.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='N.+' postag_regexp='yes'/>
+          <token>como</token>
+          <token>eu</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Pessoas como eu precisam de um chapéu.</example>
+        </antipattern>
+
+        <antipattern>
+          <token>apesar</token>
+          <token>de</token>
+          <token skip='-1'>eu</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Apesar de eu já sabem quem era o Outro Poder desde o início, superou minhas expectativas.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='CS' skip='-1'/>
+          <token postag='N.+' postag_regexp='yes' skip='-1'/>
+          <token postag='V.+' postag_regexp='yes' skip='-1'/>
+          <token>que</token>
+          <token skip='-1'>eu</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Não gosto quando matemáticos que sabem muito mais do que eu não conseguem se expressar</example>
+        </antipattern>
+
+        <antipattern>
+          <token skip='-1'>eu</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token spacebefore='no'>-</token>
+          <token regexp='yes' spacebefore='no'>l[oa]s?</token>
+          <example>Fiquei com receio dele se sentir ofendido por eu não reconhece-lo.</example>
+        </antipattern>
+
         <pattern>
           <token>eu</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception scope='next'>,</exception></token>
           <token postag='V.[CIS].([23]S|[123]P).' postag_regexp='yes'>
-            <exception postag='V.[CIS].1S0' postag_regexp='yes'/></token>
+            <exception postag='V.[CIS].1S0' postag_regexp='yes'/>
+            <exception regexp='yes'>antes|nada|empresa</exception></token>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1S$2' postag_regexp='yes'/></suggestion>
@@ -6626,6 +6703,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Eu preocupar-me-ia, talvez, com esta manifestação de ignorância.</example>
         <example>Eu é que fiz.</example>
         <example>Ontem eu saí de casa.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>apesar</token>
+          <token>de</token>
+          <token>eu</token>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].([23]S|[123]P).' postag_regexp='yes'>
+            <exception postag='V.[CIS].1S0' postag_regexp='yes'/>
+            <exception regexp='yes'>antes|nada|empresa</exception></token>
+        </pattern>
+        <message>&MSG_ECV;</message>
+        <suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='VMN0000' postag_regexp='yes'/></suggestion>
+        <example correction='Apesar de eu já saber'><marker>Apesar de eu já sabem</marker> quem foi, fiquei em silêncio.</example>
       </rule>
 
 
@@ -6662,12 +6755,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>tu</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception scope='next'>,</exception></token>
-          <token postag='V.[CIS].([13]S|[123]P).' postag_regexp='yes'>
+          <token postag='V.[CIS].([1]S|[123]P).' postag_regexp='yes'>
             <exception postag='V.[CIS].2S0' postag_regexp='yes'/></token>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\2S$2' postag_regexp='yes'/></suggestion>
-        <example correction='Tu não passeias'><marker>Tu não passeia</marker> na praia.</example>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
+        <example correction='Tu não passeias|Tu não passeia'><marker>Tu não passeiam</marker> na praia.</example>
         <example>Tu preocupar-te-ias, talvez, com esta manifestação de ignorância.</example>
       </rule>
       <rule>
@@ -6754,7 +6848,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>A probabilidade de prosseguir trilhas entre <marker>nós é</marker> conseguida na função.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>ou</token>
+          <token>eu</token>
+          <token>ou</token>
+          <example>Ou eu ou ele tocava baixo.</example>
+        </antipattern>
         <pattern>
+          <token negate_pos='yes' postag='V...1S.+' postag_regexp='yes'/>
           <token>eu</token>
           <token regexp='yes'>e|ou</token>
           <token min="0" postag='DA0[MF].0' postag_regexp='yes'/>
@@ -6765,12 +6866,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception postag='V.[CIS].1P0' postag_regexp='yes'/></token>
         </pattern>
         <message>&MSG_ECV;</message>
-        <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
+        <suggestion>\2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/> <match no='7' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
         <example correction='Eu e Rita passeamos'><marker>Eu e Rita passeiam</marker> na praia.</example>
         <example><marker>Eu e Rita passeiamos</marker> na praia.</example>
         <example>Eu e a Rita preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes' skip='-1'/>
+          <token postag='SPS00'/>
+          <token regexp='yes'>tu|vocês?|vós|el[ea]s?</token>
+          <token regexp='yes'>e|ou</token>
+          <token>eu</token>
+          <example>Ele me convidou para ir com ele e eu disse que não.</example>
+        </antipattern>
+        <antipattern>
+          <token>ou</token>
+          <token regexp='yes'>tu|vocês?|vós|el[ea]s?</token>
+          <token>ou</token>
+          <token>eu</token>
+          <example>Ou você ou eu deve ganhar.</example>
+        </antipattern>
         <pattern>
           <token regexp='yes'>tu|vocês?|vós|el[ea]s?</token>
           <token regexp='yes'>e|ou</token>
@@ -6778,7 +6894,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception scope='next'>,</exception></token>
           <token postag='V.[CIS].([23]P|[123]S).' postag_regexp='yes'>
-            <exception postag='V.[CIS].1P0' postag_regexp='yes'/></token>
+            <exception postag='V.[CIS].1P0' postag_regexp='yes'/>
+            <exception regexp='yes'>nada|professor[aa]|pel[oa]s?|ale|colegas?</exception></token>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
@@ -6795,6 +6912,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception scope='next'>,</exception></token>
           <token postag='V.[CIS].3S0' postag_regexp='yes'/>
+        </antipattern>
+        <antipattern>
+          <token postag='V..P2.+|SPS00|SPS00:SP' postag_regexp='yes'/>
+          <token>vós</token>
+          <example>Que sabeis vós sobre este lugar?</example>
+          <example>Quem dentre vós estiver sem pecado, que lhe atire a primeira pedra!</example>
         </antipattern>
         <pattern>
           <token>vós</token>
@@ -7334,7 +7457,146 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='VM...P.+|VMN0000' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *END* -->
-
+        <antipattern>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token regexp='yes' min='0'>&expressoes_de_tempo;</token>
+          <token regexp='yes'>atrás|depois</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Algumas semanas atrás tive febre alta.</example>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token postag='AO..P.+' postag_regexp='yes' min='0'/>
+          <token regexp='yes'>vezes|manhãs|tardes|noites|&expressoes_de_tempo;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Algumas vezes parece contente.</example>
+          <example>Certas manhãs vejo o sol nascer.</example>
+          <example>Esses dias comi uma fruta.</example>
+          <example>Nesses últimos dias comi muita fruta.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token postag='CC' min='0'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS00' min='0'/>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <example>Ignorar as coisas nunca foi a melhor solução.</example>
+          <example>Mas passear com as malas não dá, né?</example>
+        </antipattern>
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token max='3' postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <token postag='RG' min='1' max='2'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>De novo se abrirão as grandes alamedas por onde passará o homem livre.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='VMN0000'/>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <example>Apesar de ter lido as instruções errei o caminho.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='VMN0000'/>
+          <token postag='SPS00'/>
+          <token postag_regexp='yes' postag='D...P.+' max='2'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)P.+' max='3'/>
+          <token postag='VMN0000'/>
+          <example>Deve-se evitar de todas as maneiras guiar o deficiente visual a áreas que possam oferecer perigo.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='CS|SPS00:DA0MS0' postag_regexp='yes'/>
+          <token postag='VMS.+|VMN.+' postag_regexp='yes'/>
+          <token postag='RM' min='0'/>
+          <token postag_regexp='yes' postag='D...P.+' max='2'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)P.+' max='3'/>
+          <token postag='VMI.+' postag_regexp='yes'/>
+          <example>Se multiplicarmos sequencialmente as matrizes obteremos facilmente o resultado esperado.</example>
+        </antipattern>
+        <antipattern>
+          <token>propriamente</token>
+          <token regexp='yes'>dit[ao]s?</token>
+        </antipattern>
+        <antipattern>
+          <token>a</token>
+          <token postag_regexp='yes' postag='D...P.+' max='2'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)P.+' max='3'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>A todos os meus filhos deixarei meus bens.</example>
+        </antipattern>
+        <antipattern>
+          <token>que</token>
+          <token postag='PP.+' postag_regexp='yes' skip='-1'/>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+' skip='-1'/>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <example>Esperavam que ela em 15 minutos depois de ter bloqueado as câmeras conseguisse dar conta.</example>
+        </antipattern>
+        <antipattern>
+          <token>durante</token>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <example>Uma das grandes causas de doenças durante as expedições marítimas portuguesas era a falta de higiene.</example>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='D.+'/>
+          <token max="3" postag_regexp='yes' postag='N.+|A.+' skip='-1'/>
+          <token negate='yes' regexp='yes'>&separadores_de_oracoes;</token>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+' skip='-1'/>
+          <token postag_regexp='yes' postag='V.+'/>
+          <example>Não consigo acreditar que uma cachorrinha em algumas horas não consiga andar.</example>
+          <example>A conversão para algumas unidades não pode ser calculada.</example>
+          <example>Qualquer pessoa que já tenha jogado xadrez algumas vezes entende como ele pode ser absorvente ao extremo.</example>
+          <example>O exaustor que eu comprei alguns anos atrás está fora de moda.</example>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+' skip='-1'/>
+          <token>não</token>
+          <token inflected='yes'>limpar</token>
+          <example>Joguei as camisas não limpas na secadora.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SPS00'/>
+          <token postag='RG|DI.+' postag_regexp='yes' min='0'/>
+          <token postag_regexp='yes' postag='D..P.+' min='1' max='2'/>
+          <token max="3" postag_regexp='yes' postag='N..P.+' skip='-1'/>
+          <token postag_regexp='yes' postag='V.+'/>
+          <example>Seguindo reto por mais alguns metros há um supermercado.</example>
+        </antipattern>
+        <antipattern>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <token>ali</token>
+          <token>fora</token>
+          <example>As pessoas ali fora estavam com frio.</example>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <token>vias</token>
+          <example>As principais vias do bairro levavam ao centro.</example>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <token skip='-1'>é</token>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <token postag='VMN0000'/>
+          <example>Certas coisas é bom esquecer.</example>
+          <example>Para vender produtos, algumas vezes é preciso ter um toque de gênio.</example>
+        </antipattern>
+        <antipattern>
+          <token>que</token>
+          <token postag_regexp='yes' postag='V.+'/>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Veja que quem quer que matou aquelas crianças pague pelo que fez.</example>
+        </antipattern>
         <pattern>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
@@ -7344,7 +7606,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/></token>
           <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'>
             <exception postag='V.[CIS].3P.' postag_regexp='yes'/>
-            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+            <exception postag='AQ.+' postag_regexp='yes'/>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+            <exception regexp='yes' inflected='yes'>icer|elar</exception></token>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(V.[CIS].).S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
@@ -7407,6 +7671,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Vão as senhoras comprar alguma coisa?</example>
       </rule>
       <rule>
+        <antipattern>
+          <token regexp='yes' skip='-1'>tanto|nem</token>
+          <token regexp='yes' skip='-1'>quanto|nem|como</token>
+          <token postag='PP.+|N.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
+          <example>Tanto Tom quanto Mary passaram frio.</example>
+        </antipattern>
         <antipattern>
           <token regexp='yes' case_sensitive='yes'>el[ea]s?</token>
           <token regexp='yes' case_sensitive='yes'>e|ou</token>
@@ -7742,6 +8013,84 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>ao</token>
           <token>meu</token>
           <token>ver</token>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='D...S.+'/>
+          <token regexp='yes' min='0'>&expressoes_de_tempo;</token>
+          <token regexp='yes'>atrás|depois</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Uma semana atrás tivemos febre alta.</example>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='D...S.+'/>
+          <token postag='AO..S.+' postag_regexp='yes' min='0'/>
+          <token regexp='yes'>vez|manhã|tarde|noite|&expressoes_de_tempo;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Uma vez pareceram contentes.</example>
+          <example>Certa manhã vimos o sol nascer.</example>
+          <example>Certa noite comemos uma fruta.</example>
+          <example>Nesse último dia comemos muita fruta.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag_regexp='yes' postag='D...S.+'/>
+          <token max='3' postag_regexp='yes' postag='(?:N..|A...)S.+'/>
+          <token postag='RG' min='1' max='2'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>De novo se abriu a grande alameda por onde passarão os homens livres.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='VMN.+' postag_regexp='yes'/>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <token postag_regexp='yes' postag='D...S.+'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)S.+'/>
+          <example>Apesar de terem lido o manual erramos o caminho.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='CS|SPS00:DA0MS0' postag_regexp='yes'/>
+          <token postag='VMS.+|VMN.+' postag_regexp='yes'/>
+          <token postag='RM' min='0'/>
+          <token postag_regexp='yes' postag='D...S.+' max='2'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)S.+' max='3'/>
+          <token postag='VMI.+' postag_regexp='yes'/>
+          <example>Se verificarmos sequencialmente a matriz obteremos facilmente o resultado esperado.</example>
+        </antipattern>
+        <antipattern>
+          <token>propriamente</token>
+          <token regexp='yes'>dit[ao]s?</token>
+        </antipattern>
+        <antipattern>
+          <token>a</token>
+          <token postag_regexp='yes' postag='D...S.+' max='2'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)S.+' max='3'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>A nosso único filho deixaremos nossos bens.</example>
+        </antipattern>
+        <antipattern>
+          <token>que</token>
+          <token postag='PP.+' postag_regexp='yes' skip='-1'/>
+          <token postag_regexp='yes' postag='D...S.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+' skip='-1'/>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <example>Esperavam que elas em 15 minutos depois de terem bloqueado a câmera conseguissem dar conta.</example>
+        </antipattern>
+        <antipattern>
+          <token>durante</token>
+          <token postag_regexp='yes' postag='D...S.+'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)S.+'/>
+          <example>Algumas das grandes causas de doenças durante a expedição portuguesa eram a falta de higiene e a falta de comida.</example>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='D...P.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+' skip='-1'/>
+          <token negate='yes' regexp='yes'>&separadores_de_oracoes;</token>
+          <token postag_regexp='yes' postag='D...S.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+' skip='-1'/>
+          <token postag_regexp='yes' postag='V.+'/>
+          <example>Não consigo acreditar que as cachorrinhas em algumas horas não consigam andar.</example>
+          <example>As conversões para alguma unidade não podem ser calculadas.</example>
+          <example>Quaisquer pessoas que já tenha jogado xadrez alguma vez entendem como ele pode ser absorvente ao extremo.</example>
+          <example>Os exaustores que eu comprei um ano atrás estão fora de moda.</example>
         </antipattern>
         <pattern>
           <!-- MARCOAGPINTO 2020-05-09 *START* -->
