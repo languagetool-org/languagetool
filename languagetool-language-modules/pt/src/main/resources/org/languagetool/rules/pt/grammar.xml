@@ -44649,9 +44649,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
           <token negate_pos="yes" postag='SENT_END|_PUNCT|PP.+|VMP00SM' postag_regexp='yes'/>
         </pattern>
-        <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+        <message>Em certos contextos, esta perífrase pode ser simplificada. Se preferir, use o verbo "haver".</message>
         <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1S0|VMIS3S0|VMIM3S0'/></suggestion>
-        <example correction="foi|fora|fui">Essa honra <marker>tinha sido</marker> entregue a Ernest Hemingway.</example>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>haver</match> \3</suggestion>
+        <example correction="foi|fora|fui|havia sido">Essa honra <marker>tinha sido</marker> entregue a Ernest Hemingway.</example>
       </rule>
       <rule>
         <antipattern>
@@ -44668,9 +44669,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
           <token negate_pos="yes" postag='SENT_END|_PUNCT|VMP00SM' postag_regexp='yes'/>
         </pattern>
-        <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+        <message>Em certos contextos, esta perífrase pode ser simplificada. Se preferir, use o verbo "haver".</message>
         <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS2P0|VMIM2S0|VMIS2S0'/></suggestion>
-        <example correction="estiveras|estiveste|estivestes">Tu <marker>tinhas estado</marker> na feira.</example>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>haver</match> \3</suggestion>
+        <example correction="estiveras|estiveste|estivestes|havias estado">Tu <marker>tinhas estado</marker> na feira.</example>
       </rule>
       <rule>
         <antipattern>
@@ -44687,9 +44689,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
           <token negate_pos="yes" postag='SENT_END|_PUNCT|VMP00SM' postag_regexp='yes'/>
         </pattern>
-        <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+        <message>Em certos contextos, esta perífrase pode ser simplificada. Se preferir, use o verbo "haver".</message>
         <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS3P0'/></suggestion>
-        <example correction="foram">Essas honras <marker>tinham sido</marker> entregues a Ernest Hemingway.</example>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>haver</match> \3</suggestion>
+        <example correction="foram|haviam sido">Essas honras <marker>tinham sido</marker> entregues a Ernest Hemingway.</example>
       </rule>
       <rule>
         <antipattern>
@@ -44706,9 +44709,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
           <token negate_pos="yes" postag='SENT_END|_PUNCT|VMP00SM' postag_regexp='yes'/>
         </pattern>
-        <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+        <message>Em certos contextos, esta perífrase pode ser simplificada. Se preferir, use o verbo "haver".</message>
         <suggestion><match no='3' postag='VMP00SM' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
-        <example correction="fomos">Nós <marker>tínhamos sido</marker> entregues à polícia.</example>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>haver</match> \3</suggestion>
+        <example correction="fomos|havíamos sido">Nós <marker>tínhamos sido</marker> entregues à polícia.</example>
       </rule>
     </rulegroup>
 
