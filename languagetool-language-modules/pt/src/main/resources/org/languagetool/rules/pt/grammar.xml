@@ -37881,20 +37881,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
     </rulegroup>
 
+
     <rule id="SPACES_BETWEEN_OPERATORS" name="Matemático: Espaço entre operadores">
-      <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-09 -->
+      <!-- Created by Tiago F. Santos (2017-07-09) and improved by Marco A.G.Pinto, Portuguese rule 2022-08-08 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!-- 
+      I replaced Tiago's line:
+      <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
+      with the entity of mathematical operators.
+      -->
+
       <antipattern>    <!-- time exception: -->
         <token regexp="yes">(?:[01]?[0-9]|2[0-4])[0-9]?</token>
         <token>:</token>
         <token regexp="yes">[0-5][0-9]</token>
       </antipattern>
+
+      <!-- MARCOAGPINTO 2022-08-08 (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='NC.+|AQ.+|_PUNCT' postag_regexp='yes'/>
+        <token postag='_PUNCT|SPS00|CC|V.+' postag_regexp='yes'/>
+        <token regexp="yes">(?:[0-9]+[a-z]*)</token>
+        <token spacebefore="no" regexp="yes">&operadores_matematicos;
+          <exception regexp='yes'>[-/]</exception>
+        </token>
+        <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+</token>
+        <token min="0" postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='_PUNCT|SENT_END' postag_regexp='yes'>
+          <exception scope="next" postag_regexp='yes' postag='V.+'/>
+        </token>
+        <example>Resolução de ecrã: 1920×1080;</example>
+        <example>Num campo de 100×100 metros, a imagem tem 1920×1920 píxeis.</example>
+        <example>Ok, Nadal conseguiu um maior predomínio no saibro (10×1) do que Federer conseguiu na grama (8×2).</example>
+        <example>- Para o gorro, separe um pedaço de feltro vermelho de 19×15 centímetros.</example>
+        <example>Itamaraju derrotou a seleção de Itapetinga pelo placar de 4×1, nos pênaltis .</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-08-08 (25-JUL-2022+) *END* -->
+
       <pattern>
         <marker>
           <token regexp="yes">(?:[0-9]+[a-z]*)
             <exception scope="previous" regexp="yes">escalas?</exception>
+            <exception scope='previous' postag_regexp='yes' postag=''/>
             <exception scope="previous" regexp="yes">\d\d\d\d-\d\d-\d\d</exception>
           </token>
-          <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
+          <token spacebefore="no" regexp="yes">&operadores_matematicos;
+            <exception regexp='yes'>[-/]</exception>
+          </token>
           <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+
             <exception regexp="yes">\d\dh</exception></token>
         </marker>
@@ -37912,6 +37944,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>4,5 × 2,5</example>
       <example>Entre as 9:00 e as 16:45.</example>
     </rule>
+
 
     <rulegroup id='MULTIPLICATION_SIGN' name="Matemático: Multiplicação: x - × " tags="picky">
       <!-- Created by Tiago F. Santos, 2017-03-27 -->
