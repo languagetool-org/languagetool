@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
@@ -65,11 +65,6 @@ public class GermanTagger extends BaseTagger {
 
   // do not add noun tags to these words, e.g. don't add noun tags to "Wegstrecken" for weg_strecken from spelling.txt:
   private static final List<String> nounTagExpansionExceptions = Arrays.asList("Wegstrecken");
-
-  private static final String[] prefixesSeparableVerbs = new String[]{"ab", "abend", "abhanden", "acht", "ähnlich", "allein", "an", "auf", "aufeinander", "aufrecht", "aufwärts", "aus", "auseinander", "auswärts", "bei", "beieinander", "beisammen", "beiseite", "besser", "blank", "brust", "da", "daheim", "dahin", "daneben", "danieder", "davon", "doppel", "drauflos", "drei", "drein", "durch", "durcheinander", "ehe", "ein", "einig", "einwärts", "eis", "empor", "end", "fehl", "feil", "feinst", "fort", "frei", "gegenüber", "general", "groß", "grund", "hand", "hart", "haus", "heim", "her", "herauf", "heraus", "herbei", "hernieder", "herüber", "herum", "herunter", "hier", "hierher", "hierhin", "hin", "hinauf", "hinaus", "hindurch", "hinein", "hinüber", "hoch", "höher", "ineinander", "kaputt", "kennen", "klar", "klein", "knapp", "kopf", "krank", "krumm", "kugel", "kürzer", "lahm", "los", "maß", "miss", "mit", "mittag", "nach", "nahe", "näher", "neben", "nebeneinander", "nieder", "not", "offen", "out", "preis", "quer", "ran", "rauf", "raus", "rein", "rüber", "rück", "rückwärts", "ruhig", "rum", "runter", "satt", "schwarz", "sicher", "sitzen", "statt", "still", "stoß", "teil", "tot", "trocken", "über", "überein", "übereinander", "übrig", "um", "umher", "unter", "verrückt", "voll", "vor", "voran", "voraus", "vorbei", "vorlieb", "vorüber", "vorwärts", "vorweg", "wach", "wahr", "warm", "weg", "weh", "weiter", "wert", "wichtig", "wieder", "wiederauf", "wiederein", "wiederher", "wohl", "zu", "zueinander", "zufrieden", "zugute", "zunichte", "zurecht", "zurück", "zusammen", "zuwider", "zwangs", "zwangsum", "zwangsvor", "zweck", "zwischen"};
-  private static final String prefixesSeparableVerbsRegexp = "^(ab|abend|abhanden|acht|ähnlich|allein|an|auf|aufeinander|aufrecht|aufwärts|aus|auseinander|auswärts|bei|beieinander|beisammen|beiseite|besser|blank|brust|da|daheim|dahin|daneben|danieder|darnieder|davon|doppel|drauflos|drei|drein|durcheinander|ehe|ein|einig|einwärts|eis|empor|end|fehl|feil|feinst|fort|frei|gegenüber|general|groß|grund|hand|hart|haus|heim|her|herauf|heraus|herbei|hernieder|herüber|herum|herunter|hier|hierher|hierhin|hin|hinauf|hinaus|hindurch|hinein|hinüber|hoch|höher|ineinander|kaputt|kennen|klar|klein|knapp|kopf|krank|krumm|kugel|kürzer|lahm|los|maß|mit|mittag|nach|nahe|näher|neben|nebeneinander|nieder|not|offen|out|preis|quer|ran|rauf|raus|rein|rüber|rück|rückwärts|ruhig|rum|runter|satt|schwarz|sicher|sitzen|statt|still|stoß|teil|tot|trocken|überein|übereinander|übrig|um|umher|verrückt|vor|voran|voraus|vorbei|vorlieb|vorüber|vorwärts|vorweg|wach|wahr|warm|weg|weh|weiter|wert|wichtig|wiederauf|wiederein|wiederher|wohl|zu|zueinander|zufrieden|zugute|zunichte|zurecht|zurück|zusammen|zuwider|zwangs|zwangsum|zwangsvor|zweck|zwischen)";
-  private static final String[] prefixesNonSeparableVerbs = new String[]{"be", "emp", "ent", "er", "hinter", "miss", "un", "ver", "zer"}; //Excludes "ge" (both too rare as verb prefix and prone to FP)
-  private static final String prefixesNonSeparableVerbsRegexp = "^(be|emp|ent|er|hinter|miss|un|ver|zer)";
 
   private static final List<String> tagsForWeise = new ArrayList<>();
   static {
@@ -144,7 +139,7 @@ public class GermanTagger extends BaseTagger {
     }
     return result;
   }
-  
+
   //Removes the irrelevant part of dash-linked words (SSL-Zertifikat -> Zertifikat)
   private String sanitizeWord(String word) {
     String result = word;
@@ -260,15 +255,15 @@ public class GermanTagger extends BaseTagger {
             boolean isSFT = false;  // SFT = schwaches Verb
             for (TaggedWord tag : tags) {
               if (tag.getPosTag() != null && (StringUtils.startsWithAny(tag.getPosTag(), "VER:", "PA1:", "PA2:")
-                && (!StringUtils.startsWithAny(tag.getPosTag(), "VER:MOD", "VER:AUX")))) { // e.g. "schicke" is verb and adjective
-                if (StringUtils.startsWithAny(verbInfo.prefix, prefixesSeparableVerbs)
+                && (!StringUtils.startsWithAny(tag.getPosTag(), "VER:MOD", "VER:AUX")))) {// e.g. "schicke" is verb and adjective
+                if (StringUtils.startsWithAny(verbInfo.prefix, "ab", "abend", "abhanden", "acht", "ähnlich", "allein", "an", "auf", "aufeinander", "aufrecht", "aufwärts", "aus", "auseinander", "auswärts", "bei", "beieinander", "beisammen", "beiseite", "besser", "blank", "brust", "da", "daheim", "dahin", "daneben", "danieder", "davon", "doppel", "drauflos", "drei", "drein", "durch", "durcheinander", "ehe", "ein", "einig", "einwärts", "eis", "empor", "end", "fehl", "feil", "feinst", "fort", "frei", "gegenüber", "general", "groß", "grund", "hand", "hart", "haus", "heim", "her", "herauf", "heraus", "herbei", "hernieder", "herüber", "herum", "herunter", "hier", "hierher", "hierhin", "hin", "hinauf", "hinaus", "hindurch", "hinein", "hinüber", "hoch", "höher", "ineinander", "kaputt", "kennen", "klar", "klein", "knapp", "kopf", "krank", "krumm", "kugel", "kürzer", "lahm", "los", "maß", "miss", "mit", "mittag", "nach", "nahe", "näher", "neben", "nebeneinander", "nieder", "not", "offen", "out", "preis", "quer", "ran", "rauf", "raus", "rein", "rüber", "rück", "rückwärts", "ruhig", "rum", "runter", "satt", "schwarz", "sicher", "sitzen", "statt", "still", "stoß", "teil", "tot", "trocken", "über", "überein", "übereinander", "übrig", "um", "umher", "unter", "verrückt", "voll", "vor", "voran", "voraus", "vorbei", "vorlieb", "vorüber", "vorwärts", "vorweg", "wach", "wahr", "warm", "weg", "weh", "weiter", "wert", "wichtig", "wieder", "wiederauf", "wiederein", "wiederher", "wohl", "zu", "zueinander", "zufrieden", "zugute", "zunichte", "zurecht", "zurück", "zusammen", "zuwider", "zwangs", "zwangsum", "zwangsvor", "zweck", "zwischen")
                   && (!StringUtils.containsAny(word, "beispiel", "zuhause"))) {
                   if (StringUtils.startsWithAny(tag.getPosTag(),"VER:1", "VER:2", "VER:3")) {
                     readings.add(new AnalyzedToken(word, tag.getPosTag() + ":NEB", verbInfo.prefix + tag.getLemma()));
                   } else if (!StringUtils.startsWithAny(tag.getPosTag(),"VER:IMP")) {
                     readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
                   }
-                } else if (StringUtils.startsWithAny(verbInfo.prefix, prefixesNonSeparableVerbs) //Excludes "ge" (both too rare as verb prefix and prone to FP)
+                } else if (StringUtils.startsWithAny(verbInfo.prefix, "be", "emp", "ent", "er", "hinter", "miss", "un", "ver", "zer")////excludes "ge" (both too rare as verb prefix and prone to FP)
                   && (!StringUtils.containsAny(word, "bereich", "unrat"))) {
                   readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
                 }
@@ -338,7 +333,7 @@ public class GermanTagger extends BaseTagger {
                 } else {
                   word = compoundedWord.get(compoundedWord.size() - 1);
                 }
-                
+
                 List<TaggedWord> linkedTaggerTokens = addStem(getWordTagger().tag(word), wordStem); //Try to analyze the last part found
 
                 //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
@@ -348,21 +343,16 @@ public class GermanTagger extends BaseTagger {
                 }
 
                 word = wordOrig;
-                
+
                 boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
                 if (linkedTaggerTokens.isEmpty()) {
-                  /*
-                   *Verbs with certain prefixes (e. g. "ab", "ein", "zwischen") are always separable. 
-                   *For better performance of rules, forms like 'einlädst' and 'lädst ein' should be tagged differently.
-                   *einlädst [VER:2:SIN:PRÄ:NON:NEB] ('NEB' indicates that this form can only appear in a subordinate clause)
-                   *lädst ein [VER:2:SIN:PRÄ:NON] + [ZUS]
-                   */
-                  if (StringUtils.startsWithAny(word, prefixesSeparableVerbs)
+                  //always separable
+                  if (StringUtils.startsWithAny(word, "ab", "abend", "abhanden", "acht", "ähnlich", "allein", "an", "auf", "aufeinander", "aufrecht", "aufwärts", "aus", "auseinander", "auswärts", "bei", "beieinander", "beisammen", "beiseite", "besser", "blank", "brust", "da", "daheim", "dahin", "daneben", "danieder", "davon", "doppel", "drauflos", "drei", "drein", "durch", "durcheinander", "ehe", "ein", "einig", "einwärts", "eis", "empor", "end", "fehl", "feil", "feinst", "fort", "frei", "gegenüber", "general", "groß", "grund", "hand", "hart", "haus", "heim", "her", "herauf", "heraus", "herbei", "hernieder", "herüber", "herum", "herunter", "hier", "hierher", "hierhin", "hin", "hinauf", "hinaus", "hindurch", "hinein", "hinüber", "hoch", "höher", "ineinander", "kaputt", "kennen", "klar", "klein", "knapp", "kopf", "krank", "krumm", "kugel", "kürzer", "lahm", "los", "maß", "miss", "mit", "mittag", "nach", "nahe", "näher", "neben", "nebeneinander", "nieder", "not", "offen", "out", "preis", "quer", "ran", "rauf", "raus", "rein", "rüber", "rück", "rückwärts", "ruhig", "rum", "runter", "satt", "schwarz", "sicher", "sitzen", "statt", "still", "stoß", "teil", "tot", "trocken", "über", "überein", "übereinander", "übrig", "um", "umher", "unter", "verrückt", "voll", "vor", "voran", "voraus", "vorbei", "vorlieb", "vorüber", "vorwärts", "vorweg", "wach", "wahr", "warm", "weg", "weh", "weiter", "wert", "wichtig", "wieder", "wiederauf", "wiederein", "wiederher", "wohl", "zu", "zueinander", "zufrieden", "zugute", "zunichte", "zurecht", "zurück", "zusammen", "zuwider", "zwangs", "zwangsum", "zwangsvor", "zweck", "zwischen")
                     && (!StringUtils.containsAny(word, "beispiel", "zuhause"))) {
-                    String lastPart = RegExUtils.removePattern(word, prefixesSeparableVerbsRegexp);
+                    String lastPart = RegExUtils.removePattern(word, "^(ab|abend|abhanden|acht|ähnlich|allein|an|auf|aufeinander|aufrecht|aufwärts|aus|auseinander|auswärts|bei|beieinander|beisammen|beiseite|besser|blank|brust|da|daheim|dahin|daneben|danieder|darnieder|davon|doppel|drauflos|drei|drein|durcheinander|ehe|ein|einig|einwärts|eis|empor|end|fehl|feil|feinst|fort|frei|gegenüber|general|groß|grund|hand|hart|haus|heim|her|herauf|heraus|herbei|hernieder|herüber|herum|herunter|hier|hierher|hierhin|hin|hinauf|hinaus|hindurch|hinein|hinüber|hoch|höher|ineinander|kaputt|kennen|klar|klein|knapp|kopf|krank|krumm|kugel|kürzer|lahm|los|maß|mit|mittag|nach|nahe|näher|neben|nebeneinander|nieder|not|offen|out|preis|quer|ran|rauf|raus|rein|rüber|rück|rückwärts|ruhig|rum|runter|satt|schwarz|sicher|sitzen|statt|still|stoß|teil|tot|trocken|überein|übereinander|übrig|um|umher|verrückt|vor|voran|voraus|vorbei|vorlieb|vorüber|vorwärts|vorweg|wach|wahr|warm|weg|weh|weiter|wert|wichtig|wiederauf|wiederein|wiederher|wohl|zu|zueinander|zufrieden|zugute|zunichte|zurecht|zurück|zusammen|zuwider|zwangs|zwangsum|zwangsvor|zweck|zwischen)");
                     if (lastPart.length() > 3) {
                       String firstPart = StringUtils.removeEnd(word, lastPart);
-                      //Erweiterter Infinitiv mit zu
+                      //erweiterter Infinitiv mit zu
                       if (StringUtils.startsWithAny(lastPart, "zu")) {
                         String infinitiv = StringUtils.removeStart(lastPart, "zu");
                         List<TaggedWord> infs = getWordTagger().tag(infinitiv);
@@ -373,10 +363,10 @@ public class GermanTagger extends BaseTagger {
                           }
                         }
                       }
-                      //Separable verbs also have forms that are not restricted to subordinate clauses (e. g. infinitive)
+                      //
                       List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
                       for (TaggedWord taggedWord : taggedWords) {
-                        if (taggedWord.getPosTag().startsWith("VER") && !taggedWord.getPosTag().startsWith("VER:IMP")  //Separable verbs do not have imperative form.
+                        if (taggedWord.getPosTag().startsWith("VER") && !taggedWord.getPosTag().startsWith("VER:IMP")//separable verbs do not have imperative form
                           && !taggedWord.getPosTag().startsWith("VER:INF")
                           && !taggedWord.getPosTag().startsWith("VER:PA")) {
                           readings.add(new AnalyzedToken(word, taggedWord.getPosTag()+":NEB", firstPart+taggedWord.getLemma()));
@@ -386,9 +376,9 @@ public class GermanTagger extends BaseTagger {
                         }
                       }
                     }
-                    //Verbs with certain prefixes (e. g. "be", "un", "ver") are never separable. 
-                  } else if (StringUtils.startsWithAny(word, prefixesNonSeparableVerbs)) { //Excludes "ge" (both too rare as verb prefix and prone to FP).
-                    String lastPart = RegExUtils.removePattern(word, prefixesNonSeparableVerbsRegexp);
+                    //never separable
+                  } else if (StringUtils.startsWithAny(word, "be", "emp", "ent", "er", "hinter", "miss", "un", "ver", "zer")) {//excludes "ge" (both too rare as verb prefix and prone to FP)
+                    String lastPart = RegExUtils.removePattern(word, "^(be|emp|ent|er|hinter|miss|un|ver|zer)");
                     if (lastPart.length() > 3
                       && (!StringUtils.containsAny(word, "bereich", "unrat"))) {
                       String firstPart = StringUtils.removeEnd(word, lastPart);
@@ -487,7 +477,7 @@ public class GermanTagger extends BaseTagger {
       }
     }
     if (!(pos == 0 && sentenceTokens.size() > 1)
-        && !StringUtils.equalsAnyIgnoreCase(previousWord, "ich", "er", "es", "sie", "bitte", "aber", "nun", "jetzt", "„")) {
+      && !StringUtils.equalsAnyIgnoreCase(previousWord, "ich", "er", "es", "sie", "bitte", "aber", "nun", "jetzt", "„")) {
       return Collections.emptyList();
     }
     String w = pos == 0 || "„".equals(previousWord) ? word.toLowerCase() : word;

@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -46,7 +46,7 @@ public class GermanTaggerTest {
     }
     assertTrue(lemmas.contains("Zahnarztverband"));
   }
-  
+
   @Test
   public void testGenderGap() throws IOException {
     // https://github.com/languagetool-org/languagetool/issues/2417
@@ -59,7 +59,7 @@ public class GermanTaggerTest {
     assertTrue(tagger.tag(Arrays.asList("jede", "*", "r", "Mitarbeiter", "*", "in")).get(3).hasPartialPosTag("SUB:NOM:SIN:FEM"));
     assertTrue(tagger.tag(Arrays.asList("jede", "*", "r", "Mitarbeiter", "*", "in")).get(3).hasPartialPosTag("SUB:NOM:SIN:MAS"));
   }
-  
+
   @Test
   public void testIgnoreDomain() throws IOException {
     List<AnalyzedTokenReadings> aToken = tagger.tag(Arrays.asList("bundestag", ".", "de"));
@@ -91,8 +91,8 @@ public class GermanTaggerTest {
 
     AnalyzedTokenReadings aToken3 = tagger.lookup("großer");
     assertEquals("großer[groß/ADJ:DAT:SIN:FEM:GRU:SOL, groß/ADJ:GEN:PLU:FEM:GRU:SOL, groß/ADJ:GEN:PLU:MAS:GRU:SOL, " +
-            "groß/ADJ:GEN:PLU:NEU:GRU:SOL, groß/ADJ:GEN:SIN:FEM:GRU:SOL, groß/ADJ:NOM:SIN:MAS:GRU:IND, " +
-            "groß/ADJ:NOM:SIN:MAS:GRU:SOL]", toSortedString(tagger.lookup("großer")));
+      "groß/ADJ:GEN:PLU:NEU:GRU:SOL, groß/ADJ:GEN:SIN:FEM:GRU:SOL, groß/ADJ:NOM:SIN:MAS:GRU:IND, " +
+      "groß/ADJ:NOM:SIN:MAS:GRU:SOL]", toSortedString(tagger.lookup("großer")));
     assertEquals("groß", aToken3.getReadings().get(0).getLemma());
 
     // checks for github issue #635: Some German verbs on the beginning of a sentences are identified only as substantive
@@ -103,8 +103,8 @@ public class GermanTaggerTest {
     // from both german.dict and added.txt:
     AnalyzedTokenReadings aToken4 = tagger.lookup("Interessen");
     assertEquals("Interessen[Interesse/SUB:AKK:PLU:NEU, Interesse/SUB:DAT:PLU:NEU, " +
-                    "Interesse/SUB:GEN:PLU:NEU, Interesse/SUB:NOM:PLU:NEU]",
-            toSortedString(aToken4));
+        "Interesse/SUB:GEN:PLU:NEU, Interesse/SUB:NOM:PLU:NEU]",
+      toSortedString(aToken4));
     assertEquals("Interesse", aToken4.getReadings().get(0).getLemma());
     assertEquals("Interesse", aToken4.getReadings().get(1).getLemma());
     assertEquals("Interesse", aToken4.getReadings().get(2).getLemma());
@@ -113,13 +113,13 @@ public class GermanTaggerTest {
     // words that are not in the dictionary but that are recognized thanks to noun splitting:
     AnalyzedTokenReadings aToken5 = tagger.lookup("Donaudampfschiff");
     assertEquals("Donaudampfschiff[Donaudampfschiff/SUB:AKK:SIN:NEU, Donaudampfschiff/SUB:DAT:SIN:NEU, " +
-            "Donaudampfschiff/SUB:NOM:SIN:NEU]", toSortedString(aToken5));
+      "Donaudampfschiff/SUB:NOM:SIN:NEU]", toSortedString(aToken5));
     assertEquals("Donaudampfschiff", aToken5.getReadings().get(0).getLemma());
     assertEquals("Donaudampfschiff", aToken5.getReadings().get(1).getLemma());
 
     AnalyzedTokenReadings aToken6 = tagger.lookup("Häuserkämpfe");
     assertEquals("Häuserkämpfe[Häuserkampf/SUB:AKK:PLU:MAS, Häuserkampf/SUB:GEN:PLU:MAS, Häuserkampf/SUB:NOM:PLU:MAS]",
-            toSortedString(aToken6));
+      toSortedString(aToken6));
     assertEquals("Häuserkampf", aToken6.getReadings().get(0).getLemma());
     assertEquals("Häuserkampf", aToken6.getReadings().get(1).getLemma());
     assertEquals("Häuserkampf", aToken6.getReadings().get(2).getLemma());
@@ -134,12 +134,12 @@ public class GermanTaggerTest {
 
     AnalyzedTokenReadings aToken9 = tagger.lookup("Lieblingsfarben");
     assertEquals("Lieblingsfarben[Lieblingsfarbe/SUB:AKK:PLU:FEM, Lieblingsfarbe/SUB:DAT:PLU:FEM, " +
-            "Lieblingsfarbe/SUB:GEN:PLU:FEM, Lieblingsfarbe/SUB:NOM:PLU:FEM]", toSortedString(aToken9));
+      "Lieblingsfarbe/SUB:GEN:PLU:FEM, Lieblingsfarbe/SUB:NOM:PLU:FEM]", toSortedString(aToken9));
     assertEquals("Lieblingsfarbe", aToken9.getReadings().get(0).getLemma());
 
     AnalyzedTokenReadings aToken10 = tagger.lookup("Autolieblingsfarben");
     assertEquals("Autolieblingsfarben[Autolieblingsfarbe/SUB:AKK:PLU:FEM, Autolieblingsfarbe/SUB:DAT:PLU:FEM, " +
-            "Autolieblingsfarbe/SUB:GEN:PLU:FEM, Autolieblingsfarbe/SUB:NOM:PLU:FEM]", toSortedString(aToken10));
+      "Autolieblingsfarbe/SUB:GEN:PLU:FEM, Autolieblingsfarbe/SUB:NOM:PLU:FEM]", toSortedString(aToken10));
     assertEquals("Autolieblingsfarbe", aToken10.getReadings().get(0).getLemma());
 
     AnalyzedTokenReadings aToken11 = tagger.lookup("übrigbleibst");
@@ -166,7 +166,7 @@ public class GermanTaggerTest {
     assertTrue(aToken16.getReadings().get(0).getPOSTag().equals("PA2:PRD:GRU:VER"));
 
     AnalyzedTokenReadings aToken17 = tagger.lookup("under");
-        assertTrue(aToken17 == null);
+    assertTrue(aToken17 == null);
 
     // tag old forms
     AnalyzedTokenReadings aToken18 = tagger.lookup("Zuge");
@@ -229,18 +229,18 @@ public class GermanTaggerTest {
     // words not originally in Morphy but added in LT 1.8 (moved from added.txt to german.dict)
     List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList("Wichtigtuerinnen"));
     assertEquals("[Wichtigtuerinnen[Wichtigtuerin/SUB:AKK:PLU:FEM*," +
-            "Wichtigtuerin/SUB:DAT:PLU:FEM*,Wichtigtuerin/SUB:GEN:PLU:FEM*,Wichtigtuerin/SUB:NOM:PLU:FEM*]]", readings.toString());
+      "Wichtigtuerin/SUB:DAT:PLU:FEM*,Wichtigtuerin/SUB:GEN:PLU:FEM*,Wichtigtuerin/SUB:NOM:PLU:FEM*]]", readings.toString());
   }
 
   @Test
   public void testDictionary() throws IOException {
     Dictionary dictionary = Dictionary.read(
-            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/german.dict"));
+      JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/german.dict"));
     DictionaryLookup dl = new DictionaryLookup(dictionary);
     for (WordData wd : dl) {
       if (wd.getTag() == null || wd.getTag().length() == 0) {
         System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem()
-                + " lacks a POS tag in the dictionary.");
+          + " lacks a POS tag in the dictionary.");
       }
     }
   }
