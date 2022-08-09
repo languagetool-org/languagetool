@@ -16531,7 +16531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
       <antipattern>
         <token>Wall</token>
-        <token spacebefore='no'>-</token>
+        <token regexp='yes' spacebefore='no'>-|·</token>
         <token spacebefore='no'>E</token>
       </antipattern>
       <antipattern>
@@ -46149,7 +46149,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Vai saber o que ele fez!</example>
           <example>Vai ver, ele está voltando!</example>
           <example>Você vai ver o que é bom pra tosse!</example>
-        </antipattern>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>ir</token>
+          <token>acreditar</token>
+          <example>Você não vai acreditar no que ele disse.</example>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token inflected='yes'>ir</token>
+          <token postag='VMN0000' skip='-1'/>
+          <token>?</token>
+          <example>Vamos caminhar?</example>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token inflected='yes'>ir</token>
+          <token postag='VMN0000' skip='-1'/>
+          <token>?</token>
+          <example>Vamos caminhar?</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>ir</token>
+          <token>tomar</token>
+          <token>banho</token>
+          <example>Vá tomar banho!</example>
+      </antipattern>
+      <antipattern>
+          <token postag='RG|SENT_START|_PUNCT|VMM.+' postag_regexp='yes'/>
+          <token>vamos</token>
+          <token postag='VMN0000'/>
+          <example>Então vamos voltar para a sala.</example>
+          <example>Agora vamos voltar para a sala.</example>
+          <example>Vamos parar de fazer gracinha.</example>
+          <example>Por Deus, vamos tentar nos concentrar.</example>
+      </antipattern>
+      <antipattern>
+          <token>se</token>
+          <token inflected='yes'>ir</token>
+          <token postag='VMN0000'/>
+          <example>Mas se vou estudar lá, não quero me precipitar.</example>
+      </antipattern>
+      <antipattern>
+          <token>por</token>
+          <token>favor</token>
+          <token min='0'>,</token>
+          <token regexp='yes'>vai|vá</token>
+          <token postag='VMN0000'/>
+          <example>Por favor, vá para o quarto.</example>
+      </antipattern>
         <pattern>
           <and>
           <token inflected="yes">ir<exception postag='VMIC.+' postag_regexp='yes'/></token>
@@ -46168,6 +46216,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       Na nossa tese procurámos provar a métrica. → Na nossa tese provámos a métrica.
       Na nossa tese procurei provar a métrica. → Na nossa tese provei a métrica.
       -->
+      <rule>
+        <pattern>
+          <token postag='RG|SENT_START|_PUNCT|VMM.+' postag_regexp='yes'/>
+         <marker>
+          <and>
+          <token inflected="yes">ir</token>
+          <token postag='VMM01P0'/>
+          </and>
+          <token postag='VMN0000'/>
+         </marker>
+        </pattern>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion><match no='4' postag='VMM01P0'/></suggestion>
+        <suggestion><match no='4' postag='VMIF1P0'/></suggestion>
+        <suggestion><match no='4' postag='VMIP1P0'/></suggestion>
+        <example correction="provemos|provaremos|provamos">Agora <marker>vamos provar</marker> a métrica.</example>
+        <example correction="Provemos|Provaremos|Provamos"><marker>Vamos provar</marker> a métrica.</example>
+        <example correction="provemos|provaremos|provamos">Então, <marker>vamos provar</marker> a métrica.</example>
+      </rule>
       <rule>
 
         <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *START* -->
@@ -46216,7 +46283,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
         <pattern>
           <and>
-          <token regexp='yes' inflected="yes">buscar|procurar|tentar<exception>tentei</exception></token>
+          <token regexp='yes' inflected="yes">buscar|procurar</token>
           <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
             <exception postag='VMIF1S0'/>
           </token>
@@ -46232,7 +46299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
         <example correction="provou|visou provar|teve em vista provar">A nossa tese <marker>procurou provar</marker> a métrica.</example>
         <example correction="provei|visei provar|tive em vista provar">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
-        <example correction="resolveu|visou resolver|teve em vista resolver">como o <marker>tentou resolver</marker></example>
+        <example correction="resolveu|visou resolver|teve em vista resolver">como o <marker>procurou resolver</marker></example>
         <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
         <example>A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.</example>
         <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>
