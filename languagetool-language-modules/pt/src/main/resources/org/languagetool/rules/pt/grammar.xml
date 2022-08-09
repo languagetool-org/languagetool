@@ -45514,11 +45514,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Desta vez ele fê-lo mesmo.</example>
       </antipattern>
       <antipattern>
+        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+        <token>feito</token>
+        <token postag='DI.+' postag_regexp='yes' min='0'/>
+        <token postag='NC.+' postag_regexp='yes'/>
+        <example>Ficou parado feito uma estátua.</example>
+      </antipattern>
+      <antipattern>
+        <token>como</token>
         <token inflected='yes'>fazer</token>
-        <token postag='DA+' postag_regexp='yes' min='0'/>
+        <token>para</token>
+        <example>Não sei mais como faço para acreditarem em mim.</example>
+        <example>Como faço para acreditarem em mim?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='DI.+' postag_regexp='yes' min='0'/>
+        <token regexp='yes'>&expressoes_de_tempo;</token>
+        <example>Já aconteceu faz algumas semanas.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>mão|mãos|pé|pés</token>
+        <token regexp='yes'>feitas?</token>
+        <example>Estava com as mãos feitas.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>perguntas?|vítimas?|estágios?|carinhos?|faculdades?|comentários?|exercícios?|pedidos?|sopas?|chás?|receitas?|almoços?|melhor|panquecas?|jantare?s?|lanches?|escolhas?|café|ceia|bolos?|farinha|pão|pães|contas?|promessas?|alusão|alusões|denúncias?|viagem|viagens|esportes?|especialização|companhia|referências?|resumos?|downloads?|inscrição|inscrições|cursos?|apdaptação|adaptações|sorte|[i][n]justiça|descanso|visitas?|especializações|lembretes?|reflexão|reflexões|caras?|dietas?|sucesso|dinheiro|sinal|jus|sinais|merdas?|cafuné|diferença|ginásticas?|caridades?|mal|menção|menções|bem|turismo|pose|silêncio|efeito|questão|fogueiras?|ciúmes?</token>
+        <token skip='-1'>que</token>
+        <token inflected='yes'>fazer</token>
+        <example>Não confie nas promessas que ele fez a você.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='DA.+' postag_regexp='yes' min='0'/>
         <token postag='D.+|RG' postag_regexp='yes' min='0'/>
-        <token postag='N.+|AQ' postag_regexp='yes' min='0'/>
-        <token regexp='yes'>exercícios?|especialização|companhia|referências?|resumos?|downloads?|inscrição|inscrições|cursos?|apdaptação|adaptações|sorte|[i][n]justiça|descanso|visitas?|especializações|lembretes?|reflexão|reflexões|caras?|dietas?|sucesso|dinheiro|sinal|jus|sinais|merdas?|cafuné|diferença|ginásticas?|caridades?|mal|menção|menções|bem|turismo|pose|silêncio|efeito|questão|fogueiras?|ciúmes?</token>
+        <token postag='N.+|AQ.+' postag_regexp='yes' min='0'/>
+        <token regexp='yes'>exercícios?|promessas?|barulhos?|comentários?|mão|mãos|pé|pés|questões|necessário|história|perguntas?|vítimas?|faculdade|pedidos?|alusão|alusões|denúncias?|viagem|viagens|esportes?|especialização|companhia|referências?|resumos?|downloads?|inscrição|inscrições|cursos?|apdaptação|adaptações|sorte|[i][n]justiça|descanso|visitas?|especializações|lembretes?|reflexão|reflexões|caras?|dietas?|sucesso|carinho|estágio|dinheiro|sinal|jus|sinais|merdas?|cafuné|diferença|ginásticas?|caridades?|mal|menção|menções|bem|turismo|pose|silêncio|efeito|questão|fogueiras?|ciúmes?</token>
         <example>Tenho dificuldade em fazer exercícios.</example>
         <example>O filme faz sucesso entre os jovens.</example>
         <example>Espere o medicamento fazer efeito.</example>
@@ -45526,6 +45557,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Tentei fazer uma fogueira.</example>
         <example>Tentei fazer alguma questão.</example>
         <example>Eles fizeram algumas fogueiras.</example>
+        <example>Isso pode realmente fazer a maior diferença!</example>
+        <example>Fui à manicure fazer as mãos.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='DA.+' postag_regexp='yes' min='0'/>
+        <token postag='D.+|RG' postag_regexp='yes' min='0'/>
+        <token postag='N.+|AQ.+' postag_regexp='yes'/>
+        <token postag='VMN.+|AQ.+' postag_regexp='yes'/>
+        <example>O choque fez minha raiva ir embora.</example>
+        <example>Só queria fazer meu pai feliz.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes' min='0'>&pronomes_retos;</token>
+        <token regexp='yes' min='0'>&pronomes_obliquos;</token>
+        <token postag='VMN.+' postag_regexp='yes'/>
+        <example>Ele gritou, fazendo eu me lembrar do passado.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
@@ -45624,10 +45673,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <antipattern>
         <token inflected='yes'>fazer</token>
         <token spacebefore='no' min='0'>-</token>
+        <token postag='RG' min='0'/>
         <token postag='PP+' postag_regexp='yes'/>
         <token postag='VMN+' postag_regexp='yes'/>
         <example>Farei você pagar por isso.</example>
         <example>Farei-lhe pagar por isso.</example>
+        <example>Anotei tudo, fazendo assim você tomar cuidado.</example>
         <!--<example>Farei você se arrepender por isso.</example>-->
       </antipattern>
       <antipattern>
@@ -45656,11 +45707,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Você já tinha feito isso antes?</example>
       </antipattern>
       <antipattern>
-        <token inflected='yes' min='0' skip='-1'>saber</token>
+        <token postag='V.+' postag_regexp='yes' skip='-1'/>
         <token>o</token>
         <token>que</token>
+        <token postag='DA.+' postag_regexp='yes' min='0'/>
+        <token postag='D.+|RG' postag_regexp='yes' min='0'/>
+        <token regexp='yes' min='0'>&vocativos;|&pronomes_retos;</token>
+        <token postag='V.+' postag_regexp='yes' min='0'/>
         <token inflected='yes'>fazer</token>
         <example>Não sei mais o que fazer.</example>
+        <example>Eles querem descobrir o que eles podem fazer para melhorar.</example>
+        <example>Queria só entender o que a minha irmã pode fazer para mudar.</example>
+        <example>Ele não decide o que quer fazer com ele.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
@@ -45671,7 +45729,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <antipattern>
         <token inflected='yes'>fazer</token>
         <token skip='-1'></token>
-        <token regexp='yes'>sopas?|chás?|receitas?|almoço?|jantar|melhor|panquecas?|jantares|lanche|escolhas?|café|ceia|bolos?|farinha|pão|pães|ideia|sentido|conta?|errad[oa]|promessas?</token>
+        <token regexp='yes'>sopas?|chás?|receitas?|vítimas?|almoços?|jantar|melhor|panquecas?|jantares|lanches?|escolhas?|café|ceias?|bolos?|farinha|pão|pães|ideia|sentido|contas?|errad[oa]|promessas?</token>
         <example>Gostaria de fazer um almoço na terça.</example>
         <example>Farei para ti o café da manhã.</example>
         <example>Eles não fazem nenhuma ideia do que dizem.</example>
