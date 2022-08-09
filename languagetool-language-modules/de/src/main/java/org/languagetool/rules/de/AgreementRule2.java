@@ -216,8 +216,7 @@ public class AgreementRule2 extends Rule {
   private List<String> getSuggestions(AnalyzedTokenReadings[] tokens, int i) {
     List<String> suggestions = new ArrayList<>();
     AnalyzedToken adjToken = tokens[i].getAnalyzedToken(0);
-    for (int j = 0; j < tokens[i+1].getReadingsLength(); j++) {
-      AnalyzedToken nounToken = tokens[i+1].getAnalyzedToken(j);
+    for (AnalyzedToken nounToken : tokens[i+1].getReadings()) {
       if (nounToken.getPOSTag() == null) {
         continue;
       }
