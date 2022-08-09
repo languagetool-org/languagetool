@@ -42,7 +42,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     Arrays.asList(
       tokenRegex("der|die|den"),   // "Ein Haus für die weniger Glücklichen."
-      token("weniger"),
+      tokenRegex("weniger|besser|mehr|schlechter"),
       posRegex("SUB:.*PLU:.*:ADJ")
     ),
     Arrays.asList(
