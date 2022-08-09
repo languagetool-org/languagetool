@@ -378,7 +378,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token regexp="yes" case_sensitive="yes">[a-z].*</token>
                         <token postag="Z.*" postag_regexp="yes"/>
                     </marker>
-                    <token>,</token>
+                    <token regexp="yes">,|(?-i)[A-Z].*</token>
                 </pattern>
                 <example correction="">Pour pour la dernière fois, je te dis que je m'y <marker>mets Hugo</marker>, mais avant de te mettre à sourire et de regarder Michael laisse-moi t'expliquer mon cas.</example>
             </rule>
@@ -391,6 +391,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Pour pour la dernière fois, je te dis que je m'y mets, <marker>exemple un</marker> jour tu comprendras, mais avant de te mettre à sourire et de regarder Michael laisse-moi t'expliquer mon cas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[a-z].*</token>
+                        <token regexp="yes">euh|heu|bof|ben</token>
+                    </marker>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y mets par des <marker>tiers euh</marker> dans ce cas-ci, tu comprendras, mais avant de te mettre à sourire et de regarder Michael laisse-moi t'expliquer mon cas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>quel</token>
+                    <marker>
+                        <token>point</token>
+                        <token regexp="yes">[a-z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y mets par des tiers et à quel <marker>point tu</marker> comprendras, mais avant de te mettre à sourire et de regarder Michael laisse-moi t'expliquer mon cas.</example>
             </rule>
             <rule>
                 <pattern>
