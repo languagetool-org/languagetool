@@ -2483,6 +2483,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Müßt": return topMatch("Müsst");
       case "heisst": return topMatch("heißt");
       case "heissen": return topMatch("heißen");
+      case "beisst": return topMatch("beißt");
+      case "beissen": return topMatch("beißen");
       case "mußten": return topMatch("mussten");
       case "mußte": return topMatch("musste");
       case "mußtest": return topMatch("musstest");
