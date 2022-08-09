@@ -53,7 +53,7 @@ import static org.languagetool.tools.StringTools.uppercaseFirstChar;
  */
 public class AgreementRule2 extends Rule {
 
-  private static final String ADJ_GRU = "Weitgehend|Frei|Prinzipiell|Regelrecht|Kostenlos|Gleichzeitig|Ganzjährig|Überraschend|Entsprechend|Ordentlich|Gelangweilt";
+  private static final String ADJ_GRU = "Stilvoll|Link|Direkt|Gegenseitig|Offensichtlich|Weitgehend|Frei|Prinzipiell|Regelrecht|Kostenlos|Gleichzeitig|Ganzjährig|Überraschend|Entsprechend|Ordentlich|Gelangweilt";
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(csRegex("Diverse|Flächendeckend|Entsprechende|Angeblich|Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|" +
       "Spät|Länger|Vorrangig|Rechtzeitig|Typisch|Allwöchentlich|Wöchentlich|Inhaltlich|Tagtäglich|Täglich|Komplett|" +
@@ -72,7 +72,8 @@ public class AgreementRule2 extends Rule {
     asList(token("Personal"), token("Shopper")),
     asList(token("Schwäbisch"), token("Hall")),
     asList(token("Herzlich"), token("Willkommen")),
-    asList(token("Gut"), token("Ding")),  // "Gut Ding will Weile haben"
+    asList(token("Gut"), tokenRegex("Ding|Holz")),  // "Gut Ding will Weile haben"
+    asList(token("Urban"), token("Mining")),
     asList(token("Responsive"), token("Design")),
     asList(token("Deutsche"), csRegex("Grammophon|Wohnen")),
     asList(posRegex("ADJ.*"), tokenRegex(".+beamte")),  // "Alarmierte Polizeibeamte"
