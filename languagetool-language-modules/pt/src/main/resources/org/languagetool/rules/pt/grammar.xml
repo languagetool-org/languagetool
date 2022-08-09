@@ -60,6 +60,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY precede_nome_proprio_F "agência|associação|avenida|balneário|canção|coleção|colecção|coligação|cometa|condecoração|copa|designada|designadas|distribuição|dupla|editora|escola|estação|família|fragata|fundação|galeria|geração|herdade|ilha|iniciativa|lagoa|marca|novela|obra|orquestra|praça|quinta|revista|rua|saga|série|serra|sonda|taça|tempestade|universidade">
     <!ENTITY precede_nome_proprio_M "bairro|café|concurso|curso|designação|designado|designados|estilo|festival|filme|fundo|furacão|galardão|género|gênero|grupo|hospital|império|instituto|intitulado|jornal|lago|liceu|livro|monte|museu|nau|navio|partido|prémio|programa|projeto|registo|registro|reino|relatório|rio|teatro|tema|tipo">
     <!ENTITY divisas "bolívares|cêntimos|coroas|dinares|dólares|euros|florins|francos|ienes|iuanes|kwanzas|libras|meticais|patacas|pesos|rublos|zlótis|[€£¥$₽]">
+    <!ENTITY vocativos "pai|papai|mãe|mamãe|irmão?s?|ti[oa]s?|titi[oa]s?|a?v[ôó]s?|vov[ôó]s?|prim[oa]s?|noiv[oa]s?|marido?|espos[ao]s?|namorad[oa]s?|net[oa]s?|netinh[oa]s?|cunhad[oa]s?|sogr[ao]s?|genros?|noras?|entead[oa]s?|padres?|pastora?e?s?|presidentes?|amig[ao]s?|filh[oa]s?|pessoal|povo|gente|família|man[oa]s?|maninh[ao]s?">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(\)«“]|\-|\[)">
     <!ENTITY separadores_de_abertura "(?:\(|\{|\[)">
@@ -44831,7 +44832,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- VER observar/constatar -->
-    <rule id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky">
+    <rulegroup id='VER_OBSERVAR_CONSTATAR' name="Ver → Observar/Constatar" type="style" tags="picky">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-22 + 2022-02-06 (Checked/Enhanced) (1-JAN-2022+)      -->
       <!--
       É fácil como podem ver na figura. → É fácil como podem constatar na figura.
@@ -44855,6 +44856,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       Dá para ver a diferença?
       Acabei de ver o seu amigo.
       -->
+    <rule>
       <antipattern>
         <token postag='V.+|CC' postag_regexp='yes'/>
         <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
@@ -44999,6 +45001,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
       <antipattern>
         <token inflected='yes'>ver</token>
+        <token postag='D.+|SPS00:DA.+' postag_regexp='yes' min='0' max='2'/>
+        <token regexp='yes'>&vocativos;|rostos?|anúncios?|notícias?</token>
+        <example>Fui ver meus amigos.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ver</token>
+        <token postag='SPS00:DA0FS0'/>
+        <token>internet</token>
+        <example>Não se pode acreditar em tudo que vemos pela internet.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ver</token>
         <token>à</token>
       </antipattern>
       <antipattern>
@@ -45017,7 +45031,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Retirei a 2ª via do cartão.</example>
       </antipattern>
       <antipattern>
-        <token regexp='yes'>\d+|uma|duas</token>
+        <token regexp='yes'>\d+|uma|duas|principal|principais</token>
         <token regexp='yes'>via|vias</token>
         <example>Retirei 01 via do cartão.</example>
       </antipattern>
@@ -45117,7 +45131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <pattern>
         <marker>
           <token inflected='yes'>ver
-            <exception regexp='yes' inflected='yes'>vestir|ir|virar</exception>
+            <exception regexp='yes' inflected='yes'>vestir|ir|virar|vender</exception>
             <exception>verde</exception>
           </token>
         </marker>
@@ -45190,6 +45204,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 	  
       <example>Vou ver a diferença.</example>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected='yes'>ver
+            <exception regexp='yes' inflected='yes'>vestir|ir|virar|vender</exception>
+            <exception>verde</exception>
+          </token>
+        </marker>
+        <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
+        <token regexp='yes'>notícias?|jornal|anúncios?|folhetos?|cartaze?s?|panfletos?|placas?|jornais|revistas?|livros?|internet</token>
+      </pattern>
+      <message>Num contexto formal, é preferível usar o verbo "ler" ou "assistir".</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ler</match></suggestion>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assistir</match></suggestion>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>descobrir</match></suggestion>
+      <example correction="Lemos|Assistimos|Descobrimos"><marker>Vimos</marker> no jornal o que aconteceu.</example>
+    </rule>
+    </rulegroup>
 
 
     <!-- ATRAVÉS DE por -->
