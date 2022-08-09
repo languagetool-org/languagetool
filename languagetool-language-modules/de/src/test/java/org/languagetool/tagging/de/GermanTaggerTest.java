@@ -166,8 +166,8 @@ public class GermanTaggerTest {
     assertTrue(aToken16.getReadings().get(0).getPOSTag().equals("PA2:PRD:GRU:VER"));
 
     AnalyzedTokenReadings aToken17 = tagger.lookup("under");
-    assertTrue(aToken17 == null);
-    
+        assertTrue(aToken17 == null);
+
     // tag old forms
     AnalyzedTokenReadings aToken18 = tagger.lookup("Zuge");
     assertEquals("Zuge[Zug/SUB:DAT:SIN:MAS]", toSortedString(aToken18));
