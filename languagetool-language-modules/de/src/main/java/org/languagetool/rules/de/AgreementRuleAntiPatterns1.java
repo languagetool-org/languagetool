@@ -41,6 +41,10 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag")
     ),
     Arrays.asList(
+      token("beides"),   // "Beides Grund genug, es mal zu probieren."
+      token("Grund")
+    ),
+    Arrays.asList(
       tokenRegex("der|die|den"),   // "Ein Haus für die weniger Glücklichen."
       tokenRegex("weniger|besser|mehr|schlechter"),
       posRegex("SUB:.*PLU:.*:ADJ")
