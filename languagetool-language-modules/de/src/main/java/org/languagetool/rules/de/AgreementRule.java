@@ -538,8 +538,9 @@ public class AgreementRule extends Rule {
   @Nullable
   private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedTokenReadings token3,
                                      AnalyzedTokenReadings token4, int tokenPos, AnalyzedSentence sentence, String skippedStr) {
-    if (tokenPos != -1 && tokenPos + 4 < sentence.getTokensWithoutWhitespace().length) {
-      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 4 + (skippedStr != null ? 1 : 0)];
+    int idx = tokenPos + 4 + (skippedStr != null ? 1 : 0);
+    if (tokenPos != -1 && idx < sentence.getTokensWithoutWhitespace().length) {
+      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[idx];
       String potentialCompound = token4.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
       if (startsWithUppercase(token4.getToken()) && startsWithUppercase(nextToken.getToken())) {
         if (token4.getStartPos() == nextToken.getStartPos()) {
