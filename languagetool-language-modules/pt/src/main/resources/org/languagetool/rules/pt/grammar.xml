@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes">
 	<!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
-	<!ENTITY titulos_militares "Almirante|Marechal|General|Tenente|Vice-Almirante|Major|Brigadeiro|Contra-Almirante|Capitão|Tenente-Coronel|Coronel|Primeiro-Tenente|Segundo-Tenente|Terceiro-Tenente|Guarda-Marinha|Aspirante|Suboficial|Subtenente|Primeiro-Sargento|Segundo-Sargento|Terceiro-Sargento|Sargento|Cabo|Marinheiro|Soldado">
+	<!ENTITY titulos_militares "Almirante|Comandante|Marechal|General|Tenente|Vice-Almirante|Major|Brigadeiro|Contra-Almirante|Capitão|Tenente-Coronel|Coronel|Primeiro-Tenente|Segundo-Tenente|Terceiro-Tenente|Guarda-Marinha|Aspirante|Suboficial|Subtenente|Primeiro-Sargento|Segundo-Sargento|Terceiro-Sargento|Sargento|Cabo|Marinheiro|Soldado">
     <!ENTITY pontos_cardeais "(?:este|nascente|nordeste|noroeste|norte|ocidente|oeste|oriente|poente|sudeste|sul)">
     <!ENTITY adverbios_de_intensidade "(?:assaz|bastante|bem|demais|demasiado|imenso|mais|menos|mesmo|muita|muito|nada|não|pouca|pouco|quanto|quão|quase|tanto|tão|todo|tudo|várias|vários|.+mente)">
     <!ENTITY adverbios_de_lugar "(?:abaixo|acima|adentro|adiante|afora|aí|além|algures|alhures|ali|aquém|atrás|cá|dentro|embaixo|externamente|lá|longe|nenhures|perto)">
@@ -12649,6 +12649,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Aula 2: Equações matemáticas.</example>
         <example>Aula 2 (Álgebra): Equações matemáticas.</example>
         <example>Primary keyword: Jogos</example>
+      </antipattern>
+      <antipattern>
+        <token>,</token>
+        <token regexp='yes'>&titulos_militares;|&pronomes_de_tratamento;|&nomes_de_instituicoes;
+          <exception regexp='yes'>tradutor[ea]s?</exception>
+        </token>
+        <example>Bom dia, Comandante.</example>
+        <example>Membro do conselho principal, Universidade de São Paulo.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SENT_START'/>
+        <token regexp="yes" max='5'>\p{L}*</token>
+        <token>:</token>
+        <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+        <example>Basta acessar: Mercado Pago > Atividades.</example>
       </antipattern>
       <antipattern>
         <token regexp='yes'>[\,\;\:]</token>
