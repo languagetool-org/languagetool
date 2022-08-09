@@ -7052,14 +7052,80 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='V.+' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *END* -->
-
+      <antipattern>
+        <token postag='VMN.+|VMG.+' postag_regexp='yes'/>
+        <token postag='RM' min='0'/>
+        <token postag='D.+' postag_regexp='yes' min='0'/>
+        <token postag='NC.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Ao organizar sequencialmente as matrizes obteremos o resultado.</example>
+        <example>Organizando sequencialmente as matrizes obteremos o resultado.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SPS00|SPS00:DA.+|SPS00:PP.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes' min='0'/>
+        <token postag='DA.+' postag_regexp='yes' min='0'/>
+        <token postag='NC.+' postag_regexp='yes'/>
+        <token postag='R.+|AQ.+' postag_regexp='yes' min='0' max='3'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Em todos os lugares deu a liberdade de errar.</example>
+        <example>Qual dos seus professores não conseguiu fazer você aprender?</example>
+      </antipattern>
+      <antipattern>
+        <token postag='D[ID].+|SPS00:D.+' postag_regexp='yes'/>
+        <token regexp='yes'>&expressoes_de_tempo;</token>
+        <token postag='R.+' postag_regexp='yes' min='0'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Mesmo que alguns dias não consiga fazer, vale a tentativa.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='D[ID].+|SPS00:D.+' postag_regexp='yes'/>
+        <token postag='N.+' postag_regexp='yes'/>
+        <token postag='R.+' postag_regexp='yes' min='0'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Algumas vezes não entrei em acordo.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token postag='D.+|SPS00:D.+' postag_regexp='yes'/>
+        <token postag='N.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Verifiquei que alguns cartões tivemos que solicitar com antecedência.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SPS00|V.+' postag_regexp='yes'/>
+        <token postag='DI.+' postag_regexp='yes' min='0'/>
+        <token postag='PP.+' postag_regexp='yes' min='0'/>
+        <token postag='R.+|N.+' postag_regexp='yes' min='0'/>
+        <token postag='AQ.+' postag_regexp='yes' min='0'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Para elas não foi tão ruim esse período.</example>
+        <example>O que aconteceu com eles ainda é um mistério.</example>
+        <example>A todos eles foi dado o que se designava como "primeira tonsura".</example>
+        <example>A pessoa que possua todas essas habilidades pode vencer.</example>
+        <example>Pedir as suas informações básicas permitirá que você tenha acesso.</example>
+        <example>Caso tenha outras dúvidas estarei à total disposição.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+        <token>é</token>
+        <token>que</token>
+        <token postag='D.+' postag_regexp='yes' min='0'/>
+        <token postag='N.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>É que muitos materiais encontramos depois.</example>
+      </antipattern>
         <pattern>
           <token regexp='yes'>el[ea]s|vocês</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception>,</exception></token> <!-- REMOVED: scope='next' - MARCOAGPINTO 2022-04-13 -->
           <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'>
             <exception postag='V.[CIS].3P0' postag_regexp='yes'/>
-            <exception>como</exception></token>
+            <exception postag='AQ.+|N.+|R.+|SPS00|SPS00:.+' postag_regexp='yes'/>
+            <exception regexp='yes'>como|Vogue|entre|pag[ao]s?|regular|sobre|tendo|ate|querendo|registrais</exception>
+            <exception postag='VMN0000'/></token>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
