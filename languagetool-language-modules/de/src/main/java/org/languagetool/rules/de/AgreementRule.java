@@ -379,6 +379,9 @@ public class AgreementRule extends Rule {
     if (startAt + 1 < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
       startAt++;
     }
+    if (startAt >= 1 && tokens[startAt-1].getToken().equals("weit") && startAt < tokens.length && tokens[startAt].getToken().equals("weniger")) {
+      startAt += 2;
+    }
     if (startAt + 1 < tokens.length && (StringUtils.isNumeric(tokens[startAt].getToken()) || tokens[startAt].hasPosTag("ZAL"))) {
       int posAfterModifier = startAt + 1;
       if (startAt + 3 < tokens.length && ",".equals(tokens[startAt+1].getToken()) && StringUtils.isNumeric(tokens[startAt+2].getToken())) {
