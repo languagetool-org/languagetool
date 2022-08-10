@@ -45387,6 +45387,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Vou ver a diferença.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>via</token>
+          <token postag='SPS00:D.*' postag_regexp='yes'/>
+          <example>oficialmente por via da internet</example>
+      </antipattern>
       <pattern>
         <marker>
           <token inflected='yes'>ver
@@ -45394,14 +45399,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception>verde</exception>
           </token>
         </marker>
-        <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
-        <token regexp='yes'>notícias?|jornal|anúncios?|folhetos?|cartaze?s?|panfletos?|placas?|jornais|revistas?|livros?|internet</token>
+          <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
+          <token regexp='yes'>notícias?|jornal|anúncios?|folhetos?|cartaze?s?|panfletos?|placas?|jornais|revistas?|internet</token>
       </pattern>
       <message>Num contexto formal, é preferível usar o verbo "ler" ou "assistir".</message>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ler</match></suggestion>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assistir</match></suggestion>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>descobrir</match></suggestion>
-      <example correction="Lemos|Assistimos|Descobrimos"><marker>Vimos</marker> no jornal o que aconteceu.</example>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
+      <example correction="Lemos|Assistimos|Descobrimos|Observamos"><marker>Vimos</marker> no jornal o que aconteceu.</example>
     </rule>
     </rulegroup>
 
@@ -46435,7 +46441,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Vamos caminhar?</example>
       </antipattern>
       <antipattern>
-          <token postag="SENT_START"/>
+          <token postag="SENT_START|_PUNCT" postag_regexp='yes'/>
           <token inflected='yes'>ir</token>
           <token postag='VMN0000' skip='-1'/>
           <token>?</token>
