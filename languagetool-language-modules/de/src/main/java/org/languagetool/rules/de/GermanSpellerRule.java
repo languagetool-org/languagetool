@@ -2536,6 +2536,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "geuploadeten": return topMatch("upgeloadeten");
       case "geuploadetem": return topMatch("upgeloadetem");
       case "Frauenhofer": return topMatch("Fraunhofer");
+      case "hörensagen": return topMatch("Hörensagen");
       case "Mwst": return topMatch("MwSt");
       case "MwSt": return topMatch("MwSt.");
       case "exkl": return topMatch("exkl.");

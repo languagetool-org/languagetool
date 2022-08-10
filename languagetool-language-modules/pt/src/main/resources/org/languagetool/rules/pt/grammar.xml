@@ -1299,6 +1299,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-07 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
+        <!-- This antipattern was placed in more parts since other gender rules use it too. -->
+        <antipattern>
+          <token postag='DA.M.+' postag_regexp='yes'/>
+          <token regexp='yes'>camisa|camisola</token>
+          <token regexp="yes" inflected="yes">&cores;</token>
+          <example>E assim o camisola vermelha é ótimo.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
+
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
@@ -3314,6 +3324,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
     <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordância de género: O + Feminino">
+
+      <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token>o</token>
+        <token regexp='yes'>camisa|camisola</token>
+        <token postag='Z0CN0' postag_regexp='no'/>
+        <example>Note-se que, por exemplo, no Dragão o camisola 17 apareceu no lugar que, geralmente, pertence a Pablo Aimar.</example>
+        <example>O camisa 23 colorado ainda fez bons lançamentos na área chilena, mas defesa cumpriu bem seu papel.</example>
+        <example>Além de fazer algumas defesas importantes, o camisa 1 do time potiguar conseguiu tirar o meia VALDÍVIA do sério.</example>
+        <example>Muito aplaudido pela torcida, o camisa 21, Hashimoto, foi substituído por Schneider aos 29 minutos do segundo tempo.</example>
+        <example>Aos 19 minutos do primeiro tempo ainda, o técnico do Alpha FC substituiu o camisa 15, Monteiro pelo camisa 8, Dimítros.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
+      <!-- This antipattern was placed in more parts since other gender rules use it too. -->
+      <antipattern>
+        <token postag='DA.M.+' postag_regexp='yes'/>
+        <token regexp='yes'>camisa|camisola</token>
+        <token regexp="yes" inflected="yes">&cores;</token>
+        <example>E assim o camisola vermelha é ótimo.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
 
       <pattern>
         <marker>
@@ -7052,14 +7085,80 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='V.+' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-04-13 (Checked/Enhanced) (1-JAN-2022+) *END* -->
-
+      <antipattern>
+        <token postag='VMN.+|VMG.+' postag_regexp='yes'/>
+        <token postag='RM' min='0'/>
+        <token postag='D.+' postag_regexp='yes' min='0'/>
+        <token postag='NC.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Ao organizar sequencialmente as matrizes obteremos o resultado.</example>
+        <example>Organizando sequencialmente as matrizes obteremos o resultado.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SPS00|SPS00:DA.+|SPS00:PP.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes' min='0'/>
+        <token postag='DA.+' postag_regexp='yes' min='0'/>
+        <token postag='NC.+' postag_regexp='yes'/>
+        <token postag='R.+|AQ.+' postag_regexp='yes' min='0' max='3'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Em todos os lugares deu a liberdade de errar.</example>
+        <example>Qual dos seus professores não conseguiu fazer você aprender?</example>
+      </antipattern>
+      <antipattern>
+        <token postag='D[ID].+|SPS00:D.+' postag_regexp='yes'/>
+        <token regexp='yes'>&expressoes_de_tempo;</token>
+        <token postag='R.+' postag_regexp='yes' min='0'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Mesmo que alguns dias não consiga fazer, vale a tentativa.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='D[ID].+|SPS00:D.+' postag_regexp='yes'/>
+        <token postag='N.+' postag_regexp='yes'/>
+        <token postag='R.+' postag_regexp='yes' min='0'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Algumas vezes não entrei em acordo.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token postag='D.+|SPS00:D.+' postag_regexp='yes'/>
+        <token postag='N.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Verifiquei que alguns cartões tivemos que solicitar com antecedência.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='SPS00|V.+' postag_regexp='yes'/>
+        <token postag='DI.+' postag_regexp='yes' min='0'/>
+        <token postag='PP.+' postag_regexp='yes' min='0'/>
+        <token postag='R.+|N.+' postag_regexp='yes' min='0'/>
+        <token postag='AQ.+' postag_regexp='yes' min='0'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Para elas não foi tão ruim esse período.</example>
+        <example>O que aconteceu com eles ainda é um mistério.</example>
+        <example>A todos eles foi dado o que se designava como "primeira tonsura".</example>
+        <example>A pessoa que possua todas essas habilidades pode vencer.</example>
+        <example>Pedir as suas informações básicas permitirá que você tenha acesso.</example>
+        <example>Caso tenha outras dúvidas estarei à total disposição.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+        <token>é</token>
+        <token>que</token>
+        <token postag='D.+' postag_regexp='yes' min='0'/>
+        <token postag='N.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>É que muitos materiais encontramos depois.</example>
+      </antipattern>
         <pattern>
           <token regexp='yes'>el[ea]s|vocês</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception>,</exception></token> <!-- REMOVED: scope='next' - MARCOAGPINTO 2022-04-13 -->
           <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'>
             <exception postag='V.[CIS].3P0' postag_regexp='yes'/>
-            <exception>como</exception></token>
+            <exception postag='AQ.+|N.+|R.+|SPS00|SPS00:.+' postag_regexp='yes'/>
+            <exception regexp='yes'>como|Vogue|entre|pag[ao]s?|regular|sobre|tendo|ate|querendo|registrais</exception>
+            <exception postag='VMN0000'/></token>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
@@ -32231,19 +32330,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <url>https://pt.wiktionary.org/wiki/potência</url>
         <example correction='alguma potência'><marker>alguma potencia</marker>.</example>
         <example correction='algumas potências'><marker>algumas potencias</marker>.</example>
-      </rule>
-      <rule id='PARONYM_PRATICA_246' name='Parónimo: pratica'>
-        <pattern>
-          <token regexp='yes'>(?:d|n|outr|pel)?as?|de|(?:alg|d|n)?umas?</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>praticas?</token>
-        </pattern>
-        <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> prática<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
-        <url>https://pt.wiktionary.org/wiki/prática</url>
-        <example correction='da prática'><marker>da pratica</marker>.</example>
-        <example correction='das práticas'><marker>das praticas</marker>.</example>
-      </rule>
+      </rule>	  
       <rule id='PARONYM_PRATICO_247' name='Parónimo: pratico'>
         <pattern>
           <token regexp='yes'>(?:d|n|outr|pel)?os?|de|(?:alg|d|n)?(?:um(?:a|as)?|uns)</token>
@@ -36262,7 +36349,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='LP_PARONYMS' name='Paranónimos especiais'>
       <!-- Based on Lightproof by Tiago F. Santos, 2017-07-03 -->
       <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
-      <short>Nesta situação acentua-se a palavra</short>
+      <short>Nesta situação acentua-se a palavra.</short>
+
+      <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
+      <!-- This is a rulegroup antipattern that fixes false positives in paronyms.
+           0 hits in 600 000 sentences.
+      -->
+      <antipattern>
+        <token postag='PD.+' postag_regexp='yes'/>
+        <token postag='PD.+|DA.+|SPS00:DA.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token regexp='yes'>[.!?;]</token> <!-- didn't use comma (POS _PUNCT) because it can generate false positives -->
+        <example>Esse tipo de lotaria dá muitos lucros a quem a pratica.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
+
       <!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *START* -->
       <rule>
         <antipattern case_sensitive='yes'>
@@ -45286,6 +45387,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Vou ver a diferença.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>via</token>
+          <token postag='SPS00:D.*' postag_regexp='yes'/>
+          <example>oficialmente por via da internet</example>
+      </antipattern>
       <pattern>
         <marker>
           <token inflected='yes'>ver
@@ -45293,14 +45399,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception>verde</exception>
           </token>
         </marker>
-        <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
-        <token regexp='yes'>notícias?|jornal|anúncios?|folhetos?|cartaze?s?|panfletos?|placas?|jornais|revistas?|livros?|internet</token>
+          <token postag='DA.+|SPS00.DA.*' postag_regexp='yes'/>
+          <token regexp='yes'>notícias?|jornal|anúncios?|folhetos?|cartaze?s?|panfletos?|placas?|jornais|revistas?|internet</token>
       </pattern>
       <message>Num contexto formal, é preferível usar o verbo "ler" ou "assistir".</message>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ler</match></suggestion>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>assistir</match></suggestion>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>descobrir</match></suggestion>
-      <example correction="Lemos|Assistimos|Descobrimos"><marker>Vimos</marker> no jornal o que aconteceu.</example>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
+      <example correction="Lemos|Assistimos|Descobrimos|Observamos"><marker>Vimos</marker> no jornal o que aconteceu.</example>
     </rule>
     </rulegroup>
 
@@ -46334,7 +46441,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Vamos caminhar?</example>
       </antipattern>
       <antipattern>
-          <token postag="SENT_START"/>
+          <token postag="SENT_START|_PUNCT" postag_regexp='yes'/>
           <token inflected='yes'>ir</token>
           <token postag='VMN0000' skip='-1'/>
           <token>?</token>

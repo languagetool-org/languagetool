@@ -9114,8 +9114,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern><!-- The dog has bark at me -->
             <token inflected="yes" regexp="yes">have|be</token>
-            <token regexp="yes">forward|bark|yell|build|open|change|notice|use|view|check|purchase|search|wire|gain|finish|wait|leave|talk|order|drill|find|think|ride|turn|say|tell|get|go</token>
-            <token postag="IN|TO|DT|PRP\$|PCT" postag_regexp="yes" />
+            <token regexp="yes">forward|bark|yell|build|change|open|notice|use|view|check|purchase|search|wire|gain|finish|wait|leave|talk|order|drill|find|think|ride|turn|say|tell|get|go</token>
+            <token postag="IN|TO|P?DT|PRP\$|PCT" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!-- I have contact my lawyer -->
+            <token inflected="yes" regexp="yes">have|be</token>
+            <token>contact</token>
+            <token postag="P?DT|PRP.*" postag_regexp="yes" />
         </antipattern>
         <pattern>
             <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
@@ -9138,7 +9143,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. It is need for review.</example>
         <example type="untouched">Incorrect grammar. It's need for review.</example>
         <example type="untouched">Incorrect grammar. It's goes there.</example>
-        <example type="untouched">The dog has bark at me.</example>
+        <example type="untouched">Incorrect grammar. The dog has bark at me.</example>
+        <example type="untouched">Incorrect grammar. I have contact my lawyer</example>
         <example type="untouched">Incorrect grammar. It's works without problems.</example>
         <example type="untouched">Incorrect grammar. The technician has <marker>make</marker> about 20 errors this year.</example>
         <example type="untouched">I have <marker>notice</marker> LanguageTool doesn't find all errors.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
@@ -16149,5 +16155,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>green</token>
         </pattern>
         <disambig action="remove" postag="VB.*" />
+    </rule>
+
+    <rule id="NO_NO_DT" name="'no' is not DT">
+        <pattern>
+            <marker>
+                <token>no</token>
+            </marker>
+            <token spacebefore="no">.</token>
+            <token regexp="yes">\d+</token>
+        </pattern>
+        <disambig action="remove" postag="DT.*" />
     </rule>
 </rules>

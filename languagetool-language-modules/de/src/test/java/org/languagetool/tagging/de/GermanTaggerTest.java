@@ -261,27 +261,14 @@ public class GermanTaggerTest {
 
   @Test
   public void testPrefixVerbsFromSpellingTxt() throws IOException {
-    List<AnalyzedTokenReadings> result0 = tagger.tag(Collections.singletonList("herausfallen"));
-    assertThat(result0.size(), is(1));
-    assertThat(result0.get(0).getReadings().size(), is(5));
-    String res0 = result0.toString();
-    assertTrue(res0.contains("herausfallen/VER:1:PLU:KJ1:NON*"));
-    assertTrue(res0.contains("herausfallen/VER:1:PLU:PRÄ:NON*"));
-    assertTrue(res0.contains("herausfallen/VER:3:PLU:KJ1:NON*"));
-    assertTrue(res0.contains("herausfallen/VER:3:PLU:PRÄ:NON*"));
-    assertTrue(res0.contains("herausfallen/VER:INF:NON*"));
-    assertFalse(res0.contains("ADJ:"));
-    assertFalse(res0.contains("PA1:"));
-    assertFalse(res0.contains("PA2:"));
-
     List<AnalyzedTokenReadings> result1 = tagger.tag(Collections.singletonList("herumgeben"));
     assertThat(result1.size(), is(1));
     assertThat(result1.get(0).getReadings().size(), is(5));
     String res1 = result1.toString();
-    assertTrue(res1.contains("herumgeben/VER:1:PLU:KJ1:NON:NEB*"));
-    assertTrue(res1.contains("herumgeben/VER:1:PLU:PRÄ:NON:NEB*"));
-    assertTrue(res1.contains("herumgeben/VER:3:PLU:KJ1:NON:NEB*"));
-    assertTrue(res1.contains("herumgeben/VER:3:PLU:PRÄ:NON:NEB*"));
+    assertTrue(res1.contains("herumgeben/VER:1:PLU:KJ1:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:1:PLU:PRÄ:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:3:PLU:KJ1:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:3:PLU:PRÄ:NON*"));
     assertTrue(res1.contains("herumgeben/VER:INF:NON*"));
     assertFalse(res1.contains("ADJ:"));
     assertFalse(res1.contains("PA1:"));
@@ -291,8 +278,8 @@ public class GermanTaggerTest {
     assertThat(result2.size(), is(1));
     assertThat(result2.get(0).getReadings().size(), is(2));
     String res2 = result2.toString();
-    assertTrue(res2.contains("herumgeben/VER:1:SIN:PRT:NON:NEB*"));
-    assertTrue(res2.contains("herumgeben/VER:3:SIN:PRT:NON:NEB*"));
+    assertTrue(res2.contains("herumgeben/VER:1:SIN:PRT:NON*"));
+    assertTrue(res2.contains("herumgeben/VER:3:SIN:PRT:NON*"));
     assertFalse(res2.contains("ADJ:"));
 
     List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("zurückgeschickt"));
@@ -338,218 +325,6 @@ public class GermanTaggerTest {
     assertThat(result7.get(0).getReadings().size(), is(7));
     String res7 = result7.toString();
     assertFalse(res7.contains("Wegstrecken/SUB:GEN:SIN:NEU:INF"));
-  }
-
-  @Test
-  public void testPrefixVerbsSeparable() throws IOException {
-    List<AnalyzedTokenReadings> result1 = tagger.tag(Collections.singletonList("nachguckst"));
-    assertThat(result1.size(), is(1));
-    assertThat(result1.get(0).getReadings().size(), is(1));
-    String res1 = result1.toString();
-    assertTrue(res1.contains("nachgucken/VER:2:SIN:PRÄ:SFT:NEB"));
-    assertFalse(res1.contains("ADJ:"));
-    assertFalse(res1.contains("PA1:"));
-    assertFalse(res1.contains("PA2:"));
-
-    List<AnalyzedTokenReadings> result2 = tagger.tag(Collections.singletonList("nachgucke"));
-    assertThat(result2.size(), is(1));
-    assertThat(result2.get(0).getReadings().size(), is(3));
-    String res2 = result2.toString();
-    assertTrue(res2.contains("nachgucken/VER:1:SIN:PRÄ:SFT:NEB*"));
-    assertTrue(res2.contains("nachgucken/VER:1:SIN:KJ1:SFT:NEB*"));
-    assertTrue(res2.contains("nachgucken/VER:3:SIN:KJ1:SFT:NEB*"));
-    assertFalse(res2.contains("nachgucken/VER:1:SIN:PRÄ:SFT*"));
-    assertFalse(res2.contains("nachgucken/VER:1:SIN:KJ1:SFT*"));
-    assertFalse(res2.contains("nachgucken/VER:3:SIN:KJ1:SFT*"));
-    assertFalse(res2.contains("nachgucken/VER:IMP:SIN:SFT*"));
-    assertFalse(res2.contains("nachgucken/VER:IMP:SIN:SFT:NEB*"));
-    assertFalse(res2.contains("ADJ:"));
-    assertFalse(res2.contains("PA1:"));
-    assertFalse(res2.contains("PA2:"));
-
-    List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("nachzugucken"));
-    assertThat(result3.size(), is(1));
-    assertThat(result3.get(0).getReadings().size(), is(1));
-    String res3 = result3.toString();
-    assertTrue(res3.contains("nachgucken/VER:EIZ:SFT*"));
-    assertFalse(res3.contains("nachgucken/VER:INF:SFT*"));
-    assertFalse(res3.contains("nachgucken/VER:INF:SFT*"));
-    assertFalse(res3.contains("nachzugucken/VER:1:PLU:PRÄ:SFT*"));
-    assertFalse(res3.contains("nachzugucken/VER:1:PLU:KJ1:SFT*"));
-    assertFalse(res3.contains("nachzugucken/VER:3:PLU:PRÄ:SFT*"));
-    assertFalse(res3.contains("nachzugucken/VER:3:PLU:KJ1:SFT*"));
-
-    List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("nachguckend"));
-    assertThat(result4.size(), is(1));
-    assertThat(result4.get(0).getReadings().size(), is(2));
-    String res4 = result4.toString();
-    assertTrue(res4.contains("nachgucken/VER:PA1:SFT*"));
-    assertTrue(res4.contains("nachguckend/PA1:PRD:GRU:VER*"));
-    assertFalse(res4.contains("nachgucken/VER:PA1:SFT:NEB*"));
-
-    List<AnalyzedTokenReadings> result5 = tagger.tag(Collections.singletonList("nachgeguckt"));
-    assertThat(result5.size(), is(1));
-    assertThat(result5.get(0).getReadings().size(), is(2));
-    String res5 = result5.toString();
-    assertTrue(res5.contains("nachgucken/VER:PA2:SFT*"));
-    assertTrue(res5.contains("nachgeguckt/PA2:PRD:GRU:VER*"));
-    assertFalse(res5.contains("nachgucken/VER:PA2:SFT:NEB*"));
-
-    List<AnalyzedTokenReadings> result6 = tagger.tag(Collections.singletonList("Nachgucken"));
-    assertThat(result6.size(), is(1));
-    assertThat(result6.get(0).getReadings().size(), is(3));
-    String res6 = result6.toString();
-    assertTrue(res6.contains("Nachgucken/SUB:NOM:SIN:NEU:INF*"));
-    assertTrue(res6.contains("Nachgucken/SUB:DAT:SIN:NEU:INF*"));
-    assertTrue(res6.contains("Nachgucken/SUB:AKK:SIN:NEU:INF*"));
-
-    List<AnalyzedTokenReadings> result7 = tagger.tag(Collections.singletonList("Nachguckens"));
-    assertThat(result7.size(), is(1));
-    assertThat(result7.get(0).getReadings().size(), is(1));
-    String res7 = result7.toString();
-    assertTrue(res7.contains("Nachgucken/SUB:GEN:SIN:NEU:INF*"));
-
-    List<AnalyzedTokenReadings> result8 = tagger.tag(Collections.singletonList("Nachzudenken"));
-    assertThat(result8.size(), is(1));
-    assertThat(result8.get(0).getReadings().size(), is(1));
-    String res8 = result8.toString();
-    assertTrue(res8.contains("nachdenken/VER:EIZ:NON*"));
-    assertFalse(res8.contains("Nachzudenken/SUB:NOM:SIN:NEU:INF*"));
-    assertFalse(res8.contains("Nachzudenken/SUB:DAT:SIN:NEU:INF*"));
-    assertFalse(res8.contains("Nachzudenken/SUB:AKK:SIN:NEU:INF*"));
-  }
-
-  @Test
-  public void testPrefixVerbsNotMod() throws IOException {
-    List<AnalyzedTokenReadings> result1 = tagger.tag(Collections.singletonList("rauslassen"));
-    assertThat(result1.size(), is(1));
-    assertThat(result1.get(0).getReadings().size(), is(5));
-    String res1 = result1.toString();
-    assertTrue(res1.contains("rauslassen/VER:1:PLU:PRÄ:NON:NEB*"));
-    assertTrue(res1.contains("rauslassen/VER:1:PLU:KJ1:NON:NEB*"));
-    assertTrue(res1.contains("rauslassen/VER:3:PLU:PRÄ:NON:NEB*"));
-    assertTrue(res1.contains("rauslassen/VER:3:PLU:KJ1:NON:NEB*"));
-    assertTrue(res1.contains("rauslassen/VER:INF:NON*"));
-    assertFalse(res1.contains("rauslassen/VER:1:PLU:PRÄ:NON*"));
-    assertFalse(res1.contains("rauslassen/VER:1:PLU:KJ1:NON*"));
-    assertFalse(res1.contains("rauslassen/VER:3:PLU:PRÄ:NON*"));
-    assertFalse(res1.contains("rauslassen/VER:3:PLU:KJ1:NON*"));
-    assertFalse(res1.contains("rauslassen/VER:MOD:1:PLU:PRÄ*"));
-    assertFalse(res1.contains("rauslassen/VER:MOD:1:PLU:KJ1*"));
-    assertFalse(res1.contains("rauslassen/VER:MOD:3:PLU:PRÄ*"));
-    assertFalse(res1.contains("rauslassen/VER:MOD:3:PLU:KJ1*"));
-    assertFalse(res1.contains("rauslassen/VER:MOD:INF*"));
-
-    List<AnalyzedTokenReadings> result2 = tagger.tag(Collections.singletonList("rauslass"));
-    assertThat(result2.size(), is(1));
-    assertThat(result2.get(0).getReadings().size(), is(1));
-    String res2 = result2.toString();
-    //assertTrue(res2.contains("rauslassen/VER:1:SIN:PRÄ:NON:NEB*")); TODO uncomment after adding 'VER:1:SIN:PRÄ:NON' for 'lass'
-    assertFalse(res2.contains("rauslassen/VER:IMP:SIN:NON*"));
-    assertFalse(res2.contains("rauslassen/VER:MOD:IMP:SIN"));
-    assertFalse(res2.contains("rauslassen/VER:IMP:SIN:NON:NEB*"));
-
-    List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("rauszulassen"));
-    assertThat(result3.size(), is(1));
-    assertThat(result3.get(0).getReadings().size(), is(1));
-    String res3 = result3.toString();
-    assertTrue(res3.contains("rauslassen/VER:EIZ:NON*"));
-
-    List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("rausgelassen"));
-    assertThat(result4.size(), is(1));
-    assertThat(result4.get(0).getReadings().size(), is(2));
-    String res4 = result4.toString();
-    assertTrue(res4.contains("rauslassen/VER:PA2:NON*"));
-    assertTrue(res4.contains("rausgelassen/PA2:PRD:GRU:VER*"));
-    assertFalse(res4.contains("rauslassen/VER:MOD:PA2"));
-  }
-
-  @Test
-  public void testPrefixVerbsNonSeparable() throws IOException {
-    List<AnalyzedTokenReadings> result1 = tagger.tag(Collections.singletonList("vergären"));
-    assertThat(result1.size(), is(1));
-    assertThat(result1.get(0).getReadings().size(), is(5));
-    String res1 = result1.toString();
-    assertTrue(res1.contains("vergären/VER:1:PLU:PRÄ:NON*"));
-    assertTrue(res1.contains("vergären/VER:1:PLU:KJ1:NON*"));
-    assertTrue(res1.contains("vergären/VER:3:PLU:PRÄ:NON*"));
-    assertTrue(res1.contains("vergären/VER:3:PLU:KJ1:NON*"));
-    assertTrue(res1.contains("vergären/VER:INF:NON*"));
-  }
-
-  @Test
-  public void testNoVerb() throws IOException {
-    List<AnalyzedTokenReadings> result1 = tagger.tag(Collections.singletonList("geschichte"));
-    assertThat(result1.size(), is(1));
-    assertThat(result1.get(0).getReadings().size(), is(1));
-    String res1 = result1.toString();
-    assertTrue(res1.contains(""));
-    assertFalse(res1.contains("VER"));
-
-    List<AnalyzedTokenReadings> result2 = tagger.tag(Collections.singletonList("bereich"));
-    assertThat(result2.size(), is(1));
-    assertThat(result2.get(0).getReadings().size(), is(1));
-    String res2 = result2.toString();
-    assertTrue(res2.contains(""));
-    assertFalse(res2.contains("VER"));
-
-    List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("beispiel"));
-    assertThat(result3.size(), is(1));
-    assertThat(result3.get(0).getReadings().size(), is(1));
-    String res3 = result3.toString();
-    assertTrue(res3.contains(""));
-    assertFalse(res3.contains("VER"));
-
-    List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("keksdose"));
-    assertThat(result4.size(), is(1));
-    assertThat(result4.get(0).getReadings().size(), is(1));
-    String res4 = result4.toString();
-    assertTrue(res4.contains(""));
-    assertFalse(res4.contains("VER"));
-
-    List<AnalyzedTokenReadings> result5 = tagger.tag(Collections.singletonList("aktienarten"));
-    assertThat(result5.size(), is(1));
-    assertThat(result5.get(0).getReadings().size(), is(1));
-    String res5 = result5.toString();
-    assertTrue(res5.contains(""));
-    assertFalse(res5.contains("VER"));
-  }
-
-  @Test
-  public void testVerbAndPa2() throws IOException {
-    List<AnalyzedTokenReadings> result1 = tagger.tag(Collections.singletonList("erstickt"));
-    assertThat(result1.size(), is(1));
-    assertThat(result1.get(0).getReadings().size(), is(5));
-    String res1 = result1.toString();
-    assertTrue(res1.contains("ersticken/VER:2:PLU:PRÄ:SFT"));
-    assertTrue(res1.contains("ersticken/VER:3:SIN:PRÄ:SFT"));
-    assertTrue(res1.contains("ersticken/VER:IMP:PLU:SFT"));
-    assertTrue(res1.contains("ersticken/VER:PA2:SFT"));
-    assertTrue(res1.contains("erstickt/PA2:PRD:GRU:VER"));
-
-    List<AnalyzedTokenReadings> result2 = tagger.tag(Collections.singletonList("erstickte"));
-    assertThat(result2.size(), is(1));
-    assertThat(result2.get(0).getReadings().size(), is(19));
-    String res2 = result2.toString();
-    assertTrue(res2.contains("erstickt/PA2"));
-    assertTrue(res2.contains("ersticken/VER:1:SIN:KJ2:SFT"));
-    assertTrue(res2.contains("ersticken/VER:1:SIN:PRT:SFT"));
-    assertTrue(res2.contains("ersticken/VER:3:SIN:KJ2:SFT"));
-    assertTrue(res2.contains("ersticken/VER:3:SIN:PRT:SFT"));
-    assertFalse(res2.contains("NEB"));
-
-    List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("erstickend"));
-    assertThat(result3.size(), is(1));
-    assertThat(result3.get(0).getReadings().size(), is(2));
-    String res3 = result3.toString();
-    assertTrue(res3.contains("ersticken/VER:PA1:SFT"));
-    assertTrue(res3.contains("erstickend/PA1:PRD:GRU:VER"));
-
-    List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("erstickender"));
-    assertThat(result4.size(), is(1));
-    assertThat(result4.get(0).getReadings().size(), is(7));
-    String res4 = result4.toString();
-    assertTrue(res4.contains("erstickend/PA1:DAT:SIN:FEM:GRU:SOL:VER"));
   }
 
   /**

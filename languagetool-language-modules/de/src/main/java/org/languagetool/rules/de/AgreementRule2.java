@@ -53,7 +53,7 @@ import static org.languagetool.tools.StringTools.uppercaseFirstChar;
  */
 public class AgreementRule2 extends Rule {
 
-  private static final String ADJ_GRU = "Stilvoll|Link|Direkt|Gegenseitig|Offensichtlich|Weitgehend|Frei|Prinzipiell|Regelrecht|Kostenlos|Gleichzeitig|Ganzjährig|Überraschend|Entsprechend|Ordentlich|Gelangweilt";
+  private static final String ADJ_GRU = "Ausgiebig|Stilvoll|Link|Direkt|Gegenseitig|Offensichtlich|Weitgehend|Frei|Prinzipiell|Regelrecht|Kostenlos|Gleichzeitig|Ganzjährig|Überraschend|Entsprechend|Ordentlich|Gelangweilt";
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(csRegex("Diverse|Flächendeckend|Entsprechende|Angeblich|Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|" +
       "Spät|Länger|Vorrangig|Rechtzeitig|Typisch|Allwöchentlich|Wöchentlich|Inhaltlich|Tagtäglich|Täglich|Komplett|" +
@@ -216,8 +216,7 @@ public class AgreementRule2 extends Rule {
   private List<String> getSuggestions(AnalyzedTokenReadings[] tokens, int i) {
     List<String> suggestions = new ArrayList<>();
     AnalyzedToken adjToken = tokens[i].getAnalyzedToken(0);
-    for (int j = 0; j < tokens[i+1].getReadingsLength(); j++) {
-      AnalyzedToken nounToken = tokens[i+1].getAnalyzedToken(j);
+    for (AnalyzedToken nounToken : tokens[i+1].getReadings()) {
       if (nounToken.getPOSTag() == null) {
         continue;
       }

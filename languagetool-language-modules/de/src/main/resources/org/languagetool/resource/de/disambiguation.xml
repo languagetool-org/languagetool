@@ -7071,4 +7071,37 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER.*"/>
     </rule>
+    <rule id="LANG_KEIN_VER" name="'lang' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte|dann|deswegen</token>
+            <token>lang</token>
+        </antipattern>
+        <antipattern>
+            <token>lang</token>
+            <token regexp="yes">ich|zu|&apostrophe;</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">lang</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="TROTZ_KEIN_VER" name="'trotz' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte|dann|deswegen</token>
+            <token>trotz</token>
+        </antipattern>
+        <antipattern>
+            <token>trotz</token>
+            <token regexp="yes">ich|&apostrophe;</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>trotz</token>
+            </marker>
+            <token postag=".*(GEN|DAT).*" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
 </rules>
