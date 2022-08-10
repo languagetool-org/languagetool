@@ -4995,6 +4995,19 @@
 
   <category id="STYLE" name="Style" type="style">
 
+    <rule id='A_XXX_DE_VOCÊS' name="Confusão: A XXX de vocês -> a vossa XXX">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+        <token>a</token>
+        <token>
+          <exception regexp="yes">um|dois|três|maioria|minoria|fim</exception></token>
+        <token>de</token>
+        <token>vocês</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion>\1 vossa \2</suggestion>?</message>
+      <example correction="A vossa opinião"><marker>A opinião de vocês</marker> é importante.</example>
+      <example>A maioria de vocês.</example>
+    </rule>
     <!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/me/te/vos -->
     <rule id='LHE_S_ME_TE_VOS_VERB' name="Lhe(s)/me/te/vos + Verbo">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-15 + 2021-02-16 (1-JAN-2021+)      -->
