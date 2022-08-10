@@ -10039,7 +10039,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <antipattern>
-	       <token regexp='yes'>o|[nda]o|um|em|algum|alguns|nenhum|[dn]es[st]e|aquele|daquele</token>
+	       <token regexp='yes'>o|[nda]o|um|em|algum|alguns|nenhum|[dn]es[st]e|aquele|daquele|pelos?|praqueles?</token>
 	       <token postag='AQ.+' postag_regexp='yes' min='0'/>
 	       <token regexp='yes'>porque|porquê</token>
 	       <token regexp='yes'>[\.\?!;]</token>
@@ -10093,7 +10093,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 		 <example>Por que...</example>
         </antipattern>
         <antipattern>
-	       <token regexp='yes'>o|[nda]o|um|em|algum|alguns|nenhum|[dn]es[st]e|aquele|daquele</token>
+	       <token regexp='yes'>o|[nda]o|um|em|algum|alguns|nenhum|[dn]es[st]e|aquele|daquele|pelos?|praqueles?</token>
 	       <token postag='AQ.+' postag_regexp='yes' min='0'/>
 	       <token>por</token>
            <token>que</token>
@@ -10120,7 +10120,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Comi-o porque tinha fome.</example>
         </antipattern>
         <pattern>
-	       <token regexp='yes'>os?|[nda]os?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
+	       <token regexp='yes'>os?|[nda]os?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?|pelos?|praqueles?</token>
 	       <token postag='AQ.+' postag_regexp='yes' min='0'/>
 	      <marker>
 	       <token regexp='yes'>porques?</token>
@@ -10137,7 +10137,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Comi-o por que tinha fome.</example>
         </antipattern>
         <pattern>
-	       <token regexp='yes'>os?|[dna]os?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
+	       <token regexp='yes'>os?|[dna]os?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?|pelos?|praqueles?</token>
 	       <token postag='AQ.+' postag_regexp='yes' min='0'/>
 	      <marker>
 	       <token>por</token>
@@ -10412,7 +10412,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
     <rule>
         <antipattern>
-           <token regexp='yes'>os?|[nda]os?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?</token>
+           <token>-</token>
+           <token regexp='yes' spacebefore='no'>oas?|[na]os?</token>
+	       <token regexp='yes'>porquês?</token>
+	       <example>contate-nos porque temos algo a dizer.</example>
+	    </antipattern>
+        <antipattern>
+           <token regexp='yes'>os?|[nda]os?|um|uns|algum|alguns|nenhum|[dn]es[st]es?|aqueles?|daqueles?|pelos?|praqueles?</token>
            <token postag='AQ.+' postag_regexp='yes' min='0'/>
 	       <token regexp='yes'>porquês?</token>
 	       <token regexp='yes'>[\.\?!;]|&tracos_de_separacao;|&separadores_de_oracoes;|em|que|d[ao]s?|de|[nd]is[st]o|[nd]es[st][ae]s?|[dn]el[ea]s?|[dn]aquel[ea]s?|[dn]aquilo</token>
@@ -10426,7 +10432,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 	       <example>Não sei a razão do porquê não explicar o problema.</example>
 	    </antipattern>
 	    <antipattern>
-           <token regexp='yes'>o|[dn]es[st]e|es[st]e|aquele|[dn]aquele</token>
+           <token regexp='yes'>o|[dn]es[st]e|es[st]e|aquele|[dn]aquele|pelo|praquele</token>
            <token postag='DP.+' postag_regexp='yes' min='0'/>
 	       <token>porquê</token>
 	       <example>O teu porquê não me convence.</example>
