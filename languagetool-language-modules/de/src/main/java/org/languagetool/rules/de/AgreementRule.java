@@ -240,7 +240,7 @@ public class AgreementRule extends Rule {
   ));
 
   private final static List<List<PatternToken>> allAntiPatterns =
-    Stream.of(AgreementRuleAntiPatterns1.ANTI_PATTERNS, AgreementRuleAntiPatterns2.ANTI_PATTERNS)
+    Stream.of(AgreementRuleAntiPatterns1.ANTI_PATTERNS, AgreementRuleAntiPatterns2.ANTI_PATTERNS, AgreementRuleAntiPatterns3.ANTI_PATTERNS)
       .flatMap(Collection::stream)
       .collect(Collectors.toList());
 
