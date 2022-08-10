@@ -75,12 +75,23 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">aanbod|aansluiting|aantal(len)?|beleidsmedewerkers?|blik(ken|jes?)?|bouw|docent(en?)?|doos(jes?)?|dosis|financiering|hooglera(ar|re(n|s)?)|portefeuille</token>
+                        <token regexp="yes">aanbod|aansluiting|aantal(len)?|beetje|beleidsmedewerkers?|blik(ken|jes?)?|(om)?bouw|docent(en?)?|doos(jes?)?|dosis|financiering|fles(je)?|hooglera(ar|re(n|s)?)|portefeuille</token>
                     </marker>
-                    <token min="0" postag_regexp="yes" postag="BNW.*VRB"/>
+                    <token min="0" max="2" postag_regexp="yes" postag="BNW.*|GET:TXT.*|VNW:.*:(DE_|HET)"/>
                     <token postag_regexp="yes" postag="ZNW.*|DVS"/>
                 </pattern>
                 <example correction="">Zo vindt u een veel ruimer <marker>aanbod</marker> keukenuitrusting.</example>
+                <example correction="">Dat is een <marker>beetje</marker> een vaag begrip.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes">duur|goedkoop|gratis|mooi|nieuw|oud</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW.*|DVS"/>
+                </pattern>
+                <example correction=""><marker>Goedkope</marker> zonwering, rolluiken, zonneschermen, horren &amp; screens.</example>
+                <example correction="">Wij hebben de <marker>mooiste</marker> zonweringen, rolluiken, zonneschermen, horren &amp; screens.</example>
             </rule>
             <rule>
                 <pattern>
@@ -106,9 +117,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <marker>
                         <token regexp="yes">[0-9]+</token>
                     </marker>
-                    <token regexp="yes">&measurementUnitsAll;</token>
+                    <token regexp="yes">&measurementUnitsAll;|miljoen(en)?|miljard(en)?|biljoen(en)?|biljard(en)?|triljoen(en)?|triljard(en)?</token>
                 </pattern>
                 <example correction="">Nog nooit werd het zo laat in het jaar in De Bilt nog tropisch warm (><marker>30</marker> °C).</example>
+                <example correction="">Dan zijn die 6.000 Nederlandse zwartspaarders, met in totaal 3 op de <marker>880</marker> miljard die de Nederlandse economie waard is, echt maar klein bier.</example>
             </rule>
             <rule>
                 <pattern>
