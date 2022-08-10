@@ -341,6 +341,11 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}|euro|dollars?</token>
                 </antipattern>
                 <antipattern>
+                    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+                    <token regexp="yes">bij|en|tot</token>
+                    <token regexp="yes">([0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00)(&measurementUnitsAngles;|[%/+])</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">\.|,</token>
                     <token regexp="yes">-|–</token>
@@ -403,6 +408,7 @@ regexp case-insensitive maken: (?i)
                 <short>Uitschrijven</short>
                 <example correction="">We hebben het al <marker>100</marker> keer gezegd.</example>
                 <example>De rekening 2 + 2 = 5 klopt helemaal niet.</example>
+                <example>Meestal ontvang je tussen de 10 tot 20% van het betaalde bedrag door de klant.</example>
                 <example>We moeten het 1 tot 2 m de linkerkant opschuiven.</example>
                 <example>Het meet 2 bij 3 meters of 6 vierkantemeters.</example>
                 <example>Hij deed het 2,5 keer.</example>
