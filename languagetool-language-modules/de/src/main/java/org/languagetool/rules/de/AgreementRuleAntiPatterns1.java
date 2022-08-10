@@ -37,6 +37,12 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      token("für"),
+      token("viele"),
+      token("Grund"),
+      token("genug")
+    ),
+    Arrays.asList(
       token("sowas"),   // "Wir können sowas Mittwoch machen."
       tokenRegex("Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag")
     ),
