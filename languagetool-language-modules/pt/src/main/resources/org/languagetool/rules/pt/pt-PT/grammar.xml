@@ -5105,6 +5105,25 @@
     <rulegroup id='ORDINAL_ABREVIATION' name="Abreviatura de ordinais: 1º -> 1.º">
       <!--  Created by Tiago F. Santos, 20-07-2017 -->
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ainda-sobre-a-abreviatura-do-numeral-ordinal-com-ou-sem-o-sobrescrito-sublinhado/2680</url>
+      <antipattern>
+        <token postag="SENT_START"/>
+        <token regexp="yes">\d+a</token>
+        <token postag="_PUNCT" spacebefore="no"/>
+        <example> 2a. Sistemas.</example>
+      </antipattern>
+      <antipattern>
+        <token postag="SENT_START"/>
+        <token regexp="yes">(?:\d+)\.[a]</token>
+        <token postag="_PUNCT" spacebefore="no"/>
+        <token regexp="yes">\p{L}+</token>
+        <example>2.a. Sistemas.</example>
+      </antipattern>
+      <antipattern>
+        <token postag="_PUNCT" spacebefore="no"/>
+        <token regexp="yes">(?:\d+)\p{L}</token>
+        <token postag="_PUNCT" spacebefore="no"/>
+        <example>-895a-</example>
+      </antipattern>
       <rule>
         <pattern>
           <token regexp='yes'>(?:\d+)[ºo]\.?([sˢ]?)
