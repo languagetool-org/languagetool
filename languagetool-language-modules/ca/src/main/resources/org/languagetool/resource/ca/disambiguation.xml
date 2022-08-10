@@ -10328,6 +10328,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="R.*"/>
     </rule>
     <rule id="prep_mesmenys_nom" name="preposició + més/menys + nom">
+        <antipattern>
+            <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            <token postag="N..P.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/>
             <token regexp="yes">més|menys</token>
