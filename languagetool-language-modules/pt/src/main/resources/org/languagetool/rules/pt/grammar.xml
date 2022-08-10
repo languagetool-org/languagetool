@@ -32297,19 +32297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <url>https://pt.wiktionary.org/wiki/potência</url>
         <example correction='alguma potência'><marker>alguma potencia</marker>.</example>
         <example correction='algumas potências'><marker>algumas potencias</marker>.</example>
-      </rule>
-      <rule id='PARONYM_PRATICA_246' name='Parónimo: pratica'>
-        <pattern>
-          <token regexp='yes'>(?:d|n|outr|pel)?as?|de|(?:alg|d|n)?umas?</token>
-          <token min='0' postag='A.+' postag_regexp='yes'/>
-          <token regexp='yes'>praticas?</token>
-        </pattern>
-        <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> prática<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
-        <url>https://pt.wiktionary.org/wiki/prática</url>
-        <example correction='da prática'><marker>da pratica</marker>.</example>
-        <example correction='das práticas'><marker>das praticas</marker>.</example>
-      </rule>
+      </rule>	  
       <rule id='PARONYM_PRATICO_247' name='Parónimo: pratico'>
         <pattern>
           <token regexp='yes'>(?:d|n|outr|pel)?os?|de|(?:alg|d|n)?(?:um(?:a|as)?|uns)</token>
@@ -36328,7 +36316,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='LP_PARONYMS' name='Paranónimos especiais'>
       <!-- Based on Lightproof by Tiago F. Santos, 2017-07-03 -->
       <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
-      <short>Nesta situação acentua-se a palavra</short>
+      <short>Nesta situação acentua-se a palavra.</short>
+
+      <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
+      <!-- This is a rulegroup antipattern that fixes false positives in paronyms.
+           0 hits in 600 000 sentences.
+      -->
+      <antipattern>
+        <token postag='PD.+' postag_regexp='yes'/>
+        <token postag='PD.+|DA.+|SPS00:DA.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token regexp='yes'>[.!?;]</token> <!-- didn't use comma (POS _PUNCT) because it can generate false positives -->
+        <example>Esse tipo de lotaria dá muitos lucros a quem a pratica.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
+
       <!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *START* -->
       <rule>
         <antipattern case_sensitive='yes'>
