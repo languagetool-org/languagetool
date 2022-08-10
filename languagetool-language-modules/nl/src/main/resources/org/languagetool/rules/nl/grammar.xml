@@ -32818,6 +32818,28 @@ steenwijk;Steenwijk
         </rulegroup>
     </category>
     <category id="TYPOS" name="Spellingcontrole" type="misspelling">
+        <rulegroup id="VOLGEND_VOLGENS" name="volgend / volgens" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>volgens</token>
+                    </marker>
+                    <token>jaar</token>
+                </pattern>
+                <message>Op het toetsenboard liggen S en D naast elkaar. Zeker bedoelt u <suggestion>volgend</suggestion>.</message>
+                <example correction="volgend">We zullen het zeker <marker>volgens</marker> jaar herhalen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>volgend</token>
+                    </marker>
+                    <token postag="VNW.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Op het toetsenboard liggen S en D naast elkaar. Zeker bedoelt u <suggestion>volgens</suggestion>.</message>
+                <example correction="volgens">We mogen het <marker>volgend</marker> haar niet meer doen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WK" name="WK/wk" >
             <rule>
                 <pattern>
