@@ -7734,6 +7734,112 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='V.+' postag_regexp='yes'/>
           <example>Veja que quem quer que matou aquelas crianças pague pelo que fez.</example>
         </antipattern>
+        <antipattern>
+          <token postag='D[ID].+|SPS00:D.+' postag_regexp='yes'/>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+          <token postag='R.+' postag_regexp='yes' min='0'/>
+          <token inflected='yes'>ser</token>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <example>Naquele dia quase fui atropelado por um.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='D[ID].+|SPS00:D.+' postag_regexp='yes'/>
+          <token postag='N.+' postag_regexp='yes'/>
+          <token postag='R.+' postag_regexp='yes' min='0'/>
+          <token inflected='yes'>ser</token>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <example>Esses dias quase fui mordido por um.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='D.+' postag_regexp='yes' min='0'/>
+          <token postag='N.+' postag_regexp='yes'/>
+          <token>é</token>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <token>que</token>
+          <token postag='RN' min='0'/>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <example>Algumas coisas é melhor que não sejam ditas.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='PP1CP000|PP2CP000' postag_regexp='yes'/>
+          <token postag='DA.+' postag_regexp='yes' min='0'/>
+          <token postag='N.+' postag_regexp='yes' min='0'/>
+          <token postag='AQ.+' postag_regexp='yes' min='0'/>
+          <token postag='R.+' postag_regexp='yes' min='0'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Nós os católicos não somos todos iguais.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='D.+' postag_regexp='yes'/>
+          <token postag='N.+|AQ.+' postag_regexp='yes'/>
+          <token postag='R.+' postag_regexp='yes' min='0'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='R.+|SPS00:[DP].+|CS|D[DI].+' postag_regexp='yes'/>
+          <example>Os trabalhos comecei no ano seguinte</example>
+        </antipattern>
+        <antipattern>
+          <token skip='-1'>que</token>
+          <token postag='D.+' postag_regexp='yes'/>
+          <token postag='N.+|AQ.+' postag_regexp='yes'/>
+          <token postag='R.+' postag_regexp='yes' min='0'/>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <token postag='R.+' postag_regexp='yes' min='0'/>
+          <token postag='VMN0000'/>
+          <example>Não estou conseguindo acreditar que uma cachorrinha em algumas horas não consiga andar.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SPS00|SPS00:[DP].+' postag_regexp='yes'/>
+          <token postag='RG|DI.+|CS' postag_regexp='yes' min='0'/>
+          <token postag='D.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='R.+' postag_regexp='yes' min='0' max='3'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <example>Seguindo reto por mais alguns metros vai ter a primeira parada.</example>
+          <example>Quem manda o preço dos ebooks lá para as alturas ainda não compreendeu o espírito da coisa.</example>
+          <example>Sentia que toda a escuridão com que o Batman lidava com as coisas não era sua maneira de agir.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='D.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='SPS00|SPS00:[DP].+' postag_regexp='yes' skip='-1'/>
+          <token postag='D...P.+' postag_regexp='yes'/>
+          <token postag='(?:N..|A...)P.+' postag_regexp='yes'/>
+          <token inflected='yes'>ser</token>
+          <token>que</token>
+          <example>O motivo de não entregar aquelas lições foi que meu pai foi transferido.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token postag='VMN0000' skip='-1'/>
+          <token postag='D...P.+' postag_regexp='yes' max='2'/>
+          <token postag='(?:N..|A...)P.+' postag_regexp='yes' max='3'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+          <token postag='(?:N..|A...)P.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
+          <example>Olhar para o telefone enquanto desce as escadas não é uma boa ideia.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='D.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='SPS00|SPS00:[DP].+' postag_regexp='yes' skip='-1'>
+            <exception scope='next' postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
+          </token>
+          <token postag='D...P.+' postag_regexp='yes'/>
+          <token postag='(?:N..|A...)P.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
+          <example>A prova de todos aqueles crimes está nesta pasta.</example>
+          <example>A disputa entre McMahon e as estrelas convidadas continuou</example>
+        </antipattern>
+        <antipattern>
+          <token>quem</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='D...P.+' postag_regexp='yes' max='2'/>
+          <token postag='(?:N..|A...)P.+' postag_regexp='yes' max='3'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
+          <token regexp='yes'>&pronomes_retos;</token>
+          <example>Quem paga todas as contas sou eu.</example>
+        </antipattern>
         <pattern>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
@@ -7745,7 +7851,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception postag='V.[CIS].3P.' postag_regexp='yes'/>
             <exception postag='AQ.+' postag_regexp='yes'/>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
-            <exception regexp='yes' inflected='yes'>icer|elar</exception></token>
+            <exception regexp='yes' inflected='yes'>icer|elar</exception>
+            <exception regexp='yes'>excepcionais|magicas?|legitimas|instrumentais</exception></token>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(V.[CIS].).S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
