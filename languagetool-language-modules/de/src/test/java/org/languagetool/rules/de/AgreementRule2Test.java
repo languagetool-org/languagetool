@@ -89,6 +89,7 @@ public class AgreementRule2Test {
     assertGood("Anderen Brot und Arbeit ermöglichen - das ist ihr Ziel");
     assertGood("Diverse Unwesen, mit denen sich Hellboy beschäftigen muss, ...");
     assertGood("Gut Qualifizierte bekommen Angebote");
+    assertGood("Liebe Mai, wie geht es dir?");
   }
 
   @Test

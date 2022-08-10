@@ -53,7 +53,7 @@ import static org.languagetool.tools.StringTools.uppercaseFirstChar;
  */
 public class AgreementRule2 extends Rule {
 
-  private static final String ADJ_GRU = "Ausgiebig|Stilvoll|Link|Direkt|Gegenseitig|Offensichtlich|Weitgehend|Frei|Prinzipiell|Regelrecht|Kostenlos|Gleichzeitig|Ganzjährig|Überraschend|Entsprechend|Ordentlich|Gelangweilt";
+  private static final String ADJ_GRU = "Allgemein|Ausgiebig|Stilvoll|Link|Direkt|Gegenseitig|Offensichtlich|Weitgehend|Frei|Prinzipiell|Regelrecht|Kostenlos|Gleichzeitig|Ganzjährig|Überraschend|Entsprechend|Ordentlich|Gelangweilt";
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(csRegex("Diverse|Flächendeckend|Entsprechende|Angeblich|Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|" +
       "Spät|Länger|Vorrangig|Rechtzeitig|Typisch|Allwöchentlich|Wöchentlich|Inhaltlich|Tagtäglich|Täglich|Komplett|" +
@@ -65,6 +65,7 @@ public class AgreementRule2 extends Rule {
     asList(csRegex("Gut|Schlecht|Existenziell|Ganz|Gering|Viel|Wenig"), posRegex("SUB:.*ADJ")),  // "Existenziell Bedrohte kriegen..."
     asList(regex("Nachhaltig|Direkt"), posRegex("SUB:NOM:.*"), posRegex("VER:INF:(SFT|NON)")),  // 'nachhaltig Yoga praktizieren'
     asList(regex("\\d0er"), regex("Jahren?")),
+    asList(token("Liebe"), token("Mai")),   // Mai = auch Eigenname
     asList(token("Ganz"), token("Ohr")),
     asList(token("Klar"), token("Schiff")),
     asList(token("Echt"), tokenRegex("Scheiße|Mist")),
