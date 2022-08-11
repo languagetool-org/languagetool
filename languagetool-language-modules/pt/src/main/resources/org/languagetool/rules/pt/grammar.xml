@@ -20439,6 +20439,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>manager</token>
       </antipattern>
       <antipattern>
+          <token>areia</token>
+          <token>frac</token>
+      </antipattern>
+      <antipattern>
           <token>map</token>
           <token>pool</token>
       </antipattern>
@@ -20495,20 +20499,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <antipattern>
           <token regexp='yes'>\p{L}+</token>
           <token regexp='yes'>&livros_biblicos;</token>
+          <token regexp='yes'>\d+</token>
           <example>ll Coríntios 1</example>
       </antipattern>
       <antipattern>
           <token regexp='yes'>\p{Lu}\p{Ll}+</token>
-          <token regexp="yes">&abreviaturas;</token>
+          <token regexp="yes">&abreviaturas;
+            <exception regexp='yes'>Corp|profa?s?|pág|etc|cap|admi?n?|Vol|Jr|Tel|Cel|Inc|Res|Ltda|Ltd|Int|Obstet|Op</exception>
+          </token>
           <example>Housi Decor</example>
       </antipattern>
       <antipattern>
-          <token regexp="yes">&abreviaturas;</token>
+          <token regexp="yes">&abreviaturas;
+            <exception regexp='yes'>Mem|admi?n?|Ref|vol|pág|profa?s?|Pe|Mr|etc|Mrs|Res|Srt?a?s?|Op|Av|Cód|Dra?e?s?|Ed|Ten|Cel|Obstet</exception>
+          </token>
           <token regexp='yes'>\p{Lu}\p{Ll}+</token>
           <example>Mad Runner</example>
       </antipattern>
       <antipattern>
-          <token regexp="yes">&abreviaturas;|&meses_ano;</token>
+          <token regexp="yes">&abreviaturas;|&meses_ano;
+            <exception regexp='yes'>etc|pág|ref</exception>
+          </token>
           <token regexp="yes">&tracos_de_separacao;|&separadores_de_abertura;|[\*«»“”"'‘’/]</token>
           <example>int( )- para numer</example>
           <example>fev/2022</example>
@@ -20543,7 +20554,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token regexp="yes">&abreviaturas;
               <exception regexp="yes" case_sensitive='yes'>&tabela_periodica;|&linguagem_internet;</exception>
               <exception postag="NP.*" postag_regexp="yes"/>
-              <exception regexp="yes" case_sensitive='yes'>[A-Z]+|[Dd]ocs|[Tt][Vv]s?|[Bb]oxplot|Nat|[Tt]elecom|[ad]C|[Cc][Vv]s?|Il|[Cc]ard|tv|[Ss]ac|[Pp]et|[Pp]ec|PEC</exception>
+              <exception regexp="yes" case_sensitive='yes'>[A-Z]+|[Cc]ult|Tibet|Red|Tang|Marc|MEC|[Dd]ocs|[Ll]og|[Tt][Vv]s?|[Bb]oxplot|Nat|[Tt]elecom|[ad]C|[Cc][Vv]s?|Il|[Cc]ard|tv|[Ss]ac|[Pp]et|[Pp]ec|PEC|Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez</exception>
               <exception regexp="yes" case_sensitive='yes'>\p{Ll}\p{Lu}\p{Ll}|\p{Lu}\p{Lu}\p{Lu}</exception></token>
           </marker>
           <token>
@@ -20602,6 +20613,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>…tendo diminuído 2,3 p.p. e 4,3 p.p. …</example>
 	  
         <example>A <marker>alma mater</marker>!</example>
+      </rule>
+      <rule>
+        <pattern>
+            <token postag='NP..G.+' postag_regexp='yes'/>
+            <token>:</token>
+          <marker>
+            <token case_sensitive='yes'>Ed</token>
+          </marker>
+          <token regexp='yes'>\p{Lu}\p{Ll}+</token>
+        </pattern>
+        <message>Se é uma abreviatura, falta um ponto. Se for uma expressão, coloque entre aspas.</message>
+        <suggestion><match no='3'/>.</suggestion>
+        <suggestion>“<match no='3'/>”</suggestion>
+        <short>Erro de pontuação</short>
+        <example correction="Ed.|“Ed”">Rio de Janeiro: <marker>Ed</marker> Ática.</example>
+      </rule>
+      <rule>
+        <pattern>
+            <token regexp='yes'>\d+</token>
+            <token>,</token>
+          <marker>
+            <token case_sensitive='yes'>Ed</token>
+          </marker>
+          <token regexp='yes'>\p{Lu}\p{Ll}+</token>
+        </pattern>
+        <message>Se é uma abreviatura, falta um ponto. Se for uma expressão, coloque entre aspas.</message>
+        <suggestion><match no='3'/>.</suggestion>
+        <suggestion>“<match no='3'/>”</suggestion>
+        <short>Erro de pontuação</short>
+        <example correction="Ed.|“Ed”">p. 47, <marker>Ed</marker> Ática.</example>
+      </rule>
+      <rule>
+        <pattern>
+            <token postag='AO0FS0'/>
+          <marker>
+            <token case_sensitive='yes'>ed</token>
+          </marker>
+            <token>
+              <exception>.</exception>
+            </token>
+        </pattern>
+        <message>Se é uma abreviatura, falta um ponto. Se for uma expressão, coloque entre aspas.</message>
+        <suggestion><match no='2'/>.</suggestion>
+        <suggestion>“<match no='2'/>”</suggestion>
+        <short>Erro de pontuação</short>
+        <example correction="ed.|“ed”">Rio de Janeiro, segunda <marker>ed</marker>, 2005.</example>
+      </rule>
+      <rule>
+        <pattern>
+            <token regexp='yes'>\d+\.?ª</token>
+          <marker>
+            <token case_sensitive='yes'>ed</token>
+          </marker>
+            <token>
+              <exception>.</exception>
+            </token>
+        </pattern>
+        <message>Se é uma abreviatura, falta um ponto. Se for uma expressão, coloque entre aspas.</message>
+        <suggestion><match no='2'/>.</suggestion>
+        <suggestion>“<match no='2'/>”</suggestion>
+        <short>Erro de pontuação</short>
+        <example correction="ed.|“ed”">Rio de Janeiro, 2ª <marker>ed</marker>, 2005.</example>
       </rule>
     </rulegroup>
 
