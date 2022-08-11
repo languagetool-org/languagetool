@@ -4172,84 +4172,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-07-07 (2-JUL-2020+) *START* -->
-        <!-- "Seu trabalho é de catar caixas e outros materiais de papelão nas ruas do Rio." -->
-        <antipattern>
-          <token postag='AQ0[CFM]S0|NC[CFM]S000' postag_regexp='yes'/>
-          <token>é</token>
-          <token>de</token>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- "Memória flash semelhantes às EEPROMs são mais rápidas e de menor custo." -->
-        <antipattern>
-          <token negate="yes" regexp='yes'>da|de|do|o|um</token>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='AQ0[CFM]P0|NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-07-07 (2-JUL-2020+) *END* -->
-        <!-- MARCOAGPINTO 2020-07-11 (2-JUL-2020+) *START* -->
-        <!-- "Algumas medidas revelaram-se de tal modo eficazes que persistiram nos diversos regulamentos." -->
-        <antipattern>
-          <token postag='DD0CS0|DI0CS0|PD0CS000|PI0CS000' postag_regexp='yes'/>
-          <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-          <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-        </antipattern>
-        <antipattern>
-          <and>
-          <token negate="yes" regexp='yes'>de|do|o</token>
-          <token negate="yes" postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-          </and>
-          <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-          <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-          <and>
-          <token postag='CS|RG|CC|SPS00|VMIP3P0|NC[CFM]P000|VMP00SM|AQ0[CFM]P0' postag_regexp='yes'/>
-          <token negate="yes" regexp='yes'>a|com|e|de|do|que</token>
-          </and>
-        </antipattern>
-        <!-- "Para a saúde e o coração associados ao álcool." -->
-        <antipattern>
-          <token regexp='yes'>e|ou|a|eles|elas</token>
-          <token regexp='yes'>os?|as?|um|por|este|esse</token>
-          <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-          <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-          <token negate="yes">tem</token>
-        </antipattern>
-        <!-- "Inclui 84 pranchas coloridas com desenhos científicos de cada ave feitos pelo artista Tomas Sigrist." -->
-        <antipattern>
-          <token negate="yes" regexp='yes'>a|de|do|o</token>
-          <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-          <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-          <token regexp='yes'>pelas?|pelos?|às?|nas?|dos?|nos?</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-07-11 (2-JUL-2020+) *END* -->
-        <!-- MARCOAGPINTO 2020-08-19 (2-JUL-2020+) *START* -->
-        <!-- "Apenas testemunhos sem fim recebidos de todo o mundo." -->
-        <!-- "Apenas testemunhos sem conta recebidos de todo o mundo." -->
-        <!-- "Apenas testemunhas sem fim recebidas de todo o mundo." -->
-        <antipattern>
-          <and>
-          <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-          <token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
-          </and>
-          <token regexp='yes'>sem|com|no|na|da|do|a|mais|menos|bem|mal|num|numa</token>
-          <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-          <token postag='VMP00P[FM]|AQ0[CFM]P0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-08-19 (2-JUL-2020+) *END* -->
-        <!-- MARCOAGPINTO 2020-10-02 (2-JUL-2020+) *START* -->
-        <!-- "Quando aparecer um cliente 5 minutos antes das 20h." -->
-        <!-- "Quando aparecer um cliente cinco minutos antes das 20h." -->
-        <antipattern>
-          <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-          <and>
-          <token postag='Z0C[NP]0' postag_regexp='yes'/>
-          <token negate="yes" regexp="yes">1|um</token>
-          </and>
-          <token postag='NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-10-02 (2-JUL-2020+) *END* -->
         <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *START* -->
         <!-- "Ao testar um modelo tendo por base dados." -->
         <!-- "Ao testar um modelo tendo por resultado dados." -->
@@ -4504,6 +4426,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>A coisa mais perigosa que Tom quis fazer foi segurar uma cobra venenosa.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-11 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-12 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|SPS00|CC|CS|RG|I|RM|RN|V....S.+|AQ..S.+|NC.S.+' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+          <token postag='Z0C[NP].+' postag_regexp='yes'>
+            <exception regexp='yes'>1|um</exception>
+          </token>
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+          <example>O seu coração é um económico motor 4 tempos, suportado por uma estrutura de aço tubular que garante uma condução confortável e agressiva.</example>
+          <example>Ele sustentou sozinho três crianças.</example>
+          <example>E era necessário 50 pontos para ser classificada.</example>
+          <example>Segundo ele, são usados no projeto 13 torres celulares, e cada uma delas é capaz de ler milhares de sensores.</example>
+          <example>Foi necessário 6 caminhões!</example>
+          <example>Ele veio para o Japão sete anos atrás.</example>
+          <example>O vendedor terá o produto disponível 4 dias após a compra.</example>
+          <example>Sou mega estabanada ft tenho cachorros ft abro as coisas com azunha, então ficar intacto 3 dias é super.</example>
+          <example>Ivan é mais alto do que o irmão sete centímetros.</example>
+          <example>Calcula-se que na África são mortos por dia 60 elefantes.</example>
+          <example>Eu paguei para o meu filho 5 dólares para lavar o meu carro.</example>
+          <example>Depois dessa 6ª conquista, só voltaria a vencer um título brasileiro 20 anos depois.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-12 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
