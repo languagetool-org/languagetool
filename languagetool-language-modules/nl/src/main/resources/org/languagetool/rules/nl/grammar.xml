@@ -571,22 +571,85 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij/jou/jouw, mij → we, ze, je, me" tags="picky">
             <rule>
-                <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">Wij|Zij|Jij</token><token regexp="yes">van|en|als</token></antipattern>
-                <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">Wij|Jij</token><token postag="BNW:STL:VRB" min="0" max="1"/><token postag_regexp="yes" postag="ZNW:MRV.*"/></antipattern>
-                <antipattern><token regexp="yes">bovenover|door|over|tegen|volgens|voor</token><token>mij</token></antipattern>
-                <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>mij</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
-                <antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
-                <antipattern><token>en</token><token regexp="yes">jij|wij|zij</token><token>?</token></antipattern>
-                <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>voor</token><token>mij</token></antipattern>
-                <antipattern><token>je</token><token>je</token><token>mij</token></antipattern>
-                <antipattern><token>zij</token><token>het</token></antipattern>
-                <antipattern><token>zij</token><token>'</token><token>t</token></antipattern>
-                <antipattern><token regexp="yes">ten|dank</token><token>zij</token></antipattern>
-                <antipattern><token>God</token><token>zij</token><token>dank</token></antipattern>
-                <antipattern><token>zij</token><token>mij</token></antipattern>
-                <antipattern><token regexp="yes">niet|van</token><token regexp="yes">jij|mij</token></antipattern>
-                <antipattern><token regexp="yes">met|bij</token><token>mij</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
-                <antipattern><token regexp="yes">hij|jij|wij|zij|mij</token><token>of</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="SENT_START|START"/>
+                    <token regexp="yes">Wij|Zij|Jij</token>
+                    <token regexp="yes">van|en|als</token>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="SENT_START|START"/>
+                    <token regexp="yes">Wij|Jij</token>
+                    <token postag="BNW:STL:VRB" min="0" max="1"/>
+                    <token postag_regexp="yes" postag="ZNW:MRV.*"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">bovenover|door|over|tegen|volgens|voor</token>
+                    <token>mij</token>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="SENT_START|START"/>
+                    <token>mij</token>
+                    <token postag_regexp="yes" postag="WKW.*"/>
+                </antipattern>
+                <antipattern>
+                    <token>zoals</token>
+                    <token regexp="yes">jij|wij|zij|mij</token>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token regexp="yes">jij|wij|zij</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="SENT_START|START"/>
+                    <token>voor</token>
+                    <token>mij</token>
+                </antipattern>
+                <antipattern>
+                    <token>je</token>
+                    <token>je</token>
+                    <token>mij</token>
+                </antipattern>
+                <antipattern>
+                    <token>zij</token>
+                    <token>het</token>
+                </antipattern>
+                <antipattern>
+                    <token>zij</token>
+                    <token>'</token>
+                    <token>t</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">ten|dank</token>
+                    <token>zij</token>
+                </antipattern>
+                <antipattern>
+                    <token>God</token>
+                    <token>zij</token>
+                    <token>dank</token>
+                </antipattern>
+                <antipattern>
+                    <token>zij</token>
+                    <token>mij</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">niet|van</token>
+                    <token regexp="yes">jij|mij</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">met|bij</token>
+                    <token>mij</token>
+                    <token postag_regexp="yes" postag="WKW.*"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">hij|jij|wij|zij|mij</token>
+                    <token>of</token>
+                    <token regexp="yes">jij|wij|zij|mij</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">aan|bij|op</token>
+                    <token regexp="yes">jij|mij</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">jij|wij|zij|mij<exception postag="UNKNOWN"/></token>
                 </pattern>
@@ -607,10 +670,23 @@ regexp case-insensitive maken: (?i)
                 <example>Want hij of <marker>zij</marker> moet gewoon een goede luisteraar zijn.</example>
             </rule>
             <rule>
-                <antipattern><token regexp="yes">bovenover|door|over|tegen|volgens|voor</token><token regexp="yes">jouw|jou</token></antipattern>
-                <antipattern><token>zij</token><token>jou</token></antipattern>
-                <antipattern><token>jou</token><token regexp="yes">en|of</token></antipattern>
-                <antipattern><token regexp="yes">met|bij</token><token>jou</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
+                <antipattern>
+                    <token regexp="yes">bovenover|door|over|tegen|volgens|voor</token>
+                    <token regexp="yes">jouw|jou</token>
+                </antipattern>
+                <antipattern>
+                    <token>zij</token>
+                    <token>jou</token>
+                </antipattern>
+                <antipattern>
+                    <token>jou</token>
+                    <token regexp="yes">en|of</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">met|bij</token>
+                    <token>jou</token>
+                    <token postag_regexp="yes" postag="WKW.*"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">jouw|jou</token>
                 </pattern>
@@ -40421,7 +40497,7 @@ steenwijk;Steenwijk
                 <example correction="de|het">Op dit punt is <marker>de het</marker> man niet correct.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="JOU_JOUW" name="jou of jouw">
+        <rulegroup id="JOU_JOUW" name="jou of jouw"> <!-- TODO: Later tag as learner rule -->
             <rule>
                 <antipattern><token>jou</token><token postag="ZNW.*" postag_regexp="yes"/><token>heeft</token><token postag="WKW:VTD:ONV"/></antipattern>
                 <antipattern><token>Voor</token><token regexp="yes">jou|hem|mij</token><token postag_regexp="yes" postag="GET.*MRV"/><token>anderen</token></antipattern>
@@ -40438,7 +40514,7 @@ steenwijk;Steenwijk
                 <example correction="jouw emotie">Bezit is voor <marker>jou emotie</marker>.</example>
                 <example correction="jouw hartchakra">Eer dan <marker>jou hartchakra</marker>.</example>
                 <example correction="jouw huisje">Ik wens dat rond <marker>jou huisje</marker>.</example>
-                <example correction="jouw zekerheid">Dat geeft ook <marker>jou zekerheid</marker>."</example>
+                <example correction="jouw zekerheid">Dat geeft ook <marker>jou zekerheid</marker>.</example>
                 <example correction="jouw ex">Dat ze dan de kant kiezen van <marker>jou ex</marker>.</example>
             </rule>
             <rule>
