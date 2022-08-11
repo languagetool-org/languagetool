@@ -26,6 +26,13 @@ Filter for remote matches.
 To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
 -->
 <!DOCTYPE rules [
+    <!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
+    <!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
+    <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
+    <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sept?|o[ck]t|nov|dec">
+    <!ENTITY timeOfDayToday "vanmorgen|vanmiddag|vanavond|vannacht">
+    <!ENTITY timeOfDayGeneral "morgen|middag|avond|nacht">
+
     <!ENTITY linuxDistros "Arch|CentOS|Debian|Fedora|Gentoo|Knoppix|Mint|(open)?SUSE|RHEL|Slackware|Slax">
 
     <!ENTITY measurementUnitPrefix "E(xa)?|P(eta)?|T(era)?|G(iga)?|M(ega)?|k(ilo)?|h(ecto)?|d(ec)?a|d(eci)?|c(enti)?|m(illi)?|u|&#x03BC;|micro|n(ano)?|licht">
@@ -125,12 +132,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <token>in</token>
+                    <token min="0" regexp="yes">&months;|&abbrevMonths;</token>
                     <marker>
                         <token regexp="yes">[1-2]?[0-9]{3}</token>
                     </marker>
                     <token postag_regexp="yes" postag="WKW.*"/>
                 </pattern>
                 <example correction="">In <marker>1859</marker> wist Walachije zich onafhankelijk van de Turken te verklaren.</example>
+                <example correction="">In november <marker>1990</marker> stopten ook deze uitzendingen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{Ps}|\.|,|:</token>
+                    <token postag_regexp="yes" postag="ENM:LOC:PTS"/>
+                    <marker>
+                        <token regexp="yes">[1-2]?[0-9]{3}</token>
+                    </marker>
+                    <token regexp="yes">\p{Pe}|\.|,</token>
+                </pattern>
+                <example correction="">Between Otherness and Authenticity (Aldershot <marker>2007</marker>) 109-133.</example>
+                <example correction="">Door Thijs de Gooijer, Uitgeverij René de Milliano, Alkmaar <marker>2005</marker>. ISBN 90-72810-50-3.</example>
             </rule>
         </rulegroup>
     </category>
