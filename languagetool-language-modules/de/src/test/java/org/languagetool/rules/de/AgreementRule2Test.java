@@ -90,6 +90,7 @@ public class AgreementRule2Test {
     assertGood("Diverse Unwesen, mit denen sich Hellboy beschäftigen muss, ...");
     assertGood("Gut Qualifizierte bekommen Angebote");
     assertGood("Liebe Mai, wie geht es dir?");
+    assertGood("Willkommen Simpsons-Fan!");
   }
 
   @Test
