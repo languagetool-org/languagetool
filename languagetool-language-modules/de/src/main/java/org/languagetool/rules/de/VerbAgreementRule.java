@@ -23,7 +23,6 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -67,6 +66,36 @@ public class VerbAgreementRule extends TextLevelRule {
       token("du"),
       token("wärst"),
       token("ich")
+    ),
+    asList( // "Kümmerst dich ja gar nicht um sie." (okay for colloquial language)
+      pos(SENTENCE_START_TAGNAME),
+      posRegex("VER:2:SIN:PRÄ:.*"),
+      posRegex("PRO:.*")
+    ),
+    asList( // "Stehst einfach nicht zu mir." (okay for colloquial language)
+      pos(SENTENCE_START_TAGNAME),
+      posRegex("VER:2:SIN:PRÄ:.*"),
+      tokenRegex("einfach|denn|schon")
+    ),
+    asList( // "Stellst für deinen Dad etwas zu Essen bereit." (okay for colloquial language)
+      pos(SENTENCE_START_TAGNAME),
+      posRegex("VER:2:SIN:PRÄ:.*"),
+      posRegex("PRP:.*")
+    ),
+    asList( // "Springst weit, oder?" (okay for colloquial language)
+      pos(SENTENCE_START_TAGNAME),
+      posRegex("VER:2:SIN:PRÄ:.*"),
+      posRegex("ADJ:PRD:.*")
+    ),
+    asList( // "Siehst aus wie ein Wachhund." (okay for colloquial language)
+      pos(SENTENCE_START_TAGNAME),
+      posRegex("VER:2:SIN:PRÄ:.*"),
+      pos("ZUS")
+    ),
+    asList( // "Könntest was erfinden, wie dein Papa." (okay for colloquial language)
+      pos(SENTENCE_START_TAGNAME),
+      pos("VER:MOD:2:SIN:KJ2"),
+      posRegex("PRO:.*")
     ),
     asList( // "Darfst nicht so reden, Franz!" (okay for colloquial language)
       pos(SENTENCE_START_TAGNAME),
