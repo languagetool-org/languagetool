@@ -76,6 +76,7 @@ public class AgreementRule2 extends Rule {
     asList(token("Gut"), tokenRegex("Ding|Holz")),  // "Gut Ding will Weile haben"
     asList(token("Urban"), token("Mining")),
     asList(token("Responsive"), token("Design")),
+    asList(token("Dual"), token("Studierende")),
     asList(token("Deutsche"), csRegex("Grammophon|Wohnen")),
     asList(posRegex("ADJ.*"), tokenRegex(".+beamte")),  // "Alarmierte Polizeibeamte"
     asList(new PatternTokenBuilder().token("Anderen").setSkip(5).build(), posRegex("VER:INF:(SFT|NON)")),  // "Anderen Brot und Arbeit ermöglichen - ..."
