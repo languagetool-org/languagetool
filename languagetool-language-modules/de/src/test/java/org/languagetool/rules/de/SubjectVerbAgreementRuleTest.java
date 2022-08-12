@@ -148,6 +148,8 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectSingularVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "Abschluss und Höhepunkt ist der Festumzug.",
+        "Abschluss und Höhepunkt ist der Festumzug, der im Oktober stattfindet.",
         "All diesen Stadtteilen ist die Nähe zum Hamburger Hafen und zu den Industrie- und Gewerbegebieten gemein.",
         "All diesen Bereichen ist gemeinsam, dass sie unterfinanziert sind.",
         "Nicht entmutigen lassen, nur weil Sie kein Genie sind.",

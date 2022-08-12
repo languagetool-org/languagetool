@@ -248,7 +248,13 @@ public class SubjectVerbAgreementRule extends Rule {
       token("Ziel"),
       tokenRegex("ist|war")
     ),
-    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit. 
+    Arrays.asList( // Abschluss und Höhepunkt ist der Festumzug
+      posRegex("SUB.*SIN.*"),
+      token("und"),
+      posRegex("SUB.*SIN.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit.
       token("Obst"),
       token("und"),
       token("Gemüse")
