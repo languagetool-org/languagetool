@@ -1471,6 +1471,11 @@
         </rule>
     </rulegroup>
     <rule id="CD_VBZNNS_NNS" name="number + vbz/nns => nns">
+      <antipattern>
+        <token postag="NN:UN?|NNP?|UNKNOWN" postag_regexp="yes" chunk_re="[BI]-NP.*" />
+        <token regexp="yes" chunk_re="[EI]-NP.*">\d+</token>
+        <token postag="VBZ" />
+      </antipattern>
       <pattern>
           <token postag="CD"><exception>one</exception></token>
              <marker>
@@ -1484,6 +1489,7 @@
        <disambig postag="NNS"/>
        <example type="untouched">One minute.</example>
        <example type="untouched">Figure two <marker>shows</marker> the results.</example>
+       <example type="untouched">As pig 1 walks down</example>
        <example type="untouched">Although page 10 <marker>gives</marker> much information, it is incomplete.</example>
        <example type="untouched">If the number 5 <marker>shows</marker> on the display, stop the test.</example>
        <example type="untouched">Two and two <marker>makes</marker> four.</example>
@@ -9114,7 +9120,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern><!-- The dog has bark at me -->
             <token inflected="yes" regexp="yes">have|be</token>
-            <token regexp="yes">forward|bark|yell|build|change|open|notice|use|view|check|purchase|search|wire|gain|finish|wait|leave|talk|order|drill|find|think|ride|turn|say|tell|get|go|show|kill|ask|play|launch</token>
+            <token regexp="yes">forward|bark|yell|build|change|open|notice|use|view|check|purchase|search|wire|gain|finish|wait|leave|talk|order|drill|find|think|ride|turn|say|get|go|show|kill|ask|play|launch|mention|tell</token>
             <token postag="IN|TO|P?DT|PRP\$|PCT" postag_regexp="yes" />
         </antipattern>
         <antipattern><!-- I have contact my lawyer -->
