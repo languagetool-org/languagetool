@@ -39,6 +39,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 import static java.util.Arrays.*;
+import static org.languagetool.JLanguageTool.SENTENCE_START_TAGNAME;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
@@ -68,7 +69,7 @@ public class VerbAgreementRule extends TextLevelRule {
       token("ich")
     ),
     asList( // "Darfst nicht so reden, Franz!" (okay for colloquial language)
-      pos("SENT_START"),
+      pos(SENTENCE_START_TAGNAME),
       pos("VER:MOD:2:SIN:PRÄ"),
       new PatternTokenBuilder().token("ich|er|sie|es|wir|ihr|sie").negate().build()
     ),
@@ -184,7 +185,7 @@ public class VerbAgreementRule extends TextLevelRule {
      ),
     asList(
       // "Bekommst sogar eine Sicherheitszulage"
-      pos("SENT_START"),
+      pos(SENTENCE_START_TAGNAME),
       posRegex("VER:2:SIN:.*"),
       posRegex("ART.*|ADV.*|PRO:POS.*")
     ),
@@ -218,7 +219,7 @@ public class VerbAgreementRule extends TextLevelRule {
     ),
     asList(
       // "Bringst nicht einmal so etwas Einfaches zustande!"
-      pos("SENT_START"),
+      pos(SENTENCE_START_TAGNAME),
       posRegex("VER:2:SIN:.*"),
       token("nicht")
     ),
@@ -311,7 +312,7 @@ public class VerbAgreementRule extends TextLevelRule {
       tokenRegex("er|sie")
     ),
     asList(
-      pos(JLanguageTool.SENTENCE_START_TAGNAME),  // "Bin gleich wieder da"
+      pos(SENTENCE_START_TAGNAME),  // "Bin gleich wieder da"
       tokenRegex("Bin|Kannst|Musst")
     ),
     asList(
@@ -379,7 +380,7 @@ public class VerbAgreementRule extends TextLevelRule {
      token("ich")
     ),
     asList( // Geh du mal!
-      pos(JLanguageTool.SENTENCE_START_TAGNAME),
+      pos(SENTENCE_START_TAGNAME),
       posRegex("VER:IMP:SIN.+"),
       token("du"),
       new PatternTokenBuilder().csToken("?").negate().build()
