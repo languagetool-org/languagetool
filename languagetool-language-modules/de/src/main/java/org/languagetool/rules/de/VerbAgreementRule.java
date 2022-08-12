@@ -61,11 +61,14 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 public class VerbAgreementRule extends TextLevelRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
-    Arrays.asList(
-      // "Ken dachte, du wärst ich."
+    Arrays.asList( // "Ken dachte, du wärst ich."
       token("du"),
       token("wärst"),
       token("ich")
+    ),
+    Arrays.asList(  // "sobald wir frische und neue Akkus haben."
+      token("wir"),
+      token("frische")
     ),
     Arrays.asList(  // "wo der Stadtrat gleich mal zum Du übergeht."
       token("zum"),
