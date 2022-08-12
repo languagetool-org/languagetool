@@ -67,6 +67,11 @@ public class VerbAgreementRule extends TextLevelRule {
       token("wärst"),
       token("ich")
     ),
+    Arrays.asList(  // "wo der Stadtrat gleich mal zum Du übergeht."
+      token("zum"),
+      csToken("Du"),
+      new PatternTokenBuilder().tokenRegex("wechseln|übergehen|schwenken").matchInflectedForms().build()
+    ),
     Arrays.asList(
       token("ich"),
       token("schlafen"),
