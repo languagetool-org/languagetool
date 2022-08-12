@@ -20,7 +20,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
   <!DOCTYPE rules [
-        <!ENTITY depreciativo "baianada|bandalho|china|chinoca|ciganada|ciganagem|veado|bicha|piranha|piranhagem|periguete|retardado|João-sem-braço|cegueta|imbecil|japa|marica|maricas|maricona|cuzão|bundão|queima-rosca|traveco|travecão|travecona|boiola|maricão|mariconço|mentecapto|monhé|morcão|portuga|pretalhada|pretaria|caralho|chupa-rola|boqueteiro|boqueteira|retardad[oa]s?|denegrir|mulat[oa]s?|gordice|judiar|homossexualismo|judieiera|judiação|mongol|mancada|debiloide">
+        <!ENTITY depreciativo "baianada|baianagem|bandalho|chinoca|ciganada|ciganagem|bicha|piranhagem|periguete|retardado|João-sem-braço|cegueta|japa|marica|maricas|maricona|queima-rosca|boiola|maricão|mariconço|monhé|morcão|portuga|pretalhada|pretaria|chupa-rola|boqueteiro|boqueteira|retardad[oa]s?|denegrir|mulat[oa]s?|gordice|homossexualismo|judiar|judieiera|judiação|mong[oa]|debiloide|xingu?e?lingu?e?">
         <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
         <!ENTITY separadores_de_abertura "\(|\{\[">
         <!ENTITY separadores_de_fecho "\)|\}\]">
@@ -1285,14 +1285,258 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id='DEPRECIATIVO_PT_BR' name="Termos depreciativos" type="style" default='temp_off'>
     <rule>
       <pattern>
-      <token regexp='yes' inflected="yes">&depreciativo;
+        <token regexp='yes' inflected="yes" case_sensitive="yes">&depreciativo;
         <exception postag_regexp='yes' postag='NP.+'/>
+        <exception regexp="yes">judi[oa]s?</exception>
       </token>
     </pattern>
-    <message>Este termo é depreciativo, pondere empregar um termo alternativo.</message>
+    <message>Este termo é preconceituoso ou de outra forma depreciativo; pondere empregar um termo alternativo.</message>
     <short>Termo depreciativo</short>
-    <example type="incorrect">Vou à loja do <marker>traveco</marker>.</example>
-    <example>Vou à loja da <marker>travesti</marker>.</example>
+    <example type="incorrect">Você está me <marker>denegrindo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">judiar
+          <exception regexp="yes">judi[oa]s?</exception>
+        </token>
+      </pattern>
+      <message>Este termo é antissemita ou de outra forma depreciativo; pondere alterar para <suggestion><match no='1' postag='V.+' postag_regexp='yes'>maltratar</match></suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="maltratando">Você está me <marker>judiando</marker>.</example>
+    </rule>
+    <rule>
+        <pattern>
+          <token regexp="yes">judieira|judiaria|judiação|judiança</token>
+        </pattern>
+        <message>Este termo é antissemita ou de outra forma depreciativo; pondere alterar para <suggestion>maldade</suggestion>.</message>
+        <suggestion>malvadeza</suggestion>
+        <suggestion>sacanagem</suggestion>
+        <short>Termo depreciativo</short>
+        <example correction="maldade|malvadeza|sacanagem">Que <marker>judiação</marker>.</example>
+    </rule>
+    <rule>
+       <pattern>
+         <token>do</token>
+         <token regexp='yes'>traveco|travecão</token>
+       </pattern>
+        <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>da travesti</suggestion></message>
+        <short>Termo depreciativo</short>
+        <example correction="da travesti">Vou à loja <marker>do traveco</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">mong[oa]s|mongolóides|mongolões|mongolonas</token>
+      </pattern>
+      <message>Este termo é depreciativo ou xenofóbico. Pondere substituir por <suggestion>idiotas</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="idiotas">Vou à loja dos <marker>mongos</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">mong[oa]|mongolóide|mongolão|mongolona</token>
+      </pattern>
+      <message>Este termo é depreciativo ou xenofóbico. Pondere substituir por <suggestion>idiota</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="idiota">Vou à loja <marker>mongo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>dos</token>
+        <token regexp='yes'>travecos|travecões</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>das travestis</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="das travestis">Vou à loja <marker>dos travecos</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>no</token>
+        <token regexp='yes'>traveco|travecão</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>na travesti</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="na travesti">Vou <marker>no traveco</marker>.</example>
+    </rule>
+    <rule>
+        <pattern>
+          <token>nos</token>
+          <token regexp='yes'>travecos|travecões</token>
+        </pattern>
+        <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>nas travestis</suggestion></message>
+        <short>Termo depreciativo</short>
+        <example correction="nas travestis">Vou <marker>nos travecos</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>os</token>
+        <token regexp='yes'>travecos|travecões</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>as travestis</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="as travestis">Vou com <marker>os travecos</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>o</token>
+        <token regexp='yes'>traveco|travecão</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>a travesti</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="a travesti">Vou com <marker>o traveco</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">es[st]e</token>
+        <token regexp='yes'>traveco|travecão</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>essa travesti</suggestion> ou <suggestion>esta travesti</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="essa travesti|esta travesti">Vou à com <marker>esse traveco</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">des[st]e</token>
+        <token regexp='yes'>traveco|travecão</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>dessa travesti</suggestion> ou <suggestion>desta travesti</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="dessa travesti|desta travesti">É <marker>desse traveco</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">es[st]es</token>
+        <token regexp='yes'>travecos|travecões</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>essas travestis</suggestion> ou <suggestion>estas travestis</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="essas travestis|estas travestis">Vou à com <marker>esses travecos</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">des[st]es</token>
+        <token regexp='yes'>travecos|travecões</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>dessas travestis</suggestion> ou <suggestion>destas travestis</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="dessas travestis|destas travestis">É <marker>desses travecos</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+         <token regexp="yes">nes[st]e</token>
+         <token regexp='yes'>traveco|travecão</token>
+      </pattern>
+         <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>nessa travesti</suggestion> ou <suggestion>nesta travesti</suggestion></message>
+         <short>Termo depreciativo</short>
+         <example correction="nessa travesti|nesta travesti">Vou <marker>nesse traveco</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">nes[st]es</token>
+        <token regexp='yes'>travecos|travecões</token>
+      </pattern>
+        <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>nessas travestis</suggestion> ou <suggestion>nestas travestis</suggestion></message>
+        <short>Termo depreciativo</short>
+        <example correction="nessas travestis|nestas travestis">Vou <marker>nesses travecos</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>aquele</token>
+        <token regexp='yes'>traveco|travecão</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>aquela travesti</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="aquela travesti">É <marker>aquele traveco</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>aqueles</token>
+        <token regexp='yes'>travecos|travecões</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>aquelas travestis</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="aquelas travestis">É <marker>aqueles travecos</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>naquele</token>
+        <token regexp='yes'>traveco|travecão</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>naquela travesti</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="naquela travesti">É <marker>naquele traveco</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>naqueles</token>
+        <token regexp='yes'>travecos|travecões</token>
+      </pattern>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>naquelas travestis</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="naquelas travestis">É <marker>naqueles travecos</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp='yes'>traveconas?</token>
+      </pattern>
+      <message>Este termo é transfóbico; pondere substituir por <suggestion>travesti</suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="travesti">Vou à loja da <marker>travecona</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>traveco</token>
+      </pattern>
+        <message>Este termo é transfóbico; pondere substituir por <suggestion>travesti</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="travesti">É <marker>traveco</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+       <marker>
+        <token>ele</token>
+       </marker>
+        <token inflected="yes">ser</token>
+        <token>travesti</token>
+      </pattern>
+      <message>Travestis utilizam pronome feminino. Altere para <suggestion>ela</suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="Ela"><marker>Ele</marker> é travesti.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>eles</token>
+        </marker>
+        <token inflected="yes">ser</token>
+        <token>travestis</token>
+      </pattern>
+      <message>Travestis utilizam pronome feminino. Altere para <suggestion>elas</suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="Elas"><marker>Eles</marker> são travestis.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">denegrir</token>
+      </pattern>
+      <message>Este termo é racista. Altere para <suggestion><match no='1' postag='V.+' postag_regexp='yes'>difamar</match></suggestion>, <suggestion><match no='1' postag='V.+' postag_regexp='yes'>subestimar</match></suggestion> ou <suggestion><match no='1' postag='V.+' postag_regexp='yes'>rebaixar</match></suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="difamando|subestimando|rebaixando">Você está me <marker>denegrindo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">homossexualismo</token>
+      </pattern>
+      <message>Este termo é homofóbico e remete a doenças. Altere para <suggestion>homossexualidade</suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="homossexualidade">O <marker>homossexualismo</marker> é comum.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">assexualismo</token>
+      </pattern>
+      <message>Este termo é depreciativo e remete a doenças. Altere para <suggestion>assexualidade</suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="assexualidade">O <marker>assexualismo</marker> é comum.</example>
     </rule>
     <rule>
       <pattern>
@@ -1306,6 +1550,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <short>Termo depreciativo</short>
         <example correction="desentendido|desentendida">Ele sempre dá uma de <marker>joão-sem-braço</marker>.</example>
     </rule>
+    <rule>
+      <pattern>
+        <token>mulato</token>
+      </pattern>
+      <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negro</suggestion>.</message>
+      <suggestion>preto</suggestion>
+      <suggestion>miscigenado</suggestion>
+      <short>Termo depreciativo</short>
+      <example correction="negro|preto|miscigenado">Ele é <marker>mulato</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>mulatos</token>
+      </pattern>
+      <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negros</suggestion>.</message>
+      <suggestion>pretos</suggestion>
+      <suggestion>miscigenados</suggestion>
+      <short>Termo depreciativo</short>
+      <example correction="negros|pretos|miscigenados">Eles são <marker>mulatos</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>mulata</token>
+        </pattern>
+        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negra</suggestion>.</message>
+        <suggestion>preta</suggestion>
+        <suggestion>miscigenada</suggestion>
+        <short>Termo depreciativo</short>
+        <example correction="negra|preta|miscigenada">Ela é <marker>mulata</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>mulatas</token>
+        </pattern>
+        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negras</suggestion>.</message>
+        <suggestion>pretas</suggestion>
+        <suggestion>miscigenadas</suggestion>
+        <short>Termo depreciativo</short>
+        <example correction="negras|pretas|miscigenadas">Elas são <marker>mulatas</marker>.</example>
+      </rule>
     <rule>
       <pattern>
         <token>débil</token>
@@ -1358,6 +1642,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Termo depreciativo</short>
         <example correction="fingiu desentendimento">Ela <marker>fingiu demência</marker> para meus argumentos.</example>
       </rule>
+      <rule>
+      <pattern>
+        <token>que</token>
+        <token>mancada</token>
+      </pattern>
+      <message>Esta expressão é capacitista. Pondere dizer <suggestion>\1 sacanagem</suggestion>.</message>
+      <short>Termo depreciativo</short>
+      <example correction="que sacanagem"><marker>que mancada</marker> fizeram com ela.</example>
+    </rule>
   </rulegroup>
 	
   </category>
