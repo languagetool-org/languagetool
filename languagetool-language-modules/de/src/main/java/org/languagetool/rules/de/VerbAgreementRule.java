@@ -572,8 +572,8 @@ public class VerbAgreementRule extends TextLevelRule {
       int idx = 0;
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
       AnalyzedSentence partialSentence;
-      for(int i = 2; i < tokens.length; i++) {
-        if(",".equals(tokens[i-2].getToken()) && CONJUNCTIONS.contains(tokens[i].getToken())) {
+      for (int i = 2; i < tokens.length; i++) {
+        if (",".equals(tokens[i-2].getToken()) && CONJUNCTIONS.contains(tokens[i].getToken())) {
           partialSentence = new AnalyzedSentence(copyOfRange(tokens, idx, i));
           ruleMatches.addAll(match(partialSentence, pos, sentence));
           idx = i;
