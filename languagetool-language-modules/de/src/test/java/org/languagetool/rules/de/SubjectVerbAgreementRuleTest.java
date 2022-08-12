@@ -343,6 +343,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectPluralVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "Er bemerkte, dass Experimente nicht gerade sein Ding sind",
         "Die meisten der Spieler sind nicht vermögend",
         "Wie viel Prozent der Menschen sind total bescheuert?",
         "Glaubt wirklich jemand, dass gute Fotos keine Arbeit sind?",

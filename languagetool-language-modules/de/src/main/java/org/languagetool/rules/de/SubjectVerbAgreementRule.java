@@ -91,6 +91,13 @@ public class SubjectVerbAgreementRule extends Rule {
       posRegex("SUB:.*:PLU:.*"),
       csRegex("sind|waren")
     ),
+    Arrays.asList(  // "er bemerkte, dass Experimente nicht gerade sein Ding sind"
+      posRegex("SUB:.*:PLU:.*"),
+      new PatternTokenBuilder().token("nicht").setSkip(1).build(),
+      posRegex("PRO:.*"),
+      csRegex("Ding"),
+      csRegex("sind|waren")
+    ),
     Arrays.asList(
       // "Auch Studien zu Zink sind vielversprechend."
       posRegex("SUB:NOM:PLU:.*"),
