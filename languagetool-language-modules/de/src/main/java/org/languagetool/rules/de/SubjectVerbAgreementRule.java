@@ -253,7 +253,7 @@ public class SubjectVerbAgreementRule extends Rule {
       token("und"),
       token("Gemüse")
     ),
-    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit. 
+    Arrays.asList(
       token("Sport"),
       token("und"),
       token("Spiel")
