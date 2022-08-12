@@ -144,14 +144,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <token regexp="yes">\p{Ps}|\.|,|:</token>
-                    <token postag_regexp="yes" postag="ENM:LOC:PTS"/>
                     <marker>
-                        <token regexp="yes">[1-2]?[0-9]{3}</token>
+                        <token postag_regexp="yes" postag="ENM:LOC:PTS"/>
                     </marker>
+                    <token regexp="yes">[1-2]?[0-9]{3}</token>
                     <token regexp="yes">\p{Pe}|\.|,</token>
                 </pattern>
-                <example correction="">Between Otherness and Authenticity (Aldershot <marker>2007</marker>) 109-133.</example>
-                <example correction="">Door Thijs de Gooijer, Uitgeverij René de Milliano, Alkmaar <marker>2005</marker>. ISBN 90-72810-50-3.</example>
+                <example correction="">Between Otherness and Authenticity (<marker>Aldershot</marker> 2007) 109-133, [over de herdenkingscultuur na Fortuyns dood].</example>
+                <example correction="">Door Thijs de Gooijer, Uitgeverij René de Milliano, <marker>Alkmaar</marker> 2005. ISBN 90-72810-50-3.</example>
             </rule>
         </rulegroup>
     </category>
