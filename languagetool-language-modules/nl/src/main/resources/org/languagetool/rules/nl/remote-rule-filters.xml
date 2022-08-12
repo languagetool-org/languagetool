@@ -82,7 +82,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">aanbod|aansluiting|aantal(len)?|beetje|beleidsmedewerkers?|blik(ken|jes?)?|(om)?bouw|docent(en?)?|doos(jes?)?|dosis|financiering|fles(je)?|hooglera(ar|re(n|s)?)|portefeuille</token>
+                        <token>Mozilla</token>
+                    </marker>
+                    <token regexp="yes">Calendar|Composer|Firefox|SeaMonkey|Skywriter|Thunderbird|Treeherder|VPN</token>
+                </pattern>
+                <example correction="">Dat kan met verschillende browsers, zoals Google Chrome, <marker>Mozilla</marker> Firefox, enzovoort.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Google</token>
+                    </marker>
+                    <token regexp="yes">Account|Ads|AdMob|Adsense|Alerts|Analytics|Android|Apps?|Assistant|Books|Calendar|Charts|Chat|Chrome(cast|book)?|Classroom|Cloud|Currents|Daydream|Developers?|Docs?|Domains|Drawings|Drive|Duo|Earth|Finance|Flights|Fonts?|Forms?|Fuchsia|Glass|Groups?|Home|Images?|Jamboard|Keep|Maps?|Mars|Moon|Meet|Nest|News|Nexus|Ngram|Patents|Pay|Pixel|reCAPTCHA|Santa|Scholar|Search|Sheets?|Shopping|Sites|Sky|Slides?|Stadia|Surveys?|Tables?|Translate|Travel|Trends?|Videos|Voice|Wear|Workspace</token>
+                </pattern>
+                <example correction="">Dat kan met verschillende producten, zoals LibreOffice Writer, Microsoft Word, <marker>Google</marker> Docs, enzovoort.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">aanbod|aanvraag|aansluiting|aantal(len)?|beetje|beleidsmedewerkers?|blik(ken|jes?)?|(af|in|om|op)?bouw|docent(en?)?|doos(jes?)?|dosis|financiering|fles(je)?|glas|hooglera(ar|re(n|s)?)|portefeuille</token>
                     </marker>
                     <token min="0" max="2" postag_regexp="yes" postag="BNW.*|GET:TXT.*|VNW:.*:(DE_|HET)"/>
                     <token postag_regexp="yes" postag="ZNW.*|DVS"/>
@@ -103,11 +121,53 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <marker>
+                        <token>jouw</token>
+                    </marker>
+                    <token min="0" postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV"/>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                    <token regexp="yes">en|of|,</token>
+                </pattern>
+                <example correction=""><marker>Jouw</marker> inzet, moed en hulpvaardigheid zijn uitstekend.</example>
+                <example correction=""><marker>Jouw</marker> grote inzet, moed en hulpvaardigheid zijn uitstekend.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token postag="ENM:BEZ"/>
                     </marker>
                     <token postag_regexp="yes" postag="ZNW.*"/>
                 </pattern>
                 <example correction="">Ze keerden terug met vooral graan, <marker>Zweeds</marker> kruit, hout, ijzer en wapens, maar ook vele andere goederen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV"/>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                    <token regexp="yes">en|of|,</token>
+                </pattern>
+                <example correction="">Bereid eerst eieren, tarwebloem, <marker>gemodificeerd</marker> maïszetmeel, zout en de overigen specerijen voor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="ZNW.*"/>
+                    </marker>
+                    <token regexp="yes">fans?|liefhebbers?|supporters?|(voor|tegen)standers?</token>
+                    <token regexp="yes">en|of|,</token>
+                </pattern>
+                <example correction="">Als echte <marker>sneaker</marker> liefhebber en modebewuste persoon moet je dit model proberen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="ZNW.*"/>
+                    </marker>
+                    <token postag_regexp="yes" postag="WKW:TGW:INF"/>>
+                    <token regexp="yes">en|of|,</token>
+                </pattern>
+                <example correction="">De belangrijkste stappen zijn: <marker>buitenmuur</marker> isoleren en binnenmuur drogen.</example>
             </rule>
             <rule>
                 <pattern>
