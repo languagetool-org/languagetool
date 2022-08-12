@@ -81,7 +81,13 @@ public class SubjectVerbAgreementRule extends Rule {
     ),
     Arrays.asList(  // "Wie viel Prozent der Menschen sind total bescheuert?"
       token("Prozent"),
-      tokenRegex("der"),
+      token("der"),
+      posRegex("SUB:.*:PLU:.*"),
+      csRegex("sind|waren")
+    ),
+    Arrays.asList(  // "Die meisten der Spieler sind nicht vermögend"
+      token("meisten"),
+      token("der"),
       posRegex("SUB:.*:PLU:.*"),
       csRegex("sind|waren")
     ),
