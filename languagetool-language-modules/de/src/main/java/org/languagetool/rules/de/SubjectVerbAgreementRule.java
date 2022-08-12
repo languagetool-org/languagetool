@@ -98,6 +98,12 @@ public class SubjectVerbAgreementRule extends Rule {
       csRegex("Ding"),
       csRegex("sind|waren")
     ),
+    Arrays.asList(  // "Wenn Sie kein Teil der Lösung sind, ..."
+      token("Teil"),
+      token("der"),
+      token("Lösung"),
+      csRegex("sind|waren")
+    ),
     Arrays.asList(
       // "Auch Studien zu Zink sind vielversprechend."
       posRegex("SUB:NOM:PLU:.*"),
