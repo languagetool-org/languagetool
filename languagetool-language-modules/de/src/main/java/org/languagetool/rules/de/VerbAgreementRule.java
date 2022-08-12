@@ -381,7 +381,7 @@ public class VerbAgreementRule extends TextLevelRule {
     asList( // Geh du mal!
       pos(JLanguageTool.SENTENCE_START_TAGNAME),
       posRegex("VER:IMP:SIN.+"),
-      csToken("du"),
+      token("du"),
       new PatternTokenBuilder().csToken("?").negate().build()
     ),
     asList( // -Du fühlst dich unsicher?
