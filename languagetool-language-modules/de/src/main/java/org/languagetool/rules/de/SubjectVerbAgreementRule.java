@@ -79,6 +79,12 @@ public class SubjectVerbAgreementRule extends Rule {
       csRegex("war|ist"),
       new PatternTokenBuilder().posRegex("NEG|PA2:.+").build()
     ),
+    Arrays.asList(  // "Wie viel Prozent der Menschen sind total bescheuert?"
+      token("Prozent"),
+      tokenRegex("der"),
+      posRegex("SUB:.*:PLU:.*"),
+      csRegex("sind|waren")
+    ),
     Arrays.asList(
       // "Auch Studien zu Zink sind vielversprechend."
       posRegex("SUB:NOM:PLU:.*"),

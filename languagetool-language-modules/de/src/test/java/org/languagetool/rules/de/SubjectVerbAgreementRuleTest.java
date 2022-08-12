@@ -343,6 +343,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectPluralVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "Wie viel Prozent der Menschen sind total bescheuert?",
         "Glaubt wirklich jemand, dass gute Fotos keine Arbeit sind?",
         "Zwei Schülern war aufgefallen, dass man im Fernsehen dazu nichts mehr sieht.",
         "Auch die Reste eines sehr großen Insektenfressers sind unter den Fossilien.",
