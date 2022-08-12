@@ -288,7 +288,9 @@ public class AgreementRule2 extends Rule {
   @NotNull
   private Set<String> retainCommonCategories(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
     Set<AgreementRule.GrammarCategory> categoryToRelaxSet = Collections.emptySet();
-    Set<String> set1 = AgreementTools.getAgreementSOLCategories(token1, categoryToRelaxSet);
+    // finds more error but also more false alarms? see commented out cases in testSuggestion():
+    //Set<String> set1 = AgreementTools.getAgreementSOLCategories(token1, categoryToRelaxSet);
+    Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, false);
     //System.out.println(token1 + " -> " + set1);
     Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, false);
     //System.out.println(token2 + " -> " + set2);
