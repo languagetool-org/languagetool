@@ -37,6 +37,10 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     Arrays.asList(
+      token("die"),  // "Die Adelmanns" (Nachname not tagged properly)
+      new PatternTokenBuilder().pos("SUB:GEN:SIN:MAS").tokenRegex(".*manns").build()
+    ),
+    Arrays.asList(
       token("für"),
       token("viele"),
       token("Grund"),
