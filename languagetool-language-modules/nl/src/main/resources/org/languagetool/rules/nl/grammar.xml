@@ -79,7 +79,7 @@ regexp case-insensitive maken: (?i)
 <!ENTITY measurementUnitsAll "&measurementUnitsTime;|&measurementUnitsLength;|&measurementUnitsMass;|&measurementUnitsTemperature;|&measurementUnitsAngles;|&measurementUnitsElectroMagnetism;|&measurementUnitsMisc;|&measurementUnitsComputing;">
 
 <!ENTITY DVW "uit|af|op|in|door|weg|na|terug|mee|om|over|rond|bij|toe|voor|binnen|vast|neer|samen|dicht|open|voort|los|dood|leeg|onder|vol|omhoog|her|bijeen|mis|droog|aaneen|tegen|vooruit|vrij|voorbij|schoon|achteruit|uiteen|buiten|ineen|kapot|plat|langs|heen|recht|stuk|omver|fijn|mede|klaar|thuis|achter|achterover|gelijk|opzij|glad|goed|stil|achterna|herin|herop|omlaag|boven|dooreen|kaal|achterom|weer|opeen|krom|scheef|gereed|nat|achterop|onderuit|terecht|weder|beet|achteraan|hard|kwijt|verder|voorop|warm|plaats|bloot|proef|blind|dubbel|heraan|terneer|wel|zoek|tegemoet|heruit|hoog|school|zwart|klem|lek|rechtop|schuil|voorin|voorover|overhoop|waar|overeen|kennis|gevangen|groot|klein|gaar|lam|vlak|vuil|deel|dwars|thee|hout|scheel|stijf|grijs|tussen|tekort|vooraf|bekend|tentoon|koffie|teniet|dienst|daar|neder">
-<!ENTITY ROMAN_NUM "(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))">
+<!-- currently not used (alternative: postag="GET:ROM") <!ENTITY ROMAN_NUM "(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))"> -->
 <!-- definieer macro voor gespelde afkortingen als cd -->
 <!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ok|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp|km|mm|cm|soa|bbl">
 <!ENTITY APOSTROPH "[`'‘’]">
@@ -835,9 +835,9 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <!-- "Maandag 7 Oktober 2014" -->
                     <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
-                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">0?[1-9]|[1-2][0-9]|3[0-1]</token>
                     <token regexp="yes">&months;|&abbrevMonths;</token>
-                    <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">\d{4}</token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.DateCheckFilter" args="year:\4 month:\3 day:\2 weekDay:\1"/>
                 <message>\2 \3 \4 is geen {day}, maar een {realDay}.</message>
@@ -861,9 +861,9 @@ regexp case-insensitive maken: (?i)
                     <!-- "Maandag 7 Oktober 2014" -->
                     <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
                     <token>,</token>
-                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">0?[1-9]|[1-2][0-9]|3[0-1]</token>
                     <token regexp="yes">&months;|&abbrevMonths;</token>
-                    <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">\d{4}</token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
                 <message>\3 \4 \5 is geen {day}, maar een {realDay}.</message>
@@ -886,19 +886,19 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <antipattern> <!-- onder 13 is dubbelzinnig, dus niet testen -->
                     <token regexp="yes">&weekdays;</token>
-                    <token regexp="yes">0{0,1}[1-9]|1[012]</token> <!-- maandnummer of weeknummer -->
+                    <token regexp="yes">0?[1-9]|1[0-2]</token> <!-- maandnummer of dagnummer -->
                     <token regexp="yes">/</token>
-                    <token regexp="yes">0{0,1}[1-9]|1[012]</token> <!-- maandnummer of weeknummer -->
+                    <token regexp="yes">0?[1-9]|1[0-2]</token> <!-- maandnummer of dagnummer -->
                     <token regexp="yes">/</token>
-                    <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">\d{4}</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">&weekdays;</token>
-                    <token regexp="yes">0{0,1}[1-9]|[12][0-9]|3[01]</token> <!-- dagnummers -->
+                    <token regexp="yes">0?[1-9]|[1-2][0-9]|3[0-1]</token> <!-- dagnummers -->
                     <token regexp="yes">/</token>
-                    <token regexp="yes">0{0,1}[1-9]|1[012]</token> <!-- maandnummer -->
+                    <token regexp="yes">0?[1-9]|1[0-2]</token> <!-- maandnummer -->
                     <token regexp="yes">/</token>
-                    <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">\d{4}</token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.DateCheckFilter" args="year:\6 month:\4 day:\2 weekDay:\1"/>
                 <message>\2\3\4\5\6 is geen \1.</message>
@@ -916,7 +916,7 @@ regexp case-insensitive maken: (?i)
                         <token regexp="yes">april|apr|juni|jun|september|sep|sept|november|nov</token>
                     </marker>
                 </pattern>
-                <message>De maand \1 heeft maar 30 dagen.</message>
+                <message>De maand \2 heeft maar 30 dagen.</message>
                 <example correction="">Het gebeurde <marker>31 november</marker> 2014.</example>
                 <example>Het gebeurde <marker>30 november</marker> 2014.</example>
                 <example correction="">Om die reden hebben wij een halt toegeroepen aan het K.B. van <marker>31 april</marker> 1997.</example>
@@ -946,6 +946,27 @@ regexp case-insensitive maken: (?i)
                 <message>Februari heeft maar 28 dagen, of 29 in schrikkeljaren.</message>
                 <example correction="">Het gebeurde op <marker>30 feb</marker> 2014.</example>
                 <example>Het gebeurde op <marker>28 feb</marker> 2014.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">3[2-9]|[4-9][0-9]</token>
+                        <token regexp="yes">&months;|&abbrevMonths;</token>
+                    </marker>
+                </pattern>
+                <message>Er zijn geen maanden met meer dan 31 dagen.</message>
+                <example correction="">Het gebeurde <marker>32 november</marker> 2014.</example>
+                <example>Het gebeurde <marker>30 november</marker> 2014.</example>
+                <example correction="">Om die reden hebben wij een halt toegeroepen aan het K.B. van <marker>64 april</marker> 1997.</example>
+                <example correction="">Uit mijn humeur postte ik op <marker>99 nov</marker> dezelfde klacht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(3[2-9]|[4-9][0-9])-(0?[0-9]|1[0-2])-[0-9]{4}</token>
+                </pattern>
+                <message>Er zijn geen maanden met meer dan 31 dagen.</message>
+                <example correction="">Het gebeurde <marker>32-04-2014</marker>.</example>
+                <example correction="">Het gebeurde <marker>99-6-2014</marker>.</example>
             </rule>
         </rulegroup>
     </category>
