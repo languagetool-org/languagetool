@@ -289,6 +289,7 @@ public class VerbAgreementRuleTest {
     assertGood("Musst also nichts machen.");
     assertGood("Eine Situation, wo der Stadtrat gleich mal zum Du übergeht.");
     assertGood("Machen wir, sobald wir frische und neue Akkus haben.");
+    assertGood("Darfst nicht so reden, Franz!");
     // incorrect sentences:
     assertBad("Auch morgen leben du.");
     assertBad("Du weiß noch, dass du das gestern gesagt hast.");

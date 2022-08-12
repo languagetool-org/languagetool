@@ -67,6 +67,11 @@ public class VerbAgreementRule extends TextLevelRule {
       token("wärst"),
       token("ich")
     ),
+    asList( // "Darfst nicht so reden, Franz!" (okay for colloquial language)
+      pos("SENT_START"),
+      pos("VER:MOD:2:SIN:PRÄ"),
+      new PatternTokenBuilder().token("ich|er|sie|es|wir|ihr|sie").negate().build()
+    ),
     asList(  // "sobald wir frische und neue Akkus haben."
       token("wir"),
       token("frische")
