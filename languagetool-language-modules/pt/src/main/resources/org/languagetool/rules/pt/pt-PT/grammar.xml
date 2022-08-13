@@ -3534,7 +3534,7 @@
   </category>
 
 
-  <category id='FORMAL_SPEECH' name='Linguagem Formal' type='register'>
+  <category id='FORMAL_SPEECH_PT_PT' name='Linguagem Formal' type='register'>
 
 
     <!-- TERMOS DEPRECIATIVOS -->
@@ -5100,6 +5100,55 @@
       <message>Substitua por <suggestion>muito pêlo \3</suggestion>.</message>
       <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
     </rule>
+
+
+    <!-- COM A GENTE connosco/conosco -->
+    <rule id='COM_A_GENTE_CONNOSCO_CONOSCO_PT_PT' name="Com a gente → Connosco">
+      <!--      Created by Tiago Santos and localised by Marco A.G.Pinto, Portuguese rule 2021-06-03 (17-MAR-2021+)      -->
+      <!--
+      Tu vens com a gente? → Tu vens connosco?
+      -->
+      <pattern>
+        <token>com</token>
+        <token>a</token>
+        <token>gente</token>
+      </pattern>
+      <message>O uso de "com a gente" é informal.</message>
+      <suggestion>connosco</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
+      <short>Linguagem informal</short>
+      <example correction="connosco">Ele veio <marker>com a gente</marker> para o revéillon.</example>
+    </rule>
+
+
+    <rule id='FORMAL_COM_NÓS_PT_PT' name="Expressões 'com nós'">
+      <!--    Created by Tiago F. Santos, Portuguese rule, 2016-12-28      -->
+
+      <!-- MARCOAGPINTO 2022-07-12 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+      <antipattern>
+        <token>com</token>
+        <token>nós</token>
+        <token postag='Z0.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+        <token postag='_PUNCT|CC' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='SPS00'/>
+        </token>
+        <example>Cale a boca! Isto só tem a ver com nós dois.</example>
+        <example>A isto fomos forçados por nosso dever para com nós mesmos e também vários fregueses, entre os quais o senhor se incluía.</example>
+        <example>A vida nos ensina a ser menos severos com nós mesmos e com os outros.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-07-12 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+      <pattern>
+        <token>com</token>
+        <token>nós</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion>connosco</suggestion>?</message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
+      <short>Linguagem informal</short>
+      <example correction="connosco">Ele veio <marker>com nós</marker> para o revéillon.</example>
+    </rule>
+
+
   </category>
 
 
@@ -5329,58 +5378,6 @@
         <example correction="12o">O premiado é o <marker>12o.</marker> da lista.</example>
       </rule>
     </rulegroup>
-
-
-  </category>
-
-
-  <category id='FORMAL_SPEECH_PT_PT' name="Linguagem Formal" type="register">
- 
-    <!-- COM A GENTE connosco/conosco -->
-    <rule id='COM_A_GENTE_CONNOSCO_CONOSCO_PT_PT' name="Com a gente → Connosco">
-      <!--      Created by Tiago Santos and localised by Marco A.G.Pinto, Portuguese rule 2021-06-03 (17-MAR-2021+)      -->
-      <!--
-      Tu vens com a gente? → Tu vens connosco?
-      -->
-      <pattern>
-        <token>com</token>
-        <token>a</token>
-        <token>gente</token>
-      </pattern>
-      <message>O uso de "com a gente" é informal.</message>
-      <suggestion>connosco</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
-      <short>Linguagem informal</short>
-      <example correction="connosco">Ele veio <marker>com a gente</marker> para o revéillon.</example>
-    </rule>
-
-
-    <rule id='FORMAL_COM_NÓS_PT_PT' name="Expressões 'com nós'">
-      <!--    Created by Tiago F. Santos, Portuguese rule, 2016-12-28      -->
-
-      <!-- MARCOAGPINTO 2022-07-12 (Checked/Enhanced) (5-JUN-2022+) *START* -->
-      <antipattern>
-        <token>com</token>
-        <token>nós</token>
-        <token postag='Z0.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
-        <token postag='_PUNCT|CC' postag_regexp='yes'>
-          <exception postag_regexp='no' postag='SPS00'/>
-        </token>
-        <example>Cale a boca! Isto só tem a ver com nós dois.</example>
-        <example>A isto fomos forçados por nosso dever para com nós mesmos e também vários fregueses, entre os quais o senhor se incluía.</example>
-        <example>A vida nos ensina a ser menos severos com nós mesmos e com os outros.</example>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-07-12 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
-      <pattern>
-        <token>com</token>
-        <token>nós</token>
-      </pattern>
-      <message>Será que quis dizer <suggestion>connosco</suggestion>?</message>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
-      <short>Linguagem informal</short>
-      <example correction="connosco">Ele veio <marker>com nós</marker> para o revéillon.</example>
-    </rule>
 
 
   </category>
