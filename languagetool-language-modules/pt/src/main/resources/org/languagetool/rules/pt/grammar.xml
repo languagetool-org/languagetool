@@ -4174,20 +4174,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2021-03-24 + 2021-05-31 (17-MAR-2021+) *START* -->
-        <!--
-        Lançamento de 2 referências de bacalhau oriundos de pesca sustentável.
-        Em seguida, as tropas do general Robles tomaram a cidade.
-        A Coreia é dividida em duas a Coreia do Sul e a Coreia do Norte, separadas pelo paralelo 38º N.
-        -->
-        <antipattern>
-          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-          <token postag='SPS.+' postag_regexp='yes'/>
-          <token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
-          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-          <token postag='SPS.+|V....P.+|NC.N.+|AQ0.N.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-03-24 + 2021-05-31 (17-MAR-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-05-31 (Enhanced) (17-MAR-2021+) *START* -->
         <!--
         O mendigo vendeu ao homem jornais antigos.
@@ -4431,6 +4417,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Depois dessa 6ª conquista, só voltaria a vencer um título brasileiro 20 anos depois.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-12 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='AQ..P.+|NC.P.+|V....P.+' postag_regexp='yes'/>
+          <token postag='SPS00|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+' postag_regexp='yes'/>
+          <token postag='AQ..P.+|NC.P.+|V....P.+' postag_regexp='yes'/>
+          <token postag='SPS00|V....P.+|NC.[NP].+|AQ..[NP].+|_PUNCT' postag_regexp='yes'/>
+          <example>Orem por nós por favor irmãos.</example>
+          <example>Preços e condições de pagamento exclusivos para compras via internet, podendo variar nas lojas físicas.</example>
+          <example>Portugal encontra-se entre os países com menor níveis de consumo de comida rápida e com menor IMC.</example>
+          <example>Assim, e especialmente dirigido aqueles mais curiosos em saber pormenores, deixo hoje aqui um pequeno texto narrativo/descritivo de como é um dia passado a fotografar aviões...</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
