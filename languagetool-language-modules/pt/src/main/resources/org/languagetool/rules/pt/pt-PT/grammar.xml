@@ -4184,6 +4184,7 @@
       </rule>
     </rulegroup>
 
+
     <rule id='A_NIVEL' name="A nível" default='off'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
       <pattern>
@@ -4964,22 +4965,33 @@
     </rule>
 
 
-    <rule id="AVÉ_MARIA" name="AO90: ave Maria">
-      <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-09 -->
-      <pattern>
-        <marker>
-          <token>avé</token>
-        </marker>
-        <token min="0">,</token>
-        <token>Maria</token>
-        <token>,</token>
-        <token>cheia</token>
-        <token>de</token>
-        <token>graça</token>
-      </pattern>
-      <message>Segundo o AO90, deve substituir por <suggestion>ave</suggestion>.</message>
-      <example correction="Ave"><marker>Avé</marker>, Maria, cheia de graça.</example>
-    </rule>
+    <rulegroup id="AVÉ_MARIA" name="AO90: avé/ave Maria">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-13 (Checked/Enhanced) (25-JUL-2022+) -->
+      <rule>        
+        <pattern>
+          <marker>
+            <token>avé</token>
+          </marker>
+        <token min="0" spacebefore="no" regexp='yes'>[,]</token>
+        <token regexp='yes'>Marias?</token>
+        </pattern>
+        <message>Segundo o AO90, deve substituir por <suggestion>ave</suggestion>.</message>
+        <example correction="ave">Vamos rezar uma <marker>avé</marker>, Maria, cheia de graça.</example>
+      </rule>
+	  
+      <rule>
+        <pattern>
+          <marker>
+			<token regexp='yes'>av[eé]</token>
+			<token spacebefore="no" regexp='yes'>[-]</token>
+			<token spacebefore="no" regexp='yes'>Marias?</token>
+          </marker>                
+        </pattern>
+        <message>Segundo o AO90, deve substituir por <suggestion>ave \3</suggestion>.</message>
+        <example correction="ave Maria">Vamos rezar uma <marker>avé-Maria</marker>, cheia de graça.</example>
+      </rule>	  
+	  
+    </rulegroup>
 
 
   </category>
