@@ -3557,19 +3557,26 @@
 
     <!-- EDUCAÇÃO SUPERIOR Ensino Superior -->
     <rule id='ENSINO_SUPERIOR' name="Educação Superior → Ensino Superior" type="style">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-12-18 (25-JUN-2021+)      -->
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-13 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
       O ISCTE é uma instituição de Educação Superior. → O ISCTE é uma instituição de Ensino Superior.
       -->
       <pattern>
         <marker>
-          <token case_sensitive="yes">Educação</token>
-          <token case_sensitive="yes">Superior</token>
+          <token case_sensitive="no">Educação
+            <exception scope='previous' regexp='yes' inflected='yes'>ter</exception>
+          </token>
+          <token case_sensitive="no">Superior</token>
         </marker>
       </pattern>
       <message>Se estiver a referir-se a uma instituição/ramo universitário, opte por:</message>
       <suggestion>Ensino Superior</suggestion>
       <example correction="Ensino Superior">O ISCTE é uma instituição de <marker>Educação Superior</marker>.</example>
+      <example>A Ana tem educação superior.</example>
+      <example>Eu tenho educação superior.</example>
+      <example>Se ele tiver educação superior, tudo bem.</example>
+      <example>O estabelecimento é de Ensino Superior.</example>
+      <example>Um homem que nunca foi à escola pode roubar de um vagão de carga; mas, se ele tiver educação superior, ele pode roubar toda a ferrovia.</example>
     </rule>
 
 
