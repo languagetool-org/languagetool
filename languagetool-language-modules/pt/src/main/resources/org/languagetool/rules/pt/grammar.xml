@@ -4174,18 +4174,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2021-05-31 (Enhanced) (17-MAR-2021+) *START* -->
-        <!--
-        O mendigo vendeu ao homem jornais antigos.
-        Ela deixava de lado compassos inteiros.
-        Cria-se que no último dia do ano espíritos malignos regressariam à terra.
-        -->
-        <antipattern>
-          <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
-          <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-          <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-05-31 (17-MAR-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-05-31 (17-MAR-2021+) *START* -->
         <!--
         Óxido de etileno ou epóxido de etileno utilizados como inseticida.
@@ -4431,6 +4419,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Assim, e especialmente dirigido aqueles mais curiosos em saber pormenores, deixo hoje aqui um pequeno texto narrativo/descritivo de como é um dia passado a fotografar aviões...</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='NP.S.+|SENT_START|SPS00|CC|CS|RG|I|RM|RN|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|_PUNCT|V....S.+|NC.S.+|AQ0.S.+' postag_regexp='yes'>
+            <exception scope="previous" postag_regexp='yes' postag='NC.P.+|AQ0.P.+'/>
+            <exception regexp='no'>com</exception>
+          </token>
+          <token postag='NC.S.+|AQ0.S.+|V....S.+' postag_regexp='yes'/>
+          <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+          <token postag='NC.P.+|AQ0.P.+' postag_regexp='yes'/>
+          <example>No entanto, pela sua gravidade, a crise teve fortes impactos nas empresas.</example>
+          <example>Falar idiomas estrangeiros não é fácil.</example>
+          <example>Jorge Luis Borges teve graves problemas na vista muito cedo.</example>
+          <example>A deliciosa opção leva pão brioche, maionese caseira, hambúrguer 100% Angus, queijos prato e mussarela, tomate, cebola roxa, folhas de beterraba e rúcula.</example>
+          <example>Desejo bons êxitos.</example>
+          <example>Olhar pássaros selvagens é muito divertido.</example>
+          <example>Cidade dos presidentes, como também é chamada, teve ilustres nomes da política brasileira.</example>
+          <example>Amo línguas estrangeiras.</example>
+          <example>O rei teve filhos ilegítimos numerosos com ela.</example>
+          <example>Durante a sua estadia em Viena, Carvalho teve problemas financeiros.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
