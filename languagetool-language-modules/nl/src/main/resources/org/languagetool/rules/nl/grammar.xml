@@ -43289,28 +43289,63 @@ steenwijk;Steenwijk
                 <example correction="eiwitachtige">De <marker>eiwitachtigs</marker> materie klontert.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SPATIEFOUT_HET_DE" name="de-hetfout of spatiefout">
+        <rulegroup id="SPATIEFOUT_HET_DE" name="de-hetfout of spatiefout"> <!-- TODO:  Later tag as learner rule -->
             <rule>
-                <antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*MRV"/></antipattern>
-                <antipattern><token regexp="yes">honderd|duizend|één</token></antipattern>
-                <antipattern case_sensitive="yes"><token>Tennis</token><token>Masters</token><token>Cup</token></antipattern>
-                <antipattern case_sensitive="yes"><token>Internet</token><token>Movie</token><token>Database</token></antipattern>
-                <antipattern case_sensitive="yes"><token>Internet</token><token>Engineering</token><token>Task</token><token>Force</token></antipattern>
-                <antipattern case_sensitive="yes"><token>Les</token><token>Fatals</token><token>Picards</token></antipattern>
-                <antipattern case_sensitive="yes"><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes">[A-Z][a-z].*</token></antipattern>
-                <pattern>
+                <antipattern>
                     <token>de</token>
+                    <token>nummer</token>
+                    <token postag_regexp="yes" postag="GET.*MRV"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">honderd|duizend|één</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>Tennis</token>
+                    <token>Masters</token>
+                    <token>Cup</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>Internet</token>
+                    <token>Movie</token>
+                    <token>Database</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>Internet</token>
+                    <token>Engineering</token>
+                    <token>Task</token>
+                    <token>Force</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>Les</token>
+                    <token>Fatals</token>
+                    <token>Picards</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">[A-Z][a-z].*</token>
+                    <token regexp="yes">[A-Z][a-z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">aanbod|(aan|ge)?tal|blik|glas|type</token>
+                    <token postag="ZNW:EKV|ZNW.*DE_"></token>
+                </antipattern>
+                <pattern>
                     <marker>
-                        <token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW.*DE_|GET:RNG"/></token>
-                        <token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:TGW:INF"/><exception>was</exception></token>
+                        <token>de</token>
+                        <token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW.*DE_|GET:RNG|WKW:VTD:ONV"/></token>
+                        <token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:TGW:INF"/></token>
                     </marker>
                 </pattern>
+                <!-- Temporarily disabled to test user adoption with changed suggestions:
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
-                <message>Dit is mogelijk een spatiefout.</message>
-                <suggestion>\2\3</suggestion>
-                <example correction="herendubbelcategorie">John McEnroe behaalde 77 overwinningen in de <marker>herendubbel categorie</marker>.</example>
-                <example correction="morsecode">UltraMorse, Een programma om de <marker>morse code</marker> te leren</example>
-                <example>De raam was stuk.</example> <!-- user reported false -->
+                -->
+                <message>Als hier geen verwisseling van 'de' en 'het' bestaat is het waarschijnlijk een spatiefout.</message>
+                <suggestion>de \2\3</suggestion>
+                <suggestion>het \2 \3</suggestion>
+                <short>de vs. het of spatiefout</short>
+                <example correction="de herendubbelcategorie|het herendubbel categorie">John McEnroe behaalde 77 overwinningen in <marker>de herendubbel categorie</marker>.</example>
+                <example correction="de morsecode|het morse code">UltraMorse, Een programma om <marker>de morse code</marker> te leren</example>
+                <example correction="de aantalbesmettingen|het aantal besmettingen">De media zijn oneens over <marker>de aantal besmettingen</marker> op schoool.</example>
+                <example>We wardeeren de gegeven feedback uiteraard.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SPATIEFOUT_HEIDS" name="foutheids criterium">
