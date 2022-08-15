@@ -4199,19 +4199,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2021-05-31 (17-MAR-2021+) *START* -->
-        <!--
-        Óxido de etileno ou epóxido de etileno utilizados como inseticida.
-        D. Afonso IV não ficou agradado com o favoritismo concedidos aos castelhanos.
-        -->
-        <antipattern>
-          <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='V.+'/>
-          </token>
-          <token postag='V....P.+' postag_regexp='yes'/>
-          <token postag='CS|RG|SPS.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-05-31 (17-MAR-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-05-31 (Enhanced) (17-MAR-2021+) *START* -->
         <!--
         As simulações deviam ser o mais realistas que há.
@@ -4464,6 +4451,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Amo línguas estrangeiras.</example>
           <example>O rei teve filhos ilegítimos numerosos com ela.</example>
           <example>Durante a sua estadia em Viena, Carvalho teve problemas financeiros.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='SPS00|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+|SENT_START|NP.S.+|NC.P.+|AQ0.P.+|VMG0000|V....P.+|VMN0000' postag_regexp='yes'>
+            <exception scope="previous" postag_regexp='yes' postag='NC.S.+|AQ0.S.+'/>
+          </token>
+          <token postag='V....P.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|SPS00|VMN0000|NP.S.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RG' postag_regexp='no'/>
+          <token postag='NC.S.+|AQ0.S.+' postag_regexp='yes'/>
+          <token postag='NC.P.+|AQ0.P.+|VMP00P.+' postag_regexp='yes'/>
+          <token postag='_PUNCT|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|RG|SPS00' postag_regexp='yes'>
+            <exception scope="previous" postag_regexp='no' postag='AQ0CP0'/>
+          </token>
+          <example>Fomos a um piquenique juntos.</example>
+          <example>Você já teve problemas com o seu próprio comportamento compulsivo?</example>
+          <example>Tom teve problemas para aceitar o amor de Mary.</example>
+          <example>Esse animal deves algum dia ver.</example>
+          <example>Você gostaria de que passássemos um tempo juntos esta noite?</example>
+          <example>Materiais que poderiam estar poluindo o meio ambiente transformados pelo artista autodidata em obras que retratam a beleza da natureza.</example>
+          <example>Os homens estão desde o primeiro plano condenados.</example>
+          <example>Esse animal deves algum dia ver.</example>
+          <example>Vamos a um show juntos.</example>
+          <example>Tom leu romances.</example>
+          <example>Maria lê livros em voz alta para pessoas cegas todos os sábados pela manhã.</example>
+          <example>Tom diz que ele e Maria jogaram xadrez juntos muitas vezes.</example>
+          <example>Os soldados voltaram para o acampamento feridos.</example>
+          <example>Com carinho alunos da Escola Municipal São José.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
@@ -42885,7 +42901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
-    <rule id='ACHO_QUE' name="penso/julgo que" tags='picky'>
+    <rule id='ACHO_QUE' name="penso/julgo que">
       <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-05-29 -->
       <pattern>
         <token inflected='yes'>achar</token>
@@ -47008,7 +47024,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
         </pattern>
         <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-        <suggestion><match no='4' postag='VMSP1P0'/></suggestion>
+        <suggestion><match no='4' postag='VMM01P0'/></suggestion>
         <suggestion><match no='4' postag='VMIF1P0'/></suggestion>
         <suggestion><match no='4' postag='VMIP1P0'/></suggestion>
         <example correction="provemos|provaremos|provamos">Agora <marker>vamos provar</marker> a métrica.</example>
