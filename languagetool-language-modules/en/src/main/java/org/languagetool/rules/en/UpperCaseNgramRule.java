@@ -473,6 +473,13 @@ public class UpperCaseNgramRule extends Rule {
     ),
     Arrays.asList(
       csRegex("Peters")
+    ),
+    Arrays.asList( // What Does an Effective Cover Letter Look Like?
+      csRegex("Who|What|When|Where|Why|How"),
+      csRegex("Is|Are|Was|Were|Do(es)?|Have|Has"),
+      new PatternTokenBuilder().pos("DT").min(0).build(),
+      csRegex("[A-Z].+"),
+      csRegex("[A-Z].+")
     )
   );
 

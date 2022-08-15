@@ -86,6 +86,7 @@ public class UpperCaseNgramRuleTest {
     assertGood("And mine is Wed.");
     assertGood("I would support Knicks rather than Hawks.");
     assertGood("You Can't Judge a Book by the Cover");
+    assertGood("What Does an Effective Cover Letter Look Like?");
     // TODO:
     //assertGood("Best Regards.");
     //assertGood("USB Port.");
