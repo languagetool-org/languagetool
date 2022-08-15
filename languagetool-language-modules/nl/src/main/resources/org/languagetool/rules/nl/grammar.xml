@@ -69,7 +69,7 @@ regexp case-insensitive maken: (?i)
 
 <!ENTITY measurementUnitPrefix "E(xa)?|P(eta)?|T(era)?|G(iga)?|M(ega)?|k(ilo)?|h(ecto)?|d(ec)?a|d(eci)?|c(enti)?|m(illi)?|u|&#x03BC;|micro|n(ano)?|licht">
 <!ENTITY measurementUnitsTime "(&measurementUnitPrefix;)?(s(ec)?|seconde(n|s)?)|min(uut)?|minuten|u(ur)?|uren|hr?|d|dag(en)?|we(ek|ken)|maa(nd|nden)|kwarta(al|len)|ja(ar|ren)|decenni(um|a|ën)|centenni(um|a)|euuw(en)?|millenni(um|a)">
-<!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eters?)?|mijl(en)?|p(arse)?cs?|duim|inch(es)?|ft|AE|AU">
+<!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eters?|2|3)?|mijl(en)?|p(arse)?cs?|duim|inch(es)?|ft|AE|AU">
 <!ENTITY measurementUnitsMass "(&measurementUnitPrefix;)?g(r(am)?)?|ons|pond|ton">
 <!ENTITY measurementUnitsTemperature "K|&#x212A;|kelvin|℃|℉|°C(elsius)?|°F(ahrenheit)?|°|graad|graden">
 <!ENTITY measurementUnitsAngles "[°′″‴⁗'&quot;“]">
@@ -20975,7 +20975,30 @@ steenwijk;Steenwijk
         -->
     </category>
     <category id="NOTATIES" name="Notaties" type="style" tags="clarity professional">
-
+        <rulegroup id="VIERKANTE_METER" name="Vierkante meter met superscript" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(&measurementUnitPrefix;)?m2</token>
+                </pattern>
+                <message>Als u voor de notatie van vierkante meter superscript gebruikt ziet het mooier uit.</message>
+                <suggestion><match no="1" regexp_match="2" regexp_replace="²"/></suggestion>
+                <short>superscript</short>
+                <example correction="m²">Elke kip heeft rond 4 <marker>m2</marker> nodig.</example>
+                <example correction="cm²">Een DIN A4 bladzijde heeft precies 623,7 <marker>cm2</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KUBIEKE_METER" name="Kubieke meter met superscript" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(&measurementUnitPrefix;)?m3</token>
+                </pattern>
+                <message>Als u voor de notatie van vierkante meter superscript gebruikt ziet het mooier uit.</message>
+                <suggestion><match no="1" regexp_match="3" regexp_replace="³"/></suggestion>
+                <short>superscript</short>
+                <example correction="m³">Elke vlinder heeft rond 4 <marker>m3</marker> nodig.</example>
+                <example correction="cm³">Deze doos bevat precies 800 <marker>cm3</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EURO_TEKEN" name="€ teken → €-teken">
             <rule>
                 <pattern>
