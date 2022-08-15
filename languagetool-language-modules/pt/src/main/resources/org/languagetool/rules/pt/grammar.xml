@@ -2982,7 +2982,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!-- APARECE NO ECRÃ UM NÚMERO aparece um número no ecrã -->
     <rulegroup id='COLOCACAO_ADVERBIOS_LUGAR' name="Colocação de advérbios no lugar">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-13 (17-MAR-2021+)      -->
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-13 + 2022-08-15 (17-MAR-2021+)      -->
+	  <!-- RULE NEEDS TO BE REWRITTEN FOR MORE RECENT TOKEN USAGE -->
       <!-- Jaume suggested creating three rules since there was a bug with max="3" -->
 	
       <!-- Token 1/3 -->
@@ -2995,6 +2996,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <marker>
             <token postag='SPS00.+' postag_regexp='yes'>
               <exception regexp='yes'>às?|aos?|d[ao]s?|pel[ao]s?</exception>
+			  <exception scope="previous" postag_regexp='yes' postag='VMP00.+'/>
+<!-- Added exception above to fix issues:
+ONLY WORKS ON 1/3
+2022-08-15:
+Ele traça metas para serem cumpridas nos próximos dez anos.
+O namorado dela era um ladrão.
+-->
             </token>
             <token postag='NC.+|AQ0.+' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='AO.+|AP.+'/>
@@ -3032,7 +3040,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception regexp='yes'>outr[ao]s?</exception>
               <exception postag='RG'/>
             </token>
-            <token postag='NP.+|NC.+|AQ0.+' postag_regexp='yes'/>
+            <token postag='NP.+|NC.+|AQ0.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='SPS00:DA.+'/> <!-- FIX ON 2022-08-15 "O castelo foi construído no século 11 pelos muçulmanos, que haviam invadido a Península Ibérica três séculos antes." TOKEN 2/3-->
+            </token>
             <token postag='NP.+|NC.+|AQ0.+' postag_regexp='yes'/>
           </marker>
           <token negate_pos="yes" postag='SPS.+|RG|V.+|NP.+|NC.+|AQ0.+|CS|PE.+|PR.+0|PT.+|DI.+|PI.+' postag_regexp='yes'/>
