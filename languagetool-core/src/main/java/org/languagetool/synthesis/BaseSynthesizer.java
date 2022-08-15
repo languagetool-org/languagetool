@@ -137,13 +137,13 @@ public class BaseSynthesizer implements Synthesizer {
     try {
       URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(sorosFileName);
       BufferedReader f = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
-      StringBuffer st = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       String line;
       while ((line = f.readLine()) != null) {
-        st.append(line);
-        st.append('\n');
+        sb.append(line);
+        sb.append('\n');
       }
-      s = new Soros(new String(st), langcode);
+      s = new Soros(new String(sb), langcode);
     } catch (Exception e) {
       return null;
     }
@@ -288,6 +288,5 @@ public class BaseSynthesizer implements Synthesizer {
     }
     return results.toArray(new String[0]);
   }
-  
 
 }
