@@ -21117,6 +21117,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='INTERROGATIVES_PUNTUATION' name="Pontuação em interrogações: Por quê?" default='temp_off'>
       <!--  Created by Tiago F. Santos, 2017-XX-XX      -->
       <antipattern>
+        <token skip="-1" regexp='yes'>como|d?onde|quan[dt][ao]s?|quem|qual|quais|quê</token>
+        <token postag='V.+' postag_regexp='yes' skip='-1'>
+            <exception scope='next' regexp='yes'>[,:—]</exception></token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Quem usa essa escova de dentes não é minha mãe.</example>
+      </antipattern>
+      <antipattern>
+        <token>como</token>
+        <token skip='-1'>se</token>
+        <token postag='VMS.+' postag_regexp='yes'/>
+        <example>Como se isso fosse verdade.</example>
+      </antipattern>
+      <antipattern>
         <token>.</token>
         <token>.</token>
         <token postag='SENT_END'>.</token>
@@ -42901,7 +42914,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
 
 
-    <rule id='ACHO_QUE' name="penso/julgo que">
+    <rule id='ACHO_QUE' name="penso/julgo que" tags='picky'>
       <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-05-29 -->
       <pattern>
         <token inflected='yes'>achar</token>
@@ -47024,7 +47037,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
          </marker>
         </pattern>
         <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-        <suggestion><match no='4' postag='VMM01P0'/></suggestion>
+        <suggestion><match no='4' postag='VMSP1P0'/></suggestion>
         <suggestion><match no='4' postag='VMIF1P0'/></suggestion>
         <suggestion><match no='4' postag='VMIP1P0'/></suggestion>
         <example correction="provemos|provaremos|provamos">Agora <marker>vamos provar</marker> a métrica.</example>
