@@ -3247,13 +3247,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='SPS.+' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-03-03 (1-JAN-2022+) *END* -->
+        <antipattern>
+          <token>,</token>
+          <token inflected='yes'>ser</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='AO.+' postag_regexp='yes'/>
+          <example>Aconteceu rápido, sendo a primeira vez que se machucou.</example>
+        </antipattern>
+        <antipattern>
+          <token>,</token>
+          <token inflected='yes'>ser</token>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'>
+            <exception postag="Z0CP0"/>
+          </token>
+          <example>Aconteceu rápido, sendo assegurado o livre exercício.</example>
+        </antipattern>
+        <antipattern>
+          <token>,</token>
+          <token inflected='yes'>ser</token>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <token postag='R.+|SPS00' postag_regexp='yes' min='0'/>
+          <token postag='VMN0000'/>
+          <example>O evento acontece pontualmente, sendo recomendado não chegar tarde.</example>
+        </antipattern>
 
         <pattern>
           <token>,</token>
           <marker>
             <token>sendo</token>
-            <token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'>
-              <exception postag_regexp='yes' postag='NP.+'/>
+            <token postag='CC|DA.+|VMP.+|NC.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='NP.+|PP.+|RG'/>
             </token>
           </marker>
           <and>
