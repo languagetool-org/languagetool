@@ -19759,6 +19759,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='FINAL_STOPS' name="Pontuação: pontuação final em falta" default='on' tags="picky">
       <!-- Created by Tiago F. Santos, Portuguese rule, -->
       <antipattern>
+        <token></token>
+        <token spacebefore='no'>@</token>
+        <token spacebefore='no'></token>
+        <token spacebefore='no'>.</token>
+        <example>Meu e-mail: seunomeaqui@servidor.com</example>
+      </antipattern>
+      <antipattern>
         <token postag='SENT_START'/>
         <token postag='DP.+' postag_regexp='yes'/>
         <token min="1" max="3" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
@@ -19783,7 +19790,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token skip="-1"/>
           <marker>
             <token postag="SENT_END">
-              <exception regexp="yes">[.!?:;…]</exception></token>
+              <exception regexp="yes">[.!?:;…]|&tracos_de_separacao;</exception></token>
           </marker>
         </pattern>
         <message>Se não é um título, falta um ponto no final da frase.</message>
@@ -19791,9 +19798,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion>\4?</suggestion>
         <suggestion>\4!</suggestion>
         <suggestion>\4:</suggestion>
+        <suggestion>\4;</suggestion>
         <short>Pontuação final em falta</short>
-        <example correction="nela.|nela?|nela!|nela:">Como esta é uma frase comprida que não tem um ponto no final, podemos dizer que é quase garantido que existe algum erro <marker>nela</marker></example>
-        <example correction="erro.|erro?|erro!|erro:">Esta é uma frase grande, muito grande, enormes mesmo, e que não tem um ponto final, portanto é certo que existe um <marker>erro</marker></example>
+        <example correction="nela.|nela?|nela!|nela:|nela;">Como esta é uma frase comprida que não tem um ponto no final, podemos dizer que é quase garantido que existe algum erro <marker>nela</marker></example>
+        <example correction="erro.|erro?|erro!|erro:|erro;">Esta é uma frase grande, muito grande, enormes mesmo, e que não tem um ponto final, portanto é certo que existe um <marker>erro</marker></example>
         <example>Esta é uma frase curta, que poderia ser um título</example>
         <example>«Esta é uma frase bastante comprido, mas se acaba com um ponto, mesmo que antes das aspas de citação, não é uma frase com erro.»</example>
         <example>esta frase pode ser considerada muito grande, mas não começa com maiúsculas, portanto não completa os requisitos, logo não deve ser marcada como errada</example>
@@ -19918,7 +19926,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </pattern>
         <message>Terminou a frase com uma vírgula. Verifique.</message>
         <suggestion>.</suggestion>
-        <example correction=".">Portanto, não posso sair<marker>,</marker></example>
+        <suggestion>;</suggestion>
+        <suggestion>!</suggestion>
+        <suggestion>?</suggestion>
+        <example correction=".|;|!|?">Portanto, não posso sair<marker>,</marker></example>
         <example>Estimados senhores,</example>
         <example>Carlos Magno,</example>
         <example>2730-146, BARCARENA,</example>
@@ -19956,8 +19967,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion>\4?</suggestion>
         <suggestion>\4!</suggestion>
         <suggestion>\4:</suggestion>
+        <suggestion>\4;</suggestion>
         <short>Pontuação final em falta</short>
-        <example correction="casa.|casa?|casa!|casa:">Vou em direção a <marker>casa</marker></example>
+        <example correction="casa.|casa?|casa!|casa:|casa;">Vou em direção à <marker>casa</marker></example>
         <example>Figura 1 - Baleia-de-bossas a emergir à superficie</example>
       </rule>
     </rulegroup>
