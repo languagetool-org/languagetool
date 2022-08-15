@@ -475,6 +475,19 @@ public class GermanTaggerTest {
     assertTrue(res1.contains("vergären/VER:3:PLU:PRÄ:NON*"));
     assertTrue(res1.contains("vergären/VER:3:PLU:KJ1:NON*"));
     assertTrue(res1.contains("vergären/VER:INF:NON*"));
+
+    List<AnalyzedTokenReadings> result2 = tagger.tag(Collections.singletonList("Vergären"));
+    assertThat(result2.size(), is(1));
+    assertThat(result2.get(0).getReadings().size(), is(8));
+    String res2 = result2.toString();
+    assertTrue(res2.contains("Vergären/SUB:NOM:SIN:NEU:INF"));
+    assertTrue(res2.contains("Vergären/SUB:DAT:SIN:NEU:INF"));
+    assertTrue(res2.contains("Vergären/SUB:AKK:SIN:NEU:INF"));
+    assertTrue(res2.contains("vergären/VER:1:PLU:PRÄ:NON*"));
+    assertTrue(res2.contains("vergären/VER:1:PLU:KJ1:NON*"));
+    assertTrue(res2.contains("vergären/VER:3:PLU:PRÄ:NON*"));
+    assertTrue(res2.contains("vergären/VER:3:PLU:KJ1:NON*"));
+    assertTrue(res2.contains("vergären/VER:INF:NON*"));
   }
 
   @Test
@@ -513,6 +526,20 @@ public class GermanTaggerTest {
     String res5 = result5.toString();
     assertTrue(res5.contains(""));
     assertFalse(res5.contains("VER"));
+
+    List<AnalyzedTokenReadings> result6 = tagger.tag(Collections.singletonList("schwarzgrau"));
+    assertThat(result6.size(), is(1));
+    assertThat(result6.get(0).getReadings().size(), is(1));
+    String res6 = result6.toString();
+    assertTrue(res6.contains(""));
+    assertFalse(res6.contains("VER"));
+
+    List<AnalyzedTokenReadings> result7 = tagger.tag(Collections.singletonList("unmenge"));
+    assertThat(result7.size(), is(1));
+    assertThat(result7.get(0).getReadings().size(), is(1));
+    String res7 = result7.toString();
+    assertTrue(res7.contains(""));
+    assertFalse(res7.contains("VER"));
   }
 
   @Test

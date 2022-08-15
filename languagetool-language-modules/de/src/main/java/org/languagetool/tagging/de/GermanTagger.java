@@ -75,6 +75,7 @@ public class GermanTagger extends BaseTagger {
   private static final String[] postagsPartizipEndingEn = new String[]{"AKK:PLU:FEM:GRU:DEF:VER", "AKK:PLU:FEM:GRU:IND:VER", "AKK:PLU:MAS:GRU:DEF:VER", "AKK:PLU:MAS:GRU:IND:VER", "AKK:PLU:NEU:GRU:DEF:VER", "AKK:PLU:NEU:GRU:IND:VER", "AKK:SIN:MAS:GRU:DEF:VER", "AKK:SIN:MAS:GRU:IND:VER", "AKK:SIN:MAS:GRU:SOL:VER", "DAT:PLU:FEM:GRU:DEF:VER", "DAT:PLU:FEM:GRU:IND:VER", "DAT:PLU:FEM:GRU:SOL:VER", "DAT:PLU:MAS:GRU:DEF:VER", "DAT:PLU:MAS:GRU:IND:VER", "DAT:PLU:MAS:GRU:SOL:VER", "DAT:PLU:NEU:GRU:DEF:VER", "DAT:PLU:NEU:GRU:IND:VER", "DAT:PLU:NEU:GRU:SOL:VER", "DAT:SIN:FEM:GRU:DEF:VER", "DAT:SIN:FEM:GRU:IND:VER", "DAT:SIN:MAS:GRU:DEF:VER", "DAT:SIN:MAS:GRU:IND:VER", "DAT:SIN:NEU:GRU:DEF:VER", "DAT:SIN:NEU:GRU:IND:VER", "GEN:PLU:FEM:GRU:DEF:VER", "GEN:PLU:FEM:GRU:IND:VER", "GEN:PLU:MAS:GRU:DEF:VER", "GEN:PLU:MAS:GRU:IND:VER", "GEN:PLU:NEU:GRU:DEF:VER", "GEN:PLU:NEU:GRU:IND:VER", "GEN:SIN:FEM:GRU:DEF:VER", "GEN:SIN:FEM:GRU:IND:VER", "GEN:SIN:MAS:GRU:DEF:VER", "GEN:SIN:MAS:GRU:IND:VER", "GEN:SIN:MAS:GRU:SOL:VER", "GEN:SIN:NEU:GRU:DEF:VER", "GEN:SIN:NEU:GRU:IND:VER", "GEN:SIN:NEU:GRU:SOL:VER", "NOM:PLU:FEM:GRU:DEF:VER", "NOM:PLU:FEM:GRU:IND:VER", "NOM:PLU:MAS:GRU:DEF:VER", "NOM:PLU:MAS:GRU:IND:VER", "NOM:PLU:NEU:GRU:DEF:VER", "NOM:PLU:NEU:GRU:IND:VER"};
   private static final String[] postagsPartizipEndingEr = new String[]{"DAT:SIN:FEM:GRU:SOL:VER", "GEN:PLU:FEM:GRU:SOL:VER", "GEN:PLU:MAS:GRU:SOL:VER", "GEN:PLU:NEU:GRU:SOL:VER", "GEN:SIN:FEM:GRU:SOL:VER", "NOM:SIN:MAS:GRU:IND:VER", "NOM:SIN:MAS:GRU:SOL:VER", "DAT:SIN:FEM:GRU:SOL:VER", "GEN:PLU:FEM:GRU:SOL:VER", "GEN:PLU:MAS:GRU:SOL:VER", "GEN:PLU:NEU:GRU:SOL:VER", "GEN:SIN:FEM:GRU:SOL:VER", "NOM:SIN:MAS:GRU:IND:VER", "NOM:SIN:MAS:GRU:SOL:VER"};
   private static final String[] postagsPartizipEndingEs = new String[]{"AKK:SIN:NEU:GRU:IND:VER", "AKK:SIN:NEU:GRU:SOL:VER", "NOM:SIN:NEU:GRU:IND:VER", "NOM:SIN:NEU:GRU:SOL:VER"};
+  private static final String[] notAVerb = new String[]{"bereich", "unrat", "beispiel", "zuhause", "angebot", "aufenthalt", "einfach", "einfachst", "freibetrag", "großteil", "maßnahme", "mitglieder", "nachricht", "nachteil", "niederlage", "schwarzweiß", "schwarzgrau", "schwarzgrün", "unbesiegt", "unmenge", "unver", "vorlieb", "vorteil", "wohldefiniert", "zuende"};
 
   private static final List<String> tagsForWeise = new ArrayList<>();
   static {
@@ -267,14 +268,14 @@ public class GermanTagger extends BaseTagger {
               if (tag.getPosTag() != null && (StringUtils.startsWithAny(tag.getPosTag(), "VER:", "PA1:", "PA2:")
                 && (!StringUtils.startsWithAny(tag.getPosTag(), "VER:MOD", "VER:AUX")))) { // e.g. "schicke" is verb and adjective
                 if (StringUtils.startsWithAny(verbInfo.prefix, prefixesSeparableVerbs)
-                  && (!StringUtils.containsAny(word, "beispiel", "zuhause"))) {
+                  && (!StringUtils.containsAny(word, notAVerb))) {
                   if (StringUtils.startsWithAny(tag.getPosTag(),"VER:1", "VER:2", "VER:3")) {
                     readings.add(new AnalyzedToken(word, tag.getPosTag() + ":NEB", verbInfo.prefix + tag.getLemma()));
                   } else if (!StringUtils.startsWithAny(tag.getPosTag(),"VER:IMP")) {
                     readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
                   }
                 } else if (StringUtils.startsWithAny(verbInfo.prefix, prefixesNonSeparableVerbs) //Excludes "ge" (both too rare as verb prefix and prone to FP)
-                  && (!StringUtils.containsAny(word, "bereich", "unrat"))) {
+                  && (!StringUtils.containsAny(word, notAVerb))) {
                   readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
                 }
                 if (tag.getPosTag().contains(":SFT")) {
@@ -362,9 +363,9 @@ public class GermanTagger extends BaseTagger {
                    *einlädst [VER:2:SIN:PRÄ:NON:NEB] ('NEB' indicates that this form can only appear in a subordinate clause)
                    *lädst ein [VER:2:SIN:PRÄ:NON] + [ZUS]
                    */
-                  if (StringUtils.startsWithAny(word, prefixesSeparableVerbs)
-                    && (!StringUtils.containsAny(word, "beispiel", "zuhause"))) {
-                    String lastPart = RegExUtils.removePattern(word, prefixesSeparableVerbsRegexp);
+                  if (StringUtils.startsWithAny(word.toLowerCase(), prefixesSeparableVerbs)
+                    && (!StringUtils.containsAny(word.toLowerCase(), notAVerb))) {
+                    String lastPart = RegExUtils.removePattern(word.toLowerCase(), prefixesSeparableVerbsRegexp);
                     if (lastPart.length() > 3) {
                       String firstPart = StringUtils.removeEnd(word, lastPart);
                       //Erweiterter Infinitiv mit zu
@@ -383,24 +384,41 @@ public class GermanTagger extends BaseTagger {
                       for (TaggedWord taggedWord : taggedWords) {
                         if (taggedWord.getPosTag().startsWith("VER") && !taggedWord.getPosTag().startsWith("VER:IMP")  //Separable verbs do not have imperative form.
                           && !taggedWord.getPosTag().startsWith("VER:INF")
-                          && !taggedWord.getPosTag().startsWith("VER:PA")) {
-                          readings.add(new AnalyzedToken(word, taggedWord.getPosTag()+":NEB", firstPart+taggedWord.getLemma()));
+                          && !taggedWord.getPosTag().startsWith("VER:PA")
+                          && (sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))) {
+                            if (taggedWord.getPosTag().endsWith(":NEB")) {
+                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase()+taggedWord.getLemma()));
+                            } else {
+                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag()+":NEB", firstPart.toLowerCase()+taggedWord.getLemma()));
+                            }
                         } else if (taggedWord.getPosTag().startsWith("VER") && !taggedWord.getPosTag().startsWith("VER:IMP")
                           || taggedWord.getPosTag().startsWith("PA")) {
-                          readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+                          if (sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1))) { // Do not tag uppercase verbs in the middle of a sentence
+                            readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                          }
+                          if (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1)) && taggedWord.getPosTag().startsWith("VER:INF")) {
+                            readings.add(new AnalyzedToken(word, "SUB:NOM:SIN:NEU:INF", word));
+                            readings.add(new AnalyzedToken(word, "SUB:DAT:SIN:NEU:INF", word));
+                            readings.add(new AnalyzedToken(word, "SUB:AKK:SIN:NEU:INF", word));
+                          }
                         }
                       }
                     }
                     //Verbs with certain prefixes (e. g. "be", "un", "ver") are never separable. 
-                  } else if (StringUtils.startsWithAny(word, prefixesNonSeparableVerbs)) { //Excludes "ge" (both too rare as verb prefix and prone to FP).
-                    String lastPart = RegExUtils.removeFirst(word, prefixesNonSeparableVerbsRegexp);
+                  } else if (StringUtils.startsWithAny(word.toLowerCase(), prefixesNonSeparableVerbs)) { //Excludes "ge" (both too rare as verb prefix and prone to FP).
+                    String lastPart = RegExUtils.removeFirst(word.toLowerCase(), prefixesNonSeparableVerbsRegexp);
                     if (lastPart.length() > 3
-                      && (!StringUtils.containsAny(word, "bereich", "unrat"))) {
+                      && (!StringUtils.containsAny(word, notAVerb))) {
                       String firstPart = StringUtils.removeEnd(word, lastPart);
                       List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
                       for (TaggedWord taggedWord : taggedWords) {
                         if (taggedWord.getPosTag().startsWith("VER") || taggedWord.getPosTag().startsWith("PA")) {
-                          readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart + taggedWord.getLemma()));
+                          readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                          if (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1)) && taggedWord.getPosTag().startsWith("VER:INF")) {
+                            readings.add(new AnalyzedToken(word, "SUB:NOM:SIN:NEU:INF", word));
+                            readings.add(new AnalyzedToken(word, "SUB:DAT:SIN:NEU:INF", word));
+                            readings.add(new AnalyzedToken(word, "SUB:AKK:SIN:NEU:INF", word));
+                          }
                           /*
                           / first check for non separable verbs: Postag of 'lastPart' never starts with PA2: erstickt = er + stickt
                           / Derives 'VER:PA2:SFT' and 'PA2:PRD:GRU:VER', if postag of 'lastPart' equals 'VER:3:SIN:PRÄ:SFT'
