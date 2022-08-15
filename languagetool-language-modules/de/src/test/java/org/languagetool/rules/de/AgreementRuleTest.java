@@ -95,6 +95,7 @@ public class AgreementRuleTest {
     assertGood("Als Vorboten des Discounthandels sind die Ende der 50er Jahre in der Bundesrepublik Deutschland wiederauflebenden Erscheinungsformen des Beziehungs-, Betriebs- und Belegschaftshandels anzusehen.");
     assertGood("Die Anfang des letzten Monats umgestaltete Veranda ist schön.");
     assertGood("Der Mitte 2001 umgestaltete Garten ist schön.");
+    assertBad("Es ist ein sehr interessantes kostenloses Slot Spiel.", "ein sehr interessantes kostenloses Slot-Spiel");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
     List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");
@@ -631,6 +632,24 @@ public class AgreementRuleTest {
     assertGood("Es kam zum einen zu technischen Problemen, zum anderen wurde es unübersichtlich.");
     assertGood("Das Spiel wird durch den zu neuer Größe gewachsenen Torwart dominiert.");
     assertGood("Dort findet sich schlicht und einfach alles & das zu sagenhafter Hafenkulisse.");
+    assertGood("Man darf gespannt sein, wen Müller für diese Aufgabe gewinnt.");
+    assertGood("Das Vereinslokal in welchem Zusammenkünfte stattfinden.");
+    assertGood("Er lässt niemanden zu Wort kommen.");
+    assertGood("Es war eine alles in allem spannende Geschichte.");
+    assertGood("Eine mehrere hundert Meter lange Startbahn.");
+    assertGood("Wir müssen jetzt um ein vielfaches höhere Preise zahlen.");
+    assertGood("Und eine von manchem geforderte Übergewinnsteuer.");
+    assertGood("Sie hat niemandem wirkliches Leid zugefügt.");
+    assertGood("Die Organe eines gerade Verstorbenen");
+    assertGood("Da wusste keiner Bescheid bezüglich dieser Sache.");
+    assertGood("Es braucht keiner Bescheid wissen.");
+    assertGood("Ein Haus für die weniger Glücklichen.");
+    assertGood("Wir können sowas Mittwoch machen.");
+    assertGood("Den schlechter Verdienenden geht es schlecht.");
+    assertGood("Mit der weit weniger bekannten Horrorkomödie begann ihre Karriere.");
+    assertGood("Die Adelmanns wohnen in Herford.");
+    assertBad("Die Idee des Werbekaufmann kam gut an.");
+    assertGood("Die Idee des Werbekaufmanns kam gut an.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

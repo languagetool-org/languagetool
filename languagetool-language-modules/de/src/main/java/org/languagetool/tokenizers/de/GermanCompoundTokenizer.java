@@ -83,6 +83,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
     //wordSplitter.addException("Sportshorts", asList("Sport", "shorts")); 
     wordSplitter.addException("Hallesche", asList("Hallesche"));
     wordSplitter.addException("Kolleggen", asList("Kolleggen"));
+    wordSplitter.addException("Spielgeleier", asList("Spielgeleier"));
     wordSplitter.addException("Halleschen", asList("Halleschen"));
     wordSplitter.addException("Reinigungstab", asList("Reinigungs", "tab"));
     wordSplitter.addException("Reinigungstabs", asList("Reinigungs", "tabs"));
@@ -91,6 +92,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Kinderspielen", asList("Kinder", "spielen"));
     wordSplitter.addException("Buchhaltungstrick", asList("Buchhaltungs", "trick"));
     wordSplitter.addException("Buchhaltungstricks", asList("Buchhaltungs", "tricks"));
+    wordSplitter.addException("Haushaltstrick", asList("Haushalts", "trick"));
+    wordSplitter.addException("Haushaltstricks", asList("Haushalts", "tricks"));
     wordSplitter.addException("Verkaufstrick", asList("Verkaufs", "trick"));
     wordSplitter.addException("Verkaufstricks", asList("Verkaufs", "tricks"));
     wordSplitter.addException("Ablenkungstrick", asList("Ablenkungs", "trick"));
@@ -102,6 +105,10 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("karamelligen", asList("karamelligen"));  // != Karamel+Ligen
     wordSplitter.addException("Häkelnadel", asList("Häkel", "nadel"));
     wordSplitter.addException("Häkelnadeln", asList("Häkel", "nadeln"));
+    wordSplitter.addException("Freiberg", asList("Freiberg"));
+    wordSplitter.addException("Freibergs", asList("Freibergs"));
+    wordSplitter.addException("Kreuzberg", asList("Kreuzberg"));
+    wordSplitter.addException("Kreuzbergs", asList("Kreuzbergs"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }

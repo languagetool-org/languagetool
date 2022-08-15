@@ -51,6 +51,7 @@ public class GermanSRXSentenceTokenizerTest {
     testSplit("Hallo, ich bin’s. ", "Könntest du kommen?");
     testSplit("In der 1. Bundesliga kam es zum Eklat.");
     testSplit("Dies ist, z. B., ein Satz."); 
+    testSplit("Da hatte es über 30 °C. ", "Hier kommt der nächste Satz.");
 
     testSplit("Das 1. Internationale Filmfestival findet nächste Woche statt.");
     testSplit("Friedrich I., auch bekannt als Friedrich der Große.");

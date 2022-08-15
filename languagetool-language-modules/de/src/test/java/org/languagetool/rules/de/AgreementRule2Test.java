@@ -64,6 +64,54 @@ public class AgreementRule2Test {
     assertGood("Voller Mitleid");
     assertGood("Voll Mitleid");
     assertGood("Einzig Fernschüsse brachten Erfolgsaussichten.");
+    assertGood("Gelangweilt Dinge sortieren hilft als Ablenkung.");
+    assertGood("Ganzjährig Garten pflegen");
+    assertGood("Herzlich Willkommen bei unseren günstigen Rezepten!");
+    assertGood("10-tägiges Rückgaberecht");
+    assertGood("Angeblich Schüsse vor Explosionen gefallen");
+    assertGood("Dickes Danke auch an Elena");
+    assertGood("Dickes Dankeschön auch an Elena");
+    assertGood("Echt Scheiße");
+    assertGood("Entsprechende Automaten werden heute nicht mehr gebaut");
+    assertGood("Existenziell Bedrohte kriegen einen Taschenrechner");
+    assertGood("Flächendeckend Tempo 30");
+    assertGood("Frei Klavier spielen lernen");
+    assertGood("Ganz Eilige können es schaffen");
+    assertGood("Gering Gebildete laufen Gefahr ...");
+    assertGood("Ganz Ohr ist man hier");
+    assertGood("Gleichzeitig Muskeln aufbauen und Fett verlieren");
+    assertGood("Klar Schiff, Erster Offizier!");
+    assertGood("Kostenlos Bewegung schnuppern");
+    assertGood("Prinzipiell Anrecht auf eine Vertretung");
+    assertGood("Regelrecht Modell gestanden haben Michel");
+    assertGood("Weitgehend Konsens, auch über ...");
+    assertGood("Alarmierte Polizeibeamte nahmen den Mann fest.");
+    assertGood("Anderen Brot und Arbeit ermöglichen - das ist ihr Ziel");
+    assertGood("Diverse Unwesen, mit denen sich Hellboy beschäftigen muss, ...");
+    assertGood("Gut Qualifizierte bekommen Angebote");
+    assertGood("Liebe Mai, wie geht es dir?");
+    assertGood("Willkommen Simpsons-Fan!");
+  }
+
+  @Test
+  public void testSuggestion() throws IOException {
+    //assertBad("Kleine Haus am Waldesrand", "Kleines Haus");
+    //assertBad("Kleinen Haus am Waldesrand", "Kleines Haus");
+    assertGood("Kleinem Haus am Waldesrand ...");
+    assertBad("Kleiner Haus am Waldesrand", "Kleines Haus");
+    assertBad("Kleines Häuser am Waldesrand", "Kleine Häuser");
+    assertBad("Kleinem Häuser am Waldesrand", "Kleine Häuser");
+    //assertBad("Kleinen Häuser am Waldesrand", "Kleine Häuser");
+    assertBad("Kleines Tisch reicht auch", "Kleiner Tisch");
+    assertGood("Junger Frau geht das Geld aus");
+    assertGood("Junge Frau gewinnt im Lotto");
+    assertBad("Junges Frau gewinnt im Lotto", "Junge Frau");
+    //assertBad("Jungen Frau gewinnt im Lotto", "Junge Frau");
+    assertBad("Jungem Frau gewinnt im Lotto", "Junge Frau");
+    assertBad("Jung Frau gewinnt im Lotto", "Junge Frau");
+    assertBad("Wirtschaftlich Wachstum kommt ins Stocken", "Wirtschaftliches Wachstum");
+    assertBad("Wirtschaftlicher Wachstum kommt ins Stocken", "Wirtschaftliches Wachstum");
+    //assertBad("Wirtschaftliche Wachstum kommt ins Stocken", "Wirtschaftliches Wachstum");
   }
 
   private void assertGood(String s) throws IOException {
@@ -74,6 +122,13 @@ public class AgreementRule2Test {
   private void assertBad(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
     assertThat(matches.length, is(1));
+  }
+
+  private void assertBad(String s, String suggestion) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
+    assertThat(matches.length, is(1));
+    assertTrue("Got suggestions: " + matches[0].getSuggestedReplacements() + ", expected: " + suggestion,
+      matches[0].getSuggestedReplacements().contains(suggestion));
   }
 
 }

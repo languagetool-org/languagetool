@@ -93,7 +93,8 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();
     
     if (desiredPostag == null) {
-      throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag");
+      throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag for rule " +
+        match.getRule().getFullId() + " with POS regex '" + postagSelect + "' for token: " + patternTokens[postagFrom-1]);
     }
 
     if (postagReplace != null) {

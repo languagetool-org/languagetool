@@ -50,12 +50,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+
+import static java.util.Arrays.asList;
 
 /**
  * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
@@ -174,7 +175,7 @@ public class English extends Language implements AutoCloseable {
         allRules.addAll(cache.getUnchecked("/org/languagetool/rules/en/grammar-l2-fr.xml"));
       }
     }
-    allRules.addAll(Arrays.asList(
+    allRules.addAll(asList(
         new CommaWhitespaceRule(messages,
                 Example.wrong("We had coffee<marker> ,</marker> cheese and crackers and grapes."),
                 Example.fixed("We had coffee<marker>,</marker> cheese and crackers and grapes.")),
@@ -219,7 +220,7 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.asList(
+    return asList(
         new UpperCaseNgramRule(messages, languageModel, this, userConfig),
         new EnglishConfusionProbabilityRule(messages, languageModel, this),
         new EnglishNgramProbabilityRule(messages, languageModel, this)
@@ -228,27 +229,18 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel lm, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    if (lm != null && motherTongue != null && "fr".equals(motherTongue.getShortCode())) {
-      return Arrays.asList(
-          new EnglishForFrenchFalseFriendRule(messages, lm, motherTongue, this)
-      );
+    if (lm != null && motherTongue != null) {
+      if ("fr".equals(motherTongue.getShortCode())) {
+        return asList(new EnglishForFrenchFalseFriendRule(messages, lm, motherTongue, this));
+      } else if ("de".equals(motherTongue.getShortCode())) {
+        return asList(new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this));
+      } else if ("es".equals(motherTongue.getShortCode())) {
+        return asList(new EnglishForSpaniardsFalseFriendRule(messages, lm, motherTongue, this));
+      } else if ("nl".equals(motherTongue.getShortCode())) {
+        return asList(new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this));
+      }
     }
-    if (lm != null && motherTongue != null && "de".equals(motherTongue.getShortCode())) {
-      return Arrays.asList(
-          new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this)
-      );
-    }
-    if (lm != null && motherTongue != null && "es".equals(motherTongue.getShortCode())) {
-      return Arrays.asList(
-          new EnglishForSpaniardsFalseFriendRule(messages, lm, motherTongue, this)
-      );
-    }
-    if (lm != null && motherTongue != null && "nl".equals(motherTongue.getShortCode())) {
-      return Arrays.asList(
-          new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this)
-      );
-    }
-    return Arrays.asList();
+    return asList();
   }
 
   @Override
@@ -411,6 +403,7 @@ public class English extends Language implements AutoCloseable {
       case "INCORRECT_POSSESSIVE_APOSTROPHE": return 1;  // higher prio than THIS_NNS
       case "THIS_YEARS_POSSESSIVE_APOSTROPHE": return 1;  // higher prio than THIS_NNS
       case "SPURIOUS_APOSTROPHE":       return 1;   // higher prio than THIS_NNS
+      case "BE_NOT_BE_JJ":       return 1;   // higher prio than BEEN_PART_AGREEMENT
       case "IN_THIS_REGARDS":           return 1;   // higher prio than THIS_NNS
       case "IT_SEAMS":                  return 1;   // higher prio than THIS_NNS_VB
       case "NO_WHERE":                  return 1;   // higher prio than NOW

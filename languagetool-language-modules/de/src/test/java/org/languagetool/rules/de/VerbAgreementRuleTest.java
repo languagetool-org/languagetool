@@ -192,7 +192,7 @@ public class VerbAgreementRuleTest {
     assertBad("Die Eisenbahn dienst überwiegend dem Güterverkehr.");
     assertBad("Die Unterlagen solltest ihr gründlich durcharbeiten.");
     assertBad("Peter bin nett.");
-    assertBad("Solltest ihr das machen?", "Subjekt und Prädikat (Solltest)");
+    //assertBad("Solltest ihr das machen?", "Subjekt und Prädikat (Solltest)"); - could be okay in colloquial language (short for "Du solltest ihr das machen")
     assertBad("Weiter befindest sich im Osten die Gemeinde Dorf.");
     assertBad("Ich geht jetzt nach Hause, weil ich schon zu spät bin.");
     assertBad("„Du muss gehen.“");
@@ -287,6 +287,19 @@ public class VerbAgreementRuleTest {
     assertGood("John nimmt weiter an einem Abendkurs über Journalismus teil.");
     assertGood("Viele nahmen an der Aktion teil und am Ende des rAAd-Events war die Tafel zwar bunt, aber leider überwogen die roten Kärtchen sehr deutlich.");
     assertGood("Musst also nichts machen.");
+    assertGood("Eine Situation, wo der Stadtrat gleich mal zum Du übergeht.");
+    assertGood("Machen wir, sobald wir frische und neue Akkus haben.");
+    assertGood("Darfst nicht so reden, Franz!");
+    assertGood("Finde du den Jungen.");
+    assertGood("Finde Du den Jungen.");
+    assertGood("Kümmerst dich ja gar nicht um sie.");
+    assertGood("Könntest was erfinden, wie dein Papa.");
+    assertGood("Siehst aus wie ein Wachhund.");
+    assertGood("Solltest es mal in seinem Büro versuchen.");
+    assertGood("Stehst einfach nicht zu mir.");
+    assertGood("Stellst für deinen Dad etwas zu Essen bereit.");
+    assertGood("Springst weit, oder?");
+    assertGood("Wirst groß, was?");
     // incorrect sentences:
     assertBad("Auch morgen leben du.");
     assertBad("Du weiß noch, dass du das gestern gesagt hast.");

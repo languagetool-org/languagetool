@@ -1,12 +1,12 @@
 # LanguageTool
 
 **A proof-reading tool for English, Spanish, German,
-Polish, Chinese, French, Russian, Italian, Dutch, Ukrainian
+French, Portuguese, Dutch, Ukrainian
 and [more languages](https://dev.languagetool.org/languages)**
 
 Version 5.9-SNAPSHOT (2022-xx-yy)
 Copyright (C) 2005-2022 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
-https://www.languagetool.org
+https://languagetool.org
 
 
 ## Requirements

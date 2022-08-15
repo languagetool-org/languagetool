@@ -150,7 +150,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
       parameters = getRequestQuery(httpExchange, requestedUri);
-      if (requestLimiter != null) {
+      if (requestLimiter != null && limitPath(path)) {
         try {
           UserLimits userLimits = ServerTools.getUserLimits(parameters, config);
           requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders(), userLimits);
@@ -250,6 +250,13 @@ class LanguageToolHttpHandler implements HttpHandler {
         reqCounter.decrementHandleCount(reqId);
       }
     }
+  }
+
+  /**
+   * whitelist paths from request limiting
+   */
+  private boolean limitPath(String path) {
+    return !path.endsWith("admin/refreshUser");
   }
 
   @NotNull

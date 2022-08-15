@@ -957,6 +957,36 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token postag="ADJ:.*" postag_regexp="yes"/>
             <token postag="SUB:.*" postag_regexp="yes"/>
         </antipattern>
+        <antipattern><!-- Er überzeugte Hotelplan damit. -->
+            <token regexp="yes">er|sie|es</token>
+            <token postag="VER:3:SIN.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!-- Peter überzeugte Hotelplan damit. -->
+            <token postag="EIG.*SIN.*" postag_regexp="yes" />
+            <token postag="VER:3:SIN.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token>ich</token>
+            <token postag="VER:1:SIN.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token>sie</token>
+            <token postag="VER:3:PLU.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token>ihr</token>
+            <token postag="VER:2:PLU.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token>wir</token>
+            <token postag="VER:1:PLU.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
@@ -975,6 +1005,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <example type="untouched">Gegen eine schwache Wiener Austria holte das Schlusslicht einen 1:0-Heimerfolg.</example>
         <example type="untouched">Ich liebe Lachs.</example>
         <example type="untouched">Wir lieben Hunde.</example>
+        <example type="untouched">Er überzeugte Hotelplan damit.</example>
+        <example type="untouched">Peter überzeugte Hotelplan damit.</example>
         <example type="untouched">Er war früher Präsident.</example>
     </rule>
 
@@ -6913,8 +6945,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern>
                 <token regexp="yes">ich|bitte|dann|daher|deswegen</token>
                 <marker>
-                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
-                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|stream|knutsch</token>
+                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten oder mit anderen Wörtern verwecheslt werden könnten -->
+                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|stream|knutsch|schnall|strick|ruh|futter</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -6922,8 +6954,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <marker>
-                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten-->
-                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|helf|stream|knutsch</token>
+                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten oder mit anderen Wörtern verwecheslt werden könnten -->
+                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|helf|stream|knutsch|schnall|strick|ruh|futter</token>
                 </marker>
                 <token>ich</token>
             </pattern>
@@ -7028,5 +7060,65 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">macc?hiatt?o.*</token>
         </pattern>
         <disambig action="remove" postag="SUB.*FEM.*"/>
+    </rule>
+    <rule id="BITTE_KEIN_VER" name="'Bitte' kein Verb">
+        <pattern>
+            <token>wer</token>
+            <marker>
+                <token case_sensitive="yes">bitte</token>
+            </marker>
+            <token postag="VER.*" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="LANG_KEIN_VER" name="'lang' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte|dann|deswegen</token>
+            <token>lang</token>
+        </antipattern>
+        <antipattern>
+            <token>lang</token>
+            <token regexp="yes">ich|zu|&apostrophe;</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">lang</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="TROTZ_KEIN_VER" name="'trotz' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte|dann|deswegen</token>
+            <token>trotz</token>
+        </antipattern>
+        <antipattern>
+            <token>trotz</token>
+            <token regexp="yes">ich|&apostrophe;</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>trotz</token>
+            </marker>
+            <token postag=".*(GEN|DAT).*" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="FAHRERLOSEN_KEIN_VER" name="'fahrerlosen' kein Verb">
+        <pattern>
+            <token regexp="yes">
+                .+losen?
+                <exception regexp="yes">.*(ver|aus|raus|heraus|herein|hinein|be)(zu)?losen?</exception>
+            </token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="DRAMATISCHEN_KEIN_VER" name="'trotz' kein Verb">
+        <pattern>
+            <marker>
+                <token regexp="yes">.*(drama|roman|elas|nazis|narziss)tisch(en?)?</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
     </rule>
 </rules>

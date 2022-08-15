@@ -61,7 +61,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final int MAX_EDIT_DISTANCE = 2;
 
   private static final String adjSuffix = "(basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
-    "übergreifend|tauglich|artig|bezogen|orientiert|berechtigt|fremd|liebend|bildend|hemmend|abhängig|" +
+    "übergreifend|tauglich|artig|bezogen|orientiert|berechtigt|fremd|liebend|bildend|hemmend|abhängig|zentriert|" +
     "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlicher|gemäß|neutral|seitig)";
   private static final Pattern missingAdjPattern =
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
@@ -2483,6 +2483,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Müßt": return topMatch("Müsst");
       case "heisst": return topMatch("heißt");
       case "heissen": return topMatch("heißen");
+      case "beisst": return topMatch("beißt");
+      case "beissen": return topMatch("beißen");
       case "mußten": return topMatch("mussten");
       case "mußte": return topMatch("musste");
       case "mußtest": return topMatch("musstest");
@@ -2490,6 +2492,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "müßen": return topMatch("müssen");
       case "müßten": return topMatch("müssten");
       case "müßte": return topMatch("müsste");
+      case "wußte": return topMatch("wusste");
+      case "wußten": return topMatch("wussten");
       case "wüßte": return topMatch("wüsste");
       case "wüßten": return topMatch("wüssten");
       case "bescheid": return topMatch("Bescheid");
@@ -2534,6 +2538,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "geuploadeten": return topMatch("upgeloadeten");
       case "geuploadetem": return topMatch("upgeloadetem");
       case "Frauenhofer": return topMatch("Fraunhofer");
+      case "hörensagen": return topMatch("Hörensagen");
       case "Mwst": return topMatch("MwSt");
       case "MwSt": return topMatch("MwSt.");
       case "exkl": return topMatch("exkl.");
@@ -2723,6 +2728,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "amazon": return topMatch("Amazon");
       case "irgendeins": return topMatch("irgendeines");
       case "Communities": return topMatch("Communitys");
+      case "ansich": return topMatch("an sich");
       case "Spass": return topMatch("Spaß");
       case "garkein": return topMatch("gar kein");
       case "garkeine": return topMatch("gar keine");
@@ -2731,6 +2737,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Wieviel": return topMatch("Wie viel");
       case "gets": return topMatch("gehts");
       case "Quillbot": return topMatch("QuillBot");
+      case "ebensowenig": return topMatch("ebenso wenig");
+      case "Wiedersehn": return topMatch("Wiedersehen");
+      case "wiedersehn": return topMatch("wiedersehen");
       case "Ohje": return topMatch("Oje");
       case "ohje": return topMatch("oje");
       case "schwupps": return topMatch("schwups");
@@ -2741,6 +2750,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Wordpress": return topMatch("WordPress");
       case "gleichzeit": return topMatch("gleichzeitig");
       case "DAnke": return topMatch("Danke");
+      case "Interior": return topMatch("Interieur");
+      case "Interiors": return topMatch("Interieurs");
       case "trifftigen": return topMatch("triftigen");
       case "trifftigem": return topMatch("triftigem");
       case "trifftige": return topMatch("triftige");

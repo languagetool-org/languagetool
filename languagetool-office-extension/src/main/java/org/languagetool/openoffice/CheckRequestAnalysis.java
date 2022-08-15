@@ -631,6 +631,10 @@ class CheckRequestAnalysis {
     int nPara;
     String vcText = SingleCheck.removeFootnotes(viewCursor.getViewCursorParagraphText(), footnotePositions, null);
     String chPara = SingleCheck.removeFootnotes(chParaWithFootnotes, footnotePositions, null);
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog: vcText: " + vcText);
+      MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog: chPara: " + chPara);
+    }
     if (chPara.equals(vcText)) {
       TextParagraph tPara = viewCursor.getViewCursorParagraph();
       if (tPara != null && tPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
@@ -642,7 +646,7 @@ class CheckRequestAnalysis {
         if(!docCache.isEqual(nPara, chParaWithFootnotes, locale)) {
           actualizeDocumentCache(nPara, false);
           String dcText = SingleCheck.removeFootnotes(docCache.getFlatParagraph(nPara), footnotePositions, null);
-          if (!dcText.equals(chPara)) {
+          if (dcText == null || !DocumentCache.isEqualText(dcText, chPara)) {
             if (debugMode > 0) {
               MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog: cText != chPara: Number of Paragraph: " + nPara);
             }

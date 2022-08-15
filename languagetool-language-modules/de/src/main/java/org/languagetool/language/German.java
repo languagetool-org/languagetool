@@ -141,7 +141,8 @@ public class German extends Language implements AutoCloseable {
             new GermanUnpairedBracketsRule(messages, this),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Das Haus ist alt. <marker>es</marker> wurde 1950 gebaut."),
-                    Example.fixed("Das Haus ist alt. <marker>Es</marker> wurde 1950 gebaut.")),
+                    Example.fixed("Das Haus ist alt. <marker>Es</marker> wurde 1950 gebaut."),
+                    Tools.getUrl("https://languagetool.org/insights/de/beitrag/gross-klein-schreibung-rechtschreibung/#1-satzanf%C3%A4nge-schreiben-wir-gro%C3%9F")),
             new MultipleWhitespaceRule(messages, this),
             new WhiteSpaceBeforeParagraphEnd(messages, this),
             new WhiteSpaceAtBeginOfParagraph(messages),
@@ -317,6 +318,8 @@ public class German extends Language implements AutoCloseable {
       case "VERWECHSLUNG_MIR_DIR_MIR_DIE": return 1; // prefer over MIR_DIR
       case "ERNEUERBARE_ENERGIEN": return 1; // prefer over VEREINBAREN
       case "VOR_BEI": return 1; // prefer over BEI_BEHALTEN
+      case "ALLES_GUTE": return 1; // prefer over premium rules
+      case "NEUN_NEUEN": return 1; // prefer over VIELZAHL_PLUS_SINGULAR
       case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
       case "IN_DEUTSCHE_SPRACHE": return 1; // prefer over most other rules
       case "SEIT_LAENGEREN": return 1; // prefer over DE_CASE
@@ -364,6 +367,7 @@ public class German extends Language implements AutoCloseable {
       case "HIER_FUER": return 1; // prefer over agreement rules
       case "MIT_REISSEN": return 1; // prefer over agreement rules
       case "JEDEN_FALLS": return 1;
+      case "MOEGLICHER_WEISE_ETC": return 1; // prefer over agreement rules
       case "UST_ID": return 1;
       case "INS_FITNESS": return 1; // prefer over DE_AGREEMENT
       case "MIT_UNTER": return 1; // prefer over agreement rules
@@ -410,8 +414,11 @@ public class German extends Language implements AutoCloseable {
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
       case "BEENDE_IST_SENTEND": return -1; // prefer more specific rules
       case "VER_ADJ_ZU_SCHLAFEN": return -1; // prefer ETWAS_GUTES
+      case "MIO_PUNKT": return -1; // higher prio than spell checker
+      case "AUSLASSUNGSPUNKTE_LEERZEICHEN": return -1; // higher prio than spell checker
       case "IM_ERSCHEINUNG": return -1; // prefer ZUM_FEM_NOMEN
       case "SPACE_BEFORE_OG": return -1; // higher prio than spell checker
+      case "VERSEHENTLICHERWEISE": return -1; // higher prio than spell checker
       case "VERMOD_SKIP_VER_PKT": return -1; // less prio than casing rules
       case "EINZELBUCHSTABE_PREMIUM": return -1;  // lower prio than "A_LA_CARTE"
       case "SCHOENE_WETTER": return -2; // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)
@@ -484,6 +491,7 @@ public class German extends Language implements AutoCloseable {
       case "VERB_FEM_SUBST": return -54; // prefer comma rules (including AI)
       case "SUBJUNKTION_KOMMA_2": return -54; // lower prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
       case "DOPPELUNG_GLEICHES_VERB": return -55; // prefer comma rules
+      case "FEHLENDES_NOMEN": return -60; // lower prio than most rules
       case "REPETITIONS_STYLE": return -60;
       // Category ids - make sure style issues don't hide overlapping "real" errors:
       case "COLLOQUIALISMS": return -15;

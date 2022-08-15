@@ -79,6 +79,31 @@ public class SubjectVerbAgreementRule extends Rule {
       csRegex("war|ist"),
       new PatternTokenBuilder().posRegex("NEG|PA2:.+").build()
     ),
+    Arrays.asList(  // "Wie viel Prozent der Menschen sind total bescheuert?"
+      token("Prozent"),
+      token("der"),
+      posRegex("SUB:.*:PLU:.*"),
+      csRegex("sind|waren")
+    ),
+    Arrays.asList(  // "Die meisten der Spieler sind nicht vermögend"
+      token("meisten"),
+      token("der"),
+      posRegex("SUB:.*:PLU:.*"),
+      csRegex("sind|waren")
+    ),
+    Arrays.asList(  // "er bemerkte, dass Experimente nicht gerade sein Ding sind"
+      posRegex("SUB:.*:PLU:.*"),
+      new PatternTokenBuilder().token("nicht").setSkip(1).build(),
+      posRegex("PRO:.*"),
+      csRegex("Ding"),
+      csRegex("sind|waren")
+    ),
+    Arrays.asList(  // "Wenn Sie kein Teil der Lösung sind, ..."
+      token("Teil"),
+      token("der"),
+      token("Lösung"),
+      csRegex("sind|waren")
+    ),
     Arrays.asList(
       // "Auch Studien zu Zink sind vielversprechend."
       posRegex("SUB:NOM:PLU:.*"),
@@ -248,12 +273,18 @@ public class SubjectVerbAgreementRule extends Rule {
       token("Ziel"),
       tokenRegex("ist|war")
     ),
-    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit. 
+    Arrays.asList( // Abschluss und Höhepunkt ist der Festumzug
+      posRegex("SUB.*SIN.*"),
+      token("und"),
+      posRegex("SUB.*SIN.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit.
       token("Obst"),
       token("und"),
       token("Gemüse")
     ),
-    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit. 
+    Arrays.asList(
       token("Sport"),
       token("und"),
       token("Spiel")
