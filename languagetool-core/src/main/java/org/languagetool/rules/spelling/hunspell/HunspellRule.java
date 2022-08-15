@@ -301,7 +301,7 @@ public class HunspellRule extends SpellingCheckRule {
         word.equalsIgnoreCase(sugg.get(0).getReplacement()) &&
         word.matches("[A-Z][A-Z]\\p{javaLowerCase}+") &&
         language.getShortCode().equals("de")) {
-      System.out.println("speller high conf case: " + word + "; " + sugg.get(0).getReplacement() + "; " + language.getShortCodeWithCountryAndVariant());
+      //System.out.println("speller high conf case: " + word + "; " + sugg.get(0).getReplacement() + "; " + language.getShortCodeWithCountryAndVariant());
       if (word.endsWith("s") && StringUtils.isAllUpperCase(sugg.get(0).getReplacement())) {
         // e.g. "DMs" could mean plural of "DM"
         return false;
