@@ -18189,6 +18189,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
   <category id='PUNCTUATION' name="Pontuação">
 
+    <!-- ADDITIONAL MISSING COMMA RULES -->
+    <rulegroup id='AUSENCIA_VIRGULA' name="Ausência de vírgula" default='temp_off'>
+      <rule>
+        <pattern>
+          <token postag='SENT_START'/>
+          <token skip="-1">quem
+            <exception scope='next' regexp='yes'>[,:—]</exception>
+          </token>
+		  <token skip='-1' postag='VMI.+' postag_regexp='yes'>
+		    <exception scope='next' regexp='yes'>[,:—]</exception>
+          </token>
+         <marker>
+		  <token postag='NC.+|AQ.+|VMN0000|R.+' postag_regexp='yes'/>
+		 </marker>
+		  <token postag='NC.+|AQ.+|R.+|PP.+' postag_regexp='yes' min='0' max='2'/>
+		  <token postag='VMI.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Verifique se não falta uma vírgula.</message>
+		<suggestion>\4,</suggestion>
+        <example correction="coisas,">Quem passou por essas <marker>coisas</marker> entende.</example>
+        <example correction="feio,">Quem ama o <marker>feio</marker> bonito lhe parece.</example>
+        <example correction="devagar,">Quem come <marker>devagar</marker> mais saudável parece.</example>
+         <example correction="comer,">Quem gosta de <marker>comer</marker> sabe o que é bom.</example>
+      </rule>
+	  <rule>
+	     <pattern>
+          <token postag='SENT_START'/>
+          <token skip="-1">quem
+            <exception scope='next' regexp='yes'>[,:—]</exception>
+          </token>
+         <marker>
+		  <token postag='VMI.+' postag_regexp='yes'>
+		    <exception scope='next' regexp='yes'>[,:—]</exception>
+          </token>
+		 </marker>
+		  <token postag='VMI.+|VMM.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Verifique se não falta uma vírgula.</message>
+		<suggestion>\3,</suggestion>
+        <example correction="cala,">Quem <marker>cala</marker> consente.</example>
+      </rule>
+      <rule>
+	    <pattern>
+		<token postag='SENT_START'/>
+          <token skip="-1">quem
+            <exception scope='next' regexp='yes'>[,:—]</exception></token>
+		  <token skip="-1" postag='VMI.+' postag_regexp='yes'/>
+		 <marker>
+		  <token postag='VMP.+|VMG.+' postag_regexp='yes' skip='-1'>
+            <exception scope='next' regexp='yes'>[,:—]</exception></token>
+		 </marker>
+		  <token postag='V.+' postag_regexp='yes'/>
+		</pattern>
+        <message>Verifique se não falta uma vírgula.</message>
+		<suggestion>\4,</suggestion>
+        <example correction="estimado,">Quem pelos deuses é mais <marker>estimado</marker> sempre morre jovem.</example>
+      </rule>
+  </rulegroup>
 
     <!-- COMMA BEFORE/AFTER WORDS #1 -->
     <rulegroup id='COMMA_1' name="Vírgula antes conjunção">
