@@ -21187,13 +21187,6 @@ O namorado dela era um ladrão.
     <rulegroup id='INTERROGATIVES_PUNTUATION' name="Pontuação em interrogações: Por quê?" default='temp_off'>
       <!--  Created by Tiago F. Santos, 2017-XX-XX      -->
       <antipattern>
-        <token skip="-1" regexp='yes'>como|d?onde|quan[dt][ao]s?|quem|qual|quais|quê</token>
-        <token postag='V.+' postag_regexp='yes' skip='-1'>
-            <exception scope='next' regexp='yes'>[,:—]</exception></token>
-        <token postag='V.+' postag_regexp='yes'/>
-        <example>Quem usa essa escova de dentes não é minha mãe.</example>
-      </antipattern>
-      <antipattern>
         <token>como</token>
         <token skip='-1'>se</token>
         <token postag='VMS.+' postag_regexp='yes'/>
@@ -21205,52 +21198,85 @@ O namorado dela era um ladrão.
         <token postag='SENT_END'>.</token>
       </antipattern>
       <rule>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token regexp='yes'>como|d?onde|quan[dt][ao]s?|qual|quais|que|quem</token>
+          <token inflected='yes'>ser</token>
+          <token skip='-1'>que</token>
+          <token postag='V.+' postag_regexp='yes' skip='-1'/>
+          <token skip='-1'><exception>se</exception></token>
+          <token postag='VMI.+' postag_regexp='yes'/>
+          <example>Como é que ele descobriu ainda é um mistério.</example>
+        </antipattern>
         <pattern>
           <token postag='SENT_START'/>
-          <token skip="-1" regexp='yes'>como|d?onde|quan[dt][ao]s?|quem|qual|quais|porqu[eê]|quê
-            <exception scope='next' regexp='yes'>[,:—]</exception></token>
-          <marker>
-            <token postag='SENT_END'>.</token>
-          </marker>
+          <token regexp='yes'>como|d?onde|quan[dt][ao]s?|qual|quais|que|quem|porque</token>
+          <token inflected='yes'>ser</token>
+          <token skip='-1'>que</token>
+         <marker>
+          <token postag='SENT_END' regexp='yes'>[\.!]
+            <exception scope='previous' regexp='yes'>[,:;]</exception>
+          </token>
+         </marker>
         </pattern>
         <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações devem ser separadas por vírgulas.</message>
-        <example correction="?">Porque é que dizes isso<marker>.</marker></example>
-        <example>Como sabes, gosto destas coisas.</example>
-        <example>Quem sabe, sabe.</example>
-        <example>Como diz o ditado: "quem não arrisca não petisca".</example>
-        <example>Quem sabe…</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag='SENT_START'/>
-          <token>o</token>
-          <token skip="-1" regexp='yes'>qu[eê]
-            <exception scope='next' regexp='yes'>[,:—]</exception></token>
-          <marker>
-            <token postag='SENT_END'>.</token>
-          </marker>
-        </pattern>
-        <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações devem ser separadas por vírgulas.</message>
-        <example correction="?">O que achas disto<marker>.</marker></example>
-        <example>O que o Dr. Mário disse, eu bem sei.</example>
+        <example correction="?">Quem foi que comeu minha banana<marker>!</marker></example>
+        <example correction="?">Que é que está dizendo<marker>.</marker></example>
+        <example correction="?">Como é que queremos respeito se não damos o bom exemplo<marker>.</marker></example>
       </rule>
       <rule>
         <antipattern>
-          <token>mais</token>
-          <token inflected='yes'>querer</token>
+          <token postag='SENT_START'/>
+          <token>o</token>
+          <token>que</token>
+          <token inflected='yes'>ser</token>
+          <token skip='-1'>que</token>
+          <token postag='V.+' postag_regexp='yes' skip='-1'/>
+          <token skip='-1'><exception>se</exception></token>
+          <token postag='VMI.+' postag_regexp='yes'/>
+          <example>O que é que ele quer eu queria saber.</example>
+        </antipattern>
+        <pattern>
+          <token postag='SENT_START'/>
+          <token>o</token>
+          <token regexp='yes'>qu[eê]</token>
+          <token inflected='yes'>ser</token>
+          <token skip='-1'>que</token>
+         <marker>
+          <token postag='SENT_END' regexp='yes'>[\.!]
+            <exception scope='previous' regexp='yes'>[,:;]</exception>
+          </token>
+         </marker>
+        </pattern>
+        <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações devem ser separadas por vírgulas.</message>
+        <example correction="?">O que é que achas disto<marker>.</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token>de</token>
+          <token>onde</token>
+          <token inflected='yes'>ser</token>
+          <token skip='-1'>que</token>
+          <token postag='V.+' postag_regexp='yes' skip='-1'/>
+          <token skip='-1'><exception>se</exception></token>
+          <token postag='VMI.+' postag_regexp='yes'/>
+          <example>De onde é que eles vêm eu ainda não sei.</example>
         </antipattern>
         <pattern>
           <token postag='SENT_START'/>
           <token>de</token>
-          <token skip="-1">onde
-            <exception scope='next' regexp='yes'>[,:—]</exception></token>
-          <marker>
-            <token postag='SENT_END'>.</token>
-          </marker>
+          <token>onde</token>
+          <token inflected='yes'>ser</token>
+          <token skip='-1'>que</token>
+         <marker>
+          <token postag='SENT_END' regexp='yes'>[\.!]
+            <exception scope='previous' regexp='yes'>[,:;]</exception>
+          </token>
+         </marker>
         </pattern>
         <message>Se é uma interrogação, deve terminar com <suggestion>?</suggestion>, caso contrário, as orações devem ser separadas por vírgulas.</message>
-        <example correction="?">De onde vem isso<marker>.</marker></example>
-        <example>O que ele mais quer é jogar no Benfica.</example>
+        <example correction="?">De onde é que vem isso<marker>.</marker></example>
       </rule>
     </rulegroup>
 
