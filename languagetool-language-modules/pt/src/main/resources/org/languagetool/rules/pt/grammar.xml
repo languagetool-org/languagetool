@@ -44713,21 +44713,72 @@ O namorado dela era um ladrão.
         </token>
         <token postag='VMP.+' postag_regexp='yes'/>
       </antipattern>
+      <antipattern>
+        <token postag='N.F.+|AQ.F.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.....M' postag_regexp='yes'/>
+        <example>E existe a necessidade que seja trabalhado pelo indivíduo.</example>
+        <example>Vamos analisar os relatórios das perguntas que serão abordados.</example>
+        <example>mas orientada que foi efetuado o reembolso.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='N.M.+|AQ.M.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.....F' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+        <token postag='N.+|AQ.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='SENT_END|_PUNCT' postag_regexp='yes'/>
+        <example>São parte da cultura que estão inseridos.</example>
+      </antipattern>
+      <antipattern>
+        <token>por</token>
+        <token>favor</token>
+        <token>que</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Peço por favor que seja corrigido o relatório.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='RG|AO' postag_regexp='yes'/>
+        <token min='0' postag='D.+' max='2' postag_regexp='yes'/>
+        <token postag='AQ0.+|NC.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Tudo é relativo, assim como a análise que é feita dele.</example>
+        <example>Aquela foi a última vez que foi editado por ele.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='VMN0000'/>
+        <token postag='AQ0.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Pode ser interessante que sejam servidos drinks na festa.</example>
+      </antipattern>
 
       <pattern>
-        <token postag='AQ0.+|NC.+' postag_regexp='yes'/>
-        <marker>
+        <token postag='AQ0.+|NC.+' postag_regexp='yes'>
+          <exception postag='V.+|CC|AO.+' postag_regexp='yes'/>
+        </token>
           <token>que</token>
           <and>
-          <token regexp='yes' inflected='yes'>ser|estar</token>
-          <token negate_pos="yes" postag='VMIP1.+|VMII3.+|VMIF3.+|VMSI3.+' postag_regexp='yes'/>
+          <token regexp='yes' inflected='yes' case_sensitive='yes'>ser|estar</token>
+          <token negate_pos="yes" postag='VMIP1.+|VMII3.+|VMIF3.+|VMSI3.+|V..C.+' postag_regexp='yes'/>
           </and>
           <token postag='VMP.+' postag_regexp='yes'/>
-        </marker>
       </pattern>
       <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-      <suggestion>\4</suggestion>
-      <example correction="estimada">A quantidade <marker>que é estimada</marker> denomina-se 'estimativa'.</example>
+      <suggestion>\1 \4</suggestion>
+      <suggestion>\1, \2 \3 \4</suggestion>
+      <suggestion>\1 em \2 \3 \4</suggestion>
+      <example correction="quantidade estimada|quantidade, que é estimada|quantidade em que é estimada">A <marker>quantidade que é estimada</marker> denomina-se 'estimativa'.</example>
       <example>A pauta é a seleção dos assuntos que serão abordados.</example>
       <example>Esta licença informará quais os direitos que o autor estará transferindo e quais as condições que serão aplicadas.</example>
       <example>Os pais têm prioridade de direito na escolha do tipo de educação que será ministrada a seus filhos.</example>
