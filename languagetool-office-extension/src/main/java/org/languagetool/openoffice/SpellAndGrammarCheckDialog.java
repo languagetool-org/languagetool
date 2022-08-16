@@ -134,7 +134,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private final static String changeAllButtonHelp = messages.getString("loDialogChangeAllButtonHelp"); 
   private final static String checkStatusInitialization = messages.getString("loCheckStatusInitialization"); 
   private final static String checkStatusCheck = messages.getString("loCheckStatusCheck"); 
-  private final static String checkStatusResult = messages.getString("loCheckStatusResult"); 
+  private final static String labelCheckProgress = messages.getString("loLabelCheckProgress"); 
   
   private static int nLastFlat = 0;
   
@@ -421,6 +421,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     } else if (docType == DocumentType.CALC) {
       OfficeSpreadsheetTools.setTextofCell(nFPara, sPara, document.getXComponent());
     } else {
+/*      
       TextParagraph tPara = docCache.getNumberOfTextParagraph(nFPara);
       if (tPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
         if (debugMode) {
@@ -434,10 +435,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
         }
         nStart = docCache.correctStartPoint(nStart, nFPara);
         viewCursor.setViewCursorParagraphText(nStart, nLength, replace);
+        setTextViewCursor(nStart, tPara, viewCursor);
       } else {
+*/
         document.getFlatParagraphTools().changeTextOfParagraph(nFPara, nStart, nLength, replace);
       }
-    }
+//    }
     if (documents.getConfiguration().useTextLevelQueue() && !documents.getConfiguration().noBackgroundCheck()) {
       for (int i = 1; i < documents.getNumMinToCheckParas().size(); i++) {
         document.addQueueEntry(nFPara, i, documents.getNumMinToCheckParas().get(i), document.getDocID(), false, true);
@@ -847,7 +850,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final JLabel suggestionsLabel;
     private final JList<String> suggestions;
     private final JLabel checkTypeLabel;
-    private final JLabel checkStatus;
+    private final JLabel checkProgressLabel;
     private final ButtonGroup checkTypeGroup;
     private final JRadioButton[] checkTypeButtons;
     private final JButton more; 
@@ -864,6 +867,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final JButton close;
     private final JProgressBar checkProgress;
     private final Image ltImage;
+    private final List<UndoContainer> undoList;
     
     private SingleDocument currentDocument;
     private ViewCursorTools viewCursor;
@@ -882,8 +886,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private boolean focusLost = false;
     private boolean atWork = false;
     private String wrongWord;
-    private List<UndoContainer> undoList;
     private Locale locale;
+//    private ProgressWindow progressWindow;
 
 //    private Object checkWakeup = new Object();
 
@@ -991,7 +995,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       errorDescription.setLineWrap(true);
       errorDescription.setWrapStyleWord(true);
       errorDescription.setBackground(dialog.getContentPane().getBackground());
-      errorDescription.setForeground(defaultForeground);
+      errorDescription.setText(checkStatusInitialization);
+      errorDescription.setForeground(Color.RED);
       Font descriptionFont = dialogFont.deriveFont(Font.BOLD);
       errorDescription.setFont(descriptionFont);
       errorDescription.setToolTipText(formatToolTipText(matchDescriptionHelp));
@@ -1251,7 +1256,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
               }
               if (!docId.equals(newDocId)) {
                 docId = newDocId;
-                undoList = new ArrayList<UndoContainer>();
+                undoList.clear();
               }
 //              dialog.setEnabled(false);
               if (!initCursor()) {
@@ -1281,19 +1286,28 @@ public class SpellAndGrammarCheckDialog extends Thread {
         }
       });
       
-      checkStatus = new JLabel(checkStatusInitialization);
+      checkProgressLabel = new JLabel(labelCheckProgress);
 
-      checkStatus.setBounds(begFirstCol, dialogHeight - progressBarDist, 100, 20);
-      checkStatus.setFont(checkStatus.getFont().deriveFont(Font.BOLD));
-      checkStatus.setForeground(Color.RED);
-      contentPane.add(checkStatus);
+      checkProgressLabel.setBounds(begFirstCol, dialogHeight - progressBarDist, 100, 20);
+//      checkProgressLabel.setFont(checkProgressLabel.getFont().deriveFont(Font.BOLD));
+      contentPane.add(checkProgressLabel);
       
       checkProgress = new JProgressBar(0, 100);
       checkProgress.setStringPainted(true);
-      checkProgress.setBounds(begFirstCol + 100, dialogHeight - progressBarDist, dialogWidth - begFirstCol - 120, 20);
+      checkProgress.setBounds(begFirstCol + 120, dialogHeight - progressBarDist, dialogWidth - begFirstCol - 140, 20);
       contentPane.add(checkProgress);
       
       ToolTipManager.sharedInstance().setDismissDelay(30000);
+    }
+    
+    void setProgressValue(int value, boolean setText) {
+      checkProgress.setValue(value);
+      if (setText) {
+        int max = checkProgress.getMaximum();
+        int p = (int) (((value * 100) / max) + 0.5);
+        checkProgress.setString(p + " %  ( " + value + " / " + max + " )");
+        checkProgress.setStringPainted(true);
+      }
     }
 
     /**
@@ -1458,15 +1472,17 @@ public class SpellAndGrammarCheckDialog extends Thread {
       sentenceIncludeError.setEnabled(false);
       suggestions.setBackground(Color.LIGHT_GRAY);
       suggestions.setEnabled(false);
-      errorDescription.setForeground(defaultForeground);
+      errorDescription.setText(checkStatusCheck);
+      errorDescription.setForeground(Color.RED);
       errorDescription.setBackground(Color.LIGHT_GRAY);
-      errorDescription.setEnabled(false);
+//      errorDescription.setEnabled(false);
       contentPane.revalidate();
       contentPane.repaint();
 //      dialog.toBack();
 //      dialog.toFront();
       dialog.setEnabled(false);
       atWork = work;
+//      progressWindow = new ProgressWindow(endOfRange < 0 ? docCache.size() : endOfRange);
 //      if (setVisible) {
 //        dialog.setVisible(true);
 //      }
@@ -1569,15 +1585,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
         options.setEnabled(true);
         close.setEnabled(true);
         activateRule.setEnabled(true);
-        atWork = false;
         if (sentenceIncludeError == null || errorDescription == null || suggestions == null) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: SentenceIncludeError == null || errorDescription == null || suggestions == null");
           error = null;
         }
         
         if (error != null) {
-          checkStatus.setText(checkStatusResult);
-          checkStatus.setForeground(defaultForeground);
           ignoreOnce.setEnabled(true);
           ignoreAll.setEnabled(true);
           isSpellError = error.aRuleIdentifier.equals(spellRuleId);
@@ -1586,6 +1599,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           sentenceIncludeError.setText(docCache.getFlatParagraph(y));
           setAttributesForErrorText(error);
           errorDescription.setText(error.aFullComment);
+          errorDescription.setForeground(defaultForeground);
           errorDescription.setEnabled(true);
           errorDescription.setBackground(Color.white);
           if (debugMode) {
@@ -1670,8 +1684,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
           Language lang = locale == null || !documents.hasLocale(locale)? lt.getLanguage() : documents.getLanguage(locale);
           language.setSelectedItem(lang.getTranslatedName(messages));
-          checkStatus.setText(checkStatusResult);
-          checkStatus.setForeground(defaultForeground);
           checkProgress.setValue(docCache != null && docCache.size() > 0 ? docCache.size() : 100);
           //  Note: a delay interval is needed to update the dialog before wait
   //        Thread.sleep(500);
@@ -1680,6 +1692,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
         MessageHandler.showError(e);
         closeDialog();
       }
+      atWork = false;
+//      progressWindow.close();
     }
 
     /**
@@ -1816,11 +1830,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
         nStart += docCache.getFlatParagraph(i).length() + 1;
       }
       checkProgress.setMaximum(endOfRange < 0 ? docCache.size() : endOfRange);
-      checkStatus.setText(checkStatusCheck);
-      checkStatus.setForeground(Color.RED);
       CheckError nextError = null;
       while (y < docCache.size() && y >= lastPara && nextError == null && (endOfRange < 0 || nStart < endOfRange)) {
-        checkProgress.setValue(endOfRange < 0 ? y - lastPara : nStart);
+//        checkProgress.setValue(endOfRange < 0 ? y - lastPara : nStart);
+        setProgressValue(endOfRange < 0 ? y - lastPara : nStart, endOfRange < 0);
+//        progressWindow.setValue(endOfRange < 0 ? y - lastPara : nStart);
         nextError = getNextErrorInParagraph (x, y, currentDocument, docCursor);
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: getNextError: endOfRange = " + endOfRange + ", startOfRange = " 
@@ -1857,7 +1871,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
           y = 0;
         }
         while (y < lastPara) {
-          checkProgress.setValue(docCache.size() + y - lastPara);
+//          checkProgress.setValue(docCache.size() + y - lastPara);
+          setProgressValue(docCache.size() + y - lastPara, true);
+//          progressWindow.setValue(docCache.size() + y - lastPara);
           nextError = getNextErrorInParagraph (0, y, currentDocument, docCursor);
           if (nextError != null) {
             if (nextError.error.aRuleIdentifier.equals(spellRuleId)) {
@@ -1891,42 +1907,44 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     @Override
     public void actionPerformed(ActionEvent action) {
-      try {
-        if (debugMode) {
-          MessageHandler.printToLogFile("CheckDialog: actionPerformed: Action: " + action.getActionCommand());
-        }
-        if (action.getActionCommand().equals("close")) {
+      if (!atWork) {
+        try {
+          if (debugMode) {
+            MessageHandler.printToLogFile("CheckDialog: actionPerformed: Action: " + action.getActionCommand());
+          }
+          if (action.getActionCommand().equals("close")) {
+            closeDialog();
+          } else if (action.getActionCommand().equals("ignoreOnce")) {
+            setAtWorkButtonState();
+            ignoreOnce();
+          } else if (action.getActionCommand().equals("ignoreAll")) {
+            setAtWorkButtonState();
+            ignoreAll();
+          } else if (action.getActionCommand().equals("deactivateRule")) {
+            setAtWorkButtonState();
+            deactivateRule();
+          } else if (action.getActionCommand().equals("change")) {
+            setAtWorkButtonState();
+            changeText();
+          } else if (action.getActionCommand().equals("changeAll")) {
+            setAtWorkButtonState();
+            changeAll();
+          } else if (action.getActionCommand().equals("undo")) {
+            setAtWorkButtonState();
+            undo();
+          } else if (action.getActionCommand().equals("more")) {
+            Tools.openURL(informationUrl);
+          } else if (action.getActionCommand().equals("options")) {
+            documents.runOptionsDialog();
+          } else if (action.getActionCommand().equals("help")) {
+            MessageHandler.showMessage(messages.getString("loDialogHelpText"));
+          } else {
+            MessageHandler.showMessage("Action '" + action.getActionCommand() + "' not supported");
+          }
+        } catch (Throwable e) {
+          MessageHandler.showError(e);
           closeDialog();
-        } else if (action.getActionCommand().equals("ignoreOnce")) {
-          setAtWorkButtonState();
-          ignoreOnce();
-        } else if (action.getActionCommand().equals("ignoreAll")) {
-          setAtWorkButtonState();
-          ignoreAll();
-        } else if (action.getActionCommand().equals("deactivateRule")) {
-          setAtWorkButtonState();
-          deactivateRule();
-        } else if (action.getActionCommand().equals("change")) {
-          setAtWorkButtonState();
-          changeText();
-        } else if (action.getActionCommand().equals("changeAll")) {
-          setAtWorkButtonState();
-          changeAll();
-        } else if (action.getActionCommand().equals("undo")) {
-          setAtWorkButtonState();
-          undo();
-        } else if (action.getActionCommand().equals("more")) {
-          Tools.openURL(informationUrl);
-        } else if (action.getActionCommand().equals("options")) {
-          documents.runOptionsDialog();
-        } else if (action.getActionCommand().equals("help")) {
-          MessageHandler.showMessage(messages.getString("loDialogHelpText"));
-        } else {
-          MessageHandler.showMessage("Action '" + action.getActionCommand() + "' not supported");
         }
-      } catch (Throwable e) {
-        MessageHandler.showError(e);
-        closeDialog();
       }
     }
 
@@ -1939,7 +1957,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: closeDialog: Close Spell And Grammar Check Dialog");
         }
-        undoList = null;
+        undoList.clear();
         documents.setLtDialog(null);
         documents.setLtDialogIsRunning(false);
         atWork = false;
@@ -2131,6 +2149,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       if (debugMode) {
         MessageHandler.printToLogFile("CheckDialog: changeText: Org: " + word + "\nDia: " + replace);
       }
+      currentDocument = getCurrentDocument(true);
       gotoNextError();
     }
 
@@ -2344,5 +2363,53 @@ public class SpellAndGrammarCheckDialog extends Thread {
     }
     
   }
+/*  
+  class ProgressWindow {
+    private final static int dialogWidth = 200;
+    private final static int dialogHeight = 90;
+
+    private final JDialog progressDialog;
+    private final JProgressBar progressBar;
+    private final JLabel printProgress;
+    private final int maximum;
+    
+    ProgressWindow(int maximum) {
+      this.maximum = maximum;
+      progressDialog = new JDialog();
+      progressDialog.setTitle(checkStatusCheck);
+      progressDialog.setSize(dialogWidth,dialogHeight);
+      progressDialog.setLayout(null);
+      progressDialog.setModal(false);
+      progressDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+      progressBar = new JProgressBar(0, 100);
+      progressBar.setStringPainted(true);
+      progressBar.setBounds(20, 10, 160, 20);
+      progressBar.setMaximum(maximum);
+      progressDialog.add(progressBar);
+      printProgress = new JLabel("( 0 / " + maximum + " )");
+      printProgress.setBounds(40, 40, 120, 20);
+      Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+      Dimension frameSize = progressDialog.getSize();
+      int dialogX = screenSize.width / 2 - frameSize.width / 2;
+      int dialogY = screenSize.height / 2 - frameSize.height / 2;
+      progressDialog.setLocation(dialogX, dialogY);
+      progressDialog.add(printProgress);
+      progressDialog.setAutoRequestFocus(true);
+      progressDialog.setAlwaysOnTop(true);
+      progressDialog.toFront();
+      progressDialog.setVisible(true);
+    }
+    
+    void setValue(int value) {
+      progressBar.setValue(value);
+      printProgress.setText("( " + value + " / " + maximum + " )");
+    }
+    
+    void close() {
+      progressDialog.setVisible(false);
+    }
+    
+  }
+*/  
   
 }
