@@ -331,19 +331,19 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">[0-9]+(&measurementUnitsAll;|[%\-\–\/x])?</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+                    <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
                     <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}|euro|dollars?</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+                    <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
                     <token regexp="yes">bij|en|tot</token>
-                    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+                    <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
                     <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}|euro|dollars?</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+                    <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
                     <token regexp="yes">bij|en|tot</token>
-                    <token regexp="yes">([0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00)(&measurementUnitsAngles;|[%/+])</token>
+                    <token regexp="yes">([0-9]|1[0-9]|[2-9]0)(&measurementUnitsAngles;|[%/+])</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[0-9]+</token>
@@ -369,7 +369,7 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">Sam(u(e|ë)l)?|Kon(ingen)?|Kron(ieken)?|Kor(intiërs)?|Th?es?s(alonicenzen)?|Tim(oteüs)?|Petr?(us)|Joh(annes)?</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+                    <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
                     <token>v</token>
                     <token>.</token>
                     <token regexp="yes">Chr|Christ|Christus</token>
@@ -378,7 +378,7 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|stap|top|poort(en)?|kaliber|psalm|euro|afb|no|nr|p|#</token>
                     <token min="0">.</token>
-                    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+                    <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">air|bloedgroep|fase|model|niveau|pro|ISBN|ISSN|RAID</token>
@@ -400,13 +400,12 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">[0-9]{1,2}</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">[0-9]|1[0-9]|[1-9]0{1,2}|[1-9][1-9]00</token>
+                    <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
                 </pattern>
-                <message>Getallen onder de twintig en ronde getallen schrijven we in lopende tekst bij voorkeur uit.</message>
-                <suggestion></suggestion>
+                <message>Getallen onder de twintig en ronde getallen tot honderd schrijven we in lopende tekst bij voorkeur uit.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url>
                 <short>Uitschrijven</short>
-                <example correction="">We hebben het al <marker>100</marker> keer gezegd.</example>
+                <example correction="">We hebben het al <marker>10</marker> keer gezegd.</example>
                 <example>De rekening 2 + 2 = 5 klopt helemaal niet.</example>
                 <example>Meestal ontvang je tussen de 10 tot 20% van het betaalde bedrag door de klant.</example>
                 <example>We moeten het 1 tot 2 m de linkerkant opschuiven.</example>
@@ -415,27 +414,28 @@ regexp case-insensitive maken: (?i)
                 <example>De temperatuurverschil van 0,5°C is heel klein.</example>
                 <example>3. Een derde punt</example>
                 <example>3 – De derde punt</example>
-                <example>Zij liep de 100 m in 11 s.</example>
+                <example>Zij liep de 50 m in 11 s.</example>
                 <example>Han Solo deed de Kessel run in minder dan 12 parsecs.</example>
                 <example>Hun ASICs genereren meer dan 200 Petahash.</example>
                 <example>Dat zijn maar 80 millimol.</example>
                 <example>Dat zijn maar 17°Celsius.</example>
                 <example>Dat zijn maar 22 kV.</example>
-                <example>Dat zijn maar 100 mm.</example>
+                <example>Dat zijn maar 90 mm.</example>
                 <example>Dat zijn maar 10% meer.</example>
                 <example>Dat zijn maar 5 €.</example>
                 <example>Het gebeurde op 03 jan.</example>
                 <example>Het gebeurde op 3 januari.</example>
                 <example>Loop maar recht door naar de Hugo de Grootstraat 30.</example>
                 <example>Kijk even naar #9 of #12.</example>
-                <example>Zie figuur 21.</example>
+                <example>Zie figuur 12.</example>
                 <example>Het is gedateerd op 7 v.Chr.</example>
-                <example>Ik vond 100 ¥ gewoon te duur.</example>
-                <example>Dat is geen € 100 waard.</example>
-                <example>Dat is geen 100,- waard.</example>
-                <example>Dat is geen EUR 100 waard.</example>
+                <example>Ik vond 50 ¥ gewoon te duur.</example>
+                <example>Dat is geen € 10 waard.</example>
+                <example>Dat is geen 10,- waard.</example>
+                <example>Dat is geen EUR 10 waard.</example>
                 <example>Hij belde +49(0)1234567 op.</example>
                 <example>Als je zegt dat ℚ=3 juist is, ben je zeker geen mathematicus.</example>
+                <example>Stap 1</example>
             </rule>
         </rulegroup>
 
