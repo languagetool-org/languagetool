@@ -9011,7 +9011,11 @@ O namorado dela era um ladrão.
           <token>volta</token>
           <token>de</token>
         </antipattern>
-
+        <antipattern>
+          <token inflected='yes'>haver</token>
+          <token>cego</token>
+          <example>Não há pior cego do que aquele que não quer ver.</example>
+        </antipattern>
         <antipattern>
           <token inflected='yes'>ter</token>
           <token regexp='yes'>seguros?</token>
@@ -9026,17 +9030,44 @@ O namorado dela era um ladrão.
         Estou de baixa até haver Junta Médica.
         -->
         <antipattern>
-          <token regexp='yes'>juntas?</token>
-          <token regexp='yes'>médicas?</token>
+          <token regexp='yes'>juntas?|juntos</token>
+          <token regexp='yes'>médic[oa]s?</token>
         </antipattern>
         <!-- MARCOAGPINTO 2022-05-21 (15-MAY-2022+) *END* -->
-
+        <antipattern>
+          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+          <token skip='-1' regexp='yes'>há|ter</token>
+          <token postag="V.P.*" postag_regexp='yes'/>
+          <example>Não há pior cego do que aquele que não quer ver.</example>
+          <example>Os policiais trabalham com a hipótese de assassinato, mas ainda não há suspeitos.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='CC'/>
+          <token postag='R.+' min='0' max='2' postag_regexp='yes'/>
+          <token skip='-1' regexp='yes'>há|ter</token>
+          <token postag="V.P.*" postag_regexp='yes'/>
+          <example>Mas ainda não há suspeitos.</example>
+        </antipattern>
+        <antipattern>
+          <token skip='-1' regexp='yes'>há|ter</token>
+          <token regexp='yes'>suspeitos?|fix[ao]s?</token>
+          <token postag='SENT_END|_PUNCT' postag_regexp='yes'/>
+          <example>Na verdade, não há suspeitos.</example>
+        </antipattern>
+        <antipattern>
+          <token skip='-1' regexp='yes' inflected='yes'>há|ter</token>
+          <token postag='RN'/>
+          <token>pega</token>
+          <example>Quem não tem não pega.</example>
+        </antipattern>
         <pattern>
           <token regexp='yes' inflected='yes'>ter|haver</token><!-- TODO testar chegar -->
           <token min="0" max="3" postag_regexp='yes' postag='R.+'/>
           <marker>
-            <token postag="V.P.*" postag_regexp='yes'><exception regexp='yes'>(?:aces|ganh|gast|mort|pag|salv|eleit|expuls)[ao]s?|entregues?|aceites?|oculto|vagas?|incluso|tinto|apego</exception></token><!-- XXX significado distintos. Removidos: incluso|tinto -->
+            <token postag="V.P.*" postag_regexp='yes'><exception regexp='yes'>(?:aces|ganh|gast|mort|pag|salv|eleit|expuls)[ao]s?|entregues?|aceites?|oculto|vagas?|incluso|tinto|apego|defesas?|colheitas?|suspeitas?|surpresas?|tintas?|tortas?</exception><!-- XXX significado distintos. Removidos: incluso|tinto -->
+            </token>
           </marker>
+            <token postag='D.+|P.+|SENT_END|_PUNCT' postag_regexp='yes'/>
         </pattern>
         <filter class="org.languagetool.rules.pt.RegularIrregularParticipleFilter" args="direction:IrregularToRegular"/>
         <message>Com o verbo '<match no='1' postag='VMN0000'/>' deve utilizar-se o particípio passado regular.</message>
@@ -9046,7 +9077,6 @@ O namorado dela era um ladrão.
         <example>Depois de ter discretamente limpado o carro, foi desculpado.</example>
         <example>…, seguidos pelos primeiros amniotas, os mamíferos há volta de 200 milhões de anos e as aves há cerca de 100 …</example>
         <example>Ainda bem que tinha seguro para a casa.</example>
-        <example correction='segurado'>Ainda bem que tinha <marker>seguro</marker> a casa.</example>
         <example correction="imprimido">Percebi que tinha <marker>impresso</marker> o documento errado.</example>
         <example>Tenho morto muitas moscas.</example>
 
@@ -9054,12 +9084,18 @@ O namorado dela era um ladrão.
       </rule>
 
       <rule>
+        <antipattern>
+          <token inflected='yes'>ser
+            <exception>seres</exception></token>
+          <token regexp='yes'>confundid[oa]s?|segurad[oa]s?</token>
+          <example>Sempre sou confundido com aquele ator</example>
+        </antipattern>
         <pattern>
           <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer
             <exception>seres</exception></token>
           <token min="0" max="3" postag_regexp='yes' postag='R.'/>
           <marker>
-            <token postag="V.P.*" postag_regexp='yes'><exception regexp="yes" inflected="yes">juntar|acolher|atender|preencher|interromper|recolher|repelir|apegar|situar|absorver|acender|encher|anexar|concluir|cultivar|defender|desenvolver|dissolver|distinguir|envolver|incluir|inserir|ocultar|pegar|sepultar|suprimir|surpreender|tingir</exception></token>
+            <token postag="V.P.*" postag_regexp='yes'><exception regexp="yes" inflected="yes">juntar|acolher|atender|preencher|interromper|recolher|repelir|apegar|situar|absorver|acender|encher|anexar|concluir|cultivar|defender|desenvolver|dissolver|distinguir|envolver|incluir|inserir|ocultar|pegar|sepultar|suprimir|surpreender|atingir|assentar|cativar|colher|compelir|completar|corrigir|desmatar|romper|infectar|contorcer|pretender|reassentar|ressecar|safar</exception></token>
           </marker>
           <!-- 2021-08-13: Removed "surpreendido": https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/ficar-surpreendido/25441) -->
           <!-- XXX Removidos: absorvido|acendido|anexado|concluído|cultivado|defendido|desenvolvido|dissolvido|distinguido|envolvido|erigido|incluído|inserido|ocultado|pegado|sepultado|suprimido|tingido
