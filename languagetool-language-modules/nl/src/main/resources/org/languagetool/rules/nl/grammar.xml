@@ -21022,19 +21022,20 @@ steenwijk;Steenwijk
         <rulegroup id="VIERKANTE_METER" name="Vierkante meter met superscript" default="temp_off">
             <rule>
                 <pattern>
-                    <token regexp="yes">(&measurementUnitPrefix;)?m2</token>
+                    <token regexp="yes" case_sensitive="yes">(&measurementUnitPrefix;)?m2</token>
                 </pattern>
                 <message>Als u voor de notatie van vierkante meter superscript gebruikt ziet het mooier uit.</message>
                 <suggestion><match no="1" regexp_match="2" regexp_replace="²"/></suggestion>
                 <short>superscript</short>
                 <example correction="m²">Elke kip heeft rond 4 <marker>m2</marker> nodig.</example>
                 <example correction="cm²">Een DIN A4 bladzijde heeft precies 623,7 <marker>cm2</marker>.</example>
+                <example>De amplitude van het dubbeldaags maansgetij M2 varieert met de afstand van de Maan tot de Aarde.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KUBIEKE_METER" name="Kubieke meter met superscript" default="temp_off">
             <rule>
                 <pattern>
-                    <token regexp="yes">(&measurementUnitPrefix;)?m3</token>
+                    <token regexp="yes" case_sensitive="yes">(&measurementUnitPrefix;)?m3</token>
                 </pattern>
                 <message>Als u voor de notatie van kubieke meter superscript gebruikt ziet het mooier uit.</message>
                 <suggestion><match no="1" regexp_match="3" regexp_replace="³"/></suggestion>
@@ -43359,7 +43360,7 @@ steenwijk;Steenwijk
                 <!-- Temporarily disabled to test user adoption with changed suggestions:
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
                 -->
-                <message>Als hier geen verwisseling van 'de' en 'het' bestaat is het waarschijnlijk een spatiefout.</message>
+                <message>Als hier geen verwisseling van 'de' en 'het' bestaat, is het waarschijnlijk een spatiefout.</message>
                 <suggestion>de \2\3</suggestion>
                 <suggestion>het \2 \3</suggestion>
                 <short>de vs. het of spatiefout</short>
