@@ -6458,7 +6458,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
         <rule>
             <pattern>
-                <token><exception regexp="yes">\p{Ps}</exception></token>
+                <token><exception regexp="yes">\p{Ps}|\/</exception></token>
                 <marker>
                     <and>
                         <token postag="``" spacebefore="no">&quot;</token>
@@ -6488,7 +6488,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">\p{Ps}</token>
+                <token regexp="yes">\p{Ps}|\/</token>
                 <marker>
                     <and>
                         <token postag="``" spacebefore="no">&quot;</token>
@@ -16173,4 +16173,30 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="remove" postag="DT.*" />
     </rule>
+
+    <rulegroup id="COMES_NO_NN" name="'comes' is not NN">
+        <rule>
+            <antipattern>
+                <token postag="P?DT|PRP\$" postag_regexp="yes" />
+                <token>comes</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>comes</token>
+                </marker>
+                <token regexp="yes">from|by|to|into|(down|up)stairs</token>
+            </pattern>
+            <disambig action="remove" postag="NN" />
+        </rule>
+        <rule>
+            <pattern>
+                <token chunk="E-NP-singular" />
+                <token postag="RB" min="0" />
+                <marker>
+                    <token>comes</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="NN" />
+        </rule>
+    </rulegroup>
 </rules>
