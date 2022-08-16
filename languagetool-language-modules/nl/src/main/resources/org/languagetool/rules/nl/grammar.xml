@@ -43293,6 +43293,27 @@ steenwijk;Steenwijk
             <rule>
                 <antipattern>
                     <token>de</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]{3,4}</token>
+                    <token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:TGW:INF"/></token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token regexp="yes">(E|W)K</token>
+                    <token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:TGW:INF"/></token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW.*DE_|GET:RNG|WKW:VTD:ONV"/></token>
+                    <token>top</token>
+                    <token regexp="yes">[0-9]{1,3}</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW.*DE_|GET:RNG|WKW:VTD:ONV"/></token>
+                    <token regexp="yes">del|des|over</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
                     <token>nummer</token>
                     <token postag_regexp="yes" postag="GET.*MRV"/>
                 </antipattern>
@@ -43346,6 +43367,24 @@ steenwijk;Steenwijk
                 <example correction="de morsecode|het morse code">UltraMorse, Een programma om <marker>de morse code</marker> te leren</example>
                 <example correction="de aantalbesmettingen|het aantal besmettingen">De media zijn oneens over <marker>de aantal besmettingen</marker> op schoool.</example>
                 <example>We wardeeren de gegeven feedback uiteraard.</example>
+                <example>De voorzitter van de IOC Coördinatiecommissie staat op.</example>
+                <example>Het album behaalde de 2e plaats in de album top 100.</example>
+                <example>Het was hun eerste medaille bij de EK Kunstschaatsen.</example>
+                <example>Probeer op maandag- t/m donderdagmiddag eens de menú del día.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]{3,4}</token>
+                        <token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:TGW:INF"/></token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
+                <message>Dit is mogelijk een spatiefout.</message>
+                <suggestion>\2\3</suggestion>
+                <short>Spatiefout</short>
+                <example correction="IOC-Coördinatiecommissie">De voorzitter van de <marker>IOC Coördinatiecommissie</marker> staat op.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SPATIEFOUT_HEIDS" name="foutheids criterium">

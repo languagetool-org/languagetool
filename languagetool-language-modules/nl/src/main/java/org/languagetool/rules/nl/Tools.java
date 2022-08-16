@@ -52,6 +52,8 @@ class Tools {
         compound = compound + '-' + word2;
       } else if (isUpperCase(lastChar) && isLowerCase(firstChar)) {
         compound = compound + '-' + word2;
+      } else if (isUpperCase(lastChar) && isUpperCase(firstChar)) {
+        compound = compound + '-' + word2;
       } else if (compound.matches(".*[0-9]$")) {
         compound = compound + '-' + word2;
       } else if (word2.matches("^[0-9].*")) {
