@@ -268,8 +268,9 @@ public class SentenceSourceChecker {
     } finally {
       lt.shutdown();
       if (resultHandler != null) {
-        float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
+        System.out.printf(lang + ": %d total sentences considered\n", sentenceCount);
+        float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(Locale.ENGLISH, lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
         System.out.printf(Locale.ENGLISH, lang + ": %d input lines ignored (e.g. not between %d and %d chars or at least %d tokens)\n", ignoredCount, 
           SentenceSource.MIN_SENTENCE_LENGTH, SentenceSource.MAX_SENTENCE_LENGTH, SentenceSource.MIN_SENTENCE_TOKEN_COUNT);
