@@ -18201,29 +18201,14 @@ O namorado dela era um ladrão.
 
     <!-- ADDITIONAL MISSING COMMA RULES -->
     <rulegroup id='AUSENCIA_VIRGULA' name="Ausência de vírgula" default='temp_off'>
-      <rule>
-        <pattern>
-          <token postag='SENT_START'/>
-          <token skip="-1">quem
-            <exception scope='next' regexp='yes'>[,:—]</exception>
-          </token>
-		  <token skip='-1' postag='VMI.+' postag_regexp='yes'>
-		    <exception scope='next' regexp='yes'>[,:—]</exception>
-          </token>
-         <marker>
-		  <token postag='NC.+|AQ.+|VMN0000|R.+' postag_regexp='yes'/>
-		 </marker>
-		  <token postag='NC.+|AQ.+|R.+|PP.+' postag_regexp='yes' min='0' max='2'/>
-		  <token postag='VMI.+' postag_regexp='yes'/>
-        </pattern>
-        <message>Verifique se não falta uma vírgula.</message>
-		<suggestion>\4,</suggestion>
-        <example correction="coisas,">Quem passou por essas <marker>coisas</marker> entende.</example>
-        <example correction="feio,">Quem ama o <marker>feio</marker> bonito lhe parece.</example>
-        <example correction="devagar,">Quem come <marker>devagar</marker> mais saudável parece.</example>
-         <example correction="comer,">Quem gosta de <marker>comer</marker> sabe o que é bom.</example>
-      </rule>
 	  <rule>
+	     <antipattern>
+          <token postag='SENT_START'/>
+          <token skip="-1">quem</token>
+		  <token postag='VMI.+' postag_regexp='yes'/>
+		  <token inflected='yes' regexp='yes'>ser|estar</token>
+		  <example>Quem se aproveitou foi Rosenberg.</example>
+        </antipattern>
 	     <pattern>
           <token postag='SENT_START'/>
           <token skip="-1">quem
@@ -18232,29 +18217,46 @@ O namorado dela era um ladrão.
          <marker>
 		  <token postag='VMI.+' postag_regexp='yes'>
 		    <exception scope='next' regexp='yes'>[,:—]</exception>
+		    <exception>dera</exception>
+		    <exception postag='N.+|AQ.+|PP.+|R.+|SPS.+' postag_regexp='yes'/>
+		    <exception scope='next' postag='N.+|AQ.+|PP.+|RG|RM|SPS.+|D.+' postag_regexp='yes'/>
           </token>
 		 </marker>
 		  <token postag='VMI.+|VMM.+' postag_regexp='yes'/>
+		  <token><exception regexp='yes'>[,:—]</exception></token>
         </pattern>
         <message>Verifique se não falta uma vírgula.</message>
 		<suggestion>\3,</suggestion>
         <example correction="cala,">Quem <marker>cala</marker> consente.</example>
       </rule>
       <rule>
+        <antipattern>
+		<token postag='SENT_START'/>
+          <token skip="-1">quem</token>
+		  <token skip="-1" postag='VMI.+' postag_regexp='yes'/>
+		  <token postag='VMP.+|VMG.+' postag_regexp='yes' skip='-1'/>
+		  <token spacebefore='no'>-</token>
+		</antipattern>
 	    <pattern>
 		<token postag='SENT_START'/>
           <token skip="-1">quem
             <exception scope='next' regexp='yes'>[,:—]</exception></token>
-		  <token skip="-1" postag='VMI.+' postag_regexp='yes'/>
+		  <token skip="-1" postag='VMI.+' postag_regexp='yes'>
+		    <exception scope='next' regexp='yes'>[,:—]</exception>
+		    <exception>dera</exception>
+          </token>
+          <token><exception scope='next' regexp='yes'>[,:—]</exception></token>
 		 <marker>
-		  <token postag='VMP.+|VMG.+' postag_regexp='yes' skip='-1'>
-            <exception scope='next' regexp='yes'>[,:—]</exception></token>
+		  <token postag='VMP.+|VMG.+' postag_regexp='yes'/>
 		 </marker>
-		  <token postag='V.+' postag_regexp='yes'/>
+		  <token postag='V.+' postag_regexp='yes'>
+		    <exception postag='VMN0000|VMP.+' postag_regexp='yes'/>
+		    <exception inflected='yes' regexp='yes'>ser|estar</exception>
+		  </token>
 		</pattern>
         <message>Verifique se não falta uma vírgula.</message>
-		<suggestion>\4,</suggestion>
-        <example correction="estimado,">Quem pelos deuses é mais <marker>estimado</marker> sempre morre jovem.</example>
+		<suggestion>\5,</suggestion>
+        <example correction="estimado,">Quem pelos deuses é mais <marker>estimado</marker> morre jovem.</example>
       </rule>
   </rulegroup>
 
