@@ -118,9 +118,10 @@ class OfficeTools {
 
   private static final String VENDOR_ID = "languagetool.org";
   private static final String APPLICATION_ID = "LanguageTool";
-  private static final String OFFICE_EXTENSION_ID = "LibreOffice";
   private static final String CACHE_ID = "cache";
-  
+  private static String OFFICE_EXTENSION_ID = null;
+  private static OfficeProductInfo OFFICE_PRODUCT_INFO = null;
+
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
   
@@ -407,74 +408,89 @@ class OfficeTools {
    * @since 4.7
    */
   public static File getLOConfigDir() {
-      String userHome = null;
-      File directory;
+    return getLOConfigDir(null);
+  }
+
+  public static File getLOConfigDir(XComponentContext xContext) {
+    if (OFFICE_EXTENSION_ID == null) {
+      if (xContext == null) {
+        OFFICE_EXTENSION_ID = "LibreOffice";
+      } else {
+        OFFICE_EXTENSION_ID = getOfficeProductInfo(xContext).ooName;
+      }
+    }
+    String userHome = null;
+    File directory;
+    try {
+      userHome = System.getProperty("user.home");
+    } catch (SecurityException ex) {
+    }
+    if (userHome == null) {
+      MessageHandler.showError(new RuntimeException("Could not get home directory"));
+      directory = null;
+    } else if (SystemUtils.IS_OS_WINDOWS) {
+      // Path: \\user\<YourUserName>\AppData\Roaming\languagetool.org\LanguageTool\LibreOffice  
+      File appDataDir = null;
       try {
-        userHome = System.getProperty("user.home");
+        String appData = System.getenv("APPDATA");
+        if (!StringUtils.isEmpty(appData)) {
+          appDataDir = new File(appData);
+        }
       } catch (SecurityException ex) {
       }
-      if (userHome == null) {
-        MessageHandler.showError(new RuntimeException("Could not get home directory"));
-        directory = null;
-      } else if (SystemUtils.IS_OS_WINDOWS) {
-        // Path: \\user\<YourUserName>\AppData\Roaming\languagetool.org\LanguageTool\LibreOffice  
-        File appDataDir = null;
-        try {
-          String appData = System.getenv("APPDATA");
-          if (!StringUtils.isEmpty(appData)) {
-            appDataDir = new File(appData);
-          }
-        } catch (SecurityException ex) {
-        }
-        if (appDataDir != null && appDataDir.isDirectory()) {
-          String path = VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
-          directory = new File(appDataDir, path);
-        } else {
-          String path = "Application Data\\" + VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
-          directory = new File(userHome, path);
-        }
-      } else if (SystemUtils.IS_OS_LINUX) {
-        // Path: /home/<YourUserName>/.config/LanguageTool/LibreOffice  
-        File appDataDir = null;
-        try {
-          String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
-          if (!StringUtils.isEmpty(xdgConfigHome)) {
-            appDataDir = new File(xdgConfigHome);
-            if (!appDataDir.isAbsolute()) {
-              //https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-              //All paths set in these environment variables must be absolute.
-              //If an implementation encounters a relative path in any of these
-              //variables it should consider the path invalid and ignore it.
-              appDataDir = null;
-            }
-          }
-        } catch (SecurityException ex) {
-        }
-        if (appDataDir != null && appDataDir.isDirectory()) {
-          String path = APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
-          directory = new File(appDataDir, path);
-        } else {
-          String path = ".config/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
-          directory = new File(userHome, path);
-        }
-      } else if (SystemUtils.IS_OS_MAC_OSX) {
-        String path = "Library/Application Support/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
-        directory = new File(userHome, path);
+      if (appDataDir != null && appDataDir.isDirectory()) {
+        String path = VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
+        directory = new File(appDataDir, path);
       } else {
-        String path = "." + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+        String path = "Application Data\\" + VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
         directory = new File(userHome, path);
       }
-      if (directory != null && !directory.exists()) {
-        directory.mkdirs();
+    } else if (SystemUtils.IS_OS_LINUX) {
+      // Path: /home/<YourUserName>/.config/LanguageTool/LibreOffice  
+      File appDataDir = null;
+      try {
+        String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
+        if (!StringUtils.isEmpty(xdgConfigHome)) {
+          appDataDir = new File(xdgConfigHome);
+          if (!appDataDir.isAbsolute()) {
+            //https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+            //All paths set in these environment variables must be absolute.
+            //If an implementation encounters a relative path in any of these
+            //variables it should consider the path invalid and ignore it.
+            appDataDir = null;
+          }
+        }
+      } catch (SecurityException ex) {
       }
-      return directory;
+      if (appDataDir != null && appDataDir.isDirectory()) {
+        String path = APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+        directory = new File(appDataDir, path);
+      } else {
+        String path = ".config/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+        directory = new File(userHome, path);
+      }
+    } else if (SystemUtils.IS_OS_MAC_OSX) {
+      String path = "Library/Application Support/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+      directory = new File(userHome, path);
+    } else {
+      String path = "." + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+      directory = new File(userHome, path);
+    }
+    if (directory != null && !directory.exists()) {
+      directory.mkdirs();
+    }
+    return directory;
   }
   
   /**
    * Returns log file 
    */
   public static String getLogFilePath() {
-    return new File(getLOConfigDir(), LOG_FILE).getAbsolutePath();
+    return getLogFilePath(null);
+  }
+
+  public static String getLogFilePath(XComponentContext xContext) {
+    return new File(getLOConfigDir(xContext), LOG_FILE).getAbsolutePath();
   }
 
   /**
@@ -482,7 +498,11 @@ class OfficeTools {
    * @since 5.2
    */
   public static File getCacheDir() {
-    File cacheDir = new File(getLOConfigDir(), CACHE_ID);
+    return getCacheDir(null);
+  }
+  
+  public static File getCacheDir(XComponentContext xContext) {
+    File cacheDir = new File(getLOConfigDir(xContext), CACHE_ID);
     if (cacheDir != null && !cacheDir.exists()) {
       cacheDir.mkdirs();
     }
@@ -545,11 +565,21 @@ class OfficeTools {
     }
     return new ImageIcon(url);
   }
-  
+
   /**
    * get information of LO/OO office product
    */
   public static OfficeProductInfo getOfficeProductInfo(XComponentContext xContext) {
+    if (OFFICE_PRODUCT_INFO == null) {
+      OFFICE_PRODUCT_INFO = readOfficeProductInfo(xContext);
+    }
+    return OFFICE_PRODUCT_INFO;
+  }
+
+  /**
+   * read information of LO/OO office product from system
+   */
+  private static OfficeProductInfo readOfficeProductInfo(XComponentContext xContext) {
     try {
       if (xContext == null) {
         return null;

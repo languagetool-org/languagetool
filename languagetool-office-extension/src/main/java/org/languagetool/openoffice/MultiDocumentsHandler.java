@@ -134,7 +134,7 @@ public class MultiDocumentsHandler {
     this.xProofreader = xProofreader;
     xEventListeners = new ArrayList<>();
     configFile = OfficeTools.CONFIG_FILE;
-    configDir = OfficeTools.getLOConfigDir();
+    configDir = OfficeTools.getLOConfigDir(xContext);
     oldConfigFile = OfficeTools.getOldConfigFile();
     MessageHandler.init(xContext);
     documents = new ArrayList<>();

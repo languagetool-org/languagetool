@@ -56,7 +56,7 @@ class ResultCache implements Serializable {
    */
   void replace(ResultCache cache) {
     entries.clear();
-    if (cache != null && cache.entries != null && !cache.entries.isEmpty()) {
+    if (cache != null && cache.entries != null && !cache.entries.isEmpty() && cache.entries.keySet() != null) {
       Set<Integer> keys = new HashSet<>(cache.entries.keySet());
       for (Integer n : keys) {
         if (cache.entries.containsKey(n)) {

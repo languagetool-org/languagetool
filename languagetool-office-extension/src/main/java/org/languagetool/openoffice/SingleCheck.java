@@ -272,7 +272,8 @@ class SingleCheck {
               int toPos = docCache.getTextParagraph(textPara).length();
               if (toPos > 0) {
                 errorList.add(correctRuleMatchWithFootnotes(
-                    createOOoError(myRuleMatch, -textPos, toPos, isIntern ? ' ' : docCache.getTextParagraph(textPara).charAt(toPos-1)),
+                    createOOoError(myRuleMatch, -textPos, footnotePos),
+//                    createOOoError(myRuleMatch, -textPos, toPos, isIntern ? ' ' : docCache.getTextParagraph(textPara).charAt(toPos-1)),
                       footnotePos, docCache.getTextParagraphDeletedCharacters(textPara)));
               }
             }
@@ -598,7 +599,8 @@ class SingleCheck {
               toPos = paraText.length();
             }
             errorList.add(correctRuleMatchWithFootnotes(
-                createOOoError(myRuleMatch, 0, toPos, isIntern ? ' ' : paraText.charAt(toPos-1)), footnotePos, deletedChars));
+                createOOoError(myRuleMatch, 0, footnotePos), footnotePos, deletedChars));
+//                createOOoError(myRuleMatch, 0, toPos, isIntern ? ' ' : paraText.charAt(toPos-1)), footnotePos, deletedChars));
           }
           if (!errorList.isEmpty()) {
             if (debugMode > 1) {
@@ -635,7 +637,7 @@ class SingleCheck {
   /**
    * Creates a SingleGrammarError object for use in LO/OO.
    */
-  private SingleProofreadingError createOOoError(RuleMatch ruleMatch, int startIndex, int sentencesLength, char lastChar) {
+  private SingleProofreadingError createOOoError(RuleMatch ruleMatch, int startIndex, int[] footnotes) {
     SingleProofreadingError aError = new SingleProofreadingError();
     aError.nErrorType = TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
@@ -654,10 +656,28 @@ class SingleCheck {
       aError.aShortComment = aError.aFullComment;
     }
     aError.aShortComment = org.languagetool.gui.Tools.shortenComment(aError.aShortComment);
+    //  Filter: provide user to delete footnotes by suggestion
+    boolean noSuggestions = false;
+    if (footnotes != null && footnotes.length > 0 && !ruleMatch.getSuggestedReplacements().isEmpty()) {
+      int cor = 0;
+      for (int n : footnotes) {
+        if (n + cor <= ruleMatch.getFromPos() + startIndex) {
+          cor++;
+        } else if (n + cor > ruleMatch.getFromPos() + startIndex && n + cor <= ruleMatch.getToPos() + startIndex) {
+          noSuggestions = true;
+          break;
+        }
+      }
+    }
     int numSuggestions;
     String[] allSuggestions;
-    numSuggestions = ruleMatch.getSuggestedReplacements().size();
-    allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
+    if (noSuggestions) {
+      numSuggestions = 0;
+      allSuggestions = new String[0];
+    } else {
+      numSuggestions = ruleMatch.getSuggestedReplacements().size();
+      allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
+    }
     //  Filter: remove suggestions for override dot at the end of sentences
     //  needed because of error in dialog
     /*  since LT 5.2: Filter is commented out because of default use of LT dialog
