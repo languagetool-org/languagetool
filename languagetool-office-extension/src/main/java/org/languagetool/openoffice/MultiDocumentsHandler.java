@@ -41,6 +41,7 @@ import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
+import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.openoffice.SingleDocument.RuleDesc;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.rules.CategoryId;
@@ -837,7 +838,10 @@ public class MultiDocumentsHandler {
       noBackgroundCheck = config.noBackgroundCheck();
       if (linguServices == null) {
         linguServices = new LinguisticServices(xContext);
-        Tools.setLinguisticServices(linguServices);
+        OfficeProductInfo officeProductInfo = OfficeTools.getOfficeProductInfo(xContext);
+        if (officeProductInfo != null && officeProductInfo.osArch.equals("x86")) {
+          Tools.setLinguisticServices(linguServices);
+        }
       }
       linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions() || testMode);
       if (this.lt == null) {
