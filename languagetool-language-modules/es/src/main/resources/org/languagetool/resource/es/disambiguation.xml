@@ -1474,6 +1474,34 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="V.N.*"/>
     </rule>
+    <rule id="poder_podar" name="poder/podar + infinitiu">
+        <pattern>
+            <marker>
+                <and>
+                    <token inflected="yes">poder</token>
+                    <token inflected="yes">podar</token>
+                </and>
+            </marker>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove">
+            <wd lemma="podar"/>
+        </disambig>
+    </rule>
+    <rule id="poder_podrir" name="poder/podrir + infinitiu">
+        <pattern>
+            <marker>
+                <and>
+                    <token inflected="yes">poder</token>
+                    <token inflected="yes">podrir</token>
+                </and>
+            </marker>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove">
+            <wd lemma="podrir"/>
+        </disambig>
+    </rule>
     <rulegroup id="COMO" name="como">
         <rule>
             <pattern>
@@ -4999,6 +5027,17 @@ Copyright (C) 2011 Juan Martorell
             <token postag="[ANPD].*" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="NCFS000"/>
+    </rule>
+    <rule id="que_nombre" name="que/qué nombre (frequent error)">
+        <pattern>
+            <token>que</token>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">nombres?</token>
+            </marker>
+            <token min="0" max="2" postag_regexp="yes" postag="&pronombre_personal_atono_POS;"/>
+            <token postag="V.[IS].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
     </rule>
     <rulegroup id="Det_Noun" name="det + nombre">
         <antipattern>
