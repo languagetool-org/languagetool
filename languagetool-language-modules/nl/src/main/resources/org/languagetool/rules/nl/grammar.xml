@@ -43373,12 +43373,12 @@ steenwijk;Steenwijk
                 <example>Het was hun eerste medaille bij de EK Kunstschaatsen.</example>
                 <example>Probeer op maandag- t/m donderdagmiddag eens de menú del día.</example>
             </rule>
-            <rule>
+            <rule> <!-- TODO:  Consider moving to other category as separate rule (with reference to this one) -->
                 <pattern>
                     <token>de</token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[A-Z]{3,4}</token>
-                        <token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:TGW:INF"/></token>
+                        <token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:(TGW|VLT).*|GET:TXT.*|VGW:*" postag_regexp="yes"/><exception regexp="yes">haar|niettemin|weer|wel|&months;|&abbrevMonths;</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
@@ -43386,9 +43386,12 @@ steenwijk;Steenwijk
                 <suggestion>\2\3</suggestion>
                 <short>Spatiefout</short>
                 <example correction="IOC-Coördinatiecommissie">De voorzitter van de <marker>IOC Coördinatiecommissie</marker> staat op.</example>
+                <example>In 2006 is de UEFA weer teruggegaan naar het oude verlengingssysteem.</example>
+                <example>Voor 2018 bedraagt de CPI juli 2018 2,1%.</example>
+                <example>Het belangrijkste strijdpunt van de ARP was de gelijkstelling van het openbaar en bijzonder onderwijs.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SPATIEFOUT_HEIDS" name="foutheids criterium">
+        <rulegroup id="SPATIEFOUT_HEIDS" name="foutheids criterium"> <!-- TODO:  Consider moving to other category -->
             <rule>
                 <pattern>
                     <token regexp="yes">.*(heid|teit|ing|aandacht|gezicht|aanval|aanvang|achterhand|achterhoofd|achterstand|advent|afdracht|afstand|schap|alleman|almacht|ambacht|ambt|ement|arbeid|arend|iment|baren|bedrijf|begrip|beleid|beroep|bestand|bestuur|bevel|bewind|bewustzijn|bezit|bijstand|bisschop|boldriehoek|bond|bruid|bruiloft|contingent|staat|delict|district|doctoraat|doorgang|dorp|eigendom|eten|evenwicht|fabriek|fatsoen|garnizoen|gebed|gebied|gebit|gebruik|gedrag|gelaat|geloof|geluk|gerecht|geslacht|gevecht|gevoel|gewicht|gewricht|gezag|gezin|groep|heiligdom|huwelijk|ingang|inhoud|invloed|kabinet|kalf|kandidaat|kanon|kievit|kok|krijg|lichaam|macht|najaar|olifant|omgang|onderhoud|ongeval|onweer|oorlog|oorsprong|opstand|overdracht|overgang|overmacht|overzicht|personeel|persoon|predikant|premier|president|publiek|rijk|rijkelui|ruggengraat|scheep|stad|stilstand|tabak|tegenstand|toegang|toestand|uitgaan|uitgang|uitgebreid|vaderland|vakbond|verblijf|verbod|verbruik|verdrag|verjaardag|verkeer|verstand|vertrouwen|verzet|vicepresident|volk|voorhoofd|voorjaar|voorkeur|voortgang|weerstand|welstand|welzijn|zondag|boekweit|gemoed|heronderzoek|leegstand|middenstand|noodlot|oudejaar|ouderdom|platteland|proletariaat|voorrang|vooruitgang|welvaart|zeeman|gemeenteraad|bestaan|wanhoop|gesprek|burgerman|ledenraad|ondernemingsraad|kerkenraad|meergezin|afgod|geluid|genot|heil|kapitaal|leid|onderzoek|recht|resultaat|sabbat|seizoen|spreid|tijd|vervoer|voorbereid|wet|driehoek|vrijetijd|grondwet|koopman|eindejaar|voorzorg|krijgsmacht|hemelvaart|timmerman|werkman|diepgang|nieuwjaar|deelraad|werkwoord|achteruitgang)s-?<exception regexp="yes">destijds|bijtijds|boxsprings|settings|campings|coatings|dumplings</exception><exception postag_regexp="yes" postag="BNW.*|.*MRV.*|ENM.*|BYW"/></token>
