@@ -3491,6 +3491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Qué">¿<marker>Que</marker> quieres esta vez?</example>
                 <example correction="Qué">¿<marker>Que</marker> te has dejado en casa?</example>
                 <example correction="qué">¿A <marker>que</marker> está jugando aquel hombre alto?</example>
+                <example correction="Qué">¿<marker>Que</marker> nombre quieres para el niño?</example>
                 <example type="triggers_error">¿Que te has dejado las llaves en casa?</example>
                 <!--This can't be detected, but infrequent-->
                 <example type="triggers_error">¿Que me quiere?</example>
@@ -3526,9 +3527,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>¿Para que Millet y Montull hagan negocios desde el Palau de Barcelona?</example>
                 </antipattern>
                 <antipattern>
-                    <token skip="-1">que<exception scope="next">que</exception></token>
+                    <token skip="-1">que<exception scope="next">que</exception><exception scope="next" postag="V.I.*" postag_regexp="yes"/></token>
                     <token postag="V.S.*" postag_regexp="yes"/>
                     <example>¿Y que le funcione?</example>
+                    <example>¿Hasta que se case?</example>
                 </antipattern>
                 <pattern>
                     <token>¿</token>
@@ -3543,6 +3545,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">¿Para <marker>que</marker> sirve?</example>
                 <example correction="qué">¿Y de <marker>que</marker> servirá?</example>
                 <example correction="qué">¿Por <marker>que</marker> has venido?</example>
+                <example correction="qué">¿Pero <marker>que</marker> le pasará a María mientras yo no esté?, dijo Georgina con ansiedad.</example>
+                <example correction="qué">¿En <marker>que</marker> te podemos ayudar?</example>
+                <example correction="qué">¿En <marker>que</marker> te podríamos ayudar?</example>
+                <example correction="qué">¿Con <marker>que</marker> nombre quieres ser llamado?</example>
                 <example>¡Que te diviertas!</example>
                 <example>¿A que no?</example>
                 <example>¿Que cuántos tengo?</example>
@@ -15171,7 +15177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>la \2</suggestion>
                 <suggestion>\1 <match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N0000"/></suggestion>
                 <suggestion>\1 {suggestion}</suggestion>
-                <example correction="la podemos|a podar|a poder|a poderos">Y <marker>a podemos</marker> hacer.</example>
+                <example correction="la podemos|a poder|a poderos">Y <marker>a podemos</marker> hacer.</example>
                 <example correction="la he|a haber|a e|a ve|a fe|a be|a té|a PE|a che|a hez">Prestando dinero <marker>a he</marker> aprendido algo.</example>
                 <example correction="la hierva|a hervir|a hierba|a hierbas|a yerba|a cierva|a sierva|a hierra">Que recuerdan <marker>a hierva</marker> buena.</example>
                 <example>La letra a es la primera del alfabeto.</example>
