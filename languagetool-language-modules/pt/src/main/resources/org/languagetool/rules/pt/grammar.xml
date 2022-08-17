@@ -62,7 +62,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY divisas "bolívares|cêntimos|coroas|dinares|dólares|euros|florins|francos|ienes|iuanes|kwanzas|libras|meticais|patacas|pesos|rublos|zlótis|[€£¥$₽]">
     <!ENTITY vocativos "pai|papai|mãe|mamãe|irmão?s?|ti[oa]s?|titi[oa]s?|a?v[ôó]s?|vov[ôó]s?|prim[oa]s?|noiv[oa]s?|marido?|espos[ao]s?|namorad[oa]s?|net[oa]s?|netinh[oa]s?|cunhad[oa]s?|sogr[ao]s?|genros?|noras?|entead[oa]s?|padres?|pastora?e?s?|presidentes?|amig[ao]s?|filh[oa]s?|pessoal|povo|gente|família|man[oa]s?|maninh[ao]s?">
 
-    <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(\)«“]|\-|\[)">
+    <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(\)«“]|\-|\[\]\{\})">
     <!ENTITY separadores_de_abertura "(?:\(|\{|\[)">
     <!ENTITY separadores_de_fecho "(?:\)|\}|\])">
     <!ENTITY hifen "(?:[-‑])">
@@ -40783,9 +40783,37 @@ O namorado dela era um ladrão.
     <rule id="SEMICOLON_COLON_SPACING" name="Espaços em falta: ':' e ';'">
       <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
       <antipattern>
-        <token regexp="yes">“|«|"|\(</token>
+        <token regexp="yes">[«»“”"'‘’]|\(|\[</token>
         <token regexp="yes">:|;</token>
-        <token regexp="yes">”|»|"|\)</token>
+        <token regexp="yes">[«»“”"'‘’]|\)|\]</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">_\p{L}+</token>
+        <token min='0' spacebefore='no'></token>
+        <token regexp="yes" spacebefore='no'>:|;</token>
+        <token min='0' spacebefore='no'></token>
+        <example>_CONTEÚDO:ativado</example>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes" spacebefore='no'>:|;</token>
+        <token spacebefore='no' min='0'></token>
+        <token spacebefore='no' regexp='yes'>\\|\.|[_;:!\?,]|&operadores_matematicos;</token>
+        <example>_CONTEÚDO:_</example>
+        <example>$IMG:Speed_20_07_5F5F5F.png</example>
+        <example>CPF:...................</example>
+        <example>Está no G:\recursoshumanos</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>chapter|fig|tab</token>
+        <token regexp="yes" spacebefore='no'>:|;</token>
+        <example>fig:grafico01</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>\d+h|RA</token>
+        <token regexp="yes" spacebefore='no'>:|;</token>
+        <token regexp='yes' spacebefore='no'>\d+</token>
+        <example>RA:19064468</example>
+        <example>às 15h:30</example>
       </antipattern>
       <antipattern><!-- XXX Wikipedia lists and time formats -->
         <token>:</token>
