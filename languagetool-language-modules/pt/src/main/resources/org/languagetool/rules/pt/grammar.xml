@@ -16570,6 +16570,13 @@ O namorado dela era um ladrão.
         <example correction="saberem">Isto é para <marker>que saibam</marker> o que acontece.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>para</token>
+          <token>que</token>
+          <token skip='-1'>temas</token>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <example>Isso é feito para que temas difíceis sejam resolvidos</example>
+        </antipattern>
         <pattern>
           <token postag='SPS00|CC' postag_regexp='yes'>
             <exception regexp='yes'>a|com|de|em|nem</exception>
