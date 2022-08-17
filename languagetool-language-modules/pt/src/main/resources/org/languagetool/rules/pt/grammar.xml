@@ -38729,25 +38729,73 @@ O namorado dela era um ladrão.
       <!-- Localized from Catalan by Tiago F. Santos, 2017-03-05 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
       <antipattern>
+        <token regexp="yes">\d+\.\d+</token>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;|/</token>
+        <example>Processo nº: 23079.229747/2021-72</example>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">0\d+\.\d+</token>
+        <example>(041.42)</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>/</token>
+        <token regexp="yes" spacebefore='no'>\d+\.\d+</token>
+        <example>Sensor: 1/2.8” 1 megapixel</example>
+      </antipattern>
+      <antipattern>
+        <token postag="N.+" postag_regexp='yes'/>
+        <token regexp="yes">\d{1,2}\.\d{1,2}</token>
+        <token postag="SENT_END|_PUNCT" postag_regexp='yes'/>
+        <example>E-mail agosto 2.2;</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>\p{L}+</token>
+        <token regexp='yes' spacebefore='no'>[:;]</token>
+        <token regexp="yes">\d{1,2}\.\d{1,2}\.</token>
+        <token postag="SENT_END"/>
+        <example> importância; 4.2. C-Sat</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>&tracos_de_separacao;|/</token>
+        <token regexp="yes">\d{1,2}\.\d{1,2}</token>
+        <token postag="SENT_END"/>
+        <example>AULA 4 - 16.08!</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>\p{Lu}+</token>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;|/</token>
+        <token regexp="yes">\d{1,2}\.\d{1,2}</token>
+        <example> referência MS-3.1</example>
+      </antipattern>
+      <antipattern>
         <token postag="SENT_START"/>
         <token regexp="yes">\d{1,2}\.\d{1,2}</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">202\d{1}\.\d{1}</token>
+        <token><exception regexp='yes'>&unidades_de_medida_por_extenso;|&unidades_de_medida;</exception></token>
+        <example>a partir de 2020.2 não o fez</example>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">\d{1}\.202\d{1}</token>
+        <token><exception regexp='yes'>&unidades_de_medida_por_extenso;|&unidades_de_medida;</exception></token>
+        <example>a partir de 2.2022 não o fez</example>
       </antipattern>
       <antipattern>
         <token regexp="yes">\d{1,3}\.\d{3}\.\d{3}</token>
       </antipattern>
       <antipattern>
         <marker>
-          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web</token>
-          <token min="0">.</token>
+          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web|eq|seq|n|número|regs?|registros?|semestres?</token>
+          <token min="0" regexp='yes'>\.|°</token>
           <token regexp="yes">\d+\.\d+</token>
         </marker>
       </antipattern>
       <antipattern> <!-- Enumeração principal da frase -->
-        <marker>
-          <token postag="SENT_START"/>
+          <token postag="SENT_START|_PUNCT" postag_regexp='yes'/>
           <token regexp="yes">\d+\.\d+</token>
           <token spacebefore="no" regexp="yes">[.:)]</token>
-        </marker>
+          <example>Retirada dos tickets; 2.3. Automações;</example>
       </antipattern>
       <antipattern>
         <marker>
@@ -38804,17 +38852,14 @@ O namorado dela era um ladrão.
         <!-- MARCOAGPINTO 2020-11-04 (21-OCT-2020+) *START* -->
         <!-- "Ver subcapítulo 3.6." -->
         <antipattern>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token min="0" max="1" regexp='yes'>as?|os?|das?|dos?|nas?|nos?</token>
-          <token regexp='yes'>capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|gravuras?|tabelas?</token>
+          <token regexp='yes' skip='-1'>ite[mn]s?|matrículas?|cláusulas?|capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|gravuras?|tabelas?</token>
           <token postag='Z0CN0'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-11-04 (21-OCT-2020+) *END* -->
         <!-- MARCOAGPINTO 2020-11-08 (21-OCT-2020+) *START* -->
         <!-- "Na tabela do subcapítulo 5.6, constata-se os resultados previstos." -->
         <antipattern>
-          <token regexp='yes'>as?|os?|das?|dos?|nas?|nos?</token>
-          <token regexp='yes'>capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|gravuras?|tabelas?</token>
+          <token regexp='yes' skip='-1'>ite[mn]s?|matrículas?|cláusulas?|capítulos?|subcapítulos?|partes?|parágrafos?|equação|equações|figuras?|gravuras?|tabelas?</token>
           <token postag='Z0CN0'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-11-08 (21-OCT-2020+) *END* -->
@@ -38848,7 +38893,7 @@ O namorado dela era um ladrão.
           <token regexp="yes">\d+\.\d+
             <exception regexp="yes">\d{1,3}\.\d{3}</exception></token>
         </pattern>
-        <message>Para separar os decimais, utilize uma vírgula.</message>
+        <message>Em português, utilizamos a vírgula para indicar números decimais.</message>
         <suggestion><match no='1' regexp_match='(\d+)\.(\d+)' regexp_replace='$1,$2'/></suggestion>
         <example correction="9,5"># <marker>9.5</marker></example> <!-- XXX # - if a number is at sentence start, it can be part of an enumeration -->
         <example correction="9,5">És de <marker>9.5</marker>.</example>
