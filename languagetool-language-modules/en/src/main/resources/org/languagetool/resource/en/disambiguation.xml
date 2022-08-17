@@ -6954,6 +6954,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBN"/>
             <token>to</token>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">marketing|hosting|planning|coaching|training</token>
+            <token postag="NN.*" postag_regexp="yes" chunk_re="[EI]-NP.*" />
+        </antipattern>
         <pattern>
             <token inflected="yes">be<exception>being</exception><exception case_sensitive="yes">AM</exception></token>
             <marker>
@@ -6966,6 +6970,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filter" postag="VBG"/>
         <example type="untouched">He is brave.</example>
         <example type="untouched">It's emaciating.</example>
+        <example type="untouched">I am marketing manager at Google.</example>
         <example type="untouched">AM broadcasting (radio broadcasting using amplitude modulation)...</example>
         <example type="untouched">These are hearing aids.</example><!-- #3444 -->
         <example type="untouched">They are smelling salts, don't you know?</example><!-- #3444 -->
@@ -9136,7 +9141,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                         <exception postag="NN|JJ.*" postag_regexp="yes"/>
                         <exception scope="next" postag="DT|RB" postag_regexp="yes"/>
                         <exception case_sensitive="yes">BE</exception>
-                        <exception>bark</exception>
+                        <exception regexp="yes">barks?|goes|tells|says|finds|thinks|gets</exception>
                     </token>
                     <token postag="VB[ZP]?" postag_regexp="yes"/>
                 </and>
