@@ -804,6 +804,28 @@ class DocumentCursorTools {
   }
   
   /**
+   * is protected character at position in paragraph
+   */
+  public boolean isProtectedCharacter(TextParagraph textPara, short x) {
+    XParagraphCursor xPCursor = getParagraphCursor(textPara);
+    if (xPCursor == null) {
+      return false;
+    }
+    xPCursor.gotoStartOfParagraph(false);
+    xPCursor.goRight(x, false);
+    try {
+      XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
+      XTextSection xTextSection = UnoRuntime.queryInterface(XTextSection.class, xParagraphPropertySet.getPropertyValue("TextSection"));
+      xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xTextSection);
+      if((boolean) xParagraphPropertySet.getPropertyValue("IsProtected")) {
+        return true;
+      }
+    } catch (Throwable e) {
+    }
+    return false;
+  }
+  
+  /**
    * Class to give back the text and the headings under the specified cursor
    */
   public class DocumentText {

@@ -353,7 +353,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       int x = viewCursor.getViewCursorCharacter();
       while (yFlat < docCache.size()) {
-        CheckError nextError = getNextErrorInParagraph (x, yFlat, document, docCursor);
+        CheckError nextError = getNextErrorInParagraph (x, yFlat, document, docCursor, false);
         if (nextError != null && setFlatViewCursor(nextError.error.nErrorStart + 1, yFlat, viewCursor, docCache)) {
           return;
         }
@@ -453,7 +453,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * @throws Throwable 
    */
   private CheckError getNextErrorInParagraph (int x, int nFPara, SingleDocument document, 
-      DocumentCursorTools docTools) throws Throwable {
+      DocumentCursorTools docTools, boolean checkFrames) throws Throwable {
     if (docCache.isAutomaticGenerated(nFPara)) {
       return null;
     }
@@ -469,9 +469,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
     CheckError sError = null;
     SingleProofreadingError gError = null;
     if (checkType != 2) {
-      sError = getNextSpellErrorInParagraph (x, nFPara, text, locale, document);
+      sError = getNextSpellErrorInParagraph (x, nFPara, text, locale, document, docTools);
     }
-    if (checkType != 1) {
+    if (checkType != 1 && (checkFrames || docCache.getParagraphType(nFPara) != DocumentCache.CURSOR_TYPE_FRAME)) {
       gError = getNextGrammatikErrorInParagraph(x, nFPara, text, footnotePosition, locale, document);
     }
 //    MessageHandler.printToLogFile("CheckDialog: getNextErrorInParagraph(" + nFPara + ", 3): locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale)));
@@ -491,7 +491,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Get the first spelling error in the flat paragraph nPara at or after character position x
    * @throws Throwable 
    */
-  private CheckError getNextSpellErrorInParagraph (int x, int nPara, String text, Locale locale, SingleDocument document) throws Throwable {
+  private CheckError getNextSpellErrorInParagraph (int x, int nPara, String text, Locale locale, SingleDocument document, 
+      DocumentCursorTools docTools) throws Throwable {
     List<CheckError> spellErrors;
 /*
     if (lt.isRemote()) {
@@ -500,7 +501,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       spellErrors = spellChecker.getSpellErrors(nPara, text, locale, document);
     }
 */
-    spellErrors = getSpellErrorInParagraph(nPara, text, locale, document);
+    spellErrors = getSpellErrorInParagraph(nPara, text, locale, document, docTools);
     if (spellErrors != null) {
       for (CheckError spellError : spellErrors) {
         if (spellError.error != null && spellError.error.nErrorStart >= x) {
@@ -517,7 +518,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
   /**
    * Get the first grammatical error in the flat paragraph y at or after character position x
    */
-  private List<CheckError> getSpellErrorInParagraph(int nPara, String text, Locale locale, SingleDocument document) throws Throwable {
+  private List<CheckError> getSpellErrorInParagraph(int nPara, String text, Locale locale, SingleDocument document, 
+      DocumentCursorTools docTools) throws Throwable {
     if (text == null || text.isEmpty()) {
       return null;
     }
@@ -542,7 +544,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
     for (RuleMatch match : matches) {
       String word = text.substring(match.getFromPos(), match.getToPos());
       if (!document.isIgnoreOnce(match.getFromPos(), match.getToPos(), nPara, spellRuleId)
-          && !spellChecker.getLinguServices().isCorrectSpell(word, locale)) {
+          && !spellChecker.getLinguServices().isCorrectSpell(word, locale) 
+          && !docTools.isProtectedCharacter(docCache.getNumberOfTextParagraph(nPara), (short) match.getFromPos())) {
         SingleProofreadingError aError = new SingleProofreadingError();
         aError.nErrorType = TextMarkupType.SPELLCHECK;
         aError.aFullComment = JLanguageTool.getMessageBundle().getString("desc_spelling");
@@ -1835,7 +1838,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
 //        checkProgress.setValue(endOfRange < 0 ? y - lastPara : nStart);
         setProgressValue(endOfRange < 0 ? y - lastPara : nStart, endOfRange < 0);
 //        progressWindow.setValue(endOfRange < 0 ? y - lastPara : nStart);
-        nextError = getNextErrorInParagraph (x, y, currentDocument, docCursor);
+        nextError = getNextErrorInParagraph (x, y, currentDocument, docCursor, true);
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: getNextError: endOfRange = " + endOfRange + ", startOfRange = " 
                 + startOfRange + ", nStart = " + nStart);
@@ -1874,7 +1877,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
 //          checkProgress.setValue(docCache.size() + y - lastPara);
           setProgressValue(docCache.size() + y - lastPara, true);
 //          progressWindow.setValue(docCache.size() + y - lastPara);
-          nextError = getNextErrorInParagraph (0, y, currentDocument, docCursor);
+          nextError = getNextErrorInParagraph (0, y, currentDocument, docCursor, true);
           if (nextError != null) {
             if (nextError.error.aRuleIdentifier.equals(spellRuleId)) {
               wrongWord = docCache.getFlatParagraph(y).substring(nextError.error.nErrorStart, 

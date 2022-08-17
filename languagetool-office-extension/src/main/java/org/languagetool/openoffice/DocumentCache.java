@@ -882,6 +882,14 @@ public class DocumentCache implements Serializable {
   }
 
   /**
+   * get Type of Paragraph from flat paragraph number
+   */
+  public int getParagraphType(int numberOfFlatParagraph) {
+    waitForFinish(-1);
+    return toTextMapping.get(numberOfFlatParagraph).type;
+  }
+
+  /**
    * size of text cache (without headers, footnotes, etc.)
    */
   public int textSize(TextParagraph textParagraph) {
