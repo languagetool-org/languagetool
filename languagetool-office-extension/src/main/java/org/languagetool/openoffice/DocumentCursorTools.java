@@ -112,7 +112,7 @@ class DocumentCursorTools {
         }
       }
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
     }
   }
@@ -129,7 +129,7 @@ class DocumentCursorTools {
       }
       return UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
     }
   }
@@ -166,7 +166,7 @@ class DocumentCursorTools {
       while (xPCursor.gotoNextParagraph(false)) nPara++;
       return nPara;
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;              // Return 0 as method failed
     }
   }
@@ -261,7 +261,7 @@ class DocumentCursorTools {
       }
       return new DocumentText(allParas, headingNumbers, automaticTextParagraphs, deletedCharacters);
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
     }
   }
@@ -372,7 +372,7 @@ class DocumentCursorTools {
       }
       return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
     }
   }
@@ -394,7 +394,7 @@ class DocumentCursorTools {
       }
       return num;
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;           // Return 0 as method failed
     }
   }
@@ -412,7 +412,7 @@ class DocumentCursorTools {
       // Get an XIndexAccess of TextTables
       return UnoRuntime.queryInterface(XIndexAccess.class, xTableSupplier.getTextTables());
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
     }
   }
@@ -440,7 +440,7 @@ class DocumentCursorTools {
       }
       return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
     }
   }
@@ -465,7 +465,7 @@ class DocumentCursorTools {
       }
       return num;
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;           // Return 0 as method failed
     }
   }
@@ -492,7 +492,7 @@ class DocumentCursorTools {
       }
       return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
     }
   }
@@ -516,7 +516,7 @@ class DocumentCursorTools {
       }
       return num;
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;           // Return 0 as method failed
     }
   }
@@ -543,7 +543,7 @@ class DocumentCursorTools {
       }
       return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
     }
   }
@@ -567,7 +567,7 @@ class DocumentCursorTools {
       }
       return num;
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;           // Return 0 as method failed
     }
   }
@@ -598,7 +598,7 @@ class DocumentCursorTools {
       }
       return propertySets;
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
     }
   }
@@ -641,7 +641,7 @@ class DocumentCursorTools {
       }
       return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
     }
   }
@@ -679,7 +679,7 @@ class DocumentCursorTools {
       }
       return num;
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;           // Return 0 as method failed
     }
   }
@@ -785,7 +785,7 @@ class DocumentCursorTools {
         }
       }
     } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
     }
     return null;
   }
@@ -820,7 +820,8 @@ class DocumentCursorTools {
       if((boolean) xParagraphPropertySet.getPropertyValue("IsProtected")) {
         return true;
       }
-    } catch (Throwable e) {
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
     }
     return false;
   }
