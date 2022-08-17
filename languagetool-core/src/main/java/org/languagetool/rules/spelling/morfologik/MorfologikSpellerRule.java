@@ -268,7 +268,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * @since 2.4
    */
   protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
-    if (speller == null && Tools.isExternSpeller()) {  // use of external speller for LO/OO extension
+    if (Tools.isExternSpeller()) {  // use of external speller for OO extension (32-bit)
       if (Tools.getLinguisticServices().isCorrectSpell(word, language)) {
         return false;
       }
@@ -280,7 +280,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (checkCompound && compoundRegex.matcher(word).find()) {
       String[] words = compoundRegex.split(word);
       for (String singleWord: words) {
-        if (speller == null && Tools.isExternSpeller()) {  // use of external speller for LO/OO extension
+        if (Tools.isExternSpeller()) {  // use of external speller for OO extension (32-bit)
           if (!Tools.getLinguisticServices().isCorrectSpell(singleWord, language)) {
             return true;
           }

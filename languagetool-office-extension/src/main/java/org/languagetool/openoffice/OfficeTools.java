@@ -611,7 +611,7 @@ class OfficeTools {
 //        MessageHandler.printToLogFile("config Element: " + name + " = " + xName.getByName(name));
 //      }
       return (new OfficeProductInfo(xName.getByName("ooName"), xName.getByName("ooSetupVersion"), 
-          xName.getByName("ooSetupExtension"), xName.getByName("ooVendor"), xName1.getByName("ooLocale")));
+          xName.getByName("ooSetupExtension"), xName.getByName("ooVendor"), xName1.getByName("ooLocale"), System.getProperty("os.arch")));
       
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
@@ -720,26 +720,29 @@ class OfficeTools {
   }
 
   public static class OfficeProductInfo {
-    public String ooName;
-    public String ooVersion;
-    public String ooExtension;
-    public String ooVendor;
-    public String ooLocale;
+    public final String ooName;
+    public final String ooVersion;
+    public final String ooExtension;
+    public final String ooVendor;
+    public final String ooLocale;
+    public final String osArch;
     
-    OfficeProductInfo(Object name, Object version, Object extension, Object vendor, Object locale) {
+    OfficeProductInfo(Object name, Object version, Object extension, Object vendor, Object locale, Object arch) {
       ooName = (String) name;
       ooVersion = (String) version;
       ooExtension = (String) extension;
       ooVendor = (String) vendor;
       ooLocale = (String) locale;
+      osArch = (String) arch;
     }
     
-    OfficeProductInfo(String name, String version, String extension, String vendor, String locale) {
+    OfficeProductInfo(String name, String version, String extension, String vendor, String locale, String arch) {
       ooName = name;
       ooVersion = version;
       ooExtension = extension;
       ooVendor = vendor;
       ooLocale = locale;
+      osArch = arch;
     }
   }
 }

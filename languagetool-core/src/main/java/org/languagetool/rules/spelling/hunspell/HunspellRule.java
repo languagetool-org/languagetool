@@ -31,6 +31,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.RuleWithLanguage;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -400,14 +401,18 @@ public class HunspellRule extends SpellingCheckRule {
   @Override
   public boolean isMisspelled(String word) {
     try {
-      ensureInitialized();
+      if (!Tools.isExternSpeller()) {  // use of external speller for OO extension (32-bit)
+        ensureInitialized();
+      }
       boolean isAlphabetic = true;
       if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
         isAlphabetic = Character.isAlphabetic(word.charAt(0));
       }
       return (
               isAlphabetic && !"--".equals(word)
-              && (hunspell != null && !hunspell.spell(word)) 
+              && ((hunspell != null && !hunspell.spell(word)) 
+                  || (Tools.isExternSpeller() && Tools.getLinguisticServices().isCorrectSpell(word, language)))
+                                                            // use of external speller for OO extension (32-bit)
               && !ignoreWord(word)
              )
              || isProhibited(cutOffDot(word));
