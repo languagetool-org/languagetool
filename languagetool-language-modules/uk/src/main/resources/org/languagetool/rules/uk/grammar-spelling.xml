@@ -340,6 +340,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="ходить">хтось <marker>ходе</marker>.</example>
     </rule>
 
+    <rule id="zakordon" name="Закордон і за кордон">
+      <pattern>
+        <token>закордон
+          <exception scope="previous" postag_regexp="yes" postag="prep.*|adj:m:v_zna:rinanim.*"/>
+          <exception scope="previous" regexp="yes">[«"„]</exception>
+        </token>
+      </pattern>
+      <message>Можливо ви мали на увазі <suggestion>за кордон</suggestion>?</message>
+      <example correction="за кордон">поїхав <marker>закордон</marker>.</example>
+      <example>взнати про закордон</example>
+      <example>взнати «закордон»</example>
+      <example>далекий «закордон»</example>
+    </rule>
+
     <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
       <rule>
       <!--
@@ -1382,6 +1396,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>казна щомісяця одержуватиме</example>
       </rule>
     </rulegroup>
+
+    <rule id="vidryvaty_dveri" name="Відривати двері">
+      <pattern>
+        <marker>
+          <token inflected="yes" regexp="yes">відривати(ся)?|відрити(ся)?|відритий</token>
+        </marker>
+        <token inflected="yes" regexp="yes">двері|вікно</token>
+      </pattern>
+      <message>Можливо: <suggestion><match no="1" regexp_match="відри(.*)" regexp_replace="відкри$1"/></suggestion>?</message>
+      <example correction="відкрив">він <marker>відрив</marker> двері</example>
+    </rule>
 
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf

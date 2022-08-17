@@ -1728,10 +1728,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">громадянський</token>
           </marker>
-          <token inflected="yes">транспорт</token>
+          <token inflected="yes" regexp="yes">транспорт|порядок|місце|організація|думка</token>
         </pattern>
-        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="adj.*">громадський</match></suggestion> транспорт?</message>
-        <short>Правильно «громадський транспорт»</short>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="adj.*">громадський</match></suggestion>?</message>
         <example correction="Громадський"><marker>Громадянський</marker> транспорт став через снігопад.</example>
         <example>Громадський транспорт став через снігопад.</example>
       </rule>
@@ -1747,6 +1746,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <url>http://mova.kreschatic.kiev.ua/12.php</url>
         <example correction="Цивільний"><marker>Громадянський</marker> шлюб: за і проти</example>
         <example>Цивільний шлюб: за і проти</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">громадський</token>
+          </marker>
+          <token inflected="yes" regexp="yes">обов'язок|право|війна|свобода</token>
+        </pattern>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" postag_regexp="yes" postag="adj.*">громадянський</match></suggestion>?</message>
+        <example correction="Громадянський"><marker>Громадський</marker> обов'язок.</example>
       </rule>
     </rulegroup>
 
@@ -3441,6 +3451,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Краще: <suggestion>наводити \2 \3</suggestion></message>
       <example correction="наводити приклад"><marker>приведіть приклад</marker></example>
       <example correction="наводити гарний приклад"><marker>приведіть гарний приклад</marker></example>
+    </rule>
+
+    <rule id="poklanyatysia" name="Покланятися і поклонятися">
+      <pattern>
+        <token inflected="yes">покланятися</token>
+      </pattern>
+      <message>Часто заімть <suggestion>поклонятися</suggestion> помилково пишуть «покланятися»</message>
+      <example correction="поклонятися">вони <marker>покланяються</marker> бісам</example>
     </rule>
 
     <rulegroup id="vybachatysya" name="Вибачатися">
