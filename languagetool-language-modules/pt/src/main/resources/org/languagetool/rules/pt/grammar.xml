@@ -3282,13 +3282,35 @@ O namorado dela era um ladrão.
           <token postag='VMN0000'/>
           <example>O evento acontece pontualmente, sendo recomendado não chegar tarde.</example>
         </antipattern>
+        <antipattern>
+          <token>,</token>
+          <token>sendo</token>
+          <token postag='DA.+|DD.+' postag_regexp='yes'/>
+          <token>mais</token>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <token min='0'>quando</token>
+          <token postag='DA.+|DD.+' postag_regexp='yes'/>
+          <token postag='N.+' postag_regexp='yes'/>
+          <example>Eram famosas, sendo a mais famosa a combinação de preto e branco.</example>
+        </antipattern>
+        <antipattern>
+          <token>,</token>
+          <token>sendo</token>
+          <token postag='DA.+|DD.+' postag_regexp='yes'/>
+          <token>mais</token>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <token postag='DA.+|DD.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[aeo]s?</token>
+          <example>Houve várias adaptações, sendo a mais conhecida a de 1951.</example>
+        </antipattern>
 
         <pattern>
           <token>,</token>
           <marker>
             <token>sendo</token>
             <token postag='CC|DA.+|VMP.+|NC.+' postag_regexp='yes'>
-              <exception postag_regexp='yes' postag='NP.+|PP.+|RG'/>
+              <exception postag_regexp='yes' postag='NP.+|DI.+|PP.+|RG'/>
+              <exception>possível</exception>
             </token>
           </marker>
           <and>
