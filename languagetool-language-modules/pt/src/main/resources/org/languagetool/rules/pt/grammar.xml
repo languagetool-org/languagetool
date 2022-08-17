@@ -17075,6 +17075,48 @@ O namorado dela era um ladrão.
       -->
       <rule>
         <antipattern>
+           <token>,</token>
+           <token>que</token>
+           <token regexp="yes">é|são</token>
+           <token postag='NP.+' postag_regexp='yes'/>
+           <token>,</token>
+           <example>Imagem formada na rocha, que é Jesus, e ela sabe disso.</example>
+        </antipattern>
+        <antipattern>
+           <token>,</token>
+           <token>que</token>
+           <token regexp="yes">é|são</token>
+           <token>de</token>
+           <token>,</token>
+           <example>Imagem formada na rocha, que é Jesus, e ela sabe disso.</example>
+        </antipattern>
+        <antipattern>
+           <token skip='-1'>que</token>
+           <token>;</token>
+           <token>que</token>
+           <token regexp="yes">é|são</token>
+           <token postag='VMP.+' postag_regexp='yes'/>
+           <example>Diz que não fala muito; que é calado; que não se impõe.</example>
+        </antipattern>
+        <antipattern>
+           <token postag='SENT_START'/>
+           <token postag='D.+|AQ.+' postag_regexp='yes'/>
+           <token postag='N.+' postag_regexp='yes'/>
+           <token>,</token>
+           <token>que</token>
+           <token regexp="yes">é|são</token>
+           <example>Os florais, que são nosso xodó, são reconhecidos de longe</example>
+           <example>A obra, que é uma instalação do artista francês Frédéric Baron, diz “eu te amo” em quase todos os idiomas do mundo!</example>
+        </antipattern>
+        <antipattern>
+           <token>,</token>
+           <token postag='RG'/>
+           <token>,</token>
+           <token>que</token>
+           <token regexp="yes">é|são</token>
+           <example>Argumenta-se, entretanto, que são exatamente essas coisas que agora estão "mudando".</example>
+        </antipattern>
+        <antipattern>
           <token postag='SENT_START'/>
           <token postag='_PUNCT'/>
           <token>que</token>
@@ -17097,12 +17139,16 @@ O namorado dela era um ladrão.
             <token regexp="yes">é|são</token>
           </marker>
           <token negate="yes" regexp='yes'>horas?|[\.,!\?]
-            <exception postag='CS'/>
+            <exception postag='CS|AQ.+' postag_regexp='yes'/>
           </token>
         </pattern>
-        <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
+        <message>Em certos contextos, esta perífrase pode ser simplificada. Se preferir, pode também utilizar variações de "o qual".</message>
         <suggestion>sendo</suggestion>
-        <example correction="sendo">O edifício tem um grau de altura 5, <marker>que é</marker> também o mais alto da lista.</example>
+        <suggestion>os quais são</suggestion>
+        <suggestion>as quais são</suggestion>
+        <suggestion>o qual é</suggestion>
+        <suggestion>a qual é</suggestion>
+        <example correction="sendo|os quais são|as quais são|o qual é|a qual é">O edifício tem um grau de altura 5, <marker>que é</marker> também o mais alto da lista.</example>
       </rule>
 		
     </rulegroup>
