@@ -20,6 +20,7 @@ package org.languagetool.tagging.de;
 
 import com.google.common.base.Suppliers;
 import gnu.trove.THashMap;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -37,6 +38,7 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 
@@ -64,6 +66,19 @@ public class GermanTagger extends BaseTagger {
 
   // do not add noun tags to these words, e.g. don't add noun tags to "Wegstrecken" for weg_strecken from spelling.txt:
   private static final List<String> nounTagExpansionExceptions = Arrays.asList("Wegstrecken");
+
+  private static final String[] prefixesSeparableVerbs = new String[]{"ab", "abend", "abhanden", "acht", "ähnlich", "allein", "an", "auf", "aufeinander", "aufrecht", "aufwärts", "aus", "auseinander", "auswärts", "bei", "beieinander", "beisammen", "beiseite", "besser", "blank", "brust", "da", "daheim", "dahin", "daneben", "danieder", "davon", "doppel", "drauflos", "drauf", "drei", "drein", "durch", "durcheinander", "ehe", "ein", "einig", "einwärts", "eis", "empor", "end", "fehl", "feil", "feinst", "fort", "frei", "gegenüber", "general", "groß", "grund", "hand", "hart", "haus", "heim", "her", "herauf", "heraus", "herbei", "hernieder", "herüber", "herum", "herunter", "hier", "hierher", "hierhin", "hin", "hinauf", "hinaus", "hindurch", "hinein", "hinüber", "hoch", "höher", "ineinander", "kaputt", "kennen", "klar", "klein", "knapp", "kopf", "krank", "krumm", "kugel", "kürzer", "lahm", "los", "maß", "miss", "mit", "mittag", "nach", "nahe", "näher", "neben", "nebeneinander", "nieder", "not", "offen", "out", "preis", "quer", "ran", "rauf", "raus", "rein", "rüber", "rück", "rückwärts", "ruhig", "rum", "runter", "satt", "schwarz", "sicher", "sitzen", "statt", "still", "stoß", "teil", "tot", "trocken", "über", "überein", "übereinander", "übrig", "um", "umher", "unter", "verrückt", "voll", "vor", "voran", "voraus", "vorbei", "vorlieb", "vorüber", "vorwärts", "vorweg", "wach", "wahr", "warm", "weg", "weh", "weiter", "wert", "wichtig", "wieder", "wiederauf", "wiederein", "wiederher", "wohl", "zu", "zueinander", "zufrieden", "zugute", "zunichte", "zurecht", "zurück", "zusammen", "zuwider", "zwangs", "zwangsum", "zwangsvor", "zweck", "zwischen"};
+  private static final String prefixesSeparableVerbsRegexp = "^(ab|abend|abhanden|acht|ähnlich|allein|an|auf|aufeinander|aufrecht|aufwärts|aus|auseinander|auswärts|bei|beieinander|beisammen|beiseite|besser|blank|brust|da|daheim|dahin|daneben|danieder|darnieder|davon|doppel|drauflos|drauf|drei|drein|durcheinander|ehe|ein|einig|einwärts|eis|empor|end|fehl|feil|feinst|fort|frei|gegenüber|general|groß|grund|hand|hart|haus|heim|her|herauf|heraus|herbei|hernieder|herüber|herum|herunter|hier|hierher|hierhin|hin|hinauf|hinaus|hindurch|hinein|hinüber|hoch|höher|ineinander|kaputt|kennen|klar|klein|knapp|kopf|krank|krumm|kugel|kürzer|lahm|los|maß|mit|mittag|nach|nahe|näher|neben|nebeneinander|nieder|not|offen|out|preis|quer|ran|rauf|raus|rein|rüber|rück|rückwärts|ruhig|rum|runter|satt|schwarz|sicher|sitzen|statt|still|stoß|teil|tot|trocken|überein|übereinander|übrig|um|umher|verrückt|vor|voran|voraus|vorbei|vorlieb|vorüber|vorwärts|vorweg|wach|wahr|warm|weg|weh|weiter|wert|wichtig|wiederauf|wiederein|wiederher|wohl|zu|zueinander|zufrieden|zugute|zunichte|zurecht|zurück|zusammen|zuwider|zwangs|zwangsum|zwangsvor|zweck|zwischen)";
+  private static final String[] prefixesNonSeparableVerbs = new String[]{"be", "emp", "ent", "er", "hinter", "miss", "un", "ver", "zer"}; //Excludes "ge" (both too rare as verb prefix and prone to FP)
+  private static final String prefixesNonSeparableVerbsRegexp = "^(be|emp|ent|er|hinter|miss|un|ver|zer)";
+  private static final String[] prefixesVerbs = ArrayUtils.addAll(prefixesSeparableVerbs, prefixesNonSeparableVerbs);
+  private static final String prefixesVerbsRegexp = "^(ab|abend|abhanden|acht|ähnlich|allein|an|auf|aufeinander|aufrecht|aufwärts|aus|auseinander|auswärts|bei|beieinander|beisammen|beiseite|besser|blank|brust|da|daheim|dahin|daneben|danieder|darnieder|davon|doppel|drauflos|drauf|drei|drein|durcheinander|ehe|ein|einig|einwärts|eis|empor|end|fehl|feil|feinst|fort|frei|gegenüber|general|groß|grund|hand|hart|haus|heim|her|herauf|heraus|herbei|hernieder|herüber|herum|herunter|hier|hierher|hierhin|hin|hinauf|hinaus|hindurch|hinein|hinüber|hoch|höher|ineinander|kaputt|kennen|klar|klein|knapp|kopf|krank|krumm|kugel|kürzer|lahm|los|maß|mit|mittag|nach|nahe|näher|neben|nebeneinander|nieder|not|offen|out|preis|quer|ran|rauf|raus|rein|rüber|rück|rückwärts|ruhig|rum|runter|satt|schwarz|sicher|sitzen|statt|still|stoß|teil|tot|trocken|überein|übereinander|übrig|um|umher|verrückt|vor|voran|voraus|vorbei|vorlieb|vorüber|vorwärts|vorweg|wach|wahr|warm|weg|weh|weiter|wert|wichtig|wiederauf|wiederein|wiederher|wohl|zu|zueinander|zufrieden|zugute|zunichte|zurecht|zurück|zusammen|zuwider|zwangs|zwangsum|zwangsvor|zweck|zwischen|be|emp|ent|er|hinter|miss|un|ver|zer)";
+  private static final String[] postagsPartizipEndingE = new String[]{"AKK:PLU:FEM:GRU:SOL:VER", "AKK:PLU:MAS:GRU:SOL:VER", "AKK:PLU:NEU:GRU:SOL:VER", "AKK:SIN:FEM:GRU:DEF:VER", "AKK:SIN:FEM:GRU:IND:VER", "AKK:SIN:FEM:GRU:SOL:VER", "AKK:SIN:NEU:GRU:DEF:VER", "NOM:PLU:FEM:GRU:SOL:VER", "NOM:PLU:MAS:GRU:SOL:VER", "NOM:PLU:NEU:GRU:SOL:VER", "NOM:SIN:FEM:GRU:DEF:VER", "NOM:SIN:FEM:GRU:IND:VER", "NOM:SIN:FEM:GRU:SOL:VER", "NOM:SIN:MAS:GRU:DEF:VER", "NOM:SIN:NEU:GRU:DEF:VER"};
+  private static final String[] postagsPartizipEndingEm = new String[]{"DAT:SIN:MAS:GRU:SOL:VER", "DAT:SIN:NEU:GRU:SOL:VER"};
+  private static final String[] postagsPartizipEndingEn = new String[]{"AKK:PLU:FEM:GRU:DEF:VER", "AKK:PLU:FEM:GRU:IND:VER", "AKK:PLU:MAS:GRU:DEF:VER", "AKK:PLU:MAS:GRU:IND:VER", "AKK:PLU:NEU:GRU:DEF:VER", "AKK:PLU:NEU:GRU:IND:VER", "AKK:SIN:MAS:GRU:DEF:VER", "AKK:SIN:MAS:GRU:IND:VER", "AKK:SIN:MAS:GRU:SOL:VER", "DAT:PLU:FEM:GRU:DEF:VER", "DAT:PLU:FEM:GRU:IND:VER", "DAT:PLU:FEM:GRU:SOL:VER", "DAT:PLU:MAS:GRU:DEF:VER", "DAT:PLU:MAS:GRU:IND:VER", "DAT:PLU:MAS:GRU:SOL:VER", "DAT:PLU:NEU:GRU:DEF:VER", "DAT:PLU:NEU:GRU:IND:VER", "DAT:PLU:NEU:GRU:SOL:VER", "DAT:SIN:FEM:GRU:DEF:VER", "DAT:SIN:FEM:GRU:IND:VER", "DAT:SIN:MAS:GRU:DEF:VER", "DAT:SIN:MAS:GRU:IND:VER", "DAT:SIN:NEU:GRU:DEF:VER", "DAT:SIN:NEU:GRU:IND:VER", "GEN:PLU:FEM:GRU:DEF:VER", "GEN:PLU:FEM:GRU:IND:VER", "GEN:PLU:MAS:GRU:DEF:VER", "GEN:PLU:MAS:GRU:IND:VER", "GEN:PLU:NEU:GRU:DEF:VER", "GEN:PLU:NEU:GRU:IND:VER", "GEN:SIN:FEM:GRU:DEF:VER", "GEN:SIN:FEM:GRU:IND:VER", "GEN:SIN:MAS:GRU:DEF:VER", "GEN:SIN:MAS:GRU:IND:VER", "GEN:SIN:MAS:GRU:SOL:VER", "GEN:SIN:NEU:GRU:DEF:VER", "GEN:SIN:NEU:GRU:IND:VER", "GEN:SIN:NEU:GRU:SOL:VER", "NOM:PLU:FEM:GRU:DEF:VER", "NOM:PLU:FEM:GRU:IND:VER", "NOM:PLU:MAS:GRU:DEF:VER", "NOM:PLU:MAS:GRU:IND:VER", "NOM:PLU:NEU:GRU:DEF:VER", "NOM:PLU:NEU:GRU:IND:VER"};
+  private static final String[] postagsPartizipEndingEr = new String[]{"DAT:SIN:FEM:GRU:SOL:VER", "GEN:PLU:FEM:GRU:SOL:VER", "GEN:PLU:MAS:GRU:SOL:VER", "GEN:PLU:NEU:GRU:SOL:VER", "GEN:SIN:FEM:GRU:SOL:VER", "NOM:SIN:MAS:GRU:IND:VER", "NOM:SIN:MAS:GRU:SOL:VER", "DAT:SIN:FEM:GRU:SOL:VER", "GEN:PLU:FEM:GRU:SOL:VER", "GEN:PLU:MAS:GRU:SOL:VER", "GEN:PLU:NEU:GRU:SOL:VER", "GEN:SIN:FEM:GRU:SOL:VER", "NOM:SIN:MAS:GRU:IND:VER", "NOM:SIN:MAS:GRU:SOL:VER"};
+  private static final String[] postagsPartizipEndingEs = new String[]{"AKK:SIN:NEU:GRU:IND:VER", "AKK:SIN:NEU:GRU:SOL:VER", "NOM:SIN:NEU:GRU:IND:VER", "NOM:SIN:NEU:GRU:SOL:VER"};
+  private static final String[] notAVerb = new String[]{"angebot", "anteil", "aufenthalt", "beispiel", "bereich", "daring", "einfach", "einfachst", "endkasten", "freibetrag", "grautöne", "grüntöne", "großherzöge", "großteil", "klarerweise", "maßnahme", "mitglieder", "nachricht", "nachteil", "niederlage", "nothing", "schwarzweiß", "schwarzgrau", "schwarzgrün", "schwarztöne", "unbesiegt", "unmenge", "unrat", "unver", "verrückterweise", "vorlieb", "vorteil", "wohldefiniert", "zuende", "zuhause"};
 
   private static final List<String> tagsForWeise = new ArrayList<>();
   static {
@@ -253,8 +268,19 @@ public class GermanTagger extends BaseTagger {
             List<TaggedWord> tags = tag(noPrefixForm);
             boolean isSFT = false;  // SFT = schwaches Verb
             for (TaggedWord tag : tags) {
-              if (tag.getPosTag() != null && (tag.getPosTag().startsWith("VER:") || tag.getPosTag().startsWith("PA2:"))) {  // e.g. "schicke" is verb and adjective
-                readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+              if (tag.getPosTag() != null && (StringUtils.startsWithAny(tag.getPosTag(), "VER:", "PA1:", "PA2:")
+                && (!StringUtils.startsWithAny(tag.getPosTag(), "VER:MOD", "VER:AUX")))) { // e.g. "schicke" is verb and adjective
+                if (StringUtils.startsWithAny(verbInfo.prefix, prefixesSeparableVerbs)
+                  && (!StringUtils.containsAny(word, notAVerb))) {
+                  if (StringUtils.startsWithAny(tag.getPosTag(),"VER:1", "VER:2", "VER:3") && (sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))) {
+                    readings.add(new AnalyzedToken(word, tag.getPosTag() + ":NEB", verbInfo.prefix + tag.getLemma()));
+                  } else if (!StringUtils.startsWithAny(tag.getPosTag(),"VER:IMP")) {
+                    readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+                  }
+                } else if (StringUtils.startsWithAny(verbInfo.prefix, prefixesNonSeparableVerbs) //Excludes "ge" (both too rare as verb prefix and prone to FP)
+                  && (!StringUtils.containsAny(word, notAVerb))) {
+                  readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+                }
                 if (tag.getPosTag().contains(":SFT")) {
                   isSFT = true;
                 }
@@ -334,7 +360,144 @@ public class GermanTagger extends BaseTagger {
                 
                 boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
                 if (linkedTaggerTokens.isEmpty()) {
-                  readings.add(getNoInfoToken(word));
+                  /*
+                   *Verbs with certain prefixes (e. g. "ab", "ein", "zwischen") are always separable. 
+                   *For better performance of rules, forms like 'einlädst' and 'lädst ein' should be tagged differently.
+                   *einlädst [VER:2:SIN:PRÄ:NON:NEB] ('NEB' indicates that this form can only appear in a subordinate clause)
+                   *lädst ein [VER:2:SIN:PRÄ:NON] + [ZUS]
+                   */
+                  if (StringUtils.startsWithAny(word.toLowerCase(), prefixesVerbs)
+                     && (!StringUtils.containsAny(word.toLowerCase(), notAVerb))
+                     && (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()) || word.equals(word.toLowerCase()))) {// avoids CamelCase, ALLCAPS...
+                    String lastPart = RegExUtils.removePattern(word.toLowerCase(), prefixesVerbsRegexp);
+                    if (lastPart.length() > 3) {
+                      String firstPart = StringUtils.removeEnd(word, lastPart);
+                      //Erweiterter Infinitiv mit zu
+                      if (StringUtils.startsWithAny(lastPart, "zu")) {
+                        String infinitiv = StringUtils.removeStart(lastPart, "zu");
+                        List<TaggedWord> infs = getWordTagger().tag(infinitiv);
+                        for (TaggedWord inf : infs) {
+                          if (inf.getPosTag().startsWith("VER:INF")) {
+                            String pstg = RegExUtils.replaceFirst(inf.getPosTag(), "INF", "EIZ");
+                            readings.add(new AnalyzedToken(word, pstg, firstPart + inf.getLemma()));
+                          }
+                        }
+                      }
+                      // Checks for postag information in the last part of given word
+                      List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
+                      for (TaggedWord taggedWord : taggedWords) {
+                        if (taggedWord.getPosTag().startsWith("VER") && (!taggedWord.getPosTag().startsWith("VER:PA"))) {
+                          if (taggedWord.getPosTag().startsWith("VER:INF")) {
+                            if (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1))) {
+                              readings.add(new AnalyzedToken(word, "SUB:NOM:SIN:NEU:INF", word));
+                              readings.add(new AnalyzedToken(word, "SUB:DAT:SIN:NEU:INF", word));
+                              readings.add(new AnalyzedToken(word, "SUB:AKK:SIN:NEU:INF", word));
+                              if (sentenceTokens.indexOf(word) == 0) {
+                                readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                              }
+                            } else {
+                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                            }
+                          } else if (taggedWord.getPosTag().startsWith("VER:IMP")) {
+                            if ((word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)
+                              && (!StringUtils.containsAny(word.toLowerCase(), prefixesSeparableVerbs))) { // Separable verbs do not have imperative form. //könnte falsch sein
+                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                            }
+                          } else if (StringUtils.startsWithAny(word.toLowerCase(), prefixesSeparableVerbs)//könnte falsch sein
+                            && (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {
+                            if (taggedWord.getPosTag().endsWith(":NEB")) {
+                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                            } else {
+                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag() + ":NEB", firstPart.toLowerCase() + taggedWord.getLemma()));
+                            }
+                            if (taggedWord.getPosTag().startsWith("VER:3:SIN:PRÄ")
+                               && (firstPart.equals("durch") || firstPart.equals("um"))) {
+                               /*
+                               / Verbs with prefixes 'durch' or 'um'
+                               / can be both separable and non separable
+                               / 'Tom läuft durch den Wald'
+                               / 'Tom durchläuft eine Durststrecke'
+                               / This avoids false alarms
+                                */
+                              if (taggedWord.getPosTag().startsWith("VER:3:SIN:PRÄ")) {
+                                readings.add(new AnalyzedToken(word, "VER:PA2:SFT", firstPart + taggedWord.getLemma()));
+                              } else {
+                                readings.add(new AnalyzedToken(word, "VER:PA2:NON", firstPart + taggedWord.getLemma()));
+                              }
+                              readings.add(new AnalyzedToken(word, "PA2:PRD:GRU:VER", word));
+                            }
+                          } else if (StringUtils.startsWithAny(word.toLowerCase(), prefixesNonSeparableVerbs)) {//könnte falsch sein
+                            readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                            /*
+                            / Postag of 'lastPart' never starts with PA2: erstickt = er + stickt
+                            / Derives 'VER:PA2:SFT' and 'PA2:PRD:GRU:VER', if postag of 'lastPart' equals 'VER:3:SIN:PRÄ:SFT'
+                            / Using other postags is not safe, especially 'VER.*NON'
+                            */
+                            if (taggedWord.getPosTag().startsWith("VER:3:SIN:PRÄ:SFT")) {
+                              readings.add(new AnalyzedToken(word, "VER:PA2:SFT", firstPart + taggedWord.getLemma()));
+                              readings.add(new AnalyzedToken(word, "PA2:PRD:GRU:VER", word));
+                            }
+                          }
+                        } else if (((taggedWord.getPosTag().startsWith("PA") || taggedWord.getPosTag().startsWith("VER:PA"))
+                          && (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0))) {
+                            readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                        }
+                      }
+                      // Checks for postag information in the last part of given word
+                      /*
+                      / Postag of 'lastPart' never starts with PA2: erstickter = er + stickter
+                      / Derives 'PA2:[NGDA].*', if word has
+                      / suffix 'e[mnrs]?' and
+                      / 'middlePart' has tagging 'VER:3:SIN:PRÄ:SFT'
+                      / e. g. erstickter = er + stickt + er
+                       */
+                      String[] partizipSuffixes = new String[]{"e", "em", "en", "er", "es"};
+                      String middlePart = "";
+                      String suffix = "";
+                      for (String sffx : partizipSuffixes) {
+                        if (lastPart.endsWith(sffx)){
+                          middlePart = lastPart.substring(0, lastPart.length()-sffx.length());
+                          suffix = sffx;
+                        }
+                      }
+                      List<TaggedWord> taggedMiddle = getWordTagger().tag(middlePart);
+                      for (TaggedWord taggedM : taggedMiddle) {
+                        if (taggedM.getPosTag().startsWith("VER:3:SIN:PRÄ:SFT")
+                            && (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {
+                          String lemma = word.substring(0, word.length()-suffix.length());
+                          switch (suffix) {
+                            case "e":
+                              for (String posEndsWithE : postagsPartizipEndingE) {
+                                readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithE, lemma));
+                              }
+                              break;
+                            case "em":
+                              for (String posEndsWithEm : postagsPartizipEndingEm) {
+                                readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEm, lemma));
+                              }
+                              break;
+                            case "en":
+                              for (String posEndsWithEn : postagsPartizipEndingEn) {
+                                readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEn, lemma));
+                              }
+                              break;
+                            case "er":
+                              for (String posEndsWithEr : postagsPartizipEndingEr) {
+                                readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEr, lemma));
+                              }
+                              break;
+                            case "es":
+                              for (String posEndsWithEs : postagsPartizipEndingEs) {
+                                readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEs, lemma));
+                              }
+                              break;
+                          }
+                        }
+                      }
+                    }
+                  } else {
+                    readings.add(getNoInfoToken(word));
+                  }
                 } else {
                   if (wordStartsUppercase) { //Choose between uppercase/lowercase Lemma
                     readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word));
@@ -356,7 +519,15 @@ public class GermanTagger extends BaseTagger {
             if (partTaggerTokens.isEmpty()) {
               readings.add(getNoInfoToken(word));
             } else {
-              readings.addAll(getAnalyzedTokens(partTaggerTokens, word, compoundParts));
+              List<AnalyzedToken> temp = getAnalyzedTokens(partTaggerTokens, word, compoundParts);
+              String firstPart = compoundParts.get(0);
+              List<String> prfxs = new ArrayList<>(Arrays.asList("ab", "abend", "abhanden", "acht", "ähnlich", "allein", "an", "auf", "aufeinander", "aufrecht", "aufwärts", "aus", "auseinander", "auswärts", "bei", "beieinander", "beisammen", "beiseite", "besser", "blank", "brust", "da", "daheim", "dahin", "daneben", "danieder", "davon", "doppel", "drauflos", "drei", "drein", "durch", "durcheinander", "ehe", "ein", "einig", "einwärts", "eis", "empor", "end", "fehl", "feil", "feinst", "fort", "frei", "gegenüber", "general", "groß", "grund", "hand", "hart", "haus", "heim", "her", "herauf", "heraus", "herbei", "hernieder", "herüber", "herum", "herunter", "hier", "hierher", "hierhin", "hin", "hinauf", "hinaus", "hindurch", "hinein", "hinüber", "hoch", "höher", "ineinander", "kaputt", "kennen", "klar", "klein", "knapp", "kopf", "krank", "krumm", "kugel", "kürzer", "lahm", "los", "maß", "miss", "mit", "mittag", "nach", "nahe", "näher", "neben", "nebeneinander", "nieder", "not", "offen", "out", "preis", "quer", "ran", "rauf", "raus", "rein", "rüber", "rück", "rückwärts", "ruhig", "rum", "runter", "satt", "schwarz", "sicher", "sitzen", "statt", "still", "stoß", "teil", "tot", "trocken", "über", "überein", "übereinander", "übrig", "um", "umher", "unter", "verrückt", "voll", "vor", "voran", "voraus", "vorbei", "vorlieb", "vorüber", "vorwärts", "vorweg", "wach", "wahr", "warm", "weg", "weh", "weiter", "wert", "wichtig", "wieder", "wiederauf", "wiederein", "wiederher", "wohl", "zu", "zueinander", "zufrieden", "zugute", "zunichte", "zurecht", "zurück", "zusammen", "zuwider", "zwangs", "zwangsum", "zwangsvor", "zweck", "zwischen"));
+              if (prfxs.contains(firstPart)) {
+                readings.addAll(getAnalyzedTokens(partTaggerTokens, word, compoundParts));
+              } else {
+                temp = temp.stream().filter(k -> !k.getPOSTag().startsWith("VER")).collect(Collectors.toList());
+                readings.addAll(temp);
+              }
             }
           }
         }
