@@ -44787,12 +44787,17 @@ O namorado dela era um ladrão.
 
 
     <!-- POR ISSO EXISTE/EXISTEM existindo -->
-    <rule id='POR_ISSO_V_3PESSOA_SINGULAR_PLURAL_GERUNDIO' name="Simplicar: Por isso + V. 3.ª Sing/Plural → V. Gerúndio" type='style'>
+    <rulegroup id='POR_ISSO_V_3PESSOA_SINGULAR_PLURAL_GERUNDIO' name="Simplicar: Por isso + V. 3.ª Sing/Plural → V. Gerúndio" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-17/18 (25-JUL-2022+) -->
       <!--
       Os bits são o nível mais baixo existente nos computadores, por isso existem em maior quantidade. → Os bits são o nível mais baixo existente nos computadores, existindo em maior quantidade.
       -->
+    <rule>
       <pattern>
+        <token>
+          <exception regexp='yes'>e|,|;</exception>
+          <exception postag='SENT_START'/>
+        </token>
         <token>por
           <exception scope='previous' postag_regexp='yes' postag='SENT_START|_QUOT|CS|RM|RN|RG|V.+|CC'/>
         </token>
@@ -44803,9 +44808,28 @@ O namorado dela era um ladrão.
         </token>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
-      <suggestion><match no='3' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
-      <example correction="existindo">Os bits são o nível mais baixo existente nos computadores, <marker>por isso existem</marker> em maior quantidade.</example>
+      <suggestion>\1, <match no='4' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
+      <suggestion>\1; \2 \3, \4</suggestion>
+      <example correction="computadores, existindo|computadores; por isso, existem">Os bits são o nível mais baixo existente nos <marker>computadores por isso existem</marker> em maior quantidade.</example>
     </rule>
+    <rule>
+      <pattern>
+        <token>,</token>
+        <token>por
+          <exception scope='previous' postag_regexp='yes' postag='SENT_START|_QUOT|CS|RM|RN|RG|V.+|CC'/>
+        </token>
+        <token>isso</token>
+        <token postag='VMIP3.+' postag_regexp='yes'>
+          <exception scope='next' postag_regexp='yes' postag='VMG0000|_PUNCT|VMIP3.+|VMM02.+'/>
+          <exception scope='next' regexp='yes'>que|tanto</exception>
+        </token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\1 <match no='4' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
+      <suggestion>; \2 \3, \4</suggestion>
+      <example correction=", existindo|; por isso, existem">Os bits são o nível mais baixo existente nos computadores<marker>, por isso existem</marker> em maior quantidade.</example>
+    </rule>
+  </rulegroup>
 
 
     <!-- FICOU DEMONSTRADO QUE demonstrámos que -->
