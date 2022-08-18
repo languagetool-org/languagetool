@@ -20054,6 +20054,12 @@ O namorado dela era um ladrão.
           <token max="20"/>
           <token postag="SENT_END"/>
         </antipattern>
+        <antipattern>
+          <token>:</token>
+          <token regexp='yes'>http.*|www.*</token>
+          <token postag="SENT_END"/>
+          <example>: https://www.youtube.com/user/OrderoftheGoodDeath</example>
+        </antipattern>
         <pattern>
           <token postag="SENT_START"/>
           <token regexp="yes">\p{Lu}.*</token>
@@ -20191,6 +20197,16 @@ O namorado dela era um ladrão.
           <token regexp='yes'>estima|consideração</token>
           <token postag="SENT_END">,</token>
         </antipattern>
+        <antipattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\p{Lu}\p{Ll}*</token>
+          <token postag="SENT_END">,</token>
+          <example>Oi,</example>
+          <example>Gabrielly,</example>
+          <example>Respeitosamente,</example>
+          <example>Cumprimentos,</example>
+          <example>Prezados,</example>
+        </antipattern>
         <pattern>
           <token postag="SENT_END">,</token>
         </pattern>
@@ -20223,6 +20239,18 @@ O namorado dela era um ladrão.
           <token postag="SENT_START"/>
           <token regexp="yes">&legendas;</token>
           <token regexp="yes">\d[\.\d]*</token>
+        </antipattern>
+        <antipattern>
+          <token postag="SENT_START" skip='-1'/>
+          <token skip='-1' regexp='yes'>:|&tracos_de_separacao;</token>
+          <token postag="SENT_END"/>
+          <example>CEP: 30.120-060</example>
+          <example>Receita de frango: Fácil e saborosa</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>lista|voo|&nomes_de_instituicoes;|reserva</token>
+          <token postag="SENT_END"/>
+          <example>Lista de aves da Bahia</example>
         </antipattern>
         <pattern>
           <token postag="SENT_START"/>
