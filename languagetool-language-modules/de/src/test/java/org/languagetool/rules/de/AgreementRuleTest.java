@@ -769,6 +769,8 @@ public class AgreementRuleTest {
     assertBad("Dabei geht es um das altbekannte Frage der Dynamiken der Eigenbildung..");
     assertBad("Den neue Finanzierungsweg wollen sie daher Hand in Hand mit dem Leser gehen.");
     assertBad("Den neuen Finanzierungsweg wollen sie daher Hand in Hand mit dem Lesern gehen.");
+    assertBad("Ich widerrufe den mit Ihnen geschlossene Vertrag.", "der mit Ihnen geschlossene Vertrag", "den mit Ihnen geschlossenen Vertrag");
+    assertGood("Ich widerrufe den mit Ihnen geschlossenen Vertrag.");
     //assertBad("Leute, die eine gewissen Sicherheit brauchen.");
     //assertBad("An der rot Ampel.");
   }
