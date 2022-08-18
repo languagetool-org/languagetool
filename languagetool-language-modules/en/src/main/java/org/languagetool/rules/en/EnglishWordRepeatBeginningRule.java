@@ -91,7 +91,7 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
 
 	@Override
 	public boolean isException(String token) {
-		return super.isException(token) || token.equals("The") || token.equals("A") || token.equals("An");
+		return super.isException(token) || token.equals("The") || token.equals("A") || token.equals("An") || token.equals("If") || token.equals("What") || token.equals("My") || token.equals("I") || token.equals("You") || token.equals("He") || token.equals("She") || token.equals("It") || token.equals("We") || token.equals("They");
 	}
 
 	@Override
