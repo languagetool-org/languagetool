@@ -81,6 +81,7 @@ public class VerbAgreementRuleTest {
   @Test
   public void testWrongVerb() throws IOException {
     // correct sentences:
+    assertGood("Weder Peter noch ich wollen das.");
     assertGood("Du bist in dem Moment angekommen, als ich gegangen bin.");
     assertGood("Kümmere du dich mal nicht darum!");
     assertGood("Ich weiß, was ich tun werde, falls etwas geschehen sollte.");

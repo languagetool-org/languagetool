@@ -67,6 +67,11 @@ public class VerbAgreementRule extends TextLevelRule {
       token("wärst"),
       token("ich")
     ),
+    asList( // "Weder Peter noch ich wollen das."
+      new PatternTokenBuilder().token("weder").setSkip(8).build(),
+      token("noch"),
+      token("ich")
+    ),
     asList( // "Kümmerst dich ja gar nicht um sie." (okay for colloquial language)
       pos(SENTENCE_START_TAGNAME),
       posRegex("VER:2:SIN:PRÄ:.*"),
