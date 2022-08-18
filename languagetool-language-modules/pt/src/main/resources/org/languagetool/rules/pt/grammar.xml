@@ -19529,7 +19529,7 @@ O namorado dela era um ladrão.
           <marker>
             <token>
               <exception regexp="yes">“|«</exception>
-              <exception regexp='yes'>&separadores_de_oracoes;</exception>
+              <exception regexp='yes'>&separadores_de_oracoes;|&separadores_de_abertura;</exception>
               <exception postag='SENT_START'/></token>
             <token regexp="yes">aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
           </marker>
@@ -19676,6 +19676,12 @@ O namorado dela era um ladrão.
           <token>em</token>
           <token>geral</token>
         </antipattern>
+        <antipattern>
+          <token regexp='yes'>&separadores_de_abertura;</token>
+          <token>em</token>
+          <token>geral</token>
+          <example>[em geral a mão esquerda</example>
+        </antipattern>
         <pattern>
           <marker>
             <token>em</token>
@@ -19731,6 +19737,12 @@ O namorado dela era um ladrão.
           <token>melhor</token>
           <token>ainda</token>
           <token postag_regexp='yes' postag="_PUNCT|''"/>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>&separadores_de_abertura;</token>
+          <token>ou</token>
+          <token regexp='yes'>seja|melhor|antes</token>
+          <example>[ou seja</example>
         </antipattern>
         <pattern>
           <marker>
