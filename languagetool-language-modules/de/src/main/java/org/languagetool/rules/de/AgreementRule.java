@@ -385,6 +385,8 @@ public class AgreementRule extends Rule {
       String phrase = tokens[startAt].getToken() + " " + tokens[startAt+1].getToken();
       if (phrase.toLowerCase().matches("mit (mir|dir|ihm|ihr|ihnen|uns|euch)")) {
         startAt += 2;
+      } else if (phrase.toLowerCase().matches("ohne (mich|dich|ihn|sie|uns|euch)")) {
+        startAt += 2;
       }
     }
     if (startAt + 1 < tokens.length && (StringUtils.isNumeric(tokens[startAt].getToken()) || tokens[startAt].hasPosTag("ZAL"))) {

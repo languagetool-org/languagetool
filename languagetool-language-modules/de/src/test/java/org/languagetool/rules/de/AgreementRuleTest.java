@@ -772,6 +772,8 @@ public class AgreementRuleTest {
     assertBad("Den neuen Finanzierungsweg wollen sie daher Hand in Hand mit dem Lesern gehen.");
     assertBad("Ich widerrufe den mit Ihnen geschlossene Vertrag.", "der mit Ihnen geschlossene Vertrag", "den mit Ihnen geschlossenen Vertrag");
     assertGood("Ich widerrufe den mit Ihnen geschlossenen Vertrag.");
+    assertBad("Er klagte auch gegen den ohne ihn verkündete Sachbeschluss.", "den ohne ihn verkündeten Sachbeschluss");
+    assertGood("Er klagte auch gegen den ohne ihn verkündeten Sachbeschluss.");
     //assertBad("Leute, die eine gewissen Sicherheit brauchen.");
     //assertBad("An der rot Ampel.");
   }
