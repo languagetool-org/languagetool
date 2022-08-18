@@ -376,7 +376,7 @@ public class AgreementRule extends Rule {
    * @return index of first non-modifier token
    */
   private int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
-    if (tokens[startAt].getToken().equals("weit") && startAt + 1 < tokens.length && tokens[startAt+1].getToken().equals("weniger")) {
+    if (tokens[startAt].getToken().matches("viel|weit") && startAt + 1 < tokens.length && tokens[startAt+1].getToken().matches("weniger|eher")) {
       startAt += 2;
     } else if (startAt + 1 < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
       startAt++;
