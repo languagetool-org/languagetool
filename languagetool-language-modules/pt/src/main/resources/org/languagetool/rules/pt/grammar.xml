@@ -40935,6 +40935,17 @@ O namorado dela era um ladrão.
         <example>_CONTEÚDO:ativado</example>
       </antipattern>
       <antipattern>
+        <token regexp='yes'>.*_.*</token>
+        <token regexp="yes" spacebefore='no'>:|;</token>
+        <token regexp='yes'>.*_.*</token>
+        <example>custom_block:body_offer_card_fin_consorcio_ps</example>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes" spacebefore='no'>:|;</token>
+        <token regexp='yes'>.*_.*</token>
+        <example>CNPJ/MEI:___________________________</example>
+      </antipattern>
+      <antipattern>
         <token regexp="yes" spacebefore='no'>:|;</token>
         <token spacebefore='no' min='0'></token>
         <token spacebefore='no' regexp='yes'>\\|\.|[_;:!\?,]|&operadores_matematicos;</token>
@@ -40949,11 +40960,23 @@ O namorado dela era um ladrão.
         <example>fig:grafico01</example>
       </antipattern>
       <antipattern>
-        <token regexp='yes'>\d+h|RA</token>
+        <token regexp='yes'>\d{1,2}h</token>
+        <token regexp="yes" spacebefore='no'>:|;</token>
+        <token regexp='yes' spacebefore='no'>\d{1,2}</token>
+        <example>às 15h:30</example>
+      </antipattern>
+      <antipattern>
+        <token>RA</token>
         <token regexp="yes" spacebefore='no'>:|;</token>
         <token regexp='yes' spacebefore='no'>\d+</token>
         <example>RA:19064468</example>
-        <example>às 15h:30</example>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">:|;</token>
+        <token regexp='yes' spacebefore='no'>[,\.;\?!_]</token>
+        <token regexp='yes' spacebefore='no' min='0'>[,\.;\?!_]</token>
+        <example>Alternativas da resposta:, sim, não</example>
+        <example>Data de nascimento:___/___/____ Idade</example>
       </antipattern>
       <antipattern><!-- XXX Wikipedia lists and time formats -->
         <token>:</token>
