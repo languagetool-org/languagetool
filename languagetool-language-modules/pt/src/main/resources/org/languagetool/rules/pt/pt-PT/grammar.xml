@@ -138,7 +138,27 @@
 
   <category id="EUROPEAN_PORTUGUESE" name="Português de Portugal">
 
-
+    <rule id='SEQUER_WITHOUT_NEGATIVE' name='Sequer sem negativa'>
+      <!--      Created by Tiago F. Santos, 2017-03-05      -->
+      <antipattern>
+        <token regexp='yes' skip='-1'>&negacoes;</token>
+        <token>sequer</token>
+      </antipattern>
+      <antipattern>
+        <token>antes</token>
+        <token skip='-1'>de</token>
+        <token>sequer</token>
+      </antipattern>
+      <pattern>
+        <token>sequer
+          <exception scope='previous' regexp='yes'>antes|ou</exception></token>
+      </pattern>
+      <message>'Sequer' deve ser precedido de uma negação.</message>
+      <suggestion>nem <match no='1' case_conversion='alllower'/></suggestion>
+      <url>https://duvidas.dicio.com.br/sequer-ou-nem-sequer/</url>
+      <example correction='nem sequer'>Ele <marker>sequer</marker> cumprimentou.</example>
+      <example>Nem sequer vi o que estava a fazer.</example>
+    </rule>
     <rule id="GENERAL_VERB_AGREEMENT_ERRORS_PT" name="Erro de concordância verbal">
       <antipattern>
         <token regexp='yes' case_sensitive='yes'>e|ou</token>
