@@ -2,7 +2,29 @@
 
 ## 5.9 (release planned for 2022-09-28)
 
-#### General
+#### Catalan
+  * added and improved rules
+
+#### English
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### French
+  * added and improved rules
+
+#### Polish
+  * added and improved rules
+
+#### Portuguese
+  * added and improved rules
+
+#### Spanish
+  * added and improved rules
+
+### General
   * The `--word2vecModel` option has been deprecated
 
 
