@@ -42725,6 +42725,38 @@ O namorado dela era um ladrão.
         <!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *START* -->
         <!-- ! or ? or . at the end -->
         <antipattern>
+          <token regexp='yes'>somente|só|apenas</token>
+          <token>eu</token>
+          <example>Somente eu sei como é duro.</example>
+        </antipattern>
+        <antipattern case_sensitive='yes'>
+          <token regexp='yes' min='0'>\p{Ll}+</token>
+          <token>EU</token>
+          <token regexp='yes'>\p{Ll}+</token>
+          <example>Isso se EU estiver consolidado.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>[«»“”"'‘’]</token>
+          <token skip='-1'>eu</token>
+          <token regexp='yes'>[«»“”"'‘’]</token>
+          <example>Ela disse, "Eu quero que você vá".</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token min='0' postag='_PUNCT'/>
+          <token>Eu</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token>,</token>
+          <example>Eu vou, prometo.</example>
+        </antipattern>
+        <antipattern>
+          <token>e</token>
+          <token>eu</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token>,</token>
+          <example>E eu vou, prometo.</example>
+        </antipattern>
+        <antipattern>
           <token>eu</token>
           <token postag_regexp="yes" postag="V...1S.+"/>
           <token regexp='yes'>\.|!|\?</token>
@@ -42747,6 +42779,31 @@ O namorado dela era um ladrão.
       <rule tags="picky">
         <!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *START* -->
         <!-- ! or ? or . at the end -->
+        <antipattern>
+          <token regexp='yes'>somente|só|apenas</token>
+          <token>nós</token>
+          <example>Somente nós sabemos como é duro.</example>
+        </antipattern>
+        <antipattern case_sensitive='yes'>
+          <token regexp='yes' min='0'>\p{Ll}+</token>
+          <token case_sensitive='yes'>NÓS</token>
+          <token regexp='yes'>\p{Ll}+</token>
+          <example>Isso se NÓS estivermos consolidados.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>[«»“”"'‘’]</token>
+          <token skip='-1'>nós</token>
+          <token regexp='yes'>[«»“”"'‘’]</token>
+          <example>Ela disse, "Nós queremos que você vá".</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token min='0' postag='_PUNCT'/>
+          <token>Nós</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token>,</token>
+          <example>Nós vamos, prometo.</example>
+        </antipattern>
         <antipattern>
           <token>nós</token>
           <token postag_regexp="yes" postag="V...1P.+"/>
