@@ -4071,6 +4071,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
+                <token regexp="yes" inflected="yes">pantalla|televisió|televisor|bombeta</token>
+                <marker>
+                    <token>led</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">furgoneta|furgó|furgona|vehicle|cotxe</token>
+                <marker>
+                    <token>càmper</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">mètode|sistema</token>
                 <marker>
                     <token>cangur</token>
@@ -5066,6 +5084,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="V.*"/>
         </rule>
     </rulegroup>
+    <rule id="fer_miques" name="fer miques">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">fer</token>
+            </marker>
+            <token min="0">a</token>
+            <token regexp="yes">estelles|miques|xixines|trossos|peces|pols</token>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
     <rule id="articular" name="articular (infinitiu o adj)">
         <pattern>
             <token postag="V.*" postag_regexp="yes"/>
@@ -6983,6 +7011,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="SP.*"/>
     </rule>
+    <rule id="sobre_preposicio" name="sobre preposició">
+        <antipattern>
+            <token>que</token>
+            <token min="0">no</token>
+            <token>sobre</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token postag="SPS00">sobre<exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/></token>
+            </marker>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="SPS00"/>
+    </rule>
     <rule id="fer_respecte" name="fer/tenir respecte">
         <pattern>
             <token regexp="yes" inflected="yes">mostrar|fer|tenir</token>
@@ -7649,6 +7691,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+    <rule id="adjectiu_inusual" name="inusual com a adjectiu davant de nom">
+        <pattern>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">estanc|semiconductor</token>
+            </marker>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="A.*"/>
     </rule>
     <rulegroup id="AdjInv" name="adjectius invariants només darrere de nom">
         <!-- relacionat amb Grups Nominals. Abans o després? La part nort i la sud-->
@@ -9257,7 +9308,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="via" name="via (preposició)">
         <pattern>
-            <token><exception postag="D.*" postag_regexp="yes"/></token>
+            <token><exception postag="D..FS." postag_regexp="yes"/></token>
             <marker>
                 <token postag="SPS00">via</token>
             </marker>
