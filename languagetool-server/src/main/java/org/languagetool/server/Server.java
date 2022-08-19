@@ -136,8 +136,8 @@ abstract class Server {
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit and timeoutRequestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories per language which contain a Lucene index");
     System.out.println("                                   each with ngram occurrence counts; activates the confusion rule if supported (optional)");
-    System.out.println("                 'word2vecModel' - a directory with word2vec data (optional), see");
-    System.out.println("                  https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec (deprecated)");
+    System.out.println("                 'word2vecModel' - [deprecated] a directory with word2vec data (optional), see");
+    System.out.println("                                   https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
     System.out.println("                 'fasttextModel' - a model file for better language detection (optional), see");
     System.out.println("                                   https://fasttext.cc/docs/en/language-identification.html");
     System.out.println("                 'fasttextBinary' - compiled fasttext executable for language detection (optional), see");
