@@ -25047,15 +25047,73 @@ O namorado dela era um ladrão.
         <example correction='e/ou|e|ou'>Este é um caminho promissor <marker>e ou</marker> um com muitos altos e baixos.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token negate_pos='yes' postag='SENT_START'/>
+          <token>mas</token>
+          <token>porque</token>
+          <example>Isso não ocorreu pela época do ano, mas porque as ações erradas foram tomadas.</example>
+        </antipattern>
+        <antipattern>
+          <token skip='-1'>porque</token>
+          <token>e</token>
+          <token>porque</token>
+          <example>Isso ocorreu porque eles não fizeram o que era necessário e porque não havia ninguém para ajudar.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>por|para</token>
+          <token postag='RN' min='0'/>
+          <token postag='VMN.+' postag_regexp='yes' skip='-1'/>
+          <token>e</token>
+          <token>porque</token>
+          <example>Isso ocorreu por não fazerem o necessário e porque não havia ninguém para ajudar.</example>
+        </antipattern>
+        <antipattern>
+          <token>por</token>
+          <token postag='NC.+' postag_regexp='yes' skip='-1'/>
+          <token>e</token>
+          <token>porque</token>
+          <example>Isso ocorreu por causa dele e porque não havia ninguém para ajudar.</example>
+        </antipattern>
+        <antipattern>
+          <token skip='-1' regexp='yes'>quem|como|quando|onde</token>
+          <token>e</token>
+          <token>porque</token>
+          <example>Quis saber quem ele era e porque não havia ninguém para ajudar.</example>
+        </antipattern>
+        <antipattern>
+          <token>em</token>
+          <token skip='-1'>razão</token>
+          <token>e</token>
+          <token>porque</token>
+          <example>Isso ocorreu em razão disso e porque não havia ninguém para ajudar.</example>
+        </antipattern>
+        <antipattern>
+          <token>pelo</token>
+          <token regexp='yes'>fac?to</token>
+          <token postag='SPS.+' postag_regexp='yes' skip='-1'/>
+          <token>e</token>
+          <token>porque</token>
+          <example>Isso ocorreu pelo fato dele não entrar e porque não havia ninguém para ajudar.</example>
+        </antipattern>
+        <antipattern>
+          <token>devido</token>
+          <token skip='-1' regexp='yes'>[àa]o?s?</token>
+          <token>e</token>
+          <token>porque</token>
+          <example>Isso ocorreu devido a disso e porque não havia ninguém para ajudar.</example>
+        </antipattern>
         <pattern>
-          <token regexp='yes'>&conjuncoes_coordenativas;</token>
+          <token regexp='yes'>&conjuncoes_coordenativas;
+            <exception>ou</exception>
+          </token>
           <token>porque</token>
         </pattern>
-        <message>Possível fragmento. Utilize apenas uma conjunção deste tipo.</message>
+        <message>Possível fragmento. Utilize apenas uma conjunção deste tipo. Se puder substituir por "por qual razão", utilize "por que".</message>
         <suggestion>\1</suggestion>
         <suggestion>\3</suggestion>
         <suggestion>\1, \3</suggestion>
-        <example correction='e|porque|e, porque'>Este é um caminho promissor <marker>e porque</marker> ainda há um grande caminho a percorrer, tem de ser continuado.</example>
+        <suggestion>\1 por que</suggestion>
+        <example correction='e|porque|e, porque|e por que'>Este é um caminho promissor <marker>e porque</marker> ainda há um grande caminho a percorrer, tem de ser continuado.</example>
       </rule>
       <rule>
         <pattern>
@@ -25095,7 +25153,9 @@ O namorado dela era um ladrão.
       </rule>
       <rule>
         <pattern>
-          <token regexp='yes'>&conjuncoes_coordenativas;</token>
+          <token regexp='yes'>&conjuncoes_coordenativas;
+            <exception regexp='yes'>e|nem</exception>
+          </token>
           <token min='0'>,</token>
           <token>por</token>
           <token regexp='yes'>conseguinte|isso</token>
