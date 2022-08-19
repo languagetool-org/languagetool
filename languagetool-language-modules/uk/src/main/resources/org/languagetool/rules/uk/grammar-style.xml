@@ -3627,11 +3627,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 -->
 
-    <!-- ідея цікава, але не має чіткого правила:
+<!-- ідея цікава, але не має чіткого правила:
         http://r2u.org.ua/guides/synyavsky/synaksa_drugoriadni_pary
 
-        <rulegroup name="Родовий додатку після не+дієслово" id="V_ROD_AFTER_NEGATVE_VERB">
-        <rule>
+    <rulegroup name="Родовий додатку після не+дієслово" id="V_ROD_AFTER_NEGATVE_VERB">
+      <rule>
         <pattern>
         <token>не</token>
         <token postag_regexp="yes" postag="verb:.*">
@@ -3655,9 +3655,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>збирайте збори</example>
         <example>мати пускає доньку.</example>
         <example>не світився ліхтар.</example>
-        </rule>
-        </rulegroup>
-    -->
+      </rule>
+    </rulegroup>
+
+    <rule id="PORIVNYANO_Z" name="Порівняно з">
+      <pattern>
+        <marker>
+          <token>порівняно</token>
+          <token regexp="yes">з|із|зі</token>
+        </marker>
+      </pattern>
+      <message>Краще: <suggestion>як (коли) порівняти з</suggestion>, <suggestion>проти</suggestion>, <suggestion>у порівнянні з</suggestion></message>
+      <url>http://yak-my-hovorymo.wikidot.com/porivnyannya-u-porivnyanni-porivnyano-yak-porivnyaty-proty</url>
+      <example correction="Як (коли) порівняти з|Проти|У порівнянні з"><marker>Порівняно з</marker> феодалізмом, капіталізм був кроком уперед.</example>
+      <example correction="Як (коли) порівняти з|Проти|У порівнянні з">**<marker>Порівняно з</marker> аналогічним періодом минулого року.</example>
+    </rule>
+-->
 
     <!--
      // r2u засвідчує такі слова - і в словниках, і в цитатах. Зокрема "приналежний" та інші слова з при- можуть вживатися у високому стилі, для надання урочистості висловленню

@@ -34,7 +34,8 @@ public class UkrainianTest extends LanguageSpecificTest {
     Ukrainian lang = new Ukrainian();
     testDemoText(lang, s,
       Arrays.asList("UK_SIMPLE_REPLACE", "MORFOLOGIK_RULE_UK_UA", "NE_V_SYLAH", "comma_before_but", "WORDS_WITH_DASH",
-              "PORIVNYANO_Z", "MORFOLOGIK_RULE_UK_UA", "SAMYI_WITH_ADJ")
+//              "PORIVNYANO_Z", 
+              "MORFOLOGIK_RULE_UK_UA", "SAMYI_WITH_ADJ")
     );
     runTests(lang);
   }

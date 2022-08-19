@@ -341,10 +341,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <rule id="zakordon" name="Закордон і за кордон">
+      <antipattern>
+        <token>закордон</token>
+        <token min="0" max="2"/>
+        <token inflected="yes" regexp="yes">(до)?помагати|(до)?помогти</token>
+      </antipattern>
       <pattern>
         <token>закордон
           <exception scope="previous" postag_regexp="yes" postag="prep.*|adj:m:v_zna:rinanim.*"/>
-          <exception scope="previous" regexp="yes">[«"„]</exception>
+          <exception scope="previous" regexp="yes">[«"„]|це</exception>
         </token>
       </pattern>
       <message>Можливо ви мали на увазі <suggestion>за кордон</suggestion>?</message>
@@ -352,6 +357,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>взнати про закордон</example>
       <example>взнати «закордон»</example>
       <example>далекий «закордон»</example>
+      <example>закордон нам не допоможе</example>
     </rule>
 
     <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
