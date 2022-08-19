@@ -488,6 +488,35 @@ public class GermanTaggerTest {
     assertTrue(res2.contains("vergären/VER:3:PLU:PRÄ:NON*"));
     assertTrue(res2.contains("vergären/VER:3:PLU:KJ1:NON*"));
     assertTrue(res2.contains("vergären/VER:INF:NON*"));
+
+    List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("unbeglückt"));
+    assertThat(result3.size(), is(1));
+    assertThat(result3.get(0).getReadings().size(), is(2));
+    String res3 = result3.toString();
+    assertTrue(res3.contains("PA2:PRD:GRU:VER"));
+    assertFalse(res3.contains("VER:"));
+
+    List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("erstritten"));
+    assertThat(result4.size(), is(1));
+    assertThat(result4.get(0).getReadings().size(), is(6));
+    String res4 = result4.toString();
+    assertTrue(res4.contains("erstreiten/VER:1:PLU:PRT:NON"));
+    assertTrue(res4.contains("erstreiten/VER:PA2:NON"));
+    assertTrue(res4.contains("erstritten/PA2:PRD:GRU:VER"));
+
+    List<AnalyzedTokenReadings> result5 = tagger.tag(Collections.singletonList("bemessen"));
+    assertThat(result5.size(), is(1));
+    assertThat(result5.get(0).getReadings().size(), is(7));
+    String res5 = result5.toString();
+    assertTrue(res5.contains("bemessen/VER:INF:NON"));
+    assertTrue(res5.contains("bemessen/VER:PA2:NON"));
+    assertTrue(res5.contains("bemessen/PA2:PRD:GRU:VER"));
+
+    List<AnalyzedTokenReadings> result6 = tagger.tag(Collections.singletonList("bemisst"));
+    assertThat(result6.size(), is(1));
+    assertThat(result6.get(0).getReadings().size(), is(7));
+    String res6 = result6.toString();
+    assertFalse(res6.contains("bemessen/PA2:PRD:GRU:VER"));
   }
 
   @Test
