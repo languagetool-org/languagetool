@@ -2,7 +2,8 @@
 
 ## 5.9 (release planned for 2022-09-28)
 
-...
+#### General
+  * The `--word2vecModel` option has been deprecated
 
 
 ## 5.8 (2022-07-01)
