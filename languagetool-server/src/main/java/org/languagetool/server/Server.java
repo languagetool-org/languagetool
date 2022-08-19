@@ -134,7 +134,7 @@ abstract class Server {
     System.out.println("                 'requestLimitInBytes' - maximum aggregated size of requests per requestLimitPeriodInSeconds (optional)");
     System.out.println("                 'timeoutRequestLimit' - maximum number of timeout request (optional)");
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit and timeoutRequestLimit applies (optional)");
-    System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");
+    System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories per language which contain a Lucene index");
     System.out.println("                                   each with ngram occurrence counts; activates the confusion rule if supported (optional)");
     System.out.println("                 'word2vecModel' - a directory with word2vec data (optional), see");
     System.out.println("                  https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
