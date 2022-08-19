@@ -560,7 +560,6 @@ public class English extends Language implements AutoCloseable {
       case "Y_ALL":                     return -4;  // prefer over spelling rules
       case "GIMME":                     return -4;  // prefer over spelling rules
       case "LEMME":                     return -4;  // prefer over spelling rules
-      case "POSSESSIVE_APOSTROPHE":     return -4;  // prefer some agreement rules
       case "EN_GB_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
       case "EN_US_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
       case "HAVE_PART_AGREEMENT":       return -9;  // prefer HYDRA_LEO
@@ -576,6 +575,7 @@ public class English extends Language implements AutoCloseable {
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
+      case "POSSESSIVE_APOSTROPHE":     return -15;  // prefer AI_HYDRA_LEO_APOSTROPHE_S_XS
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
