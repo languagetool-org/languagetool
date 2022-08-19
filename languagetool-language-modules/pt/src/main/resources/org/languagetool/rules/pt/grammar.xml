@@ -41019,14 +41019,15 @@ O namorado dela era um ladrão.
         <example>_CONTEÚDO:ativado</example>
       </antipattern>
       <antipattern>
+        <token regexp='yes' min='0'>&separadores_de_abertura;</token>
         <token regexp='yes'>.*_.*</token>
         <token regexp="yes" spacebefore='no'>:|;</token>
-        <token regexp='yes'>.*_.*</token>
-        <example>custom_block:body_offer_card_fin_consorcio_ps</example>
+        <token regexp='yes' spacebefore='no'>.*_.*</token>
+        <example>[custom_block:body_offer_card_fin_consorcio_ps]</example>
       </antipattern>
       <antipattern>
         <token regexp="yes" spacebefore='no'>:|;</token>
-        <token regexp='yes'>.*_.*</token>
+        <token regexp='yes' spacebefore='no'>.*_.*</token>
         <example>CNPJ/MEI:___________________________</example>
       </antipattern>
       <antipattern>
@@ -41091,7 +41092,9 @@ O namorado dela era um ladrão.
       <pattern>
         <marker>
           <token regexp="yes">:|;
-            <exception postag='SENT_END'/></token>
+            <exception postag='SENT_END'/>
+            <exception regexp='yes'>.,;:&separadores_de_fecho;
+          </token>
           <token spacebefore="no"/>
         </marker>
       </pattern>
