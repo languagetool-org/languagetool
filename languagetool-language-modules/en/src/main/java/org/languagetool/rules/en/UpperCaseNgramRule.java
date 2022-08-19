@@ -481,9 +481,14 @@ public class UpperCaseNgramRule extends Rule {
       csRegex("[A-Z].+"),
       csRegex("[A-Z].+")
     ),
-    Arrays.asList( // PARENTHESES: (4 hrs/wk) Manage all IT affairs / Exercise (Engage in exercises...
-      tokenRegex("\\(|\\)"),
+    Arrays.asList( // PARENTHESES: (4 hrs/wk) Manage all IT affairs
+      token("\\)"),
       csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // PARENTHESES:  "The Abduction" (Alias)
+      token("\\("),
+      csRegex("[A-Z].+"),
+      token("\\)")
     ),
     Arrays.asList( // Arrows
       token("-"),

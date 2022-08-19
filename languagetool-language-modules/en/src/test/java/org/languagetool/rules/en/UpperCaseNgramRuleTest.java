@@ -92,9 +92,7 @@ public class UpperCaseNgramRuleTest {
     assertGood("(Laravel MVC) Implements two distinct working algorithms.");
     assertGood("(Later) Connect different cont.");
 
-    assertGood("$$/month (Includes everything!)");
-    assertGood("- Foot care (Cleaning of feet, wash...");
-    assertGood("- Exercise (Engage in exercises...");
+    assertGood("\"The Abduction\" (Alias), 2002 episode of Alias Very brief bios...");
 
     // Arrows
     assertGood("-> Allowed the civilian government...");
