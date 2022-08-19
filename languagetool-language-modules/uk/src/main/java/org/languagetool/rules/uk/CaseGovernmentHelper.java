@@ -1,6 +1,13 @@
 package org.languagetool.rules.uk;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -23,20 +30,45 @@ public class CaseGovernmentHelper {
     for (String line : lines) {
       String[] parts = line.split(" ");
       String[] vidm = parts[1].split(":");
-      result.put(parts[0], new LinkedHashSet<>(Arrays.asList(vidm)));
+      
+      if( result.containsKey(parts[0]) ) {
+        result.get(parts[0]).addAll(Arrays.asList(vidm));
+      }
+      else {
+        result.put(parts[0], new LinkedHashSet<>(Arrays.asList(vidm)));
+      }
     }
     //        System.err.println("Found case governments: " + result.size());
     return result;
   }
 
   public static boolean hasCaseGovernment(AnalyzedTokenReadings analyzedTokenReadings, String rvCase) {
+    return hasCaseGovernment(analyzedTokenReadings, null, rvCase);
+  }
+  
+  public static boolean hasCaseGovernment(AnalyzedTokenReadings analyzedTokenReadings, Pattern startPosTag, String rvCase) {
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
+      if( token.getPOSTag() == null )
+        continue;
+      if( startPosTag != null && ! startPosTag.matcher(token.getPOSTag()).matches() )
+        continue;
+      
       if( rvCase.equals("v_oru") && PosTagHelper.hasPosTagPart(token, "adjp:pasv") )
         return true;
       
       if( CASE_GOVERNMENT_MAP.containsKey(token.getLemma())
           && CASE_GOVERNMENT_MAP.get(token.getLemma()).contains(rvCase) )
         return true;
+
+      if( token.getPOSTag().startsWith("advp") ) {
+        String vLemma = token.getLemma()
+            .replaceFirst("лячи(с[яь])?", "ити$1")
+            .replaceFirst("(ючи|вши)(с[яь])?", "ти$2");
+        if( CASE_GOVERNMENT_MAP.containsKey(vLemma)
+            && CASE_GOVERNMENT_MAP.get(vLemma).contains(rvCase) )
+          return true;
+      }
+      
     }
     return false;
   }

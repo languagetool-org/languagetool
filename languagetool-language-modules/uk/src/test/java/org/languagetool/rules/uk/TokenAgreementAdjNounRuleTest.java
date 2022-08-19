@@ -48,26 +48,9 @@ public class TokenAgreementAdjNounRuleTest {
     lt = new JLanguageTool(new Ukrainian());
 //    TokenInflectionAgreementRule.DEBUG = true;
   }
-  
+
   @Test
-  public void testRule() throws IOException {
-
-    // correct sentences:
-    assertEmptyMatch("холодний яр");
-    assertEmptyMatch("страшне плацебо");
-    assertEmptyMatch("військової продукції");
-
-    assertEmptyMatch("Ім'я Мандели, дане йому при народженні");
-    assertEmptyMatch("Я не бачив сенсу в тому, щоб виклика́ти свідків і захищатися.");
-    assertEmptyMatch("погоджувальної комісії Інституту");
-    assertEmptyMatch("відштовхнути нового колегу.");
-    assertEmptyMatch("державну зраду.");
-    assertEmptyMatch("(Пізніше Вальтер став першим");
-    assertEmptyMatch("складовою успіху");
-    assertEmptyMatch("про екс-першого віце-спікера.");
-    assertEmptyMatch("Маю лишній квиток і подумав за свого найкращого друга");
-
-
+  public void testRuleTP() throws IOException {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("скрутна справі")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("район імпозантних віл")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("офіційний статистика")).length);
@@ -102,29 +85,6 @@ public class TokenAgreementAdjNounRuleTest {
     assertTrue("Message is wrong: " + matches0[0].getMessage(),
         matches0[0].getMessage().contains("[ч.р.: родовий, знахідний]"));
     assertEquals(Arrays.asList("російських винищувачів", "російського винищувача"), matches0[0].getSuggestedReplacements());
-
-    assertEmptyMatch("Засвідчувана досить часто наукою «гнучкість» — один із коренів\n" + 
-        "паранаукових явищ на кшталт «нової хронології» Фоменка.");
-
-    // skip adv after adjp
-    assertEmptyMatch("прикрита швидко рука");
-    assertHasError("прикрита швидко руку");
-    assertEmptyMatch("надана як раз");
-    assertEmptyMatch("прикрита отруйливо гарячим");
-    assertEmptyMatch("після короткого резюме справи");
-    assertEmptyMatch("білий як полотно");
-    assertHasError("відкинутий набагато років назад"); // should be "на багато"
-    assertEmptyMatch("розділеного вже чверть століття");
-    assertEmptyMatch("розділеного третину століття");
-    assertEmptyMatch("заклопотані чимало людей");
-    assertEmptyMatch("заклопотані дуже обмаль людей");
-//    assertEmptyMatch("З усіх опитаних майже половина відверто");
-    assertEmptyMatch("заданою відносно спостерігача");
-    assertEmptyMatch("опублікований увечері понеділка");
-    
-    assertEmptyMatch("зареєстровані зокрема БЮТівець Микола Булатецький та самовисуванець");
-    
-    // from real examples
     
     // і-и
     assertEquals(1, rule.match(lt.getAnalyzedSentence("під зеківській нуль")).length);
@@ -207,11 +167,6 @@ public class TokenAgreementAdjNounRuleTest {
 //    matches = rule.match(langTool.getAnalyzedSentence("пропонує незламані ураганами сучасності"));
 //    assertEquals(1, matches.length);
 //    assertTrue("Missing message for «не» пишеться окремо", matches[0].getMessage().contains("писати окремо"));
-     
-    // nv no plural
-//    assertHasError("спортивні ЦРУ");
-    assertEmptyMatch("спортивні ЦРУ");
-    assertEmptyMatch("Сумське НПО");
 
     // false :nv
     assertEquals(1, rule.match(lt.getAnalyzedSentence("затверджений народним віче")).length);
@@ -238,12 +193,66 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("вздовж дніпровської вісі")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("ніщо так не зближає приморських партизан")).length);
     //FIXME: FN due to ignoring adj.v_oru + noun.*v_naz/zna
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("що робить її найвищою будівля")).length);
+//    assertEquals(1, rule.match(lt.getAnalyzedSentence("що робить її найвищою будівля")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("як боротьбу сунітської більшість")).length);
     
     assertEquals(1, rule.match(lt.getAnalyzedSentence("найцікавішій час")).length);
     
 //    assertEmptyMatch("Ти, сякий-такий сину!");
+    assertHasError("відкинутий набагато років назад"); // should be "на багато"
+    
+    assertHasError("символічною акцію стало складання");
+    assertHasError("в будь–яким момент");
+    assertHasError("хронічними порушення торговельних угод");
+  }
+  
+  
+  @Test
+  public void testRule() throws IOException {
+
+    // correct sentences:
+    assertEmptyMatch("холодний яр");
+    assertEmptyMatch("страшне плацебо");
+    assertEmptyMatch("військової продукції");
+
+    assertEmptyMatch("Ім'я Мандели, дане йому при народженні");
+    assertEmptyMatch("Я не бачив сенсу в тому, щоб виклика́ти свідків і захищатися.");
+    assertEmptyMatch("погоджувальної комісії Інституту");
+    assertEmptyMatch("відштовхнути нового колегу.");
+    assertEmptyMatch("державну зраду.");
+    assertEmptyMatch("(Пізніше Вальтер став першим");
+    assertEmptyMatch("складовою успіху");
+    assertEmptyMatch("про екс-першого віце-спікера.");
+    assertEmptyMatch("Маю лишній квиток і подумав за свого найкращого друга");
+
+
+    assertEmptyMatch("Засвідчувана досить часто наукою «гнучкість» — один із коренів\n" + 
+        "паранаукових явищ на кшталт «нової хронології» Фоменка.");
+
+    // skip adv after adjp
+    assertEmptyMatch("прикрита швидко рука");
+    assertHasError("прикрита швидко руку");
+    assertEmptyMatch("надана як раз");
+    assertEmptyMatch("прикрита отруйливо гарячим");
+    assertEmptyMatch("після короткого резюме справи");
+    assertEmptyMatch("білий як полотно");
+    assertEmptyMatch("розділеного вже чверть століття");
+    assertEmptyMatch("розділеного третину століття");
+    assertEmptyMatch("заклопотані чимало людей");
+    assertEmptyMatch("заклопотані дуже обмаль людей");
+//    assertEmptyMatch("З усіх опитаних майже половина відверто");
+    assertEmptyMatch("заданою відносно спостерігача");
+    assertEmptyMatch("опублікований увечері понеділка");
+    
+    assertEmptyMatch("зареєстровані зокрема БЮТівець Микола Булатецький та самовисуванець");
+    
+    // from real examples
+    
+     
+    // nv no plural
+//    assertHasError("спортивні ЦРУ");
+    assertEmptyMatch("спортивні ЦРУ");
+    assertEmptyMatch("Сумське НПО");
   }
   
   @Test
@@ -614,6 +623,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("Досі була чинною заборона");
     assertEmptyMatch("Досі була б чинною заборона");
     assertEmptyMatch("Стає очевидною наявність");
+    // стало adv messes it up
+//    assertEmptyMatch("стало незрозумілим повернення");
     assertEmptyMatch("було куди зрозумілішим гасло самостійності");
     assertEmptyMatch("є очевидною війна");
     assertEmptyMatch("була б такою ж суттєвою явка");
@@ -633,7 +644,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("видається цілком стабільною демократія");
     assertEmptyMatch("може бути не ідеальною форма тістечок");
     assertEmptyMatch("не можуть бути толерантними ізраїльтяни");
-    //TODO:
+    //TODO: v_oru + v_oru
 //    assertEmptyMatch("визнано справедливою наставниками обох команд");
 
     
@@ -645,22 +656,39 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("зробить обтяжливим використання");
     assertEmptyMatch("На сьогодні залишається невідомою доля близько 200 людей");
 
+    assertEmptyMatch("виявлено побитою Катю");
+    assertEmptyMatch("лишаючи порожньою клітку");
+    assertEmptyMatch("роблячи жорсткішими правила");
+    // adv
+    assertEmptyMatch("вважає повністю вірною постанову");
+    // conj
+    assertEmptyMatch("визнав протиправним і недійсним внесення");
+    
+    // triggers необхідний + появу (д.в. ч.р від появ)
     assertEmptyMatch("зробило можливою і необхідною появу нового гравця");
     
-    // TODO:  чи має бути «доцільною участь»?
+    // TODO:
+//    assertHasError("нашою територію кокаїн проходить");
+//    assertHasError("будується з просторовою космологічною орієнтацію");
+//    assertHasError("атеїстичною ідеологію не мала перетинатися");
+//    assertHasError("завісивши його потертим пальто");
+//    assertHasError("Європа визнає Голодомор своєю трагедію");
+//    assertHasError("забезпечити визнання недійсним результат");
+//    assertHasError("дайте таким волю");
+//    assertHasError("вважати ж такими Сергія Таруту в «Батьківщині» чи Віктора Медведчука");
+    assertHasError("саме з такою тенденцію стикнулися");
+    
+    assertHasError("був продиктований глибоким розуміння");
+    
+//    assertEmptyMatch("чи має бути «доцільною участь»?");
   
-    //TODO:
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("партія вважає доцільним участь у списку осіб")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("вважають нелегітимними анексію")).length);
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("не залишили байдужими адміністрацію")).length);
-    // ignored by verb + adj:v_oru + noun:v_naz
-//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнають регіональною облради")).length);
-
+    assertHasError("вважають нелегітимними анексію");
+    assertHasError("не залишили байдужими адміністрацію");
     
     // ння + adj:v_oru + noun:v_rod
     assertEmptyMatch("визнання неконституційним закону");
     assertEmptyMatch("визнання недійсним рішення");
-    assertEmptyMatch("через визнання тут шкідливою орієнтацію на народну мову");
+    assertHasError("через визнання тут шкідливою орієнтацію на народну мову");
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("визнання неконституційними закону")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("визнання недійсним рішенню")).length);
@@ -668,13 +696,8 @@ public class TokenAgreementAdjNounRuleTest {
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("визнання неконституційним закон")).length);
     //TODO:
 //  assertEmptyMatch("визнання легітимними президента і прем'єра");        // v_rod??
-
   }
 
-  @Test
-  public void testExceptionsAdv() throws IOException {
-//    assertEmptyMatch("cюди Більше порад");
-  }
   
   @Test
   public void testExceptionsAdj() throws IOException {
@@ -706,10 +729,12 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("найчисленнішими цеховики були саме в Грузії");
     assertEmptyMatch("Дефіцитною торгівля США є");
     assertEmptyMatch("Не менш виснажливою війна є і для ворога");
-    assertEmptyMatch("Так, відносно чеснішими новини, за даними соціологів, стали");
+//    assertEmptyMatch("Так, відносно чеснішими новини, за даними соціологів, стали");
     assertEmptyMatch("Найнижчою частка таких є на Півдні");
+    assertEmptyMatch("розвинутою Україну назвати важко");
+    
     //     ... -verb
-    assertEmptyMatch("то сильнішим інтерес до альтернативної думки");
+//    assertEmptyMatch("то сильнішим інтерес до альтернативної думки");
     assertEmptyMatch("кількість визнаних недійсними бюлетенів");
 
     // adj.v_oru + noun.*v_naz (no case match) (+verb)
@@ -719,6 +744,8 @@ public class TokenAgreementAdjNounRuleTest {
     // adj.v_oru + noun:v_zna (+ verb)
     assertEmptyMatch("Однак безлюдним місто також не назвеш");
     assertEmptyMatch("Вагомим експерти називають той факт");
+    // таким + v_zna
+    assertEmptyMatch("такою ситуацію бачить сам");
     assertEmptyMatch("таким піднесеним президента не бачили давно");
 
     

@@ -20,12 +20,14 @@ public abstract class LemmaHelper {
   public static final List<String> MONTH_LEMMAS = Arrays.asList("січень", "лютий", "березень", "квітень", "травень", "червень", "липень", 
       "серпень", "вересень", "жовтень", "листопад", "грудень");
   public static final List<String> DAYS_OF_WEEK = Arrays.asList("понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя");
-  public static final List<String> TIME_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "день", "тиждень", "місяць",
-      "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "півсторіччя", "тисячоліття", "півтисячоліття");
-  public static final List<String> TIME_PLUS_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "день", "тиждень", "місяць", 
-      "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "тисячеліття",
-      "міліметр", "сантиметр", "метр", "кілометр", "кілограм", "грам", "літр", "тонна",
-      "десяток", "сотня", "тисяча", "відсоток", "пара", "раз");
+  public static final List<String> TIME_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "час", "день", "ніч", "вечір", "тиждень", "місяць", "доба", "мить",
+      "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "півсторіччя", "тисячоліття", "півтисячоліття", "квартал");
+  public static final List<String> TIME_PLUS_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "час", "день", "ніч", "вечір", "тиждень", "місяць", "доба", "мить", 
+      "літо", "зима", "весна", "осінь",
+      "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "тисячеліття", "квартал",
+      "понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя",
+      "міліметр", "сантиметр", "метр", "кілометр", "кілограм", "грам", "літр", "тонна", "миля",
+      "десяток", "сотня", "тисяча", "відсоток", "пара", "раз", "крок");
       //, "раз", - опрацьовуємо окремо);
   public static final List<String> TIME_LEMMAS_SHORT = Arrays.asList("секунда", "хвилина", "година", "рік");
 
@@ -171,9 +173,11 @@ public abstract class LemmaHelper {
           && (token == null || token.matcher(tokens[i].getCleanToken()).matches()) )
         return i;
 
-      if( ! PosTagHelper.hasPosTag(tokens[i], posTagsToIgnore)
-          && ! QUOTES.matcher(tokens[i].getCleanToken()).matches() )
-        break;
+      if( posTagsToIgnore != null ) {
+        if( ! PosTagHelper.hasPosTag(tokens[i], posTagsToIgnore)
+            && ! QUOTES.matcher(tokens[i].getCleanToken()).matches() )
+          break;
+      }
     }
 
     return -1;
