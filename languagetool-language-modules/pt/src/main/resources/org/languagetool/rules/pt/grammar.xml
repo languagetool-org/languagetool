@@ -44998,6 +44998,45 @@ O namorado dela era um ladrão.
   </rulegroup>
 
 
+    <!-- SEMANA QUE VEM próxima semana -->
+    <rulegroup id='QUE_VEM_PROXIMA' name="Simplificar: NC + que + vem → próxim(ao)(s) + NC">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-19 (25-JUL-2022+) -->
+      <!--
+      A licença acaba na sexta-feira da semana que vem. → A licença acaba na sexta-feira da próxima semana.
+      A licença acaba na noite do natal que vem. → A licença acaba na noite do próximo natal.
+      -->
+      <rule>
+        <pattern>
+          <token postag='SPS00:DA.+' postag_regexp='yes'/>
+          <marker>
+            <token postag='NCF.+' postag_regexp='yes'/>
+            <token>que</token>
+            <token>vem</token>
+          </marker>
+          <token postag='V.+|_PUNCT|CC' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion><match no='1' postag='SPS00:DA0(..)0' postag_replace='NC$1000'>próxima</match> \2</suggestion>
+        <example correction="próxima semana">A licença acaba na sexta-feira da <marker>semana que vem</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag='SPS00:DA.+' postag_regexp='yes'/>
+          <marker>
+            <token postag='NCM.+' postag_regexp='yes'/>
+            <token>que</token>
+            <token>vem</token>
+          </marker>
+          <token postag='V.+|_PUNCT|CC' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>	
+        <suggestion><match no='1' postag='SPS00:DA0(..)0' postag_replace='NC$1000'>próximo</match> \2</suggestion>
+        <example correction="próximo natal">A licença acaba na noite do <marker>natal que vem</marker>.</example>
+      </rule>
+    </rulegroup>
+
+
     <!-- FICOU DEMONSTRADO QUE demonstrámos que -->
     <rule id='TESE_PHD_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="Tese Doutoramento: Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" tags="picky">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-13/14 (1-JAN-2022+)      -->
