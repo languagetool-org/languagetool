@@ -20032,6 +20032,32 @@ O namorado dela era um ladrão.
         <example>Meu e-mail: seunomeaqui@servidor.com</example>
       </antipattern>
       <antipattern>
+        <token regexp='yes' skip='-1'>&operadores_matematicos;|\></token>
+        <token postag='_PUNCT' min='0'/>
+        <token postag='SENT_END'/>
+        <example>Outro > Raio do cátion</example>
+        <example>Kc = [H₂O].[CO]</example>
+      </antipattern>
+      <antipattern>
+        <token>Mercado</token>
+        <token>Livre</token>
+        <token>Mercado</token>
+        <token>Pago</token>
+      </antipattern>
+      <antipattern>
+        <token postag="SENT_START" skip='-1'/>
+        <token skip='-1' regexp='yes'>:|&tracos_de_separacao;</token>
+        <token postag="SENT_END"/>
+        <example>CEP: 30.120-060</example>
+        <example>Receita de frango: Fácil e saborosa</example>
+      </antipattern>
+      <antipattern>
+        <token></token>
+        <token spacebefore='no'>.</token>
+        <token spacebefore='no' regexp='yes'>\p{L}+</token>
+        <example>README.md</example>
+      </antipattern>
+      <antipattern>
         <token postag='SENT_START'/>
         <token postag='DP.+' postag_regexp='yes'/>
         <token min="1" max="3" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
@@ -20195,13 +20221,16 @@ O namorado dela era um ladrão.
         </antipattern>
         <antipattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">\p{Lu}\p{Ll}*</token>
+          <token regexp="yes" max='5'>\p{L}*</token>
           <token postag="SENT_END">,</token>
           <example>Oi,</example>
+          <example>Prezado Senhor Luiz Gonzalez Dias,</example>
+          <example>Oi mãe,</example>
           <example>Gabrielly,</example>
           <example>Respeitosamente,</example>
           <example>Cumprimentos,</example>
           <example>Prezados,</example>
+          <example>Olá,</example>
         </antipattern>
         <pattern>
           <token postag="SENT_END">,</token>
@@ -20235,13 +20264,6 @@ O namorado dela era um ladrão.
           <token postag="SENT_START"/>
           <token regexp="yes">&legendas;</token>
           <token regexp="yes">\d[\.\d]*</token>
-        </antipattern>
-        <antipattern>
-          <token postag="SENT_START" skip='-1'/>
-          <token skip='-1' regexp='yes'>:|&tracos_de_separacao;</token>
-          <token postag="SENT_END"/>
-          <example>CEP: 30.120-060</example>
-          <example>Receita de frango: Fácil e saborosa</example>
         </antipattern>
         <antipattern>
           <token regexp='yes' skip='-1'>lista|voo|&nomes_de_instituicoes;|reserva</token>
