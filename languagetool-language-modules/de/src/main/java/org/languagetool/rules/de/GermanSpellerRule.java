@@ -2760,6 +2760,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "gehhrte": return topMatch("geehrte");
       case "gehhrten": return topMatch("geehrten");
       case "gehhrtes": return topMatch("geehrtes");
+      case "zugebenermaßen": return topMatch("zugegebenermaßen");
       case "beispielweise": return topMatch("beispielsweise");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
