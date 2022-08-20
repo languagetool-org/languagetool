@@ -37,6 +37,10 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
     ),
+    asList(  // "Jedes Grad zählt"
+      token("jedes"),
+      token("Grad")
+    ),
     asList(
       token("euer"),
       token("Gnaden")
