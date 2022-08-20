@@ -1246,7 +1246,7 @@
     English, German, and Portuguese.
   * Neural network based rules for confusion pair disambiguation using the
     word2vec model are available for English, German, and Portuguese. The necessary
-    data must be downloaded separately from https://fscs.hhu.de/languagetool/word2vec.tar.gz.
+    data must be downloaded separately from https://languagetool.org/download/word2vec/.
     For details, please see:
     * Code: https://github.com/gulp21/languagetool-neural-network
     * Forum discussion: https://forum.languagetool.org/t/neural-network-rules/2225
