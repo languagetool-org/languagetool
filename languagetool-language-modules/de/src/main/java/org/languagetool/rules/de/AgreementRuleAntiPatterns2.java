@@ -21,7 +21,6 @@ package org.languagetool.rules.de;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
