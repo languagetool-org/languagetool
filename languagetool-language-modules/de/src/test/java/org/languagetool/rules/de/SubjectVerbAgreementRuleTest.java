@@ -465,7 +465,8 @@ public class SubjectVerbAgreementRuleTest {
         "1,5 Pfund ist nicht genug.",  // ugs.
         "1,5 Pfund sind nicht genug.",
         "Hier ist sowohl Anhalten wie Parken verboten.",
-        "Hier sind sowohl Anhalten wie Parken verboten."
+        "Hier sind sowohl Anhalten wie Parken verboten.",
+        "Der Eifer der Männer und Frauen ist enorm."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

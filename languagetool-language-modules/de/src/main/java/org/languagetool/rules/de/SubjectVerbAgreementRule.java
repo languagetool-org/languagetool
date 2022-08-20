@@ -127,7 +127,7 @@ public class SubjectVerbAgreementRule extends Rule {
     Arrays.asList(
       // "All diesen Stadtteilen ist die Nähe zum Hamburger Hafen..."
       token("all"),
-      tokenRegex("den|diesen"),
+      tokenRegex("d(ies)?en"),
       posRegex("SUB:.*PLU.*"),
       token("ist"),
       posRegex("ART:.*"),
@@ -349,6 +349,14 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("sind|w[äa]ren|seid"),
       posRegex("PRO:PER:NOM:PLU.*"),
       posRegex("ADJ:PRD:GRU")
+    ),
+    Arrays.asList( // Der Eifer der Männer und Frauen ist enorm.
+      pos("SUB:NOM:SIN:MAS"),
+      posRegex("ART:...:GEN:PLU:MAS"),
+      posRegex("SUB:GEN:PLU:.+"),
+      pos("KON:NEB"),
+      posRegex("SUB:GEN:PLU:.+"),
+      tokenRegex("ist|war")
     )
   );
 

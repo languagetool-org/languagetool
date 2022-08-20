@@ -493,7 +493,7 @@ class AgreementRuleAntiPatterns2 {
     ),
     asList(
       tokenRegex("Vitamin|Buchstabe"),
-      tokenRegex("D|B|B[1-9]|B12")
+      tokenRegex("D|B[1-9]?|B12")
     ),
     asList( // "Bei uns im Krankenhaus betrifft das Operationssäle."
       new PatternTokenBuilder().token("betreffen").matchInflectedForms().build(),
@@ -591,13 +591,13 @@ class AgreementRuleAntiPatterns2 {
     ),
     asList(
       new PatternTokenBuilder().csToken("meinen").matchInflectedForms().setSkip(3).build(),
-      csRegex("das|dies|dieses"),
+      csRegex("das|dies(es)?"),
       new PatternTokenBuilder().token("wirklich").min(0).build(),
       token("Ernst")
     ),
     asList(
       new PatternTokenBuilder().csToken("nehmen").matchInflectedForms().setSkip(3).build(),
-      csRegex("das|dies|dieses"),
+      csRegex("das|dies(es)?"),
       new PatternTokenBuilder().token("wirklich").min(0).build(),
       token("Ernst")
     ),
