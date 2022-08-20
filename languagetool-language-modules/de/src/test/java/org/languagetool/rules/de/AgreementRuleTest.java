@@ -823,6 +823,7 @@ public class AgreementRuleTest {
   public void testBugFixes() throws IOException {
     assertBad("Denn die einzelnen sehen sich einer sehr verschieden starken Macht des...", "einer sehr verschiedenen starken Macht");  // TODO: not actually a bug
     assertGood("Das passiert nur, wenn der zu Pflegende bereit ist.");
+    assertGood("Peter, iss nicht meine");  // used to cause ArrayIndexOutOfBoundsException
   }
 
   private void assertGood(String s) throws IOException {
