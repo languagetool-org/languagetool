@@ -381,7 +381,7 @@ public class LanguageToolMenus {
    * Class to add a LanguageTool Options item to the context menu
    * since 4.6
    */
-  class ContextMenuInterceptor implements XContextMenuInterceptor{
+  class ContextMenuInterceptor implements XContextMenuInterceptor {
     
     private final static String IGNORE_ONCE_URL = "slot:201";
     private final static String ADD_TO_DICTIONARY_2 = "slot:2";
@@ -533,9 +533,9 @@ public class LanguageToolMenus {
               xContextMenu.insertByIndex(nId, xNewMenuEntry);
               if (debugModeTm) {
                 long runTime = System.currentTimeMillis() - startTime;
-                if (runTime > OfficeTools.TIME_TOLERANCE) {
-                  MessageHandler.printToLogFile("Time to generate context menu: " + runTime);
-                }
+//                if (runTime > OfficeTools.TIME_TOLERANCE) {
+                  MessageHandler.printToLogFile("Time to generate context menu (grammar error): " + runTime);
+//                }
               }
               isRunning = false;
               return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
@@ -574,9 +574,9 @@ public class LanguageToolMenus {
         xContextMenu.insertByIndex(nId, xNewMenuEntry);
         if (debugModeTm) {
           long runTime = System.currentTimeMillis() - startTime;
-          if (runTime > OfficeTools.TIME_TOLERANCE) {
-            MessageHandler.printToLogFile("Time to generate context menu: " + runTime);
-          }
+//          if (runTime > OfficeTools.TIME_TOLERANCE) {
+            MessageHandler.printToLogFile("Time to generate context menu (no grammar error): " + runTime);
+//          }
         }
         isRunning = false;
         return ContextMenuInterceptorAction.EXECUTE_MODIFIED;

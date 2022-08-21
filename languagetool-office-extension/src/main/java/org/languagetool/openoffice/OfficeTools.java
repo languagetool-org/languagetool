@@ -624,7 +624,7 @@ class OfficeTools {
    * Get a boolean value from an Object
    */
   public static boolean getBooleanValue(Object o) {
-    if (o instanceof Boolean) {
+    if (o != null && o instanceof Boolean) {
       return ((Boolean) o).booleanValue();
     }
     return false;

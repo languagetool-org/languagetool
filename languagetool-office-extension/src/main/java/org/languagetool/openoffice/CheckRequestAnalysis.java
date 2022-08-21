@@ -403,7 +403,13 @@ class CheckRequestAnalysis {
     if (debugModeTm) {
       startTime = System.currentTimeMillis();
     }
+    if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+      MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: PROOFINFO_GET_PROOFRESULT: analysis started");
+    }
     if (docType != DocumentType.WRITER && docCache.isEmpty()) {
+      if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+        MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: start docCache.refresh");
+      }
       docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 3);
     }
 
@@ -417,12 +423,24 @@ class CheckRequestAnalysis {
 
     // Initialization 
     docCursor = null;
+    if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+      MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: start setFlatParagraphTools");
+    }
     setFlatParagraphTools(xComponent);
 
+    if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+      MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: test docCache.isEmpty");
+    }
     if (docCache.isEmpty()) {
+      if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+        MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: get DocumentCursorTools");
+      }
       docCursor = new DocumentCursorTools(xComponent);
       docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 4);
-      if (debugMode > 0) {
+      if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+        MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: start docCache.refresh");
+      }
+      if (debugMode > 0 || proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
       }
@@ -442,6 +460,9 @@ class CheckRequestAnalysis {
     }
     
     if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: start getParaFromViewCursorOrDialog");
+      }
       return getParaFromViewCursorOrDialog(chPara, locale, footnotePositions);
     }
     else {
@@ -618,7 +639,7 @@ class CheckRequestAnalysis {
    */
   private int getParaFromViewCursorOrDialog(String chParaWithFootnotes, Locale locale, int[] footnotePositions) {
     // try to get ViewCursor position (proof initiated by mouse click)
-    if (docCache.isEmpty() || isDisposed()) {
+    if (isDisposed() || !docCache.isFinished() || docCache.isEmpty()) {
       return -1;
     }
     long startTime = 0;
