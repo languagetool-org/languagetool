@@ -35,6 +35,8 @@ import com.sun.star.lang.XComponent;
 import com.sun.star.style.XStyleFamiliesSupplier;
 import com.sun.star.text.XFootnote;
 import com.sun.star.text.XFootnotesSupplier;
+import com.sun.star.text.XMarkingAccess;
+import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XEndnotesSupplier;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
@@ -71,6 +73,8 @@ class DocumentCursorTools {
       "FooterTextFirst" 
   };
 
+  private static int isBusy = 0;
+
   private XParagraphCursor xPCursor;
   private XTextCursor xTextCursor;
   private XTextDocument curDoc;
@@ -96,6 +100,7 @@ class DocumentCursorTools {
    */
   @Nullable
   private XTextCursor getCursor(XComponent xComponent) {
+    isBusy++;
     try {
       if (curDoc == null) {
         return null;
@@ -114,6 +119,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
 
@@ -123,6 +130,7 @@ class DocumentCursorTools {
    */
   @Nullable
   private XParagraphCursor getParagraphCursor(XComponent xComponent) {
+    isBusy++;
     try {
       if (xTextCursor == null) {
         return null;
@@ -131,6 +139,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -157,6 +167,7 @@ class DocumentCursorTools {
    * Returns 0 if it fails
    */
   int getNumberOfAllTextParagraphs() {
+    isBusy++;
     try {
       if (xPCursor == null) {
         return 0;
@@ -168,6 +179,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;              // Return 0 as method failed
+    } finally {
+      isBusy--;
     }
   }
 
@@ -242,6 +255,7 @@ class DocumentCursorTools {
    */
   @Nullable
   DocumentText getAllTextParagraphs() {
+    isBusy++;
     try {
       List<String> allParas = new ArrayList<>();
       List<Integer> headingNumbers = new ArrayList<Integer>();
@@ -285,6 +299,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
 
@@ -332,7 +348,7 @@ class DocumentCursorTools {
   /**
    * Print properties to log file for the actual position of cursor
    */
-  void printProperties() {
+  private void printProperties() {
     if (xPCursor == null) {
       MessageHandler.printToLogFile("DocumentCursorTools: Properties: ParagraphCursor == null");
       return;
@@ -383,6 +399,7 @@ class DocumentCursorTools {
    * Returns all paragraphs of all text frames of a document
    */
   public DocumentText getTextOfAllFrames() {
+    isBusy++;
     try {
       List<String> sText = new ArrayList<String>();
       List<Integer> headingNumbers = new ArrayList<Integer>();
@@ -406,6 +423,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -413,6 +432,7 @@ class DocumentCursorTools {
    * Returns all paragraphs of all text frames of a document
    */
   public int getNumberOfAllFrames() {
+    isBusy++;
     try {
       int num = 0;
       if (curDoc != null) {
@@ -428,6 +448,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;           // Return 0 as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -453,6 +475,7 @@ class DocumentCursorTools {
    * Returns all paragraphs of all cells of all tables of a document
    */
   public DocumentText getTextOfAllTables() {
+    isBusy++;
     try {
       List<String> sText = new ArrayList<String>();
       List<Integer> headingNumbers = new ArrayList<Integer>();
@@ -474,6 +497,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -481,6 +506,7 @@ class DocumentCursorTools {
    * Returns the number of paragraphs of all cells of all tables of a document
    */
   public int getNumberOfAllTables() {
+    isBusy++;
     try {
       int num = 0;
       XIndexAccess xTables = getIndexAccessOfAllTables();
@@ -499,6 +525,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;           // Return 0 as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -509,6 +537,7 @@ class DocumentCursorTools {
     List<String> sText = new ArrayList<String>();
     List<Integer> headingNumbers = new ArrayList<Integer>();
     List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>();
+    isBusy++;
     try {
       if (curDoc != null) {
         // Get the XFootnotesSupplier interface of the document
@@ -526,6 +555,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -533,6 +564,7 @@ class DocumentCursorTools {
    * Returns the number of paragraphs of all footnotes of a document
    */
   public int getNumberOfAllFootnotes() {
+    isBusy++;
     try {
       int num = 0;
       if (curDoc != null) {
@@ -550,6 +582,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;           // Return 0 as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -560,6 +594,7 @@ class DocumentCursorTools {
     List<String> sText = new ArrayList<String>();
     List<Integer> headingNumbers = new ArrayList<Integer>();
     List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>();
+    isBusy++;
     try {
       if (curDoc != null) {
         // Get the XEndnotesSupplier interface of the document
@@ -577,6 +612,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -584,6 +621,7 @@ class DocumentCursorTools {
    * Returns number of paragraphs of all endnotes of a document
    */
   public int getNumberOfAllEndnotes() {
+    isBusy++;
     try {
       int num = 0;
       if (curDoc != null) {
@@ -601,6 +639,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;           // Return 0 as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -639,6 +679,7 @@ class DocumentCursorTools {
    * Returns all paragraphs of headers and footers of a document
    */
   public DocumentText getTextOfAllHeadersAndFooters() {
+    isBusy++;
     try {
       List<String> sText = new ArrayList<String>();
       List<Integer> headingNumbers = new ArrayList<Integer>();
@@ -675,6 +716,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
 
@@ -682,6 +725,7 @@ class DocumentCursorTools {
    * Returns the number of paragraphs of headers and footers of a document
    */
   public int getNumberOfAllHeadersAndFooters() {
+    isBusy++;
     try {
       int num = 0;
       List<XPropertySet> xPagePropertySets = getPagePropertySets();
@@ -713,6 +757,8 @@ class DocumentCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return 0;           // Return 0 as method failed
+    } finally {
+      isBusy--;
     }
   }
 
@@ -720,6 +766,7 @@ class DocumentCursorTools {
    * get the paragraph cursor
    */
   public XParagraphCursor getParagraphCursor(TextParagraph textPara) {
+    isBusy++;
     try {
       int type = textPara.type;
       int number = textPara.number;
@@ -818,34 +865,75 @@ class DocumentCursorTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
+    } finally {
+      isBusy--;
     }
     return null;
+  }
+  
+  /** 
+   * remove marks of text paragraph
+   */
+  public void removeMarks(List<TextParagraph> textParas) {
+    isBusy++;
+    try {
+      for (TextParagraph textPara : textParas) {
+        XParagraphCursor cursor = getParagraphCursor(textPara);
+        if (cursor != null) {
+          XMarkingAccess xMarkingAccess = UnoRuntime.queryInterface(XMarkingAccess.class, cursor);
+          if (xMarkingAccess == null) {
+            MessageHandler.printToLogFile("FlatParagraphTools: addMarksToOneParagraph: xMarkingAccess == null");
+          } else {
+            xMarkingAccess.invalidateMarkings(TextMarkupType.PROOFREADING);
+    /*
+            XComponent markComponent = UnoRuntime.queryInterface(XComponent.class, xMarkingAccess);
+            if (markComponent != null) {
+              markComponent.dispose();
+            }
+    */
+          }
+        }
+      }
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
+    } finally {
+      isBusy--;
+    }
   }
   
   /**
    * get positions of deleted characters from a text paragraph
    */
   public List<Integer> getDeletedCharactersOfTextParagraph(TextParagraph textPara) {
-    XParagraphCursor xPCursor = getParagraphCursor(textPara);
-    if (xPCursor == null) {
+    isBusy++;
+    try {
+      XParagraphCursor xPCursor = getParagraphCursor(textPara);
+      if (xPCursor == null) {
+        return null;
+      }
+      xPCursor.gotoStartOfParagraph(false);
+      xPCursor.gotoEndOfParagraph(true);
+      return getDeletedCharacters(xPCursor);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;
+    } finally {
+      isBusy--;
     }
-    xPCursor.gotoStartOfParagraph(false);
-    xPCursor.gotoEndOfParagraph(true);
-    return getDeletedCharacters(xPCursor);
   }
   
   /**
    * is protected character at position in paragraph
    */
   public boolean isProtectedCharacter(TextParagraph textPara, short x) {
-    XParagraphCursor xPCursor = getParagraphCursor(textPara);
-    if (xPCursor == null) {
-      return false;
-    }
-    xPCursor.gotoStartOfParagraph(false);
-    xPCursor.goRight(x, false);
+    isBusy++;
     try {
+      XParagraphCursor xPCursor = getParagraphCursor(textPara);
+      if (xPCursor == null) {
+        return false;
+      }
+      xPCursor.gotoStartOfParagraph(false);
+      xPCursor.goRight(x, false);
       XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
       XTextSection xTextSection = UnoRuntime.queryInterface(XTextSection.class, xParagraphPropertySet.getPropertyValue("TextSection"));
       xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xTextSection);
@@ -854,8 +942,18 @@ class DocumentCursorTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
+    } finally {
+      isBusy--;
     }
     return false;
+  }
+  
+  /**
+   *  Returns the status of cursor tools
+   *  true: If a cursor tool in one or more threads is active
+   */
+  public static boolean isBusy() {
+    return isBusy > 0;
   }
   
   /**

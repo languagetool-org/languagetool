@@ -55,6 +55,8 @@ import com.sun.star.uno.UnoRuntime;
  */
 public class ViewCursorTools {
   
+  private static int isBusy = 0;
+
   private XComponent xComponent;
 
   ViewCursorTools(XComponent xComponent) {
@@ -76,6 +78,7 @@ public class ViewCursorTools {
    */
   @Nullable
   public XTextViewCursor getViewCursor() {
+    isBusy++;
     try {
       XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
       if (xModel == null) {
@@ -94,6 +97,8 @@ public class ViewCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -102,6 +107,7 @@ public class ViewCursorTools {
    * support text, tables, frames, end- and footnotes, header, footers
    */
   private XTextCursor getTextCursorFromViewCursor(boolean getEnd) {
+    isBusy++;
     try {
       XTextViewCursor vCursor = getViewCursor();
       if (vCursor == null) {
@@ -214,6 +220,8 @@ public class ViewCursorTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
     }
     return null;
   }
@@ -239,6 +247,7 @@ public class ViewCursorTools {
    * Returns null if method fails
    */
   XParagraphCursor getParagraphCursorFromViewCursor() {
+    isBusy++;
     try {
       XTextCursor xTextCursor = getTextCursorFromViewCursor(false);
       if (xTextCursor == null) {
@@ -249,6 +258,8 @@ public class ViewCursorTools {
       // Note: throws exception if a graphic element is selected
       //       return: null 
       return null;
+    } finally {
+      isBusy--;
     }
   }
   
@@ -257,6 +268,7 @@ public class ViewCursorTools {
    * Returns a negative value if it fails
    */
   String getViewCursorParagraphText() {
+    isBusy++;
     try {
       XParagraphCursor xParagraphCursor = getParagraphCursorFromViewCursor();
       if (xParagraphCursor == null) {
@@ -268,6 +280,8 @@ public class ViewCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;                          // Return null value as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -275,6 +289,7 @@ public class ViewCursorTools {
    * Replace a part of Paragraph under ViewCursor 
    */
   void setViewCursorParagraphText(int nStart, int nLength, String replace) {
+    isBusy++;
     try {
       XParagraphCursor xParagraphCursor = getParagraphCursorFromViewCursor();
       if (xParagraphCursor == null) {
@@ -288,6 +303,8 @@ public class ViewCursorTools {
       xParagraphCursor.setString(replace);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
     }
   }
   
@@ -338,6 +355,7 @@ public class ViewCursorTools {
    * get the paragraph under the view cursor
    */
   public TextParagraph getViewCursorParagraph() {
+    isBusy++;
     try {
       XTextViewCursor vCursor = getViewCursor();
       if (vCursor == null) {
@@ -522,6 +540,8 @@ public class ViewCursorTools {
     } catch (Throwable t) {
     // Note: exception is thrown if graphic element is selected
     //       return: unknown text paragraph
+    } finally {
+      isBusy--;
     }
     return new TextParagraph(DocumentCache.CURSOR_TYPE_UNKNOWN, -1);
   }
@@ -633,6 +653,7 @@ public class ViewCursorTools {
    * Returns a negative value if it fails
    */
   int getViewCursorCharacter() {
+    isBusy++;
     try {
       XParagraphCursor xParagraphCursor = getParagraphCursorFromViewCursor();
       if (xParagraphCursor == null) {
@@ -644,6 +665,8 @@ public class ViewCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -2;             // Return negative value as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -674,6 +697,7 @@ public class ViewCursorTools {
    * set the view cursor to header or footer paragraph
    */
   public void setViewCursorToHeaderFooter(int xChar, int numPara) {
+    isBusy++;
     try {
       XTextViewCursor vCursor = getViewCursor();
       if (vCursor != null) {
@@ -708,6 +732,8 @@ public class ViewCursorTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
+    } finally {
+      isBusy--;
     }
   }
   
@@ -715,6 +741,7 @@ public class ViewCursorTools {
    * Returns the Index Access to all tables of a document
    */
   public XIndexAccess getIndexAccessOfAllTables() {
+    isBusy++;
     try {
       XTextDocument curDoc = getTextDocument();
       if (curDoc == null) {
@@ -727,6 +754,8 @@ public class ViewCursorTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -734,6 +763,7 @@ public class ViewCursorTools {
    * Set the cursor to a paragraph inside a cell of a table
    */
   public void setViewCursorToParagraphOfTable(int xChar, int numPara) {
+    isBusy++;
     try {
       XTextViewCursor vCursor = getViewCursor();
       if (vCursor != null) {
@@ -756,6 +786,8 @@ public class ViewCursorTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
     }
   }
   
@@ -763,6 +795,7 @@ public class ViewCursorTools {
    * Set the cursor to a paragraph of footnote
    */
   public void setViewCursorToParagraphOfFootnote(int xChar, int numPara) {
+    isBusy++;
     try {
       XTextViewCursor vCursor = getViewCursor();
       if (vCursor != null) {
@@ -785,6 +818,8 @@ public class ViewCursorTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
     }
   }
   
@@ -792,6 +827,7 @@ public class ViewCursorTools {
    * Set the cursor to a paragraph of endnote
    */
   public void setViewCursorToParagraphOfEndnote(int xChar, int numPara) {
+    isBusy++;
     try {
       XTextViewCursor vCursor = getViewCursor();
       if (vCursor != null) {
@@ -814,6 +850,8 @@ public class ViewCursorTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
     }
   }
   
@@ -821,6 +859,7 @@ public class ViewCursorTools {
    * Set the cursor to a paragraph of frame
    */
   public void setViewCursorToParagraphOfFrame(int xChar, int numPara) {
+    isBusy++;
     try {
       XTextViewCursor vCursor = getViewCursor();
       if (vCursor != null) {
@@ -843,6 +882,8 @@ public class ViewCursorTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
     }
   }
   
@@ -850,6 +891,7 @@ public class ViewCursorTools {
    * Set the view cursor to paragraph paraNum 
    */
   public void setDocumentTextViewCursor(int xChar, int paraNum)  {
+    isBusy++;
     try {
       XTextViewCursor vCursor = getViewCursor();
       if (vCursor != null) {
@@ -868,6 +910,8 @@ public class ViewCursorTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
+    } finally {
+      isBusy--;
     }
   }
   
@@ -875,6 +919,7 @@ public class ViewCursorTools {
    * Set view cursor to paragraph paraNum 
    */
   public void setTextViewCursor(int xChar, TextParagraph yPara)  {
+    isBusy++;
     try {
       if (yPara.type == DocumentCache.CURSOR_TYPE_TEXT) {
         setDocumentTextViewCursor(xChar, yPara.number);
@@ -891,10 +936,18 @@ public class ViewCursorTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
+    } finally {
+      isBusy--;
     }
   }
   
+  /**
+   *  Returns the status of view cursor tools
+   *  true: If a cursor tool in one or more threads is active
+   */
+  public static boolean isBusy() {
+    return isBusy > 0;
+  }
   
-
 
 }

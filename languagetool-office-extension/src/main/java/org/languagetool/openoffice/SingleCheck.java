@@ -346,9 +346,11 @@ class SingleCheck {
       FlatParagraphTools flatPara, SwJLanguageTool lt, boolean override) {
     if (!isDisposed() && !mDocHandler.isBackgroundCheckOff() && (!isDialogRequest || isIntern)) {
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
+      List <TextParagraph> changedTextParas = new ArrayList<>();
       for (int i = 0; i < changedParas.size(); i++) {
         List<SentenceErrors> sentencesErrors = getSentencesErrosAsList(changedParas.get(i), lt);
         changedParasMap.put(changedParas.get(i), sentencesErrors);
+        changedTextParas.add(docCache.getNumberOfTextParagraph(changedParas.get(i)));
         if (debugMode > 1) {
           String message = "SingleCheck: remarkChangedParagraphs: Mark errors: Paragraph: " + changedParas.get(i) 
           + "; Number of sentences: " + sentencesErrors.size();
@@ -371,7 +373,8 @@ class SingleCheck {
           }
         }
       }
-      flatPara.markParagraphs(changedParasMap, docCache, override, docCursor);
+      docCursor.removeMarks(changedTextParas);
+      flatPara.markParagraphs(changedParasMap);
     }
   }
   

@@ -593,9 +593,9 @@ public class FlatParagraphTools {
    * else the marks are added to the existing marks
    */
 
-  synchronized public void markParagraphs(Map<Integer, List<SentenceErrors>> changedParas, DocumentCache docCache, boolean override, DocumentCursorTools docCursor) {
+  synchronized public void markParagraphs(Map<Integer, List<SentenceErrors>> changedParas) {
     try {
-      if (changedParas == null || changedParas.isEmpty() || docCache == null || docCursor == null) {
+      if (changedParas == null || changedParas.isEmpty()) {
         return;
       }
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -606,11 +606,6 @@ public class FlatParagraphTools {
         return;
       }
       // treat text cursor separately because of performance reasons for big texts
-      XParagraphCursor textCursor = null;
-      if (override && docCursor != null) {
-        textCursor = docCursor.getParagraphCursor();
-        textCursor.gotoStart(false);
-      }
       XFlatParagraph tmpFlatPara = xFlatPara;
       XFlatParagraph startFlatPara = xFlatPara;
       while (tmpFlatPara != null) {
@@ -620,25 +615,13 @@ public class FlatParagraphTools {
       tmpFlatPara = startFlatPara;
       int num = 0;
       int nMarked = 0;
-      while (tmpFlatPara != null && nMarked < changedParas.size() && num < docCache.size()) {
-        TextParagraph nTextPara = docCache.getNumberOfTextParagraph(num);
-        XParagraphCursor cursor;
-        if (!override || docCursor == null || nTextPara.type == DocumentCache.CURSOR_TYPE_UNKNOWN) {
-          cursor = null;
-        } else if (nTextPara.type == DocumentCache.CURSOR_TYPE_TEXT) {
-          cursor = textCursor;
-        } else {
-          cursor = docCursor.getParagraphCursor(nTextPara);
-        }
+      while (tmpFlatPara != null && nMarked < changedParas.size()) {
         if (changedParas.containsKey(num)) {
-          addMarksToOneParagraph(tmpFlatPara, changedParas.get(num), cursor, override);
+          addMarksToOneParagraph(tmpFlatPara, changedParas.get(num));
           if (debugMode) {
             MessageHandler.printToLogFile("FlatParagraphTools: mark Paragraph: " + num + ", Text: " + tmpFlatPara.getText());
           }
           nMarked++;
-        }
-        if (override && textCursor != null && nTextPara.type == DocumentCache.CURSOR_TYPE_TEXT) {
-          textCursor.gotoNextParagraph(false);
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
         num++;
@@ -665,30 +648,17 @@ public class FlatParagraphTools {
       }
       return;
     }
-    addMarksToOneParagraph(xFlatPara, errorList, null, false);
+    addMarksToOneParagraph(xFlatPara, errorList);
   }
     
   /**
    * add marks to existing marks of a paragraph
    * if override: existing marks will be overridden
    */
-  private void addMarksToOneParagraph(XFlatParagraph flatPara, List<SentenceErrors> errorList, XParagraphCursor cursor, boolean override) {
+  private void addMarksToOneParagraph(XFlatParagraph flatPara, List<SentenceErrors> errorList) {
     boolean isChecked = flatPara.isChecked(TextMarkupType.PROOFREADING);
     if (debugMode) {
-      MessageHandler.printToLogFile("FlatParagraphTools: addMarksToOneParagraph: xMarkingAccess: overrride = " + override + "; cursor " + (cursor == null ? "==" : "!=") + " null"
-          + "; isChecked = " + isChecked);
-    }
-    if (override && cursor != null) {
-      XMarkingAccess xMarkingAccess = UnoRuntime.queryInterface(XMarkingAccess.class, cursor);
-      if (xMarkingAccess == null) {
-        MessageHandler.printToLogFile("FlatParagraphTools: addMarksToOneParagraph: xMarkingAccess == null");
-      } else {
-        xMarkingAccess.invalidateMarkings(TextMarkupType.PROOFREADING);
-        XComponent markComponent = UnoRuntime.queryInterface(XComponent.class, xMarkingAccess);
-        if (markComponent != null) {
-          markComponent.dispose();
-        }
-      }
+      MessageHandler.printToLogFile("FlatParagraphTools: addMarksToOneParagraph: xMarkingAccess: isChecked = " + isChecked);
     }
     for (SentenceErrors errors : errorList) {
       XStringKeyMap props;
@@ -717,10 +687,8 @@ public class FlatParagraphTools {
         flatPara.commitStringMarkup(TextMarkupType.PROOFREADING, pError.aRuleIdentifier, 
             pError.nErrorStart, pError.nErrorLength, props);
       }
-      if (override) {
-        props = flatPara.getMarkupInfoContainer();
-        flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", errors.sentenceStart, errors.sentenceEnd - errors.sentenceStart, props);
-      }
+      props = flatPara.getMarkupInfoContainer();
+      flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", errors.sentenceStart, errors.sentenceEnd - errors.sentenceStart, props);
     }
     if (isChecked) {
       flatPara.setChecked(TextMarkupType.PROOFREADING, true);
