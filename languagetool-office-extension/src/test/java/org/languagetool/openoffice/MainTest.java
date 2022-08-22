@@ -132,8 +132,6 @@ public class MainTest {
     // set document cache of virtual document
     // NOTE: this step has to be done, when all other preparations are done
     document.setDocumentCacheForTests(paragraphs, textParagraphs, footnotes, chapterBegins, locale);
-//  temporarily disabled
-/*    
     for (int i = 0; i < paragraphs.size(); i++) {
       paRes.nStartOfSentencePosition = 0;
       paRes.nBehindEndOfSentencePosition = paragraphs.get(i).length();
@@ -153,11 +151,8 @@ public class MainTest {
         assertTrue(paRes.aErrors[0].aRuleIdentifier.equals("GERMAN_WORD_REPEAT_BEGINNING_RULE"));
       }
     }
-*/
   }
 
-//  temporarily disabled
-/*
   @Test
   public void testCheckMixedDocument() {
     // check a document which includes tables footnotes, headers, etc.
@@ -383,7 +378,7 @@ public class MainTest {
       }
     }
   }
-*/
+
 //  @Ignore("see https://github.com/languagetool-org/languagetool/issues/4064")
   @Test
   public void testVariants() {
