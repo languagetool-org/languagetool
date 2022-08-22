@@ -20894,39 +20894,125 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
-        <rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" >
+        <rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" > <!-- TODO:  Later tag as learner rule -->
             <rule>
-                <antipattern><token>nummer</token><token regexp="yes">[0-9]+</token></antipattern>
-                <antipattern><token regexp="yes">het|dit|dat</token><token postag="WKW:TGW:INF"/><token postag="WKW:VLT:1EP"/></antipattern>
-                <antipattern><token>code</token><token regexp="yes">rood|geel|oranje|zwart</token></antipattern>
-                <antipattern><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
-                <antipattern><token>het</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
-                <antipattern><token>het</token><token>koning</token><token>Boudewijnstadion</token></antipattern>
-                <antipattern><token regexp="yes">&weekdays;</token><token>thuis</token></antipattern>
-                <antipattern><token>staat</token><token>zwart</token></antipattern>
-                <antipattern><token>keer</token><token>extra</token></antipattern>
-                <antipattern><token>mensen</token><token>thuis</token></antipattern>
-                <antipattern><token postag="GET.*" postag_regexp="yes"/><token postag="ZNW.*HET" postag_regexp="yes"/></antipattern>
-                <antipattern><token regexp="yes">het|dit|dat</token><token/><token/><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
-                <antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="ENM.*"/><token regexp="yes">[A-Z].*</token></antipattern>
-                <antipattern><token regexp="yes">.*'s$</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
-                <antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
-                <antipattern><token regexp="yes">het|dit|dat</token><token postag_regexp="yes" postag=".*MRV.*"/><token postag_regexp="yes" postag="BNW.*ONV"/></antipattern>
-                <antipattern><token>dat</token><token postag="ZNW.*" postag_regexp="yes"/><token postag="ZNW.*" postag_regexp="yes"/><token postag="WKW.*" postag_regexp="yes"/></antipattern>
-                <antipattern><token>formule</token><token regexp="yes">[12E]-[a-z].*</token></antipattern>
-
-                <pattern>
+                <antipattern>
+                    <token>nummer</token>
+                    <token regexp="yes">[0-9]+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">het|dit|dat</token>
+                    <token postag="WKW:TGW:INF"/>
+                    <token postag="WKW:VLT:1EP"/>
+                </antipattern>
+                <antipattern>
+                    <token>code</token>
+                    <token regexp="yes">rood|geel|oranje|zwart</token>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token>koning</token>
+                    <token>Boudewijnstadion</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>thuis</token>
+                </antipattern>
+                <antipattern>
+                    <token>staat</token>
+                    <token>zwart</token>
+                </antipattern>
+                <antipattern>
+                    <token>keer</token>
+                    <token>extra</token>
+                </antipattern>
+                <antipattern>
+                    <token>mensen</token>
+                    <token>thuis</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="GET.*" postag_regexp="yes"/>
+                    <token postag="ZNW.*HET" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">het|dit|dat</token>
+                    <token/>
+                    <token/>
+                    <token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">het|dit|dat</token>
+                    <token postag_regexp="yes" postag="ENM.*"/>
+                    <token regexp="yes">[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">.*'s$</token>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">het|dit|dat</token>
+                    <token postag_regexp="yes" postag="BNW.*"/>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">het|dit|dat</token>
+                    <token postag_regexp="yes" postag=".*MRV.*"/>
+                    <token postag_regexp="yes" postag="BNW.*ONV"/>
+                </antipattern>
+                <antipattern>
+                    <token>dat</token>
+                    <token postag="ZNW.*" postag_regexp="yes"/>
+                    <token postag="WKW.*" postag_regexp="yes"/>
+                    <token postag="ZNW.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>formule</token>
+                    <token regexp="yes">[12E]-[a-z].*</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">het|dit</token>
+                    <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ZNW:.*:DE_">[A-Z]{3,4}</token>
+                    <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond</exception><exception postag="WKW:TGW:INF"/></token>
+                </antipattern>
+                <pattern>
                     <marker>
+                        <token regexp="yes">het|dit</token>
                         <token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro|moet</exception><exception postag_regexp="yes" postag=".*ONV"/></token>
                         <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond</exception><exception postag="WKW:TGW:INF"/></token>
                     </marker>
                 </pattern>
+                <!-- Temporarily disabled to test user adoption with changed suggestions:
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
-                <message>\2 is een 'de'-woord, maar \3 een het-woord. Het kan dus zijn dat u een spatie te veel hebt gezet.</message>
-                <suggestion>\2\3</suggestion>
-                <example correction="bepalingengedoe">Ik zie het <marker>bepalingen gedoe</marker>.</example>
+                -->
+                <message>\2 is een 'de'-woord, maar \3 een 'het'-woord. U kunt het best de spatie verwijderen als het een begrip is of gewoon het lidwoord veranderen.</message>
+                <suggestion>\1 \2\3</suggestion>
+                <suggestion>de \2 \3</suggestion>
+                <suggestion>deze \2 \3</suggestion>
+                <example correction="het bepalingengedoe|de bepalingen gedoe|deze bepalingen gedoe">Ik zie <marker>het bepalingen gedoe</marker>.</example>
                 <example>Ik zong door en het leek net of het niet ging.</example>
+                <example>In dit geval had het KNVB gelijk met zijn beslissing.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">het|dit</token>
+                    <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ZNW:.*:DE_">[A-Z]{3,4}</token>
+                    <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond</exception><exception postag="WKW:TGW:INF"/></token>
+                </pattern>
+                <message>Het acroniem \2 is een 'de'-woord, maar \3 een 'het'-woord. U kunt het best de delen van het begrip aaneen schrijven of het lidwoord veranderen.</message>
+                <suggestion>\1 \2-\3</suggestion>
+                <suggestion>de \2 \3</suggestion>
+                <suggestion>deze \2 \3</suggestion>
+                <example correction="dit KNVB-beleid|de KNVB beleid|deze KNVB beleid">Er staat al weer iets over <marker>dit KNVB beleid</marker> in de krant.</example>
+                <example correction="het KNVB-gelijk|de KNVB gelijk|deze KNVB gelijk">In dit geval had <marker>het KNVB gelijk</marker> met zijn beslissing.</example>
             </rule>
         </rulegroup>
         <!-- lijkt mooie regel, maar gaat te vaak fout door het gebruik als voegwoord
