@@ -7864,6 +7864,14 @@ O namorado dela era um ladrão.
           <token regexp='yes'>&pronomes_retos;</token>
           <example>Quem paga todas as contas sou eu.</example>
         </antipattern>
+        <antipattern>
+          <token regexp='yes'>[,;]</token>
+          <token postag='DI..P.+' postag_regexp='yes'/>
+          <token postag='(?:N..|A...)P.+' postag_regexp='yes'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
+          <example>Sim meu amigo, algumas vezes não conseguimos escutar.</example>
+        </antipattern>
         <pattern>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
@@ -8119,20 +8127,48 @@ O namorado dela era um ladrão.
         <antipattern>
           <token regexp='yes'>à|ao|da|do|de</token>
           <token regexp='yes'>tua|teu|sua|seu|vossa|vosso|nossa|nosso|minha|meu</token>
-          <token postag='AQ0[CFM]S0' postag_regexp='yes'/>
-          <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes'/>
-          <token postag='VMIF[12]S0|VMIF1[SP]0' postag_regexp='yes'/>
+          <token postag='NC[CFM]S000|AQ0[CFM]S0' postag_regexp='yes' max='3'/>
+          <token postag='VMI[FS][12]S0|VMIF1[SP]0' postag_regexp='yes'/>
+          <example>Ao longo da minha jornada acadêmica pude estagiar em duas empresas.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2020-07-22 (2-JUL-2020+) *END* -->
         <!-- MARCOAGPINTO 2020-08-04 + 2020-08-05 (2-JUL-2020+) *START* -->
         <!-- "Ele e o seu irmão foram castrados." -->
         <!-- "Ele e a sua irmã foram castrados." -->
         <antipattern>
-          <token regexp='yes'>ao|e|com|contra|da|de|do|como|nem|para|toda|sobre</token>
+          <token regexp='yes'>ao|e|com|contra|da|de|do|como|nem|para|toda|sobre|por|pel[oa]s?</token>
+          <token min='0' postag='VMN.+' postag_regexp='yes'/>
           <token min="0" max="1" regexp='yes'>as?|os?</token>
-          <token regexp='yes'>seus?|suas?|teus?|tuas?|vossos?|vossas?|nossos?|nossas?</token>
+          <token min='0' postag='DI.+|DP.+' postag_regexp='yes'/>
+          <token min='0' postag='AO.+' postag_regexp='yes'/>
+          <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' max ='2' postag_regexp='yes'/>
+          <token postag='R.+' min='0' max='2' postag_regexp='yes'/>
+          <token postag='VMI[SMCPI][13][SP]0|VMM.+' postag_regexp='yes'/>
+          <example>E sobre toda a carne derramerei o meu espírito</example>
+          <example>você e o moço ali não estavam muito bem né?</example>
+          <example>a política socioeconômica e pouco apoio familiar estão interligadas</example>
+          <example>para acompanhar minha antiga amiga não queiramos vê-la em situações ruins</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SENT_START|VMN.+' postag_regexp='yes'/>
+          <token regexp='yes'>n[oa]s?</token>
+          <token min='0' postag='DI.+|DP.+' postag_regexp='yes'/>
+          <token min='0' postag='AO.+' postag_regexp='yes'/>
           <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
-          <token postag='VMI[SM]3P0' postag_regexp='yes'/>
+          <token postag='R.+' min='0' max='2' postag_regexp='yes'/>
+          <token postag='VMI[SMCPI][13][SP]0' postag_regexp='yes'/>
+          <example>No meu segundo ano tive que me mudar</example>
+          <example>e se atirar no meu estômago ainda tenho chance de sobreviver</example>
+        </antipattern>
+        <antipattern>
+          <token inflected='yes'>visar</token>
+          <token max="1" regexp='yes'>as?|os?</token>
+          <token min='0' postag='DI.+|DP.+' postag_regexp='yes'/>
+          <token min='0' postag='AO.+' postag_regexp='yes'/>
+          <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+          <token postag='RG' min='0'/>
+          <token postag='VMI[SMCPI][13][SP]0' postag_regexp='yes'/>
+          <example>Aqueles que visam o primor levam crianças</example>
         </antipattern>
         <!-- "A noiva e o noivo começaram a se questionar se deveriam." -->
         <antipattern>
@@ -8375,6 +8411,8 @@ O namorado dela era um ladrão.
               <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/></token>
             <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'>
               <exception postag='V.[CIS].3S.' postag_regexp='yes'/>
+              <exception postag='AQ.+' postag_regexp='yes'/>
+              <exception regexp='yes'>\p{Lu}+</exception>
               <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
           </marker>
         </pattern>
