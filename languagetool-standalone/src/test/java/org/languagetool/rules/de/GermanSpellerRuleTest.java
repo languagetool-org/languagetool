@@ -46,12 +46,24 @@ public class GermanSpellerRuleTest {
     assertThat(matches1.length, is(0));
     RuleMatch[] matches2 = rule1.match(lt.getAnalyzedSentence("But this is English."));
     assertThat(matches2.length, is(4));
-    assertNull(matches2[0].getErrorLimitLang());
-    assertNull(matches2[1].getErrorLimitLang());
-    assertThat(matches2[2].getErrorLimitLang(), is("en"));
+    boolean match2Found = false;
+    for (RuleMatch match : matches2) {
+      if (match.getErrorLimitLang() != null && match.getErrorLimitLang().equals("en")) {
+        match2Found = true;
+        break;
+      }
+    }
+    assertTrue(match2Found);
     RuleMatch[] matches3 = rule1.match(lt.getAnalyzedSentence("Und er sagte, this is a good test."));
     assertThat(matches3.length, is(4));
-    assertNull(matches3[3].getErrorLimitLang());
+    boolean match3Found = false;
+    for (RuleMatch match : matches3) {
+      if (match.getErrorLimitLang() != null && match.getErrorLimitLang().equals("en")) {
+        match3Found = true;
+        break;
+      }
+    }
+    assertFalse(match3Found);
   }
 
   @Test
