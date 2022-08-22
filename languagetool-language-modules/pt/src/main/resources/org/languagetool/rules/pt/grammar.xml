@@ -17064,6 +17064,7 @@ O namorado dela era um ladrão.
         </antipattern>
       <rule>
         <pattern>
+          <token negate_pos='yes' postag='VMN.+' postag_regexp='yes'/>
           <token postag='V.+' postag_regexp='yes'>
             <exception inflected='yes' regexp='yes'>ser|achar|saber|contar|aceitar</exception>
             <exception postag_regexp='yes' postag='NC.+|AQ0.+|VMP.+|VMM.+'/>
@@ -17106,6 +17107,7 @@ O namorado dela era um ladrão.
           <token postag='V.+' postag_regexp='yes'>
             <exception inflected='yes' regexp='yes'>ser|achar|saber|contar|aceitar</exception>
             <exception postag_regexp='yes' postag='NC.+|AQ0.+|VMP.+'/>
+            <exception postag='VMN.+' postag_regexp='yes'/>
           </token>
           <marker>
             <token>que</token>
@@ -17175,7 +17177,7 @@ O namorado dela era um ladrão.
           <example>- Que é isto?</example>
         </antipattern>
         <antipattern>
-          <token regexp='yes'>&vocativos;</token>
+          <token regexp='yes'>&vocativos;|&pronomes_retos;</token>
           <token>,</token>
           <token>que</token>
           <token regexp="yes">é|são</token>
