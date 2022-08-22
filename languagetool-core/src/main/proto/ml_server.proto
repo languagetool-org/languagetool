@@ -11,6 +11,24 @@ message AnalyzeRequest {
 
 message ProcessingOptions {
     string language = 1;
+    bool tempOff = 2;
+    enum Level {
+        picky = 0;
+        academic = 1;
+        clarity = 2;
+        professional = 3;
+        creative = 4;
+        customer = 5;
+        jobapp = 6;
+        objective = 7;
+        elegant = 8;
+        defaultLevel = 9;
+    }
+    Level level = 3;
+    bool premium = 4;
+    bool enabledOnly = 5;
+    repeated string enabledRules = 6;
+    repeated string disabledRules = 7;
 }
 
 message AnalyzeResponse {

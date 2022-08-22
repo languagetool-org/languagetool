@@ -8,11 +8,7 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Premium;
-import org.languagetool.Tag;
+import org.languagetool.*;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.rules.ml.MLServerProto.Match;
@@ -220,6 +216,20 @@ public final class GRPCUtils
       sb.setConfidence(s.getConfidence());
     }
     return sb;
+  }
+
+  public static JLanguageTool.Level fromGRPC(MLServerProto.ProcessingOptions.Level l) {
+    if (l.equals(MLServerProto.ProcessingOptions.Level.defaultLevel)) {
+      return JLanguageTool.Level.DEFAULT;
+    }
+    return JLanguageTool.Level.valueOf(l.name().toUpperCase());
+  }
+
+  public static MLServerProto.ProcessingOptions.Level toGRPC(JLanguageTool.Level level) {
+    if (level.equals(JLanguageTool.Level.DEFAULT)) {
+      return MLServerProto.ProcessingOptions.Level.defaultLevel;
+    }
+    return MLServerProto.ProcessingOptions.Level.valueOf(level.name().toLowerCase());
   }
 
 }
