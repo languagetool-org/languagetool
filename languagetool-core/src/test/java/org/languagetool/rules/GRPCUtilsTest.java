@@ -9,9 +9,22 @@ import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Demo;
+import org.languagetool.rules.ml.MLServerProto;
 
 public class GRPCUtilsTest
 {
+
+  @Test
+  public void testLevels() {
+    for (JLanguageTool.Level l : JLanguageTool.Level.values()) {
+      GRPCUtils.toGRPC(l);
+    }
+    for (MLServerProto.ProcessingOptions.Level l : MLServerProto.ProcessingOptions.Level.values()) {
+      if (!l.equals(MLServerProto.ProcessingOptions.Level.UNRECOGNIZED)) {
+        GRPCUtils.fromGRPC(l);
+      }
+    }
+  }
 
   @Test
   public void testURLFromRule() throws IOException {

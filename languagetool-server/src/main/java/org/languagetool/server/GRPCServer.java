@@ -1,19 +1,16 @@
 package org.languagetool.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import org.languagetool.Experimental;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.CheckResults;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.rules.GRPCUtils;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ml.MLServerProto;
 import org.languagetool.rules.ml.MLServerProto.AnalyzeResponse;
 import org.languagetool.rules.ml.MLServerProto.ProcessResponse;
 import org.languagetool.rules.ml.MLServerProto.ProcessingOptions;
@@ -29,15 +26,23 @@ public class GRPCServer extends ProcessingServerImplBase
 {
   private PipelinePool pool;
   private UserConfig userConfig;
+  private GlobalConfig globalConfig;
 
   public GRPCServer(HTTPServerConfig serverConfig) {
     pool = new PipelinePool(serverConfig, null, false);
     userConfig = new UserConfig();
+    globalConfig = new GlobalConfig();
   }
 
   private PipelineSettings buildSettings(ProcessingOptions options) {
     Language lang = Languages.getLanguageForShortCode(options.getLanguage());
-    return new PipelineSettings(lang, userConfig);
+    JLanguageTool.Level level = GRPCUtils.fromGRPC(options.getLevel());
+    List<String> enabled = options.getEnabledRulesList().stream().collect(Collectors.toList());
+    List<String> disabled = options.getDisabledRulesList().stream().collect(Collectors.toList());
+    TextChecker.QueryParams params = new TextChecker.QueryParams(Collections.emptyList(), enabled, disabled,
+      Collections.emptyList(), Collections.emptyList(), options.getEnabledOnly(), true, false,
+      false, options.getPremium(), options.getTempOff(), JLanguageTool.Mode.ALL, level, null);
+    return new PipelineSettings(lang, null, params, globalConfig, userConfig);
   }
 
   /**

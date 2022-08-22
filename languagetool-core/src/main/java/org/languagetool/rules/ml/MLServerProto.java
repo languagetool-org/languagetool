@@ -808,6 +808,85 @@ public final class MLServerProto {
      */
     com.google.protobuf.ByteString
         getLanguageBytes();
+
+    /**
+     * <code>bool tempOff = 2;</code>
+     * @return The tempOff.
+     */
+    boolean getTempOff();
+
+    /**
+     * <code>.lt_ml_server.ProcessingOptions.Level level = 3;</code>
+     * @return The enum numeric value on the wire for level.
+     */
+    int getLevelValue();
+    /**
+     * <code>.lt_ml_server.ProcessingOptions.Level level = 3;</code>
+     * @return The level.
+     */
+    org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level getLevel();
+
+    /**
+     * <code>bool premium = 4;</code>
+     * @return The premium.
+     */
+    boolean getPremium();
+
+    /**
+     * <code>bool enabledOnly = 5;</code>
+     * @return The enabledOnly.
+     */
+    boolean getEnabledOnly();
+
+    /**
+     * <code>repeated string enabledRules = 6;</code>
+     * @return A list containing the enabledRules.
+     */
+    java.util.List<java.lang.String>
+        getEnabledRulesList();
+    /**
+     * <code>repeated string enabledRules = 6;</code>
+     * @return The count of enabledRules.
+     */
+    int getEnabledRulesCount();
+    /**
+     * <code>repeated string enabledRules = 6;</code>
+     * @param index The index of the element to return.
+     * @return The enabledRules at the given index.
+     */
+    java.lang.String getEnabledRules(int index);
+    /**
+     * <code>repeated string enabledRules = 6;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the enabledRules at the given index.
+     */
+    com.google.protobuf.ByteString
+        getEnabledRulesBytes(int index);
+
+    /**
+     * <code>repeated string disabledRules = 7;</code>
+     * @return A list containing the disabledRules.
+     */
+    java.util.List<java.lang.String>
+        getDisabledRulesList();
+    /**
+     * <code>repeated string disabledRules = 7;</code>
+     * @return The count of disabledRules.
+     */
+    int getDisabledRulesCount();
+    /**
+     * <code>repeated string disabledRules = 7;</code>
+     * @param index The index of the element to return.
+     * @return The disabledRules at the given index.
+     */
+    java.lang.String getDisabledRules(int index);
+    /**
+     * <code>repeated string disabledRules = 7;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the disabledRules at the given index.
+     */
+    com.google.protobuf.ByteString
+        getDisabledRulesBytes(int index);
   }
   /**
    * Protobuf type {@code lt_ml_server.ProcessingOptions}
@@ -823,6 +902,9 @@ public final class MLServerProto {
     }
     private ProcessingOptions() {
       language_ = "";
+      level_ = 0;
+      enabledRules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      disabledRules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -845,6 +927,7 @@ public final class MLServerProto {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -859,6 +942,45 @@ public final class MLServerProto {
               java.lang.String s = input.readStringRequireUtf8();
 
               language_ = s;
+              break;
+            }
+            case 16: {
+
+              tempOff_ = input.readBool();
+              break;
+            }
+            case 24: {
+              int rawValue = input.readEnum();
+
+              level_ = rawValue;
+              break;
+            }
+            case 32: {
+
+              premium_ = input.readBool();
+              break;
+            }
+            case 40: {
+
+              enabledOnly_ = input.readBool();
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                enabledRules_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              enabledRules_.add(s);
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                disabledRules_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              disabledRules_.add(s);
               break;
             }
             default: {
@@ -876,6 +998,12 @@ public final class MLServerProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          enabledRules_ = enabledRules_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          disabledRules_ = disabledRules_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -891,6 +1019,186 @@ public final class MLServerProto {
       return org.languagetool.rules.ml.MLServerProto.internal_static_lt_ml_server_ProcessingOptions_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.languagetool.rules.ml.MLServerProto.ProcessingOptions.class, org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code lt_ml_server.ProcessingOptions.Level}
+     */
+    public enum Level
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>picky = 0;</code>
+       */
+      picky(0),
+      /**
+       * <code>academic = 1;</code>
+       */
+      academic(1),
+      /**
+       * <code>clarity = 2;</code>
+       */
+      clarity(2),
+      /**
+       * <code>professional = 3;</code>
+       */
+      professional(3),
+      /**
+       * <code>creative = 4;</code>
+       */
+      creative(4),
+      /**
+       * <code>customer = 5;</code>
+       */
+      customer(5),
+      /**
+       * <code>jobapp = 6;</code>
+       */
+      jobapp(6),
+      /**
+       * <code>objective = 7;</code>
+       */
+      objective(7),
+      /**
+       * <code>elegant = 8;</code>
+       */
+      elegant(8),
+      /**
+       * <code>defaultLevel = 9;</code>
+       */
+      defaultLevel(9),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>picky = 0;</code>
+       */
+      public static final int picky_VALUE = 0;
+      /**
+       * <code>academic = 1;</code>
+       */
+      public static final int academic_VALUE = 1;
+      /**
+       * <code>clarity = 2;</code>
+       */
+      public static final int clarity_VALUE = 2;
+      /**
+       * <code>professional = 3;</code>
+       */
+      public static final int professional_VALUE = 3;
+      /**
+       * <code>creative = 4;</code>
+       */
+      public static final int creative_VALUE = 4;
+      /**
+       * <code>customer = 5;</code>
+       */
+      public static final int customer_VALUE = 5;
+      /**
+       * <code>jobapp = 6;</code>
+       */
+      public static final int jobapp_VALUE = 6;
+      /**
+       * <code>objective = 7;</code>
+       */
+      public static final int objective_VALUE = 7;
+      /**
+       * <code>elegant = 8;</code>
+       */
+      public static final int elegant_VALUE = 8;
+      /**
+       * <code>defaultLevel = 9;</code>
+       */
+      public static final int defaultLevel_VALUE = 9;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Level valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static Level forNumber(int value) {
+        switch (value) {
+          case 0: return picky;
+          case 1: return academic;
+          case 2: return clarity;
+          case 3: return professional;
+          case 4: return creative;
+          case 5: return customer;
+          case 6: return jobapp;
+          case 7: return objective;
+          case 8: return elegant;
+          case 9: return defaultLevel;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Level>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Level> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Level>() {
+              public Level findValueByNumber(int number) {
+                return Level.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return org.languagetool.rules.ml.MLServerProto.ProcessingOptions.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Level[] VALUES = values();
+
+      public static Level valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Level(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:lt_ml_server.ProcessingOptions.Level)
     }
 
     public static final int LANGUAGE_FIELD_NUMBER = 1;
@@ -931,6 +1239,128 @@ public final class MLServerProto {
       }
     }
 
+    public static final int TEMPOFF_FIELD_NUMBER = 2;
+    private boolean tempOff_;
+    /**
+     * <code>bool tempOff = 2;</code>
+     * @return The tempOff.
+     */
+    @java.lang.Override
+    public boolean getTempOff() {
+      return tempOff_;
+    }
+
+    public static final int LEVEL_FIELD_NUMBER = 3;
+    private int level_;
+    /**
+     * <code>.lt_ml_server.ProcessingOptions.Level level = 3;</code>
+     * @return The enum numeric value on the wire for level.
+     */
+    @java.lang.Override public int getLevelValue() {
+      return level_;
+    }
+    /**
+     * <code>.lt_ml_server.ProcessingOptions.Level level = 3;</code>
+     * @return The level.
+     */
+    @java.lang.Override public org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level getLevel() {
+      @SuppressWarnings("deprecation")
+      org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level result = org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level.valueOf(level_);
+      return result == null ? org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level.UNRECOGNIZED : result;
+    }
+
+    public static final int PREMIUM_FIELD_NUMBER = 4;
+    private boolean premium_;
+    /**
+     * <code>bool premium = 4;</code>
+     * @return The premium.
+     */
+    @java.lang.Override
+    public boolean getPremium() {
+      return premium_;
+    }
+
+    public static final int ENABLEDONLY_FIELD_NUMBER = 5;
+    private boolean enabledOnly_;
+    /**
+     * <code>bool enabledOnly = 5;</code>
+     * @return The enabledOnly.
+     */
+    @java.lang.Override
+    public boolean getEnabledOnly() {
+      return enabledOnly_;
+    }
+
+    public static final int ENABLEDRULES_FIELD_NUMBER = 6;
+    private com.google.protobuf.LazyStringList enabledRules_;
+    /**
+     * <code>repeated string enabledRules = 6;</code>
+     * @return A list containing the enabledRules.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getEnabledRulesList() {
+      return enabledRules_;
+    }
+    /**
+     * <code>repeated string enabledRules = 6;</code>
+     * @return The count of enabledRules.
+     */
+    public int getEnabledRulesCount() {
+      return enabledRules_.size();
+    }
+    /**
+     * <code>repeated string enabledRules = 6;</code>
+     * @param index The index of the element to return.
+     * @return The enabledRules at the given index.
+     */
+    public java.lang.String getEnabledRules(int index) {
+      return enabledRules_.get(index);
+    }
+    /**
+     * <code>repeated string enabledRules = 6;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the enabledRules at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getEnabledRulesBytes(int index) {
+      return enabledRules_.getByteString(index);
+    }
+
+    public static final int DISABLEDRULES_FIELD_NUMBER = 7;
+    private com.google.protobuf.LazyStringList disabledRules_;
+    /**
+     * <code>repeated string disabledRules = 7;</code>
+     * @return A list containing the disabledRules.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getDisabledRulesList() {
+      return disabledRules_;
+    }
+    /**
+     * <code>repeated string disabledRules = 7;</code>
+     * @return The count of disabledRules.
+     */
+    public int getDisabledRulesCount() {
+      return disabledRules_.size();
+    }
+    /**
+     * <code>repeated string disabledRules = 7;</code>
+     * @param index The index of the element to return.
+     * @return The disabledRules at the given index.
+     */
+    public java.lang.String getDisabledRules(int index) {
+      return disabledRules_.get(index);
+    }
+    /**
+     * <code>repeated string disabledRules = 7;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the disabledRules at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getDisabledRulesBytes(int index) {
+      return disabledRules_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -948,6 +1378,24 @@ public final class MLServerProto {
       if (!getLanguageBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, language_);
       }
+      if (tempOff_ != false) {
+        output.writeBool(2, tempOff_);
+      }
+      if (level_ != org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level.picky.getNumber()) {
+        output.writeEnum(3, level_);
+      }
+      if (premium_ != false) {
+        output.writeBool(4, premium_);
+      }
+      if (enabledOnly_ != false) {
+        output.writeBool(5, enabledOnly_);
+      }
+      for (int i = 0; i < enabledRules_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, enabledRules_.getRaw(i));
+      }
+      for (int i = 0; i < disabledRules_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, disabledRules_.getRaw(i));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -959,6 +1407,38 @@ public final class MLServerProto {
       size = 0;
       if (!getLanguageBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, language_);
+      }
+      if (tempOff_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, tempOff_);
+      }
+      if (level_ != org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level.picky.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, level_);
+      }
+      if (premium_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, premium_);
+      }
+      if (enabledOnly_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, enabledOnly_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < enabledRules_.size(); i++) {
+          dataSize += computeStringSizeNoTag(enabledRules_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getEnabledRulesList().size();
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < disabledRules_.size(); i++) {
+          dataSize += computeStringSizeNoTag(disabledRules_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getDisabledRulesList().size();
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -977,6 +1457,17 @@ public final class MLServerProto {
 
       if (!getLanguage()
           .equals(other.getLanguage())) return false;
+      if (getTempOff()
+          != other.getTempOff()) return false;
+      if (level_ != other.level_) return false;
+      if (getPremium()
+          != other.getPremium()) return false;
+      if (getEnabledOnly()
+          != other.getEnabledOnly()) return false;
+      if (!getEnabledRulesList()
+          .equals(other.getEnabledRulesList())) return false;
+      if (!getDisabledRulesList()
+          .equals(other.getDisabledRulesList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -990,6 +1481,25 @@ public final class MLServerProto {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + LANGUAGE_FIELD_NUMBER;
       hash = (53 * hash) + getLanguage().hashCode();
+      hash = (37 * hash) + TEMPOFF_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getTempOff());
+      hash = (37 * hash) + LEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + level_;
+      hash = (37 * hash) + PREMIUM_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getPremium());
+      hash = (37 * hash) + ENABLEDONLY_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getEnabledOnly());
+      if (getEnabledRulesCount() > 0) {
+        hash = (37 * hash) + ENABLEDRULES_FIELD_NUMBER;
+        hash = (53 * hash) + getEnabledRulesList().hashCode();
+      }
+      if (getDisabledRulesCount() > 0) {
+        hash = (37 * hash) + DISABLEDRULES_FIELD_NUMBER;
+        hash = (53 * hash) + getDisabledRulesList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1125,6 +1635,18 @@ public final class MLServerProto {
         super.clear();
         language_ = "";
 
+        tempOff_ = false;
+
+        level_ = 0;
+
+        premium_ = false;
+
+        enabledOnly_ = false;
+
+        enabledRules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        disabledRules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1151,7 +1673,22 @@ public final class MLServerProto {
       @java.lang.Override
       public org.languagetool.rules.ml.MLServerProto.ProcessingOptions buildPartial() {
         org.languagetool.rules.ml.MLServerProto.ProcessingOptions result = new org.languagetool.rules.ml.MLServerProto.ProcessingOptions(this);
+        int from_bitField0_ = bitField0_;
         result.language_ = language_;
+        result.tempOff_ = tempOff_;
+        result.level_ = level_;
+        result.premium_ = premium_;
+        result.enabledOnly_ = enabledOnly_;
+        if (((bitField0_ & 0x00000001) != 0)) {
+          enabledRules_ = enabledRules_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.enabledRules_ = enabledRules_;
+        if (((bitField0_ & 0x00000002) != 0)) {
+          disabledRules_ = disabledRules_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.disabledRules_ = disabledRules_;
         onBuilt();
         return result;
       }
@@ -1204,6 +1741,38 @@ public final class MLServerProto {
           language_ = other.language_;
           onChanged();
         }
+        if (other.getTempOff() != false) {
+          setTempOff(other.getTempOff());
+        }
+        if (other.level_ != 0) {
+          setLevelValue(other.getLevelValue());
+        }
+        if (other.getPremium() != false) {
+          setPremium(other.getPremium());
+        }
+        if (other.getEnabledOnly() != false) {
+          setEnabledOnly(other.getEnabledOnly());
+        }
+        if (!other.enabledRules_.isEmpty()) {
+          if (enabledRules_.isEmpty()) {
+            enabledRules_ = other.enabledRules_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureEnabledRulesIsMutable();
+            enabledRules_.addAll(other.enabledRules_);
+          }
+          onChanged();
+        }
+        if (!other.disabledRules_.isEmpty()) {
+          if (disabledRules_.isEmpty()) {
+            disabledRules_ = other.disabledRules_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureDisabledRulesIsMutable();
+            disabledRules_.addAll(other.disabledRules_);
+          }
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -1232,6 +1801,7 @@ public final class MLServerProto {
         }
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object language_ = "";
       /**
@@ -1305,6 +1875,373 @@ public final class MLServerProto {
   checkByteStringIsUtf8(value);
         
         language_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean tempOff_ ;
+      /**
+       * <code>bool tempOff = 2;</code>
+       * @return The tempOff.
+       */
+      @java.lang.Override
+      public boolean getTempOff() {
+        return tempOff_;
+      }
+      /**
+       * <code>bool tempOff = 2;</code>
+       * @param value The tempOff to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTempOff(boolean value) {
+        
+        tempOff_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool tempOff = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTempOff() {
+        
+        tempOff_ = false;
+        onChanged();
+        return this;
+      }
+
+      private int level_ = 0;
+      /**
+       * <code>.lt_ml_server.ProcessingOptions.Level level = 3;</code>
+       * @return The enum numeric value on the wire for level.
+       */
+      @java.lang.Override public int getLevelValue() {
+        return level_;
+      }
+      /**
+       * <code>.lt_ml_server.ProcessingOptions.Level level = 3;</code>
+       * @param value The enum numeric value on the wire for level to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLevelValue(int value) {
+        
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.lt_ml_server.ProcessingOptions.Level level = 3;</code>
+       * @return The level.
+       */
+      @java.lang.Override
+      public org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level getLevel() {
+        @SuppressWarnings("deprecation")
+        org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level result = org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level.valueOf(level_);
+        return result == null ? org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.lt_ml_server.ProcessingOptions.Level level = 3;</code>
+       * @param value The level to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLevel(org.languagetool.rules.ml.MLServerProto.ProcessingOptions.Level value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        level_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.lt_ml_server.ProcessingOptions.Level level = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLevel() {
+        
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean premium_ ;
+      /**
+       * <code>bool premium = 4;</code>
+       * @return The premium.
+       */
+      @java.lang.Override
+      public boolean getPremium() {
+        return premium_;
+      }
+      /**
+       * <code>bool premium = 4;</code>
+       * @param value The premium to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPremium(boolean value) {
+        
+        premium_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool premium = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPremium() {
+        
+        premium_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean enabledOnly_ ;
+      /**
+       * <code>bool enabledOnly = 5;</code>
+       * @return The enabledOnly.
+       */
+      @java.lang.Override
+      public boolean getEnabledOnly() {
+        return enabledOnly_;
+      }
+      /**
+       * <code>bool enabledOnly = 5;</code>
+       * @param value The enabledOnly to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEnabledOnly(boolean value) {
+        
+        enabledOnly_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool enabledOnly = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEnabledOnly() {
+        
+        enabledOnly_ = false;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList enabledRules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureEnabledRulesIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          enabledRules_ = new com.google.protobuf.LazyStringArrayList(enabledRules_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated string enabledRules = 6;</code>
+       * @return A list containing the enabledRules.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getEnabledRulesList() {
+        return enabledRules_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string enabledRules = 6;</code>
+       * @return The count of enabledRules.
+       */
+      public int getEnabledRulesCount() {
+        return enabledRules_.size();
+      }
+      /**
+       * <code>repeated string enabledRules = 6;</code>
+       * @param index The index of the element to return.
+       * @return The enabledRules at the given index.
+       */
+      public java.lang.String getEnabledRules(int index) {
+        return enabledRules_.get(index);
+      }
+      /**
+       * <code>repeated string enabledRules = 6;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the enabledRules at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getEnabledRulesBytes(int index) {
+        return enabledRules_.getByteString(index);
+      }
+      /**
+       * <code>repeated string enabledRules = 6;</code>
+       * @param index The index to set the value at.
+       * @param value The enabledRules to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEnabledRules(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureEnabledRulesIsMutable();
+        enabledRules_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string enabledRules = 6;</code>
+       * @param value The enabledRules to add.
+       * @return This builder for chaining.
+       */
+      public Builder addEnabledRules(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureEnabledRulesIsMutable();
+        enabledRules_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string enabledRules = 6;</code>
+       * @param values The enabledRules to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllEnabledRules(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureEnabledRulesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, enabledRules_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string enabledRules = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEnabledRules() {
+        enabledRules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string enabledRules = 6;</code>
+       * @param value The bytes of the enabledRules to add.
+       * @return This builder for chaining.
+       */
+      public Builder addEnabledRulesBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureEnabledRulesIsMutable();
+        enabledRules_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList disabledRules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureDisabledRulesIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          disabledRules_ = new com.google.protobuf.LazyStringArrayList(disabledRules_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string disabledRules = 7;</code>
+       * @return A list containing the disabledRules.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getDisabledRulesList() {
+        return disabledRules_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string disabledRules = 7;</code>
+       * @return The count of disabledRules.
+       */
+      public int getDisabledRulesCount() {
+        return disabledRules_.size();
+      }
+      /**
+       * <code>repeated string disabledRules = 7;</code>
+       * @param index The index of the element to return.
+       * @return The disabledRules at the given index.
+       */
+      public java.lang.String getDisabledRules(int index) {
+        return disabledRules_.get(index);
+      }
+      /**
+       * <code>repeated string disabledRules = 7;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the disabledRules at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getDisabledRulesBytes(int index) {
+        return disabledRules_.getByteString(index);
+      }
+      /**
+       * <code>repeated string disabledRules = 7;</code>
+       * @param index The index to set the value at.
+       * @param value The disabledRules to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDisabledRules(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDisabledRulesIsMutable();
+        disabledRules_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string disabledRules = 7;</code>
+       * @param value The disabledRules to add.
+       * @return This builder for chaining.
+       */
+      public Builder addDisabledRules(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDisabledRulesIsMutable();
+        disabledRules_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string disabledRules = 7;</code>
+       * @param values The disabledRules to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllDisabledRules(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureDisabledRulesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, disabledRules_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string disabledRules = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDisabledRules() {
+        disabledRules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string disabledRules = 7;</code>
+       * @param value The bytes of the disabledRules to add.
+       * @return This builder for chaining.
+       */
+      public Builder addDisabledRulesBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureDisabledRulesIsMutable();
+        disabledRules_.add(value);
         onChanged();
         return this;
       }
@@ -19453,71 +20390,78 @@ public final class MLServerProto {
     java.lang.String[] descriptorData = {
       "\n\017ml_server.proto\022\014lt_ml_server\"P\n\016Analy" +
       "zeRequest\022\014\n\004text\030\001 \001(\t\0220\n\007options\030\002 \001(\013" +
-      "2\037.lt_ml_server.ProcessingOptions\"%\n\021Pro" +
-      "cessingOptions\022\020\n\010language\030\001 \001(\t\"D\n\017Anal" +
-      "yzeResponse\0221\n\tsentences\030\001 \003(\0132\036.lt_ml_s" +
-      "erver.AnalyzedSentence\"u\n\016ProcessRequest" +
-      "\0221\n\tsentences\030\001 \003(\0132\036.lt_ml_server.Analy" +
-      "zedSentence\0220\n\007options\030\002 \001(\0132\037.lt_ml_ser" +
-      "ver.ProcessingOptions\"`\n\017ProcessResponse" +
-      "\022\'\n\nrawMatches\030\001 \003(\0132\023.lt_ml_server.Matc" +
-      "h\022$\n\007matches\030\002 \003(\0132\023.lt_ml_server.Match\"" +
-      "v\n\024AnalyzedMatchRequest\0221\n\tsentences\030\001 \003" +
-      "(\0132\036.lt_ml_server.AnalyzedSentence\022\024\n\014in" +
-      "putLogging\030\002 \001(\010\022\025\n\rtextSessionID\030\003 \003(\003\"" +
-      "U\n\020AnalyzedSentence\022\014\n\004text\030\001 \001(\t\0223\n\006tok" +
-      "ens\030\002 \003(\0132#.lt_ml_server.AnalyzedTokenRe" +
-      "adings\"k\n\025AnalyzedTokenReadings\022-\n\010readi" +
-      "ngs\030\001 \003(\0132\033.lt_ml_server.AnalyzedToken\022\021" +
-      "\n\tchunkTags\030\002 \003(\t\022\020\n\010startPos\030\003 \001(\005\"=\n\rA" +
-      "nalyzedToken\022\r\n\005token\030\001 \001(\t\022\016\n\006posTag\030\002 " +
-      "\001(\t\022\r\n\005lemma\030\003 \001(\t\"\201\001\n\025PostProcessingReq" +
-      "uest\022\021\n\tsentences\030\001 \003(\t\022(\n\007matches\030\002 \003(\013" +
-      "2\027.lt_ml_server.MatchList\022\024\n\014inputLoggin" +
-      "g\030\003 \001(\010\022\025\n\rtextSessionID\030\004 \003(\003\"N\n\014MatchR" +
-      "equest\022\021\n\tsentences\030\001 \003(\t\022\024\n\014inputLoggin" +
-      "g\030\002 \001(\010\022\025\n\rtextSessionID\030\003 \003(\003\"A\n\rMatchR" +
-      "esponse\0220\n\017sentenceMatches\030\001 \003(\0132\027.lt_ml" +
-      "_server.MatchList\"1\n\tMatchList\022$\n\007matche" +
-      "s\030\001 \003(\0132\023.lt_ml_server.Match\"\256\003\n\005Match\022\016" +
-      "\n\006offset\030\001 \001(\r\022\016\n\006length\030\002 \001(\r\022\n\n\002id\030\003 \001" +
-      "(\t\022\016\n\006sub_id\030\004 \001(\t\022\023\n\013suggestions\030\005 \003(\t\022" +
-      "\027\n\017ruleDescription\030\006 \001(\t\022\030\n\020matchDescrip" +
-      "tion\030\007 \001(\t\022\035\n\025matchShortDescription\030\010 \001(" +
-      "\t\022\013\n\003url\030\t \001(\t\022A\n\025suggestedReplacements\030" +
-      "\n \003(\0132\".lt_ml_server.SuggestedReplacemen" +
-      "t\022\023\n\013autoCorrect\030\013 \001(\010\022+\n\004type\030\014 \001(\0162\035.l" +
-      "t_ml_server.Match.MatchType\022\033\n\023contextFo" +
-      "rSureMatch\030\r \001(\021\022 \n\004rule\030\016 \001(\0132\022.lt_ml_s" +
-      "erver.Rule\"1\n\tMatchType\022\017\n\013UnknownWord\020\000" +
-      "\022\010\n\004Hint\020\001\022\t\n\005Other\020\002\"\251\002\n\004Rule\022\022\n\nsource" +
-      "File\030\001 \001(\t\022\021\n\tissueType\030\002 \001(\t\022\017\n\007tempOff" +
-      "\030\003 \001(\010\022,\n\010category\030\004 \001(\0132\032.lt_ml_server." +
-      "RuleCategory\022\021\n\tisPremium\030\005 \001(\010\022$\n\004tags\030" +
-      "\006 \003(\0162\026.lt_ml_server.Rule.Tag\"\201\001\n\003Tag\022\t\n" +
+      "2\037.lt_ml_server.ProcessingOptions\"\327\002\n\021Pr" +
+      "ocessingOptions\022\020\n\010language\030\001 \001(\t\022\017\n\007tem" +
+      "pOff\030\002 \001(\010\0224\n\005level\030\003 \001(\0162%.lt_ml_server" +
+      ".ProcessingOptions.Level\022\017\n\007premium\030\004 \001(" +
+      "\010\022\023\n\013enabledOnly\030\005 \001(\010\022\024\n\014enabledRules\030\006" +
+      " \003(\t\022\025\n\rdisabledRules\030\007 \003(\t\"\225\001\n\005Level\022\t\n" +
       "\005picky\020\000\022\014\n\010academic\020\001\022\013\n\007clarity\020\002\022\020\n\014p" +
       "rofessional\020\003\022\014\n\010creative\020\004\022\014\n\010customer\020" +
       "\005\022\n\n\006jobapp\020\006\022\r\n\tobjective\020\007\022\013\n\007elegant\020" +
-      "\010\"(\n\014RuleCategory\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 " +
-      "\001(\t\"\342\001\n\024SuggestedReplacement\022\023\n\013replacem" +
-      "ent\030\001 \001(\t\022\023\n\013description\030\002 \001(\t\022\016\n\006suffix" +
-      "\030\003 \001(\t\022\022\n\nconfidence\030\004 \001(\002\022?\n\004type\030\005 \001(\016" +
-      "21.lt_ml_server.SuggestedReplacement.Sug" +
-      "gestionType\";\n\016SuggestionType\022\013\n\007Default" +
-      "\020\000\022\017\n\013Translation\020\001\022\013\n\007Curated\020\0022\246\001\n\020Pro" +
-      "cessingServer\022H\n\007Analyze\022\034.lt_ml_server." +
-      "AnalyzeRequest\032\035.lt_ml_server.AnalyzeRes" +
-      "ponse\"\000\022H\n\007Process\022\034.lt_ml_server.Proces" +
-      "sRequest\032\035.lt_ml_server.ProcessResponse\"" +
-      "\0002\242\001\n\010MLServer\022B\n\005Match\022\032.lt_ml_server.M" +
-      "atchRequest\032\033.lt_ml_server.MatchResponse" +
-      "\"\000\022R\n\rMatchAnalyzed\022\".lt_ml_server.Analy" +
-      "zedMatchRequest\032\033.lt_ml_server.MatchResp" +
-      "onse\"\0002e\n\024PostProcessingServer\022M\n\007Proces" +
-      "s\022#.lt_ml_server.PostProcessingRequest\032\033" +
-      ".lt_ml_server.MatchResponse\"\000B*\n\031org.lan" +
-      "guagetool.rules.mlB\rMLServerProtob\006proto" +
-      "3"
+      "\010\022\020\n\014defaultLevel\020\t\"D\n\017AnalyzeResponse\0221" +
+      "\n\tsentences\030\001 \003(\0132\036.lt_ml_server.Analyze" +
+      "dSentence\"u\n\016ProcessRequest\0221\n\tsentences" +
+      "\030\001 \003(\0132\036.lt_ml_server.AnalyzedSentence\0220" +
+      "\n\007options\030\002 \001(\0132\037.lt_ml_server.Processin" +
+      "gOptions\"`\n\017ProcessResponse\022\'\n\nrawMatche" +
+      "s\030\001 \003(\0132\023.lt_ml_server.Match\022$\n\007matches\030" +
+      "\002 \003(\0132\023.lt_ml_server.Match\"v\n\024AnalyzedMa" +
+      "tchRequest\0221\n\tsentences\030\001 \003(\0132\036.lt_ml_se" +
+      "rver.AnalyzedSentence\022\024\n\014inputLogging\030\002 " +
+      "\001(\010\022\025\n\rtextSessionID\030\003 \003(\003\"U\n\020AnalyzedSe" +
+      "ntence\022\014\n\004text\030\001 \001(\t\0223\n\006tokens\030\002 \003(\0132#.l" +
+      "t_ml_server.AnalyzedTokenReadings\"k\n\025Ana" +
+      "lyzedTokenReadings\022-\n\010readings\030\001 \003(\0132\033.l" +
+      "t_ml_server.AnalyzedToken\022\021\n\tchunkTags\030\002" +
+      " \003(\t\022\020\n\010startPos\030\003 \001(\005\"=\n\rAnalyzedToken\022" +
+      "\r\n\005token\030\001 \001(\t\022\016\n\006posTag\030\002 \001(\t\022\r\n\005lemma\030" +
+      "\003 \001(\t\"\201\001\n\025PostProcessingRequest\022\021\n\tsente" +
+      "nces\030\001 \003(\t\022(\n\007matches\030\002 \003(\0132\027.lt_ml_serv" +
+      "er.MatchList\022\024\n\014inputLogging\030\003 \001(\010\022\025\n\rte" +
+      "xtSessionID\030\004 \003(\003\"N\n\014MatchRequest\022\021\n\tsen" +
+      "tences\030\001 \003(\t\022\024\n\014inputLogging\030\002 \001(\010\022\025\n\rte" +
+      "xtSessionID\030\003 \003(\003\"A\n\rMatchResponse\0220\n\017se" +
+      "ntenceMatches\030\001 \003(\0132\027.lt_ml_server.Match" +
+      "List\"1\n\tMatchList\022$\n\007matches\030\001 \003(\0132\023.lt_" +
+      "ml_server.Match\"\256\003\n\005Match\022\016\n\006offset\030\001 \001(" +
+      "\r\022\016\n\006length\030\002 \001(\r\022\n\n\002id\030\003 \001(\t\022\016\n\006sub_id\030" +
+      "\004 \001(\t\022\023\n\013suggestions\030\005 \003(\t\022\027\n\017ruleDescri" +
+      "ption\030\006 \001(\t\022\030\n\020matchDescription\030\007 \001(\t\022\035\n" +
+      "\025matchShortDescription\030\010 \001(\t\022\013\n\003url\030\t \001(" +
+      "\t\022A\n\025suggestedReplacements\030\n \003(\0132\".lt_ml" +
+      "_server.SuggestedReplacement\022\023\n\013autoCorr" +
+      "ect\030\013 \001(\010\022+\n\004type\030\014 \001(\0162\035.lt_ml_server.M" +
+      "atch.MatchType\022\033\n\023contextForSureMatch\030\r " +
+      "\001(\021\022 \n\004rule\030\016 \001(\0132\022.lt_ml_server.Rule\"1\n" +
+      "\tMatchType\022\017\n\013UnknownWord\020\000\022\010\n\004Hint\020\001\022\t\n" +
+      "\005Other\020\002\"\251\002\n\004Rule\022\022\n\nsourceFile\030\001 \001(\t\022\021\n" +
+      "\tissueType\030\002 \001(\t\022\017\n\007tempOff\030\003 \001(\010\022,\n\010cat" +
+      "egory\030\004 \001(\0132\032.lt_ml_server.RuleCategory\022" +
+      "\021\n\tisPremium\030\005 \001(\010\022$\n\004tags\030\006 \003(\0162\026.lt_ml" +
+      "_server.Rule.Tag\"\201\001\n\003Tag\022\t\n\005picky\020\000\022\014\n\010a" +
+      "cademic\020\001\022\013\n\007clarity\020\002\022\020\n\014professional\020\003" +
+      "\022\014\n\010creative\020\004\022\014\n\010customer\020\005\022\n\n\006jobapp\020\006" +
+      "\022\r\n\tobjective\020\007\022\013\n\007elegant\020\010\"(\n\014RuleCate" +
+      "gory\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\"\342\001\n\024Sugge" +
+      "stedReplacement\022\023\n\013replacement\030\001 \001(\t\022\023\n\013" +
+      "description\030\002 \001(\t\022\016\n\006suffix\030\003 \001(\t\022\022\n\ncon" +
+      "fidence\030\004 \001(\002\022?\n\004type\030\005 \001(\01621.lt_ml_serv" +
+      "er.SuggestedReplacement.SuggestionType\";" +
+      "\n\016SuggestionType\022\013\n\007Default\020\000\022\017\n\013Transla" +
+      "tion\020\001\022\013\n\007Curated\020\0022\246\001\n\020ProcessingServer" +
+      "\022H\n\007Analyze\022\034.lt_ml_server.AnalyzeReques" +
+      "t\032\035.lt_ml_server.AnalyzeResponse\"\000\022H\n\007Pr" +
+      "ocess\022\034.lt_ml_server.ProcessRequest\032\035.lt" +
+      "_ml_server.ProcessResponse\"\0002\242\001\n\010MLServe" +
+      "r\022B\n\005Match\022\032.lt_ml_server.MatchRequest\032\033" +
+      ".lt_ml_server.MatchResponse\"\000\022R\n\rMatchAn" +
+      "alyzed\022\".lt_ml_server.AnalyzedMatchReque" +
+      "st\032\033.lt_ml_server.MatchResponse\"\0002e\n\024Pos" +
+      "tProcessingServer\022M\n\007Process\022#.lt_ml_ser" +
+      "ver.PostProcessingRequest\032\033.lt_ml_server" +
+      ".MatchResponse\"\000B*\n\031org.languagetool.rul" +
+      "es.mlB\rMLServerProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -19534,7 +20478,7 @@ public final class MLServerProto {
     internal_static_lt_ml_server_ProcessingOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_lt_ml_server_ProcessingOptions_descriptor,
-        new java.lang.String[] { "Language", });
+        new java.lang.String[] { "Language", "TempOff", "Level", "Premium", "EnabledOnly", "EnabledRules", "DisabledRules", });
     internal_static_lt_ml_server_AnalyzeResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_lt_ml_server_AnalyzeResponse_fieldAccessorTable = new
