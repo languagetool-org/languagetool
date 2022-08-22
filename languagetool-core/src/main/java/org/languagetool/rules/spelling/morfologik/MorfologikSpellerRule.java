@@ -25,6 +25,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.noop.NoopLanguage;
 import org.languagetool.rules.Categories;
@@ -35,7 +37,6 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
-import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -188,15 +189,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         }
       }
 
-      if (sentLength > 3) {
+      if (sentLength >= 3) {
         float errRatio = (float)ruleMatches.size() / sentLength;
         if (errRatio >= 0.5) {
           ruleMatches.get(0).setErrorLimitLang(NoopLanguage.SHORT_CODE);
         }
       }
-
     }
-
     return toRuleMatchArray(ruleMatches);
   }
 
