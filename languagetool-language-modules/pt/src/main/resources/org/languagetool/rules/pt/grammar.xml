@@ -6879,6 +6879,10 @@ O namorado dela era um ladrão.
         </antipattern>
         <!-- MARCOAGPINTO 2021-01-31 (1-JAN-2021+) *END* -->
         <pattern>
+         <or>
+          <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+          <token>e</token>
+         </or>
           <token regexp="yes">el[ea]|você</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception scope='next'>,</exception></token>
@@ -6887,7 +6891,7 @@ O namorado dela era um ladrão.
             <exception>como</exception></token>
         </pattern>
         <message>&MSG_ECV;</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
         <example correction='Ele não passeia'><marker>Ele não passeiam</marker> na praia.</example>
         <example>Ele preocupar-se-ia, talvez, com esta manifestação de ignorância.</example>
 	  
@@ -6972,6 +6976,10 @@ O namorado dela era um ladrão.
           <example>Ou você ou eu deve ganhar.</example>
         </antipattern>
         <pattern>
+         <or>
+          <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+          <token>e</token>
+         </or>
           <token regexp='yes'>tu|vocês?|vós|el[ea]s?</token>
           <token regexp='yes'>e|ou</token>
           <token>eu</token>
@@ -6982,7 +6990,7 @@ O namorado dela era um ladrão.
             <exception regexp='yes'>nada|professor[aa]|pel[oa]s?|ale|colegas?</exception></token>
         </pattern>
         <message>&MSG_ECV;</message>
-        <suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
+        <suggestion>\2 \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
         <example correction='Tu e eu passeamos'><marker>Tu e eu passeio</marker> na praia.</example>
         <example>Tu e eu passeamos na praia.</example>
         <example>Vós passeais na praia.</example>
