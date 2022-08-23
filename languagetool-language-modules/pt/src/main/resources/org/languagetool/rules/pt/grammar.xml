@@ -9153,7 +9153,7 @@ O namorado dela era um ladrão.
             <exception>seres</exception></token>
           <token min="0" max="3" postag_regexp='yes' postag='R.'/>
           <marker>
-            <token postag="V.P.*" postag_regexp='yes'><exception regexp="yes" inflected="yes">confundir|fixar|afligir|reinserir|colher|tingir|torcer|juntar|segurar|acolher|atender|preencher|interromper|recolher|repelir|apegar|situar|absorver|acender|encher|anexar|concluir|cultivar|defender|desenvolver|dissolver|distinguir|envolver|incluir|inserir|ocultar|pegar|sepultar|suprimir|surpreender|atingir|assentar|cativar|colher|compelir|completar|corrigir|desmatar|romper|infectar|contorcer|pretender|reassentar|ressecar|safar</exception></token>
+            <token postag="V.P.*" postag_regexp='yes'><exception regexp="yes" inflected="yes">confundir|fixar|afligir|reinserir|tingir|torcer|juntar|segurar|acolher|atender|preencher|interromper|recolher|repelir|apegar|situar|absorver|acender|encher|anexar|concluir|cultivar|defender|desenvolver|dissolver|distinguir|envolver|incluir|inserir|ocultar|pegar|sepultar|suprimir|surpreender|atingir|assentar|cativar|colher|compelir|completar|corrigir|desmatar|romper|infectar|contorcer|pretender|reassentar|ressecar|safar</exception></token>
           </marker>
           <!-- 2021-08-13: Removed "surpreendido": https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/ficar-surpreendido/25441) -->
           <!-- XXX Removidos: absorvido|acendido|anexado|concluído|cultivado|defendido|desenvolvido|dissolvido|distinguido|envolvido|erigido|incluído|inserido|ocultado|pegado|sepultado|suprimido|tingido
@@ -47793,6 +47793,12 @@ O namorado dela era um ladrão.
       Na nossa tese procurei provar a métrica. → Na nossa tese provei a métrica.
       -->
       <rule>
+        <antipattern>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000' skip='-1'/>
+          <token>?</token>
+          <example>Vamos abandonar o navio?</example>
+        </antipattern>
         <pattern>
           <token postag='RG|SENT_START|_PUNCT|VMM.+' postag_regexp='yes'/>
          <marker>
@@ -47805,11 +47811,12 @@ O namorado dela era um ladrão.
         </pattern>
         <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
         <suggestion><match no='4' postag='VMSP1P0'/></suggestion>
+        <suggestion>proponho <match no='4' postag='VMSF1P0'/></suggestion>
         <suggestion><match no='4' postag='VMIF1P0'/></suggestion>
         <suggestion><match no='4' postag='VMIP1P0'/></suggestion>
-        <example correction="provemos|provaremos|provamos">Agora <marker>vamos provar</marker> a métrica.</example>
-        <example correction="Provemos|Provaremos|Provamos"><marker>Vamos provar</marker> a métrica.</example>
-        <example correction="provemos|provaremos|provamos">Então, <marker>vamos provar</marker> a métrica.</example>
+        <example correction="provemos|proponho provarmos|provaremos|provamos">Agora <marker>vamos provar</marker> a métrica.</example>
+        <example correction="Provemos|Proponho provarmos|Provaremos|Provamos"><marker>Vamos provar</marker> a métrica.</example>
+        <example correction="provemos|proponho provarmos|provaremos|provamos">Então, <marker>vamos provar</marker> a métrica.</example>
       </rule>
       <rule>
 
