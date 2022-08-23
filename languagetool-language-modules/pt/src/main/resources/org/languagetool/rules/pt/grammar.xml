@@ -45093,6 +45093,70 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+
+
+
+<!-- ################################################################################## -->
+
+
+    <!-- TAMBÉM VERBO NOME_COMUM também o é -->
+    <rule id='TAMBÉM_O_VERBO_PT_PT' name="Simplificar (redundância): Também + Verbo + NC/ADJ → também o é">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, fully revised by Susana Boatto, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
+      <!--
+	  Eu fiz a formação MULTIBANCO que é obrigatória; esta também é obrigatória? → Eu fiz a formação MULTIBANCO que é obrigatória; esta também o é?
+      -->
+      <pattern>
+		<token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+	    <token>que</token>
+	    <token postag='V.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='_PUNCT|_TRESPONTOS' postag_regexp='yes'/>
+        <marker>
+          <token postag='DD.+|PD.+' postag_regexp='yes'/>
+		  <token>também</token>
+		  <token><match no="2"/></token>
+		  <token><match no="3"/></token>
+        </marker>
+      </pattern>
+      <message>Evite a redundância para melhorar a clareza da perífrase.</message>
+      <suggestion>\6 também o \8</suggestion>
+      <example correction="esta também o é">Eu fiz a formação MULTIBANCO que é obrigatória; <marker>esta também é obrigatória</marker>?</example>
+    </rule>
+
+
+    <!-- TAMBÉM VERBO NOME_COMUM também é -->
+    <rule id='TAMBÉM_O_VERBO_PT_BR' name="Simplificar (redundância): Também + Verbo + NC/ADJ → também é">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, fully revised by Susana Boatto, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
+      <!--
+	  Eu fiz a formação MULTIBANCO que é obrigatória; esta também é obrigatória? → Eu fiz a formação MULTIBANCO que é obrigatória; esta também é?
+      -->
+      <pattern>
+		<token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+	    <token>que</token>
+	    <token postag='V.+' postag_regexp='yes'/>
+		<token postag='NC.+|AQ.+' postag_regexp='yes'/>
+		<token postag='_PUNCT|_TRESPONTOS' postag_regexp='yes'/>
+        <marker>
+          <token postag='DD.+|PD.+' postag_regexp='yes'/>
+		  <token>também</token>
+		  <token><match no="2"/></token>
+		  <token><match no="3"/></token>
+        </marker>
+      </pattern>
+      <message>Evite a redundância para melhorar a clareza da perífrase.</message>
+      <suggestion>\6 também \8</suggestion>
+      <example correction="esta também é">Eu fiz a formação MULTIBANCO que é obrigatória; <marker>esta também é obrigatória</marker>?</example>
+    </rule>
+
+
+<!-- ################################################################################## -->
+
+
+
+
+
+
+
     <!-- FICOU DEMONSTRADO QUE demonstrámos que -->
     <rule id='TESE_PHD_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="Tese Doutoramento: Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" tags="picky">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-13/14 (1-JAN-2022+)      -->
