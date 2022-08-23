@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.function.Function;
 
-public class CompoundCheckFilter  extends RuleFilter {
+public class CompoundCheckFilter extends RuleFilter {
   
   private static final String FILE_ENCODING = "utf-8";
 
