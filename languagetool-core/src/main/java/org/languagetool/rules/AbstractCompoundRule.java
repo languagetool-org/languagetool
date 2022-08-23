@@ -213,7 +213,7 @@ public abstract class AbstractCompoundRule extends Rule {
   private String normalize(String inStr) {
     String str = inStr.trim();
     str = str.replace(" - ", " ");
-    str = str.replace("-", " ");
+    str = str.replace('-', ' ');
     str = str.replaceAll("\\s+", " ");
     return str;
   }
