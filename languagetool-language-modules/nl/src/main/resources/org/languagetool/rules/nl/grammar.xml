@@ -36483,17 +36483,48 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="ONTKEN_2" name="dubbele ontkenning" tags="picky">
             <rule>
-                <antipattern><token>nooit</token><token>ofte</token><token>nimmer</token></antipattern>
+                <antipattern>
+                    <token>nooit</token>
+                    <token>ofte</token>
+                    <token>nimmer</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="3">niet|nooit</token>
+                    <token regexp="yes" skip="3">als(of)?|dat|waarom|wat</token>
+                    <token regexp="yes">geen|niet|nooit</token>
+                </antipattern>
+                <antipattern>
+                    <token>geen</token>
+                    <token skip="3">probleem</token>
+                    <token regexp="yes" skip="3">als|dat</token>
+                    <token regexp="yes">geen|niet|nooit</token>
+                </antipattern>
+                <antipattern>
+                    <token>geen</token>
+                    <token regexp="yes" skip="3">reden(en)?</token>
+                    <token regexp="yes" skip="3">waarom</token>
+                    <token regexp="yes">geen|niet|nooit</token>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes" skip="5">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+<exception scope="next" regexp="yes">;|,|en|of|:|omdat|maar|doordat</exception></token>
+                    <token regexp="yes" skip="5">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+<exception scope="next" regexp="yes">doordat|en|maar|of|omdat|\p{P}</exception></token>
                     <token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+</token>
                 </pattern>
                 <message>Meerdere ontkenningen maken de tekst moeilijker te begrijpen.</message>
+                <example correction=""><marker>Geen mens trouwens ook niet</marker>.</example>
+                <example correction="">Het zou <marker>geen enkele keer nooit</marker> meer gebeuren.</example>
+                <example>Het is geen probleem als je niet wilt.</example>
+                <example>Er is geen reden waarom het niet zou kunnen.</example>
+                <example>Ik zeg niet dat het nooit mag gebeuren.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+</token>
+                    <token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+</token>
+                </pattern>
+                <message>Dubbele ontkenning maakt de tekst moeilijker te begrijpen.</message>
+                <example correction="">Ik bel <marker>NOOIT geen</marker> klanten op.</example>
                 <example correction="">Ik doe <marker>nooit geen</marker> jas aan.</example>
                 <example correction="">En <marker>nooit geen</marker> vakantie.</example>
-                <example correction=""><marker>Niet dat dat niet</marker> mag hoor.</example>
-                <example correction=""><marker>Geen mens trouwens ook niet</marker>.</example>
-                <example correction="">Ik bel <marker>NOOIT geen</marker> klanten op.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IETS_DAT" name="Iets dat → iets wat">
