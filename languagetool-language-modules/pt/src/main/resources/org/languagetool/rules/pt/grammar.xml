@@ -11279,6 +11279,28 @@ O namorado dela era um ladrão.
         <example>O almoço foi à uma da tarde.</example>
       </rule>
       <rule>
+        <pattern>
+          <token regexp='yes'>à</token>
+          <token postag='D[IP].M.+|N.M.+|A..M.+|P..M.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Não se utiliza a crase antes de palavras masculinas.</message>
+        <suggestion>a \2</suggestion>
+        <example correction='a seu'>Foi uma resposta <marker>à seu</marker> anúncio.</example>
+        <example correction='a todos'>Não pode ser aplicada <marker>à todos</marker> os casos.</example>
+        <example correction='a conteúdos'>Você terá acesso <marker>à conteúdos</marker> atualizados</example>
+        <example correction='a primeiros'>Você terá acesso <marker>à primeiros</marker> conteúdos exclusivos</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp='yes'>à</token>
+          <token regexp='yes'>R?\$</token>
+          <token postag='Z.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Para se referir a moedas, não utilize a crase.</message>
+        <suggestion>a \2 \3</suggestion>
+        <example correction='a R$ 35'>A quantia equivale <marker>à R$ 35</marker>.</example>
+      </rule>
+      <rule>
         <!--                     Loosely based on CoGrOO rules                 -->
         <pattern>
           <token regexp='yes'>às?</token>
@@ -46830,7 +46852,6 @@ O namorado dela era um ladrão.
       <example>Eu gosto dos vermelhos na prateleira.</example>
       <example>Ela pintou o quadro na parede.</example>
       <example>Espécies ameaçadas são espécies em perigo de extinção.</example>
-      <example>Os livros são tão velhos que estão em estado de desintegração.</example>
       <example>É na Guia que está a génese do grupo Covina, indústria de vidros especiais agora parte do grupo Saint Gobain.</example>
       <example>A emissão de um sinal contínuo permite que esse radar distinga objetos parados de objetos que estão em movimento.</example>
       <example>Depois de irem buscar os touros ao lameiro soltam-nos numa praça à entrada da freguesia.</example>
