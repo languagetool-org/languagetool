@@ -9114,7 +9114,7 @@ O namorado dela era um ladrão.
         </antipattern>
         <antipattern>
           <token skip='-1' regexp='yes'>há|ter</token>
-          <token regexp='yes'>suspeitos?|fix[ao]s?</token>
+          <token regexp='yes'>suspeitos?|fix[ao]s?|pres[oa]s?</token>
           <token postag='SENT_END|_PUNCT' postag_regexp='yes'/>
           <example>Na verdade, não há suspeitos.</example>
         </antipattern>
@@ -9148,18 +9148,12 @@ O namorado dela era um ladrão.
       </rule>
 
       <rule>
-        <antipattern>
-          <token inflected='yes'>ser
-            <exception>seres</exception></token>
-          <token regexp='yes'>confundid[oa]s?|segurad[oa]s?</token>
-          <example>Sempre sou confundido com aquele ator</example>
-        </antipattern>
         <pattern>
           <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer
             <exception>seres</exception></token>
           <token min="0" max="3" postag_regexp='yes' postag='R.'/>
           <marker>
-            <token postag="V.P.*" postag_regexp='yes'><exception regexp="yes" inflected="yes">juntar|acolher|atender|preencher|interromper|recolher|repelir|apegar|situar|absorver|acender|encher|anexar|concluir|cultivar|defender|desenvolver|dissolver|distinguir|envolver|incluir|inserir|ocultar|pegar|sepultar|suprimir|surpreender|atingir|assentar|cativar|colher|compelir|completar|corrigir|desmatar|romper|infectar|contorcer|pretender|reassentar|ressecar|safar</exception></token>
+            <token postag="V.P.*" postag_regexp='yes'><exception regexp="yes" inflected="yes">confundir|fixar|afligir|reinserir|colher|tingir|torcer|juntar|segurar|acolher|atender|preencher|interromper|recolher|repelir|apegar|situar|absorver|acender|encher|anexar|concluir|cultivar|defender|desenvolver|dissolver|distinguir|envolver|incluir|inserir|ocultar|pegar|sepultar|suprimir|surpreender|atingir|assentar|cativar|colher|compelir|completar|corrigir|desmatar|romper|infectar|contorcer|pretender|reassentar|ressecar|safar</exception></token>
           </marker>
           <!-- 2021-08-13: Removed "surpreendido": https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/ficar-surpreendido/25441) -->
           <!-- XXX Removidos: absorvido|acendido|anexado|concluído|cultivado|defendido|desenvolvido|dissolvido|distinguido|envolvido|erigido|incluído|inserido|ocultado|pegado|sepultado|suprimido|tingido
