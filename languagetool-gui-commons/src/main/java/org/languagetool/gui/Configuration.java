@@ -70,6 +70,7 @@ public class Configuration {
   static final boolean DEFAULT_USE_DOC_LANGUAGE = true;
   static final boolean DEFAULT_DO_REMOTE_CHECK = false;
   static final boolean DEFAULT_USE_OTHER_SERVER = false;
+  static final boolean DEFAULT_IS_PREMIUM = false;
   static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
   static final boolean DEFAULT_USE_LT_DICTIONARY = true;
   static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = true;
@@ -118,7 +119,10 @@ public class Configuration {
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
   private static final String DO_REMOTE_CHECK_KEY = "doRemoteCheck";
   private static final String OTHER_SERVER_URL_KEY = "otherServerUrl";
+  private static final String REMOTE_USERNAME_KEY = "remoteUserName";
+  private static final String REMOTE_APIKEY_KEY = "remoteApiKey";
   private static final String USE_OTHER_SERVER_KEY = "useOtherServer";
+  private static final String IS_PREMIUM_KEY = "isPremium";
   private static final String MARK_SINGLE_CHAR_BOLD_KEY = "markSingleCharBold";
   private static final String LOG_LEVEL_KEY = "logLevel";
   private static final String USE_LT_DICTIONARY_KEY = "UseLtDictionary";
@@ -187,6 +191,7 @@ public class Configuration {
   private boolean useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
   private boolean doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
   private boolean useOtherServer = DEFAULT_USE_OTHER_SERVER;
+  private boolean isPremium = DEFAULT_IS_PREMIUM;
   private boolean markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
   private boolean useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
   private boolean noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
@@ -195,6 +200,8 @@ public class Configuration {
   private String lookAndFeelName;
   private String currentProfile = null;
   private String otherServerUrl = null;
+  private String remoteUsername = null;
+  private String remoteApiKey = null;
   private String logLevel = null;
   private String ltVersion = null;
   private boolean switchOff = false;
@@ -276,6 +283,7 @@ public class Configuration {
     useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
     doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
     useOtherServer = DEFAULT_USE_OTHER_SERVER;
+    isPremium = DEFAULT_IS_PREMIUM;
     markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
     useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
     noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
@@ -284,6 +292,8 @@ public class Configuration {
     lookAndFeelName = null;
     currentProfile = null;
     otherServerUrl = null;
+    remoteUsername = null;
+    remoteApiKey = null;
     logLevel = null;
     switchOff = false;
   }
@@ -330,11 +340,14 @@ public class Configuration {
     this.currentProfile = configuration.currentProfile;
     this.doRemoteCheck = configuration.doRemoteCheck;
     this.useOtherServer = configuration.useOtherServer;
+    this.isPremium = configuration.isPremium;
     this.markSingleCharBold = configuration.markSingleCharBold;
     this.useLtDictionary = configuration.useLtDictionary;
     this.noSynonymsAsSuggestions = configuration.noSynonymsAsSuggestions;
     this.saveLoCache = configuration.saveLoCache;
     this.otherServerUrl = configuration.otherServerUrl;
+    this.remoteUsername = configuration.remoteUsername;
+    this.remoteApiKey = configuration.remoteApiKey;
     this.logLevel = configuration.logLevel;
     this.isOffice = configuration.isOffice;
     this.isOpenOffice = configuration.isOpenOffice;
@@ -504,12 +517,36 @@ public class Configuration {
     return useOtherServer;
   }
 
+  public void setPremium(boolean isPremium) {
+    this.isPremium = isPremium;
+  }
+
+  public boolean isPremium() {
+    return isPremium;
+  }
+
   public void setOtherServerUrl(String otherServerUrl) {
     this.otherServerUrl = otherServerUrl;
   }
 
   public String getServerUrl() {
     return useOtherServer ? otherServerUrl : null;
+  }
+
+  public void setRemoteUsername(String remoteUsername) {
+    this.remoteUsername = remoteUsername;
+  }
+
+  public String getRemoteUsername() {
+    return isPremium ? remoteUsername : null;
+  }
+
+  public void setRemoteApiKey(String remoteApiKey) {
+    this.remoteApiKey = remoteApiKey;
+  }
+
+  public String getRemoteApiKey() {
+    return isPremium ? remoteApiKey : null;
   }
 
   public String getlogLevel() {
@@ -1295,7 +1332,16 @@ public class Configuration {
     if (otherServerUrl != null && !isValidServerUrl(otherServerUrl)) {
       otherServerUrl = null;
     }
+
+    String isPremiumString = (String) props.get(prefix + IS_PREMIUM_KEY);
+    if (isPremiumString != null) {
+      isPremium = Boolean.parseBoolean(isPremiumString);
+    }
     
+    remoteUsername = (String) props.get(prefix + REMOTE_USERNAME_KEY);
+
+    remoteApiKey = (String) props.get(prefix + REMOTE_APIKEY_KEY);
+
     String markSingleCharBoldString = (String) props.get(prefix + MARK_SINGLE_CHAR_BOLD_KEY);
     if (markSingleCharBoldString != null) {
       markSingleCharBold = Boolean.parseBoolean(markSingleCharBoldString);
@@ -1535,6 +1581,9 @@ public class Configuration {
     allProfileKeys.add(DO_REMOTE_CHECK_KEY);
     allProfileKeys.add(OTHER_SERVER_URL_KEY);
     allProfileKeys.add(USE_OTHER_SERVER_KEY);
+    allProfileKeys.add(IS_PREMIUM_KEY);
+    allProfileKeys.add(REMOTE_USERNAME_KEY);
+    allProfileKeys.add(REMOTE_APIKEY_KEY);
     allProfileKeys.add(MARK_SINGLE_CHAR_BOLD_KEY);
     allProfileKeys.add(USE_LT_DICTIONARY_KEY);
     allProfileKeys.add(NO_SYNONYMS_AS_SUGGESTIONS_KEY);
@@ -1634,6 +1683,9 @@ public class Configuration {
     if (useOtherServer != DEFAULT_USE_OTHER_SERVER) {
       props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
     }
+    if (isPremium != DEFAULT_IS_PREMIUM) {
+      props.setProperty(prefix + IS_PREMIUM_KEY, Boolean.toString(isPremium));
+    }
     if (markSingleCharBold != DEFAULT_MARK_SINGLE_CHAR_BOLD) {
       props.setProperty(prefix + MARK_SINGLE_CHAR_BOLD_KEY, Boolean.toString(markSingleCharBold));
     }
@@ -1651,6 +1703,12 @@ public class Configuration {
     }
     if (otherServerUrl != null && isValidServerUrl(otherServerUrl)) {
       props.setProperty(prefix + OTHER_SERVER_URL_KEY, otherServerUrl);
+    }
+    if (remoteUsername != null) {
+      props.setProperty(prefix + REMOTE_USERNAME_KEY, remoteUsername);
+    }
+    if (remoteApiKey != null) {
+      props.setProperty(prefix + REMOTE_APIKEY_KEY, remoteApiKey);
     }
     if (fontName != null) {
       props.setProperty(prefix + FONT_NAME_KEY, fontName);

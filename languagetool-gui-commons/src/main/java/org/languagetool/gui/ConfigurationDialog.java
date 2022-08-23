@@ -59,6 +59,7 @@ public class ConfigurationDialog implements ActionListener {
 
   private static final int SHIFT1 = 4;
   private static final int SHIFT2 = 20;
+  private static final int SHIFT3 = 44;
 
   private final ResourceBundle messages;
   private final Configuration original;
@@ -776,12 +777,81 @@ public class ConfigurationDialog implements ActionListener {
         firstSelection = true;
       }
     });
+
+    JLabel usernameLabel = new JLabel(Tools.getLabel(messages.getString("guiPremiumUsername")));
+
+    JTextField usernameField = new JTextField(config.getRemoteUsername() ==  null ? "" : config.getRemoteUsername(), 25);
+    usernameField.setMinimumSize(new Dimension(100, 25));
+    usernameField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        String username = usernameField.getText();
+        username = username.trim();
+        if(username.isEmpty()) {
+          username = null;
+        }
+        if (username != null) {
+          config.setRemoteUsername(username);
+        }
+      }
+    });
+
+    JLabel apiKeyLabel = new JLabel(Tools.getLabel(messages.getString("guiPremiumApiKey")));
+
+    JTextField apiKeyField = new JTextField(config.getRemoteApiKey() ==  null ? "" : config.getRemoteApiKey(), 25);
+    apiKeyField.setMinimumSize(new Dimension(100, 25));
+    apiKeyField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        String apiKey = apiKeyField.getText();
+        apiKey = apiKey.trim();
+        if(apiKey.isEmpty()) {
+          apiKey = null;
+        }
+        if (apiKey != null) {
+          config.setRemoteApiKey(apiKey);
+        }
+      }
+    });
+
+    JCheckBox isPremiumBox = new JCheckBox(Tools.getLabel(messages.getString("guiUsePremiumAccount")) + " ");
+    isPremiumBox.setSelected(config.isPremium());
+    isPremiumBox.addItemListener(e -> {
+      boolean selected = isPremiumBox.isSelected();
+      config.setPremium(selected);
+      usernameLabel.setEnabled(selected);
+      usernameField.setEnabled(selected);
+      apiKeyLabel.setEnabled(selected);
+      apiKeyField.setEnabled(selected);
+    });
+    
     JRadioButton[] typeOfCheckButtons = new JRadioButton[3];
     ButtonGroup typeOfCheckGroup = new ButtonGroup();
     typeOfCheckButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiOneThread")));
     typeOfCheckButtons[0].addActionListener(e -> {
       otherServerNameField.setEnabled(false);
       useServerBox.setEnabled(false);
+      usernameLabel.setEnabled(false);
+      usernameField.setEnabled(false);
+      apiKeyLabel.setEnabled(false);
+      apiKeyField.setEnabled(false);
+      isPremiumBox.setEnabled(false);
       config.setMultiThreadLO(false);
       config.setRemoteCheck(false);
     });
@@ -789,6 +859,11 @@ public class ConfigurationDialog implements ActionListener {
     typeOfCheckButtons[1].addActionListener(e -> {
       otherServerNameField.setEnabled(false);
       useServerBox.setEnabled(false);
+      usernameLabel.setEnabled(false);
+      usernameField.setEnabled(false);
+      apiKeyLabel.setEnabled(false);
+      apiKeyField.setEnabled(false);
+      isPremiumBox.setEnabled(false);
       config.setMultiThreadLO(true);
       config.setRemoteCheck(false);
     });
@@ -806,6 +881,11 @@ public class ConfigurationDialog implements ActionListener {
 //        typeOfCheckButtons[2].setSelected(selected);
         otherServerNameField.setEnabled(useServerBox.isSelected());
         useServerBox.setEnabled(true);
+        usernameLabel.setEnabled(isPremiumBox.isSelected());
+        usernameField.setEnabled(isPremiumBox.isSelected());
+        apiKeyLabel.setEnabled(isPremiumBox.isSelected());
+        apiKeyField.setEnabled(isPremiumBox.isSelected());
+        isPremiumBox.setEnabled(true);
         config.setMultiThreadLO(false);
         config.setRemoteCheck(true);
       } else {
@@ -824,18 +904,33 @@ public class ConfigurationDialog implements ActionListener {
       typeOfCheckButtons[2].setSelected(true);
       otherServerNameField.setEnabled(useServerBox.isSelected());
       useServerBox.setEnabled(true);
+      usernameLabel.setEnabled(isPremiumBox.isSelected());
+      usernameField.setEnabled(isPremiumBox.isSelected());
+      apiKeyLabel.setEnabled(isPremiumBox.isSelected());
+      apiKeyField.setEnabled(isPremiumBox.isSelected());
+      isPremiumBox.setEnabled(true);
       config.setMultiThreadLO(false);
       config.setRemoteCheck(true);
     } else if (config.isMultiThread()) {
       typeOfCheckButtons[1].setSelected(true);
       otherServerNameField.setEnabled(false);
       useServerBox.setEnabled(false);
+      usernameLabel.setEnabled(false);
+      usernameField.setEnabled(false);
+      apiKeyLabel.setEnabled(false);
+      apiKeyField.setEnabled(false);
+      isPremiumBox.setEnabled(false);
       config.setMultiThreadLO(true);
       config.setRemoteCheck(false);
     } else {
       typeOfCheckButtons[0].setSelected(true);
       otherServerNameField.setEnabled(false);
       useServerBox.setEnabled(false);
+      usernameLabel.setEnabled(false);
+      usernameField.setEnabled(false);
+      apiKeyLabel.setEnabled(false);
+      apiKeyField.setEnabled(false);
+      isPremiumBox.setEnabled(false);
       config.setMultiThreadLO(false);
       config.setRemoteCheck(false);
     }
@@ -862,10 +957,32 @@ public class ConfigurationDialog implements ActionListener {
     serverExampleLabel.setEnabled(false);
     cons1.gridy++;
     serverPanel.add(serverExampleLabel, cons1);
-
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(serverPanel, cons);
+
+    JPanel premiumPanel = new JPanel();
+    premiumPanel.setLayout(new GridBagLayout());
+    cons1 = new GridBagConstraints();
+    cons1.insets = new Insets(0, SHIFT2, 0, 0);
+    cons1.gridx = 0;
+    cons1.gridy = 0;
+    cons1.anchor = GridBagConstraints.WEST;
+    cons1.fill = GridBagConstraints.NONE;
+    cons1.weightx = 0.0f;
+    premiumPanel.add(isPremiumBox, cons1);
+    cons1.insets = new Insets(0, SHIFT3, 0, 0);
+    cons1.gridy++;
+    premiumPanel.add(usernameLabel, cons1);
+    cons1.gridy++;
+    premiumPanel.add(usernameField, cons1);
+    cons1.gridy++;
+    premiumPanel.add(apiKeyLabel, cons1);
+    cons1.gridy++;
+    premiumPanel.add(apiKeyField, cons1);
+    cons.gridx = 0;
+    cons.gridy++;
+    portPanel.add(premiumPanel, cons);
   }
   
   private void createOfficeElements(GridBagConstraints cons, JPanel portPanel) {
