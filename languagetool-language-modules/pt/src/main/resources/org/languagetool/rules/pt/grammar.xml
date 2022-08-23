@@ -44696,6 +44696,32 @@ O namorado dela era um ladrão.
   <category id='REDACTION_TIPS' name='Dicas de redação' type='style'>
 
 
+    <!-- QUATRO OU MENOS SÃO SUFICIENTES até quatro são suficientes -->
+    <rule id='ATE_NUMERO_NUMERO_OU_MENOS' name="Simplificar: NÚMERO + ou menos → até NÚMERO">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
+      <!--
+      Tudo bate certo e quatro ou menos variáveis são suficientes na equação. → Tudo bate certo e até quatro variáveis são suficientes na equação.
+      Quatro ou menos variáveis são suficientes na equação. → Até quatro variáveis são suficientes na equação.
+      -->
+      <pattern>
+        <or>
+          <token postag='SENT_START' postag_regexp='no'/>
+          <token/>
+        </or>
+        <marker>
+          <token postag='Z0.+' postag_regexp='yes'/>
+          <token>ou</token>
+          <token>menos</token>
+        </marker>
+        <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>até <match no='2' case_conversion='startlower'/></suggestion>
+      <example correction="até quatro">Tudo bate certo e <marker>quatro ou menos</marker> variáveis são suficientes na equação.</example>
+      <example>Até quatro variáveis são suficientes na equação.</example>
+    </rule>
+
+
     <!-- CERTA exata -->
     <rule id='CERTO_EXATO' name="Certo → Exato" type="style">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-13/15/18 (1-JAN-2022+)      -->
