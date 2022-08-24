@@ -6953,7 +6953,8 @@ O namorado dela era um ladrão.
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
-        <example correction='Nós não passeamos'><marker>Nós não passeia</marker> na praia.</example>
+        <suggestion><match no='1' include_skipped='all'>nos</match> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
+        <example correction='Nós não passeamos|Nos não passeamos'><marker>Nós não passeia</marker> na praia.</example>
         <!-- 	TODO 'Nós não passeamo' is a inflection for reflexive forms. Find a way to remove it from suggestions -->
         <example><marker>Nós ainda não passeamos</marker> na praia.</example>
         <example>Nós preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example>
@@ -21106,7 +21107,7 @@ O namorado dela era um ladrão.
           <marker>
             <token regexp="yes">&abreviaturas;
               <exception regexp="yes" case_sensitive='yes'>&tabela_periodica;</exception>
-              <exception regexp="yes">vcs?|[qpnñ]|abs|bjs?|qn[dt]|q[td]|pf|tbm?</exception>
+              <exception regexp="yes">vcs?|[qpnñ]|abs|bjs?|qn[dt]|q[td]|pf|tbm?|Esc</exception>
               <exception postag="NP.*" postag_regexp="yes"/>
               <exception regexp="yes" case_sensitive='yes'>[A-Z]+|[Ii]dol|Tunis|[Cc]ult|[Cc]ast|Jam|Iron|Helm|Idol|Fasc|Carr|Cat|Bel|Bat|[Dd]ev|Bim|Biz|Bol|Bomb|Borg|Bud|Tibet|Cos|Curt|[Aa]rt|Alt|Red|Tang|Ed|Marc|MEC|[Dd]ocs|[Ll]og|[Tt][Vv]s?|[Bb]oxplot|Nat|[Tt]elecom|[ad]C|[Cc][Vv]s?|Il|[Cc]ard|tv|[Ss]ac|[Pp]et|[Pp]ec|PEC|[Jj]an|[Mm]ar|[Mm]ai|[Jj]un|[Ss]et|[Oo]ut</exception>
               <exception regexp="yes" case_sensitive='yes'>\p{Ll}\p{Lu}\p{Ll}|\p{Lu}\p{Lu}\p{Ll}|\p{Lu}\p{Lu}\p{Lu}|\p{Lu}\p{Ll}\p{Lu}</exception>
