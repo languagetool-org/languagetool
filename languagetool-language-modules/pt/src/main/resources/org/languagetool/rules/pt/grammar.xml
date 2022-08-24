@@ -3172,7 +3172,9 @@ O namorado dela era um ladrão.
           <marker>
             <token>que</token>
             <token regexp='yes'>foram|foi|são|é</token>
-            <token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
+            <token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'>
+              <exception postag='RG'/>
+            </token>
           </marker>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
@@ -18440,7 +18442,9 @@ O namorado dela era um ladrão.
           <token postag='SENT_START'/>
           <token skip="-1">quem</token>
 		  <token postag='VMI.+' postag_regexp='yes'/>
-		  <token inflected='yes' regexp='yes'>ser|estar</token>
+		  <token inflected='yes' regexp='yes'>ser|estar
+		    <exception postag='RG'/>
+		  </token>
 		  <example>Quem se aproveitou foi Rosenberg.</example>
         </antipattern>
 	     <pattern>
@@ -20679,6 +20683,10 @@ O namorado dela era um ladrão.
     <rulegroup id='ABREVIATIONS_PUNCTUATION' name="Abreviaturas: Pontuação">
       <!--       Based on the Catalan version, Tiago F. Santos,  2017-02-18      -->
       <!--          Wordlist from https://gerrit.libreoffice.org/#/c/29277/      -->
+      <antipattern>
+        <token>pen</token>
+        <token>drive</token>
+      </antipattern>
       <antipattern>
         <token>Feiticeiro</token>
         <token>de</token>
@@ -44916,7 +44924,7 @@ O namorado dela era um ladrão.
           <token>e</token>
           <token regexp='yes'>é|são|foi|foram</token>
           <token postag='V.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='NP.+|SPS00.PD0NN00|VMG0000'/>
+            <exception postag_regexp='yes' postag='NP.+|SPS00.PD0NN00|VMG0000|RG'/>
           </token>
         </marker>
       </pattern>
