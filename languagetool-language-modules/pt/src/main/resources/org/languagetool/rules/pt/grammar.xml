@@ -45100,6 +45100,30 @@ O namorado dela era um ladrão.
   </rulegroup>
 
 
+    <!-- QUE RESULTAM DE resultantes de -->
+    <rule id='QUE_RESULTA_RESULTAM_DE_DA_DAS_DO_DOS_NA_NAS_NO_NOS' name="Simplificar: Que + resulta(m) + de/d(a/o)(s)/n(a/o)(s) → Resultante(s) + de/d(a/o)(s)/n(a/o)(s)" type='style'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-24 (25-JUL-2022+) -->
+      <!--
+      Há alterações nas variáveis internas que resultam de alterações nas variáveis externas. → Há alterações nas variáveis internas resultantes de alterações nas variáveis externas.
+      -->
+      <pattern>
+        <marker>
+          <token>que
+            <exception scope='previous' postag_regexp='yes' postag='DA.+'/>
+          </token>
+          <and>
+            <token postag='VMIP3.+' postag_regexp='yes'/>
+            <token inflected='yes'>resultar</token>
+          </and>
+          <token postag='SPS00|SPS00:DA.+' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='2' postag='VMIP3(.)0' postag_replace='NCF$1000'>resultante</match> \3</suggestion>
+      <example correction="resultantes de">Há alterações nas variáveis internas <marker>que resultam de</marker> alterações nas variáveis externas.</example>
+    </rule>
+
+
     <!-- SEMANA QUE VEM próxima semana -->
     <rulegroup id='QUE_VEM_PROXIMA' name="Simplificar: NC + que + vem → próxim(ao)(s) + NC">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-19 (25-JUL-2022+) -->
