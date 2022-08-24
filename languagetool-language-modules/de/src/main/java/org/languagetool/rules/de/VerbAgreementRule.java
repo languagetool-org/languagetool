@@ -67,6 +67,11 @@ public class VerbAgreementRule extends TextLevelRule {
       token("wärst"),
       token("ich")
     ),
+    asList( // "*runterguck* das ist aber tief" (Inflektiv)
+      token("*"),
+      posRegex("VER:1:SIN:PRÄ:.*"),
+      token("*")
+    ),
     asList( // "Weder Peter noch ich wollen das."
       new PatternTokenBuilder().token("weder").setSkip(8).build(),
       token("noch"),
