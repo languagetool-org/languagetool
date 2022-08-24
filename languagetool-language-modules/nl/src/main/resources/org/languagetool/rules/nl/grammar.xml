@@ -338,7 +338,7 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">bij|en|tot</token>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}|euro|dollars?</token>
+                    <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|&months;|&abbrevMonths;|[%/]|\p{Sc}|euro|dollars?</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
@@ -348,7 +348,12 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">\.|,</token>
-                    <token regexp="yes">-|–</token>
+                    <token regexp="yes">[0-9]{1,2}|-|–</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">1?[0-9]</token>
@@ -376,9 +381,16 @@ regexp case-insensitive maken: (?i)
                     <token min="0">.</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|stap|top|poort(en)?|kaliber|psalm|euro|afb|no|nr|p|#</token>
+                    <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|euro|groep|kaliber|poort(en)?|psalm|stap|tip|top|afb|no|nr|p|#</token>
                     <token min="0">.</token>
                     <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|euro|groep(en)?|kaliber|poort(en)?|psalm(en)?|stap(en)?|tip|top|afb|no|nr|p|#</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">en|of|tot</token>
+                    <token regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">air|bloedgroep|fase|model|niveau|pro|ISBN|ISSN|RAID</token>
@@ -436,6 +448,10 @@ regexp case-insensitive maken: (?i)
                 <example>Hij belde +49(0)1234567 op.</example>
                 <example>Als je zegt dat ℚ=3 juist is, ben je zeker geen mathematicus.</example>
                 <example>Stap 1</example>
+                <example>Punt 1 en 2</example>
+                <example>Het vindt plaats tussen 15 en 16 oktober.</example>
+                <example>Het zijn 10 tot 65 cm.</example>
+                <example>Tel: 31 2 34567890</example>
             </rule>
         </rulegroup>
 
