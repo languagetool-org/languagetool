@@ -20940,6 +20940,10 @@ steenwijk;Steenwijk
                     <token>thuis</token>
                 </antipattern>
                 <antipattern>
+                    <token>magnum</token>
+                    <token>opus</token>
+                </antipattern>
+                <antipattern>
                     <token postag="GET.*" postag_regexp="yes"/>
                     <token postag="ZNW.*HET" postag_regexp="yes"/>
                 </antipattern>
@@ -20980,8 +20984,16 @@ steenwijk;Steenwijk
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">het|dit</token>
-                    <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ZNW:.*:DE_">[A-Z]{3,4}</token>
+                    <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ZNW:.*:DE_">[A-Z]{2,4}</token>
                     <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond</exception><exception postag="WKW:TGW:INF"/></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">het|dit</token>
+                    <token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro|moet</exception></token>
+                    <and>
+                        <token postag_regexp="yes" postag="ZNW:.*HET"></token>
+                        <token postag_regexp="yes" postag="WKW:(ODW|VTD).*"></token>
+                    </and>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -20993,18 +21005,20 @@ steenwijk;Steenwijk
                 <!-- Temporarily disabled to test user adoption with changed suggestions:
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
                 -->
-                <message>\2 is een 'de'-woord, maar \3 een 'het'-woord. U kunt het best de spatie verwijderen als het een begrip is of gewoon het lidwoord veranderen.</message>
+                <message>\2 is een 'de'-woord, maar \3 een 'het'-woord. U kunt het best de onderdelen aaneenschrijven als het een begrip is of gewoon het lidwoord veranderen.</message>
                 <suggestion>\1 \2\3</suggestion>
+                <suggestion>\1 \2-\3</suggestion>
                 <suggestion>de \2 \3</suggestion>
                 <suggestion>deze \2 \3</suggestion>
-                <example correction="het bepalingengedoe|de bepalingen gedoe|deze bepalingen gedoe">Ik zie <marker>het bepalingen gedoe</marker>.</example>
+                <example correction="het bepalingengedoe|het bepalingen-gedoe|de bepalingen gedoe|deze bepalingen gedoe">Ik zie <marker>het bepalingen gedoe</marker>.</example>
                 <example>Ik zong door en het leek net of het niet ging.</example>
                 <example>In dit geval had het KNVB gelijk met zijn beslissing.</example>
+                <example>Ik heb het tijd gegeven.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">het|dit</token>
-                    <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ZNW:.*:DE_">[A-Z]{3,4}</token>
+                    <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ZNW:.*:DE_">[A-Z]{2,4}</token>
                     <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond</exception><exception postag="WKW:TGW:INF"/></token>
                 </pattern>
                 <message>Het acroniem \2 is een 'de'-woord, maar \3 een 'het'-woord. U kunt het best de delen van het begrip aaneen schrijven of het lidwoord veranderen.</message>
@@ -21013,6 +21027,20 @@ steenwijk;Steenwijk
                 <suggestion>deze \2 \3</suggestion>
                 <example correction="dit KNVB-beleid|de KNVB beleid|deze KNVB beleid">Er staat al weer iets over <marker>dit KNVB beleid</marker> in de krant.</example>
                 <example correction="het KNVB-gelijk|de KNVB gelijk|deze KNVB gelijk">In dit geval had <marker>het KNVB gelijk</marker> met zijn beslissing.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">het|dit</token>
+                    <token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro|moet</exception></token>
+                    <and>
+                        <token postag_regexp="yes" postag="ZNW:.*HET"></token>
+                        <token postag_regexp="yes" postag="WKW:(ODW|VTD).*"></token>
+                    </and>
+                </pattern>
+                <message>\2 is een 'de'-woord. Misschien heeft u hier niet het juiste lidwoord gekozen.</message>
+                <suggestion>de \2 \3</suggestion>
+                <example correction="de tijd gegeven">Ik heb <marker>het tijd gegeven</marker>.</example>
+                <example correction="de brand gesticht">Ik heb <marker>het brand gesticht</marker>.</example>
             </rule>
         </rulegroup>
         <!-- lijkt mooie regel, maar gaat te vaak fout door het gebruik als voegwoord
