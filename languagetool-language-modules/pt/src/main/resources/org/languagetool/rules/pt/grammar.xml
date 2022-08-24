@@ -139,6 +139,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!ENTITY nomes_de_instituicoes "Anuário|Classificação|Fundação|Diretrize?s?|Península|Normas?|Consultoria|Empresa|Empirismo|Conjuração|Inconfidência|Inquisição|Rede|Códigos?|Vale|Título|Plano|Frente|Vanguarda|tradutor[ae]s?|Lei|Indústria|Realismo|Conferência|Constituição|Colégio|Conselho|Comunidade|Estatuto|Serviço|Coletivo|Assuntos|Revoluções|Tabela|Encontro|Secretaria|Consulado|Comissão|Comitês?|Fórum|Núcleo|Posto|Jornal|Sistema|Lojas?|Tribunal|Cinemateca|Nacional|Sinfonia|Vila|Protocolos?|Grupos?|Peste|Gripe|Festival|Velódromo|Memorial|Programa|Expressionismo|Assembleias?|Forças?|Câmara|Impressionismo|Clubes?|Estudos|Regimentos?|Fundo|Banco|Campeonato|Conferência|Partido|Aliança|Seleção|Museu|Taça|Copa|Organização|Unidades?|Hospital|Campanha|Corporação|Correio|Marinha|Juventude|Sociedades?|Ligas?|Letras|Literaturas?|Línguas?|Revolta|Armada|Grêmio|Jogos|Academia|Associação|Centro|Companhia|Cultura|Congressos?|Revista|Montanhas?|Morros?|Complexo|Ministério|Confederação|Coroa|Embaixada|Emirados?|Enciclopédia|Era|Escola|Exército|Circuito|Faculdade|Tesouro|Federação|Guerra|Igreja|Ilhas|Império|Torneios?|Índia|Instituição|Instituto|Mar|Repúblicas?|Revolução|União|Universidade|Superliga|Teatro">
 
+    <!ENTITY nomes_de_instituicoes_final "Productions|Partnership|University|Hotel|Films|Designs?|Society|Records|Entertainment|Pictures|Company|Studios">
+
     <!ENTITY livros_biblicos "Gênesis|Êxodo|Levítico|Deuteronômio|Josué|Juízes|Rute|Samuel|Reis|Crônicas|Esdras|Neemias|Ester|Jó|Salmos|Provérbios|Eclesiastes|Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|Oseias|Joel|Amós|Obadias|Jonas|Miqueias|Naum|Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Tobias|Judite|Macabeus|Sabedoria|Eclesiástico|Baruque|Mateus|Marcos|Lucas|João|Apóstolos|Romanos|Coríntios|Gálatas|Efésios|Filipenses|Colossenses|Tessalonicenses|Timóteo|Tito|Filémon|Hebreus|Tiago|Pedro|Judas|Apocalipse">
 
     <!ENTITY linguagem_internet "vcs?|pq|[qpnñ]|eh|blz|abs|bjs|omg|wtf|qn[dt]|q[td]|kk|pf|tbm?">
@@ -2035,6 +2037,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='NPMSG.+' postag_regexp='yes'/>
           <example>Na Grande Rio de Janeiro.</example>
         </antipattern>
+        <antipattern>
+          <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes' skip='-1'/>
+          <token regexp='yes'>&nomes_de_instituicoes_final;</token>
+          <example>Faz parte da Walt Disney Studios</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|de|às?|&hifen;</token>
           <marker>
@@ -2046,7 +2056,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/></token>
             <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|\d[oº]</exception>
+              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|\d[oº]|devido</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
         </pattern>
