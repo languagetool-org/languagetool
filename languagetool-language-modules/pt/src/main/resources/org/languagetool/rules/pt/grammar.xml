@@ -2029,27 +2029,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Isto acontece fora da área da casa.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+        <antipattern>
+          <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+          <token>grande</token>
+          <token postag='NPMSG.+' postag_regexp='yes'/>
+          <example>Na Grande Rio de Janeiro.</example>
+        </antipattern>
         <pattern>
-          <token negate='yes' regexp='yes'>e|de|&hifen;</token>
+          <token negate='yes' regexp='yes'>e|de|às?|&hifen;</token>
           <marker>
-            <token regexp='yes'>&contracoes_FS;
-              <exception>nela</exception>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'>
+              <exception regexp='yes'>[dn]ela|à|ta|tao</exception>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/></token>
             <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception>
+              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|\d[oº]</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
         </pattern>
         <message>&MSG_ECG;</message>
+        <suggestion><match no='2' postag="(DI.|SPS00:D..|SPS00:...)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
-        <example correction='Alguma tesoireira'><marker>Alguma tesoireiro</marker> está no pasto.</example>
+        <example correction='Algum tesoireiro|Alguma tesoireira'><marker>Alguma tesoireiro</marker> está no pasto.</example>
         <example>Leonardo da Vinci e Rafael mostraram grande interesse sobre a estru…</example>
         <example>Bacalhau à lagareiro</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'>
+              <exception regexp='yes'>[dn]ela|à|ta|tao</exception>
+              <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
+            <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+            <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/></token>
+            <token regexp='yes'>\d\.?[oº]</token>
+          </marker>
+        </pattern>
+        <message>&MSG_ECG;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' regexp_match="[oº]" regexp_replace='ª' postag_regexp="yes"/></suggestion>
+        <example correction='da 3ª'>é membro <marker>da 3o</marker> Congresso.</example>
       </rule>
       <rule>
         <antipattern>
