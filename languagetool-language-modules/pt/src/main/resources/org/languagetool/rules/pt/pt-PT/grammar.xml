@@ -5193,7 +5193,29 @@
 
 
   <category id="STYLE" name="Style" type="style">
-
+    <!-- TAMBÉM VERBO NOME_COMUM também o é -->
+    <rule id='TAMBÉM_O_VERBO_PT_PT' name="Evitar redundância de adjetivos">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, fully revised by Susana Boatto, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
+      <!--
+      Eu fiz a formação MULTIBANCO que é obrigatória; esta também é obrigatória? → Eu fiz a formação MULTIBANCO que é obrigatória; esta também o é?
+      -->
+      <pattern>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='_PUNCT|_TRESPONTOS' postag_regexp='yes'/>
+        <marker>
+          <token postag='DD.+|PD.+' postag_regexp='yes'/>
+          <token>também</token>
+          <token><match no="2"/></token>
+          <token><match no="3"/></token>
+        </marker>
+      </pattern>
+      <message>Evite a redundância para melhorar a clareza da perífrase.</message>
+      <suggestion>\6 também o \8</suggestion>
+      <example correction="esta também o é">Eu fiz a formação MULTIBANCO que é obrigatória; <marker>esta também é obrigatória</marker>?</example>
+    </rule>
 
     <rulegroup id='A_XXX_DE_VOCÊS' name="Simplificar: A XXX de vocês → a vossa XXX">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-10 (Checked/Enhanced) (25-JUL-2022+) -->

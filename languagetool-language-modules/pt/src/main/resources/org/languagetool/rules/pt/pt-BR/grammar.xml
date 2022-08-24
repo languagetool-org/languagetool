@@ -1133,6 +1133,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   </category>
 
   <category id="STYLE" name="Style" type="style">
+    <!-- TAMBÉM VERBO NOME_COMUM também é -->
+    <rule id='TAMBÉM_O_VERBO_PT_BR' name="Evitar redundância de adjetivos">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, fully revised by Susana Boatto, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
+      <!--
+      Eu fiz a formação MULTIBANCO que é obrigatória; esta também é obrigatória? → Eu fiz a formação MULTIBANCO que é obrigatória; esta também é?
+      -->
+      <pattern>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='_PUNCT|_TRESPONTOS' postag_regexp='yes'/>
+        <marker>
+          <token postag='DD.+|PD.+' postag_regexp='yes'/>
+          <token>também</token>
+          <token><match no="2"/></token>
+          <token><match no="3"/></token>
+        </marker>
+      </pattern>
+      <message>Evite a redundância para melhorar a clareza da perífrase.</message>
+      <suggestion>\6 também \8</suggestion>
+      <example correction="esta também é">Eu fiz a formação MULTIBANCO que é obrigatória; <marker>esta também é obrigatória</marker>?</example>
+    </rule>
+
+
+    <!-- ################################################################################## -->
+
     <!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/me/te/vos -->
     <rule id='LHE_S_ME_TE_VOS_VERB' name="Lhe(s)/me/te/vos + Verbo">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-15 + 2021-02-16 (1-JAN-2021+)      -->
