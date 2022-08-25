@@ -1727,17 +1727,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-02-02 (1-JAN-2022+) *START* -->
-        <!--
-        THIS ANTIPATTERN IS TO TRIGGER THE RULE: CONFUSÃO_ESTA_ESTÁ
-        -->
-        <antipattern>
-          <token postag='N[CP].+|RG|CS' postag_regexp='yes'/>
-          <token regexp="yes">estas?</token>
-          <token postag='VMP00.+' postag_regexp='yes'/>
-          <token negate_pos="yes" postag='V.+|NC.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-02-02 (1-JAN-2022+) *END* -->
 
         <!-- MARCOAGPINTO 2022-06-29/30 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
@@ -1938,6 +1927,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-08 (Checked/Enhanced) (25-JUL-2022+) *END* -->	
 
+        <!-- MARCOAGPINTO 2022-08-25 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- This antipattern is to trigger the rule: CONFUSÃO_ESTA_ESTÁ -->
+        <antipattern>
+          <token postag='N[CP].+|AQ.+|SPS00|CC|CS|RG|I|RM|RN|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+          <token regexp="yes">estas?</token>
+          <token postag='V.+|N[CP].+|AQ.+|SPS00|CC|CS|RG|I|RM|RN|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+          <example>O molde esta recortado nas folhas onde você vai seguir a numeração das folhas e juntar cada uma para forma o molde.</example>
+          <example>O chão esta coberto de neve.</example>
+          <example>Nos dias de hoje esta tao difícil acreditar nas pessoas, elas só querem curtir, te curtir.</example>
+          <example>Vocês só sabem dizer (perguntar) onde esta escrito isto na bíblia?</example>
+          <example>Na parede esta escrito que as convocações estao senfo feitas por email e telefone “fixo”.</example>
+          <example>Veja o que esta escrito em Êxodo 20:11 o que Deus fez em 6 dias.</example>
+          <example>*o adaptador não esta incluso.</example>
+          <example>O que esta morto, não pode morrer!</example>
+          <example>Como ele fica na bancada, o micro que esta ligado a ele é um K6 que uso para ler datasheet, abrir esquemas, gravador de pic, eprom, etc.</example>
+          <example>Papai, você ainda esta zangado comigo?</example>
+          <example>Um plano assim esta fadado a falhar.</example>
+          <example>Todo mundo esta ferido.</example>
+          <example>Você não esta ocupado agora, está?</example>
+          <example>O segundo e terceiro posto esta ocupado pela Turquia e Alemanha, respectivamente.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-25 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
           <token/> <!-- MARCOAGPINTO - The other "so clever" fix I used in the line below in 2019 caught fewer errors - 2022-07-12 -->
