@@ -20880,7 +20880,7 @@ steenwijk;Steenwijk
                         <token>de</token>
                     </marker>
                     <token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="GET.*MRV"/></token>
-                    <!-- de regel wordt vaak genegeerd als het om een spatiefout gaat. Beter om dat door een andere egel te laten signaleren -->
+                    <!-- de regel wordt vaak genegeerd als het om een spatiefout gaat. Beter om dat door een andere regel te laten signaleren -->
                     <token><exception postag_regexp="yes" postag="ZNW.*DE_"/></token>
                 </pattern>
                 <message>Bij \2 hoort meestal <suggestion>het</suggestion>; het kan ook een spatiefout zijn.</message>
@@ -21045,6 +21045,15 @@ steenwijk;Steenwijk
                 <example correction="het KNVB-gelijk|de KNVB gelijk|deze KNVB gelijk">In dit geval had <marker>het KNVB gelijk</marker> met zijn beslissing.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">het|dit</token>
+                    <and>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][a-z]+</token>
+                        <token postag_regexp="yes" postag="ZNW.*DE_"/>
+                        <token postag_regexp="yes" postag="BNW:STL:VRB"/>
+                    </and>
+                    <token postag_regexp="yes" postag="ZNW:.*HET"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">het|dit</token>
                     <token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro|moet</exception></token>
@@ -21057,6 +21066,7 @@ steenwijk;Steenwijk
                 <suggestion>de \2 \3</suggestion>
                 <example correction="de tijd gegeven">Ik heb <marker>het tijd gegeven</marker>.</example>
                 <example correction="de brand gesticht">Ik heb <marker>het brand gesticht</marker>.</example>
+                <example>In april 2004 waren delen van de stad in handen van het Iraakse verzet.</example>
             </rule>
         </rulegroup>
         <!-- lijkt mooie regel, maar gaat te vaak fout door het gebruik als voegwoord
