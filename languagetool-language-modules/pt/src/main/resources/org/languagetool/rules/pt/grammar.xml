@@ -42350,13 +42350,14 @@ O namorado dela era um ladrão.
       <pattern>
         <marker>
           <token inflected='yes'>poder</token>
-        </marker>  
-        <token inflected='yes'>ser</token>
-        <token regexp="yes">possível|possíveis</token>        
+          <token inflected='yes'>ser</token>
+        </marker>
+        <token regexp="yes">possível|possíveis</token>
       </pattern>
       <message>Possível redundância com poder/possível. Substitua por:</message>
-      <suggestion><match no='1' postag='VMI.+' postag_regexp='yes'>dever</match></suggestion>
-      <example correction="deve">A vitória <marker>pode</marker> ser possível.</example>
+      <suggestion><match no='1' postag='VMI.+' postag_regexp='yes'>dever</match> \2</suggestion>
+      <suggestion><match no='3' postag='NCM(.)000' postag_replace='VMIP3$10'>ser</match></suggestion>
+      <example correction="deve ser|é">A vitória <marker>pode ser</marker> possível.</example>
     </rule>
 
 
