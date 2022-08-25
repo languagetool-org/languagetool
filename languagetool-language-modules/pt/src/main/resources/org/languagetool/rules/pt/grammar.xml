@@ -42326,6 +42326,31 @@ O namorado dela era um ladrão.
   <category id='STYLE' name="Estilo" type="style">
 
 
+    <!-- PODER SER POSSÍVEL deve ser possível -->
+    <rule id='PODER_SER_POSSIVEL' name="Redundância: Poder/possível">
+      <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2022-08-25 (25-JUL-2022+) -->
+      <!--
+      A vitória pode ser possível. → A vitória deve ser possível.
+      -->
+      <antipattern>
+        <token postag='V....P.+' postag_regexp='yes'/>
+        <token>ser</token>
+        <token>possíveis</token>
+        <example>As vitórias podem ser possíveis.</example>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token inflected='yes'>poder</token>
+        </marker>  
+        <token inflected='yes'>ser</token>
+        <token regexp="yes">possível|possíveis</token>        
+      </pattern>
+      <message>Possível redundância com poder/possível. Substitua por:</message>
+      <suggestion><match no='1' postag='VMI.+' postag_regexp='yes'>dever</match></suggestion>
+      <example correction="deve">A vitória <marker>pode</marker> ser possível.</example>
+    </rule>
+
+
     <!-- DE FORMA/MODO + ADJ adv -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
     <rule id='DE_FORMA-MODO_ADJ' name="De + forma/modo + Adj -> Advérbio" tags="picky">
