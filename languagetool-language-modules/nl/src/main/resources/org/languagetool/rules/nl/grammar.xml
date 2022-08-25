@@ -338,7 +338,7 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">bij|en|tot</token>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}|euro|dollars?</token>
+                    <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|&months;|&abbrevMonths;|[%/]|\p{Sc}|euro|dollars?</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
@@ -348,7 +348,12 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">\.|,</token>
-                    <token regexp="yes">-|–</token>
+                    <token regexp="yes">[0-9]{1,2}|-|–</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">1?[0-9]</token>
@@ -376,9 +381,16 @@ regexp case-insensitive maken: (?i)
                     <token min="0">.</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|stap|top|poort(en)?|kaliber|psalm|euro|afb|no|nr|p|#</token>
+                    <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|euro|groep|kaliber|poort(en)?|psalm|stap|tip|top|afb|no|nr|p|#</token>
                     <token min="0">.</token>
                     <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&commonStreetNames;|&documentParts;|&currenciesISO4217;|\p{Sc}|euro|groep(en)?|kaliber|poort(en)?|psalm(en)?|stap(en)?|tip|top|afb|no|nr|p|#</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">en|of|tot</token>
+                    <token regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">air|bloedgroep|fase|model|niveau|pro|ISBN|ISSN|RAID</token>
@@ -436,6 +448,10 @@ regexp case-insensitive maken: (?i)
                 <example>Hij belde +49(0)1234567 op.</example>
                 <example>Als je zegt dat ℚ=3 juist is, ben je zeker geen mathematicus.</example>
                 <example>Stap 1</example>
+                <example>Punt 1 en 2</example>
+                <example>Het vindt plaats tussen 15 en 16 oktober.</example>
+                <example>Het zijn 10 tot 65 cm.</example>
+                <example>Tel: 31 2 34567890</example>
             </rule>
         </rulegroup>
 
@@ -20864,7 +20880,7 @@ steenwijk;Steenwijk
                         <token>de</token>
                     </marker>
                     <token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="GET.*MRV"/></token>
-                    <!-- de regel wordt vaak genegeerd als het om een spatiefout gaat. Beter om dat door een andere egel te laten signaleren -->
+                    <!-- de regel wordt vaak genegeerd als het om een spatiefout gaat. Beter om dat door een andere regel te laten signaleren -->
                     <token><exception postag_regexp="yes" postag="ZNW.*DE_"/></token>
                 </pattern>
                 <message>Bij \2 hoort meestal <suggestion>het</suggestion>; het kan ook een spatiefout zijn.</message>
@@ -20940,6 +20956,10 @@ steenwijk;Steenwijk
                     <token>thuis</token>
                 </antipattern>
                 <antipattern>
+                    <token>magnum</token>
+                    <token>opus</token>
+                </antipattern>
+                <antipattern>
                     <token postag="GET.*" postag_regexp="yes"/>
                     <token postag="ZNW.*HET" postag_regexp="yes"/>
                 </antipattern>
@@ -20980,8 +21000,16 @@ steenwijk;Steenwijk
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">het|dit</token>
-                    <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ZNW:.*:DE_">[A-Z]{3,4}</token>
+                    <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ZNW:.*:DE_">[A-Z]{2,4}</token>
                     <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond</exception><exception postag="WKW:TGW:INF"/></token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">het|dit</token>
+                    <token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro|moet</exception></token>
+                    <and>
+                        <token postag_regexp="yes" postag="ZNW:.*HET"></token>
+                        <token postag_regexp="yes" postag="WKW:(ODW|VTD).*"></token>
+                    </and>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -20993,18 +21021,20 @@ steenwijk;Steenwijk
                 <!-- Temporarily disabled to test user adoption with changed suggestions:
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
                 -->
-                <message>\2 is een 'de'-woord, maar \3 een 'het'-woord. U kunt het best de spatie verwijderen als het een begrip is of gewoon het lidwoord veranderen.</message>
+                <message>\2 is een 'de'-woord, maar \3 een 'het'-woord. U kunt het best de onderdelen aaneenschrijven als het een begrip is of gewoon het lidwoord veranderen.</message>
                 <suggestion>\1 \2\3</suggestion>
+                <suggestion>\1 \2-\3</suggestion>
                 <suggestion>de \2 \3</suggestion>
                 <suggestion>deze \2 \3</suggestion>
-                <example correction="het bepalingengedoe|de bepalingen gedoe|deze bepalingen gedoe">Ik zie <marker>het bepalingen gedoe</marker>.</example>
+                <example correction="het bepalingengedoe|het bepalingen-gedoe|de bepalingen gedoe|deze bepalingen gedoe">Ik zie <marker>het bepalingen gedoe</marker>.</example>
                 <example>Ik zong door en het leek net of het niet ging.</example>
                 <example>In dit geval had het KNVB gelijk met zijn beslissing.</example>
+                <example>Ik heb het tijd gegeven.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">het|dit</token>
-                    <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ZNW:.*:DE_">[A-Z]{3,4}</token>
+                    <token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ZNW:.*:DE_">[A-Z]{2,4}</token>
                     <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond</exception><exception postag="WKW:TGW:INF"/></token>
                 </pattern>
                 <message>Het acroniem \2 is een 'de'-woord, maar \3 een 'het'-woord. U kunt het best de delen van het begrip aaneen schrijven of het lidwoord veranderen.</message>
@@ -21013,6 +21043,30 @@ steenwijk;Steenwijk
                 <suggestion>deze \2 \3</suggestion>
                 <example correction="dit KNVB-beleid|de KNVB beleid|deze KNVB beleid">Er staat al weer iets over <marker>dit KNVB beleid</marker> in de krant.</example>
                 <example correction="het KNVB-gelijk|de KNVB gelijk|deze KNVB gelijk">In dit geval had <marker>het KNVB gelijk</marker> met zijn beslissing.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">het|dit</token>
+                    <and>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][a-z]+</token>
+                        <token postag_regexp="yes" postag="ZNW.*DE_"/>
+                        <token postag_regexp="yes" postag="BNW:STL:VRB"/>
+                    </and>
+                    <token postag_regexp="yes" postag="ZNW:.*HET"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">het|dit</token>
+                    <token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro|moet</exception></token>
+                    <and>
+                        <token postag_regexp="yes" postag="ZNW:.*HET"></token>
+                        <token postag_regexp="yes" postag="WKW:(ODW|VTD).*"></token>
+                    </and>
+                </pattern>
+                <message>\2 is een 'de'-woord. Misschien heeft u hier niet het juiste lidwoord gekozen.</message>
+                <suggestion>de \2 \3</suggestion>
+                <example correction="de tijd gegeven">Ik heb <marker>het tijd gegeven</marker>.</example>
+                <example correction="de brand gesticht">Ik heb <marker>het brand gesticht</marker>.</example>
+                <example>In april 2004 waren delen van de stad in handen van het Iraakse verzet.</example>
             </rule>
         </rulegroup>
         <!-- lijkt mooie regel, maar gaat te vaak fout door het gebruik als voegwoord
@@ -32730,7 +32784,7 @@ steenwijk;Steenwijk
                 <example>QQ <marker>heeft u nog vragen</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WIJZE" name="wijze">
+        <rulegroup id="WIJZE" name="wijze" tags="picky">
             <rule>
                 <antipattern><token>de</token><token>wijze</token><token postag_regexp="yes" postag=".*MRV.*|ENM:PER.*"/></antipattern>
                 <antipattern><token>bij</token><token>wijze</token><token>van</token></antipattern><!-- heeft eigen regel -->
@@ -32742,8 +32796,8 @@ steenwijk;Steenwijk
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="Manier"><marker>Wijze</marker> kleinkunst van vandaag.</example>
                 <example correction="manier">Werk ook de andere potjes op dezelfde <marker>wijze</marker> af.</example>
-                <example correction="manier">Gij vangt -bij <marker>wijze</marker> van spreken - een vlieg.</example>
                 <example correction="manier">Iets wat ze op dezelfde <marker>wijze</marker> beantwoordde.</example>
+                <example>Gij vangt - bij wijze van spreken - een vlieg.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WILLENS_EN_WETENS" name="willens en wetens">

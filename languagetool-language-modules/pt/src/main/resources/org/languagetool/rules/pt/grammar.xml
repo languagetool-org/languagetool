@@ -139,6 +139,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!ENTITY nomes_de_instituicoes "Anuário|Classificação|Fundação|Diretrize?s?|Península|Normas?|Consultoria|Empresa|Empirismo|Conjuração|Inconfidência|Inquisição|Rede|Códigos?|Vale|Título|Plano|Frente|Vanguarda|tradutor[ae]s?|Lei|Indústria|Realismo|Conferência|Constituição|Colégio|Conselho|Comunidade|Estatuto|Serviço|Coletivo|Assuntos|Revoluções|Tabela|Encontro|Secretaria|Consulado|Comissão|Comitês?|Fórum|Núcleo|Posto|Jornal|Sistema|Lojas?|Tribunal|Cinemateca|Nacional|Sinfonia|Vila|Protocolos?|Grupos?|Peste|Gripe|Festival|Velódromo|Memorial|Programa|Expressionismo|Assembleias?|Forças?|Câmara|Impressionismo|Clubes?|Estudos|Regimentos?|Fundo|Banco|Campeonato|Conferência|Partido|Aliança|Seleção|Museu|Taça|Copa|Organização|Unidades?|Hospital|Campanha|Corporação|Correio|Marinha|Juventude|Sociedades?|Ligas?|Letras|Literaturas?|Línguas?|Revolta|Armada|Grêmio|Jogos|Academia|Associação|Centro|Companhia|Cultura|Congressos?|Revista|Montanhas?|Morros?|Complexo|Ministério|Confederação|Coroa|Embaixada|Emirados?|Enciclopédia|Era|Escola|Exército|Circuito|Faculdade|Tesouro|Federação|Guerra|Igreja|Ilhas|Império|Torneios?|Índia|Instituição|Instituto|Mar|Repúblicas?|Revolução|União|Universidade|Superliga|Teatro">
 
+    <!ENTITY nomes_de_instituicoes_final "Productions|Partnership|University|Hotel|Films|Designs?|Society|Records|Entertainment|Pictures|Company|Studios">
+
     <!ENTITY livros_biblicos "Gênesis|Êxodo|Levítico|Deuteronômio|Josué|Juízes|Rute|Samuel|Reis|Crônicas|Esdras|Neemias|Ester|Jó|Salmos|Provérbios|Eclesiastes|Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|Oseias|Joel|Amós|Obadias|Jonas|Miqueias|Naum|Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Tobias|Judite|Macabeus|Sabedoria|Eclesiástico|Baruque|Mateus|Marcos|Lucas|João|Apóstolos|Romanos|Coríntios|Gálatas|Efésios|Filipenses|Colossenses|Tessalonicenses|Timóteo|Tito|Filémon|Hebreus|Tiago|Pedro|Judas|Apocalipse">
 
     <!ENTITY linguagem_internet "vcs?|pq|[qpnñ]|eh|blz|abs|bjs|omg|wtf|qn[dt]|q[td]|kk|pf|tbm?">
@@ -1335,9 +1337,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CF]S.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
               <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
-              <exception regexp='yes'>e|ser|são|termo|nome|haver</exception></token>
+              <exception regexp='yes'>e|ser|são|termo|nome|haver|saber</exception></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
+              <exception>x</exception>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+'/></token>
             <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
@@ -1409,7 +1412,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
           <marker>
             <token regexp='yes'>&contracoes_MS;
-              <exception>nele</exception>
+              <exception regexp='yes'>[dn]ele</exception>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
@@ -1724,17 +1727,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <!--token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'-->
           <token postag='(?:[NZ].|A..)M[NP].+' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-02-02 (1-JAN-2022+) *START* -->
-        <!--
-        THIS ANTIPATTERN IS TO TRIGGER THE RULE: CONFUSÃO_ESTA_ESTÁ
-        -->
-        <antipattern>
-          <token postag='N[CP].+|RG|CS' postag_regexp='yes'/>
-          <token regexp="yes">estas?</token>
-          <token postag='VMP00.+' postag_regexp='yes'/>
-          <token negate_pos="yes" postag='V.+|NC.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-02-02 (1-JAN-2022+) *END* -->
 
         <!-- MARCOAGPINTO 2022-06-29/30 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
@@ -1935,6 +1927,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-08 (Checked/Enhanced) (25-JUL-2022+) *END* -->	
 
+        <!-- MARCOAGPINTO 2022-08-25 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- This antipattern is to trigger the rule: CONFUSÃO_ESTA_ESTÁ -->
+        <antipattern>
+          <token postag='N[CP].+|AQ.+|SPS00|CC|CS|RG|I|RM|RN|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+          <token regexp="yes">estas?</token>
+          <token postag='V.+|N[CP].+|AQ.+|SPS00|CC|CS|RG|I|RM|RN|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+          <example>O molde esta recortado nas folhas onde você vai seguir a numeração das folhas e juntar cada uma para forma o molde.</example>
+          <example>O chão esta coberto de neve.</example>
+          <example>Nos dias de hoje esta tao difícil acreditar nas pessoas, elas só querem curtir, te curtir.</example>
+          <example>Vocês só sabem dizer (perguntar) onde esta escrito isto na bíblia?</example>
+          <example>Na parede esta escrito que as convocações estao senfo feitas por email e telefone “fixo”.</example>
+          <example>Veja o que esta escrito em Êxodo 20:11 o que Deus fez em 6 dias.</example>
+          <example>*o adaptador não esta incluso.</example>
+          <example>O que esta morto, não pode morrer!</example>
+          <example>Como ele fica na bancada, o micro que esta ligado a ele é um K6 que uso para ler datasheet, abrir esquemas, gravador de pic, eprom, etc.</example>
+          <example>Papai, você ainda esta zangado comigo?</example>
+          <example>Um plano assim esta fadado a falhar.</example>
+          <example>Todo mundo esta ferido.</example>
+          <example>Você não esta ocupado agora, está?</example>
+          <example>O segundo e terceiro posto esta ocupado pela Turquia e Alemanha, respectivamente.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-25 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
           <token/> <!-- MARCOAGPINTO - The other "so clever" fix I used in the line below in 2019 caught fewer errors - 2022-07-12 -->
@@ -2035,18 +2049,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='NPMSG.+' postag_regexp='yes'/>
           <example>Na Grande Rio de Janeiro.</example>
         </antipattern>
+        <antipattern>
+          <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes' skip='-1'/>
+          <token regexp='yes'>&nomes_de_instituicoes_final;</token>
+          <example>Faz parte da Walt Disney Studios</example>
+        </antipattern>
+        <antipattern>
+            <token>à</token>
+            <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+            <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'/>
+            <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes'/>
+            <example>Era candidadto à deputado federal</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|de|às?|&hifen;</token>
           <marker>
             <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'>
-              <exception regexp='yes'>[dn]ela|à|ta|tao</exception>
+              <exception regexp='yes'>[dn]ela|às?|ta|tao</exception>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/></token>
             <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|\d[oº]</exception>
+              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|\d[oº]|devido</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
         </pattern>
@@ -2142,19 +2171,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>E todas nós, em silêncio, começamos a googla-lo.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-07-13 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
+        <antipattern>
+          <token>/</token>
+          <token spacebefore='no'>as</token>
+          <example>Os/as voluntários/as</example>
+        </antipattern>
         <pattern>
-          <token negate='yes' regexp='yes'>de|&hifen;</token>
+          <token negate='yes' regexp='yes'>de|&hifen;|sendo</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FP.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CMF]P.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/> <!-- MARCOAGPINTO 2019-12-27 -->
               <exception regexp='yes'>e|mas|palavras|letras|ruas|ilhas</exception></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/></token>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/>
+              <exception postag='N.[FC]P+' postag_regexp='yes'/>
+            </token>
             <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception>
+              <exception postag='(?:[NZ].|A..)[CF].+|V.[PCSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|serão|são|nós|vão|mares</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
         </pattern>
@@ -2190,12 +2225,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;</token>
           <marker>
-            <token regexp='yes'>&contracoes_FP;
-              <exception regexp='yes'>mas|nelas</exception>
+            <token postag='DI.0FP.+|SPS00:D..FP.+' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
-            <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+            <token min='0' postag='R[GN]|DP.+|SPS00:D.+' postag_regexp='yes'/>
             <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/></token>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/>
+            </token>
             <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception>
@@ -2203,8 +2238,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
         </pattern>
         <message>&MSG_ECG;</message>
+        <suggestion><match no='2' postag="(DI..|SPS00:D..)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
-        <example correction="das grandes descobertas">A maioria <marker>das grandes descobertos</marker> científicas são nada menos que a descoberta do ób…</example>
+        <example correction="(das) grandes descobertos|das grandes descobertas">A maioria <marker>das grandes descobertos</marker> científicas são nada menos que a descoberta do ób…</example>
+        <example correction="pelos trabalhadores|pelas trabalhadeiras|pelas trabalhadoras">Foi feito <marker>pelas trabalhadores</marker> do parque.</example>
         <!--<example correction='Algumas tresoreiras'><marker>Algumas tresoreiros</marker> estão no pasto.</example>-->
         <example>…ouvir os partidos nelas representados e o …</example>
         <example>nas coordenadas 20.00ºN, 20.00ºW</example>
@@ -2303,7 +2340,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception postag_regexp='yes' postag='AQ.+|NC.+'/>
           </token>
           </marker>
-          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp="yes"/>
+          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp="yes">
+            <exception postag='SPS00:DA0MS0|RG' postag_regexp='yes'/>
+          </token>
           <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
         </pattern>
         <message>&MSG_ECG;</message>
@@ -42312,6 +42351,32 @@ O namorado dela era um ladrão.
 
 
   <category id='STYLE' name="Estilo" type="style">
+
+
+    <!-- PODER SER POSSÍVEL deve ser possível -->
+    <rule id='PODER_SER_POSSIVEL' name="Redundância: Poder/possível">
+      <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2022-08-25 (25-JUL-2022+) -->
+      <!--
+      A vitória pode ser possível. → A vitória deve ser possível.
+      -->
+      <antipattern>
+        <token postag='V....P.+' postag_regexp='yes'/>
+        <token>ser</token>
+        <token>possíveis</token>
+        <example>As vitórias podem ser possíveis.</example>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token inflected='yes'>poder</token>
+          <token inflected='yes'>ser</token>
+        </marker>
+        <token regexp="yes">possível|possíveis</token>
+      </pattern>
+      <message>Possível redundância com poder/possível. Substitua por:</message>
+      <suggestion><match no='1' postag='VMI.+|VMN0000' postag_regexp='yes'>dever</match> \2</suggestion>
+      <suggestion><match no='3' postag='NCM(.)000' postag_replace='VMIP3$10'>ser</match></suggestion>
+      <example correction="deve ser|é">A vitória <marker>pode ser</marker> possível.</example>
+    </rule>
 
 
     <!-- DE FORMA/MODO + ADJ adv -->
