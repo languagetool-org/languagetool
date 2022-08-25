@@ -1337,9 +1337,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CF]S.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
               <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
-              <exception regexp='yes'>e|ser|são|termo|nome|haver</exception></token>
+              <exception regexp='yes'>e|ser|são|termo|nome|haver|saber</exception></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
+              <exception>x</exception>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+'/></token>
             <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
@@ -1411,7 +1412,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
           <marker>
             <token regexp='yes'>&contracoes_MS;
-              <exception>nele</exception>
+              <exception regexp='yes'>[dn]ele</exception>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
