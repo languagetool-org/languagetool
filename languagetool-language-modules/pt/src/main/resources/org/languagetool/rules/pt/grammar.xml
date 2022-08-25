@@ -2512,6 +2512,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Sob nenhuma circunstância você deve repetir isso a alguém.</example>
       </rule>
       <rule>
+        <!-- MARCOAGPINTO 2020-06-03 *START* -->
+        <!-- "São em diferentes graus de intensidade, a diversas outras áreas do saber." -->
+        <antipattern>
+          <token postag='DA0FS0|SPS00' postag_regexp='yes'/>
+          <token postag='AQ0FP0'/>
+          <token postag='DI0FP0|PI0FP000' postag_regexp='yes'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2020-06-03 *END* -->
+        <!-- MARCOAGPINTO 2020-06-03 *START* -->
+        <!-- "Levará, seguramente, a sucessivas alterações da estrutura classificativa." -->
+        <antipattern>
+          <token postag='DA0FS0'/>
+          <token postag='AQ0FP0'/>
+          <token postag='NCFP000'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2020-06-03 *END* -->
+        <!-- MARCOAGPINTO 2020-06-03 *START* -->
+        <!-- "De valor diferenciado por terem como origem fontes imparciais e isentas." -->
+        <antipattern>
+          <token regexp='yes'>como|na|de|por</token>
+          <token postag='NC[CF]S000' postag_regexp='yes'/>
+          <token postag='NC[CFM]P000' postag_regexp='yes'/>
+          <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2020-06-03 *END* -->
+        <!-- MARCOAGPINTO 2020-06-04 *START* -->
+        <!-- "Curiosamente, o Cabo Verde que dá nome ao país não se situa nele, mas a centenas de quilómetros a leste, perto de Dacar, no Senegal." -->
+        <antipattern>
+          <token postag='DA0FS0'/>
+          <token postag='Z0FP0'/>
+          <token postag='SPS00'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2020-06-04 *END* -->
         <!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *START* -->
         <!-- "Os arqueólogos dedicam-se cada vez mais a fases tardias da evolução humana." -->
         <antipattern>
@@ -2589,17 +2622,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ..P.+|NC.P.+|CS|CC|VM...P.+|SPS00|RN|RM|RG' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-01-07 (1-JAN-2022+) *END* -->
-
-        <!-- MARCOAGPINTO 2022-08-25 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-        <!-- 0 hits in 600 000 sentences, only the example is triggered in: "a centenas de". -->
-        <antipattern>
-          <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp='yes'/>
-          <token postag='Z0F.+|AQ.F.+|NCF.+' postag_regexp='yes'/>
-          <token postag='SPS00'/>
-          <example>Curiosamente, o Cabo Verde que dá nome ao país não se situa nele, mas a centenas de quilómetros a leste, perto de Dacar, no Senegal.</example>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-08-25 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
        <antipattern>
           <token postag='SENT_START'/>
           <token>A</token>
