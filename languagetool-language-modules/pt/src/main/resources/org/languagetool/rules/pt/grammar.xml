@@ -139,9 +139,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!ENTITY nomes_de_instituicoes "Anuário|Classificação|Fundação|Diretrize?s?|Península|Normas?|Consultoria|Empresa|Empirismo|Conjuração|Inconfidência|Inquisição|Rede|Códigos?|Vale|Título|Plano|Frente|Vanguarda|tradutor[ae]s?|Lei|Indústria|Realismo|Conferência|Constituição|Colégio|Conselho|Comunidade|Estatuto|Serviço|Coletivo|Assuntos|Revoluções|Tabela|Encontro|Secretaria|Consulado|Comissão|Comitês?|Fórum|Núcleo|Posto|Jornal|Sistema|Lojas?|Tribunal|Cinemateca|Nacional|Sinfonia|Vila|Protocolos?|Grupos?|Peste|Gripe|Festival|Velódromo|Memorial|Programa|Expressionismo|Assembleias?|Forças?|Câmara|Impressionismo|Clubes?|Estudos|Regimentos?|Fundo|Banco|Campeonato|Conferência|Partido|Aliança|Seleção|Museu|Taça|Copa|Organização|Unidades?|Hospital|Campanha|Corporação|Correio|Marinha|Juventude|Sociedades?|Ligas?|Letras|Literaturas?|Línguas?|Revolta|Armada|Grêmio|Jogos|Academia|Associação|Centro|Companhia|Cultura|Congressos?|Revista|Montanhas?|Morros?|Complexo|Ministério|Confederação|Coroa|Embaixada|Emirados?|Enciclopédia|Era|Escola|Exército|Circuito|Faculdade|Tesouro|Federação|Guerra|Igreja|Ilhas|Império|Torneios?|Índia|Instituição|Instituto|Mar|Repúblicas?|Revolução|União|Universidade|Superliga|Teatro">
 
-    <!ENTITY nomes_de_instituicoes_final "Productions|Partnership|University|Hotel|Films|Designs?|Society|Records|Entertainment|Pictures|Company|Studios">
+    <!ENTITY nomes_de_instituicoes_final "Productions|House|TV|Partnership|University|Hotel|Films|Designs?|Society|Records|Entertainment|Pictures|Company|Studios">
 
-    <!ENTITY livros_biblicos "Gênesis|Êxodo|Levítico|Deuteronômio|Josué|Juízes|Rute|Samuel|Reis|Crônicas|Esdras|Neemias|Ester|Jó|Salmos|Provérbios|Eclesiastes|Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|Oseias|Joel|Amós|Obadias|Jonas|Miqueias|Naum|Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Tobias|Judite|Macabeus|Sabedoria|Eclesiástico|Baruque|Mateus|Marcos|Lucas|João|Apóstolos|Romanos|Coríntios|Gálatas|Efésios|Filipenses|Colossenses|Tessalonicenses|Timóteo|Tito|Filémon|Hebreus|Tiago|Pedro|Judas|Apocalipse">
+    <!ENTITY livros_biblicos "Salmos?|Gênesis|Êxodo|Levítico|Deuteronômio|Josué|Juízes|Rute|Samuel|Reis|Crônicas|Esdras|Neemias|Ester|Jó|Salmos|Provérbios|Eclesiastes|Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|Oseias|Joel|Amós|Obadias|Jonas|Miqueias|Naum|Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Tobias|Judite|Macabeus|Sabedoria|Eclesiástico|Baruque|Mateus|Marcos|Lucas|João|Apóstolos|Romanos|Coríntios|Gálatas|Efésios|Filipenses|Colossenses|Tessalonicenses|Timóteo|Tito|Filémon|Hebreus|Tiago|Pedro|Judas|Apocalipse">
 
     <!ENTITY linguagem_internet "vcs?|pq|[qpnñ]|eh|blz|abs|bjs|omg|wtf|qn[dt]|q[td]|kk|pf|tbm?">
 
@@ -1080,6 +1080,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp='yes'>\p{Lu}.+</token>
         </unify>
       </antipattern>
+      <antipattern>
+        <token postag='(SPS00:D..|D..)M.+' postag_regexp='yes'/>
+        <token regexp='yes'>tapas?|tapinhas?tapão|tapões</token>
+        <example>Deu um tapa nele.</example>
+      </antipattern>
       <rule>
         <antipattern>
           <unify>
@@ -1330,7 +1335,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Aos 19 minutos do primeiro tempo ainda, o técnico do Alpha FC substituiu o camisa 15, Monteiro pelo camisa 8, Dimítros.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
-
+        <antipattern>
+          <token>bem</token>
+          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+          <example>caixa torácica bem ampla</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'/>
+          <token>x</token>
+          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'/>
+          <example>comprimento x largura</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
@@ -2013,7 +2028,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <rule>
         <antipattern>
           <token>à</token>
-          <token>lagareiro</token>
+          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
+          <example>Não a via à anos</example>
         </antipattern>
 
         <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *START* -->
@@ -2177,6 +2193,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
           <example>Os/as voluntários/as</example>
           <example>Os/as alunos/as do quinto ano</example>
+        </antipattern>
+        <antipattern>
+          <token>todas</token>
+          <token>nós</token>
         </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;|sendo</token>
