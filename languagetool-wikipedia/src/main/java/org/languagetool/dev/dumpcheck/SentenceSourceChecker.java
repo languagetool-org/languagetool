@@ -21,6 +21,8 @@ package org.languagetool.dev.dumpcheck;
 import org.apache.commons.cli.*;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -249,7 +251,9 @@ public class SentenceSourceChecker {
           skipMessageShown = true;
         }
         try {
-          List<RuleMatch> matches = lt.check(sentence.getText());
+          AnnotatedText annotatedText = new AnnotatedTextBuilder().addText(sentence.getText()).build();
+          List<RuleMatch> matches = lt.check(annotatedText, true, JLanguageTool.ParagraphHandling.NORMAL, null,
+            JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY);
           resultHandler.handleResult(sentence, matches, lang);
           sentenceCount++;
           if (sentenceCount % 5000 == 0) {
