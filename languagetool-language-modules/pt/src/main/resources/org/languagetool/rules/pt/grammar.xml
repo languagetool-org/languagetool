@@ -2244,6 +2244,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>coordenadas</token>
           <token regexp='yes'>\d.+</token>
         </antipattern>
+        <antipattern>
+          <token postag='DI.0FP.+|SPS00:D..FP.+' postag_regexp='yes'/>
+          <token postag='SPS00:D..M.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes'/>
+          <example>Essas são muito diferentes das do Pedro.</example>
+          <example>Têm uma religião diferentes das daqueles bárbaros.</example>
+          <example>Há uma pirâmide no México maior do que qualquer uma das do Egito.</example>
+          <example>Vai ser horrível ser mais uma pessoa dessas no mundo.</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>de|&hifen;</token>
           <marker>
@@ -2262,7 +2271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <message>&MSG_ECG;</message>
         <suggestion><match no='2' postag="(DI..|SPS00:D..)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
-        <example correction="(das) grandes descobertos|das grandes descobertas">A maioria <marker>das grandes descobertos</marker> científicas são nada menos que a descoberta do ób…</example>
+        <example correction="dos grandes descobertos|das grandes descobertas">A maioria <marker>das grandes descobertos</marker> científicas são nada menos que a descoberta do ób…</example>
         <example correction="pelos trabalhadores|pelas trabalhadeiras|pelas trabalhadoras">Foi feito <marker>pelas trabalhadores</marker> do parque.</example>
         <!--<example correction='Algumas tresoreiras'><marker>Algumas tresoreiros</marker> estão no pasto.</example>-->
         <example>…ouvir os partidos nelas representados e o …</example>
