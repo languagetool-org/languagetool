@@ -4615,6 +4615,42 @@
     <example type="untouched">на п'яту вечора</example>
   </rule>
 
+  <rule name="стало - дієслово" id="stalo_verb1">
+    <pattern>
+      <marker>
+        <token>стало</token>
+      </marker>
+      <token min="0">б</token>
+      <token postag_regexp="yes" postag=".*v_oru.*|adv:comp[cs].*"/>
+    </pattern>
+    <disambig action="filter" postag="verb.*"/>
+    <example type="ambiguous"
+      inputform="стало[стало/adv,стати/verb:perf:past:n]"
+      outputform="стало[стати/verb:perf:past:n]">воно <marker>стало</marker> моїм талісманом.
+    </example>
+    <example type="ambiguous"
+      inputform="стало[стало/adv,стати/verb:perf:past:n]"
+      outputform="стало[стати/verb:perf:past:n]">їй <marker>стало</marker> легше.
+    </example>
+    <example type="untouched">і буду тут стало проживати</example>
+    <example type="untouched">і буду стало тут проживати</example>
+  </rule>
+
+  <rule name="стало - дієслово" id="stalo_verb2">
+    <pattern>
+      <marker>
+        <token>стало</token>
+      </marker>
+      <token min="0">б</token>
+      <token regexp="yes">.+[нт]{2}я</token>
+    </pattern>
+    <disambig action="filter" postag="verb.*"/>
+    <example type="ambiguous"
+      inputform="стало[стало/adv,стати/verb:perf:past:n]"
+      outputform="стало[стати/verb:perf:past:n]">тоді <marker>стало</marker> прийняття закону.
+    </example>
+    <example type="untouched">і буду стало тут проживати</example>
+  </rule>
 
   <!-- TODO: other просто, but it does not buy much - still have adv and part -->
 

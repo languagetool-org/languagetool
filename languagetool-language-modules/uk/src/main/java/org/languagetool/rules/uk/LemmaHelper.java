@@ -24,8 +24,9 @@ public abstract class LemmaHelper {
       "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "півсторіччя", "тисячоліття", "півтисячоліття", "квартал");
   public static final List<String> TIME_PLUS_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "час", "день", "ніч", "вечір", "тиждень", "місяць", "доба", "мить", 
       "літо", "зима", "весна", "осінь",
-      "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "тисячеліття", "квартал",
+      "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "тисячоліття", "квартал",
       "понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя",
+      "січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", "листопад", "грудень",
       "міліметр", "сантиметр", "метр", "кілометр", "кілограм", "грам", "літр", "тонна", "миля",
       "десяток", "сотня", "тисяча", "відсоток", "пара", "раз", "крок");
       //, "раз", - опрацьовуємо окремо);
@@ -151,13 +152,14 @@ public abstract class LemmaHelper {
     int step = dir == Dir.FORWARD ? 1 : -1;
 
     for(int i = pos; i < tokens.length && i > 0; i += step) {
-      if( (posTag == null || PosTagHelper.hasPosTagPart(tokens[i], posTag)) 
-          && (token == null || token.matcher(tokens[i].getCleanToken()).matches()) )
+      AnalyzedTokenReadings currToken = tokens[i];
+      if( (posTag == null || PosTagHelper.hasPosTagPart(currToken, posTag)) 
+          && (token == null || token.matcher(currToken.getCleanToken()).matches()) )
         return i;
 
       if( posTagsToIgnore != null ) {
-      if( ! PosTagHelper.hasPosTag(tokens[i], posTagsToIgnore)
-          && ! QUOTES.matcher(tokens[i].getCleanToken()).matches() )
+      if( ! PosTagHelper.hasPosTag(currToken, posTagsToIgnore)
+          && ! QUOTES.matcher(currToken.getCleanToken()).matches() )
         break;
       }
     }
