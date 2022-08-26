@@ -298,6 +298,11 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*SIN.*")
     ),
     asList(
+      tokenRegex("Erkenntnis|Erkenntnissen"), // "Als Auslöser könnte den ersten Erkenntnissen zufolge ein Specht in Betracht kommen."
+      token("zufolge"),
+      posRegex("ART:.*")
+    ),
+    asList(
       // "die Anfang des 20. Jahrhunderts"
       tokenRegex("Anfang|Mitte|Ende"),
       tokenRegex("des"),
