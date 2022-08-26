@@ -259,6 +259,7 @@ public class Catalan extends Language {
   
   private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
+  private static final Pattern CA_APOSTROPHES = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
   
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
@@ -272,8 +273,10 @@ public class Catalan extends Language {
         }
         Matcher m1 = CA_CONTRACTIONS.matcher(s);
         s = m1.replaceAll("$1$2");
-        Matcher m2 = CA_OLD_DIACRITICS.matcher(s);
-        if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m2.matches()) {
+        Matcher m2 = CA_APOSTROPHES.matcher(s);
+        s = m2.replaceAll("$1");
+        Matcher m3 = CA_OLD_DIACRITICS.matcher(s);
+        if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m3.matches()) {
           // skip this suggestion with traditional diacritics
         } else {
           newReplacements.add(s);
