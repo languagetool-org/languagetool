@@ -1081,11 +1081,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </unify>
       </antipattern>
       <antipattern>
+        <token>zé</token>
+        <token postag='N.F.+' postag_regexp='yes'/>
+        <example>Ele é um zé ruela</example>
+      </antipattern>
+      <antipattern>
         <token postag='(SPS00:D..|D..)M.+' postag_regexp='yes'/>
         <token regexp='yes'>tapas?|tapinhas?tapão|tapões</token>
         <example>Deu um tapa nele.</example>
       </antipattern>
       <rule>
+        <antipattern>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>É membro da 3o Congresso</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+            <example>É membro do 3a Congresso</example>
+        </antipattern>
         <antipattern>
           <unify>
           <feature id="gender"/><feature id="number"/>
@@ -1398,7 +1413,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>É perigoso duas pessoas andarem ao mesmo tempo numa bicicleta.</example>
       </rule>
       <rule>
-
+       <antipattern>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>É membro da 3o Congresso</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+            <example>É membro do 3a Congresso</example>
+        </antipattern>
         <!-- MARCOAGPINTO 2022-06-20 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
           <token postag='AQ.+|NC.+|V.+|CS|CC|RG|SPS00|I' postag_regexp='yes'/>
@@ -1444,6 +1468,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Foi resolvido <marker>na hora</marker> certa.</example>
       </rule>
       <rule>
+       <antipattern>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>É membro da 3o Congresso</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+            <example>É membro do 3a Congresso</example>
+        </antipattern>
         <antipattern>
           <unify>
           <feature id="gender"/><feature id="number"/>
@@ -1648,7 +1682,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
 
       <rule>
-
+        <antipattern>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>É membro da 3o Congresso</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+            <example>É membro do 3a Congresso</example>
+        </antipattern>
         <!-- MARCOAGPINTO 2022-06-29 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
           <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
@@ -1685,6 +1728,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>A vida nos leva para onde ela quer.</example>
       </rule>
       <rule>
+        <antipattern>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>É membro da 3o Congresso</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+            <example>É membro do 3a Congresso</example>
+        </antipattern>
         <antipattern>
           <token>indústria</token>
           <token>automóvel</token>
@@ -2027,6 +2080,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
       <rule>
         <antipattern>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>É membro da 3o Congresso</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+            <example>É membro do 3a Congresso</example>
+        </antipattern>
+        <antipattern>
           <token>à</token>
           <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
           <example>Não a via à anos</example>
@@ -2104,21 +2167,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <pattern>
-          <marker>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'>
-              <exception regexp='yes'>[dn]ela|à|ta|tao</exception>
-              <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
-            <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
-            <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/></token>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
             <token regexp='yes'>\d\.?[oº]</token>
-          </marker>
         </pattern>
         <message>&MSG_ECG;</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' regexp_match="[oº]" regexp_replace='ª' postag_regexp="yes"/></suggestion>
-        <example correction='da 3ª'>é membro <marker>da 3o</marker> Congresso.</example>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' regexp_match="[oº]" regexp_replace='ª' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='1' postag="(DI.|SPS00:D..|SPS00:...)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes" include_skipped='all'/> <match no='2' include_skipped='all'/></suggestion>
+        <example correction='da 3ª|do 3o'>é membro <marker>da 3o</marker> Congresso.</example>
       </rule>
       <rule>
+        <pattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+        </pattern>
+        <message>&MSG_ECG;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' regexp_match="[aª]" regexp_replace='º' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='1' postag="(DI.|SPS00:D..|SPS00:...)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='2' include_skipped='all'/></suggestion>
+        <example correction='do 3º|da 3a'>é membro <marker>do 3a</marker> Congresso.</example>
+      </rule>
+      <rule>
+        <antipattern>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>É membro da 3o Congresso</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+            <example>É membro do 3a Congresso</example>
+        </antipattern>
         <antipattern>
           <unify>
           <feature id="gender"/><feature id="number"/>
@@ -2241,6 +2318,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <antipattern>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>É membro da 3o Congresso</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+            <example>É membro do 3a Congresso</example>
+        </antipattern>
+        <antipattern>
           <token>coordenadas</token>
           <token regexp='yes'>\d.+</token>
         </antipattern>
@@ -2282,6 +2369,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;</token>
         </antipattern>
+        <antipattern>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>É membro da 3o Congresso</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+            <example>É membro do 3a Congresso</example>
+        </antipattern>
 
         <pattern>
           <unify negate="yes">
@@ -2307,7 +2404,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- MARCOAGPINTO 2022-08-04 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <!-- "Desta forma é promovida um ambiente de trabalho saudável e com grandes chances de desenvolvimento dos funcionários dentro da empresa." -->
       <rule>
-
+        <antipattern>
+            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>É membro da 3o Congresso</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[aª]</token>
+            <example>É membro do 3a Congresso</example>
+        </antipattern>
         <antipattern>
           <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
           <token min="0" max="2" postag='D[ADI].F.+|Z0[CF].+' postag_regexp="yes"/>
