@@ -638,6 +638,16 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
+                <token>en</token>
+                <marker>
+                    <token regexp="yes">liste|machine|discipline|agence|rencontre|recherche|place|chose|usine|pilote|avarie</token>
+                </marker>
+                <token postag="J.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="N f s"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="D . s" postag_regexp="yes"/>
                 <token postag="J.*" postag_regexp="yes"/>
                 <marker>
@@ -3718,6 +3728,26 @@ RB => Règles Brutes
             <token regexp="yes">marin|nautique</token>
         </pattern>
         <disambig action="filter" postag="N m s"/>
+    </rule>
+    <rule id="COMPTE_REALISER" name="compte réaliser">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token>compte</token>
+            </marker>
+            <token postag="V.* inf" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
+    <rule id="ESTIME_REALISER" name="estime réaliser">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token>estime</token>
+            </marker>
+            <token postag="V.* inf" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="N f s"/>
     </rule>
     <rule id="FAIRE_MONTRE" name="faire montre">
         <pattern>
@@ -7635,6 +7665,11 @@ RB => Règles Brutes
             <token regexp="yes">.*-même</token>
         </antipattern>
         <rule>
+            <antipattern>
+                <token>en</token>
+                <token regexp="yes">[nv]ous|elles?|lui|eux|[mt]oi</token>
+                <token postag="V .*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="R .*" postag_regexp="yes"/>
                 <token postag="R .*" postag_regexp="yes"/>
@@ -7655,11 +7690,19 @@ RB => Règles Brutes
                 <token postag="R pers .*" postag_regexp="yes"/>
                 <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <!--Nous les postes qu'on propose. -->
+                <token postag="R pers .*" postag_regexp="yes" regexp="yes">eux|elles?|[vn]ous</token>
+                <token regexp="yes">la|les?|l'|en</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token postag="R pers .*" postag_regexp="yes">
                     <exception regexp="yes">y|-.*</exception></token>
                 <token postag="R pers .*" postag_regexp="yes"/>
-                <token postag="V.* [123].*" postag_regexp="yes"/>
+                <token postag="V.* [123].*" postag_regexp="yes">
+                    <exception regexp="yes">listes?|machines?|disciplines?|agences?|centres?|types?|massages?|rencontres?|avaries?|élastiques?|ouvrages?|recherches?|places?|choses?|signes?|pilotes?|usines?|extraits?</exception>
+                </token>
             </pattern>
             <disambig action="filterall"/>
         </rule>
@@ -8244,6 +8287,12 @@ RB => Règles Brutes
                 <token inflected="yes">ne</token>
                 <token postag="R pers obj.*" postag_regexp="yes" min="1" max="3"/>
                 <token postag="V .*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V (etre|avoir).*" postag_regexp="yes"/>
+                <token postag="R pers suj.*" postag_regexp="yes"/>
+                <token>en</token>
+                <token postag="N.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token postag="R pers.*" postag_regexp="yes">
@@ -9212,6 +9261,13 @@ RB => Règles Brutes
         <antipattern>
             <token>le</token>
             <token>nombre</token>
+        </antipattern>
+        <antipattern>
+            <!-- Les HP sont elles égales ? -->
+            <token postag="V (avoir|etre).* 3 ." postag_regexp="yes"/>
+            <token min="0" max="1">,</token>
+            <token regexp="yes">elles</token>
+            <token postag="V.* (ind|sub).*" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
             <token postag="P"/>
