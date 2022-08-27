@@ -29,7 +29,7 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRege
 
 class AgreementRuleAntiPatterns1 {
 
-  final static String MONTH_NAMES_REGEX = "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember";
+  final static String MONTH_NAMES_REGEX = "Jänner|Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember";
 
   static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(
