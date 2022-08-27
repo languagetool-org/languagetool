@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 
@@ -30,12 +29,21 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRege
 
 class AgreementRuleAntiPatterns1 {
 
+  final static String MONTH_NAMES_REGEX = "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember";
+
   static final List<List<PatternToken>> ANTI_PATTERNS = asList(
     asList(
       tokenRegex("der|des"),   // "Übernahme der früher selbständigen Gesellschaft"
       token("früher"),
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
+    ),
+    asList(
+      token("zur"),   // "Bis zur Anfang Juni geplanten Eröffnung gebe es noch einiges zu tun."
+      tokenRegex("Anfang|Ende|Mitte"),
+      tokenRegex(MONTH_NAMES_REGEX),
+      posRegex("PA2:.*"),
+      posRegex("SUB:.*FEM.*")
     ),
     asList(  // "Jedes Grad zählt"
       token("jedes"),
