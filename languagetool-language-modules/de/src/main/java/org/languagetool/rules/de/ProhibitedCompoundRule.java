@@ -139,6 +139,7 @@ public class ProhibitedCompoundRule extends Rule {
     "(Raum|Surf|Jazz|Herbst|Gymnastik|Normal)schuhen?",
     "preis",  // Getränkepreis etc.
     "reisähnlich(e|e[nmrs])?",
+    "neugestartet(e|e[nmrs])?",
     "reisender",  // Ägyptenreisender etc.
     "[a-zöäüß]+sender",  // wg. sende/sender, z.B. bremsender, abzulassender
     "gra(ph|f)ische?",  // kosmografisch etc.
