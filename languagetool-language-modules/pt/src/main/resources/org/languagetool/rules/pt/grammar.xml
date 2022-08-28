@@ -45182,11 +45182,25 @@ O namorado dela era um ladrão.
 
     <!-- DOS HUMANOS humano -->
     <rulegroup id='DOS_HUMANOS_HUMANO' name="Simplificar: Do(s) + humano(s) → humano" type="style">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-12 (1-JAN-2022+)      -->
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-12 + 2022-08-28 (1-JAN-2022+)      -->
       <!--
       O comportamento dos humanos é previsível. → O comportamento humano é previsível.
       Tempo e espaço são meras ilusões dos sentidos precários dos humanos. → Tempo e espaço são meras ilusões dos sentidos precários humanos.
       -->
+
+      <!-- antipattern for all rulegroup - 2022-08-28 -->
+      <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <!-- 0 hits in 600 000 sentences, only works with example sentence cases -->
+      <antipattern>
+        <token postag='SPS00' postag_regexp='no'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token regexp='yes'>dos?</token>
+        <token regexp='yes'>humanos?</token>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <example>A deturpação da realidade por parte dos humanos pessimistas.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <rule>
         <pattern>
           <token postag='NC[^C].+' postag_regexp='yes'>
