@@ -69,6 +69,13 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "Start Ziel Sieg");
     check(1, "Start Ziel Sieg!");
     check(1, "Doppler Effekt");
+    check(1, "3 Tage Woche");
+    check(1, "4 Tage Woche");
+    check(1, "5 Tage Woche");
+    check(1, "100 m Lauf");
+    check(1, "200 m Lauf");
+    check(1, "800 m Lauf");
+    check(1, "1000 m Lauf");
     check(2, "Der dumme System Administrator legt die CD ROM");
     check(2, "Der dumme System Administrator legt die CD ROM.");
     check(2, "Der dumme System Administrator legt die CD ROM ein blah");
