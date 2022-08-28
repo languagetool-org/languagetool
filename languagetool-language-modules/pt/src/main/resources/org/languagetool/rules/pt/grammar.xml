@@ -39783,6 +39783,28 @@ O namorado dela era um ladrão.
       </antipattern>
       <!-- MARCOAGPINTO 2022-08-08 (25-JUL-2022+) *END* -->
 
+      <!-- MARCOAGPINTO 2022-08-28 (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='V.+|CC|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'>
+          <exception scope="previous" postag_regexp='no' postag='_PUNCT'/>
+        </token>
+        <token min="0" postag='NC.+|AQ.+|SPS00' postag_regexp='yes'/>
+        <token regexp="yes">(?:[0-9]+[a-z]*)</token>
+        <token spacebefore="no" regexp="no">×</token>
+        <token spacebefore="no" regexp="yes">((?:[0-9]+[a-z]*))+</token>
+        <token min="0" postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='CC|_PUNCT|SENT_END' postag_regexp='yes'/>
+        <example>Se cada ecrã for preto e este tiver 320×240 píxeis, é uma moldura com 1000×1000 milímetros.</example>
+        <example>O número de píxeis na app corresponde a 800×600.</example>
+        <example>A área operacional de um jogo são blocos 8×8.</example>
+        <example>O tamanho máximo do ecrã é 1920×1080 píxeis e o mínimo 640×480.</example>
+        <example>As dimensões do PNG são obrigatoriamente entre 500×500 e 2500×2500 píxeis.</example>
+        <example>Palpite 2×1 Brasil.</example>
+        <example>É importante a torcida lembrar que domingo, até os 39 do segundo tempo o time perdia por 3×1.</example>
+        <example>... final, mas com alguns erros nas viradas acabamos classificando com o oitavo tempo para a final dos 4×100 livre.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-08-28 (25-JUL-2022+) *END* -->
+
       <pattern>
         <marker>
           <token regexp="yes">(?:[0-9]+[a-z]*)
