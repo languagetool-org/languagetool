@@ -49,8 +49,19 @@ class ResultCache implements Serializable {
   }
 
   public ResultCache(ResultCache cache) {
-    this.entries = new HashMap<>();
     replace(cache);
+  }
+
+  /**
+   * Get cache entry map
+   */
+  private Map<Integer, CacheEntry> getMap() {
+    rwLock.readLock().lock();
+    try {
+      return new HashMap<Integer, CacheEntry>(entries);
+    } finally {
+      rwLock.readLock().unlock();
+    }
   }
 
   /**
@@ -59,14 +70,10 @@ class ResultCache implements Serializable {
   void replace(ResultCache cache) {
     rwLock.writeLock().lock();
     try {
-      entries.clear();
-      if (cache != null && cache.entries != null && !cache.entries.isEmpty() && cache.entries.keySet() != null) {
-        Set<Integer> keys = new HashSet<>(cache.entries.keySet());
-        for (Integer n : keys) {
-          if (cache.entries.containsKey(n)) {
-            entries.put(n, new CacheEntry(cache.entries.get(n)));
-          }
-        }
+      if (cache == null || cache.entries == null) {
+        entries = new HashMap<>();
+      } else {
+        entries = cache.getMap();
       }
     } finally {
       rwLock.writeLock().unlock();
