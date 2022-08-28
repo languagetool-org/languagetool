@@ -326,7 +326,8 @@ public class DocumentCache implements Serializable {
         boolean isMapped = false;
         boolean firstTextDone = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
             && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size();
-        boolean secondTextDone = firstTextDone && numUnknown >= nUnknown 
+        boolean secondTextDone = firstTextDone 
+//            && numUnknown >= nUnknown 
             && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
             && toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size();
         //  test for footnote, endnote, frame or header/footer
@@ -398,7 +399,16 @@ public class DocumentCache implements Serializable {
           continue;
         }
         int j = nText.get(CURSOR_TYPE_TEXT);
-        if (nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size()) {
+        if (j == textParas.get(CURSOR_TYPE_TEXT).size() && nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size()) {
+          //  no text and tables left ==> unknown paragraph
+          toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
+          numUnknown++;
+          if (debugMode || !paragraphs.get(i).isEmpty()) {
+            MessageHandler.printToLogFile(
+                "WARNING: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
+          }
+          continue;
+        } else if (nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size()) {
           //  no tables left / text assumed
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_TEXT, j));
           toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
