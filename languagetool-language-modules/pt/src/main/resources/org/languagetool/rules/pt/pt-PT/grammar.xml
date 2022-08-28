@@ -49,6 +49,7 @@
     <!ENTITY contracoes_FP "algumas|às|daquelas|das|delas|dessas|destas|doutras|dumas|lhas|mas|naquelas|nas|nelas|nessas|nestas|noutras|numas|pelas|tas">
 
 
+    <!ENTITY pronomes_obliquos "[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
     <!ENTITY pronomes_retos "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
     <!ENTITY pronomes_ambiguos "a|as|mas|nos|o|os|se">
     <!ENTITY pronomes_nao_ambiguos "lha|lhas|lhe|lhes|lho|lhos|ma|me|mo|mos|ta|tas|te|to|tos|vos">
@@ -2282,9 +2283,42 @@
 
     <rulegroup id='HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
-      <!-- 		Brazilian Portuguese has some inverted colocations  -->
+      <!-- Brazilian Portuguese has some inverted colocations  -->
+      <!-- MARCOAGPINTO: Notice that I created some global antipatterns for this rulegroup because they are common to all subrules.
+                         I started adding the 2022+ antipatterns from the top and not from the bottom.
+      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
       <short>Erro de colocação pronominal</short>
+
+        <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='RG' postag_regexp='no'/>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='CS|V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='RG|VMN0000'/>
+            <exception scope="next" postag_regexp='yes' postag='V.+'/>
+          </token>
+          <example>E por aqui me fico porque já excedi as minhas fracas competências.</example>
+          <example>Às vezes me pergunto se eu o fiz bem.</example>
+          <example>Lá lhe disse que no fim de semana vamos ver o Dumbo, não pelo comportamento, mas apenas e só pelas notas.</example>
+          <example>Enfim lhe disse que sim.</example>
+          <example>Disse então Rute, a moabita: Ele também me disse que eu posso continuar trabalhando com as suas ceifeiras até acabar a colheita.</example>
+          <example>Eu também me questionei sobre qual seria a minha escolha.</example>
+          <example>Depois eu parto, mas então me dou conta que esqueci minha mochila em sua casa.</example>
+          <example>A notícia de que a escola foi queimada logo se espalhou pela cidade.</example>
+          <example>Antes que cante o galo, três vezes me terás negado.</example>
+          <example>Lady Danbury é uma das minhas queridinhas desde que a conheci na série Os Bridgertons e aqui me peguei apaixonada por Malcom, seu gato, também.</example>
+          <example>Depois eu parto, mas então me dou conta que esqueci minha mochila em sua casa.</example>
+          <example>Eu quase me tornei carpinteiro.</example>
+          <example>Quanto mais você fala, menos lhe dão ouvidos.</example>
+          <example>Alguma vez te sentiste enganado?</example>
+          <example>Alguma vez te sentiste traído por um amigo?</example>
+          <example>Então lhe foi dirigida esta palavra do Senhor: "Não será esse o herdeiro, mas alguém saído do teu sangue."</example>
+          <example>Eu quase me matei há três anos.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <!-- MARCOAGPINTO 2021-04-30 + 2021-05-01 + 2021-05-04 (17-MAR-2021+) *START* -->
       <!--
       E se estamos em modo de edição no campo.
