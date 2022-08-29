@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.openoffice.DocumentCursorTools.DocumentText;
 import org.languagetool.openoffice.FlatParagraphTools.FlatParagraphContainer;
 import org.languagetool.openoffice.OfficeDrawTools.ParagraphContainer;
@@ -517,6 +518,24 @@ public class DocumentCache implements Serializable {
           MessageHandler.printToLogFile("Unknown Paragraphs: " + (numUnknown - 1) + " from " + nUnknown);
         }
       }
+      boolean isCorrectMapping = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
+          && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
+          && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
+          && toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
+          && toParaMapping.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size()
+          && toParaMapping.get(CURSOR_TYPE_TEXT).size() == textParas.get(CURSOR_TYPE_TEXT).size();
+      if (!isCorrectMapping) {
+        String msg = "An error has occurred in LanguageTool "
+            + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\nDocument cache mapping failed:\nParagraphs:\n"
+            + "Endnotes: " + toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() + " / " + textParas.get(CURSOR_TYPE_ENDNOTE).size() + "\n"
+            + "Footnotes: " + toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() + " / " + textParas.get(CURSOR_TYPE_FOOTNOTE).size() + "\n"
+            + "Headers/Footers: " + toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() + " / " + textParas.get(CURSOR_TYPE_HEADER_FOOTER).size() + "\n"
+            + "Frames: " + toParaMapping.get(CURSOR_TYPE_FRAME).size() + " / " + textParas.get(CURSOR_TYPE_FRAME).size() + "\n"
+            + "Tables: " + toParaMapping.get(CURSOR_TYPE_TABLE).size() + " / " + textParas.get(CURSOR_TYPE_TABLE).size() + "\n"
+            + "Text: " + toParaMapping.get(CURSOR_TYPE_TEXT).size() + " / " + textParas.get(CURSOR_TYPE_TEXT).size() + "\n"
+            + "Unknown: " + nUnknown + " / " + numUnknown;
+         MessageHandler.showMessage(msg);
+      }
       if (deletedChars == null) {
         for (int i = 0; i < toTextMapping.size(); i++) {
           deletedCharacters.add(null);
@@ -532,7 +551,7 @@ public class DocumentCache implements Serializable {
         }
       }
       prepareChapterBeginsForText(chapterBegins, toTextMapping, locales);
-      if (debugMode) {
+      if (debugMode || !isCorrectMapping) {
         MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: toParaMapping:");
         for (int n = 0; n < NUMBER_CURSOR_TYPES; n++) {
           MessageHandler.printToLogFile("Cursor Type: " + n);
