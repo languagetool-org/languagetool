@@ -30,6 +30,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -125,7 +126,7 @@ public abstract class AbstractCompoundRule extends Rule {
         String stringToCheck = stringsToCheck.get(k);
         String origStringToCheck = origStringsToCheck.get(k);
         String digitsRegexp = null;
-        if (StringUtils.isNumeric(stringToCheck)) {
+        if (Stream.of(stringToCheck.split(" ")).anyMatch(s -> StringUtils.isNumeric(s))) {
             containsDigits = true;
         }
         if (getCompoundRuleData().getIncorrectCompounds().contains(stringToCheck) ||

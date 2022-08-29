@@ -80,7 +80,7 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "1000 m Lauf");
     check(1, "2 Zimmer Wohnung");
     check(1, "3 Zimmer-Wohnung");
-    check(1, "4 Zimmer Wohnung");
+    check(1, "4-Zimmer Wohnung");
     check(1, "5 Zimmer Wohnung");
     check(1, "6 Zimmer Wohnung");
     check(2, "Der dumme System Administrator legt die CD ROM");
