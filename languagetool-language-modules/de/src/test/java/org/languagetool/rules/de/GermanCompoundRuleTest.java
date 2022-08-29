@@ -83,6 +83,9 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "4-Zimmer Wohnung");
     check(1, "5 Zimmer Wohnung");
     check(1, "6 Zimmer Wohnung");
+    check(1, "1000 Jahr Feier");
+    check(1, "1000-Jahr Feier");
+    check(1, "1000 Jahr-Feier");
     check(2, "Der dumme System Administrator legt die CD ROM");
     check(2, "Der dumme System Administrator legt die CD ROM.");
     check(2, "Der dumme System Administrator legt die CD ROM ein blah");
