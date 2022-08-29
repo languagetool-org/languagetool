@@ -9800,15 +9800,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="PCT"/>
         </antipattern>
         <antipattern><!-- Premium #961 computer games tomorrow -->
-            <token chunk="B-NP-singular" postag_regexp="yes" postag="NN(:UN?)?|JJR?"/>
-            <token chunk="E-NP-singular" postag="NNS"/>
+            <token chunk="B-NP-plural" postag_regexp="yes" postag="NN(:UN?)?|JJR?"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
             <token postag="RB"/>
         </antipattern>
         <antipattern><!-- chunker fix: more computer games tomorrow -->
             <token chunk="B-NP-singular" postag="JJR"/>
             <token postag_regexp="yes" postag="NN(:UN?)?"/>
-            <token postag="NNS"/>
-            <token chunk="E-NP-plural">tomorrow</token>
+            <token chunk="I-NP-singular" postag="NNS"/>
+            <token chunk="E-NP-singular" postag="RB"/>
         </antipattern>
         <antipattern><!-- #2536 marketing to kids gets -->
             <token postag="VBG"/>
