@@ -106,6 +106,7 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
+    assertGood("Bis zur Anfang Juni geplanten Eröffnung gebe es noch einiges zu tun.");
     assertGood("Der fließend Französisch sprechende Präsident dankt stilvoll ab.");
     assertGood("Inwiefern soll denn das romantische Hoffnungen begründen?");
     assertGood("Spricht der fließend Französisch?");

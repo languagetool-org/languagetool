@@ -25,6 +25,7 @@ import org.languagetool.rules.patterns.PatternTokenBuilder;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static org.languagetool.rules.de.AgreementRuleAntiPatterns1.MONTH_NAMES_REGEX;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 class AgreementRuleAntiPatterns3 {
@@ -149,22 +150,22 @@ class AgreementRuleAntiPatterns3 {
       posRegex("VER:.*|UNKNOWN"),
       token("das"),
       csRegex("(über)?nächste[ns]?|kommende[ns]?|(vor)?letzten"),
-      csRegex("Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember|Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Sonnabend|Woche|Monat|Jahr|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?")
+      csRegex(MONTH_NAMES_REGEX + "|Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Sonnabend|Woche|Monat|Jahr|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?")
     ),
     asList(  // "Wir releasen das Montag.", "Wir präsentierten das Januar."
       posRegex("VER:.*|UNKNOWN"),
       csToken("das"),
-      csRegex("Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember|Montags?|D(ien|onner)stags?|Mittwochs?|Freitags?|S(ams|onn)tags?|Sonnabends?|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?")
+      csRegex(MONTH_NAMES_REGEX + "|Montags?|D(ien|onner)stags?|Mittwochs?|Freitags?|S(ams|onn)tags?|Sonnabends?|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?")
     ),
     asList(  // "Kannst du das Mittags machen?"
       token("das"),
-      tokenRegex("Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember|Montags?|D(ien|onner)stags?|Mittwochs?|Freitags?|S(ams|onn)tags?|Sonnabends?|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?"),
+      tokenRegex(MONTH_NAMES_REGEX + "|Montags?|D(ien|onner)stags?|Mittwochs?|Freitags?|S(ams|onn)tags?|Sonnabends?|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?"),
       posRegex("VER:.*|UNKNOWN")
     ),
     asList(  // "Kannst du das nächsten Monat machen?"
       token("das"),
       tokenRegex("(über)?nächste[ns]?|kommende[ns]?|(vor)?letzten|vorigen"),
-      csRegex("Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember|Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Sonnabend|Woche|Monat|Jahr|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?"),
+      csRegex(MONTH_NAMES_REGEX + "|Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Sonnabend|Woche|Monat|Jahr|Morgens?|Abends|Übermorgen|Mittags?|Nachmittags?|Vormittags?|Spätabends?|Nachts?"),
       posRegex("VER:.*|UNKNOWN")
     ),
     asList(
@@ -258,7 +259,7 @@ class AgreementRuleAntiPatterns3 {
     asList(
       tokenRegex("die|der|das"),
       csRegex("Anfang|Mitte|Ende"),
-      csRegex("Januar|Jänner|Februar|März|April|Mai|Ju[ln]i|August|September|Oktober|November|Dezember|[12][0-9]{3}")
+      csRegex(MONTH_NAMES_REGEX + "|[12][0-9]{3}")
     ),
     asList( // Waren das schwierige Entscheidungen?
       csRegex("Ist|Sind|War|Waren|Macht|Wird|Werden"),

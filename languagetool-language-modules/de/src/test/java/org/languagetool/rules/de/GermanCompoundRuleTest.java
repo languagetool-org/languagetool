@@ -53,6 +53,8 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Roll-on-roll-off-Schiff");
     check(0, "Halswirbelsäule");
     check(0, "Castrop-Rauxel");
+    check(0, "2-Zimmer-Wohnung");
+    check(0, "3-Zimmer-Wohnung");
     check(0, "Hals-Wirbel-Säule");   // doubtful whether this is correct...
     // incorrect sentences:
     check(1, "System Administrator", new String[]{"Systemadministrator"});
@@ -69,6 +71,21 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "Start Ziel Sieg");
     check(1, "Start Ziel Sieg!");
     check(1, "Doppler Effekt");
+    check(1, "3 Tage Woche");
+    check(1, "4 Tage Woche");
+    check(1, "5 Tage Woche");
+    check(1, "100 m Lauf");
+    check(1, "200 m Lauf");
+    check(1, "800 m Lauf");
+    check(1, "1000 m Lauf");
+    check(1, "2 Zimmer Wohnung");
+    check(1, "3 Zimmer-Wohnung");
+    check(1, "4-Zimmer Wohnung");
+    check(1, "5 Zimmer Wohnung");
+    check(1, "6 Zimmer Wohnung");
+    check(1, "1000 Jahr Feier");
+    check(1, "1000-Jahr Feier");
+    check(1, "1000 Jahr-Feier");
     check(2, "Der dumme System Administrator legt die CD ROM");
     check(2, "Der dumme System Administrator legt die CD ROM.");
     check(2, "Der dumme System Administrator legt die CD ROM ein blah");

@@ -2237,6 +2237,12 @@
 
   <rulegroup id="NUMBER" name="Number">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
+    <antipattern>
+      <token regexp="yes">\p{Lu}\p{Ll}+</token>
+      <token regexp='yes'>\d+</token>
+      <token spacebefore='no'></token>
+      <token spacebefore='no' regexp='yes'>\d+</token>
+    </antipattern>
     <rule>
       <pattern>
           <token regexp="yes">[1234567890]+</token>
@@ -2327,6 +2333,13 @@
       <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
     </rule>
     <rule>
+      <antipattern>
+         <token>às</token>
+         <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
+         <exception regexp='yes'>\d+|0|zeros?|2\.0</exception></token>
+         <token regexp='yes'>e|-</token>
+         <token postag_regexp="yes" postag='Z0M[SPN]0'/>
+      </antipattern>
       <pattern>
           <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
             <exception regexp='yes'>\d+|0|zeros?|2\.0</exception></token>
@@ -2564,6 +2577,16 @@
           <token regexp='yes'>\d+[\.&#57347;]?[oº]</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000"/></disambig>
+    </rule>
+    <rule>
+      <antipattern>
+        <token regexp='yes'>\d+[\.&#57347;]?ª</token>
+        <token regexp='yes'>\d+(?:[\.,]\d+)?[′'']|[CFKNSEWO]</token>
+      </antipattern>
+      <pattern>
+        <token regexp='yes'>\d+[\.&#57347;]?[aª]</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFS000"/></disambig>
     </rule>
     <rule>
       <pattern>
