@@ -2861,6 +2861,16 @@ RB => Règles Brutes
         </pattern>
         <disambig action="replace" postag="J e sp"/>
     </rule>
+    <rule id="DONNER_ENVIE" name="donner envie">
+        <pattern>
+            <token regexp="yes" inflected="yes">donner|faire|avoir</token>
+            <token postag="A" min="0" max="1"/>
+            <marker>
+                <token>envie</token>
+            </marker>
+        </pattern>
+        <disambig action="replace" postag="N f s"/>
+    </rule>
     <rule id="CHARGE_PROJET" name="ondes radio">
         <pattern>
             <token regexp="yes">chargée?s?|acheteurs?</token>
@@ -3728,6 +3738,128 @@ RB => Règles Brutes
             <token regexp="yes">marin|nautique</token>
         </pattern>
         <disambig action="filter" postag="N m s"/>
+    </rule>
+    <rule id="PLATS_AUTHENTIQUE" name="plats authentiques">
+        <pattern>
+            <token postag="N.* p" postag_regexp="yes"/>
+            <marker>
+                <and>
+                <token postag="N m p"/>
+                <token postag="V ind pres 2 s" postag_regexp="yes" regexp="yes">.*s$</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
+    <rule id="SANS_CESSE" name="sans cesse">
+        <pattern>
+            <marker>
+                <token postag="A">sans</token>
+                <token postag="A">cesse</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="CALME" name="calme">
+        <pattern>
+                <token postag="N.*|M nonfin|C coor" postag_regexp="yes"/>
+            <marker>
+                <token regexp="yes">complexe|calme|étanche|culasse|fausse|hybride|légitime|jalouse|fausse</token>
+            </marker>
+            <token><exception postag="D.*|A" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="filter" postag="J e s"/>
+    </rule>
+    <rulegroup id="PLAINE" name="plaine">
+        <rule>
+        <pattern>
+            <token postag="N.*|M nonfin|C.*" postag_regexp="yes"/>
+            <marker>
+                <token regexp="yes">plaine|pisteroute|télévision</token>
+            </marker>
+            <token><exception postag="D.*|A" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="filter" postag="N f s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.*|M nonfin|C.*" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">parent|rebelle|rose</token>
+                </marker>
+                <token><exception postag="D.*|A" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="filter" postag="N e s"/>
+        </rule>
+    </rulegroup>
+    <rule id="DANSE" name="danse">
+        <pattern>
+            <token postag="M nonfin|C coor" postag_regexp="yes"/>
+            <marker>
+                <token regexp="yes">danse</token>
+            </marker>
+            <token><exception postag="P.*|A" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="filter" postag="N f s"/>
+    </rule>
+    <rule id="CONFIANCE" name="confiance">
+        <pattern>
+            <token postag="V.*" postag_regexp="yes"/>
+            <token postag="A" min="0" max="1"/>
+            <marker>
+                <token regexp="yes">confiance</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="J e s"/>
+    </rule>
+    <rule id="CHINOISE" name="chinoise">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token regexp="yes">chinoise</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="J f s"/>
+    </rule>
+    <rulegroup id="RENDRE_AVEUGLE" name="rendre aveugle">
+        <rule>
+        <pattern>
+            <token inflected="yes">rendre</token>
+            <token postag="A" min="0" max="3"/>
+            <marker>
+                <and>
+                    <token postag="J e s"/>
+                    <token postag="V ind pres 3 s" postag_regexp="yes" regexp="yes">.*s$</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="J e s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">rendre</token>
+                <token postag="A" min="0" max="3"/>
+                <marker>
+                    <and>
+                        <token postag="J m s"/>
+                        <token postag="V ind pres 3 s" postag_regexp="yes" regexp="yes">.*s$</token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="J m s"/>
+        </rule>
+    </rulegroup>
+    <rule id="PLATS_AUTHENTIQUE1" name="plats authentiques">
+        <pattern>
+            <token postag="N.* p" postag_regexp="yes"/>
+            <marker>
+                <and>
+                    <token postag="N e p"/>
+                    <token postag="V ind pres 2 s" postag_regexp="yes" regexp="yes">.*s$</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N e s"/>
     </rule>
     <rule id="COMPTE_REALISER" name="compte réaliser">
         <pattern>
