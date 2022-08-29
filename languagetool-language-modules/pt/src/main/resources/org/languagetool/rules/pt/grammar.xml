@@ -2128,11 +2128,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token regexp='yes'>\d\.?[aª]</token>
             <example>É membro do 3a Congresso</example>
         </antipattern>
-        <antipattern>
-          <token>à</token>
-          <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
-          <example>Não a via à anos</example>
-        </antipattern>
 
         <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <antipattern>
@@ -2175,18 +2170,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes'>&nomes_de_instituicoes_final;</token>
           <example>Faz parte da Walt Disney Studios</example>
         </antipattern>
-        <antipattern>
-            <token>à</token>
-            <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
-            <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'/>
-            <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes'/>
-            <example>Era candidadto à deputado federal</example>
-        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|de|às?|&hifen;</token>
           <marker>
             <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'>
-              <exception regexp='yes'>[dn]ela|às?|ta|tao</exception>
+              <exception regexp='yes'>[dn]ela|à|ta|tao</exception>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
