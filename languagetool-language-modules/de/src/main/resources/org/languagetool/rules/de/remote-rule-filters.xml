@@ -833,5 +833,60 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">In diesen Studien wurde aber zumeist nicht der Einfluss von Antibiotika und antipyretischen Maßnahmen z<marker>.</marker> B durch Paracetamol berücksichtigt, denn letzteres hat einen asthmabegünstigenden Effekt</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_DE_KOMMA_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <token postag="ADJ.*" postag_regexp="yes"></token>
+                    <marker>
+                        <token regexp="yes">morgen|tag|abend</token>
+                    </marker>
+                    <token regexp="yes">frau|herr</token>
+                </pattern>
+                <example correction="">Guten <marker>Morgen</marker> Frau Müller, wie geht es Ihnen?</example>
+            </rule>
+              <rule>
+                <pattern>
+                    <token postag="ART:DEF.*" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="PRP.*" postag_regexp="yes"></token>
+                    </marker>
+                    <token postag="ART:DEF.*" postag_regexp="yes"></token>
+                </pattern>
+                <example correction="">Er kehrte als Offizier zurück und leitete dort mehrere Abteilungen, darunter die <marker>für</marker> die Sportausbildung und die für kulturelle Aktivitäten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes"></token>
+                    </marker>
+                    <token postag="PRO:IND.*|ART.*GEN.*" postag_regexp="yes" regexp="yes">des|eines|der|einer</token>
+                </pattern>
+                <example correction="">Dieses <marker>Auskoppeln</marker> eines Teils wird als Auskoppelverlust bezeichnet.</example>
+            </rule>
+               <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SUB.*|ADV:MOD" postag_regexp="yes"></token>
+                    </marker>
+                    <token postag="PRP.*" postag_regexp="yes"></token>
+                    <token postag="ART.*" postag_regexp="yes" min="0"></token>
+                    <token postag="ADJ.*" postag_regexp="yes" min="0"></token>
+                    <token postag="SUB.*|EIG.*|UNKNOWN" postag_regexp="yes"></token>
+                </pattern>
+                <example correction="">Die seither an den einzelnen Museen betriebenen Recherchen waren der <marker>Ausgangspunkt</marker> für das Projekt, seine damit verbundenen Verlusterfahrungen und das tragische Schicksal seiner Familie würdigt.</example>
+                <example correction="">Speziell im Falle eines Gerätefarbraums ist, <marker>also</marker> für das spezielle (ergo individuelle) Gerät ist diese Beziehung zu beachten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token regexp="yes">hallo|hi|hey</token>
+                    </marker>
+                    <token postag="ADJ.*" postag_regexp="yes"></token>
+                    <token postag="SUB.*"  postag_regexp="yes"></token>
+                </pattern>
+                <example correction=""><marker>Hallo</marker> liebe Kollegen.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
