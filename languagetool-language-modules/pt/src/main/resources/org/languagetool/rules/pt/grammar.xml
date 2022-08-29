@@ -28710,6 +28710,17 @@ O namorado dela era um ladrão.
 
   <category id='CONFUSED_WORDS' name="Confusão de Palavras">
 
+    <rulegroup id="CONFUSAO_RJ" name="Confusão de de e da">
+     <rule>
+        <pattern case_sensitive='yes'>
+          <token>Rio</token>
+          <token regexp='yes'>d[oa]</token>
+          <token>Janeiro</token>
+        </pattern>
+        <message>Se for um erro ortográfico, substitua por <suggestion>\1 de \3</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 <match no='2' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/> janeiro</suggestion></message>
+        <example correction="Rio de Janeiro|Rio do janeiro">Fui ao <marker>Rio da Janeiro</marker>.</example>
+    </rule>
+   </rulegroup>
 
     <rulegroup id="DIACRITICS" name="Confusão com diacríticos">
       <!--      Created by Jaume Ortolà, Portuguese rule 2021-01-08      -->
@@ -28720,6 +28731,14 @@ O namorado dela era um ladrão.
         </pattern>
         <message>Se for um erro ortográfico, substitua por <suggestion>\1 <match no='2' regexp_match="e" regexp_replace='é' postag_regexp="yes"/></suggestion>. Se for um erro de gênero, substitua por <suggestion><match no='1' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/> \2</suggestion></message>
         <example correction="das marés|dos mares">A resposta <marker>das mares</marker> foi imediata.</example>
+    </rule>
+    <rule>
+        <pattern>
+          <token>esta</token>
+          <token postag='A..M.+|D..M.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 <match no='3' postag="(A..|D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion></message>
+        <example correction="está confuso|esta confusa">Isso <marker>esta confuso</marker>.</example>
     </rule>
     <rule>
         <pattern>
