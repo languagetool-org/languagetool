@@ -169,7 +169,7 @@ RB => Règles Brutes
                 <token>chronique</token>
             </marker>
         </pattern>
-        <disambig action="filter" postag="N f s"/>
+        <disambig action="filter" postag="J e s"/>
     </rule>
     <rule id="SECURITE_INCENDIE" name="sécurité incendie">
         <pattern>
@@ -1452,6 +1452,7 @@ RB => Règles Brutes
                 <token postag="V ind pres 3 s"/>
                 <token postag="N.*" postag_regexp="yes"/>
             </marker>
+            <token postag="[DA].*" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
@@ -3848,7 +3849,7 @@ RB => Règles Brutes
             <marker>
                 <token regexp="yes">complexe|calme|étanche|culasse|hybride|légitime|jalouse|fausse</token>
             </marker>
-            <token><exception postag="D.*|A" postag_regexp="yes"/></token>
+            <token><exception postag="D.*|A|R pers obj.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filter" postag="J e s"/>
     </rule>
