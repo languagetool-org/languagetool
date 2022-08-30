@@ -52598,7 +52598,7 @@ O namorado dela era um ladrão.
    <rule id='PRE_POS' name="Correção de escrita" default='temp_off'>
       <pattern>
         <token regexp='yes'>pré|pós</token>
-        <token postag='N.+|A.+|V.+' postag_regexp='yes'/>
+        <token postag='N.+|A.+|VMN.+|VMP.+' postag_regexp='yes'/>
       </pattern>
       <message>Neste caso, deve utilizar o hífen.</message>
       <suggestion>\1-\2</suggestion>
@@ -52632,9 +52632,9 @@ O namorado dela era um ladrão.
       <pattern>
         <token>auto</token>
         <token min='0' spacebefore='no'>-</token>
-        <token regexp='yes'>\p{L}+
-          <exception regexp='yes'>[srho]+</exception>
-          <exception postag='SPS.+|C.+|RG|D.+|P.+' postag_regexp='yes'/>
+        <token regexp='yes'>\p{Ll}+
+          <exception regexp='yes'>[srho]\p{L}+</exception>
+          <exception postag='SPS.+|C.+|R.+|D.+|P.+' postag_regexp='yes'/>
         </token>
       </pattern>
       <message>Esta é uma palavra só.</message>
@@ -52645,7 +52645,7 @@ O namorado dela era um ladrão.
       <pattern>
         <token>auto</token>
         <token min='0' spacebefore='no'>-</token>
-        <token regexp='yes'>r\p{L}+
+        <token regexp='yes'>r\p{Ll}+
         <exception postag='SPS.+|C.+|RG|D.+|P.+' postag_regexp='yes'/>
         </token>
       </pattern>
@@ -52657,7 +52657,7 @@ O namorado dela era um ladrão.
       <pattern>
         <token>auto</token>
         <token min='0' spacebefore='no'>-</token>
-        <token regexp='yes'>s\p{L}+
+        <token regexp='yes'>s\p{Ll}+
         <exception postag='SPS.+|C.+|RG|D.+|P.+' postag_regexp='yes'/>
         </token>
       </pattern>
@@ -52668,7 +52668,7 @@ O namorado dela era um ladrão.
     <rule>
       <pattern>
         <token>auto</token>
-        <token regexp='yes'>o\p{L}+
+        <token regexp='yes'>o\p{Ll}+
         <exception postag='SPS.+|C.+|RG|D.+|P.+' postag_regexp='yes'/>
         </token>
       </pattern>
@@ -52679,7 +52679,7 @@ O namorado dela era um ladrão.
     <rule>
       <pattern>
         <token>auto</token>
-        <token regexp='yes'>h\p{L}+
+        <token regexp='yes'>h\p{Ll}+
         <exception postag='SPS.+|C.+|RG|D.+|P.+' postag_regexp='yes'/>
         </token>
       </pattern>
