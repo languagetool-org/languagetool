@@ -1498,6 +1498,15 @@ RB => Règles Brutes
         </pattern>
         <disambig action="remove" postag="V.*"/>
     </rule>
+    <rule id="VIE" name="vie">
+        <pattern>
+            <token regexp="yes">je|tu|il|elle|on</token>
+            <marker>
+                <token>vie</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N f s"/>
+    </rule>
     <rule id="ENSEMBLE" name="ensemble">
         <pattern>
             <token postag="V imp pres [12] p" postag_regexp="yes"/>
@@ -9631,7 +9640,8 @@ RB => Règles Brutes
             <disambig action="filter" postag="R.*"/>
         </rule>
     </rulegroup>
-    <rule id="CITE" name="cité">
+    <rulegroup id="CITE" name="cité">
+        <rule>
         <pattern>
             <token postag="N.*" postag_regexp="yes"/>
             <marker>
@@ -9639,7 +9649,19 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig action="filter" postag="J.*"/>
-    </rule>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="J.*" postag_regexp="yes">
+                    <exception postag="N.*" postag_regexp="yes"/>
+                </token>
+                <marker>
+                    <token>cité</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N f s"/>
+        </rule>
+    </rulegroup>
     <rule id="CAR" name="car">
         <antipattern>
             <token postag="D m s|D e s" postag_regexp="yes"/>
