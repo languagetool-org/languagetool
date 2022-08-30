@@ -28735,11 +28735,14 @@ O namorado dela era um ladrão.
     <rule default='temp_off'>
         <pattern>
           <token regexp='yes'>ta|da</token>
-          <token postag='RG' min='0'/>
-          <token postag='N.M.+|A..M|D..M.+|SPS00:D..M.+' postag_regexp='yes'/>
+          <token postag='NCM.+|A..M|D..M.+|SPS00:D..M.+' postag_regexp='yes'>
+            <exception regexp='yes'>\p{Lu}+</exception>
+            <exception postag='N.[CF].+|A..[CF]|D..[CF].+|SPS00:D..[CF].+|R.+' postag_regexp='yes'/>
+            <exception regexp='yes'>média|auto|contra|covid|cá|dos?|pré|pós</exception>
+          </token>
         </pattern>
-        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2 \3</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 \2 <match no='3' postag="(N.|A..|D..|SPS00:D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion></message>
-        <example correction="dá branco|da branca">Isso me <marker>da branco</marker> total.</example>
+        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 <match no='3' postag="(N.|A..|D..|SPS00:D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion> ou <suggestion><match no='1' regexp_match="a" regexp_replace='o' postag_regexp="yes"/> \2</suggestion>.</message>
+        <example correction="dá branco|da branca|do branco">Isso me <marker>da branco</marker> total.</example>
     </rule>
     <rule default='temp_off'>
         <pattern>
@@ -28751,6 +28754,20 @@ O namorado dela era um ladrão.
         <example correction="tão aterrorizada|tao aterrorizado">Fiquei <marker>tao aterrorizada</marker>.</example>
     </rule>
     <rule default='temp_off'>
+        <antipattern>
+          <token skip='-1' regexp='yes'>&palavras_estrangeiras;</token>
+          <token>to</token>
+          <token postag='RG' min='0'/>
+          <token postag='N.F.+|A..F.+' postag_regexp='yes'/>
+          <example>On To Go</example>
+        </antipattern>
+        <antipattern>
+          <token>to</token>
+          <token postag='RG' min='0'/>
+          <token postag='N.F.+|A..F.+' postag_regexp='yes' skip='-1'/>
+          <token regexp='yes'>&palavras_estrangeiras;</token>
+          <example>to Google UK in 2008 to fulfil his passion for all things digital.</example>
+        </antipattern>
         <pattern>
           <token>to</token>
           <token postag='RG' min='0'/>
@@ -28781,7 +28798,9 @@ O namorado dela era um ladrão.
         <pattern>
           <token>à</token>
           <token postag='DI.M.+' postag_regexp='yes' min='0'/>
-          <token regexp='yes'>tempo|&expressoes_de_tempo;</token>
+          <token regexp='yes'>tempo|&expressoes_de_tempo;
+            <exception regexp='yes'>data|época|era|altura|hora|idade|ocasião|temporada</exception>
+          </token>
         </pattern>
         <message>Se for um erro ortográfico, substitua por <suggestion>há \2 \3</suggestion>.</message>
         <example correction="há muito tempo">Foi <marker>à muito tempo</marker>.</example>
