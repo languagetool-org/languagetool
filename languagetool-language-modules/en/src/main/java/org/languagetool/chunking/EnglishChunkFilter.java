@@ -36,7 +36,6 @@ class EnglishChunkFilter {
   enum ChunkType { SINGULAR, PLURAL }
 
   List<ChunkTaggedToken> filter(List<ChunkTaggedToken> tokens) {
-    //System.out.println(">>"+tokens);
     List<ChunkTaggedToken> result = new ArrayList<>();
     String newChunkTag = null;
     int i = 0;
