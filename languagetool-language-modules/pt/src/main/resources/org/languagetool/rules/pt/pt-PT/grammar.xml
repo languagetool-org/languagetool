@@ -3845,6 +3845,23 @@
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-08 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-08-30 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='NC.+|AQ.+|RG' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'>
+            <exception regexp='yes'>que|lhes?|me|te|ti|tu</exception>
+          </token>
+          <token postag='VMSP2S0' postag_regexp='no'/>
+          <token postag='SPS00|CC|CS' postag_regexp='yes'>
+            <exception scope="next" regexp='yes'>que|lhes?|me|te|ti|tu</exception>
+          </token>
+          <example>Quero ver os pássaros revoando sobre as arvores e chorar de alegria.</example>
+          <example>... está patente quer em séries recolhidas em livro, quer nos desenhos e (des)colagens, quer ainda nos filmes e acções poéticas que realizou.</example>
+          <example>Muitos membros da Vampires de Isara se mudaram para Solera e estão até hoje lá.</example>
+          <example>...ra galerinha novinha aí, vamos lá, como diz o JR, vamos estudar... Um forte abraço a todos e viva o Consoles e Jogos Brasil!!!</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-30 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern case_sensitive="yes">
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2S.+" postag_regexp='yes'>
