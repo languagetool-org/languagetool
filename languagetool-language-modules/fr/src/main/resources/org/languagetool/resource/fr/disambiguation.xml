@@ -164,7 +164,8 @@ RB => Règles Brutes
     </rule>
     <rule id="ANXIETE_CHRONIQUE" name="anxiété chronique">
         <pattern>
-            <token postag="N . s" postag_regexp="yes"/>
+            <token postag="N . s" postag_regexp="yes">
+                    <exception regexp="yes">une?</exception></token>
             <marker>
                 <token>chronique</token>
             </marker>
@@ -246,7 +247,7 @@ RB => Règles Brutes
                 <token>étais</token>
             </marker>
         </pattern>
-        <disambig action="filter" postag="V etre ind impa 2 s"/>
+        <disambig action="remove" postag="N m p"/>
     </rule>
     <rule id="DEVANT" name="devant">
         <pattern>
