@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import org.languagetool.TestTools;
 
 public class UkrainianWordTokenizerTest {
   private final UkrainianWordTokenizer w = new UkrainianWordTokenizer();
@@ -407,6 +406,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("від лат. momento");
     assertEquals(Arrays.asList("від", " ", "лат.", " ", "momento"), testList);
 
+    testList = w.tokenize("отримав рос. орден");
+    assertEquals(Arrays.asList("отримав", " ", "рос.", " ", "орден"), testList);
+    
     testList = w.tokenize("на 1-кімн. кв. в центрі");
     assertEquals(Arrays.asList("на", " " , "1-кімн.", " ", "кв.", " ", "в", " ", "центрі"), testList);
 
