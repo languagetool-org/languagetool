@@ -23821,6 +23821,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+    <rule id="TA_POPRAWKA_TA" name="Powtórzenie przymiotnika wokół rzeczownika">
+    <antipattern>
+    <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+        <token postag="(adj|pact|ppas).*" postag_regexp="yes"/>
+        <token postag="(subst|ger).*" postag_regexp="yes"/>
+    </unify>    
+    <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+        <token><match no="0"/><exception>to</exception></token>
+        <and> 
+        <token postag="(subst|ger).*" postag_regexp="yes"/>
+        <token negate="yes"><match no="1"/></token>
+        </and>
+    </unify>
+    </antipattern>
+    <antipattern>
+      <token>tym</token>
+      <token>razem</token>    
+    </antipattern>
+    <antipattern>
+      <token>co</token>
+      <token>jakiś</token>
+      <token>czas</token>    
+    </antipattern>
+    <pattern>
+    <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+        <token postag="(adj|pact|ppas).*" postag_regexp="yes"/>
+        <token postag="(subst|ger).*" postag_regexp="yes"><exception>to</exception></token>
+        <token><match no="0"/><exception>to</exception></token>
+        </unify>    
+    </pattern>
+    <message>Powtórzony przymiotnik „\1”. Czy chodziło o <suggestion>\1 \2</suggestion>?</message>
+    <short>Powtórzenie przymiotnika</short>
+    <example>To wszystko to jest szczęście.</example>
+    <!-- example>A tu zaraz wyjdą reprezentanci Polski znający polski.</example -->
+    <example>Domowe to domowe.</example>
+    <example>Musisz postawić na właściwe miejsce właściwe rzeczy.</example>
+    <example correction="ta poprawka">Podoba mi się <marker>ta poprawka ta</marker>.</example>
+    </rule>
     <rule id="MSST_WARSZAWA_MST_WARSZAWA" name="„ms.st. Warszawa” (m.st. Warszawa)">
      <pattern>
       <marker>
