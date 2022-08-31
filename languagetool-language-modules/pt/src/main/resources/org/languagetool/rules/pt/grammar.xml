@@ -4986,49 +4986,6 @@ O namorado dela era um ladrão.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
         </antipattern>
-        <!-- Added by Marco A.G.Pinto - 2020-01-09 ***START***-->
-        <!-- "No “Life” são colocadas na grelha células com valores" -->
-        <antipattern>
-          <token postag='SPS00.*' postag_regexp='yes'/>
-          <token postag='NCFS000'/>
-          <token postag='NCFP000'/>
-        </antipattern>
-        <!-- Added by Marco A.G.Pinto - 2020-01-09 ***END***-->
-        <!-- MARCOAGPINTO 2020-05-15 *START* -->
-        <!-- "Usando para tal síndromes considerados bons." -->
-        <antipattern>
-          <token postag='CC|SPS00' postag_regexp='yes'/>
-          <token postag='DD0CS0|DI0CS0' postag_regexp='yes'/>
-          <token postag='NC[FMC]P000' postag_regexp='yes'/>
-          <token postag='AQ0[FM]P0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-05-15 *END* -->
-        <!-- MARCOAGPINTO 2020-05-25 *START* -->
-        <!-- "De tal maneira densas que até a luz do Sol tem dificuldade em atravessá-las." -->
-        <antipattern>
-          <token postag='AQ0FS0'/>
-          <token postag='AQ0FP0'/>
-          <token postag='CS'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-05-25 *END* -->
-        <!-- MARCOAGPINTO 2020-05-25 *START* -->
-        <!-- "Esculturas em argila colocadas sobre tumbas." -->
-        <!-- "Esculturas em cimento colocados sobre tumbas." -->
-        <antipattern>
-          <token postag='NC[FMC]S000' postag_regexp='yes'/>
-          <token postag='VMP00P[FM]' postag_regexp='yes'/>
-          <token postag='SPS00'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-05-25 *END* -->
-        <!-- MARCOAGPINTO 2020-06-01 *START* -->
-        <!-- "Foi acusado de manipular informações." -->
-        <!-- "Foi acusado de manipular agentes." -->
-        <!-- "Foi acusado de manipular bilhetes." -->
-        <antipattern>
-          <token postag='VMN0000'/>
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-01 *END* -->
         <!-- MARCOAGPINTO 2020-06-02 *START* -->
         <!-- "São em sua maioria capitais estaduais." -->
         <antipattern>
@@ -5322,6 +5279,19 @@ O namorado dela era um ladrão.
           <example>Ao rico não devas e ao pobre não peças.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-31 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='VMN0000' postag_regexp='no'/>
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>	  
+          <example>Foi acusado de manipular informações.</example>
+          <example>Nossa missão é simples: auxiliar pessoas que buscam perfurar ou realizar manutenção de poços.</example>
+          <example>Tom adora escalar montanhas.</example>
+          <example>Na embarcação, todas as crianças eram obrigadas a usar coletes salva vidas.</example>
+          <example>Esquilos adoram escalar árvores.</example>
+          <example>Aqueles que semeiam espinhos, não deveriam esperar colher rosas.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-31 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
