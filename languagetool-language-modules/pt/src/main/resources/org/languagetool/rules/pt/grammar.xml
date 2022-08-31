@@ -2130,13 +2130,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion suppress_misspelled="yes"><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
         <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>-<match no='5' include_skipped='all'/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/><match no='4' include_skipped='all'/>-<match no='5' include_skipped='all'/></suggestion>
         <!--      <example correction='(sanduíche) demasiado bom|sanduíche demasiado boa|sanduíche demasiado, bom'>Estão a comer uma <marker>sanduíche demasiado bom</marker>.</example> -->
-        <example correction='Um boi|Uma, boi|Uma -boi'><marker>Uma boi</marker> está no pasto.</example>
+        <example correction='Um boi|Uma, boi|Uma-boi'><marker>Uma boi</marker> está no pasto.</example>
         <example>À comunidade Mozilla (Firefox, Thunderbird e SeaMonkey).</example>
         <example>Uma vaca está no pasto.</example>
-        <example correction="um terrível inchaço|uma terrível, inchaço|uma terrível-inchaço">Tem <marker>uma terrível inchaço</marker> na cabeça.</example>
-        <example correction="um mais terrível inchaço|uma mais terrível, inchaço|uma mais terrível-inchaço">Tem <marker>uma mais terrível inchaço</marker> na cabeça.</example>
+        <example correction="um terrível inchaço|uma terrível, inchaço|umaterrível-inchaço">Tem <marker>uma terrível inchaço</marker> na cabeça.</example>
+        <example correction="um mais terrível inchaço|uma mais terrível, inchaço|umamaisterrível-inchaço">Tem <marker>uma mais terrível inchaço</marker> na cabeça.</example>
         <example>Alemanha tinha perdido a Primeira Guerra Mundial devido à Revolução alemã.</example>
         <example>Uma rua Roberto Duarte Silva, tantas memórias.</example>
         <example>Nenhuma cidade na Europa é tão populosa quanto Tóquio.</example>
@@ -28720,15 +28720,15 @@ O namorado dela era um ladrão.
 
     <rulegroup id="DIACRITICS" name="Confusão com diacríticos">
       <!--      Created by Jaume Ortolà, Portuguese rule 2021-01-08      -->
-     <rule default='temp_off'>
+     <rule default='on'>
         <pattern>
           <token postag='N.F.+|A..F|D..F.+|SPS00:D..F.+' postag_regexp='yes'/>
-          <token regexp='yes'>mares?</token>
+          <token regexp='yes' case_sensitive='yes'>mares?</token>
         </pattern>
         <message>Se for um erro ortográfico, substitua por <suggestion>\1 <match no='2' regexp_match="e" regexp_replace='é' postag_regexp="yes"/></suggestion>. Se for um erro de gênero, substitua por <suggestion><match no='1' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/> \2</suggestion></message>
         <example correction="das marés|dos mares">A resposta <marker>das mares</marker> foi imediata.</example>
     </rule>
-    <rule default='temp_off'>
+    <rule default='on'>
         <pattern>
           <token>esta</token>
           <token postag='A..M.+|D..M.+' postag_regexp='yes'/>
@@ -28736,7 +28736,7 @@ O namorado dela era um ladrão.
         <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 <match no='2' postag="(A..|D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion></message>
         <example correction="está confuso|esta confusa">Isso <marker>esta confuso</marker>.</example>
     </rule>
-    <rule default='temp_off'>
+    <rule default='on'>
         <pattern>
           <token postag='N.M.+|A..M|D..M.+|SPS00:D..M.+' postag_regexp='yes'/>
           <token>atras</token>
@@ -28749,14 +28749,14 @@ O namorado dela era um ladrão.
           <token regexp='yes'>ta|da</token>
           <token postag='NCM.+|A..M|D..M.+|SPS00:D..M.+' postag_regexp='yes'>
             <exception regexp='yes'>\p{Lu}+</exception>
-            <exception postag='N.[CF].+|A..[CF]|D..[CF].+|SPS00:D..[CF].+|R.+' postag_regexp='yes'/>
+            <exception postag='N.[CF].+|A..[CF].+|D..[CF].+|SPS00:D..[CF].+|R.+' postag_regexp='yes'/>
             <exception regexp='yes'>média|auto|contra|covid|cá|dos?|pré|pós</exception>
           </token>
         </pattern>
         <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 <match no='2' postag="(N.|A..|D..|SPS00:D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion> ou <suggestion><match no='1' regexp_match="a" regexp_replace='o' postag_regexp="yes"/> \2</suggestion>.</message>
         <example correction="dá branco|da branca|do branco">Isso me <marker>da branco</marker> total.</example>
     </rule>
-    <rule default='temp_off'>
+    <rule default='on'>
         <pattern>
           <token>tao</token>
           <token postag='RG' min='0'/>
@@ -28781,18 +28781,20 @@ O namorado dela era um ladrão.
           <example>to Google UK in 2008 to fulfil his passion for all things digital.</example>
         </antipattern>
         <pattern>
+         <marker>
           <token>to</token>
+         </marker>
           <token postag='RG' min='0'/>
-          <token postag='N.F.+|A..F.+' postag_regexp='yes'/>
+          <token postag='N.+|A.+|V.+' postag_regexp='yes'/>
         </pattern>
-        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="o" regexp_replace='ô' postag_regexp="yes"/> \2 \3</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 \2 <match no='3' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/></suggestion></message>
-        <example correction="tô muito animada|to muito animado">E eu <marker>to muito animada</marker>.</example>
+        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="o" regexp_replace='ô' postag_regexp="yes"/></suggestion>.</message>
+        <example correction="tô">E eu <marker>to</marker> muito animada.</example>
     </rule>
     <rule default='temp_off'>
         <pattern>
           <token>apos</token>
           <token postag='RG' min='0'/>
-          <token postag='N.F.+|A..F.+' postag_regexp='yes'/>
+          <token postag='N.F.+|A..F.+|V.+' postag_regexp='yes'/>
         </pattern>
         <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="o" regexp_replace='ó' postag_regexp="yes"/> \2 \3</suggestion>.</message>
         <example correction="após aprovação">Isso é feito <marker>apos aprovação</marker>.</example>
@@ -28801,12 +28803,12 @@ O namorado dela era um ladrão.
         <pattern>
           <token>ai</token>
           <token postag='RG' min='0'/>
-          <token postag='N.F.+|A..F.+' postag_regexp='yes'/>
+          <token postag='N.+|A.+|V.+' postag_regexp='yes'/>
         </pattern>
-        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="i" regexp_replace='í' postag_regexp="yes"/> \2 \3</suggestion>Se for um erro de gênero, substitua por <suggestion>\1 \2 <match no='3' postag="(N.|A..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/></suggestion>.</message>
-        <example correction="aí parada|ai parado">Não fique <marker>ai parada</marker>.</example>
+        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="i" regexp_replace='í' postag_regexp="yes"/> \2 \3</suggestion>.</message>
+        <example correction="aí parada">Não fique <marker>ai parada</marker>.</example>
     </rule>
-    <rule default='temp_off'>
+    <rule default='on'>
         <pattern>
           <token>à</token>
           <token postag='DI.M.+' postag_regexp='yes' min='0'/>
@@ -52597,7 +52599,7 @@ O namorado dela era um ladrão.
 
   <category id='COMPOUNDING' name="Palavras Compostas" type="misspelling">
 
-    <rule id='BEM_MAL_ADJ' name="Correção de escrita" default='temp_off'>
+    <rule id='BEM_MAL_ADJ' name="Correção de escrita" default='off'>
       <pattern>
         <token regexp='yes'>bem|mal</token>
         <token postag='VMP.+' postag_regexp='yes'/>
@@ -52607,7 +52609,7 @@ O namorado dela era um ladrão.
       <example correction="bem-estabelecido">Está <marker>bem estabelecido</marker> na carreira.</example>
     </rule>
 
-   <rule id='PRE_POS' name="Correção de escrita" default='temp_off'>
+   <rule id='PRE_POS' name="Correção de escrita" default='on'>
       <pattern>
         <token regexp='yes'>pré|pós</token>
         <token postag='N.+|A.+|VMN.+|VMP.+' postag_regexp='yes'/>
@@ -52617,7 +52619,7 @@ O namorado dela era um ladrão.
       <example correction="pré-pandemia">Isso foi <marker>pré pandemia</marker>.</example>
     </rule>
 
-    <rule id='INFECTO_ADJ' name="Correção de escrita: infectocontagioso" default='temp_off'>
+    <rule id='INFECTO_ADJ' name="Correção de escrita: infectocontagioso" default='on'>
       <pattern>
         <token regexp='yes'>infectos?</token>
         <token min='0' spacebefore='no'>-</token>
@@ -52628,7 +52630,7 @@ O namorado dela era um ladrão.
       <example correction="infectocontagiosa">É uma doença <marker>infectos contagiosa</marker>.</example>
     </rule>
 
-    <rule id='VIDEOCHAMADA' name="Correção de escrita: videochamada" default='temp_off'>
+    <rule id='VIDEOCHAMADA' name="Correção de escrita: videochamada" default='on'>
       <pattern>
         <token regexp='yes'>v[ií]deo</token>
         <token min='0' spacebefore='no'>-</token>
@@ -52639,13 +52641,18 @@ O namorado dela era um ladrão.
       <example correction="videochamada">Tenho que fazer uma <marker>vídeo chamada</marker>.</example>
     </rule>
 
-   <rulegroup id='AUTO' name="Correção de escrita" default='temp_off'>
+   <rulegroup id='AUTO' name="Correção de escrita" default='on'>
+    <antipattern>
+      <token>auto</token>
+      <token inflected='yes'>ser</token>
+      <example>Auto foi à feira</example>
+    </antipattern>
     <rule>
       <pattern>
         <token>auto</token>
         <token min='0' spacebefore='no'>-</token>
         <token regexp='yes'>\p{Ll}+
-          <exception regexp='yes'>[srho]\p{L}+</exception>
+          <exception regexp='yes'>[srhoó]\p{L}+</exception>
           <exception postag='SPS.+|C.+|R.+|D.+|P.+' postag_regexp='yes'/>
         </token>
       </pattern>
@@ -52680,7 +52687,7 @@ O namorado dela era um ladrão.
     <rule>
       <pattern>
         <token>auto</token>
-        <token regexp='yes'>o\p{Ll}+
+        <token regexp='yes'>[oó]\p{Ll}+
         <exception postag='SPS.+|C.+|RG|D.+|P.+' postag_regexp='yes'/>
         </token>
       </pattern>
