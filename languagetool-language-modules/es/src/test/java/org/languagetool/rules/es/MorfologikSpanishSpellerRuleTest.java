@@ -69,7 +69,7 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, matches.length);
     
     matches = rule.match(lt.getAnalyzedSentence("vilbaino."));
-    assertEquals("bilbaíno", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Bilbaíno", matches[0].getSuggestedReplacements().get(0));
     
     //This needs to be handled with rules for different variants.
     //In Spain is a spelling error, but not in other countries. 

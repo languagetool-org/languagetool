@@ -37,6 +37,7 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
+import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,9 +127,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (initSpellers()) return toRuleMatchArray(ruleMatches);
     int idx = -1;
     long sentLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1;  // -1 for the SENT_START token
+    boolean isFirstWord = true;
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
       if (canBeIgnored(tokens, idx, token)) {
+        if (idx > 0 && isFirstWord && !StringTools.isPunctuationMark(token.getToken())) {
+          isFirstWord = false;
+        }
         continue;
       }
       int startPos = token.getStartPos();
@@ -188,7 +193,27 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           }
         }
       }
-
+      
+      // Capitalize word at the sentence start
+      // if it is not the last token in the sentence, similarly to UPPERCASE_SENTENCE_START
+      if (isFirstWord && ruleMatches.size()>0 && idx < tokens.length - 1) {
+        RuleMatch ruleMatch = ruleMatches.get(0);
+        List<String> replacements = ruleMatch.getSuggestedReplacements();
+        List<String> newReplacements = new ArrayList<>();
+        for (String replacement : replacements) {
+          //only if the replacement is all lower case
+          if (replacement.equals(replacement.toLowerCase())) {
+            newReplacements.add(StringTools.uppercaseFirstChar(replacement));
+          } else {
+            newReplacements.add(replacement);
+          }
+        }
+        ruleMatch.setSuggestedReplacements(newReplacements);
+      }
+      if (idx > 0 && isFirstWord && !StringTools.isPunctuationMark(token.getToken())) {
+        isFirstWord = false;
+      }
+      
       if (sentLength >= 3) {
         float errRatio = (float)ruleMatches.size() / sentLength;
         if (errRatio >= 0.5) {

@@ -287,6 +287,11 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertThat(matches10[0].getToPos(), is(7));
     assertThat(matches10[0].getSuggestedReplacements().get(0), is("show")); // not really a good first suggestion... "throw" is 5th
     
+    RuleMatch[] matches11 = rule.match(lt.getAnalyzedSentence("dditionally, this is it."));
+    assertThat(matches11.length, is(1));
+    assertThat(matches11[0].getSuggestedReplacements().get(0), is("Additionally"));
+    assertThat(matches11[0].getFromPos(), is(0));
+    assertThat(matches11[0].getToPos(), is(11));
   }
 
   @Test

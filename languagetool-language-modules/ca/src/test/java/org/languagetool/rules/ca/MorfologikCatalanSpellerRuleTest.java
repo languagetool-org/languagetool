@@ -528,30 +528,30 @@ public class MorfologikCatalanSpellerRuleTest {
         //split words
         assertEquals(2, rule.match(lt.getAnalyzedSentence("sobre el llit d'en Ron i el va colpir la certesa del que havia passat amb la força d'un troll quan envesteix")).length);
         matches = rule.match(lt.getAnalyzedSentence("unaa juda")); 
-        assertEquals("una ajuda", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Una ajuda", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("elsi nteressos")); 
-        assertEquals("els interessos", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Els interessos", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("el sinteressos")); 
         //assertEquals("els interessos", matches[0].getSuggestedReplacements().get(0));
         assertEquals("interessos", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("ell ustre")); 
         assertEquals("el lustre", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("unah ora")); 
-        assertEquals("una hora", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Una hora", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("benv inguts")); 
-        assertEquals("ben vinguts", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("benvinguts", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("Ben vinguts", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Benvinguts", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(lt.getAnalyzedSentence("benam at")); 
-        assertEquals("bena mat", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("benamat", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("Bena mat", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Benamat", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(lt.getAnalyzedSentence("estimade s"));
-        assertEquals("estimada", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Estimada", matches[0].getSuggestedReplacements().get(0));
         //assertEquals("estimades", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("estimad es")); 
-        assertEquals("estimar", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("estimat", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("Estimar", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Estimat", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(lt.getAnalyzedSentence("co nstel·lació")); 
-        assertEquals("constel·lació", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Constel·lació", matches[0].getSuggestedReplacements().get(0));
         
         //diacritics
         matches = rule.match(lt.getAnalyzedSentence("literaria"));
@@ -567,7 +567,7 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("únic", matches[0].getSuggestedReplacements().get(0));
         
         matches = rule.match(lt.getAnalyzedSentence("rà dio")); 
-        assertEquals("ràdio", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Ràdio", matches[0].getSuggestedReplacements().get(0));
         assertEquals(0, matches[0].getFromPos());
         assertEquals(6, matches[0].getToPos());
         
