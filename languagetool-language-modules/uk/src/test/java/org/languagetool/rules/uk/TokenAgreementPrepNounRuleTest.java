@@ -157,8 +157,6 @@ public class TokenAgreementPrepNounRuleTest {
 
     assertEmptyMatch("На сьогодні рослинна їжа");
     
-    
-    
     assertEquals(1, ruleMatch("в п'ятьом людям").length);
     assertEquals(1, ruleMatch("в понад п'ятьом людям").length);
 

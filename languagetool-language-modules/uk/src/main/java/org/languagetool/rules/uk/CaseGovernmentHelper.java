@@ -47,6 +47,14 @@ public class CaseGovernmentHelper {
   }
   
   public static boolean hasCaseGovernment(AnalyzedTokenReadings analyzedTokenReadings, Pattern startPosTag, String rvCase) {
+    // special case - only some inflections of мати
+    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("мати"), Pattern.compile("verb:imperf:(futr|past|pres).*")) 
+        && rvCase.equals("v_inf")  )
+      return true;
+    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("бути"), Pattern.compile("verb:imperf:(futr).*")) 
+        && rvCase.equals("v_inf")  )
+      return true;
+    
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
       if( token.getPOSTag() == null )
         continue;
@@ -56,14 +64,14 @@ public class CaseGovernmentHelper {
       if( rvCase.equals("v_oru") && PosTagHelper.hasPosTagPart(token, "adjp:pasv") )
         return true;
       
-      if( CASE_GOVERNMENT_MAP.containsKey(token.getLemma())
-          && CASE_GOVERNMENT_MAP.get(token.getLemma()).contains(rvCase) )
-        return true;
+      if( CASE_GOVERNMENT_MAP.containsKey(token.getLemma()) ) {
+          return CASE_GOVERNMENT_MAP.get(token.getLemma()).contains(rvCase);
+      }
 
+      // TODO: more universal advp -> verb conversion
       if( token.getPOSTag().startsWith("advp") ) {
-        String vLemma = token.getLemma()
-            .replaceFirst("лячи(с[яь])?", "ити$1")
-            .replaceFirst("(ючи|вши)(с[яь])?", "ти$2");
+        String vLemma = getAdvpVerbLemma(token);
+        
         if( CASE_GOVERNMENT_MAP.containsKey(vLemma)
             && CASE_GOVERNMENT_MAP.get(vLemma).contains(rvCase) )
           return true;
@@ -90,6 +98,55 @@ public class CaseGovernmentHelper {
       }
     }
     return list;
+  }
+
+  public static Set<String> getCaseGovernments(AnalyzedTokenReadings analyzedTokenReadings, Pattern posTag) {
+    LinkedHashSet<String> list = new LinkedHashSet<>();
+
+    // special case - only some inflections of мати
+    if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("мати"), Pattern.compile("verb:imperf:(futr|past|pres).*")) ) {
+      list.add("v_inf");
+    }
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("бути"), Pattern.compile("verb:imperf:futr.*")) ) {
+      list.add("v_inf");
+    }
+    
+    for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
+      if( ! token.hasNoTag() 
+          && (token.getPOSTag() != null && posTag.matcher(token.getPOSTag()).matches()) ) {
+
+        String vLemma = token.getLemma();
+        if ( ! CASE_GOVERNMENT_MAP.containsKey(vLemma) ) {
+          if( token.getPOSTag().startsWith("advp") ) {
+            vLemma = getAdvpVerbLemma(token);
+          }
+        }
+
+        if ( CASE_GOVERNMENT_MAP.containsKey(vLemma) ) {
+          Set<String> rvList = CASE_GOVERNMENT_MAP.get(vLemma);
+          list.addAll(rvList);
+        }
+      }
+
+      if( PosTagHelper.hasPosTagPart(token, "adjp:pasv") ) {
+        list.add("v_oru");
+      }
+    }
+
+    return list;
+  }
+
+  private static String getAdvpVerbLemma(AnalyzedToken token) {
+    String vLemma = token.getLemma();
+    if( vLemma.equals("даючи") ) {
+      vLemma = "давати";
+    }
+    else {
+      vLemma = token.getLemma()
+        .replaceFirst("лячи(с[яь])?", "ити$1")
+        .replaceFirst("(ючи|вши)(с[яь])?", "ти$2");
+    }
+   return vLemma; 
   }
   
 }

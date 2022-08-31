@@ -22,13 +22,15 @@ public abstract class LemmaHelper {
   public static final List<String> DAYS_OF_WEEK = Arrays.asList("понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя");
   public static final List<String> TIME_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "час", "день", "ніч", "вечір", "тиждень", "місяць", "доба", "мить",
       "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "півсторіччя", "тисячоліття", "півтисячоліття", "квартал");
-  public static final List<String> TIME_PLUS_LEMMAS = Arrays.asList("секунда", "хвилина", "година", "час", "день", "ніч", "вечір", "тиждень", "місяць", "доба", "мить", 
+  public static final Set<String> TIME_PLUS_LEMMAS = new HashSet<>(Arrays.asList(
+      "секунда", "хвилина", "хвилинка", "година", "півгодини", "час", "день", "ніч", "ніченька", "вечір", "ранок", "тиждень", "місяць", "доба",
+      "півгодини", "півроку",
       "літо", "зима", "весна", "осінь",
       "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "тисячоліття", "квартал",
-      "понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя",
+      "понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя", "вихідний",
       "січень", "лютий", "березень", "квітень", "травень", "червень", "липень", "серпень", "вересень", "жовтень", "листопад", "грудень",
       "міліметр", "сантиметр", "метр", "кілометр", "кілограм", "грам", "літр", "тонна", "миля",
-      "десяток", "сотня", "тисяча", "відсоток", "пара", "раз", "крок");
+      "десяток", "сотня", "тисяча", "відсоток", "пара", "раз", "крок", "тайм", "мить", "період", "термін", "сезон"));
       //, "раз", - опрацьовуємо окремо);
   public static final List<String> TIME_LEMMAS_SHORT = Arrays.asList("секунда", "хвилина", "година", "рік");
 
@@ -68,17 +70,37 @@ public abstract class LemmaHelper {
     return false;
   }
 
-  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, List<String> lemmas, Pattern posRegex) {
+  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, Collection<String> lemmas, Pattern posRegex) {
     if( ! analyzedTokenReadings.hasReading() )
       return false;
 
     for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {
-      for(String lemma: lemmas) {
-        if( lemma.equals(analyzedToken.getLemma()) 
-            && analyzedToken.getPOSTag() != null 
-            && posRegex.matcher(analyzedToken.getPOSTag()).matches()) {
+      if( analyzedToken.getPOSTag() != null 
+          && posRegex.matcher(analyzedToken.getPOSTag()).matches()) {
+        
+        if( lemmas.contains(analyzedToken.getLemma()) )
           return true;
-        }
+      }
+    }
+    return false;
+  }
+
+  public static boolean hasLemmaBase(AnalyzedTokenReadings analyzedTokenReadings, Collection<String> lemmas, Pattern posRegex) {
+    if( ! analyzedTokenReadings.hasReading() )
+      return false;
+
+    for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {
+      if( analyzedToken.getPOSTag() != null 
+          && posRegex.matcher(analyzedToken.getPOSTag()).matches()) {
+
+        String lemma = analyzedToken.getLemma();
+        if( lemmas.contains(lemma) )
+          return true;
+
+        int idx = lemma.indexOf('-');
+        if( idx > 2 && idx < lemma.length()-1 
+            && lemmas.contains(lemma.substring(0, idx)) )
+          return true;
       }
     }
     return false;

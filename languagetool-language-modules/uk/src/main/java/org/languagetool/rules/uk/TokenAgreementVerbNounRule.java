@@ -19,7 +19,6 @@
 package org.languagetool.rules.uk;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,12 +32,10 @@ import java.util.stream.Collectors;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
-import org.languagetool.rules.uk.LemmaHelper.Dir;
 import org.languagetool.tagging.uk.PosTagHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * A rule that checks if noun and verb agree
  * 
  * @author Andriy Rysin
- * @since 3.6
+ * @since 5.9
  */
 public class TokenAgreementVerbNounRule extends Rule {
   
@@ -55,7 +52,6 @@ public class TokenAgreementVerbNounRule extends Rule {
 
   public TokenAgreementVerbNounRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
-//    setDefaultOff();
   }
 
   @Override
@@ -65,17 +61,13 @@ public class TokenAgreementVerbNounRule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Узгодження дієслова та іменника за відмінком";
+    return "Узгодження дієслова з іменником";
   }
 
   public String getShort() {
     return "Узгодження дієслова з іменником";
   }
 
-  /**
-   * Indicates if the rule is case-sensitive. 
-   * @return true if the rule is case-sensitive, false otherwise.
-   */
   public boolean isCaseSensitive() {
     return false;
   }
@@ -86,9 +78,9 @@ public class TokenAgreementVerbNounRule extends Rule {
     int nounPos;
     List<AnalyzedToken> verbTokenReadings = new ArrayList<>(); 
     AnalyzedTokenReadings verbAnalyzedTokenReadings = null;
-//    List<AnalyzedToken> nounAdjTokenReadings = new ArrayList<>(); 
-    List<org.languagetool.rules.uk.VerbInflectionHelper.Inflection> nounAdjInflections;
+    List<org.languagetool.rules.uk.VerbInflectionHelper.Inflection> nounAdjNazInflections;
     Set<String> cases = new HashSet<>();
+    List<AnalyzedToken> nounAdjIndirTokenReadings = new ArrayList<>(); 
   }
   
 
@@ -144,7 +136,6 @@ public class TokenAgreementVerbNounRule extends Rule {
             state = null;
             break;
           }
-          
 //        else if( PosTagHelper.isPredictOrInsert(token) ) {
           // ignore
 //        }
@@ -160,13 +151,14 @@ public class TokenAgreementVerbNounRule extends Rule {
       if( state == null )
         continue;
 
-      if( tokenReadings.getCleanToken().matches("[0-9]{4}-.+|нікому|нічого|нічим|решту") ) {
+      if( tokenReadings.getCleanToken().toLowerCase().matches("[0-9]{4}-.+|нікому|нічому|нічого|нікого|нічим|решту") ) {
         state = null;
         continue;
       }
 
       if( isSkip(tokens, i) ) {
-        i++;
+//        i++;
+        state = null;
         continue;
       }
 
@@ -177,20 +169,17 @@ public class TokenAgreementVerbNounRule extends Rule {
 
 
       List<AnalyzedToken> nounAdjTokenReadingsVnaz = new ArrayList<>(); 
-      List<AnalyzedToken> nounAdjTokenReadingsIndir = new ArrayList<>(); 
 
       for (AnalyzedToken token: tokenReadings) {
         String nounAdjPosTag = token.getPOSTag();
 
         if( nounAdjPosTag == null // can happen for words with \u0301 or \u00AD
-            || nounAdjPosTag.equals(JLanguageTool.SENTENCE_END_TAGNAME)
-            || nounAdjPosTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
+            || nounAdjPosTag.endsWith("_END")) {
           continue;
         }
 
         if( nounAdjPosTag.startsWith("<") ) {
-          nounAdjTokenReadingsVnaz.clear();
-          nounAdjTokenReadingsIndir.clear();
+          state = null;
           break;
         }
 
@@ -200,25 +189,25 @@ public class TokenAgreementVerbNounRule extends Rule {
             nounAdjTokenReadingsVnaz.add(token);
           }
           else {
-            nounAdjTokenReadingsIndir.add(token);
+            state.nounAdjIndirTokenReadings.add(token);
           }
           state.nounPos = i;
         }
         else {
-          nounAdjTokenReadingsVnaz.clear();
-          nounAdjTokenReadingsIndir.clear();
+          state = null;
           break;
         }
       }
 
       // no following token - restart
 
-      if( nounAdjTokenReadingsVnaz.isEmpty() && nounAdjTokenReadingsIndir.isEmpty() ) {
+      if( state == null || nounAdjTokenReadingsVnaz.isEmpty() && state.nounAdjIndirTokenReadings.isEmpty() ) {
         state = null;
         continue;
       }
 
-      logger.debug("=== Checking\n\t{}\n\tnd: {}\n\tni: {}", state.verbTokenReadings, nounAdjTokenReadingsVnaz, nounAdjTokenReadingsIndir);
+      logger.debug("=== Checking\n\t{}\n\tnDir: {}\n\tnIndir: {}", 
+          state.verbTokenReadings, nounAdjTokenReadingsVnaz, state.nounAdjIndirTokenReadings);
 
       // perform the check
 
@@ -234,16 +223,16 @@ public class TokenAgreementVerbNounRule extends Rule {
       boolean pass = false;
 
       if( nounAdjTokenReadingsVnaz.size() > 0 ) {
-        state.nounAdjInflections = VerbInflectionHelper.getNounInflections(nounAdjTokenReadingsVnaz);
-        state.nounAdjInflections.addAll(VerbInflectionHelper.getAdjInflections(nounAdjTokenReadingsVnaz));
+        state.nounAdjNazInflections = VerbInflectionHelper.getNounInflections(nounAdjTokenReadingsVnaz);
+        state.nounAdjNazInflections.addAll(VerbInflectionHelper.getAdjInflections(nounAdjTokenReadingsVnaz));
         verbInflections = VerbInflectionHelper.getVerbInflections(state.verbTokenReadings);
 
-        logger.debug("\t\t{}\n\t{}", verbInflections, state.nounAdjInflections);
+        logger.debug("\t\t{}\n\t{}", verbInflections, state.nounAdjNazInflections);
 
-        pass = ! Collections.disjoint(verbInflections, state.nounAdjInflections);
+        pass = ! Collections.disjoint(verbInflections, state.nounAdjNazInflections);
       }
 
-      if( ! pass && nounAdjTokenReadingsIndir.size() > 0 ) {
+      if( ! pass && state.nounAdjIndirTokenReadings.size() > 0 ) {
 
         Set<String> cases = CaseGovernmentHelper.getCaseGovernments(state.verbAnalyzedTokenReadings, "verb");
 
@@ -264,20 +253,19 @@ public class TokenAgreementVerbNounRule extends Rule {
 
         String tokenLowerCase = tokens[i].getCleanToken().toLowerCase();
 
-        if( cases.contains("v_zna") && tokenLowerCase.matches("грошей|дров|товарів") ) {
+        if( cases.contains("v_zna") && tokenLowerCase.matches("грошей|дров|товарів|пісень") ) {
 //          cases.add("v_rod");
           state = null;
           continue;
         }
 
-        if( cases.isEmpty() || ! TokenAgreementPrepNounRule.hasVidmPosTag(cases, nounAdjTokenReadingsIndir) ) {
+        if( cases.isEmpty() || ! TokenAgreementPrepNounRule.hasVidmPosTag(cases, state.nounAdjIndirTokenReadings) ) {
           
         }
         else {
           pass = true;
         }
       }
-      
 
       if( ! pass ) {
 
@@ -289,48 +277,37 @@ public class TokenAgreementVerbNounRule extends Rule {
         }
 
 
-        if( TokenAgreementVerbNounExceptionHelper.isException(tokens, state.verbPos, i, state, verbInflections, state.nounAdjInflections, state.verbTokenReadings, nounAdjTokenReadingsVnaz)) {
+        if( TokenAgreementVerbNounExceptionHelper.isException(tokens, state.verbPos, i, state, verbInflections, state.nounAdjNazInflections, state.verbTokenReadings, nounAdjTokenReadingsVnaz)) {
           state.verbTokenReadings.clear();
           break;
         }
 
-        if( nounAdjTokenReadingsVnaz.size() > 0 || nounAdjTokenReadingsIndir.size() > 0 ) {
+        if( nounAdjTokenReadingsVnaz.size() > 0 || state.nounAdjIndirTokenReadings.size() > 0 ) {
 
-//        if( nounAdjTokenReadingsVnaz.size() > 0 ) {
-//          
-//          if( logger.isDebugEnabled() ) {
-//            logger.debug(MessageFormat.format("=== Found verb/noun mismatch\n\t{0}\n\t{1}",
-//                state.verbAnalyzedTokenReadings.getToken() + ": " + verbInflections + " // " + state.verbAnalyzedTokenReadings,
-//                nounAdjTokenReadingsVnaz.get(0).getToken() + ": " + nounAdjInflections+ " // " + nounAdjTokenReadingsVnaz));
-//          }
-//
-//          String msg = String.format("Не узгоджено %s з іменником: \"%s\" (%s) і \"%s\" (%s)",
-//              LemmaHelper.hasLemma(state.verbTokenReadings, Arrays.asList("який")) ? "займенник" : "іменник",
-//                  state.verbTokenReadings.get(0).getToken(), formatInflections(verbInflections, true), 
-//                  nounAdjTokenReadingsVnaz.get(0).getToken(), formatInflections(nounAdjInflections, false));
-//
-//          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, state.verbAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
-//          ruleMatches.add(potentialRuleMatch);
-//        }
-//
-//        if( nounAdjTokenReadingsIndir.size() > 0 ) {
           Set<String> cases = CaseGovernmentHelper.getCaseGovernments(state.verbAnalyzedTokenReadings, "verb");
-          if( ! TokenAgreementPrepNounRule.hasVidmPosTag(cases, nounAdjTokenReadingsIndir) ) {
+          if( ! TokenAgreementPrepNounRule.hasVidmPosTag(cases, state.nounAdjIndirTokenReadings) ) {
 
-            if( logger.isDebugEnabled() ) {
-              logger.debug(MessageFormat.format("=== Found verb/noun mismatch\n\t{0}\n\t{1}",
-                  state.verbAnalyzedTokenReadings.getToken() + " // " + state.verbAnalyzedTokenReadings,
-                  tokens[state.nounPos].getToken() + " // " + nounAdjTokenReadingsIndir));
+            logger.debug("=== Found verb/noun mismatch\n\t{} // {}\n\t{} // {}",
+                state.verbAnalyzedTokenReadings.getToken(), state.verbAnalyzedTokenReadings,
+                tokens[state.nounPos].getToken(), state.nounAdjIndirTokenReadings);
+
+            List<Inflection> nounAdjInflections2 = InflectionHelper.getNounInflections(state.nounAdjIndirTokenReadings);
+            nounAdjInflections2.addAll(InflectionHelper.getAdjInflections(state.nounAdjIndirTokenReadings));
+            nounAdjInflections2.addAll(InflectionHelper.getNumrInflections(state.nounAdjIndirTokenReadings));
+
+            if( nounAdjTokenReadingsVnaz.size() > 0 ) {
+//              cases.add("v_naz");
+              List<Inflection> nounAdjInflections0 = InflectionHelper.getNounInflections(nounAdjTokenReadingsVnaz);
+              nounAdjInflections0.addAll(InflectionHelper.getAdjInflections(nounAdjTokenReadingsVnaz));
+              nounAdjInflections0.addAll(InflectionHelper.getNumrInflections(nounAdjTokenReadingsVnaz));
+              nounAdjInflections2.addAll(nounAdjInflections0);
             }
-
-            List<Inflection> nounAdjInflections2 = InflectionHelper.getNounInflections(nounAdjTokenReadingsIndir);
-            nounAdjInflections2.addAll(InflectionHelper.getAdjInflections(nounAdjTokenReadingsIndir));
-            nounAdjInflections2.addAll(InflectionHelper.getNumrInflections(nounAdjTokenReadingsIndir));
-
-            String msg = String.format("Не узгоджено дієслово з іменником: \"%s\" (вимагає: %s) і \"%s\" (%s)",
-                //              LemmaHelper.hasLemma(state.verbTokenReadings, Arrays.asList("який")) ? "займенник" : "іменник",
-                state.verbTokenReadings.get(0).getToken(), cases, // formatInflections(verbInflections, true), 
-                nounAdjTokenReadingsIndir.get(0).getToken(), TokenAgreementAdjNounRule.formatInflections(nounAdjInflections2, false));
+            
+//            nounAdjInflections2.addAll(nounAdjTokenReadingsVnaz.stream().)
+            
+            String msg = String.format("Не узгоджено дієслово з іменником: \"%s\" (%s) і \"%s\" (%s)",
+                state.verbTokenReadings.get(0).getToken(), formatInflections(cases), 
+                state.nounAdjIndirTokenReadings.get(0).getToken(), TokenAgreementAdjNounRule.formatInflections(nounAdjInflections2, false));
 
             RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, state.verbAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
             ruleMatches.add(potentialRuleMatch);
@@ -344,26 +321,37 @@ public class TokenAgreementVerbNounRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  private String formatInflections(Set<String> cases) {
+    if( cases.isEmpty() )
+      return "неперех.";
+    
+    return "вимагає: " + cases.stream()
+        .map(c -> PosTagHelper.VIDMINKY_I_MAP.get(c))
+        .collect(Collectors.joining(", "));
+  }
+
   private boolean isSkip(AnalyzedTokenReadings[] tokens, int i) {
     
     // висміювати такого роду забобони
-    if( i < tokens.length - 2
-        && tokens[i].getCleanToken().matches("свого|такого|різного|одного|певного")
+    if( i < tokens.length - 1
+        && tokens[i].getCleanToken().matches("свого|такого|різного|одного|певного|подібного")
         && tokens[i+1].getCleanToken().matches("роду|разу|типу|штибу")
-        && PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("(noun|adj|adv).*"))) {
+//        && PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("(noun|adj|adv).*"))
+        ) {
       return true;
     }
     if( i < tokens.length - 1
-        && tokens[i].getCleanToken().matches("таким|якимо?сь|відповідним|жодним")
+        && tokens[i].getCleanToken().matches("таким|якимо?сь|відповідним|певним|жодним|дивним")
         && tokens[i+1].getCleanToken().matches("чином|способом|робом") ) {
-        if( i >= tokens.length - 2 || PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("[a-z].*"))) {
+//        if( i >= tokens.length - 2 || PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("[a-z].*"))) {
           return true;
-        }
+//        }
     }
-    if( i < tokens.length - 2
-        && tokens[i].getCleanToken().matches("більшою|меншою|(не)?значною|якоюсь")
+    if( i < tokens.length - 1
+        && tokens[i].getCleanToken().matches("більшою|меншою|(не)?значною|якоюсь|неабиякою|достатньою")
         && tokens[i+1].getCleanToken().matches("мірою")
-        && PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("(noun|adj|adv).*"))) {
+//        && PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("(noun|adj|adv).*"))) {
+        ) {
       return true;
     }
     

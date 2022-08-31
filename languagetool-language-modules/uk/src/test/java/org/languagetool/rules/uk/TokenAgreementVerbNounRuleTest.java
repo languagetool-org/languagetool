@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.function.Consumer;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -49,7 +50,7 @@ public class TokenAgreementVerbNounRuleTest {
   public void testRuleTP() throws IOException {
 
 //    assertMatches(1, "виграло війську");
-    assertMatches(1, "вибирався Києві");
+    assertMatches(1, "вибирався Києві", c -> assertTrue(c.contains("орудний")));
     assertMatches(1, "вповільнятися підлоги");
     assertMatches(1, "вповільнятися дерев'яні підлоги");
     assertMatches(1, "встановити електроні датчики");
@@ -63,7 +64,6 @@ public class TokenAgreementVerbNounRuleTest {
     assertMatches(1, "доведено світовім досвідом");
     assertMatches(1, "боятися закордоном");
     assertMatches(1, "з точки зори антилатинської");
-    assertMatches(1, "ще більше погрішать ситуацію");
     assertMatches(1, "поєднатися одне ціле");
     assertMatches(1, "не вірить свої очам");
 //    assertMatches(1, "Якщо вірити складеними львівськими митниками документам");
@@ -87,6 +87,15 @@ public class TokenAgreementVerbNounRuleTest {
     assertMatches(1, "важко уявити  країн Балтії");
 //    assertMatches(1, "все залежить нас");
     assertMatches(1, "користується попи том");
+    assertMatches(1, "ще більше погрішать ситуацію");
+    assertMatches(1, "стався також вибув метану");
+    assertMatches(1, "від спати єдиного податку");
+    assertMatches(1, "прочитати сааме цю книжку");
+    assertMatches(1, "сиплять сердечками");
+    assertMatches(1, "Охочих навчитися цьому ремеслу");
+    //TODO:
+//    assertMatches(1, "планується провесні церемонію");
+//    assertMatches(1, "Відчувається, що тримаєте рук на пульсі часу");
   }
   
   @Test
@@ -94,11 +103,9 @@ public class TokenAgreementVerbNounRuleTest {
 
     assertEmptyMatch("вкрадено державою");
     
-    // 
-    assertEmptyMatch("спроєктувати проект");
-    
     // case govt
 
+    assertEmptyMatch("спроєктувати проект");
     assertEmptyMatch("купив книгу");
     assertEmptyMatch("позбавляло людину");
     assertEmptyMatch("залишати межі");
@@ -112,15 +119,6 @@ public class TokenAgreementVerbNounRuleTest {
 
     // impr + oru
     assertEmptyMatch("запропоновано урядом");
-    
-    // numr
-    assertEmptyMatch("купив три книги");
-    assertEmptyMatch("входило двоє студентів");
-    assertEmptyMatch("виповнилося шістнадцять");
-    assertEmptyMatch("зобов'язав обох порушників");
-    assertMatches(1, "зобов'язав обом порушникам", msg -> assertTrue(msg.contains("давальний")));
-    assertEmptyMatch("бував декілька разів");
-    assertEmptyMatch("передав решту шкіл");
 
     // disambig
     assertEmptyMatch("мало часу");
@@ -179,8 +177,6 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("повинен відбудватися процес");
     // вірити одне одному
     
-    assertEmptyMatch("скільки отримує грошей");
-    
     // нікому
     assertEmptyMatch("виявилося нікому не потрібним");
     
@@ -196,45 +192,201 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("вона називалася Оперативний злам");
     
     assertEmptyMatch("підклали дров");
+    
+    // femin
+    assertEmptyMatch("наголосила політик");
+    
+    assertMatches(1, "Чи він навмисне чекав, як я йтиму сходами, щоб і собі, разом спускаючись донизу, кривлятися по-мавпя́чому і сорокою цокоті́ти сво́го «хохла»?");
   }
 
   @Test
   public void testRuleTnVdav() throws IOException {
     // rv_dav ??
     assertEmptyMatch("Не бачити вам цирку");
-   
-    // rv_dav: only inf
-    assertMatches(1, "жити селянам");
-    assertEmptyMatch("куди подітися селянам");
-    assertEmptyMatch("тяжче стало жити селянам");
-
-    assertEmptyMatch("слід реагувати Америці");
-    assertEmptyMatch("дозволивши розвалитись імперії");
-
-    assertEmptyMatch("Зупинятися мені вже не можна");
-    assertEmptyMatch("зніматися йому доводилося рідко");
-    assertEmptyMatch("маю тобі щось підказати");
-
-    assertEmptyMatch("дав трохи передихнути бізнесу");
-
-  
-    assertEmptyMatch("приємно слухати вчителям");
+    
+    assertEmptyMatch("розсміявся йому в обличчя");
+    assertEmptyMatch("ірже вам у вічі");
+    assertEmptyMatch("умоститися господареві на рамена");
+    assertEmptyMatch("прилетів йому від посла");
+    assertEmptyMatch("пробирається людині під шкіру");
+    assertEmptyMatch("їхав їй назустріч");
+    assertEmptyMatch("біжать йому навперейми");
+    assertMatches(1, "Фабрика Миколая вперше запрацювала Львові у 2001 році");
 
     assertEmptyMatch("Квапитися їй нікуди");
-    assertEmptyMatch("їхав їй назустріч");
-    // варто також пити людям
-    // не падає нам з неба
-    // матюкаються нам в обличчя
+    assertEmptyMatch("хворіти їй ніколи");
+    assertEmptyMatch("Жити родині нема де.");
+    assertEmptyMatch("Евакуюватися нам не було куди");
+
+    assertMatches(1, "жити селянам");
+
+    assertEmptyMatch("нічим пишатися жителям");
+    assertEmptyMatch("куди подітися селянам");
+    //TODO:
+//    assertMatches(1, "не вчить нічому поганому");
+//    assertEmptyMatch("як тепер жити нам");
+//    assertEmptyMatch("у разі неможливості зібратися і працювати Верховній Раді");
+  }
+
+  @Test
+  public void testRuleTn_V_N_Vinf() throws IOException {
+    assertEmptyMatch("маю тобі щось підказати");
+    assertEmptyMatch("вміємо цим зазвичай користуватися");
+    assertMatches(1, "вміємо цьому зазвичай користуватися");
+//    assertMatches(1, "заскрегоіти цим зазвичай користуватися");
+    assertEmptyMatch("вони воліли мені якнайбільш ефективно допомогти");
+    assertEmptyMatch("воліли заворушень не допускати");
+//    assertEmptyMatch("не втомлюються десятиріччями боротися Берлін і Венеція");
+    assertEmptyMatch("постарається таку двозначність усунути");
+    assertEmptyMatch("розпорядився частину зарплати примусово видавати");
+    assertEmptyMatch("не схотіли нам про це казати");
+    
+    // не
+    assertEmptyMatch("Самі респонденти пояснити причин не можуть");
+    
+    assertEmptyMatch("довелося план «Б» застосовувати");
+    
+    //TODO: too long
+//    assertEmptyMatch("уміє одним жестом, одним нюансом інтонації сказати");
+  }
+
+  @Test
+  public void testRuleTn_V_Vinf_N() throws IOException {
+    assertEmptyMatch("має відбуватися ротація");
+    assertEmptyMatch("має також народитися власна ідея");
+    assertEmptyMatch("мали змогу оцінити відвідувачі");
+    assertEmptyMatch("має ж десь поміститися двигун");
+    assertEmptyMatch("дав трохи передихнути бізнесу");
+    assertEmptyMatch("дають змогу з комфортом мандрувати чотирьом пасажирам");
+    assertEmptyMatch("дали б змогу розвиватися національному");
+    assertEmptyMatch("дозволила на початку 1990-х узагалі виникнути такому інституту");
+    assertEmptyMatch("заважає і далі нестримно поширюватися багатьом міфам");
+    assertEmptyMatch("люблять у нас кричати панікери");
+    assertEmptyMatch("Почав різко зростати курс долара");
+    assertEmptyMatch("пропонує «об’єднатися патріотам»");
+    // advp
+    assertEmptyMatch("не даючи виїхати ванатжівці");
+    assertEmptyMatch("даючи можливість висловлюватися радикалам");
+    assertEmptyMatch("дозволяючи рухатися російському");
+    // TODO: advp ending is not straight
+//    assertEmptyMatch("поклавши спати старого Якима");
+//    assertEmptyMatch("став все частіше згадуватися незвичайний наслідок");
+//    assertMatches(1, "не має змоги на сто відсотків реалізуватися себе в ролі");
+    // TODO: 2 inf verbs
+//    assertEmptyMatch("перестають діяти й розвиватися демократичні");
+  }
+
+  @Test
+  public void testRuleTn_ADV_Vinf_N() throws IOException {
+    assertEmptyMatch("важко розібратися багатьом людям.");
+    assertEmptyMatch("незручно займатися президентові");
+    assertEmptyMatch("пізно готуватися нам");
+    assertEmptyMatch("найлегше ігнорувати людям із категорій");
+    assertEmptyMatch("треба всіма силами берегти кожному");
+    assertEmptyMatch("треба дуже уважно прислухатися владі");
+    assertEmptyMatch("слід реагувати Америці");
+    assertEmptyMatch("слід з обережністю їсти людям");
+    assertEmptyMatch("варто сюди прилетіти людині");
+    assertEmptyMatch("неможливо засвоїти одній людині");
+    assertEmptyMatch("тяжче стало жити селянам");
+    assertEmptyMatch("приємно слухати вчителям");
+    //TODO:
+//    assertEmptyMatch("Пора дорослішати всім"); // пора does not have predic :(
   }
   
-  // oru
-  // скоюються незнайомими жертві злочинцями
+  @Test
+  public void testRuleTn_ADJ_Vinf_N() throws IOException {
+    assertEmptyMatch("змушені ночувати пасажири");
+    assertEmptyMatch("повинен усього добитися сам");
+    assertEmptyMatch("схильна лякати така пропаганда");
+    assertEmptyMatch("зацікавлена перейняти угорська сторона");
+  }
+  
+  @Test
+  public void testRuleTn_Vinf_N_V() throws IOException {
+    //advp
+    assertEmptyMatch("дозволивши розвалитись імперії");
+    assertEmptyMatch("зніматися йому доводилося рідко");
+    assertEmptyMatch("Гуляти мешканки гуртожитку тепер можуть");
+    assertEmptyMatch("працювати ці люди не вміють");
+    assertEmptyMatch("реагувати Майдан має");
+    assertEmptyMatch("працювати українці будуть");
+    assertEmptyMatch("влаштуватися їй не вдається");
+    // не -> v_rod
+    assertEmptyMatch("Робити прогнозів не буду");
+    assertEmptyMatch("панькатися наміру не має");
+    //TODO:
+//    assertEmptyMatch("вижити шансів у нього не було");
+  }
+  
+  @Test
+  public void testRuleTn_Vinf_N_ADV() throws IOException {
+    assertEmptyMatch("літати тобі не можна");
+    assertEmptyMatch("Порозумітися обом сторонам було важко");
+    assertEmptyMatch("втихомирюватися нам зарано");
+    assertEmptyMatch("Зупинятися мені вже не можна");
+    assertEmptyMatch("працювати правоохоронцям складно");
+    assertEmptyMatch("працювати правоохоронцям досить складно");
+    assertEmptyMatch("звертатися пенсіонерам не потрібно");
+    assertEmptyMatch("Їхати мені було не страшно");
+    assertMatches(1, "навчитися цьому досить легко");
+  }
+  
+  @Test
+  public void testRuleTn_Vinf_N_ADJ() throws IOException {
+    assertEmptyMatch("замислитися нащадки повинні");
+    assertEmptyMatch("працювати студенти готові");
+    assertEmptyMatch("платити Рига згодна");
+    assertEmptyMatch("Владі не потрібен мир, хоча і війну вести вона не здатна.");
+    // TODO:
+//    assertEmptyMatch("буваю йому вдячна"); // v_dav
+  }
+  
+  @Test
+  public void testRuleTn_Vinf_V_N() throws IOException {
+    assertEmptyMatch("Заспокоювати стали найагресивнішого");
+    assertEmptyMatch("платити доведеться повну вартість");
+    assertEmptyMatch("закінчити цей огляд хочеться словами");
+    assertMatches(1, "все досліджуйте і постійно навчайтеся новому.");
+    //TODO: їм also verb
+//    assertEmptyMatch("їсти їм доведеться траву");
+  }
+
+  @Ignore
+  @Test
+  public void testRuleTn_N_Vinf_ADJ() throws IOException {
+    //TODO:
+    assertEmptyMatch("Здатність ненавидіти прошита");
+    assertEmptyMatch("рішення балотуватися продиктоване");
+    assertEmptyMatch("Вони обманюватись раді");
+  }
 
   @Test
   public void testRuleTnNumr() throws IOException {
-//  assertEmptyMatch("нарубав лісу"); // v_rod
+    
+    // numr
+    assertEmptyMatch("купив три книги");
+    assertEmptyMatch("входило двоє студентів");
+    assertEmptyMatch("виповнилося шістнадцять");
+    assertEmptyMatch("зобов'язав обох порушників");
+    assertMatches(1, "зобов'язав обом порушникам", msg -> assertTrue(msg.contains("давальний")));
+    assertEmptyMatch("передав решту шкіл");
+
+    assertEmptyMatch("одержав хабарів на суму 10");
+    assertEmptyMatch("одержав хабарів на загальну суму");
+    assertEmptyMatch("уклали договорів страхування на загальну суму");
+    assertEmptyMatch("приготували сортів десять");
+    
+    assertEmptyMatch("вчинено порушень обсягом на 27");
+    
+    assertEmptyMatch("завдав кілька ударів руками");
+    assertEmptyMatch("завдав кількох ударів руками");
     assertEmptyMatch("потребувала мільйон");
+    //  assertEmptyMatch("нарубав лісу"); // v_rod
     assertEmptyMatch("нарубав неймовірну кількість вугілля");
+    //TODO:
+    assertEmptyMatch("відбувся чверть століття тому");
+//    assertEmptyMatch("не виїхало більшість автобусів");
   }
   
   @Test
@@ -247,15 +399,6 @@ public class TokenAgreementVerbNounRuleTest {
     
     // зватися + prop
     assertEmptyMatch("звалося Подєбради");
-
-    // verb + verb + v_naz
-    assertEmptyMatch("має відбуватися ротація");
-    assertEmptyMatch("має також народитися власна ідея");
-    assertEmptyMatch("Почав різко зростати курс долара");
-    
-    assertEmptyMatch("мали змогу оцінити відвідувачі");
-    
-    assertEmptyMatch("Здатність ненавидіти прошита");
   }
   
   @Test
@@ -275,7 +418,17 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("не знімався останні 10 років");
     assertEmptyMatch("розпочнеться того ж дня");
     assertEmptyMatch("помер цього вересня");
-    assertEmptyMatch("працює більшу частину часу");
+    assertEmptyMatch("з’являться наступного ранку на суд");
+    assertEmptyMatch("мучитися три з половиною роки");
+    assertEmptyMatch("попрацювала місяць-півтора");
+
+    assertEmptyMatch("вщухнуть протягом кількох днів");
+    
+    // TODO: noun inside
+//  assertEmptyMatch("мучитися довжелезних три з половиною роки");
+//    assertEmptyMatch("працює більшу частину часу");
+//    assertEmptyMatch("доведеться наступні 6−8 років");
+//    assertEmptyMatch("які стартували цього та минулого року");
   }
   
   @Test
@@ -289,17 +442,35 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("здаватися коаліціанти не збираються");
 
     assertEmptyMatch("не існувало конкуренції");
-    assertEmptyMatch("не стане сили");
 
     // не + X + verb
     assertEmptyMatch("не можна зберігати ілюзій");
 
+    assertEmptyMatch("скільки отримує грошей");
     assertEmptyMatch("скільки буде людей");
-
     assertEmptyMatch("трохи маю контактів");
     assertEmptyMatch("скільки загалом здійснили постановок");
+    assertEmptyMatch("стільки заплановано постановок");
     assertEmptyMatch("Багато в пресі з’явилося публікацій");
     assertEmptyMatch("небагато надходить книжок");
+    assertEmptyMatch("ніж поставили стільців");
+    
+    assertEmptyMatch("Росія будує трубопроводів більше");
+
+    assertEmptyMatch("не стане сили");
+    //TODO:
+//    assertMatches(1, "не відбувалися якихось серйозних");
+  }
+
+  
+  @Test
+  public void testRuleTnInsertPhrase() throws IOException {
+    assertEmptyMatch("змалював дивовижної краси церкву");
+    assertEmptyMatch("Піднявся страшенної сили крижаний шторм");
+    assertEmptyMatch("поводиться дивним чином");
+    //TODO:
+//    assertEmptyMatch("триває повним ходом.");
+//    assertEmptyMatch("скоюються незнайомими жертві злочинцями");
   }
   
   
