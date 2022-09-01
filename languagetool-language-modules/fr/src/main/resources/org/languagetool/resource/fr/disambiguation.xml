@@ -8642,9 +8642,16 @@ RB => Règles Brutes
                 </and>
             </marker>
         </pattern>
-        <disambig>
-            <match no="1" postag_regexp="yes" postag="J.*"/>
-        </disambig>
+        <disambig action="remove" postag="N.*"/>
+    </rule>
+    <rule name="suivant" id="SUIVANT2">
+        <pattern>
+            <token postag="A"/>
+            <marker>
+                <token>suivant</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="J m s"/>
     </rule>
     <rulegroup id="SI" name="si (noun, adverb, conjunction...)">
         <!-- TODO: needs to be improved -->
