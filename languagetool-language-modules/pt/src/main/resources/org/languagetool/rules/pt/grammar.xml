@@ -1445,20 +1445,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CF][NS].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
               <exception regexp='yes'>ás?|\d[oºaª]</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
-              <exception regexp='yes'>e|era|ser|casal|mora|chamado|são|serão|média?|nós|termo|nome|haver|x|bairro|saber|tao</exception></token>
-            <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+              <exception regexp='yes'>e|era|ser|tido|uso|sozinho|nele|casal|mora|chamado|são|serão|média?|nós|termo|nome|haver|x|bairro|saber|tao</exception></token>
+            <token min='0' regexp='yes'>&adverbios_de_intensidade;
+              <exception regexp='yes'>quanto|quão</exception></token>
             <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
-              <exception>x</exception>
+              <exception regexp='yes'>x|\d[oºaª]</exception>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+'/></token>
             <token postag='(?:N.|A..)F.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-              <exception regexp='yes'>uma|mas|x|á|tao|e|era|semana|noite|sozinha|ser|mora|são|serão|média?|nós|termo|nome|haver|saber</exception>
+              <exception regexp='yes'>\p{Lu}+</exception>
+              <exception regexp='yes'>uma|\d[oºaª]|mas|x|á|leva|ama|manda|olha|perca|tao|e|era|semana|noite|sozinha|ser|mora|são|serão|média?|nós|termo|nome|haver|saber</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
         </pattern>
         <message>&MSG_ECG;</message>
-        <suggestion suppress_misspelled="yes"><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
-        <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+        <suggestion suppress_misspelled="yes"><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)M(.+)" postag_replace='$1F$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
+        <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F(.+)" postag_replace='$1M$2' postag_regexp="yes"/></suggestion>
         <!-- TEMP REMOVE		<suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>  MARCOAGPINTO 2019-12-27 -->
         <!-- TEMP REMOVE        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>  MARCOAGPINTO 2019-12-27 -->
         <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
@@ -1724,7 +1726,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CF]P.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
-              <exception regexp='yes'>termos|chamados|nomes|&expressoes_de_tempo;|tempos?|média|nós</exception></token>
+              <exception regexp='yes'>termos|chamados|nomes|&expressoes_de_tempo;|tempos?|média|nós|\d[oºaª]</exception></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/></token>
@@ -2121,14 +2123,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM]S.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
-              <exception regexp='yes'>e|ser|a|mas|era|palavra|muito|letra|comunidade|x|continha</exception></token>
+              <exception regexp='yes'>e|ser|a|mas|era|palavra|muito|letra|comunidade|x|continha|\d[oºaª]</exception></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/>
               <exception regexp='yes'>x|final</exception></token>
-            <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|x|são|poder|n|\d[oºaª]</exception>
+            <token postag='(?:N.|A..)M.+' postag_regexp='yes'>
+              <exception postag='(?:N.|A..)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|sozinho|números?|x|são|poder|n|\d[oºaª]</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
@@ -2232,18 +2234,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Faz parte da Walt Disney Studios</example>
         </antipattern>
         <pattern>
-          <token negate='yes' regexp='yes'>e|de|às?|&hifen;</token>
+            <token negate='yes' regexp='yes'>e|de|às?|&hifen;</token>
           <marker>
             <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'>
-              <exception regexp='yes'>[dn]ela|à|ta|tao</exception>
+              <exception regexp='yes'>[dn]ela|à|ta|tao|\d[oº]</exception>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/></token>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/>
+              <exception regexp='yes'>\d[oº]</exception></token>
             <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|\d[oº]|devido</exception>
-              <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
+              <exception regexp='yes'>\p{Lu}+</exception>
+              <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
+            </token>
           </marker>
         </pattern>
         <message>&MSG_ECG;</message>
@@ -2376,8 +2381,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </token>
             <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CF].+|V.[PCSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+              <exception regexp='yes'>\p{Lu}+</exception>
               <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|serão|são|nós|vão|mares</exception>
-              <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
+              <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
+            </token>
           </marker>
         </pattern>
         <message>&MSG_ECG;</message>
