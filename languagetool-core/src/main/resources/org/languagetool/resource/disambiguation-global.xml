@@ -157,4 +157,13 @@ Copyright (C) 2021 Jaume Ortolà
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="Ignore chess notation" id="GLOBAL_IGNORE_CHESS_NOTATION">
+        <!-- The first letter is language-dependent. 
+            See: https://es.wikipedia.org/wiki/Notaci%C3%B3n_algebraica#Identificaci%C3%B3n_de_la_pieza
+            We allow any uppercase letter. -->
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[A-Z]?[abcdefgh][12345678]</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
