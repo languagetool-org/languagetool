@@ -45537,6 +45537,29 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- PENSAR EM ponderar -->
+    <rule id='PENSAR_EM_PONDERAR' name="Pensar em → ponderar" type="style" tags="picky">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-30 (25-JUL-2022+) -->
+      <!--
+      Estou a pensar em comprar o PC da televisão. → Estou a ponderar comprar o PC da televisão.
+      -->
+      <pattern>
+        <or>
+          <token/>
+          <token postag='SENT_START' postag_regexp='no'/>
+        </or>
+        <marker>
+          <token inflected='yes'>pensar</token>
+          <token>em</token>
+        </marker>
+        <token postag='V.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Num contexto formal/académico/científico, é preferível escrever 'ponderar'.</message>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ponderar</match></suggestion>
+      <example correction="ponderar">Estou a <marker>pensar em</marker> comprar o PC da televisão.</example>
+    </rule>
+
+
     <!-- PERDER A VIDA A morrer/falecer/perecer -->
     <rule id='PERDER_A_VIDA' name="Perder a vida → morrer/falecer/perecer">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-16 (Checked/Enhanced) (1-JAN-2022+)      -->
