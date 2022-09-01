@@ -575,10 +575,10 @@ public class English extends Language implements AutoCloseable {
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
-      case "POSSESSIVE_APOSTROPHE":     return -15;  // prefer AI_HYDRA_LEO_APOSTROPHE_S_XS
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
+      case "POSSESSIVE_APOSTROPHE":     return -20;  // prefer AI_HYDRA_LEO_APOSTROPHE_S_XS
       case "CONFUSION_RULE":            return -20;
       case "PRP_VB_IMPROVE":            return -24;  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
