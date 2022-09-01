@@ -10807,6 +10807,40 @@ O namorado dela era um ladrão.
 		  <example correction="Porque"><marker>Por que</marker> acabou voltando.</example>
 		  <example correction="Porque"><marker>Por que</marker> ele não quis!</example>
     </rule>
+    <rule default='temp_off'>
+        <antipattern>
+           <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+           <token regexp='yes' skip='-1'>porqu[eê]</token>
+           <token regexp='yes'>&tracos_de_separacao;|[\.!;,]</token>
+        </antipattern>
+        <antipattern>
+           <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+           <token regexp='yes' skip='-1'>porqu[eê]</token>
+           <token>.</token>
+           <token>.</token>
+           <example>Porque não vai...</example>
+        </antipattern>
+        <antipattern>
+           <token regexp='yes'>&separadores_de_fecho;</token>
+           <token regexp='yes' case_sensitive='yes'>porqu[eê]</token>
+           <example>Não viajamos (ou não viajaríamos) porque estava caro.</example>
+        </antipattern>
+        <antipattern>
+           <token regexp='yes'>[«»“”"'‘’]</token>
+           <token regexp='yes'>porqu[eê]</token>
+           <example>Querem “uma explicação” porque resolveria o problema.</example>
+        </antipattern>
+        <pattern>
+	       <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+	     <marker>
+           <token regexp='yes' skip='-1'>porqu[eê]</token>
+         </marker>
+           <token spacebefore='no'>?</token>
+        </pattern>
+           <message>Se "\2" expressar um questionamento, considere escrever <suggestion>por que</suggestion>.</message>
+		  <example correction="Por que"><marker>Porque</marker> acabou voltando?</example>
+		  <example correction="Por que"><marker>Porque</marker> ele não quis?</example>
+    </rule>
     <rule>
         <antipattern>
            <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
