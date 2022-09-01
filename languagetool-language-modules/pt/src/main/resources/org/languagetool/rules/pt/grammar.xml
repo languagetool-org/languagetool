@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 -->
 
 <!DOCTYPE rules [
+    <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|env|eps|exe|flv|gif|htm|html|ibooks|ico|ics|ini|indd|jar|java|jnl|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|odf|odp|ods|odt|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|rtf|scss|sh|shtml|sql|stl|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z|xsd">
     <!ENTITY aspas "(«“‘’”»)">
     <!ENTITY meses_ano_abrev "(?:[Aa]br|[Aa]go|[Dd]ez|[Ff]ev|[Jj]an|[Jj]ul|[Jj]un|mai|mar|[Nn]ov|[Oo]ut|[Ss]et)">
     <!ENTITY meses_ano "(?:[Aa]bril|[Aa]gosto|[Dd]ezembro|[Ff]evereiro|[Jj]aneiro|[Jj]ulho|[Jj]unho|[Mm]aio|[Mm]arço|[Nn]ovembro|[Oo]utubro|[Ss]etembro)">
@@ -41481,6 +41482,55 @@ O namorado dela era um ladrão.
       </rule>
       <rule>
         <regexp>\b([\p{L}\d]+) ([:;])(?![\-o]?(?:[()/]|[DSP]\b))</regexp>
+        <message>Remova o espaço antes deste sinal de pontuação.</message>
+        <suggestion>\1\2</suggestion>
+        <example correction="possíveis:">Existem duas estratégias <marker>possíveis :</marker> aproveitar o que existe ou reinventar a roda.</example>
+        <example>Um sorriso :-)</example>
+        <example>Um sorriso :)</example>
+        <example>Um sorriso :(</example>
+        <example>Um sorriso :-/</example>
+        <example>Um sorriso :/</example>
+        <example>Um sorriso :D</example>
+        <example correction="Brasil;">Site de Instituto Ludwig von Mises <marker>Brasil ;</marker>Principais portais web</example>
+      </rule>
+    </rulegroup>  
+    
+    <rulegroup id="SPACE_BEFORE_PUNCTUATION2" name="Espaços antes da pontuação" default="temp_off">
+      <rule>
+        <antipattern>
+          <token>.</token>
+          <token regexp="yes" spacebefore="no">&filename_extensions;</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[\p{L}\d]+</token>
+          <token regexp="yes" spacebefore="yes">[!?»”’,….]</token>
+        </pattern>
+        <message>Remova o espaço antes deste sinal de pontuação.</message>
+        <suggestion>\1\2</suggestion>
+        <example correction="escapou!">Como é que isto me <marker>escapou !</marker></example>
+        <example correction="escapou!">Como é que isto me <marker>escapou   !</marker></example>
+        <example correction="roda.">Existem duas estratégias possíveis: aproveitar o que existe ou reinventar a <marker>roda .</marker></example>
+        <example>O ficheiro .PNG é grande.</example>
+        <example>Abre o arquivo .JPG.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>:</token>
+          <token spacebefore="no">-</token>
+          <token regexp="yes" spacebefore="no">[\)/]</token>
+        </antipattern>
+        <antipattern>
+          <token>:</token>
+          <token regexp="yes" spacebefore="no">[\)\(/]</token>
+        </antipattern>
+        <antipattern>
+          <token>:</token>
+          <token spacebefore="no">D</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[\p{L}\d]+</token>
+          <token regexp="yes" spacebefore="yes">[:;]</token>
+        </pattern>
         <message>Remova o espaço antes deste sinal de pontuação.</message>
         <suggestion>\1\2</suggestion>
         <example correction="possíveis:">Existem duas estratégias <marker>possíveis :</marker> aproveitar o que existe ou reinventar a roda.</example>
