@@ -14,9 +14,11 @@
 # variant
 # \d+ will be expanded to any sequence of digits (e.g., 1, 234, 4543)
 #     in lines ending on *
+# To remove duplicates from this file, use (note: will also remove delimiter lines,
+# so restore those before committing):
+#     awk -i inplace '!visited[$0]++' this_file
 # =========================================================================
-# =========================================================================
-# words that can be written either with or without hyphen (add "$" at the 
+# words that can be written either with or without hyphen (add "$" at the
 # end so that the non-hyphenated variant uses lower-cased compounds):
 # =========================================================================
 Afghanistan-Krieg$
@@ -1497,9 +1499,6 @@ Gerichts-Vollzieherinnen?
 Gerichts-Vollziehern?
 Gerichts-Vollziehers?
 Gerüchte-Küche?
-Giro-Konto?
-Giro-Kontos?
-Giro-Konten?
 Groß-Eltern?
 Haus-Aufgabe?
 Haus-Aufgaben?
@@ -1695,23 +1694,13 @@ Ein-Cent-Münzen$
 Zwei-Cent-Stück$
 Zwei-Cent-Stücke$
 Zwei-Cent-Stücks$
-\d+-Cent-Stück*
-\d+-Cent-Stücke*
-\d+-Cent-Stücks*
 Zwei-Cent-Münze$
 Zwei-Cent-Münzen$
-\d+-Cent-Münze*
-\d+-Cent-Münzen*
 Fünf-Cent-Stück$
 Fünf-Cent-Stücke$
 Fünf-Cent-Stücks$
-\d+-Cent-Stück*
-\d+-Cent-Stücke*
-\d+-Cent-Stücks*
 Fünf-Cent-Münze$
 Fünf-Cent-Münzen$
-\d+-Cent-Münze*
-\d+-Cent-Münzen*
 Zehn-Cent-Stück$
 Zehn-Cent-Stücke$
 Zehn-Cent-Stücks$
@@ -1740,9 +1729,6 @@ Ein-Euro-Münzen$
 Zwei-Euro-Stück$
 Zwei-Euro-Stücke$
 Zwei-Euro-Stücks$
-\d+-Euro-Stück*
-\d+-Euro-Stücke*
-\d+-Euro-Stücks*
 Zwei-Euro-Münze$
 Zwei-Euro-Münzen$
 2-Euro-Münze*
@@ -1782,12 +1768,10 @@ Zehn-Euro-Schein$
 Fünf-Gänge-Menü*
 \d+-Gänge-Menü*
 Vier-Gänge-Menü*
-\d+-Gänge-Menü*
 Drei-Gänge-Menü*
 \d+-Tage-Woche*
 Drei-Tage-Woche$
 Drei-Tage-Wochen$
-\d+-Tage-Woche*
 \d+-Tage-Wochen*
 \d+-Bit-Architektur*
 \d+-Bit-Prozessor*
@@ -1813,16 +1797,10 @@ Drei-Tage-Wochen$
 \d+-Zylinder-Motors*
 Vier-Tage-Woche$
 Vier-Tage-Wochen$
-\d+-Tage-Woche*
-\d+-Tage-Wochen*
 Fünf-Tage-Woche$
 Fünf-Tage-Wochen$
-\d+-Tage-Woche*
-\d+-Tage-Wochen*
 Sechs-Tage-Woche$
 Sechs-Tage-Wochen$
-\d+-Tage-Woche*
-\d+-Tage-Wochen*
 Sieben-Tage-Woche$
 Sieben-Tage-Wochen$
 3D-Drucker*
@@ -2800,7 +2778,6 @@ EU-Parlament*
 EU-Land*
 EU-Landes*
 EU-Lands*
-EU-Parlament*
 EU-Parlaments*
 EU-weit*
 EU-weite*
@@ -2859,7 +2836,6 @@ Ex-Freunde*
 Ex-Freundin*
 Ex-Freundinnen*
 Ex-Häftling*
-Ex-Häftlinge*
 Ex-Häftlinge*
 Ex-Geliebte*
 Ex-Geliebten*
@@ -3029,7 +3005,6 @@ Fulltime-Job*
 Fulltime-Jobs*
 Fürst-Pückler-Eis*
 Fürst-Pückler-Eises*
-Fußball-Bundesliga*
 Fußball-Bundesliga*
 Fußball-EM*
 Fußball-WM*
@@ -5534,16 +5509,10 @@ default-mäßig?
 \d+-Personen-Haushalts*
 Zwei-Personen-Haushalt*
 Zwei-Personen-Haushalts*
-\d+-Personen-Haushalt*
-\d+-Personen-Haushalts*
 Drei-Personen-Haushalt*
 Drei-Personen-Haushalts*
-\d+-Personen-Haushalt*
-\d+-Personen-Haushalts*
 Vier-Personen-Haushalt*
 Vier-Personen-Haushalts*
-\d+-Personen-Haushalt*
-\d+-Personen-Haushalts*
 Fünf-Personen-Haushalt*
 Fünf-Personen-Haushalts*
 A-Klasse*
@@ -5701,19 +5670,14 @@ Süd-Afrikaners?
 Süd-Afrikanern?
 Süd-Afrikanerin?
 Süd-Afrikanerinnen?
-Süd-Afrikaner?
 süd-afrikanisch?
 süd-afrikanische?
 süd-afrikanisches?
 süd-afrikanischer?
 süd-afrikanischen?
 süd-afrikanischem?
-Neu-Seeland?
 Neu-Seelands?
-Neu-Seeländer?
 Neu-Seeländers?
-Neu-Seeländerin?
-Neu-Seeländerinnen?
 neu-seeländisch?
 neu-seeländische?
 neu-seeländischer?
@@ -5737,8 +5701,6 @@ Home-Learning$
 Home-Learnings$
 Home-Schooling$
 Home-Schoolings$
-Haus-Aufgaben?
-Haus-Aufgabe?
 Cyber-Mobbing?
 Cyber-Attacke$
 Cyber-Attacken$
@@ -5767,7 +5729,6 @@ Think-Tank$
 Think-Tanks$
 Pod-Cast?
 Pod-Casts?
-Feier-Abend?
 Feier-abend?
 Work-Flow?
 Work-Flows?
@@ -5781,8 +5742,6 @@ Euro-Bonds?
 Max-Brauer-Allee*
 # Task-Force? # see rule TASK_FORCE
 # Task-Forces?
-Task-Bar?
-Task-Bars?
 Selfmade-Millionär*
 Selfmade-Millionärin*
 Selfmade-Millionärinnen*
@@ -5873,9 +5832,6 @@ Oster-Eier?
 Oster-Ei?
 Oster-Hase?
 Oster-Hasen?
-Oster-Ferien?
-Oster-Sonntag?
-Oster-Montag?
 Kar-Freitag?
 Web-Cam?
 Web-Cams?
@@ -5920,12 +5876,6 @@ Liefer-Services?
 Liefer-Dienst?
 Liefer-Dienste?
 Liefer-Dienstes?
-brand-aktuell?
-brand-aktuelle?
-brand-aktueller?
-brand-aktuelles?
-brand-aktuellen?
-brand-aktuellem?
 brand-neu?
 brand-neue?
 brand-neuer?
@@ -5961,15 +5911,8 @@ Sneak-Preview$
 Sneak-Previews$
 Watte-Pad?
 Watte-Pads?
-Beta-Release*
-Beta-Releases*
 Beta-Phase*
-Beta-Tester*
-Beta-Testern*
-Beta-Testers*
-Beta-Test*
 Beta-Testing*
-Beta-Tests*
 Beta-Strahlung?
 Alpha-Strahlung?
 Beta-Strahlungen?
@@ -6074,12 +6017,10 @@ Werbe-Agentur?
 Werbe-Agenturen?
 Nord-Korea?
 Süd-Korea?
-Nord-Stream-Pipeline*
 Corona-Crash*
 Show-Case?
 Show-Cases?
 Mehrwert-Steuer?
-Umsatz-Steuer?
 Umsatz-Steuer?
 Midlife-Krise?
 Midlife-Krisen?
@@ -6091,8 +6032,6 @@ Gaming-Portal*
 Gaming-Portals*
 Gaming-Portale*
 Quiz-Duell?
-Corona-App*
-Corona-Apps*
 CO2-neutral*
 CO2-neutrales*
 CO2-neutralen*
@@ -6136,8 +6075,6 @@ Corona-Warn-Apps*
 Hotel-Manager$
 Hotel-Managers$
 Hotel-Managern$
-PR-Abteilung*
-PR-Abteilungen*
 PR-Berater*
 PR-Beraterin*
 PR-Beraterinnen*
@@ -6221,7 +6158,6 @@ IT-Support*
 IT-Supports*
 Cloud-Anbieter*
 Cloud-Anbieters*
-Knorr-Bremse*
 Aalto-Theater*
 Aalto-Theaters*
 Smart-TV*
@@ -6283,7 +6219,6 @@ voll-umfänglichen?
 voll-umfänglichem?
 Online-Marketing-Agentur*
 Online-Marketing-Agenturen*
-Multi-Tasking?
 Wirecard-Skandal*
 fest-verzinslich*
 fest-verzinsliche*
@@ -6296,7 +6231,6 @@ Visa-Karte*
 Visa-Kreditkarte*
 Tourismus-Marketing$
 Tourismus-Marketings$
-Kongo-Brazzaville*
 Crowd-Testing?
 Crowd-Testings?
 Crowd-Funding?
@@ -6307,8 +6241,6 @@ Crowd-Investing?
 Crowd-Investings?
 Crowd-Lending?
 Crowd-Lendings?
-Escape-Room$
-Escape-Rooms$
 Escape-Taste$
 Escape-Tasten$
 Safety-Car$
@@ -6316,7 +6248,6 @@ Safety-Cars$
 Consors-Bank?
 Facility-Manager*
 Facility-Managern*
-Facility-Management*
 Home-Screen?
 Home-Screens?
 News-Plattform?
@@ -6347,7 +6278,6 @@ Bubble-Gum?
 Bubble-Gums?
 Bubble-Speicher?
 Bubble-Speichers?
-Georg-Büchner-Preis*
 Georg-Büchner-Preise*
 Pulitzer-Preis*
 Pulitzer-Preise*
@@ -6525,8 +6455,6 @@ Risk-Management?
 Risk-Managements?
 Mund-Nasen-Schutz*
 Mund-Nasen-Schutze*
-Mund-Nasen-Bedeckung*
-Mund-Nasen-Bedeckungen*
 Paul-Ehrlich-Institut*
 Paul-Ehrlich-Instituts*
 Frisbee-Scheibe?
@@ -6544,7 +6472,6 @@ Li-Ion-Akku*
 Li-Ion-Akkus*
 Lithium-Ionen-Batterie*
 Lithium-Ionen-Batterien*
-Waffen-SS*
 DAX-Konzern*
 Postident-Verfahren*
 Deutsche-Post-Filiale*
@@ -6609,8 +6536,6 @@ Elektro-Rollern?
 Fan-Boy?
 Fan-Boys?
 Betty-Ford-Klinik*
-Au-pair-Mädchen*
-Au-pair-Mädchens*
 viel-seitig?
 viel-seitige?
 viel-seitiger?
@@ -6712,8 +6637,6 @@ Pater-nosters?
 Pater-nostern?
 Factory-Outlet-Center*
 Factory-Outlet-Centers*
-Factory-Outlet*
-Factory-Outlets*
 Face-Lifting?
 Face-Liftings?
 Face-Lift?
@@ -6886,7 +6809,6 @@ Anne-Frank-Gymnasium*
 Klaus-Groth-Schule*
 Klaus-Groth-Gesamtschule*
 Klaus-Groth-Gymnasium*
-Cliff-Hanger?
 Cliff-Hangern?
 Cliff-Hangers?
 Cliff-Hänger?
@@ -6944,8 +6866,6 @@ KSK-Soldat*
 KSK-Soldats*
 KSK-Soldaten*
 Corona-Schutzimpfung*
-Corona-Impfung*
-Corona-Impfstoff*
 Co-Investor*
 Co-Investors*
 Co-Investoren*
@@ -6965,7 +6885,6 @@ runter-scrollten?
 runter-scrolle?
 runter-scrollst?
 runter-scrollt?
-runter-scrollten?
 Jet-Ski?
 Jet-Skis?
 Multiple-Choice-Verfahren*
@@ -7016,8 +6935,6 @@ Ozon-Lochs?
 Streu-Dienst?
 Streu-Dienstes?
 Streu-Diensts?
-Spin-off*
-Spin-offs*
 zwischen-drin?
 durch-schaubar?
 durch-schaubare?
@@ -7196,9 +7113,6 @@ Top-Sellern?
 Best-Seller?
 Best-Sellers?
 Best-Sellern?
-Long-Seller?
-Long-Sellers?
-Long-Sellern?
 Safe-Word?
 Safe-Words?
 Finger-Food$
@@ -7278,7 +7192,6 @@ Erz-Feinden?
 Erz-Feindes?
 Erz-Feinds?
 Erz-Gebirge?
-VR-Brille*
 VR-Brillen*
 Transgender-Model*
 Passwort-zurücksetzen-Funktion*
@@ -7429,33 +7342,6 @@ Sechs-Takt-Motoren$
 \d+-Takt-Benzinmotor*
 \d+-Takt-Benzinmotoren*
 \d+-Takt-Benzinmotors*
-\d+-Takt-Ottomotor*
-\d+-Takt-Ottomotoren*
-\d+-Takt-Ottomotors*
-\d+-Takt-Motor*
-\d+-Takt-Motoren*
-\d+-Takt-Motors*
-\d+-Takt-Benzinmotor*
-\d+-Takt-Benzinmotoren*
-\d+-Takt-Benzinmotors*
-\d+-Takt-Ottomotor*
-\d+-Takt-Ottomotoren*
-\d+-Takt-Ottomotors*
-\d+-Takt-Motor*
-\d+-Takt-Motoren*
-\d+-Takt-Motors*
-\d+-Takt-Benzinmotor*
-\d+-Takt-Benzinmotoren*
-\d+-Takt-Benzinmotors*
-\d+-Takt-Ottomotor*
-\d+-Takt-Ottomotoren*
-\d+-Takt-Ottomotors*
-\d+-Takt-Motor*
-\d+-Takt-Motoren*
-\d+-Takt-Motors*
-\d+-Takt-Benzinmotor*
-\d+-Takt-Benzinmotoren*
-\d+-Takt-Benzinmotors*
 Lese-Rechtschreibschwäche*
 Lese-Rechtschreibschwächen*
 Lese-Rechtschreibstörung*
@@ -7550,7 +7436,6 @@ Helmholtz-Zentrum*
 Double-Opt-in*
 Double-Opt-in-Verfahren*
 Lamba-Variante*
-Cash-and-carry-Klausel*
 One-Stop-Shop*
 One-Stop-Shop-Regelung*
 One-Stop-Shop-Verfahren*
@@ -7559,7 +7444,6 @@ Döner-Laden?
 Döner-Ladens?
 für-sorglich?
 Faber-Castell*
-Heinrich-Böll-Stiftung*
 Böll-Stiftung*
 radikal-islamisch*
 radikal-islamische*
@@ -7667,11 +7551,6 @@ Walter-Reed-Militärkrankenhauses*
 öffentlich-rechtlichen*
 öffentlich-rechtlicher*
 öffentlich-rechtliches*
-MAK-Wert*
-MAK-Werts*
-MAK-Werte*
-MAK-Werten*
-MAK-Wertes*
 R-Wert*
 R-Werts*
 R-Werte*
@@ -7715,8 +7594,6 @@ Axel-Springer-Haus*
 Axel-Springer-Hauses*
 Axel-Springer-Hochhaus*
 Axel-Springer-Hochhauses*
-Molotow-Cocktail$
-Molotow-Cocktails$
 EEG-Umlage*
 EEG-Umlagen*
 Marshall-Plan*
@@ -7766,7 +7643,6 @@ bereit-willig?
 zu-tiefst?
 Unboxing-Video*
 Unboxing-Videos*
-Lock-Down?
 Lock-Downs?
 Night-Jet?
 Night-Jets?
@@ -7791,7 +7667,6 @@ Track-Pad?
 Track-Pads?
 unter-repräsentiert*
 Zick-zack?
-Zick-Zack?
 Zick-zacks?
 Zick-Zacks?
 Zickzack-Kurs$
@@ -7824,12 +7699,9 @@ Concierge-Services*
 Panama-Papier*
 Panama-Papiere*
 Panama-Papieren*
-DNA-Probe*
 DNA-Strang*
 DNA-Genom*
 DNA-Genoms*
-DNA-Test*
-DNA-Tests*
 Finger-Printing?
 Finger-Printings?
 DNA-Sequenzierung*
@@ -7857,10 +7729,6 @@ Short-List?
 Short-Lists?
 Long-List?
 Long-Lists?
-Walter-Reed-Militärkrankenhaus*
-Walter-Reed-Militärkrankenhauses*
-Walter-Reed-Krankenhaus*
-Walter-Reed-Krankenhauses*
 Cous-Cous?
 Daseins-Berechtigung$
 Thai-Massage*
@@ -7885,8 +7753,6 @@ Giro-Cards?
 Girl-Power?
 Giro-Karte?
 Giro-Karten?
-Giro-Konto?
-Giro-Kontos?
 Giro-Konten
 3D-Audio*
 Show-Business$
@@ -7898,8 +7764,6 @@ Shuttle-Service*
 Shuttle-Services*
 Peer-Review*
 Peer-Reviews*
-Feed-Reader?
-Feed-Readers?
 Feed-Readern?
 RSS-Feedreader*
 RSS-Feedreaders*
@@ -7963,8 +7827,6 @@ Take-out*
 Take-outs*
 Take-over*
 Take-overs*
-Take-off*
-Take-offs*
 Action-Cam$
 Action-Cams$
 wild-fremd?
@@ -7977,8 +7839,6 @@ Couch-Potato$
 Couch-Potatos$
 Boy-Band?
 Boy-Bands?
-All-Star-Band*
-All-Star-Bands*
 Pik-Ass$
 Pik-Asse$
 Pik-Assen$
@@ -7991,21 +7851,13 @@ Mind-Sets?
 Zwei-Sterne-Restaurant*
 Drei-Sterne-Restaurant*
 \d+-Sterne-Restaurant*
-\d+-Sterne-Restaurant*
 Zwei-Sterne-Koch*
 Zwei-Sterne-Kochs*
 Drei-Sterne-Koch*
 Drei-Sterne-Kochs*
 \d+-Sterne-Koch*
 \d+-Sterne-Kochs*
-\d+-Sterne-Koch*
-\d+-Sterne-Kochs*
 \d+-Sterne-Bewertung*
-\d+-Sterne-Bewertung*
-\d+-Sterne-Bewertung*
-\d+-Sterne-Bewertung*
-DIN-Norm*
-DIN-Normen*
 Show-Stopper?
 Show-Stoppers?
 Show-Stoppern?
@@ -8143,7 +7995,6 @@ CT-Gerätes*
 CT-Scan*
 CT-Scans*
 Hounsfield-Skala*
-VPN-Verbindung*
 quick-lebending?
 quick-lebendinge?
 quick-lebendinger?
@@ -8228,7 +8079,6 @@ Antigen-Maskings*
 Stark-Watzinger*
 Stark-Watzingers*
 Multi-Channel?
-Omni-Channel?
 Omnichannel-Strategie*
 Omnichannel-Marketing*
 Omnichannel-Marketings*
@@ -8246,8 +8096,6 @@ Country-Lieder?
 Country-Liedern?
 Country-Lied?
 Country-Lieds?
-Deficit-Spending$
-Deficit-Spendings$
 Fly-by-Anomalie*
 Fly-by-Anomalien*
 Magny-Cours*
@@ -8385,7 +8233,6 @@ Cup-Cakes?
 mehr-malig?
 mehr-malige?
 mehr-maligen?
-mehr-maligen?
 mehr-maligem?
 mehr-maliges?
 EFTA-Staat*
@@ -8490,8 +8337,6 @@ Top-Ten-Liste*
 Top-Ten-Listen*
 Top-10-Liste*
 Top-10-Listen*
-Erste-Hilfe-Kasten*
-Erste-Hilfe-Kastens*
 Erste-Hilfe-Koffer*
 Erste-Hilfe-Koffers*
 Erste-Hilfe-Koffern*
@@ -8683,7 +8528,6 @@ Sabbat-Jahr?
 Sabbat-Jahrs?
 Sabbat-Jahre?
 Sabbat-Jahren?
-Sabbat-Jahren?
 ellen-lang?
 ellen-lange?
 ellen-langer?
@@ -8813,8 +8657,6 @@ Nord-Tirolerinnen?
 Nuss-Nugat-Creme*
 Panzer-Tape$
 Panzer-Tapes$
-Beach-Volleyball$
-Beach-Volleyballs$
 Waffen-Embargo$
 Waffen-Embargos$
 Beef-Steak$
@@ -8899,7 +8741,6 @@ Benefiz-Konzerten?
 Benefiz-Veranstaltung?
 Benefiz-Veranstaltungen?
 Preis-Leistung*
-Rhein-Ruhr*
 Main-Taunus-Kreis*
 Main-Taunus-Kreises*
 Rauhaar-Dackel?
@@ -8922,18 +8763,15 @@ höher-preisige?
 höher-preisiger?
 höher-preisiges?
 höher-preisigem?
-höher-preisigem?
 hoch-preisig?
 hoch-preisige?
 hoch-preisiger?
 hoch-preisiges?
 hoch-preisigem?
-hoch-preisigem?
 niedrig-preisig?
 niedrig-preisige?
 niedrig-preisiger?
 niedrig-preisiges?
-niedrig-preisigem?
 niedrig-preisigem?
 Wallring-Tunnel?
 Wallring-Tunnels?
@@ -8947,7 +8785,6 @@ True-Crime-Podcast*
 True-Crime-Podcasts*
 Penny-Stock?
 Penny-Stocks?
-Heinrich-Heine-Universität*
 D&O-Versicherung*
 D&O-Versicherungen*
 KfW-Förderung*
@@ -9052,7 +8889,6 @@ Torf-Rock?
 Torf-Rocks?
 Weizen-Mehl?
 Weizen-Mehls?
-Dinkel-Mehl?
 Dinkel-Mehls?
 Inkognito-Fenster$
 Inkognito-Fensters$
@@ -9226,8 +9062,6 @@ knall-harter?
 knall-hartes?
 knall-harten?
 knall-hartem?
-Ober-Eschbach*
-Ober-Eschbachs*
 Erdnuss-Flip?
 Erdnuss-Flips?
 Compton-Effekt*
@@ -9289,7 +9123,6 @@ Mars-Rover*
 Mars-Rovers*
 \d+-Jahreswertung*
 \d+-Jahres-Wertung*
-Reset-Button*
 Reset-Button*
 Reset-Knopf*
 Reset-Taste*
