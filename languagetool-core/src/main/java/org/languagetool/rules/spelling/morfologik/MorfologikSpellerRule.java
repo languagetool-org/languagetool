@@ -196,16 +196,21 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       
       // Capitalize word at the sentence start
       // if it is not the last token in the sentence, similarly to UPPERCASE_SENTENCE_START
-      if (isFirstWord && ruleMatches.size()>0 && idx < tokens.length - 1) {
+      if (isFirstWord && ruleMatches.size() > 0 && idx < tokens.length - 1) {
         RuleMatch ruleMatch = ruleMatches.get(0);
         List<String> replacements = ruleMatch.getSuggestedReplacements();
         List<String> newReplacements = new ArrayList<>();
         for (String replacement : replacements) {
-          //only if the replacement is all lower case
+          // only if the replacement is all lower case
           if (replacement.equals(replacement.toLowerCase())) {
-            newReplacements.add(StringTools.uppercaseFirstChar(replacement));
+            String capitalizedReplacement = StringTools.uppercaseFirstChar(replacement);
+            if (!newReplacements.contains(capitalizedReplacement)) {
+              newReplacements.add(capitalizedReplacement);
+            }
           } else {
-            newReplacements.add(replacement);
+            if (!newReplacements.contains(replacement)) {
+              newReplacements.add(replacement);
+            }
           }
         }
         ruleMatch.setSuggestedReplacements(newReplacements);
