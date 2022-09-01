@@ -3695,29 +3695,6 @@
     </rule>
 
 
-    <!-- PENSAR EM ponderar -->
-    <rule id='PENSAR_EM_PONDERAR' name="Pensar em → ponderar">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-30 (25-JUL-2022+) -->
-      <!--
-      Estou a pensar em comprar o PC da televisão. → Estou a ponderar comprar o PC da televisão.
-      -->
-      <pattern>
-        <or>
-          <token/>
-          <token postag='SENT_START' postag_regexp='no'/>
-        </or>
-        <marker>
-          <token inflected='yes'>pensar</token>
-          <token>em</token>
-        </marker>
-        <token postag='V.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Se for um texto académico/científico, pondere empregar o termo 'ponderar'.</message>
-      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ponderar</match></suggestion>
-      <example correction="ponderar">Estou a <marker>pensar em</marker> comprar o PC da televisão.</example>
-    </rule>
-
-
     <!-- TODO Add antipattern for dash and quotations -->
     <rulegroup id='T-V_DISTINCTION' name='Tratamento formal: Tu,Você; Vós,Vocês' default='on'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
