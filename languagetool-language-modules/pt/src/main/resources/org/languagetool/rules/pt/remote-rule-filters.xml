@@ -46,6 +46,23 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="False alarms in missing comma rule">
         <rule>
             <pattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">\d+</token>
+                <token negate="yes">,</token>
+            </pattern>
+            <example correction="">ex: <marker>01 22 34.</marker></example>
+        </rule>
+        <rule>
+        <pattern>
+            <token postag="NC.+" postag_regexp="yes"/>
+            <token postag="AQ.+" postag_regexp="yes"/>
+            <token regexp="yes">,|e</token>
+        </pattern>
+        <example correction="">É composta por <marker>calça legging,</marker> entre outras.</example>
+    </rule>
+        <rule>
+            <pattern>
                     <token regexp="yes">\d+</token>
                     <token regexp="yes">&expressoes_de_tempo;|&operadores_matematicos;|&unidades_de_medida;|&unidades_de_medida_por_extenso;</token>
             </pattern>
