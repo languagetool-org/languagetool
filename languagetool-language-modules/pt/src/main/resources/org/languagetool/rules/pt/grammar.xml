@@ -45278,6 +45278,28 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- COMO É O CASO DO NOSSO como é o nosso -->
+    <rule id='COMO_SER_O_CASO_DO' name="Simplificar: Como é/são o caso do → Como o">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-02 (25-JUL-2022+) -->
+      <!--
+      Temos novidades matemáticas como é o caso da nossa equação. → Temos novidades matemáticas como a nossa equação.
+      -->
+      <pattern>
+        <marker>
+          <token>como</token>
+          <token regexp='yes'>é|são</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token regexp='yes'>casos?</token>
+          <token regexp='yes'>d[ao]s?</token>
+          <token postag='DP.+|SPS00:PP.+|NC.+|AQ.+' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\1 <match no='5' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match> \6</suggestion>
+      <example correction="como a nossa">Temos novidades matemáticas <marker>como é o caso da nossa</marker> equação.</example>
+    </rule>
+
+
     <!-- CONTRÁRIO oposto -->
     <rule id='CONTRÁRIO_OPOSTO' name="Contrário → Oposto" type="style">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-18 (5-JUN-2022+)      -->
