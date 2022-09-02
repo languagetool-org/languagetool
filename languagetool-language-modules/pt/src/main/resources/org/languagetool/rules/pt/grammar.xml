@@ -17301,6 +17301,31 @@ O namorado dela era um ladrão.
           <example>Tom disse que Marta estava com sede e que queria ir pra casa.</example>
       </antipattern>
       <antipattern>
+          <token regexp='yes'>[dn]?[oa]s?</token>
+          <token regexp='yes' skip='-1'>qual|quais</token>
+          <token>e</token>
+          <token>que</token>
+          <example>Ensombrou o seu desempenho do cargo ministerial, no qual pouco pôde desenvolver, e que abandonou após um ano.</example>
+      </antipattern>
+      <antipattern>
+          <token skip='-1'>onde</token>
+          <token>e</token>
+          <token>que</token>
+          <example>Em um material onde as dimensões físicas dependem da aplicação de pressão e que acaba por produzir um campo elétrico.</example>
+      </antipattern>
+      <antipattern>
+          <token postag='VMP.+' postag_regexp='yes' skip='-1'/>
+          <token>e</token>
+          <token>que</token>
+          <example>Essa é uma tática recorrente, elaborada por ele, e que ficou padronizada.</example>
+      </antipattern>
+      <antipattern>
+          <token skip='-1'>que</token>
+          <token>e</token>
+          <token>que</token>
+          <example>Ele explica que não pode vir e que não quer mais participar.</example>
+      </antipattern>
+      <antipattern>
         <token>Wall</token>
         <token regexp='yes' spacebefore='no'>-|·</token>
         <token spacebefore='no'>E</token>
@@ -17310,7 +17335,7 @@ O namorado dela era um ladrão.
         <token>E</token>
       </antipattern>
       <pattern>
-          <token negate_pos='yes' postag='SENT_START'/>
+          <token negate_pos='yes' postag='SENT_START|AQ.+' postag_regexp='yes'/>
         <marker>
           <token>e</token>
           <token>que</token>
@@ -17319,9 +17344,10 @@ O namorado dela era um ladrão.
         <token postag='V.+|SPS.+|NC.+|AQ.+|DA.+|DI.+|RG|NP.+|RM' postag_regexp='yes'/>
       </pattern>
       <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-      <suggestion>e \4</suggestion>
-      <suggestion>que \4</suggestion>
-      <example correction="e queria|que queria">Ele é o Rui <marker>e que queria</marker> comer bem.</example>
+      <suggestion> e \4</suggestion>
+      <suggestion> que \4</suggestion>
+      <suggestion>, que \4</suggestion>
+      <example correction=" e queria| que queria|, que queria">Ele é o Rui<marker> e que queria</marker> comer bem.</example>
       <example>E que se supõe que devo fazer quando me xingar?</example>
 
       <example>Todos dizem que Kate é um gênio e que terá um futuro próspero.</example>
