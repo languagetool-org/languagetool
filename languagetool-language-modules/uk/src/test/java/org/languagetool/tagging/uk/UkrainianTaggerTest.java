@@ -648,7 +648,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("місто-гігант", "місто-гігант/[місто-гігант]noun:inanim:n:v_naz|місто-гігант/[місто-гігант]noun:inanim:n:v_zna", tokenizer, tagger);
     TestTools.myAssert("країни-агресори", "країни-агресори/[країна-агресор]noun:inanim:p:v_naz|країни-агресори/[країна-агресор]noun:inanim:p:v_zna", tokenizer, tagger);
     TestTools.myAssert("поселення-гігант", "поселення-гігант/[поселення-гігант]noun:inanim:n:v_naz|поселення-гігант/[поселення-гігант]noun:inanim:n:v_zna", tokenizer, tagger);
-    TestTools.myAssert("бот-учитель", "бот-учитель/[бот-учитель]noun:inanim:m:v_naz|бот-учитель/[бот-учитель]noun:inanim:m:v_zna", tokenizer, tagger);
+//    TestTools.myAssert("бот-учитель", "бот-учитель/[бот-учитель]noun:inanim:m:v_naz|бот-учитель/[бот-учитель]noun:inanim:m:v_zna", tokenizer, tagger);
     
     TestTools.myAssert("сонях-красень", "сонях-красень/[сонях-красень]noun:inanim:m:v_naz|сонях-красень/[сонях-красень]noun:inanim:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("красень-сонях", "красень-сонях/[красень-сонях]noun:inanim:m:v_naz|красень-сонях/[красень-сонях]noun:inanim:m:v_zna", tokenizer, tagger);

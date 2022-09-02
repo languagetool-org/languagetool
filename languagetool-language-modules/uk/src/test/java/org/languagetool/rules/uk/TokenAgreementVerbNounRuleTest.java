@@ -91,8 +91,9 @@ public class TokenAgreementVerbNounRuleTest {
     assertMatches(1, "стався також вибув метану");
     assertMatches(1, "від спати єдиного податку");
     assertMatches(1, "прочитати сааме цю книжку");
-    assertMatches(1, "сиплять сердечками");
+    assertMatches(1, "сиплять дуст");
     assertMatches(1, "Охочих навчитися цьому ремеслу");
+    assertMatches(1, "поступилася португальці");
     //TODO:
 //    assertMatches(1, "планується провесні церемонію");
 //    assertMatches(1, "Відчувається, що тримаєте рук на пульсі часу");
@@ -196,7 +197,9 @@ public class TokenAgreementVerbNounRuleTest {
     // femin
     assertEmptyMatch("наголосила політик");
     
-    assertMatches(1, "Чи він навмисне чекав, як я йтиму сходами, щоб і собі, разом спускаючись донизу, кривлятися по-мавпя́чому і сорокою цокоті́ти сво́го «хохла»?");
+    assertEmptyMatch("тривав довгих десять раундів");
+    
+    assertEmptyMatch("лежали всю дорогу");
   }
 
   @Test
@@ -205,6 +208,7 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("Не бачити вам цирку");
     
     assertEmptyMatch("розсміявся йому в обличчя");
+    assertEmptyMatch("закружляли мені десь у тьмі");
     assertEmptyMatch("ірже вам у вічі");
     assertEmptyMatch("умоститися господареві на рамена");
     assertEmptyMatch("прилетів йому від посла");

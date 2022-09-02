@@ -52,6 +52,14 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
+    // сміялася всю дорого
+    if( nounAdjPos < tokens.length-1
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("adj:f:v_zna.*"))
+        && tokens[nounAdjPos+1].getCleanToken().equals("дорогу") ) {
+      logException();
+      return true;
+    }
+    
     // запропоновано відділом
     if( PosTagHelper.hasPosTagPart(tokens[verbPos], "impers")
         && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile(".*v_oru.*")) ) {
@@ -62,6 +70,13 @@ public final class TokenAgreementVerbNounExceptionHelper {
     // звалося Подєбради
     if( LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("зватися", "називатися"))
         && Character.isUpperCase(tokens[nounAdjPos].getCleanToken().charAt(0)) ) {
+      logException();
+      return true;
+    }
+
+    // тривав довгих десять раундів.
+    if( LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("тривати", "протривати", "йти", "ходити", "їхати"))
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|numr|noun:inanim).*v_zna.*")) ) {
       logException();
       return true;
     }
@@ -175,11 +190,18 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
-    // розсміявся йому в обличчя
+    // розсміявся брату в обличчя
     if( nounAdjPos < tokens.length - 2
         && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile(".*v_dav.*"))
-        && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("в|у|на|від|під|по|до|з|з-під|перед")
+        && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("в|у|на|від|під|по|до|і?з|з[іо]|над|з-під|перед|попід|поза|напереріз")
         && PosTagHelper.hasPosTag(tokens[nounAdjPos+2], Pattern.compile("(noun|adj).*"))) {
+      logException();
+      return true;
+    }
+
+    // закружляли мені десь у тьмі
+    if( nounAdjPos < tokens.length - 2
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun.*?v_dav:&pron:(pers|refl).*"))) {
       logException();
       return true;
     }
@@ -346,7 +368,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
     if( state.verbPos > 1
         && PosTagHelper.hasPosTagPart(tokens[state.nounPos], "v_rod") ) {
 
-      Pattern vRodDriverPattern = Pattern.compile("не|(на)?с[кт]ільки|(най)?більше|(най)?менше|(не)?багато|(чи|за)?мало|трохи|годі|неможливо|а?ніж|вдосталь", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+      Pattern vRodDriverPattern = Pattern.compile("не|(на)?с[кт]ільки|(най)?більше|(най)?менше|(не|за)?багато|(не|чи|за)?мало|трохи|годі|неможливо|а?ніж|вдосталь", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
       int xpos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, (String)null, vRodDriverPattern, Pattern.compile("[a-z].*"), Dir.REVERSE);
       if( xpos >= 0 && xpos >= state.verbPos-4 ) {
           logException();

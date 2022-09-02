@@ -342,13 +342,13 @@ public class TokenAgreementVerbNounRule extends Rule {
     }
     if( i < tokens.length - 1
         && tokens[i].getCleanToken().matches("таким|якимо?сь|відповідним|певним|жодним|дивним")
-        && tokens[i+1].getCleanToken().matches("чином|способом|робом") ) {
+        && tokens[i+1].getCleanToken().matches("чином|способом|робом|ходом") ) {
 //        if( i >= tokens.length - 2 || PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("[a-z].*"))) {
           return true;
 //        }
     }
     if( i < tokens.length - 1
-        && tokens[i].getCleanToken().matches("більшою|меншою|(не)?значною|якоюсь|неабиякою|достатньою")
+        && tokens[i].getCleanToken().matches("більшою|меншою|(не)?значною|якоюсь|неабиякою|достатньою|великою")
         && tokens[i+1].getCleanToken().matches("мірою")
 //        && PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("(noun|adj|adv).*"))) {
         ) {
