@@ -1219,7 +1219,18 @@
       <disambig action="filter" postag="N.*"/>
     </rule>
   </rulegroup>
-    
+  
+  <rulegroup id="VERB_PRON" name="verb + pron">
+    <rule>
+      <pattern>
+        <token postag="V.[MISNG].*" postag_regexp="yes"/>
+        <token spacebefore="no">-</token>
+        <token spacebefore="no" postag="P.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+  </rulegroup>
+  
     <rulegroup id="PRON_VERB" name="não + pron + verb">
         <antipattern>
             <token postag="D..[MC][SN]." postag_regexp="yes"/>
