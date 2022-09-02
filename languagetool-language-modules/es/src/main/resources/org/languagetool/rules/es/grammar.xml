@@ -8580,6 +8580,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>esta</token>
                 </antipattern>
                 <antipattern>
+                    <token inflected="yes">ser</token>
+                    <token min="1" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>esta</token>
+                    <example>Es exactamente esta la sensación que habíamos experimentado nosotros.</example>
+                </antipattern>
+                <antipattern>
                     <token postag="NC[FC]P000|_GN_FP" postag_regexp="yes"/>
                     <token>como</token>
                     <token>esta</token>
@@ -8675,6 +8681,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>como</token>
                     <token>bien</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="V.P..SF" postag_regexp="yes"/>
+                    <token>esta</token>
+                    <token>como</token>
+                    <example>(entendida esta como correspondencia entre realidad y ficción)</example>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -9470,12 +9483,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">media|medio</token>
                     <token postag="D[IN].*" postag_regexp="yes" min="0" max="4"/>
                     <token regexp="yes">millas?|.*metros?|minutos?|horas?|segundos?</token>
+                    <token regexp="yes">menos|más|adelantad[oa]s?|atrasad[oa]s?</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">La oficina de correos <marker>esta</marker> media milla más allá.</example>
                 <example correction="está">Mi reloj <marker>esta</marker> cinco minutos adelantado.</example>
                 <example>Esta segunda temporada promete mucho más.</example>
+                <example>Fue pasada esta hora cuando oyeron la campana.</example>
+                <example>Esta hora que es como un cambio.</example>
             </rule>
             <rule>
                 <!-- ESTA_TILDE25 -->
