@@ -61,6 +61,7 @@ public class ArtificialErrorEval {
   static boolean unidirectional = false;
   static boolean wholeword = true;
   static boolean isDoubleLetters = false;
+  static boolean isDiacritics = false;
   static boolean inflected = false;
   static Pattern pWordboundaries = Pattern.compile("\\b.+\\b");
   static int countLine = 0;
@@ -71,6 +72,7 @@ public class ArtificialErrorEval {
   static String verboseOutputFilename = "";
   static String errorCategory = "";
   static String langCode = "";
+  static Language language;
   static String corpusFilePath = "";
   static String outputPathRoot = "";
   static HashMap<String, List<RemoteRuleMatch>> cachedMatches; 
@@ -130,7 +132,7 @@ public class ArtificialErrorEval {
     lemmas[1] = words[1];
     langCode = args[0];
     corpusFilePath = args[1];
-    Language language = Languages.getLanguageForShortCode(langCode);
+    language = Languages.getLanguageForShortCode(langCode);
     localLt = new JLanguageTool(language);
     synth = language.getSynthesizer();
     lt = new RemoteLanguageTool(Tools.getUrl("http://localhost:8081"));
@@ -151,6 +153,10 @@ public class ArtificialErrorEval {
     File[] languageDirectories = new File(inputFolder).listFiles(File::isDirectory);
     for (File languageDirectory : languageDirectories) {
       langCode = languageDirectory.getName();
+//      if (!langCode.toString().equals("es")) {
+//        continue;
+//      }
+      language = Languages.getLanguageForShortCode(langCode);
       Files.createDirectories(Paths.get(outputPathRoot+"/"+langCode));
       summaryOutputFilename = outputPathRoot+"/"+langCode+"/"+langCode+".tsv";
       if (printHeader) {
@@ -167,7 +173,14 @@ public class ArtificialErrorEval {
           String fileName = myCorpusFile.getName();
           System.out.println("Analyzing file: " + fileName);
           fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-          if (fileName.equals("double_letters")) {
+//          if (!fileName.equals("esta~está")) {
+//            continue;
+//          }
+          if (fileName.equals("diacritics")) {
+            isDiacritics = true;
+            unidirectional = true;
+          }
+          else if (fileName.equals("double_letters")) {
             isDoubleLetters = true;
             unidirectional = true;
           }
@@ -220,7 +233,7 @@ public class ArtificialErrorEval {
       .build();
     long start = System.currentTimeMillis();
     List<String> lines = Files.readAllLines(Paths.get(corpusFilePath));
-    if (!inflected && !isDoubleLetters) {
+    if (!inflected && !isDoubleLetters && !isDiacritics) {
       final Pattern p0;
       Matcher mWordBoundaries = pWordboundaries.matcher(words[0]);
       if (mWordBoundaries.matches() && wholeword) {
@@ -280,6 +293,28 @@ public class ArtificialErrorEval {
           words[1] = m.group(0);
           words[0] = words[1].substring(0, 1); 
           analyzeSentence(line, 1, m.start(), config);
+        }
+      }
+    }
+    if (isDiacritics) {
+      // check missing diacritics 
+      countLine = 0;
+      checkedSentences = 0;
+      for (String line : lines) {
+        cachedMatches = new HashMap<>();
+        countLine++;
+        if (countLine > maxInputSentences || checkedSentences > maxCheckedSentences) {
+          break;
+        }
+        List<String> tokens = language.getWordTokenizer().tokenize(line);
+        int pos = 0;
+        for (String token: tokens) {
+          if (StringTools.hasDiacritics(token)) {
+            words[1] = token;
+            words[0] = StringTools.removeDiacritics(token);
+            analyzeSentence(line, 1, pos, config);
+          }
+          pos += token.length();
         }
       }
     }
