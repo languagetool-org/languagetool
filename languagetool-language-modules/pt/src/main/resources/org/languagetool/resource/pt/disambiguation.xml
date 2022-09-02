@@ -132,7 +132,6 @@
       <disambig action="add"><wd pos="SENT_END"/></disambig>
     </rule>
   </rulegroup-->
-
   <rulegroup id="CONJ_COMPOSTAS" name="Conjunções compostas">
     <rule>
       <pattern>
@@ -1994,6 +1993,116 @@
       </pattern>
       <disambig action="remove" postag="V.N.+"/>
     </rule>
+  
+  <rulegroup id="PUNCTUATION" name="punctuation">
+    <rule>
+      <pattern>
+        <marker>
+          <token>,</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_COMMA"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>.</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_PERIOD"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>!</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_EXCLAMATION"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>?</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_INTERROGATION"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>…</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_PERIOD3"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_PERIOD3"/>
+        <wd pos="_PUNCT_PERIOD3"/>
+        <wd pos="_PUNCT_PERIOD3"/>
+      </disambig>
+    </rule>
+    <!--<rule>
+      <pattern>
+        <token regexp="yes">[mntsld]'</token>
+        <marker>
+          <token regexp="yes">[“‘«'"]</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_QM_OPEN"/>
+      </disambig>
+    </rule>-->
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes" spacebefore="yes">['"]</token>
+        </marker>
+        <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_QM_OPEN"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes" spacebefore="yes">[“‘«‹]</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_QM_OPEN"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes" spacebefore="no">['"’”»›]<exception postag="_QM_OPEN"/></token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_QM_CLOSE"/>
+      </disambig>
+    </rule>   
+  </rulegroup>
+  
     <rule id="PUNCT" name="Pontuação">
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
       <pattern>
@@ -2023,7 +2132,7 @@
       <disambig postag="``"/>
       <example type="untouched">Examplo 'a'</example>
       <example type="untouched">Examplo &quot;a</example>
-      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]"><marker>&quot;</marker>Um teste.</example>
+      <!--<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]"><marker>&quot;</marker>Um teste.</example>-->
     </rule>
     <rule>
       <pattern>
@@ -2040,7 +2149,7 @@
       <example type="untouched">Examplo 'a'</example>
       <example type="untouched">Examplo &quot;a</example>
       <example type="untouched">Examplo (&quot;a</example>
-      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/'']">Um &quot;teste<marker>&quot;</marker>.</example>
+      <!--<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/'']">Um &quot;teste<marker>&quot;</marker>.</example>-->
     </rule>
     <rule>
       <pattern>
@@ -2054,7 +2163,7 @@
       <disambig postag="``"/>
       <example type="untouched">Examplo 'a'</example>
       <example type="untouched">Examplo a&quot;</example>
-      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um <marker>&quot;</marker>teste&quot;.</example>
+      <!--<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um <marker>&quot;</marker>teste&quot;.</example>-->
     </rule>
     <rule>
       <pattern>
@@ -2070,7 +2179,7 @@
       <example type="untouched">Examplo 'a'</example>
       <example type="untouched">Examplo &quot;a</example>
       <example type="untouched">Examplo a&quot;</example>
-      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um (<marker>&quot;</marker>teste&quot;.</example>
+      <!--<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um (<marker>&quot;</marker>teste&quot;.</example>-->
     </rule>
   </rulegroup>
   
