@@ -200,8 +200,9 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
     if (apiKey == null || apiKey.trim().isEmpty()) {
       throw new IllegalArgumentException("apiKey must be set");
     }
-    if (sqlSessionFactory ==  null) {
-      throw new IllegalStateException("sqlSessionFactory not initialized - has the database been configured?");
+    if (sqlSessionFactory == null) {
+      throw new IllegalStateException("This is the endpoint for the basic version of LanguageTool. " +
+        "When using 'username' and 'apiKey' to access the premium version, use api.languagetoolplus.com instead.");
     }
     try {
       Long value = dbLoggingCache.get(String.format("user_%s_%s", username, apiKey), () -> {
