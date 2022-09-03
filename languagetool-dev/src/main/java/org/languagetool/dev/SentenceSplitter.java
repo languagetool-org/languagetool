@@ -45,7 +45,7 @@ class SentenceSplitter {
         String line = scanner.nextLine();
         List<String> sentences = lt.sentenceTokenize(line);
         for (String sentence : sentences) {
-          String cleanSentence = sentence.strip();
+          String cleanSentence = sentence.trim();
           if (!cleanSentence.isEmpty()) {
             outputFile.println(cleanSentence);
           }
