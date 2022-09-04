@@ -39,6 +39,12 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     asList(
+      tokenRegex("des"),   // "Chef des renommierten Institute for Fiscal Studies (IFS)"
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      token("Institute"),
+      tokenRegex("for|of")
+    ),
+    asList(
       token("zur"),   // "Bis zur Anfang Juni geplanten Eröffnung gebe es noch einiges zu tun."
       tokenRegex("Anfang|Ende|Mitte"),
       tokenRegex(MONTH_NAMES_REGEX),
