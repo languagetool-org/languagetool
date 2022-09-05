@@ -36,11 +36,9 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     runTests();
     rule = new SwissCompoundRule(TestTools.getMessages("de"), Languages.getLanguageForShortCode("de-DE"), null);
     runTests();
-    
   }
       
   private void runTests() throws IOException {
-
     // correct sentences:
     check(0, "Eine tolle CD-ROM");
     check(0, "Eine tolle CD-ROM.");
@@ -58,7 +56,7 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Hals-Wirbel-Säule");   // doubtful whether this is correct...
     check(0, "Die Bürger konnten an die 900 Meter Kabel in Eigenregie verlegen.");
     // incorrect sentences:
-    check(1, "System Administrator", new String[]{"Systemadministrator"});
+    check(1, "System Administrator", "Systemadministrator");
     check(1, "System-Administrator");
     check(1, "bla bla bla bla bla System Administrator bla bla bla bla bla");
     check(1, "System Administrator blubb");
