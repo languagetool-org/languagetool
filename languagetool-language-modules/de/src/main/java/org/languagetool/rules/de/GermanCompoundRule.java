@@ -19,15 +19,21 @@
 package org.languagetool.rules.de;
 
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.CompoundRuleData;
 import org.languagetool.rules.Example;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 /**
  * Checks that compounds are not written as separate words. The supported compounds are loaded
@@ -36,6 +42,15 @@ import java.util.ResourceBundle;
  * @author Daniel Naber
  */
 public class GermanCompoundRule extends AbstractCompoundRule {
+
+  private static final Language GERMAN = Languages.getLanguageForShortCode("de-DE");
+  private static final List<DisambiguationPatternRule> ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(
+    Arrays.asList(  // "Die Bürger konnten an die 900 Meter Kabel in Eigenregie verlegen."
+      tokenRegex("an"),
+      tokenRegex("die"),
+      tokenRegex("\\d+")
+    )
+  ), GERMAN);
 
   private static volatile CompoundRuleData compoundData;
   
@@ -78,4 +93,10 @@ public class GermanCompoundRule extends AbstractCompoundRule {
   public boolean isMisspelled(String word) throws IOException {
     return GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(word);
   }
+
+  @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return ANTI_PATTERNS;
+  }
+
 }

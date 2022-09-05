@@ -56,6 +56,7 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "2-Zimmer-Wohnung");
     check(0, "3-Zimmer-Wohnung");
     check(0, "Hals-Wirbel-Säule");   // doubtful whether this is correct...
+    check(0, "Die Bürger konnten an die 900 Meter Kabel in Eigenregie verlegen.");
     // incorrect sentences:
     check(1, "System Administrator", new String[]{"Systemadministrator"});
     check(1, "System-Administrator");
