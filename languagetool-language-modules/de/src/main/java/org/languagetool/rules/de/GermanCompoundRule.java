@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 /**
@@ -46,8 +47,17 @@ public class GermanCompoundRule extends AbstractCompoundRule {
   private static final Language GERMAN = Languages.getLanguageForShortCode("de-DE");
   private static final List<DisambiguationPatternRule> ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(
     Arrays.asList(  // "Die Bürger konnten an die 900 Meter Kabel in Eigenregie verlegen."
-      tokenRegex("an"),
-      tokenRegex("die"),
+      tokenRegex("an|um"),
+      token("die"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(  // "Die Bürger konnten an die 900 Meter Kabel in Eigenregie verlegen."
+      tokenRegex("rund|etwa|zirka|cirka|ungefähr|annähernd|grob|wohl|gegen|schätzungsweise"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(  // "Die Bürger konnten ca. 900 Meter Kabel in Eigenregie verlegen."
+      token("ca"),
+      token("."),
       tokenRegex("\\d+")
     )
   ), GERMAN);
