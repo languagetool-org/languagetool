@@ -40796,7 +40796,7 @@ O namorado dela era um ladrão.
         </antipattern>
         <antipattern>
           <token postag='SENT_START'/>
-          <token spacebefore="no">&tracos_de_separacao;</token>
+          <token spacebefore="no" regexp='yes'>&tracos_de_separacao;</token>
           <token spacebefore="yes"/>
         </antipattern>
         <antipattern>
@@ -44407,7 +44407,7 @@ O namorado dela era um ladrão.
       <example correction="tem por base">O estudo <marker>baseia-se em</marker> dados estatísticos.</example>
     </rule>
 
-  
+
     <!-- VERB + A + ELE(S)/ELA(S) verb + lhe -->
     <rulegroup id='PP_OBJ_IND' name="Pronome pessoal no dativo">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-06 + 2021-04-07 (17-MAR-2021+)      -->
@@ -44415,6 +44415,13 @@ O namorado dela era um ladrão.
       pediu a ele → pediu-lhe
       pediu a eles → pediu-lhes
       -->
+      <antipattern>
+        <token skip='-1'>—</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token>a</token>
+        <token regexp='yes'>el[ae]s?</token>
+        <example>Foi o que fiz. — Dean disse a ele.</example>
+      </antipattern>
       <antipattern>
         <token postag='DA.+|DI.+|PI.+' postag_regexp='yes'/>
         <token postag='V.+' postag_regexp='yes'/>
