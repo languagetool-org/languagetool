@@ -1401,15 +1401,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Ela ficava cada dia mais bonita.</example>
         </antipattern>
         <antipattern>
-          <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes'/>
-          <token postag='SPS.+' postag_regexp='yes'/>
-          <token postag='(NC|A..)MS.+' postag_regexp='yes'/>
-          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
-          <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'/>
-          <token postag='(?:[NZ].|A..)FS.+' postag_regexp='yes'/>
-          <example>flauta de bambu tipicamente sul-coreana.</example>
-        </antipattern>
-        <antipattern>
           <token postag='(?:NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'/>
           <token min='0'>,</token>
           <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
@@ -1430,6 +1421,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Também têm formulado propostas</example>
         </antipattern>
         <antipattern>
+          <token postag='(?:NC|A..)[MC].+' postag_regexp='yes'/>
+          <token postag='VMP...M' postag_regexp='yes'/>
+          <token postag='NCF.+' postag_regexp='yes'/>
+          <example>um receptáculo denominado urna cinerária</example>
+        </antipattern>
+        <antipattern>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'/>
           <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'/>
@@ -1443,18 +1440,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..)[CF][NS].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+              <exception postag='(?:[NZ].|A..)[CF][NS].+|V.[CSIG].+|(C|R).+|SPS.+' postag_regexp='yes'/>
               <exception regexp='yes'>ás?|\d[oºaª]</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
-              <exception regexp='yes'>e|era|ser|tido|uso|sozinho|nele|casal|mora|chamado|são|serão|média?|nós|termo|nome|haver|x|bairro|saber|tao</exception></token>
+              <exception regexp='yes'>\p{Lu}+</exception>
+              <exception regexp='yes'>e|era|ser|efeito|tido|uso|sozinho|nele|casal|mora|chamado|são|serão|média?|nós|termo|nome|haver|x|bairro|saber|tao</exception></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;
-              <exception regexp='yes'>quanto|quão</exception></token>
-            <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
-              <exception regexp='yes'>x|\d[oºaª]</exception>
+              <exception regexp='yes'>quanto|quão|tão</exception></token>
+            <token min='0' postag='(?:A..|Z.)[CF][SN].+' postag_regexp='yes'>
+              <exception regexp='yes'>x|ás?|\d[oºaª]</exception>
+              <exception regexp='yes'>\p{Lu}+</exception>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+'/></token>
             <token postag='(?:N.|A..)F.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>\p{Lu}+</exception>
-              <exception regexp='yes'>uma|\d[oºaª]|mas|x|á|leva|ama|manda|olha|perca|tao|e|era|semana|noite|sozinha|ser|mora|são|serão|média?|nós|termo|nome|haver|saber</exception>
+              <exception regexp='yes'>uma|&dias_semana;|\d[oºaª]|mas|x|á|leva|ama|manda|olha|perca|tao|e|era|semana|noite|sozinha|ser|mora|são|serão|média?|nós|termo|nome|haver|saber</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
         </pattern>
