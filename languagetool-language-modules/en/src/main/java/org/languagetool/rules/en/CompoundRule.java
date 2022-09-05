@@ -34,6 +34,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  */
@@ -44,78 +47,78 @@ public class CompoundRule extends AbstractCompoundRule {
   private static final Language AMERICAN_ENGLISH = Languages.getLanguageForShortCode("en-US");
   private static final List<DisambiguationPatternRule> ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(
       Arrays.asList(
-        new PatternTokenBuilder().tokenRegex("['’`´‘]").build(),
-        new PatternTokenBuilder().token("re").build()
+        tokenRegex("['’`´‘]"),
+        token("re")
       ),
       Arrays.asList( // We well received your email
         new PatternTokenBuilder().posRegex("SENT_START|CC|PCT").build(),
-        new PatternTokenBuilder().tokenRegex("we|you|they|I|s?he|it").build(),
-        new PatternTokenBuilder().token("well").build(),
+        tokenRegex("we|you|they|I|s?he|it"),
+        token("well"),
         new PatternTokenBuilder().posRegex("VB.*").build()
       ),
       Arrays.asList(
-        new PatternTokenBuilder().tokenRegex("and|&").build(),
-        new PatternTokenBuilder().token("co").build()
+        tokenRegex("and|&"),
+        token("co")
       ),
       Arrays.asList( // off-key
-        new PatternTokenBuilder().token("power").build(),
-        new PatternTokenBuilder().token("off").build(),
-        new PatternTokenBuilder().token("key").build()
+        token("power"),
+        token("off"),
+        token("key")
       ),
       Arrays.asList( // see saw seen
-        new PatternTokenBuilder().token("see").build(),
-        new PatternTokenBuilder().token("saw").build(),
-        new PatternTokenBuilder().token("seen").build()
+        token("see"),
+        token("saw"),
+        token("seen")
       ),
       Arrays.asList( // moving forward looking for ...
-        new PatternTokenBuilder().token("forward").build(),
-        new PatternTokenBuilder().token("looking").build(),
+        token("forward"),
+        token("looking"),
         new PatternTokenBuilder().posRegex("IN|TO").build()
       ),
       Arrays.asList( // Go through the store front door
-        new PatternTokenBuilder().token("store").build(),
-        new PatternTokenBuilder().token("front").build(),
-        new PatternTokenBuilder().tokenRegex("doors?").build()
+        token("store"),
+        token("front"),
+        tokenRegex("doors?")
       ),
       Arrays.asList( // It goes from surface to surface
-        new PatternTokenBuilder().token("from").build(),
-        new PatternTokenBuilder().token("surface").build(),
-        new PatternTokenBuilder().token("to").build(),
-        new PatternTokenBuilder().token("surface").build()
+        token("from"),
+        token("surface"),
+        token("to"),
+        token("surface")
       ),
       Arrays.asList( // year end
-        new PatternTokenBuilder().tokenRegex("senior|junior").build(),
-        new PatternTokenBuilder().token("year").build(),
-        new PatternTokenBuilder().token("end").build()
+        tokenRegex("senior|junior"),
+        token("year"),
+        token("end")
       ),
       Arrays.asList( // under investment 
-        new PatternTokenBuilder().token("under").build(),
-        new PatternTokenBuilder().token("investment").build(),
-        new PatternTokenBuilder().token("banking").build()
+        token("under"),
+        token("investment"),
+        token("banking")
       ),
       Arrays.asList( // spring clean
-        new PatternTokenBuilder().token("spring").build(),
-        new PatternTokenBuilder().tokenRegex("cleans?|cleaned|cleaning").build(),
-        new PatternTokenBuilder().tokenRegex("up|the|my|our|his|her").build()
+        token("spring"),
+        tokenRegex("cleans?|cleaned|cleaning"),
+        tokenRegex("up|the|my|our|his|her")
       ),
       Arrays.asList( // Serie A team (A-Team)
-        new PatternTokenBuilder().tokenRegex("series?").build(),
-        new PatternTokenBuilder().tokenRegex("a").build()
+        tokenRegex("series?"),
+        tokenRegex("a")
       ),
       Arrays.asList( // They had a hard time sharing their ... 
-        new PatternTokenBuilder().token("hard").build(),
-        new PatternTokenBuilder().token("time").build(),
+        token("hard"),
+        token("time"),
         new PatternTokenBuilder().pos("VBG").build()
       ),
       Arrays.asList( // the first ever green bond by a municipality
-        new PatternTokenBuilder().token("first").build(),
-        new PatternTokenBuilder().tokenRegex("ever").build(),
-        new PatternTokenBuilder().tokenRegex("green").build()
+        token("first"),
+        tokenRegex("ever"),
+        tokenRegex("green")
       ),
       Arrays.asList( // inter-state.com
-        new PatternTokenBuilder().tokenRegex(".+").build(),
-        new PatternTokenBuilder().token(".").build(),
-        new PatternTokenBuilder().tokenRegex("(com|io|de|nl|co|net|org|es)").build()
+        tokenRegex(".+"),
+        token("."),
+        tokenRegex("(com|io|de|nl|co|net|org|es)")
       )
   ), AMERICAN_ENGLISH);
   private final Language english;
