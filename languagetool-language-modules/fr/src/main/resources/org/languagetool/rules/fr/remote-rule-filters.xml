@@ -50,6 +50,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
+                    <token>à</token>
+                    <marker>
+                        <token postag="R pers obj.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="A"/>
+                </pattern>
+                <example correction="">À <marker>toi</marker> à présent, je ne vois pas ce que vous pouvez faire.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token postag="V.*" postag_regexp="yes"/>
                     </marker>

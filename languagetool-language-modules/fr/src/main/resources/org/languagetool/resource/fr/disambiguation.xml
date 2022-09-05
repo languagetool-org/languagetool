@@ -166,6 +166,16 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filter" postag="V ppa m s"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="V avoir.*" postag_regexp="yes"/>
+                <token postag="A" min="0" max="3"/>
+                <marker>
+                    <token>faillis</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ppa m p"/>
+        </rule>
     </rulegroup>
     <rule id="VOUS_VERBE2P" name="vous verbe 2 p">
         <pattern>
@@ -770,6 +780,11 @@ RB => Règles Brutes
             <token postag="A" min="0" max="3"/>
             <token regexp="yes" inflected="yes">point|directeur|produit|roman|entreprise|donnée|participant|distributeur|consommateur|pro|partie|permis|plan|accessoire|employé|rentrée|sortie|candidat|abonné|adaptateur|adhérent|ami|Beaujolais|bienvenue|caractéristique|chéri|Collégiale|Commune|imprimé|Logiciel|législative|Mathématiques|meuble|mobile|moteur|Perspective|Plastique|Sommaire|sorcier|spécialiste|suivi|technicien|tarte|tortue|malade|maréchal|Imprimantes|Composite|Concasseur|conduite|con|cuvée|descriptif|Détecteur|garantie|gironde|Handicapé-portable|perso|prostituée|animateur|armée|arrivée|artisan|cannelé|capital|action|comparatif|composant|contenu|contraite|courbe|crue|cube|enceinte|immobilier|impératif|manuel|manuscrit|pensée|pers|présidentielle|prêt|standard|statisitque|surprise|tapis|tissu|vernis|veuf|vidéo|adulte|amateur</token>
             <token postag="[NJ].*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern><!-- Cette photo que m'a donnée Tom.-->
+            <token postag="V (avoir|etre).*" postag_regexp="yes"/>
+            <token postag="A" min="0" max="3"/>
+            <token regexp="yes" inflected="yes">point|directeur|produit|roman|entreprise|donnée|participant|distributeur|consommateur|pro|partie|permis|plan|accessoire|employé|rentrée|sortie|candidat|abonné|adaptateur|adhérent|ami|Beaujolais|bienvenue|caractéristique|chéri|Collégiale|Commune|imprimé|Logiciel|législative|Mathématiques|meuble|mobile|moteur|Perspective|Plastique|Sommaire|sorcier|spécialiste|suivi|technicien|tarte|tortue|malade|maréchal|Imprimantes|Composite|Concasseur|conduite|con|cuvée|descriptif|Détecteur|garantie|gironde|Handicapé-portable|perso|prostituée|animateur|armée|arrivée|artisan|cannelé|capital|action|comparatif|composant|contenu|contraite|courbe|crue|cube|enceinte|immobilier|impératif|manuel|manuscrit|pensée|pers|présidentielle|prêt|standard|statisitque|surprise|tapis|tissu|vernis|veuf|vidéo|adulte|amateur</token>
         </antipattern>
         <antipattern>
             <token postag="R.*" postag_regexp="yes" min="0" max="3"/>
@@ -3929,16 +3944,18 @@ RB => Règles Brutes
     <rule id="NOM_SENT_END" name="nom sent end">
         <pattern>
             <marker>
-                <token regexp="yes">bataille|peluche|valide|vache|demeure|triomphe|source|sombre|google|gendarme</token>
+                <token regexp="yes">bataille|peluche|vache|demeure|triomphe|source|google|gendarme
+                <exception scope="previous" postag="[NJRZ].*" postag_regexp="yes"/></token>
             </marker>
             <token postag="SENT_END"/>
         </pattern>
-        <disambig action="remove" postag="V ind pres 3 s"/>
+        <disambig action="filter" postag="N.*"/>
     </rule>
     <rule id="ADJ_SENT_END" name="ADJ sent end">
         <pattern>
             <marker>
-                <token regexp="yes">valide|sombre</token>
+                <token regexp="yes">valide|sombre
+                    <exception scope="previous" postag="[NJRZ].*" postag_regexp="yes"/></token>
             </marker>
             <token postag="SENT_END"/>
         </pattern>
@@ -4138,7 +4155,7 @@ RB => Règles Brutes
         <pattern>
             <token>attentat</token>
             <marker>
-                <token>sucide</token>
+                <token>suicide</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="N m s"/>
@@ -4920,6 +4937,15 @@ RB => Règles Brutes
                 <token postag="SENT_END"/>
             </pattern>
             <disambig action="remove" postag="[NJ] m p"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>tiens</token>
+                </marker>
+                <token regexp="yes">[mt]oi|les|leur|[nv]ous|la</token>
+            </pattern>
+            <disambig action="filter" postag="V imp pres 2 s"/>
         </rule>
         <rule>
             <pattern>
@@ -6553,11 +6579,29 @@ RB => Règles Brutes
         </rule>
         <rule>
             <pattern>
+                <token>sous</token>
+                <marker>
+                    <token>produit</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N m s"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token>de</token>
                 <token postag="D.*" postag_regexp="yes"/>
                 <marker>
                     <token>produit</token>
                 </marker>
+            </pattern>
+            <disambig action="filter" postag="N m s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>produit</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="N m s"/>
         </rule>
@@ -8689,7 +8733,7 @@ RB => Règles Brutes
                 <and>
                     <token postag="J.*" postag_regexp="yes"/>
                     <token postag="N.*" postag_regexp="yes">
-                        <exception inflected="yes" regexp="yes">point|député</exception></token>
+                        <exception inflected="yes" regexp="yes">point|fait|député|tiens|nuls?|nulles?</exception></token>
                 </and>
             </marker>
         </pattern>
@@ -8849,6 +8893,15 @@ RB => Règles Brutes
             <token postag="D.*" postag_regexp="yes"/>
         </pattern>
         <disambig postag="P"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>pendant</token>
+                </marker>
+                <token regexp="yes">que|qu'</token>
+            </pattern>
+            <disambig postag="P"/>
         </rule>
         <rule>
             <pattern>
