@@ -48,7 +48,6 @@ class CheckRequestAnalysis {
   
   private final int numParasToCheck;                //  current number of Paragraphs to be checked
 
-  private final XComponentContext xContext;         //  The context of the document
   private final XComponent xComponent;              //  XComponent of the open document
   private final String docID;                       //  docID of the document
   private final MultiDocumentsHandler mDocHandler;  //  handles the different documents loaded in LO/OO
@@ -88,7 +87,6 @@ class CheckRequestAnalysis {
     this.fixedLanguage = fixedLanguage;
     this.docLanguage = docLanguage;
     mDocHandler = singleDocument.getMultiDocumentsHandler();
-    xContext = mDocHandler.getContext();
     xComponent = singleDocument.getXComponent();
     docID = singleDocument.getDocID();
     docType = singleDocument.getDocumentType();
@@ -666,8 +664,7 @@ class CheckRequestAnalysis {
         }
         if(!docCache.isEqual(nPara, chParaWithFootnotes, locale)) {
           actualizeDocumentCache(nPara, false);
-          String dcText = SingleCheck.removeFootnotes(docCache.getFlatParagraph(nPara), footnotePositions, null);
-          if (dcText == null || !DocumentCache.isEqualText(dcText, chPara)) {
+          if (docCache.getFlatParagraph(nPara) == null || !DocumentCache.isEqualText(docCache.getFlatParagraph(nPara), chPara, footnotePositions)) {
             if (debugMode > 0) {
               MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromViewCursorOrDialog: cText != chPara: Number of Paragraph: " + nPara);
             }
