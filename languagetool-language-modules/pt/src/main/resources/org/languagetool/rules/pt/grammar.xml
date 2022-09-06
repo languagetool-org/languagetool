@@ -45615,6 +45615,26 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- ACONTECE DESDE OS ANOS remonta aos anos -->
+    <rule id='DESDE_TEMPO_REMONTA_TEMPO' name="Simplificar: Desde tempo → remontar tempo" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-06 (25-JUL-2022+) -->
+      <!--
+      Isto acontece desde os anos 1990s. → Isto remonta aos anos 1990s.
+      -->
+      <pattern>
+        <marker>
+          <token regexp='yes' inflected='yes'>acontecer|ocorrer|ir</token>
+          <token>desde</token>
+          <token postag='DA.+' postag_regexp='yes'/>
+          <token regexp='yes'>&expressoes_de_tempo_simples;</token>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>remontar</match> <match no='3' postag='DA0(..)0' postag_replace='SPS00:DA0$10'>a:o</match> \4</suggestion>
+      <example correction="remonta aos anos">Isto <marker>acontece desde os anos</marker> 1990s.</example>
+    </rule>
+
+
     <!-- DOS HUMANOS humano -->
     <rulegroup id='DOS_HUMANOS_HUMANO' name="Simplificar: Do(s) + humano(s) → humano" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-12 + 2022-08-28 (1-JAN-2022+)      -->
