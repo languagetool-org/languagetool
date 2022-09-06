@@ -2346,6 +2346,31 @@
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-30 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-09-06 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='CS|RG' postag_regexp='yes'/>
+          <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception scope='next' postag_regexp='yes' postag='RG|SPS00|RM'/> <!-- Can't add "CC" here as it removes "e", the CC must be added below as words. -->
+            <exception scope='next' regexp='yes'>para|tão</exception>
+          </token>
+          <example>Parece que foi ontem, mas na verdade a gente se viu há quase 10 anos.</example>
+          <example>Mas o mesmo não aconteceu quando mudamos em 04, a esposa que o Senhor me deu e o bebê no ventre dela, para uma cidade na Região do Lagos.</example>
+          <example>Eu estava dirigindo a cento e vinte quilômetros por hora quando a polícia me parou.</example>
+          <example>Saiba que se você foi convidada como madrinha, é porque os noivos te consideram especial.</example>
+          <example>Deixo que a vida me carregue, como o vento carrega uma folha seca.</example>
+          <example>Espero que as coisas te vão bem.</example>
+          <example>Fiquei muito feliz ao saber que a vida me dera uma segunda chance.</example>
+          <example>Espero que gostem e que nos comentários me contem qual dos 5 conjuntos é mais a vossa cara!</example>
+          <example>O espaço de experimentação que a universidade lhe permitiu foi fundamental.</example>
+          <example>Quando a vida lhe dá os limões, faça uma limonada.</example>
+          <example>Ele sempre dá o que os filhos lhe pedem.</example>
+          <example>Faz uma semana que a gente se encontrou.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-06 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <!-- MARCOAGPINTO 2021-04-30 + 2021-05-01 + 2021-05-04 (17-MAR-2021+) *START* -->
       <!--
       E se estamos em modo de edição no campo.
