@@ -278,6 +278,8 @@ public class French extends Language implements AutoCloseable {
       case "PEUTETRE": return 10; // needs to be higher than AUX_ETRE_VCONJ
       case "A_A_ACCENT": return 10; // triggers false alarms for IL_FAUT_INF if there is no a/à correction 
       case "A_ACCENT_A": return 10; // greater than PRONSUJ_NONVERBE
+      case "A_A_ACCENT2": return 10; // greater than ACCORD_SUJET_VERBE
+      case "A_ACCENT": return 10; // greater than ACCORD_SUJET_VERBE
       case "JE_M_APPEL": return 10;  // override NON_V
       case "ACCORD_R_PERS_VERBE": return 10;  // match before POSER_UNE_QUESTION
       case "JE_SUI": return 10;  // needs higher priority than spell checker

@@ -176,6 +176,15 @@ RB => Règles Brutes
             </pattern>
             <disambig action="filter" postag="V ppa m p"/>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="A"/>
+                <marker>
+                    <token>promis</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="J m sp"/>
+        </rule>
     </rulegroup>
     <rule id="VOUS_VERBE2P" name="vous verbe 2 p">
         <pattern>
@@ -3211,7 +3220,7 @@ RB => Règles Brutes
     <rule name="expérience utilisateur" id="EXPERIENCE_UTILISATEUR">
         <pattern>
             <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">réponse|identifiant|commercial|nom|droit|tuteur|identité|stratégie|spécifications|infos|réclamation|prospect|carte|création|nouveauté|dimension|fiche|donnée|tendance|relation|commande|expérience|documentation|session|garantie|réglage|assurance|section|code</token>
-            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">vendeur|consommateur|utilisateur|client|visite|administrateur|parent|producteur|passager|entreprise|carburant|objectif|contenu|conducteur|constructeur</token>
+            <token postag="N .*" postag_regexp="yes" inflected="yes" regexp="yes">vendeur|consommateur|utilisateur|qualité|client|visite|administrateur|parent|producteur|passager|entreprise|carburant|objectif|contenu|conducteur|constructeur</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -3945,6 +3954,7 @@ RB => Règles Brutes
         <pattern>
             <marker>
                 <token regexp="yes">bataille|peluche|vache|demeure|triomphe|source|google|gendarme
+                    <exception scope="previous" inflected="yes">ne</exception>
                 <exception scope="previous" postag="[NJRZ].*" postag_regexp="yes"/></token>
             </marker>
             <token postag="SENT_END"/>
@@ -3955,12 +3965,14 @@ RB => Règles Brutes
         <pattern>
             <marker>
                 <token regexp="yes">valide|sombre
+                    <exception scope="previous" inflected="yes">ne</exception>
                     <exception scope="previous" postag="[NJRZ].*" postag_regexp="yes"/></token>
             </marker>
             <token postag="SENT_END"/>
         </pattern>
         <disambig action="filter" postag="J e s"/>
     </rule>
+    
     <rule id="COMME_NOM" name="comme nom">
         <pattern>
             <token postag="[NJ].*" postag_regexp="yes"/>
@@ -4345,7 +4357,8 @@ RB => Règles Brutes
             <disambig action="filter" postag="N f p"/>
         </rule>
     </rulegroup>
-    <rule id="SOMMES" name="sommes">
+    <rulegroup id="SOMMES" name="sommes">
+        <rule>
         <pattern>
             <token postag="[DP].* p|[YK]" postag_regexp="yes"/>
             <marker>
@@ -4353,7 +4366,28 @@ RB => Règles Brutes
             </marker>
         </pattern>
         <disambig action="filter" postag="N f p"/>
-    </rule>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>somme</token>
+                </marker>
+                <token>d'</token>
+                <token>argent</token>
+            </pattern>
+            <disambig action="filter" postag="N f s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>sommes</token>
+                </marker>
+                <token>d'</token>
+                <token>argent</token>
+            </pattern>
+            <disambig action="filter" postag="N f p"/>
+        </rule>
+    </rulegroup>
     <rule id="FORMATION_CONTINUE" name="formation continue">
         <pattern>
             <token>formation</token>
@@ -4937,6 +4971,26 @@ RB => Règles Brutes
                 <token postag="SENT_END"/>
             </pattern>
             <disambig action="remove" postag="[NJ] m p"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">je</token>
+                <token postag="R pers obj.*|A" postag_regexp="yes" min="0" max="4"/>
+                <marker>
+                    <token>tiens</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 1 s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>tu</token>
+                <token postag="R pers obj.*|A" postag_regexp="yes" min="0" max="4"/>
+                <marker>
+                    <token>tiens</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 2 s"/>
         </rule>
         <rule>
             <pattern>
@@ -6593,15 +6647,6 @@ RB => Règles Brutes
                 <marker>
                     <token>produit</token>
                 </marker>
-            </pattern>
-            <disambig action="filter" postag="N m s"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>produit</token>
-                </marker>
-                <token postag="N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="N m s"/>
         </rule>
@@ -9163,6 +9208,26 @@ RB => Règles Brutes
             <pattern>
                 <token regexp="yes">qui|il|elle|on|lui|[mtns]e</token>
                 <token min="0" max="1" regexp="yes">les?|la|[mts]e|[nv]ous|leur</token>
+                <marker>
+                    <token>fait</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ind pres 3 s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">il|elle|on|qui|à</token>
+                <token postag="A"/>
+                <marker>
+                    <token>fait</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V ppa m s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">il|elle|on|qui|à</token>
+                <token postag="A"/>
                 <marker>
                     <token>fait</token>
                 </marker>
