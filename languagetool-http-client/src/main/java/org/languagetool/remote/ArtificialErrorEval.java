@@ -173,7 +173,7 @@ public class ArtificialErrorEval {
           String fileName = myCorpusFile.getName();
           System.out.println("Analyzing file: " + fileName);
           fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-//          if (!fileName.equals("esta~está")) {
+//          if (fileName.equals("diacritics")) {
 //            continue;
 //          }
           if (fileName.equals("diacritics")) {
@@ -437,7 +437,7 @@ public class ArtificialErrorEval {
       List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos, replaceWith);
       if (ruleIDs.size() > 0) {
         results[j][classifyTypes.indexOf("FP")]++;
-        printSentenceOutput("FP", correctSentence, fakeRuleIDs[j] + ":" + String.join(",", ruleIDs));
+        printSentenceOutput("FP", correctSentence, j, String.join(",", ruleIDs));
       } else {
         results[j][classifyTypes.indexOf("TN")]++;
         // Too verbose...
@@ -458,7 +458,7 @@ public class ArtificialErrorEval {
           + correctSentence.substring(fromPos + words[j].length(), correctSentence.length());
       if (wrongSentence.equals(correctSentence)) {
         // Should not happen
-        printSentenceOutput("Error: word cannot be replaced", correctSentence, "");
+        printSentenceOutput("Error: word cannot be replaced", correctSentence, j, "");
         return;
       }    
       List<RemoteRuleMatch> matchesWrong;
@@ -476,27 +476,33 @@ public class ArtificialErrorEval {
         if (isExpectedSuggestionAtPos(matchesWrong, fromPos, originalString, wrongSentence, correctSentence)) {
           //results[1 - j][classifyTypes.indexOf("TPs")]++;
           results[1 - j][classifyTypes.indexOf("TP")]++;
-          printSentenceOutput("TP", wrongSentence, fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
+          printSentenceOutput("TP", wrongSentence, 1 - j, String.join(",", ruleIDs));
         } else {
           //printSentenceOutput("TP no expected suggestion", wrongSentence,
           //    fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
           results[1 - j][classifyTypes.indexOf("FN")]++;
-          printSentenceOutput("FN", wrongSentence, fakeRuleIDs[1 - j]);
+          printSentenceOutput("FN", wrongSentence, 1 - j, "");
         }
       } else {
         results[1 - j][classifyTypes.indexOf("FN")]++;
-        printSentenceOutput("FN", wrongSentence, fakeRuleIDs[1 - j]);
+        printSentenceOutput("FN", wrongSentence, 1 - j, "");
       }
     }
   }
 
-  private static void printSentenceOutput(String classification, String sentence, String ruleIds) throws IOException {
+  private static void printSentenceOutput(String classification, String sentence, int i, String ruleIds) throws IOException { 
     if (verboseOutput) {
+      String fakeRuleID = "";
+      if (fakeRuleIDs[i].contains("null")) {
+        fakeRuleID = "rules_" + words[i] + "->" + words[1 - i]; 
+      } else {
+        fakeRuleID = fakeRuleIDs[i];
+      }
       if (verboseOutputFilename.isEmpty()) {
-        System.out.println(countLine + ". " + classification + ": " + sentence + " –– " + ruleIds);
+        System.out.println(countLine + ". " + classification + ": " + sentence + " –– " + fakeRuleID + ":" + ruleIds);
       } else {
         try (BufferedWriter out = new BufferedWriter(new FileWriter(verboseOutputFilename, true))) {
-          out.write(countLine + "\t" + classification + "\t" + sentence + "\t" + ruleIds+"\n");
+          out.write(countLine + "\t" + classification + "\t" + sentence + "\t" + fakeRuleID + ":" + ruleIds+"\n");
         }  
       }
       
