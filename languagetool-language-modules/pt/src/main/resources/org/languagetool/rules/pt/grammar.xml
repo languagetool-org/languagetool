@@ -4706,28 +4706,46 @@ O namorado dela era um ladrão.
           <token postag='AQ0MS0'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-06-22 *END* -->
+        <antipattern>
+            <token postag='D..MP.+|SPS00:D..MP.+' postag_regexp='yes'/>
+            <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
+            <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+            <token postag='(?:[NZ].|A..|DP.)[MC]S.+' postag_regexp='yes'/>
+            <token>,</token>
+            <token postag='(?:[NZ].|A..|DP.).+' postag_regexp='yes'/>
+            <token regexp='yes'>,|e</token>
+          </antipattern>
+          <antipattern>
+            <token>nos</token>
+            <token postag='V.+' postag_regexp='yes'/>
+            <example>Mesmo que ele tenha nos deixado, ele deixou marcas indeléveis.</example>
+            <example>Tom nos fará muito feliz.</example>
+          </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
             <token postag='D..MP.+|SPS00:D..MP.+' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='R.|NP.+'/>
-              <exception>aos</exception></token>
+              <exception regexp='yes'>aos|mesmos</exception></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+|V.[MIN]+|Z0MS0'/></token>
             <token postag='(?:[NZ].|A..|DP.)[MC]S.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..|DP.)[MC][NP].+|A..C.+|NPMS.+|P[ID].[CFM].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
-              <exception regexp="yes">[dlv]ê|devido|m[éí]dia|há|haver|são|ser(?:ão)?|vão</exception>
+              <exception postag='(?:[NZ].|A..|DP.)[MC][NP].+|A..C.+|NPMS.+|P[ID].[CFM].+|(C|R).+|SPS00|V.[MIN]+' postag_regexp='yes'/>
+              <exception regexp="yes">[dlv]ê|devido|m[éí]dia|pelo|um|há|haver|são|ser(?:ão)?|vão</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception>
               <exception regexp='yes'>\p{Lu}+</exception></token>
+            <token></token>
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
         <suggestion><match no='2' postag="(D..|SPS00:D..)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' postag="(D..|SPS00:D..)MP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' postag="(?:A..|Z.)C.+" postag_replace='$1CS$2' postag_regexp="yes"/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <example correction='das pai|dos pais|dos, pai'>É o orgulho <marker>dos pai</marker>.</example>
+        <suggestion><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/>-<match no='6' include_skipped='all'/></suggestion>
+        <example correction='das pai|dos pais|do pai|dos, pai|dos pai-.'>É o orgulho <marker>dos pai.</marker></example>
         <example>Aos 37 min, </example>
         <example>Maria ficou grávida aos quatorze anos.</example>
       </rule>
@@ -5102,20 +5120,38 @@ O namorado dela era um ladrão.
           <example>No dia 28 de novembro não foi possível levantar ferros porque o vento soprava do Sul.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+        <antipattern>
+          <token postag='SENT_START'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'/>
+          <token>:</token>
+          <example>Especial loiras: O meu cabelo chumbou, e agora?</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'/>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'>
-              <exception postag='(?:D[ADIP].|N.|A..|Z.)[MC][NP].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
+              <exception postag='(?:D[ADIP].|N.|A..|Z.)[MC][NP].+|(C|R).+|SPS00|V.[MIN].+' postag_regexp='yes'/>
               <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
-              <exception regexp="yes">comer|há|haver|são|ser(?:ão)?|vão|uso|n</exception>
+              <exception regexp="yes">comer|há|haver|são|ser(?:ão)?|vão|uso|n|\d[oaªº]</exception>
               <exception regexp='yes'>.+[°′″]</exception></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
-            <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
+            <token min='0' postag='(?:A..)C.+' postag_regexp='yes'>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
+              <exception regexp='yes'>\d[oaªº]|\p{Lu}+</exception></token>
             <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..)[MC][NS].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
+              <exception postag='(?:[NZ].|A..)[MC][NS].+|P[ID].[CFM].+|(C|R).+|SPS00.*|D.+|PP.+|V.[MIN].+' postag_regexp='yes'/>
+              <exception regexp='yes'>\d[oaªº]|\p{Lu}+</exception></token>
           </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
