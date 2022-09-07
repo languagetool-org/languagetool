@@ -1826,18 +1826,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>A agente é nos trazida até à porta.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-06-29 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
-
+        <antipattern>
+          <token postag='D..MP.+|SPS00:D..MP.+' postag_regexp='yes'/>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..|DP.)F.+' postag_regexp='yes'/>
+          <token>,</token>
+          <token postag='(?:[NZ].|A..|DP.).+' postag_regexp='yes'/>
+          <token regexp='yes'>,|e</token>
+          <token postag='(?:[NZ].|A..|DP.).+' postag_regexp='yes'/>
+          <example>e os nacionais Anitta, Alok, Ivete Sangalo, Giulia Be.</example>
+        </antipattern>
         <pattern>
-          <token negate='yes' regexp='yes'>de|&hifen;</token>
+          <token><exception regexp='yes'>de|&hifen;</exception>
+            <exception postag='SPS.+' postag_regexp='yes'/></token>
           <marker>
             <token postag='D..MP.+|SPS00:D..MP.+' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
-            <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
+            <token min='0' postag='(?:A..|Z.)F[NP].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/></token>
             <token postag='(?:[NZ].|A..|DP.)F.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>uma|mas</exception>
+              <exception regexp='yes'>\p{Lu}+</exception>
+              <exception regexp='yes'>\p{L}+-\p{L}+</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
         </pattern>
@@ -2152,21 +2165,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>é um pianista de música erudita brasileiro.</example>
         </antipattern>
         <pattern>
-          <token/> <!-- MARCOAGPINTO - The other "so clever" fix I used in the line below in 2019 caught fewer errors - 2022-07-12 -->
+          <token negate_pos='yes' postag='SPS00:D..FS.+' postag_regexp='yes'/> <!-- MARCOAGPINTO - The other "so clever" fix I used in the line below in 2019 caught fewer errors - 2022-07-12 -->
           <!--          <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <- MARCOAGPINTO 2019-12-31 -> -->
           <marker>
-            <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'>
+            <token postag='(?:D[ADIP].|NC|A[QO].|P[^IDP].|Z.)FS.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM]S.+|V.+|(C|R).+|SPS00' postag_regexp='yes'/>
               <exception regexp='yes'>-?\p{Lu}+</exception>
               <exception regexp='yes'>e|ser|a|mas|era|tava|metade|palavra|muito|letra|comunidade|x|continha|\d[oºaª]|\d\%</exception></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..)C[NS].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+|Z.+'/>
-              <exception regexp='yes'>x|final|\d[oºaª]|\d\%|tava</exception>
-              <exception regexp='yes'>\p{Lu}+</exception></token>
+              <exception regexp='yes'>x|final|\d[oºaª]|\d%|tal|tava</exception>
+              <exception regexp='yes'>\p{Lu}+</exception>
+              <exception regexp='yes'>\p{Lu}+-\p{Lu}+</exception></token>
             <token postag='(?:N.|A..)M.+' postag_regexp='yes'>
               <exception postag='(?:N.|A..)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*|Z.+' postag_regexp='yes'/>
-              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|teve|anos?|m[eê]se?s?|sozinhos?|estilo|mesmo|juntos?|números?|x|são|poder|n|\d[oºaª]|\d\%</exception>
+              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|troco|vale|chamado|teve|sabor|anos?|m[eê]se?s?|sozinhos?|estilo|mesmo|juntos?|números?|x|devido|são|poder|n|\d[oºaª]|\d%</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
@@ -2175,11 +2189,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion suppress_misspelled="yes"><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
         <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>        <!--      <example correction='(sanduíche) demasiado bom|sanduíche demasiado boa|sanduíche demasiado, bom'>Estão a comer uma <marker>sanduíche demasiado bom</marker>.</example> -->
-        <example correction='Um boi|Uma, boi'><marker>Uma boi</marker> está no pasto.</example>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> — <match no='5' include_skipped='all'/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> de <match no='5' include_skipped='all'/></suggestion>
+        <example correction='Um boi|Uma, boi|Uma — boi|Uma de boi'><marker>Uma boi</marker> está no pasto.</example>
         <example>À comunidade Mozilla (Firefox, Thunderbird e SeaMonkey).</example>
         <example>Uma vaca está no pasto.</example>
-        <example correction="um terrível inchaço|uma terrível, inchaço">Tem <marker>uma terrível inchaço</marker> na cabeça.</example>
-        <example correction="um mais terrível inchaço|uma mais terrível, inchaço">Tem <marker>uma mais terrível inchaço</marker> na cabeça.</example>
+        <example correction="um terrível inchaço|uma terrível, inchaço|uma terrível — inchaço|uma terrível de inchaço">Tem <marker>uma terrível inchaço</marker> na cabeça.</example>
+        <example correction="um mais terrível inchaço|uma mais terrível, inchaço|uma mais terrível — inchaço|uma mais terrível de inchaço">Tem <marker>uma mais terrível inchaço</marker> na cabeça.</example>
         <example>Alemanha tinha perdido a Primeira Guerra Mundial devido à Revolução alemã.</example>
         <example>Uma rua Roberto Duarte Silva, tantas memórias.</example>
         <example>Nenhuma cidade na Europa é tão populosa quanto Tóquio.</example>
@@ -2272,13 +2288,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <marker>
             <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'>
               <exception regexp='yes'>[dn]ela|à|ta|tao|\d[oº]</exception>
+              <exception regexp='yes'>\p{Lu}+</exception>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
-            <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
+            <token min='0' postag='(?:A..)C[NS].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/>
               <exception regexp='yes'>\d[oº]</exception>
               <exception regexp='yes'>\p{Lu}+</exception></token>
-            <token postag='(?:[NZ].|A..|DP.)M.+' postag_regexp='yes'>
+            <token postag='(?:N.|A..|DP.)M.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|\d[oº]|devido</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
@@ -4556,17 +4573,18 @@ O namorado dela era um ladrão.
         <!-- MARCOAGPINTO 2022-08-08 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
-          <token negate='yes' regexp='yes'>&hifen;</token>
+          <token negate='yes' regexp='yes'>&hifen;|e</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'>
               <exception postag='(?:D[ADIP].|N.|A..|P..|Z.)[MC][NS].+|(C|R).+|SPS00' postag_regexp='yes'/>
-              <exception regexp='yes'>.+[°′″]</exception></token>
+              <exception regexp='yes'>.+[°′″]|\d%|anos|meses|dias</exception></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
-            <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
+            <token min='0' postag='(?:A..)C.+' postag_regexp='yes'>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
+              <exception>x</exception></token>
             <token postag='(?:[NZ].|A..)[MC]S.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[MC][NP].+|P[ID].[CFM].+|(C|R).+|SPS00.*|VMG0000' postag_regexp='yes'/>
-              <exception regexp="yes">há|são|ser|haver|devido|vão|serão</exception>
+              <exception regexp="yes">há|são|ser|haver|devido|vão|serão|tempo</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception></token>
           </marker>

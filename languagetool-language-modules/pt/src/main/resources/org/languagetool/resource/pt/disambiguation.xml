@@ -1482,6 +1482,16 @@
       <example type="untouched">Você o acha parecido com o pai?</example>
     </rule>
     <rule>
+      <antipattern>
+        <token regexp="yes">para</token>
+        <token postag="D.+" postag_regexp="yes"/>
+        <marker>
+        <and>
+        <token postag="N.+" postag_regexp="yes"/>
+        <token postag="VMN0000"/>
+        </and>
+        </marker>
+      </antipattern>
       <pattern>
           <token regexp="yes">&art_detecao_paronimos;
             <exception regexp='yes'>[ao]s?|nos|para</exception></token>
