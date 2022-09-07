@@ -349,8 +349,8 @@ public class DocumentCache implements Serializable {
     if (footnotes == null || footnotes.length == 0) {
       return isEqualTextWithoutZeroSpace(flatPara, textPara);
     }
-    if (textPara.isEmpty() || flatPara.length() > textPara.length() || flatPara.length() < (textPara.length() - (footnotes.length * 3))) {
-      //  NOTE: size of footnote sign is assumed as <= 3
+    if (textPara.isEmpty() || flatPara.length() > textPara.length() || flatPara.length() < (textPara.length() - (footnotes.length * MAX_NOTE_CHAR))) {
+      //  NOTE: size of footnote sign is assumed as <= MAX_NOTE_CHAR
       return false;
     }
     flatPara = SingleCheck.removeFootnotes(flatPara, footnotes, null);
@@ -371,7 +371,7 @@ public class DocumentCache implements Serializable {
   private void mapParagraphs(List<String> paragraphs, List<TextParagraph> toTextMapping, List<List<Integer>> toParaMapping,
         List<List<Integer>> chapterBegins, List<SerialLocale> locales, List<int[]> footnotes, List<List<String>> textParas, 
         List<List<Integer>> deletedCharacters, List<List<List<Integer>>> deletedChars) {
-    MessageHandler.printToLogFile("DocumentCache: mapParagraphs called");
+//    MessageHandler.printToLogFile("DocumentCache: mapParagraphs called");
     if (textParas != null && !textParas.isEmpty()) {
       List<Integer> nTables = new ArrayList<>();
       List<Integer> nHeaders = new ArrayList<>();
@@ -393,6 +393,13 @@ public class DocumentCache implements Serializable {
       }
       for (int i = 0; i < textParas.get(CURSOR_TYPE_HEADER_FOOTER).size(); i++) {
         toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).add(-1);
+      }
+      if (debugMode) {
+        for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+          for (int j = 0; j < textParas.get(i).size(); j++) {
+            MessageHandler.printToLogFile("DocumentCache: mapParagraphs: type: " + i + "; text: " + textParas.get(i).get(j));
+          }
+        }
       }
       int numUnknown = 0;
       boolean thirdTextDone = false;
@@ -449,16 +456,19 @@ public class DocumentCache implements Serializable {
         //  test for movable tables
         //  listed before text or embedded tables
         if ((!secondTextDone || !thirdTextDone) && nTables.size() < textParas.get(CURSOR_TYPE_TABLE).size()) {
-          for (int k = nFrameTable; k < textParas.get(CURSOR_TYPE_TABLE).size(); k++) {
-            if (!nTables.contains(k)) {
-              if (isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TABLE).get(k), getFootnotes(footnotes, i))) {
-                toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
-                toParaMapping.get(CURSOR_TYPE_TABLE).set(k, i);
-                nTables.add(k);
-                isMapped = true;
-                nFrameTable = k + 1;
-                break;
-              }  
+          if (!secondTextDone || textParas.get(CURSOR_TYPE_TEXT).isEmpty() || 
+              !isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TEXT).get(0), getFootnotes(footnotes, i))) {
+            for (int k = nFrameTable; k < textParas.get(CURSOR_TYPE_TABLE).size(); k++) {
+              if (!nTables.contains(k)) {
+                if (isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TABLE).get(k), getFootnotes(footnotes, i))) {
+                  toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
+                  toParaMapping.get(CURSOR_TYPE_TABLE).set(k, i);
+                  nTables.add(k);
+                  isMapped = true;
+                  nFrameTable = k + 1;
+                  break;
+                }  
+              }
             }
           }
           if (isMapped) {
@@ -472,7 +482,7 @@ public class DocumentCache implements Serializable {
         if (!secondTextDone) {
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
           numUnknown++;
-          if (debugMode || firstTextDone || !paragraphs.get(i).isEmpty()) {
+          if (debugMode || !paragraphs.get(i).isEmpty()) {
             MessageHandler.printToLogFile(
                 "WARNING: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
           }
@@ -500,13 +510,13 @@ public class DocumentCache implements Serializable {
                 "WARNING: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
           }
           continue;
-        } else if (nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size() && numUnknown < nUnknown) {
+        } else if (nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size() && numUnknown >= nUnknown) {
           //  no tables left / text assumed
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_TEXT, j));
           toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
           nText.set(CURSOR_TYPE_TEXT, j + 1);
           continue;
-        } else if (j == textParas.get(CURSOR_TYPE_TEXT).size() && numUnknown < nUnknown) {
+        } else if (j == textParas.get(CURSOR_TYPE_TEXT).size() && numUnknown >= nUnknown) {
           //  no text left / table assumed
           int k = nFrameTable;
           for (; k < textParas.get(CURSOR_TYPE_TABLE).size() && !nTables.contains(k); k++); 
@@ -529,8 +539,15 @@ public class DocumentCache implements Serializable {
           if (k < textParas.get(CURSOR_TYPE_TABLE).size() && 
               isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TABLE).get(k), getFootnotes(footnotes, i))) {
             boolean equalTable = true;
-            boolean equalText = isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TEXT).get(j), getFootnotes(footnotes, i));
+            boolean equalText = j < textParas.get(CURSOR_TYPE_TEXT).size() &&
+                isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TEXT).get(j), getFootnotes(footnotes, i));
             //  test if table and text are equal
+/*  TODO: remove after tests            
+            MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: equal  flat(" + i + "): " + paragraphs.get(i));
+            MessageHandler.printToLogFile("DocumentCache: mapParagraphs: equal  text(" + j + "): " + textParas.get(CURSOR_TYPE_TEXT).get(j));
+            MessageHandler.printToLogFile("DocumentCache: mapParagraphs: equal table(" + k + "): " + textParas.get(CURSOR_TYPE_TABLE).get(k));
+            MessageHandler.printToLogFile("DocumentCache: mapParagraphs: equalText: " + equalText + "; equalTable: " + equalTable);
+*/
             int mk = k;
             int mj = j;
             int mi = i;
@@ -549,6 +566,12 @@ public class DocumentCache implements Serializable {
                 equalText = false;
               }
             }
+/*  TODO: remove after tests            
+            MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: equal  flat(" + mi + "): " + paragraphs.get(mi));
+            MessageHandler.printToLogFile("DocumentCache: mapParagraphs: equal  text(" + mj + "): " + textParas.get(CURSOR_TYPE_TEXT).get(mj));
+            MessageHandler.printToLogFile("DocumentCache: mapParagraphs: equal table(" + mk + "): " + textParas.get(CURSOR_TYPE_TABLE).get(mk));
+            MessageHandler.printToLogFile("DocumentCache: mapParagraphs: equalText: " + equalText + "; equalTable: " + equalTable);
+*/
             if (!equalText) {
               nTables.add(k);
               nFrameTable = k + 1;
@@ -560,7 +583,7 @@ public class DocumentCache implements Serializable {
           }
           //  test for text
           if (!isMapped) {
-            if (isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TEXT).get(j), getFootnotes(footnotes, i))) {
+            if (j < textParas.get(CURSOR_TYPE_TEXT).size() && isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TEXT).get(j), getFootnotes(footnotes, i))) {
               isMapped = true;
             }
           }
@@ -574,7 +597,7 @@ public class DocumentCache implements Serializable {
         //  unknown paragraph
         toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
         numUnknown++;
-        if (debugMode || firstTextDone || !paragraphs.get(i).isEmpty()) {
+        if (debugMode || !paragraphs.get(i).isEmpty()) {
           MessageHandler.printToLogFile(
               "WARNING: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
         }
@@ -591,12 +614,42 @@ public class DocumentCache implements Serializable {
           MessageHandler.printToLogFile("Unknown Paragraphs: " + (numUnknown - 1) + " from " + nUnknown);
         }
       }
-      boolean isCorrectMapping = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
+      boolean isCorrectNonText = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
           && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
           && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
           && nHeaders.size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
-          && nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size()
-          && toParaMapping.get(CURSOR_TYPE_TEXT).size() == textParas.get(CURSOR_TYPE_TEXT).size();
+          && nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size();
+      boolean isCorrectMapping = isCorrectNonText && toParaMapping.get(CURSOR_TYPE_TEXT).size() == textParas.get(CURSOR_TYPE_TEXT).size();
+      if (!isCorrectMapping && isCorrectNonText) {
+        //  Try to repair incorrect text mapping
+        MessageHandler.printToLogFile("Warning: document chache mapping failed: Try to repair");
+        boolean allmapped = true;
+        for (int j = 0; j < textParas.get(CURSOR_TYPE_TEXT).size(); j++) {
+          toParaMapping.get(CURSOR_TYPE_TEXT).clear();
+          boolean ismapped = false;
+          for (int i = 0; i < paragraphs.size() && !ismapped; i++) {
+            if (toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN && 
+                isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TEXT).get(j), getFootnotes(footnotes, i))) {
+              toTextMapping.set(i, new TextParagraph(CURSOR_TYPE_TEXT, j));
+              toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
+              ismapped = true;
+            }
+          }
+          if (!ismapped) {
+            allmapped = false;
+            MessageHandler.printToLogFile("Warning: Could not map text paragraph: " + textParas.get(CURSOR_TYPE_TEXT).get(j));
+          }
+        }
+        if (!allmapped) {
+          MessageHandler.printToLogFile("Warning: unknow paragraphs:");
+          for (int i = 0; i < paragraphs.size(); i++) {
+            if (toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN) {
+              MessageHandler.printToLogFile(i + ": " + paragraphs.get(i));
+            }
+          }  
+        }
+      }
+      isCorrectMapping = isCorrectNonText && toParaMapping.get(CURSOR_TYPE_TEXT).size() == textParas.get(CURSOR_TYPE_TEXT).size();
       if (!isCorrectMapping) {
         String msg = "An error has occurred in LanguageTool "
             + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\nDocument cache mapping failed:\nParagraphs:\n"
@@ -617,14 +670,16 @@ public class DocumentCache implements Serializable {
         for (int i = 0; i < toTextMapping.size(); i++) {
           if (toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN) {
             deletedCharacters.add(null);
-            MessageHandler.printToLogFile("Warning: CURSOR_TYPE_UNKNOWN at Paragraph " + i + ": deleted Characters set to null");
+            if (debugMode || !paragraphs.get(i).isEmpty()) {
+              MessageHandler.printToLogFile("Warning: CURSOR_TYPE_UNKNOWN at Paragraph " + i + ": deleted Characters set to null");
+            }
           } else {
             deletedCharacters.add(deletedChars.get(toTextMapping.get(i).type).get(toTextMapping.get(i).number));
           }
         }
       }
       prepareChapterBeginsForText(chapterBegins, toTextMapping, locales);
-      if (debugMode || !isCorrectMapping) {
+      if (debugMode) {
         MessageHandler.printToLogFile("\nDocumentCache: mapParagraphs: toParaMapping:");
         for (int n = 0; n < NUMBER_CURSOR_TYPES; n++) {
           MessageHandler.printToLogFile("Cursor Type: " + n);
