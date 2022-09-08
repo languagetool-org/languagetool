@@ -4736,16 +4736,16 @@ O namorado dela era um ladrão.
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception>
               <exception regexp='yes'>\p{Lu}+</exception></token>
-            <token></token>
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
         <suggestion><match no='2' postag="(D..|SPS00:D..)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no='2' postag="(D..|SPS00:D..)MP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' postag="(?:A..|Z.)C.+" postag_replace='$1CS$2' postag_regexp="yes"/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion><match no='2' postag="(D..|SPS00:D..)MP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' postag="(A..|Z.)C.(.+)" postag_replace='$1CS$2' postag_regexp="yes"/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/>-<match no='6' include_skipped='all'/></suggestion>
-        <example correction='das pai|dos pais|do pai|dos, pai|dos pai-.'>É o orgulho <marker>dos pai.</marker></example>
+        <suggestion><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/>-</suggestion>
+        <example correction='das pai|dos pais|do pai|dos, pai|dos pai-'>É o orgulho <marker>dos pai</marker>.</example>
+        <example correction="das melhores podcast|dos melhores podcasts|do melhor podcast|dos, melhores podcast|dos melhores podcast-">Um <marker>dos melhores podcast</marker> que já ouvi!</example>
         <example>Aos 37 min, </example>
         <example>Maria ficou grávida aos quatorze anos.</example>
       </rule>
