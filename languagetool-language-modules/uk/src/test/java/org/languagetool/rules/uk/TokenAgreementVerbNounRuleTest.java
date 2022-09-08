@@ -64,7 +64,7 @@ public class TokenAgreementVerbNounRuleTest {
     assertMatches(1, "доведено світовім досвідом");
     assertMatches(1, "боятися закордоном");
     assertMatches(1, "з точки зори антилатинської");
-    assertMatches(1, "поєднатися одне ціле");
+//    assertMatches(1, "поєднатися одне ціле");
     assertMatches(1, "не вірить свої очам");
 //    assertMatches(1, "Якщо вірити складеними львівськими митниками документам");
     assertMatches(1, "зменшити впив країні");
@@ -97,6 +97,8 @@ public class TokenAgreementVerbNounRuleTest {
     //TODO:
 //    assertMatches(1, "планується провесні церемонію");
 //    assertMatches(1, "Відчувається, що тримаєте рук на пульсі часу");
+    // ADJ + PLURAL
+//      assertEmptyMatch("повинні складати нежирна їжа, білкові продукти");
   }
   
   @Test
@@ -141,6 +143,9 @@ public class TokenAgreementVerbNounRuleTest {
     
     // question
     assertEmptyMatch("як боротися підприємцям");
+    
+    // rv_inf
+    assertEmptyMatch("захиститися неспроможні");
     
     // insert
     assertEmptyMatch("висміювати такого роду забобони");
@@ -200,6 +205,17 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("тривав довгих десять раундів");
     
     assertEmptyMatch("лежали всю дорогу");
+    
+    // v:n + inf
+    assertEmptyMatch("сподобалося гуляти");
+    assertEmptyMatch("належить пройтися");
+    
+    // color
+    assertEmptyMatch("стали каламутного кольору");
+    
+    assertEmptyMatch("ні сіло ні впало Комітет держбезпеки");
+    
+    assertEmptyMatch("звичайна, якщо не сказати слабка, людина");
   }
 
   @Test
@@ -268,10 +284,16 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("люблять у нас кричати панікери");
     assertEmptyMatch("Почав різко зростати курс долара");
     assertEmptyMatch("пропонує «об’єднатися патріотам»");
+    assertEmptyMatch("став формуватися прошарок");
     // advp
     assertEmptyMatch("не даючи виїхати ванатжівці");
     assertEmptyMatch("даючи можливість висловлюватися радикалам");
     assertEmptyMatch("дозволяючи рухатися російському");
+    
+    // plural
+    assertEmptyMatch("заважають розвиватися погане управління, війна");
+    // TODO: 2 verbs
+//    assertEmptyMatch(" починає швидко жовтіти й опадати листя");
     // TODO: advp ending is not straight
 //    assertEmptyMatch("поклавши спати старого Якима");
 //    assertEmptyMatch("став все частіше згадуватися незвичайний наслідок");
@@ -294,8 +316,8 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("неможливо засвоїти одній людині");
     assertEmptyMatch("тяжче стало жити селянам");
     assertEmptyMatch("приємно слухати вчителям");
-    //TODO:
-//    assertEmptyMatch("Пора дорослішати всім"); // пора does not have predic :(
+    assertEmptyMatch("повинно боротися суспільство");
+    assertEmptyMatch("слід реально готуватися суспільству");
   }
   
   @Test
@@ -304,6 +326,25 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("повинен усього добитися сам");
     assertEmptyMatch("схильна лякати така пропаганда");
     assertEmptyMatch("зацікавлена перейняти угорська сторона");
+  }
+
+  @Test
+  public void testRuleTn_NOUN_Vinf_N() throws IOException {
+    assertEmptyMatch("Пора дорослішати всім"); // пора does not have predic :(
+    assertEmptyMatch("можливість висловитися серійному вбивці?");
+    assertEmptyMatch("рішення про можливість балотуватися Кучмі");
+    assertEmptyMatch("гріх уже зараз зайнятися Генеральній прокуратурі...");
+    assertEmptyMatch("готовність спілкуватися людини");
+    
+    assertEmptyMatch("небажання вибачатися пов’язане з національною гордістю");
+    assertMatches(1, "бажання постійно вчитися новому");
+    assertMatches(1, "Кіно вчить вмінню простими словами");
+    assertMatches(1, "Черга вчитися мистецтву мовчання");
+    assertMatches(1, "у своєму виступі на конференції порадив української владі звернуть увагу");
+    //TODO:
+//    assertEmptyMatch("про потребу покаятися представникам влади");
+//    assertMatches(1, "Це зумовлює необхідність формувати резервів");
+//    assertMatches(1, "пацієнтів будь-якої можливості одужати неприпустима");
   }
   
   @Test
@@ -316,9 +357,11 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("реагувати Майдан має");
     assertEmptyMatch("працювати українці будуть");
     assertEmptyMatch("влаштуватися їй не вдається");
+    assertEmptyMatch("працювати цьому політикові доводиться");
     // не -> v_rod
     assertEmptyMatch("Робити прогнозів не буду");
     assertEmptyMatch("панькатися наміру не має");
+    
     //TODO:
 //    assertEmptyMatch("вижити шансів у нього не було");
   }
@@ -379,17 +422,21 @@ public class TokenAgreementVerbNounRuleTest {
     assertEmptyMatch("одержав хабарів на суму 10");
     assertEmptyMatch("одержав хабарів на загальну суму");
     assertEmptyMatch("уклали договорів страхування на загальну суму");
+    assertEmptyMatch("и втратили капіталовкладень нерезидентів замалим не на $13,6 млрд.");
     assertEmptyMatch("приготували сортів десять");
+    assertEmptyMatch("зібрали сортів 10");
+    assertEmptyMatch("зібрали сортів — 10");
     
     assertEmptyMatch("вчинено порушень обсягом на 27");
     
     assertEmptyMatch("завдав кілька ударів руками");
     assertEmptyMatch("завдав кількох ударів руками");
     assertEmptyMatch("потребувала мільйон");
-    //  assertEmptyMatch("нарубав лісу"); // v_rod
     assertEmptyMatch("нарубав неймовірну кількість вугілля");
-    //TODO:
     assertEmptyMatch("відбувся чверть століття тому");
+    //TODO:
+    //  assertEmptyMatch("нарубав лісу"); // v_rod
+//    assertMatches(1, "Про це повідомляє Української правди із посланням на співрозмовників");
 //    assertEmptyMatch("не виїхало більшість автобусів");
   }
   

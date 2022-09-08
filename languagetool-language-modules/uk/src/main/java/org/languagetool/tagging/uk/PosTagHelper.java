@@ -244,11 +244,15 @@ public final class PosTagHelper {
 
   public static String getGenders(AnalyzedTokenReadings tokenReadings, String posTagRegex) {
     Pattern posTagPattern = Pattern.compile(posTagRegex);
-
+    return getGenders(tokenReadings, posTagPattern); 
+  }
+  
+  public static String getGenders(AnalyzedTokenReadings tokenReadings, Pattern posTagRegex) {
+  
     StringBuilder sb = new StringBuilder(4);
     for (AnalyzedToken tokenReading: tokenReadings) {
       String posTag = tokenReading.getPOSTag();
-      if( posTag != null && posTagPattern.matcher(posTag).matches() ) {
+      if( posTag != null && posTagRegex.matcher(posTag).matches() ) {
         String gender = getGender(posTag);
         if( gender != null && sb.indexOf(gender) == -1 ) {
           sb.append(gender);

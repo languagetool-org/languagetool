@@ -24,7 +24,7 @@ public abstract class LemmaHelper {
       "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "півсторіччя", "тисячоліття", "півтисячоліття", "квартал");
   public static final Set<String> TIME_PLUS_LEMMAS = new HashSet<>(Arrays.asList(
       "секунда", "хвилина", "хвилинка", "година", "годинка", "півгодини", "час", "день", "ніч", "ніченька", "вечір", "ранок", "тиждень", "місяць", "доба",
-      "півгодини", "півроку",
+      "півгодини", "півроку", "півдня",
       "літо", "зима", "весна", "осінь",
       "рік", "півроку", "десятиліття", "десятиріччя", "століття", "півстоліття", "сторіччя", "тисячоліття", "квартал",
       "понеділок", "вівторок", "середа", "четвер", "п'ятниця", "субота", "неділя", "вихідний", "уїк-енд", "уїкенд", "вікенд",
@@ -316,6 +316,11 @@ public abstract class LemmaHelper {
   public static boolean isInitial(AnalyzedTokenReadings analyzedTokenReadings) {
     return analyzedTokenReadings.getCleanToken().endsWith(".")
         && analyzedTokenReadings.getCleanToken().matches("[А-ЯІЇЄҐA-Z]\\.");
+  }
+
+  public static boolean isDash(AnalyzedTokenReadings analyzedTokenReadings) {
+    return analyzedTokenReadings.getCleanToken() != null
+        && DASHES_PATTERN.matcher(analyzedTokenReadings.getCleanToken()).matches();
   }
 
 }

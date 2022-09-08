@@ -132,6 +132,7 @@ public class TokenAgreementVerbNounRule extends Rule {
           if( ! verbPosTag.startsWith("verb")
               || verbPosTag.contains("abbr")
               || "значить".equals(token.getToken())
+              || "читай".equals(token.getToken())
               || "діяти".equals(token.getToken()) ) {
             state = null;
             break;
@@ -147,7 +148,7 @@ public class TokenAgreementVerbNounRule extends Rule {
 
         continue;
       }
-      
+
       if( state == null )
         continue;
 
@@ -156,13 +157,13 @@ public class TokenAgreementVerbNounRule extends Rule {
         continue;
       }
 
-      if( isSkip(tokens, i) ) {
-//        i++;
+      if( LemmaHelper.hasLemma(tokenReadings, Arrays.asList("сам", "самий", "себе", "один")) ) {
         state = null;
         continue;
       }
 
-      if( LemmaHelper.hasLemma(tokenReadings, Arrays.asList("готовий", "повинний")) ) {
+      if( isSkip(tokens, i) ) {
+//        i++;
         state = null;
         continue;
       }
@@ -253,7 +254,7 @@ public class TokenAgreementVerbNounRule extends Rule {
 
         String tokenLowerCase = tokens[i].getCleanToken().toLowerCase();
 
-        if( cases.contains("v_zna") && tokenLowerCase.matches("грошей|дров|товарів|пісень") ) {
+        if( cases.contains("v_zna") && tokenLowerCase.matches("грошей|грошенят|дров|товарів|пісень") ) {
 //          cases.add("v_rod");
           state = null;
           continue;
@@ -336,21 +337,22 @@ public class TokenAgreementVerbNounRule extends Rule {
     if( i < tokens.length - 1
         && tokens[i].getCleanToken().matches("свого|такого|різного|одного|певного|подібного")
         && tokens[i+1].getCleanToken().matches("роду|разу|типу|штибу")
-//        && PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("(noun|adj|adv).*"))
         ) {
       return true;
     }
     if( i < tokens.length - 1
         && tokens[i].getCleanToken().matches("таким|якимо?сь|відповідним|певним|жодним|дивним")
         && tokens[i+1].getCleanToken().matches("чином|способом|робом|ходом") ) {
-//        if( i >= tokens.length - 2 || PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("[a-z].*"))) {
           return true;
-//        }
     }
     if( i < tokens.length - 1
         && tokens[i].getCleanToken().matches("більшою|меншою|(не)?значною|якоюсь|неабиякою|достатньою|великою")
         && tokens[i+1].getCleanToken().matches("мірою")
-//        && PosTagHelper.hasPosTag(tokens[i+2], Pattern.compile("(noun|adj|adv).*"))) {
+        ) {
+      return true;
+    }
+    if( i < tokens.length - 1
+        && tokens[i+1].getCleanToken().matches("темпами")
         ) {
       return true;
     }

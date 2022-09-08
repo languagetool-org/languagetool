@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -244,6 +245,13 @@ public class TokenAgreementPrepNounRuleTest {
 
 //    matches = ruleMatch("На фото: З Голлівуду Яринка Шуст привезла дві золоті медалі");
 //    assertEquals(1, matches.length);
+  }
+
+  @Ignore
+  @Test
+  public void testRulePronPosNew() throws IOException {
+    //TODO:
+    assertEmptyMatch("від його покровителів");
   }
 
   @Test

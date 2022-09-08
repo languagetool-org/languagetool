@@ -47,6 +47,8 @@ public class CaseGovernmentHelper {
   }
   
   public static boolean hasCaseGovernment(AnalyzedTokenReadings analyzedTokenReadings, Pattern startPosTag, String rvCase) {
+    return getCaseGovernments(analyzedTokenReadings, startPosTag).contains(rvCase);
+  /*
     // special case - only some inflections of мати
     if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("мати"), Pattern.compile("verb:imperf:(futr|past|pres).*")) 
         && rvCase.equals("v_inf")  )
@@ -64,8 +66,9 @@ public class CaseGovernmentHelper {
       if( rvCase.equals("v_oru") && PosTagHelper.hasPosTagPart(token, "adjp:pasv") )
         return true;
       
-      if( CASE_GOVERNMENT_MAP.containsKey(token.getLemma()) ) {
-          return CASE_GOVERNMENT_MAP.get(token.getLemma()).contains(rvCase);
+      if( CASE_GOVERNMENT_MAP.containsKey(token.getLemma()) 
+            && CASE_GOVERNMENT_MAP.get(token.getLemma()).contains(rvCase) ) {
+          return true;
       }
 
       // TODO: more universal advp -> verb conversion
@@ -79,13 +82,14 @@ public class CaseGovernmentHelper {
       
     }
     return false;
+    */
   }
 
   public static Set<String> getCaseGovernments(AnalyzedTokenReadings analyzedTokenReadings, String startPosTag) {
     LinkedHashSet<String> list = new LinkedHashSet<>();
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
       if( ! token.hasNoTag()
-          && (token.getPOSTag() != null && token.getPOSTag().startsWith(startPosTag) 
+          && (token.getPOSTag() != null && token.getPOSTag().startsWith(startPosTag)
               || (startPosTag.equals("prep") && token.getPOSTag() != null && token.getPOSTag().equals("<prep>")) )
           && CASE_GOVERNMENT_MAP.containsKey(token.getLemma()) ) {
 
@@ -110,14 +114,28 @@ public class CaseGovernmentHelper {
     else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("бути"), Pattern.compile("verb:imperf:futr.*")) ) {
       list.add("v_inf");
     }
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList(
+        "вимагатися", "випадати", "випасти", "личити", "належати", "тягнути", "щастити",
+        "плануватися", "рекомендуватися", "пропонуватися", "сподобатися", "плануватися", "прийтися",
+        "удатися", "годитися", "доводитися"), 
+        Pattern.compile("verb(:rev)?:(im)?perf:(pres:s:3|futr:s:3|past:n).*")) ) {
+      list.add("v_inf");
+    }
+    else if( LemmaHelper.hasLemma(analyzedTokenReadings, Arrays.asList("належить"), 
+        Pattern.compile("verb:imperf:inf.*")) ) {
+      list.add("v_inf");
+    }
     
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
-      if( ! token.hasNoTag() 
-          && (token.getPOSTag() != null && posTag.matcher(token.getPOSTag()).matches()) ) {
+      if( token.hasNoTag() )
+        continue;
+        
+      if( posTag == null ||
+           (token.getPOSTag() != null && posTag.matcher(token.getPOSTag()).matches()) ) {
 
         String vLemma = token.getLemma();
         if ( ! CASE_GOVERNMENT_MAP.containsKey(vLemma) ) {
-          if( token.getPOSTag().startsWith("advp") ) {
+          if( token.getPOSTag() != null && token.getPOSTag().startsWith("advp") ) {
             vLemma = getAdvpVerbLemma(token);
           }
         }
@@ -140,6 +158,9 @@ public class CaseGovernmentHelper {
     String vLemma = token.getLemma();
     if( vLemma.equals("даючи") ) {
       vLemma = "давати";
+    }
+    else if( vLemma.equals("змушуючи") ) {
+      vLemma = "змушувати";
     }
     else {
       vLemma = token.getLemma()

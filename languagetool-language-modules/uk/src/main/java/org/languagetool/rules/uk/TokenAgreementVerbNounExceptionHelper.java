@@ -27,7 +27,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
   private static final Pattern ADV_PREDICT_PATTERN = Pattern.compile("(adv|noninfl:&predic).*");
 
 //  private static final Pattern MODALS = Pattern.compile("було|буде|варто|необхідно|треба|потрібно|муси.*|повин(ен|н[оеаі])||готов(ий|[еаі])");
-  private static final Pattern MODALS = Pattern.compile("варто|можна|необхідно|треба|потрібно|муси.+|зму[сш].+|(повин|здат)(ен|н[оеаі]|ий)||готов(ий|[еаі])");
+//  private static final Pattern MODALS = Pattern.compile("варто|можна|необхідно|треба|потрібно|муси.+|зму[сш].+|(повин|здат)(ен|н[оеаі]|ий)||готов(ий|[еаі])");
   
   private TokenAgreementVerbNounExceptionHelper() {
   }
@@ -47,7 +47,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
 
     // закінчилося 18-го ввечері
     // наслухатися дорогою
-    if( tokens[nounAdjPos].getCleanToken().matches("[0-9]+-.+|дорогою|толком|дивом|чверть") ) {
+    if( tokens[nounAdjPos].getCleanToken().matches("[0-9]+-.+|дорогою|толком|дивом|чверть|третину|половину|святая") ) {
       logException();
       return true;
     }
@@ -75,38 +75,12 @@ public final class TokenAgreementVerbNounExceptionHelper {
     }
 
     // тривав довгих десять раундів.
-    if( LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("тривати", "протривати", "йти", "ходити", "їхати"))
+    if( LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("тривати", "протривати", "йти", "іти", "ходити", "їхати"))
         && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|numr|noun:inanim).*v_zna.*")) ) {
       logException();
       return true;
     }
     
-    // відрізнятись один від одного
-    if( nounAdjPos < tokens.length - 2 
-        && tokens[nounAdjPos].getCleanToken().matches("один|одна|одне")
-        && PosTagHelper.hasPosTagStart(tokens[nounAdjPos+1], "prep")
-        && LemmaHelper.hasLemma(tokens[nounAdjPos+2], "один") ) {
-      logException();
-      return true;
-    }
-
-    // вірити один одному
-    if( nounAdjPos < tokens.length - 1
-        && tokens[nounAdjPos].getCleanToken().matches("один|одна|одне")
-        && LemmaHelper.hasLemma(tokens[nounAdjPos+1], "один") ) {
-      logException();
-      return true;
-    }
-
-    // сам на сам
-    if( nounAdjPos < tokens.length - 2 
-        && tokens[nounAdjPos].getCleanToken().equals("сам")
-        && LemmaHelper.hasLemma(tokens[nounAdjPos+1], "на")
-        && tokens[nounAdjPos+2].getCleanToken().equals("сам") ) {
-      logException();
-      return true;
-    }
-
     // світ за очі
     if( nounAdjPos < tokens.length - 2 
         && tokens[nounAdjPos].getCleanToken().equals("світ")
@@ -116,6 +90,23 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
+    // ні сіло ні впало
+    if( verbPos > 3 
+        && tokens[verbPos].getCleanToken().equalsIgnoreCase("впало")
+        && "ні".equals(tokens[verbPos-1].getCleanToken()) ) {
+      logException();
+      return true;
+    }
+    // звичайна, якщо не сказати слабка, людина
+    if( verbPos > 2
+        && tokens[verbPos].getCleanToken().equalsIgnoreCase("сказати")
+        && "не".equals(tokens[verbPos-1].getCleanToken())
+        && PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_naz") ) {
+      logException();
+      return true;
+    }
+    
+    
     // потребувала мільйон
     if( state.cases.contains("v_rod")
         && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("numr.*?v_zna.*|noun.*v_zna.*numr.*")) ) {
@@ -125,8 +116,18 @@ public final class TokenAgreementVerbNounExceptionHelper {
     
     // виростили сортів 10
     if( nounAdjPos < tokens.length - 1
-        &&  PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun:inanim:.:v_rod.*")) 
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(noun|adj):.*:v_rod.*")) 
         && PosTagHelper.hasPosTag(tokens[nounAdjPos+1], Pattern.compile("num.*"))
+        ) {
+      logException();
+      return true;
+    }
+    
+    // виростили сортів — 10
+    if( nounAdjPos < tokens.length - 2
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(noun|adj):.*:v_rod.*")) 
+        && LemmaHelper.isDash(tokens[nounAdjPos+1])
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos+2], Pattern.compile("num.*"))
         ) {
       logException();
       return true;
@@ -134,12 +135,19 @@ public final class TokenAgreementVerbNounExceptionHelper {
     
     // одержав хабарів на суму 10
     if( nounAdjPos < tokens.length - 2
-        &&  PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun:inanim:.:v_rod.*")) 
-        && tokens[nounAdjPos+1].getCleanToken().equals("на")
-        || (nounAdjPos < tokens.length - 3
-            && tokens[nounAdjPos+2].getCleanToken().equals("на") 
-            && PosTagHelper.hasPosTag(tokens[nounAdjPos+1], Pattern.compile("(noun|adj|adv).*")))
-        ) {
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(noun:inanim|adj):.:v_rod.*")) ) {
+      int v2pos = LemmaHelper.tokenSearch(tokens, state.nounPos+1, (Pattern)null, Pattern.compile("на"), Pattern.compile("[a-z].*"), Dir.FORWARD);
+      if( v2pos >= 0 && v2pos <= state.nounPos+5 && v2pos < tokens.length - 1 ) {
+        logException();
+        return true;
+      }
+    }
+
+    // залучити інвестицій на 20—30
+    if( nounAdjPos < tokens.length - 2 
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun.*v_(rod|zna).*"))
+        && tokens[nounAdjPos+1].getCleanToken().matches("на|з|із|зо|під")
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos+2], Pattern.compile("number|numr.*v_zna.*")) ) {
       logException();
       return true;
     }
@@ -153,7 +161,6 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
-    
     // як боротися підприємцям
     if( verbPos > 1 
         && LemmaHelper.hasLemma(tokens[verbPos-1], Arrays.asList("як", "куди", "де", "що", "чого", "чи"))
@@ -162,19 +169,11 @@ public final class TokenAgreementVerbNounExceptionHelper {
       logException();
       return true;
     }
-
-    // покататися самому
-    if( PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
-        && LemmaHelper.hasLemma(tokens[nounAdjPos], Arrays.asList("самий"), Pattern.compile("adj:.:v_dav.*"))) {
-      logException();
-      return true;
-    }
-
     // Квапитися їй нікуди
     if( nounAdjPos < tokens.length -1
         && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
         && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("(adj|noun).*v_dav.*"))
-        && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("ніколи|нікуди|нічого|нічим|немає?|не")
+        && tokens[nounAdjPos+1].getCleanToken().toLowerCase().matches("ніколи|нікуди|нічого|нічим|ніде|немає?|не")
             ) {
       logException();
       return true;
@@ -256,15 +255,6 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
-    // залучити інвестицій на 20—30
-    if( nounAdjPos < tokens.length - 2 
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("noun.*v_(rod|zna).*"))
-        && tokens[nounAdjPos+1].getCleanToken().matches("на|з|із|зо|під")
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos+2], Pattern.compile("number|numr.*v_zna.*")) ) {
-      logException();
-      return true;
-    }
-
     // не бачити вам цирку
     if( verbPos > 1 && nounAdjPos < tokens.length - 1
         && tokens[verbPos-1].getCleanToken().toLowerCase().equals("не")
@@ -291,26 +281,17 @@ public final class TokenAgreementVerbNounExceptionHelper {
       return true;
     }
 
+    // став жовтого кольору
+    if( nounAdjPos < tokens.length - 1
+        && tokens[nounAdjPos + 1].getCleanToken().toLowerCase().equals("кольору")
+        && PosTagHelper.hasPosTagStart(tokens[nounAdjPos], "adj:m:v_rod")) {
+      logException();
+      return true;
+    }
+
     // дай Боже
     if( PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_kly")
         && PosTagHelper.hasPosTagPart(tokens[verbPos], "impr")) {
-      logException();
-      return true;
-    }
-
-    // повинні існувати такі
-    if( verbPos > 1
-        && MODALS.matcher(tokens[verbPos-1].getCleanToken().toLowerCase()).matches() 
-        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf") ) { 
-//        && ! Collections.disjoint(state.nounAdjInflections, InflectionHelper.getAdjInflections(tokens[verbPos-1].getReadings()))  ) {
-//      agrees(verbPos-1, nounAdjPos)
-      logException();
-      return true;
-    }
-
-    // робити здатна
-    if( MODALS.matcher(tokens[nounAdjPos].getCleanToken().toLowerCase()).matches() 
-        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf") ) { 
       logException();
       return true;
     }
@@ -319,36 +300,6 @@ public final class TokenAgreementVerbNounExceptionHelper {
     if( PosTagHelper.hasPosTagPart(nounTokenReadings, "noun:anim:m:v_naz")
         && PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile("verb.*:f(:.*|$)"))
         && TokenAgreementNounVerbExceptionHelper.hasMascFemLemma(nounTokenReadings) ) {
-      logException();
-      return true;
-    }
-
-    // TODO: remove!!
-    
-    // здаватися коаліціанти не збираються
-    if( nounAdjPos < tokens.length - 2
-        && tokens[nounAdjPos+1].getCleanToken().equalsIgnoreCase("не")
-        && PosTagHelper.hasPosTagStart(tokens[nounAdjPos+2], "verb") 
-        && PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_naz") 
-        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf") ) {
-      
-//      agree(tokens[nounAdjPos+2], tokens[nounAdjPos]);
-      
-      logException();
-      return true;
-    }
-
-    // TODO: remove!!
-
-    // мусить чимось перекрити
-    if( nounAdjPos < tokens.length - 1
-//        && LemmaHelper.hasLemma(tokens[verbPos], Arrays.asList("мати", "бути", "могти", "мусити"), "verb") 
-//        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
-        && PosTagHelper.hasPosTag(tokens[nounAdjPos+1], Pattern.compile("verb.*?:inf.*"))
-        ) {
-      
-      // agree 
-      
       logException();
       return true;
     }
@@ -382,7 +333,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
     if( nounAdjPos < tokens.length - 1
         && CaseGovernmentHelper.hasCaseGovernment(state.verbAnalyzedTokenReadings, PosTagHelper.VERB_PATTERN, "v_inf") ) {
       int v2pos = LemmaHelper.tokenSearch(tokens, state.nounPos+1, PosTagHelper.VERB_PATTERN, null, Pattern.compile("[a-z].*"), Dir.FORWARD);
-      if( v2pos >= 0 && v2pos <= state.nounPos+4
+      if( v2pos >= 0 && v2pos <= state.nounPos+5
           && agrees(tokens[v2pos], state.nounAdjNazInflections, state.nounAdjIndirTokenReadings) 
           ) {
         logException();
@@ -431,11 +382,11 @@ public final class TokenAgreementVerbNounExceptionHelper {
     // працювати студенти готові
     if( nounAdjPos < tokens.length - 1
         && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf") ) {
-      int v2pos = LemmaHelper.tokenSearch(tokens, state.nounPos+1, Pattern.compile("adj:.:v_naz.*"), null, Pattern.compile("[a-z].*"), Dir.FORWARD);
+      int v2pos = LemmaHelper.tokenSearch(tokens, state.nounPos+1, PosTagHelper.ADJ_V_NAZ_PATTERN, null, Pattern.compile("[a-z].*"), Dir.FORWARD);
       if( v2pos >= 0 && v2pos <= state.nounPos+3 ) {
         if( CaseGovernmentHelper.hasCaseGovernment(tokens[v2pos], PosTagHelper.ADJ_V_NAZ_PATTERN, "v_inf") ) {
           String genders1 = PosTagHelper.getGenders(tokens[nounAdjPos], "(noun|adj).*v_naz.*");
-          String genders2 = PosTagHelper.getGenders(tokens[v2pos], "adj:.:v_naz.*");
+          String genders2 = PosTagHelper.getGenders(tokens[v2pos], PosTagHelper.ADJ_V_NAZ_PATTERN);
           if( genders1.matches(".*["+genders2+"].*") ) {
             logException();
             return true;
@@ -444,18 +395,36 @@ public final class TokenAgreementVerbNounExceptionHelper {
       }
     }
 
+    // V:INF + ADJ
+    // працювати неспроможні
+    if( PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
+        && PosTagHelper.hasPosTag(tokens[nounAdjPos], PosTagHelper.ADJ_V_NAZ_PATTERN) ) {
+      if( CaseGovernmentHelper.hasCaseGovernment(tokens[nounAdjPos], PosTagHelper.ADJ_V_NAZ_PATTERN, "v_inf") ) {
+        logException();
+        return true;
+      }
+    }
+
     // V + V:INF + N
     // дають (змогу з комфортом) мандрувати чотирьом пасажирам
+    // заважають розвиватися погане управління, війна
     if( verbPos > 1
         && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
         ) {
       int v2pos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, PosTagHelper.VERB_ADVP_PATTERN, null, Pattern.compile("[a-z].*"), Dir.REVERSE);
       if( v2pos >= 0 && v2pos >= state.verbPos-5
-          && agrees(tokens[v2pos], state.nounAdjNazInflections, state.nounAdjIndirTokenReadings)
-          && CaseGovernmentHelper.hasCaseGovernment(tokens[v2pos], PosTagHelper.VERB_ADVP_PATTERN, "v_inf") 
+          && (CaseGovernmentHelper.hasCaseGovernment(tokens[v2pos], PosTagHelper.VERB_ADVP_PATTERN, "v_inf") 
+            || tokens[verbPos].getCleanToken().matches("(по)?їсти")) 
           ) {
-        logException();
-        return true;
+        if( agrees(tokens[v2pos], state.nounAdjNazInflections, state.nounAdjIndirTokenReadings) ) {
+          logException();
+          return true;
+        }
+        if( PosTagHelper.hasPosTag(tokens[v2pos], Pattern.compile("verb.*:p($|:.*)")) 
+            && PosTagHelper.hasPosTag(tokens[state.nounPos], Pattern.compile(".*v_naz.*")) ) {
+          logException();
+          return true;
+        }
       }
     }
     
@@ -466,6 +435,12 @@ public final class TokenAgreementVerbNounExceptionHelper {
         ) {
       int v2pos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, ADV_PREDICT_PATTERN, null, Pattern.compile("[a-z].*"), Dir.REVERSE);
       while( v2pos >= 0 && v2pos >= state.verbPos-3 ) {
+        if( PosTagHelper.hasPosTag(tokens[v2pos], Pattern.compile("noninfl.&predic.*")) 
+            && PosTagHelper.hasPosTagPart(tokens[state.nounPos], "v_naz") 
+           ){
+          logException();
+          return true;
+        }
         Set<String> cases = CaseGovernmentHelper.getCaseGovernments(tokens[v2pos], ADV_PREDICT_PATTERN);
         if( TokenAgreementPrepNounRule.hasVidmPosTag(cases, state.nounAdjIndirTokenReadings) ) {
           logException();
@@ -481,15 +456,54 @@ public final class TokenAgreementVerbNounExceptionHelper {
         && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
         && PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_naz")
         ) {
-      int v2pos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, Pattern.compile("adj:.:v_naz.*"), null, Pattern.compile("[a-z].*"), Dir.REVERSE);
+      int v2pos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, PosTagHelper.ADJ_V_NAZ_PATTERN, null, Pattern.compile("[a-z].*"), Dir.REVERSE);
       if( v2pos >= 0 && v2pos >= state.verbPos-3 ) {
         if( CaseGovernmentHelper.hasCaseGovernment(tokens[v2pos], PosTagHelper.ADJ_V_NAZ_PATTERN, "v_inf") ) {
-          String genders1 = PosTagHelper.getGenders(tokens[nounAdjPos], "(noun|adj).*v_naz.*");
-          String genders2 = PosTagHelper.getGenders(tokens[v2pos], "adj:.:v_naz.*");
+          String genders1 = PosTagHelper.getGenders(tokens[nounAdjPos], "(noun|adj|numr).*v_naz.*");
+          String genders2 = PosTagHelper.getGenders(tokens[v2pos], PosTagHelper.ADJ_V_NAZ_PATTERN);
           if( genders1.matches(".*["+genders2+"].*") ) {
             logException();
             return true;
           }
+        }
+      }
+    }
+    
+    // NOUN + V:INF + N
+    // гріх зайнятися Генеральній прокуратурі
+    // готовність спілкуватися людини
+    // небажання вибачатися пов’язане з
+    if( verbPos > 1
+        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
+        && (PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_dav") || PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_rod")
+            || PosTagHelper.hasPosTag(tokens[nounAdjPos], Pattern.compile("adj:.:v_naz.*")))
+        ) {
+      int v2pos = LemmaHelper.tokenSearch(tokens, state.verbPos-1, PosTagHelper.NOUN_V_NAZ_PATTERN, null, Pattern.compile("[a-z].*"), Dir.REVERSE);
+      if( v2pos >= 0 && v2pos >= state.verbPos-3 ) {
+        if( CaseGovernmentHelper.hasCaseGovernment(tokens[v2pos], PosTagHelper.NOUN_V_NAZ_PATTERN, "v_inf") ) {
+//            && CaseGovernmentHelper.hasCaseGovernment(tokens[v2pos], PosTagHelper.NOUN_V_NAZ_PATTERN, "v_dav") ) {
+
+          // exc: бажання вчитися новому
+          if( PosTagHelper.hasPosTagPart(tokens[nounAdjPos], "v_dav")
+              && LemmaHelper.hasLemma(tokens[verbPos], Pattern.compile(".*вчити(ся)?")) ) {
+            return false;
+          }
+          
+          logException();
+          return true;
+
+//          if( PosTagHelper.hasPosTagStart(tokens[nounAdjPos], "noun") ) {
+//            logException();
+//            return true;
+//          }
+//          if( PosTagHelper.hasPosTagStart(tokens[nounAdjPos], "adj") ) {
+//            List<InflectionHelper.Inflection> adjInflections = InflectionHelper.getAdjInflections(tokens[nounAdjPos].getReadings());
+//            List<InflectionHelper.Inflection> nounInflections = InflectionHelper.getNounInflections(tokens[nounAdjPos].getReadings());
+//            if( ! Collections.disjoint(adjInflections, nounInflections) ) {
+//              logException();
+//              return true;
+//            }
+//          }
         }
       }
     }
@@ -540,18 +554,6 @@ public final class TokenAgreementVerbNounExceptionHelper {
       }
     }
     
-    //TODO: remove!
-    // могли займатися структури
-    if( verbPos > 1
-        && PosTagHelper.hasPosTagPart(tokens[verbPos], ":inf")
-        && PosTagHelper.hasPosTagStart(tokens[verbPos-1], "verb")
-        // && agree 
-        ) {
-      
-      logException();
-      return true;
-    }
-
     // могли б займатися структури
     // має також народитися власна ідея
     // мали змогу оцінити відвідувачі
@@ -573,6 +575,7 @@ public final class TokenAgreementVerbNounExceptionHelper {
 
 
   private static boolean agrees(AnalyzedTokenReadings verbTokenReadings, List<Inflection> nounAdjNazInflections, List<AnalyzedToken> nounAdjIndirTokenReadings) {
+
     if( nounAdjNazInflections != null && nounAdjNazInflections.size() > 0 ) {
       List<VerbInflectionHelper.Inflection> verbInflections = VerbInflectionHelper.getVerbInflections(verbTokenReadings.getReadings());
       if (! Collections.disjoint(verbInflections, nounAdjNazInflections))

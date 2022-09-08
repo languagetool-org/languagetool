@@ -229,6 +229,7 @@ public class TokenAgreementPrepNounRule extends Rule {
             .collect(Collectors.toList());
 
         // нього-таки тощо
+        //TODO: |його|її
         if( pronPosNounReadings.size() > 0 && ! thisToken.toLowerCase().matches("(них|нього|неї)(-[а-я]+)?") ) {
           if( i < tokens.length - 1 
               && (PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("(noun|adj|adv|part|num|conj:coord|noninfl).*"))
