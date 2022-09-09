@@ -21860,6 +21860,17 @@ O namorado dela era um ladrão.
           <example>Ele se exilou na Grã Bret naquele ano.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2021-12-17 (25-JUN-2021+) *END* -->
+      <antipattern>
+        <token>(</token>
+        <token regexp='yes' spacebefore='no'>&abreviaturas;</token>
+        <token spacebefore='no'>)</token>
+        <token spacebefore='no' regexp='yes'>\p{L}+</token>
+        <example>registro dos (des)encontros </example>
+      </antipattern>
+      <antipattern>
+        <token>long</token>
+        <token>tail</token>
+      </antipattern>
       <rule>
         <pattern case_sensitive="no">
           <marker>
@@ -21867,12 +21878,12 @@ O namorado dela era um ladrão.
               <exception regexp="yes" case_sensitive='yes'>&tabela_periodica;</exception>
               <exception regexp="yes">vcs?|[qpnñ]|abs|bjs?|qn[dt]|q[td]|pf|tbm?|Esc</exception>
               <exception postag="NP.*" postag_regexp="yes"/>
-              <exception regexp="yes" case_sensitive='yes'>[A-Z]+|[Ii]dol|Tunis|[Cc]ult|[Cc]ast|Jam|Iron|Helm|Idol|Fasc|Carr|Cat|Bel|Bat|[Dd]ev|Bim|Biz|Bol|Bomb|Borg|Bud|Tibet|Cos|Curt|[Aa]rt|Alt|Red|Tang|Ed|Marc|MEC|[Dd]ocs|[Ll]og|[Tt][Vv]s?|[Bb]oxplot|Nat|[Tt]elecom|[ad]C|[Cc][Vv]s?|Il|[Cc]ard|tv|[Ss]ac|[Pp]et|[Pp]ec|PEC|[Jj]an|[Mm]ar|[Mm]ai|[Jj]un|[Ss]et|[Oo]ut</exception>
+              <exception regexp="yes" case_sensitive='yes'>[A-Z]+|[Ii]dol|[Aa]dmin|[Gg]loss|[Bb]ot|Tunis|[Cc]ult|[Cc]ast|Jam|Iron|Helm|Idol|Fasc|Carr|Cat|Bel|Bat|[Dd]ev|Bim|Biz|Bol|Bomb|Borg|Bud|Tibet|Cos|Curt|[Aa]rt|Alt|Red|Tang|Ed|Marc|MEC|[Dd]ocs|[Ll]og|[Tt][Vv]s?|[Bb]oxplot|Nat|[Tt]elecom|[ad]C|[Cc][Vv]s?|Il|[Cc]ard|tv|[Ss]ac|[Pp]et|[Pp]ec|PEC|[Jj]an|[Mm]ar|[Mm]ai|[Jj]un|[Ss]et|[Oo]ut</exception>
               <exception regexp="yes" case_sensitive='yes'>\p{Ll}\p{Lu}\p{Ll}|\p{Lu}\p{Lu}\p{Ll}|\p{Lu}\p{Lu}\p{Lu}|\p{Lu}\p{Ll}\p{Lu}</exception>
               </token>
           </marker>
           <token>
-            <exception regexp='yes' spacebefore='no'>\.|&hifen;</exception>
+            <exception regexp='yes' spacebefore='no'>\.|…|&hifen;</exception>
           </token>
         </pattern>
         <message>Se é uma abreviatura, falta um ponto. Se for uma expressão, coloque entre aspas.</message>
