@@ -635,6 +635,16 @@
       <example type="untouched">Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
     </rule>
     <rule>
+      <antipattern>
+        <token postag="NC.+" postag_regexp="yes"/>
+        <token postag="R.+" postag_regexp="yes"/>
+       <marker>
+       <and>
+        <token postag="AQ.+"/>
+        <token postag="V.+"/>
+       </and>
+       </marker>
+      </antipattern>
       <pattern>
           <token postag="R.+" postag_regexp="yes">
             <exception scope='previous' postag="(A|C|D|PP|R|V).+|_PUNCT" postag_regexp="yes"/>

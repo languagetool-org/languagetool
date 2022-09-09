@@ -8540,6 +8540,15 @@ O namorado dela era um ladrão.
           <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
           <example>Sim meu amigo, algumas vezes não conseguimos escutar.</example>
         </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='(?:N..|A...)S.+'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token postag_regexp='yes' postag='D...P.+' max='2'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
+          <example>A resposta para todas essas perguntas é não.</example>
+        </antipattern>
         <pattern>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
@@ -8549,23 +8558,24 @@ O namorado dela era um ladrão.
             <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/></token>
           <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'>
             <exception postag='V.[CIS].3P.' postag_regexp='yes'/>
-            <exception postag='AQ.+' postag_regexp='yes'/>
+            <exception postag='AQ.+|NC.P.+|SPS00' postag_regexp='yes'/>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
             <exception regexp='yes' inflected='yes'>icer|elar</exception>
-            <exception regexp='yes'>excepcionais|magicas?|legitimas|instrumentais|nada</exception></token>
+            <exception regexp='yes'>excepcionais|magicas?|lace|laces|legitimas|instrumentais|nada</exception></token>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(V.[CIS].).S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
-        <example correction='Os médicos saíram'><marker>Os médicos saíra</marker> sem saber como dar a notícia.</example>
-        <example correction='meus amigos não bebem'>Os <marker>meus amigos não bebe</marker> café.</example>
-        <example correction='meus amigos ainda não bebem'>Os <marker>meus amigos ainda não bebe</marker> café.</example>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
+        <example correction='Os médicos saíram|Os médicos, saíra'><marker>Os médicos saíra</marker> sem saber como dar a notícia.</example>
+        <example correction='meus amigos não bebem|meus amigos, não bebe'>Os <marker>meus amigos não bebe</marker> café.</example>
+        <example correction='meus amigos ainda não bebem|meus amigos ainda, não bebe'>Os <marker>meus amigos ainda não bebe</marker> café.</example>
         <example>Nenhum dos meus amigos bebe café.</example>
         <example>Sem os grandes primatas, ficamos sem os nossos parentes mais próximos no reino animal.</example>
         <example>Outros governos preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
         <example>Este trabalho deu os primeiros passos há um ano.</example>
         <example>Cada um dos seus alunos expressou a sua opinião.</example>
         <example>Entre os resíduos há substâncias perigosas.</example>
-        <example correction='Os médicos haviam'><marker>Os médicos havia</marker> saído sem saber como dar a notícia.</example>
+        <example correction='Os médicos haviam|Os médicos, havia'><marker>Os médicos havia</marker> saído sem saber como dar a notícia.</example>
         <example>Os venezuelanos não conseguem ingerir três refeições por dia a horas certas.</example>
         <example>A aterragem de outros aviões foi interrompida temporariamente.</example>
         <example>Se elas são iguais em todos <marker>os pontos dizemos</marker> que o campo é homogéneo.</example>
@@ -9064,11 +9074,53 @@ O namorado dela era um ladrão.
           <example>Quaisquer pessoas que já tenha jogado xadrez alguma vez entendem como ele pode ser absorvente ao extremo.</example>
           <example>Os exaustores que eu comprei um ano atrás estão fora de moda.</example>
         </antipattern>
+        <antipattern>
+          <token skip='-1'>tanto</token>
+          <token skip='-1'>quanto</token>
+          <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
+          <example>Tanto a mulher quanto o homem estão mais conscientes.</example>
+        </antipattern>
+        <antipattern>
+          <token>não</token>
+          <token skip='-1'>só</token>
+          <token>mas</token>
+          <token regexp='yes' skip='-1'>também|ainda</token>
+          <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
+          <example>Não só a seca, mas também o pouco caso castigam o Nordeste.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='VMG.+' postag_regexp='yes'/>
+          <token postag_regexp='yes' postag='D...S.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
+          <example>Representando o acompanhamento pedagógico temos os professores de português e matemática.</example>
+          <example>A Simony e o João apresentaram seus argumentos</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>e|ou</token>
+          <token postag_regexp='yes' postag='D...S.+' max='2'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
+          <example>Toda a sua conta e todo o seu conteúdo não podem ser recuperados.</example>
+          <example>Se o reembolso ou a reversão forem processados.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='N..P.+|A...P.+' postag_regexp='yes'/>
+          <token>como</token>
+          <token postag_regexp='yes' postag='D...S.+' max='2'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
+          <example>Quando redes como o TikTok ganharam enorme protagonismo.</example>
+        </antipattern>
         <pattern>
           <!-- MARCOAGPINTO 2020-05-09 *START* -->
           <!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->
           <token negate_pos='yes' postag_regexp='yes' postag='NC.P.+'/>
-          <token><exception postag="SPS00"/></token>
+          <token><exception postag="SPS00"/>
+          <exception>à</exception></token>
           <!-- MARCOAGPINTO 2020-05-09 *END* -->
           <marker>
             <token postag_regexp='yes' postag='D...S.+'>
@@ -9078,15 +9130,17 @@ O namorado dela era um ladrão.
             <token min="0" max="3" postag='R.+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='R.+'/></token>
             <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'>
-              <exception postag='V.[CIS].3S.' postag_regexp='yes'/>
+              <exception regexp='yes'>pel[oa]s?|verão</exception>
+              <exception postag='V.[CIS].3S.|VMG.+' postag_regexp='yes'/>
               <exception postag='AQ.+' postag_regexp='yes'/>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
           </marker>
         </pattern>
         <message>&MSG_ECV;</message>
-        <suggestion><match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='(V.[CIS].).P(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
-        <example correction='meu trabalho saiu|meu trabalho saíra'>A chefe no <marker>meu trabalho saíram</marker> sem saber como dar a notícia.</example>
+        <suggestion><match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
+        <suggestion><match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/></suggestion>
+        <example correction='meu trabalho saiu|meu trabalho saíra|meu trabalho, saíram'>A chefe no <marker>meu trabalho saíram</marker> sem saber como dar a notícia.</example>
         <example>A sua polidez e o seu empenho fizeram com que todos o admirassem.</example>
         <example>O amor ou o ódio estão presentes.</example>
         <example>Outro governo preocupar-se-ia, talvez, com esta manifestação de ignorância.</example>
