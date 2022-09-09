@@ -18432,6 +18432,17 @@ O namorado dela era um ladrão.
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/preposicao-seguida-de-artigo-definido-sem-contracao/32586</url>
       <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <rule>
+
+        <!-- MARCOAGPINTO 2022-09-09 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- It has no hits in 600 000 sentences, it just removes one false positive in my thesis -->
+        <antipattern>
+          <token postag='AQ..+|NC.+' postag_regexp='yes'/>
+          <token regexp='yes'>d[ao]s?</token>
+          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+          <example>E assim reforçando a necessidade do nosso estudo.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <marker>
             <token regexp='yes'>&expressao_invariavel_com_DE;</token>
