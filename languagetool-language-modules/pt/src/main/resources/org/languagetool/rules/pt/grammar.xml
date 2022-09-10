@@ -5318,38 +5318,6 @@ O namorado dela era um ladrão.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-06-03 *START* -->
-        <!-- "São em diferentes graus de intensidade, a diversas outras áreas do saber." -->
-        <antipattern>
-          <token postag='DA0FS0|SPS00' postag_regexp='yes'/>
-          <token postag='AQ0FP0'/>
-          <token postag='DI0FP0|PI0FP000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-03 *END* -->
-        <!-- MARCOAGPINTO 2020-06-14 *START* -->
-        <!-- "Os remanescentes do regime derrubado juntaram-se a diferentes grupos." -->
-        <!-- "Os remanescentes do regime derrubado juntaram-se a diferentes organizações." -->
-        <antipattern>
-          <token regexp='yes'>a|de|em|nos|nas</token>
-          <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-14 *END* -->
-        <!-- MARCOAGPINTO 2020-07-03 (2-JUL-2020+) *START* -->
-        <!-- "E da pobreza provenientes do conflito armado." -->
-        <antipattern>
-          <token regexp='yes'>e|em|como</token>
-          <token regexp='yes'>a|de|sua|por|com|da|o|do</token>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='AQ0CP0'/>
-        </antipattern>
-        <antipattern>
-          <token postag='AQ0FP0|VMIP3P0|VMII3P0|AQ0CS0|NCMP000|VMG0000' postag_regexp='yes'/>
-          <token regexp='yes'>à|dessa|nos|para|com</token>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='AQ0CP0'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-07-03 (2-JUL-2020+) *END* -->
         <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *START* -->
         <!-- "Ao testar um modelo tendo por base dados." -->
         <!-- "Ao testar um modelo tendo por resultado dados." -->
@@ -5381,44 +5349,6 @@ O namorado dela era um ladrão.
           <token regexp="yes">que|na|no|maiores|menores|como|por|o|[.,?!]</token>
         </antipattern>
         <!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *END* -->
-
-        <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *START* -->
-        <!--
-        O grande mal nos conflitos deve-se a inocentes serem lesados.
-        Existem prejuízos graves e dispendiosos a instalações ou vantagens para os criminosos.
-        -->
-        <antipattern>
-          <token postag='V.+|AQ0.P.+' postag_regexp='yes'/>
-          <token min="0" max="1">-</token>
-          <token min="0" max="1">se</token>
-          <token postag='DA0FS0'/>
-          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-          <token postag='V....P.+|CC' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *END* -->
-        <!-- MARCOAGPINTO 2021-03-05 (1-JAN-2021+) *START* -->
-        <!--
-        A campanha de vendas levou milhares deles a perdas de mais de 95%.
-        A campanha de vendas levou eles a perdas de mais de 95%.
-        A campanha de vendas levou estes a perdas de mais de 95%.
-        Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.
-        -->
-        <antipattern>
-          <token postag='PP3.[PN].+|DD0.P.+|SPS00.PP3.P.+' postag_regexp='yes'/>
-          <token postag='DA0.S.+' postag_regexp='yes'/>
-          <token postag='NC.P.+|AQ0.P.+|DI0.P.+' postag_regexp='yes'/>
-          <token/>
-        </antipattern>
-        <!--
-        Estas instruções basearam-se nas várias a que tive acesso.
-        -->
-        <antipattern>
-          <token postag='PP3.P.+|DD0.P.+|SPS00.PP3.P.+' postag_regexp='yes'/>
-          <token postag='NC.P.+|AQ0.P.+|DI0.P.+' postag_regexp='yes'/>
-          <token postag='DA0.S.+' postag_regexp='yes'/>
-          <token/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-03-05 (1-JAN-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-04-20 (17-MAR-2021+) *START* -->
         <!--
         Temos no final possíveis cenários para a análise do comportamento.
@@ -5622,6 +5552,23 @@ O namorado dela era um ladrão.
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='DA0.S.+|SPS00:DA0.S.+' postag_regexp='yes'/>
+          <token postag='NC.P.+|AQ..P.+' postag_regexp='yes'/>
+          <token/>
+          <example>Este site é de propriedade da Adclick Ltd, única responsável por seu conteúdo, e destina-se a residentes do Brasil.</example>
+          <example>Este livro destina-se a estudantes cuja língua materna não seja o japonês.</example>
+          <example>No ambiente do lar, cada um fale sua língua materna à vontade; entretanto, não queira impô-la a pessoas de outras etnias, para não as incomodar ou ofender.</example>
+          <example>Proponho aos senhores e às senhoras que evitem escrever banalidades, atendo-se a coisas de interesse e efetivamente úteis.</example>
+          <example>Este animal adapta-se a ambientes de água doce.</example>
+          <example>As harmonizações populares mais habituais cingem-se a acordes de primeira, quarta e quinta do modo maior com sétima dominante.</example>
+        </antipattern>	
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -5651,13 +5598,15 @@ O namorado dela era um ladrão.
         <example>O Rui quer enfrentar de <marker>forma eficaz ações entrópicas</marker>.</example>
 	 
         <example>O grande mal nos conflitos deve-se <marker>a inocentes</marker> serem lesados.</example>
-        <example>Existem prejuízos graves e dispendiosos a instalações ou vantagens para os criminosos.</example>
-	  
+<!--        <example>Existem prejuízos graves e dispendiosos a instalações ou vantagens para os criminosos.</example> -->
+
+<!--
         <example>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
         <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
         <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
         <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
         <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
+-->
 	  
         <example>Temos <marker>no final possíveis cenários</marker> para a análise do comportamento.</example>
         <example>Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.</example>
@@ -6444,9 +6393,6 @@ O namorado dela era um ladrão.
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/></suggestion>
         <example correction="A nossa|As nossas"><marker>As nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
 
-        <example>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
-        <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
-        <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
         <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
         <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
 
