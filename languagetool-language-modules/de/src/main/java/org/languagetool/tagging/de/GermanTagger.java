@@ -259,30 +259,39 @@ public class GermanTagger extends BaseTagger {
 
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
+        /*
+         * Lines 263 to 287
+         * do the following for non separable verbs with prefix and for verbs without any prefix:
+         *   if (base) verb has tag 'VER:IMP:SIN:SFT', then add 'VER:1:SIN:PRÄ:SFT'
+         *   if (base) verb has tag 'VER:1:SIN:PRÄ:SFT', then add 'VER:IMP:SIN:SFT'
+         *
+         * 'NON' is excluded, because for a given lemma 'VER:IMP:SIN:NON' and 'VER:1:SIN:PRÄ:NON' can differ
+         * e. g. (ver)nimm is 'VER:IMP:SIN:NON', but (ver)nehm is 'VER:1:SIN:PRÄ:NON'
+         */
         if (!StringUtils.startsWithAny(word.toLowerCase(), prefixesSeparableVerbs)
           && (!StringUtils.startsWithAny(word.toLowerCase(), notAVerb))
           && (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()) || word.equals(word.toLowerCase()))) {
-          String lstPrt = "";
-          String frstPrt = "";
-          if (StringUtils.startsWithAny(word.toLowerCase(), prefixesNonSeparableVerbs)) {
-            lstPrt = RegExUtils.removePattern(word.toLowerCase(), prefixesNonSeparableVerbsRegexp);
-            frstPrt = StringUtils.removeEnd(word, lstPrt);
-          } else {
-            lstPrt = word;
-            frstPrt = "";
-          }
-          List<TaggedWord> verbs = getWordTagger().tag(lstPrt);
-          for (TaggedWord v : verbs) {
-            if ((sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))
+            String lstPrt = "";
+            String frstPrt = "";
+            if (StringUtils.startsWithAny(word.toLowerCase(), prefixesNonSeparableVerbs)) {
+              lstPrt = RegExUtils.removePattern(word.toLowerCase(), prefixesNonSeparableVerbsRegexp);
+              frstPrt = StringUtils.removeEnd(word, lstPrt);
+            } else {
+              lstPrt = word;
+              frstPrt = "";
+            }
+            List<TaggedWord> verbs = getWordTagger().tag(lstPrt);
+            for (TaggedWord v : verbs) {
+              if ((sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))
                 && !StringUtils.equalsAny(lstPrt,"gar", "mal", "trotz")) {
-                if (StringUtils.startsWithAny(v.getPosTag(), "VER:IMP:SIN:SFT") && (!readings.toString().contains("VER:1:SIN:PRÄ:SFT"))) {
-                readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:SFT", frstPrt.toLowerCase() + v.getLemma()));
-              }
-              if (StringUtils.startsWithAny(v.getPosTag(), "VER:1:SIN:PRÄ:SFT") && (!readings.toString().contains("VER:IMP:SIN:SFT"))) {
-                readings.add(new AnalyzedToken(word, "VER:IMP:SIN:SFT", frstPrt.toLowerCase() + v.getLemma()));
+                  if (StringUtils.startsWithAny(v.getPosTag(), "VER:IMP:SIN:SFT") && (!readings.toString().contains("VER:1:SIN:PRÄ:SFT"))) {
+                    readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:SFT", frstPrt.toLowerCase() + v.getLemma()));
+                  }
+                  if (StringUtils.startsWithAny(v.getPosTag(), "VER:1:SIN:PRÄ:SFT") && (!readings.toString().contains("VER:IMP:SIN:SFT"))) {
+                    readings.add(new AnalyzedToken(word, "VER:IMP:SIN:SFT", frstPrt.toLowerCase() + v.getLemma()));
+                  }
               }
             }
-          }
         }
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
         PrefixInfixVerb verbInfo = expansionInfos.get().verbInfos.get(word);
@@ -298,7 +307,7 @@ public class GermanTagger extends BaseTagger {
             for (TaggedWord tag : tags) {
               if (tag.getPosTag() != null && (StringUtils.startsWithAny(tag.getPosTag(), "VER:", "PA1:", "PA2:")
                 && (!StringUtils.startsWithAny(tag.getPosTag(), "VER:MOD", "VER:AUX")))) { // e.g. "schicke" is verb and adjective
-                String fl = tag.getPosTag().substring(tag.getPosTag().length()-3, tag.getPosTag().length());
+                String flektion = tag.getPosTag().substring(tag.getPosTag().length()-3, tag.getPosTag().length());
                 if (StringUtils.startsWithAny(verbInfo.prefix, prefixesSeparableVerbs)
                   && (!StringUtils.containsAny(word, notAVerb))) {
                   if (StringUtils.startsWithAny(tag.getPosTag(),"VER:1", "VER:2", "VER:3") && (sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))) {
@@ -306,17 +315,21 @@ public class GermanTagger extends BaseTagger {
                   } else if (!StringUtils.startsWithAny(tag.getPosTag(),"VER:IMP")) {
                     readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
                   } else if (StringUtils.startsWithAny(tag.getPosTag(),"VER:IMP:SIN") && (!readings.contains("VER:1:SIN:PRÄ"))) {
-                    readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:" + fl + ":NEB", verbInfo.prefix + tag.getLemma()));
+                    if (flektion.equals("SFT") || !word.matches(".*i.+")) { // Avoids 'aufnimm'
+                      readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:" + flektion + ":NEB", verbInfo.prefix + tag.getLemma()));
+                    }
                   }
                 } else if (StringUtils.startsWithAny(verbInfo.prefix, prefixesNonSeparableVerbs) //Excludes "ge" (both too rare as verb prefix and prone to FP)
                   && (!StringUtils.containsAny(word, notAVerb))) {
-                  if ((StringUtils.startsWithAny(tag.getPosTag(),"VER:IMP:SIN") && (!readings.contains("VER:1:SIN:PRÄ")))
-                     || (StringUtils.startsWithAny(tag.getPosTag(),"VER:1:SIN:PRÄ") && (!readings.contains("VER:IMP:SIN")))) {
-                    readings.add(new AnalyzedToken(word, "VER:IMP:SIN" + fl, verbInfo.prefix + tag.getLemma()));
-                    readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:" + fl, verbInfo.prefix + tag.getLemma()));
-                  } else {
-                    readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
-                  }
+                    if ((StringUtils.startsWithAny(tag.getPosTag(),"VER:IMP:SIN") && (!readings.contains("VER:1:SIN:PRÄ")))
+                       || (StringUtils.startsWithAny(tag.getPosTag(),"VER:1:SIN:PRÄ") && (!readings.contains("VER:IMP:SIN")))) {
+                         if (flektion.equals("SFT") || !word.matches(".*i.+")) { // Avoids 'zernimm'
+                           readings.add(new AnalyzedToken(word, "VER:IMP:SIN" + flektion, verbInfo.prefix + tag.getLemma()));
+                           readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:" + flektion, verbInfo.prefix + tag.getLemma()));
+                         }
+                    } else {
+                      readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+                    }
                 }
                 if (tag.getPosTag().contains(":SFT")) {
                   isSFT = true;
@@ -406,152 +419,152 @@ public class GermanTagger extends BaseTagger {
                   if (StringUtils.startsWithAny(word.toLowerCase(), prefixesVerbs)
                      && (!StringUtils.containsAny(word.toLowerCase(), notAVerb))
                      && (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()) || word.equals(word.toLowerCase()))) { // avoids CamelCase, ALLCAPS...
-                    String lastPart = RegExUtils.removePattern(word.toLowerCase(), prefixesVerbsRegexp);
-                    if (lastPart.length() > 2) { // e. g. 'kau', 'iss', 'ess'
-                      String firstPart = StringUtils.removeEnd(word, lastPart);
-                      //Erweiterter Infinitiv mit zu
-                      if (StringUtils.startsWithAny(lastPart, "zu")) {
-                        String infinitiv = StringUtils.removeStart(lastPart, "zu");
-                        List<TaggedWord> infs = getWordTagger().tag(infinitiv);
-                        for (TaggedWord inf : infs) {
-                          if (inf.getPosTag().startsWith("VER:INF")) {
-                            String pstg = RegExUtils.replaceFirst(inf.getPosTag(), "INF", "EIZ");
-                            readings.add(new AnalyzedToken(word, pstg, firstPart + inf.getLemma()));
+                       String lastPart = RegExUtils.removePattern(word.toLowerCase(), prefixesVerbsRegexp);
+                      if (lastPart.length() > 2) { // e. g. 'kau', 'iss', 'ess'
+                        String firstPart = StringUtils.removeEnd(word, lastPart);
+                        //Erweiterter Infinitiv mit zu
+                        if (StringUtils.startsWithAny(lastPart, "zu")) {
+                          String infinitiv = StringUtils.removeStart(lastPart, "zu");
+                          List<TaggedWord> infs = getWordTagger().tag(infinitiv);
+                          for (TaggedWord inf : infs) {
+                            if (inf.getPosTag().startsWith("VER:INF")) {
+                              String pstg = RegExUtils.replaceFirst(inf.getPosTag(), "INF", "EIZ");
+                              readings.add(new AnalyzedToken(word, pstg, firstPart + inf.getLemma()));
+                            }
                           }
                         }
-                      }
-                      // Checks for postag information in the last part of given word
-                      List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
-                      for (TaggedWord taggedWord : taggedWords) {
-                        if ((taggedWord.getPosTag().startsWith("VER") && (!taggedWord.getPosTag().startsWith("VER:PA")))
-                           && (!taggedWord.getPosTag().startsWith("VER:AUX"))
-                           && (!taggedWord.getPosTag().startsWith("VER:MOD"))
-                           && (!firstPart.equals("un"))) { // avoids 'unbeeindruckt' -> VER.*
-                          if (taggedWord.getPosTag().startsWith("VER:INF")) {
-                            if (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1))) {
-                              readings.add(new AnalyzedToken(word, "SUB:NOM:SIN:NEU:INF", word));
-                              readings.add(new AnalyzedToken(word, "SUB:DAT:SIN:NEU:INF", word));
-                              readings.add(new AnalyzedToken(word, "SUB:AKK:SIN:NEU:INF", word));
-                              if (sentenceTokens.indexOf(word) == 0) {
-                                readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
-                              }
-                            } else {
-                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
-                            }
-                          } else if (taggedWord.getPosTag().startsWith("VER:IMP")) {
-                            String fl = taggedWord.getPosTag().substring(taggedWord.getPosTag().length()-3, taggedWord.getPosTag().length());
-                            if ((word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {
-                              if (!StringUtils.startsWithAny(word.toLowerCase(), prefixesSeparableVerbs)) { // Separable verbs do not have imperative form.
-                                readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
-                                if (taggedWord.getPosTag().startsWith("VER:IMP:SIN") && !readings.contains("VER:1:SIN:PRÄ")) {
-                                  if ((!readings.contains("VER:IMP:SIN:NON") && (!word.matches(".*i.+")))) {
-                                    readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:" + fl, firstPart + taggedWord.getLemma()));
+                        // Checks for postag information in the last part of given word
+                        List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
+                        for (TaggedWord taggedWord : taggedWords) {
+                          if ((taggedWord.getPosTag().startsWith("VER") && (!taggedWord.getPosTag().startsWith("VER:PA")))
+                            && (!taggedWord.getPosTag().startsWith("VER:AUX"))
+                            && (!taggedWord.getPosTag().startsWith("VER:MOD"))
+                            && (!firstPart.equals("un"))) { // avoids 'unbeeindruckt' -> VER.*
+                              if (taggedWord.getPosTag().startsWith("VER:INF")) {
+                                if (word.equals(word.substring(0, 1).toUpperCase() + word.substring(1))) {
+                                  readings.add(new AnalyzedToken(word, "SUB:NOM:SIN:NEU:INF", word));
+                                  readings.add(new AnalyzedToken(word, "SUB:DAT:SIN:NEU:INF", word));
+                                  readings.add(new AnalyzedToken(word, "SUB:AKK:SIN:NEU:INF", word));
+                                  if (sentenceTokens.indexOf(word) == 0) {
+                                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                                  }
+                                } else {
+                                  readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                                }
+                              } else if (taggedWord.getPosTag().startsWith("VER:IMP")) {
+                                String flekt = taggedWord.getPosTag().substring(taggedWord.getPosTag().length()-3, taggedWord.getPosTag().length());
+                                if ((word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {
+                                  if (!StringUtils.startsWithAny(word.toLowerCase(), prefixesSeparableVerbs)) { // Separable verbs do not have imperative form.
+                                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                                    if (taggedWord.getPosTag().startsWith("VER:IMP:SIN") && !readings.contains("VER:1:SIN:PRÄ")) {
+                                      if (!readings.contains("VER:IMP:SIN:NON")) {
+                                        readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:" + flekt, firstPart + taggedWord.getLemma()));
+                                      }
+                                    }
+                                  } else if (!readings.contains("VER:1:SIN:PRÄ") && (flekt.equals("SFT") || !word.matches(".*i.+"))) {
+                                    readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:" + flekt + ":NEB", firstPart + taggedWord.getLemma()));
                                   }
                                 }
-                              } else if (!readings.contains("VER:1:SIN:PRÄ") && (!word.matches(".*i.+"))) {
-                                readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:" + fl + ":NEB", firstPart + taggedWord.getLemma()));
+                              } else if (StringUtils.startsWithAny(word.toLowerCase(), prefixesSeparableVerbs)
+                                && (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {
+                                  if (taggedWord.getPosTag().endsWith(":NEB")) {
+                                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                                  } else {
+                                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag() + ":NEB", firstPart.toLowerCase() + taggedWord.getLemma()));
+                                  }
+                                  if (taggedWord.getPosTag().startsWith("VER:3:SIN:PRÄ")
+                                    && (firstPart.equals("durch") || firstPart.equals("um"))) {
+                                      /*
+                                       / Verbs with prefixes 'durch' or 'um'
+                                       / can be both separable and non separable
+                                       / 'Tom läuft durch den Wald'
+                                       / 'Tom durchläuft eine Durststrecke'
+                                       / This avoids false alarms
+                                      */
+                                      if (taggedWord.getPosTag().startsWith("VER:3:SIN:PRÄ")) {
+                                        readings.add(new AnalyzedToken(word, "VER:PA2:SFT", firstPart + taggedWord.getLemma()));
+                                      } else {
+                                        readings.add(new AnalyzedToken(word, "VER:PA2:NON", firstPart + taggedWord.getLemma()));
+                                      }
+                                      readings.add(new AnalyzedToken(word, "PA2:PRD:GRU:VER", word));
+                                  }
+                              } else if (StringUtils.startsWithAny(word.toLowerCase(), prefixesNonSeparableVerbs)
+                                && (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {
+                                  readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
+                                  /*
+                                   / Postag of 'lastPart' never starts with PA2: erstickt = er + stickt
+                                   / Derives 'VER:PA2:SFT' and 'PA2:PRD:GRU:VER', if postag of 'lastPart' equals 'VER:3:SIN:PRÄ:SFT'
+                                   / Using other postags is not safe, especially 'VER.*NON'
+                                  */
+                                  if (taggedWord.getPosTag().startsWith("VER:3:SIN:PRÄ:SFT")
+                                    || (taggedWord.getPosTag().startsWith("VER:1:PLU:PRÄ:NON") && (StringUtils.containsAny(taggedWord.getLemma(), partizip2contains1PluPra)))
+                                    || (taggedWord.getPosTag().startsWith("VER:1:PLU:PRT:NON") && (StringUtils.containsAny(taggedWord.getLemma(), partizip2contains1PluPrt)))) {
+                                      if (!firstPart.equals("un")) { // Avoids 'unbeeindruckt' -> 'VER.*'
+                                        String fl = taggedWord.getPosTag().substring(taggedWord.getPosTag().length()-3, taggedWord.getPosTag().length());
+                                        readings.add(new AnalyzedToken(word, "VER:PA2:" + fl, firstPart + taggedWord.getLemma()));
+                                      }
+                                      readings.add(new AnalyzedToken(word, "PA2:PRD:GRU:VER", word));
+                                  }
                               }
-                            }
-                          } else if (StringUtils.startsWithAny(word.toLowerCase(), prefixesSeparableVerbs)
-                            && (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {
-                            if (taggedWord.getPosTag().endsWith(":NEB")) {
-                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
-                            } else {
-                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag() + ":NEB", firstPart.toLowerCase() + taggedWord.getLemma()));
-                            }
-                            if (taggedWord.getPosTag().startsWith("VER:3:SIN:PRÄ")
-                               && (firstPart.equals("durch") || firstPart.equals("um"))) {
-                               /*
-                               / Verbs with prefixes 'durch' or 'um'
-                               / can be both separable and non separable
-                               / 'Tom läuft durch den Wald'
-                               / 'Tom durchläuft eine Durststrecke'
-                               / This avoids false alarms
-                                */
-                              if (taggedWord.getPosTag().startsWith("VER:3:SIN:PRÄ")) {
-                                readings.add(new AnalyzedToken(word, "VER:PA2:SFT", firstPart + taggedWord.getLemma()));
-                              } else {
-                                readings.add(new AnalyzedToken(word, "VER:PA2:NON", firstPart + taggedWord.getLemma()));
+                          } else if (((taggedWord.getPosTag().startsWith("PA") || taggedWord.getPosTag().startsWith("VER:PA"))
+                            && (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0))) {
+                              if (!(firstPart.equals("un") && taggedWord.getPosTag().startsWith("VER:PA"))) {
+                                readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
                               }
-                              readings.add(new AnalyzedToken(word, "PA2:PRD:GRU:VER", word));
-                            }
-                          } else if (StringUtils.startsWithAny(word.toLowerCase(), prefixesNonSeparableVerbs)
-                            && (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {
-                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
-                            /*
-                            / Postag of 'lastPart' never starts with PA2: erstickt = er + stickt
-                            / Derives 'VER:PA2:SFT' and 'PA2:PRD:GRU:VER', if postag of 'lastPart' equals 'VER:3:SIN:PRÄ:SFT'
-                            / Using other postags is not safe, especially 'VER.*NON'
-                            */
-                            if (taggedWord.getPosTag().startsWith("VER:3:SIN:PRÄ:SFT")
-                                || (taggedWord.getPosTag().startsWith("VER:1:PLU:PRÄ:NON") && (StringUtils.containsAny(taggedWord.getLemma(), partizip2contains1PluPra)))
-                                || (taggedWord.getPosTag().startsWith("VER:1:PLU:PRT:NON") && (StringUtils.containsAny(taggedWord.getLemma(), partizip2contains1PluPrt)))) {
-                              if (!firstPart.equals("un")) { // Avoids 'unbeeindruckt' -> 'VER.*'
-                                String fl = taggedWord.getPosTag().substring(taggedWord.getPosTag().length()-3, taggedWord.getPosTag().length());
-                                readings.add(new AnalyzedToken(word, "VER:PA2:" + fl, firstPart + taggedWord.getLemma()));
-                              }
-                              readings.add(new AnalyzedToken(word, "PA2:PRD:GRU:VER", word));
-                            }
                           }
-                        } else if (((taggedWord.getPosTag().startsWith("PA") || taggedWord.getPosTag().startsWith("VER:PA"))
-                          && (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0))) {
-                            if (!(firstPart.equals("un") && taggedWord.getPosTag().startsWith("VER:PA"))) {
-                              readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart.toLowerCase() + taggedWord.getLemma()));
-                            }
                         }
-                      }
-                      // Checks for postag information in the last part of given word
-                      /*
-                      / Postag of 'lastPart' never starts with PA2: erstickter = er + stickter
-                      / Derives 'PA2:[NGDA].*', if word has
-                      / suffix 'e[mnrs]?' and
-                      / 'middlePart' has tagging 'VER:3:SIN:PRÄ:SFT'
-                      / e. g. erstickter = er + stickt + er
-                       */
-                      String[] partizipSuffixes = new String[]{"e", "em", "en", "er", "es"};
-                      String middlePart = "";
-                      String suffix = "";
-                      for (String sffx : partizipSuffixes) {
-                        if (lastPart.endsWith(sffx)){
-                          middlePart = lastPart.substring(0, lastPart.length()-sffx.length());
-                          suffix = sffx;
+                        // Checks for postag information in the last part of given word
+                        /*
+                         / Postag of 'lastPart' never starts with PA2: erstickter = er + stickter
+                         / Derives 'PA2:[NGDA].*', if word has
+                         / suffix 'e[mnrs]?' and
+                         / 'middlePart' has tagging 'VER:3:SIN:PRÄ:SFT'
+                         / e. g. erstickter = er + stickt + er
+                        */
+                        String[] partizipSuffixes = new String[]{"e", "em", "en", "er", "es"};
+                        String middlePart = "";
+                        String suffix = "";
+                        for (String sffx : partizipSuffixes) {
+                          if (lastPart.endsWith(sffx)){
+                            middlePart = lastPart.substring(0, lastPart.length()-sffx.length());
+                            suffix = sffx;
+                          }
                         }
-                      }
-                      List<TaggedWord> taggedMiddle = getWordTagger().tag(middlePart);
-                      for (TaggedWord taggedM : taggedMiddle) {
-                        if (taggedM.getPosTag().startsWith("VER:3:SIN:PRÄ:SFT")
+                        List<TaggedWord> taggedMiddle = getWordTagger().tag(middlePart);
+                        for (TaggedWord taggedM : taggedMiddle) {
+                          if (taggedM.getPosTag().startsWith("VER:3:SIN:PRÄ:SFT")
                             && (word.equals(word.toLowerCase()) || sentenceTokens.indexOf(word) == 0)) {
-                          String lemma = word.substring(0, word.length()-suffix.length());
-                          switch (suffix) {
-                            case "e":
-                              for (String posEndsWithE : postagsPartizipEndingE) {
-                                readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithE, lemma));
+                              String lemma = word.substring(0, word.length()-suffix.length());
+                              switch (suffix) {
+                                case "e":
+                                  for (String posEndsWithE : postagsPartizipEndingE) {
+                                    readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithE, lemma));
+                                  }
+                                  break;
+                                case "em":
+                                  for (String posEndsWithEm : postagsPartizipEndingEm) {
+                                    readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEm, lemma));
+                                  }
+                                  break;
+                                case "en":
+                                  for (String posEndsWithEn : postagsPartizipEndingEn) {
+                                    readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEn, lemma));
+                                  }
+                                  break;
+                                case "er":
+                                  for (String posEndsWithEr : postagsPartizipEndingEr) {
+                                    readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEr, lemma));
+                                  }
+                                  break;
+                                case "es":
+                                  for (String posEndsWithEs : postagsPartizipEndingEs) {
+                                    readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEs, lemma));
+                                  }
+                                  break;
                               }
-                              break;
-                            case "em":
-                              for (String posEndsWithEm : postagsPartizipEndingEm) {
-                                readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEm, lemma));
-                              }
-                              break;
-                            case "en":
-                              for (String posEndsWithEn : postagsPartizipEndingEn) {
-                                readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEn, lemma));
-                              }
-                              break;
-                            case "er":
-                              for (String posEndsWithEr : postagsPartizipEndingEr) {
-                                readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEr, lemma));
-                              }
-                              break;
-                            case "es":
-                              for (String posEndsWithEs : postagsPartizipEndingEs) {
-                                readings.add(new AnalyzedToken(word, "PA2:"+posEndsWithEs, lemma));
-                              }
-                              break;
                           }
                         }
                       }
-                    }
                   } else {
                     readings.add(getNoInfoToken(word));
                   }
@@ -588,7 +601,7 @@ public class GermanTagger extends BaseTagger {
                   }
                 }
               } else {
-                temp = temp.stream().filter(k -> !k.getPOSTag().matches(".*VER.*")).collect(Collectors.toList());
+                temp = temp.stream().filter(k -> !k.getPOSTag().contains("VER")).collect(Collectors.toList());
                 readings.addAll(temp);
               }
             }
