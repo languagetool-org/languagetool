@@ -3711,6 +3711,21 @@ O namorado dela era um ladrão.
       Suas obras contêm o primeiro estudo formal conhecido da lógica, que foi incorporado posteriormente à lógica formal. → Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.
       -->
       <rule>
+
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+		<!-- This antipattern is used twice in the rules, it triggers two rules. -->
+		<!-- Zero hits in 600 000 sentence, only affects my thesis. -->
+        <antipattern>
+		  <token postag='_PUNCT' postag_regexp='no'/>
+		  <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='_PUNCT' postag_regexp='no'/>
+          <token>que</token>
+          <token regexp='yes'>foram|foi|são|é</token>
+          <token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
+          <example>Temos infraestruturas civis (habitações, que são obstáculos no nosso estudo).</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token>,</token>
           <marker>
@@ -17743,6 +17758,21 @@ O namorado dela era um ladrão.
       <!--
       Os radicais retaliam contra Estados que são encarados como sendo os inimigos. → Os radicais retaliam contra Estados encarados como sendo os inimigos.
       -->
+
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+		<!-- This antipattern is used twice in the rules, it triggers two rules. -->
+		<!-- Zero hits in 600 000 sentence, only affects my thesis. -->
+        <antipattern>
+		  <token postag='_PUNCT' postag_regexp='no'/>
+		  <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='_PUNCT' postag_regexp='no'/>
+          <token>que</token>
+          <token regexp='yes'>foram|foi|são|é</token>
+          <token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
+          <example>Temos infraestruturas civis (habitações, que são obstáculos no nosso estudo).</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <pattern>
         <token negate_pos="yes" postag='SPS.+|CS|RG|DA.+|CC|V.+' postag_regexp='yes'/>
         <marker>
