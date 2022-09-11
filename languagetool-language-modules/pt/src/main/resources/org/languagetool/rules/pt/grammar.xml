@@ -67,7 +67,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY separadores_de_abertura "(?:\(|\{|\[)">
     <!ENTITY separadores_de_fecho "(?:\)|\}|\])">
     <!ENTITY hifen "(?:[-‑])">
-    <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
+    <!ENTITY tracos_de_separacao "(?:[-‑]|–|—|ㅡ)">
     <!ENTITY negacoes "jamais|nada|não|nem|nenhum|nenhuma|nenhumas|nenhuns|ninguém|nunca|sem|tampouco">
     <!ENTITY introduz_proclise "ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|para|pois|porque|portanto|quais|qual|quando|quanta|quantas|quanto|quantos|quão|que|quem|se|sempre|talvez">
 
@@ -46890,7 +46890,7 @@ O namorado dela era um ladrão.
 
 
     <!-- NÃO SABIA/SABIAM NADA nada sabia/sabiam -->
-    <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style">
+    <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style" tags='picky'>
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-05 + 2022-07-06 + 2022-08-27 (5-JUN-2022+)      -->
       <!--
       O Rui não sabia nada do assunto. → O Rui nada sabia do assunto.
@@ -46967,6 +46967,21 @@ O namorado dela era um ladrão.
         <token postag='_PUNCT'/>
         <example>Eles ainda não viram nada.</example>
         <example>Calma, ela ainda não disse nada, disse?</example>
+      </antipattern>
+
+      <antipattern>
+        <token regexp='yes' skip='-1'>&tracos_de_separacao;</token>
+        <token>não</token>
+        <token postag='VMI[ISM].+' postag_regexp='yes'/>
+        <token>nada</token>
+        <example>ㅡ Não aconteceu nada, Miguel.</example>
+      </antipattern>
+      <antipattern>
+        <token>não</token>
+        <token postag='VMI[ISM].+' postag_regexp='yes'/>
+        <token skip='-1'>nada</token>
+        <token regexp='yes'>&tracos_de_separacao;</token>
+        <example>Não aconteceu nada, Miguel. ㅡ disse ela.</example>
       </antipattern>
 
       <pattern>
