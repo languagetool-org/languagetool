@@ -5340,23 +5340,6 @@ O namorado dela era um ladrão.
           <token regexp="yes">que|na|no|maiores|menores|como|por|o|[.,?!]</token>
         </antipattern>
         <!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *END* -->
-        <!-- MARCOAGPINTO 2021-04-20 (17-MAR-2021+) *START* -->
-        <!--
-        Temos no final possíveis cenários para a análise do comportamento.
-        Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.
-        Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.
-        O senhor Camargo cria codornas em sua chácara.
-        De valor diferenciado por terem como origem fontes imparciais e isentas.
-        -->
-        <antipattern>
-          <token negate_pos="yes" postag='SENT_START'/>
-          <token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
-          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-          <token postag='AQ0.P.+|NC.P.+|CC|SPS.+' postag_regexp='yes'>
-            <exception postag='RN'/>
-          </token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-04-20 (17-MAR-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-05-22 (17-MAR-2021+) *START* -->
         <!--
         Este é o modelo que mostra descontinuidades.
@@ -5560,6 +5543,60 @@ O namorado dela era um ladrão.
         </antipattern>	
         <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-09-11 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='SPS00|CC|CS|RG|I|RM|RN|AO..S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|VMI[PI]3S0|NP.S.+' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+|NP.S.+|Z..N.+|VMIP3S0' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RM' postag_regexp='no'/>
+          <token postag='AQ..P.+|NC.P.+|Z..N.+' postag_regexp='yes'/>
+          <token postag='AQ..P.+|NC.P.+|CS|RG|RM|Z..N.+' postag_regexp='yes'/>
+          <example>Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.</example>
+          <example>Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.</example>
+          <example>Quanto à parte financeira, existem no Brasil diferentes fontes de recursos reembolsáveis e não reembolsáveis.</example>
+          <example>A costa norte tem muitas praias, e a do sul numerosas enseadas, que formam portos naturais.</example>
+          <example>Guardava orgulhosa móveis antigos e porcelanas de seus pais.</example>
+          <example>O caso genitivo, em latim, geralmente expressa relações que são expressas em português pela preposição "de".</example>
+          <example>Que idade achas que ela tem?</example>
+          <example>[4] Não é incomum informações gerais ou publicações estatísticas adotarem a definição mais ampla do termo para fins de ilustração...</example>
+          <example>...o está sujeito às leis e costumes do mercado, julgo que o que é importante perceber é se o Sporting paga comissões dentro dos valor praticados no mercado, em termos globais.</example>
+          <example>Vieram ao Sabugal representantes de 15 confrarias nacionais, que assistiram à entronização de sete novos confrades, à actuação do gr...</example>
+          <example>...vazia, o véu que cobria o ícone moveu-se lentamente, revelando a face da Virgem, voltando a cair de nova lentamente 24 horas depois.</example>
+          <example>Maria compra somente frutas cultivadas ecologicamente.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='SPS00|CC|CS|RG|I|RM|RN|AO..S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|VMI[PI]3S0|NP.S.+' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+|NP.S.+|Z..N.+|VMIP3S0' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RM' postag_regexp='no'/>
+          <token postag='AQ..P.+|NC.P.+|Z..N.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+'/>
+          </token>
+          <token postag='AQ..P.+|NC.P.+|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+|VM...P.+' postag_regexp='yes'>
+            <exception scope="next" postag_regexp='yes' postag='AQ..S.+|NC.S.+'/>
+          </token>
+          <example>As coordenadorias de educação regionais das entidades e as Faculdades farão contato com os estudantes e suas famílias para orientações adic...</example>
+          <example>O museu também guarda relíquias dos Maragatos.</example>
+          <example>Na Zona 1 encomendas de valor inferiores a 20,00 € terão um custo de 2,00 €.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='SPS00|CC|CS|RG|I|RM|RN|AO..S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|VMI[PI]3S0|NP.S.+' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+|NP.S.+|Z..N.+|VMIP3S0' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RM' postag_regexp='no'/>
+          <token postag='AQ..P.+|NC.P.+|Z..N.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+'/>
+          </token>
+          <token postag='AQ..S.+|NC.S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|VM...S.+' postag_regexp='yes'>
+            <exception scope="next" postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
+          </token>
+          <example>Tem nada menos que 20 tecnologias de assistência ao motorista exclusivas na categoria, aumentando a produtividade e a confiança no trabalho.</example>
+          <example>O procurador-geral ressalta que a situação se agrava com as medidas emergenciais de restrição de circulação imprescindíveis ao combate à pandemia, mas que têm um impacto social e econômico.</example>
+          <example>«CP encerra linhas do Leste e Beja-Funcheira a 1 de Janeiro».</example>
+          <example>Nas áreas de reflexão de luz proximais foi aplicada a resina Opallis VH.</example>
+          <example>O sistema de escape esportivo opcional RS com as ponteiras dos canos de escape pretas garante uma experiência sonora esportiva ao máximo.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-11 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -5591,7 +5628,6 @@ O namorado dela era um ladrão.
         <example>Temos <marker>no final possíveis cenários</marker> para a análise do comportamento.</example>
         <example>Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.</example>
         <example>Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.</example>
-        <example>O senhor Camargo cria codornas em sua chácara.</example>
         <example>De valor diferenciado por terem como origem fontes imparciais e isentas.</example>
 
         <example>Este é o modelo que <marker>mostra descontinuidades</marker>.</example>
