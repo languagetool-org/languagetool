@@ -2670,6 +2670,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
       A avaliação é correto. → A avaliação é correta.
       As avaliações são corretos. → As avaliações são corretas.
+
+      Ela está bonito hoje. → Ela está bonita hoje.
+      Elas estão bonitos hoje. → Elas estão bonitas hoje.
       -->
       <rule id='LIGACAO_ECG_V2' name="Ligação ECG">
 
@@ -2713,8 +2716,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
 
         <antipattern>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
           <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <and>
             <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
@@ -2729,6 +2732,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>As principais línguas-fonte da interlíngua são Português, Espanhol, Italiano, Francês e Inglês.</example>
           <example>É difícil encontrar falantes nativos de Árabe em Dubai, onde a maioria das pessoas fala Inglês.</example>
           <example>A minha matéria favorita na escola é francês.</example>
+          <example>O marido dela é americano.</example>
+          <example>Ela fala chinês.</example>
+          <example>Ela sabe francês às avessas.</example>
+          <example>Além do inglês, ela fala francês fluentemente.</example>
         </antipattern>
 
         <antipattern>
@@ -2810,18 +2817,84 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>A coisa mais preciosa na vida são momentos.</example>
         </antipattern>
 
-        <pattern>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes">
-            <exception scope="previous" postag='V.+|[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp='yes'/>
+        <antipattern>
+          <token postag='SENT_START|_PUNCT' postag_regexp="yes"/>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token postag='V.+' postag_regexp="yes">
+              <exception regexp='no'>são</exception>
           </token>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token postag='AQ.M.+|NCM.+|NP.+' postag_regexp="yes">
+              <exception scope="next" postag='RG' postag_regexp='no'/>
+          </token>
+          <example>Ele passa o tempo a jogar computador.</example>
+          <example>Ela fala bonito.</example>
+          <example>Ela usa vestidos sarapintados a fim de chamar a atenção.</example>
+          <example>Ela monta computadores.</example>
+          <example>Ela toca violino bem.</example>
+          <example>Ela come feito uma porca.</example>
+          <example>12ª Sessão - Brasil S.A É preciso melhorar a atividade pública e buscar novas formas de convídio Devemos buscar uma governança mais e...</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token postag='VMN0000' postag_regexp="no"/>
+          <token postag='AQ.M.+|NCM.+|NP.+' postag_regexp="yes">
+              <exception scope="next" postag='RG' postag_regexp='no'/>
+          </token>
+          <example>...ive, quase criou uma crise política da-que-las, o que obrigou seu pai, figurinha carimbada, a pular miúdo para colocar panos quentes sobre a questão.</example>
+          <example>Tenho tendência a pegar resfriados.</example>
+          <example>Quando eu era menino, passava horas a ler sozinho em meu quarto.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='AQ.[CM].+|NC[CM].+|CS|VMIP1.+|VMN0000' postag_regexp="yes"/>
+          <token min="0" max="1" postag='SPS00|CC|RG|_PUNCT|RM' postag_regexp="yes"/>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token postag='V.+' postag_regexp="yes">
+              <exception regexp='no'>são</exception>
+          </token>
+          <token min="0" max="1" postag='RG' postag_regexp="no"/>
+          <token postag='AQ.M.+|NCM.+|NP.+' postag_regexp="yes">
+              <exception scope="next" postag='RG' postag_regexp='no'/>
+          </token>
+          <example>... de ano mais desastroso, precisa driblar o rebaixamento - é esse o desafio do bombeiro a substituir Mano.</example>
+          <example>O que está acontecendo com sua planta não é normal, aparentemente os cuidados com ela estão corretos, mas certamente alguma coisa de errado está acontecendo.</example>
+          <example>Lá diz o povo que quando o barco começa a afundar os primeiros a fugir são os 28, perdão, são os ratos.</example>
+          <example>Os primeiros a receber são os que ganham até um salário mínimo (R$ 998, em 2019).</example>
+          <example>O pai dela é conservador e careta.</example>
+          <example>A Maria, o inglês dela é bom, mas ela tem vergonha de falar com os outros em inglês.</example>
+          <example>O pai dela é vivo?</example>
+          <example>O cabelo dela é liso, loiro e longo.</example>
+          <example>O marido dela é rico.</example>
+          <example>O namorado novo dela é negro.</example>
+          <example>O único objetivo verdadeiro da educação é simplesmente ensinar o homem a aprender sozinho.</example>
+          <example>Ele passa o tempo a jogar computador.</example>
+          <example>Andei cinco anos a estudar basco.</example>
+          <example>...rantes que foram vítimas de crimes graves, pessoas sujeitas à proteção internacional e a acompanhar defensores e defensoras de direitos humanos de pessoas migrantes que estão em risco.</example>
+          <example>Esta demagogia social, a tomar emprestado do movimento da classe trabalhadora sua linguagem, dando-lhe um significado racial não-classista, é...</example>
+          <example>...intenção com as crônicas e dicas postadas aqui é simplesmente inspirar outros viajantes a descobrir novos lugares (ou, quem sabe, a se aventurar por novos recantos em lugares já conhecidos).</example>
+          <example>...m do artigo 14 do Cdigo de Defesa do Consumidor, os artigos 186 e 927 do Novo Cdigo Civil, a seguir transcritos: "Artigo 186.</example>
+          <example>O suéter dela é roxo.</example>
+          <example>O cabelo dela era tão longo que alcançava o chão.</example>
+          <example>É importante ressaltar que essa obra é única no mercado, pois somente ela traz tamanho número de questões do Exame de Ordem e da FGV, questões estas que estão classificadas e comentadas,...</example>
+          <example>Nós estamos apenas a trinta minutos daí.</example>
+          <example>Estamos apenas a trinta minutos daí.</example>
+          <example>Quando o aluno trabalha sozinho ele tem que aprender também a lidar sozinho com essas questões, mas estando acompanhado por um professor, que se supõe poder orientá-lo nessas ...</example>
+        </antipattern>
+
+        <pattern>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes">
+            <exception scope="previous" postag='V.+|[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp='yes'/>
+            <exception scope="next" postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+          </token>
+          <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
           <or>
             <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes">
               <exception postag='NC.+|AQ.+' postag_regexp='yes'/>
               <exception regexp='no' inflected='yes'>ter</exception>
             </token>
             <token>são</token>
-          </or>  
+          </or>
           <marker>
             <token postag='AQ.M.+' postag_regexp="yes">
               <exception postag='RG|[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
@@ -2836,6 +2909,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example correction='corretas'>As hipóteses forem <marker>corretos</marker>.</example>
         <example correction='correta'>A avaliação é <marker>correto</marker>.</example>
         <example correction='corretas'>As avaliações são <marker>corretos</marker>.</example>
+        <example correction='bonita'>Ela está <marker>bonito</marker> hoje.</example>
+        <example correction='bonitas'>Elas estão <marker>bonitos</marker> hoje.</example>
         <example>Dirija com cuidado. Não se esqueça que a imprudência custa caro.</example>
         <example>A águia voa alto.</example>
         <example>O limite livre de impostos pra carregar vinhos para o Brasil na mala é alto.</example>
