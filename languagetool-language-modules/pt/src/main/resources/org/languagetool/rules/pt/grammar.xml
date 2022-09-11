@@ -2660,10 +2660,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <!-- MARCOAGPINTO 2022-08-04 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-      <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto and Susana Boatto, Portuguese rule 2022-09-04 (25-JUL-2022+) -->
+      <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto and Susana Boatto, Portuguese rule 2022-09-04/11 (25-JUL-2022+) -->
       <!--
       As palavras estão corretos. → As palavras estão corretas.
       A palavra está correto. → A palavra está correta.
+
+      A hipótese for correto. → A hipótese for correta.
+      As hipóteses forem corretos. → As hipóteses forem corretas.
+
+      A avaliação é correto. → A avaliação é correta.
+      As avaliações são corretos. → As avaliações são corretas.
       -->
       <rule id='LIGACAO_ECG_V2' name="Ligação ECG">
 
@@ -2671,7 +2677,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ.M.+|NCM.+|CC|RG' postag_regexp="yes"/>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <example>O café da manhã está pronto?</example>
           <example>O cérebro com os centros diretivos da mente funciona encerrado na caixa craniana, à maneira de usina quase lacrada num cofre forte.</example>
@@ -2698,7 +2704,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <example>A maioria das orações possui sujeito.</example>
           <example>Um terço da superfície da Terra é deserto.</example>
@@ -2709,7 +2715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <and>
             <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
             <token regexp="yes" inflected="yes">&languages;</token>
@@ -2728,7 +2734,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <token postag='AQ.M.+|NCM.+|V.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp="yes"/>
           <example>Para ter êxito na vida é preciso trabalhar duro.</example>
@@ -2753,7 +2759,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <token min="0" max="1" postag='_PUNCT' postag_regexp="no"/>
           <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp="yes"/>
@@ -2773,7 +2779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <token postag='_PUNCT' postag_regexp="no"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
@@ -2783,7 +2789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <token min="0" max="1" postag='_PUNCT' postag_regexp="no"/>
           <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp="yes"/>
@@ -2795,15 +2801,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>A complacência granjeia amigos; a verdade, inimigos.</example>
         </antipattern>
 
+        <antipattern>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token>são</token>
+          <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
+          <example>A coisa mais preciosa na vida são momentos.</example>
+        </antipattern>
+
         <pattern>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes">
             <exception scope="previous" postag='V.+|[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp='yes'/>
           </token>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes">
-            <exception postag='NC.+|AQ.+' postag_regexp='yes'/>
-            <exception regexp='no' inflected='yes'>ter</exception>
-          </token>
+          <or>
+            <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes">
+              <exception postag='NC.+|AQ.+' postag_regexp='yes'/>
+              <exception regexp='no' inflected='yes'>ter</exception>
+            </token>
+            <token>são</token>
+          </or>  
           <marker>
             <token postag='AQ.M.+' postag_regexp="yes">
               <exception postag='RG|[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
@@ -2812,8 +2830,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </pattern>
         <message>&MSG_ECG;</message>
         <suggestion><match no='4' postag="AQ0M(.)0" postag_replace='AQ0F$10' postag_regexp="yes"/></suggestion>
-        <example correction='corretas'>As palavras estão <marker>corretos</marker>.</example>
         <example correction='correta'>A palavra está <marker>correto</marker>.</example>
+        <example correction='corretas'>As palavras estão <marker>corretos</marker>.</example>
+        <example correction='correta'>A hipótese for <marker>correto</marker>.</example>
+        <example correction='corretas'>As hipóteses forem <marker>corretos</marker>.</example>
+        <example correction='correta'>A avaliação é <marker>correto</marker>.</example>
+        <example correction='corretas'>As avaliações são <marker>corretos</marker>.</example>
         <example>Dirija com cuidado. Não se esqueça que a imprudência custa caro.</example>
         <example>A águia voa alto.</example>
         <example>O limite livre de impostos pra carregar vinhos para o Brasil na mala é alto.</example>
@@ -2828,12 +2850,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>De quem as senhoras têm medo?</example>
         <example>O Tomás disse que a Maria tem medo.</example>
         <example>As partículas alfa são partículas positivas.</example>
-        <example>A coisa mais preciosa na vida são momentos.</example>
         <example>A senhora tem filhos?</example>
         <example>Por que as pessoas têm filhos?</example>
         <example>As crianças têm direitos.</example>
       </rule>
-
 
     </rulegroup>
 
