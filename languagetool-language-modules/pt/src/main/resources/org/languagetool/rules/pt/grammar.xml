@@ -49048,11 +49048,23 @@ O namorado dela era um ladrão.
       Vamos dormir, tomámos a medicação demasiado cedo.
       -->
       <antipattern>
-          <token skip='-1'>—</token>
+          <token skip='-1' regexp='yes'>&tracos_de_separacao;</token>
           <token inflected="yes">ir</token>
           <token postag='VMN0000'/>
           <example>— Como vou continuar trabalhando, não me importa.</example>
           <example>— Agora, vamos comer — disse ele</example>
+      </antipattern>
+      <antipattern>
+          <token inflected="yes">ir</token>
+          <token skip='-1' postag='VMN0000'/>
+          <token regexp='yes'>&tracos_de_separacao;</token>
+          <example>Como vou continuar trabalhando, não me importa. — disse ele.</example>
+      </antipattern>
+      <antipattern>
+          <token skip='-1' postag='_QUOT'/>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>"Como vou continuar trabalhando, não me importa", disse ele.</example>
       </antipattern>
       <antipattern>
         <token postag='V.+' postag_regexp='yes'/>
