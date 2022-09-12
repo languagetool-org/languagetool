@@ -33,11 +33,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Morfologik-based spell checker.
  */
 public class MorfologikSpeller {
+  
+  private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d+|\\P{L}+)(.*)$");
+  //private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(.+)\b(.*)$");
 
   // Speed up the server use case, where rules get initialized for every call.
   // See https://github.com/morfologik/morfologik-stemming/issues/69 for confirmation that
@@ -138,6 +143,18 @@ public class MorfologikSpeller {
     List<Speller.CandidateData> runOnCandidates = speller.replaceRunOnWordCandidates(word);
     for (Speller.CandidateData runOnCandidate : runOnCandidates) {
       suggestions.add(new WeightedSuggestion(runOnCandidate.getWord(), runOnCandidate.getDistance()));
+    }
+    
+    //word starting with numbers or bullets
+    Matcher mStartsWithNumbersBullets = pStartsWithNumbersBullets.matcher(word);
+    if (mStartsWithNumbersBullets.matches()) {
+      String prefix = mStartsWithNumbersBullets.group(1);
+      String sufix = mStartsWithNumbersBullets.group(2);
+      if (!speller.isMisspelled(sufix)) {
+        suggestions.add(new WeightedSuggestion(prefix + " " + sufix, 0));
+      } else {
+        suggestions.add(new WeightedSuggestion(prefix + " " + sufix, 1));
+      }
     }
     
     // all upper-case suggestions if necessary
