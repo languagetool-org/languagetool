@@ -283,7 +283,7 @@ public class GermanTagger extends BaseTagger {
             List<TaggedWord> verbs = getWordTagger().tag(lstPrt);
             for (TaggedWord v : verbs) {
               if ((sentenceTokens.indexOf(word) == 0 || word.equals(word.substring(0, 1).toLowerCase() + word.substring(1)))
-                && !StringUtils.equalsAny(lstPrt,"gar", "mal", "trotz")) {
+                && !StringUtils.equalsAny(lstPrt,"gar", "mal", "null", "trotz")) {
                   if (StringUtils.startsWithAny(v.getPosTag(), "VER:IMP:SIN:SFT") && (!readings.toString().contains("VER:1:SIN:PRÄ:SFT"))) {
                     readings.add(new AnalyzedToken(word, "VER:1:SIN:PRÄ:SFT", frstPrt.toLowerCase() + v.getLemma()));
                   }
