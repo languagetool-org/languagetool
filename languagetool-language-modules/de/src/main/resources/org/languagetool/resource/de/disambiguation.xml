@@ -69,6 +69,84 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token skip="-1" postag_regexp="yes" postag="(PKT|SENT_START)">
                     <exception scope="next">ich</exception>
                 </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <marker>
+                    <and>
+                        <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                           <exception scope="next">ich</exception>
+                        </token>
+                       <token postag_regexp="yes" postag="VER:IMP:SIN.*"/>
+                    </and>
+                </marker>
+                <token postag="(PKT|SENT_END)" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="VER:1:SIN:(PRÄ|KJ1).+"/>
+            <example type="ambiguous" inputform="klag[klagen/VER:1:SIN:PRÄ:SFT,klagen/VER:IMP:SIN:SFT]" outputform="klag[klagen/VER:IMP:SIN:SFT]">Leide, schweig und vertrag; deine Not niemandem <marker>klag</marker>.</example>    
+            <example type="untouched">Später <marker>gehe</marker> ich ins Restaurant essen.</example>
+            <example type="untouched">Ich <marker>gehe</marker> später ins Restaurant essen.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="-1" postag_regexp="yes" postag="(PKT|SENT_START)">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <marker>
+                    <and>
+                        <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                           <exception scope="next">ich</exception>
+                        </token>
+                       <token postag_regexp="yes" postag="VER:IMP:SIN.*"/>
+                    </and>
+                </marker>
+                <token postag="(PKT|SENT_END)" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="VER:1:SIN:(PRÄ|KJ1).+"/>
+            <example type="ambiguous" inputform="feier[feiern/VER:1:SIN:PRÄ:SFT,feiern/VER:IMP:SIN:SFT]" outputform="feier[feiern/VER:IMP:SIN:SFT]">Eine schöne runde Zahl, die wir gebührend im Juli <marker>feier</marker> werde.</example>
+            <example type="untouched">Später <marker>gehe</marker> ich ins Restaurant essen.</example>
+            <example type="untouched">Ich <marker>gehe</marker> später ins Restaurant essen.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="-1" postag_regexp="yes" postag="(PKT|SENT_START)">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <marker>
+                    <and>
+                        <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                           <exception scope="next">ich</exception>
+                        </token>
+                       <token postag_regexp="yes" postag="VER:IMP:SIN.*"/>
+                    </and>
+                </marker>
+                <token postag="(PKT|SENT_END)" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="VER:1:SIN:(PRÄ|KJ1).+"/>
+            <example type="ambiguous" inputform="stau[stauen/VER:1:SIN:PRÄ:SFT,stauen/VER:IMP:SIN:SFT]" outputform="stau[stauen/VER:IMP:SIN:SFT]">Er war so lange im <marker>stau</marker>, dass er nicht mehr wusste, ob er zur Arbeit oder nach Hause wollte.</example>
+            <example type="untouched">Später <marker>gehe</marker> ich ins Restaurant essen.</example>
+            <example type="untouched">Ich <marker>gehe</marker> später ins Restaurant essen.</example>
+        </rule>  
+        <rule>
+            <pattern>
+                <token skip="-1" postag_regexp="yes" postag="(PKT|SENT_START)">
+                    <exception scope="next">ich</exception>
+                </token>
                 <marker>
                     <and>
                         <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
@@ -7157,13 +7235,35 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <marker>
-                    <token postag="VER.*" postag_regexp="yes" regexp="yes">dunkel|reich</token>
+                    <and>
+                      <token postag="VER.*" postag_regexp="yes"/>
+                      <token postag="ADJ.*" postag_regexp="yes"/>
+                    </and>
                 </marker>
-                <token inflected="yes" postag="VER.*" postag_regexp="yes" regexp="yes">sein|werden</token>
+                <token inflected="yes" postag="VER.*" postag_regexp="yes" regexp="yes">aussehen|sein|werden</token>
             </pattern>
-            <disambig action="remove" postag="VER.*"/>
+            <disambig action="remove" postag="VER:(IMP|[123]).*"/>
             <example type="ambiguous" inputform="dunkel[dunkel/ADJ:PRD:GRU,dunkeln/VER:IMP:SIN:SFT]" outputform="dunkel[dunkel/ADJ:PRD:GRU]">Es wird zeitiger <marker>dunkel</marker> werden heute Abend, weil es regnet.</example>
             <example type="ambiguous" inputform="reich[reich/ADJ:PRD:GRU,reichen/VER:1:SIN:PRÄ:SFT,reichen/VER:IMP:SIN:SFT]" outputform="reich[reich/ADJ:PRD:GRU]">Nur weil er <marker>reich</marker> ist, heißt das noch lange nicht, dass er glücklich ist.</example>
+            <example type="ambiguous" inputform="tätig[tätig/ADJ:PRD:GRU,tätigen/VER:1:SIN:PRÄ:SFT,tätigen/VER:IMP:SIN:SFT]" outputform="tätig[tätig/ADJ:PRD:GRU]">Diese Unternehmen haben die Pflicht, Ihre Daten zu schützen, und können überall, wo wir <marker>tätig</marker> sind, gefunden werden.</example>
+            <example type="ambiguous" inputform="reif[reif/ADJ:PRD:GRU,reifen/VER:1:SIN:PRÄ:SFT,reifen/VER:IMP:SIN:SFT]" outputform="reif[reif/ADJ:PRD:GRU]">Apfel, der vom Baum fällt, wenn er <marker>reif</marker> ist.</example>
+        </rule>	
+        <rule>
+            <pattern>
+                <unify>
+                  <feature id="number"/>
+                  <token inflected="yes" postag="VER.*" postag_regexp="yes" regexp="yes">sein|werden</token>
+                  <token regexp="yes">ich|du|er|sie|es|wir|ihr</token>
+                </unify>
+                <marker>
+                    <and>
+                      <token postag="VER.*" postag_regexp="yes"/>
+                      <token postag="ADJ.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER:(IMP|[123]).*"/>
+            <example type="ambiguous" inputform="sauer[sauer/ADJ:PRD:GRU,sauern/VER:1:SIN:PRÄ:SFT,sauern/VER:IMP:SIN:SFT]" outputform="sauer[sauer/ADJ:PRD:GRU]">Bist du <marker>sauer</marker> auf mich?</example>
         </rule>
     </rulegroup>
 </rules>
