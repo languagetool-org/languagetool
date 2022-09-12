@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY dias_semana_abrev "(?:[Ss]ex|[Ss]eg|[Ss]áb|[Dd]om|[Qq]ui|[Tt]er)">
     <!ENTITY dias_semana "(?:[Dd]omingo|[Qq]uarta(-feira)?|[Qq]uinta(-feira)?|[Ss]ábado|[Ss]egunda(-feira)?|[Ss]exta(-feira)?|[Tt]erça(-feira)?|(seg|ter|qua|qui|sex)-feira)">
     <!ENTITY partes_do_dia "madrugada|manhã|matina|noite|tarde">
-    <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes">
+    <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes|manhãs?|tardes?|noites?">
 	<!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
 	<!ENTITY titulos_militares "Almirante|Comandante|Marechal|General|Tenente|Vice-Almirante|Major|Brigadeiro|Contra-Almirante|Capitão|Tenente-Coronel|Coronel|Primeiro-Tenente|Segundo-Tenente|Terceiro-Tenente|Guarda-Marinha|Aspirante|Suboficial|Subtenente|Primeiro-Sargento|Segundo-Sargento|Terceiro-Sargento|Sargento|Cabo|Marinheiro|Soldado">
@@ -6489,7 +6489,56 @@ O namorado dela era um ladrão.
           <token postag='AQ..P.+|NC.P.+|CS|CC|VM...P.+|SPS00|RN|RM|RG' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-01-07 (1-JAN-2022+) *END* -->
-
+        <antipattern>
+          <token postag='VMG0000'/>
+          <token postag='DD..P.' postag_regexp='yes'/>
+          <token skip='-1' postag='DA..S.' postag_regexp='yes'/>
+          <token>e</token>
+          <example>Há duas universidades que cobrem bacharelado, mestrado e doutorado, sendo essas a Universidade de Amsterdã e a Universidade de Vrije.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>amb[oa]s</token>
+          <token postag='DA..S.' postag_regexp='yes'/>
+          <token skip='-1' postag='N.+|AQ.+' postag_regexp='yes'/>
+          <token>e</token>
+          <example>Ambos o Tom e a Mary gostam de caquis.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='D...P.' postag_regexp='yes'/>
+          <token>o</token>
+          <token regexp='yes'>qu[eê]</token>
+          <token postag='_PUNCT|PP.+|V.+' postag_regexp='yes'/>
+          <example>Nossos o quê?</example>
+          <example>Conte para todos o que você achou dele</example>
+        </antipattern>
+        <antipattern>
+          <token>a</token>
+          <token postag='D...P.' postag_regexp='yes'/>
+          <example>Passou o conhecimento a seus filhos.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='D...P.' postag_regexp='yes'/>
+          <token>a</token>
+          <example>Um bom programador influenciará todos aqueles a seu redor.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token regexp='yes'>mesm[oa]s?</token>
+          <token postag='D.+' postag_regexp='yes'/>
+          <example>É pastor da Igreja do Evangelho Quadrangular, exercendo pela mesma os cargos de Coordenador Metropolitano em Santa Luzia e de Secretário Estadual de Ação Social.</example>
+        </antipattern>
+        <antipattern>
+          <token>que</token>
+          <token>tal</token>
+          <token postag='D.+' postag_regexp='yes'/>
+          <example>Que tal algumas dicas para o seu fim de semana?</example>
+        </antipattern>
+        <antipattern>
+          <token postag='DI.+' postag_regexp='yes'/>
+          <token postag='DD.+' postag_regexp='yes'/>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+          <example>celebrar junto de todos aquela noite</example>
+        </antipattern>
         <pattern>
           <unify negate="yes">
           <feature id="number"/>
@@ -6502,7 +6551,8 @@ O namorado dela era um ladrão.
         <message>&MSG_ECN;</message>
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/></suggestion>
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/></suggestion>
-        <example correction="A nossa|As nossas"><marker>As nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
+        <suggestion>\1, \2</suggestion>
+        <example correction="A nossa|As nossas|As, nossa"><marker>As nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
 
         <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
         <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
