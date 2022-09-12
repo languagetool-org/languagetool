@@ -52,7 +52,8 @@ public class DocumentCache implements Serializable {
 
   public static final int NUMBER_CURSOR_TYPES = 6;
   
-  private static final int MAX_NOTE_CHAR = 7;   //  supports Roman numbers to 87
+  private static final int MAX_NOTE_CHAR = 7;       //  supports Roman numbers to 87
+  private static final int MAX_PRINTED_PARAS = 3;   //  maximal printed paragraphs to log file
 
   private static boolean debugMode;     // should be false except for testing
   private static boolean debugModeTm;   // time measurement should be false except for testing
@@ -364,6 +365,40 @@ public class DocumentCache implements Serializable {
   private static int[] getFootnotes(List<int[]> footnotes, int i) {
     return footnotes != null && i < footnotes.size() ? footnotes.get(i) : null;
   }
+  
+  /**
+   * Correct header/footer or table 
+   */
+  
+  private void correctNegativeNumberEntries(int type, List<List<String>> textParas, List<String> paragraphs, 
+      List<List<Integer>> toParaMapping, List<TextParagraph> toTextMapping)  {
+    boolean isRemoved = false;
+    for (int j = textParas.get(type).size() - 1; j >= 0; j--) {
+      if (toParaMapping.get(type).get(j) < 0) {
+        boolean isMapped = false;
+        for (int i = 0; i < toTextMapping.size() && !isMapped; i++) {
+          if (toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN
+              && isEqualText(paragraphs.get(i), textParas.get(type).get(j), getFootnotes(footnotes, i))) {
+            toParaMapping.get(type).set(j, i);
+            toTextMapping.set(i, new TextParagraph(type, j));
+            isMapped = true;
+          }
+        }
+        if (!isMapped) {
+          toParaMapping.remove(j);
+          isRemoved = true;
+        }
+      }
+    }
+    if (isRemoved) {
+      for (int j = 0; j < toParaMapping.get(type).size(); j++) {
+        int i = toParaMapping.get(type).get(j);
+        if (toTextMapping.get(i).number != j) {
+          toTextMapping.set(i, new TextParagraph(type, j));
+        }
+      }
+    }
+  }
 
   /**
    * Map text paragraphs to flat paragraphs is only used for writer documents
@@ -376,6 +411,7 @@ public class DocumentCache implements Serializable {
       List<Integer> nTables = new ArrayList<>();
       List<Integer> nHeaders = new ArrayList<>();
       List<Integer> nText = new ArrayList<>();
+      int printCount = 0;
       for (int i = 0; i < textParas.size(); i++) {
         nText.add(0);
       }
@@ -505,9 +541,10 @@ public class DocumentCache implements Serializable {
           //  no text and tables left ==> unknown paragraph
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
           numUnknown++;
-          if (debugMode || !paragraphs.get(i).isEmpty()) {
+          if (debugMode || (!paragraphs.get(i).isEmpty() && printCount < MAX_PRINTED_PARAS)) {
+            printCount++;
             MessageHandler.printToLogFile(
-                "WARNING: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
+                "Warning: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
           }
           continue;
         } else if (nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size() && numUnknown >= nUnknown) {
@@ -597,9 +634,10 @@ public class DocumentCache implements Serializable {
         //  unknown paragraph
         toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
         numUnknown++;
-        if (debugMode || !paragraphs.get(i).isEmpty()) {
+        if (debugMode || (!paragraphs.get(i).isEmpty() && printCount < MAX_PRINTED_PARAS)) {
+          printCount++;
           MessageHandler.printToLogFile(
-              "WARNING: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
+              "Warning: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
         }
         if (debugMode) {
           MessageHandler.printToLogFile("DocumentCache: mapParagraphs:");
@@ -619,16 +657,34 @@ public class DocumentCache implements Serializable {
           && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
           && nHeaders.size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
           && nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size();
+      if (!isCorrectNonText) {
+        //  Try to repair incorrect header/footer mapping
+        if (nHeaders.size() < textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()) {
+          MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair header mapping");
+          correctNegativeNumberEntries(CURSOR_TYPE_HEADER_FOOTER, textParas, paragraphs, toParaMapping, toTextMapping);
+        }
+        //  Try to repair incorrect table mapping
+        if (nTables.size() < textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()) {
+          MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair table mapping");
+          correctNegativeNumberEntries(CURSOR_TYPE_TABLE, textParas, paragraphs, toParaMapping, toTextMapping);
+        }
+        isCorrectNonText = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
+            && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
+            && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
+            && toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
+            && toParaMapping.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size();
+      }
       boolean isCorrectMapping = isCorrectNonText && toParaMapping.get(CURSOR_TYPE_TEXT).size() == textParas.get(CURSOR_TYPE_TEXT).size();
       if (!isCorrectMapping && isCorrectNonText) {
         //  Try to repair incorrect text mapping
-        MessageHandler.printToLogFile("Warning: document chache mapping failed: Try to repair");
+        MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair text mapping");
+        printCount = 0;
+        toParaMapping.get(CURSOR_TYPE_TEXT).clear();
         boolean allmapped = true;
         for (int j = 0; j < textParas.get(CURSOR_TYPE_TEXT).size(); j++) {
-          toParaMapping.get(CURSOR_TYPE_TEXT).clear();
           boolean ismapped = false;
           for (int i = 0; i < paragraphs.size() && !ismapped; i++) {
-            if (toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN && 
+            if ((toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN || toTextMapping.get(i).type == CURSOR_TYPE_TEXT) && 
                 isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TEXT).get(j), getFootnotes(footnotes, i))) {
               toTextMapping.set(i, new TextParagraph(CURSOR_TYPE_TEXT, j));
               toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
@@ -637,13 +693,23 @@ public class DocumentCache implements Serializable {
           }
           if (!ismapped) {
             allmapped = false;
-            MessageHandler.printToLogFile("Warning: Could not map text paragraph: " + textParas.get(CURSOR_TYPE_TEXT).get(j));
+            if (debugMode || printCount < MAX_PRINTED_PARAS) {
+              printCount++;
+              MessageHandler.printToLogFile("Warning: Could not map text paragraph: " + textParas.get(CURSOR_TYPE_TEXT).get(j));
+            }
+          }
+        }
+        for (int i = 0; i < paragraphs.size(); i++) {
+          if (toTextMapping.get(i).type == CURSOR_TYPE_TEXT && !toParaMapping.get(CURSOR_TYPE_TEXT).contains(i)) {
+            toTextMapping.set(i, new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
           }
         }
         if (!allmapped) {
-          MessageHandler.printToLogFile("Warning: unknow paragraphs:");
-          for (int i = 0; i < paragraphs.size(); i++) {
+          MessageHandler.printToLogFile("Warning: unknow paragraphs (max. " + MAX_PRINTED_PARAS + " printed):");
+          printCount = 0;
+          for (int i = 0; i < paragraphs.size() && printCount < MAX_PRINTED_PARAS; i++) {
             if (toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN) {
+              printCount++;
               MessageHandler.printToLogFile(i + ": " + paragraphs.get(i));
             }
           }  
