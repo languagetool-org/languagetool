@@ -605,6 +605,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
         
+        matches = rule.match(lt.getAnalyzedSentence("✅Conpto amb el títol"));
+        assertEquals(1, matches.length);
+        assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
+        
         matches = rule.match(lt.getAnalyzedSentence("·Compto amb el títol"));
         assertEquals(1, matches.length);
         assertEquals("[· Compto, Compto]", matches[0].getSuggestedReplacements().toString());
