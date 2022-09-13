@@ -7266,4 +7266,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="ambiguous" inputform="sauer[sauer/ADJ:PRD:GRU,sauern/VER:1:SIN:PRÄ:SFT,sauern/VER:IMP:SIN:SFT]" outputform="sauer[sauer/ADJ:PRD:GRU]">Bist du <marker>sauer</marker> auf mich?</example>
         </rule>
     </rulegroup>
+    <rule id="VOLKSWAGEN_KEIN_VER" name="'Wagen' kein Verb">
+        <pattern>
+            <marker>
+                <token>Volkswagen</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="SUB.*INF"/>
+    </rule>
+    <rule id="INSTITUTE_OF" name="'Institute of' kein Pluralnomen">
+        <pattern>
+            <marker>
+                <token>Institute</token>
+            </marker>
+            <token regexp="yes">of|for</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*PLU.*"/>
+    </rule>
 </rules>
