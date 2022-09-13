@@ -193,6 +193,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     validateRuleIds(lang, allRulesLt);
     validateSentenceStartNotInMarker(allRulesLt);
     validateUnifyIgnoreAtTheStartOfUnify(allRulesLt);
+    //validateRegexpInSynthesisMatches(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
     testRegexSyntax(lang, rules);
     testMessages(lang, rules);
@@ -318,6 +319,53 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         }
       }
     }
+  }
+
+  protected void validateRegexpInSynthesisMatches(JLanguageTool lt) {
+    System.out.println("Check that synthesis matches with POS tag regexp have POS tag regexp in the pattern....");
+    List<Rule> rules = lt.getAllRules();
+    for (Rule rule : rules) {
+      if (rule instanceof AbstractPatternRule) {
+        AbstractPatternRule apRule = (AbstractPatternRule) rule;
+        List<PatternToken> patternTokens = apRule.getPatternTokens();
+        List<Match> suggestionMatches = new ArrayList<>();
+        if (apRule.getSuggestionMatches() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatches());
+        }
+        if (apRule.getSuggestionMatchesOutMsg() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatchesOutMsg());
+        }
+        List<Integer> matchNos = getMatchNos(
+            ((AbstractPatternRule) rule).getMessage() + ((AbstractPatternRule) rule).getSuggestionsOutMsg());
+        int i = 0;
+        for (Match suggestionMatch : suggestionMatches) {
+          if (suggestionMatch.isPostagRegexp()) {
+            int no = matchNos.get(i);
+            if (patternTokens != null && no > patternTokens.size()) {
+              System.err.println("Warning: Rule " + rule.getFullId() + " refers to token \\" + (no) + " but has only "
+                  + patternTokens.size() + " tokens.");
+            } else {
+              // !patternTokens.get(no - 1).isPOStagRegularExpression() &&
+              if (patternTokens.get(no - 1).getPOStag() == null) {
+                System.err.println("Warning: Rule " + rule.getFullId() + " refers to token \\" + (no)
+                    + " with a postag regular expression, but the token in the pattern has no postag.");
+              }
+            }
+          }
+          i++;
+        }
+      }
+    }
+  }
+
+  private List<Integer> getMatchNos(String message) {
+    Pattern pattern = Pattern.compile("\\\\[0-9]+");
+    Matcher matcher = pattern.matcher(message);
+    List<Integer> noList = new ArrayList<>();
+    while (matcher.find()) {
+      noList.add(Integer.parseInt(matcher.group().replace("\\", "")));
+    }
+    return noList;
   }
   
   private static void disableSpellingRules(JLanguageTool lt) {
