@@ -145,6 +145,38 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rulegroup id="LA_PAILLE" name="la paille">
+    <rule>
+        <pattern>
+            <and>
+            <token postag="D f s"/>
+            <token postag="_GN_FS"/>
+            </and>
+            <marker>
+                <and>
+                    <token postag="N f s"/>
+                    <token postag="_GN_FS"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
+    <rule>
+        <pattern>
+            <and>
+                <token postag="D [em] s" postag_regexp="yes"/>
+                <token postag="_GN_MS"/>
+            </and>
+            <marker>
+                <and>
+                    <token postag="N [em] s" postag_regexp="yes"/>
+                    <token postag="_GN_MS"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
+    </rulegroup>
     <rulegroup id="FAILLI" name="failli">
         <rule>
             <pattern>
@@ -3283,8 +3315,8 @@ RB => Règles Brutes
     </rule>
     <rule name="dimensions produit" id="DIMENSIONS_PRODUIT">
         <pattern>
-            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">café|connaissance|expertises?|amélioration|contrôle|mariée?s?|mutuelle|carte|locations?|références?|figurations?|test|cessions?|fiches?|actus?|affichages?|informations?|démos?|tables?|exploitations?|équipes?|qualités?|expériences?|top|innovation|expiration|nouveauté|dimension|fiche|retour|photo|recherche|image|page</token>
-            <token postag="N.*" postag_regexp="yes" regexp="yes">produits?|marchés?|droit|logiciels?|imprimantes?|citoyen|artisan|créateur|caractérisitique</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">café|connaissance|expertises?|produits?|amélioration|contrôle|mariée?s?|mutuelle|carte|locations?|références?|figurations?|test|cessions?|fiches?|actus?|affichages?|informations?|démos?|tables?|exploitations?|équipes?|qualités?|expériences?|top|innovation|expiration|nouveauté|dimension|fiche|retour|photo|recherche|image|page</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">produits?|marchés?|droit|logiciels?|imprimantes?|citoyen|qualités?|artisan|créateur|caractérisitique</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>

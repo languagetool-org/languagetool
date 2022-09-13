@@ -31,6 +31,10 @@ import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XIndexAccess;
 import com.sun.star.container.XNameAccess;
 import com.sun.star.container.XNameContainer;
+import com.sun.star.drawing.XDrawPage;
+import com.sun.star.drawing.XDrawPageSupplier;
+import com.sun.star.drawing.XShape;
+import com.sun.star.drawing.XShapes;
 import com.sun.star.lang.XComponent;
 import com.sun.star.style.XStyleFamiliesSupplier;
 import com.sun.star.text.XFootnote;
@@ -371,6 +375,9 @@ class DocumentCursorTools {
   private static List<String> addAllParagraphsOfText(XText xText, List<String> sText, List<List<Integer>> deletedCharacters) {
     XTextCursor xTextCursor = xText.createTextCursor();
     XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
+    if (xParagraphCursor == null) {
+      return sText;
+    }
     xParagraphCursor.gotoStart(false);
     do {
       xParagraphCursor.gotoStartOfParagraph(false);
@@ -429,7 +436,7 @@ class DocumentCursorTools {
   }
   
   /** 
-   * Returns all paragraphs of all text frames of a document
+   * Returns the number of all paragraphs of all text frames of a document
    */
   public int getNumberOfAllFrames() {
     isBusy++;
@@ -442,6 +449,87 @@ class DocumentCursorTools {
           Object o = xNamedFrames.getByName(name);
           XText xFrameText = UnoRuntime.queryInterface(XText.class,  o);
           num += getNumberOfAllParagraphsOfText(xFrameText);
+        }
+      }
+      return num;
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
+      return 0;           // Return 0 as method failed
+    } finally {
+      isBusy--;
+    }
+  }
+  
+  /** 
+   * Returns all paragraphs of all text shapes of a document
+   */
+  public DocumentText getTextOfAllShapes() {
+    isBusy++;
+    try {
+      List<String> sText = new ArrayList<String>();
+      List<Integer> headingNumbers = new ArrayList<Integer>();
+      List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>();
+      XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
+      if (xDrawPageSupplier == null) {
+        MessageHandler.printToLogFile("XDrawPageSupplier == null");
+        return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
+      }
+      XDrawPage xDrawPage = xDrawPageSupplier.getDrawPage();
+      if (xDrawPage == null) {
+        MessageHandler.printToLogFile("XDrawPage == null");
+        return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
+      }
+      XShapes xShapes = UnoRuntime.queryInterface(XShapes.class, xDrawPage);
+      int nShapes = xShapes.getCount();
+      for(int j = 0; j < nShapes; j++) {
+        Object oShape = xShapes.getByIndex(j);
+        XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+        if (xShape != null) {
+          XText xShapeText = UnoRuntime.queryInterface(XText.class, xShape);
+          if (xShapeText != null) {
+            addAllParagraphsOfText(xShapeText, sText, deletedCharacters);
+            headingNumbers.add(sText.size());
+          }
+        }
+      }
+      return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
+      return null;           // Return null as method failed
+    } finally {
+      isBusy--;
+    }
+  }
+  
+  /** 
+   * Returns the number of all paragraphs of all text shapes of a document
+   */
+  public int getNumberOfAllShapes() {
+    isBusy++;
+    try {
+      int num = 0;
+      if (curDoc != null) {
+        XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
+        if (xDrawPageSupplier == null) {
+          MessageHandler.printToLogFile("XDrawPageSupplier == null");
+          return 0;
+        }
+        XDrawPage xDrawPage = xDrawPageSupplier.getDrawPage();
+        if (xDrawPage == null) {
+          MessageHandler.printToLogFile("XDrawPage == null");
+          return 0;
+        }
+        XShapes xShapes = UnoRuntime.queryInterface(XShapes.class, xDrawPage);
+        int nShapes = xShapes.getCount();
+        for(int j = 0; j < nShapes; j++) {
+          Object oShape = xShapes.getByIndex(j);
+          XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+          if (xShape != null) {
+            XText xShapeText = UnoRuntime.queryInterface(XText.class, xShape);
+            if (xShapeText != null) {
+              num += getNumberOfAllParagraphsOfText(xShapeText);
+            }
+          }
         }
       }
       return num;

@@ -207,7 +207,7 @@ public class HTTPServerConfig {
     "redisUseSentinel", "sentinelHost", "sentinelPort", "sentinelPassword", "sentinelMasterId",
     "dbLogging", "premiumOnly", "nerUrl", "minPort", "maxPort", "localApiMode", "motherTongue", "preferredLanguages",
     "dictLimitUser", "dictLimitTeam", "styleGuideLimitUser", "styleGuideLimitTeam",
-    "passwortLoginAccessListPath");
+    "passwortLoginAccessListPath", "redisDictTTLSeconds");
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).

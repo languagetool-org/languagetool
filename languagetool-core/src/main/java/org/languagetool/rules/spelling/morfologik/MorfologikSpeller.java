@@ -33,11 +33,17 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Morfologik-based spell checker.
  */
 public class MorfologikSpeller {
+  
+  private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d[\\.,\\d]*|\\P{L}+)(.*)$");
+  private final Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\$%]+)(.*)$");
+  //private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(.+)\b(.*)$");
 
   // Speed up the server use case, where rules get initialized for every call.
   // See https://github.com/morfologik/morfologik-stemming/issues/69 for confirmation that
@@ -128,11 +134,36 @@ public class MorfologikSpeller {
     // needs to be reset every time, possible bug: HMatrix for distance computation is not reset;
     // output changes when reused
     Speller speller = new Speller(dictionary, maxEditDistance);
+    
+    String cleanWord = word;
+    //word starting with numbers or bullets
+    String firstPart = "";
+    String secondPart = "";
+    Matcher mStartsWithNumbersBullets = pStartsWithNumbersBullets.matcher(word);
+    if (mStartsWithNumbersBullets.matches() && !word.startsWith("-")) {
+      Matcher mStartsWithNumbersBulletsExceptions = pStartsWithNumbersBulletsExceptions.matcher(word);
+      if (!mStartsWithNumbersBulletsExceptions.matches()) {
+        firstPart = mStartsWithNumbersBullets.group(1);
+        secondPart = mStartsWithNumbersBullets.group(2);
+        if (!speller.isMisspelled(secondPart)) {
+          suggestions.add(new WeightedSuggestion(firstPart + " " + secondPart, 0));
+          firstPart = ""; // don't use it in next search of replacements
+        } else {
+          //suggestions.add(new WeightedSuggestion(firstPart + " " + secondPart, 1));
+          cleanWord = secondPart;
+        }  
+      }
+    }
+    
     List<Speller.CandidateData> replacementCandidates;
-    if (word.length() < 50) {   // slow for long words (the limit is arbitrary)
-      replacementCandidates = speller.findReplacementCandidates(word);
+    if (cleanWord.length() < 50) {   // slow for long words (the limit is arbitrary)
+      replacementCandidates = speller.findReplacementCandidates(cleanWord);
       for (Speller.CandidateData candidate : replacementCandidates) {
-        suggestions.add(new WeightedSuggestion(candidate.getWord(), candidate.getDistance()));
+        if (!firstPart.isEmpty()) {
+          suggestions.add(new WeightedSuggestion(firstPart + " " + candidate.getWord(), candidate.getDistance()));
+        } else {
+          suggestions.add(new WeightedSuggestion(candidate.getWord(), candidate.getDistance()));  
+        }
       }
     }
     List<Speller.CandidateData> runOnCandidates = speller.replaceRunOnWordCandidates(word);

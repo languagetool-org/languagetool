@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY dias_semana_abrev "(?:[Ss]ex|[Ss]eg|[Ss]áb|[Dd]om|[Qq]ui|[Tt]er)">
     <!ENTITY dias_semana "(?:[Dd]omingo|[Qq]uarta(-feira)?|[Qq]uinta(-feira)?|[Ss]ábado|[Ss]egunda(-feira)?|[Ss]exta(-feira)?|[Tt]erça(-feira)?|(seg|ter|qua|qui|sex)-feira)">
     <!ENTITY partes_do_dia "madrugada|manhã|matina|noite|tarde">
-    <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes">
+    <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes|manhãs?|tardes?|noites?">
 	<!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
 	<!ENTITY titulos_militares "Almirante|Comandante|Marechal|General|Tenente|Vice-Almirante|Major|Brigadeiro|Contra-Almirante|Capitão|Tenente-Coronel|Coronel|Primeiro-Tenente|Segundo-Tenente|Terceiro-Tenente|Guarda-Marinha|Aspirante|Suboficial|Subtenente|Primeiro-Sargento|Segundo-Sargento|Terceiro-Sargento|Sargento|Cabo|Marinheiro|Soldado">
@@ -67,7 +67,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY separadores_de_abertura "(?:\(|\{|\[)">
     <!ENTITY separadores_de_fecho "(?:\)|\}|\])">
     <!ENTITY hifen "(?:[-‑])">
-    <!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
+    <!ENTITY tracos_de_separacao "(?:[-‑]|–|—|ㅡ)">
     <!ENTITY negacoes "jamais|nada|não|nem|nenhum|nenhuma|nenhumas|nenhuns|ninguém|nunca|sem|tampouco">
     <!ENTITY introduz_proclise "ainda|apenas|até|bem|caso|como|conforme|consoante|embora|enquanto|já|mais|onde|para|pois|porque|portanto|quais|qual|quando|quanta|quantas|quanto|quantos|quão|que|quem|se|sempre|talvez">
 
@@ -2660,10 +2660,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <!-- MARCOAGPINTO 2022-08-04 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-      <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto and Susana Boatto, Portuguese rule 2022-09-04 (25-JUL-2022+) -->
+      <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto and Susana Boatto, Portuguese rule 2022-09-04/11 (25-JUL-2022+) -->
       <!--
       As palavras estão corretos. → As palavras estão corretas.
       A palavra está correto. → A palavra está correta.
+
+      A hipótese for correto. → A hipótese for correta.
+      As hipóteses forem corretos. → As hipóteses forem corretas.
+
+      A avaliação é correto. → A avaliação é correta.
+      As avaliações são corretos. → As avaliações são corretas.
+
+      Ela está bonito hoje. → Ela está bonita hoje.
+      Elas estão bonitos hoje. → Elas estão bonitas hoje.
       -->
       <rule id='LIGACAO_ECG_V2' name="Ligação ECG">
 
@@ -2671,7 +2680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ.M.+|NCM.+|CC|RG' postag_regexp="yes"/>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <example>O café da manhã está pronto?</example>
           <example>O cérebro com os centros diretivos da mente funciona encerrado na caixa craniana, à maneira de usina quase lacrada num cofre forte.</example>
@@ -2698,7 +2707,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <example>A maioria das orações possui sujeito.</example>
           <example>Um terço da superfície da Terra é deserto.</example>
@@ -2707,9 +2716,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
 
         <antipattern>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <and>
             <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
             <token regexp="yes" inflected="yes">&languages;</token>
@@ -2723,12 +2732,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>As principais línguas-fonte da interlíngua são Português, Espanhol, Italiano, Francês e Inglês.</example>
           <example>É difícil encontrar falantes nativos de Árabe em Dubai, onde a maioria das pessoas fala Inglês.</example>
           <example>A minha matéria favorita na escola é francês.</example>
+          <example>O marido dela é americano.</example>
+          <example>Ela fala chinês.</example>
+          <example>Ela sabe francês às avessas.</example>
+          <example>Além do inglês, ela fala francês fluentemente.</example>
         </antipattern>
 
         <antipattern>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <token postag='AQ.M.+|NCM.+|V.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp="yes"/>
           <example>Para ter êxito na vida é preciso trabalhar duro.</example>
@@ -2753,7 +2766,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <token min="0" max="1" postag='_PUNCT' postag_regexp="no"/>
           <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp="yes"/>
@@ -2773,7 +2786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <token postag='_PUNCT' postag_regexp="no"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
@@ -2783,7 +2796,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes"/>
+          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
           <token postag='AQ.M.+' postag_regexp="yes"/>
           <token min="0" max="1" postag='_PUNCT' postag_regexp="no"/>
           <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp="yes"/>
@@ -2795,15 +2808,93 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>A complacência granjeia amigos; a verdade, inimigos.</example>
         </antipattern>
 
-        <pattern>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes">
-            <exception scope="previous" postag='V.+|[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp='yes'/>
-          </token>
+        <antipattern>
           <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+' postag_regexp="yes">
-            <exception postag='NC.+|AQ.+' postag_regexp='yes'/>
-            <exception regexp='no' inflected='yes'>ter</exception>
+          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token>são</token>
+          <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
+          <example>A coisa mais preciosa na vida são momentos.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='SENT_START|_PUNCT' postag_regexp="yes"/>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token postag='V.+' postag_regexp="yes">
+              <exception regexp='no'>são</exception>
           </token>
+          <token postag='AQ.M.+|NCM.+|NP.+' postag_regexp="yes">
+              <exception scope="next" postag='RG' postag_regexp='no'/>
+          </token>
+          <example>Ele passa o tempo a jogar computador.</example>
+          <example>Ela fala bonito.</example>
+          <example>Ela usa vestidos sarapintados a fim de chamar a atenção.</example>
+          <example>Ela monta computadores.</example>
+          <example>Ela toca violino bem.</example>
+          <example>Ela come feito uma porca.</example>
+          <example>12ª Sessão - Brasil S.A É preciso melhorar a atividade pública e buscar novas formas de convídio Devemos buscar uma governança mais e...</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token postag='VMN0000' postag_regexp="no"/>
+          <token postag='AQ.M.+|NCM.+|NP.+' postag_regexp="yes">
+              <exception scope="next" postag='RG' postag_regexp='no'/>
+          </token>
+          <example>...ive, quase criou uma crise política da-que-las, o que obrigou seu pai, figurinha carimbada, a pular miúdo para colocar panos quentes sobre a questão.</example>
+          <example>Tenho tendência a pegar resfriados.</example>
+          <example>Quando eu era menino, passava horas a ler sozinho em meu quarto.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='AQ.[CM].+|NC[CM].+|CS|VMIP1.+|VMN0000' postag_regexp="yes"/>
+          <token min="0" max="1" postag='SPS00|CC|RG|_PUNCT|RM' postag_regexp="yes"/>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token postag='V.+' postag_regexp="yes">
+              <exception regexp='no'>são</exception>
+          </token>
+          <token min="0" max="1" postag='RG' postag_regexp="no"/>
+          <token postag='AQ.M.+|NCM.+|NP.+' postag_regexp="yes">
+              <exception scope="next" postag='RG' postag_regexp='no'/>
+          </token>
+          <example>... de ano mais desastroso, precisa driblar o rebaixamento - é esse o desafio do bombeiro a substituir Mano.</example>
+          <example>O que está acontecendo com sua planta não é normal, aparentemente os cuidados com ela estão corretos, mas certamente alguma coisa de errado está acontecendo.</example>
+          <example>Lá diz o povo que quando o barco começa a afundar os primeiros a fugir são os 28, perdão, são os ratos.</example>
+          <example>Os primeiros a receber são os que ganham até um salário mínimo (R$ 998, em 2019).</example>
+          <example>O pai dela é conservador e careta.</example>
+          <example>A Maria, o inglês dela é bom, mas ela tem vergonha de falar com os outros em inglês.</example>
+          <example>O pai dela é vivo?</example>
+          <example>O cabelo dela é liso, loiro e longo.</example>
+          <example>O marido dela é rico.</example>
+          <example>O namorado novo dela é negro.</example>
+          <example>O único objetivo verdadeiro da educação é simplesmente ensinar o homem a aprender sozinho.</example>
+          <example>Ele passa o tempo a jogar computador.</example>
+          <example>Andei cinco anos a estudar basco.</example>
+          <example>...rantes que foram vítimas de crimes graves, pessoas sujeitas à proteção internacional e a acompanhar defensores e defensoras de direitos humanos de pessoas migrantes que estão em risco.</example>
+          <example>Esta demagogia social, a tomar emprestado do movimento da classe trabalhadora sua linguagem, dando-lhe um significado racial não-classista, é...</example>
+          <example>...intenção com as crônicas e dicas postadas aqui é simplesmente inspirar outros viajantes a descobrir novos lugares (ou, quem sabe, a se aventurar por novos recantos em lugares já conhecidos).</example>
+          <example>...m do artigo 14 do Cdigo de Defesa do Consumidor, os artigos 186 e 927 do Novo Cdigo Civil, a seguir transcritos: "Artigo 186.</example>
+          <example>O suéter dela é roxo.</example>
+          <example>O cabelo dela era tão longo que alcançava o chão.</example>
+          <example>É importante ressaltar que essa obra é única no mercado, pois somente ela traz tamanho número de questões do Exame de Ordem e da FGV, questões estas que estão classificadas e comentadas,...</example>
+          <example>Nós estamos apenas a trinta minutos daí.</example>
+          <example>Estamos apenas a trinta minutos daí.</example>
+          <example>Quando o aluno trabalha sozinho ele tem que aprender também a lidar sozinho com essas questões, mas estando acompanhado por um professor, que se supõe poder orientá-lo nessas ...</example>
+        </antipattern>
+
+        <pattern>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes">
+            <exception scope="previous" postag='V.+|[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp='yes'/>
+            <exception scope="next" postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+          </token>
+          <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <or>
+            <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes">
+              <exception postag='NC.+|AQ.+' postag_regexp='yes'/>
+              <exception regexp='no' inflected='yes'>ter</exception>
+            </token>
+            <token>são</token>
+          </or>
           <marker>
             <token postag='AQ.M.+' postag_regexp="yes">
               <exception postag='RG|[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
@@ -2812,8 +2903,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </pattern>
         <message>&MSG_ECG;</message>
         <suggestion><match no='4' postag="AQ0M(.)0" postag_replace='AQ0F$10' postag_regexp="yes"/></suggestion>
-        <example correction='corretas'>As palavras estão <marker>corretos</marker>.</example>
         <example correction='correta'>A palavra está <marker>correto</marker>.</example>
+        <example correction='corretas'>As palavras estão <marker>corretos</marker>.</example>
+        <example correction='correta'>A hipótese for <marker>correto</marker>.</example>
+        <example correction='corretas'>As hipóteses forem <marker>corretos</marker>.</example>
+        <example correction='correta'>A avaliação é <marker>correto</marker>.</example>
+        <example correction='corretas'>As avaliações são <marker>corretos</marker>.</example>
+        <example correction='bonita'>Ela está <marker>bonito</marker> hoje.</example>
+        <example correction='bonitas'>Elas estão <marker>bonitos</marker> hoje.</example>
         <example>Dirija com cuidado. Não se esqueça que a imprudência custa caro.</example>
         <example>A águia voa alto.</example>
         <example>O limite livre de impostos pra carregar vinhos para o Brasil na mala é alto.</example>
@@ -2828,12 +2925,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>De quem as senhoras têm medo?</example>
         <example>O Tomás disse que a Maria tem medo.</example>
         <example>As partículas alfa são partículas positivas.</example>
-        <example>A coisa mais preciosa na vida são momentos.</example>
         <example>A senhora tem filhos?</example>
         <example>Por que as pessoas têm filhos?</example>
         <example>As crianças têm direitos.</example>
       </rule>
-
 
     </rulegroup>
 
@@ -3128,15 +3223,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Daí <marker>a duas</marker> semanas temos a festa.</example>
         <example>Os arqueólogos dedicam-se cada vez mais <marker>a fases tardias</marker> da evolução humana.</example>
         <example>O profeta, mas <marker>a evidências que</marker> apoiam que esta reivindicação é falsa.</example>
-
-        <example>O grande mal nos conflitos deve-se <marker>a inocentes</marker> serem lesados.</example>
-        <example>Existem prejuízos graves e dispendiosos a instalações ou vantagens para os criminosos.</example>
-
-        <example>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
-        <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
-        <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
-        <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
-        <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
 
         <example>Apresente-me a seus pais quando se sentir preparada.</example>
         <example>Apresente-me a suas mães quando se sentir preparada.</example>
@@ -3711,6 +3797,21 @@ O namorado dela era um ladrão.
       Suas obras contêm o primeiro estudo formal conhecido da lógica, que foi incorporado posteriormente à lógica formal. → Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.
       -->
       <rule>
+
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- This antipattern is used twice in the rules, it triggers two rules. -->
+        <!-- Zero hits in 600 000 sentence, only affects my thesis. -->
+        <antipattern>
+          <token postag='_PUNCT' postag_regexp='no'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='_PUNCT' postag_regexp='no'/>
+          <token>que</token>
+          <token regexp='yes'>foram|foi|são|é</token>
+          <token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
+          <example>Temos infraestruturas civis (habitações, que são obstáculos no nosso estudo).</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token>,</token>
           <marker>
@@ -3849,7 +3950,13 @@ O namorado dela era um ladrão.
           <token regexp='yes'>d[aeo]s?</token>
           <example>Houve várias adaptações, sendo a mais conhecida a de 1951.</example>
         </antipattern>
-
+        <antipattern>
+          <token>sendo</token>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <token min='0' postag='D.+|SPS00' postag_regexp='yes'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+          <example>é um processo longo, sendo necessária a exposição.</example>
+        </antipattern>
         <pattern>
           <token>,</token>
           <marker>
@@ -3875,7 +3982,6 @@ O namorado dela era um ladrão.
         <example>Suas obras contêm o primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.</example>
         <example>A popularidade de Getúlio, porém, continua grande, sendo muito aplaudido na sua última grande aparição pública no dia do trabalho em 1 de maio de 1945.</example>
         <!-- FIXME if necessary -->
-        <example type="triggers_error">É claro que, sendo grande amigo seu, ele vai ajudá-lo.</example>
         <example>Os inhames são em geral vendidos a peso, sendo comum serem cortados nos mercados para serem comercializados em porções.</example>
 		
         <example>Com uma população de cerca de 29 milhões de habitantes, tem uma área de 647.500 km², sendo o 40º país mais populoso do mundo e 40º maior do mundo.</example>
@@ -5298,38 +5404,6 @@ O namorado dela era um ladrão.
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[FC]P.+' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-06-03 *START* -->
-        <!-- "São em diferentes graus de intensidade, a diversas outras áreas do saber." -->
-        <antipattern>
-          <token postag='DA0FS0|SPS00' postag_regexp='yes'/>
-          <token postag='AQ0FP0'/>
-          <token postag='DI0FP0|PI0FP000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-03 *END* -->
-        <!-- MARCOAGPINTO 2020-06-14 *START* -->
-        <!-- "Os remanescentes do regime derrubado juntaram-se a diferentes grupos." -->
-        <!-- "Os remanescentes do regime derrubado juntaram-se a diferentes organizações." -->
-        <antipattern>
-          <token regexp='yes'>a|de|em|nos|nas</token>
-          <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
-          <token postag='NC[CFM]P000' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-14 *END* -->
-        <!-- MARCOAGPINTO 2020-07-03 (2-JUL-2020+) *START* -->
-        <!-- "E da pobreza provenientes do conflito armado." -->
-        <antipattern>
-          <token regexp='yes'>e|em|como</token>
-          <token regexp='yes'>a|de|sua|por|com|da|o|do</token>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='AQ0CP0'/>
-        </antipattern>
-        <antipattern>
-          <token postag='AQ0FP0|VMIP3P0|VMII3P0|AQ0CS0|NCMP000|VMG0000' postag_regexp='yes'/>
-          <token regexp='yes'>à|dessa|nos|para|com</token>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-          <token postag='AQ0CP0'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-07-03 (2-JUL-2020+) *END* -->
         <!-- MARCOAGPINTO 2020-10-29 + 2020-10-30 (21-OCT-2020+) *START* -->
         <!-- "Ao testar um modelo tendo por base dados." -->
         <!-- "Ao testar um modelo tendo por resultado dados." -->
@@ -5361,61 +5435,6 @@ O namorado dela era um ladrão.
           <token regexp="yes">que|na|no|maiores|menores|como|por|o|[.,?!]</token>
         </antipattern>
         <!-- MARCOAGPINTO 2020-10-05 + 2020-11-05 (2-JUL-2020+) *END* -->
-
-        <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *START* -->
-        <!--
-        O grande mal nos conflitos deve-se a inocentes serem lesados.
-        Existem prejuízos graves e dispendiosos a instalações ou vantagens para os criminosos.
-        -->
-        <antipattern>
-          <token postag='V.+|AQ0.P.+' postag_regexp='yes'/>
-          <token min="0" max="1">-</token>
-          <token min="0" max="1">se</token>
-          <token postag='DA0FS0'/>
-          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-          <token postag='V....P.+|CC' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-02-22 (1-JAN-2021+) *END* -->
-        <!-- MARCOAGPINTO 2021-03-05 (1-JAN-2021+) *START* -->
-        <!--
-        A campanha de vendas levou milhares deles a perdas de mais de 95%.
-        A campanha de vendas levou eles a perdas de mais de 95%.
-        A campanha de vendas levou estes a perdas de mais de 95%.
-        Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.
-        -->
-        <antipattern>
-          <token postag='PP3.[PN].+|DD0.P.+|SPS00.PP3.P.+' postag_regexp='yes'/>
-          <token postag='DA0.S.+' postag_regexp='yes'/>
-          <token postag='NC.P.+|AQ0.P.+|DI0.P.+' postag_regexp='yes'/>
-          <token/>
-        </antipattern>
-        <!--
-        Estas instruções basearam-se nas várias a que tive acesso.
-        -->
-        <antipattern>
-          <token postag='PP3.P.+|DD0.P.+|SPS00.PP3.P.+' postag_regexp='yes'/>
-          <token postag='NC.P.+|AQ0.P.+|DI0.P.+' postag_regexp='yes'/>
-          <token postag='DA0.S.+' postag_regexp='yes'/>
-          <token/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-03-05 (1-JAN-2021+) *END* -->
-        <!-- MARCOAGPINTO 2021-04-20 (17-MAR-2021+) *START* -->
-        <!--
-        Temos no final possíveis cenários para a análise do comportamento.
-        Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.
-        Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.
-        O senhor Camargo cria codornas em sua chácara.
-        De valor diferenciado por terem como origem fontes imparciais e isentas.
-        -->
-        <antipattern>
-          <token negate_pos="yes" postag='SENT_START'/>
-          <token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
-          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-          <token postag='AQ0.P.+|NC.P.+|CC|SPS.+' postag_regexp='yes'>
-            <exception postag='RN'/>
-          </token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-04-20 (17-MAR-2021+) *END* -->
         <!-- MARCOAGPINTO 2021-05-22 (17-MAR-2021+) *START* -->
         <!--
         Este é o modelo que mostra descontinuidades.
@@ -5602,6 +5621,77 @@ O namorado dela era um ladrão.
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='DA0.S.+|SPS00:DA0.S.+' postag_regexp='yes'/>
+          <token postag='NC.P.+|AQ..P.+' postag_regexp='yes'/>
+          <token/>
+          <example>Este site é de propriedade da Adclick Ltd, única responsável por seu conteúdo, e destina-se a residentes do Brasil.</example>
+          <example>Este livro destina-se a estudantes cuja língua materna não seja o japonês.</example>
+          <example>No ambiente do lar, cada um fale sua língua materna à vontade; entretanto, não queira impô-la a pessoas de outras etnias, para não as incomodar ou ofender.</example>
+          <example>Proponho aos senhores e às senhoras que evitem escrever banalidades, atendo-se a coisas de interesse e efetivamente úteis.</example>
+          <example>Este animal adapta-se a ambientes de água doce.</example>
+          <example>As harmonizações populares mais habituais cingem-se a acordes de primeira, quarta e quinta do modo maior com sétima dominante.</example>
+        </antipattern>	
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-09-11 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='SPS00|CC|CS|RG|I|RM|RN|AO..S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|VMI[PI]3S0|NP.S.+' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+|NP.S.+|Z..N.+|VMIP3S0' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RM' postag_regexp='no'/>
+          <token postag='AQ..P.+|NC.P.+|Z..N.+' postag_regexp='yes'/>
+          <token postag='AQ..P.+|NC.P.+|CS|RG|RM|Z..N.+' postag_regexp='yes'/>
+          <example>Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.</example>
+          <example>Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.</example>
+          <example>Quanto à parte financeira, existem no Brasil diferentes fontes de recursos reembolsáveis e não reembolsáveis.</example>
+          <example>A costa norte tem muitas praias, e a do sul numerosas enseadas, que formam portos naturais.</example>
+          <example>Guardava orgulhosa móveis antigos e porcelanas de seus pais.</example>
+          <example>O caso genitivo, em latim, geralmente expressa relações que são expressas em português pela preposição "de".</example>
+          <example>Que idade achas que ela tem?</example>
+          <example>[4] Não é incomum informações gerais ou publicações estatísticas adotarem a definição mais ampla do termo para fins de ilustração...</example>
+          <example>...o está sujeito às leis e costumes do mercado, julgo que o que é importante perceber é se o Sporting paga comissões dentro dos valor praticados no mercado, em termos globais.</example>
+          <example>Vieram ao Sabugal representantes de 15 confrarias nacionais, que assistiram à entronização de sete novos confrades, à actuação do gr...</example>
+          <example>...vazia, o véu que cobria o ícone moveu-se lentamente, revelando a face da Virgem, voltando a cair de nova lentamente 24 horas depois.</example>
+          <example>Maria compra somente frutas cultivadas ecologicamente.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='SPS00|CC|CS|RG|I|RM|RN|AO..S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|VMI[PI]3S0|NP.S.+' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+|NP.S.+|Z..N.+|VMIP3S0' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RM' postag_regexp='no'/>
+          <token postag='AQ..P.+|NC.P.+|Z..N.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+'/>
+          </token>
+          <token postag='AQ..P.+|NC.P.+|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+|VM...P.+' postag_regexp='yes'>
+            <exception scope="next" postag_regexp='yes' postag='AQ..S.+|NC.S.+'/>
+          </token>
+          <example>As coordenadorias de educação regionais das entidades e as Faculdades farão contato com os estudantes e suas famílias para orientações adic...</example>
+          <example>O museu também guarda relíquias dos Maragatos.</example>
+          <example>Na Zona 1 encomendas de valor inferiores a 20,00 € terão um custo de 2,00 €.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='SPS00|CC|CS|RG|I|RM|RN|AO..S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|VMI[PI]3S0|NP.S.+' postag_regexp='yes'/>
+          <token postag='AQ..S.+|NC.S.+|NP.S.+|Z..N.+|VMIP3S0' postag_regexp='yes'/>
+          <token min="0" max="1" postag='RM' postag_regexp='no'/>
+          <token postag='AQ..P.+|NC.P.+|Z..N.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+'/>
+          </token>
+          <token postag='AQ..S.+|NC.S.+|[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+|VM...S.+' postag_regexp='yes'>
+            <exception scope="next" postag_regexp='yes' postag='AQ..P.+|NC.P.+'/>
+          </token>
+          <example>Tem nada menos que 20 tecnologias de assistência ao motorista exclusivas na categoria, aumentando a produtividade e a confiança no trabalho.</example>
+          <example>O procurador-geral ressalta que a situação se agrava com as medidas emergenciais de restrição de circulação imprescindíveis ao combate à pandemia, mas que têm um impacto social e econômico.</example>
+          <example>«CP encerra linhas do Leste e Beja-Funcheira a 1 de Janeiro».</example>
+          <example>Nas áreas de reflexão de luz proximais foi aplicada a resina Opallis VH.</example>
+          <example>O sistema de escape esportivo opcional RS com as ponteiras dos canos de escape pretas garante uma experiência sonora esportiva ao máximo.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-11 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -5629,55 +5719,45 @@ O namorado dela era um ladrão.
         <example correction='bastante mesa|bastantes mesas|bastante, mesas'>Existem <marker>bastante mesas</marker>!</example>
         <example>Algo que nos une como plataforma a tantos continentes, a tantos oceanos, a tantas culturas, a tantas civilizações</example>
         <example>O Rui quer enfrentar de <marker>forma eficaz ações entrópicas</marker>.</example>
-	 
-        <example>O grande mal nos conflitos deve-se <marker>a inocentes</marker> serem lesados.</example>
-        <example>Existem prejuízos graves e dispendiosos a instalações ou vantagens para os criminosos.</example>
-	  
-        <example>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
-        <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
-        <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
-        <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
-        <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
-	  
+
         <example>Temos <marker>no final possíveis cenários</marker> para a análise do comportamento.</example>
         <example>Desde a segunda lição numerosas figuras ajudam na compreensão dos textos.</example>
         <example>Insanidade significa fazer a mesma coisa inúmeras vezes esperando resultados diferentes.</example>
-        <example>O senhor Camargo cria codornas em sua chácara.</example>
         <example>De valor diferenciado por terem como origem fontes imparciais e isentas.</example>
-	  
+
         <example>Este é o modelo que <marker>mostra descontinuidades</marker>.</example>
         <example>É uma pena que você não possa comprar milagres da mesma forma que compra batatas.</example>
         <example>Um lobo a dormir não apanha ovelhas.</example>
         <example>Peça desculpas ou será punido.</example>
         <example>O palestrante é tão bem conhecido que dispensa apresentações.</example>
-	  
+
         <example>São Jerónimo traduziu a palavra hebraica Elohim.</example>
         <example>No final, isto levará provavelmente a uma vitória do segundo ciclista, que teve uma corrida mais fácil graças ao trabalho do primeiro corredor.</example>
-	  
+
         <example>Por exemplo, tirando-se os pontos 6 e 2, o jogador pode optar por mover uma peça 6 casas e outra 2 casas, ou 6 mais 2 casas com uma só peça;</example>
         <example>Júpiter é o maior deles, com massa 318 vezes a da Terra, e Saturno o segundo, com 95 vezes a massa da Terra.</example>
   
         <example>Os arqueólogos dedicam-se cada vez mais a fases tardias da evolução humana.</example>
-	  
+
         <example>Curiosamente, o Cabo Verde que dá nome ao país não se situa nele, mas a centenas de quilómetros a leste, perto de Dacar, no Senegal.</example>
         <example>Vimos os fogos de artifício a quatro de julho.</example>
         <example>A treze de maio fomos convidados pela tia Elisabete para uma festinha: era o aniversário natalício do sober...</example>
-	  
+
         <example>O patrão deve vários meses de salário aos trabalhadores.</example>
         <example>Contribuem para essa fundação várias grandes empresas do ramo da informática, como IBM, Sun, Nokia e outras.</example>
         <example>Nesta cidade violenta várias moças e saqueia o comércio local.</example>
-	  
+
         <example>Entre as principais atrações são a cultura variada e pitoresca, a reservas de caça e os vinhos locais.</example>
         <example>O acesso, em 2001, a estações de tratamento de águas residuais era de 67,5%.</example>
         <example>Estas divindades dignam-se descer a objectos rituais de forma temporária ou permanente, a instâncias dos fiéis.</example>
-	  
+
         <example>Existe uma linha de gol a 10 jardas de cada uma das linhas finais e paralela a ambas.</example>
         <example>A blastulação ocorre depois da clivagem ter dado origem a 128 células.</example>
         <example>António Gonçalves Dias nasceu em 10 de agosto de 1823, no sítio Boa Vista, em terras de Jatobá (a 14 léguas de Caxias).</example>
-	  
+
         <example>Estou de férias e regresso de sábado a oito.</example>
         <example>Estou de férias e regresso de segunda-feira a oito.</example>
-	  
+
         <example>Apresente-me a seus pais quando se sentir preparada.</example>
         <example>Apresente-me a suas mães quando se sentir preparada.</example>
         <example>As folhas de louro dão um sabor especial ao feijão e a outros cozidos.</example>
@@ -6185,27 +6265,166 @@ O namorado dela era um ladrão.
           <example>O produto de dois números ímpares resulta sempre em um número ímpar.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+        <antipattern>
+          <token regexp='yes'>\d{1,2}:\d{2}|\d+</token>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+          <token spacebefore='no'>(</token>
+          <token spacebefore='no'>s</token>
+          <token spacebefore='no'>)</token>
+          <example>à(s) 20:05 hora(s).</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(NC|A..).S.+' postag_regexp='yes'/>
+          <token regexp='yes'>pel[oa]s?|[nd][eoa]s?|às?|por|aos?|em</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes'/>
+          <example>A Academia foi responsável pela primeira exposição de Artes realizada no país.</example>
+          <example>previstas na Lei de Direitos Autorais brasileira</example>
+          <example>São uma categoria de sistema de armas considerada estratégica</example>
+          <example>criando assim um amplo pátio de armas semelhante à do Palacio Real de Madrid.</example>
+          <example>quantidade de objetos celestes existente no cosmos</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+         <and>
+          <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes'/>
+          <token regexp='yes'>\p{Lu}+</token>
+         </and>
+          <example>Foi lançado oficialmente nas lojas Terra Sonora.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='AQ.[FC]S.+' postag_regexp='yes'/>
+          <token postag='NC[FC]S.+' postag_regexp='yes'/>
+          <example>a Internet dá aos extremistas e intolerantes de todas as convicções igual oportunidade</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception regexp='yes'>vaca|titular</exception>
+            <exception postag='VMP.+' postag_regexp='yes'/>
+          </token>
+          <example>O monopólio corporativo de recursos comuns geralmente cria escassez artificial</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..).+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes'/>
+          <example>recomenda aos seus clientes mais atenção.</example>
+          <example>passamos aos nossos clientes total segurança</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..)CP+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes' max='2'/>
+          <token regexp='yes'>,|e|ou</token>
+          <token postag='(?:[NZ].|A..).+' postag_regexp='yes'/>
+          <example>além das bandas nacionais Sepultura, Titãs e Skank</example>
+          <example>além das bandas nacionais Sepultura e Skank</example>
+          <example>nas cores castanha ou vermelha</example>
+          <example>em economias centralizadas como as extintas Alemanha Oriental e União Soviética</example>
+        </antipattern>
+        <antipattern>
+          <token postag='NP.+' postag_regexp='yes'/>
+          <token regexp='yes'>\p{Lu}\p{Ll}+</token>
+          <example>Querido Lucas Carvalho, leio nos jornais sobre você</example>
+        </antipattern>
+        <antipattern>
+          <token postag='V...3P.' postag_regexp='yes'/>
+          <token postag='D[ADIP].FP.+' postag_regexp='yes'/>
+          <token postag='N.FP.+' postag_regexp='yes'/>
+          <token postag='A..[FC]S.+' postag_regexp='yes'/>
+          <example>pelas quais demonstram as amazonas total desprezo. </example>
+        </antipattern>
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token postag='AQ.CP.' postag_regexp='yes'/>
+          <token postag='A..[FC]S.+' postag_regexp='yes'/>
+          <token postag='N.FS.+' postag_regexp='yes'/>
+          <example>Dou a ambos irrestrita autorização.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token postag='AO.+' postag_regexp='yes' max='2'/>
+          <token min='0'>,</token>
+          <token postag='AO.+' postag_regexp='yes' min='0' max='2'/>
+          <token min='0'>,</token>
+          <token postag='AO.+' postag_regexp='yes' min='0' max='2'/>
+          <token min='0'>,</token>
+          <token postag='AO.+' postag_regexp='yes' min='0' max='2'/>
+          <token>e</token>
+          <token postag='AO.+' postag_regexp='yes' max='2'/>
+          <token postag='(?:[NZ].|A..)[FC]P.+' postag_regexp='yes'/>
+          <example>a capital do Egito durante as Vigésima Primeira e Vigésima Segunda Dinastias.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='D[AI].+' postag_regexp='yes'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <example>Ela comeu as maçãs apressada</example>
+        </antipattern>
+        <antipattern>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <token postag='SPS00'/>
+          <token postag='VMN0000'/>
+          <token postag='NC[FC]P.+' postag_regexp='yes'/>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <example>Será difícil para você, acostumada a tomar decisões sozinha</example>
+        </antipattern>
+        <antipattern>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <token postag='SPS00'/>
+          <token postag='VMN0000'/>
+          <token postag='NC[FC]P.+' postag_regexp='yes'/>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <example>Será difícil para você, acostumada a tomar decisões sozinha</example>
+        </antipattern>
+        <antipattern>
+          <token postag="N.+|A.+" postag_regexp='yes'/>
+          <token>coisa</token>
+          <token>nenhuma</token>
+          <example>Não eram fascistas coisa nenhuma!</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'>
               <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC][NS].+|(C|R).+|SPS00' postag_regexp='yes'/>
-              <exception regexp='yes'>.+[°′″]|levas|vezes</exception></token>
+              <exception regexp='yes'>.+[°′″]|levas|vezes|quais</exception></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
-            <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
-            <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes'>
+            <token min='0' postag='(?:A[OQ].)C.+' postag_regexp='yes'>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
+              <exception regexp='yes'>x|pro</exception>
+              <exception postag='(?:[NZ].|A[OQ].).N.+' postag_regexp='yes'/></token>
+            <token postag='(?:[NZ].|A[OQ].)[FC]S.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[FC][NP].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
-              <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception></token>
+              <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception>
+              <exception regexp='yes'>paga|sozinha|&dias_semana;|pro|\p{Lu}\p{Lu}+</exception></token>
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
         <suggestion><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
-        <example correction='A vaca|As vacas|As, vaca'><marker>As vaca</marker> são malhadas.</example>
+        <suggestion><match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> de <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <example correction='A vaca|As vacas|As, vaca|As de vaca'><marker>As vaca</marker> são malhadas.</example>
         <example>Apresentou os programas Jornal do Mundo, Internacional Patati e Plus Berlin.</example>
         <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
         <example>Pega na chave das <marker>fechaduras grande</marker>.</example>
@@ -6284,24 +6503,38 @@ O namorado dela era um ladrão.
           <token postag_regexp='yes' regexp='yes' postag='R.+'>&contracoes_FP;
             <exception postag_regexp='yes' negate_pos='yes' postag='R.+'/></token>
         </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>&palavras_estrangeiras;</token>
+          <token postag='DI.FP.|SPS00:D..FP.' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..)C.+' postag_regexp='yes'/>
+          <token postag='(?:N.|A..|DP.)[FC]S.+' postag_regexp='yes'/>
+          <example>Um novo single "Du bist das Leben".</example>
+        </antipattern>
+        <antipattern>
+          <token>te</token>
+          <token>das</token>
+          <example>A vida começa quando te das contas de que é muito curta.</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
-            <token regexp='yes'>&contracoes_FP;
-              <exception regexp='yes'>mas|nelas</exception>
+            <token postag='DI.FP.|SPS00:D..FP.' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='R.|NP.+'/></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
-            <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
+            <token min='0' postag='(?:A..)C.+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
-            <token postag='(?:[NZ].|A..|DP.)[FC]S.+' postag_regexp='yes'>
+            <token postag='(?:N.|A..|DP.)[FC]S.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[FC][NP].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
-              <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception></token>
+              <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception>
+              <exception regexp='yes'>lajes|\p{Lu}\p{Lu}+</exception></token>
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
-        <example correction='numas espécies'>Valor contido <marker>numas espécie</marker> por descobrir.</example>
+        <suggestion><match no='2' postag="(DI.|SPS00:D..)FP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <example correction='numas espécies|numa espécie'>Valor contido <marker>numas espécie</marker> por descobrir.</example>
       </rule>
       <rule>
         <antipattern>
@@ -6409,7 +6642,56 @@ O namorado dela era um ladrão.
           <token postag='AQ..P.+|NC.P.+|CS|CC|VM...P.+|SPS00|RN|RM|RG' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-01-07 (1-JAN-2022+) *END* -->
-
+        <antipattern>
+          <token postag='VMG0000'/>
+          <token postag='DD..P.' postag_regexp='yes'/>
+          <token skip='-1' postag='DA..S.' postag_regexp='yes'/>
+          <token>e</token>
+          <example>Há duas universidades que cobrem bacharelado, mestrado e doutorado, sendo essas a Universidade de Amsterdã e a Universidade de Vrije.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>amb[oa]s</token>
+          <token postag='DA..S.' postag_regexp='yes'/>
+          <token skip='-1' postag='N.+|AQ.+' postag_regexp='yes'/>
+          <token>e</token>
+          <example>Ambos o Tom e a Mary gostam de caquis.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='D...P.' postag_regexp='yes'/>
+          <token>o</token>
+          <token regexp='yes'>qu[eê]</token>
+          <token postag='_PUNCT|PP.+|V.+' postag_regexp='yes'/>
+          <example>Nossos o quê?</example>
+          <example>Conte para todos o que você achou dele</example>
+        </antipattern>
+        <antipattern>
+          <token>a</token>
+          <token postag='D...P.' postag_regexp='yes'/>
+          <example>Passou o conhecimento a seus filhos.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='D...P.' postag_regexp='yes'/>
+          <token>a</token>
+          <example>Um bom programador influenciará todos aqueles a seu redor.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token regexp='yes'>mesm[oa]s?</token>
+          <token postag='D.+' postag_regexp='yes'/>
+          <example>É pastor da Igreja do Evangelho Quadrangular, exercendo pela mesma os cargos de Coordenador Metropolitano em Santa Luzia e de Secretário Estadual de Ação Social.</example>
+        </antipattern>
+        <antipattern>
+          <token>que</token>
+          <token>tal</token>
+          <token postag='D.+' postag_regexp='yes'/>
+          <example>Que tal algumas dicas para o seu fim de semana?</example>
+        </antipattern>
+        <antipattern>
+          <token postag='DI.+' postag_regexp='yes'/>
+          <token postag='DD.+' postag_regexp='yes'/>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+          <example>celebrar junto de todos aquela noite</example>
+        </antipattern>
         <pattern>
           <unify negate="yes">
           <feature id="number"/>
@@ -6422,11 +6704,9 @@ O namorado dela era um ladrão.
         <message>&MSG_ECN;</message>
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/></suggestion>
         <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/></suggestion>
-        <example correction="A nossa|As nossas"><marker>As nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
+        <suggestion>\1, \2</suggestion>
+        <example correction="A nossa|As nossas|As, nossa"><marker>As nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
 
-        <example>A campanha de vendas levou milhares deles <marker>a perdas</marker> de mais de 95%.</example>
-        <example>A campanha de vendas levou eles a perdas de mais de 95%.</example>
-        <example>A campanha de vendas levou estes a perdas de mais de 95%.</example>
         <example>Outras proteínas evoluíram de modo a ligar-se a sequências de ADN específicas.</example>
         <example>Estas instruções basearam-se nas várias a que tive acesso.</example>
 
@@ -9637,7 +9917,7 @@ O namorado dela era um ladrão.
           </marker>
           <token negate_pos="yes" postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+' postag_regexp='yes'/>
         </pattern>
-        <message>O verbo concorda com o núcleo do sujeito.</message>
+        <message>De acordo com a gramática tradicional, o verbo permanece no singular, visto que o 'sujeito' está preposicionado.</message>
         <suggestion><match no='6' postag='V.(..)3P.+' postag_regexp="yes" postag_replace='VM$13S0'/></suggestion>
         <example correction="mostra">A realidade das pessoas <marker>mostram</marker>.</example>
         <example>O direito de civis possuírem armas é objeto de um controverso debate político.</example>
@@ -9680,7 +9960,7 @@ O namorado dela era um ladrão.
           </marker>
           <token negate_pos="yes" postag='AQ0.P.+|NC.P.+|V....P.+|V...2S.+' postag_regexp='yes'/>
         </pattern>
-        <message>O verbo concorda com o núcleo do sujeito.</message>
+        <message>De acordo com a gramática tradicional, o verbo permanece no singular, visto que o 'sujeito' está preposicionado.</message>
         <suggestion><match no='6' postag='V.(..)3P.+' postag_regexp="yes" postag_replace='VM$13S0'/>-se</suggestion>
         <example correction="mostra-se">A realidade das pessoas <marker>mostram-se</marker>.</example>
         <example>Uma variedade de pessoas juntou-se na reunião.</example>
@@ -13719,27 +13999,6 @@ O namorado dela era um ladrão.
 
   <category id='CASING' name='Capitalização' type='grammar'>
 
-    <rule id="SUBSTANTIVOS_COMUNS_CAPITALIZADOS" name="Substantivos comuns com letra maiúscula" default='temp_off'>
-       <antipattern>
-           <token regexp='yes'>&tracos_de_separacao;|[«»“”"'‘’:]|&separadores_de_abertura;</token>
-           <token postag='NC.+' postag_regexp='yes'/>
-           <example>"Banana", ela disse.</example>
-           <example>Foi isso o que eu disse - Banana.</example>
-       </antipattern>
-       <pattern>
-           <token negate_pos='yes' postag='SENT_START'/>
-         <marker>
-           <token postag='NC.+' postag_regexp='yes'>
-           <exception regexp='yes'>\p{Ll}+</exception>
-           <exception regexp='yes'>\p{Lu}\p{Lu}+</exception>
-           </token>
-         </marker>
-       </pattern>
-      <message>Substantivos comuns não devem ser capitalizados.</message>
-      <suggestion><match no='2' case_conversion="alllower"/></suggestion>
-      <example correction="banana">Comi uma <marker>Banana</marker> ontem.</example>
-     </rule>
-
     <rule id="UPPERCASE_AFTER_COMMA" name="Maiúsculas depois de uma vírgula" default='on'>
       <!-- Based on English forum rule https://forum.languagetool.org/t/case-sensitive-postag-check/3567/2,
       by Tiago F. Santos, 2018-11-23    -->
@@ -17738,6 +17997,21 @@ O namorado dela era um ladrão.
       <!--
       Os radicais retaliam contra Estados que são encarados como sendo os inimigos. → Os radicais retaliam contra Estados encarados como sendo os inimigos.
       -->
+
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- This antipattern is used twice in the rules, it triggers two rules. -->
+        <!-- Zero hits in 600 000 sentence, only affects my thesis. -->
+        <antipattern>
+          <token postag='_PUNCT' postag_regexp='no'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='_PUNCT' postag_regexp='no'/>
+          <token>que</token>
+          <token regexp='yes'>foram|foi|são|é</token>
+          <token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'/>
+          <example>Temos infraestruturas civis (habitações, que são obstáculos no nosso estudo).</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <pattern>
         <token negate_pos="yes" postag='SPS.+|CS|RG|DA.+|CC|V.+' postag_regexp='yes'/>
         <marker>
@@ -46798,7 +47072,7 @@ O namorado dela era um ladrão.
 
 
     <!-- NÃO SABIA/SABIAM NADA nada sabia/sabiam -->
-    <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style">
+    <rule id='SIMPLIFICAR_NÃO_VERBO_NADA_NADA_VERBO' name="Simplificar: Não + V. + nada → nada + V." type="style" tags='picky'>
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-05 + 2022-07-06 + 2022-08-27 (5-JUN-2022+)      -->
       <!--
       O Rui não sabia nada do assunto. → O Rui nada sabia do assunto.
@@ -46875,6 +47149,21 @@ O namorado dela era um ladrão.
         <token postag='_PUNCT'/>
         <example>Eles ainda não viram nada.</example>
         <example>Calma, ela ainda não disse nada, disse?</example>
+      </antipattern>
+
+      <antipattern>
+        <token regexp='yes' skip='-1'>&tracos_de_separacao;</token>
+        <token>não</token>
+        <token postag='VMI[ISM].+' postag_regexp='yes'/>
+        <token>nada</token>
+        <example>ㅡ Não aconteceu nada, Miguel.</example>
+      </antipattern>
+      <antipattern>
+        <token>não</token>
+        <token postag='VMI[ISM].+' postag_regexp='yes'/>
+        <token skip='-1'>nada</token>
+        <token regexp='yes'>&tracos_de_separacao;</token>
+        <example>Não aconteceu nada, Miguel. ㅡ disse ela.</example>
       </antipattern>
 
       <pattern>
@@ -48166,31 +48455,37 @@ O namorado dela era um ladrão.
         <token inflected='yes'>fazer</token>
         <token>pouco</token>
         <token>caso</token>
+        <example>Ele fez pouco caso do assunto.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
         <token>as</token>
         <token>honras</token>
+        <example>Faça as honras.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
         <token>o</token>
         <token>mesmo</token>
+        <example>Arthur fez o mesmo.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
         <token min='0' postag='D[ID].+' postag_regexp='yes'/>
         <token regexp='yes'>caretas?|amizades?|reverências?|gracinhas?</token>
+        <example>Bia fez uma careta.</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
         <token regexp='yes'>suas?</token>
         <token regexp='yes'>apostas?</token>
+        <example>Façam suas apostas!</example>
       </antipattern>
       <antipattern>
         <token regexp='yes'>\p{L}+</token>
         <token min='0' regexp='yes' spacebefore='no'>-</token>
         <token spacebefore='no' inflected='yes'>fazer</token>
+        <example>Ligue o Wi-Fi, por favor!</example>
       </antipattern>
       <antipattern>
         <token inflected='yes'>fazer</token>
@@ -48935,11 +49230,23 @@ O namorado dela era um ladrão.
       Vamos dormir, tomámos a medicação demasiado cedo.
       -->
       <antipattern>
-          <token skip='-1'>—</token>
+          <token skip='-1' regexp='yes'>&tracos_de_separacao;</token>
           <token inflected="yes">ir</token>
           <token postag='VMN0000'/>
           <example>— Como vou continuar trabalhando, não me importa.</example>
           <example>— Agora, vamos comer — disse ele</example>
+      </antipattern>
+      <antipattern>
+          <token inflected="yes">ir</token>
+          <token skip='-1' postag='VMN0000'/>
+          <token regexp='yes'>&tracos_de_separacao;</token>
+          <example>Como vou continuar trabalhando, não me importa. — disse ele.</example>
+      </antipattern>
+      <antipattern>
+          <token skip='-1' postag='_QUOT'/>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>"Como vou continuar trabalhando, não me importa", disse ele.</example>
       </antipattern>
       <antipattern>
         <token postag='V.+' postag_regexp='yes'/>
