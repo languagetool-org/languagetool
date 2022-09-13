@@ -774,14 +774,19 @@ public class DocumentCache implements Serializable {
       }
       isCorrectMapping = isCorrectNonText && toParaMapping.get(CURSOR_TYPE_TEXT).size() == textParas.get(CURSOR_TYPE_TEXT).size();
       if (!isCorrectMapping) {
+        numUnknown = 0;
+        for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+          numUnknown += toParaMapping.get(i).size();
+        }
+        numUnknown = paragraphs.size() - numUnknown;  // nUnknown: number of headings of graphic elements
         String msg = "An error has occurred in LanguageTool "
             + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\nDocument cache mapping failed:\nParagraphs:\n"
             + "Endnotes: " + toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() + " / " + textParas.get(CURSOR_TYPE_ENDNOTE).size() + "\n"
             + "Footnotes: " + toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() + " / " + textParas.get(CURSOR_TYPE_FOOTNOTE).size() + "\n"
-            + "Headers/Footers: " + nHeaders.size() + " / " + textParas.get(CURSOR_TYPE_HEADER_FOOTER).size() + "\n"
+            + "Headers/Footers: " + toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() + " / " + textParas.get(CURSOR_TYPE_HEADER_FOOTER).size() + "\n"
             + "Frames: " + toParaMapping.get(CURSOR_TYPE_FRAME).size() + " / " + textParas.get(CURSOR_TYPE_FRAME).size() + "\n"
             + "Shapes: " + toParaMapping.get(CURSOR_TYPE_SHAPE).size() + " / " + textParas.get(CURSOR_TYPE_SHAPE).size() + "\n"
-            + "Tables: " + nTables.size() + " / " + textParas.get(CURSOR_TYPE_TABLE).size() + "\n"
+            + "Tables: " + toParaMapping.get(CURSOR_TYPE_TABLE).size() + " / " + textParas.get(CURSOR_TYPE_TABLE).size() + "\n"
             + "Text: " + toParaMapping.get(CURSOR_TYPE_TEXT).size() + " / " + textParas.get(CURSOR_TYPE_TEXT).size() + "\n"
             + "Unknown: " + numUnknown + " / " + nUnknown;
          MessageHandler.showMessage(msg);
@@ -1504,12 +1509,10 @@ public class DocumentCache implements Serializable {
     try {
       if (nPara < 0 || (parasToCheck > -2 && toParaMapping.get(textParagraph.type).size() <= nPara)
           || (parasToCheck < -1 && paragraphs.size() <= nPara)) {
-        rwLock.readLock().unlock();
         return -1;
       }
       int startPos = getStartOfParaCheck(textParagraph, parasToCheck, checkOnlyParagraph, useQueue, true);
       if (startPos < 0) {
-        rwLock.readLock().unlock();
         return -1;
       }
       int pos = 0;
