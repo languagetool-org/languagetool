@@ -6265,27 +6265,166 @@ O namorado dela era um ladrão.
           <example>O produto de dois números ímpares resulta sempre em um número ímpar.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+        <antipattern>
+          <token regexp='yes'>\d{1,2}:\d{2}|\d+</token>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+          <token spacebefore='no'>(</token>
+          <token spacebefore='no'>s</token>
+          <token spacebefore='no'>)</token>
+          <example>à(s) 20:05 hora(s).</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(NC|A..).S.+' postag_regexp='yes'/>
+          <token regexp='yes'>pel[oa]s?|[nd][eoa]s?|às?|por|aos?|em</token>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes'/>
+          <example>A Academia foi responsável pela primeira exposição de Artes realizada no país.</example>
+          <example>previstas na Lei de Direitos Autorais brasileira</example>
+          <example>São uma categoria de sistema de armas considerada estratégica</example>
+          <example>criando assim um amplo pátio de armas semelhante à do Palacio Real de Madrid.</example>
+          <example>quantidade de objetos celestes existente no cosmos</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+         <and>
+          <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes'/>
+          <token regexp='yes'>\p{Lu}+</token>
+         </and>
+          <example>Foi lançado oficialmente nas lojas Terra Sonora.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='AQ.[FC]S.+' postag_regexp='yes'/>
+          <token postag='NC[FC]S.+' postag_regexp='yes'/>
+          <example>a Internet dá aos extremistas e intolerantes de todas as convicções igual oportunidade</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception regexp='yes'>vaca|titular</exception>
+            <exception postag='VMP.+' postag_regexp='yes'/>
+          </token>
+          <example>O monopólio corporativo de recursos comuns geralmente cria escassez artificial</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..).+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes'/>
+          <example>recomenda aos seus clientes mais atenção.</example>
+          <example>passamos aos nossos clientes total segurança</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..)CP+' postag_regexp='yes'/>
+          <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes' max='2'/>
+          <token regexp='yes'>,|e|ou</token>
+          <token postag='(?:[NZ].|A..).+' postag_regexp='yes'/>
+          <example>além das bandas nacionais Sepultura, Titãs e Skank</example>
+          <example>além das bandas nacionais Sepultura e Skank</example>
+          <example>nas cores castanha ou vermelha</example>
+          <example>em economias centralizadas como as extintas Alemanha Oriental e União Soviética</example>
+        </antipattern>
+        <antipattern>
+          <token postag='NP.+' postag_regexp='yes'/>
+          <token regexp='yes'>\p{Lu}\p{Ll}+</token>
+          <example>Querido Lucas Carvalho, leio nos jornais sobre você</example>
+        </antipattern>
+        <antipattern>
+          <token postag='V...3P.' postag_regexp='yes'/>
+          <token postag='D[ADIP].FP.+' postag_regexp='yes'/>
+          <token postag='N.FP.+' postag_regexp='yes'/>
+          <token postag='A..[FC]S.+' postag_regexp='yes'/>
+          <example>pelas quais demonstram as amazonas total desprezo. </example>
+        </antipattern>
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token postag='AQ.CP.' postag_regexp='yes'/>
+          <token postag='A..[FC]S.+' postag_regexp='yes'/>
+          <token postag='N.FS.+' postag_regexp='yes'/>
+          <example>Dou a ambos irrestrita autorização.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.).P.+' postag_regexp='yes'/>
+          <token postag='AO.+' postag_regexp='yes' max='2'/>
+          <token min='0'>,</token>
+          <token postag='AO.+' postag_regexp='yes' min='0' max='2'/>
+          <token min='0'>,</token>
+          <token postag='AO.+' postag_regexp='yes' min='0' max='2'/>
+          <token min='0'>,</token>
+          <token postag='AO.+' postag_regexp='yes' min='0' max='2'/>
+          <token>e</token>
+          <token postag='AO.+' postag_regexp='yes' max='2'/>
+          <token postag='(?:[NZ].|A..)[FC]P.+' postag_regexp='yes'/>
+          <example>a capital do Egito durante as Vigésima Primeira e Vigésima Segunda Dinastias.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='D[AI].+' postag_regexp='yes'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <example>Ela comeu as maçãs apressada</example>
+        </antipattern>
+        <antipattern>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <token postag='SPS00'/>
+          <token postag='VMN0000'/>
+          <token postag='NC[FC]P.+' postag_regexp='yes'/>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <example>Será difícil para você, acostumada a tomar decisões sozinha</example>
+        </antipattern>
+        <antipattern>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <token postag='SPS00'/>
+          <token postag='VMN0000'/>
+          <token postag='NC[FC]P.+' postag_regexp='yes'/>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <example>Será difícil para você, acostumada a tomar decisões sozinha</example>
+        </antipattern>
+        <antipattern>
+          <token postag="N.+|A.+" postag_regexp='yes'/>
+          <token>coisa</token>
+          <token>nenhuma</token>
+          <example>Não eram fascistas coisa nenhuma!</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'>
               <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC][NS].+|(C|R).+|SPS00' postag_regexp='yes'/>
-              <exception regexp='yes'>.+[°′″]|levas|vezes</exception></token>
+              <exception regexp='yes'>.+[°′″]|levas|vezes|quais</exception></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
-            <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
-            <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes'>
+            <token min='0' postag='(?:A[OQ].)C.+' postag_regexp='yes'>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
+              <exception regexp='yes'>x|pro</exception>
+              <exception postag='(?:[NZ].|A[OQ].).N.+' postag_regexp='yes'/></token>
+            <token postag='(?:[NZ].|A[OQ].)[FC]S.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[FC][NP].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
-              <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception></token>
+              <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception>
+              <exception regexp='yes'>paga|sozinha|&dias_semana;|pro|\p{Lu}\p{Lu}+</exception></token>
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
         <suggestion><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
-        <example correction='A vaca|As vacas|As, vaca'><marker>As vaca</marker> são malhadas.</example>
+        <suggestion><match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> de <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <example correction='A vaca|As vacas|As, vaca|As de vaca'><marker>As vaca</marker> são malhadas.</example>
         <example>Apresentou os programas Jornal do Mundo, Internacional Patati e Plus Berlin.</example>
         <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
         <example>Pega na chave das <marker>fechaduras grande</marker>.</example>
