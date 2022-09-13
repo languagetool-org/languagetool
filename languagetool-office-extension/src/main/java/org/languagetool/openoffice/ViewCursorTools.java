@@ -467,6 +467,40 @@ public class ViewCursorTools {
           }
         }
       }
+      //  Test if cursor position is in shape
+      XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
+      if (xDrawPageSupplier != null) {
+        XDrawPage xDrawPage = xDrawPageSupplier.getDrawPage();
+        if (xDrawPage != null) {
+          XShapes xShapes = UnoRuntime.queryInterface(XShapes.class, xDrawPage);
+          int nLastPara = 0;
+          int nShapes = xShapes.getCount();
+          for(int j = 0; j < nShapes; j++) {
+            Object oShape = xShapes.getByIndex(j);
+            XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+            if (xShape != null) {
+              XText xShapeText = UnoRuntime.queryInterface(XText.class, xShape);
+              if (xShapeText != null) {
+                if (xViewCursorText.equals(xShapeText)) {
+                  XTextCursor xTextCursor = xShapeText.createTextCursorByRange(vCursor.getStart());
+                  XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
+                  int pos = 0;
+                  while (xParagraphCursor.gotoPreviousParagraph(false)) pos++;
+                  return new TextParagraph(DocumentCache.CURSOR_TYPE_SHAPE, pos + nLastPara);
+                } else {
+                  XTextCursor xTextCursor = xShapeText.createTextCursor();
+                  XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
+                  xParagraphCursor.gotoStart(false);
+                  nLastPara++;
+                  while (xParagraphCursor.gotoNextParagraph(false)){
+                    nLastPara++;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
       //  Test if cursor position is at footnote
       XFootnotesSupplier xFootnoteSupplier = UnoRuntime.queryInterface(XFootnotesSupplier.class, curDoc );
       XIndexAccess xFootnotes = xFootnoteSupplier == null ? null : UnoRuntime.queryInterface(XIndexAccess.class, xFootnoteSupplier.getFootnotes());
