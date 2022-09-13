@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 public class MorfologikSpeller {
   
   private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d[\\.,\\d]*|\\P{L}+)(.*)$");
-  private final Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\$%]+)(.*)$");
+  private final Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\$%&]+)(.*)$");
   //private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(.+)\b(.*)$");
 
   // Speed up the server use case, where rules get initialized for every call.

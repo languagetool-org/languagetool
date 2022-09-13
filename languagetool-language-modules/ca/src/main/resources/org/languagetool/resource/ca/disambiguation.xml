@@ -18131,6 +18131,31 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">\d+\.d+[a-z]</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">\d+[\.,d]*x\d+[\.,d]*(cm|mm|m)</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">\d+(px|p|v|r)</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <!-- wrong units -->
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes" case_sensitive="yes">\d+[\.,d](sg|mt|K[mgplWB]|Kbps|Kcal|Kbit)</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
     </rulegroup>
     <rule id="monedes" name="monedes">
         <pattern>

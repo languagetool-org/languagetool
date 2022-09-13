@@ -618,9 +618,13 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("[105.3 FM, 105.3 3M, 105.3 FB, 105.3 FC, 105.3 FT, 105.3 GM]", matches[0].getSuggestedReplacements().toString());
         
         //invisible characters at start
-        matches = rule.match(lt.getAnalyzedSentence("\u003consagrada al turisme"));
+        matches = rule.match(lt.getAnalyzedSentence("\u0003consagrada al turisme"));
         assertEquals(1, matches.length);
-        assertEquals("[consagrada, on sagrada, onsa grada]", matches[0].getSuggestedReplacements().toString());
+        assertEquals("[Consagrada]", matches[0].getSuggestedReplacements().toString());
+        
+        matches = rule.match(lt.getAnalyzedSentence("Volen \u0018Modificar la situació."));
+        assertEquals(1, matches.length);
+        assertEquals("[modificar]", matches[0].getSuggestedReplacements().toString());
         
         // camel case
         matches = rule.match(lt.getAnalyzedSentence("polÃtiques"));
@@ -628,6 +632,11 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(3, matches[0].getSuggestedReplacements().size());
         assertEquals("polítiques", matches[0].getSuggestedReplacements().get(0));
 
+        
+        // global spelling
+        matches = rule.match(lt.getAnalyzedSentence("FT"));
+        assertEquals(0, matches.length);
+        
         // combining characters
         matches = rule.match(lt.getAnalyzedSentence("dema\u0300"));
         assertEquals(0, matches.length);
