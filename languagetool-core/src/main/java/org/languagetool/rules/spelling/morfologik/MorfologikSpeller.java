@@ -41,7 +41,8 @@ import java.util.regex.Pattern;
  */
 public class MorfologikSpeller {
   
-  private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d+|\\P{L}+)(.*)$");
+  private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d[\\.,\\d]*|\\P{L}+)(.*)$");
+  private final Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\$%]+)(.*)$");
   //private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(.+)\b(.*)$");
 
   // Speed up the server use case, where rules get initialized for every call.
@@ -140,14 +141,17 @@ public class MorfologikSpeller {
     String secondPart = "";
     Matcher mStartsWithNumbersBullets = pStartsWithNumbersBullets.matcher(word);
     if (mStartsWithNumbersBullets.matches() && !word.startsWith("-")) {
-      firstPart = mStartsWithNumbersBullets.group(1);
-      secondPart = mStartsWithNumbersBullets.group(2);
-      if (!speller.isMisspelled(secondPart)) {
-        suggestions.add(new WeightedSuggestion(firstPart + " " + secondPart, 0));
-        firstPart = ""; // don't use it in next search of replacements
-      } else {
-        //suggestions.add(new WeightedSuggestion(firstPart + " " + secondPart, 1));
-        cleanWord = secondPart;
+      Matcher mStartsWithNumbersBulletsExceptions = pStartsWithNumbersBulletsExceptions.matcher(word);
+      if (!mStartsWithNumbersBulletsExceptions.matches()) {
+        firstPart = mStartsWithNumbersBullets.group(1);
+        secondPart = mStartsWithNumbersBullets.group(2);
+        if (!speller.isMisspelled(secondPart)) {
+          suggestions.add(new WeightedSuggestion(firstPart + " " + secondPart, 0));
+          firstPart = ""; // don't use it in next search of replacements
+        } else {
+          //suggestions.add(new WeightedSuggestion(firstPart + " " + secondPart, 1));
+          cleanWord = secondPart;
+        }  
       }
     }
     
