@@ -617,6 +617,11 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("[105.3 FM, 105.3 3M, 105.3 FB, 105.3 FC, 105.3 FT, 105.3 GM]", matches[0].getSuggestedReplacements().toString());
         
+        //invisible characters at start
+        matches = rule.match(lt.getAnalyzedSentence("\u003consagrada al turisme"));
+        assertEquals(1, matches.length);
+        assertEquals("[consagrada, on sagrada, onsa grada]", matches[0].getSuggestedReplacements().toString());
+        
         // camel case
         matches = rule.match(lt.getAnalyzedSentence("polÃtiques"));
         assertEquals(1, matches.length);
