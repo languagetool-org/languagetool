@@ -611,11 +611,11 @@ public class MorfologikCatalanSpellerRuleTest {
         
         matches = rule.match(lt.getAnalyzedSentence("·Compto amb el títol"));
         assertEquals(1, matches.length);
-        assertEquals("[· Compto, Compto]", matches[0].getSuggestedReplacements().toString());
+        assertEquals("[· Compto]", matches[0].getSuggestedReplacements().toString());
         
         matches = rule.match(lt.getAnalyzedSentence("105.3FM"));
         assertEquals(1, matches.length);
-        assertEquals("[105.3 FM, 105.3 3M, 105.3 FB, 105.3 FC, 105.3 FT, 105.3 GM]", matches[0].getSuggestedReplacements().toString());
+        assertEquals("[105.3 FM]", matches[0].getSuggestedReplacements().toString());
         
         //invisible characters at start
         matches = rule.match(lt.getAnalyzedSentence("\u0003consagrada al turisme"));

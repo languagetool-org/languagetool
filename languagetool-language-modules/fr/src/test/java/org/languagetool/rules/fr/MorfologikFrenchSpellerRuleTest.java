@@ -212,23 +212,23 @@ public class MorfologikFrenchSpellerRuleTest {
 
     matches = rule.match(lt.getAnalyzedSentence("\u23F0heures"));
     assertEquals(1, matches.length);
-    assertEquals("[⏰ heures, heures]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[⏰ heures]", matches[0].getSuggestedReplacements().toString());
     
     matches = rule.match(lt.getAnalyzedSentence("\u23F0heuras"));
     assertEquals(1, matches.length);
-    assertEquals("[⏰ heures, ⏰ heurts, ⏰ heurs, ⏰ hourras, ⏰ beurras, ⏰ heurtas, ⏰ hueras, ⏰ leurras]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[⏰ heures, ⏰ heurts, ⏰ heurs, ⏰ hourras, ⏰ beurras, ⏰ heurtas, ⏰ hueras, ⏰ leurras, ⏰ heu ras, ⏰ heur as]", matches[0].getSuggestedReplacements().toString());
     
     matches = rule.match(lt.getAnalyzedSentence("©heures"));
     assertEquals(1, matches.length);
-    assertEquals("[© heures, heures]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[© heures]", matches[0].getSuggestedReplacements().toString());
     
     matches = rule.match(lt.getAnalyzedSentence("►heures"));
     assertEquals(1, matches.length);
-    assertEquals("[► heures, heures]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[► heures]", matches[0].getSuggestedReplacements().toString());
     
     matches = rule.match(lt.getAnalyzedSentence("◦heures"));
     assertEquals(1, matches.length);
-    assertEquals("[◦ heures, heures]", matches[0].getSuggestedReplacements().toString());
+    assertEquals("[◦ heures]", matches[0].getSuggestedReplacements().toString());
 
   }
   
