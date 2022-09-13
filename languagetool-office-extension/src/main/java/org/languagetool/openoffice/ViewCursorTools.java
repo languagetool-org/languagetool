@@ -23,11 +23,16 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.DocumentCursorTools.DocumentText;
 
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XIndexAccess;
 import com.sun.star.container.XNameAccess;
 import com.sun.star.container.XNameContainer;
+import com.sun.star.drawing.XDrawPage;
+import com.sun.star.drawing.XDrawPageSupplier;
+import com.sun.star.drawing.XShape;
+import com.sun.star.drawing.XShapes;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.XComponent;
@@ -104,7 +109,7 @@ public class ViewCursorTools {
   
   /**
    * Get the text cursor from view cursor
-   * support text, tables, frames, end- and footnotes, header, footers
+   * support text, tables, frames, shapes, end- and footnotes, header, footers
    */
   private XTextCursor getTextCursorFromViewCursor(boolean getEnd) {
     isBusy++;
@@ -155,6 +160,26 @@ public class ViewCursorTools {
             if (xFrameText != null && xViewCursorText.equals(xFrameText)) {
               XTextRange range = getEnd ? vCursor.getEnd() : vCursor.getStart();
               return range == null ? null : xFrameText.createTextCursorByRange(range);
+            }
+          }
+        }
+      }
+      //  Test if cursor position is in shape
+      XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
+      if (xDrawPageSupplier != null) {
+        XDrawPage xDrawPage = xDrawPageSupplier.getDrawPage();
+        if (xDrawPage != null) {
+          XShapes xShapes = UnoRuntime.queryInterface(XShapes.class, xDrawPage);
+          int nShapes = xShapes.getCount();
+          for(int j = 0; j < nShapes; j++) {
+            Object oShape = xShapes.getByIndex(j);
+            XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+            if (xShape != null) {
+              XText xShapeText = UnoRuntime.queryInterface(XText.class, xShape);
+              if (xShapeText != null && xViewCursorText.equals(xShapeText)) {
+                XTextRange range = getEnd ? vCursor.getEnd() : vCursor.getStart();
+                return range == null ? null : xShapeText.createTextCursorByRange(range);
+              }
             }
           }
         }
@@ -887,6 +912,51 @@ public class ViewCursorTools {
     }
   }
   
+  /** 
+   * Set the cursor to a paragraph of frame
+   */
+  public void setViewCursorToParagraphOfShape(int xChar, int numPara) {
+    isBusy++;
+    try {
+      XTextViewCursor vCursor = getViewCursor();
+      if (vCursor != null) {
+        XTextDocument curDoc = getTextDocument();
+        if (curDoc == null) {
+          return;
+        }
+        XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
+        if (xDrawPageSupplier == null) {
+          return;
+        }
+        XDrawPage xDrawPage = xDrawPageSupplier.getDrawPage();
+        if (xDrawPage == null) {
+          return;
+        }
+        XShapes xShapes = UnoRuntime.queryInterface(XShapes.class, xDrawPage);
+        int nLastPara = 0;
+        int nShapes = xShapes.getCount();
+        for(int j = 0; j < nShapes; j++) {
+          Object oShape = xShapes.getByIndex(j);
+          XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+          if (xShape != null) {
+            XText xShapeText = UnoRuntime.queryInterface(XText.class, xShape);
+            if (xShapeText != null) {
+              nLastPara = setViewCursorToParaIfFits(xChar, numPara, nLastPara, xShapeText, vCursor);
+              if (nLastPara == numPara) {
+                return;
+              }
+              nLastPara++;
+            }
+          }
+        }
+      }
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
+    }
+  }
+  
   /**
    * Set the view cursor to paragraph paraNum 
    */
@@ -927,6 +997,8 @@ public class ViewCursorTools {
         setViewCursorToParagraphOfTable(xChar, yPara.number);
       } else if (yPara.type == DocumentCache.CURSOR_TYPE_FRAME) {
         setViewCursorToParagraphOfFrame(xChar, yPara.number);
+      } else if (yPara.type == DocumentCache.CURSOR_TYPE_SHAPE) {
+        setViewCursorToParagraphOfShape(xChar, yPara.number);
       } else if (yPara.type == DocumentCache.CURSOR_TYPE_FOOTNOTE) {
         setViewCursorToParagraphOfFootnote(xChar, yPara.number);
       } else if (yPara.type == DocumentCache.CURSOR_TYPE_ENDNOTE) {
