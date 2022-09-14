@@ -417,6 +417,20 @@ public class GermanTaggerTest {
     assertFalse(res8.contains("Nachzudenken/SUB:NOM:SIN:NEU:INF*"));
     assertFalse(res8.contains("Nachzudenken/SUB:DAT:SIN:NEU:INF*"));
     assertFalse(res8.contains("Nachzudenken/SUB:AKK:SIN:NEU:INF*"));
+
+    List<AnalyzedTokenReadings> result9 = tagger.tag(Collections.singletonList("entlangblicken"));
+    assertThat(result9.size(), is(1));
+    assertThat(result9.get(0).getReadings().size(), is(5));
+    String res9 = result9.toString();
+    assertTrue(res9.contains("entlangblicken/VER:INF:SFT*"));
+    assertTrue(res9.contains("NEB*"));
+
+    List<AnalyzedTokenReadings> result10 = tagger.tag(Collections.singletonList("wiederaufbauen"));
+    assertThat(result10.size(), is(1));
+    assertThat(result10.get(0).getReadings().size(), is(5));
+    String res10 = result10.toString();
+    assertTrue(res10.contains("NEB"));
+    assertFalse(res10.contains("NEB:NEB"));
   }
 
   @Test
@@ -527,6 +541,14 @@ public class GermanTaggerTest {
     assertThat(result6.get(0).getReadings().size(), is(8));
     String res6 = result6.toString();
     assertFalse(res6.contains("bemessen/PA2:PRD:GRU:VER"));
+
+    List<AnalyzedTokenReadings> result7 = tagger.tag(Collections.singletonList("hinterlass"));
+    assertThat(result7.size(), is(1));
+    assertThat(result7.get(0).getReadings().size(), is(3));
+    String res7 = result7.toString();
+    assertTrue(res7.contains("hinterlassen/VER:IMP:SIN:NON"));
+    assertTrue(res7.contains("hinterlassen/VER:1:SIN:PRÄ:NON"));
+    assertFalse(res7.contains("NEB"));
   }
 
   @Test
@@ -579,6 +601,14 @@ public class GermanTaggerTest {
     String res7 = result7.toString();
     assertTrue(res7.contains(""));
     assertFalse(res7.contains("VER"));
+
+    List<AnalyzedTokenReadings> result8 = tagger.tag(Collections.singletonList("entlang"));
+    assertThat(result8.size(), is(1));
+    assertThat(result8.get(0).getReadings().size(), is(4));
+    String res8 = result8.toString();
+    assertTrue(res8.contains("PRP"));
+    assertTrue(res8.contains("ZUS"));
+    assertFalse(res8.contains("VER"));
   }
 
   @Test
