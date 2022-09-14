@@ -194,6 +194,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     validateSentenceStartNotInMarker(allRulesLt);
     validateUnifyIgnoreAtTheStartOfUnify(allRulesLt);
     //validateRegexpInSynthesisMatches(allRulesLt);
+    validateParenthesisInSynthesisMatches(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
     testRegexSyntax(lang, rules);
     testMessages(lang, rules);
@@ -320,9 +321,52 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       }
     }
   }
+  
+  protected void validateParenthesisInSynthesisMatches(JLanguageTool lt) {
+    System.out.println("Check parenthesis and back references in synthesis matches...");
+    List<Rule> rules = lt.getAllRules();
+    for (Rule rule : rules) {
+      if (rule instanceof AbstractPatternRule) {
+        AbstractPatternRule apRule = (AbstractPatternRule) rule;
+        List<PatternToken> patternTokens = apRule.getPatternTokens();
+        List<Match> suggestionMatches = new ArrayList<>();
+        if (apRule.getSuggestionMatches() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatches());
+        }
+        if (apRule.getSuggestionMatchesOutMsg() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatchesOutMsg());
+        }
+        for (Match suggestionMatch : suggestionMatches) {
+          if (suggestionMatch.getPosTag() != null && suggestionMatch.getPosTagReplace() != null) {
+            long openingNum = suggestionMatch.getPosTag().chars().filter(ch -> ch == '(').count();
+            int maxBackReference = getMaxBackReferenceNo(suggestionMatch.getPosTagReplace());
+            if (openingNum < maxBackReference) {
+              String failure = "Back reference number (" + maxBackReference
+                  + ") is greater than existing number of parenthesis.";
+              addError((AbstractPatternRule) rule, failure);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private int getMaxBackReferenceNo(String message) {
+    // back references are no greater than 9, i.e. $10 means $1
+    Pattern pattern = Pattern.compile("\\$[0-9]");
+    Matcher matcher = pattern.matcher(message);
+    int maxNo = -1;
+    while (matcher.find()) {
+      int no = Integer.parseInt(matcher.group().replace("$", ""));
+      if (no > maxNo) {
+        maxNo = no;
+      }
+    }
+    return maxNo;
+  }
 
   protected void validateRegexpInSynthesisMatches(JLanguageTool lt) {
-    System.out.println("Check that synthesis matches with POS tag regexp have POS tag regexp in the pattern....");
+    System.out.println("Check that synthesis matches with POS tag regexp have POS tag regexp in the pattern...");
     List<Rule> rules = lt.getAllRules();
     for (Rule rule : rules) {
       if (rule instanceof AbstractPatternRule) {
