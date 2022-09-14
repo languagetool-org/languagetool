@@ -2761,6 +2761,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "gehhrte": return topMatch("geehrte");
       case "gehhrten": return topMatch("geehrten");
       case "gehhrtes": return topMatch("geehrtes");
+      case "Iphone": return topMatch("iPhone");
+      case "Iphones": return topMatch("iPhones");
+      case "iphone": return topMatch("iPhone");
+      case "iphones": return topMatch("iPhones");
+      case "Ipad": return topMatch("iPad");
+      case "Ipads": return topMatch("iPads");
+      case "ipad": return topMatch("iPad");
+      case "ipads": return topMatch("iPads");
       case "zugebenermaßen": return topMatch("zugegebenermaßen");
       case "beispielweise": return topMatch("beispielsweise");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
