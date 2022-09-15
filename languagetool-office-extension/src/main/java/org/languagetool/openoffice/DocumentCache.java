@@ -405,6 +405,37 @@ public class DocumentCache implements Serializable {
       }
     }
   }
+  
+  /**
+   * Map Text inside a loop of all text paragraphs of a cursor type
+   * NOTE: This is needed for all types of cursor other than text and frame because they can be inside a frame disturbing the usual order 
+   */
+  
+  private boolean mapTextParagraphsPerLoop(int type, int nFlat, List<String> paragraphs, List<int[]> footnotes, 
+      List<List<String>> textParas, List<TextParagraph> toTextMapping, List<List<Integer>> toParaMapping, 
+      List<List<Integer>> nMapped, List<Integer> nNext) {
+    if (nMapped.get(type).size() < textParas.get(type).size()) {
+      for (int k = nNext.get(type); k < textParas.get(type).size(); k++) {
+        if (!nMapped.get(type).contains(k) && isEqualText(paragraphs.get(nFlat), textParas.get(type).get(k), getFootnotes(footnotes, nFlat))) {
+          toTextMapping.add(new TextParagraph(type, k));
+          toParaMapping.get(type).set(k, nFlat);
+          nMapped.get(type).add(k);
+          nNext.set(type, k < textParas.get(type).size() - 1 ? k + 1 : 0);
+          return true;
+        }
+      }
+      for (int k = 0; k < nNext.get(type); k++) {
+        if (!nMapped.get(type).contains(k) && isEqualText(paragraphs.get(nFlat), textParas.get(type).get(k),getFootnotes(footnotes, nFlat))) {
+          toTextMapping.add(new TextParagraph(type, k));
+          toParaMapping.get(type).set(k, nFlat);
+          nMapped.get(type).add(k);
+          nNext.set(type, k < textParas.get(type).size() - 1 ? k + 1 : 0);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
   /**
    * Map text paragraphs to flat paragraphs is only used for writer documents
@@ -414,32 +445,27 @@ public class DocumentCache implements Serializable {
         List<List<Integer>> deletedCharacters, List<List<List<Integer>>> deletedChars) {
 //    MessageHandler.printToLogFile("DocumentCache: mapParagraphs called");
     if (textParas != null && !textParas.isEmpty()) {
-      List<Integer> nTables = new ArrayList<>();
-      List<Integer> nHeaders = new ArrayList<>();
-      List<Integer> nShapes = new ArrayList<>();
-      List<Integer> nText = new ArrayList<>();
-      int printCount = 0;
+      List<List<Integer>> nMapped = new ArrayList<>();  // Mapped paragraphs per cursor type
+      List<Integer> nNext = new ArrayList<>();          //  Next assumed paragraph number for cursor type
       for (int i = 0; i < textParas.size(); i++) {
-        nText.add(0);
+        nMapped.add(new ArrayList<>());
+        nNext.add(0);
       }
       int nUnknown = 0;
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         nUnknown += textParas.get(i).size();
       }
       nUnknown = paragraphs.size() - nUnknown;  // nUnknown: number of headings of graphic elements
-      int nFrameTable = 0;  // Number of table paragraphs in Frames
-      int nShape = 0;       // Number of shape paragraphs in Shapes
+      int printCount = 0;
       if (debugMode) {
         MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Unknown paragraphs: " + nUnknown);
       }
-      for (int i = 0; i < textParas.get(CURSOR_TYPE_TABLE).size(); i++) {
-        toParaMapping.get(CURSOR_TYPE_TABLE).add(-1);
-      }
-      for (int i = 0; i < textParas.get(CURSOR_TYPE_HEADER_FOOTER).size(); i++) {
-        toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).add(-1);
-      }
-      for (int i = 0; i < textParas.get(CURSOR_TYPE_SHAPE).size(); i++) {
-        toParaMapping.get(CURSOR_TYPE_SHAPE).add(-1);
+      for (int j = 0; j < NUMBER_CURSOR_TYPES; j++) {
+        if (j != CURSOR_TYPE_TEXT && j != CURSOR_TYPE_FRAME) {
+          for (int i = 0; i < textParas.get(j).size(); i++) {
+            toParaMapping.get(j).add(-1);
+          }
+        }
       }
       if (debugMode) {
         for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
@@ -452,74 +478,45 @@ public class DocumentCache implements Serializable {
       boolean thirdTextDone = false;
       for (int i = 0; i < paragraphs.size(); i++) {
         boolean isMapped = false;
-        boolean firstTextDone = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
-            && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size();
+        boolean firstTextDone = nMapped.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
+            && nMapped.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size();
         boolean secondTextDone = firstTextDone 
-//            && numUnknown >= nUnknown 
             && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
-            && nShapes.size() == textParas.get(CURSOR_TYPE_SHAPE).size()
-            && nHeaders.size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size();
+            && nMapped.get(CURSOR_TYPE_SHAPE).size() == textParas.get(CURSOR_TYPE_SHAPE).size()
+            && nMapped.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size();
         //  test for footnote, endnote, frame or header/footer
         //  listed before text or embedded tables
-        if (!secondTextDone) {
-          for (int n = 0; n < NUMBER_CURSOR_TYPES - 3; n++) {
-            if (n > 2 && !firstTextDone) {
+        if (!firstTextDone) {
+          // test for footnote or endnote
+          for (int n = 0; n < 2; n++) {
+            if (mapTextParagraphsPerLoop(n, i, paragraphs, footnotes, textParas, toTextMapping, toParaMapping, nMapped, nNext)) {
+              isMapped = true;
               break;
-            } else if (n == CURSOR_TYPE_HEADER_FOOTER) {
-              continue;
             }
-            int j = nText.get(n);
-            if (j < textParas.get(n).size()) {
-              if (isEqualText(paragraphs.get(i), textParas.get(n).get(j), getFootnotes(footnotes, i))) {
+          }
+          if (isMapped) {
+            continue;
+          }
+        }
+        if (!secondTextDone && firstTextDone) {
+          // test for header/footer, frame or shape
+          for (int n = 2; n < NUMBER_CURSOR_TYPES - 2; n++) {
+            if (n == CURSOR_TYPE_FRAME) {
+              int j = nNext.get(n);
+              if (j < textParas.get(n).size()) {
+                if (isEqualText(paragraphs.get(i), textParas.get(n).get(j), getFootnotes(footnotes, i))) {
+                  isMapped = true;
+                  toTextMapping.add(new TextParagraph(n, j));
+                  toParaMapping.get(n).add(i);
+                  nNext.set(n, j + 1);
+                  break;
+                }
+              }
+            } else {
+              if (mapTextParagraphsPerLoop(n, i, paragraphs, footnotes, textParas, toTextMapping, toParaMapping, nMapped, nNext)) {
                 isMapped = true;
-                toTextMapping.add(new TextParagraph(n, j));
-                toParaMapping.get(n).add(i);
-                nText.set(n, j + 1);
                 break;
               }
-            }
-          }
-          if (isMapped) {
-            continue;
-          }
-        }
-        //  test if paragraph is Header/Footer
-        //  NOTE: for converting doc to odt, it is necessary to test if not usual order
-        if (!secondTextDone && nHeaders.size() < textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()) {
-          for (int k = 0; k < textParas.get(CURSOR_TYPE_HEADER_FOOTER).size(); k++) {
-            if (!nHeaders.contains(k)) {
-              if (isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_HEADER_FOOTER).get(k), getFootnotes(footnotes, i))) {
-                toTextMapping.add(new TextParagraph(CURSOR_TYPE_HEADER_FOOTER, k));
-                toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).set(k, i);
-                nHeaders.add(k);
-                isMapped = true;
-                break;
-              }  
-            }
-          }
-          if (isMapped) {
-            continue;
-          }
-        }
-        //  test if paragraph is Shape
-        //  NOTE: for converting doc to odt, it is necessary to test if not usual order
-        if (!secondTextDone && nShapes.size() < textParas.get(CURSOR_TYPE_SHAPE).size()) {
-          for (int k = nShape; k < textParas.get(CURSOR_TYPE_SHAPE).size() && !isMapped; k++) {
-            if (!nShapes.contains(k) && isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_SHAPE).get(k), getFootnotes(footnotes, i))) {
-              toTextMapping.add(new TextParagraph(CURSOR_TYPE_SHAPE, k));
-              toParaMapping.get(CURSOR_TYPE_SHAPE).set(k, i);
-              nShapes.add(k);
-              nShape = k < textParas.get(CURSOR_TYPE_SHAPE).size() - 1 ? k + 1 : 0;
-              isMapped = true;
-            }
-          }
-          for (int k = 0; k < nShape && !isMapped; k++) {
-            if (!nShapes.contains(k) && isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_SHAPE).get(k), getFootnotes(footnotes, i))) {
-              toTextMapping.add(new TextParagraph(CURSOR_TYPE_SHAPE, k));
-              toParaMapping.get(CURSOR_TYPE_SHAPE).set(k, i);
-              nShapes.add(k);
-              nShape = k < textParas.get(CURSOR_TYPE_SHAPE).size() - 1 ? k + 1 : 0;
-              isMapped = true;
             }
           }
           if (isMapped) {
@@ -528,60 +525,41 @@ public class DocumentCache implements Serializable {
         }
         //  test for movable tables
         //  listed before text or embedded tables
-        if ((!secondTextDone || !thirdTextDone) && nTables.size() < textParas.get(CURSOR_TYPE_TABLE).size()) {
+        if ((!secondTextDone || !thirdTextDone) && firstTextDone && nMapped.get(CURSOR_TYPE_TABLE).size() < textParas.get(CURSOR_TYPE_TABLE).size()) {
           if (!secondTextDone || textParas.get(CURSOR_TYPE_TEXT).isEmpty() || 
               !isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TEXT).get(0), getFootnotes(footnotes, i))) {
-            for (int k = nFrameTable; k < textParas.get(CURSOR_TYPE_TABLE).size(); k++) {
-              if (!nTables.contains(k)) {
-                if (isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TABLE).get(k), getFootnotes(footnotes, i))) {
-                  toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
-                  toParaMapping.get(CURSOR_TYPE_TABLE).set(k, i);
-                  nTables.add(k);
-                  isMapped = true;
-                  nFrameTable = k + 1;
-                  break;
-                }  
-              }
+            if (mapTextParagraphsPerLoop(CURSOR_TYPE_TABLE, i, paragraphs, footnotes, textParas, toTextMapping, toParaMapping, nMapped, nNext)) {
+              continue;
+            } else if (secondTextDone) {
+              nNext.set(CURSOR_TYPE_TABLE, 0);
+              thirdTextDone = true;
             }
-          }
-          if (isMapped) {
-            continue;
-          } else if (secondTextDone) {
-            nFrameTable = 0;
-            thirdTextDone = true;
           }
         }
         //  there are unknown paragraphs before text paragraphs
         if (!secondTextDone) {
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
           numUnknown++;
-          if (debugMode || !paragraphs.get(i).isEmpty()) {
-            MessageHandler.printToLogFile(
-                "WARNING: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone
-                + "; nShapes: " + nShapes.size() + "; nHeader: " + nHeaders.size() + "; nFrame: " + toParaMapping.get(CURSOR_TYPE_FRAME).size());
-          }
           if (debugMode) {
-            MessageHandler.printToLogFile("DocumentCache: mapParagraphs:");
-            if (nFrameTable >= textParas.get(CURSOR_TYPE_TABLE).size()) {
-              nFrameTable = 0;
-            }
+            MessageHandler.printToLogFile("WARNING: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) +
+                "'; secondTextDone: " + secondTextDone);
+            String msg = "DocumentCache: mapParagraphs:\n";
             for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
-              MessageHandler.printToLogFile("Actual Cursor Paragraph (Type " + k + "): "
-                  + ((k == CURSOR_TYPE_TABLE && nTables.size() < textParas.get(k).size()) 
-                    || (k == CURSOR_TYPE_HEADER_FOOTER && nHeaders.size() < textParas.get(k).size())
-                    || (k == CURSOR_TYPE_SHAPE && nShapes.size() < textParas.get(k).size())
-                    || (k != CURSOR_TYPE_TABLE && k != CURSOR_TYPE_HEADER_FOOTER && k != CURSOR_TYPE_SHAPE 
-                    && nText.get(k) < textParas.get(k).size()) ? 
-                       "'" + (k == CURSOR_TYPE_TABLE ? textParas.get(k).get(nFrameTable) : 
-                         k == CURSOR_TYPE_SHAPE ? textParas.get(k).get(nShape) : textParas.get(k).get(nText.get(k))) + "'"
-                      : "no paragraph left"));
+              if (k == CURSOR_TYPE_TEXT || k == CURSOR_TYPE_FRAME) {
+                msg += "Actual Cursor Paragraph (Type " + k + "): " + 
+                        (nNext.get(k) < textParas.get(k).size() ? textParas.get(k).get(nNext.get(k)) : "no paragraph left") + "\n";
+              } else {
+                msg += "Actual Cursor Paragraph (Type " + k + "): " + 
+                    (nMapped.get(k).size() < textParas.get(k).size() ? textParas.get(k).get(nNext.get(k)) : "no paragraph left") + "\n";
+              }
             }
+            MessageHandler.printToLogFile(msg);
             MessageHandler.printToLogFile("Unknown Paragraphs: " + (numUnknown - 1) + " from " + nUnknown);
           }
           continue;
         }
-        int j = nText.get(CURSOR_TYPE_TEXT);
-        if (j == textParas.get(CURSOR_TYPE_TEXT).size() && nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size()) {
+        int j = nNext.get(CURSOR_TYPE_TEXT);
+        if (j == textParas.get(CURSOR_TYPE_TEXT).size() && nMapped.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size()) {
           //  no text and tables left ==> unknown paragraph
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
           numUnknown++;
@@ -591,29 +569,29 @@ public class DocumentCache implements Serializable {
                 "Warning: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
           }
           continue;
-        } else if (nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size() && numUnknown >= nUnknown) {
+        } else if (nMapped.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size() && numUnknown >= nUnknown) {
           //  no tables left / text assumed
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_TEXT, j));
           toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
-          nText.set(CURSOR_TYPE_TEXT, j + 1);
+          nNext.set(CURSOR_TYPE_TEXT, j + 1);
           continue;
         } else if (j == textParas.get(CURSOR_TYPE_TEXT).size() && numUnknown >= nUnknown) {
           //  no text left / table assumed
-          int k = nFrameTable;
-          for (; k < textParas.get(CURSOR_TYPE_TABLE).size() && !nTables.contains(k); k++); 
+          int k = nNext.get(CURSOR_TYPE_TABLE);
+          for (; k < textParas.get(CURSOR_TYPE_TABLE).size() && !nMapped.get(CURSOR_TYPE_TABLE).contains(k); k++); 
           if (k == textParas.get(CURSOR_TYPE_TABLE).size()) {
-            for (k = 0; k < nFrameTable && !nTables.contains(k); k++);
+            for (k = 0; k < nNext.get(CURSOR_TYPE_TABLE) && !nMapped.get(CURSOR_TYPE_TABLE).contains(k); k++);
           }
-          nTables.add(k);
-          nFrameTable = k + 1;
+          nMapped.get(CURSOR_TYPE_TABLE).add(k);
+          nNext.set(CURSOR_TYPE_TABLE, k + 1);
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
           toParaMapping.get(CURSOR_TYPE_TABLE).set(k, i);
           continue;
         } else {
           //  test for table
-          int k = nFrameTable;
+          int k = nNext.get(CURSOR_TYPE_TABLE);
           for (; k < textParas.get(CURSOR_TYPE_TABLE).size(); k++) {
-            if (!nTables.contains(k)) {
+            if (!nMapped.get(CURSOR_TYPE_TABLE).contains(k)) {
               break;
             }
           }
@@ -635,7 +613,7 @@ public class DocumentCache implements Serializable {
             while (equalTable && equalText && mi < paragraphs.size() - 1) {
               mi++;
               mk++;
-              if (mk < textParas.get(CURSOR_TYPE_TABLE).size() && !nTables.contains(mk)) {
+              if (mk < textParas.get(CURSOR_TYPE_TABLE).size() && !nMapped.get(CURSOR_TYPE_TABLE).contains(mk)) {
                 equalTable = isEqualText(paragraphs.get(mi), textParas.get(CURSOR_TYPE_TABLE).get(mk), getFootnotes(footnotes, mi));
               } else {
                 equalTable = false;
@@ -654,8 +632,8 @@ public class DocumentCache implements Serializable {
             MessageHandler.printToLogFile("DocumentCache: mapParagraphs: equalText: " + equalText + "; equalTable: " + equalTable);
 */
             if (!equalText) {
-              nTables.add(k);
-              nFrameTable = k + 1;
+              nMapped.get(CURSOR_TYPE_TABLE).add(k);
+              nNext.set(CURSOR_TYPE_TABLE, k + 1);
               toTextMapping.add(new TextParagraph(CURSOR_TYPE_TABLE, k));
               toParaMapping.get(CURSOR_TYPE_TABLE).set(k, i);
               continue;
@@ -671,7 +649,7 @@ public class DocumentCache implements Serializable {
           if (isMapped) {
             toTextMapping.add(new TextParagraph(CURSOR_TYPE_TEXT, j));
             toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
-            nText.set(CURSOR_TYPE_TEXT, j + 1);
+            nNext.set(CURSOR_TYPE_TEXT, j + 1);
             continue;
           }
         }
@@ -684,45 +662,38 @@ public class DocumentCache implements Serializable {
               "Warning: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
         }
         if (debugMode) {
-          MessageHandler.printToLogFile("DocumentCache: mapParagraphs:");
-          if (nFrameTable >= textParas.get(CURSOR_TYPE_TABLE).size()) {
-            nFrameTable = 0;
+          if (nNext.get(CURSOR_TYPE_TABLE) >= textParas.get(CURSOR_TYPE_TABLE).size()) {
+            nNext.set(CURSOR_TYPE_TABLE, 0);
           }
+          String msg = "DocumentCache: mapParagraphs:\n";
           for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
-            MessageHandler.printToLogFile("Actual Cursor Paragraph (Type " + k + "): "
-                + ((k == CURSOR_TYPE_TABLE && nTables.size() < textParas.get(k).size()) 
-                    || (k == CURSOR_TYPE_HEADER_FOOTER && nHeaders.size() < textParas.get(k).size())
-                    || (k == CURSOR_TYPE_SHAPE && nShapes.size() < textParas.get(k).size())
-                    || (k != CURSOR_TYPE_TABLE && k != CURSOR_TYPE_HEADER_FOOTER && k != CURSOR_TYPE_SHAPE 
-                    && nText.get(k) < textParas.get(k).size()) ? 
-                       "'" + (k == CURSOR_TYPE_TABLE ? textParas.get(k).get(nFrameTable) : 
-                         k == CURSOR_TYPE_SHAPE ? textParas.get(k).get(nShape) : textParas.get(k).get(nText.get(k))) + "'"
-                      : "no paragraph left"));
+            if (k == CURSOR_TYPE_TEXT || k == CURSOR_TYPE_FRAME) {
+              msg += "Actual Cursor Paragraph (Type " + k + "): " + 
+                      (nNext.get(k) < textParas.get(k).size() ? textParas.get(k).get(nNext.get(k)) : "no paragraph left") + "\n";
+            } else {
+              msg += "Actual Cursor Paragraph (Type " + k + "): " + 
+                  (nMapped.get(k).size() < textParas.get(k).size() ? textParas.get(k).get(nNext.get(k)) : "no paragraph left") + "\n";
+            }
           }
+          MessageHandler.printToLogFile(msg);
           MessageHandler.printToLogFile("Unknown Paragraphs: " + (numUnknown - 1) + " from " + nUnknown);
         }
       }
-      boolean isCorrectNonText = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
-          && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
-          && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
-          && nShapes.size() == textParas.get(CURSOR_TYPE_SHAPE).size()
-          && nHeaders.size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
-          && nTables.size() == textParas.get(CURSOR_TYPE_TABLE).size();
+      boolean isCorrectNonText = nMapped.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
+          && nMapped.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
+          && nMapped.get(CURSOR_TYPE_SHAPE).size() == textParas.get(CURSOR_TYPE_SHAPE).size()
+          && nMapped.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
+          && nMapped.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size()
+          && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size();
       if (!isCorrectNonText) {
         //  Try to repair incorrect header/footer mapping
-        if (nHeaders.size() < textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()) {
-          MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair header mapping");
-          correctNegativeNumberEntries(CURSOR_TYPE_HEADER_FOOTER, textParas, paragraphs, toParaMapping, toTextMapping);
-        }
-        //  Try to repair incorrect shapes mapping
-        if (nShapes.size() < textParas.get(CURSOR_TYPE_SHAPE).size()) {
-          MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair shape mapping");
-          correctNegativeNumberEntries(CURSOR_TYPE_SHAPE, textParas, paragraphs, toParaMapping, toTextMapping);
-        }
-        //  Try to repair incorrect table mapping
-        if (nTables.size() < textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()) {
-          MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair table mapping");
-          correctNegativeNumberEntries(CURSOR_TYPE_TABLE, textParas, paragraphs, toParaMapping, toTextMapping);
+        for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
+          if (k != CURSOR_TYPE_TEXT) {
+            if (nMapped.get(k).size() < textParas.get(k).size()) {
+              MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair mapping of paragraph type " + k);
+              correctNegativeNumberEntries(k, textParas, paragraphs, toParaMapping, toTextMapping);
+            }
+          }
         }
         isCorrectNonText = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
             && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
@@ -734,14 +705,19 @@ public class DocumentCache implements Serializable {
       boolean isCorrectMapping = isCorrectNonText && toParaMapping.get(CURSOR_TYPE_TEXT).size() == textParas.get(CURSOR_TYPE_TEXT).size();
       if (!isCorrectMapping && isCorrectNonText) {
         //  Try to repair incorrect text mapping
-        MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair text mapping");
+        MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair mapping of paragraph type text");
         printCount = 0;
         toParaMapping.get(CURSOR_TYPE_TEXT).clear();
+        for (int i = 0; i < paragraphs.size(); i++) {
+          if (toTextMapping.get(i).type == CURSOR_TYPE_TEXT) {
+            toTextMapping.set(i, new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
+          }
+        }
         boolean allmapped = true;
         for (int j = 0; j < textParas.get(CURSOR_TYPE_TEXT).size(); j++) {
           boolean ismapped = false;
           for (int i = 0; i < paragraphs.size() && !ismapped; i++) {
-            if ((toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN || toTextMapping.get(i).type == CURSOR_TYPE_TEXT) && 
+            if ((toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN) && 
                 isEqualText(paragraphs.get(i), textParas.get(CURSOR_TYPE_TEXT).get(j), getFootnotes(footnotes, i))) {
               toTextMapping.set(i, new TextParagraph(CURSOR_TYPE_TEXT, j));
               toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
@@ -756,16 +732,11 @@ public class DocumentCache implements Serializable {
             }
           }
         }
-        for (int i = 0; i < paragraphs.size(); i++) {
-          if (toTextMapping.get(i).type == CURSOR_TYPE_TEXT && !toParaMapping.get(CURSOR_TYPE_TEXT).contains(i)) {
-            toTextMapping.set(i, new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
-          }
-        }
         if (!allmapped) {
-          MessageHandler.printToLogFile("Warning: unknow paragraphs (max. " + MAX_PRINTED_PARAS + " printed):");
+          MessageHandler.printToLogFile("Warning: unknow non empty paragraphs (max. " + MAX_PRINTED_PARAS + " printed):");
           printCount = 0;
           for (int i = 0; i < paragraphs.size() && printCount < MAX_PRINTED_PARAS; i++) {
-            if (toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN) {
+            if (toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN && !paragraphs.get(i).isEmpty()) {
               printCount++;
               MessageHandler.printToLogFile(i + ": " + paragraphs.get(i));
             }
@@ -1124,6 +1095,7 @@ public class DocumentCache implements Serializable {
     nText = in.nText;
     nTable = in.nTable;
     nFrame = in.nFrame;
+    nShape = in.nShape;
     nFootnote = in.nFootnote;
     nEndnote = in.nEndnote;
     nHeaderFooter = in.nHeaderFooter;
@@ -1344,6 +1316,9 @@ public class DocumentCache implements Serializable {
         return false;
       }
       if (nFrame != docCursor.getNumberOfAllFrames()) {
+        return false;
+      }
+      if (nShape != docCursor.getNumberOfAllShapes()) {
         return false;
       }
       if (nFootnote != docCursor.getNumberOfAllFootnotes()) {
