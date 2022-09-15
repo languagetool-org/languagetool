@@ -67,6 +67,7 @@ public class ConfigurationDialog implements ActionListener {
   private final Frame owner;
   private final boolean insideOffice;
   private final Image ltImage;
+  private String dialogTitle;
   private boolean configChanged = false;
   private boolean profileChanged = true;
   private boolean restartShow = false;
@@ -86,15 +87,16 @@ public class ConfigurationDialog implements ActionListener {
   private Rule rule;
 
   public ConfigurationDialog(Frame owner, boolean insideOffice, Configuration config) {
-    this(owner, insideOffice, null, config);
+    this(owner, insideOffice, null, null, config);
   }
 
-  public ConfigurationDialog(Frame owner, boolean insideOffice, Image ltImage, Configuration config) {
+  public ConfigurationDialog(Frame owner, boolean insideOffice, Image ltImage, String title, Configuration config) {
     this.owner = owner;
     this.insideOffice = insideOffice;
     this.original = config;
     this.config = original.copy(original);
     this.ltImage = ltImage;
+    dialogTitle = title;
     messages = JLanguageTool.getMessageBundle();
   }
 
@@ -190,7 +192,10 @@ public class ConfigurationDialog implements ActionListener {
     }
     restartShow = false;
     dialog = new JDialog(owner, true);
-    dialog.setTitle(messages.getString("guiConfigWindowTitle"));
+    if (dialogTitle == null) {
+      dialogTitle = messages.getString("guiConfigWindowTitle");
+    }
+    dialog.setTitle(dialogTitle);
     if (ltImage != null) {
       ((Frame) dialog.getOwner()).setIconImage(ltImage);
     }

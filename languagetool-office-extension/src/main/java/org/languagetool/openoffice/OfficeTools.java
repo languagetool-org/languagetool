@@ -30,6 +30,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
 
 import com.sun.star.awt.XMenuBar;
 import com.sun.star.awt.XPopupMenu;
@@ -538,6 +539,17 @@ class OfficeTools {
   public static String getJavaInformation () {
     return "Java-Version: " + System.getProperty("java.version") + ", max. Heap-Space: " + ((int) (getMaxHeapSpace()/1048576)) +
         " MB, LT Heap Space Limit: " + ((int) (getHeapLimit(getMaxHeapSpace())/1048576)) + " MB";
+  }
+
+  /**
+   * Get information about LanguageTool
+   */
+  public static String getLtInformation () {
+    String txt = JLanguageTool.VERSION;
+    if (JLanguageTool.VERSION.contains("SNAPSHOT")) {
+      txt += " - " + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID;
+    }
+    return txt;
   }
 
   /**

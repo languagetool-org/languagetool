@@ -913,7 +913,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: LtCheckDialog == null");
       }
       dialog.setName(dialogName);
-      dialog.setTitle(dialogName);
+      dialog.setTitle(dialogName + " (LanguageTool " + OfficeTools.getLtInformation() + ")");
       dialog.setLayout(null);
       dialog.setSize(dialogWidth, dialogHeight);
       dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
