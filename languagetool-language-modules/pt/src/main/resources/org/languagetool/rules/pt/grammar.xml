@@ -2660,180 +2660,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <!-- MARCOAGPINTO 2022-08-04 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-      <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto and Susana Boatto, Portuguese rule 2022-09-04/11 (25-JUL-2022+) -->
+      <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2022-09-15 (25-JUL-2022+) -->
       <!--
       As palavras estão corretos. → As palavras estão corretas.
       A palavra está correto. → A palavra está correta.
-
-      A hipótese for correto. → A hipótese for correta.
-      As hipóteses forem corretos. → As hipóteses forem corretas.
 
       A avaliação é correto. → A avaliação é correta.
       As avaliações são corretos. → As avaliações são corretas.
 
       Ela está bonito hoje. → Ela está bonita hoje.
       Elas estão bonitos hoje. → Elas estão bonitas hoje.
+
+      Ela é alto. → Ela é alta.
+      Elas são altos. → Ela são altas.
       -->
-      <rule id='LIGACAO_ECG_V2' name="Ligação ECG">
-
-        <antipattern>
-          <token postag='AQ.M.+|NCM.+|CC|RG' postag_regexp="yes"/>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
-          <token postag='AQ.M.+' postag_regexp="yes"/>
-          <example>O café da manhã está pronto?</example>
-          <example>O cérebro com os centros diretivos da mente funciona encerrado na caixa craniana, à maneira de usina quase lacrada num cofre forte.</example>
-          <example>O chapéu das mulheres é caro.</example>
-          <example>Eu não sou fã da revista, mas não dá para negar que os produtos da marca são lindíssimos!</example>
-          <example>Os ovos da barata são escuros.</example>
-          <example>O nível da água está altíssimo.</example>
-          <example>O banheiro da suite é amplo, bem ventilado e com acabamento de alto padrão.</example>
-          <example>O pescoço da girafa é longo.</example>
-          <example>O cabelo da Maria está longo.</example>
-          <example>O vinho e a cerveja estão bons.</example>
-          <example>Os camarões, os caranguejos e as lagostas são crustáceos.</example>
-          <example>O papel é branco, a neve também é branca. O papel e a neve são brancos.</example>
-          <example>Pablo e a esposa são católicos.</example>
-          <example>O bem e a verdade andam juntos.</example>
-          <example>O Tomás e a Maria andam preocupados.</example>
-          <example>O Tom e a Maria são vegetarianos.</example>
-          <example>...um tipo de motor que usamos para automatizar portas deslizantes, é especial pois a instalação exige cuidados especiais.</example>
-          <example>estudo das organizações modernas através da cultura é novo.</example>
-        </antipattern>
-
-        <antipattern>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
-          <token postag='AQ.M.+' postag_regexp="yes"/>
-          <example>A maioria das orações possui sujeito.</example>
-          <example>Um terço da superfície da Terra é deserto.</example>
-          <example>Geralmente, os erros cometidos na esfera da religião são perigosos, enquanto aqueles que se cometem no âmbito da filosofia são simplesmente ridículos.</example>
-          <example>As asas das borboletas são ótimos modelos para o estudo dos mecanismos da evolução.</example>
-        </antipattern>
-
-        <antipattern>
-          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
-          <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
-          <and>
-            <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
-            <token regexp="yes" inflected="yes">&languages;</token>
-          </and>
-          <example>Quem nasce na Suécia é sueco.</example>
-          <example>Muitas pessoas na África falam francês.</example>
-          <example>A senhora fala espanhol?</example>
-          <example>A mulher fala espanhol.</example>
-          <example>Quem nasce na Holanda é holandês.</example>
-          <example>Por que a senhora estuda francês?</example>
-          <example>As principais línguas-fonte da interlíngua são Português, Espanhol, Italiano, Francês e Inglês.</example>
-          <example>É difícil encontrar falantes nativos de Árabe em Dubai, onde a maioria das pessoas fala Inglês.</example>
-          <example>A minha matéria favorita na escola é francês.</example>
-          <example>O marido dela é americano.</example>
-          <example>Ela fala chinês.</example>
-          <example>Ela sabe francês às avessas.</example>
-          <example>Além do inglês, ela fala francês fluentemente.</example>
-        </antipattern>
-
-        <antipattern>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
-          <token postag='AQ.M.+' postag_regexp="yes"/>
-          <token postag='AQ.M.+|NCM.+|V.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp="yes"/>
-          <example>Para ter êxito na vida é preciso trabalhar duro.</example>
-          <example>De outro lado, as imagens são verdadeiros livros que ensinam a prática das virtudes.</example>
-          <example>A festa anima todo mundo.</example>
-          <example>Os direitos das mulheres são direitos humanos.</example>
-          <example>“A educação cria bons homens, e bons homens agem nobremente”.</example>
-          <example>A palavra tem vários significados.</example>
-          <example>Hoje a cidade está meio parada.</example>
-          <example>As únicas coisas que a preocupação traz são cabelos brancos, receita de remédios e remédios.</example>
-          <example>As borboletas são belíssimos insetos que simbolizam desde sempre a eternidade.</example>
-          <example>Eu não consigo entender porque as pessoas têm medo de ideias novas. Eu tenho medo é das antigas.</example>
-          <example>A vida tem altos e baixos.</example>
-          <example>Um dia na pista é bom para você.</example>
-          <example>Atualmente, a empresa oferece horários e passagens de ônibus para a região Centro-Oeste do estado mineiro.</example>
-          <example>A gente treina juntos já.</example>
-          <example>Os habitantes da ilha são altos e fortes.</example>
-          <example>Nas cidades moram ricos e pobres.</example>
-          <example>Assim, o aumento significativo de ações na Justiça provoca reflexos em todo o segmento.</example>
-        </antipattern>
-
-        <antipattern>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
-          <token postag='AQ.M.+' postag_regexp="yes"/>
-          <token min="0" max="1" postag='_PUNCT' postag_regexp="no"/>
-          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp="yes"/>
-          <token postag='AQ.M.+|NCM.+|_PUNCT|[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp="yes"/>
-          <example>Como em outras cidades, o lixo separado pela população acaba misturado nos caminhões que o recolhe.</example>
-          <example>A criança tem medo do escuro.</example>
-          <example>As indicações são reflexo do acompanhamento atento da cena teatral brasileira que os dois fazem durante todo o ano.</example>
-          <example>Outro fator importante que o usuário deve ter em conta é que a videochamada consome dados do plano de internet móvel.</example>
-          <example>Outra questão que a série aborda são os laços de família que Kara Danvers tem com Clark Kent.</example>
-          <example>As crianças têm medo do escuro.</example>
-          <example>Apenas uma minoria da população fala português no imenso sertão moçambicano.</example>
-          <example>A senhora tem medo dele.</example>
-          <example>As senhoras têm medo dele.</example>
-          <example>Nestes arquivos, as pessoas disponibilizam áudios nos quais simplesmente falam e expõem suas opiniões sobre os mais diversos assuntos, como política ...</example>
-        </antipattern>
-
-        <antipattern>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
-          <token postag='AQ.M.+' postag_regexp="yes"/>
-          <token postag='_PUNCT' postag_regexp="no"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <example>A fauna inclui macacos, cutias, tartarugas e caranguejos terrestres.</example>
-        </antipattern>
-
-        <antipattern>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes"/>
-          <token postag='AQ.M.+' postag_regexp="yes"/>
-          <token min="0" max="1" postag='_PUNCT' postag_regexp="no"/>
-          <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+|_PUNCT|[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp="yes"/>
-          <example>As pessoas têm medo da guerra.</example>
-          <example>A casa fica junto da baía.</example>
-          <example>O problema da seca é histórico na região de clima semiárido do Nordeste.</example>
-          <example>Toda a gente tem medo da morte.</example>
-          <example>A complacência granjeia amigos; a verdade, inimigos.</example>
-        </antipattern>
-
-        <antipattern>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
-          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <token>são</token>
-          <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
-          <example>A coisa mais preciosa na vida são momentos.</example>
-        </antipattern>
-
-        <antipattern>
-          <token postag='SENT_START|_PUNCT' postag_regexp="yes"/>
-          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
-          <token postag='V.+' postag_regexp="yes">
-              <exception regexp='no'>são</exception>
-          </token>
-          <token postag='AQ.M.+|NCM.+|NP.+' postag_regexp="yes">
-              <exception scope="next" postag='RG' postag_regexp='no'/>
-          </token>
-          <example>Ele passa o tempo a jogar computador.</example>
-          <example>Ela fala bonito.</example>
-          <example>Ela usa vestidos sarapintados a fim de chamar a atenção.</example>
-          <example>Ela monta computadores.</example>
-          <example>Ela toca violino bem.</example>
-          <example>Ela come feito uma porca.</example>
-          <example>12ª Sessão - Brasil S.A É preciso melhorar a atividade pública e buscar novas formas de convídio Devemos buscar uma governança mais e...</example>
-        </antipattern>
+      <rule id='LIGACAO_ECG_V3' name="Ligação ECG">
 
         <antipattern>
           <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
@@ -2841,63 +2682,180 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ.M.+|NCM.+|NP.+' postag_regexp="yes">
               <exception scope="next" postag='RG' postag_regexp='no'/>
           </token>
-          <example>...ive, quase criou uma crise política da-que-las, o que obrigou seu pai, figurinha carimbada, a pular miúdo para colocar panos quentes sobre a questão.</example>
-          <example>Tenho tendência a pegar resfriados.</example>
-          <example>Quando eu era menino, passava horas a ler sozinho em meu quarto.</example>
+          <example>Após um breve período de entusiasmo pelos jacobinos, chegando até mesmo a ser amigo dos familiares de Robespierre, afastou-se deles quando estavam sendo depostos.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token regexp="yes" inflected='yes'>ser|estar</token>
+          <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
+          <example>A coisa mais preciosa na vida são momentos.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token regexp="yes" inflected='yes'>ser|estar</token>
+          <token postag='AQ.M.+' postag_regexp="yes"/>
+          <token min="0" max="1" postag='_PUNCT' postag_regexp="no"/>
+          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp="yes"/>
+          <token postag='AQ.M.+|NCM.+|_PUNCT|[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp="yes"/>
+          <example>As indicações são reflexo do acompanhamento atento da cena teatral brasileira que os dois fazem durante todo o ano.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token regexp="yes" inflected='yes'>ser|estar</token>
+          <token postag='AQ.M.+' postag_regexp="yes"/>
+          <token postag='AQ.M.+|NCM.+|V.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp="yes"/>
+          <example>De outro lado, as imagens são verdadeiros livros que ensinam a prática das virtudes.</example>
+          <example>Os habitantes da ilha são altos e fortes.</example>
+          <example>Tudo na vida é passageiro assim como a própria vida, tanto as tristezas como também as alegrias.</example>
+          <example>• Para entrar na sala será necessário apresentar seu comprovante de pagamento ou documento pessoal com foto.</example>
+          <example>Na Líbia foi preciso esperar 42 anos.</example>
+          <example>As baleias são mamíferos de grande porte que vivem no oceano.</example>
+          <example>As borboletas são belíssimos insetos que simbolizam desde sempre a eternidade.</example>
+          <example>As borboletas são ótimos indicadores da qualidade ambiental.</example>
+          <example>As bibliotecas são verdadeiros tesouros para leitores ávidos.</example>
+          <example>A cidade foi alvo de uma ofensiva contra rebeldes.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token regexp="yes" inflected='yes'>ser|estar</token>
+          <token postag='AQ.M.+' postag_regexp="yes"/>
+          <example>Um terço da superfície da Terra é deserto.</example>
+          <example>Geralmente, os erros cometidos na esfera da religião são perigosos, enquanto aqueles que se cometem no âmbito da filosofia são simplesmente ridículos.</example>
+          <example>As asas das borboletas são ótimos modelos para o estudo dos mecanismos da evolução.</example>
+          <example>- Após a aplicação da primeira é necessário fazer a sobreposição com espaçamento e encaixe entre uma placa/faixa e outra.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='AQ.M.+|NCM.+|CC|RG' postag_regexp="yes"/>
+          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token regexp="yes" inflected='yes'>ser|estar</token>
+          <token postag='AQ.M.+' postag_regexp="yes"/>
+          <example>O reconhecimento da Pátria foi nulo.</example>
+          <example>Eu não sou fã da revista, mas não dá para negar que os produtos da marca são lindíssimos!</example>
+          <example>Os ovos da barata são escuros.</example>
+          <example>Para ter êxito na vida é preciso trabalhar duro.</example>
+          <example>Um dia na pista é bom para você.</example>
+          <example>O nível da água está altíssimo.</example>
+          <example>O vinho e a cerveja estão bons.</example>
+          <example>Os camarões, os caranguejos e as lagostas são crustáceos.</example>
+          <example>O papel é branco, a neve também é branca. O papel e a neve são brancos.</example>
+          <example>Os direitos das mulheres são direitos humanos.</example>
+          <example>O banheiro da suite é amplo, bem ventilado e com acabamento de alto padrão.</example>
+          <example>O resultado da prova foi negativo.</example>
+          <example>Os heróis da mitologia eram filhos de deuses ou deusas com seres humanos.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='DA0F.+|SPS00:DA0F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token regexp="yes" inflected='yes'>ser|estar</token>
+          <token postag='AQ.M.+' postag_regexp="yes"/>
+          <token min="0" max="1" postag='_PUNCT' postag_regexp="no"/>
+          <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+|_PUNCT|[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp="yes"/>
+          <example>O problema da seca é histórico na região de clima semiárido do Nordeste.</example>
         </antipattern>
 
         <antipattern>
           <token postag='AQ.[CM].+|NC[CM].+|CS|VMIP1.+|VMN0000' postag_regexp="yes"/>
           <token min="0" max="1" postag='SPS00|CC|RG|_PUNCT|RM' postag_regexp="yes"/>
           <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
-          <token postag='V.+' postag_regexp="yes">
-              <exception regexp='no'>são</exception>
+          <token regexp="yes" inflected='yes'>ser|estar
           </token>
           <token min="0" max="1" postag='RG' postag_regexp="no"/>
           <token postag='AQ.M.+|NCM.+|NP.+' postag_regexp="yes">
               <exception scope="next" postag='RG' postag_regexp='no'/>
           </token>
-          <example>... de ano mais desastroso, precisa driblar o rebaixamento - é esse o desafio do bombeiro a substituir Mano.</example>
-          <example>O que está acontecendo com sua planta não é normal, aparentemente os cuidados com ela estão corretos, mas certamente alguma coisa de errado está acontecendo.</example>
-          <example>Lá diz o povo que quando o barco começa a afundar os primeiros a fugir são os 28, perdão, são os ratos.</example>
-          <example>Os primeiros a receber são os que ganham até um salário mínimo (R$ 998, em 2019).</example>
+          <example>O Nodo Norte aponta que o caminho da evolução é aprender a compartilhar e a ser solidário sem ter a necessidade de reconhecimento.</example>
+          <example>Ver Alexandre Lopes ensinando crianças a serem cidadãos sem distinção me deixou muito feliz, me fez sonhar.</example>
           <example>O pai dela é conservador e careta.</example>
           <example>A Maria, o inglês dela é bom, mas ela tem vergonha de falar com os outros em inglês.</example>
           <example>O pai dela é vivo?</example>
+          <example>Os movimentos dela eram estranhos e seus gestos desajeitados.</example>
+          <example>O domínio que ele exerce sobre ela é óbvio.</example>
           <example>O cabelo dela é liso, loiro e longo.</example>
+          <example>O suéter dela é roxo.</example>
           <example>O marido dela é rico.</example>
           <example>O namorado novo dela é negro.</example>
-          <example>O único objetivo verdadeiro da educação é simplesmente ensinar o homem a aprender sozinho.</example>
-          <example>Ele passa o tempo a jogar computador.</example>
-          <example>Andei cinco anos a estudar basco.</example>
-          <example>...rantes que foram vítimas de crimes graves, pessoas sujeitas à proteção internacional e a acompanhar defensores e defensoras de direitos humanos de pessoas migrantes que estão em risco.</example>
-          <example>Esta demagogia social, a tomar emprestado do movimento da classe trabalhadora sua linguagem, dando-lhe um significado racial não-classista, é...</example>
-          <example>...intenção com as crônicas e dicas postadas aqui é simplesmente inspirar outros viajantes a descobrir novos lugares (ou, quem sabe, a se aventurar por novos recantos em lugares já conhecidos).</example>
-          <example>...m do artigo 14 do Cdigo de Defesa do Consumidor, os artigos 186 e 927 do Novo Cdigo Civil, a seguir transcritos: "Artigo 186.</example>
-          <example>O suéter dela é roxo.</example>
-          <example>O cabelo dela era tão longo que alcançava o chão.</example>
-          <example>É importante ressaltar que essa obra é única no mercado, pois somente ela traz tamanho número de questões do Exame de Ordem e da FGV, questões estas que estão classificadas e comentadas,...</example>
-          <example>Nós estamos apenas a trinta minutos daí.</example>
-          <example>Estamos apenas a trinta minutos daí.</example>
-          <example>Quando o aluno trabalha sozinho ele tem que aprender também a lidar sozinho com essas questões, mas estando acompanhado por um professor, que se supõe poder orientá-lo nessas ...</example>
+          <example>Os bolos delas são bons.</example>
+          <example>Os cabelos dela são longos e bonitos.</example>
+          <example>Os conselhos dela são vãos.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+         <token regexp="yes" inflected='yes'>ser|estar</token>
+          <and>
+            <token postag='AQ.M.+|NCM.+' postag_regexp="yes"/>
+            <token regexp="yes" inflected="yes">&languages;</token>
+          </and>
+          <example>O marido dela é americano.</example>
+          <example>Quem nasce na Suécia é sueco.</example>
+          <example>As principais línguas-fonte da interlíngua são Português, Espanhol, Italiano, Francês e Inglês.</example>
+          <example>Todos os maridos dela eram americanos.</example>
+          <example>A minha matéria favorita na escola é francês.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token regexp="yes" inflected='yes'>ser|estar</token>
+          <token postag='RG' postag_regexp="no"/>
+          <token postag='AQ.[CF].+|NC[CF].+|SPS00|SPS00:DA.+' postag_regexp="yes"/>
+          <example>A camisa foi meio carinha.</example>
+          <example>Ontem ela estava meio bêbada.</example>
+          <example>Eu acho engraçado quando ele fala ah, enjoei, ela era meio sem assunto e olha pra mim com saudade.</example>
+          <example>Ela estava junto à porta.</example>
+          <example>Ela foi direto para a cama.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='SPS00:DA0F.+|SPS00:PP.F.+' postag_regexp="yes"/> <!-- na(s)/da(s) - to make possible RG: "Ela é alta" -->
+          <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token regexp="yes" inflected='yes'>ser|estar</token>
+          <token postag='RG|AQ.[CM].+|NC[CM].+' postag_regexp="yes"/>
+          <token postag='_PUNCT|RG' postag_regexp="yes"/> <!-- RG="tanto" -->
+          <example>O limite livre de impostos pra carregar vinhos para o Brasil na mala é alto.</example>
+          <example>O que a tecnologia faz pela audição é lindo, lindo demais.</example>
+          <example>Quem nasce na Coreia é coreano.</example>
+          <example>Fumar na cama é perigoso.</example>
+          <example>Brincar na rua é perigoso.</example>
+          <example>As cores da alvorada são vermelho, azul e branco, as cores combinadas das bandeiras nacionais dos Estados Unidos, da Rússia e do Japã...</example>
+          <example>O estranho acidente que tomou a vida dela foi devastador tanto para ele quanto para Soraia.</example>
+        </antipattern>
+
+        <antipattern>
+          <token postag='SPS00' postag_regexp="no"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token postag='PD0F.+' postag_regexp="yes"/> <!-- PD0F.+: "a" -->          
+          <token regexp="yes" inflected='yes'>ser|estar</token>
+          <token postag='RG|AQ.[CM].+|NC[CM].+' postag_regexp="yes"/>
+          <token postag='_PUNCT|RG' postag_regexp="yes"/> <!-- RG="tanto" -->
+          <example>...terizam por ter o osso da munheca bem grosso em comparação com os ectomorfos (com tendência a serem magros).</example>
         </antipattern>
 
         <pattern>
-          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes">
-            <exception scope="previous" postag='V.+|[DP][ADIPR].C.+|SPS00:[DP][ADIPR].C.+' postag_regexp='yes'/>
-            <exception scope="next" postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+          <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
+          <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes">
+            <exception regexp='yes'>gentes?</exception>
           </token>
-          <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
-          <or>
-            <token postag='VMIP3.+|VMSF3.+' postag_regexp="yes">
-              <exception postag='NC.+|AQ.+' postag_regexp='yes'/>
-              <exception regexp='no' inflected='yes'>ter</exception>
-            </token>
-            <token>são</token>
-          </or>
+          <token regexp="yes" inflected='yes'>ser|estar</token>
           <marker>
             <token postag='AQ.M.+' postag_regexp="yes">
-              <exception postag='RG|[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
+              <exception postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
             </token>
           </marker>
         </pattern>
@@ -2905,29 +2863,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion><match no='4' postag="AQ0M(.)0" postag_replace='AQ0F$10' postag_regexp="yes"/></suggestion>
         <example correction='correta'>A palavra está <marker>correto</marker>.</example>
         <example correction='corretas'>As palavras estão <marker>corretos</marker>.</example>
-        <example correction='correta'>A hipótese for <marker>correto</marker>.</example>
-        <example correction='corretas'>As hipóteses forem <marker>corretos</marker>.</example>
         <example correction='correta'>A avaliação é <marker>correto</marker>.</example>
         <example correction='corretas'>As avaliações são <marker>corretos</marker>.</example>
         <example correction='bonita'>Ela está <marker>bonito</marker> hoje.</example>
         <example correction='bonitas'>Elas estão <marker>bonitos</marker> hoje.</example>
-        <example>Dirija com cuidado. Não se esqueça que a imprudência custa caro.</example>
-        <example>A águia voa alto.</example>
-        <example>O limite livre de impostos pra carregar vinhos para o Brasil na mala é alto.</example>
-        <example>A criança aprende rápido.</example>
-        <example>a parte das finanças fica meio obsoleta pra quem não trabalha.</example>
-        <example>Hoje a cidade está meio triste.</example>
-        <example>Eu não imaginava como o custo de vida na Austrália é alto.</example>
-        <example>O que a tecnologia faz pela audição é lindo, lindo demais.</example>
-        <example>é para formação de corpo de baile e bailarinos mais altos… quem dança na frente é pequeno.</example>
-        <example>Fumar na cama é perigoso.</example>
-        <example>As cores da alvorada são vermelho, azul e branco, as cores combinadas das bandeiras nacionais dos Estados Unidos, da Rússia e do Japã...</example>
-        <example>De quem as senhoras têm medo?</example>
-        <example>O Tomás disse que a Maria tem medo.</example>
-        <example>As partículas alfa são partículas positivas.</example>
-        <example>A senhora tem filhos?</example>
-        <example>Por que as pessoas têm filhos?</example>
-        <example>As crianças têm direitos.</example>
+        <example correction='alta'>Ela é <marker>alto</marker>.</example>
+        <example correction='altas'>Elas são <marker>altos</marker>.</example>
+        <example>Porra, a gente está velho!</example>
+        <example>A gente é maluco.</example>
       </rule>
 
     </rulegroup>
