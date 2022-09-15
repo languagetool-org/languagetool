@@ -44,6 +44,7 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
     tempSet.add("их");
     tempSet.add("на");
     tempSet.add("в");
+    tempSet.add("по");
     tempSet.add("минута");
     tempSet.add("друг");
     tempSet.add("час");
