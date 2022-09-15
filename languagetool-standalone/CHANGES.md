@@ -7,6 +7,7 @@
 
 #### English
   * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2022.09.01, v.3.1.2)
 
 #### German
   * added and improved rules
@@ -20,6 +21,9 @@
 
 #### Portuguese
   * added and improved rules
+
+#### Russian
+  * updated dictionary
 
 #### Spanish
   * added and improved rules
