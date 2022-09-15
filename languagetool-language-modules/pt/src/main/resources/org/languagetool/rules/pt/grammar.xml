@@ -5691,18 +5691,74 @@ O namorado dela era um ladrão.
           <example>O sistema de escape esportivo opcional RS com as ponteiras dos canos de escape pretas garante uma experiência sonora esportiva ao máximo.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-11 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+        <antipattern>
+          <token regexp='yes'>\d[ªa]</token>
+          <token>s</token>
+          <token postag='(?:[NZ].|A..)[FC]P.+' postag_regexp='yes'/>
+          <example>sem 2ª s intenções?</example>
+        </antipattern>
+        <antipattern>
+           <token postag='D[ADIP].+' postag_regexp='yes'/>
+         <and>
+           <token postag='NCFP.+' postag_regexp='yes'/>
+           <token regexp='yes'>\p{Lu}.*</token>
+         </and>
+          <example>A Casas com Design não comercializará nem partilhará a sua base de dados</example>
+        </antipattern>
+        <antipattern>
+         <and>
+           <token postag='NP.S.+' postag_regexp='yes'/>
+           <token regexp='yes'>\p{Lu}.*</token>
+         </and>
+         <and>
+           <token postag='NP.P.+' postag_regexp='yes'/>
+           <token regexp='yes'>\p{Lu}.*</token>
+         </and>
+          <example>Antonio de Lima Teles</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>&livros_biblicos;</token>
+          <token regexp='yes'>\d{1,2}:\d{1,2}</token>
+         <example>Apocalipse 12:17</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token postag='Z.[FC]P.+' postag_regexp='yes'/>
+          <example>Eu posso ficar na Austrália mais duas ou três semanas</example>
+        </antipattern>
+        <antipattern>
+          <token postag='N.+|AQ.+' postag_regexp='yes'/>
+          <token>24</token>
+          <token regexp='yes'>h|horas</token>
+          <example>Central 24h</example>
+        </antipattern>
+        <antipattern>
+          <token postag='V....P.' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|P[^IDP].|Z.)[FC]S.+' postag_regexp='yes' min='0'/>
+          <token postag='AQ..P.+|N..S.+' postag_regexp='yes'/>
+          <token postag='AQ..P.+' postag_regexp='yes'/>
+          <example>vieram para França pobres</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>propens[oa]s?</token>
+          <token>a</token>
+          <token postag='(?:[NZ].|A..)[FC]P.+' postag_regexp='yes'/>
+          <example>Eles são mais propensos a assaduras</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]S.+' postag_regexp='yes'>
-              <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC][NP].+|C.|R.' postag_regexp='yes'/>
-              <exception regexp='yes'>.+[°′″]|leva|continha|mediante</exception></token>
+              <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC][NP].+|C.|R.|V.[ISMG].+' postag_regexp='yes'/>
+              <exception regexp='yes'>.+[°′″]|leva|ola|continha|mediante|micro</exception></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
+              <exception regexp='yes'>micro|0</exception></token>
             <token postag='(?:[NZ].|A..)[FC]P.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..)[FC][NS].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
+              <exception postag='(?:[NZ].|A..)[FC][NS].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+              <exception regexp='yes'>Adidas|aids|0</exception></token>
           </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
@@ -5710,13 +5766,14 @@ O namorado dela era um ladrão.
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no='2' postag="(D[ADIP].|N.|A..)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
-        <example correction='A vaca|As vacas|A, vacas'><marker>A vacas</marker> são malhadas.</example>
+        <suggestion><match no='2' include_skipped='all'/> das <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <example correction='A vaca|As vacas|A, vacas|A das vacas'><marker>A vacas</marker> são malhadas.</example>
         <example>O programa Lendas do Futuro é bom?</example>
         <example>Uma vez acordadas as novas condições, será feito o abastecimento elétrico.</example>
         <!--      <example correction='união empobrecida|uniões empobrecidas|união, empobrecidas'>As regiões na <marker>união empobrecidas</marker> acabaram por ser culpabilizadas.</example> --> <!-- Remmed by MARCOAGPINTO 2020-10-29 -->
         <example>As regiões da <marker>união empobrecidas</marker> acabaram por ser culpabilizados.</example>
         <example>…odo estudante confia no Sr. Akai porque ele nunca quebra promessas.</example>
-        <example correction='bastante mesa|bastantes mesas|bastante, mesas'>Existem <marker>bastante mesas</marker>!</example>
+        <example correction='bastante mesa|bastantes mesas|bastante, mesas|bastante das mesas'>Existem <marker>bastante mesas</marker>!</example>
         <example>Algo que nos une como plataforma a tantos continentes, a tantos oceanos, a tantas culturas, a tantas civilizações</example>
         <example>O Rui quer enfrentar de <marker>forma eficaz ações entrópicas</marker>.</example>
 
