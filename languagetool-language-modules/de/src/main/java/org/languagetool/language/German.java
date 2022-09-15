@@ -360,6 +360,7 @@ public class German extends Language implements AutoCloseable {
       case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
       case "ANS_OHNE_APOSTROPH": return 1;
       case "DIESEN_JAHRES": return 1;
+      case "TAG_EIN_TAG_AUS": return 1; // prefer over agreement rules
       case "WERT_SEIN": return 1; // prefer over DE_AGREEMENT
       case "EBEN_FALLS": return 1;
       case "IN_UND_AUSWENDIG": return 1; // prefer over DE_CASE
