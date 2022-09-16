@@ -86,6 +86,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY naipes "(?:o[iu]ros|copas|espadas|paus|trunfos?)">
 
     <!ENTITY pronomes_obliquos "[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
+    <!ENTITY pronomes_obliquos_sem_a_as_o_os "l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
     <!ENTITY pronomes_obliquos_singular "[ao]|l[ao]|lh[aeo]|n[ao]|me|se|te|vos">
     <!ENTITY pronomes_obliquos_plural "[ao]s|l[ao]s|lh[aeo]s|n[ao]s|me|se|te|vos">
     <!ENTITY pronomes_retos "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
@@ -45013,63 +45014,72 @@ O namorado dela era um ladrão.
 
 
     <!-- VERB + A + ELE(S)/ELA(S) verb + lhe -->
-    <rulegroup id='PP_OBJ_IND' name="Pronome pessoal no dativo">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-04-06 + 2021-04-07 (17-MAR-2021+)      -->
+    <rulegroup id='PP_OBJ_IND_V2' name="Pronome pessoal no dativo">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-09-16 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
-      pediu a ele → pediu-lhe
-      pediu a eles → pediu-lhes
+      O Rui pediu a ele. → O Rui pediu-lhe.
+      O Rui pediu a eles. → O Rui pediu-lhes.
+
+      Tinha pedido a ele. → Tinha lhe pedido.
+      Tinha pedido a eles. → Tinha lhes pedido.
       -->
       <antipattern>
-        <token skip='-1'>—</token>
-        <token postag='V.+' postag_regexp='yes'/>
+        <token regexp='yes'>[ao]s?</token>
+        <token postag='V.+' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='VMN0000'/>
+        </token>
         <token>a</token>
         <token regexp='yes'>el[ae]s?</token>
-        <example>Foi o que fiz. — Dean disse a ele.</example>
-      </antipattern>
-      <antipattern>
-        <token postag='DA.+|DI.+|PI.+' postag_regexp='yes'/>
-        <token postag='V.+' postag_regexp='yes'/>
-        <token>a</token>
-        <token regexp='yes'>el[ae]s?</token>
-      </antipattern>
-      <antipattern>
-        <token postag="V.*" postag_regexp="yes"/>
-        <token postag="N.*" postag_regexp="yes"/>
+        <example>Ele me deu dinheiro, mas eu imediatamente o devolvi a ele.</example>
+        <example>Você não o emprestou a ele.</example>
+        <example>Eu o disse a ele com boa intenção.</example>
+        <example>Não os dê a ela.</example>
+        <example>Eu a dei a ela.</example>
+        <example>Eu a dei a ele.</example>
       </antipattern>
       <rule>
         <pattern>
-          <token negate="yes" regexp='yes'>me|se|ser|está</token>
-          <marker>
-            <token postag='V.+' postag_regexp='yes'>
-              <exception postag_regexp='yes' postag='AQ0.+|RN|RG|VMP00P.+'/>
-            </token>
-            <token>a</token>
-            <token regexp='yes'>el[ae]</token>
-          </marker>
-          <token negate="yes" regexp='yes'>mesm[ao]s?|própri[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AQ.+|NC.+|VMP00.+'/>
+            <exception scope='previous' regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</exception>
+            <exception scope='previous' postag_regexp='no' postag='CS'/>
+            <exception regexp='no' inflected="yes">assistir</exception>
+          </token>
+          <token>a</token>
+          <token regexp='yes'>el[ae]s?
+            <exception scope='next' regexp='yes'>mesm[ao]s?|própri[ao]s?</exception>
+            <exception scope='next' postag_regexp='no' postag='SPS00'/>
+        </token>
         </pattern>
         <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
-        <suggestion>\2-lhe</suggestion>
+        <suggestion>\1-<match no='3' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match></suggestion>
         <example correction="pediu-lhe">O Rui <marker>pediu a ele</marker> para comprar o livro.</example>
+        <example correction="pediu-lhes">O Rui <marker>pediu a eles</marker> para comprarem o livro.</example>
         <example>Eu dei muito trabalho a ele.</example>
         <example>Eu expliquei a regra a ele.</example>
         <example>Queria dar aulas a ela de graça, mas entendo o que é orgulho.</example>
+        <example>Ela assistia a ele nadando.</example>
+        <example>Nós assistimos a ele e rimos muito.</example>
       </rule>
+
       <rule>
         <pattern>
-          <token negate="yes" regexp='yes'>me|se|ser|está</token>
-          <marker>
-            <token postag='V.+' postag_regexp='yes'>
-              <exception postag_regexp='yes' postag='AQ0.+|RN|RG|VMP00P.+'/>
-            </token>
-            <token>a</token>
-            <token regexp='yes'>el[ae]s</token>
-          </marker>
-          <token negate="yes" regexp='yes'>mesm[ao]s?|própri[ao]s?</token>
+          <token postag='VMP00.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AQ.+|NC.+'/>
+            <exception scope='previous' regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</exception>
+            <exception scope='previous' postag_regexp='no' postag='CS'/>
+            <exception regexp='no' inflected="yes">assistir</exception>
+          </token>
+          <token>a</token>
+          <token regexp='yes'>el[ae]s?
+            <exception scope='next' regexp='yes'>mesm[ao]s?|própri[ao]s?</exception>
+            <exception scope='next' postag_regexp='no' postag='SPS00'/>
+        </token>
         </pattern>
         <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
-        <suggestion>\2-lhes</suggestion>
-        <example correction="pediu-lhes">O Rui <marker>pediu a eles</marker> para comprarem o livro.</example>
+        <suggestion><match no='3' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match> \1</suggestion>
+        <example correction="lhe pedido">O Rui tinha <marker>pedido a ele</marker> para comprar o livro.</example>
+        <example correction="lhes pedido">O Rui tinha <marker>pedido a eles</marker> para comprarem o livro.</example>
       </rule>
     </rulegroup>
 
