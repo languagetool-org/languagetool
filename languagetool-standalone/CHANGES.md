@@ -21,6 +21,8 @@
 
 #### Portuguese
   * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
 
 #### Russian
   * updated dictionary
