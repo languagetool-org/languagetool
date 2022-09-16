@@ -2769,6 +2769,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Ipads": return topMatch("iPads");
       case "ipad": return topMatch("iPad");
       case "ipads": return topMatch("iPads");
+      case "Adverben": return topMatch("Adverbien");
       case "zugebenermaßen": return topMatch("zugegebenermaßen");
       case "beispielweise": return topMatch("beispielsweise");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
