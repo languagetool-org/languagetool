@@ -50784,6 +50784,32 @@ O namorado dela era um ladrão.
         <message>Linguagem de Internet. Considere escrever <suggestion>haha</suggestion> por extenso.</message>
         <example correction="haha">Haverá reunião aos sábados <marker>kkk</marker>.</example>
       </rule>
+      <rule default='temp_off'>
+        <antipattern>
+          <token regexp="yes">[«»“”"'‘’]</token>
+          <token>msg</token>
+          <token regexp="yes">[«»“”"'‘’]</token>
+          <example>Cada vez mais jovens utilizam "msg" como abreviatura.</example>
+        </antipattern>
+        <pattern>
+          <token>msg</token>
+        </pattern>
+        <message>Linguagem de Internet. Considere escrever <suggestion>mensagem</suggestion> por extenso.</message>
+        <example correction="mensagem">Mandei <marker>msg</marker>.</example>
+      </rule>
+      <rule default='temp_off'>
+        <antipattern>
+          <token regexp="yes">[«»“”"'‘’]</token>
+          <token>msgs</token>
+          <token regexp="yes">[«»“”"'‘’]</token>
+          <example>Cada vez mais jovens utilizam "msgs" como abreviatura.</example>
+        </antipattern>
+        <pattern>
+          <token>msgs</token>
+        </pattern>
+        <message>Linguagem de Internet. Considere escrever <suggestion>mensagens</suggestion> por extenso.</message>
+        <example correction="mensagens">Você não lê minhas <marker>msgs</marker>.</example>
+      </rule>
       <rule>
         <antipattern>
           <token regexp="yes">[«»“”"'‘’]</token>
