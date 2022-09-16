@@ -145,6 +145,15 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="PAYS_BALTES" name="pays baltes">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token>baltes</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="J e p"/>
+    </rule>
     <rulegroup id="LA_PAILLE" name="la paille">
     <rule>
         <pattern>
