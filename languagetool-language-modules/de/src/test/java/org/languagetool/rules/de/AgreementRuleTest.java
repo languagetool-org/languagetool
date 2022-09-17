@@ -748,6 +748,7 @@ public class AgreementRuleTest {
     assertGood("2009 gab es im Rathaus daher Bestrebungen ein leichter handhabbares Logo einzuführen.");
     assertGood("Das ist eine leichter handhabbare Situation.");
     assertGood("Es gibt viele verschiedene Stock Screener.");
+    assertGood("Die Ware umräumen, um einer anderen genügend Platz zu schaffen.");
 
     // incorrect sentences:
     assertBad("Er hatte ein anstrengenden Tag",

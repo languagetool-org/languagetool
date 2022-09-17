@@ -547,6 +547,13 @@ class AgreementRuleAntiPatterns1 {
       posRegex("VER:.*")
     ),
     asList(
+      tokenRegex("diese[nmr]|andere[nm]"),  // "...um einer anderen genügend Platz zu schaffen"
+      tokenRegex("genug|genügend|viel|hinreichend|ausreichend"),
+      posRegex("SUB:NOM:SIN:.*"),
+      token("zu"),
+      posRegex("VER:.*")
+    ),
+    asList(
       posRegex("VER:MOD:.*"),  // "Sollten zu diesem weitere Informationen benötigt werden, ..."
       token("zu"),
       regex("diese[mnr]"),
