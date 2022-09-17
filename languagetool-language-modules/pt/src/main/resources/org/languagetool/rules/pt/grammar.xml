@@ -5205,6 +5205,19 @@ O namorado dela era um ladrão.
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-09-09/17 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- It has no hits in 600 000 sentences, it just removes two false positives in my thesis -->
+        <!-- Notice that this antipattern is used twice in the NUMBER AGREEMENT -->
+        <antipattern>
+          <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+' postag_regexp='yes'/>
+          <token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
+          <token postag='AQ0.P.+|NC.P.+|VMP00P.+' postag_regexp='yes'/>
+          <token postag='AQ0.P.+|NC.P.+|RG' postag_regexp='yes'/>
+          <example>Temos no final possíveis cenários para a análise de dados.</example>
+          <example>E no nosso modelo explicados mais adiante.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-09/17 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <antipattern>
           <token postag='SENT_START'/>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'/>
@@ -5285,13 +5298,15 @@ O namorado dela era um ladrão.
         </antipattern>
 
         <!-- MARCOAGPINTO 2022-09-09/17 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-        <!-- It has no hits in 600 000 sentences, it just removes one false positive in my thesis -->
+        <!-- It has no hits in 600 000 sentences, it just removes two false positives in my thesis -->
+        <!-- Notice that this antipattern is used twice in the NUMBER AGREEMENT -->
         <antipattern>
           <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+' postag_regexp='yes'/>
           <token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
-          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
-          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+          <token postag='AQ0.P.+|NC.P.+|VMP00P.+' postag_regexp='yes'/>
+          <token postag='AQ0.P.+|NC.P.+|RG' postag_regexp='yes'/>
           <example>Temos no final possíveis cenários para a análise de dados.</example>
+          <example>E no nosso modelo explicados mais adiante.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-09/17 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
@@ -5645,6 +5660,20 @@ O namorado dela era um ladrão.
           <example>O sistema de escape esportivo opcional RS com as ponteiras dos canos de escape pretas garante uma experiência sonora esportiva ao máximo.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-11 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-09-17 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- It has one hit in 600 000 sentences, it just removes one false positive in my thesis -->
+        <antipattern>
+          <token postag='DA..S.+|SPS00:DA..S.+' postag_regexp='yes'/>
+          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+          <token postag='RG|CC' postag_regexp='yes'/>
+          <token postag='AQ0.P.+|NC.P.+|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+          <example>Temos prejuízos dispendiosos a instalações ou vantagens adicionais.</example>
+          <example>Temos prejuízos dispendiosos a instalações ou outras.</example>
+          <example>Mais uma vez, a forças e os interesses contra o povo coordenaram-se e novamente se desencadeiam sobre mim.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-17 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <antipattern>
           <token regexp='yes'>\d[ªa]</token>
           <token>s</token>
