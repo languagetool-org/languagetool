@@ -7283,4 +7283,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="SUB.*"/>
     </rule>
+    <rule id="DOMAIN_KEIN_VERB" name="'web.de' kein Verb">
+        <pattern>
+            <marker>
+                <token postag="VER.*|ADV.*|PRP.*" postag_regexp="yes" />
+            </marker>
+            <token spacebefore="no">.</token>
+            <token spacebefore="no" regexp="yes">de|net|biz|eu|ru|be|co|uk|us|info|at|ch|nl|lu|org|&filename_extensions;</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*|ADV.*|PRP.*"/>
+    </rule>
 </rules>

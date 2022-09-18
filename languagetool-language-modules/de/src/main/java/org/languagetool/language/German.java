@@ -353,6 +353,7 @@ public class German extends Language implements AutoCloseable {
       case "ANFUEHRUNGSZEICHEN_DE_AT": return 1; // higher prio than UNPAIRED_BRACKETS
       case "ANFUEHRUNGSZEICHEN_CH_FR": return 1; // higher prio than UNPAIRED_BRACKETS
       case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
+      case "IM_STICH_LASSEN": return 1;  // higher prio than agreement rules
       case "ZULANGE": return 1;  // better suggestion than SAGT_RUFT
       case "ROCK_N_ROLL": return 1;  // better error than DE_CASE
       case "JOE_BIDEN": return 1;  // better error than DE_CASE
