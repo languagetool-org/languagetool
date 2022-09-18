@@ -563,7 +563,7 @@ public class DocumentCache implements Serializable {
           //  no text and tables left ==> unknown paragraph
           toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
           numUnknown++;
-          if (debugMode || (!paragraphs.get(i).isEmpty() && printCount < MAX_PRINTED_PARAS)) {
+          if (debugMode && (!paragraphs.get(i).isEmpty() && printCount < MAX_PRINTED_PARAS)) {
             printCount++;
             MessageHandler.printToLogFile(
                 "Warning: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
@@ -656,7 +656,7 @@ public class DocumentCache implements Serializable {
         //  unknown paragraph
         toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
         numUnknown++;
-        if (debugMode || (!paragraphs.get(i).isEmpty() && printCount < MAX_PRINTED_PARAS)) {
+        if (debugMode && (!paragraphs.get(i).isEmpty() && printCount < MAX_PRINTED_PARAS)) {
           printCount++;
           MessageHandler.printToLogFile(
               "Warning: DocumentCache: Could not map Paragraph(" + i + "): '" + paragraphs.get(i) + "'; secondTextDone: " + secondTextDone);
@@ -705,7 +705,7 @@ public class DocumentCache implements Serializable {
       boolean isCorrectMapping = isCorrectNonText && toParaMapping.get(CURSOR_TYPE_TEXT).size() == textParas.get(CURSOR_TYPE_TEXT).size();
       if (!isCorrectMapping && isCorrectNonText) {
         //  Try to repair incorrect text mapping
-        MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair mapping of paragraph type text");
+        MessageHandler.printToLogFile("\nWarning: document cache mapping failed: Try to repair mapping of paragraph type text");
         printCount = 0;
         toParaMapping.get(CURSOR_TYPE_TEXT).clear();
         for (int i = 0; i < paragraphs.size(); i++) {
@@ -739,6 +739,11 @@ public class DocumentCache implements Serializable {
             if (toTextMapping.get(i).type == CURSOR_TYPE_UNKNOWN && !paragraphs.get(i).isEmpty()) {
               printCount++;
               MessageHandler.printToLogFile(i + ": " + paragraphs.get(i));
+              for(int j = 0; j < paragraphs.get(i).length(); j++) {
+                if (!Character.isLetterOrDigit(paragraphs.get(i).codePointAt(j)) && paragraphs.get(i).charAt(j) != ' '  && paragraphs.get(i).charAt(j) != '\t') {
+                  MessageHandler.printToLogFile("CharAt(" + j + "): " + paragraphs.get(i).codePointAt(j));
+                }
+              }
             }
           }  
         }

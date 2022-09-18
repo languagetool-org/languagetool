@@ -189,7 +189,7 @@ class SingleCheck {
       return;
     }
     DocumentCache docCache = new DocumentCache(this.docCache);
-    if (lt == null && !docCache.isAutomaticGenerated(nFPara)) {
+    if (debugMode > 0 && lt == null && !docCache.isAutomaticGenerated(nFPara)) {
       MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: return: lt is null");
     }
     try {
