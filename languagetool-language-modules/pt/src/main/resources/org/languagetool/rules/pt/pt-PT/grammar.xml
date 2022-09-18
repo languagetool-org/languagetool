@@ -139,285 +139,207 @@
 
   <category id="EUROPEAN_PORTUGUESE" name="Português de Portugal">
 
-    <rule id='SEQUER_WITHOUT_NEGATIVE' name='Sequer sem negativa'>
-      <!--      Created by Tiago F. Santos, 2017-03-05      -->
-      <antipattern>
-        <token regexp='yes' skip='-1'>&negacoes;</token>
-        <token>sequer</token>
-      </antipattern>
-      <antipattern>
-        <token>antes</token>
-        <token skip='-1'>de</token>
-        <token>sequer</token>
-      </antipattern>
+
+    <rule id="ACEITO_ACEITE" name="aceito -> aceite" >
       <pattern>
-        <token>sequer
-          <exception scope='previous' regexp='yes'>antes|ou</exception></token>
+        <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer
+          <exception>seres</exception></token>
+        <token min="0" max="3" postag_regexp='yes' postag='R.'/>
+        <token regexp='yes'>aceit[ao]s?</token>
       </pattern>
-      <message>'Sequer' deve ser precedido de uma negação.</message>
-      <suggestion>nem <match no='1' case_conversion='alllower'/></suggestion>
-      <url>https://duvidas.dicio.com.br/sequer-ou-nem-sequer/</url>
-      <example correction='nem sequer'>Ele <marker>sequer</marker> cumprimentou.</example>
-      <example>Nem sequer vi o que estava a fazer.</example>
-    </rule>
-    <rule id="GENERAL_VERB_AGREEMENT_ERRORS_PT" name="Erro de concordância verbal">
-      <antipattern>
-        <token regexp='yes' case_sensitive='yes'>e|ou</token>
-        <token>tu</token>
-      </antipattern>
-      <pattern>
-        <token>tu</token>
-        <token min="0" max="3" postag='R.+' postag_regexp='yes'>
-          <exception scope='next'>,</exception></token>
-        <token postag='V.[CIS].([13]S|[123]P).' postag_regexp='yes'>
-          <exception postag='V.[CIS].2S0' postag_regexp='yes'/></token>
-      </pattern>
-      <message>&MSG_ECV;</message>
-      <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\2S$2' postag_regexp='yes'/></suggestion>
-      <example correction='Tu não passeias'><marker>Tu não passeia</marker> na praia.</example>
+      <message>Em Portugal, a forma mais comum deste particípio é <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/>.</message>
+      <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/></suggestion>
+      <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1ue' suppress_misspelled='yes'/></suggestion-->
+      <example correction='foi aceite'>O projeto <marker>foi aceito</marker>.</example>
+      <example correction='foi aceite'>A China <marker>foi aceita</marker> na Organização Mundial do Comércio.</example>
+      <example correction='serem aceites'>Que ser de um certo tamanho e qualidade antes de <marker>serem aceitas</marker> pelos praticantes da MTC e consumidores.</example>
     </rule>
 
 
-    <!-- 	TELEFONO PARA TI telefono-te -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-27/28 (25-JUN-2021+)      -->
-    <rulegroup id='VERBO_PARA_PRONOME_PESSOAL' name="Verbo + para + pronome pessoal → Verbo + -me/te/lhe/nos/vos/lhes" type="style">
+    <rulegroup id='AVOID_GERUND' name='Evitar o Gerúndio (perifrásico)' default='on' type='style'>
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
+      <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
+      <short>Possível gerundismo.</short>
+      <!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *START* -->
       <!--
-      Telefonei para si. → Telefonei-lhe.
-      -->
-
-      <!--
-      O que você disse não faz absolutamente nenhum sentido para mim.
-      Seu cachorro sempre late para mim.
-      Deixei minhas chaves sobre a mesa. Posso incomodá-lo a fim de que as traga para mim?
-      Parece que as portas do céu se abriram para mim.
-
-      Ela pediu para ele se sentar.
-      "Devo dizer para ele te ligar quando chegar?" "Sim, por favor"
-      Eu expliquei a regra para ele.
-      Você não disse nada para ele?
-      Estou pouco me lixando para ela.
-
-      Os últimos dias têm sido terrivelmente ocupado para nós.
-      Ele, às vezes, prepara o jantar para nós.
-
-      Está tudo acabado para você.
-      Esta receita foi testada para vocês por uma das melhores equipes de gourmets da Romênia.
+      Ao fazê-lo vão saindo resultados cada vez mais inesperados.
+      Na época eram basicamente feitos usando pequenos objetos.
+      Em França existe um limite que é aumentado usando carregadores de munição.
+      E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.
+      O número de desenvolvedores vem aumentando.
       -->
       <antipattern>
-        <token negate_pos="yes" postag='NP.+|SPS.+|SENT_START' postag_regexp='yes'>
-          <exception postag_regexp='yes' postag='PP.+'/>
-          <exception regexp='yes'>tarde|cedo|logo|próximo|perto|distante|afastado|longe</exception>
-        </token>
-        <token postag='V.+|AQ0.+|NC.+|PI.+|RN|I' postag_regexp='yes'/>
-        <token>para</token>
-        <token regexp='yes'>mim|ti|si|vocês?|el[ae]s?|nós|vós</token>
-        <token postag='PP.+|SPS00|_PUNCT|V.+' postag_regexp='yes'>
-          <exception regexp='yes'>[ao]s?|com|me|n[ao]s?|se|vocês?</exception>
-          <exception postag_regexp='yes' postag='CC|RG'/>
-        </token>
+        <token/>
+        <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
+        <token regexp='yes'>&gerundio_excecoes;</token>
       </antipattern>
+      <!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *END* -->
 
-      <!-- EU -->
-      <rule>
-        <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
-          <marker>
-            <token postag='V.+' postag_regexp='yes'/>
-            <token>para</token>
-            <token>mim</token>
-          </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-me</suggestion>
-        <example correction="Telefona-me"><marker>Telefona para mim</marker>.</example>
-        <example>Olhe para mim quando eu falar com você!</example>
-
-        <example>O que você disse não faz absolutamente nenhum sentido para mim.</example>
-        <example>Seu cachorro sempre late para mim.</example>
-        <example>Deixei minhas chaves sobre a mesa. Posso incomodá-lo a fim de que as traga para mim?</example>
-        <example>Parece que as portas do céu se abriram para mim.</example>
-      </rule>
-
-      <!-- TU -->
-      <rule>
-        <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
-          <marker>
-            <token postag='V.+' postag_regexp='yes'/>
-            <token>para</token>
-            <token regexp='yes'>tu|ti|si|você</token>
-          </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-te</suggestion>
-        <suggestion>\2-lhe</suggestion>
-        <example correction="Telefonei-te|Telefonei-lhe"><marker>Telefonei para ti</marker>.</example>
-      </rule>
-
-      <!-- ELE -->
-      <rule>
-        <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
-          <marker>
-            <token postag='V.+' postag_regexp='yes'/>
-            <token>para</token>
-            <token regexp='yes'>el[ae]</token>
-          </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-lhe</suggestion>
-        <example correction="Telefonei-lhe"><marker>Telefonei para ela</marker>.</example>
-        <example>Todos ficaram olhando para ela quando começou a gargalhar.</example>
-
-        <example>Ela pediu para ele se sentar.</example>
-        <example>"Devo dizer para ele te ligar quando chegar?" "Sim, por favor"</example>
-        <example>Eu expliquei a regra para ele.</example>
-        <example>Você não disse nada para ele?</example>
-        <example>Estou pouco me lixando para ela.</example>
-      </rule>
-
-      <!-- NÓS -->
-      <rule>
-        <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
-          <marker>
-            <token postag='V.+' postag_regexp='yes'/>
-            <token>para</token>
-            <token>nós</token>
-          </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-nos</suggestion>
-        <example correction="Telefonaram-nos"><marker>Telefonaram para nós</marker>.</example>
-
-        <example>Os últimos dias têm sido terrivelmente ocupado para nós.</example>
-        <example>Ele, às vezes, prepara o jantar para nós.</example>
-      </rule>
-
-      <!-- VÓS -->
-      <rule>
-        <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
-          <marker>
-            <token postag='V.+' postag_regexp='yes'/>
-            <token>para</token>
-            <token regexp='yes'>vocês|vós</token>
-          </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-vos</suggestion>
-        <example correction="Telefonaram-vos"><marker>Telefonaram para vocês</marker>.</example>
-
-        <example>Está tudo acabado para você.</example>
-        <example>Esta receita foi testada para vocês por uma das melhores equipes de gourmets da Romênia.</example>
-      </rule>
-
-      <!-- ELES -->
-      <rule>
-        <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
-          <marker>
-            <token postag='V.+' postag_regexp='yes'/>
-            <token>para</token>
-            <token regexp='yes'>el[ae]s</token>
-          </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-lhes</suggestion>
-        <example correction="Telefonei-lhes"><marker>Telefonei para elas</marker>.</example>
-      </rule>
-
-
-    </rulegroup>
-    <!-- CHAMAR/DENOMINAR DE chamar/denominar -->
-    <rulegroup id='VERBO_PRONOMINAL_DE' name="V. Pronominal + de → V. Pronominal" type="style">
-      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-10 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <!-- MARCOAGPINTO 2021-03-19 (17-MAR-2021+) *START* -->
       <!--
-      Temos uma teoria denominada de matemática. → Temos uma teoria denominada matemática.
-      A teoria, denominaram-lha de matemática. → A teoria, denominaram-lha matemática.
+      Com efeito, vinham-se acumulando estudos e testemunhos.
       -->
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-dos-verbos-chamar-e-denominar-ii/34550</url>
+      <antipattern>
+        <token/>
+        <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
+        <token regexp='yes' spacebefore='no'>&hifen;</token>
+        <token/>
+        <token regexp='yes'>&gerundio_excecoes;</token>
+      </antipattern>
+      <!-- MARCOAGPINTO 2021-03-19 (17-MAR-2021+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-06-08 (5-JUN-2022+) *START* -->
+      <antipattern>
+        <token postag='NP.+|NC.+|AQ.+|VMP00.+' postag_regexp='yes'/>
+        <token regexp='yes'>&gerundio_excecoes;</token>
+        <example>Os terroristas agem contra os Estados recorrendo à força militar.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-06-08 (5-JUN-2022+) *END* -->
+
       <rule>
-
-        <antipattern>
-          <token min="1" max="2" postag='[DP][ADIPR].MP.+|SPS00:[DP][ADIPR].MP.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
-          <token postag='VMSF2S0' postag_regexp='no'/>
-          <token>de</token>
-          <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
-          <example>Queremos os chamares de Marco.</example>
-        </antipattern>
-
-        <antipattern>
-          <token regexp='yes' inflected='yes'>alterar|banir|bloquear|enviar|modificar|receber</token>
-          <token min="0" max="1" postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
-          <token inflected='yes'>chamar</token>
-          <token>de</token>
-          <example>Simão recebe chamada de Augusto para ir a um jantar mais logo.</example>
-          <example>APIs também estão disponíveis para permitir que aplicativos no modo de núcleo filtrem e modifiquem chamadas de registro feitas por outros aplicativos.</example>
-          <example>Meu primo recebeu o chamado de Deus e virou padre.</example>
-          <example>Tom recebeu uma chamada de Mary.</example>
-        </antipattern>
-
         <pattern>
-          <marker>
-            <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
-            <token>de</token>
-          </marker>
-          <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'>
-            <exception regexp='yes'>regresso|retorno|volta</exception>
-          </token>
+          <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token postag='PP.*' postag_regexp='yes'/>
+          <token postag='V.G0+' postag_regexp='yes'>
+            <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
         </pattern>
-        <message>Este verbo é pronominal, a redação correta é sem a preposição 'de'.</message>
-        <suggestion>\1</suggestion>
-        <example correction="denominada">Temos uma teoria <marker>denominada de</marker> matemática.</example>
-        <example>Ele foi chamado de volta, em meio à sua viagem.</example>
+        <message>Se possível, evite o gerúndio.</message>
+        <suggestion>\1\2\3 a <match no='4' postag='VMN0000' case_conversion="alllower"/></suggestion>
+        <example correction='iam-se a acender'>As luzes <marker>iam-se acendendo</marker> à medida que ela passava.</example>
+
+        <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
+        <example>Na época eram basicamente feitos usando pequenos objetos.</example>
+        <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
+        <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
+        <example>O número de desenvolvedores vem aumentando.</example>
+
+        <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token>
+          <token postag='V.G0+' postag_regexp='yes'/>
+        </pattern>
+        <message>Se possível, evite o gerúndio.</message>
+        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
+        <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example>
+        <example>As regras foram sendo melhoradas ao longo do tempo.</example>
+
+        <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
+        <example>Na época eram basicamente feitos usando pequenos objetos.</example>
+        <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
+        <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
+        <example>O número de desenvolvedores vem aumentando.</example>
+
+        <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
       </rule>
 
       <rule>
         <pattern>
-          <marker>
-            <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
-            <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-            <token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
-            <token>de</token>
-          </marker>
-          <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'>
-            <exception regexp='yes'>regresso|retorno|volta</exception>
-          </token>
+          <token postag='V.+' postag_regexp='yes' inflected="yes" regexp="yes">continuar|estar|ir|ficar
+            <exception inflected='yes' regexp='yes'>medida|votar</exception>
+            <exception negate_pos='yes' postag='V.+' postag_regexp='yes'/></token>
+          <token postag='V.G0+' postag_regexp='yes'>
+            <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
         </pattern>
-        <message>Este verbo é pronominal, a redação correta é sem a preposição 'de'.</message>
-        <suggestion>\1\2\3</suggestion>
-        <example correction="denominaram-lha">A teoria, <marker>denominaram-lha de</marker> matemática.</example>
-        <example>Chamaram-no de volta, em meio à sua viagem.</example>
+        <message>Se possível, evite o gerúndio.</message>
+        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
+        <example correction='continua a ser'>O processo básico <marker>continua sendo</marker> o mesmo.</example>
+        <example correction='está a soprar'>...ventos do oeste, <marker>está soprando</marker> por cima das águas...</example>
+        <example>As regras foram sendo melhoradas ao longo do tempo.</example>
+        <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example><!-- TODO This may be correct in some circunstances. REVIEW -->
+
+        <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
+        <example>Na época eram basicamente feitos usando pequenos objetos.</example>
+        <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
+        <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
+        <example>O número de desenvolvedores vem aumentando.</example>
+        <example>A expedição recebeu a visita de duas nave não-tripuladas trazendo mantimentos e eletrônica.</example>
+        <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
       </rule>
     </rulegroup>
+
+
+    <!-- EVITAR O GERÚNDIO Evitar o gerúndio em pt-PT	       -->
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
+    <rule id='AVOID_GERUND_ALL' name='Evitar o Gerúndio (completo)' default='off' type='style'>
+      <pattern>
+        <token postag='V.G0+' postag_regexp='yes'>
+          <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
+      </pattern>
+      <message>Se possível, evite o gerúndio.</message>
+      <suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>
+      <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
+      <example correction='a soprar'>...ventos do oeste, está <marker>soprando</marker> por cima das águas...</example>
+      <example correction='a acender'>As luzes iam-se <marker>acendendo</marker> à medida que ela passava.</example>
+    </rule>
+
+
+    <!-- CHEGAR AO FIM findar/terminar -->
+    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="Chegar ao fim → findar/terminar/acabar" type="style">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-07-03 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <!--
+      Outro ano que chega ao fim. → Outro ano que finda/termina.
+      Outro ano a chegar ao fim. → Outro ano a findar/terminar.
+      -->
+      <pattern>
+        <token/>
+        <token regexp='yes'>a|que</token>
+        <token min="0" max="1"><exception regexp='no' inflected='yes'>chegar</exception></token>
+        <marker>
+          <token inflected='yes'>chegar</token>
+          <token>ao</token>
+          <token>fim</token>
+        </marker>
+      </pattern>
+      <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
+      <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
+    </rule>
+
+
+    <rule id="EFEITO_ESTUFA" name="Hifenização: Efeito-estufa">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-25 -->
+      <pattern>
+        <token regexp='yes'>efeitos?</token>
+        <token regexp='yes' spacebefore='no'>&hifen;</token>
+        <token regexp='yes'>estufas?</token>
+      </pattern>
+      <message>Esta expressão não é hifenizada.</message>
+      <suggestion>efeito de estufa</suggestion>
+      <suggestion>efeito estufa</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-a-formacao-dos-substantivos-compostos/13909</url>
+      <example correction="efeito de estufa|efeito estufa">O calor deve-se ao <marker>efeito-estufa</marker>.</example><!-- TODO Confirm if this is a case of AO changes. VOP (AO90) has 'efeito de estufa'. Verify per-AO. -->
+    </rule>
+
+
+    <!-- EDUCAÇÃO SUPERIOR Ensino Superior -->
+    <rule id='ENSINO_SUPERIOR' name="Educação Superior → Ensino Superior" type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-13/16 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      O ISCTE é uma instituição de Educação Superior. → O ISCTE é uma instituição de Ensino Superior.
+      -->
+      <pattern>
+        <marker>
+          <token case_sensitive="no">Educação
+            <exception scope='previous' regexp='yes' inflected='yes'>ter</exception>
+          </token>
+          <token case_sensitive="no">Superior</token>
+        </marker>
+      </pattern>
+      <message>Se estiver a referir-se a uma instituição/ramo universitário, opte por:</message>
+      <suggestion>ensino \2</suggestion>
+      <suggestion>Ensino Superior</suggestion>
+      <example correction="ensino superior|Ensino Superior">O ISCTE é uma instituição de <marker>educação superior</marker>.</example>
+      <example>A Ana tem educação superior.</example>
+      <example>Eu tenho educação superior.</example>
+      <example>Se ele tiver educação superior, tudo bem.</example>
+      <example>O estabelecimento é de Ensino Superior.</example>
+      <example>Um homem que nunca foi à escola pode roubar de um vagão de carga; mas, se ele tiver educação superior, ele pode roubar toda a ferrovia.</example>
+    </rule>
 
 
     <rulegroup id='INFORMALITIES' name="Linguagem informal" default="on">
@@ -1875,88 +1797,6 @@
     </rulegroup>
 
 
-    <rule id='PHRASAL_VERB_RESIDIR_EM' name='Regência verbal: Residir em'>
-      <!--      Created by Tiago F. Santos, 2018-09-19      -->
-      <!--antipattern>
-      <token regexp='yes'>residentes?|morador(?:es)?</token>
-      <token/>
-      <token regexp='yes'>com|em|n[ao]s?</token>
-      </antipattern-->
-      <antipattern>
-        <token regexp='yes'>residentes?|morad(?:as?|or(?:es)?)</token>
-        <token postag_regexp='yes' postag='A.+'/>
-      </antipattern>
-      <!-- MARCOAGPINTO 2020-10-06 + 2020-10-27 (21-OCT-2020+) *START* -->
-      <!-- "No núcleo reside a força imprescindível dos modelos." -->
-      <antipattern>
-        <token regexp="yes">residem?</token>
-        <token regexp="yes">as?|os?|um|uns|umas?</token>
-        <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
-      </antipattern>
-      <!-- MARCOAGPINTO 2020-10-06 + 2020-10-27 (21-OCT-2020+) *END* -->
-      <pattern>
-        <token inflected='yes' regexp='yes'>residir|morar|residente|morador</token>
-        <token postag_regexp='yes' postag='[DN].+'>
-          <exception postag_regexp='yes' postag='[AP].+'/>
-          <exception postag_regexp='yes' postag='R.+'/>
-          <exception regexp='yes'>com|em|n[ao]s?</exception>
-          <exception scope='next' regexp='yes'>perigos?</exception></token>
-      </pattern>
-      <message>Erro de regência. Dependendo do significado, escolha:</message>
-      <suggestion>\1 em \2</suggestion>
-      <suggestion>\1 com \2</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/glossario/erros/251</url>
-      <example correction='Reside em casa|Reside com casa'><marker>Reside casa</marker> da namorada?</example>
-      <example>Lá reside o perigo.</example>
-      <example>…que residentes cubanos nos Estados Unidos…</example>
-      <example>, entre residentes estrangeiros e nacionais no regime fiscal.</example>
-      <example type='correct'>No núcleo <marker>reside a</marker> força imprescindível dos modelos.</example>
-      <example>Mora alguém nesta casa?</example>
-      <example>Moramos juntos agora.</example>
-    </rule>
-
-
-    <!-- CHEGAR AO FIM findar/terminar -->
-    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="Chegar ao fim → findar/terminar/acabar" type="style">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-07-03 (Checked/Enhanced) (5-JUN-2022+)      -->
-      <!--
-      Outro ano que chega ao fim. → Outro ano que finda/termina.
-      Outro ano a chegar ao fim. → Outro ano a findar/terminar.
-      -->
-      <pattern>
-        <token/>
-        <token regexp='yes'>a|que</token>
-        <token min="0" max="1"><exception regexp='no' inflected='yes'>chegar</exception></token>
-        <marker>
-          <token inflected='yes'>chegar</token>
-          <token>ao</token>
-          <token>fim</token>
-        </marker>
-      </pattern>
-      <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
-      <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
-    </rule>
-
-
-    <rule id="ACEITO_ACEITE" name="aceito -> aceite" >
-      <pattern>
-        <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer
-          <exception>seres</exception></token>
-        <token min="0" max="3" postag_regexp='yes' postag='R.'/>
-        <token regexp='yes'>aceit[ao]s?</token>
-      </pattern>
-      <message>Em Portugal, a forma mais comum deste particípio é <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/>.</message>
-      <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)([ao])(s?)' regexp_replace='$1e$3'/></suggestion>
-      <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1ue' suppress_misspelled='yes'/></suggestion-->
-      <example correction='foi aceite'>O projeto <marker>foi aceito</marker>.</example>
-      <example correction='foi aceite'>A China <marker>foi aceita</marker> na Organização Mundial do Comércio.</example>
-      <example correction='serem aceites'>Que ser de um certo tamanho e qualidade antes de <marker>serem aceitas</marker> pelos praticantes da MTC e consumidores.</example>
-    </rule>
-
-
     <rulegroup id='INVARIABLE_NOUNS' name="Substantivos invariáveis">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-18 -->
       <short>Expressão invariável</short>
@@ -2159,8 +1999,7 @@
         <example correction="prestes a">Está <marker>preste a</marker> acontecer.</example>
       </rule>
 
-
-      <rule id='ÀS_CUSTAS_DA_DAS_DO_DOS' name="Confusão: às custas/à custa">
+      <rule id='INVARIABLE_NOUNS_ÀS_CUSTAS_DA_DAS_DO_DOS' name="Confusão: às custas/à custa">
         <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
         <pattern>
           <marker>
@@ -2176,624 +2015,59 @@
     </rulegroup>
 
 
-    <rule id="ZERO_MEDIDA_SINGULAR" name="Concordância de número: 'zero grau'">
-      <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-23 -->
-      <!-- MARCOAGPINTO 2021-10-21 (25-JUN-2021+) *START* -->
-      <!--
-      O Jogo da Vida de John Conway é também conhecido por “zero player game”.
-      -->
+    <rule id='PHRASAL_VERB_RESIDIR_EM' name='Regência verbal: Residir em'>
+      <!--      Created by Tiago F. Santos, 2018-09-19      -->
+      <!--antipattern>
+      <token regexp='yes'>residentes?|morador(?:es)?</token>
+      <token/>
+      <token regexp='yes'>com|em|n[ao]s?</token>
+      </antipattern-->
       <antipattern>
-        <token>zero</token>
-        <token>player</token>
-        <token>game</token>
+        <token regexp='yes'>residentes?|morad(?:as?|or(?:es)?)</token>
+        <token postag_regexp='yes' postag='A.+'/>
       </antipattern>
-      <!-- MARCOAGPINTO 2021-10-21 (25-JUN-2021+) *END* -->
+      <!-- MARCOAGPINTO 2020-10-06 + 2020-10-27 (21-OCT-2020+) *START* -->
+      <!-- "No núcleo reside a força imprescindível dos modelos." -->
+      <antipattern>
+        <token regexp="yes">residem?</token>
+        <token regexp="yes">as?|os?|um|uns|umas?</token>
+        <token postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+      </antipattern>
+      <!-- MARCOAGPINTO 2020-10-06 + 2020-10-27 (21-OCT-2020+) *END* -->
       <pattern>
-        <token>zero</token>
-        <token postag='(?:N..|A...)S.+' postag_regexp='yes'>
-          <exception postag='(?:N..|A...)S.+' postag_regexp='yes' negate_pos='yes'/>
-          <exception regexp="yes">absoluto|kelvin</exception> <!-- "perto do zero ABSOLUTO/KELVIN" MARCOAGPINTO 2021-10-21 (25-JUN-2021+) -->
-        </token>
+        <token inflected='yes' regexp='yes'>residir|morar|residente|morador</token>
+        <token postag_regexp='yes' postag='[DN].+'>
+          <exception postag_regexp='yes' postag='[AP].+'/>
+          <exception postag_regexp='yes' postag='R.+'/>
+          <exception regexp='yes'>com|em|n[ao]s?</exception>
+          <exception scope='next' regexp='yes'>perigos?</exception></token>
       </pattern>
-      <message>Em Português Europeu medidas com zero escrevem-se no plural.</message>
-      <suggestion>\1 <match no="2" postag="(N..|A...)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/zero-graus--zero-grau/15274</url>
+      <message>Erro de regência. Dependendo do significado, escolha:</message>
+      <suggestion>\1 em \2</suggestion>
+      <suggestion>\1 com \2</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/glossario/erros/251</url>
+      <example correction='Reside em casa|Reside com casa'><marker>Reside casa</marker> da namorada?</example>
+      <example>Lá reside o perigo.</example>
+      <example>…que residentes cubanos nos Estados Unidos…</example>
+      <example>, entre residentes estrangeiros e nacionais no regime fiscal.</example>
+      <example type='correct'>No núcleo <marker>reside a</marker> força imprescindível dos modelos.</example>
+      <example>Mora alguém nesta casa?</example>
+      <example>Moramos juntos agora.</example>
+    </rule>
+
+
+    <rule id="POR_QUEH_PORQUE" name="Confusão: 'Por quê' e 'Porque'">
+      <!-- Created by Tiago F. Santos, Portuguese rule, 2017-XX-XX -->
+      <pattern>
+        <token>por</token>
+        <token>quê</token>
+      </pattern>
+      <message>Em Português Europeu a expressão é sempre justaposta.</message>
+      <suggestion>porquê</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-porque-e-o-por-que-e-o-portugues-europeu/30017</url>
       <short>Brasileirismo</short>
-      <example correction="zero graus">Lá fora estão <marker>zero grau</marker>.</example>
-      <example>Assim, com a divisão de valores mais próximos do zero, o resultado será o zero absoluto.</example>
-      <example>Teoricamente, ao cessar a agitação térmica das moléculas a pressão é nula, e atinge-se o zero absoluto.</example>
-
-      <example>O Jogo da Vida de John Conway é também conhecido por “zero player game”.</example>
+      <example correction="porquê">Fizeste isso <marker>por quê</marker>?</example>
     </rule>
-
-
-    <rule id='TODOS_FOLLOWED_BY_NOUN_SINGULAR' name="Expressão: Todo + 'nome sem artigo'" default="temp_off">
-      <!-- FIXME: too many matches -->
-      <!-- Created by Tiago F. Santos, 2017-10-12 -->
-      <antipattern>
-        <token regexp='yes'>tod[ao]</token>
-        <token postag_regexp='yes' postag='A.+'>
-          <exception negate_pos='yes' postag_regexp='yes' postag='A.+'/></token>
-        <token>
-          <exception postag_regexp='yes' postag='(?:N|A).+'/></token>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes' postag_regexp='yes' postag='V...3P.+' inflected='yes'>&verbos_de_ligacao;</token>
-        <token regexp='yes'>tod[ao]</token>
-        <token/>
-        <token>
-          <exception postag_regexp='yes' postag='(?:N|A).+'/></token>
-      </antipattern>
-      <pattern>
-        <token regexp='yes'>tod[ao]</token>
-        <token postag_regexp='yes' postag='N.+'>
-          <exception negate_pos='yes' postag_regexp='yes' postag='N.+'/></token>
-      </pattern>
-      <message>Esta expressão no plural exige um segundo artigo.</message>
-      <suggestion>\1 <match no='1' regexp_match='...(.)' regexp_replace='$1'/> \2</suggestion>
-      <example correction='todo o dia'>Está aberto das dez às seis <marker>todo dia</marker> durante o ano.</example>
-      <example correction='toda a hora'>Está aberto a <marker>toda hora</marker>.</example>
-      <example>A mulher ficou toda satisfeita.</example>
-    </rule>
-
-
-    <rule id="EFEITO_ESTUFA" name="Hifenização: Efeito-estufa">
-      <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-25 -->
-      <pattern>
-        <token regexp='yes'>efeitos?</token>
-        <token regexp='yes' spacebefore='no'>&hifen;</token>
-        <token regexp='yes'>estufas?</token>
-      </pattern>
-      <message>Esta expressão não é hifenizada.</message>
-      <suggestion>efeito de estufa</suggestion>
-      <suggestion>efeito estufa</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-a-formacao-dos-substantivos-compostos/13909</url>
-      <example correction="efeito de estufa|efeito estufa">O calor deve-se ao <marker>efeito-estufa</marker>.</example><!-- TODO Confirm if this is a case of AO changes. VOP (AO90) has 'efeito de estufa'. Verify per-AO. -->
-    </rule>
-
-
-    <rulegroup id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais: mesóclise'>
-      <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
-      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
-      <short>Erro de colocação pronominal</short>
-      <rule>
-        <!-- MARCOAGPINTO 2021-06-08 (17-MAR-2021+) *START* -->
-        <!--
-        Quem as abordou a perguntar se iam pagar com multibanco?
-        -->
-        <antipattern>
-          <token postag='SPS.+|PD.+|PP.+' postag_regexp='yes'/>
-          <token postag='V.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-06-08 (17-MAR-2021+) *END* -->
-        <pattern>
-          <token postag='V.+' postag_regexp='yes'>
-            <exception regexp='yes'>como|para|casa|nada</exception></token>
-          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
-          <token regexp='yes'>á|ão|ás|ei|eis|emos|ia|iam|íamos|ias|íeis</token>
-        </pattern>
-        <message>Forma hifenizada. Será que quis dizer:</message>
-        <suggestion>\1-\2-\3</suggestion>
-        <example correction='dar-nos-á'>A vida <marker>dar nos á</marker> sempre mais do que achamos que merecemos.</example>
-        <example>Quem as abordou a perguntar se iam pagar com multibanco?</example>
-      </rule>
-    </rulegroup>
-
-
-    <rulegroup id='HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
-      <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
-      <!-- Brazilian Portuguese has some inverted colocations  -->
-      <!-- MARCOAGPINTO: Notice that I created some global antipatterns for this rulegroup because they are common to all subrules.
-                         I started adding the 2022+ antipatterns from the top and not from the bottom.
-      -->
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
-      <short>Erro de colocação pronominal</short>
-
-        <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-        <antipattern>
-          <token postag='RG' postag_regexp='no'/>
-          <token regexp='yes'>&pronomes_obliquos;</token>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='CS|V.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='RG|VMN0000'/>
-            <exception scope="next" postag_regexp='yes' postag='V.+'/>
-          </token>
-          <example>E por aqui me fico porque já excedi as minhas fracas competências.</example>
-          <example>Às vezes me pergunto se eu o fiz bem.</example>
-          <example>Lá lhe disse que no fim de semana vamos ver o Dumbo, não pelo comportamento, mas apenas e só pelas notas.</example>
-          <example>Enfim lhe disse que sim.</example>
-          <example>Disse então Rute, a moabita: Ele também me disse que eu posso continuar trabalhando com as suas ceifeiras até acabar a colheita.</example>
-          <example>Eu também me questionei sobre qual seria a minha escolha.</example>
-          <example>Depois eu parto, mas então me dou conta que esqueci minha mochila em sua casa.</example>
-          <example>A notícia de que a escola foi queimada logo se espalhou pela cidade.</example>
-          <example>Antes que cante o galo, três vezes me terás negado.</example>
-          <example>Lady Danbury é uma das minhas queridinhas desde que a conheci na série Os Bridgertons e aqui me peguei apaixonada por Malcom, seu gato, também.</example>
-          <example>Depois eu parto, mas então me dou conta que esqueci minha mochila em sua casa.</example>
-          <example>Eu quase me tornei carpinteiro.</example>
-          <example>Quanto mais você fala, menos lhe dão ouvidos.</example>
-          <example>Alguma vez te sentiste enganado?</example>
-          <example>Alguma vez te sentiste traído por um amigo?</example>
-          <example>Então lhe foi dirigida esta palavra do Senhor: "Não será esse o herdeiro, mas alguém saído do teu sangue."</example>
-          <example>Eu quase me matei há três anos.</example>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-        <!-- MARCOAGPINTO 2022-08-30 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-        <antipattern>
-          <token postag='SENT_START' postag_regexp='no'/>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='SPS00' postag_regexp='no'/>
-          <token regexp='yes'>&pronomes_obliquos;</token>
-          <token postag='VMN0000' postag_regexp='no'/>
-          <example>Pare de me pedir um drinque! Vá e pegue um você mesmo.</example>
-          <example>Acabei de te encaminhar no seu email!</example>
-          <example>Gostaria de lhe dar um presente pelo seu aniversário.</example>
-          <example>Gostava de te dar um conselho.</example>
-          <example>Gostava de me sentir amada apenas num olhar.</example>
-          <example>É pra te pedir que não tenha medo de mim.</example>
-          <example>Gostaria de te beijar.</example>
-          <example>Gostaria de te ver antes de partir.</example>
-          <example>Gostaria de lhe dizer uma coisa.</example>
-          <example>Gostaria de lhes agradecer do fundo do meu coração por toda a sua ajuda.</example>
-          <example>Gostaria de lhes agradecer pela cooperação.</example>
-          <example>Obrigada por me fazer este favor.</example>
-          <example>Pare de me bater!</example>
-          <example>Tenho de lhe dizer algo muito importante.</example>
-          <example>Passando pra te desejar uma ótima semana e dizer que tem postagem nova lá.</example>
-          <example>Prazer em te conhecer.</example>
-          <example>Antes de me confessar, o padre perguntou-me: "Quais são seus pescados?"</example>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-08-30 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-        <!-- MARCOAGPINTO 2022-09-06 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-        <antipattern>
-          <token postag='CS|RG' postag_regexp='yes'/>
-          <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
-          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-          <token regexp='yes'>&pronomes_obliquos;</token>
-          <token postag='V.+' postag_regexp='yes'>
-            <exception scope='next' postag_regexp='yes' postag='RG|SPS00|RM'/> <!-- Can't add "CC" here as it removes "e", the CC must be added below as words. -->
-            <exception scope='next' regexp='yes'>para|tão</exception>
-          </token>
-          <example>Parece que foi ontem, mas na verdade a gente se viu há quase 10 anos.</example>
-          <example>Mas o mesmo não aconteceu quando mudamos em 04, a esposa que o Senhor me deu e o bebê no ventre dela, para uma cidade na Região do Lagos.</example>
-          <example>Eu estava dirigindo a cento e vinte quilômetros por hora quando a polícia me parou.</example>
-          <example>Saiba que se você foi convidada como madrinha, é porque os noivos te consideram especial.</example>
-          <example>Deixo que a vida me carregue, como o vento carrega uma folha seca.</example>
-          <example>Espero que as coisas te vão bem.</example>
-          <example>Fiquei muito feliz ao saber que a vida me dera uma segunda chance.</example>
-          <example>Espero que gostem e que nos comentários me contem qual dos 5 conjuntos é mais a vossa cara!</example>
-          <example>O espaço de experimentação que a universidade lhe permitiu foi fundamental.</example>
-          <example>Quando a vida lhe dá os limões, faça uma limonada.</example>
-          <example>Ele sempre dá o que os filhos lhe pedem.</example>
-          <example>Faz uma semana que a gente se encontrou.</example>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-09-06 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-        <!-- MARCOAGPINTO 2022-09-06 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-        <antipattern>
-          <token postag='DI.+|SPS00:DI.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='Z0.+'/>
-          </token>
-          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-          <token regexp='yes'>&pronomes_obliquos;</token>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='_PUNCT|SPS00|VMN0000|VMG0000|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'>
-            <exception postag_regexp='no' postag='CC'/> 
-            <exception regexp='no'>por</exception>
-          </token>
-          <example>A educação nesse mundo me decepciona.</example>
-          <example>A poucos dias me deparei com a trilogia dos irmãos Angelis.</example>
-          <example>No decorrer do episódio, quando a guerra era iminente e clara, cada grupo se preparou da sua maneira.</example>
-          <example>Entretanto tal procedimento se tornou a rotina de sua vida monástica.</example>
-          <example>Alguns colegas me viram dando chocolate a ele.</example>
-          <example>Certa mulher lhe telefonou?</example>
-          <example>Ele é muito crédulo: até nas coisas mais incríveis que as pessoas menos confiáveis lhe contam ele logo acredita.</example>
-          <example>Muitos outros lugares se deixaram seduzir por vantagens momentâneas e viraram depósito de resíduos do progresso.</example>
-          <example>Com toda simpatia nos fez rir de nossas mazelas e dengos.</example>
-          <example>Por algum motivo me perguntam isso.</example>
-          <example>Muitos anos se passaram desde esse tempo, e muito mal nos atingiu.</example>
-          <example>Cada erro me fortaleceu.</example>
-          <example>Poucas coisas nos dão tanto prazer quanto a música.</example>
-          <example>Já por várias vezes vos falei dela, Alteza.</example>
-          <example>Todo mundo me ama.</example>
-          <example>E um outro dia se foi.</example>
-          <example>Muitos cidadãos se juntaram ao exército.</example>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-09-06 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-      <!-- MARCOAGPINTO 2021-04-30 + 2021-05-01 + 2021-05-04 (17-MAR-2021+) *START* -->
-      <!--
-      E se estamos em modo de edição no campo.
-      Eu não sei se tenho tempo para isso.
-      Não sei se devo aceitar ou recusar.
-      Me pergunto se teríamos algum problema com a empresa.
-      Nem todos os professores se comportam assim.
-      John e Mary se conhecem desde 1976.
-      Em dias quentes os mantimentos se estragam mais rápido.
-      Os sonhos se tornam realidade.
-      Não sei se é um bug ou não, mas este software não está funcionando direito.
-      Eles se falam bastante, por telefone e pessoalmente.
-      Não é possível você se perder em grandes cidades, pois há mapas por toda parte.
-      Eu não gosto quando matemáticos que sabem muito mais do que eu não conseguem se expressar explicitamente.
-      Antigamente eles se comunicavam com sinais de fumaça.
-      Eu não sabia se queria ir à universidade.
-      Perguntei-lhe se podia ler seu livro.
-      Eles se odiavam.
-      -->
-      <antipattern>
-        <token/>
-        <token>se</token>
-        <token postag='VM..[12].+|VM.[0CFIP][123].+' postag_regexp='yes'>
-          <exception postag_regexp='yes' postag='VM.[^0CFIP]3.+|VMM02S0'/>
-        </token>
-        <token/>
-      </antipattern>
-      <!-- MARCOAGPINTO 2021-04-30 + 2021-05-01 + 2021-05-04 (17-MAR-2021+) *END* -->
-      <!-- MARCOAGPINTO 2021-08-13 (25-JUN-2021+) *START* -->
-      <!--
-      Partilhei o link do vídeo no Skype, não sei se reparou.
-      Não sei se virá.
-      ão sei se poderei bancar o alto custo da reforma.
-      Ele será certamente deportado se for encontrado.
-      Não sei se choverá ou não amanhã.
-      Eu não sei se entraria em contacto com ela.
-      -->
-      <antipattern>
-        <token postag='VMP00.+|VMIP.+' postag_regexp='yes'>
-          <exception postag_regexp='yes' postag='AQ0.+|NP.+|NC.+'/>
-        </token>
-        <token>se</token>
-        <token postag='V.+' postag_regexp='yes'>
-          <exception postag_regexp='yes' postag='VMIP.+|VMN0.+'/>
-        </token>
-        <token negate_pos="yes" postag='VMG.+' postag_regexp='yes'/>
-      </antipattern>
-      <!-- MARCOAGPINTO 2021-08-13 (25-JUN-2021+) *END* -->
-      <!-- MARCOAGPINTO 2021-11-24 (25-JUN-2021+) *START* -->
-      <!--
-      ; Notice that his rule is just to remove false suggestions such as: "te darei" to "darei-te" (instead of "dar-te-ei").
-      "dar-te-ei" and alike is suggested by other rule.
-
-      This antipattern removes hundreds of hits, thus it must be better checked on 1-JAN-2022+ with a smaller number
-      of sentences, since it was checked against 600 000.
-
-      Eu a farei vir aqui.
-      Se houver qualquer coisa virtuosa, amável, de boa fama ou louvável, nós a procuraremos.
-      Se ele tem proficiência em inglês, eu o contratarei.
-      Eu os telefonarei quando voltar amanhã.
-      Eu me lembrarei disso.
-      Nós nos casaremos no final de março.
-      Te darei o céu.
-      Te daremos o céu.
-      Eu te darei esse livro.
-      Eu lhe emprestarei uma caneta.
-      Se eu tivesse que escolher, seguramente te descartaria.
-      Você me daria a receita da sua salada?
-      Se ele tivesse me dito a verdade, eu o teria perdoado.
-      Se um estranho me desse um tapa no rosto em plena rua, eu o mataria sem pestanejar.
-      Ela o fará em 24 horas.
-      Cedo ou tarde ele me contará tudo.
-      No primeiro caso, o Governo receberá o menor e lhe dará destino, em conformidade da presente lei.
-      Ajuda-te a ti mesmo e Deus te ajudará.
-      -->
-      <antipattern>
-        <token postag='PP.+' postag_regexp='yes'/>
-        <token postag='VMI[CF][13].+' postag_regexp='yes'/>
-      </antipattern>
-      <!-- MARCOAGPINTO 2021-11-24 (25-JUN-2021+) *END* -->
-      <antipattern>
-        <token>de</token>
-        <token regexp='yes'>forma|jeito|modo</token>
-        <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
-          <exception scope='next' postag='V.+' postag_regexp='yes'/>
-          <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-        <token regexp='yes' min='0'>&pronomes_retos;</token>
-        <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-        <token postag='V.+' postag_regexp='yes'/>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes' skip='-1'>&negacoes;
-          <exception scope='next' postag='V.+' postag_regexp='yes'/>
-          <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-        <token regexp='yes' min='0'>&pronomes_retos;</token>
-        <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-        <token postag='V.+' postag_regexp='yes'/>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo<!-- TODO Review algu[mn]a?s? --></token>
-        <token regexp='yes' min='0'>&pronomes_retos;</token>
-        <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-        <token postag='V.+' postag_regexp='yes'/>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes' skip='-1'>&introduz_proclise;
-          <exception scope='next' postag='V.+' postag_regexp='yes'/>
-          <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-        <token regexp='yes' min='0'>&pronomes_retos;</token>
-        <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-        <token postag='V.+' postag_regexp='yes'/>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes' skip='-1'>só|ora|quer<!-- TODO Review ou -->
-          <exception scope='next' postag='V.+' postag_regexp='yes'/>
-          <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-        <token regexp='yes' min='0'>&pronomes_retos;</token>
-        <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
-        <token postag='V.+' postag_regexp='yes'/>
-      </antipattern>
-
-      <!-- This rule is just a clone of the one below, with changes to fix false positives MARCOAGPINTO 2021-04-21 (17-MAR-2021+) -->
-      <rule>
-        <antipattern>
-          <token regexp='yes'>nenhu[mn]a?s?</token>
-          <token postag_regexp='yes' postag='N.+'/><!-- TODO min='0' after better disambiguation -->
-          <token postag_regexp='yes' postag='V.[^N].+'>
-            <exception regexp='yes'>mortos?</exception></token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
-        </antipattern>
-        <antipattern>
-          <token negate_pos="yes" postag_regexp='yes' postag='PD.+|PP.+|CC|NP.+|Z0.+'/>
-          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
-          <token postag='V.[PG].*' postag_regexp='yes'/>
-        </antipattern>
-        <antipattern>
-          <token postag_regexp='yes' postag='NP.+|NC.+|AQ0.+'/>
-          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
-          <token postag='VMN0000|VMII.+' postag_regexp='yes'/>
-        </antipattern>
-        <pattern>
-          <token postag='V.+|PD.+|PP.+|CC|NP.+|Z0.+|NC.+|AQ0.+' postag_regexp='yes'>
-            <exception regexp='yes'>como|para|casa|nada</exception>
-            <exception postag='VM[NG].+|VMM0.+|VMIS.+' postag_regexp='yes'/>
-          </token>
-          <marker>
-            <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
-            <token postag='V.+' postag_regexp='yes'>
-              <exception postag='VMSI.+|VMM0.+|NC.+|AQ0.+' postag_regexp='yes'/>
-            </token>
-          </marker>
-          <token negate_pos="yes" postag_regexp='yes' postag='SPS00..'/>
-          <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
-          false positives (Determinants & Contractions)  -->
-        </pattern>
-        <message>Forma hifenizada. Será que quis dizer:</message>
-        <suggestion>\3-\2</suggestion>
-        <example correction='dar-te'>Eu vou <marker>te dar</marker> um laptop.</example>
-        <example>Ela pode ter-me visto na festa.</example>
-        <example>Todos se admiram da sua perseverança.</example>
-        <example>Foi então que algo me persuadiu a continuar.</example>
-        <example>Quem lhe contou essa notícia?</example>
-        <example>Só te tirei o brinquedo, porque te portaste mal</example>
-        <example>Nenhum lugar te recorda daquelas férias?</example>
-        <example>Ele foi se deitar.</example>
-      </rule>
-	
-      <rule>
-        <antipattern>
-          <token regexp='yes'>nenhu[mn]a?s?</token>
-          <token postag_regexp='yes' postag='N.+'/><!-- TODO min='0' after better disambiguation -->
-          <token postag_regexp='yes' postag='V.[^N].+'>
-            <exception regexp='yes'>mortos?</exception></token>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
-        </antipattern>
-        <antipattern>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
-          <token postag='V.[PG].*' postag_regexp='yes'/>
-        </antipattern>
-        <pattern>
-          <token postag='V.+' postag_regexp='yes'>
-            <exception regexp='yes'>como|para|casa|nada</exception></token>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
-          <token postag='V.+' postag_regexp='yes'/>
-          <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
-          false positives (Determinants & Contractions)  -->
-        </pattern>
-        <message>Forma hifenizada. Será que quis dizer:</message>
-        <suggestion>\1-\2 \3</suggestion>
-        <suggestion>\1 \3-\2</suggestion>
-        <example correction='vou-te dar|vou dar-te'>Eu <marker>vou te dar</marker> um laptop.</example>
-        <example>Ela pode ter-me visto na festa.</example>
-        <example>Todos se admiram da sua perseverança.</example>
-        <example>Foi então que algo me persuadiu a continuar.</example>
-        <example>Quem lhe contou essa notícia?</example>
-        <example>Só te tirei o brinquedo, porque te portaste mal</example>
-        <example>Nenhum lugar te recorda daquelas férias?</example>
-      </rule>
-
-      <rule>
-        <antipattern>
-          <token regexp='yes'>-|–</token>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
-        </antipattern>
-        <antipattern>
-          <token regexp='yes'>nenhu[mn]a?s?</token>
-          <token postag_regexp='yes' postag='N.+'/>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
-          <token postag_regexp='yes' postag='V.[^N].+'/>
-        </antipattern>
-        <antipattern>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
-          <token postag='V.[PG].*' postag_regexp='yes'/>
-        </antipattern>
-        <pattern>
-          <token regexp='yes'>&pronomes_nao_ambiguos;
-            <exception scope='previous'>Deus</exception></token>
-          <token postag='V.+' postag_regexp='yes'>
-            <exception regexp='yes'>mortos?</exception></token>
-          <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
-          false positives (Determinants & Contractions)  -->
-        </pattern>
-        <message>Forma hifenizada. Será que quis dizer:</message>
-        <suggestion>\2-<match no='1' case_conversion="startlower"/></suggestion>
-        <example correction='dou-te'>Eu <marker>te dou</marker> um laptop.</example>
-        <example correction='dou-te'><marker>Te dou</marker> um laptop.</example><!-- XXX changing the behaviour of the second token effects also the first token. This is Ok, since this error is caught by a second rule. -->
-        <example correction='ver-te'>Foi muito bom <marker>te ver</marker> de novo.</example>
-        <example>Ela pode ter-me visto na festa.</example>
-        <example>Todos se admiram da sua perseverança.</example>
-        <example>Foi então que algo me persuadiu a continuar.</example>
-        <example>Quem lhe contou essa notícia?</example>
-        <example>Só te tirei o brinquedo, porque te portaste mal</example>
-        <example>Nenhum lugar te recorda daquelas férias?</example>
-        <example>...que eu vos peça expressamente...</example>
-        <example>Deus me livre!</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token postag='V.+' postag_regexp='yes'>
-            <exception regexp='yes'>como|para|casa|nada|mortos?</exception></token>
-          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
-          <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
-          false positives (Determinants & Contractions)  -->
-        </pattern>
-        <message>Forma hifenizada. Será que quis dizer:</message>
-        <suggestion>\1-\2</suggestion>
-        <example correction='dar-me'>Isto vai <marker>dar me</marker> muitas dores de cabeça.</example>
-        <example correction='estava-me'>Eu <marker>estava me</marker> perguntando se você ia aparecer hoje.</example>
-        <example correction='ter-me'>Muito obrigado por <marker>ter me</marker> convidado.</example>
-      </rule>
-
-      <rule>
-        <antipattern>
-          <token regexp='yes'>&pronomes_retos;</token>
-          <token regexp='yes'>[ao]s?</token>
-          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+[rsz]$</token>
-        </antipattern>
-        <antipattern>
-          <token regexp='yes'>&pronomes_retos;</token>
-          <token regexp='yes'>[ao]s?</token>
-          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *START* -->
-        <!-- "O Rui suscitando em nós o poder criador." -->
-        <!-- "O Rui suscitando em nós a força criadora." -->
-        <!-- "O Rui suscitando em nós os poderes criadores." -->
-        <!-- "O Rui suscitando em nós as forças criadoras." -->
-        <!-- "Entre elas as chamadas 16 regras do esperanto." -->
-        <!-- "Os vícios da mocidade, entre eles as drogas e as bebidas." -->
-        <!-- "Havia vários cursos de água em Xangai, entre eles o rio Zhaojia." -->
-        <antipattern>
-          <token regexp='yes'>em|entre|por</token>
-          <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
-          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
-          <token postag='V.+|AQ0[CFM][SP]0|NC[CFM][SP]000|NP[CFM][SP][0GS]00' postag_regexp='yes'/>
-          <token negate="yes" regexp='yes'>nas?|nos?|em|pelos?|pelas?|como|tal|tais</token>
-          <!--		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000|Z0CN0|VMIP2S0|VMIP3S0|VMM02S0|NP[CFM][SP][0GS]00' postag_regexp='yes'/> -->
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *END* -->
-        <pattern>
-          <token regexp='yes'>&pronomes_retos;</token>
-          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
-          <token postag='V.+' postag_regexp='yes'/>
-        </pattern>
-        <message>Forma hifenizada. Será que quis dizer:</message>
-        <suggestion>\1 \3-\2</suggestion>
-        <example correction='Eu convido-o'><marker>Eu o convido</marker> para a inauguração.</example>
-        <example correction='Ele esmera-se'><marker>Ele se esmera</marker> na apresentação.</example>
-        <example correction="Eu amo-o"><marker>Eu o amo</marker> mais que tudo.</example>
-        <example>O Rui suscitando em nós o poder criador.</example>
-        <example>O Rui suscitando em nós a força criadora.</example>
-        <example>O Rui suscitando em nós os poderes criadores.</example>
-        <example>O Rui suscitando em nós as forças criadoras.</example>
-        <example>Entre elas as chamadas 16 regras do esperanto.</example>
-        <example>Os vícios da mocidade, entre eles as drogas e as bebidas.</example>
-        <example>Havia vários cursos de água em Xangai, entre eles o rio Zhaojia.</example>
-      </rule>
-      <rule>
-        <antipattern>
-          <token>de</token>
-          <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
-            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-          <token regexp='yes'>&pronomes_retos;</token>
-          <token regexp='yes'>[ao]s?</token>
-        </antipattern>
-        <antipattern>
-          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;
-            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-          <token regexp='yes'>&pronomes_retos;</token>
-          <token regexp='yes'>[ao]s?</token>
-        </antipattern>
-        <antipattern>
-          <token inflected='yes'>dar</token>
-          <token>por</token>
-          <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
-          <token>a</token>
-        </antipattern>
-        <antipattern>
-          <token>a</token>
-          <token postag='VMN0000'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *START* -->
-        <!-- "O Rui suscitando em nós o poder criador." -->
-        <!-- "O Rui suscitando em nós a força criadora." -->
-        <!-- "O Rui suscitando em nós os poderes criadores." -->
-        <!-- "O Rui suscitando em nós as forças criadoras." -->
-        <!-- "Entre elas as chamadas 16 regras do esperanto." -->
-        <!-- "Os vícios da mocidade, entre eles as drogas e as bebidas." -->
-        <!-- "Havia vários cursos de água em Xangai, entre eles o rio Zhaojia." -->
-        <antipattern>
-          <token regexp='yes'>em|entre|por</token>
-          <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
-          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
-          <token postag='V.+|AQ0[CFM][SP]0|NC[CFM][SP]000|NP[CFM][SP][0GS]00' postag_regexp='yes'/>
-          <token negate="yes" regexp='yes'>nas?|nos?|em|pelos?|pelas?|como|tal|tais</token>
-          <!--		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000|Z0CN0|VMIP2S0|VMIP3S0|VMM02S0|NP[CFM][SP][0GS]00' postag_regexp='yes'/> -->
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *END* -->
-        <pattern>
-          <token regexp='yes'>&pronomes_retos;</token>
-          <token regexp='yes'>[ao]s?</token>
-          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+[rsz]$</token>
-        </pattern>
-        <message>Forma hifenizada. Será que quis dizer:</message>
-        <suggestion>\1 <match no='3' regexp_match='(.+).$' regexp_replace='$1'/>-l\2</suggestion>
-        <suggestion>\1 <match no='3' regexp_match='(.+).$' regexp_replace='$1'/>-l\2</suggestion>
-        <example correction='Nós convidamo-lo'><marker>Nós o convidamos</marker> para a inauguração.</example>
-        <example>De modo algum <marker>nós o convidamos</marker> para a inauguração.</example>
-        <example correction='Ela fa-las'><marker>Ela as faz</marker> manualmente.</example>
-        <example>Demos por nós a extinguir o fogo.</example>
-        <example>Entregue o aval hoje, para ser ela a fechar o negócio.</example>
-        <example correction='nós recebemo-las'>...atribuem-se por meio de transmissão genética; <marker>nós as recebemos</marker> pelos genes, que herdamos de nossos pais.</example>
-        <example>O Rui suscitando em nós o poder criador.</example>
-        <example>O Rui suscitando em nós a força criadora.</example>
-        <example>O Rui suscitando em nós os poderes criadores.</example>
-        <example>O Rui suscitando em nós as forças criadoras.</example>
-        <example>Entre elas as chamadas 16 regras do esperanto.</example>
-        <example>Os vícios da mocidade, entre eles as drogas e as bebidas.</example>
-        <example>Havia vários cursos de água em Xangai, entre eles o rio Zhaojia.</example>
-      </rule>
-
-      <rule>
-        <antipattern>
-          <token>de</token>
-          <token regexp='yes'>forma|jeito|modo</token>
-          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
-            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-          <token regexp='yes'>&pronomes_retos;</token>
-          <token regexp='yes'>[ao]s?</token>
-        </antipattern>
-        <antipattern>
-          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;
-            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
-          <token regexp='yes'>&pronomes_retos;</token>
-          <token regexp='yes'>[ao]s?</token>
-        </antipattern>
-        <pattern>
-          <token regexp='yes'>&pronomes_retos;</token>
-          <token regexp='yes'>[ao]s?</token>
-          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
-        </pattern>
-        <message>Forma hifenizada. Será que quis dizer:</message>
-        <suggestion>\1 \3-n\2</suggestion>
-        <example correction='Eles convidaram-no'><marker>Eles o convidaram</marker> para a inauguração.</example>
-        <example>De forma alguma <marker>eles o convidaram</marker> para a inauguração.</example>
-        <example correction='Ela põe-nas'><marker>Ela as põe</marker> na mesa.</example>
-      </rule>
-    </rulegroup>
 
 
     <rulegroup id="POSSESSIVE_WITHOUT_ARTICLE" name="Determinante possessivo sem artigo">
@@ -3345,137 +2619,891 @@
     </rulegroup>
 
 
-    <rulegroup id='AVOID_GERUND' name='Evitar o Gerúndio (perifrásico)' default='on' type='style'>
-      <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
-      <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
-      <short>Possível gerundismo.</short>
-      <!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *START* -->
-      <!--
-      Ao fazê-lo vão saindo resultados cada vez mais inesperados.
-      Na época eram basicamente feitos usando pequenos objetos.
-      Em França existe um limite que é aumentado usando carregadores de munição.
-      E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.
-      O número de desenvolvedores vem aumentando.
-      -->
+    <rule id='SEQUER_WITHOUT_NEGATIVE' name='Sequer sem negativa'>
+      <!--      Created by Tiago F. Santos, 2017-03-05      -->
       <antipattern>
-        <token/>
-        <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
-        <token regexp='yes'>&gerundio_excecoes;</token>
+        <token regexp='yes' skip='-1'>&negacoes;</token>
+        <token>sequer</token>
       </antipattern>
-      <!-- MARCOAGPINTO 2021-03-17 (17-MAR-2021+) *END* -->
-
-      <!-- MARCOAGPINTO 2021-03-19 (17-MAR-2021+) *START* -->
-      <!--
-      Com efeito, vinham-se acumulando estudos e testemunhos.
-      -->
       <antipattern>
-        <token/>
-        <token inflected='yes' regexp='yes'>&gerundio_verbos;</token>
-        <token regexp='yes' spacebefore='no'>&hifen;</token>
-        <token/>
-        <token regexp='yes'>&gerundio_excecoes;</token>
+        <token>antes</token>
+        <token skip='-1'>de</token>
+        <token>sequer</token>
       </antipattern>
-      <!-- MARCOAGPINTO 2021-03-19 (17-MAR-2021+) *END* -->
+      <pattern>
+        <token>sequer
+          <exception scope='previous' regexp='yes'>antes|ou</exception></token>
+      </pattern>
+      <message>'Sequer' deve ser precedido de uma negação.</message>
+      <suggestion>nem <match no='1' case_conversion='alllower'/></suggestion>
+      <url>https://duvidas.dicio.com.br/sequer-ou-nem-sequer/</url>
+      <example correction='nem sequer'>Ele <marker>sequer</marker> cumprimentou.</example>
+      <example>Nem sequer vi o que estava a fazer.</example>
+    </rule>
 
-      <!-- MARCOAGPINTO 2022-06-08 (5-JUN-2022+) *START* -->
+
+    <rule id='TODOS_FOLLOWED_BY_NOUN_SINGULAR' name="Expressão: Todo + 'nome sem artigo'" default="temp_off">
+      <!-- FIXME: too many matches -->
+      <!-- Created by Tiago F. Santos, 2017-10-12 -->
       <antipattern>
-        <token postag='NP.+|NC.+|AQ.+|VMP00.+' postag_regexp='yes'/>
-        <token regexp='yes'>&gerundio_excecoes;</token>
-        <example>Os terroristas agem contra os Estados recorrendo à força militar.</example>
+        <token regexp='yes'>tod[ao]</token>
+        <token postag_regexp='yes' postag='A.+'>
+          <exception negate_pos='yes' postag_regexp='yes' postag='A.+'/></token>
+        <token>
+          <exception postag_regexp='yes' postag='(?:N|A).+'/></token>
       </antipattern>
-      <!-- MARCOAGPINTO 2022-06-08 (5-JUN-2022+) *END* -->
+      <antipattern>
+        <token regexp='yes' postag_regexp='yes' postag='V...3P.+' inflected='yes'>&verbos_de_ligacao;</token>
+        <token regexp='yes'>tod[ao]</token>
+        <token/>
+        <token>
+          <exception postag_regexp='yes' postag='(?:N|A).+'/></token>
+      </antipattern>
+      <pattern>
+        <token regexp='yes'>tod[ao]</token>
+        <token postag_regexp='yes' postag='N.+'>
+          <exception negate_pos='yes' postag_regexp='yes' postag='N.+'/></token>
+      </pattern>
+      <message>Esta expressão no plural exige um segundo artigo.</message>
+      <suggestion>\1 <match no='1' regexp_match='...(.)' regexp_replace='$1'/> \2</suggestion>
+      <example correction='todo o dia'>Está aberto das dez às seis <marker>todo dia</marker> durante o ano.</example>
+      <example correction='toda a hora'>Está aberto a <marker>toda hora</marker>.</example>
+      <example>A mulher ficou toda satisfeita.</example>
+    </rule>
 
+
+    <rule id="VERBO_GENERAL_VERB_AGREEMENT_ERRORS_PT" name="Erro de concordância verbal">
+      <antipattern>
+        <token regexp='yes' case_sensitive='yes'>e|ou</token>
+        <token>tu</token>
+      </antipattern>
+      <pattern>
+        <token>tu</token>
+        <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+          <exception scope='next'>,</exception></token>
+        <token postag='V.[CIS].([13]S|[123]P).' postag_regexp='yes'>
+          <exception postag='V.[CIS].2S0' postag_regexp='yes'/></token>
+      </pattern>
+      <message>&MSG_ECV;</message>
+      <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\2S$2' postag_regexp='yes'/></suggestion>
+      <example correction='Tu não passeias'><marker>Tu não passeia</marker> na praia.</example>
+    </rule>
+
+
+    <rulegroup id='VERBO_HIFENIZADOR_VERBOS_1' name='Colocações pronominais: mesóclise'>
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+      <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+      <short>Erro de colocação pronominal</short>
       <rule>
+        <!-- MARCOAGPINTO 2021-06-08 (17-MAR-2021+) *START* -->
+        <!--
+        Quem as abordou a perguntar se iam pagar com multibanco?
+        -->
+        <antipattern>
+          <token postag='SPS.+|PD.+|PP.+' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2021-06-08 (17-MAR-2021+) *END* -->
         <pattern>
-          <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token><!-- TODO Review all cases and confirm it can be safely expanded to more cases-->
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token postag='PP.*' postag_regexp='yes'/>
-          <token postag='V.G0+' postag_regexp='yes'>
-            <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception regexp='yes'>como|para|casa|nada</exception></token>
+          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
+          <token regexp='yes'>á|ão|ás|ei|eis|emos|ia|iam|íamos|ias|íeis</token>
         </pattern>
-        <message>Se possível, evite o gerúndio.</message>
-        <suggestion>\1\2\3 a <match no='4' postag='VMN0000' case_conversion="alllower"/></suggestion>
-        <example correction='iam-se a acender'>As luzes <marker>iam-se acendendo</marker> à medida que ela passava.</example>
-
-        <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
-        <example>Na época eram basicamente feitos usando pequenos objetos.</example>
-        <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
-        <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
-        <example>O número de desenvolvedores vem aumentando.</example>
-
-        <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token>
-          <token postag='V.G0+' postag_regexp='yes'/>
-        </pattern>
-        <message>Se possível, evite o gerúndio.</message>
-        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
-        <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example>
-        <example>As regras foram sendo melhoradas ao longo do tempo.</example>
-
-        <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
-        <example>Na época eram basicamente feitos usando pequenos objetos.</example>
-        <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
-        <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
-        <example>O número de desenvolvedores vem aumentando.</example>
-
-        <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token postag='V.+' postag_regexp='yes' inflected="yes" regexp="yes">continuar|estar|ir|ficar
-            <exception inflected='yes' regexp='yes'>medida|votar</exception>
-            <exception negate_pos='yes' postag='V.+' postag_regexp='yes'/></token>
-          <token postag='V.G0+' postag_regexp='yes'>
-            <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
-        </pattern>
-        <message>Se possível, evite o gerúndio.</message>
-        <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
-        <example correction='continua a ser'>O processo básico <marker>continua sendo</marker> o mesmo.</example>
-        <example correction='está a soprar'>...ventos do oeste, <marker>está soprando</marker> por cima das águas...</example>
-        <example>As regras foram sendo melhoradas ao longo do tempo.</example>
-        <example correction='Vou a olhar'><marker>Vou olhando</marker> para o que acontece.</example><!-- TODO This may be correct in some circunstances. REVIEW -->
-
-        <example type='correct'>Ao fazê-lo <marker>vão saindo</marker> resultados cada vez mais inesperados.</example>
-        <example>Na época eram basicamente feitos usando pequenos objetos.</example>
-        <example>Em França existe um limite que é aumentado usando carregadores de munição.</example>
-        <example>E mesmo aqueles que não estejam muito interessados em participar podem ajudar fazendo chegar esta ideia a outras pessoas.</example>
-        <example>O número de desenvolvedores vem aumentando.</example>
-        <example>A expedição recebeu a visita de duas nave não-tripuladas trazendo mantimentos e eletrônica.</example>
-        <example type='correct'>Com efeito, <marker>vinham-se acumulando</marker> estudos e testemunhos.</example>
+        <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1-\2-\3</suggestion>
+        <example correction='dar-nos-á'>A vida <marker>dar nos á</marker> sempre mais do que achamos que merecemos.</example>
+        <example>Quem as abordou a perguntar se iam pagar com multibanco?</example>
       </rule>
     </rulegroup>
 
 
-    <!-- EVITAR O GERÚNDIO Evitar o gerúndio em pt-PT	       -->
-    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
-    <rule id='AVOID_ALL_GERUND' name='Evitar o Gerúndio (completo)' default='off' type='style'>
-      <pattern>
-        <token postag='V.G0+' postag_regexp='yes'>
-          <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
-      </pattern>
-      <message>Se possível, evite o gerúndio.</message>
-      <suggestion>a <match no='1' postag='VMN0000' case_conversion="alllower"/></suggestion>
-      <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
-      <example correction='a soprar'>...ventos do oeste, está <marker>soprando</marker> por cima das águas...</example>
-      <example correction='a acender'>As luzes iam-se <marker>acendendo</marker> à medida que ela passava.</example>
-    </rule>
+    <rulegroup id='VERBO_HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+      <!-- Brazilian Portuguese has some inverted colocations  -->
+      <!-- MARCOAGPINTO: Notice that I created some global antipatterns for this rulegroup because they are common to all subrules.
+                         I started adding the 2022+ antipatterns from the top and not from the bottom.
+      -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
+      <short>Erro de colocação pronominal</short>
+
+        <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='RG' postag_regexp='no'/>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='CS|V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='RG|VMN0000'/>
+            <exception scope="next" postag_regexp='yes' postag='V.+'/>
+          </token>
+          <example>E por aqui me fico porque já excedi as minhas fracas competências.</example>
+          <example>Às vezes me pergunto se eu o fiz bem.</example>
+          <example>Lá lhe disse que no fim de semana vamos ver o Dumbo, não pelo comportamento, mas apenas e só pelas notas.</example>
+          <example>Enfim lhe disse que sim.</example>
+          <example>Disse então Rute, a moabita: Ele também me disse que eu posso continuar trabalhando com as suas ceifeiras até acabar a colheita.</example>
+          <example>Eu também me questionei sobre qual seria a minha escolha.</example>
+          <example>Depois eu parto, mas então me dou conta que esqueci minha mochila em sua casa.</example>
+          <example>A notícia de que a escola foi queimada logo se espalhou pela cidade.</example>
+          <example>Antes que cante o galo, três vezes me terás negado.</example>
+          <example>Lady Danbury é uma das minhas queridinhas desde que a conheci na série Os Bridgertons e aqui me peguei apaixonada por Malcom, seu gato, também.</example>
+          <example>Depois eu parto, mas então me dou conta que esqueci minha mochila em sua casa.</example>
+          <example>Eu quase me tornei carpinteiro.</example>
+          <example>Quanto mais você fala, menos lhe dão ouvidos.</example>
+          <example>Alguma vez te sentiste enganado?</example>
+          <example>Alguma vez te sentiste traído por um amigo?</example>
+          <example>Então lhe foi dirigida esta palavra do Senhor: "Não será esse o herdeiro, mas alguém saído do teu sangue."</example>
+          <example>Eu quase me matei há três anos.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-30 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='SENT_START' postag_regexp='no'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS00' postag_regexp='no'/>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='VMN0000' postag_regexp='no'/>
+          <example>Pare de me pedir um drinque! Vá e pegue um você mesmo.</example>
+          <example>Acabei de te encaminhar no seu email!</example>
+          <example>Gostaria de lhe dar um presente pelo seu aniversário.</example>
+          <example>Gostava de te dar um conselho.</example>
+          <example>Gostava de me sentir amada apenas num olhar.</example>
+          <example>É pra te pedir que não tenha medo de mim.</example>
+          <example>Gostaria de te beijar.</example>
+          <example>Gostaria de te ver antes de partir.</example>
+          <example>Gostaria de lhe dizer uma coisa.</example>
+          <example>Gostaria de lhes agradecer do fundo do meu coração por toda a sua ajuda.</example>
+          <example>Gostaria de lhes agradecer pela cooperação.</example>
+          <example>Obrigada por me fazer este favor.</example>
+          <example>Pare de me bater!</example>
+          <example>Tenho de lhe dizer algo muito importante.</example>
+          <example>Passando pra te desejar uma ótima semana e dizer que tem postagem nova lá.</example>
+          <example>Prazer em te conhecer.</example>
+          <example>Antes de me confessar, o padre perguntou-me: "Quais são seus pescados?"</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-30 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-09-06 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='CS|RG' postag_regexp='yes'/>
+          <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception scope='next' postag_regexp='yes' postag='RG|SPS00|RM'/> <!-- Can't add "CC" here as it removes "e", the CC must be added below as words. -->
+            <exception scope='next' regexp='yes'>para|tão</exception>
+          </token>
+          <example>Parece que foi ontem, mas na verdade a gente se viu há quase 10 anos.</example>
+          <example>Mas o mesmo não aconteceu quando mudamos em 04, a esposa que o Senhor me deu e o bebê no ventre dela, para uma cidade na Região do Lagos.</example>
+          <example>Eu estava dirigindo a cento e vinte quilômetros por hora quando a polícia me parou.</example>
+          <example>Saiba que se você foi convidada como madrinha, é porque os noivos te consideram especial.</example>
+          <example>Deixo que a vida me carregue, como o vento carrega uma folha seca.</example>
+          <example>Espero que as coisas te vão bem.</example>
+          <example>Fiquei muito feliz ao saber que a vida me dera uma segunda chance.</example>
+          <example>Espero que gostem e que nos comentários me contem qual dos 5 conjuntos é mais a vossa cara!</example>
+          <example>O espaço de experimentação que a universidade lhe permitiu foi fundamental.</example>
+          <example>Quando a vida lhe dá os limões, faça uma limonada.</example>
+          <example>Ele sempre dá o que os filhos lhe pedem.</example>
+          <example>Faz uma semana que a gente se encontrou.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-06 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-09-06 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='DI.+|SPS00:DI.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='Z0.+'/>
+          </token>
+          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='_PUNCT|SPS00|VMN0000|VMG0000|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'>
+            <exception postag_regexp='no' postag='CC'/> 
+            <exception regexp='no'>por</exception>
+          </token>
+          <example>A educação nesse mundo me decepciona.</example>
+          <example>A poucos dias me deparei com a trilogia dos irmãos Angelis.</example>
+          <example>No decorrer do episódio, quando a guerra era iminente e clara, cada grupo se preparou da sua maneira.</example>
+          <example>Entretanto tal procedimento se tornou a rotina de sua vida monástica.</example>
+          <example>Alguns colegas me viram dando chocolate a ele.</example>
+          <example>Certa mulher lhe telefonou?</example>
+          <example>Ele é muito crédulo: até nas coisas mais incríveis que as pessoas menos confiáveis lhe contam ele logo acredita.</example>
+          <example>Muitos outros lugares se deixaram seduzir por vantagens momentâneas e viraram depósito de resíduos do progresso.</example>
+          <example>Com toda simpatia nos fez rir de nossas mazelas e dengos.</example>
+          <example>Por algum motivo me perguntam isso.</example>
+          <example>Muitos anos se passaram desde esse tempo, e muito mal nos atingiu.</example>
+          <example>Cada erro me fortaleceu.</example>
+          <example>Poucas coisas nos dão tanto prazer quanto a música.</example>
+          <example>Já por várias vezes vos falei dela, Alteza.</example>
+          <example>Todo mundo me ama.</example>
+          <example>E um outro dia se foi.</example>
+          <example>Muitos cidadãos se juntaram ao exército.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-06 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2021-04-30 + 2021-05-01 + 2021-05-04 (17-MAR-2021+) *START* -->
+      <!--
+      E se estamos em modo de edição no campo.
+      Eu não sei se tenho tempo para isso.
+      Não sei se devo aceitar ou recusar.
+      Me pergunto se teríamos algum problema com a empresa.
+      Nem todos os professores se comportam assim.
+      John e Mary se conhecem desde 1976.
+      Em dias quentes os mantimentos se estragam mais rápido.
+      Os sonhos se tornam realidade.
+      Não sei se é um bug ou não, mas este software não está funcionando direito.
+      Eles se falam bastante, por telefone e pessoalmente.
+      Não é possível você se perder em grandes cidades, pois há mapas por toda parte.
+      Eu não gosto quando matemáticos que sabem muito mais do que eu não conseguem se expressar explicitamente.
+      Antigamente eles se comunicavam com sinais de fumaça.
+      Eu não sabia se queria ir à universidade.
+      Perguntei-lhe se podia ler seu livro.
+      Eles se odiavam.
+      -->
+      <antipattern>
+        <token/>
+        <token>se</token>
+        <token postag='VM..[12].+|VM.[0CFIP][123].+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='VM.[^0CFIP]3.+|VMM02S0'/>
+        </token>
+        <token/>
+      </antipattern>
+      <!-- MARCOAGPINTO 2021-04-30 + 2021-05-01 + 2021-05-04 (17-MAR-2021+) *END* -->
+      <!-- MARCOAGPINTO 2021-08-13 (25-JUN-2021+) *START* -->
+      <!--
+      Partilhei o link do vídeo no Skype, não sei se reparou.
+      Não sei se virá.
+      ão sei se poderei bancar o alto custo da reforma.
+      Ele será certamente deportado se for encontrado.
+      Não sei se choverá ou não amanhã.
+      Eu não sei se entraria em contacto com ela.
+      -->
+      <antipattern>
+        <token postag='VMP00.+|VMIP.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='AQ0.+|NP.+|NC.+'/>
+        </token>
+        <token>se</token>
+        <token postag='V.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='VMIP.+|VMN0.+'/>
+        </token>
+        <token negate_pos="yes" postag='VMG.+' postag_regexp='yes'/>
+      </antipattern>
+      <!-- MARCOAGPINTO 2021-08-13 (25-JUN-2021+) *END* -->
+      <!-- MARCOAGPINTO 2021-11-24 (25-JUN-2021+) *START* -->
+      <!--
+      ; Notice that his rule is just to remove false suggestions such as: "te darei" to "darei-te" (instead of "dar-te-ei").
+      "dar-te-ei" and alike is suggested by other rule.
+
+      This antipattern removes hundreds of hits, thus it must be better checked on 1-JAN-2022+ with a smaller number
+      of sentences, since it was checked against 600 000.
+
+      Eu a farei vir aqui.
+      Se houver qualquer coisa virtuosa, amável, de boa fama ou louvável, nós a procuraremos.
+      Se ele tem proficiência em inglês, eu o contratarei.
+      Eu os telefonarei quando voltar amanhã.
+      Eu me lembrarei disso.
+      Nós nos casaremos no final de março.
+      Te darei o céu.
+      Te daremos o céu.
+      Eu te darei esse livro.
+      Eu lhe emprestarei uma caneta.
+      Se eu tivesse que escolher, seguramente te descartaria.
+      Você me daria a receita da sua salada?
+      Se ele tivesse me dito a verdade, eu o teria perdoado.
+      Se um estranho me desse um tapa no rosto em plena rua, eu o mataria sem pestanejar.
+      Ela o fará em 24 horas.
+      Cedo ou tarde ele me contará tudo.
+      No primeiro caso, o Governo receberá o menor e lhe dará destino, em conformidade da presente lei.
+      Ajuda-te a ti mesmo e Deus te ajudará.
+      -->
+      <antipattern>
+        <token postag='PP.+' postag_regexp='yes'/>
+        <token postag='VMI[CF][13].+' postag_regexp='yes'/>
+      </antipattern>
+      <!-- MARCOAGPINTO 2021-11-24 (25-JUN-2021+) *END* -->
+      <antipattern>
+        <token>de</token>
+        <token regexp='yes'>forma|jeito|modo</token>
+        <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
+          <exception scope='next' postag='V.+' postag_regexp='yes'/>
+          <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
+        <token regexp='yes' min='0'>&pronomes_retos;</token>
+        <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+        <token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes' skip='-1'>&negacoes;
+          <exception scope='next' postag='V.+' postag_regexp='yes'/>
+          <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
+        <token regexp='yes' min='0'>&pronomes_retos;</token>
+        <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+        <token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>nenhu[mn]a?s?|tod[ao]s?|tudo|nada|pouc[ao]s?|muit[ao]s?|algo<!-- TODO Review algu[mn]a?s? --></token>
+        <token regexp='yes' min='0'>&pronomes_retos;</token>
+        <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+        <token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes' skip='-1'>&introduz_proclise;
+          <exception scope='next' postag='V.+' postag_regexp='yes'/>
+          <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
+        <token regexp='yes' min='0'>&pronomes_retos;</token>
+        <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+        <token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes' skip='-1'>só|ora|quer<!-- TODO Review ou -->
+          <exception scope='next' postag='V.+' postag_regexp='yes'/>
+          <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
+        <token regexp='yes' min='0'>&pronomes_retos;</token>
+        <token regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
+        <token postag='V.+' postag_regexp='yes'/>
+      </antipattern>
+
+      <!-- This rule is just a clone of the one below, with changes to fix false positives MARCOAGPINTO 2021-04-21 (17-MAR-2021+) -->
+      <rule>
+        <antipattern>
+          <token regexp='yes'>nenhu[mn]a?s?</token>
+          <token postag_regexp='yes' postag='N.+'/><!-- TODO min='0' after better disambiguation -->
+          <token postag_regexp='yes' postag='V.[^N].+'>
+            <exception regexp='yes'>mortos?</exception></token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+        </antipattern>
+        <antipattern>
+          <token negate_pos="yes" postag_regexp='yes' postag='PD.+|PP.+|CC|NP.+|Z0.+'/>
+          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+          <token postag='V.[PG].*' postag_regexp='yes'/>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp='yes' postag='NP.+|NC.+|AQ0.+'/>
+          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+          <token postag='VMN0000|VMII.+' postag_regexp='yes'/>
+        </antipattern>
+        <pattern>
+          <token postag='V.+|PD.+|PP.+|CC|NP.+|Z0.+|NC.+|AQ0.+' postag_regexp='yes'>
+            <exception regexp='yes'>como|para|casa|nada</exception>
+            <exception postag='VM[NG].+|VMM0.+|VMIS.+' postag_regexp='yes'/>
+          </token>
+          <marker>
+            <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+            <token postag='V.+' postag_regexp='yes'>
+              <exception postag='VMSI.+|VMM0.+|NC.+|AQ0.+' postag_regexp='yes'/>
+            </token>
+          </marker>
+          <token negate_pos="yes" postag_regexp='yes' postag='SPS00..'/>
+          <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
+          false positives (Determinants & Contractions)  -->
+        </pattern>
+        <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\3-\2</suggestion>
+        <example correction='dar-te'>Eu vou <marker>te dar</marker> um laptop.</example>
+        <example>Ela pode ter-me visto na festa.</example>
+        <example>Todos se admiram da sua perseverança.</example>
+        <example>Foi então que algo me persuadiu a continuar.</example>
+        <example>Quem lhe contou essa notícia?</example>
+        <example>Só te tirei o brinquedo, porque te portaste mal</example>
+        <example>Nenhum lugar te recorda daquelas férias?</example>
+        <example>Ele foi se deitar.</example>
+      </rule>
+	
+      <rule>
+        <antipattern>
+          <token regexp='yes'>nenhu[mn]a?s?</token>
+          <token postag_regexp='yes' postag='N.+'/><!-- TODO min='0' after better disambiguation -->
+          <token postag_regexp='yes' postag='V.[^N].+'>
+            <exception regexp='yes'>mortos?</exception></token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>me|te|se|lhe|nos|vos|lhes</token>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.[PG].*' postag_regexp='yes'/>
+        </antipattern>
+        <pattern>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception regexp='yes'>como|para|casa|nada</exception></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
+          false positives (Determinants & Contractions)  -->
+        </pattern>
+        <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1-\2 \3</suggestion>
+        <suggestion>\1 \3-\2</suggestion>
+        <example correction='vou-te dar|vou dar-te'>Eu <marker>vou te dar</marker> um laptop.</example>
+        <example>Ela pode ter-me visto na festa.</example>
+        <example>Todos se admiram da sua perseverança.</example>
+        <example>Foi então que algo me persuadiu a continuar.</example>
+        <example>Quem lhe contou essa notícia?</example>
+        <example>Só te tirei o brinquedo, porque te portaste mal</example>
+        <example>Nenhum lugar te recorda daquelas férias?</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token regexp='yes'>-|–</token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>nenhu[mn]a?s?</token>
+          <token postag_regexp='yes' postag='N.+'/>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag_regexp='yes' postag='V.[^N].+'/>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <token postag='V.[PG].*' postag_regexp='yes'/>
+        </antipattern>
+        <pattern>
+          <token regexp='yes'>&pronomes_nao_ambiguos;
+            <exception scope='previous'>Deus</exception></token>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception regexp='yes'>mortos?</exception></token>
+          <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
+          false positives (Determinants & Contractions)  -->
+        </pattern>
+        <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\2-<match no='1' case_conversion="startlower"/></suggestion>
+        <example correction='dou-te'>Eu <marker>te dou</marker> um laptop.</example>
+        <example correction='dou-te'><marker>Te dou</marker> um laptop.</example><!-- XXX changing the behaviour of the second token effects also the first token. This is Ok, since this error is caught by a second rule. -->
+        <example correction='ver-te'>Foi muito bom <marker>te ver</marker> de novo.</example>
+        <example>Ela pode ter-me visto na festa.</example>
+        <example>Todos se admiram da sua perseverança.</example>
+        <example>Foi então que algo me persuadiu a continuar.</example>
+        <example>Quem lhe contou essa notícia?</example>
+        <example>Só te tirei o brinquedo, porque te portaste mal</example>
+        <example>Nenhum lugar te recorda daquelas férias?</example>
+        <example>...que eu vos peça expressamente...</example>
+        <example>Deus me livre!</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception regexp='yes'>como|para|casa|nada|mortos?</exception></token>
+          <token regexp='yes'>&pronomes_nao_ambiguos;</token>
+          <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
+          false positives (Determinants & Contractions)  -->
+        </pattern>
+        <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1-\2</suggestion>
+        <example correction='dar-me'>Isto vai <marker>dar me</marker> muitas dores de cabeça.</example>
+        <example correction='estava-me'>Eu <marker>estava me</marker> perguntando se você ia aparecer hoje.</example>
+        <example correction='ter-me'>Muito obrigado por <marker>ter me</marker> convidado.</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+[rsz]$</token>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
+        </antipattern>
+        <!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *START* -->
+        <!-- "O Rui suscitando em nós o poder criador." -->
+        <!-- "O Rui suscitando em nós a força criadora." -->
+        <!-- "O Rui suscitando em nós os poderes criadores." -->
+        <!-- "O Rui suscitando em nós as forças criadoras." -->
+        <!-- "Entre elas as chamadas 16 regras do esperanto." -->
+        <!-- "Os vícios da mocidade, entre eles as drogas e as bebidas." -->
+        <!-- "Havia vários cursos de água em Xangai, entre eles o rio Zhaojia." -->
+        <antipattern>
+          <token regexp='yes'>em|entre|por</token>
+          <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
+          <token postag='V.+|AQ0[CFM][SP]0|NC[CFM][SP]000|NP[CFM][SP][0GS]00' postag_regexp='yes'/>
+          <token negate="yes" regexp='yes'>nas?|nos?|em|pelos?|pelas?|como|tal|tais</token>
+          <!--		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000|Z0CN0|VMIP2S0|VMIP3S0|VMM02S0|NP[CFM][SP][0GS]00' postag_regexp='yes'/> -->
+        </antipattern>
+        <!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *END* -->
+        <pattern>
+          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
+          <token postag='V.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1 \3-\2</suggestion>
+        <example correction='Eu convido-o'><marker>Eu o convido</marker> para a inauguração.</example>
+        <example correction='Ele esmera-se'><marker>Ele se esmera</marker> na apresentação.</example>
+        <example correction="Eu amo-o"><marker>Eu o amo</marker> mais que tudo.</example>
+        <example>O Rui suscitando em nós o poder criador.</example>
+        <example>O Rui suscitando em nós a força criadora.</example>
+        <example>O Rui suscitando em nós os poderes criadores.</example>
+        <example>O Rui suscitando em nós as forças criadoras.</example>
+        <example>Entre elas as chamadas 16 regras do esperanto.</example>
+        <example>Os vícios da mocidade, entre eles as drogas e as bebidas.</example>
+        <example>Havia vários cursos de água em Xangai, entre eles o rio Zhaojia.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>de</token>
+          <token regexp='yes'>forma|jeito|modo</token>
+          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
+          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>[ao]s?</token>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
+          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>[ao]s?</token>
+        </antipattern>
+        <antipattern>
+          <token inflected='yes'>dar</token>
+          <token>por</token>
+          <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+          <token>a</token>
+        </antipattern>
+        <antipattern>
+          <token>a</token>
+          <token postag='VMN0000'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *START* -->
+        <!-- "O Rui suscitando em nós o poder criador." -->
+        <!-- "O Rui suscitando em nós a força criadora." -->
+        <!-- "O Rui suscitando em nós os poderes criadores." -->
+        <!-- "O Rui suscitando em nós as forças criadoras." -->
+        <!-- "Entre elas as chamadas 16 regras do esperanto." -->
+        <!-- "Os vícios da mocidade, entre eles as drogas e as bebidas." -->
+        <!-- "Havia vários cursos de água em Xangai, entre eles o rio Zhaojia." -->
+        <antipattern>
+          <token regexp='yes'>em|entre|por</token>
+          <token regexp='yes'>&pronomes_retos;|mim|ti|si</token>
+          <token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|[ao]s?|[nv]os</token>
+          <token postag='V.+|AQ0[CFM][SP]0|NC[CFM][SP]000|NP[CFM][SP][0GS]00' postag_regexp='yes'/>
+          <token negate="yes" regexp='yes'>nas?|nos?|em|pelos?|pelas?|como|tal|tais</token>
+          <!--		  <token postag='AQ0[CFM][SP]0|NC[CFM][SP]000|Z0CN0|VMIP2S0|VMIP3S0|VMM02S0|NP[CFM][SP][0GS]00' postag_regexp='yes'/> -->
+        </antipattern>
+        <!-- MARCOAGPINTO 2020-07-26 (2-JUL-2020+) *END* -->
+        <pattern>
+          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+[rsz]$</token>
+        </pattern>
+        <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1 <match no='3' regexp_match='(.+).$' regexp_replace='$1'/>-l\2</suggestion>
+        <suggestion>\1 <match no='3' regexp_match='(.+).$' regexp_replace='$1'/>-l\2</suggestion>
+        <example correction='Nós convidamo-lo'><marker>Nós o convidamos</marker> para a inauguração.</example>
+        <example>De modo algum <marker>nós o convidamos</marker> para a inauguração.</example>
+        <example correction='Ela fa-las'><marker>Ela as faz</marker> manualmente.</example>
+        <example>Demos por nós a extinguir o fogo.</example>
+        <example>Entregue o aval hoje, para ser ela a fechar o negócio.</example>
+        <example correction='nós recebemo-las'>...atribuem-se por meio de transmissão genética; <marker>nós as recebemos</marker> pelos genes, que herdamos de nossos pais.</example>
+        <example>O Rui suscitando em nós o poder criador.</example>
+        <example>O Rui suscitando em nós a força criadora.</example>
+        <example>O Rui suscitando em nós os poderes criadores.</example>
+        <example>O Rui suscitando em nós as forças criadoras.</example>
+        <example>Entre elas as chamadas 16 regras do esperanto.</example>
+        <example>Os vícios da mocidade, entre eles as drogas e as bebidas.</example>
+        <example>Havia vários cursos de água em Xangai, entre eles o rio Zhaojia.</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token>de</token>
+          <token regexp='yes'>forma|jeito|modo</token>
+          <token regexp='yes' skip='-1'>(?:algum|nenhum)a?
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
+          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>[ao]s?</token>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>&negacoes;|&introduz_proclise;
+            <exception scope='next' regexp='yes'>[,;—]|\(</exception></token>
+          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>[ao]s?</token>
+        </antipattern>
+        <pattern>
+          <token regexp='yes'>&pronomes_retos;</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='V.+' postag_regexp='yes' regexp='yes'>.+(?:am|ão|õe)$</token>
+        </pattern>
+        <message>Forma hifenizada. Será que quis dizer:</message>
+        <suggestion>\1 \3-n\2</suggestion>
+        <example correction='Eles convidaram-no'><marker>Eles o convidaram</marker> para a inauguração.</example>
+        <example>De forma alguma <marker>eles o convidaram</marker> para a inauguração.</example>
+        <example correction='Ela põe-nas'><marker>Ela as põe</marker> na mesa.</example>
+      </rule>
+    </rulegroup>
 
 
-    <rule id="POR_QUEH_PORQUE" name="Confusão: 'Por quê' e 'Porque'">
-      <!-- Created by Tiago F. Santos, Portuguese rule, 2017-XX-XX -->
+    <!-- 	TELEFONO PARA TI telefono-te -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-27/28 (25-JUN-2021+)      -->
+    <rulegroup id='VERBO_PARA_PRONOME_PESSOAL' name="Verbo + para + pronome pessoal → Verbo + -me/te/lhe/nos/vos/lhes" type="style">
+      <!--
+      Telefonei para si. → Telefonei-lhe.
+      -->
+
+      <!--
+      O que você disse não faz absolutamente nenhum sentido para mim.
+      Seu cachorro sempre late para mim.
+      Deixei minhas chaves sobre a mesa. Posso incomodá-lo a fim de que as traga para mim?
+      Parece que as portas do céu se abriram para mim.
+
+      Ela pediu para ele se sentar.
+      "Devo dizer para ele te ligar quando chegar?" "Sim, por favor"
+      Eu expliquei a regra para ele.
+      Você não disse nada para ele?
+      Estou pouco me lixando para ela.
+
+      Os últimos dias têm sido terrivelmente ocupado para nós.
+      Ele, às vezes, prepara o jantar para nós.
+
+      Está tudo acabado para você.
+      Esta receita foi testada para vocês por uma das melhores equipes de gourmets da Romênia.
+      -->
+      <antipattern>
+        <token negate_pos="yes" postag='NP.+|SPS.+|SENT_START' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='PP.+'/>
+          <exception regexp='yes'>tarde|cedo|logo|próximo|perto|distante|afastado|longe</exception>
+        </token>
+        <token postag='V.+|AQ0.+|NC.+|PI.+|RN|I' postag_regexp='yes'/>
+        <token>para</token>
+        <token regexp='yes'>mim|ti|si|vocês?|el[ae]s?|nós|vós</token>
+        <token postag='PP.+|SPS00|_PUNCT|V.+' postag_regexp='yes'>
+          <exception regexp='yes'>[ao]s?|com|me|n[ao]s?|se|vocês?</exception>
+          <exception postag_regexp='yes' postag='CC|RG'/>
+        </token>
+      </antipattern>
+
+      <!-- EU -->
+      <rule>
+        <pattern>
+          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+          <marker>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token>para</token>
+            <token>mim</token>
+          </marker>
+          <and>
+          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
+          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+          </and>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\2-me</suggestion>
+        <example correction="Telefona-me"><marker>Telefona para mim</marker>.</example>
+        <example>Olhe para mim quando eu falar com você!</example>
+
+        <example>O que você disse não faz absolutamente nenhum sentido para mim.</example>
+        <example>Seu cachorro sempre late para mim.</example>
+        <example>Deixei minhas chaves sobre a mesa. Posso incomodá-lo a fim de que as traga para mim?</example>
+        <example>Parece que as portas do céu se abriram para mim.</example>
+      </rule>
+
+      <!-- TU -->
+      <rule>
+        <pattern>
+          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+          <marker>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token>para</token>
+            <token regexp='yes'>tu|ti|si|você</token>
+          </marker>
+          <and>
+          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
+          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+          </and>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\2-te</suggestion>
+        <suggestion>\2-lhe</suggestion>
+        <example correction="Telefonei-te|Telefonei-lhe"><marker>Telefonei para ti</marker>.</example>
+      </rule>
+
+      <!-- ELE -->
+      <rule>
+        <pattern>
+          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+          <marker>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token>para</token>
+            <token regexp='yes'>el[ae]</token>
+          </marker>
+          <and>
+          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
+          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+          </and>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\2-lhe</suggestion>
+        <example correction="Telefonei-lhe"><marker>Telefonei para ela</marker>.</example>
+        <example>Todos ficaram olhando para ela quando começou a gargalhar.</example>
+
+        <example>Ela pediu para ele se sentar.</example>
+        <example>"Devo dizer para ele te ligar quando chegar?" "Sim, por favor"</example>
+        <example>Eu expliquei a regra para ele.</example>
+        <example>Você não disse nada para ele?</example>
+        <example>Estou pouco me lixando para ela.</example>
+      </rule>
+
+      <!-- NÓS -->
+      <rule>
+        <pattern>
+          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+          <marker>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token>para</token>
+            <token>nós</token>
+          </marker>
+          <and>
+          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
+          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+          </and>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\2-nos</suggestion>
+        <example correction="Telefonaram-nos"><marker>Telefonaram para nós</marker>.</example>
+
+        <example>Os últimos dias têm sido terrivelmente ocupado para nós.</example>
+        <example>Ele, às vezes, prepara o jantar para nós.</example>
+      </rule>
+
+      <!-- VÓS -->
+      <rule>
+        <pattern>
+          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+          <marker>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token>para</token>
+            <token regexp='yes'>vocês|vós</token>
+          </marker>
+          <and>
+          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
+          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+          </and>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\2-vos</suggestion>
+        <example correction="Telefonaram-vos"><marker>Telefonaram para vocês</marker>.</example>
+
+        <example>Está tudo acabado para você.</example>
+        <example>Esta receita foi testada para vocês por uma das melhores equipes de gourmets da Romênia.</example>
+      </rule>
+
+      <!-- ELES -->
+      <rule>
+        <pattern>
+          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
+          <marker>
+            <token postag='V.+' postag_regexp='yes'/>
+            <token>para</token>
+            <token regexp='yes'>el[ae]s</token>
+          </marker>
+          <and>
+          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
+          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
+          </and>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\2-lhes</suggestion>
+        <example correction="Telefonei-lhes"><marker>Telefonei para elas</marker>.</example>
+      </rule>
+
+
+    </rulegroup>
+    <!-- CHAMAR/DENOMINAR DE chamar/denominar -->
+    <rulegroup id='VERBO_PRONOMINAL_DE' name="V. Pronominal + de → V. Pronominal" type="style">
+      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-10 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <!--
+      Temos uma teoria denominada de matemática. → Temos uma teoria denominada matemática.
+      A teoria, denominaram-lha de matemática. → A teoria, denominaram-lha matemática.
+      -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-dos-verbos-chamar-e-denominar-ii/34550</url>
+      <rule>
+
+        <antipattern>
+          <token min="1" max="2" postag='[DP][ADIPR].MP.+|SPS00:[DP][ADIPR].MP.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
+          <token postag='VMSF2S0' postag_regexp='no'/>
+          <token>de</token>
+          <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
+          <example>Queremos os chamares de Marco.</example>
+        </antipattern>
+
+        <antipattern>
+          <token regexp='yes' inflected='yes'>alterar|banir|bloquear|enviar|modificar|receber</token>
+          <token min="0" max="1" postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
+          <token inflected='yes'>chamar</token>
+          <token>de</token>
+          <example>Simão recebe chamada de Augusto para ir a um jantar mais logo.</example>
+          <example>APIs também estão disponíveis para permitir que aplicativos no modo de núcleo filtrem e modifiquem chamadas de registro feitas por outros aplicativos.</example>
+          <example>Meu primo recebeu o chamado de Deus e virou padre.</example>
+          <example>Tom recebeu uma chamada de Mary.</example>
+        </antipattern>
+
+        <pattern>
+          <marker>
+            <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
+            <token>de</token>
+          </marker>
+          <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'>
+            <exception regexp='yes'>regresso|retorno|volta</exception>
+          </token>
+        </pattern>
+        <message>Este verbo é pronominal, a redação correta é sem a preposição 'de'.</message>
+        <suggestion>\1</suggestion>
+        <example correction="denominada">Temos uma teoria <marker>denominada de</marker> matemática.</example>
+        <example>Ele foi chamado de volta, em meio à sua viagem.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
+            <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+            <token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+            <token>de</token>
+          </marker>
+          <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'>
+            <exception regexp='yes'>regresso|retorno|volta</exception>
+          </token>
+        </pattern>
+        <message>Este verbo é pronominal, a redação correta é sem a preposição 'de'.</message>
+        <suggestion>\1\2\3</suggestion>
+        <example correction="denominaram-lha">A teoria, <marker>denominaram-lha de</marker> matemática.</example>
+        <example>Chamaram-no de volta, em meio à sua viagem.</example>
+      </rule>
+    </rulegroup>
+
+
+    <rule id="ZERO_MEDIDA_SINGULAR" name="Concordância de número: 'zero grau'">
+      <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-23 -->
+      <!-- MARCOAGPINTO 2021-10-21 (25-JUN-2021+) *START* -->
+      <!--
+      O Jogo da Vida de John Conway é também conhecido por “zero player game”.
+      -->
+      <antipattern>
+        <token>zero</token>
+        <token>player</token>
+        <token>game</token>
+      </antipattern>
+      <!-- MARCOAGPINTO 2021-10-21 (25-JUN-2021+) *END* -->
       <pattern>
-        <token>por</token>
-        <token>quê</token>
+        <token>zero</token>
+        <token postag='(?:N..|A...)S.+' postag_regexp='yes'>
+          <exception postag='(?:N..|A...)S.+' postag_regexp='yes' negate_pos='yes'/>
+          <exception regexp="yes">absoluto|kelvin</exception> <!-- "perto do zero ABSOLUTO/KELVIN" MARCOAGPINTO 2021-10-21 (25-JUN-2021+) -->
+        </token>
       </pattern>
-      <message>Em Português Europeu a expressão é sempre justaposta.</message>
-      <suggestion>porquê</suggestion>
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/o-porque-e-o-por-que-e-o-portugues-europeu/30017</url>
+      <message>Em Português Europeu medidas com zero escrevem-se no plural.</message>
+      <suggestion>\1 <match no="2" postag="(N..|A...)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/zero-graus--zero-grau/15274</url>
       <short>Brasileirismo</short>
-      <example correction="porquê">Fizeste isso <marker>por quê</marker>?</example>
+      <example correction="zero graus">Lá fora estão <marker>zero grau</marker>.</example>
+      <example>Assim, com a divisão de valores mais próximos do zero, o resultado será o zero absoluto.</example>
+      <example>Teoricamente, ao cessar a agitação térmica das moléculas a pressão é nula, e atinge-se o zero absoluto.</example>
+
+      <example>O Jogo da Vida de John Conway é também conhecido por “zero player game”.</example>
     </rule>
 
 
@@ -3618,14 +3646,6 @@
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Gram.C3.A1tica</url>
       <short>Brasileirismo</short>
-      <rule id="SOBRADO" name="Brasileirismo: Sobrado - Vivenda">
-        <pattern>
-          <token case_sensitive='yes'>sobrado
-            <exception postag_regexp='yes' postag='V.[^P].+'/></token>
-        </pattern>
-        <message>Expressão de Português do Brasil. Substitua por <suggestion>vivenda</suggestion>.</message>
-        <example correction="vivenda">O <marker>sobrado</marker> do António está à venda.</example>
-      </rule>
       <rule id='BRASILEIRISMO_10_PRIVADA' name='Brasileirismo: privada sanitária, vaso sanitário'>
         <pattern>
           <token regexp='yes'>privada|vaso</token>
@@ -3699,6 +3719,16 @@
         <message>Esta é uma expressão de Português do Brasil para <suggestion>experiências</suggestion>.</message>
         <example correction='experiências'>Vão começar os <marker>experimentos</marker>.</example>
       </rule>
+	  
+      <rule id="BRASILEIRISMO_SOBRADO" name="Brasileirismo: Sobrado - Vivenda">
+        <pattern>
+          <token case_sensitive='yes'>sobrado
+            <exception postag_regexp='yes' postag='V.[^P].+'/></token>
+        </pattern>
+        <message>Expressão de Português do Brasil. Substitua por <suggestion>vivenda</suggestion>.</message>
+        <example correction="vivenda">O <marker>sobrado</marker> do António está à venda.</example>
+      </rule>	  
+	  
     </rulegroup>
 
 
@@ -3722,32 +3752,6 @@
       <message>Este termo é depreciativo, pondere empregar um termo alternativo.</message>
       <example type="incorrect">Vou à loja do <marker>monhé</marker>.</example>
       <example>Vou à loja do <marker>indiano</marker>.</example>
-    </rule>
-
-
-    <!-- EDUCAÇÃO SUPERIOR Ensino Superior -->
-    <rule id='ENSINO_SUPERIOR' name="Educação Superior → Ensino Superior" type="style">
-      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-13/16 (Checked/Enhanced) (25-JUL-2022+) -->
-      <!--
-      O ISCTE é uma instituição de Educação Superior. → O ISCTE é uma instituição de Ensino Superior.
-      -->
-      <pattern>
-        <marker>
-          <token case_sensitive="no">Educação
-            <exception scope='previous' regexp='yes' inflected='yes'>ter</exception>
-          </token>
-          <token case_sensitive="no">Superior</token>
-        </marker>
-      </pattern>
-      <message>Se estiver a referir-se a uma instituição/ramo universitário, opte por:</message>
-      <suggestion>ensino \2</suggestion>
-      <suggestion>Ensino Superior</suggestion>
-      <example correction="ensino superior|Ensino Superior">O ISCTE é uma instituição de <marker>educação superior</marker>.</example>
-      <example>A Ana tem educação superior.</example>
-      <example>Eu tenho educação superior.</example>
-      <example>Se ele tiver educação superior, tudo bem.</example>
-      <example>O estabelecimento é de Ensino Superior.</example>
-      <example>Um homem que nunca foi à escola pode roubar de um vagão de carga; mas, se ele tiver educação superior, ele pode roubar toda a ferrovia.</example>
     </rule>
 
 
@@ -4394,7 +4398,7 @@
 
 
     <!-- COM A GENTE connosco/conosco -->
-    <rule id='COM_A_GENTE_CONNOSCO_CONOSCO_PT_PT' name="Com a gente → Connosco">
+    <rule id='FORMAL_COM_A_GENTE_CONNOSCO_CONOSCO_PT_PT' name="Com a gente → Connosco">
       <!--      Created by Tiago Santos and localised by Marco A.G.Pinto, Portuguese rule 2021-06-03 (17-MAR-2021+)      -->
       <!--
       Tu vens com a gente? → Tu vens connosco?
