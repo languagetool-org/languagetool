@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -167,11 +168,13 @@ public class AboutDialog {
       
       JButton copyToClipboard = new JButton(messages.getString("loCopyToClipBoardDesc"));
       copyToClipboard.addActionListener(e -> {
+/*
         String str = "LanguageTool " + messages.getString("loAboutLtDesc") + "\n";
         str += "\nCopyright (C) 2005-2022 the LanguageTool community and Daniel Naber.\n"
             + "This software is licensed under the GNU Lesser General Public License.\n"
             + "https://www.languagetool.org\n";
-        str += String.format("\nLanguageTool %s (%s, %s)\n"
+*/
+        String str = String.format("\nLanguageTool %s (%s, %s)\n"
             + "OS: %s %s (%s)\n"
             + "%s %s%s (%s), %s\n"
             + "Java version: %s (%s)\n"
@@ -192,12 +195,13 @@ public class AboutDialog {
              Runtime.getRuntime().maxMemory()/1024/1024,
              Runtime.getRuntime().totalMemory()/1024/1024,
              Runtime.getRuntime().freeMemory()/1024/1024);
+/*
         str += String.format("\nMaintainer of the office extension: %s\n"
             + "\nMaintainers or former maintainers of the language modules -\n"
             + "(*) means language is unmaintained in LanguageTool:\n\n",
             OfficeTools.EXTENSION_MAINTAINER);
         str += getMaintainersAsText();
-
+*/
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Clipboard clipboard = toolkit.getSystemClipboard();
         StringSelection strSel = new StringSelection(str);
@@ -221,32 +225,47 @@ public class AboutDialog {
         close();
       });
 
-      JPanel buttonPanel = new JPanel();
-      buttonPanel.setLayout(new GridBagLayout());
+      JPanel versionButtonPanel = new JPanel();
+      versionButtonPanel.setLayout(new GridBagLayout());
       GridBagConstraints cons = new GridBagConstraints();
-      cons = new GridBagConstraints();
-      cons.insets = new Insets(4, 12, 0, 12);
+      cons.insets = new Insets(6, 0, 0, 15);
       cons.gridx = 0;
       cons.gridy = 0;
       cons.anchor = GridBagConstraints.WEST;
       cons.fill = GridBagConstraints.NONE;
       cons.weightx = 1.0f;
       cons.weighty = 1.0f;
-      buttonPanel.add(copyToClipboard, cons);
+      JLabel versionLabel = new JLabel(messages.getString("loVersionInformation") + ": ");
+      Font f = versionLabel.getFont();
+      versionLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+      versionButtonPanel.add(versionLabel, cons);
+      cons.gridx++;
+      versionButtonPanel.add(copyToClipboard, cons);
       cons.anchor = GridBagConstraints.EAST;
       cons.gridx++;
-      buttonPanel.add(OpenLogFilePath, cons);
-      cons.gridy++;
-      buttonPanel.add(close, cons);
+      versionButtonPanel.add(OpenLogFilePath, cons);
+      
+      JPanel closeButtonPanel = new JPanel();
+      closeButtonPanel.setLayout(new GridBagLayout());
+      cons = new GridBagConstraints();
+      cons.insets = new Insets(6, 12, 0, 15);
+      cons.gridx = 0;
+      cons.gridy = 0;
+      cons.anchor = GridBagConstraints.EAST;
+      cons.fill = GridBagConstraints.NONE;
+      cons.weightx = 1.0f;
+      cons.weighty = 1.0f;
+      closeButtonPanel.add(close, cons);
       
       JPanel panel = new JPanel();
       panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
       panel.add(headerPanel);
       panel.add(licensePane);
+      panel.add(versionButtonPanel);
       panel.add(techPane);
       panel.add(aboutPane);
       panel.add(scrollPane);
-      panel.add(buttonPanel);
+      panel.add(closeButtonPanel);
       Container contentPane = dialog.getContentPane();
       contentPane.setLayout(new GridBagLayout());
       cons = new GridBagConstraints();
