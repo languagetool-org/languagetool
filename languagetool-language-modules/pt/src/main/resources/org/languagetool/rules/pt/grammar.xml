@@ -50868,7 +50868,14 @@ O namorado dela era um ladrão.
           <example>Cada vez mais jovens utilizam "msg" como abreviatura.</example>
         </antipattern>
         <pattern>
-          <token>msg</token>
+          <token regexp='yes'>\p{L}*</token>
+         <marker>
+          <token case_sensitive='yes'>msg</token>
+         </marker>
+         <or>
+          <token regexp='yes'>\p{Ll}*</token>
+          <token regexp='yes'>[!\?\.,;]</token>
+         </or>
         </pattern>
         <message>Linguagem de Internet. Considere escrever <suggestion>mensagem</suggestion> por extenso.</message>
         <example correction="mensagem">Mandei <marker>msg</marker>.</example>
@@ -50881,7 +50888,14 @@ O namorado dela era um ladrão.
           <example>Cada vez mais jovens utilizam "msgs" como abreviatura.</example>
         </antipattern>
         <pattern>
-          <token>msgs</token>
+           <token regexp='yes'>\p{L}*</token>
+          <marker>
+           <token case_sensitive='yes'>msgs</token>
+          </marker>
+          <or>
+           <token regexp='yes'>\p{Ll}*</token>
+           <token regexp='yes'>[!\?\.,;]</token>
+          </or>
         </pattern>
         <message>Linguagem de Internet. Considere escrever <suggestion>mensagens</suggestion> por extenso.</message>
         <example correction="mensagens">Você não lê minhas <marker>msgs</marker>.</example>
