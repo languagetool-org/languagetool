@@ -56,12 +56,12 @@ public class SimpleReplaceMultiwordsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Expressions incorrectes";
+    return "Expressions inadequades";
   }
 
   @Override
   public String getShort() {
-    return "Expressió incorrecta";
+    return "Expressió inadequada";
   }
 
   @Override
