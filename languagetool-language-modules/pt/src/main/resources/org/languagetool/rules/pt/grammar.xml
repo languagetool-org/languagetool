@@ -18926,7 +18926,13 @@ O namorado dela era um ladrão.
           <example>E assim reforçando a necessidade do nosso estudo.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+        <antipattern>
+          <token regexp='yes'>&expressao_invariavel_com_DE;</token>
+          <token skip='-1' regexp='yes'>d[ao]s?</token>
+          <token postag='SPS00|C.+' postag_regexp='yes'/>
+          <token postag_regexp='yes' postag='VMN.+'/>
+          <example>Isto reafirma a necessidade da existência da nossa equação para fazer face às necessidades científicas.</example>
+        </antipattern>
         <pattern>
           <marker>
             <token regexp='yes'>&expressao_invariavel_com_DE;</token>
