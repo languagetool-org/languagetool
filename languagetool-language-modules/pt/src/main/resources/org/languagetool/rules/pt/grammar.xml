@@ -12508,10 +12508,11 @@ O namorado dela era um ladrão.
         <suggestion>\1-se <match no='4' regexp_match='(a)(s?)' regexp_replace='à$2'/></suggestion>
         <example correction='candidatou-se à'>Ele <marker>candidatou-se a</marker> posição de gestor.</example>
       </rule>
-      <rule default='temp_off'>
+      <rule>
         <pattern>
           <token>à</token>
-          <token postag_regexp='yes' postag='(?:N.|A..|DP.)FP.+'/>
+          <token postag_regexp='yes' postag='(?:N.|A..|DP.)FP.+'>
+            <exception>\p{Lu}*</exception></token>
         </pattern>
         <message>Verifique se a crase não deve estar no plural. Caso contrário, não se utiliza a crase.</message>
         <suggestion>a \2</suggestion>
