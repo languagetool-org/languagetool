@@ -50082,6 +50082,28 @@ O namorado dela era um ladrão.
   <category id='MISSPELLING' name="Erros Ortográficos" type="misspelling">
 
     <rule id='APOSTROFE_S' name='Uso de apóstrofe para palavras no plural' default='temp_off'>
+      <antipattern>
+        <token regexp='yes' skip='-1'>&palavras_estrangeiras;</token>
+        <token regexp='yes'>\p{L}*</token>
+        <token spacebefore='no' postag='_QUOT'/>
+        <token spacebefore='no'>s</token>
+        <example>O romance se chama The Criminal's Hour</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>\p{L}*</token>
+        <token spacebefore='no' postag='_QUOT'/>
+        <token spacebefore='no' skip='-1'>s</token>
+        <token regexp='yes'>&palavras_estrangeiras;</token>
+        <example>O single He's Into You</example>
+      </antipattern>
+      <antipattern>
+        <token postag='_QUOT' skip='-1'/>
+        <token regexp='yes'>\p{L}*</token>
+        <token spacebefore='no' postag='_QUOT'/>
+        <token spacebefore='no' skip='-1'>s</token>
+        <token postag='_QUOT'/>
+        <example>O single "There's Something"</example>
+      </antipattern>
       <pattern>
         <token regexp='yes'>\p{L}*</token>
         <token spacebefore='no' postag='_QUOT'/>
