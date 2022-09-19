@@ -5128,7 +5128,7 @@
     </rule>
 
 
-    <rulegroup id='AO90_BEM_FEITO' name='AO90: Bem-feito / Bem feito!'>
+    <rulegroup id='AO90_BEM_FEITO' name='AO90: Bem-feito/Bem feito!'>
       <rule>
         <antipattern>
           <token postag='SENT_START'/>
@@ -5319,7 +5319,7 @@
     </rulegroup>
 
 
-    <rule id="AO45_MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
+    <rule id="AO45_MUITO_PELO_É" name="AO45: Confusão: pelo/pêlo">
       <!-- Created by Marco A.G. Pinto   -->
       <pattern>
         <token>muito</token>
@@ -5334,55 +5334,6 @@
 
   <category id="STYLE" name="Style" type="style">
 
-
-    <!-- CHEGAR AO FIM findar/terminar -->
-    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="Chegar ao fim → findar/terminar/acabar" type="style">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-07-03 (Checked/Enhanced) (5-JUN-2022+)      -->
-      <!--
-      Outro ano que chega ao fim. → Outro ano que finda/termina.
-      Outro ano a chegar ao fim. → Outro ano a findar/terminar.
-      -->
-      <pattern>
-        <token/>
-        <token regexp='yes'>a|que</token>
-        <token min="0" max="1"><exception regexp='no' inflected='yes'>chegar</exception></token>
-        <marker>
-          <token inflected='yes'>chegar</token>
-          <token>ao</token>
-          <token>fim</token>
-        </marker>
-      </pattern>
-      <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
-      <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
-    </rule>
-
-
-    <!-- TAMBÉM VERBO NOME_COMUM também o é -->
-    <rule id='TAMBÉM_O_VERBO_PT_PT' name="Evitar redundância de adjetivos">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, fully revised by Susana Boatto, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
-      <!--
-      Eu fiz a formação MULTIBANCO que é obrigatória; esta também é obrigatória? → Eu fiz a formação MULTIBANCO que é obrigatória; esta também o é?
-      -->
-      <pattern>
-        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token>que</token>
-        <token postag='V.+' postag_regexp='yes'/>
-        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-        <token postag='_PUNCT|_TRESPONTOS' postag_regexp='yes'/>
-        <marker>
-          <token postag='DD.+|PD.+' postag_regexp='yes'/>
-          <token>também</token>
-          <token><match no="2"/></token>
-          <token><match no="3"/></token>
-        </marker>
-      </pattern>
-      <message>Evite a redundância para melhorar a clareza da perífrase.</message>
-      <suggestion>\6 também o \8</suggestion>
-      <example correction="esta também o é">Eu fiz a formação MULTIBANCO que é obrigatória; <marker>esta também é obrigatória</marker>?</example>
-    </rule>
 
     <rulegroup id='A_XXX_DE_VOCÊS' name="Simplificar: A XXX de vocês → a vossa XXX">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-10 (Checked/Enhanced) (25-JUL-2022+) -->
@@ -5412,30 +5363,6 @@
       </rule>
 
     </rulegroup>
-
-
-    <!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/me/te/vos -->
-    <rule id='LHE_S_ME_TE_VOS_VERB' name="Lhe(s)/me/te/vos + Verbo">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-15 + 2021-02-16 (1-JAN-2021+)      -->
-      <!--
-      Lhe amo muito. → Amo-lhe muito.
-      Te vejo amanhã na biblioteca. → Vejo-te amanhã na biblioteca.
-      Te vejo por aí. → Vejo-te por aí.
-      Me manda uma foto sua, por favor. → Manda-me uma foto sua, por favor.
-      -->
-      <pattern>
-        <token postag='SENT_START'/>
-        <marker>
-          <token regexp='yes'>lhes?|me|te|vos</token>
-          <token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
-        </marker>
-      </pattern>
-      <message>Substitua por <suggestion><match no='3' case_conversion='startupper'/>-<match no="2" case_conversion="alllower"/></suggestion>.</message>
-      <example correction="Amo-lhes"><marker>Lhes amo</marker> muito.</example>
-      <example>Vejo-te amanhã na biblioteca.</example>
-      <example>Vejo-te por aí.</example>
-      <example>Manda-me uma foto sua, por favor.</example>
-    </rule>
 
 
     <!-- ESTRANGEIRISMOS ESPECÍFICOS pt_PT -->
@@ -5508,6 +5435,55 @@
       <example>À chegada a Yerevan é só entrar na fila para o “check-in” e aguardar pela vez.</example>
       <example>Os “hackers” pedem o resgate em moeda virtual para devolverem o acesso ao usuário-vítima.</example>
       <example>No caso das objectivas AF, principalmente nas de gama média e de “kit”, essa utilização é duma maneira geral, pouco usual.</example>
+    </rule>
+
+
+    <!-- CHEGAR AO FIM findar/terminar -->
+    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="Chegar ao fim → findar/terminar/acabar" type="style">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-07-03 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <!--
+      Outro ano que chega ao fim. → Outro ano que finda/termina.
+      Outro ano a chegar ao fim. → Outro ano a findar/terminar.
+      -->
+      <pattern>
+        <token/>
+        <token regexp='yes'>a|que</token>
+        <token min="0" max="1"><exception regexp='no' inflected='yes'>chegar</exception></token>
+        <marker>
+          <token inflected='yes'>chegar</token>
+          <token>ao</token>
+          <token>fim</token>
+        </marker>
+      </pattern>
+      <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
+      <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
+    </rule>
+
+
+    <!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/me/te/vos -->
+    <rule id='LHE_S_ME_TE_VOS_VERB' name="Lhe(s)/me/te/vos + Verbo">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-15 + 2021-02-16 (1-JAN-2021+)      -->
+      <!--
+      Lhe amo muito. → Amo-lhe muito.
+      Te vejo amanhã na biblioteca. → Vejo-te amanhã na biblioteca.
+      Te vejo por aí. → Vejo-te por aí.
+      Me manda uma foto sua, por favor. → Manda-me uma foto sua, por favor.
+      -->
+      <pattern>
+        <token postag='SENT_START'/>
+        <marker>
+          <token regexp='yes'>lhes?|me|te|vos</token>
+          <token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Substitua por <suggestion><match no='3' case_conversion='startupper'/>-<match no="2" case_conversion="alllower"/></suggestion>.</message>
+      <example correction="Amo-lhes"><marker>Lhes amo</marker> muito.</example>
+      <example>Vejo-te amanhã na biblioteca.</example>
+      <example>Vejo-te por aí.</example>
+      <example>Manda-me uma foto sua, por favor.</example>
     </rule>
 
 
@@ -5592,6 +5568,31 @@
         <example correction="12o">O premiado é o <marker>12o.</marker> da lista.</example>
       </rule>
     </rulegroup>
+
+
+    <!-- TAMBÉM VERBO NOME_COMUM também o é -->
+    <rule id='TAMBÉM_O_VERBO_PT_PT' name="Evitar redundância de adjetivos">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, fully revised by Susana Boatto, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
+      <!--
+      Eu fiz a formação MULTIBANCO que é obrigatória; esta também é obrigatória? → Eu fiz a formação MULTIBANCO que é obrigatória; esta também o é?
+      -->
+      <pattern>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='_PUNCT|_TRESPONTOS' postag_regexp='yes'/>
+        <marker>
+          <token postag='DD.+|PD.+' postag_regexp='yes'/>
+          <token>também</token>
+          <token><match no="2"/></token>
+          <token><match no="3"/></token>
+        </marker>
+      </pattern>
+      <message>Evite a redundância para melhorar a clareza da perífrase.</message>
+      <suggestion>\6 também o \8</suggestion>
+      <example correction="esta também o é">Eu fiz a formação MULTIBANCO que é obrigatória; <marker>esta também é obrigatória</marker>?</example>
+    </rule>
 
 
   </category>
