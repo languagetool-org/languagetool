@@ -276,31 +276,6 @@
     </rule>
 
 
-    <!-- CHEGAR AO FIM findar/terminar -->
-    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="Chegar ao fim → findar/terminar/acabar" type="style">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-07-03 (Checked/Enhanced) (5-JUN-2022+)      -->
-      <!--
-      Outro ano que chega ao fim. → Outro ano que finda/termina.
-      Outro ano a chegar ao fim. → Outro ano a findar/terminar.
-      -->
-      <pattern>
-        <token/>
-        <token regexp='yes'>a|que</token>
-        <token min="0" max="1"><exception regexp='no' inflected='yes'>chegar</exception></token>
-        <marker>
-          <token inflected='yes'>chegar</token>
-          <token>ao</token>
-          <token>fim</token>
-        </marker>
-      </pattern>
-      <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
-      <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
-    </rule>
-
-
     <rule id="EFEITO_ESTUFA" name="Hifenização: Efeito-estufa">
       <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-25 -->
       <pattern>
@@ -339,6 +314,21 @@
       <example>Se ele tiver educação superior, tudo bem.</example>
       <example>O estabelecimento é de Ensino Superior.</example>
       <example>Um homem que nunca foi à escola pode roubar de um vagão de carga; mas, se ele tiver educação superior, ele pode roubar toda a ferrovia.</example>
+    </rule>
+
+
+    <rule id='FAZER_DESPORTO' name="Praticar desporto">
+      <!--      Created by Marco A.G.Pinto     -->
+      <pattern>
+        <marker>
+          <token inflected='yes'>fazer</token>
+        </marker>
+        <token min="0" regexp="yes">muito|pouco|algum|bastante|nenhum|mais|menos</token>
+        <token>desporto</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
+      <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
     </rule>
 
 
@@ -3007,7 +2997,7 @@
         <example>Nenhum lugar te recorda daquelas férias?</example>
         <example>Ele foi se deitar.</example>
       </rule>
-	
+
       <rule>
         <antipattern>
           <token regexp='yes'>nenhu[mn]a?s?</token>
@@ -3719,7 +3709,7 @@
         <message>Esta é uma expressão de Português do Brasil para <suggestion>experiências</suggestion>.</message>
         <example correction='experiências'>Vão começar os <marker>experimentos</marker>.</example>
       </rule>
-	  
+
       <rule id="BRASILEIRISMO_SOBRADO" name="Brasileirismo: Sobrado - Vivenda">
         <pattern>
           <token case_sensitive='yes'>sobrado
@@ -3728,7 +3718,7 @@
         <message>Expressão de Português do Brasil. Substitua por <suggestion>vivenda</suggestion>.</message>
         <example correction="vivenda">O <marker>sobrado</marker> do António está à venda.</example>
       </rule>	  
-	  
+
     </rulegroup>
 
 
@@ -4450,6 +4440,35 @@
   <category id="AO90_RULES" name="Regras do Acordo Ortográfico de 90 (pós-AO90)" type="misspelling" default='on'>
 
 
+    <rulegroup id="AO90_AVÉ_MARIA" name="AO90: avé/ave Maria">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-13 (Checked/Enhanced) (25-JUL-2022+) -->
+      <rule>        
+        <pattern>
+          <marker>
+            <token>avé</token>
+          </marker>
+        <token min="0" spacebefore="no" regexp='yes'>[,]</token>
+        <token regexp='yes'>Marias?</token>
+        </pattern>
+        <message>Segundo o AO90, deve substituir por <suggestion>ave</suggestion>.</message>
+        <example correction="ave">Vamos rezar uma <marker>avé</marker>, Maria, cheia de graça.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp='yes'>av[eé]</token>
+            <token spacebefore="no" regexp='yes'>[-]</token>
+            <token spacebefore="no" regexp='yes'>Marias?</token>
+          </marker>                
+        </pattern>
+        <message>Segundo o AO90, deve substituir por <suggestion>ave \3</suggestion>.</message>
+        <example correction="ave Maria">Vamos rezar uma <marker>avé-Maria</marker>, cheia de graça.</example>
+      </rule>
+
+    </rulegroup>
+
+
     <rule id="AO90_TONIC_SYLLABLES" name="AO90: Terminações sem acento">
       <pattern>
         <token regexp='yes'>.+((?:óid[oae]|óic[oa]|ói[ao])s?)$
@@ -4925,35 +4944,6 @@
     </rule>
 
 
-    <rulegroup id="AVÉ_MARIA" name="AO90: avé/ave Maria">
-      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-13 (Checked/Enhanced) (25-JUL-2022+) -->
-      <rule>        
-        <pattern>
-          <marker>
-            <token>avé</token>
-          </marker>
-        <token min="0" spacebefore="no" regexp='yes'>[,]</token>
-        <token regexp='yes'>Marias?</token>
-        </pattern>
-        <message>Segundo o AO90, deve substituir por <suggestion>ave</suggestion>.</message>
-        <example correction="ave">Vamos rezar uma <marker>avé</marker>, Maria, cheia de graça.</example>
-      </rule>
-	  
-      <rule>
-        <pattern>
-          <marker>
-			<token regexp='yes'>av[eé]</token>
-			<token spacebefore="no" regexp='yes'>[-]</token>
-			<token spacebefore="no" regexp='yes'>Marias?</token>
-          </marker>                
-        </pattern>
-        <message>Segundo o AO90, deve substituir por <suggestion>ave \3</suggestion>.</message>
-        <example correction="ave Maria">Vamos rezar uma <marker>avé-Maria</marker>, cheia de graça.</example>
-      </rule>	  
-	  
-    </rulegroup>
-
-
     <rule id='AO90_MONTHS_CASING' type='grammar' name='AO90: Capitalização de Meses e Estações do Ano'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-25 -->
       <antipattern>
@@ -5138,10 +5128,7 @@
     </rule>
 
 
-
-
-
-    <rulegroup id='BEM_FEITO' name='AO90: Bem-feito / Bem feito!'>
+    <rulegroup id='AO90_BEM_FEITO' name='AO90: Bem-feito / Bem feito!'>
       <rule>
         <antipattern>
           <token postag='SENT_START'/>
@@ -5174,7 +5161,7 @@
     </rulegroup>
 
 
-    <rulegroup id='HAVER_DE' name='AO90: Haver + de'>
+    <rulegroup id='AO90_HAVER_DE' name='AO90: Haver + de'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-07 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-supressao-do-hifen-na-forma-verbal-ha-de-depois-do-novo-acordo/29531</url>
       <rule>
@@ -5227,7 +5214,7 @@
     </rulegroup>
 
 
-    <rule id="POLO_CAPITALIZATION" name="AO90: Polo Norte/Sul">
+    <rule id="AO90_POLO_CAPITALIZATION" name="AO90: Polo Norte/Sul">
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-08-08 -->
       <antipattern case_sensitive='yes'>
         <token regexp='yes'>P[oó]lo</token>
@@ -5332,7 +5319,7 @@
     </rulegroup>
 
 
-    <rule id="MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
+    <rule id="AO45_MUITO_PELO_É" name="AO45: Confusão: pelo - pêlo">
       <!-- Created by Marco A.G. Pinto   -->
       <pattern>
         <token>muito</token>
@@ -5346,6 +5333,33 @@
 
 
   <category id="STYLE" name="Style" type="style">
+
+
+    <!-- CHEGAR AO FIM findar/terminar -->
+    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="Chegar ao fim → findar/terminar/acabar" type="style">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-07-03 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <!--
+      Outro ano que chega ao fim. → Outro ano que finda/termina.
+      Outro ano a chegar ao fim. → Outro ano a findar/terminar.
+      -->
+      <pattern>
+        <token/>
+        <token regexp='yes'>a|que</token>
+        <token min="0" max="1"><exception regexp='no' inflected='yes'>chegar</exception></token>
+        <marker>
+          <token inflected='yes'>chegar</token>
+          <token>ao</token>
+          <token>fim</token>
+        </marker>
+      </pattern>
+      <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
+      <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
+    </rule>
+
+
     <!-- TAMBÉM VERBO NOME_COMUM também o é -->
     <rule id='TAMBÉM_O_VERBO_PT_PT' name="Evitar redundância de adjetivos">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, fully revised by Susana Boatto, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
@@ -5396,7 +5410,7 @@
        <suggestion>\1 vossa \2 \3</suggestion>
        <example correction="A vossa opinião sincera"><marker>A opinião sincera de vocês</marker> é importante.</example>
       </rule>
- 
+
     </rulegroup>
 
 
@@ -5421,21 +5435,6 @@
       <example>Vejo-te amanhã na biblioteca.</example>
       <example>Vejo-te por aí.</example>
       <example>Manda-me uma foto sua, por favor.</example>
-    </rule>
-
-
-    <rule id='FAZER_DESPORTO' name="Praticar desporto">
-      <!--      Created by Marco A.G.Pinto     -->
-      <pattern>
-        <marker>
-          <token inflected='yes'>fazer</token>
-        </marker>
-        <token min="0" regexp="yes">muito|pouco|algum|bastante|nenhum|mais|menos</token>
-        <token>desporto</token>
-      </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>.</message>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
-      <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
     </rule>
 
 
