@@ -12054,7 +12054,7 @@ O namorado dela era um ladrão.
         <pattern>
           <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
           <token postag="(?:R|A).+" postag_regexp="yes">
-            <exception inflected="yes" regexp="yes"><!--seguro|certo|livre|consciente|farto|-->abaixo|acima|longe|perto|.+d[ao]s?</exception></token>
+            <exception inflected="yes" regexp="yes"><!--seguro|certo|livre|consciente|farto|-->abaixo|cert[oa]s?|acima|longe|perto|.+d[ao]s?</exception></token>
           <token regexp="yes">d[eo]</token>
           <token>que</token>
         </pattern>
@@ -12512,7 +12512,7 @@ O namorado dela era um ladrão.
         <pattern>
           <token>à</token>
           <token postag_regexp='yes' postag='(?:N.|A..|DP.)FP.+'>
-            <exception>\p{Lu}*</exception></token>
+            <exception regexp='yes'>\p{Lu}*</exception></token>
         </pattern>
         <message>Verifique se a crase não deve estar no plural. Caso contrário, não se utiliza a crase.</message>
         <suggestion>a \2</suggestion>
@@ -47628,7 +47628,14 @@ O namorado dela era um ladrão.
         <example>Quando não consegue o que quer, ele faz beicinho.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2022-09-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+      <antipattern>
+        <token postag='SENT_START|_QUOT' postag_regexp='yes'/>
+        <token min='0' regexp='yes'>\d|&tracos_de_separacao;</token>
+        <token>o</token>
+        <token>que</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>- O que quer dizer com isso?</example>
+      </antipattern>
       <pattern>
         <and>
         <token negate="yes" inflected='yes' regexp='yes'>haver|estar|existir|ser</token>
