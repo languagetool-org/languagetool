@@ -50,6 +50,7 @@
 
 
     <!ENTITY pronomes_obliquos "[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
+    <!ENTITY pronomes_obliquos_sem_a_as_o_os "l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
     <!ENTITY pronomes_retos "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
     <!ENTITY pronomes_ambiguos "a|as|mas|nos|o|os|se">
     <!ENTITY pronomes_nao_ambiguos "lha|lhas|lhe|lhes|lho|lhos|ma|me|mo|mos|ta|tas|te|to|tos|vos">
@@ -3403,18 +3404,47 @@
 
     <!-- LHE(S)/TE/VOS + VERB verb-lhe(s)/me/te/vos -->
     <rule id='VERBO_PRONOME_PESSOAL_VERB' name="Pron. Pessoal + Verbo → Verbo + - + Pron. Pessoal">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-15 + 2021-02-16 (1-JAN-2021+)      -->
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-09-19 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
       Lhe amo muito. → Amo-lhe muito.
       Te vejo amanhã na biblioteca. → Vejo-te amanhã na biblioteca.
       Te vejo por aí. → Vejo-te por aí.
       Me manda uma foto sua, por favor. → Manda-me uma foto sua, por favor.
       -->
+      <antipattern>
+        <token regexp='yes'>n[ao]s?</token>
+        <token postag='VMIP1S0' postag_regexp='no'/>
+        <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN|NC.+|AQ.+|V.+' postag_regexp='yes'/>
+        <example>no sitio da minha cunhada coloquei um roteador 3g da vivo, funcionava muito bem, foi só o pessoal da vivo fa...</example>
+        <example>No vasto pélago, a nadar, eis vão surgindo aqui e além, alguns sobreviventes, enquanto armas de heróis, quad...</example>
+        <example>No curto prazo, Stalin quer fornecer à população como bodes expiatórios para as dificuldades diárias, recusa...</example>
+        <example>No inicio realizou-se na Praça D. Pedro IV, depois passou para a Avenida da Liberdade e, actualmente, realiza...</example>
+      </antipattern>
+
+      <antipattern>
+        <token regexp='yes'>n[ao]s?</token>
+        <token postag='VMIP3S0' postag_regexp='no'/>
+        <token postag='V.+|_PUNCT|CS|RG|SPS00' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='VMN0000'/>
+        </token>
+        <example>Na sequencia será servido o porco, feijão “diablito” e Santa María de Anis, de Leonor Espinosa.</example>
+        <example>Na sequencia, o comercial e os seus desdobramentos desconstroem a ideia de que as Havaianas foram feitas apenas ...</example>
+        <example>Na pratica, os muçulmanos nos consideram todos infiéis e caso não se convertam devem morrer.</example>
+        <example>Na SEMEIA – Secretaria Municipal de Meio Ambiente.</example>
+        <example>No Opera, as teclas são Shift + Escape + número.</example>
+        <example>Nos USA quando foi publicada em 2010 ganhou a medalha de ouro em nova ciência e cosmologia e em novembro de...</example>
+        <example>Na clausula de garantias – com relação ao penhor rural agrícola (Cana de açúcar) – período agrícola do ano safr...</example>
+      </antipattern>
+
       <pattern>
         <token postag='SENT_START'/>
         <marker>
-          <token regexp='yes'>lhes?|me|te|vos</token>
-          <token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'/>
+          <token regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;
+            <exception regexp='no'>se</exception>
+          </token>
+          <token postag='VMIP[13]S0|VMM02S0' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='NP.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+'/>
+          </token>
         </marker>
       </pattern>
       <message>Substitua por <suggestion><match no='3' case_conversion='startupper'/>-<match no="2" case_conversion="alllower"/></suggestion>.</message>
