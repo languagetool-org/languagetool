@@ -410,8 +410,8 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(lt.getAnalyzedSentence("lah"));
         assertEquals("la", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("dela"));
-        assertEquals("Dela", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("de la", matches[0].getSuggestedReplacements().get(1));
+        //assertEquals("Dela", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("de la", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("sha"));
         assertEquals("s'ha", matches[0].getSuggestedReplacements().get(0));
         assertEquals("xe", matches[0].getSuggestedReplacements().get(1));
