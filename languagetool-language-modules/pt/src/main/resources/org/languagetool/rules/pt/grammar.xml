@@ -45746,8 +45746,6 @@ O namorado dela era um ladrão.
       =VÓS/VOCÊS/ELES=
       Afirmaram a vossa inocência alegando que eram canhotos.
       -->
-
-      <!-- EU/ELE -> QUE ERA -->
       <rule>
         <antipattern>
           <token postag='SPS.+|NC.+|AQ.+' postag_regexp='yes'/>
@@ -45762,10 +45760,12 @@ O namorado dela era um ladrão.
         </antipattern>
         <pattern>
           <token postag='V.+' postag_regexp='yes'>
-            <exception regexp='yes'>é|ser</exception></token>
+            <exception regexp='yes'>é|será|ser</exception>
+            <exception inflected='yes' regexp='yes'>saber|achar</exception></token>
           <marker>
             <token>que</token>
-            <token postag='VMII[13]S0' postag_regexp='yes'/>
+            <token postag='VMII[13]S0' postag_regexp='yes'>
+              <exception inflected='yes'>ir</exception></token>
           </marker>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
