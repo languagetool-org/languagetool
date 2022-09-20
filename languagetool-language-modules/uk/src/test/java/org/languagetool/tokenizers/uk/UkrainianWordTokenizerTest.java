@@ -352,8 +352,17 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("куб.м");
     assertEquals(Arrays.asList("куб.", "м"), testList);
 
+    testList = w.tokenize("ам. долл");
+    assertEquals(Arrays.asList("ам.", " ", "долл"), testList);
+
+    testList = w.tokenize("св. ап. Петра");
+    assertEquals(Arrays.asList("св.", " ", "ап.", " ", "Петра"), testList);
+
     testList = w.tokenize("У с. Вижва");
     assertEquals(Arrays.asList("У", " ", "с.", " ", "Вижва"), testList);
+
+    testList = w.tokenize("оз. Вижва");
+    assertEquals(Arrays.asList("оз.", " ", "Вижва"), testList);
 
     testList = w.tokenize("Довжиною 30 см. з гаком.");
     assertEquals(Arrays.asList("Довжиною", " ", "30", " ", "см", ".", " ", "з", " ", "гаком", "."), testList);
