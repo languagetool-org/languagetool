@@ -32,6 +32,7 @@
     <!ENTITY meses_ano "abril|agosto|dezembro|fevereiro|janeiro|julho|junho|maio|março|novembro|outubro|setembro">
     <!ENTITY dias_semana_abrev "seg|sex|sáb|dom|qui|ter">
     <!ENTITY dias_semana "domingo|quarta|quinta|sábado|segunda|sexta|terça">
+    <!ENTITY partes_do_dia "madrugada|manhã|matina|noite|tarde">
     <!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
 
@@ -3527,21 +3528,39 @@
 
     <rule id="ZERO_MEDIDA_SINGULAR" name="Concordância de número: 'zero grau'">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-23 -->
-      <!-- MARCOAGPINTO 2021-10-21 (25-JUN-2021+) *START* -->
-      <!--
-      O Jogo da Vida de John Conway é também conhecido por “zero player game”.
-      -->
+
+      <!-- MARCOAGPINTO 2022-09-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
         <token>zero</token>
         <token>player</token>
         <token>game</token>
+        <example>O Jogo da Vida de John Conway é também conhecido por “zero player game”.</example>
       </antipattern>
-      <!-- MARCOAGPINTO 2021-10-21 (25-JUN-2021+) *END* -->
+
+      <antipattern>
+        <token>zero</token>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='CC|_PUNCT' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <example>...procuradas pelos adeptos das dietas Paleo e Baixo Carbo pois apresentam baixo teor de carboidratos, zero glúten e boas quantidades de proteínas!</example>
+        <example>BENEFÍCIOS: Zero glúten, elaborado com waxy maize e farinha de arroz, alto teor proteico, pode ser consumido com opções sal...</example>
+        <example>BENEFÍCIOS: pronto para o consumo, zero sódio, açúcar e calorias, efetiva o emagrecimento.</example>
+      </antipattern>
+
+      <antipattern>
+        <token>zero</token>
+        <token regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;</token>
+        <token postag='VMP00S.+' postag_regexp='yes'/>
+        <example>A temperatura ficou abaixo de zero noite passada.</example>
+      </antipattern> 
+      <!-- MARCOAGPINTO 2022-09-21 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <pattern>
         <token>zero</token>
         <token postag='(?:N..|A...)S.+' postag_regexp='yes'>
           <exception postag='(?:N..|A...)S.+' postag_regexp='yes' negate_pos='yes'/>
-          <exception regexp="yes">absoluto|kelvin</exception> <!-- "perto do zero ABSOLUTO/KELVIN" MARCOAGPINTO 2021-10-21 (25-JUN-2021+) -->
+          <exception regexp="yes">absoluto|kelvin|nulo</exception> <!-- "perto do zero ABSOLUTO/KELVIN/NULO" MARCOAGPINTO 2022-09-21 (25-JUL-2022+) -->
+          <exception postag='VMP00S.+' postag_regexp='yes'/> <!-- "perto do zero CONHECIDO" MARCOAGPINTO 2022-09-21 (25-JUL-2022+) -->
         </token>
       </pattern>
       <message>Em Português Europeu medidas com zero escrevem-se no plural.</message>
@@ -3551,8 +3570,6 @@
       <example correction="zero graus">Lá fora estão <marker>zero grau</marker>.</example>
       <example>Assim, com a divisão de valores mais próximos do zero, o resultado será o zero absoluto.</example>
       <example>Teoricamente, ao cessar a agitação térmica das moléculas a pressão é nula, e atinge-se o zero absoluto.</example>
-
-      <example>O Jogo da Vida de John Conway é também conhecido por “zero player game”.</example>
     </rule>
 
 
