@@ -15599,19 +15599,23 @@ O namorado dela era um ladrão.
       <example correction='condiciona muito'>A dor <marker>condiciona em muito</marker> o trabalho.</example>
     </rule>
 
-    <rule id='DE_CIMA_DE' name="por cima de">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+
+    <!-- DE BAIXO/CIMA DE por baixo/cima de -->
+    <rule id='DE_BAIXO_CIMA_DE' name="De baixo/cima de → Por baixo/cima de">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-20 (Checked/Enhanced) (25-JUL-2022+) -->
       <pattern>
+        <token regexp='yes' inflected='yes'>atravessar|correr|ir|passar|transpor|transitar</token>
         <marker>
-          <token inflected='yes'>passar</token>
-          <token>de</token>
-          <token regexp='yes'>baixo|cima</token>
           <token>de</token>
         </marker>
+        <token regexp='yes'>baixo|cima</token>
+        <token regexp="yes">d[aeo]s?</token>
       </pattern>
-      <message>Substitua por <suggestion>\1 por \3 \4</suggestion>.</message>
-      <example correction="passou por cima de">O carro <marker>passou de cima de</marker> uma bola.</example>
+      <message>Neste caso emprega-se 'por' em vez de 'de'.</message>
+      <suggestion>por</suggestion>
+      <example correction="por">O carro passou <marker>de</marker> cima de uma bola.</example>
     </rule>
+
 
     <rule id='DE_QUANDO_EM_VEZ' name="De vez em quando">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
