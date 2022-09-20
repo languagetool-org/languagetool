@@ -30,6 +30,12 @@
 #### Spanish
   * added and improved rules
 
+#### Ukrainian
+  * new words in the POS dictionary
+  * added verb and adj/noun agreement rule
+  * added and improved several rules
+  * improved tagging and disambiguation
+
 ### General
   * The `--word2vecModel` option has been deprecated
 
