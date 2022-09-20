@@ -36,6 +36,14 @@ import java.util.Set;
 public class MainTest {
 
   @Test
+  public void testIsEqualText() {
+    String textPara = "This is a test with one footnote1. And a Zero Space at the end of the second sentence.";
+    String flatPara = "This is a test with one footnote​. And a Zero Space at the end of the second sentence​.";
+    int[] footnotes = { 32 };
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+  }
+
+  @Test
 //  @Ignore("see https://github.com/languagetool-org/languagetool/issues/4064")
   public void testDoProofreading() {
     Main prog = new Main(null);

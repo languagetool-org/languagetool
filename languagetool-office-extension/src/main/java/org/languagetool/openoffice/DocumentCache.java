@@ -328,7 +328,7 @@ public class DocumentCache implements Serializable {
         }
         boolean isEqual = isEqualTextWithoutZeroSpace(flatPara, textP);
 /*        
-        if (footnotes.length > 1) {
+        if (footnotes.length > 0) {
           String msg = "\nDocumentCache: isEqualWithoutFootnotes: level: " + level;
           for (int j = 0; j < footnotes.length; j++) {
             msg += "; n[" + j + "]: " + n[j];
@@ -356,11 +356,11 @@ public class DocumentCache implements Serializable {
     if (footnotes == null || footnotes.length == 0) {
       return isEqualTextWithoutZeroSpace(flatPara, textPara);
     }
+    flatPara = SingleCheck.removeFootnotes(flatPara, footnotes, null);
     if (textPara.isEmpty() || flatPara.length() > textPara.length() || flatPara.length() < (textPara.length() - (footnotes.length * MAX_NOTE_CHAR))) {
       //  NOTE: size of footnote sign is assumed as <= MAX_NOTE_CHAR
       return false;
     }
-    flatPara = SingleCheck.removeFootnotes(flatPara, footnotes, null);
     int[] n = new int[footnotes.length];
     for(int j = 0; j < n.length; j++) {
       n[j] = 1;
