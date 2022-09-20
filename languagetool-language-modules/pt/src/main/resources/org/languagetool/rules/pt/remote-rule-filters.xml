@@ -108,6 +108,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rule>
         <rule>
             <pattern>
+                <token postag="N.+" postag_regexp="yes"/>
+                <token postag="AQ.+" postag_regexp="yes"/>
+                <token regexp="yes">e|,</token>
+            </pattern>
+            <example correction="">Temos <marker>bens imóveis e</marker> monumentos.</example>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="V.+" postag_regexp="yes"/>
                 <token postag="DA.+|DD.+" postag_regexp="yes" min="0"/>
                 <token postag="DP.+" postag_regexp="yes"/>
