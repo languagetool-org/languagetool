@@ -1990,18 +1990,21 @@
         <example correction="prestes a">Está <marker>preste a</marker> acontecer.</example>
       </rule>
 
+
       <rule id='INVARIABLE_NOUNS_ÀS_CUSTAS_DA_DAS_DO_DOS' name="Confusão: às custas/à custa">
-        <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+        <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-09-20 (Checked/Enhanced) (25-JUL-2022+) -->
         <pattern>
           <marker>
             <token>às</token>
             <token>custas</token>
           </marker>
-          <token regexp="yes">d[eao]s?</token>
+          <token postag='SPS00|SPS00:D[AI].+' postag_regexp='yes'/>
         </pattern>
         <message>Esta expressão é invariável.</message>
         <suggestion>à custa</suggestion>
         <example correction="à custa">Ele fê-lo <marker>às custas</marker> do filho.</example>
+        <example>Ele se tornou um aluno brilhante mas somente à custa de sua saúde.</example>
+        <example>O consumo de gorduras n-6 aumentou à custa das gorduras n-3.</example>
       </rule>
     </rulegroup>
 
