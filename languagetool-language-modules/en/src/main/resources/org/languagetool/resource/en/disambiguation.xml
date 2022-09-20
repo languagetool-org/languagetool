@@ -16214,4 +16214,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule id="AGO_NO_ADJECTIVE" name="'ago' no adjective">
+        <pattern>
+            <token regexp="yes">seconds|minutes|hours|days|weeks|months|years|decades|moments|time</token>
+            <marker>
+                <token>ago</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="JJ" />
+    </rule>
 </rules>
