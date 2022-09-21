@@ -4253,16 +4253,28 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="V.[MSI].*"/>
         </rule>
     </rulegroup>
-    <rule id="UNA" name="una (not verb)">
-        <pattern>
-            <marker>
-                <token regexp="yes">una|uno</token>
-            </marker>
-            <!-- error: está -->
-            <token>esta</token>
-        </pattern>
-        <disambig action="remove" postag="V.*"/>
-    </rule>
+    <rulegroup id="UNA" name="una (not verb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">una|uno</token>
+                </marker>
+                <!-- error: está -->
+                <token>esta</token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>una</token>
+                </marker>
+                <token postag="_QM.*" postag_regexp="yes"/>
+                <token postag="[AN].*|V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="CONTRA" name="contra">
         <rule>
             <pattern>
