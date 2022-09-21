@@ -4100,6 +4100,13 @@ O namorado dela era um ladrão.
       </antipattern>
       <rule>
         <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'/>
+          <token regexp='yes'>\d\.?[oº]</token>
+          <example>São os 1o dias do ano</example>
+        </antipattern>
+        <antipattern>
           <token regexp='yes'>(?:&precede_nome_proprio_F;|&precede_nome_proprio_M;)s?</token>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
         </antipattern>
@@ -4792,6 +4799,13 @@ O namorado dela era um ladrão.
             <example>Mesmo que ele tenha nos deixado, ele deixou marcas indeléveis.</example>
             <example>Tom nos fará muito feliz.</example>
           </antipattern>
+          <antipattern>
+            <token postag='D..MP.+|SPS00:D..MP.+' postag_regexp='yes'/>
+            <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+            <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'/>
+            <token regexp='yes'>\d\.?[oº]</token>
+            <example>São os dos 1o dias do ano</example>
+          </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
@@ -5235,6 +5249,13 @@ O namorado dela era um ladrão.
           <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
           <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'/>
         </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..)C.+' postag_regexp='yes'/>
+          <token regexp='yes'>\d\.?[oº]s</token>
+          <example>É o 1os dia do ano</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -5319,7 +5340,13 @@ O namorado dela era um ladrão.
           <example>Verificámos que ao termos bonitos uniformes tudo parece melhor.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-17 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+        <antipattern>
+          <token regexp='yes'>&contracoes_MS;</token>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..)C.+' postag_regexp='yes'/>
+          <token regexp='yes'>\d\.?[oº]s</token>
+          <example>É o do 1os dia do ano</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -5802,6 +5829,13 @@ O namorado dela era um ladrão.
           <token postag='N.FP.+|A..FP.+' postag_regexp='yes' min='0' max='2'/>
           <example>A infecção dura aproximadamente 6 semanas</example>
         </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]S.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token regexp='yes'>\d\.?[aª]s</token>
+          <example>É a 1as ficha do ano</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -5911,6 +5945,13 @@ O namorado dela era um ladrão.
           </and>
         </antipattern>
         <!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
+        <antipattern>
+          <token regexp='yes'>&contracoes_FS;</token>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token regexp='yes'>\d\.?[aª]s</token>
+          <example>É numa 1as instância</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -6533,6 +6574,13 @@ O namorado dela era um ladrão.
           <token>nenhuma</token>
           <example>Não eram fascistas coisa nenhuma!</example>
         </antipattern>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+          <token regexp='yes'>\d\.?[aª]</token>
+          <example>São as 1a instância</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
@@ -6647,6 +6695,13 @@ O namorado dela era um ladrão.
           <token>te</token>
           <token>das</token>
           <example>A vida começa quando te das contas de que é muito curta.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='DI.FP.|SPS00:D..FP.' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..)C.+' postag_regexp='yes'/>
+          <token regexp='yes'>\d\.?[aª]</token>
+          <example>São numas 1a instância</example>
         </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
@@ -6857,6 +6912,97 @@ O namorado dela era um ladrão.
         <example>A seus olhos "diante do paciente só existe a compreensão individual".</example>
         <example>É o único ser vivo que cria uma aparência de realidade para enganar a si próprio ou a seus similares.</example>
         <example>Intelectual muito talentoso devotou-se a seus estudos, em especial à filosofia e à medicina.</example>
+      </rule>
+      <rule default='temp_off'>
+		<pattern>
+            <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d*\.?[oº]</token>
+        </pattern>
+        <message>&MSG_ECN;</message>
+        <suggestion><match no='1' postag="(D[ADIP]..|N..|A...|P[^IDP]..|Z..)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
+        <suggestion>\1 \2s</suggestion>
+        <example correction='o 1o|os 1os'>São <marker>os 1o</marker> dias do ano.</example>
+      </rule>
+      <rule default='temp_off'>
+		<pattern>
+            <token postag='D..MP.+|SPS00:D..MP.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d*\.?[oº]</token>
+        </pattern>
+        <message>&MSG_ECN;</message>
+        <suggestion><match no='1' postag="(D..M|SPS00:D..M)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
+        <suggestion>\1 \2s</suggestion>
+        <example correction='do 1o|dos 1os'>São os <marker>dos 1o</marker> dias do ano.</example>
+      </rule>
+      <rule default='temp_off'>
+		<pattern>
+            <token postag='D..MS.+|SPS00:D..MS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d*\.?[oº]s</token>
+        </pattern>
+        <message>&MSG_ECN;</message>
+        <suggestion><match no='1' postag="(D..M|SPS00:D..M)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> \2</suggestion>
+        <suggestion>\1 <match no='2' regexp_match="s" regexp_replace='' postag_regexp="yes"/></suggestion>
+        <example correction='dos 1os|do 1o'>São os <marker>do 1os</marker> dias do ano.</example>
+      </rule>
+      <rule default='temp_off'>
+		<pattern>
+            <token postag='D..FP.+|SPS00:D..FP.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d*\.?[aª]</token>
+        </pattern>
+        <message>&MSG_ECN;</message>
+        <suggestion><match no='1' postag="(D..F|SPS00:D..F)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
+        <suggestion>\1 \2s</suggestion>
+        <example correction='da 1a|das 1as'>São as <marker>das 1a</marker> fichas do ano.</example>
+      </rule>
+	  <rule default='temp_off'>
+		<pattern>
+            <token postag='D..FS.+|SPS00:D..FS.+' postag_regexp='yes'/>
+            <token regexp='yes'>\d*\.?[aª]s</token>
+        </pattern>
+        <message>&MSG_ECN;</message>
+        <suggestion><match no='1' postag="(D..F|SPS00:D..F)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> \2</suggestion>
+        <suggestion>\1 <match no='2' regexp_match="s" regexp_replace='' postag_regexp="yes"/></suggestion>
+        <example correction='das 1as|da 1a'>São as <marker>da 1as</marker> dias do ano.</example>
+      </rule>
+      <rule default='temp_off'>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'/>
+          <token regexp='yes'>\d*\.?[oº]s</token>
+          <example>São os 1os dias do ano.</example>
+        </antipattern>
+		<pattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'/>
+          <token regexp='yes'>\d*\.?[oº]s</token>
+        </pattern>
+        <message>&MSG_ECN;</message>
+        <suggestion><match no='1' postag="(D[ADIP]..|N..|A...|P[^IDP]..|Z..)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> \2</suggestion>
+        <suggestion>\1 <match no='2' regexp_match="s" regexp_replace='' postag_regexp="yes"/></suggestion>
+        <example correction='os 1os|o 1o'>São <marker>o 1os</marker> dias do ano.</example>
+      </rule>
+      <rule default='temp_off'>
+        <antipattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'/>
+          <token regexp='yes'>\d*\.?[aª]s</token>
+          <example>São as 1as fichas do ano.</example>
+        </antipattern>
+		<pattern>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'/>
+          <token regexp='yes'>\d*\.?[aª]</token>
+        </pattern>
+        <message>&MSG_ECN;</message>
+        <suggestion><match no='1' postag="(D[ADIP]..|N..|A...|P[^IDP]..|Z..)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
+        <suggestion>\1 \2s</suggestion>
+        <example correction='a 1a|as 1as'>São <marker>as 1a</marker> fichas do ano.</example>
+      </rule>
+      <rule default='temp_off'>
+		<pattern>
+          <token postag='(?:D[ADIP].[FC]|NC[FC]|A..[FC]|P[^IDP].[FC]|Z.[FC])S.+' postag_regexp='yes'>
+            <exception>a</exception></token>
+            <token regexp='yes'>\d*\.?[aª]s</token>
+        </pattern>
+        <message>&MSG_ECN;</message>
+        <suggestion><match no='1' postag="(D..F|SPS00:D..F)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
+        <suggestion>\1 <match no='2' regexp_match="s" regexp_replace='' postag_regexp="yes"/></suggestion>
+        <example correction='umas 1as|uma 1a'>São <marker>uma 1as</marker> fichas do ano.</example>
       </rule>
     </rulegroup>
 
