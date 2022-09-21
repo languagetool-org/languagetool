@@ -323,26 +323,30 @@ public class TextLevelCheckQueue {
    */
   QueueEntry getNextQueueEntry(TextParagraph nPara, String docId) {
     List<SingleDocument> documents = multiDocHandler.getDocuments();
-    XComponent xComponent = OfficeTools.getCurrentComponent(multiDocHandler.getContext());
-    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
-    TextParagraph cursorPara = viewCursor.getViewCursorParagraph();
-    if (cursorPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
-      if (lastCursorPara < 0 || cursorPara.number != lastCursorPara || lastCursorComponent == null || !lastCursorComponent.equals(xComponent)) {
-        lastCursorComponent = xComponent;
-        lastCursorPara = cursorPara.number;
-        for (int n = 0; n < documents.size(); n++) {
-          if (xComponent.equals(documents.get(n).getXComponent())) {
-            docId = documents.get(n).getDocID();
-            break;
+/*
+    if (!DocumentCursorTools.isBusy() && !ViewCursorTools.isBusy() && !FlatParagraphTools.isBusy()) {
+      XComponent xComponent = OfficeTools.getCurrentComponent(multiDocHandler.getContext());
+      ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
+      TextParagraph cursorPara = viewCursor.getViewCursorParagraph();
+      if (cursorPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
+        if (lastCursorPara < 0 || cursorPara.number != lastCursorPara || lastCursorComponent == null || !lastCursorComponent.equals(xComponent)) {
+          lastCursorComponent = xComponent;
+          lastCursorPara = cursorPara.number;
+          for (int n = 0; n < documents.size(); n++) {
+            if (xComponent.equals(documents.get(n).getXComponent())) {
+              docId = documents.get(n).getDocID();
+              break;
+            }
           }
-        }
-        nPara = cursorPara;
-        if (debugMode) {
-          MessageHandler.printToLogFile("TextLevelCheckQueue: getNextQueueEntry: Next Paragraph set to View Cursor: Type = " + nPara.type 
-              + ", number = " + nPara.number + ", docId = " + docId);
+          nPara = cursorPara;
+          if (debugMode) {
+            MessageHandler.printToLogFile("TextLevelCheckQueue: getNextQueueEntry: Next Paragraph set to View Cursor: Type = " + nPara.type 
+                + ", number = " + nPara.number + ", docId = " + docId);
+          }
         }
       }
     }
+*/
     int nDoc = 0;
     for (int n = 0; n < documents.size(); n++) {
       if ((docId == null || docId.equals(documents.get(n).getDocID())) && !documents.get(n).isDisposed() && documents.get(n).getDocumentType() == DocumentType.WRITER) {

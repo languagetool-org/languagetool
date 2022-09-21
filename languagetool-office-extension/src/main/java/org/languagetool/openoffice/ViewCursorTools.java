@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
-import org.languagetool.openoffice.DocumentCursorTools.DocumentText;
 
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XIndexAccess;

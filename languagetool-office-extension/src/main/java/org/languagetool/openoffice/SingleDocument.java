@@ -211,7 +211,7 @@ class SingleDocument {
     }
 
     if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT 
-        && (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || docCache.isResetRunning())) {
+        && (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy() || docCache.isResetRunning())) {
       //  NOTE: LO blocks the read of information by document or view cursor tools till a PROOFINFO_GET_PROOFRESULT request is done
       //        This causes a hanging of LO when the request isn't answered immediately by a 0 matches result
 //      MessageHandler.printToLogFile("SingleDocument: getCheckResults: docCache Reset is running: return 0 errors");

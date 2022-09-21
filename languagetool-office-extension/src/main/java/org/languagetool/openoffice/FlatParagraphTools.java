@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.SingleCheck.SentenceErrors;
 
 import com.sun.star.beans.Property;
@@ -41,8 +40,6 @@ import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XFlatParagraphIterator;
 import com.sun.star.text.XFlatParagraphIteratorProvider;
-import com.sun.star.text.XMarkingAccess;
-import com.sun.star.text.XParagraphCursor;
 import com.sun.star.uno.UnoRuntime;
 
 /**
@@ -55,6 +52,8 @@ public class FlatParagraphTools {
   
   private static boolean debugMode; //  should be false except for testing
   
+  private static int isBusy = 0;
+
   private XFlatParagraphIterator xFlatParaIter;
   private XFlatParagraph lastFlatPara;
   private XComponent xComponent;
@@ -88,6 +87,7 @@ public class FlatParagraphTools {
    */
   @Nullable
   private XFlatParagraphIterator getXFlatParagraphIterator(XComponent xComponent) {
+    isBusy++;
     try {
       if (xComponent == null) {
         return null;
@@ -101,6 +101,8 @@ public class FlatParagraphTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -109,9 +111,14 @@ public class FlatParagraphTools {
    * Set the new iterator only if it is not null
    */
   public void init() {
-    XFlatParagraphIterator tmpFlatParaIter = getXFlatParagraphIterator(xComponent);
-    if (tmpFlatParaIter != null) {
-      xFlatParaIter = tmpFlatParaIter;
+    isBusy++;
+    try {
+      XFlatParagraphIterator tmpFlatParaIter = getXFlatParagraphIterator(xComponent);
+      if (tmpFlatParaIter != null) {
+        xFlatParaIter = tmpFlatParaIter;
+      }
+    } finally {
+      isBusy--;
     }
   }
   
@@ -122,6 +129,7 @@ public class FlatParagraphTools {
    */
   @Nullable
   private XFlatParagraph getCurrentFlatParagraph() {
+    isBusy++;
     try {
       if (xFlatParaIter == null) {
         if (debugMode) {
@@ -137,6 +145,8 @@ public class FlatParagraphTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
     
@@ -163,6 +173,7 @@ public class FlatParagraphTools {
    * delete characters between nStart and nStart + nLen, insert newText at nStart
    */
   synchronized public XFlatParagraph getFlatParagraphAt (int nPara) {
+    isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -189,6 +200,8 @@ public class FlatParagraphTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;             // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -197,14 +210,19 @@ public class FlatParagraphTools {
    * return null if it fails
    */
   public String getCurrentParaText() {
-    XFlatParagraph xFlatPara = getCurrentFlatParagraph();
-    if (xFlatPara == null) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("FlatParagraphTools: getCurrentParaText: FlatParagraph == null");
+    isBusy++;
+    try {
+      XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+      if (xFlatPara == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("FlatParagraphTools: getCurrentParaText: FlatParagraph == null");
+        }
+        return null;
       }
-      return null;
+      return xFlatPara.getText();
+    } finally {
+      isBusy--;
     }
-    return xFlatPara.getText();
   }
 
   /**
@@ -212,6 +230,7 @@ public class FlatParagraphTools {
    * Returns -1 if it fails
    */
   synchronized public int getCurNumFlatParagraph() {
+    isBusy++;
     try {
       XFlatParagraph xFlatPara = getCurrentFlatParagraph();
       if (xFlatPara == null) {
@@ -230,6 +249,8 @@ public class FlatParagraphTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -1;           // Return -1 as method failed
+    } finally {
+      isBusy--;
     }
   }
 
@@ -239,6 +260,7 @@ public class FlatParagraphTools {
    */
   @Nullable
   public FlatParagraphContainer getAllFlatParagraphs(Locale fixedLocale) {
+    isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -279,6 +301,8 @@ public class FlatParagraphTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -319,57 +343,62 @@ public class FlatParagraphTools {
    */
   public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale fixedLocale, 
       Locale lastLocale, boolean onlyPrimary) throws IllegalArgumentException {
-    if (fixedLocale != null) {
-      return fixedLocale;
-    }
-    if (len == 0 && lastLocale != null) {
-      return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
-          new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
-    }
-    if (len < 2) {
-      return getParagraphLanguage(flatPara, start, len);
-    }
-    Map<Locale, Integer> locales = new HashMap<Locale, Integer>();
-    for (int i = start; i < len; i++) {
-      Locale locale = flatPara.getLanguageOfText(i, 1);
-      boolean existingLocale = false;
-      for (Locale loc : locales.keySet()) {
-        if (loc.Language.equals(locale.Language)) {
-          locales.put(loc, locales.get(loc) + 1);
-          existingLocale = true;
-          break;
+    isBusy++;
+    try {
+      if (fixedLocale != null) {
+        return fixedLocale;
+      }
+      if (len == 0 && lastLocale != null) {
+        return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
+            new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
+      }
+      if (len < 2) {
+        return getParagraphLanguage(flatPara, start, len);
+      }
+      Map<Locale, Integer> locales = new HashMap<Locale, Integer>();
+      for (int i = start; i < len; i++) {
+        Locale locale = flatPara.getLanguageOfText(i, 1);
+        boolean existingLocale = false;
+        for (Locale loc : locales.keySet()) {
+          if (loc.Language.equals(locale.Language)) {
+            locales.put(loc, locales.get(loc) + 1);
+            existingLocale = true;
+            break;
+          }
+        }
+        if (!existingLocale) {
+          locales.put(locale, 1);
         }
       }
-      if (!existingLocale) {
-        locales.put(locale, 1);
+      if (locales.keySet().size() == 0) {
+        return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
+            new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
       }
-    }
-    if (locales.keySet().size() == 0) {
-      return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
-          new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
-    }
-    Locale biggestLocal = null;
-    int biggestLocalNumber = 0;
-    for (Locale loc : locales.keySet()) {
-      int locNum = locales.get(loc);
-      if (biggestLocal == null || locNum > biggestLocalNumber) {
-        biggestLocal = loc;
-        biggestLocalNumber = locNum;
+      Locale biggestLocal = null;
+      int biggestLocalNumber = 0;
+      for (Locale loc : locales.keySet()) {
+        int locNum = locales.get(loc);
+        if (biggestLocal == null || locNum > biggestLocalNumber) {
+          biggestLocal = loc;
+          biggestLocalNumber = locNum;
+        }
       }
-    }
-    if (biggestLocal == null) {
-      return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
-          new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
-    } else if (onlyPrimary || locales.keySet().size() == 1) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: locale: " + OfficeTools.localeToString(biggestLocal));
+      if (biggestLocal == null) {
+        return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
+            new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
+      } else if (onlyPrimary || locales.keySet().size() == 1) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: locale: " + OfficeTools.localeToString(biggestLocal));
+        }
+        return biggestLocal;
+      } else {
+        if (debugMode) {
+          MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: is multilingual locale: " + OfficeTools.localeToString(biggestLocal));
+        }
+        return new Locale(biggestLocal.Language, biggestLocal.Country, OfficeTools.MULTILINGUAL_LABEL + biggestLocal.Variant);
       }
-      return biggestLocal;
-    } else {
-      if (debugMode) {
-        MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: is multilingual locale: " + OfficeTools.localeToString(biggestLocal));
-      }
-      return new Locale(biggestLocal.Language, biggestLocal.Country, OfficeTools.MULTILINGUAL_LABEL + biggestLocal.Variant);
+    } finally {
+      isBusy--;
     }
   }
 
@@ -378,11 +407,16 @@ public class FlatParagraphTools {
    * @throws IllegalArgumentException 
    */
   public Locale getPrimaryLanguageOfPartOfParagraph(int nPara, int start, int len, Locale lastLocale) throws IllegalArgumentException {
-    XFlatParagraph flatPara = getFlatParagraphAt(nPara);
-    if (flatPara == null) {
-      return lastLocale;
+    isBusy++;
+    try {
+      XFlatParagraph flatPara = getFlatParagraphAt(nPara);
+      if (flatPara == null) {
+        return lastLocale;
+      }
+      return getPrimaryParagraphLanguage(flatPara, start, len, null, lastLocale, true);
+    } finally {
+      isBusy--;
     }
-    return getPrimaryParagraphLanguage(flatPara, start, len, null, lastLocale, true);
   }
   
   /**
@@ -390,6 +424,7 @@ public class FlatParagraphTools {
    * Returns negative value if it fails
    */
   synchronized public int getNumberOfAllFlatPara() {
+    isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -414,6 +449,8 @@ public class FlatParagraphTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -1;             // Return -1 as method failed
+    } finally {
+      isBusy--;
     }
   }
 
@@ -476,6 +513,7 @@ public class FlatParagraphTools {
    * Marks all paragraphs as checked with exception of the paragraphs "from" to "to"
    */
   synchronized public void setFlatParasAsChecked(int from, int to, List<Boolean> isChecked) {
+    isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -525,6 +563,8 @@ public class FlatParagraphTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
     }
   }
   
@@ -532,6 +572,7 @@ public class FlatParagraphTools {
    * Marks all paragraphs as checked
    */
   synchronized public void setFlatParasAsChecked() {
+    isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -552,6 +593,8 @@ public class FlatParagraphTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
     }
   }
   
@@ -559,6 +602,7 @@ public class FlatParagraphTools {
    * Get information of checked status of all paragraphs
    */
   synchronized public List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
+    isBusy++;
     List<Boolean> isChecked = new ArrayList<>();
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -583,6 +627,8 @@ public class FlatParagraphTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
     }
     return isChecked;
   }
@@ -594,6 +640,7 @@ public class FlatParagraphTools {
    */
 
   synchronized public void markParagraphs(Map<Integer, List<SentenceErrors>> changedParas) {
+    isBusy++;
     try {
       if (changedParas == null || changedParas.isEmpty()) {
         return;
@@ -631,6 +678,8 @@ public class FlatParagraphTools {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } finally {
+      isBusy--;
     }
   }
   
@@ -638,17 +687,22 @@ public class FlatParagraphTools {
    * add marks to existing marks of current paragraph
    */
   public void markCurrentParagraph(List<SentenceErrors> errorList) {
-    if (errorList == null || errorList.size() == 0) {
-      return;
-    }
-    XFlatParagraph xFlatPara = getCurrentFlatParagraph();
-    if (xFlatPara == null) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("FlatParagraphTools: markCurrentParagraph: FlatParagraph == null");
+    isBusy++;
+    try {
+      if (errorList == null || errorList.size() == 0) {
+        return;
       }
-      return;
+      XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+      if (xFlatPara == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("FlatParagraphTools: markCurrentParagraph: FlatParagraph == null");
+        }
+        return;
+      }
+      addMarksToOneParagraph(xFlatPara, errorList);
+    } finally {
+      isBusy--;
     }
-    addMarksToOneParagraph(xFlatPara, errorList);
   }
     
   /**
@@ -695,23 +749,12 @@ public class FlatParagraphTools {
     }
   }
 
-  public class FlatParagraphContainer {
-    public List<String> paragraphs;
-    public List<Locale> locales;
-    public List<int[]> footnotePositions;
-    
-    FlatParagraphContainer(List<String> paragraphs, List<Locale> locales, List<int[]> footnotePositions) {
-      this.paragraphs = paragraphs;
-      this.locales = locales;
-      this.footnotePositions = footnotePositions;
-    }
-  }
-  
   /**
    * Change text of flat paragraph nPara 
    * delete characters between nStart and nStart + nLen, insert newText at nStart
    */
   synchronized public void changeTextOfParagraph (int nPara, int nStart, int nLen, String newText) {
+    isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -738,6 +781,8 @@ public class FlatParagraphTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return;             // Return -1 as method failed
+    } finally {
+      isBusy--;
     }
   }
   
@@ -746,6 +791,7 @@ public class FlatParagraphTools {
    * delete characters between nStart and nStart + nLen, insert newText at nStart
    */
   synchronized public void setLanguageOfParagraph (int nPara, int nStart, int nLen, Locale locale) {
+    isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
@@ -773,6 +819,28 @@ public class FlatParagraphTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return;             // Return -1 as method failed
+    } finally {
+      isBusy--;
+    }
+  }
+  
+  /**
+   *  Returns the status of cursor tools
+   *  true: If a cursor tool in one or more threads is active
+   */
+  public static boolean isBusy() {
+    return isBusy > 0;
+  }
+  
+  public class FlatParagraphContainer {
+    public List<String> paragraphs;
+    public List<Locale> locales;
+    public List<int[]> footnotePositions;
+    
+    FlatParagraphContainer(List<String> paragraphs, List<Locale> locales, List<int[]> footnotePositions) {
+      this.paragraphs = paragraphs;
+      this.locales = locales;
+      this.footnotePositions = footnotePositions;
     }
   }
   

@@ -29,7 +29,6 @@ import org.languagetool.openoffice.OfficeTools.DocumentType;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.text.XFlatParagraph;
-import com.sun.star.uno.XComponentContext;
 
 /**
  * Class to analyze a LO/OO request for grammar check
