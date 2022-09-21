@@ -324,7 +324,7 @@ public class DocumentCache implements Serializable {
           if (k + n[i] > textPara.length()) {
             return false;
           }
-          textP = textP.substring(0, k) + (k < textP.length() ? textP.substring(k + n[i]) : "");
+          textP = textP.substring(0, k) + (k < textP.length() - n[i] ? textP.substring(k + n[i]) : "");
         }
         boolean isEqual = isEqualTextWithoutZeroSpace(flatPara, textP);
 /*        
