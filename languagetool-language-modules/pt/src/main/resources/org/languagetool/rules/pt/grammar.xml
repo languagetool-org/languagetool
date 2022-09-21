@@ -1557,7 +1557,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Por outro lado, aparecem do nada pessoas, algumas que até nos adoram.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+        <antipattern>
+           <token postag='N.F.+|AQ.F.+' postag_regexp='yes'/>
+           <token postag='DI0M.+|SPS00:D..M.+' postag_regexp='yes'/>
+           <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+           <token min='0' postag='(?:A..)C[SN].+' postag_regexp='yes'/>
+           <token postag='(?:N.|A..|DP.)F.+' postag_regexp='yes'/>
+           <example>A concepção do inconsciente trazida</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;|&pronomes_obliquos;</token>
           <marker>
@@ -1742,7 +1749,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag="Z.*" postag_regexp="yes"/>
           <token>polegadas</token>
         </antipattern>
-
+        <antipattern>
+          <token postag='(?:N.|A..)F.+' postag_regexp='yes'/>
+          <token min='0' postag='SPS.+' postag_regexp='yes'/>
+          <token postag='(?:N.|A..).+' postag_regexp='yes' min='0'/>
+          <token postag='SPS00:D..MP.+' postag_regexp='yes'/>
+          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MP.+' postag_regexp='yes'/>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'/>
+          <token postag='VMP...F' postag_regexp='yes'/>
+          <example>Ficha do julgamento dos processos prevista</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>de|e|&hifen;</token>
           <marker>
