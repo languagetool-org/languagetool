@@ -183,6 +183,7 @@ public class ArtificialErrorEval {
           else if (fileName.equals("double_letters")) {
             isDoubleLetters = true;
             unidirectional = true;
+            isDiacritics = false;
           }
           else {
             isDoubleLetters = false;
@@ -190,6 +191,7 @@ public class ArtificialErrorEval {
             words[0] = parts[0].replaceAll("_", " ");
             words[1] = parts[1].replaceAll("_", " ");
             unidirectional = false;
+            isDiacritics = false;
             if (parts.length > 2) {
               unidirectional = parts[2].equals("u");
               if (parts[2].equals("u_notwholeword")) {
