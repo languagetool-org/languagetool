@@ -694,6 +694,7 @@ public class AgreementRuleTest {
     assertGood("Jede Schnittmenge abzählbar vieler offener Mengen");
     assertGood("Es kam zur Fusion der genannten und noch einiger weiterer Unternehmen.");
     assertGood("Zu dieser Fragestellung gibt es viele unterschiedliche Meinungen.");
+    assertGood("Wir zeigen die Gründe auf, wieso noch nicht jeder solche Anschlüsse hat.");
   }
 
   @Test

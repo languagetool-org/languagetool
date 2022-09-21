@@ -746,6 +746,12 @@ class AgreementRuleAntiPatterns1 {
       token("eine"),
       new PatternTokenBuilder().posRegex("ADJ:.*FEM.*").min(0).build(),
       posRegex("SUB:.*:FEM.*")
+    ),
+    asList(
+      // "Wir zeigen die Gründe auf, wieso noch nicht jeder solche Anschlüsse hat."
+      regex("jede[rsm]?"),
+      regex("solche[rsm]?"),
+      posRegex("SUB.*PLU.*")
     )
   );
 
