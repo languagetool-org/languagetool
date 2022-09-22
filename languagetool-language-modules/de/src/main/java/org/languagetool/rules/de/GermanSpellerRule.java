@@ -1178,7 +1178,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("daum", w -> Arrays.asList("da um", "darum", "kaum", "Raum"));
     put("gechickt", w -> Arrays.asList("geschickt", "gecheckt"));
     put("gibs", w -> Arrays.asList("gib es", "gibst"));
-    put("Gibs", w -> Arrays.asList("gib es", "Gibst", "Gips"));
+    put("Gibs", w -> Arrays.asList("Gib es", "Gibst", "Gips"));
     put("Wiso", "Wieso");
     put("gebs", "gebe es");
     put("angefordet", "angefordert");
@@ -2772,6 +2772,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "ipad": return topMatch("iPad");
       case "ipads": return topMatch("iPads");
       case "Adverben": return topMatch("Adverbien");
+      case "letzlich": return topMatch("letztlich");
+      case "Letzlich": return topMatch("Letztlich");
+      case "gegebenfalls": return topMatch("gegebenenfalls");
+      case "Gegebenfalls": return topMatch("Gegebenenfalls");
       case "zugebenermaßen": return topMatch("zugegebenermaßen");
       case "beispielweise": return topMatch("beispielsweise");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
