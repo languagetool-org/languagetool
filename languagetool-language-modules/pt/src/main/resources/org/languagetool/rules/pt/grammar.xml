@@ -47094,6 +47094,31 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- QUE JULGÁVAMOS SER MAIOR que julgávamos maior -->
+    <rule id='QUE_VERBO_SER_ADJ_QUE_VERBO_ADJ' name="Simplificar: Que + Verbo + ser + Adj (remover 'ser')">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-22 (25-JUL-2022+) -->
+      <!--
+      Você já tentou fazer algo que parecia ser impossível? → Você já tentou fazer algo que parecia impossível?
+      -->
+      <pattern>
+        <token postag='RG|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+        <token>que</token>
+        <marker>
+          <or>
+            <token postag='VMII.+' postag_regexp='yes'/>
+            <token regexp='no' inflected='yes'>parecer</token> <!-- Add more verbs here when found -->
+          </or>
+          <token>ser</token>
+          <token postag='AQ.+' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>O verbo 'ser' pode ser omitido nesta perífrase.</message>
+      <suggestion>\3 \5</suggestion>
+      <example correction="julgávamos maior">Aquilo que <marker>julgávamos ser maior</marker> que nós próprios na realidade não o era.</example>
+      <example>Você já tentou fazer algo que parecia impossível?</example>
+    </rule>
+
+
     <!-- COMO É O CASO DE como no caso de -->
     <rule id='SIMPLIFICAR_COMO_É_O_CASO_DO_DA_DAS_DOS_DE_NO_CASO' name="Simplificar: Como é o caso d[ao](s)/de/em → Como no caso d[ao](s)/de/em" type="style">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-06/07 (1-JAN-2022+)      -->
