@@ -1128,16 +1128,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
       <rule>
         <antipattern>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>É membro da 3o Congresso</example>
-        </antipattern>
-        <antipattern>
-            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[aª]</token>
-            <example>É membro do 3a Congresso</example>
-        </antipattern>
-        <antipattern>
           <unify>
           <feature id="gender"/><feature id="number"/>
           <token/>
@@ -1463,19 +1453,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CF][NS].+|V.[CSIG].+|(C|R).+|SPS.+' postag_regexp='yes'/>
-              <exception regexp='yes'>ás?|\d[oºaª]</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
+              <exception regexp='yes'>ás?</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception regexp='yes'>e|era|ser|efeito|cada|tido|uso|sozinho|nele|casal|mora|chamado|são|serão|média?|nós|termo|nome|haver|x|bairro|saber|tao</exception></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;
               <exception regexp='yes'>quanto|quão|tão</exception></token>
             <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'>
-              <exception regexp='yes'>x|ás?|\d[oºaª]</exception>
+              <exception regexp='yes'>x|ás?</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
             <token postag='(?:N.|A..)F.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>\p{Lu}+</exception>
-              <exception regexp='yes'>uma|&dias_semana;|\d[oºaª]|mas|x|á|leva|ama|manda|olha|perca|tao|e|era|semana|noite|sozinha|ser|mora|são|serão|média?|nós|termo|nome|haver|saber</exception>
+              <exception regexp='yes'>uma|&dias_semana;|mas|x|á|leva|ama|manda|olha|perca|tao|e|era|semana|noite|sozinha|ser|mora|são|serão|média?|nós|termo|nome|haver|saber</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
         </pattern>
@@ -1514,16 +1504,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>É perigoso duas pessoas andarem ao mesmo tempo numa bicicleta.</example>
       </rule>
       <rule>
-       <antipattern>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>É membro da 3o Congresso</example>
-        </antipattern>
-        <antipattern>
-            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[aª]</token>
-            <example>É membro do 3a Congresso</example>
-        </antipattern>
         <!-- MARCOAGPINTO 2022-06-20 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
           <token postag='AQ.+|NC.+|V.+|CS|CC|RG|SPS00|I' postag_regexp='yes'/>
@@ -1578,7 +1558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception regexp='yes'>\p{Lu}+</exception></token>
             <token postag='(?:N.|A..|DP.)F.+' postag_regexp='yes'>
               <exception postag='(?:N.|A..|DP.)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-              <exception regexp='yes'>uma|face|longa|era|semanas?|noites?|mas|\d[oºaª]|\d\:\d</exception>
+              <exception regexp='yes'>uma|face|longa|era|semanas?|noites?|mas|\d\:\d</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
           </marker>
@@ -1590,16 +1570,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Foi resolvido <marker>na hora</marker> certa.</example>
       </rule>
       <rule>
-       <antipattern>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>É membro da 3o Congresso</example>
-        </antipattern>
-        <antipattern>
-            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[aª]</token>
-            <example>É membro do 3a Congresso</example>
-        </antipattern>
         <antipattern>
           <unify>
           <feature id="gender"/><feature id="number"/>
@@ -1769,11 +1739,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/>
-              <exception regexp='yes'>\d[oºaª]|\d\%</exception>
+              <exception regexp='yes'>\d\%</exception>
               <exception regexp='yes'>\p{Lu}+</exception></token>
             <token postag='(?:N.|A..)F.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-              <exception regexp='yes'>uma|mas|média|\d[oºaª]|\d\%</exception>
+              <exception regexp='yes'>uma|mas|média|\d\%</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception regexp='yes'>\p{Lu}+-\p{Lu}+</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
@@ -1822,16 +1792,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
 
       <rule>
-        <antipattern>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>É membro da 3o Congresso</example>
-        </antipattern>
-        <antipattern>
-            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[aª]</token>
-            <example>É membro do 3a Congresso</example>
-        </antipattern>
         <!-- MARCOAGPINTO 2022-06-29 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
           <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
@@ -1886,16 +1846,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>A vida nos leva para onde ela quer.</example>
       </rule>
       <rule>
-        <antipattern>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>É membro da 3o Congresso</example>
-        </antipattern>
-        <antipattern>
-            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[aª]</token>
-            <example>É membro do 3a Congresso</example>
-        </antipattern>
         <antipattern>
           <token>indústria</token>
           <token>automóvel</token>
@@ -2210,11 +2160,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token postag='(?:D[ADIP].|NC|A[QO].|P[^IDP].|Z.)FS.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM]S.+|V.+|(C|R).+|SPS00' postag_regexp='yes'/>
               <exception regexp='yes'>\p{Lu}+|\p{Lu}+-\p{Lu}+</exception>
-              <exception regexp='yes'>e|ser|a|mas|era|tava|metade|palavra|muito|letra|comunidade|x|continha|\d[oºaª]|\d\%</exception></token>
+              <exception regexp='yes'>e|ser|a|mas|era|tava|metade|palavra|muito|letra|comunidade|x|continha|\d\%</exception></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..)C[NS].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+|Z.+'/>
-              <exception regexp='yes'>x|final|\d[oºaª]|\d%|tal|tava</exception>
+              <exception regexp='yes'>x|final|\d%|tal|tava</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception regexp='yes'>\p{Lu}+-\p{Lu}+</exception></token>
             <token postag='(?:N.|A..)M.+' postag_regexp='yes'>
@@ -2270,16 +2220,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
 
       <rule>
-        <antipattern>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>É membro da 3o Congresso</example>
-        </antipattern>
-        <antipattern>
-            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[aª]</token>
-            <example>É membro do 3a Congresso</example>
-        </antipattern>
 
         <!-- MARCOAGPINTO 2022-07-26 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <antipattern>
@@ -2326,17 +2266,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token negate='yes' regexp='yes'>e|de|às?|&hifen;</token>
           <marker>
             <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'>
-              <exception regexp='yes'>[dn]ela|à|ta|tao|\d[oº]</exception>
+              <exception regexp='yes'>[dn]ela|à|ta|tao</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
             <token min='0' postag='(?:A..)C[NS].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/>
-              <exception regexp='yes'>\d[oº]</exception>
               <exception regexp='yes'>\p{Lu}+</exception></token>
             <token postag='(?:N.|A..|DP.)M.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|\d[oº]|devido</exception>
+              <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|devido</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
             </token>
@@ -2349,7 +2288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Leonardo da Vinci e Rafael mostraram grande interesse sobre a estru…</example>
         <example>Bacalhau à lagareiro</example>
       </rule>
-      <rule>
+      <rule default='temp_off'>
         <pattern>
             <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
             <token regexp='yes'>\d\.?[oº]</token>
@@ -2359,7 +2298,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion><match no='1' postag="(DI.|SPS00:D..|SPS00:...)F.(.+)" postag_replace='$1MS$2' postag_regexp="yes" include_skipped='all'/> <match no='2' include_skipped='all'/></suggestion>
         <example correction='da 3ª|do 3o'>é membro <marker>da 3o</marker> Congresso.</example>
       </rule>
-      <rule>
+      <rule default='temp_off'>
         <pattern>
             <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
             <token regexp='yes'>\d\.?[aª]</token>
@@ -2370,16 +2309,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example correction='do 3º|da 3a'>é membro <marker>do 3a</marker> Congresso.</example>
       </rule>
       <rule>
-        <antipattern>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>É membro da 3o Congresso</example>
-        </antipattern>
-        <antipattern>
-            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[aª]</token>
-            <example>É membro do 3a Congresso</example>
-        </antipattern>
         <antipattern>
           <unify>
           <feature id="gender"/><feature id="number"/>
@@ -2504,16 +2433,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
       <rule>
         <antipattern>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>É membro da 3o Congresso</example>
-        </antipattern>
-        <antipattern>
-            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[aª]</token>
-            <example>É membro do 3a Congresso</example>
-        </antipattern>
-        <antipattern>
           <token>coordenadas</token>
           <token regexp='yes'>\d.+</token>
         </antipattern>
@@ -2555,16 +2474,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;</token>
         </antipattern>
-        <antipattern>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>É membro da 3o Congresso</example>
-        </antipattern>
-        <antipattern>
-            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[aª]</token>
-            <example>É membro do 3a Congresso</example>
-        </antipattern>
 
         <pattern>
           <unify negate="yes">
@@ -2590,16 +2499,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- MARCOAGPINTO 2022-08-04 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <!-- "Desta forma é promovida um ambiente de trabalho saudável e com grandes chances de desenvolvimento dos funcionários dentro da empresa." -->
       <rule>
-        <antipattern>
-            <token postag='DI.FS.+|SPS00:D..FS.+|SPS00:...FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>É membro da 3o Congresso</example>
-        </antipattern>
-        <antipattern>
-            <token postag='DI.MS.+|SPS00:D..MS.+|SPS00:...MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[aª]</token>
-            <example>É membro do 3a Congresso</example>
-        </antipattern>
         <antipattern>
           <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
           <token min="0" max="2" postag='D[ADI].F.+|Z0[CF].+' postag_regexp="yes"/>
@@ -4117,13 +4016,6 @@ O namorado dela era um ladrão.
       </antipattern>
       <rule>
         <antipattern>
-          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'/>
-          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'/>
-          <token regexp='yes'>\d\.?[oº]</token>
-          <example>São os 1o dias do ano</example>
-        </antipattern>
-        <antipattern>
           <token regexp='yes'>(?:&precede_nome_proprio_F;|&precede_nome_proprio_M;)s?</token>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
         </antipattern>
@@ -4816,13 +4708,6 @@ O namorado dela era um ladrão.
             <example>Mesmo que ele tenha nos deixado, ele deixou marcas indeléveis.</example>
             <example>Tom nos fará muito feliz.</example>
           </antipattern>
-          <antipattern>
-            <token postag='D..MP.+|SPS00:D..MP.+' postag_regexp='yes'/>
-            <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-            <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'/>
-            <token regexp='yes'>\d\.?[oº]</token>
-            <example>São os dos 1o dias do ano</example>
-          </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
@@ -5266,28 +5151,21 @@ O namorado dela era um ladrão.
           <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
           <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'/>
         </antipattern>
-        <antipattern>
-          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'/>
-          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <token min='0' postag='(?:A..)C.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d\.?[oº]s</token>
-          <example>É o 1os dia do ano</example>
-        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'>
               <exception postag='(?:D[ADIP].|N.|A..|Z.)[MC][NP].+|(C|R).+|SPS00|V.[MIN].+' postag_regexp='yes'/>
               <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
-              <exception regexp="yes">comer|há|haver|são|ser(?:ão)?|vão|uso|n|\d[oaªº]</exception>
+              <exception regexp="yes">comer|há|haver|são|ser(?:ão)?|vão|uso|n</exception>
               <exception regexp='yes'>.+[°′″]</exception></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..)C.+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
-              <exception regexp='yes'>\d[oaªº]|\p{Lu}+</exception></token>
+              <exception regexp='yes'>\p{Lu}+</exception></token>
             <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[MC][NS].+|P[ID].[CFM].+|(C|R).+|SPS00.*|D.+|PP.+|V.[MIN].+' postag_regexp='yes'/>
-              <exception regexp='yes'>\d[oaªº]|\p{Lu}+</exception></token>
+              <exception regexp='yes'>\p{Lu}+</exception></token>
           </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
@@ -5357,13 +5235,6 @@ O namorado dela era um ladrão.
           <example>Verificámos que ao termos bonitos uniformes tudo parece melhor.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-17 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-        <antipattern>
-          <token regexp='yes'>&contracoes_MS;</token>
-          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <token min='0' postag='(?:A..)C.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d\.?[oº]s</token>
-          <example>É o do 1os dia do ano</example>
-        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -5846,13 +5717,6 @@ O namorado dela era um ladrão.
           <token postag='N.FP.+|A..FP.+' postag_regexp='yes' min='0' max='2'/>
           <example>A infecção dura aproximadamente 6 semanas</example>
         </antipattern>
-        <antipattern>
-          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]S.+' postag_regexp='yes'/>
-          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d\.?[aª]s</token>
-          <example>É a 1as ficha do ano</example>
-        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -5962,13 +5826,6 @@ O namorado dela era um ladrão.
           </and>
         </antipattern>
         <!-- MARCOAGPINTO 2021-08-17 (25-JUN-2021+) *END* -->
-        <antipattern>
-          <token regexp='yes'>&contracoes_FS;</token>
-          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d\.?[aª]s</token>
-          <example>É numa 1as instância</example>
-        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -6591,13 +6448,6 @@ O namorado dela era um ladrão.
           <token>nenhuma</token>
           <example>Não eram fascistas coisa nenhuma!</example>
         </antipattern>
-        <antipattern>
-          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'/>
-          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d\.?[aª]</token>
-          <example>São as 1a instância</example>
-        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
@@ -6712,13 +6562,6 @@ O namorado dela era um ladrão.
           <token>te</token>
           <token>das</token>
           <example>A vida começa quando te das contas de que é muito curta.</example>
-        </antipattern>
-        <antipattern>
-          <token postag='DI.FP.|SPS00:D..FP.' postag_regexp='yes'/>
-          <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
-          <token min='0' postag='(?:A..)C.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d\.?[aª]</token>
-          <example>São numas 1a instância</example>
         </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
@@ -6929,97 +6772,6 @@ O namorado dela era um ladrão.
         <example>A seus olhos "diante do paciente só existe a compreensão individual".</example>
         <example>É o único ser vivo que cria uma aparência de realidade para enganar a si próprio ou a seus similares.</example>
         <example>Intelectual muito talentoso devotou-se a seus estudos, em especial à filosofia e à medicina.</example>
-      </rule>
-      <rule default='temp_off'>
-		<pattern>
-            <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d*\.?[oº]</token>
-        </pattern>
-        <message>&MSG_ECN;</message>
-        <suggestion><match no='1' postag="(D[ADIP]..|N..|A...|P[^IDP]..|Z..)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
-        <suggestion>\1 \2s</suggestion>
-        <example correction='o 1o|os 1os'>São <marker>os 1o</marker> dias do ano.</example>
-      </rule>
-      <rule default='temp_off'>
-		<pattern>
-            <token postag='D..MP.+|SPS00:D..MP.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d*\.?[oº]</token>
-        </pattern>
-        <message>&MSG_ECN;</message>
-        <suggestion><match no='1' postag="(D..M|SPS00:D..M)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
-        <suggestion>\1 \2s</suggestion>
-        <example correction='do 1o|dos 1os'>São os <marker>dos 1o</marker> dias do ano.</example>
-      </rule>
-      <rule default='temp_off'>
-		<pattern>
-            <token postag='D..MS.+|SPS00:D..MS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d*\.?[oº]s</token>
-        </pattern>
-        <message>&MSG_ECN;</message>
-        <suggestion><match no='1' postag="(D..M|SPS00:D..M)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> \2</suggestion>
-        <suggestion>\1 <match no='2' regexp_match="s" regexp_replace='' postag_regexp="yes"/></suggestion>
-        <example correction='dos 1os|do 1o'>São os <marker>do 1os</marker> dias do ano.</example>
-      </rule>
-      <rule default='temp_off'>
-		<pattern>
-            <token postag='D..FP.+|SPS00:D..FP.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d*\.?[aª]</token>
-        </pattern>
-        <message>&MSG_ECN;</message>
-        <suggestion><match no='1' postag="(D..F|SPS00:D..F)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
-        <suggestion>\1 \2s</suggestion>
-        <example correction='da 1a|das 1as'>São as <marker>das 1a</marker> fichas do ano.</example>
-      </rule>
-	  <rule default='temp_off'>
-		<pattern>
-            <token postag='D..FS.+|SPS00:D..FS.+' postag_regexp='yes'/>
-            <token regexp='yes'>\d*\.?[aª]s</token>
-        </pattern>
-        <message>&MSG_ECN;</message>
-        <suggestion><match no='1' postag="(D..F|SPS00:D..F)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> \2</suggestion>
-        <suggestion>\1 <match no='2' regexp_match="s" regexp_replace='' postag_regexp="yes"/></suggestion>
-        <example correction='das 1as|da 1a'>São as <marker>da 1as</marker> dias do ano.</example>
-      </rule>
-      <rule default='temp_off'>
-        <antipattern>
-          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d*\.?[oº]s</token>
-          <example>São os 1os dias do ano.</example>
-        </antipattern>
-		<pattern>
-          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d*\.?[oº]s</token>
-        </pattern>
-        <message>&MSG_ECN;</message>
-        <suggestion><match no='1' postag="(D[ADIP]..|N..|A...|P[^IDP]..|Z..)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> \2</suggestion>
-        <suggestion>\1 <match no='2' regexp_match="s" regexp_replace='' postag_regexp="yes"/></suggestion>
-        <example correction='os 1os|o 1o'>São <marker>o 1os</marker> dias do ano.</example>
-      </rule>
-      <rule default='temp_off'>
-        <antipattern>
-          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d*\.?[aª]s</token>
-          <example>São as 1as fichas do ano.</example>
-        </antipattern>
-		<pattern>
-          <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'/>
-          <token regexp='yes'>\d*\.?[aª]</token>
-        </pattern>
-        <message>&MSG_ECN;</message>
-        <suggestion><match no='1' postag="(D[ADIP]..|N..|A...|P[^IDP]..|Z..)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
-        <suggestion>\1 \2s</suggestion>
-        <example correction='a 1a|as 1as'>São <marker>as 1a</marker> fichas do ano.</example>
-      </rule>
-      <rule default='temp_off'>
-		<pattern>
-          <token postag='(?:D[ADIP].[FC]|NC[FC]|A..[FC]|P[^IDP].[FC]|Z.[FC])S.+' postag_regexp='yes'>
-            <exception>a</exception></token>
-            <token regexp='yes'>\d*\.?[aª]s</token>
-        </pattern>
-        <message>&MSG_ECN;</message>
-        <suggestion><match no='1' postag="(D..F|SPS00:D..F)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> \2</suggestion>
-        <suggestion>\1 <match no='2' regexp_match="s" regexp_replace='' postag_regexp="yes"/></suggestion>
-        <example correction='umas 1as|uma 1a'>São <marker>uma 1as</marker> fichas do ano.</example>
       </rule>
     </rulegroup>
 

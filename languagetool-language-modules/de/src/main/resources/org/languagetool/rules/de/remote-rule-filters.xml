@@ -866,26 +866,98 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                <rule>
                 <pattern>
                     <marker>
-                        <token postag="SUB.*|ADV:MOD" postag_regexp="yes"></token>
+                        <token postag="SUB.*|ADV:MOD" postag_regexp="yes"/>
                     </marker>
-                    <token postag="PRP.*" postag_regexp="yes"></token>
-                    <token postag="ART.*" postag_regexp="yes" min="0"></token>
-                    <token postag="ADJ.*" postag_regexp="yes" min="0"></token>
-                    <token postag="SUB.*|EIG.*|UNKNOWN" postag_regexp="yes"></token>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token postag="ART.*" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ.*" postag_regexp="yes" min="0"/>
+                    <token postag="SUB.*|EIG.*|UNKNOWN" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">Die seither an den einzelnen Museen betriebenen Recherchen waren der <marker>Ausgangspunkt</marker> für das Projekt, seine damit verbundenen Verlusterfahrungen und das tragische Schicksal seiner Familie würdigt.</example>
                 <example correction="">Speziell im Falle eines Gerätefarbraums ist, <marker>also</marker> für das spezielle (ergo individuelle) Gerät ist diese Beziehung zu beachten.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">hallo|hi|hey</token>
                     </marker>
-                    <token postag="ADJ.*" postag_regexp="yes"></token>
-                    <token postag="SUB.*"  postag_regexp="yes"></token>
+                    <token postag="ADJ.*" postag_regexp="yes"/>
+                    <token postag="SUB.*"  postag_regexp="yes"/>
                 </pattern>
                 <example correction=""><marker>Hallo</marker> liebe Kollegen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>zu</token>
+                    </marker>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Man muß sich das mal vorstellen da sagen welche die zehnmal so viel verdienen , 8,50 reicht für euch.das hat mit Gerechtigkeit nichts <marker>zu</marker> tun sondern mit Arroganz und Überheblichkeit wohl eher.`</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT"/>
+                    <marker>
+                        <token postag="KON.*"  postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Wie kannst du nur, <marker>so</marker> wie er dich behandelt hat?</example>
+                <example correction="">1 eine kurze Trainingseinheit, <marker>während</marker> für die Stammspieler das Auslaufen anstand.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token >,</token>
+                    <marker>
+                        <token postag="VER:[123].*|VER:(MOD|AUX).*"  postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Wer den Geringen bedrückt, <marker>schmäht</marker> dessen Schöpfer, ihn ehrt, wer Erbarmen hat mit dem Bedürftigen.</example>
+                <example correction="">Hätte Jackson danach ein wenig Vorfreude auf Finalspiel vier in Worte gepackt, <marker>verübelt</marker> hätte es ihm sicherlich niemand.</example>
+                <example correction="">30 Uhr und um 12 Uhr zum Bahnhof Spandau gereist sind und von dort mit der SBahn gen City Ost fahren, <marker>wollen</marker> ab 12 Uhr auf dem Alexanderplatz feiern.</example>
+                <example correction="">Roussel, <marker>schrieb</marker> seiner langjähriger Therapeut Pierre Janet, dass sie einen interessanten Begriff von literarischer Schönheit hat.</example>
+                <example correction="">Das Tomatenmark gleich mit dazu, <marker>wäre</marker> sonst schon fast unfair</example>
+                <example correction="">Wenn wir absteigen, <marker>würde</marker> das den Verein vier bis fünf Jahre kosten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="VER.*"  postag_regexp="yes"/>
+                    </marker>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token skip="-1">
+                        <exception scope="next" postag="VER:[123].*" postag_regexp="yes"/>
+                        <exception  postag="VER:[123].*" postag_regexp="yes"/>
+                    </token>
+                    <token postag="PKT|SENT_END" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Doch der Termin <marker>war</marker> für Martin Winterkorn, den Lenker des VWKonzerns derart wichtig, dass er sogar eine Vorstandssitzung dafür unterbrach.</example>
+                <example correction="">Die Aussicht darauf <marker>war</marker> für uns eine große Motivation, sagte Mittelblocker Felix Fischer.</example>
+                <example correction="">Unfälle, Baustellen oder einfach zu dichter Verkehr <marker>sorgen</marker> für mehr Staus, als Autofahrern lieb sein kann.</example>
+                <example correction="">Der Weg dahin <marker>scheint</marker> für die Berliner möglich den Verlauf des Spiels am Freitag zum Maßstab genommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+         
+                    <marker>
+                        <token regexp="yes">und|oder|sowie</token>
+                    </marker>
+                </pattern>
+                <example correction="">Küche mit Eßecke, sehr großer Balkon zur Ost <marker>und</marker> Südseite der sie zu jeder Tageszeit zum Verweilen einlädt.</example>
+               </rule>
+                <rule>
+                <pattern>
+         
+                    <marker>
+                        <token postag="VER:3:PLU.*|VER:INF.*" postag_regexp="yes" regexp="yes">.*n</token>
+                    </marker>
+                    <token postag="VER:(AUX|MOD).*|PA2.*" postag_regexp="yes"></token>
+                </pattern>
+                <example correction="">Es fährt 45km\h und ich weiß , dass ich wenn ich nur den MofaFührerschein hätte diesen <marker>wegbekommen</marker> würde wenn es raus kommt.</example>
+                <example correction="">Wenn Höwedes noch 5 Mio bringt , Geis für 8 verscherbelt <marker>werden</marker> könnte.</example>
+                <example correction="">Das sind Bestände , die nicht ausgeliehen <marker>werden</marker> können z.B. aus Bereichsbibliotheken oder der Handbibliothek.</example>
+                <example correction="">Das Schöne ist eine Manifestation geheimer Naturgesetze, die uns ohne dessen Erscheinung ewig <marker>wären</marker> verborgen geblieben.</example>
             </rule>
             <rule>
                 <pattern>
@@ -935,7 +1007,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <marker>
                         <token postag="(EIG|SUB).*" postag_regexp="yes"/>
                     </marker>
                     <token skip="-1" postag="PRP.*" postag_regexp="yes">
