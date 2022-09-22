@@ -40,18 +40,18 @@ import com.sun.star.lang.XComponent;
  */
 public class DocumentCache implements Serializable {
 
-  private static final long serialVersionUID = 9L;
+  private static final long serialVersionUID = 10L;
 
   public final static int CURSOR_TYPE_UNKNOWN = -1;
   public final static int CURSOR_TYPE_ENDNOTE = 0;
   public final static int CURSOR_TYPE_FOOTNOTE = 1;
   public final static int CURSOR_TYPE_HEADER_FOOTER = 2;
-  public final static int CURSOR_TYPE_FRAME = 3;
-  public final static int CURSOR_TYPE_SHAPE = 4;
-  public final static int CURSOR_TYPE_TEXT = 5;
-  public final static int CURSOR_TYPE_TABLE = 6;
+//  public final static int CURSOR_TYPE_FRAME = 3;
+  public final static int CURSOR_TYPE_SHAPE = 3;
+  public final static int CURSOR_TYPE_TEXT = 4;
+  public final static int CURSOR_TYPE_TABLE = 5;
 
-  public static final int NUMBER_CURSOR_TYPES = 7;
+  public static final int NUMBER_CURSOR_TYPES = 6;
   
   private static final int MAX_NOTE_CHAR = 7;       //  supports Roman numbers to 87
   private static final int MAX_PRINTED_PARAS = 3;   //  maximal printed paragraphs to log file
@@ -76,7 +76,7 @@ public class DocumentCache implements Serializable {
   private int nEndnote = 0;
   private int nFootnote = 0;
   private int nHeaderFooter = 0;
-  private int nFrame = 0;
+//  private int nFrame = 0;
   private int nShape = 0;
   private int nText = 0;
   private int nTable = 0;
@@ -136,7 +136,7 @@ public class DocumentCache implements Serializable {
       }
       nText = textParagraphs.get(CURSOR_TYPE_TEXT).size();
       nTable = textParagraphs.get(CURSOR_TYPE_TABLE).size();
-      nFrame = textParagraphs.get(CURSOR_TYPE_FRAME).size();
+//      nFrame = textParagraphs.get(CURSOR_TYPE_FRAME).size();
       nShape = textParagraphs.get(CURSOR_TYPE_SHAPE).size();
       nFootnote = textParagraphs.get(CURSOR_TYPE_FOOTNOTE).size();
       nEndnote = textParagraphs.get(CURSOR_TYPE_ENDNOTE).size();
@@ -204,7 +204,7 @@ public class DocumentCache implements Serializable {
 //      MessageHandler.printToLogFile("DocumentCache: refreshWriterCache: call getAllTable");
       documentTexts.set(CURSOR_TYPE_TABLE, docCursor.getTextOfAllTables());
 //      MessageHandler.printToLogFile("DocumentCache: refreshWriterCache: call getAllFrame");
-      documentTexts.set(CURSOR_TYPE_FRAME, docCursor.getTextOfAllFrames());
+//      documentTexts.set(CURSOR_TYPE_FRAME, docCursor.getTextOfAllFrames());
 //      MessageHandler.printToLogFile("DocumentCache: refreshWriterCache: call getAllShape");
       documentTexts.set(CURSOR_TYPE_SHAPE, docCursor.getTextOfAllShapes());
 //      MessageHandler.printToLogFile("DocumentCache: refreshWriterCache: call getAllFootnote");
@@ -220,7 +220,7 @@ public class DocumentCache implements Serializable {
       }
       nText = documentTexts.get(CURSOR_TYPE_TEXT).paragraphs.size();
       nTable = documentTexts.get(CURSOR_TYPE_TABLE).paragraphs.size();
-      nFrame = documentTexts.get(CURSOR_TYPE_FRAME).paragraphs.size();
+//      nFrame = documentTexts.get(CURSOR_TYPE_FRAME).paragraphs.size();
       nShape = documentTexts.get(CURSOR_TYPE_SHAPE).paragraphs.size();
       nFootnote = documentTexts.get(CURSOR_TYPE_FOOTNOTE).paragraphs.size();
       nEndnote = documentTexts.get(CURSOR_TYPE_ENDNOTE).paragraphs.size();
@@ -461,7 +461,8 @@ public class DocumentCache implements Serializable {
         MessageHandler.printToLogFile("DocumentCache: mapParagraphs: Unknown paragraphs: " + nUnknown);
       }
       for (int j = 0; j < NUMBER_CURSOR_TYPES; j++) {
-        if (j != CURSOR_TYPE_TEXT && j != CURSOR_TYPE_FRAME) {
+//        if (j != CURSOR_TYPE_TEXT && j != CURSOR_TYPE_FRAME) {
+        if (j != CURSOR_TYPE_TEXT) {
           for (int i = 0; i < textParas.get(j).size(); i++) {
             toParaMapping.get(j).add(-1);
           }
@@ -481,7 +482,7 @@ public class DocumentCache implements Serializable {
         boolean firstTextDone = nMapped.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
             && nMapped.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size();
         boolean secondTextDone = firstTextDone 
-            && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
+//            && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
             && nMapped.get(CURSOR_TYPE_SHAPE).size() == textParas.get(CURSOR_TYPE_SHAPE).size()
             && nMapped.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size();
         //  test for footnote, endnote, frame or header/footer
@@ -501,6 +502,7 @@ public class DocumentCache implements Serializable {
         if (!secondTextDone && firstTextDone) {
           // test for header/footer, frame or shape
           for (int n = 2; n < NUMBER_CURSOR_TYPES - 2; n++) {
+/*
             if (n == CURSOR_TYPE_FRAME) {
               int j = nNext.get(n);
               if (j < textParas.get(n).size()) {
@@ -513,11 +515,12 @@ public class DocumentCache implements Serializable {
                 }
               }
             } else {
+*/            
               if (mapTextParagraphsPerLoop(n, i, paragraphs, footnotes, textParas, toTextMapping, toParaMapping, nMapped, nNext)) {
                 isMapped = true;
                 break;
               }
-            }
+//            }
           }
           if (isMapped) {
             continue;
@@ -545,7 +548,8 @@ public class DocumentCache implements Serializable {
                 "'; secondTextDone: " + secondTextDone);
             String msg = "DocumentCache: mapParagraphs:\n";
             for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
-              if (k == CURSOR_TYPE_TEXT || k == CURSOR_TYPE_FRAME) {
+//              if (k == CURSOR_TYPE_TEXT || k == CURSOR_TYPE_FRAME) {
+              if (k == CURSOR_TYPE_TEXT) {
                 msg += "Actual Cursor Paragraph (Type " + k + "): " + 
                         (nNext.get(k) < textParas.get(k).size() ? textParas.get(k).get(nNext.get(k)) : "no paragraph left") + "\n";
               } else {
@@ -667,7 +671,8 @@ public class DocumentCache implements Serializable {
           }
           String msg = "DocumentCache: mapParagraphs:\n";
           for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
-            if (k == CURSOR_TYPE_TEXT || k == CURSOR_TYPE_FRAME) {
+//            if (k == CURSOR_TYPE_TEXT || k == CURSOR_TYPE_FRAME) {
+            if (k == CURSOR_TYPE_TEXT) {
               msg += "Actual Cursor Paragraph (Type " + k + "): " + 
                       (nNext.get(k) < textParas.get(k).size() ? textParas.get(k).get(nNext.get(k)) : "no paragraph left") + "\n";
             } else {
@@ -683,8 +688,8 @@ public class DocumentCache implements Serializable {
           && nMapped.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
           && nMapped.get(CURSOR_TYPE_SHAPE).size() == textParas.get(CURSOR_TYPE_SHAPE).size()
           && nMapped.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
-          && nMapped.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size()
-          && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size();
+          && nMapped.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size();
+//          && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size();
       if (!isCorrectNonText) {
         //  Try to repair incorrect header/footer mapping
         for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
@@ -697,7 +702,7 @@ public class DocumentCache implements Serializable {
         }
         isCorrectNonText = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
             && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
-            && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
+//            && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
             && toParaMapping.get(CURSOR_TYPE_SHAPE).size() == textParas.get(CURSOR_TYPE_SHAPE).size()
             && toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
             && toParaMapping.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size();
@@ -760,7 +765,7 @@ public class DocumentCache implements Serializable {
             + "Endnotes: " + toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() + " / " + textParas.get(CURSOR_TYPE_ENDNOTE).size() + "\n"
             + "Footnotes: " + toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() + " / " + textParas.get(CURSOR_TYPE_FOOTNOTE).size() + "\n"
             + "Headers/Footers: " + toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() + " / " + textParas.get(CURSOR_TYPE_HEADER_FOOTER).size() + "\n"
-            + "Frames: " + toParaMapping.get(CURSOR_TYPE_FRAME).size() + " / " + textParas.get(CURSOR_TYPE_FRAME).size() + "\n"
+//            + "Frames: " + toParaMapping.get(CURSOR_TYPE_FRAME).size() + " / " + textParas.get(CURSOR_TYPE_FRAME).size() + "\n"
             + "Shapes: " + toParaMapping.get(CURSOR_TYPE_SHAPE).size() + " / " + textParas.get(CURSOR_TYPE_SHAPE).size() + "\n"
             + "Tables: " + toParaMapping.get(CURSOR_TYPE_TABLE).size() + " / " + textParas.get(CURSOR_TYPE_TABLE).size() + "\n"
             + "Text: " + toParaMapping.get(CURSOR_TYPE_TEXT).size() + " / " + textParas.get(CURSOR_TYPE_TEXT).size() + "\n"
@@ -1099,7 +1104,7 @@ public class DocumentCache implements Serializable {
     deletedCharacters.addAll(in.deletedCharacters);
     nText = in.nText;
     nTable = in.nTable;
-    nFrame = in.nFrame;
+//    nFrame = in.nFrame;
     nShape = in.nShape;
     nFootnote = in.nFootnote;
     nEndnote = in.nEndnote;
@@ -1320,9 +1325,11 @@ public class DocumentCache implements Serializable {
       if (nTable != docCursor.getNumberOfAllTables()) {
         return false;
       }
+/*
       if (nFrame != docCursor.getNumberOfAllFrames()) {
         return false;
       }
+*/
       if (nShape != docCursor.getNumberOfAllShapes()) {
         return false;
       }

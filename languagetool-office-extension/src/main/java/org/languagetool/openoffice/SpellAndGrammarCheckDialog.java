@@ -471,7 +471,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (checkType != 2) {
       sError = getNextSpellErrorInParagraph (x, nFPara, text, locale, document, docTools);
     }
-    if (checkType != 1 && (checkFrames || docCache.getParagraphType(nFPara) != DocumentCache.CURSOR_TYPE_FRAME)) {
+    if (checkType != 1 && (checkFrames || docCache.getParagraphType(nFPara) != DocumentCache.CURSOR_TYPE_SHAPE)) {
       gError = getNextGrammatikErrorInParagraph(x, nFPara, text, footnotePosition, locale, document);
     }
 //    MessageHandler.printToLogFile("CheckDialog: getNextErrorInParagraph(" + nFPara + ", 3): locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale)));

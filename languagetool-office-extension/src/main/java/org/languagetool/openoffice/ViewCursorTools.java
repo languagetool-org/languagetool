@@ -148,6 +148,7 @@ public class ViewCursorTools {
           }
         }
       }
+/*        Commented out because shapes seams the more general concept to be      
       //  Test if cursor position is in frame
       XTextFramesSupplier xTextFrameSupplier = UnoRuntime.queryInterface(XTextFramesSupplier.class, curDoc);
       XNameAccess xNamedFrames = xTextFrameSupplier.getTextFrames();
@@ -163,6 +164,7 @@ public class ViewCursorTools {
           }
         }
       }
+*/
       //  Test if cursor position is in shape
       XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
       if (xDrawPageSupplier != null) {
@@ -439,6 +441,7 @@ public class ViewCursorTools {
           }
         }
       }
+/*        Commented out because shapes seams the more general concept to be      
       //  Test if cursor position is in frame
       XTextFramesSupplier xTextFrameSupplier = UnoRuntime.queryInterface(XTextFramesSupplier.class, curDoc);
       XNameAccess xNamedFrames = xTextFrameSupplier == null ? null : xTextFrameSupplier.getTextFrames();
@@ -466,6 +469,7 @@ public class ViewCursorTools {
           }
         }
       }
+*/
       //  Test if cursor position is in shape
       XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
       if (xDrawPageSupplier != null) {
@@ -916,6 +920,7 @@ public class ViewCursorTools {
   /** 
    * Set the cursor to a paragraph of frame
    */
+/*        Commented out because shapes seams the more general concept to be      
   public void setViewCursorToParagraphOfFrame(int xChar, int numPara) {
     isBusy++;
     try {
@@ -944,7 +949,7 @@ public class ViewCursorTools {
       isBusy--;
     }
   }
-  
+*/  
   /** 
    * Set the cursor to a paragraph of frame
    */
@@ -1028,8 +1033,8 @@ public class ViewCursorTools {
         setDocumentTextViewCursor(xChar, yPara.number);
       } else if (yPara.type == DocumentCache.CURSOR_TYPE_TABLE) {
         setViewCursorToParagraphOfTable(xChar, yPara.number);
-      } else if (yPara.type == DocumentCache.CURSOR_TYPE_FRAME) {
-        setViewCursorToParagraphOfFrame(xChar, yPara.number);
+//      } else if (yPara.type == DocumentCache.CURSOR_TYPE_FRAME) {
+//        setViewCursorToParagraphOfFrame(xChar, yPara.number);
       } else if (yPara.type == DocumentCache.CURSOR_TYPE_SHAPE) {
         setViewCursorToParagraphOfShape(xChar, yPara.number);
       } else if (yPara.type == DocumentCache.CURSOR_TYPE_FOOTNOTE) {

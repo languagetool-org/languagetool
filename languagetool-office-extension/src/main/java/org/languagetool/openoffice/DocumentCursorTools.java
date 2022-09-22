@@ -405,6 +405,7 @@ class DocumentCursorTools {
   /** 
    * Returns all paragraphs of all text frames of a document
    */
+/*        Commented out because shapes seams the more general concept to be      
   public DocumentText getTextOfAllFrames() {
     isBusy++;
     try {
@@ -434,10 +435,11 @@ class DocumentCursorTools {
       isBusy--;
     }
   }
-  
+*/  
   /** 
    * Returns the number of all paragraphs of all text frames of a document
    */
+/*        Commented out because shapes seams the more general concept to be      
   public int getNumberOfAllFrames() {
     isBusy++;
     try {
@@ -459,7 +461,7 @@ class DocumentCursorTools {
       isBusy--;
     }
   }
-  
+*/  
   /** 
    * Returns all paragraphs of all text shapes of a document
    */
@@ -909,25 +911,25 @@ class DocumentCursorTools {
           }
         }
       } else if (type == DocumentCache.CURSOR_TYPE_ENDNOTE) {
-      XEndnotesSupplier xEndnotesSupplier = UnoRuntime.queryInterface(XEndnotesSupplier.class, curDoc );
-      XIndexAccess xEndnotes = UnoRuntime.queryInterface(XIndexAccess.class, xEndnotesSupplier.getEndnotes());
-      if (xEndnotes != null) {
-        for (int i = 0; i < xEndnotes.getCount(); i++) {
-          XFootnote xEndnote = UnoRuntime.queryInterface(XFootnote.class, xEndnotes.getByIndex(i));
-          XText xEndnoteText = UnoRuntime.queryInterface(XText.class, xEndnote);
-          XTextCursor xTextCursor = xEndnoteText.createTextCursor();
-          XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-          xParagraphCursor.gotoStart(false);
-          while (nPara < number && xParagraphCursor.gotoNextParagraph(false)){
+        XEndnotesSupplier xEndnotesSupplier = UnoRuntime.queryInterface(XEndnotesSupplier.class, curDoc );
+        XIndexAccess xEndnotes = UnoRuntime.queryInterface(XIndexAccess.class, xEndnotesSupplier.getEndnotes());
+        if (xEndnotes != null) {
+          for (int i = 0; i < xEndnotes.getCount(); i++) {
+            XFootnote xEndnote = UnoRuntime.queryInterface(XFootnote.class, xEndnotes.getByIndex(i));
+            XText xEndnoteText = UnoRuntime.queryInterface(XText.class, xEndnote);
+            XTextCursor xTextCursor = xEndnoteText.createTextCursor();
+            XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
+            xParagraphCursor.gotoStart(false);
+            while (nPara < number && xParagraphCursor.gotoNextParagraph(false)){
+              nPara++;
+            }
+            if (nPara == number) {
+              return xParagraphCursor;
+            }
             nPara++;
           }
-          if (nPara == number) {
-            return xParagraphCursor;
-          }
-          nPara++;
         }
-      }
-      } else if (type == DocumentCache.CURSOR_TYPE_ENDNOTE) {
+      } else if (type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER) {
         List<XPropertySet> xPagePropertySets = getPagePropertySets();
         XText lastHeaderText = null;
         for (XPropertySet xPagePropertySet : xPagePropertySets) {
@@ -946,6 +948,34 @@ class DocumentCursorTools {
                 }
                 nPara++;
                 lastHeaderText = xHeaderText;
+              }
+            }
+          }
+        }
+      } else if (type == DocumentCache.CURSOR_TYPE_SHAPE) {
+        XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
+        if (xDrawPageSupplier != null) {
+          XDrawPage xDrawPage = xDrawPageSupplier.getDrawPage();
+          if (xDrawPage != null) {
+            XShapes xShapes = UnoRuntime.queryInterface(XShapes.class, xDrawPage);
+            int nShapes = xShapes.getCount();
+            for(int j = 0; j < nShapes; j++) {
+              Object oShape = xShapes.getByIndex(j);
+              XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+              if (xShape != null) {
+                XText xShapeText = UnoRuntime.queryInterface(XText.class, xShape);
+                if (xShapeText != null) {
+                  XTextCursor xTextCursor = xShapeText.createTextCursor();
+                  XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
+                  xParagraphCursor.gotoStart(false);
+                  while (nPara < number && xParagraphCursor.gotoNextParagraph(false)){
+                    nPara++;
+                  }
+                  if (nPara == number) {
+                    return xParagraphCursor;
+                  }
+                  nPara++;
+                }
               }
             }
           }
