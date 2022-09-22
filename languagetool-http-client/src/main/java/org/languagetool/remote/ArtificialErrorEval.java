@@ -176,6 +176,12 @@ public class ArtificialErrorEval {
 //          if (fileName.equals("diacritics")) {
 //            continue;
 //          }
+          //reset all global Variables to default
+          unidirectional = false;
+          wholeword = true;
+          isDoubleLetters = false;
+          isDiacritics = false;
+          inflected = false;
           if (fileName.equals("diacritics")) {
             isDiacritics = true;
             unidirectional = true;
@@ -183,15 +189,11 @@ public class ArtificialErrorEval {
           else if (fileName.equals("double_letters")) {
             isDoubleLetters = true;
             unidirectional = true;
-            isDiacritics = false;
           }
           else {
-            isDoubleLetters = false;
             String[] parts = fileName.split("~");
             words[0] = parts[0].replaceAll("_", " ");
             words[1] = parts[1].replaceAll("_", " ");
-            unidirectional = false;
-            isDiacritics = false;
             if (parts.length > 2) {
               unidirectional = parts[2].equals("u");
               if (parts[2].equals("u_notwholeword")) {
@@ -199,7 +201,6 @@ public class ArtificialErrorEval {
                 wholeword = false;
               }
               if (parts[2].equals("notwholeword")) {
-                unidirectional = false;
                 wholeword = false;
               }
             }  
