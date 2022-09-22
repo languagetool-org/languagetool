@@ -5967,7 +5967,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                             <token postag="JJ.?" postag_regexp="yes"/>
                         </and>
                         <token postag="SENT_END|VB." postag_regexp="yes">
-                            <exception postag="NN.*|JJ.?|``|''" postag_regexp="yes"/>
+                            <exception postag="NN.*|JJ.?|CD|``|''" postag_regexp="yes"/>
                         </token>
                     </unify>
                 </marker>
@@ -15296,6 +15296,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rulegroup id="LIVE_VB" name="VB on 'live'">
+        <antipattern><!-- He perfomed it live in … -->
+            <token postag="VB.*|IN|UNKNOWN" postag_regexp="yes" />
+            <token postag="PRP" />
+            <token>live</token>
+        </antipattern>
         <rule>
             <pattern>
                 <token postag="PRP|MD|TO" postag_regexp="yes" />

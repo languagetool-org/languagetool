@@ -322,6 +322,8 @@ public class English extends Language implements AutoCloseable {
       case "RUN_ON":                    return 1;   // higher prio than TOO_LONG_SENTENCE
       case "ON_THE_LOOK_OUT":           return 1;   // higher prio than VERB_NOUN_CONFUSION
       case "APOSTROPHE_IN_DAYS":        return 1;   // higher prio than A_NNS
+      case "GET_TOGETHER_HYPHEN":       return 1;   // higher prio than some agreement rules
+      case "GOT_HERE":                  return 1;   // higher prio than GET_VBN and HEAR_HERE
       case "PICTURE_PERFECT_HYPHEN":    return 1;   // higher prio than some agreement rules
       case "SEEM_SEEN":    return 1;   // higher prio than some agreement rules (e.g. PRP_HAVE_VB)
       case "SAVE_SAFE":                 return 1;   // higher prio than agreement rules
