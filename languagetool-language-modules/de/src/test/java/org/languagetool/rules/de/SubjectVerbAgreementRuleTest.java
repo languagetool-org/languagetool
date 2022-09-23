@@ -314,7 +314,8 @@ public class SubjectVerbAgreementRuleTest {
         "Das bedeutendste Bauwerk und Wahrzeichen der Stadt ist die ehemalige Klosterkirche des Klosters Hofen.",
         "Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.",
         "Gründer und Leiter des Zentrums ist der Rabbiner Marvin Hier, sein Stellvertreter ist Rabbi Abraham Cooper.",
-        "Dank unserer Kunden, Freunde, Partner und unserer Mitarbeiter ist Alpenwahnsinn zur Heimatadresse für schöne Trachtenmode geworden."
+        "Dank unserer Kunden, Freunde, Partner und unserer Mitarbeiter ist Alpenwahnsinn zur Heimatadresse für schöne Trachtenmode geworden.",
+        "Laut seiner Recherche und mehreren Berichten der Welt ist die Zahl zu niedrig gegriffen."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

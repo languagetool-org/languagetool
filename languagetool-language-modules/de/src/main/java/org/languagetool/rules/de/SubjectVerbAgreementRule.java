@@ -357,6 +357,13 @@ public class SubjectVerbAgreementRule extends Rule {
       pos("KON:NEB"),
       posRegex("SUB:GEN:PLU:.+"),
       tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Einer der bedeutendsten Māori-Autoren der Gegenwart ist Witi Ihimaera.
+      new PatternTokenBuilder().csToken("Laut").setSkip(4).build(),
+      new PatternTokenBuilder().csToken("und").setSkip(5).build(),
+      tokenRegex("ist|war"),
+      tokenRegex("d(er|ie|as)"),
+      posRegex("SUB:NOM:SIN:.+")
     )
   );
 
