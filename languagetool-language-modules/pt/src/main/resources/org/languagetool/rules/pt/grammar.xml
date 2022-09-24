@@ -2765,6 +2765,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>...terizam por ter o osso da munheca bem grosso em comparação com os ectomorfos (com tendência a serem magros).</example>
         </antipattern>
 
+        <!-- MARCOAGPINTO 2022-09-24 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- Zero hits in 600 000 sentences, it only hits with my thesis -->
+        <antipattern>
+          <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp="yes"/>
+          <token postag='AQ.F.+|NCF.+' postag_regexp="yes"/>
+          <token postag='V.+' postag_regexp="yes"/>
+          <token min="0" max="1" postag='_PUNCT|SPS00|CC|CS|RG|I|RM|RN' postag_regexp="yes"/>
+          <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp="yes"/>
+          <example>As eras são: a Antiguidade, a Idade Medieval e a Idade da Pólvora.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-09-24 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token postag='DA0F.+|SPS00:DA0F.+|PP.F.+|SPS00:PP.F.+' postag_regexp="yes"/>
           <token min="0" max="1" postag='AQ.F.+|NCF.+' postag_regexp="yes">
