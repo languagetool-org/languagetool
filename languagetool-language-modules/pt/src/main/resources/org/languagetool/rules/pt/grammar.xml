@@ -7742,6 +7742,9 @@ O namorado dela era um ladrão.
       <!--              General verbal concordance errors           -->
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
       <!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-6/13/14 (1-JAN-2022+)      -->
+      <!--
+           MARCOAGPINTO started adding antipatterns at the top to affect all subrules - 2022-09-24
+      -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_verbal</url>
       <antipattern>
         <token postag='VMN0000'/><!-- Mesóclises são consideradas como compostas -->
@@ -7758,6 +7761,17 @@ O namorado dela era um ladrão.
         <token>é</token>
         <token>que</token>
       </antipattern>
+
+      <!-- MARCOAGPINTO 2022-09-25 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='VMG0000' postag_regexp='no'/>
+        <token min="0" max="1" postag='RG'/>
+        <token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='AQ..P.+|NC.P.+|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+        <token postag='VMN0000' postag_regexp='no'/>
+        <example>As mãos tentando os nós desapertar, / salpicadas as fitas sobre a fronte / de peçonhenta baba, horrendos gritos / ele vai desferindo, ...</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-09-25 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <!-- MARCOAGPINTO 2022-04-06 (1-JAN-2022+) *START* -->
       <!--
