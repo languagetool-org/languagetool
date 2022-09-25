@@ -154,8 +154,8 @@ public class LtDictionary {
   /**
    * get the list of words out of spelling.txt files defined by LT
    */
-  private List<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
-    List<String> words = new ArrayList<>();
+  private Set<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
+    Set<String> words = new HashSet<>();
     String path;
     for (int i = 0; i < NUM_PATHS; i++) {
       path = getSpellingFilePath(locale, i);
@@ -169,20 +169,14 @@ public class LtDictionary {
               lineWords = lineWords[0].trim().split("/");
               lineWords[0] = lineWords[0].replaceAll("_","");
               if (!lineWords[0].isEmpty()) {
-//                if (!words.contains(lineWords[0]) && !linguServices.isCorrectSpell(lineWords[0], locale)) {
-                if (!words.contains(lineWords[0])) {
-                  words.add(lineWords[0]);
-                }
+                words.add(lineWords[0]);
                 if (lineWords.length > 1) {
                   lineWords[1] = lineWords[1].trim();
                   for (int n = 0; n < lineWords[1].length(); n++) {
                     if (lineWords[1].charAt(n) == 'A') {
                       for (String add : ADD_ALL) {
                         String word = lineWords[0] + add;
-//                        if (!words.contains(word) && !linguServices.isCorrectSpell(word, locale)) {
-                        if (!words.contains(word)) {
-                          words.add(word);
-                        }
+                        words.add(word);
                       }
                     } else {
                       String word = lineWords[0];
@@ -195,10 +189,7 @@ public class LtDictionary {
                       } else if (lineWords[1].charAt(n) == 'F') {
                         word += "in";
                       }
-//                      if (!words.contains(word) && !linguServices.isCorrectSpell(word, locale)) {
-                      if (!words.contains(word)) {
-                        words.add(word);
-                      }
+                      words.add(word);
                     }
                   }
                 }
@@ -260,7 +251,7 @@ public class LtDictionary {
       } else {
         MessageHandler.printToLogFile("getLTDictionaryFile: LT dictionary file doesn't exist: start to create");
       }
-      List<String> words = getManualWordList(locale, linguServices);
+      Set<String> words = getManualWordList(locale, linguServices);
       try (OutputStream stream = new FileOutputStream(path);
           OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
           BufferedWriter br = new BufferedWriter(writer)
