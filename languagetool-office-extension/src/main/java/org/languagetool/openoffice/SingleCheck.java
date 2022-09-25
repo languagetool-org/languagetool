@@ -224,7 +224,8 @@ class SingleCheck {
       //  NOTE: lt == null if language is not supported by LT
       //        but empty proof reading errors have added to cache to satisfy text level queue
       if (lt != null && !docCache.isAutomaticGenerated(nFPara) && mDocHandler.isSortedRuleForIndex(cacheNum)) {
-        paragraphMatches = lt.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
+        paragraphMatches = lt.check(textToCheck, true, 
+            cacheNum == 0 ? JLanguageTool.ParagraphHandling.NORMAL : JLanguageTool.ParagraphHandling.ONLYPARA);
         if (cacheNum == 0) {
           nextSentencePositions = getNextSentencePositions(textToCheck, lt);
         }
