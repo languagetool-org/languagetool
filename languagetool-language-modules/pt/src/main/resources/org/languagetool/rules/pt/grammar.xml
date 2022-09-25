@@ -5778,8 +5778,6 @@ O namorado dela era um ladrão.
         </antipattern>
         <antipattern>
            <token postag='N.+|A.+' postag_regexp='yes'/>
-           <token skip='-1' min='0' regexp='yes'>,|\(</token>
-           <token min='0' regexp='yes'>,|\)</token>
            <token>a</token>
            <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
            <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
@@ -5795,6 +5793,16 @@ O namorado dela era um ladrão.
            <example>Houve outras punições extrajudiciais a ativistas poliíticos, dissidentes ou população em geral.</example>
            <example>A descarboxilação dos aminoácidos a aminas catalisada por enzimas.</example>
            <example>No entanto, essa equação se torna cada vez mais imprecisa a altas pressões e temperaturas mais baixas.</example>
+        </antipattern>
+        <antipattern>
+           <token postag='N.+|A.+' postag_regexp='yes'/>
+           <token skip='-1' regexp='yes'>,|\(</token>
+           <token regexp='yes'>,|\)</token>
+           <token>a</token>
+           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+           <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
+           <token postag='(?:[NZ].|A..)[FC]P.+' postag_regexp='yes'/>
+           <example>Conhecidos como "Cerebus phonebook" por sua semelhança, por meio de sua espessura, a listas telefônicas.</example>
         </antipattern>
         <antipattern>
           <and>
@@ -5842,6 +5850,12 @@ O namorado dela era um ladrão.
           <token>tal</token>
           <token postag='VMP.+' postag_regexp='yes'/>
           <example>Sendo para tal preferidas as plantas</example>
+        </antipattern>
+        <antipattern>
+           <token>acessível</token>
+           <token>a</token>
+           <token postag='(?:NC|A..)[FC]P.+' postag_regexp='yes'/>
+           <example>Ambiente acessível a cadeiras de rodas.</example>
         </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
