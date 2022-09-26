@@ -4589,10 +4589,10 @@ O namorado dela era um ladrão.
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
-              <exception regexp='yes'>x|\p{Lu}+</exception></token>
+              <exception regexp='yes'>.+[°′″]|x|\p{Lu}+</exception></token>
             <token postag='(?:[NZ].|A..)[MC]S.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[MC][NP].+|P[ID].[CFM].+|(C|R).+|SPS00.*|V.[ING].+' postag_regexp='yes'/>
-              <exception regexp="yes">há|são|ser|haver|sozinho|devido|vão|serão|tempo|\p{Lu}+</exception>
+              <exception regexp="yes">.+[°′″]|há|são|ser|haver|sozinho|devido|vão|serão|tempo|\p{Lu}+</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception></token>
           </marker>
@@ -4734,13 +4734,13 @@ O namorado dela era um ladrão.
           <marker>
             <token postag='D..MP.+|SPS00:D..MP.+' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='R.|NP.+'/>
-              <exception regexp='yes'>aos|mesmos</exception></token>
+              <exception regexp='yes'>.+[°′″]|aos|mesmos</exception></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+|V.[MIN].+|Z0MS0'/></token>
             <token postag='(?:[NZ].|A..|DP.)[MC]S.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[MC][NP].+|A..C.+|NPMS.+|P[ID].[CFM].+|(C|R).+|SPS00|V.[MIN].+' postag_regexp='yes'/>
-              <exception regexp="yes">[dlv]ê|devido|m[éí]dia|pelo|um|há|haver|são|ser(?:ão)?|vão</exception>
+              <exception regexp="yes">.+[°′″]|[dlv]ê|devido|m[éí]dia|pelo|um|há|haver|são|ser(?:ão)?|vão</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception>
               <exception regexp='yes'>\p{Lu}+</exception></token>
@@ -5183,10 +5183,10 @@ O namorado dela era um ladrão.
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..)C.+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
-              <exception regexp='yes'>\p{Lu}+</exception></token>
+              <exception regexp='yes'>.+[°′″]|\p{Lu}+</exception></token>
             <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[MC][NS].+|P[ID].[CFM].+|(C|R).+|SPS00.*|D.+|PP.+|V.[MIN].+' postag_regexp='yes'/>
-              <exception regexp='yes'>\p{Lu}+</exception></token>
+              <exception regexp='yes'>.+[°′″]|\p{Lu}+</exception></token>
           </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
@@ -5264,9 +5264,11 @@ O namorado dela era um ladrão.
               <exception postag_regexp='yes' postag='R.|NP.+'/></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
+              <exception regexp='yes'>.+[°′″]</exception></token>
             <token postag='(?:[NZ].|A..|DP.)[MC]P.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..|DP.)[MC][NS].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
+              <exception postag='(?:[NZ].|A..|DP.)[MC][NS].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+              <exception regexp='yes'>.+[°′″]</exception></token>
           </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
@@ -5866,10 +5868,10 @@ O namorado dela era um ladrão.
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
-              <exception regexp='yes'>micro|0</exception></token>
+              <exception regexp='yes'>.+[°′″]|micro|0</exception></token>
             <token postag='(?:[NZ].|A..)[FC]P.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[FC][NS].+|N.M.+|P[ID].[CFM].+|(C|R).+|SPS00.*|AP.+' postag_regexp='yes'/>
-              <exception regexp='yes'>Adidas|aids|pacas|horas|juntas|0|\d{1,2}hs?</exception></token>
+              <exception regexp='yes'>.+[°′″]|Adidas|aids|pacas|horas|juntas|0|\d{1,2}hs?</exception></token>
           </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
@@ -5975,10 +5977,11 @@ O namorado dela era um ladrão.
               <exception postag_regexp='yes' postag='R.|NP.+'/></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
+              <exception regexp='yes'>.+[°′″]</exception></token>
             <token postag='(?:[NZ].|A..|DP.)[FC]P.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[FC][NS].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-              <exception regexp='yes'>\p{Lu}+</exception></token><!-- FIXME Review patterns to include passive without crippling detection -->
+              <exception regexp='yes'>.+[°′″]|\p{Lu}+</exception></token><!-- FIXME Review patterns to include passive without crippling detection -->
           </marker>
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
@@ -6598,13 +6601,13 @@ O namorado dela era um ladrão.
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A[OQP].)C.+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
-              <exception regexp='yes'>x|pro</exception>
+              <exception regexp='yes'>.+[°′″]|x|pro</exception>
               <exception postag='(?:[NZ].|A[OQ].).N.+' postag_regexp='yes'/></token>
             <token postag='(?:[NZ].|A[OQ].)[FC]S.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[FC][NP].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception>
-              <exception regexp='yes'>paga|sozinha|&dias_semana;|pro|\p{Lu}\p{Lu}+</exception></token>
+              <exception regexp='yes'>.+[°′″]|paga|sozinha|&dias_semana;|pro|\p{Lu}\p{Lu}+</exception></token>
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
@@ -6711,12 +6714,13 @@ O namorado dela era um ladrão.
               <exception postag_regexp='yes' postag='R.|NP.+'/></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..)C.+' postag_regexp='yes'>
-              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/></token>
+              <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
+              <exception regexp='yes'>.+[°′″]</exception></token>
             <token postag='(?:N.|A..|DP.)[FC]S.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[FC][NP].+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception>
-              <exception regexp='yes'>lajes|\p{Lu}\p{Lu}+</exception></token>
+              <exception regexp='yes'>.+[°′″]|lajes|\p{Lu}\p{Lu}+</exception></token>
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
@@ -50177,9 +50181,13 @@ O namorado dela era um ladrão.
         <token postag='_QUOT'/>
         <example>O single "There's Something"</example>
       </antipattern>
+      <antipattern>
+        <token>Victoria's</token>
+        <token>Secret</token>
+      </antipattern>
       <pattern>
         <token regexp='yes'>\p{L}*
-          <exception regexp='yes'>\p{Lu}\p{Ll}*</exception>
+          <exception regexp='yes'>\p{Lu}\p{Ll}*|Ma?cdonald|Rupaul</exception>
         </token>
         <token spacebefore='no' postag='_QUOT'/>
         <token spacebefore='no'>s</token>

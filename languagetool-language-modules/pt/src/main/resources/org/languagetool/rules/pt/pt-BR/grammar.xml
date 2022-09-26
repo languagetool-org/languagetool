@@ -65,20 +65,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <rule>
         <pattern>
-          <token regexp='yes'>(?:\d+)[o]\.?([sˢ]?)
+          <token regexp='yes'>(?:\d+)[o°]\.?([sˢ]?)
             <exception scope='next' regexp='yes' case_sensitive='yes'>[CFNSEW]|[Gg]raus?|[\d,. ]+[′''][CFKNSEWO]?</exception></token>
           <!--token min='0' spacebefore='no'>.</token-->
         </pattern>
-        <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)[ºo]\.?([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>. Note que graus não são ordinais.</message>
+        <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+).\.?([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>. Note que graus não são ordinais.</message>
         <example correction="12.º">O premiado é o <marker>12o</marker> da lista.</example>
         <example>Temperatura máxima prevista de 38º C.</example><!-- formatting of degrees done by DEGREE_SYMBOL -->
       </rule>
       <rule>
         <pattern>
-          <token regexp='yes' case_sensitive='yes'>(?:\d+)\.o(?:[sˢ]?)</token>
+          <token regexp='yes' case_sensitive='yes'>(?:\d+)\.[°o](?:[sˢ]?)</token>
           <!--token min='0' spacebefore='no'>.</token-->
         </pattern>
-        <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)\.o([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>.</message>
+        <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='(\d+)\..([sˢ]?)\.?' regexp_replace='$1.º$2'/></suggestion>.</message>
         <example correction="12.º">A entrada é a <marker>12.o</marker> da lista.</example>
         <example correction="12.º">A entrada é a <marker>12.o</marker>. da lista.</example>
         <example correction="12.ºs">A entrada é a <marker>12.os</marker>. da lista.</example>
@@ -104,7 +104,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp='yes' case_sensitive='yes'>(?:\d+\.[aoªº])s</token>
+          <token regexp='yes' case_sensitive='yes'>(?:\d+\.[aoªº°])s</token>
         </pattern>
         <message>A abreviatura deste ordinal é: <suggestion><match no='1' regexp_match='s' regexp_replace='ˢ'/></suggestion>.</message>
         <example correction="12.ªˢ">A entrada é a <marker>12.ªs</marker> da lista.</example>
@@ -112,13 +112,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token regexp='yes' case_sensitive='yes'>(?:\d+\.?[ao])[sˢ]?</token>
+            <token regexp='yes' case_sensitive='yes'>(?:\d+\.?[ao°])[sˢ]?</token>
             <token>.</token>
           </marker>
           <token regexp='yes' case_sensitive='yes'>\p{Ll}+|[,;]</token>
         </pattern>
         <message>A abreviatura deste ordinal é: <suggestion>\1</suggestion>.</message>
         <example correction="12o">O premiado é o <marker>12o.</marker> da lista.</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+            <token regexp='yes' case_sensitive='yes'>\d+°</token>
+            <token postag="N.MS.+|AQ.MS." postag_regexp="yes"/>
+        </pattern>
+        <message>O símbolo "°" indica graus. Será que não quis dizer <suggestion><match no='1' regexp_match='°' regexp_replace='º'/></suggestion>?</message>
+        <example correction="13º">Recebemos <marker>13° salário</marker>.</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token regexp='yes' case_sensitive='yes'>\d+°[sˢ]</token>
+          <token postag="N.MP.+|AQ.MP." postag_regexp="yes"/>
+        </pattern>
+        <message>O símbolo "°" indica graus. Será que não quis dizer <suggestion><match no='1' regexp_match='°' regexp_replace='º'/></suggestion>?</message>
+        <example correction="13ºˢ">Recebemos <marker>13°ˢ salários</marker>.</example>
       </rule>
     </rulegroup>
 
