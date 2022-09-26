@@ -10451,6 +10451,15 @@ RB => Règles Brutes
         <!-- Alert: it could be too greedy, move down -->
         <rule>
             <pattern>
+                <token>j</token>
+                <marker>
+                    <token postag="V.*1 s" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*1 s"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="[NJZ].*|V ppa.*" postag_regexp="yes">
                     <exception postag="[NJZ].*|V ppa.*|_GN_.*" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
