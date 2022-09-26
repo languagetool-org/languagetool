@@ -375,13 +375,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rule>
     <rule id="CONFUSAO_MAIS_MAS_VIRGULA" name="Confusão de mais e mas após a vírgula" default="on">
       <antipattern>
-        <token postag='N.+' postag_regexp='yes'/>
-        <token postag='AQ.+' postag_regexp='yes' min='0'/>
+        <token postag='SENT_START'/>
+        <token postag='CS' skip='-1'/>
         <token>,</token>
         <token>mais</token>
-        <token postag='VMP.+' postag_regexp='yes'/>
-        <example>A secretaria da empresa, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
-        <example>A secretaria da empresa nova, mais focada em atender os clientes, não hesitou em resolver a situação.</example>
+        <example>Se depressa o vi, mais depressa o fiz!</example>
       </antipattern>
       <antipattern>
         <token>,</token>
@@ -45150,6 +45148,19 @@ O namorado dela era um ladrão.
 
     <rule id='ACHO_QUE' name="penso/julgo que" tags='picky'>
       <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-05-29 -->
+      <antipattern>
+      <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token inflected='yes'>achar</token>
+        <token skip='-1'>que</token>
+        <example>O que houve, acha que ele não vem?</example>
+        <example>Acho que você está certa.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>achar</token>
+        <token skip='-1'>que</token>
+        <token>?</token>
+        <example>Você acha que ele não vem?</example>
+      </antipattern>
       <pattern>
         <token inflected='yes'>achar</token>
         <token>que</token>
