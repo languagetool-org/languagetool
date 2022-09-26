@@ -154,6 +154,28 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="J e p"/>
     </rule>
+    <rule id="SEUL_NOM" name="seul nom">
+        <pattern>
+            <token regexp="yes">seule?s?</token>
+            <token regexp="yes">les?|la</token>
+            <marker>
+                <token postag="V inf"/>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N m s"/>
+    </rule>
+    <rule id="CELUI_LA_VERBE" name="celui-là verbe">
+        <pattern>
+            <token regexp="yes">celles?-là|celui-là|ceux-là|celles?-ci|celui-ci|ceux-ci</token>
+            <marker>
+                <and>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="V.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+    </rule>
     <rule id="QUE_LE_DEVOIR" name="que le devoir">
         <pattern>
             <token>que</token>
@@ -7119,8 +7141,17 @@ RB => Règles Brutes
     <rule name="adverbes" id="ADVERBES">
         <pattern>
             <marker>
-                <token regexp="yes">trop|peu|beaucoup|assez|fort|peut-être</token>
+                <token regexp="yes">trop|peu|beaucoup|assez|peut-être</token>
             </marker>
+        </pattern>
+        <disambig postag="A"/>
+    </rule>
+    <rule name="fort" id="FORT">
+        <pattern>
+            <marker>
+                <token>fort</token>
+            </marker>
+            <token postag="J.*|V.* ppa.*" postag_regexp="yes"/>
         </pattern>
         <disambig postag="A"/>
     </rule>
