@@ -63,6 +63,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag="_PUNCT" spacebefore="no"/>
         <example>-895a-</example>
       </antipattern>
+      <antipattern>
+        <token postag="_PUNCT" spacebefore="no"/>
+        <token regexp="yes">\d+°</token>
+        <example>de 90–100°</example>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">\d+°|\d+</token>
+        <token regexp="yes">\d+°</token>
+        <example>92° 09° O</example>
+      </antipattern>
       <rule>
         <pattern>
           <token regexp='yes'>(?:\d+)[o°]\.?([sˢ]?)

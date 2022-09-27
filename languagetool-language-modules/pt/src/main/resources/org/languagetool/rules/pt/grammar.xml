@@ -45146,31 +45146,21 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rule id='ACHO_QUE' name="penso/julgo que" tags='picky'>
+    <rule id='ACHO_QUE' name="penso/julgo que" tags='picky' default='temp_off'>
       <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-05-29 -->
-      <antipattern>
-      <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
-        <token inflected='yes'>achar</token>
-        <token skip='-1'>que</token>
-        <example>O que houve, acha que ele não vem?</example>
-        <example>Acho que você está certa.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>achar</token>
-        <token skip='-1'>que</token>
-        <token>?</token>
-        <example>Você acha que ele não vem?</example>
-      </antipattern>
       <pattern>
+        <token postag='C.+' postag_regexp='yes'/>
+       <marker>
         <token inflected='yes'>achar</token>
         <token>que</token>
+       </marker>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>pensar</match> que</suggestion>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>julgar</match> que</suggestion>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>acreditar</match> que</suggestion>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>supor</match> que</suggestion>
-      <example correction='penso que|julgo que|acredito que|suponho que'>Eu <marker>acho que</marker> devemos vencer.</example>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>pensar</match> que</suggestion>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>julgar</match> que</suggestion>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>acreditar</match> que</suggestion>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>supor</match> que</suggestion>
+      <example correction='pensávamos que|julgávamos que|acreditávamos que|supúnhamos que'>Já não íamos lá há algum tempo porque <marker>achávamos que</marker> a qualidade tinha vindo a cair.</example>
     </rule>
 
     <rule id='BASEIA-SE_EM' name="Tem por base" default='off'>
