@@ -166,7 +166,8 @@ RB => Règles Brutes
     </rule>
     <rule id="CELUI_LA_VERBE" name="celui-là verbe">
         <pattern>
-            <token regexp="yes">celles?-là|celui-là|ceux-là|celles?-ci|celui-ci|ceux-ci</token>
+            <token regexp="yes">celles?-là|celui-là|ceux-là|celles?-ci|celui-ci|ceux-ci
+                <exception scope="previous" postag="P|C sub" postag_regexp="yes"/></token>
             <marker>
                 <and>
                 <token postag="N.*" postag_regexp="yes"/>
@@ -7146,15 +7147,39 @@ RB => Règles Brutes
         </pattern>
         <disambig postag="A"/>
     </rule>
-    <rule name="fort" id="FORT">
+    <rulegroup name="fort" id="FORT">
+        <rule>
         <pattern>
             <marker>
                 <token>fort</token>
             </marker>
+            <token postag="A" min="0" max="3"/>
             <token postag="J.*|V.* ppa.*" postag_regexp="yes"/>
         </pattern>
         <disambig postag="A"/>
-    </rule>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>fort</token>
+                </marker>
+                <token postag="A"/>
+            </pattern>
+            <disambig postag="A"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes">
+                    <exception regexp="yes" inflected="yes">être|sembler|para[iî]tre|devenir|sentir</exception>
+                </token>
+                <token postag="A" min="0" max="3"/>
+                <marker>
+                    <token>fort</token>
+                </marker>
+            </pattern>
+            <disambig postag="A"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="LE_LA_PR_OBJ" name="le/la pronom objet">
         <rule>
             <pattern>
