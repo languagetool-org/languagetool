@@ -964,7 +964,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <marker>
                         <token postag="(EIG|SUB|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
                     </marker>
-                    <token regexp="yes">[A-ZÄÖÜ]{3}</token>
+                    <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ]{3}</token>
                 </pattern>
                 <example correction="">Dort hatte die Ministerpräsidentin Malu <marker>Dreyer</marker> SPD angedroht, an der Elefantenrunde im SWRFernsehen nicht teilzunehmen, sollte auch die AfD eingeladen werden.</example>
             </rule>
@@ -973,43 +973,96 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="(EIG|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
                     <token postag="(EIG|SUB|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
                     <marker>
-                        <token regexp="yes">[A-ZÄÖÜ]{3}</token>
+                        <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ]{3}</token>
                     </marker>
                 </pattern>
-                <example correction="">Sozialsenator Mario Czaja <marker>CDU</marker> besuchte am Donnerstag in der Nähe die Traglufthallen der Stadtmission</example>
+                <example correction="">Sozialsenator Mario Czaja <marker>CDU</marker> besuchte am Donnerstag in der Nähe die Traglufthallen der Stadtmission.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="-1" postag="SENT_START"/>
+                    <token skip="-1" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
-                    <token postag="SENT_START" skip="-1">
-                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
-                    </token>
                     <marker>
-                        <token postag="SUB.*" postag_regexp="yes"/>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
                     </marker>
                     <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">Jetzt nach längerer <marker>Einnahme</marker> möchte ich nicht darauf verzichten.</example>
+                <example correction="">Leute mit Brillengläsern so dick wie der Boden einer <marker>Milchflasche</marker> sieht man gar nicht mehr.</example>
                 <example correction="">Zunächst so die <marker>Anklage</marker> konnte der Beschäftigte die Attacke noch abwehren.</example>
                 <example correction="">Die meisten darunter das Berliner <marker>Abgeordnetenhaus</marker> reagierten binnen weniger Tage mit freundlichen Eingangsbestätigungen.</example>
+                <example correction="">Ein junge Schauspielerin in <marker>Pakistan</marker> ist Opfer eines Säureangriffs geworden.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" postag="SENT_START"/>
+                    <token skip="-1" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Gute <marker>Nachricht</marker> für alle, die sich gesundheitsbewußt ernähren wollen.</example>
+                <example correction="">Auch im zweiten <marker>Quartal</marker> für sich allein betrachtet war die Entwicklung der Kundenzahlen uneinheitlich.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" postag="SENT_START"/>
+                    <token skip="-1" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="ADV.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="ADV.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Am nächsten <marker>Tag</marker> dann weiter, doch irgendwie kamen wir aus einem Talkessel nicht wieder heraus und mußten ein paar mal probieren bis wir eine Piste auf die Strasse fanden.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token skip="-1">,
+                    <token skip="-1" regexp="yes">,|;|:
                         <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
                     </token>
                     <marker>
-                        <token postag="SUB.*" postag_regexp="yes"/>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
                     </marker>
-                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">Schaffe ideale Voraussetzungen für mehr Lebensqualität, ohne körperliche <marker>Einschränkungen</marker> stehen dir so viele Dinge offen!</example>
+                <example correction="">Große Sorge um "Star Wars"-Star Carrie Fisher: Die <marker>Schauspielerin</marker> liegt nach einem Herzinfarkt auf der Intensivstation.</example>
+                <example correction="">So ließ Lincoln Personen, die der <marker>Spionage</marker> für die Südstaaten verdächtigt wurden, verhaften.</example>
+                <example correction="">Tom macht alles schneller als Maria; <marker>Maria</marker> ist aber akkurater als Tom.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" regexp="yes">,|;|:
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <token skip="-1" postag="(EIG|SUB).*" postag_regexp="yes">
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Das heisst konkret: Das Fachwissen des <marker>Therapeuten</marker> interpretiert die bereits diagnostizierten ärztlichen Diagnosen und bespricht vorgängige Behandlungen mit dem Patienten.</example>
+                <example correction="">Dies gilt auch für Daten wie Auslösegeschwindigkeit, Anzahl der pro <marker>Sekunde</marker> möglichen Auslösungen etc., die hier noch nicht angesprochen wurden.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token postag="(EIG|SUB).*" postag_regexp="yes"/>
                     </marker>
-                    <token skip="-1" postag="PRP.*" postag_regexp="yes">
+                    <token skip="-1" postag="(ADV|PRP).*" postag_regexp="yes">
                         <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
                     </token>
                     <token postag="SENT_END"/>
@@ -1017,6 +1070,31 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Heute kam ein <marker>Buch</marker> für Sie.</example>
                 <example correction="">Leitende Entwickler sind Cory Barlog und Derek <marker>Daniels</marker> von den berühmten Studios.</example>
                 <example correction="">Schon viel zu lange sind Regionalprogramme langweilige und unkreative <marker>Abspielstationen</marker> für langweiliges und unkreatives Programmfüllmaterial.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token skip="-1" postag="(ADV|PRP).*" postag_regexp="yes">
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <token regexp="yes">,|;|:</token>
+                </pattern>
+                <example correction="">Es sind schwere <marker>Stunden</marker> für ihn, der mal ein versierter Innenpolitiker und schon ohne Edathy politisch erledigt war, weil er den Konsum der Droge Chrystal Meth vor wenigen Monaten zugeben musste.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token skip="-1" postag="(ADV|PRP).*" postag_regexp="yes">
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <token regexp="yes">oder|und</token>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Die Züge benötigen für die gleiche <marker>Strecke</marker> jedoch wesentlich länger als Fernreisebusse und haben einen sehr eingeschränkten Fahrplan (z. B. Buenos Aires, Bahnhof Retiro – Córdoba zwei Fahrten pro Woche).</example>
             </rule>
             <rule>
                 <pattern>
