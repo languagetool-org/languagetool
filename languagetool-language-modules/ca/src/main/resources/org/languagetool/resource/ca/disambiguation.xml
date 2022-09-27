@@ -2563,6 +2563,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="tenor_nom" name="tenor, soprano (nom no adj)">
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token postag_regexp="yes" postag="N.*" inflected="yes">tenor</token>
+                <!-- soprano -->
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
     <rule id="fi_nom" name="fi de festa (nom no adj)">
         <pattern>
             <marker>
