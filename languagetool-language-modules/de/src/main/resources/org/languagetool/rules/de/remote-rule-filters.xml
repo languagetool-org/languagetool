@@ -939,7 +939,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-         
                     <marker>
                         <token regexp="yes">und|oder|sowie</token>
                     </marker>
@@ -1074,6 +1073,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token inflected="yes">der</token>
                 </pattern>
                 <example correction="">Wäre die Vereinbarung mit Kanada, die als <marker>Blaupause</marker> für das geplante TTIPAbkommen mit den USA gilt, von der Zustimmung in sämtlichen Parlamenten in der EU abhängig, dann dürfte Ceta politisch tot sein.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="KON.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="SUB.*|UNKNOWN|EIG.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Bestimmte Produkte wie <marker>Milben-dichte</marker> Matratzenbezüge.</example>
+                <example correction="">Die Notizen dienten Jünger als <marker>Rohmaterial</marker> für sein Buch.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER:(AUX|MOD).*" postag_regexp="yes"/>
+                    <token skip="10">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes"/>
+                    </marker>
+                    <token skip="10" min="0">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Demnächst wird ein wertvolles <marker>Paket</marker> für Sie eintreffen.</example>
+                <example correction="">Unser Anspruch ist eine qualitativ hochstehende <marker>Lösung</marker> für unsere Kunden zu erstellen, welche finanzierbar und nachhaltig ist.</example>
+                <example correction="">Dann müssen doch noch einige <marker>Köpfe</marker> rollen.</example>
             </rule>
         </rulegroup>
     </category>
