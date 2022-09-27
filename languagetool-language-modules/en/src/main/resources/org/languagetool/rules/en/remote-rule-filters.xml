@@ -47,6 +47,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_HYDRA_LEO_CP_YOUR_YOU" name="">
             <rule>
                 <pattern>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token>'</token>
+                    <token>e</token>
+                </pattern>
+                <example correction="">It seems to me that <marker>your</marker>'e the best one to look into this...</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token chunk="B-PP" />
                     <marker>
                         <token>your</token>
@@ -482,6 +492,35 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_HYDRA_LEO_CP_YOU_YOUARE" name="">
             <rule>
                 <pattern>
+                    <token>are</token>
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                </pattern>
+                <example correction="">Why are <marker>you</marker> so lucky?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>thank</token>
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                </pattern>
+                <example correction="">Thank <marker>you</marker> in advance for your thoughts and views.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token>see</token>
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                    <token chunk="B-PP" />
+                </pattern>
+                <example correction="">See <marker>you</marker> on the other side of the International Date Line.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="MD" />
                     <marker>
                         <token>you</token>
@@ -502,6 +541,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_OF" name="">
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>any</token>
+                    <token regexp="yes">case|event</token>
+                    <marker>
+                        <token postag="NNP" />
+                    </marker>
+                    <token postag="," />
+                </pattern>
+                <example correction="">In any case <marker>Keegan</marker>, do not stress about it.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>because</token>
