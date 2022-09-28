@@ -5814,6 +5814,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Hojas simples de disposición varia, alternas, opuestas o en roseta basal, sin estípulas.</example>
         </rule>
         <rulegroup id="TENIA" name="tenia/tenía" default="on">
+            <antipattern>
+                <token postag="SP.*|LOC_PREP" postag_regexp="yes"/>
+                <token min="0" postag="DA.*" postag_regexp="yes"/>
+                <token regexp="yes">tenia|tenias</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
