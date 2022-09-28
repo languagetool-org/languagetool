@@ -1,9 +1,12 @@
 # LanguageTool Change Log
 
-## 5.9 (release planned for 2022-09-28)
+## 5.9 (2022-09-28)
 
 #### Catalan
   * added and improved rules
+
+#### Dutch
+  * improved rules, removed many false alarms
 
 #### English
   * added and improved rules
@@ -26,6 +29,7 @@
 
 #### Russian
   * updated dictionary
+  * some rules improvements
 
 #### Spanish
   * added and improved rules
