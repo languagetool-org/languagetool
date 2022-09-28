@@ -40,7 +40,7 @@ import org.languagetool.tools.StringTools;
 
 public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
-  final private int MAX_SUGGESTIONS = 10;
+  final protected int MAX_SUGGESTIONS = 10;
 
   abstract protected Tagger getTagger();
 
