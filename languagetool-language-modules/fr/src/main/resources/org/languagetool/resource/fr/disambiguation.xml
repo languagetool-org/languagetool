@@ -155,6 +155,25 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="A"/>
     </rule>
+    <rule id="NOM_AMATEUR" name="nom amateur">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"/>
+            <marker>
+                <token>amateur</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="J m s"/>
+    </rule>
+    <rule id="ETRE_CONTENT" name="être content">
+        <pattern>
+            <token postag="V etre.*" postag_regexp="yes"/>
+            <token postag="A|R pers suj.*" postag_regexp="yes"/>
+            <marker>
+                <token>content</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="J m s"/>
+    </rule>
     <rule id="PAYS_BALTES" name="pays baltes">
         <pattern>
             <token postag="N.*" postag_regexp="yes"/>
@@ -9912,6 +9931,13 @@ RB => Règles Brutes
             <token regexp="yes">elles?|eux</token>
             <token>le</token>
             <token postag="V.* (ind|sub).*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="SENT_START"/>
+            <token regexp="yes" min="0" max="1">["«]</token>
+            <token>se</token>
+            <token postag="V.* (ind|sub).*" postag_regexp="yes"/>
+            <token postag="N.*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
             <token postag="R pers.*" postag_regexp="yes">
