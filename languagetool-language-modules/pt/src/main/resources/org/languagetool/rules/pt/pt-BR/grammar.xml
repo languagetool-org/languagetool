@@ -1382,180 +1382,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="maldade|malvadeza|sacanagem">Que <marker>judiação</marker>.</example>
     </rule>
     <rule>
-       <pattern>
-         <token>do</token>
-         <token regexp='yes'>traveco|travecão</token>
-       </pattern>
-        <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>da travesti</suggestion></message>
+      <pattern>
+        <token regexp="yes">mongos|mongolões</token>
+      </pattern>
+      <message>Este termo é depreciativo, capacitista ou xenofóbico. Pondere substituir por <suggestion>incapacitados</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="incapacitados">São uns <marker>mongos</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">mongo|mongolão</token>
+      </pattern>
+      <message>Este termo é depreciativo, capacitista ou xenofóbico. Pondere substituir por <suggestion>incapacitado</suggestion></message>
+      <short>Termo depreciativo</short>
+      <example correction="incapacitado">Ele é um <marker>mongo</marker>.</example>
+    </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">mongas|mongolonas</token>
+        </pattern>
+        <message>Este termo é depreciativo, capacitista ou xenofóbico. Pondere substituir por <suggestion>incapacitadas</suggestion></message>
         <short>Termo depreciativo</short>
-        <example correction="da travesti">Vou à loja <marker>do traveco</marker>.</example>
-    </rule>
+        <example correction="incapacitadas">São umas <marker>mongas</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">monga|mongolona</token>
+        </pattern>
+        <message>Este termo é depreciativo, capacitista ou xenofóbico. Pondere substituir por <suggestion>incapacitada</suggestion></message>
+        <short>Termo depreciativo</short>
+        <example correction="incapacitada">Ela é uma <marker>monga</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">mongol[oó]ide|retardad[oa]</token>
+        </pattern>
+        <message>Este termo é depreciativo, capacitista ou xenofóbico. Pondere substituir por <suggestion>incapacitado</suggestion></message>
+        <suggestion>incapacitada</suggestion>
+        <suggestion>pessoa com deficiência</suggestion>
+        <short>Termo depreciativo</short>
+        <example correction="incapacitado|incapacitada|pessoa com deficiência">Ela é uma <marker>mongolóide</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">mongol[oó]ides|retardad[oa]s</token>
+        </pattern>
+        <message>Este termo é depreciativo, capacitista ou xenofóbico. Pondere substituir por <suggestion>incapacitados</suggestion></message>
+        <suggestion>incapacitadas</suggestion>
+        <suggestion>pessoas com deficiência</suggestion>
+        <short>Termo depreciativo</short>
+        <example correction="incapacitados|incapacitadas|pessoas com deficiência">São <marker>mongolóides</marker>.</example>
+      </rule>
     <rule>
       <pattern>
-        <token regexp="yes">mong[oa]s|mongolóides|mongolões|mongolonas</token>
-      </pattern>
-      <message>Este termo é depreciativo ou xenofóbico. Pondere substituir por <suggestion>idiotas</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="idiotas">Vou à loja dos <marker>mongos</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token regexp="yes">mong[oa]|mongolóide|mongolão|mongolona</token>
-      </pattern>
-      <message>Este termo é depreciativo ou xenofóbico. Pondere substituir por <suggestion>idiota</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="idiota">Vou à loja <marker>mongo</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token>dos</token>
+        <token postag="SPS00:D..MP.|D..MP." postag_regexp="yes"/>
         <token regexp='yes'>travecos|travecões</token>
       </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>das travestis</suggestion></message>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion><match no='1' postag='(SPS00:D..|D..)M(.+)' postag_replace='$1F$2' postag_regexp='yes'/> travestis</suggestion></message>
       <short>Termo depreciativo</short>
       <example correction="das travestis">Vou à loja <marker>dos travecos</marker>.</example>
     </rule>
     <rule>
       <pattern>
-        <token>no</token>
+        <token postag="SPS00:D..MS.|D..MS." postag_regexp="yes"/>
         <token regexp='yes'>traveco|travecão</token>
       </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>na travesti</suggestion></message>
+      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion><match no='1' postag='(SPS00:D..|D..)M(.+)' postag_replace='$1F$2' postag_regexp='yes'/> travesti</suggestion></message>
       <short>Termo depreciativo</short>
       <example correction="na travesti">Vou <marker>no traveco</marker>.</example>
-    </rule>
-    <rule>
-        <pattern>
-          <token>nos</token>
-          <token regexp='yes'>travecos|travecões</token>
-        </pattern>
-        <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>nas travestis</suggestion></message>
-        <short>Termo depreciativo</short>
-        <example correction="nas travestis">Vou <marker>nos travecos</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token>os</token>
-        <token regexp='yes'>travecos|travecões</token>
-      </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>as travestis</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="as travestis">Vou com <marker>os travecos</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token>o</token>
-        <token regexp='yes'>traveco|travecão</token>
-      </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>a travesti</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="a travesti">Vou com <marker>o traveco</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token regexp="yes">es[st]e</token>
-        <token regexp='yes'>traveco|travecão</token>
-      </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>essa travesti</suggestion> ou <suggestion>esta travesti</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="essa travesti|esta travesti">Vou à com <marker>esse traveco</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token regexp="yes">des[st]e</token>
-        <token regexp='yes'>traveco|travecão</token>
-      </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>dessa travesti</suggestion> ou <suggestion>desta travesti</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="dessa travesti|desta travesti">É <marker>desse traveco</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token regexp="yes">es[st]es</token>
-        <token regexp='yes'>travecos|travecões</token>
-      </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>essas travestis</suggestion> ou <suggestion>estas travestis</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="essas travestis|estas travestis">Vou à com <marker>esses travecos</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token regexp="yes">des[st]es</token>
-        <token regexp='yes'>travecos|travecões</token>
-      </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>dessas travestis</suggestion> ou <suggestion>destas travestis</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="dessas travestis|destas travestis">É <marker>desses travecos</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-         <token regexp="yes">nes[st]e</token>
-         <token regexp='yes'>traveco|travecão</token>
-      </pattern>
-         <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>nessa travesti</suggestion> ou <suggestion>nesta travesti</suggestion></message>
-         <short>Termo depreciativo</short>
-         <example correction="nessa travesti|nesta travesti">Vou <marker>nesse traveco</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token regexp="yes">nes[st]es</token>
-        <token regexp='yes'>travecos|travecões</token>
-      </pattern>
-        <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>nessas travestis</suggestion> ou <suggestion>nestas travestis</suggestion></message>
-        <short>Termo depreciativo</short>
-        <example correction="nessas travestis|nestas travestis">Vou <marker>nesses travecos</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token>aquele</token>
-        <token regexp='yes'>traveco|travecão</token>
-      </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>aquela travesti</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="aquela travesti">É <marker>aquele traveco</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token>aqueles</token>
-        <token regexp='yes'>travecos|travecões</token>
-      </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>aquelas travestis</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="aquelas travestis">É <marker>aqueles travecos</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token>naquele</token>
-        <token regexp='yes'>traveco|travecão</token>
-      </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>naquela travesti</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="naquela travesti">É <marker>naquele traveco</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token>naqueles</token>
-        <token regexp='yes'>travecos|travecões</token>
-      </pattern>
-      <message>Este termo é depreciativo ou transfóbico. Pondere substituir por <suggestion>naquelas travestis</suggestion></message>
-      <short>Termo depreciativo</short>
-      <example correction="naquelas travestis">É <marker>naqueles travecos</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token regexp='yes'>traveconas?</token>
-      </pattern>
-      <message>Este termo é transfóbico; pondere substituir por <suggestion>travesti</suggestion>.</message>
-      <short>Termo depreciativo</short>
-      <example correction="travesti">Vou à loja da <marker>travecona</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
-        <token>traveco</token>
-      </pattern>
-        <message>Este termo é transfóbico; pondere substituir por <suggestion>travesti</suggestion>.</message>
-        <short>Termo depreciativo</short>
-        <example correction="travesti">É <marker>traveco</marker>.</example>
     </rule>
     <rule>
       <pattern>
@@ -1591,19 +1485,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule>
       <pattern>
+        <token postag='SPS00:D..MS.|D..MS.' postag_regexp="yes" min="0"/>
         <token inflected="yes">homossexualismo</token>
       </pattern>
-      <message>Este termo é homofóbico e remete a doenças. Altere para <suggestion>homossexualidade</suggestion>.</message>
+      <message>Este termo é homofóbico e remete a doenças. Altere para <suggestion><match no='1' postag='(SPS00:D..|D..)FS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/> homossexualidade</suggestion>.</message>
       <short>Termo depreciativo</short>
-      <example correction="homossexualidade">O <marker>homossexualismo</marker> é comum.</example>
+      <example correction="A homossexualidade"><marker>O homossexualismo</marker> é comum.</example>
     </rule>
     <rule>
       <pattern>
+        <token postag='SPS00:D..MS.|D..MS.' postag_regexp="yes" min="0"/>
         <token inflected="yes">assexualismo</token>
       </pattern>
-      <message>Este termo é depreciativo e remete a doenças. Altere para <suggestion>assexualidade</suggestion>.</message>
+      <message>Este termo é depreciativo e remete a doenças. Altere para <suggestion><match no='1' postag='(SPS00:D..|D..)FS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/> assexualidade</suggestion>.</message>
       <short>Termo depreciativo</short>
-      <example correction="assexualidade">O <marker>assexualismo</marker> é comum.</example>
+      <example correction="A assexualidade"><marker>O assexualismo</marker> é comum.</example>
     </rule>
     <rule>
       <pattern>
