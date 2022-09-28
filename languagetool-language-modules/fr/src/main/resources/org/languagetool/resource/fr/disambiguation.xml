@@ -145,6 +145,16 @@ RB => Règles Brutes
     </rule>
     <!-- END: numerals -->
     <!-- CATEGORY: remove unusual tags -->
+    <rule id="TOUT_JUSTE_VPPA" name="tout juste vppa">
+        <pattern>
+            <token>tout</token>
+            <marker>
+                <token>juste</token>
+            </marker>
+        <token postag="V.* ppa.*|J.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="A"/>
+    </rule>
     <rule id="PAYS_BALTES" name="pays baltes">
         <pattern>
             <token postag="N.*" postag_regexp="yes"/>
