@@ -61,7 +61,6 @@ abstract class TextChecker {
 
   private static final int PINGS_CLEAN_MILLIS = 60 * 1000;  // internal pings database will be cleaned this often
   private static final int PINGS_MAX_SIZE = 5000;
-  private static final int NGRAM_THRESHOLD = 50;
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, Language language, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
@@ -87,13 +86,14 @@ abstract class TextChecker {
   private final Map<String,Integer> languageCheckCounts = new HashMap<>();
   private final Queue<Runnable> workQueue;
   private final RequestCounter reqCounter;
-  private LanguageIdentifier languageIdentifier;
+  private final LanguageIdentifier languageIdentifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
   private final DatabaseLogger databaseLogger;
   private final Long logServerId;
   private final Random random = new Random();
   private final Set<DatabasePingLogEntry> pings = new HashSet<>();
+
   private long pingsCleanDateMillis = System.currentTimeMillis();
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
@@ -270,7 +270,6 @@ abstract class TextChecker {
       log.info("languageChanged to " + params.get("language") + " for text with length " + aText.getPlainText().trim().length());
     }
     if (length > limits.getMaxTextLength()) {
-      String msg = "limit: " + limits.getMaxTextLength() + ", size: " + length;
       ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_TEXT_SIZE);
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + length + " characters). Please submit a shorter text.");
@@ -463,9 +462,7 @@ abstract class TextChecker {
       useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null && limits.hasPremium(), enableTempOffRules, mode, level, callback, inputLogging);
 
     int textSize = length;
-
     List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
-
     Future<List<CheckResults>> future;
     try {
       future = executorService.submit(() -> {
@@ -692,9 +689,9 @@ abstract class TextChecker {
     if (parameterString == null) {
       return ruleValues;
     }
-    String[] pairs = parameterString.split("[,]");
+    String[] pairs = parameterString.split(",");
     for (String pair : pairs) {
-      String[] ruleAndValue  = pair.split("[:]");
+      String[] ruleAndValue  = pair.split(":");
       ruleValues.put(ruleAndValue[0], Integer.parseInt(ruleAndValue[1]));
     }
     return ruleValues;
@@ -852,7 +849,7 @@ abstract class TextChecker {
   }
 
   DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
-                                          List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
+                                          List<String> noopLangs, List<String> preferredLangs) {
     Language lang;
     String cleanText = languageIdentifier.cleanAndShortenText(text);
     DetectedLanguage detected = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);

@@ -146,7 +146,7 @@ public class TextCheckerTest {
   public void testDetectLanguageOfString() {
     List<String> e = Collections.emptyList();
     List<String> preferredLangs = Collections.emptyList();
-    assertThat(checker.detectLanguageOfString("", "en", Arrays.asList("en-GB"), e, preferredLangs, false)
+    assertThat(checker.detectLanguageOfString("", "en", Arrays.asList("en-GB"), e, preferredLangs)
       .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-GB"));
 
     // fallback language does not work anymore, now detected as ca-ES, ensure that at least the probability is low
@@ -154,25 +154,25 @@ public class TextCheckerTest {
     //  .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-GB"));
     //assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-ZA"), e)
     //  .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-ZA"));
-    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e, preferredLangs, false)
+    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e, preferredLangs)
       .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("ca-ES"));
-    assertTrue(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e, preferredLangs, false)
+    assertTrue(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e, preferredLangs)
       .getDetectionConfidence() < 0.5);
 
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("en-GB", "de-AT"), e, preferredLangs, false)
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("en-GB", "de-AT"), e, preferredLangs)
       .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-GB"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList(), e, preferredLangs, false)
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList(), e, preferredLangs)
       .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-US"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("de-AT", "en-ZA"), e, preferredLangs, false)
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("de-AT", "en-ZA"), e, preferredLangs)
       .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-ZA"));
     String german = "Das hier ist klar ein deutscher Text, sollte gut zu erkennen sein.";
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-AT", "en-ZA"), e, preferredLangs, false)
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-AT", "en-ZA"), e, preferredLangs)
       .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("de-AT"));
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-at", "en-ZA"), e, preferredLangs, false)
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-at", "en-ZA"), e, preferredLangs)
       .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("de-AT"));
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList(), e, preferredLangs, false)
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList(), e, preferredLangs)
       .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("de-DE"));
-    assertThat(checker.detectLanguageOfString(unsupportedCzech, "en", Arrays.asList(), e, preferredLangs, false)
+    assertThat(checker.detectLanguageOfString(unsupportedCzech, "en", Arrays.asList(), e, preferredLangs)
       .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("sk-SK"));  // misdetected because it's not supported
   }
 
@@ -185,18 +185,18 @@ public class TextCheckerTest {
     //config.setFasttextBinary(new File("/home/fabian/Documents/fastText/fasttext"));
     //config.setFasttextModel(new File("/home/fabian/Documents/fastText/lid.176.bin"));
     TextChecker checker = new V2TextChecker(config, false, null, new RequestCounter());
-    assertThat(checker.detectLanguageOfString(unsupportedCzech, "en", Arrays.asList(), Arrays.asList("foo", "cs"), Collections.emptyList(), false).
+    assertThat(checker.detectLanguageOfString(unsupportedCzech, "en", Arrays.asList(), Arrays.asList("foo", "cs"), Collections.emptyList()).
             getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("zz"));  // cs not supported but mapped to noop language
   }
 
   @Test(expected = RuntimeException.class)
   public void testInvalidPreferredVariant() {
-    checker.detectLanguageOfString(english, "de", Arrays.asList("en"), Collections.emptyList(), Collections.emptyList(), false);  // that's not a variant
+    checker.detectLanguageOfString(english, "de", Arrays.asList("en"), Collections.emptyList(), Collections.emptyList());  // that's not a variant
   }
 
   @Test(expected = RuntimeException.class)
   public void testInvalidPreferredVariant2() {
-    checker.detectLanguageOfString(english, "de", Arrays.asList("en-YY"), Collections.emptyList(), Collections.emptyList(), false);  // variant doesn't exist
+    checker.detectLanguageOfString(english, "de", Arrays.asList("en-YY"), Collections.emptyList(), Collections.emptyList());  // variant doesn't exist
   }
 
 }
