@@ -5545,6 +5545,32 @@
 
   <category id="STYLE" name="Style" type="style">
 
+    <!-- QUE ATUA/ATUAM a atuar -->
+    <rule id='QUE_VERBO_A_VERBOINFINITIVO' name="Simplificar: Que + V. → A + V. Infinitivo" type="style">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
+      <!--
+      Isto resume todas as forças que atuam sobre o objeto. → Isto resume todas as forças a atuar sobre o objeto.
+      -->
+      <pattern>
+        <token postag='NC.+|AQ.+|DD.+' postag_regexp='yes'/>
+        <marker>
+          <token>que</token>
+          <token postag='VMIP3.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='VMM02.+'/>
+            <exception inflected='yes' regexp='yes'>haver|estar|existir|ser</exception>
+          </token>
+        </marker>
+        <and>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+        </and>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>a <match no='3' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+      <example correction="a atuar">Isto resume todas as forças <marker>que atuam</marker> sobre o objeto.</example>
+      <example>O disco vermelho representa o sol a nascer sobre Bengala e também simboliza o sangue dos que tombaram pela independência do Bangladesh.</example>
+      <example>É a parte da Física que analisa o movimento, as variações de energia e as forças a atuar sobre um corpo.</example>
+    </rule>
 
     <rulegroup id='A_XXX_DE_VOCÊS' name="Simplificar: A XXX de vocês → a vossa XXX">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-10 (Checked/Enhanced) (25-JUL-2022+) -->
