@@ -1212,6 +1212,12 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Die Notizen dienten Jünger als <marker>Rohmaterial</marker> für sein Buch.</example>
             </rule>
             <rule>
+                <antipattern>
+                     <token postag="SUB.*" postag_regexp="yes"/>
+                     <token postag="PRO:REF.*|(ART|ADJ).*(AKK|DAT).*" postag_regexp="yes"/>
+                     <token skip="10" min="0"/>
+                     <token postag="VER:INF.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="VER:(AUX|MOD).*" postag_regexp="yes"/>
                     <token skip="10">
