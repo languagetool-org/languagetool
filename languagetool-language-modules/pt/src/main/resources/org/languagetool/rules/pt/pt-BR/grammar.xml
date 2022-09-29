@@ -1352,17 +1352,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id='DEPRECIATIVO_PT_BR' name="Termos depreciativos" type="style" default='temp_off'>
     <rule>
       <pattern>
-        <token regexp='yes' inflected="yes" case_sensitive="yes">&depreciativo;
-        <exception postag_regexp='yes' postag='NP.+'/>
-        <exception regexp="yes">judi[oa]s?</exception>
-      </token>
-    </pattern>
-    <message>Este termo é preconceituoso ou de outra forma depreciativo; pondere empregar um termo alternativo.</message>
-    <short>Termo depreciativo</short>
-    <example type="incorrect">Você está me <marker>denegrindo</marker>.</example>
-    </rule>
-    <rule>
-      <pattern>
         <token inflected="yes">judiar
           <exception regexp="yes">judi[oa]s?</exception>
         </token>
@@ -1415,23 +1404,91 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">mongol[oó]ide|retardad[oa]</token>
+          <marker>
+            <token regexp="yes">maricas?|maricona|boiola|maricão|mariconço|bicha</token>
+          </marker>
         </pattern>
-        <message>Este termo é depreciativo, capacitista ou xenofóbico. Pondere substituir por <suggestion>incapacitado</suggestion></message>
-        <suggestion>incapacitada</suggestion>
-        <suggestion>pessoa com deficiência</suggestion>
+        <message>Este termo é depreciativo. Pondere substituir por <suggestion>covarde</suggestion>, <suggestion>fracote</suggestion>, <suggestion>gay</suggestion> ou <suggestion>homossexual</suggestion></message>
         <short>Termo depreciativo</short>
-        <example correction="incapacitado|incapacitada|pessoa com deficiência">Ela é uma <marker>mongolóide</marker>.</example>
+        <example correction="covarde|fracote|gay|homossexual">Você age como um <marker>marica</marker>.</example>
       </rule>
       <rule>
         <pattern>
+          <marker>
+            <token regexp="yes">baianada|baianagem</token>
+          </marker>
+        </pattern>
+        <message>Este termo é depreciativo ou xenofóbico. Pondere substituir por <suggestion>patifaria</suggestion></message>
+        <short>Termo depreciativo</short>
+        <example correction="patifaria">Quanta <marker>baianagem</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">baianadas|baianagens</token>
+          </marker>
+        </pattern>
+        <message>Este termo é depreciativo ou xenofóbico. Pondere substituir por <suggestion>patifarias</suggestion></message>
+        <short>Termo depreciativo</short>
+        <example correction="patifarias">Quantas <marker>baianagens</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">maricas|mariconas|boiolas|maricões|mariconços|bichas</token>
+          </marker>
+        </pattern>
+        <message>Este termo é depreciativo. Pondere substituir por <suggestion>covardes</suggestion>, <suggestion>fracotes</suggestion>, <suggestion>gays</suggestion> ou <suggestion>homossexuais</suggestion></message>
+        <short>Termo depreciativo</short>
+        <example correction="covardes|fracotes|gays|homossexuais">Vocês agem como uns <marker>maricas</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>gordice</token>
+          </marker>
+        </pattern>
+        <message>Este termo é depreciativo. Pondere substituir por <suggestion>fartura</suggestion></message>
+        <short>Termo depreciativo</short>
+        <example correction="fartura">Isso é <marker>gordice</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>gordices</token>
+          </marker>
+        </pattern>
+        <message>Este termo é depreciativo. Pondere substituir por <suggestion>farturas</suggestion></message>
+        <short>Termo depreciativo</short>
+        <example correction="farturas">Você e suas <marker>gordices</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+           <token negate="yes" regexp="yes">foi|sido</token>
+         <marker>
+          <token regexp="yes">mongol[oó]ide|retardad[oa]</token>
+         </marker>
+          <token negate="yes" regexp="yes">por|pel[oa]s?</token>
+        </pattern>
+        <message>Este termo é depreciativo, capacitista ou xenofóbico. Pondere substituir por <suggestion>incapacitado</suggestion></message>
+        <suggestion>incapacitada</suggestion>
+        <suggestion>idiota</suggestion>
+        <short>Termo depreciativo</short>
+        <example correction="incapacitado|incapacitada|idiota">Ela é uma <marker>mongolóide</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">foram|sido</token>
+         <marker>
           <token regexp="yes">mongol[oó]ides|retardad[oa]s</token>
+         </marker>
+          <token negate="yes" regexp="yes">por|pel[oa]s?</token>
         </pattern>
         <message>Este termo é depreciativo, capacitista ou xenofóbico. Pondere substituir por <suggestion>incapacitados</suggestion></message>
         <suggestion>incapacitadas</suggestion>
-        <suggestion>pessoas com deficiência</suggestion>
+        <suggestion>idiotas</suggestion>
         <short>Termo depreciativo</short>
-        <example correction="incapacitados|incapacitadas|pessoas com deficiência">São <marker>mongolóides</marker>.</example>
+        <example correction="incapacitados|incapacitadas|idiotas">São <marker>mongolóides</marker>.</example>
       </rule>
     <rule>
       <pattern>
@@ -1517,41 +1574,73 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token>mulato</token>
       </pattern>
-      <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negro</suggestion>.</message>
-      <suggestion>preto</suggestion>
+      <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negro de pele clara</suggestion>.</message>
+      <suggestion>preto de pele clara</suggestion>
       <suggestion>miscigenado</suggestion>
       <short>Termo depreciativo</short>
-      <example correction="negro|preto|miscigenado">Ele é <marker>mulato</marker>.</example>
+      <example correction="negro de pele clara|preto de pele clara|miscigenado">Ele é <marker>mulato</marker>.</example>
     </rule>
     <rule>
       <pattern>
         <token>mulatos</token>
       </pattern>
-      <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negros</suggestion>.</message>
-      <suggestion>pretos</suggestion>
+      <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negros de pele clara</suggestion>.</message>
+      <suggestion>pretos de pele clara</suggestion>
       <suggestion>miscigenados</suggestion>
       <short>Termo depreciativo</short>
-      <example correction="negros|pretos|miscigenados">Eles são <marker>mulatos</marker>.</example>
+      <example correction="negros de pele clara|pretos de pele clara|miscigenados">Eles são <marker>mulatos</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token>mulata</token>
         </pattern>
-        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negra</suggestion>.</message>
-        <suggestion>preta</suggestion>
+        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negra de pele clara</suggestion>.</message>
+        <suggestion>preta de pele clara</suggestion>
         <suggestion>miscigenada</suggestion>
         <short>Termo depreciativo</short>
-        <example correction="negra|preta|miscigenada">Ela é <marker>mulata</marker>.</example>
+        <example correction="negra de pele clara|preta de pele clara|miscigenada">Ela é <marker>mulata</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token>mulatas</token>
         </pattern>
-        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negras</suggestion>.</message>
-        <suggestion>pretas</suggestion>
+        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negras de pele clara</suggestion>.</message>
+        <suggestion>pretas de pele clara</suggestion>
         <suggestion>miscigenadas</suggestion>
         <short>Termo depreciativo</short>
-        <example correction="negras|pretas|miscigenadas">Elas são <marker>mulatas</marker>.</example>
+        <example correction="negras de pele clara|pretas de pele clara|miscigenadas">Elas são <marker>mulatas</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>japa</token>
+        </pattern>
+        <message>Este termo é xenofóbico ou depreciativo. Pondere dizer <suggestion>japonês</suggestion>t, <suggestion>japonesa</suggestion>, <suggestion>asiático</suggestion> ou <suggestion>asiática</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="japonês|japonesa|asiático|asiática">Ela é <marker>japa</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>japas</token>
+        </pattern>
+        <message>Este termo é xenofóbico ou depreciativo. Pondere dizer <suggestion>japoneses</suggestion>t, <suggestion>japonesas</suggestion>, <suggestion>asiáticos</suggestion> ou <suggestion>asiáticas</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="japoneses|japonesas|asiáticos|asiáticas">Eles são <marker>japas</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>cegueta</token>
+        </pattern>
+        <message>Este termo é capacitista ou depreciativo. Pondere dizer <suggestion>míope</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="míope">Ela é <marker>cegueta</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ceguetas</token>
+        </pattern>
+        <message>Este termo é capacitista. Pondere dizer <suggestion>míopes</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="míopes">Elas são <marker>ceguetas</marker>.</example>
       </rule>
     <rule>
       <pattern>
