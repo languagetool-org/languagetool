@@ -47075,12 +47075,13 @@ O namorado dela era um ladrão.
 
     <!-- QUE JULGÁVAMOS SER MAIOR que julgávamos maior -->
     <rule id='QUE_VERBO_SER_ADJ_QUE_VERBO_ADJ' name="Simplificar: Que + Verbo + ser + Adj (remover 'ser')">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-22 (25-JUL-2022+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-22/29 (25-JUL-2022+) -->
       <!--
       Você já tentou fazer algo que parecia ser impossível? → Você já tentou fazer algo que parecia impossível?
+      Alguns cientistas que parecem ser muito inteligentes são pessoas normais. → Alguns cientistas que parecem muito inteligentes são pessoas normais.
       -->
       <pattern>
-        <token postag='RG|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+        <token postag='RG|[DP][ADIPR].+|SPS00:[DP][ADIPR].+|NC.+|AQ.+' postag_regexp='yes'/>
         <token>que</token>
         <marker>
           <or>
@@ -47088,12 +47089,13 @@ O namorado dela era um ladrão.
             <token regexp='no' inflected='yes'>parecer</token> <!-- Add more verbs here when found -->
           </or>
           <token>ser</token>
-          <token postag='AQ.+' postag_regexp='yes'/>
+          <token postag='AQ.+|RG' postag_regexp='yes'/>
         </marker>
       </pattern>
       <message>O verbo 'ser' pode ser omitido nesta perífrase.</message>
       <suggestion>\3 \5</suggestion>
       <example correction="julgávamos maior">Aquilo que <marker>julgávamos ser maior</marker> que nós próprios na realidade não o era.</example>
+      <example correction="parecem muito">Alguns cientistas que <marker>parecem ser muito</marker> inteligentes são pessoas normais.</example>
       <example>Você já tentou fazer algo que parecia impossível?</example>
     </rule>
 
