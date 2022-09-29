@@ -127,7 +127,7 @@ class CheckRequestAnalysis {
     setFlatParagraphTools(xComponent);
     if (docCache.isEmpty()) {
       docCursor = new DocumentCursorTools(xComponent);
-      docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 1);
+      docCache.refresh(singleDocument, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 1);
       if (debugMode > 0) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: actualizeDocumentCache: resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
@@ -407,7 +407,7 @@ class CheckRequestAnalysis {
       if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: start docCache.refresh");
       }
-      docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 3);
+      docCache.refresh(singleDocument, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 3);
     }
 
     if (nPara >= 0) {
@@ -433,7 +433,7 @@ class CheckRequestAnalysis {
         MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: get DocumentCursorTools");
       }
       docCursor = new DocumentCursorTools(xComponent);
-      docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 4);
+      docCache.refresh(singleDocument, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 4);
       if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: start docCache.refresh");
       }
@@ -795,7 +795,7 @@ class CheckRequestAnalysis {
 //    if (docCursor == null) {
 //      docCursor = new DocumentCursorTools(xComponent);
 //    }
-    docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 5);
+    docCache.refresh(singleDocument, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 5);
     if (docCache.isEmpty() || isDisposed()) {
       return -1;
     }

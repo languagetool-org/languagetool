@@ -73,6 +73,8 @@ import com.sun.star.uno.XComponentContext;
  */
 public class MultiDocumentsHandler {
 
+  public static MultiDocumentsHandler docsHandler = null;
+  
   // LibreOffice (since 4.2.0) special tag for locale with variant 
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
@@ -121,7 +123,8 @@ public class MultiDocumentsHandler {
   private boolean useQueue = true;                  //  will be overwritten by config
 
   private String menuDocId = null;                  //  Id of document at which context menu was called 
-  private TextLevelCheckQueue textLevelQueue = null; // Queue to check text level rules
+  private TextLevelCheckQueue textLevelQueue = null;  // Queue to check text level rules
+  private ShapeChangeCheck shapeChangeCheck = null;   // Thread for test changes in shape texts
   
   private boolean useOrginalCheckDialog = false;    // use original spell and grammar dialog (LT check dialog does not work for OO)
   private boolean isNotTextDodument = false;
@@ -142,6 +145,7 @@ public class MultiDocumentsHandler {
     disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
     dictionary = new LtDictionary();
+    docsHandler = this;
   }
   
   /**
@@ -1763,9 +1767,36 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * Start or stop the shape check loop
+   */
+  public void runShapeCheck (boolean hasShapes, int where) {
+    try {
+//      MessageHandler.printToLogFile("MultiDocumentsHandler: runShapeCheck: hasShapes: " + hasShapes + " from " + where);
+      if (hasShapes && (shapeChangeCheck == null || !shapeChangeCheck.isRunning())) {
+        MessageHandler.printToLogFile("MultiDocumentsHandler: runShapeCheck: start");
+        shapeChangeCheck = new ShapeChangeCheck();
+        shapeChangeCheck.start();
+      } else if (!hasShapes && shapeChangeCheck != null) {
+        boolean noShapes = true;
+        for (int i = 0; i < documents.size() && noShapes; i++) {
+          if (documents.get(i).getDocumentCache().textSize(DocumentCache.CURSOR_TYPE_SHAPE) > 0) {
+            noShapes = false;
+          }
+        }
+        if (noShapes) {
+          MessageHandler.printToLogFile("MultiDocumentsHandler: runShapeCheck: stop");
+          shapeChangeCheck.stopLoop();
+          shapeChangeCheck = null;
+        }
+      }
+    } catch (Exception e) {
+      MessageHandler.showError(e);
+    }
+  }
+  
+  /**
    *  start a separate thread to add or remove the internal LT dictionary
    */
-  
   private void handleLtDictionary() {
     HandleLtDictionary handleDictionary = new HandleLtDictionary();
     handleDictionary.start();
@@ -1787,6 +1818,42 @@ public class MultiDocumentsHandler {
         }
       }
     }
+  }
+
+  /**
+   * class to test for text changes in shapes 
+   */
+  private class ShapeChangeCheck extends Thread {
+
+    boolean runLoop = true;
+
+    @Override
+    public void run() {
+      try {
+        while (runLoop) {
+          try {
+            for (int i = 0; i < documents.size(); i++) {
+              documents.get(i).addShapeQueueEntries();
+            }
+            Thread.sleep(OfficeTools.CHECK_SHAPES_TIME);
+          } catch (Throwable t) {
+            MessageHandler.printException(t);
+          }
+        }
+      } catch (Throwable e) {
+        MessageHandler.showError(e);
+      }
+      runLoop = false;
+    }
+    
+    public void stopLoop() {
+      runLoop = false;
+    }
+
+    public boolean isRunning() {
+      return runLoop;
+    }
+
   }
 
   /** class to start a separate thread to switch grammar check to LT

@@ -201,7 +201,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private void actualizeNonWriterDocumentCache(SingleDocument document) {
     if (docType != DocumentType.WRITER) {
       DocumentCache oldCache = new DocumentCache(docCache);
-      docCache.refresh(null, null, null, null, document.getXComponent(), 7);
+      docCache.refresh(document, null, null, document.getXComponent(), 7);
       if (!oldCache.isEmpty()) {
         boolean isSame = true;
         if (oldCache.size() != docCache.size()) {
@@ -229,8 +229,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       XComponent xComponent = document.getXComponent();
       DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
       DocumentCache oldCache = new DocumentCache(docCache);
-      docCache.refresh(docCursor, document.getFlatParagraphTools(), 
-          LinguisticServices.getLocale(documents.getConfiguration().getDefaultLanguage()), locale, xComponent, 8);
+      docCache.refresh(document, LinguisticServices.getLocale(documents.getConfiguration().getDefaultLanguage()), locale, xComponent, 8);
       if (!oldCache.isEmpty() && !docCache.isEmpty()) {
         if (oldCache.size() != docCache.size()) {
           int from = 0;
@@ -322,8 +321,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       } else if (docCache.size() == 0) {
         XComponent xComponent = currentDocument.getXComponent();
         DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
-        docCache.refresh(docCursor, currentDocument.getFlatParagraphTools(), 
-            LinguisticServices.getLocale(documents.getConfiguration().getDefaultLanguage()), locale, xComponent, 8);
+        docCache.refresh(currentDocument, LinguisticServices.getLocale(documents.getConfiguration().getDefaultLanguage()), locale, xComponent, 8);
       } else if (actualize) {
         actualizeWriterDocumentCache(currentDocument);
       }
@@ -1806,7 +1804,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
         return null;
       }
       if (docType == DocumentType.WRITER) {
-        y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
+        TextParagraph tPara = viewCursor.getViewCursorParagraph();
+        y = docCache.getFlatParagraphNumber(tPara);
+//        MessageHandler.printToLogFile("CheckDialog: getNextError: TextParagraph(type/number): " + tPara.type + " / " + tPara.number 
+//            + "; flat: " + y);
       } else if (docType == DocumentType.IMPRESS) {
         y = OfficeDrawTools.getParagraphFromCurrentPage(xComponent);
       } else {

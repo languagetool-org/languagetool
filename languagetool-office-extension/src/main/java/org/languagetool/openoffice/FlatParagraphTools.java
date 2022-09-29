@@ -307,6 +307,47 @@ public class FlatParagraphTools {
   }
   
   /**
+   * Returns Text of some FlatParagraphs defined in a List
+   * Returns null if it fails
+   */
+  @Nullable
+  public List<String> getFlatParagraphs(List<Integer> nParas) {
+    isBusy++;
+    try {
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
+      if (xFlatPara == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("FlatParagraphTools: getAllFlatParagraphs: FlatParagraph == null");
+        }
+        return null;
+      }
+      List<String> sParas = new ArrayList<>();
+      XFlatParagraph tmpFlatPara = xFlatPara;
+      while (tmpFlatPara != null) {
+        xFlatPara = tmpFlatPara;
+        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+      }
+      int nFlat = 0;
+      int nPara = 0;
+      while (xFlatPara != null && nPara < nParas.size()) {
+        if (nFlat == nParas.get(nPara)) {
+          String text = xFlatPara.getText();
+          sParas.add(text);
+          nPara++;
+        }
+        xFlatPara = xFlatParaIter.getParaAfter(xFlatPara);
+        nFlat++;
+      }
+      return sParas;
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;           // Return null as method failed
+    } finally {
+      isBusy--;
+    }
+  }
+  
+  /**
    * Get the language of paragraph 
    * @throws IllegalArgumentException 
    */

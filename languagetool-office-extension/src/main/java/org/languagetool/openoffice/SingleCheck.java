@@ -205,7 +205,7 @@ class SingleCheck {
         if (docCursor == null) {
           docCursor = new DocumentCursorTools(xComponent);
         }
-        this.docCache.refresh(docCursor, flatPara, LinguisticServices.getLocale(fixedLanguage), 
+        this.docCache.refresh(singleDocument, LinguisticServices.getLocale(fixedLanguage), 
             LinguisticServices.getLocale(docLanguage), xComponent, 7);
         docCache = new DocumentCache(this.docCache);
         tPara = docCache.getNumberOfTextParagraph(nFPara);
@@ -306,7 +306,10 @@ class SingleCheck {
         flatPara = singleDocument.setFlatParagraphTools();
         
         List<Integer> changedParas = new ArrayList<>();
-        if (oldCache != null) {
+        if (cacheNum == 0) {
+          changedParas.add(nFPara);
+          remarkChangedParagraphs(changedParas, docCursor, flatPara, lt, true);
+        } else if (oldCache != null) {
           for (int nText = startPara; nText < endPara; nText++) {
             int nFlat = docCache.getFlatParagraphNumber(docCache.createTextParagraph(cursorType, nText));
             if (paragraphsCache.get(0).getCacheEntry(nFlat) != null) {

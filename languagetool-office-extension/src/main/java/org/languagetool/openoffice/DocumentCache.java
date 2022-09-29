@@ -89,12 +89,12 @@ public class DocumentCache implements Serializable {
     this.docType = docType;
   }
 
-  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale fixedLocale, Locale docLocale,
+  DocumentCache(SingleDocument document, Locale fixedLocale, Locale docLocale,
       XComponent xComponent, DocumentType docType) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
     this.docType = docType;
-    refresh(docCursor, flatPara, fixedLocale, docLocale, xComponent, 0);
+    refresh(document, fixedLocale, docLocale, xComponent, 0);
   }
 
   DocumentCache(DocumentCache in) {
@@ -105,10 +105,13 @@ public class DocumentCache implements Serializable {
       isReset = true;
       debugMode = OfficeTools.DEBUG_MODE_DC;
       debugModeTm = OfficeTools.DEBUG_MODE_TM;
-      if (in.size() > 0) {
+      if (in.paragraphs != null && in.paragraphs.size() > 0) {
         add(in);
       }
       docType = in.docType;
+      if (docType == DocumentType.WRITER && MultiDocumentsHandler.docsHandler != null) {
+        MultiDocumentsHandler.docsHandler.runShapeCheck(toParaMapping.get(CURSOR_TYPE_SHAPE).size() > 0, 9);
+      }
       isReset = false;
     } finally {
       rwLock.writeLock().unlock();
@@ -151,8 +154,7 @@ public class DocumentCache implements Serializable {
   /**
    * Refresh the cache
    */
-  public void refresh(DocumentCursorTools docCursor, FlatParagraphTools flatPara,
-      Locale fixedLocale, Locale docLocale, XComponent xComponent, int fromWhere) {
+  public void refresh(SingleDocument document, Locale fixedLocale, Locale docLocale, XComponent xComponent, int fromWhere) {
     if (isReset) {
       MessageHandler.printToLogFile("DocumentCache:refresh: isReset == true: return");
       return;
@@ -160,18 +162,18 @@ public class DocumentCache implements Serializable {
 //    MessageHandler.printToLogFile("DocumentCache: refresh: Number waiting: " + rwLock.getQueueLength());
 //    MessageHandler.printToLogFile("DocumentCache: refresh: " + rwLock.getWriteHoldCount() + " writer is writing: "+ Thread.currentThread().getName());
     rwLock.writeLock().lock();
+    isReset = true;
     try {
-      isReset = true;
       if (debugMode) {
         MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
       }
       if (docType != DocumentType.WRITER) {
         refreshImpressCalcCache(xComponent);
       } else {
-        refreshWriterCache(docCursor, flatPara, fixedLocale, docLocale, fromWhere);
+        refreshWriterCache(document, fixedLocale, docLocale, fromWhere);
       }
-      isReset = false;
     } finally {
+      isReset = false;
       rwLock.writeLock().unlock();
     }
   }
@@ -180,10 +182,11 @@ public class DocumentCache implements Serializable {
    * reset the document cache load the actual state of the document into the cache
    * is only used for writer documents
    */
-  private void refreshWriterCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, 
-      Locale fixedLocale, Locale docLocale, int fromWhere) {
+  private void refreshWriterCache(SingleDocument document, Locale fixedLocale, Locale docLocale, int fromWhere) {
     try {
       long startTime = System.currentTimeMillis();
+      DocumentCursorTools docCursor = document.getDocumentCursorTools();
+      FlatParagraphTools flatPara = document.getFlatParagraphTools();
       List<String> paragraphs = new ArrayList<String>();
       List<List<Integer>> chapterBegins = new ArrayList<List<Integer>>();
       List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>();
@@ -265,6 +268,17 @@ public class DocumentCache implements Serializable {
       mapParagraphs(paragraphs, toTextMapping, toParaMapping, chapterBegins, locales, footnotes, textParas, deletedCharacters, deletedChars);
       actualizeCache (paragraphs, chapterBegins, locales, footnotes, toTextMapping, toParaMapping, 
           deletedCharacters, documentTexts.get(CURSOR_TYPE_TEXT).automaticTextParagraphs);
+      boolean isUnsupported = false;
+      for (TextParagraph tPara : toTextMapping) {
+        if (tPara.type == CURSOR_TYPE_TEXT) {
+          break;
+        } else if (tPara.type == CURSOR_TYPE_TABLE) {
+          isUnsupported = true;
+          break;
+        }
+      }
+      isUnsupported = isUnsupported || this.toParaMapping.get(CURSOR_TYPE_SHAPE).size() > 0;
+      document.getMultiDocumentsHandler().runShapeCheck(isUnsupported, fromWhere);
       if (fromWhere != 2 || debugModeTm) { //  do not write time to log for text level queue
         long endTime = System.currentTimeMillis();
         MessageHandler.printToLogFile("Time to generate cache(" + fromWhere + "): " + (endTime - startTime));
@@ -1266,7 +1280,19 @@ public class DocumentCache implements Serializable {
   }
 
   /**
-   * size of text cache (without headers, footnotes, etc.)
+   * size of text cache for a type of text
+   */
+  public int textSize(int type) {
+    rwLock.readLock().lock();
+    try {
+      return (type < 0 || type >= toParaMapping.size()) ? 0 : toParaMapping.get(type).size();
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * size of text cache for a type of text
    */
   public int textSize(TextParagraph textParagraph) {
     rwLock.readLock().lock();
@@ -1314,7 +1340,7 @@ public class DocumentCache implements Serializable {
   }
   
   /**
-   * size of cavhe has changed?
+   * size of cache has changed?
    */
   public boolean isEqualCacheSize(DocumentCursorTools docCursor) {
     rwLock.readLock().lock();
@@ -1346,6 +1372,41 @@ public class DocumentCache implements Serializable {
     } finally {
       rwLock.readLock().unlock();
     }
+  }
+  
+  /**
+   * get all paragraphs within unsupported text types (shapes, tables in frames)
+   * change the cache to new value
+   * return all changed paragraphs
+   */
+  public List<Integer> getChangedUnsupportedParagraphs(FlatParagraphTools flatPara, ResultCache firstResultCache) {
+    rwLock.writeLock().lock();
+    List<Integer> nChanged = new ArrayList<>();
+    if (flatPara == null) {
+      return nChanged;
+    }
+    try {
+      if (toParaMapping.get(CURSOR_TYPE_SHAPE).isEmpty() && toParaMapping.get(CURSOR_TYPE_TABLE).isEmpty()) {
+        return null;
+      }
+      List<Integer> nParas = new ArrayList<>();
+      for (int i = 0; i < paragraphs.size() && toTextMapping.get(i).type != CURSOR_TYPE_TEXT; i++) {
+        if (toTextMapping.get(i).type == CURSOR_TYPE_SHAPE || toTextMapping.get(i).type == CURSOR_TYPE_TABLE) {
+          nParas.add(i);
+        }
+      }
+      List<String> fParas = flatPara.getFlatParagraphs(nParas);
+      for (int i = 0; i < fParas.size(); i++) {
+        int nFPara = nParas.get(i);
+        if (firstResultCache.getCacheEntry(nFPara) == null || !paragraphs.get(nFPara).equals(fParas.get(i))) {
+          paragraphs.set(nFPara, fParas.get(i));
+          nChanged.add(nFPara);
+        }
+      }
+    } finally {
+      rwLock.writeLock().unlock();
+    }
+    return nChanged;
   }
 
   /**
