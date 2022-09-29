@@ -1415,6 +1415,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[Üü]bergrifflich(e[mnrs]?)?", "lich", "ig");
     put("löchen", w -> Arrays.asList("löschen", "löchern", "Köchen"));
     put("wergen",  w -> Arrays.asList("werfen", "werben", "werten"));
+    put("Wasn",  w -> Arrays.asList("Was denn", "Was ein", "Was"));
   }
 
   @Override
