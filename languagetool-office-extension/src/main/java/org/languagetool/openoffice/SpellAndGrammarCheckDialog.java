@@ -50,8 +50,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -103,14 +105,15 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private final static String moreButtonName = messages.getString("guiMore"); 
   private final static String ignoreButtonName = messages.getString("guiOOoIgnoreButton"); 
   private final static String ignoreAllButtonName = messages.getString("guiOOoIgnoreAllButton"); 
+  private final static String ignoreRuleButtonName = messages.getString("guiOOoIgnoreRuleButton"); 
   private final static String deactivateRuleButtonName = messages.getString("loContextMenuDeactivateRule"); 
   private final static String addToDictionaryName = messages.getString("guiOOoaddToDictionary");
   private final static String changeButtonName = messages.getString("guiOOoChangeButton"); 
   private final static String changeAllButtonName = messages.getString("guiOOoChangeAllButton"); 
-  private final static String helpButtonName = messages.getString("guiMenuHelp"); 
+  private final static String helpButtonName = messages.getString("guiOOoHelpButton"); 
   private final static String optionsButtonName = messages.getString("guiOOoOptionsButton"); 
   private final static String undoButtonName = messages.getString("guiUndo");
-  private final static String closeButtonName = messages.getString("guiCloseButton");
+  private final static String closeButtonName = messages.getString("guiOOoCloseButton");
   private final static String changeLanguageList[] = { messages.getString("guiOOoChangeLanguageRequest"),
                                                 messages.getString("guiOOoChangeLanguageMatch"),
                                                 messages.getString("guiOOoChangeLanguageParagraph") };
@@ -1296,9 +1299,28 @@ public class SpellAndGrammarCheckDialog extends Thread {
       checkProgress = new JProgressBar(0, 100);
       checkProgress.setStringPainted(true);
       checkProgress.setBounds(begFirstCol + 120, dialogHeight - progressBarDist, dialogWidth - begFirstCol - 140, 20);
+
+      //  set selection background color to get compatible layout to LO
+      Color selectionColor = UIManager.getLookAndFeelDefaults().getColor("ProgressBar.selectionBackground");
+      suggestions.setSelectionBackground(selectionColor);
+      setJComboSelectionBackground(language, selectionColor);
+      setJComboSelectionBackground(changeLanguage, selectionColor);
+      setJComboSelectionBackground(addToDictionary, selectionColor);
+      setJComboSelectionBackground(activateRule, selectionColor);
+
       contentPane.add(checkProgress);
       
       ToolTipManager.sharedInstance().setDismissDelay(30000);
+    }
+
+    /**
+     * Set the selection color to a combo box
+     */
+    private void setJComboSelectionBackground(JComboBox<String> comboBox, Color color) {
+      Object context = comboBox.getAccessibleContext().getAccessibleChild(0);
+      BasicComboPopup popup = (BasicComboPopup)context;
+      JList<Object> list = popup.getList();
+      list.setSelectionBackground(color);
     }
     
     void setProgressValue(int value, boolean setText) {
@@ -1645,12 +1667,14 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
           
           if (isSpellError) {
+            ignoreAll.setText(ignoreAllButtonName);
             addToDictionary.setVisible(true);
             changeAll.setVisible(true);
             deactivateRule.setVisible(false);
             addToDictionary.setEnabled(true);
             changeAll.setEnabled(true);
           } else {
+            ignoreAll.setText(ignoreRuleButtonName);
             addToDictionary.setVisible(false);
             changeAll.setVisible(false);
             deactivateRule.setVisible(true);
