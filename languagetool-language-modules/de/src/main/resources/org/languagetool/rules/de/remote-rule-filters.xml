@@ -1004,6 +1004,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="(EIG|SUB).*" postag_regexp="yes"/>
                     <token postag="PRP.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="PRP.*GEN.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="ART:DEF.*GEN.*" postag_regexp="yes"/>
+                    <token postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="PRP.*DAT.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="ART:DEF.*DAT.*" postag_regexp="yes"/>
+                    <token postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="PRP.*AKK.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="ART:DEF.*AKK.*" postag_regexp="yes"/>
+                    <token postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="(EIG|SUB).*" postag_regexp="yes"/>
@@ -1012,6 +1030,9 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Gute <marker>Nachricht</marker> für alle, die sich gesundheitsbewußt ernähren wollen.</example>
                 <example correction="">Auch im zweiten <marker>Quartal</marker> für sich allein betrachtet war die Entwicklung der Kundenzahlen uneinheitlich.</example>
+                <example>Die <marker>Abstände</marker> in der sich solche Viren weltweit verbreiten werden kürzer.</example>
+                <example>Scheint so, dass jeder <marker>Cop</marker> gegen den sie ermitteln, tot endet.</example>
+                <example>Trotz ihrer Beziehung, besuchte Bundy wieder John Murray in der Country <marker>Bar</marker> in der er sang.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -1020,6 +1041,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="(EIG|SUB).*" postag_regexp="yes"/>
                     <token postag="ADV.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token skip="-1" postag="ADV.*" postag_regexp="yes" regexp="yes">wann|warum|was|we[mnr]|weshalb|weswegen|wie|wieso|wieviel|wo|wobei|wodurch|wofür|wogegen|woher|wohin|wohinter|womit|wonach|woneben|woran|worauf|woraufhin|woraus|worin|worüber|worum|worunter|wovon|wovor|wozu|wozwischen</token>
+                    <token postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <and>
+                        <token skip="-1" postag="ADV.*" postag_regexp="yes"/>
+                        <token postag="KON.*" postag_regexp="yes"/>
+                    </and>
+                    <token postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token skip="-1">also
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <token regexp="yes">\p{P}</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="(EIG|SUB).*" postag_regexp="yes"/>
@@ -1027,6 +1068,14 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="ADV.*" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">Am nächsten <marker>Tag</marker> dann weiter, doch irgendwie kamen wir aus einem Talkessel nicht wieder heraus und mußten ein paar mal probieren bis wir eine Piste auf die Strasse fanden.</example>
+                <example>Wer Kontakte knüpft, entdeckt auch Ähnlichkeiten, es kommen schließlich Menschen so vieler Religionen und politischer Überzeugungen, viele sehr säkulare Menschen, mit <marker>Berufen</marker> wie es sie auch hier gibt.</example>
+                <example>Dem <marker>Ding</marker> wonach Dmitry für ihn nachsehen sollte...</example>
+                <example>Darüber hinaus benötigen wir für eine erfolgreiche Vermittlung, sämtliche <marker>Angaben</marker> wie sie sich üblicherweise in einem Lebenslauf (unter anderem Qualifikationen und Kenntnisse) befinden und solche die für eine erfolgreiche Vermittlung notwendig sind.</example>
+                <example>auf dem linken Display blinken Kacheln, auf dem rechten der gute alte <marker>Desktop</marker> da hat man alles im Blick, alles im Griff.</example>
+                <example>Ihr Politiker kümmert euch immer nur um die Rettung von <marker>Banken</marker> aber nie um unseren Alltag das hört wohl jeder Politiker bei Versammlungen oder Bürgersprechstunden.</example>
+                <example>6teiliges Weißweinglas-Set von Kwarx - 'Tulip' 47cl, Seebach (99846) - Weingläser kaufen &amp; verkaufen bei kleinanzeigen-landesweit.de (Art.-Nr. 622955)\n: 6 U 121/15) in einem Urteil entschieden, dass wir unsere <marker>Besucher</marker> also Sie, darauf hinweisen müssen, dass Ihre im Kontaktformular eingegebenen Daten gespeichert werden und gelöscht werden können.</example>
+                <example>Bevor wir zur Tagesordnung des Ministerrates übergehen, möchte ich die Entscheidung des Reformministers begrüßen,\nDu hast ja keine Ahnung wie enttäuscht ich gerade bin!</example>
+                <example>Am Eingang war eine Schlange, aber das hat nur ca.\nAm Eingang zur Ausstellungshalle ist auch immer ein Anschlagbrett wo man etwas zum Treffen aufhängen könnte.</example>
             </rule>
             <rule>
                 <pattern>
