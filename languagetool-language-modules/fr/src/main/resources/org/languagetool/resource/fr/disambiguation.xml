@@ -8918,20 +8918,34 @@ RB => Règles Brutes
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="J.*"/>
+        <disambig action="remove" postag="N.*"/>
     </rule>
-    <rule name="suivant" id="SUIVANT2"><!--le printemps tant attendu est arrivé -->
-        <pattern>
-            <token postag="A"/>
-            <marker>
-                <and>
-                    <token postag="J.*" postag_regexp="yes"/>
-                    <token postag="V ppr" postag_regexp="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="P"/>
-    </rule>
+    <rulegroup name="suivant" id="SUIVANT2"><!--le printemps tant attendu est arrivé -->
+        <rule>
+            <pattern>
+                <token postag="A"/>
+                <marker>
+                    <and>
+                        <token postag="J.*" postag_regexp="yes"/>
+                        <token postag="V ppr" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="P"/>    
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="A"/>
+                <marker>
+                    <and>
+                        <token postag="J.*" postag_regexp="yes">suivant</token>
+                        <token postag="V ppr" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V ppr"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="SI" name="si (noun, adverb, conjunction...)">
         <!-- TODO: needs to be improved -->
         <rule>
