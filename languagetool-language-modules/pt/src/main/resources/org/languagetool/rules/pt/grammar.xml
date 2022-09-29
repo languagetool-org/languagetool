@@ -1447,6 +1447,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>espécie de flauta de bambu tipicamente sul-coreana.</example>
           <example>foi uma das primeiras alternativas ao chumbo amplamente usadas</example>
         </antipattern>
+        <antipattern>
+          <token>o</token>
+          <token>mais</token>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <example>O mais atualizada possível.</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
@@ -1462,7 +1468,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
             <token postag='(?:N.|A..)F.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+              <exception postag='(?:[NZ].|A..)[CM].+|V.[CMNSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception regexp='yes'>uma|&dias_semana;|mas|x|á|leva|ama|manda|olha|perca|tao|e|era|semana|noite|sozinha|ser|mora|são|serão|média?|nós|termo|nome|haver|saber</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
@@ -1556,7 +1562,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..)C[SN].+'/>
               <exception regexp='yes'>\p{Lu}+</exception></token>
             <token postag='(?:N.|A..|DP.)F.+' postag_regexp='yes'>
-              <exception postag='(?:N.|A..|DP.)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+              <exception postag='(?:N.|A..|DP.)[CM].+|V.[MNCSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>uma|face|longa|era|semanas?|noites?|mas|\d\:\d</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
@@ -2273,7 +2279,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/>
               <exception regexp='yes'>\p{Lu}+</exception></token>
             <token postag='(?:N.|A..|DP.)M.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..|DP.)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+              <exception postag='(?:[NZ].|A..|DP.)[CF].+|V.[NMCSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|devido</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
