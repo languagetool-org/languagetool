@@ -3936,6 +3936,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <example type="untouched">Ens avanatges en tot.</example>
         </rule>
     </rulegroup>
+    <rule id="creus" name="creus (verb)">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token min="0" max="3" regexp="yes">\p{P}</token>
+            <marker>
+                <token skip="-1">creus</token>
+            </marker>
+            <token>?</token>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
+    </rule>
     <rulegroup id="en_veu" name="en veu baixa">
         <rule>
             <pattern>
@@ -7614,7 +7625,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">coma|comes|meta|metes|menta|humana|humanes|escàs|poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només|noms?<exception postag="_GV_"/></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">missa|coma|comes|meta|metes|menta|humana|humanes|escàs|poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només|noms?<exception postag="_GV_"/></token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
