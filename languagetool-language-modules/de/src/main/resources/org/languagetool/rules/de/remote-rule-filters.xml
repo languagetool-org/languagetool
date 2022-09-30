@@ -1000,7 +1000,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <antipattern>
                     <token skip="-1" postag="SENT_START"/>
-                    <token skip="-1" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                    <token skip="-1" postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
                     <token postag="(EIG|SUB).*" postag_regexp="yes"/>
                     <token postag="PRP.*" postag_regexp="yes"/>
                 </antipattern>
@@ -1008,19 +1008,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="(EIG|SUB).*" postag_regexp="yes"/>
                     <token postag="PRP.*GEN.*" postag_regexp="yes"/>
                     <token skip="-1" postag="ART:DEF.*GEN.*" postag_regexp="yes"/>
-                    <token postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
                 </antipattern>
                 <antipattern>
                     <token postag="(EIG|SUB).*" postag_regexp="yes"/>
                     <token postag="PRP.*DAT.*" postag_regexp="yes"/>
                     <token skip="-1" postag="ART:DEF.*DAT.*" postag_regexp="yes"/>
-                    <token postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
                 </antipattern>
                 <antipattern>
                     <token postag="(EIG|SUB).*" postag_regexp="yes"/>
                     <token postag="PRP.*AKK.*" postag_regexp="yes"/>
                     <token skip="-1" postag="ART:DEF.*AKK.*" postag_regexp="yes"/>
-                    <token postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -1213,10 +1213,31 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <antipattern>
-                     <token postag="SUB.*" postag_regexp="yes"/>
-                     <token postag="PRO:REF.*|(ART|ADJ).*(AKK|DAT).*" postag_regexp="yes"/>
-                     <token skip="10" min="0"/>
-                     <token postag="VER:INF.*" postag_regexp="yes"/>
+                    <token inflected="yes" postag="VER:AUX.*" postag_regexp="yes" regexp="yes">haben|sein</token>
+                    <token skip="10">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                    <token skip="10" min="0">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" postag="VER:AUX.*" postag_regexp="yes" regexp="yes">haben|sein</token>
+                    <token skip="10">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                    <token skip="10" min="0">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <token postag="VER:EIZ.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="VER:(AUX|MOD).*" postag_regexp="yes"/>
@@ -1234,8 +1255,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="VER:INF.*" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">Demnächst wird ein wertvolles <marker>Paket</marker> für Sie eintreffen.</example>
-                <example correction="">Unser Anspruch ist eine qualitativ hochstehende <marker>Lösung</marker> für unsere Kunden zu erstellen, welche finanzierbar und nachhaltig ist.</example>
                 <example correction="">Dann müssen doch noch einige <marker>Köpfe</marker> rollen.</example>
+                <example correction="">Sie ließ eine fragwürdige <marker>Giftmischerin</marker> die Sandwiches für ihre Stiefkinder machen.</example>
+                <example correction="">Damit können Anwender bei raumlufttechnischen <marker>Anlagen</marker> hygienischen Richtlinien und Vorgaben zur Raumluftqualität schnell und präzise entsprechen, z.B. in der Industrie, in Büroräumen oder in Reinräumen.</example>
+                <example correction="">Gut die Hälfte der Besucher dürfte für die <marker>Anreise</marker> aber das Auto nutzen, 20 den Reisebus, der Rest kommt mit Bahn und Nahverkehr.</example>
+                <example>Schon im ersten Buch hat mir der <marker>Ansatz</marker> einen Polizeipfarrer mehr oder weniger die Ermittlungsarbeit durchführen zu lassen sehr gefallen.</example>
+                <example>Die Lichtmalerei ist für mich die sinnvollste und sinnlichste <marker>Art</marker> einen unbekleideten Körper im Bild darzustellen und der Fantasie Raum zu lassen.</example>
+                <example>Es ist mir ein tiefes <marker>Bedürfnis</marker> mich an dieser Stelle bei einigen Menschen von Herzen zu bedanken, die mich auf meinem Weg begleitet haben.</example>
             </rule>
         </rulegroup>
     </category>
