@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -30,11 +32,12 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tools.StringTools;
 
-
 public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
 
   // es + unknown -> és + noun/adj | es + verb 3rd person
-  
+
+  Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
+
   public FindSuggestionsEsFilter() throws IOException {
     // lazy init
     if (speller == null) {
@@ -43,11 +46,11 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
       }
     }
   }
-  
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
-    
+
     List<String> replacements = new ArrayList<>();
     int posWord = 0;
     while (posWord < patternTokens.length
@@ -62,25 +65,32 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
     if (suggestions.size() > 0) {
       for (String suggestion : suggestions) {
         // TODO: do not tag capitalized words with tags for lower case
-        List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(Collections.singletonList(cleanSuggestion(suggestion)));
+        List<AnalyzedTokenReadings> analyzedSuggestions = getTagger()
+            .tag(Collections.singletonList(cleanSuggestion(suggestion)));
         for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
           if (replacements.size() >= 2 * MAX_SUGGESTIONS) {
             break;
           }
-          if (analyzedSuggestion.matchesPosTagRegex("[NA].*|V.P.*|RG")) {
+          if (analyzedSuggestion.matchesPosTagRegex("NP.*|NC.[SN].*|A...[SN].|V.P..S..|V.[NG].*|RG")) {
             replacements.add("és " + analyzedSuggestion.getToken().toLowerCase());
             usedEsAccent = true;
           }
           if (analyzedSuggestion.matchesPosTagRegex("V...3.*")) {
-            replacements.add("es " + analyzedSuggestion.getToken().toLowerCase());
-            usedEs = true;
+            Matcher m = pApostropheNeeded.matcher(analyzedSuggestion.getToken());
+            if (!m.matches()) {
+              replacements.add("es " + analyzedSuggestion.getToken().toLowerCase());
+              usedEs = true;
+            }
           }
         }
       }
     }
-    
+    if (replacements.isEmpty()) {
+      return null;
+    }
+
     List<String> definitiveReplacements = new ArrayList<>();
-    String firstCh = patternTokens[posWord-1].getToken().substring(0, 1);
+    String firstCh = patternTokens[posWord - 1].getToken().substring(0, 1);
     if (firstCh.toUpperCase().equals(firstCh)) {
       for (String r : replacements) {
         definitiveReplacements.add(StringTools.uppercaseFirstChar(r));
@@ -99,7 +109,7 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
         message, match.getShortMessage());
     ruleMatch.setType(match.getType());
     ruleMatch.setSuggestedReplacements(definitiveReplacements);
-    return ruleMatch;     
+    return ruleMatch;
   }
 
 }
