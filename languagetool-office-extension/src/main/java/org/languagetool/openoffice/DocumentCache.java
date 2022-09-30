@@ -109,9 +109,6 @@ public class DocumentCache implements Serializable {
         add(in);
       }
       docType = in.docType;
-      if (docType == DocumentType.WRITER && MultiDocumentsHandler.docsHandler != null) {
-        MultiDocumentsHandler.docsHandler.runShapeCheck(toParaMapping.get(CURSOR_TYPE_SHAPE).size() > 0, 9);
-      }
       isReset = false;
     } finally {
       rwLock.writeLock().unlock();
@@ -268,17 +265,7 @@ public class DocumentCache implements Serializable {
       mapParagraphs(paragraphs, toTextMapping, toParaMapping, chapterBegins, locales, footnotes, textParas, deletedCharacters, deletedChars);
       actualizeCache (paragraphs, chapterBegins, locales, footnotes, toTextMapping, toParaMapping, 
           deletedCharacters, documentTexts.get(CURSOR_TYPE_TEXT).automaticTextParagraphs);
-      boolean isUnsupported = false;
-      for (TextParagraph tPara : toTextMapping) {
-        if (tPara.type == CURSOR_TYPE_TEXT) {
-          break;
-        } else if (tPara.type == CURSOR_TYPE_TABLE) {
-          isUnsupported = true;
-          break;
-        }
-      }
-      isUnsupported = isUnsupported || this.toParaMapping.get(CURSOR_TYPE_SHAPE).size() > 0;
-      document.getMultiDocumentsHandler().runShapeCheck(isUnsupported, fromWhere);
+      document.getMultiDocumentsHandler().runShapeCheck(hasUnsupportedText(), fromWhere);
       if (fromWhere != 2 || debugModeTm) { //  do not write time to log for text level queue
         long endTime = System.currentTimeMillis();
         MessageHandler.printToLogFile("Time to generate cache(" + fromWhere + "): " + (endTime - startTime));
@@ -321,6 +308,22 @@ public class DocumentCache implements Serializable {
       return false;
     }
     return flatPara.equals(textPara);
+  }
+  
+  public boolean hasUnsupportedText() {
+    if (toParaMapping.get(CURSOR_TYPE_SHAPE).size() > 0) {
+      return true;
+    }
+    boolean hasUnsupported = false;
+    for (TextParagraph tPara : toTextMapping) {
+      if (tPara.type == CURSOR_TYPE_TEXT) {
+        break;
+      } else if (tPara.type == CURSOR_TYPE_TABLE) {
+        hasUnsupported = true;
+        break;
+      }
+    }
+    return hasUnsupported;
   }
   
   private static boolean isEqualWithoutFootnotes(String flatPara, String textPara, int[] footnotes, int[] n, int level) {
@@ -1153,12 +1156,16 @@ public class DocumentCache implements Serializable {
   /**
    * has no content
    */
-  public boolean hasNoContent() {
-    rwLock.readLock().lock();
+  public boolean hasNoContent(boolean lock) {
+    if (lock) {
+      rwLock.readLock().lock();
+    }
     try {
       return paragraphs == null || paragraphs.isEmpty() || (paragraphs.size() == 1 && paragraphs.get(0).isEmpty());
     } finally {
-      rwLock.readLock().unlock();
+      if (lock) {
+        rwLock.readLock().unlock();
+      }
     }
   }
 

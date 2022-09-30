@@ -485,7 +485,7 @@ public class TextLevelCheckQueue {
      * entry is obsolete and should be replaced by new entry e
      */
     public boolean isObsolete(QueueEntry e) {
-      if (e == null || nCheck != e.nCheck || nCache != e.nCache || nStart.type != e.nStart.type || !docId.equals(e.docId)) {
+      if (e == null || nCheck != e.nCheck || nCache != e.nCache || nStart.type != e.nStart.type || docId == null || !docId.equals(e.docId)) {
         return false;
       }
       if (nCheck < -1 || (nCheck == -1 && e.nStart.number >= nStart.number && e.nStart.number <= nEnd.number) 

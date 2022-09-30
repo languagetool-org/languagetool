@@ -73,8 +73,6 @@ import com.sun.star.uno.XComponentContext;
  */
 public class MultiDocumentsHandler {
 
-  public static MultiDocumentsHandler docsHandler = null;
-  
   // LibreOffice (since 4.2.0) special tag for locale with variant 
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
@@ -145,7 +143,6 @@ public class MultiDocumentsHandler {
     disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
     dictionary = new LtDictionary();
-    docsHandler = this;
   }
   
   /**
@@ -393,7 +390,7 @@ public class MultiDocumentsHandler {
           document.writeCaches();
         }
         document.setXComponent(xContext, null);
-        if (document.getDocumentCache().hasNoContent()) {
+        if (document.getDocumentCache().hasNoContent(false)) {
           //  The delay seems to be necessary as workaround for a GDK bug (Linux) to stabilizes
           //  the load of a document from an empty document 
           MessageHandler.printToLogFile("Disposing document has no content: Wait for 1000 milliseconds");

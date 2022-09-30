@@ -1247,7 +1247,7 @@ class DocumentCursorTools {
       XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
       XTextSection xTextSection = UnoRuntime.queryInterface(XTextSection.class, xParagraphPropertySet.getPropertyValue("TextSection"));
       xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xTextSection);
-      if((boolean) xParagraphPropertySet.getPropertyValue("IsProtected")) {
+      if(xParagraphPropertySet != null && (boolean) xParagraphPropertySet.getPropertyValue("IsProtected")) {
         return true;
       }
     } catch (Throwable t) {

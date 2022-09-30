@@ -531,6 +531,9 @@ class SingleDocument {
           paragraphsCache.get(i).replace(cacheIO.getParagraphsCache().get(i));
         }
         ignoredMatches = new IgnoredMatches(cacheIO.getIgnoredMatches());
+        if (docType == DocumentType.WRITER && mDocHandler != null) {
+          mDocHandler.runShapeCheck(docCache.hasUnsupportedText(), 9);
+        }
       }
       cacheIO.resetAllCache();
     }
