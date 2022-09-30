@@ -145,8 +145,13 @@ public final class Languages {
     }
   }
 
-  private static boolean hasPremium(String className) {
-    return className.matches("org\\.languagetool\\.language\\.(German|GermanyGerman|AustrianGerman|SwissGerman|Dutch|French|Spanish|English|AustralianEnglish|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish)");
+  static boolean hasPremium(String className) {
+    return className.matches("org\\.languagetool\\.language\\.(" +
+      "Portuguese|AngolaPortuguese|BrazilianPortuguese|MozambiquePortuguese|PortugalPortuguese|" +
+      "German|GermanyGerman|AustrianGerman|SwissGerman|" +
+      "Dutch|French|Spanish|" +
+      "English|AustralianEnglish|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish" +
+      ")");
   }
 
   /**
