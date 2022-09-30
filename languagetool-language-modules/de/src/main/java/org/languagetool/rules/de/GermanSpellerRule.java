@@ -2708,6 +2708,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "desöfteren": return topMatch("des Öfteren");
       case "desweiteren": return topMatch("des Weiteren");
       case "weitesgehend": return topMatch("weitestgehend");
+      case "Tschibo": return topMatch("Tchibo");
+      case "Tschibos": return topMatch("Tchibos");
       case "Tiktok": return topMatch("TikTok");
       case "Tiktoks": return topMatch("TikToks");
       case "sodaß": return topMatch("sodass");
