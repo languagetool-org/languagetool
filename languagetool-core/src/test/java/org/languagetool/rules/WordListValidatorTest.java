@@ -153,6 +153,8 @@ public class WordListValidatorTest {
           "Snæfellsjökull/S",
           "Clément/S",
           "Snæfellsjökull",
+          "Skåneland",
+          "Øresund",
           "Ibišević",
           "Fríður",
           "Łódź",
