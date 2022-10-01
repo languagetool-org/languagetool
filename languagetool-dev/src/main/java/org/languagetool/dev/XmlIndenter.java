@@ -46,6 +46,9 @@ public class XmlIndenter {
     boolean inAntiPattern = false;
     boolean inPattern = false;
     boolean inMarker = false;
+    boolean inAnd = false;
+    boolean inUnify = false;
+    boolean inUnifyIgnore = false;
     boolean inToken = false;
     for (String line : lines) {
       String origLine = line;
@@ -56,8 +59,12 @@ public class XmlIndenter {
       if (line.startsWith("</rule>")) { inRule = false; }
       if (line.startsWith("</rulegroup")) { inRuleGroup = false; }
       if (line.startsWith("</category")) { inCategory = false; }
+      if (line.startsWith("</and")) { inAnd = false; }
+      if (line.startsWith("</unify>")) { inUnify = false; }
+      if (line.startsWith("</unify-ignore>")) { inUnifyIgnore = false; }
       int level = INDENT + (inCategory ? INDENT : 0) + (inRuleGroup ? INDENT : 0) + (inRule ? INDENT : 0) +
-        (inPattern ? INDENT : 0) + (inAntiPattern ? INDENT : 0) + (inMarker ? INDENT : 0) + (inToken ? INDENT : 0);
+        (inPattern ? INDENT : 0) + (inAntiPattern ? INDENT : 0) + (inMarker ? INDENT : 0) + (inToken ? INDENT : 0) +
+        (inAnd ? INDENT : 0) + (inUnify ? INDENT : 0) + (inUnifyIgnore ? INDENT : 0);
       if (line.startsWith("<category") || line.startsWith("</category")) {
         level = INDENT;
       }
@@ -76,6 +83,9 @@ public class XmlIndenter {
       if (line.startsWith("<pattern")) { inPattern = true; }
       if (line.startsWith("<antipattern")) { inAntiPattern = true; }
       if (line.contains("<marker>") && !line.contains("</marker>") && (inPattern || inAntiPattern)) { inMarker = true; }
+      if (line.contains("<and>")) { inAnd = true; }
+      if (line.contains("<unify>") || line.contains("<unify ")) { inUnify = true; }
+      if (line.contains("<unify-ignore>")) { inUnifyIgnore = true; }
       if (line.contains("</token>") || (line.contains("<token") && line.contains("/>")) && (inPattern || inAntiPattern)) { inToken = false; }
       if (line.contains("<token") && !line.contains("/>") && !line.contains("</token>") && (inPattern || inAntiPattern)) {
         inToken = true;
