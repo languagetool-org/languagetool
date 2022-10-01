@@ -46810,6 +46810,33 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- QUE PRETENDER pretendido -->
+    <rule id='QUE_PRETENDER_PRETENDIDO' name="Simplificar: que pretender → pretendido" type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-01 (25-JUL-2022+) -->
+      <!--
+      Vamos escolher o horário que se pretende. → Vamos escolher o horário pretendido.
+      Vamos escolher os horários que se pretende. → Vamos escolher os horários pretendidos.
+      Vamos escolher o horário que pretendemos. → Vamos escolher o horário pretendido.
+      Vamos escolher os horários que pretendemos. → Vamos escolher os horários pretendidos.
+      -->
+      <pattern>
+        <token regexp='yes'>[ao]s?</token>
+        <token min="1" max="2" postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <marker>
+          <token>que</token>
+          <token min="0" max="1">se</token>
+          <token regexp='no' inflected='yes'>pretender
+            <exception scope="next" postag_regexp='yes' postag='V.+'/>
+          </token>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='1' postag='DA0(..)0' postag_replace='NC$1000'>pretendido</match></suggestion>
+      <example correction="pretendido">Vamos escolher o horário <marker>que pretendemos</marker>.</example>
+      <example correction="pretendidos">Vamos escolher os horários <marker>que pretendemos</marker>.</example>
+    </rule>
+
+
     <!-- QUE RESULTAM DE resultantes de -->
     <rule id='QUE_RESULTA_RESULTAM_DE_DA_DAS_DO_DOS_NA_NAS_NO_NOS' name="Simplificar: Que + resulta(m) + de/d(a/o)(s)/n(a/o)(s) → Resultante(s) + de/d(a/o)(s)/n(a/o)(s)" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-24 (25-JUL-2022+) -->
