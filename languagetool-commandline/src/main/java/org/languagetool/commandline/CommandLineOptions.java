@@ -60,6 +60,7 @@ public class CommandLineOptions {
   private boolean xmlFiltering = false;
   private boolean lineByLine = false;
   private boolean enableTempOff = false;
+  private boolean recheck = false;
   private JLanguageTool.Level level = JLanguageTool.Level.DEFAULT;
   @Nullable
   private Language language = null;
@@ -131,6 +132,14 @@ public class CommandLineOptions {
 
   public void setEnableTempOff(boolean enableTempOff) {
     this.enableTempOff = enableTempOff;
+  }
+
+  public boolean isRecheck() {
+    return recheck;
+  }
+
+  public void setRecheck(boolean recheck) {
+    this.recheck = recheck;
   }
 
   public boolean isRecursive() {

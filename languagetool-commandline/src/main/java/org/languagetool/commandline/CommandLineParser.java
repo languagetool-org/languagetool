@@ -51,6 +51,8 @@ class CommandLineParser {
         options.setLineByLine(true);
       } else if (args[i].equals("--enable-temp-off")) {
         options.setEnableTempOff(true);
+      } else if (args[i].equals("--recheck")) {
+        options.setRecheck(true);
       } else if (args[i].equals("--level")) {
         String level = args[++i];
         try {

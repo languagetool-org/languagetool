@@ -18,19 +18,20 @@
  */
 package org.languagetool.tools;
 
+import java.io.*;
+import java.lang.reflect.Constructor;
+import java.net.*;
+import java.text.MessageFormat;
+import java.util.*;
+import javax.xml.parsers.ParserConfigurationException;
 import org.languagetool.*;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PasswordAuthenticator;
 import org.languagetool.rules.patterns.bitext.*;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
-import java.lang.reflect.Constructor;
-import java.net.*;
-import java.text.MessageFormat;
-import java.util.*;
 
 public final class Tools {
 
@@ -209,6 +210,76 @@ public final class Tools {
       return contents;  
     }    
     return correctTextFromMatches(contents, ruleMatches);    
+  }
+
+  /**
+   * Rechecks the contents and returns valid and invalid suggestions
+   * by checking the corrected text and evaluating the new rule matchs.
+   * Can be slow if the number of original rule matchs are too large,
+   * as they are iterated to check if each replacement is valid, i.e.
+   * doesn't raise any new rule matches.
+   *
+   * @param contents String to be checked
+   * @param lt Initialized Language Tool object
+   * @param level Level of the check (sentence, paragraph, etc)
+   * @return Map containing the valid and invalid rule matches
+   * @throws IOException
+   */
+  public static Map<String, List<RuleMatch>> recheck(String contents, JLanguageTool lt, JLanguageTool.Level level) throws IOException {
+    List<RuleMatch> ruleMatches = lt.check(new AnnotatedTextBuilder().addText(contents).build(), true, JLanguageTool.ParagraphHandling.NORMAL,
+      null, JLanguageTool.Mode.ALL, level);
+    Map<String, List<RuleMatch>> resultMap = new HashMap<String, List<RuleMatch>>();
+    resultMap.put("valid", new ArrayList<RuleMatch>());
+    resultMap.put("invalid", new ArrayList<RuleMatch>());
+    if (ruleMatches.isEmpty()) {
+      return resultMap;
+    }
+    for (RuleMatch match : ruleMatches) {
+      List<RuleMatch> matchList = Collections.singletonList(match);
+      String corrected = correctTextFromMatches(contents, matchList);
+      List<RuleMatch> correctedRuleMatchs = lt.check(corrected);
+
+      // offset adjusment is inspired by correctTextFromMatches() below
+      List<String> replacements = match.getSuggestedReplacements();
+      if (replacements.isEmpty()) {
+        List<RuleMatch> tmp = resultMap.get("valid");
+        tmp.add(match);
+        resultMap.put("valid", tmp);
+        continue;
+      }
+      Integer offset = match.getToPos() - match.getFromPos() - replacements.get(0).length();
+      Set<List<Integer>> otherMatchPosSet = new HashSet<List<Integer>>();
+      boolean beforeMatch = true;
+      for (RuleMatch rm : ruleMatches) {
+        if (rm == match) {
+          beforeMatch = false;
+          continue;
+        }
+        List<Integer> offsetPos = beforeMatch ? Arrays.asList(rm.getFromPos(), rm.getToPos()) :
+          Arrays.asList(rm.getFromPos() - offset, rm.getToPos() - offset);
+        otherMatchPosSet.add(offsetPos);
+      }
+
+      // If the corrected text 1) remove the current match; 2) doesn't raise any new match,
+      // then the current match is valid, i.e. matches of corrected text are all in the otherMatchSet.
+      boolean valid = true;
+      for (RuleMatch crm : correctedRuleMatchs) {
+        // System.out.println("Corrected RM pos: (" + crm.getFromPos() + ", " + crm.getToPos() + ") ");
+        if (!otherMatchPosSet.contains(Arrays.asList(crm.getFromPos(), crm.getToPos()))) {
+          List<RuleMatch> tmp = resultMap.get("invalid");
+          tmp.add(match);
+          resultMap.put("invalid", tmp);
+          valid = false;
+          break;
+        }
+      }
+      if (valid) {
+        List<RuleMatch> tmp = resultMap.get("valid");
+        tmp.add(match);
+        resultMap.put("valid", tmp);
+      }
+    }
+    return resultMap;
   }
 
   /**

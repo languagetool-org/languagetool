@@ -18,11 +18,6 @@
  */
 package org.languagetool.commandline;
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -33,6 +28,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -112,6 +110,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   }
 
+  @Override
   @Before
   public void setUp() throws Exception {
     super.setUp();
@@ -123,6 +122,7 @@ public class MainTest extends AbstractSecurityTestCase {
     System.setErr(new PrintStream(this.err));
   }
 
+  @Override
   @After
   public void tearDown() throws Exception {
     System.setOut(this.stdout);
@@ -652,6 +652,16 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertFalse(output.contains("ENGLISH_WORD_REPEAT_RULE"));
+  }
+
+  // CS427 Issue link: https://github.com/languagetool-org/languagetool/issues/5231
+  @Test
+  public void testRecheck() throws Exception {
+    File input = writeToTempFile("We want ten lines or less in length.");
+    String[] args = {"--line-by-line", "--recheck", input.getAbsolutePath()};
+    Main.main(args);
+    String output = new String(this.out.toByteArray());
+    assertTrue(output.contains("Invalid"));
   }
 
   private File writeToTempFile(String content) throws IOException {

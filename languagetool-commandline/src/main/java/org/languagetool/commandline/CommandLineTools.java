@@ -18,6 +18,14 @@
  */
 package org.languagetool.commandline;
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.languagetool.*;
 import org.languagetool.bitext.BitextReader;
 import org.languagetool.bitext.StringPair;
@@ -34,13 +42,6 @@ import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static org.languagetool.JLanguageTool.Level.*;
@@ -72,6 +73,10 @@ public final class CommandLineTools {
 
   public static int checkText(String contents, JLanguageTool lt) throws IOException {
     return checkText(contents, lt, false, false, -1, 0, 0, StringTools.ApiPrintMode.NORMAL_API, false, DEFAULT, emptyList());
+  }
+
+  public static int recheckText(String contents, JLanguageTool lt) throws IOException {
+    return recheckText(contents, lt, false, false, -1, 0, 0, StringTools.ApiPrintMode.NORMAL_API, false, DEFAULT, emptyList());
   }
 
   public static int checkText(String contents, JLanguageTool lt,
@@ -132,6 +137,78 @@ public final class CommandLineTools {
       out.print(json);
     } else {
       printMatches(ruleMatches, prevMatches, contents, contextSize, lt.getLanguage());
+    }
+
+    //display stats if it's not in a buffered mode
+    if (apiMode == StringTools.ApiPrintMode.NORMAL_API && !isJsonFormat) {
+      SentenceTokenizer sentenceTokenizer = lt.getLanguage().getSentenceTokenizer();
+      int sentenceCount = sentenceTokenizer.tokenize(contents).size();
+      displayTimeStats(startTime, sentenceCount, isXmlFormat);
+    }
+    return ruleMatches.size();
+  }
+
+  // CS427 Issue link: https://github.com/languagetool-org/languagetool/issues/5231
+  /**
+   * Recheck the given text and print both valid and invalid results.
+   *
+   * @param contents a text to check (may be more than one sentence)
+   * @param lt Initialized LanguageTool
+   * @param isXmlFormat whether to print the result in XML format
+   * @param isJsonFormat whether to print the result in JSON format
+   * @param contextSize error text context size: -1 for default
+   * @param lineOffset line number offset to be added to line numbers in matches
+   * @param prevMatches number of previously matched rules
+   * @param apiMode mode of xml/json printout for simple xml/json output
+   * @return Number of rule matches to the input text.
+   */
+  public static int recheckText(String contents, JLanguageTool lt,
+                                boolean isXmlFormat, boolean isJsonFormat, int contextSize, int lineOffset,
+                                int prevMatches, StringTools.ApiPrintMode apiMode,
+                                boolean listUnknownWords, JLanguageTool.Level level, List<String> unknownWords) throws IOException {
+    if (contextSize == -1) {
+      contextSize = DEFAULT_CONTEXT_SIZE;
+    }
+    long startTime = System.currentTimeMillis(); 
+    Map<String, List<RuleMatch>> map = Tools.recheck(contents, lt, level);
+    List<RuleMatch> ruleMatches = map.get("valid");
+    List<RuleMatch> invalidMatches = map.get("invalid");
+
+    ruleMatches.parallelStream().forEach(r -> {
+      // adjust line numbers
+      r.setLine(r.getLine() + lineOffset);
+      r.setEndLine(r.getEndLine() + lineOffset);
+
+      // calculate lazy suggestions in parallel and cache them
+      r.getSuggestedReplacementObjects();
+    });
+    if (isXmlFormat) {
+      if (listUnknownWords && apiMode == StringTools.ApiPrintMode.NORMAL_API) {
+        unknownWords = lt.getUnknownWords();
+      }
+      RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
+      String xml = serializer.ruleMatchesToXml(ruleMatches, contents,
+              contextSize, apiMode, lt.getLanguage(), unknownWords);
+      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      out.print(xml);
+      out.close();
+    } else if (isJsonFormat) {
+      RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
+      String json = serializer.ruleMatchesToJson(ruleMatches, contents, contextSize,
+        new DetectedLanguage(lt.getLanguage(), lt.getLanguage()));
+      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      out.print(json);
+      out.close();
+    } else {
+      if (!ruleMatches.isEmpty()) {
+        System.out.println("Valid matches:");
+        printMatches(ruleMatches, prevMatches, contents, contextSize, lt.getLanguage());
+      }
+      if (!invalidMatches.isEmpty()) {
+        // shows the invalid rule matches for debugging
+        System.out.println("Invalid matches:");
+        printMatches(invalidMatches, prevMatches, contents, contextSize, lt.getLanguage());
+      }
     }
 
     //display stats if it's not in a buffered mode
