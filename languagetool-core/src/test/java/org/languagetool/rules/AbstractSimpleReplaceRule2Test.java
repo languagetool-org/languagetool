@@ -18,22 +18,22 @@
  */
 package org.languagetool.rules;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.Demo;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
+import static org.languagetool.rules.AbstractSimpleReplaceRule2.simpleReplaceCaseSensitive;
 
 public class AbstractSimpleReplaceRule2Test {
-  
   @Test
   public void testRule() throws IOException {
     Demo lang = new Demo();
