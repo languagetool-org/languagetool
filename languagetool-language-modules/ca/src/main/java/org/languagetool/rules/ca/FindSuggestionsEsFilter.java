@@ -72,7 +72,7 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
             break;
           }
           if (analyzedSuggestion.matchesPosTagRegex("NP.*|NC.[SN].*|A...[SN].|V.P..S..|V.[NG].*|RG")) {
-            replacements.add("és " + analyzedSuggestion.getToken().toLowerCase());
+            replacements.add("és " + analyzedSuggestion.getToken());
             usedEsAccent = true;
           }
           if (analyzedSuggestion.matchesPosTagRegex("V...3.*")) {
@@ -98,7 +98,18 @@ public class FindSuggestionsEsFilter extends FindSuggestionsFilter {
     } else {
       definitiveReplacements.addAll(replacements);
     }
+    boolean isFirstEsAccent = patternTokens[posWord - 1].getToken().equalsIgnoreCase("és");
     String message = match.getMessage();
+    
+    
+    if (isFirstEsAccent && usedEsAccent && !usedEs) {
+      // show just the spelling rule;
+      return null;
+    }
+    if (!isFirstEsAccent && !usedEsAccent && usedEs) {
+      // show just the spelling rule;
+      return null;
+    }  
     if (usedEsAccent) {
       message = message + " \"És\" (del v. 'ser') s'escriu amb accent.";
     }
