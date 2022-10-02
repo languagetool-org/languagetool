@@ -5243,6 +5243,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="guíe">Necesitamos que el taxi <marker>guie</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="SE_A" name="se/sé" default="temp_off">
+            <antipattern>
+                <!-- another error: a->ha -->
+                <token>a</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+                <example>No se a ido.</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>se</token>
+                </marker>
+                <token>a</token>
+            </pattern>
+            <message>Si es del v. 'saber' o 'ser' se escribe con tilde.</message>
+            <suggestion>sé</suggestion>
+            <example correction="sé">No <marker>se</marker> a quién pertenece.</example>
+        </rule>
         <rulegroup id="SE" name="se/sé" default="on">
             <antipattern>
                 <!-- error in the next word -->
