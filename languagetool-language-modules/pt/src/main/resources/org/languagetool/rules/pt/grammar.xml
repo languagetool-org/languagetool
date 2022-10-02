@@ -32248,6 +32248,18 @@ O namorado dela era um ladrão.
         <example correction='as matrículas'><marker>as matriculas</marker>.</example>
       </rule>
       <rule id='PARONYM_ABRENUNCIO_1' name='Confusão: verbo no lugar do parónimo acentuado (ú)'>
+
+        <!-- MARCOAGPINTO 2022-10-02 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='DA.+' postag_regexp='yes'/>
+          <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+          <token regexp='yes'>&verb_detecao_paronimos_u;</token>
+          <token postag='SPS00|DA.+' postag_regexp='yes'/>
+          <example>O menino pronuncia as palavras bem.</example>
+          <example>Quando o medo supera a ganância.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-10-02 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
