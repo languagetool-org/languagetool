@@ -1198,6 +1198,17 @@
       <disambig action="filter" postag="V.*"/>
   </rule>
   
+  <rule id="CONSEGUIR" name="conseguir + inf">
+    <pattern>
+      <marker>
+        <token postag="V.*" postag_regexp="yes" inflected="yes">conseguir</token>  
+      </marker>
+      <token postag="V.N.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="V.*"/>
+  </rule>
+  
+  
   <rulegroup id="D_R_N" name="Det + Adv + Nom">
     <!-- 		Based on Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule>
@@ -1261,7 +1272,7 @@
         <rule>
             <pattern>
                 <token postag="RN|RG" postag_regexp="yes"><exception postag="CS"></exception></token>
-                <token postag="P[^I].*" postag_regexp="yes"/>
+                <token postag="P[^I].*" postag_regexp="yes"><exception inflected="yes">comigo</exception></token>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filterall"/>
