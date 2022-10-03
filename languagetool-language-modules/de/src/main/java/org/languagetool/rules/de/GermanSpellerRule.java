@@ -2778,6 +2778,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Adverben": return topMatch("Adverbien");
       case "letzlich": return topMatch("letztlich");
       case "Letzlich": return topMatch("Letztlich");
+      case "gefühlsdusselig": return topMatch("gefühlsduselig");
+      case "gefühlsdusselige": return topMatch("gefühlsduselige");
+      case "gefühlsdusseliger": return topMatch("gefühlsduseliger");
+      case "gefühlsdusseliges": return topMatch("gefühlsduseliges");
+      case "gefühlsdusseligen": return topMatch("gefühlsduseligen");
       case "gegebenfalls": return topMatch("gegebenenfalls");
       case "Gegebenfalls": return topMatch("Gegebenenfalls");
       case "zugebenermaßen": return topMatch("zugegebenermaßen");
