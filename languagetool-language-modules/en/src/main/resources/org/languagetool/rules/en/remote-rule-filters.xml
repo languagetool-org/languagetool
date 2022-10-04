@@ -543,6 +543,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_HYDRA_LEO_MISSING_OF" name="">
             <rule>
                 <pattern>
+                    <token>because</token>
+                    <marker>
+                        <token chunk_re="B-NP.*" />
+                    </marker>
+                    <token min="0" max="9" chunk_re=".-NP.*|B-PP" />
+                    <token chunk="B-VP" />
+                </pattern>
+                <example correction="">Even if the work performed by PGE is included as part of CSUF's CEQA filing for the substation project and PGE requests an exemption from the CPUC as discussed above, the time frame and outcomes for the CEQA process are uncertain because <marker>formal</marker> CPUC review and approval of our request for exemption is still required.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>in</token>
                     <token>any</token>
                     <token regexp="yes">case|event</token>
