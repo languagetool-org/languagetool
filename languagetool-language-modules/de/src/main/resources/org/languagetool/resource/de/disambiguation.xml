@@ -7223,7 +7223,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER.*"/>
     </rule>
-    <rule id="DRAMATISCHEN_KEIN_VER" name="'trotz' kein Verb">
+    <rule id="DRAMATISCHEN_KEIN_VER" name="'...tischen' kein Verb">
         <pattern>
             <marker>
                 <token regexp="yes">.*(drama|roman|elas|nazis|narziss)tisch(en?)?</token>
@@ -7231,6 +7231,27 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER.*"/>
     </rule>
+    <rulegroup id="LAUT_KEIN_ADJ_SUB" name="'laut' kein Adjektiv/Substantiv">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>laut</token>
+                </marker>
+                <token postag="SUB:.*|PRO:POS:.+|ADJ.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="ADJ.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token  case_sensitive="yes">Laut</token>
+                </marker>
+                <token postag="SUB:.*|PRO:POS:.+|ADJ.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="ADJ.*|SUB.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="ADJ_KEINVER_SEIN" name="dunkel werden">
         <rule>
             <pattern>
