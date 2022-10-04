@@ -472,7 +472,7 @@ public class HTTPServerConfig {
         localApiMode = Boolean.parseBoolean(getOptionalProperty(props, "localApiMode", "false"));
         motherTongue = getOptionalProperty(props, "motherTongue", "en-US");
         String preferredLanguages = getOptionalProperty(props, "preferredLanguages", "").replace(" ", "");
-        if (preferredLanguages != "") {
+        if (!preferredLanguages.equals("")) {
           this.preferredLanguages = Arrays.asList(preferredLanguages.split(","));
         }
         dictLimitUser = Integer.valueOf(getOptionalProperty(props, "dictLimitUser", "0"));
