@@ -317,6 +317,8 @@ public class German extends Language implements AutoCloseable {
       case "VONSTATTEN_GEHEN" : return 2;   // prefer over EINE_ORIGINAL_RECHNUNG
       case "VERWECHSLUNG_MIR_DIR_MIR_DIE": return 1; // prefer over MIR_DIR
       case "ERNEUERBARE_ENERGIEN": return 1; // prefer over VEREINBAREN
+      case "DRIVE_IN": return 1; // prefer over agreement rules
+      case "AN_STATT": return 1; // prefer over agreement rules
       case "VOR_BEI": return 1; // prefer over BEI_BEHALTEN
       case "ALLES_GUTE": return 1; // prefer over premium rules
       case "NEUN_NEUEN": return 1; // prefer over VIELZAHL_PLUS_SINGULAR
