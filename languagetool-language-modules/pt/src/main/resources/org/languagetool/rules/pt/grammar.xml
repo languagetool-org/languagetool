@@ -24148,7 +24148,80 @@ O namorado dela era um ladrão.
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-11 -->
       <url>https://pt.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Prolixidade_ou_preciosismo</url>
       <short>Expressão prolixa</short>
-    <rule>
+      <rule default='temp_off'>
+        <pattern>
+         <marker>
+          <token>como</token>
+          <token>forma</token>
+          <token>de</token>
+         </marker>
+          <token postag='VMN0000'/>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Considere substituir por <suggestion>para</suggestion>.</message>
+        <example correction='para'>Isso foi pensado <marker>como forma de</marker> manter recursos.</example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+         <marker>
+          <token>à</token>
+          <token>luz</token>
+          <token>de</token>
+         </marker>
+          <token negate='yes' regexp='yes'>velas|tochas|lâmpadas|luminárias</token>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Considere substituir por <suggestion>considerando</suggestion>.</message>
+        <example correction='considerando'>Passou a reexaminá-las <marker>à luz de</marker> proposições novas </example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+         <marker>
+          <token inflected='yes'>ser</token>
+          <token>capaz</token>
+          <token>de</token>
+         </marker>
+          <token negate_pos='yes' postag='N.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Considere substituir por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>poder</match></suggestion> ou <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conseguir</match></suggestion>.</message>
+        <example correction='pode|consegue'>Ele <marker>é capaz de</marker> fazer proposições novas.</example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+         <marker>
+          <token>durante</token>
+          <token>o</token>
+          <token>curso</token>
+          <token>de</token>
+         </marker>
+          <token negate_pos='yes' postag='N.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Considere substituir por <suggestion>durante</suggestion> ou <suggestion>enquanto</suggestion>.</message>
+        <example correction='durante|enquanto'>Foi assim <marker>durante o curso de</marker> toda dua vida.</example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+         <marker>
+          <token>em</token>
+          <token>virtude</token>
+          <token>de</token>
+         </marker>
+          <token negate_pos='yes' postag='DA.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Considere escrever <suggestion>por</suggestion>.</message>
+        <example correction='por'>O pintor, acabou os seus dias no hospício de Rilhafoles, <marker>em virtude de</marker> ter enlouquecido.</example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+         <marker>
+          <token>não</token>
+          <token>é</token>
+          <token>verdade</token>
+         </marker>
+          <token negate='yes'>?</token>
+        </pattern>
+        <message>Expressão desnecessariamente complexa. Considere escrever <suggestion>é mentira</suggestion> ou <suggestion>é falso</suggestion>.</message>
+        <example correction='é mentira|é falso'>Isso simplesmente <marker>não é verdade</marker>.</example>
+      </rule>
+      <rule>
         <pattern>
           <token>que</token>
           <token postag='VMI.+' postag_regexp='yes'/>
