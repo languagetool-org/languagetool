@@ -1402,7 +1402,6 @@ public class MultiDocumentsHandler {
    */
   public void trigger(String sEvent) {
     try {
-//      MessageHandler.printToLogFile("Event: " + sEvent);
       if (!testDocLanguage(true)) {
         MessageHandler.printToLogFile("Test for document language failed: Can't trigger event: " + sEvent);
         return;
@@ -1411,14 +1410,12 @@ public class MultiDocumentsHandler {
         closeDialogs();
         runOptionsDialog();
       } else if ("about".equals(sEvent)) {
-//        closeDialogs();
         if (aboutDialog != null) {
           aboutDialog.close();
           aboutDialog = null;
         }
         AboutDialogThread aboutThread = new AboutDialogThread(messages, xContext);
         aboutThread.start();
-//      } else if ("switchOff".equals(sEvent)) {
       } else if ("toggleNoBackgroundCheck".equals(sEvent)) {
         if (toggleNoBackgroundCheck()) {
           resetCheck(); 
@@ -1478,6 +1475,9 @@ public class MultiDocumentsHandler {
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage);
         checkDialog.nextError();
       } else if ("refreshCheck".equals(sEvent)) {
+        if (ltDialog != null) {
+          ltDialog.closeDialog();
+        } 
         if (this.isBackgroundCheckOff()) {
           MessageHandler.showMessage(messages.getString("loExtSwitchOffMessage"));
           return;
