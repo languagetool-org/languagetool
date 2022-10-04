@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!ENTITY dias_semana "(?:[Dd]omingo|[Qq]uarta(-feira)?|[Qq]uinta(-feira)?|[Ss]ábado|[Ss]egunda(-feira)?|[Ss]exta(-feira)?|[Tt]erça(-feira)?|(seg|ter|qua|qui|sex)-feira)">
         <!ENTITY enderecos "Alameda|Avenida|Largo|Praça|Praceta|Rua|Terreiro|Travessa|Via|Estrada|Piso">
         <!ENTITY nomes_de_instituicoes "Anuário|Jardim|Aeroporto|Classificação|Fundação|Diretrize?s?|Península|Normas?|Consultoria|Empresa|Empirismo|Conjuração|Inconfidência|Inquisição|Rede|Códigos?|Vale|Título|Plano|Frente|Vanguarda|tradutor[ae]s?|Lei|Indústria|Realismo|Conferência|Constituição|Colégio|Conselho|Comunidade|Estatuto|Serviço|Coletivo|Assuntos|Revoluções|Tabela|Encontro|Secretaria|Consulado|Comissão|Comitês?|Fórum|Núcleo|Posto|Jornal|Sistema|Lojas?|Tribunal|Cinemateca|Nacional|Sinfonia|Vila|Protocolos?|Grupos?|Peste|Gripe|Festival|Velódromo|Memorial|Programa|Expressionismo|Assembleias?|Forças?|Câmara|Impressionismo|Clubes?|Estudos|Regimentos?|Fundo|Banco|Campeonato|Conferência|Partido|Aliança|Seleção|Museu|Taça|Copa|Organização|Unidades?|Hospital|Campanha|Corporação|Correio|Marinha|Juventude|Sociedades?|Ligas?|Letras|Literaturas?|Línguas?|Revolta|Armada|Grêmio|Jogos|Academia|Associação|Centro|Companhia|Cultura|Congressos?|Revista|Montanhas?|Morros?|Complexo|Ministério|Confederação|Coroa|Embaixada|Emirados?|Enciclopédia|Era|Escola|Exército|Circuito|Faculdade|Tesouro|Federação|Guerra|Igreja|Ilhas|Império|Torneios?|Índia|Instituição|Instituto|Mar|Repúblicas?|Revolução|União|Universidade|Superliga|Teatro">
+        <!ENTITY palavras_estrangeiras "up|welcome|these|but|top|too|in|return|go|goes|baby|shop|appeal|trade|toys?|or|who|of|years|from|about|there|also|be|boom|why|this|drink|flash|revival|not|what|with|wasn?|hasn?|hadn?|few|must|through|try|off|out|cut|sessions?|games?|are|by|couldn?|can|wouldn?|might|the|is|and|for|your|back|that|you|he|she|it|we|they|him|her|them|good|bad|les?|chicos?|novi[oa]s?|herman[oa]s?|ballo|y|del|abrazo|una|besot?e?|con|placer|on|peut|dans|tout|vous|je|chaque|lui|avec|pas|du|aus|den|der|die|écoles?|une|ont|féderations?|thêatres?|des|qui|au|societés?|académies?|pour|notre|sur|institute?|ich|sie|weil|wir|mio?|degli|della|di|tuo|tra">
 
           ]>
 
@@ -1151,10 +1152,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag='_PUNCT'/>
         <token>Este</token>
       </antipattern>
+      <antipattern>
+        <token regexp="yes" skip="-1">&palavras_estrangeiras;</token>
+        <token regexp='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste</token>
+        <example>Morei anos em Punta del Este.</example>
+      </antipattern>
       <pattern case_sensitive='yes'>
         <token>
           <exception regexp='yes'>[Pp][oó]lo|[Zz]onas?|[Rr]egi(ão|ões)|[Oo]|[Dd]o|[Nn]o|[Pp]arte|-</exception>
-          <exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
+          <exception postag_regexp='yes' postag='SENT_START|NP.+|_PUNCT'/></token>
         <marker>
           <token regexp='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste
             <exception postag_regexp='yes' postag='NP..[^G].+'/></token>
