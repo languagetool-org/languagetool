@@ -35,7 +35,6 @@ public abstract class Premium {
   
   private Optional<Properties> gitPremiumProps;
 
-
   public Premium() {
     try {
       InputStream in = JLanguageTool.getDataBroker().getAsStream("/git-premium.properties");
@@ -51,7 +50,7 @@ public abstract class Premium {
     }
   }
 
-  private static List<String> tempNotPremiumRules = Arrays.asList();
+  private static final List<String> tempNotPremiumRules = Arrays.asList();
 
   public static boolean isTempNotPremium(Rule rule) {
     return tempNotPremiumRules.contains(rule.getId());
@@ -94,7 +93,6 @@ public abstract class Premium {
 
   public abstract boolean isPremiumRule(Rule rule);
   
- 
   public String getBuildDate() {
     return gitPremiumProps.map(properties -> properties.getProperty("git.build.time")).orElse(null);
   }
