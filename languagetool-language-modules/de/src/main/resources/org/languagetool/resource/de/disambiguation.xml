@@ -2594,7 +2594,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="La Paz" id="LA_PAZ">
         <pattern case_sensitive="yes">
             <token>La</token>
-            <token regexp="yes">Paz|[Tt]raviata|Sapienza|Rambla</token>
+            <token regexp="yes">Paz|[Tt]raviata|Sapienza|Spezia|Rambla</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2611,6 +2611,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>San</token>
             <token regexp="yes">Bernardino|Gottardo|Remo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+
+    <rule name="Cinque Terre" id="CINQUE_TERRE">
+        <pattern case_sensitive="yes">
+            <token>Cinque</token>
+            <token>Terre</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -7250,6 +7259,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token postag="SUB:.*|PRO:POS:.+|ADJ.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="remove" postag="ADJ.*|SUB.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token  case_sensitive="yes">laut</token>
+                </marker>
+                <token postag="PKT"/>
+            </pattern>
+            <disambig action="remove" postag="PRP.*"/>
+            <example type="ambiguous" inputform="laut[laut/ADJ:PRD:GRU,laut/PRP:MOD:GEN]" outputform="laut[laut/ADJ:PRD:GRU]">Es ist hier sehr <marker>laut</marker>.</example>
         </rule>
     </rulegroup>
     <rulegroup id="ADJ_KEINVER_SEIN" name="dunkel werden">
