@@ -1890,6 +1890,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         }
       }
     }
+    if (word.endsWith("mitarbeitende") || word.endsWith("mitarbeitenden")) {
+      if (hunspell.spell(word.replaceFirst("mitarbeitenden?", "mitarbeiter"))) {
+        return true;
+      }
+    }
     if ((idx+1 < words.size() && (word.endsWith(".mp") || word.endsWith(".woff")) && words.get(idx+1).equals("")) ||
         (idx > 0 && "".equals(words.get(idx-1)) && StringUtils.equalsAny(word, "sat", "stel", "tel", "stels", "tels") )) {
       // e.g. ".mp3", "3sat", "100stel", "5tel" - the check for the empty string is because digits were removed during

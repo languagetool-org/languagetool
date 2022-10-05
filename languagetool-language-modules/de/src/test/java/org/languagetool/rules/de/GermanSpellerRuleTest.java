@@ -601,10 +601,21 @@ public class GermanSpellerRuleTest {
     assertCorrect("Fusselmappsen", ruleCH, lt);
     assertCorrect("Coronapatienten", rule, lt);
     assertCorrect("Coronapatienten.", rule, lt);
+
+    assertCorrect("Universitätsmitarbeitende", rule, lt);
+    assertCorrect("Universitätsmitarbeitenden", rule, lt);
+    assertIncorrect("Xyzmitarbeitende", rule, lt);
+    assertIncorrect("Xyzmitarbeitenden", rule, lt);
+    assertIncorrect("Universitetsmitarbeitende", rule, lt);
+    assertIncorrect("Universitetsmitarbeitenden", rule, lt);
   }
 
   private void assertCorrect(String word, MyGermanSpellerRule rule, JLanguageTool lt) throws IOException {
     assertThat(rule.match(lt.getAnalyzedSentence(word)).length, is(0));
+  }
+
+  private void assertIncorrect(String word, MyGermanSpellerRule rule, JLanguageTool lt) throws IOException {
+    assertThat(rule.match(lt.getAnalyzedSentence(word)).length, is(1));
   }
 
   private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
