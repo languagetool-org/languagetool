@@ -18148,6 +18148,29 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
+
+    <!-- PRONTO A ENTREGAR E QUE MAIS NADA ERA NECESSÁRIO Pronto a entregar e nada mais era necessário -->
+    <rule id='E_QUE_ADV_VERBO_NADA_E_NADA_ADV_VERBO' name="Simplificar: e/ou + que + Adv/Verbo + nada → e/ou + nada + Adv/Verbo" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-05 (25-JUL-2022+) -->
+      <!--
+      Ele disse estar pronto a entregar e que mais nada era necessário. → Ele disse estar pronto a entregar e nada mais era necessário.
+      Ele disse já ter jantado, e que quer nada para comer. → Ele disse já ter jantado, e nada quer para comer.
+      -->
+      <pattern>
+        <marker>
+          <token regexp='yes'>e|ou</token>
+          <token>que</token>
+          <token postag='V.+|RG' postag_regexp='yes'/>
+          <token>nada</token>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\1 \4 \3</suggestion>
+      <example correction="e nada mais">Ele disse estar pronto a entregar <marker>e que mais nada</marker> era necessário.</example>
+      <example correction="e nada quer">Ele disse já ter jantado, <marker>e que quer nada</marker> para comer.</example>
+    </rule>
+
+
     <!-- E QUE VERBO e verbo -->
     <rule id='E_QUE_VERBO_E_VERBO' name="E que + Verbo > E + Verbo" type='style'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-08-03 + 2021-08-04 + 2022-03-08 (25-JUN-2021+)      -->
