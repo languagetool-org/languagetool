@@ -72,6 +72,14 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
     if (num == 1 || ",".equals(tokens[num - 1].getToken())) {
       return true;
     }
+    if ("allein".equals(tokens[num].getToken())) {
+      for(int i = 1; i < tokens.length; i++) {
+        if (tokens[i].hasLemma("sein")) {
+          return true;
+        }
+      }
+      return false;
+    }
     if ("recht".equals(tokens[num].getToken())) {
       for(int i = 1; i < tokens.length; i++) {
         if (tokens[i].hasAnyLemma("haben", "geben")) {
@@ -127,7 +135,7 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   @Override
   protected boolean sentenceConditionFulfilled(AnalyzedTokenReadings[] tokens, int nToken) {
     if ((nToken > 1 && fillerWords.contains(tokens[nToken - 1].getToken()) && !isException(tokens, nToken - 1)) || 
-        (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && !isException(tokens, nToken))) {
+        (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && !isException(tokens, nToken + 1))) {
       sentenceMessage = DEFAULT_SENTENCE_MSG1;
       return true;
     }
