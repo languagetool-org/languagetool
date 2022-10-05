@@ -7246,7 +7246,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <token>laut</token>
                 </marker>
-                <token postag="SUB:.*|PRO:POS:.+|ADJ.*" postag_regexp="yes"/>
+                <token postag="SUB:.*|PRO:POS:.+|ADJ.*" postag_regexp="yes">
+                    <exception regexp="yes">.*(musik|ton|geräusch|schrei|knall|rums|lied|song|ruf|signal|piep|sound).*</exception><!-- Ein laut Signalton -->
+                </token>
             </pattern>
             <disambig action="remove" postag="ADJ.*"/>
         </rule>
@@ -7256,7 +7258,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <token  case_sensitive="yes">Laut</token>
                 </marker>
-                <token postag="SUB:.*|PRO:POS:.+|ADJ.*" postag_regexp="yes"/>
+                <token postag="SUB:.*|PRO:POS:.+|ADJ.*" postag_regexp="yes">
+                    <exception regexp="yes">.*(musik|ton|geräusch|schrei|knall|rums|lied|song|ruf|signal|piep|sound).*</exception><!-- Laut Musik -->
+                </token>
             </pattern>
             <disambig action="remove" postag="ADJ.*|SUB.*"/>
         </rule>

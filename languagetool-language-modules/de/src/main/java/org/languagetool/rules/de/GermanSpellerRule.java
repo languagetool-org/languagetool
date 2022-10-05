@@ -2787,6 +2787,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Gegebenfalls": return topMatch("Gegebenenfalls");
       case "zugebenermaßen": return topMatch("zugegebenermaßen");
       case "beispielweise": return topMatch("beispielsweise");
+      case "pdf": return topMatch("PDF");
+      case "Pdf": return topMatch("PDF");
+      case "pdfs": return topMatch("PDFs");
+      case "Pdfs": return topMatch("PDFs");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
     return Collections.emptyList();
