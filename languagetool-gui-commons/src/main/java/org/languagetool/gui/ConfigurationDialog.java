@@ -1845,11 +1845,48 @@ public class ConfigurationDialog implements ActionListener {
       changeButton.add(new JButton(messages.getString("guiUColorChange")));
       changeButton.get(nCat).addActionListener(e -> {
         Color oldColor = uLabel.getForeground();
-        Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
+        if(insideOffice) {
+          dialog.setAlwaysOnTop(false);
+        }
+        
+        JColorChooser colorChooser = new JColorChooser(oldColor);
+        ActionListener okActionListener = new ActionListener() {
+          public void actionPerformed(ActionEvent actionEvent) {
+            Color newColor = colorChooser.getColor();
+            if(newColor != null && newColor != oldColor) {
+              uLabel.setForeground(newColor);
+              config.setUnderlineColor(cLabel, newColor);
+            }
+            if(insideOffice) {
+              dialog.setAlwaysOnTop(true);
+            }
+          }
+        };
+        // For cancel selection, change button background to red
+        ActionListener cancelActionListener = new ActionListener() {
+          public void actionPerformed(ActionEvent actionEvent) {
+            if(insideOffice) {
+              dialog.setAlwaysOnTop(true);
+            }
+          }
+        };
+        JDialog colorDialog = JColorChooser.createDialog(dialog, messages.getString("guiUColorDialogHeader"), true,
+            colorChooser, okActionListener, cancelActionListener);
+        if(insideOffice) {
+          colorDialog.setAlwaysOnTop(true);
+        }
+        colorDialog.toFront();
+        colorDialog.setVisible(true);
+/*
+        Color newColor = JColorChooser.showDialog(null, messages.getString("guiUColorDialogHeader"), oldColor);
         if(newColor != null && newColor != oldColor) {
           uLabel.setForeground(newColor);
           config.setUnderlineColor(cLabel, newColor);
         }
+        if(insideOffice) {
+          dialog.setAlwaysOnTop(true);
+        }
+*/
       });
       cons.gridx++;
       panel.add(changeButton.get(nCat), cons);
@@ -1928,6 +1965,42 @@ public class ConfigurationDialog implements ActionListener {
     JButton changeButton = new JButton(messages.getString("guiUColorChange"));
     changeButton.addActionListener(e -> {
       Color oldColor = underlineLabel.getForeground();
+      if(insideOffice) {
+        dialog.setAlwaysOnTop(false);
+      }
+      JColorChooser colorChooser = new JColorChooser(oldColor);
+      ActionListener okActionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent actionEvent) {
+          Color newColor = colorChooser.getColor();
+          if(newColor != null && newColor != oldColor) {
+            underlineLabel.setForeground(newColor);
+            if (rule == null) {
+              config.setUnderlineColor(category, newColor);
+            } else {
+              config.setUnderlineRuleColor(rule.getId(), newColor);
+            }
+          }
+          if(insideOffice) {
+            dialog.setAlwaysOnTop(true);
+          }
+        }
+      };
+      // For cancel selection, change button background to red
+      ActionListener cancelActionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent actionEvent) {
+          if(insideOffice) {
+            dialog.setAlwaysOnTop(true);
+          }
+        }
+      };
+      JDialog colorDialog = JColorChooser.createDialog(dialog, messages.getString("guiUColorDialogHeader"), true,
+          colorChooser, okActionListener, cancelActionListener);
+      if(insideOffice) {
+        colorDialog.setAlwaysOnTop(true);
+      }
+      colorDialog.toFront();
+      colorDialog.setVisible(true);
+/*      
       Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
       if(newColor != null && newColor != oldColor) {
         underlineLabel.setForeground(newColor);
@@ -1937,6 +2010,10 @@ public class ConfigurationDialog implements ActionListener {
           config.setUnderlineRuleColor(rule.getId(), newColor);
         }
       }
+      if(insideOffice) {
+        dialog.setAlwaysOnTop(true);
+      }
+*/
     });
     cons1.gridx++;
     colorPanel.add(changeButton);
