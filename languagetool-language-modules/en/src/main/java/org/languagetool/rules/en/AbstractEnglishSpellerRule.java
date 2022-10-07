@@ -1202,6 +1202,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("topup", Arrays.asList("top-up"));
     s.put("topups", Arrays.asList("top-ups"));
     s.put("nacked", Arrays.asList("backed", "naked"));
+    s.put("no-profit", Arrays.asList("non-profit"));
+    s.put("No-profit", Arrays.asList("Non-profit"));
 
     return s;
   }
