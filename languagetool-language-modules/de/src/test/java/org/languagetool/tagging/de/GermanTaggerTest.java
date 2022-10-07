@@ -175,6 +175,18 @@ public class GermanTaggerTest {
     assertEquals("Tische[Tisch/SUB:AKK:PLU:MAS, Tisch/SUB:DAT:SIN:MAS, Tisch/SUB:GEN:PLU:MAS, Tisch/SUB:NOM:PLU:MAS]", toSortedString(aToken19));
 
     assertNull(tagger.lookup("vanillig-karamelligen"));
+
+    AnalyzedTokenReadings aToken20 = tagger.lookup("Polizeimitarbeitende");
+    assertEquals("Polizeimitarbeitende[Polizeimitarbeitende/SUB:AKK:SIN:FEM:ADJ, Polizeimitarbeitende/SUB:AKK:SIN:NEU:ADJ, " +
+      "Polizeimitarbeitende/SUB:NOM:SIN:FEM:ADJ, Polizeimitarbeitende/SUB:NOM:SIN:MAS:ADJ, Polizeimitarbeitende/SUB:NOM:SIN:NEU:ADJ]", toSortedString(aToken20));
+    AnalyzedTokenReadings aToken21 = tagger.lookup("Polizeimitarbeitenden");
+    assertEquals("Polizeimitarbeitenden[Polizeimitarbeitende/SUB:AKK:PLU:FEM:ADJ, Polizeimitarbeitende/SUB:AKK:PLU:MAS:ADJ, " +
+      "Polizeimitarbeitende/SUB:AKK:PLU:NEU:ADJ, Polizeimitarbeitende/SUB:AKK:SIN:MAS:ADJ, Polizeimitarbeitende/SUB:DAT:PLU:FEM:ADJ, " +
+      "Polizeimitarbeitende/SUB:DAT:PLU:MAS:ADJ, Polizeimitarbeitende/SUB:DAT:PLU:NEU:ADJ, Polizeimitarbeitende/SUB:DAT:SIN:FEM:ADJ, " +
+      "Polizeimitarbeitende/SUB:DAT:SIN:MAS:ADJ, Polizeimitarbeitende/SUB:DAT:SIN:NEU:ADJ, Polizeimitarbeitende/SUB:GEN:PLU:FEM:ADJ, " +
+      "Polizeimitarbeitende/SUB:GEN:PLU:MAS:ADJ, Polizeimitarbeitende/SUB:GEN:PLU:NEU:ADJ, Polizeimitarbeitende/SUB:GEN:SIN:FEM:ADJ, " +
+      "Polizeimitarbeitende/SUB:GEN:SIN:MAS:ADJ, Polizeimitarbeitende/SUB:GEN:SIN:NEU:ADJ, Polizeimitarbeitende/SUB:NOM:PLU:FEM:ADJ, " +
+      "Polizeimitarbeitende/SUB:NOM:PLU:MAS:ADJ, Polizeimitarbeitende/SUB:NOM:PLU:NEU:ADJ]", toSortedString(aToken21));
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data

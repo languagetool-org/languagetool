@@ -359,6 +359,14 @@ public class GermanTagger extends BaseTagger {
           for (String tag : tagsForWeise) {
             readings.add(new AnalyzedToken(word, tag, word));
           }
+        } else if (!StringUtils.isAllBlank(word) && word.matches("[A-ZÖÄÜ][a-zöäüß]{2,25}mitarbeitenden?")) {
+          int idx = word.indexOf("mitarbeitende");
+          String firstPart = word.substring(0, idx);  // we might tag invalid words, but that should be okay
+          String lastPart = word.substring(idx);
+          List<TaggedWord> mitarbeitendeTags = getWordTagger().tag(StringTools.uppercaseFirstChar(lastPart));
+          for (TaggedWord mitarbeitendeTag : mitarbeitendeTags) {
+            readings.add(new AnalyzedToken(word, mitarbeitendeTag.getPosTag(), firstPart+"mitarbeitende"));
+          }
         } else if (!StringUtils.isAllBlank(word)) {
           List<String> compoundParts = GermanCompoundTokenizer.getStrictInstance().tokenize(word);
           if (compoundParts.size() <= 1) {//Could not find simple compound parts
