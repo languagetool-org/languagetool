@@ -92,6 +92,7 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Dritten",
     "Konsumierende",
     "Konsumierenden",
     "Verliebter",

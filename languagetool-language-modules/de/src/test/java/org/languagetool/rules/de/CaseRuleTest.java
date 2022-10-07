@@ -202,6 +202,7 @@ public class CaseRuleTest {
     assertGood("Liebe Kund:in");
     assertGood("Wir sollten das mal labeln.");
     assertGood("Teil 1: Der unaufhaltsame Aufstieg Bonapartes");
+    assertGood("Der Absatz bestimmt, in welchem Maße diese Daten Dritten zugänglich gemacht werden.");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
