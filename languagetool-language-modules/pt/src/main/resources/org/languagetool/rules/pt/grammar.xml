@@ -18110,8 +18110,37 @@ O namorado dela era um ladrão.
         <example correction="A.D.">Isto aconteceu no ano 500 <marker>a.d.</marker>.</example>
         <example>Isto aconteceu em 10 A.D. uma vez.</example>
       </rule>
-		
+
     </rulegroup>
+
+
+    <!-- ISSO ACONTECE DESDE A ALTURA isso acontece desde então -->
+    <rule id='DESDE_A_ALTURA_DESDE_ENTÃO' name="Simplificar: Desde a altura → desde então" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-07 (25-JUL-2022+) -->
+      <!--
+      E desde a altura ele está protegido. → E desde então ele está protegido.
+      Isso acontece desde a altura. → Isso acontece desde então.
+      O Rui come peixe desde a altura. → O Rui come peixe desde então.
+      O Rui comia peixe desde a altura. → O Rui comia peixe desde então.
+      -->
+      <pattern>
+        <token postag='VMI[IP].+|CC' postag_regexp='yes'/>
+        <token min="0" max="1" postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <marker>
+          <token>desde</token>
+          <token>a</token>
+          <token>altura</token>
+        </marker>
+        <token postag='_PUNCT|PP.+|CS' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>desde então</suggestion>
+      <example correction="desde então">E <marker>desde a altura</marker> ele está protegido.</example>
+      <example correction="desde então">Isso acontece <marker>desde a altura</marker>.</example>
+      <example correction="desde então">O Rui come peixe <marker>desde a altura</marker>.</example>
+      <example correction="desde então">O Rui comia peixe <marker>desde a altura</marker>.</example>
+    </rule>
+
 
     <!-- 	É + QUE + A(S)/O(S) + NC + É/SÃO é a(s)/o(s) NOME ser(em) -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-20 (25-JUN-2021+)      -->
