@@ -63,6 +63,9 @@ public class ArtificialErrorEval {
   static boolean isDoubleLetters = false;
   static boolean isDiacritics = false;
   static boolean inflected = false;
+  static boolean isParallelCorpus = false;
+  static int columnCorrect = 1;
+  static int columnIncorrect = 2;
   static Pattern pWordboundaries = Pattern.compile("\\b.+\\b");
   static int countLine = 0;
   static int checkedSentences = 0;
@@ -153,7 +156,7 @@ public class ArtificialErrorEval {
     File[] languageDirectories = new File(inputFolder).listFiles(File::isDirectory);
     for (File languageDirectory : languageDirectories) {
       langCode = languageDirectory.getName();
-//      if (!langCode.toString().equals("es")) {
+//      if (!langCode.toString().equals("de-DE")) {
 //        continue;
 //      }
       language = Languages.getLanguageForShortCode(langCode);
@@ -173,7 +176,7 @@ public class ArtificialErrorEval {
           String fileName = myCorpusFile.getName();
           System.out.println("Analyzing file: " + fileName);
           fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-//          if (fileName.equals("diacritics")) {
+//          if (!fileName.startsWith("parallelcorpus")) {
 //            continue;
 //          }
           //reset all global Variables to default
@@ -182,7 +185,19 @@ public class ArtificialErrorEval {
           isDoubleLetters = false;
           isDiacritics = false;
           inflected = false;
-          if (fileName.equals("diacritics")) {
+          isParallelCorpus = false;
+          columnCorrect = 1;
+          columnIncorrect = 2;
+          if (fileName.startsWith("parallelcorpus")) {
+            isParallelCorpus = true;
+            unidirectional = true;
+            String parts[] = fileName.split("-");
+            if (parts.length > 2) {
+              columnCorrect = Integer.parseInt(parts[1]);
+              columnIncorrect = Integer.parseInt(parts[2]);
+            }
+          }
+          else if (fileName.equals("diacritics")) {
             isDiacritics = true;
             unidirectional = true;
           }
@@ -236,7 +251,7 @@ public class ArtificialErrorEval {
       .build();
     long start = System.currentTimeMillis();
     List<String> lines = Files.readAllLines(Paths.get(corpusFilePath));
-    if (!inflected && !isDoubleLetters && !isDiacritics) {
+    if (!inflected && !isDoubleLetters && !isDiacritics && !isParallelCorpus) {
       final Pattern p0;
       Matcher mWordBoundaries = pWordboundaries.matcher(words[0]);
       if (mWordBoundaries.matches() && wholeword) {
@@ -279,6 +294,46 @@ public class ArtificialErrorEval {
         }
       } 
     } 
+    if (isParallelCorpus) {
+      final Pattern p = Pattern.compile("(.*)__(.*)__(.*)");
+      countLine = 0;
+      checkedSentences = 0;
+      for (String line : lines) {
+        cachedMatches = new HashMap<>();
+        countLine++;
+        String[] parts = line.split("\t");
+        // adjust the numbers 3 and 4 according to the source file
+        if (parts.length < 5) {
+          continue;
+        }
+        String correctSource = parts[columnCorrect - 1];
+        String incorrectSource = parts[columnIncorrect - 1];
+        words[0] = null;
+        words[1] = null;
+        String correctSentence = "";
+        String incorrectSentence = "";
+        Matcher mIncorrect = p.matcher(incorrectSource);
+        if (mIncorrect.matches()) {
+          words[0] = mIncorrect.group(2);
+        }
+        int posError = -1;
+        Matcher mCorrect = p.matcher(correctSource);
+        if (mCorrect.matches()) {
+          words[1] = mCorrect.group(2);
+          correctSentence = mCorrect.group(1) + mCorrect.group(2) + mCorrect.group(3);
+          posError = mCorrect.group(1).length();
+        }
+        if (words[1] != null) {
+          // words[0] may be null!
+          // check FN
+          analyzeSentence(correctSentence, 1, posError, config);
+          // check FP in the correct sentence
+          words[0] = words[1];
+          words[1] = null;
+          analyzeSentence(correctSentence, 0, posError, config);
+        }
+      }
+    }
     if (isDoubleLetters) {
       // introduce error: nn -> n
       fakeRuleIDs[0] = "rules_double_letters";
@@ -434,7 +489,7 @@ public class ArtificialErrorEval {
       }
       String replaceWith = words[1 - j];
       String originalString = correctSentence.substring(fromPos, fromPos + words[j].length());
-      if (StringTools.isCapitalizedWord(originalString)) {
+      if (StringTools.isCapitalizedWord(originalString) && replaceWith != null) {
         replaceWith = StringTools.uppercaseFirstChar(replaceWith);
       }
       List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos, replaceWith);
@@ -448,7 +503,7 @@ public class ArtificialErrorEval {
       }
     }
     // Wrong sentence
-    if (!unidirectional || j == 1) {
+    if ( (!unidirectional || j == 1) && words[1 - j] != null) {
       String replaceWith = words[1 - j];
       String originalString = correctSentence.substring(fromPos, fromPos + words[j].length());
       if (StringTools.isCapitalizedWord(originalString)) {
@@ -533,11 +588,18 @@ public class ArtificialErrorEval {
         }
         boolean containsDesiredSuggestion = false;
         if (replacements != null) {
-          for (String replacement : replacements) {
-            if (replacement.contains(expectedSuggestion.trim())) {
-              containsDesiredSuggestion = true;
+          if (expectedSuggestion == null) {
+            //expectedSuggestion is undefined
+            //consider any match at this position
+            containsDesiredSuggestion = true;
+          }
+          else {
+            for (String replacement : replacements) {
+              if (replacement.contains(expectedSuggestion.trim())) {
+                containsDesiredSuggestion = true;
+              }
             }
-          } 
+          }
         }
         if (!containsDesiredSuggestion) {
           continue;
