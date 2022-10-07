@@ -133,7 +133,8 @@ public class HunspellRule extends SpellingCheckRule {
           "support",
           "update",
           "reliable",
-          "system"
+          "system",
+          "an"
   );
   
   public static Queue<String> getActiveChecks() {
