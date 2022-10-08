@@ -21,6 +21,7 @@ package org.languagetool;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tools.StringTools;
 
@@ -95,7 +96,6 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
     whitespaceBeforeChar = "";
-    hasTypographicApostrophe = hasTypographicApostrophe();
   }
   
   // Constructor from a previous AnalyzedTokenReadings with new readings, and annotation of the change  
@@ -140,7 +140,6 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   /**
    * Checks if the token has a particular POS tag.
-   * 
    * @param posTag POS tag to look for
    */
   public boolean hasPosTag(String posTag) {
@@ -156,7 +155,6 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   
   /**
    * Checks if the token has a particular POS tag and lemma.
-   * 
    * @param posTag POS tag and lemma to look for
    */
   public boolean hasPosTagAndLemma(String posTag, String lemma) {
@@ -177,9 +175,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public boolean hasReading() {
     return anTokReadings != null && anTokReadings.length > 0;
   }
+
   /**
    * Checks if one of the token's readings has a particular lemma.
-   *
    * @param lemma lemma POS tag to look for
    */
   public boolean hasLemma(String lemma) {
@@ -197,8 +195,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   /**
    * Checks if one of the token's readings has one of the given lemmas
-   *
-   * @param lemmas to look for
+   * @param lemmas lemmas to look for
    */
   public boolean hasAnyLemma(String... lemmas) {
     boolean found = false;
@@ -697,7 +694,6 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   /**
    * Used to optimize pattern matching.
-   * 
    * @return true if all {@link AnalyzedToken} lemmas are the same.
    */
   public boolean hasSameLemmas() {
@@ -746,6 +742,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   /**
    * @since 2.3
    */
+  @NotNull
   @Override
   public Iterator<AnalyzedToken> iterator() {
     AtomicInteger i = new AtomicInteger(0);

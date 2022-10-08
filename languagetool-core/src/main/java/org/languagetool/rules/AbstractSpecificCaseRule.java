@@ -38,13 +38,15 @@ import gnu.trove.THashSet;
  * @author Nikos-Antonopoulos, giorgossideris
  */
 public abstract class AbstractSpecificCaseRule extends Rule {
+
   // a map that has as keys the special case phrases into lowercase
   // and as values the special case phrases properly spelled:
   private static final Map<String,String> lcToProperSpelling = new THashMap<>();
   // the phrases that will be detected by the rule:
   private static Set<String> phrases;
   private static int maxLen;
-  // used to speed up the server as the phrases are loaded in every initialization
+
+  // used to speed up the server as the phrases are loaded in every initialization:
   protected final CachingWordListLoader phrasesListLoader = new CachingWordListLoader();
   
   /**
@@ -80,9 +82,6 @@ public abstract class AbstractSpecificCaseRule extends Rule {
     return "The particular expression should follow the suggested capitalization.";
   }
   
-  /**
-   * @return the short message of the rule
-   */
   public String getShortMessage() {
     return "Special capitalization";
   }
@@ -102,9 +101,6 @@ public abstract class AbstractSpecificCaseRule extends Rule {
     initializeLcToProperSpellingMap();
   }
 
-  /**
-   * Initializes the <code>lcToProperSpelling</code> Map
-   */
   synchronized static private void initializeLcToProperSpellingMap() {
     for (String phrase : phrases) {
       lcToProperSpelling.put(phrase.toLowerCase(), phrase);
