@@ -4015,6 +4015,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" />
             <token postag="IN" />
         </antipattern>
+        <antipattern><!-- a potential off ramp / a potential in house -->
+            <token postag="DT" />
+            <token postag="JJ" />
+            <token regexp="yes">off|in</token>
+            <token postag="NN|NN:UN?" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one|much</exception></token>
             <marker>
