@@ -2797,6 +2797,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Pdf": return topMatch("PDF");
       case "pdfs": return topMatch("PDFs");
       case "Pdfs": return topMatch("PDFs");
+      case "gekriecht": return topMatch("gekrochen");
       case "Jojo-Effekt": return topMatch("Jo-Jo-Effekt");
       case "Jojo-Effekts": return topMatch("Jo-Jo-Effekts");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
