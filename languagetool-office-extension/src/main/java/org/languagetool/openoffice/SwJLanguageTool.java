@@ -27,6 +27,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
@@ -260,6 +262,28 @@ public class SwJLanguageTool {
     } else {
       return lt.getAnalyzedSentence(sentence); 
     }
+  }
+
+  /**
+   * get the lemmas of a word
+   * @throws IOException 
+   */
+  public List<String> getLemmasOfWord(String word) throws IOException {
+    List<String> lemmas = new ArrayList<String>();
+    Language language = getLanguage();
+    List<String> words = new ArrayList<>();
+    words.add(word);
+    List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(words);
+    for (AnalyzedTokenReadings aToken : aTokens) {
+      List<AnalyzedToken> readings = aToken.getReadings();
+      for (AnalyzedToken reading : readings) {
+        String lemma = reading.getLemma();
+        if (lemma != null) {
+          lemmas.add(lemma);
+        }
+      }
+    }
+    return lemmas;
   }
 
   /**

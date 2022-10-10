@@ -308,6 +308,9 @@ class SingleDocument {
       }
       paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
       lastChangedPara = (textIsChanged && numParasToCheck != 0) ? paraNum : -1;
+      if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT || isIntern) {
+        addSynonyms(paRes, paraText, locale, lt);
+      }
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
@@ -1096,6 +1099,41 @@ class SingleDocument {
      */
     public void put(int y, Map<String, Set<Integer>> ruleAtX) {
       ignoredMatches.put(y, ruleAtX);
+    }
+  }
+  
+  private void addSynonyms(ProofreadingResult paRes, String para, Locale locale, SwJLanguageTool lt) throws IOException {
+    LinguisticServices linguServices = mDocHandler.getLinguisticServices();
+    if (linguServices != null) {
+      for (SingleProofreadingError error : paRes.aErrors) {
+        if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+            && linguServices.isThesaurusRelevantRule(error.aRuleIdentifier)) {
+          String word = para.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
+          List<String> suggestions = new ArrayList<>();
+          List<String> lemmas = lt.getLemmasOfWord(word);
+          int num = 0;
+          for (String lemma : lemmas) {
+            MessageHandler.printToLogFile("SingleDocument: addSynonyms: Find Synonyms for lemma:" + lemma);
+            List<String> synonyms = linguServices.getSynonyms(lemma, locale);
+            for (String synonym : synonyms) {
+              synonym = synonym.replaceAll("\\(.*\\)", "").trim();
+              if (!synonym.isEmpty() && !suggestions.contains(synonym)) {
+                suggestions.add(synonym);
+                num++;
+              }
+              if (num >= OfficeTools.MAX_SUGGESTIONS) {
+                break;
+              }
+            }
+            if (num >= OfficeTools.MAX_SUGGESTIONS) {
+              break;
+            }
+          }
+          if (!suggestions.isEmpty()) {
+            error.aSuggestions = suggestions.toArray(new String[suggestions.size()]);
+          }
+        }
+      }
     }
   }
   

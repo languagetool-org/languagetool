@@ -540,6 +540,13 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   *  get LinguisticServices
+   */
+  public LinguisticServices getLinguisticServices() {
+     return linguServices;
+  }
+  
+  /**
    * Allow xContext == null for test cases
    */
   void setTestMode(boolean mode) {

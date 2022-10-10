@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.LinguServices;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractStatisticStyleRule;
 
@@ -66,6 +67,12 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   
   public GermanFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages, lang, userConfig, DEFAULT_MIN_PERCENT);
+    if (userConfig != null) {
+      LinguServices linguServices = userConfig.getLinguServices();
+      if (linguServices != null) {
+        linguServices.setThesaurusRelevantRule(this);
+      }
+    }
   }
 
   private static boolean isException(AnalyzedTokenReadings[] tokens, int num) {

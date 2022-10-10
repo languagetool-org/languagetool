@@ -73,7 +73,7 @@ public class Configuration {
   static final boolean DEFAULT_IS_PREMIUM = false;
   static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
   static final boolean DEFAULT_USE_LT_DICTIONARY = true;
-  static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = true;
+  static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = false;
   static final boolean DEFAULT_SAVE_LO_CACHE = true;
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
