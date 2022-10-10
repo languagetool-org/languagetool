@@ -7212,6 +7212,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="мати право|могти">і <marker>вправі</marker> не поїхати</example>
     </rule>
 
+    <rulegroup id="nakladenyi_platizh" name="Накладений платіж і післяплата">
+      <rule>
+        <pattern>
+          <marker>
+            <unify>
+              <feature id="gender"/>
+              <feature id="case"/>
+              <token inflected="yes" regexp="yes">наложений|накладений</token>
+              <token inflected="yes">платіж</token>
+            </unify>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>післяплата</suggestion></message>
+        <example correction="післяплата">і <marker>накладеним платежем</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <unify>
+              <feature id="gender"/>
+              <feature id="case"/>
+              <token inflected="yes">накладний</token>
+              <token inflected="yes">плата</token>
+            </unify>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>післяплата</suggestion></message>
+        <example correction="післяплата">і <marker>накладною платою</marker>.</example>
+      </rule>
+    </rulegroup>
+
 <!--
     <rulegroup id="lyshaty" name="Лишати і позбавляти">
       <rule>
