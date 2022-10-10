@@ -110,7 +110,7 @@ public class FlatParagraphTools {
    * Initialize XFlatParagraphIterator
    * Set the new iterator only if it is not null
    */
-  public void init() {
+  synchronized public void init() {
     isBusy++;
     try {
       XFlatParagraphIterator tmpFlatParaIter = getXFlatParagraphIterator(xComponent);
@@ -164,7 +164,7 @@ public class FlatParagraphTools {
   /**
    * is true if FlatParagraph is from Automatic Iteration
    */
-  public boolean isFlatParaFromIter() {
+  synchronized public boolean isFlatParaFromIter() {
     return (getCurrentFlatParagraph() != null);
   }
 
@@ -209,7 +209,7 @@ public class FlatParagraphTools {
    * return text of current paragraph
    * return null if it fails
    */
-  public String getCurrentParaText() {
+  synchronized public String getCurrentParaText() {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getCurrentFlatParagraph();
@@ -259,7 +259,7 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  public FlatParagraphContainer getAllFlatParagraphs(Locale fixedLocale) {
+  synchronized public FlatParagraphContainer getAllFlatParagraphs(Locale fixedLocale) {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -311,7 +311,7 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  public List<String> getFlatParagraphs(List<Integer> nParas) {
+  synchronized public List<String> getFlatParagraphs(List<Integer> nParas) {
     isBusy++;
     try {
       XFlatParagraph xFlatPara = getLastFlatParagraph();
@@ -382,7 +382,7 @@ public class FlatParagraphTools {
    * Get the main language of paragraph 
    * @throws IllegalArgumentException 
    */
-  public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale fixedLocale, 
+  synchronized public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale fixedLocale, 
       Locale lastLocale, boolean onlyPrimary) throws IllegalArgumentException {
     isBusy++;
     try {
@@ -447,7 +447,7 @@ public class FlatParagraphTools {
    * Get the main language of paragraph 
    * @throws IllegalArgumentException 
    */
-  public Locale getPrimaryLanguageOfPartOfParagraph(int nPara, int start, int len, Locale lastLocale) throws IllegalArgumentException {
+  synchronized public Locale getPrimaryLanguageOfPartOfParagraph(int nPara, int start, int len, Locale lastLocale) throws IllegalArgumentException {
     isBusy++;
     try {
       XFlatParagraph flatPara = getFlatParagraphAt(nPara);
@@ -727,7 +727,7 @@ public class FlatParagraphTools {
   /**
    * add marks to existing marks of current paragraph
    */
-  public void markCurrentParagraph(List<SentenceErrors> errorList) {
+  synchronized public void markCurrentParagraph(List<SentenceErrors> errorList) {
     isBusy++;
     try {
       if (errorList == null || errorList.size() == 0) {

@@ -344,18 +344,6 @@ public class DocumentCache implements Serializable {
           textP = textP.substring(0, k) + (k < textP.length() - n[i] ? textP.substring(k + n[i]) : "");
         }
         boolean isEqual = isEqualTextWithoutZeroSpace(flatPara, textP);
-/*        
-        if (footnotes.length > 0) {
-          String msg = "\nDocumentCache: isEqualWithoutFootnotes: level: " + level;
-          for (int j = 0; j < footnotes.length; j++) {
-            msg += "; n[" + j + "]: " + n[j];
-          }
-          MessageHandler.printToLogFile(msg);
-          MessageHandler.printToLogFile("DocumentCache: isEqualWithoutFootnotes: Flat: " + flatPara);
-          MessageHandler.printToLogFile("DocumentCache: isEqualWithoutFootnotes: Text: " + (textP == null ? "NULL" : textP));
-          MessageHandler.printToLogFile("DocumentCache: isEqualWithoutFootnotes: isEqual: " + isEqual);
-        }
-*/
         if (isEqual) {
           return true;
         }
@@ -701,30 +689,38 @@ public class DocumentCache implements Serializable {
           MessageHandler.printToLogFile("Unknown Paragraphs: " + (numUnknown - 1) + " from " + nUnknown);
         }
       }
-      boolean isCorrectNonText = nMapped.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
-          && nMapped.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
-          && nMapped.get(CURSOR_TYPE_SHAPE).size() == textParas.get(CURSOR_TYPE_SHAPE).size()
-          && nMapped.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
-          && nMapped.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size();
-//          && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size();
-      if (!isCorrectNonText) {
-        //  Try to repair incorrect header/footer mapping
-        for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
-          if (k != CURSOR_TYPE_TEXT) {
-            if (nMapped.get(k).size() < textParas.get(k).size()) {
-              MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair mapping of paragraph type " + k);
-              correctNegativeNumberEntries(k, textParas, paragraphs, toParaMapping, toTextMapping);
+      int nMap = 0;
+      for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+        nMap += nMapped.get(i).size();
+      }
+      boolean isCorrectNonText = true;
+      boolean isCorrectMapping = true;
+      if (nMap != paragraphs.size()) {
+        isCorrectNonText = nMapped.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
+            && nMapped.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
+            && nMapped.get(CURSOR_TYPE_SHAPE).size() == textParas.get(CURSOR_TYPE_SHAPE).size()
+            && nMapped.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
+            && nMapped.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size();
+  //          && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size();
+        if (!isCorrectNonText) {
+          //  Try to repair incorrect header/footer mapping
+          for (int k = 0; k < NUMBER_CURSOR_TYPES; k++) {
+            if (k != CURSOR_TYPE_TEXT) {
+              if (nMapped.get(k).size() < textParas.get(k).size()) {
+                MessageHandler.printToLogFile("Warning: document cache mapping failed: Try to repair mapping of paragraph type " + k);
+                correctNegativeNumberEntries(k, textParas, paragraphs, toParaMapping, toTextMapping);
+              }
             }
           }
+          isCorrectNonText = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
+              && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
+  //            && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
+              && toParaMapping.get(CURSOR_TYPE_SHAPE).size() == textParas.get(CURSOR_TYPE_SHAPE).size()
+              && toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
+              && toParaMapping.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size();
         }
-        isCorrectNonText = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size() == textParas.get(CURSOR_TYPE_ENDNOTE).size()
-            && toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size() == textParas.get(CURSOR_TYPE_FOOTNOTE).size()
-//            && toParaMapping.get(CURSOR_TYPE_FRAME).size() == textParas.get(CURSOR_TYPE_FRAME).size()
-            && toParaMapping.get(CURSOR_TYPE_SHAPE).size() == textParas.get(CURSOR_TYPE_SHAPE).size()
-            && toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() == textParas.get(CURSOR_TYPE_HEADER_FOOTER).size()
-            && toParaMapping.get(CURSOR_TYPE_TABLE).size() == textParas.get(CURSOR_TYPE_TABLE).size();
+        isCorrectMapping = isCorrectNonText && toParaMapping.get(CURSOR_TYPE_TEXT).size() == textParas.get(CURSOR_TYPE_TEXT).size();
       }
-      boolean isCorrectMapping = isCorrectNonText && toParaMapping.get(CURSOR_TYPE_TEXT).size() == textParas.get(CURSOR_TYPE_TEXT).size();
       if (!isCorrectMapping && isCorrectNonText) {
         //  Try to repair incorrect text mapping
         MessageHandler.printToLogFile("\nWarning: document cache mapping failed: Try to repair mapping of paragraph type text");
