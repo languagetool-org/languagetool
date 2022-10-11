@@ -65,6 +65,8 @@ public abstract class AbstractPatternRule extends Rule {
   protected String sourceFile = null;
   protected RuleMatch.Type type = null; // allow setting custom match types without relying on IssueType
 
+  private int lineNumber = -1;
+
   private final String id;
   private final String description;
   private final boolean getUnified;
@@ -387,5 +389,17 @@ public abstract class AbstractPatternRule extends Rule {
    */
   public void setAdjustSuggestionCase(boolean adjustSuggestionCase) {
     this.adjustSuggestionCase = adjustSuggestionCase;
+  }
+
+  public void setXmlLineNumber(int lineNumber) {
+    this.lineNumber = lineNumber;
+  }
+
+  /**
+   * Returns the line in the XML file where this rule is located. Will return <code>-1</code>
+   * if the line isn't known.
+   */
+  public int getXmlLineNumber() {
+    return this.lineNumber;
   }
 }

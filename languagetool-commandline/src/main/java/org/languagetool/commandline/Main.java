@@ -189,7 +189,7 @@ class Main {
       } else if (profileRules) {
         CommandLineTools.profileRulesOnText(text, lt);
       } else if (!options.isTaggerOnly()) {
-        CommandLineTools.checkText(text, lt, options.isXmlFormat(), options.isJsonFormat(), 0, options.getLevel(), options.isListUnknown());
+        CommandLineTools.checkText(text, lt, options.isXmlFormat(), options.isJsonFormat(), 0, options.getLevel(), options.isListUnknown(), options.isVerbose());
       } else {
         CommandLineTools.tagText(text, lt);
       }
@@ -280,7 +280,7 @@ class Main {
       Tools.profileRulesOnLine(s, lt, currentRule);
     } else if (!options.isTaggerOnly()) {
       CommandLineTools.checkText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1, 
-          lineOffset, matches, mode, options.isListUnknown(), level, Collections.emptyList());
+          lineOffset, matches, mode, options.isListUnknown(), level, Collections.emptyList(), options.isVerbose());
     } else {
       CommandLineTools.tagText(s, lt);
     }

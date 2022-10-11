@@ -140,6 +140,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         regexpMark = attrs.getValue(MARK) != null ? Integer.parseInt(attrs.getValue(MARK)) : 0;
         break;
       case RULE:
+        xmlLineNumber = pLocator.getLineNumber();
         regex = new StringBuilder();
         inRule = true;
         shortMessage = new StringBuilder();
@@ -676,6 +677,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule.setPremium(isPremiumRule);
         rule.setMinPrevMatches(minPrevMatches);
         rule.setDistanceTokens(distanceTokens);
+        rule.setXmlLineNumber(xmlLineNumber);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();
