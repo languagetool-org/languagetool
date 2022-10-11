@@ -401,11 +401,9 @@ class Main {
       printLanguages();
       System.exit(0);
     }
-
     if (options.getFilename() == null) {
       options.setFilename("-");
     }
-
     String languageHint = null;
     if (options.getLanguage() == null) {
       if (!options.isXmlFormat() && !options.isAutoDetect()) {
@@ -416,10 +414,8 @@ class Main {
     } else if (!options.isXmlFormat() && !options.isApplySuggestions()) {
       languageHint = "Expected text language: " + options.getLanguage().getName();
     }
-
     options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
             options.isSingleLineBreakMarksParagraph());
-
     Main prg = new Main(options);
     if (options.getFalseFriendFile() != null) {
       List<AbstractPatternRule> ffRules = prg.lt.loadFalseFriendRules(options.getFalseFriendFile());
