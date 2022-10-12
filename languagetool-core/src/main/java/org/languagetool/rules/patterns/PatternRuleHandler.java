@@ -227,6 +227,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         interpretPosTagsPreDisambiguation = YES.equals(attrs.getValue(RAW_TAG));
         break;
       case ANTIPATTERN:
+        xmlLineNumberAntiPattern = pLocator.getLineNumber();
         inAntiPattern = true;
         antiPatternCounter++;
         caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
@@ -490,6 +491,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
             antiId + "_antipattern:" + antiPatternCounter,
             "antipattern", language, patternTokens, null, null,
             DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE);
+        rule.setXmlLineNumber(xmlLineNumberAntiPattern);
         if (startPos != -1 && endPos != -1) {
           rule.setStartPositionCorrection(startPos);
           rule.setEndPositionCorrection(endPos - tokenCountForMarker);
@@ -511,6 +513,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         endPos = -1;
         startPos = -1;
         inAntiPatternExample = false;
+        xmlLineNumberAntiPattern = -1;
         break;
       case EXAMPLE:
         if (inAntiPatternExample) {

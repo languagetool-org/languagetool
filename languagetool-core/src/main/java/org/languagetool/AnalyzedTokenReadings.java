@@ -24,6 +24,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,6 +41,7 @@ import static org.languagetool.JLanguageTool.*;
  */
 public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
+  private static final Logger logger = LoggerFactory.getLogger(AnalyzedTokenReadings.class);
   private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—*×∗·+÷/=]");
 
   private final boolean isWhitespace;
@@ -62,6 +65,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   // it should never be matched by any rule. Used to have generalized
   // mechanism for exceptions in rules.
   private boolean isImmunized;
+  private int immunizationSourceLine;
 
   // If true, then the token is marked up as ignored in all spelling rules:
   // other rules can freely match it.
@@ -110,7 +114,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     this.setWhitespaceBefore(oldAtr.getWhitespaceBefore());
     this.setChunkTags(oldAtr.getChunkTags());
     if (oldAtr.isImmunized()) {
-      this.immunize();
+      this.immunize(oldAtr.getImmunizationSourceLine());
     }
     if (oldAtr.isIgnoredBySpeller()) {
       this.ignoreSpelling();
@@ -538,12 +542,20 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return isWhitespaceBefore;
   }
 
-  public void immunize() {
+  public void immunize(int sourceLine) {
     isImmunized = true;
+    immunizationSourceLine = sourceLine;
   }
 
   public boolean isImmunized() {
+    if (isImmunized && logger.isDebugEnabled()) {
+      logger.debug("'" + getToken() + "' is immunized by antipattern in line " + immunizationSourceLine);
+    }
     return isImmunized;
+  }
+
+  public int getImmunizationSourceLine() {
+    return immunizationSourceLine;
   }
 
   /**
