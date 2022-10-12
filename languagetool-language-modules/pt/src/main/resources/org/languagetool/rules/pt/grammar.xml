@@ -18179,14 +18179,14 @@ O namorado dela era um ladrão.
       <!-- MALE -->
       <rule>
         <pattern>
-          <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+          <token postag='AQ.[CM].+|NC[CM].+' postag_regexp='yes'/>
           <marker>
             <token>e</token>
             <token postag='PD0M.+' postag_regexp='yes'>
             <exception regexp='yes'>[ao]s?|aquel[ae]s?</exception>
           </token>
           </marker>
-          <token min="0" max="1" postag='RN|RG' postag_regexp='yes'>
+          <token min="0" max="2" postag='RN|RG' postag_regexp='yes'> <!-- muitas vezes morriam RG + RG + VMII3P0 -->
             <exception postag_regexp='yes' postag='AQ.+|NC.+'/>
           </token>
           <token postag='VMI.3.+' postag_regexp='yes'>
@@ -18205,14 +18205,14 @@ O namorado dela era um ladrão.
       <!-- FEMALE -->
       <rule>
         <pattern>
-          <token postag='AQ.F.+|NCF.+' postag_regexp='yes'/>
+          <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
           <marker>
             <token>e</token>
             <token postag='PD0F.+' postag_regexp='yes'>
             <exception regexp='yes'>[ao]s?|aquel[ae]s?</exception>
           </token>
           </marker>
-          <token min="0" max="1" postag='RN|RG' postag_regexp='yes'>
+          <token min="0" max="2" postag='RN|RG' postag_regexp='yes'> <!-- muitas vezes morriam RG + RG + VMII3P0 -->
             <exception postag_regexp='yes' postag='AQ.+|NC.+'/>
           </token>
           <token postag='VMI.3.+' postag_regexp='yes'>
