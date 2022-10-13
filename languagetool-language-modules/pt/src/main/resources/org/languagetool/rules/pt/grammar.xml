@@ -5634,6 +5634,19 @@ O namorado dela era um ladrão.
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-17 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-10-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- It has zero hits in 600 000 sentences, it just removes one false positive in my thesis -->
+        <antipattern>
+          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+          <token postag='SPS00|CC|CS' postag_regexp='yes'/>
+          <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+          <token spacebefore='no' regexp='yes'>[/]</token>
+          <token spacebefore='no' postag='AQ.+|NC.+' postag_regexp='yes'/>
+          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+          <example>A técnica aplicada às redes de comunicações de dados/informação eletrónicas.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-10-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <antipattern>
           <token regexp='yes'>\d[ªa]</token>
           <token>s</token>
