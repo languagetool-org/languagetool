@@ -43360,10 +43360,13 @@ O namorado dela era um ladrão.
       <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-15 -->
       <rule>
         <pattern case_sensitive="yes">
+         <marker>
           <token regexp="yes" spacebefore="yes">[MCDXLVI]+
             <exception regexp="yes">(?=.)M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})</exception>
             <exception postag="[RZANDV].*|.*LOC.*" postag_regexp="yes"/>
-            <exception regexp="yes">XML|DDD|CDC|CID|DLL|MIDI|IMI</exception></token>
+            <exception regexp="yes">XML|DDD|CDC|CID|DLL|MIDI|IMI|IML|LDL</exception></token>
+         </marker>
+          <token regexp='yes'>&nomes_de_instituicoes;</token>
         </pattern>
         <message>Número romano inválido.</message>
         <example correction="">Bem-vindo à <marker>XXIVIIV</marker> Conferência.</example>
