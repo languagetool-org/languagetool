@@ -28308,6 +28308,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="GUION_LARGO" name="Guion largo">
             <url>https://www.rae.es/dpd/raya</url>
             <antipattern>
+                <token regexp="yes" inflected="yes">acabar|terminar</token>
+                <token skip="5">en</token>
+                <token spacebefore="yes">-</token>
+                <token spacebefore="no"/>
+                <example>Terminan en vocal, -n o -s.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{Lu}+</token>
+                <token spacebefore="no">-</token>
+                <example>TR+ de 46 y TR- de 29.</example>
+                <example>Es un C- o menos.</example>
+            </antipattern>
+            <antipattern>
                 <!-- Prefixes: used in texts about linguistics -->
                 <token regexp="yes">a|an|ante|anti|archi|bi|co|com|con|contra|cuasi|des|entre|ex|extra|hiper|hipo|im|in|infra|inter|multi|nano|pluri|poli|pre|pro|re|retro|semi|sobre|sub|super|supra|tele|trans|tras|tri|ultra|uni|vice</token>
                 <token spacebefore="no">-</token>
@@ -28317,7 +28330,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token spacebefore="yes" regexp="yes">[–‒-]</token>
                     </marker>
-                    <token spacebefore="no" regexp="yes">[^-\d].*</token>
+                    <token spacebefore="no" regexp="yes">[^-\d].*<exception regexp="yes">[^ayoe]</exception></token>
                 </pattern>
                 <message>Utilice el carácter adecuado de guion largo (raya).</message>
                 <suggestion>—</suggestion>
