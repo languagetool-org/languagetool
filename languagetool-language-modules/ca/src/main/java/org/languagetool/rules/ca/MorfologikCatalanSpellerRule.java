@@ -39,7 +39,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern PARTICULA_INICIAL = Pattern.compile(
       "^(no|en|a|els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern CAMEL_CASE = Pattern.compile("^(.[\\p{Ll}·]+)([A-ZÀÈÉÍÒÓÚÇ][\\p{Ll}·]+)$", Pattern.UNICODE_CASE);
+  private static final Pattern CAMEL_CASE = Pattern.compile("^(.[\\p{Ll}·]+)([A-ZÀÈÉÍÒÓÚÇ][\\p{Ll}·]+)$",
+      Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
       "^(pod|ultra|eco|tele|anti|re|des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro|g) (..+)|.+ s$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -59,8 +60,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern GUIONET_FINAL = Pattern.compile(
       "^([\\p{L}·]+)[’']?(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern SPLIT_SUGGESTIONS = Pattern.compile("^(..+\\p{L}|en|de|del|al|dels|als|a|i|o|amb)(\\d+)$",
-      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern SPLIT_SUGGESTIONS = Pattern
+      .compile("^(..+\\p{L}|en|de|del|al|dels|als|a|i|o|amb)(\\d+)$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
@@ -112,12 +113,16 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
 
+      // remove always
+      if (suggestions.get(i).getReplacement().equalsIgnoreCase("como")) {
+        continue;
+      }
       // remove wrong split prefixes
       if (PREFIX_AMB_ESPAI.matcher(suggestions.get(i).getReplacement()).matches()) {
         continue;
       }
-      
-   // Don't change first suggestions if they match word without diacritics
+
+      // Don't change first suggestions if they match word without diacritics
       int posNewSugg = 0;
       while (newSuggestions.size() > posNewSugg
           && StringTools.removeDiacritics(newSuggestions.get(posNewSugg).getReplacement())
@@ -136,7 +141,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
           continue;
         }
       }
-      
+
       String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());
       if (word.equalsIgnoreCase(suggWithoutDiacritics)) {
         newSuggestions.add(posNewSugg, suggestions.get(i));
@@ -205,7 +210,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
       AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
-      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer") || newSuggestion.equalsIgnoreCase("gran")) && matchPostagRegexp(newatr, postagPattern)) {
+      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer")
+          || newSuggestion.equalsIgnoreCase("gran")) && matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + separator + matcher.group(2);
       }
       if (recursive) {
@@ -213,7 +219,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         if (moresugg.size() > 0) {
           String newWord;
           if (suggestionPosition == 1) {
-            newWord = moresugg.get(0) + matcher.group(2); //.toLowerCase()
+            newWord = moresugg.get(0) + matcher.group(2); // .toLowerCase()
           } else {
             newWord = matcher.group(1) + moresugg.get(0).toLowerCase();
           }
