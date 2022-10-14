@@ -18444,58 +18444,6 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <!-- O QUE ME FOI DITO FOI foi-me dito -->
-    <rulegroup id='REPETICAO_AUXILIAR_VERBO' name="Simplificar: Eliminação da redundância de auxiliar" type='style'>
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-14 (25-JUL-2022+) -->
-      <!--
-      Após eu insistir muito, o que me foi dito foi para aguardar. → Após eu insistir muito, foi-me dito para aguardar.
-      Após eu insistir muito, o que foi dito foi para aguardar. → Após eu insistir muito, foi dito para aguardar.
-      -->
-
-      <!-- WITH PRONOUN -->
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp='yes'>[ao]s?</token>
-            <token>que</token>
-            <token regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</token>
-            <token postag='V.+' postag_regexp='yes'/>
-            <token postag='V.+' postag_regexp='yes'>
-              <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
-            </token>
-            <token><match no="3"/>
-              <exception scope='next' postag_regexp='yes' postag='V.+'/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\4-\3 \5</suggestion>
-        <example correction="foi-me dito">Após eu insistir muito, <marker>o que me foi dito foi</marker> para aguardar.</example>
-      </rule>
-
-      <!-- WITHOUT PRONOUN (SUGGESTED BY RICARDO JOSEH LIMA)-->
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp='yes'>[ao]s?</token>
-            <token>que</token>
-            <token postag='V.+' postag_regexp='yes'/>
-            <token postag='V.+' postag_regexp='yes'>
-              <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
-            </token>
-            <token><match no="2"/>
-              <exception scope='next' postag_regexp='yes' postag='V.+'/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\3 \4</suggestion>
-        <example correction="foi dito">Após eu insistir muito, <marker>o que foi dito foi</marker> para aguardar.</example>
-      </rule>
-
-    </rulegroup>
-
-
     <!-- QUE OCORRE CONTINUAMENTE ocorrido continuamente -->
     <rulegroup id='QUE_VERBOPRESENTE_CONTINUAMENTE_VERBO_PART_PASSADO' name="Simplificar: Que + Verbo Presente + Advérbio → Verbo Part. Passado + Advérbio" type='style'>
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-09 (25-JUL-2022+) -->
