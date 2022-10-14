@@ -28314,12 +28314,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Terminan en vocal, -n o -s.</example>
             </antipattern>
             <antipattern>
-                <token regexp="yes">\p{Lu}+</token>
-                <token spacebefore="no">-</token>
-                <example>TR+ de 46 y TR- de 29.</example>
-                <example>Es un C- o menos.</example>
-            </antipattern>
-            <antipattern>
                 <!-- Prefixes: used in texts about linguistics -->
                 <token regexp="yes">a|an|ante|anti|archi|bi|co|com|con|contra|cuasi|des|entre|ex|extra|hiper|hipo|im|in|infra|inter|multi|nano|pluri|poli|pre|pro|re|retro|semi|sobre|sub|super|supra|tele|trans|tras|tri|ultra|uni|vice</token>
                 <token spacebefore="no">-</token>
@@ -28329,46 +28323,73 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token spacebefore="yes" regexp="yes">[–‒-]</token>
                     </marker>
-                    <token spacebefore="no" regexp="yes">[^-\d].*<exception regexp="yes">[^ayoe]</exception></token>
+                    <token spacebefore="no" regexp="yes">[^-\d].*<exception regexp="yes">[^ayoe\p{P}]</exception></token>
                 </pattern>
                 <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>
                 <suggestion>—</suggestion>
                 <example correction="—">Ven <marker>-</marker>dijo.</example>
                 <example correction="—">Ven <marker>–</marker>dijo.</example>
                 <example correction="—">Ven <marker>‒</marker>dijo.</example>
+                <example correction="—">Se alteró mucho <marker>-</marker>¿no?-, y después se fue.</example>
+                <example correction="—">Correspondió a Yoel Finol <marker>–</marker>medalla de bronce en Río 2016–, quien se impuso ante el cubano Yosbany Veitía.</example>
                 <example>Ven —dijo.</example>
                 <example>Años 1950‒1954.</example>
                 <example>Nivel medio-alto.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}\p{Lu}?</token>
+                    <token spacebefore="no">-</token>
+                    <example>TR+ de 46 y TR- de 29.</example>
+                    <example>Es un C- o menos.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN" regexp="yes">\p{Lu}*</token>
+                    <token spacebefore="no">-</token>
+                    <example>TR+ de 46 y TR- de 29.</example>
+                    <example>Es un C- o menos.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token spacebefore="no" regexp="yes">[–‒-]</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">.*[^\-\d]</token>
+                    <token regexp="yes">.*[^\-]</token>
                     <marker>
                         <token spacebefore="no" regexp="yes">[–‒-]</token>
                     </marker>
                     <token spacebefore="yes"/>
                 </pattern>
-                <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>                <suggestion>—</suggestion>
+                <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>
+                <suggestion>—</suggestion>
                 <example correction="—">dijo entonces<marker>-</marker> ven.</example>
+                <example correction="—">LOS COMENTARISTAS DEPORTIVOS -QUE CASI SIEMPRE SON DE ESPN Y MEXICANOS<marker>-</marker> LUEGO</example>
+                <example correction="—">Correspondió a Yoel Finol –medalla de bronce en Río 2016<marker>–</marker> quien se impuso ante el cubano Yosbany Veitía.</example>
                 <example>Nivel bajo-medio.</example>
+                <example>demás, Roy puede esquiar en el K- 12.</example>
+                <example>demás, Roy puede esquiar en el K-12.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">.*[^\-\d]</token>
+                    <token regexp="yes">.*[^\-]</token>
                     <marker>
                         <token spacebefore="no" regexp="yes">[–‒-]</token>
                     </marker>
                     <token regexp="yes">;|,|\.</token>
                 </pattern>
-                <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>                <suggestion>—</suggestion>
+                <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>
+                <suggestion>—</suggestion>
                 <example correction="—">dijo<marker>-</marker>, ven.</example>
+                <example correction="—">Correspondió a Yoel Finol –medalla de bronce en Río 2016<marker>–</marker>, quien se impuso ante el cubano Yosbany Veitía.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">[–‒-]</token>
                     <token regexp="yes">[–‒-]</token>
                 </pattern>
-                <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>                <suggestion>—</suggestion>
+                <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>
+                <suggestion>—</suggestion>
                 <example correction="—"><marker>--</marker></example>
                 <example><marker>—</marker></example>
             </rule>
@@ -28379,8 +28400,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">[–‒-]</token>
                     </marker>
                 </pattern>
-                <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>                <suggestion>—</suggestion>
+                <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>
+                <suggestion>—</suggestion>
                 <example correction="—"><marker>-</marker> Primer punto del orden del día.</example>
+                <example correction="—"><marker>-</marker>¿Perdón?</example>
             </rule>
         </rulegroup>
         <rulegroup id="COMILLAS_TIPOGRAFICAS" name="Comillas tipográficas">
