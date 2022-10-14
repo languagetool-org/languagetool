@@ -8415,8 +8415,17 @@ O namorado dela era um ladrão.
         <token postag='V.+' postag_regexp='yes'/>
         <example>É que muitos materiais encontramos depois.</example>
       </antipattern>
+      <antipattern>
+          <token postag='NC.S.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token postag='PP3.P.+' postag_regexp='yes'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
+          <example>A história de vocês ainda não terminou.</example>
+      </antipattern>
         <pattern>
-          <token regexp='yes'>el[ea]s|vocês</token>
+         <marker>
+          <token postag='PP3.P.+' postag_regexp='yes'/>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception>,</exception></token> <!-- REMOVED: scope='next' - MARCOAGPINTO 2022-04-13 -->
           <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'>
@@ -8424,11 +8433,14 @@ O namorado dela era um ladrão.
             <exception postag='AQ.+|N.+|R.+|SPS00|SPS00:.+' postag_regexp='yes'/>
             <exception regexp='yes'>como|Vogue|entre|pag[ao]s?|regular|sobre|tendo|ate|querendo|registrais</exception>
             <exception postag='VMN0000'/></token>
+           </marker>
+          <token negate_pos='yes' postag='AQ..P.+' postag_regexp='yes'/>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
-        <example correction='elas passearam|elas passeiam'>Eles e <marker>elas passeamos</marker> na praia.</example>
-        <example correction='Vocês não leram'><marker>Vocês não leu</marker> as notícias?</example>
+        <suggestion><match no='1' include_skipped='all' postag='(PP3.)P(.+)' postag_replace='$1S$2' postag_regexp='yes'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
+        <example correction='elas passearam|elas passeiam|ela passeia|ela passeou'>Eles e <marker>elas passeamos</marker> na praia.</example>
+        <example correction='Vocês não leram|Você não leu'><marker>Vocês não leu</marker> as notícias?</example>
         <example>Eles e elas passeiam na praia.</example>
         <example>Eu e elas vamos ao parque</example>
         <example>Pobres e ricos preocupar-se-iam, talvez, com esta manifestação de ignorância.</example>
