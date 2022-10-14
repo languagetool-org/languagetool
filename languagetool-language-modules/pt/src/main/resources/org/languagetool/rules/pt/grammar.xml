@@ -8474,7 +8474,23 @@ O namorado dela era um ladrão.
         <example>Metade de vocês é idiota.</example>
         <example>Quem de vocês deseja falar?</example>
       </rule>
-
+      <rule default='temp_off'>
+      <pattern>
+          <token postag='PP1.P.+' postag_regexp='yes'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'>
+            <exception>,</exception></token> <!-- REMOVED: scope='next' - MARCOAGPINTO 2022-04-13 -->
+          <token postag='V.[CIS].3S.' postag_regexp='yes'>
+            <exception postag='V.[CIS].3P0' postag_regexp='yes'/>
+            <exception postag='AQ.+|N.+|R.+|SPS00|SPS00:.+' postag_regexp='yes'/>
+            <exception regexp='yes'>como|Vogue|entre|pag[ao]s?|regular|sobre|tendo|ate|querendo|registrais</exception>
+            <exception postag='VMN0000'/></token>
+          <token postag='AQ..S.+' postag_regexp='yes'/>
+        </pattern>
+        <message>&MSG_ECV;</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/> <match no='4' include_skipped='all' postag='(AQ..)S(.+)' postag_replace='$1P$2' postag_regexp='yes'/></suggestion>
+        <suggestion>a gente <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
+        <example correction='Nós somos legais|A gente é legal'><marker>Nós é legal</marker>.</example>
+      </rule>
       <rule>
         <antipattern>
           <token regexp='yes'>(?:alg|n|nenh)?uma?|maioria|ninguém|nada|tudo</token>
