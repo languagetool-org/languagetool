@@ -223,6 +223,7 @@ public class Catalan extends Language {
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
       case "CONCORDANCES_DET_NOM": return 5;
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
+      case "SPELLING": return 5;
       case "VENIR_NO_REFLEXIU": return 5;
       case "CASING_START": return -5;
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
@@ -261,6 +262,8 @@ public class Catalan extends Language {
   private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
   private static final Pattern CA_APOSTROPHES = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
+  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtl])['’]([^haeiou])");
+  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtl])[ea]? ([aeiou])");
   
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
@@ -276,8 +279,12 @@ public class Catalan extends Language {
         s = m1.replaceAll("$1$2");
         Matcher m2 = CA_APOSTROPHES.matcher(s);
         s = m2.replaceAll("$1");
-        Matcher m3 = CA_OLD_DIACRITICS.matcher(s);
-        if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m3.matches()) {
+        Matcher m3 = CA_APOSTROPHES2.matcher(s);
+        s = m3.replaceAll("e$1 $2");
+        Matcher m4 = CA_APOSTROPHES3.matcher(s);
+        s = m4.replaceAll("$1'$2");
+        Matcher m5 = CA_OLD_DIACRITICS.matcher(s);
+        if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
           // skip this suggestion with traditional diacritics
         } else {
           newReplacements.add(s);
