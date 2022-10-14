@@ -28407,6 +28407,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="COMILLAS_TIPOGRAFICAS" name="Comillas tipográficas">
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">"</token>
+                        <token spacebefore="no"><exception postag="UNKNOWN" regexp="yes">..+</exception></token>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>En una tipografía cuidada, use comillas tipográficas.</message>
+                <suggestion>“\2”</suggestion>
+                <suggestion>«\2»</suggestion>
+                <example correction="“grande”|«grande»">Es <marker>"grande"</marker>.</example>
+                <example>Es de “gran calidad”.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
