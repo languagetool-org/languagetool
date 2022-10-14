@@ -41656,6 +41656,7 @@ O namorado dela era um ladrão.
       <example>Paga 25 %.</example>
     </rule>
 
+
     <rulegroup id='DASH_RULE' name='Hífen, Meio-Travessão e Travessão' tags="picky">
       <!-- Created by Tiago F. Santos, 2017-01-23 -->
       <url>https://pt.wikipedia.org/wiki/Travessão</url>
@@ -41787,7 +41788,7 @@ O namorado dela era um ladrão.
         </antipattern>
         <!-- MARCOAGPINTO 2021-01-17 (1-JAN-2021+) *END* -->
 
-        <!-- MARCOAGPINTO 2022-07-12 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <!-- MARCOAGPINTO 2022-07-12 + 2022-10-14 (Checked/Enhanced) (5-JUN-2022+) *START* -->
         <antipattern>
           <token regexp='yes'>\d\d?</token>
           <token spacebefore='no'>-</token>
@@ -41800,11 +41801,13 @@ O namorado dela era um ladrão.
         <antipattern>
           <token regexp='yes'>\d\d?</token>
           <token spacebefore='no'>-</token>
-          <token spacebefore='no' regexp='yes'>&meses_ano_abrev;</token>
-          <token><exception spacebefore="no">-</exception></token>
+          <token spacebefore='no' regexp='yes'>&meses_ano_abrev;
+            <exception scope="next" spacebefore="no">-</exception>
+          </token>
           <example>A licença atual finda a 27-JUL.</example>
+          <example>Festa de aniversário: 24-OUT</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-07-12 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+        <!-- MARCOAGPINTO 2022-07-12 + 2022-10-14 (Checked/Enhanced) (5-JUN-2022+) *END* -->
 
         <pattern>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
