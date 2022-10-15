@@ -192,7 +192,7 @@ public class HTTPServerConfig {
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
     "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "requestLimitWhitelistUsers", "requestLimitWhitelistLimit",
     "rulesFile", "secretTokenKey", "serverURL",
-    "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader", "warmUp",
+    "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
     "dbTimeoutSeconds", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
@@ -386,9 +386,6 @@ public class HTTPServerConfig {
           throw new IllegalArgumentException("Use of cacheTTLSeconds without also setting cacheSize has no effect.");
         }
         cacheTTLSeconds = Integer.parseInt(getOptionalProperty(props, "cacheTTLSeconds", "300"));
-        if (props.containsKey("warmUp")) {
-          System.err.println("Setting ignored: 'warmUp'. Look into using pipelineCaching and pipelinePrewarming instead.");
-        }
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
         blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
