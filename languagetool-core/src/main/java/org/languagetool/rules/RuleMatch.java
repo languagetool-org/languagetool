@@ -124,6 +124,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this(rule, sentence, fromPos, toPos, fromPos, toPos, message, shortMessage, false, null);
     setSuggestedReplacements(suggestions);
   }
+
   /**
    * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
    */

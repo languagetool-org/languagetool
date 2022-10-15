@@ -1280,25 +1280,6 @@ public class JLanguageTool {
   }
 
   /**
-   * @deprecated use {@link #performCheck(List, List, RuleSet, ParagraphHandling, AnnotatedText, RuleMatchListener, Mode, Level, boolean)}
-   */
-  @Deprecated
-  protected CheckResults performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
-                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, Mode mode, Level level) throws IOException {
-    List<Rule> nonIgnored = allRules.stream().filter(r -> !ignoreRule(r)).collect(Collectors.toList());
-    return performCheck(analyzedSentences, sentences, nonIgnored, paraMode, annotatedText, null, mode, level, true);
-  }
-
-  /**
-   * @deprecated use {@link #performCheck(List, List, RuleSet, ParagraphHandling, AnnotatedText, RuleMatchListener, Mode, Level, boolean)}
-   * @since 3.7
-   */
-  protected CheckResults performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
-                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) throws IOException {
-    return performCheck(analyzedSentences, sentenceTexts, RuleSet.plain(allRules), paraMode, annotatedText, listener, mode, level, checkRemoteRules);
-  }
-
-  /**
    * @since 5.2
    */
   protected CheckResults performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
