@@ -5598,6 +5598,156 @@
     </rulegroup>
 
 
+    <!-- É IGUAL iguala -->
+    <rulegroup id='SER_IGUAL_IGUALAR' name="Simplificar: Ser igual a → igualar" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-15 (25-JUL-2022+) -->
+      <!--
+      A soma tem de ser igual a zero. → A soma tem de igualar zero.
+      Esta mulher é igual a 10. → Esta mulher iguala 10.
+      Esta mulher foi igual a 10. → Esta mulher igualou 10.
+
+      A Inteligência Artificial é igual ou excede a humana. → A Inteligência Artificial iguala ou excede a humana.
+
+      A soma tem de ser igual à soma de zeros. → A soma tem de igualar a soma de zeros.
+      A soma tem de ser igual às somas de zeros. → A soma tem de igualar as somas de zeros.
+      A soma tem de ser igual ao número de zeros. → A soma tem de igualar o número de zeros.
+      A soma tem de ser igual aos números usados. → A soma tem de igualar os números usados.
+      -->
+      <!-- global antipatterns for subrules -->
+
+      <antipattern>
+        <token postag='Z0.+|SPS00:DA.+|CC|CS' postag_regexp='yes'/>
+        <token postag='AQ.+|NC.+|Z0.+' postag_regexp='yes'/>
+        <token inflected='yes'>ser</token>
+        <token regexp='yes'>igual|iguais</token>
+        <token regexp='yes'>a|e|ou</token>
+        <token postag='DI.+|Z0.+' postag_regexp='yes'/>
+        <example>Três ao cubo é igual a vinte e sete.</example>
+        <example>"Sabemos que alfa é igual a 60 graus. Logo, beta só pode ser 120!", concluiu o estudante.</example>
+        <example>Um dólar é igual a cem centavos.</example>
+        <example>Uma jarda é igual a três pés.</example>
+        <example>Uma dúzia é igual a doze unidades.</example>
+        <example>A soma de todos os ângulos de um triângulo é igual a 180 graus.</example>
+        <example>A soma dos ângulos internos de um triângulo é igual a 180 graus.</example>
+        <example>A quantidade de frutas produzidas em janeiro e fevereiro é igual a 370.</example>		
+        <example>Três quartos mais três oitavos é igual a um e um oitavo.</example>
+        <example>A soma dos ângulos de um triângulo é igual a dois ângulos retos.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='DP.+' postag_regexp='yes'/>
+        <token postag='AQ.+|NC.+|Z0.+|UNKNOWN' postag_regexp='yes'/>
+        <token inflected='yes'>ser</token>
+        <token regexp='yes'>igual|iguais</token>
+        <token regexp='yes'>às?|aos?</token>
+        <token postag='DP.+' postag_regexp='yes'/>
+        <example>Que coincidência! Minha gravata é igual à sua!</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='SPS00' postag_regexp='no'/>
+        <token postag='DP.+' postag_regexp='yes'/>
+        <token postag='AQ.+|NC.+|Z0.+|UNKNOWN' postag_regexp='yes'/>
+        <token inflected='yes'>ser</token>
+        <token regexp='yes'>igual|iguais</token>
+        <token regexp='yes'>a|e|ou|às?|aos?</token>
+        <token postag='DI.+|Z0.+|DP.+' postag_regexp='yes'/>
+        <token postag='_PUNCT' postag_regexp='no'/>
+        <example>Há dez anos, João tinha o dobro da idade de Maria. Se hoje a soma de suas idades é igual a 50, quantos anos tinham Maria e João na referida data?</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
+        <token postag='AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
+        <token inflected='yes'>ser</token>
+        <token regexp='yes'>igual|iguais</token>
+        <token regexp='no'>a</token>
+        <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+        <example>A mistura das três cores primárias é igual a MARROM, que poderá ter uma tonalidade mais clara ou mais escura, dependendo da quantidade de pigmen...</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='DD.+' postag_regexp='yes'/>
+        <token postag='AQ.+|NC.+|Z0.+|UNKNOWN' postag_regexp='yes'/>
+        <token inflected='yes'>ser</token>
+        <token regexp='yes'>igual|iguais</token>
+        <token regexp='yes'>a|e|ou|às?|aos?</token>
+        <token postag='DI.+' postag_regexp='yes'/>
+        <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+        <example>Este carro é igual a um novo.</example>
+      </antipattern>
+
+      <!-- WITH "IGUAL A" -->
+      <rule>
+        <pattern>
+          <token postag='AQ.+|NC.+|NP.+|SPS00|UNKNOWN' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='Z0.+'/>
+          </token>
+          <marker>
+            <and>
+              <token inflected='yes'>ser</token>
+              <token postag='VMN0000|VMN03.+|VMSF3.+|VMI[SP]3.+' postag_regexp='yes'/>
+            </and>
+            <token regexp='yes'>igual|iguais</token>
+            <token>a</token>
+          </marker>
+          <token postag='AQ.+|NC.+|Z0.+|V.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>igualar</match></suggestion>
+        <example correction="igualar">A soma tem de <marker>ser igual a</marker> zero.</example>
+        <example correction="iguala">Esta mulher <marker>é igual a</marker> 10.</example>
+        <example correction="igualou">Esta mulher <marker>foi igual a</marker> 10.</example>		
+      </rule>
+
+      <!-- WITH "IGUAL E/OU" -->
+      <rule>
+        <pattern>
+          <token postag='AQ.+|NC.+|NP.+|SPS00|UNKNOWN' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='Z0.+'/>
+          </token>
+          <marker>
+            <and>
+              <token inflected='yes'>ser</token>
+              <token postag='VMN0000|VMN03.+|VMSF3.+|VMI[SP]3.+' postag_regexp='yes'/>
+            </and>
+            <token regexp='yes'>igual|iguais</token>
+          </marker>
+          <token regexp='yes'>e|ou</token>
+          <token postag='AQ.+|NC.+|Z0.+|V.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>igualar</match></suggestion>
+        <example correction="iguala">A Inteligência Artificial <marker>é igual</marker> ou excede a humana.</example>
+      </rule>
+
+      <!-- WITH "IGUAL À(S)/AO(S)" -->
+      <rule>
+        <pattern>
+          <token postag='AQ.+|NC.+|NP.+|SPS00|UNKNOWN' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='Z0.+'/>
+          </token>
+          <marker>
+            <and>
+              <token inflected='yes'>ser</token>
+              <token postag='VMN0000|VMN03.+|VMSF3.+|VMI[SP]3.+' postag_regexp='yes'/>
+            </and>
+            <token regexp='yes'>igual|iguais</token>
+            <token regexp='yes'>às?|aos?</token>
+          </marker>
+          <token postag='AQ.+|NC.+|Z0.+|V.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>igualar</match> <match no='4' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+        <example correction="igualar a">A soma tem de <marker>ser igual à</marker> soma de zeros.</example>
+        <example correction="igualar as">A soma tem de <marker>ser igual às</marker> somas de zeros.</example>
+        <example correction="igualar o">A soma tem de <marker>ser igual ao</marker> número de zeros.</example>
+        <example correction="igualar os">A soma tem de <marker>ser igual aos</marker> números usados.</example>
+      </rule>
+
+    </rulegroup>
+
+
     <!-- E EST(A/E)(S) que -->
     <rulegroup id='E_ESTAS_ESTES_QUE_PT_PT' name="Simplificar: E est(a/e)(s) → que" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-12 (25-JUL-2022+) -->
@@ -5701,6 +5851,7 @@
       <example>O disco vermelho representa o sol a nascer sobre Bengala e também simboliza o sangue dos que tombaram pela independência do Bangladesh.</example>
       <example>É a parte da Física que analisa o movimento, as variações de energia e as forças a atuar sobre um corpo.</example>
     </rule>
+
 
     <rulegroup id='A_XXX_DE_VOCÊS' name="Simplificar: A XXX de vocês → a vossa XXX">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-10 (Checked/Enhanced) (25-JUL-2022+) -->
