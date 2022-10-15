@@ -5714,7 +5714,9 @@
             <token regexp='yes'>igual|iguais</token>
           </marker>
           <token regexp='yes'>e|ou</token>
-          <token postag='AQ.+|NC.+|Z0.+|V.+' postag_regexp='yes'/>
+          <token postag='AQ.+|NC.+|Z0.+|V.+' postag_regexp='yes'>
+            <exception scope="next" postag_regexp='yes' postag='SPS00:DA.+'/>
+          </token>
         </pattern>
         <message>Esta perífrase poderá ser simplificada.</message>
         <suggestion><match no='2' postag='V.+' postag_regexp='yes'>igualar</match></suggestion>
