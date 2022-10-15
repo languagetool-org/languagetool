@@ -49,8 +49,6 @@ public class HTTPServerConfig {
   public static final int DEFAULT_PORT = 8081;
   
   static final String LANGUAGE_MODEL_OPTION = "--languageModel";
-  static final String WORD2VEC_MODEL_OPTION = "--word2vecModel";
-  static final String NN_MODEL_OPTION = "--neuralNetworkModel";
 
   protected boolean verbose = false;
   protected boolean publicAccess = false;
@@ -76,7 +74,6 @@ public class HTTPServerConfig {
   protected int textCheckerQueueSize = 8;
   protected Mode mode;
   protected File languageModelDir = null;
-  protected File word2vecModelDir = null;
   protected boolean pipelineCaching = false;
   protected boolean pipelinePrewarming = false;
 
@@ -84,7 +81,6 @@ public class HTTPServerConfig {
   protected int pipelineExpireTime;
   protected File fasttextModel = null;
   protected File fasttextBinary = null;
-  protected File neuralNetworkModelDir = null;
   protected int requestLimit;
   protected int requestLimitInBytes;
   protected int timeoutRequestLimit;
@@ -192,11 +188,11 @@ public class HTTPServerConfig {
     "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
     "grammalecteServer", "grammalecteUser", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxTextCheckerThreads", "textCheckerQueueSize", "maxCheckTimeMillis",
     "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "maxSpellingSuggestions", "maxTextHardLength",
-    "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "neuralNetworkModel", "pipelineCaching",
+    "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "pipelineCaching",
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
     "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "requestLimitWhitelistUsers", "requestLimitWhitelistLimit",
     "rulesFile", "secretTokenKey", "serverURL",
-    "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader", "warmUp", "word2vecModel",
+    "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader", "warmUp",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
     "dbTimeoutSeconds", "dbErrorRateThreshold", "dbTimeoutRateThreshold", "dbDownIntervalSeconds",
@@ -243,8 +239,7 @@ public class HTTPServerConfig {
       }
       switch (args[i]) {
         case "--config":
-          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION),
-            !ArrayUtils.contains(args, WORD2VEC_MODEL_OPTION), !ArrayUtils.contains(args, NN_MODEL_OPTION));
+          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION));
           break;
         case "-p":
         case "--port":
@@ -278,12 +273,6 @@ public class HTTPServerConfig {
         case LANGUAGE_MODEL_OPTION:
           setLanguageModelDirectory(args[++i]);
           break;
-        case WORD2VEC_MODEL_OPTION:
-          setWord2VecModelDirectory(args[++i]);
-          break;
-        case NN_MODEL_OPTION:
-          setNeuralNetworkModelDir(args[++i]);
-          break;
         case "--stoppable":  // internal only, doesn't need to be documented
           stoppable = true;
           break;
@@ -311,7 +300,7 @@ public class HTTPServerConfig {
     }
   }
 
-  private void parseConfigFile(File file, boolean loadLangModel, boolean loadWord2VecModel, boolean loadNeuralNetworkModel) {
+  private void parseConfigFile(File file, boolean loadLangModel) {
     try {
       Properties props = new Properties();
       try (FileInputStream fis = new FileInputStream(file)) {
@@ -351,14 +340,6 @@ public class HTTPServerConfig {
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
           setLanguageModelDirectory(langModel);
-        }
-        String word2vecModel = getOptionalProperty(props, "word2vecModel", null);
-        if (word2vecModel != null && loadWord2VecModel) {
-          setWord2VecModelDirectory(word2vecModel);
-        }
-        String neuralNetworkModel = getOptionalProperty(props, "neuralNetworkModel", null);
-        if (neuralNetworkModel != null && loadNeuralNetworkModel) {
-          setNeuralNetworkModelDir(neuralNetworkModel);
         }
         String fasttextModel = getOptionalProperty(props, "fasttextModel", null);
         String fasttextBinary = getOptionalProperty(props, "fasttextBinary", null);
@@ -559,20 +540,6 @@ public class HTTPServerConfig {
     languageModelDir = new File(langModelDir);
     if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
       throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
-    }
-  }
-
-  private void setWord2VecModelDirectory(String w2vModelDir) {
-    word2vecModelDir = new File(w2vModelDir);
-    if (!word2vecModelDir.exists() || !word2vecModelDir.isDirectory()) {
-      throw new RuntimeException("Word2Vec directory not found or is not a directory: " + word2vecModelDir);
-    }
-  }
-
-  private void setNeuralNetworkModelDir(String nnModelDir) {
-    neuralNetworkModelDir = new File(nnModelDir);
-    if (!neuralNetworkModelDir.exists() || !neuralNetworkModelDir.isDirectory()) {
-      throw new RuntimeException("Neural network model directory not found or is not a directory: " + neuralNetworkModelDir);
     }
   }
 
@@ -814,25 +781,6 @@ public class HTTPServerConfig {
   File getLanguageModelDir() {
     return languageModelDir;
   }
-
-  /**
-   * Get word2vec model directory (which contains 'en' sub directories and final_embeddings.txt and dictionary.txt) or {@code null}.
-   * @since 4.0
-   */
-  @Nullable
-  File getWord2VecModelDir() {
-    return word2vecModelDir;
-  }
-
-  /**
-   * Get base directory for neural network models or {@code null}
-   * @since 4.4
-   */
-  @Deprecated
-  public File getNeuralNetworkModelDir() {
-    return neuralNetworkModelDir;
-  }
-
 
   /**
    * Get model path for fasttext language detection

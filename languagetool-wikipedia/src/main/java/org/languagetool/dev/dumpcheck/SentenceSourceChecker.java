@@ -114,8 +114,6 @@ public class SentenceSourceChecker {
             .desc("context size per error, in characters").build());
     options.addOption(Option.builder().longOpt("languagemodel").argName("indexDir").hasArg()
             .desc("directory with a '3grams' sub directory that contains an ngram index").build());
-    options.addOption(Option.builder().longOpt("neuralnetworkmodel").argName("baseDir").hasArg()
-            .desc("base directory for saved neural network models (deprecated)").build());
     options.addOption(Option.builder().longOpt("remoterules").argName("configFile").hasArg()
             .desc("JSON file with configuration of remote rules").build());
     options.addOption(Option.builder().longOpt("filter").argName("regex").hasArg()
@@ -152,8 +150,6 @@ public class SentenceSourceChecker {
     String[] additionalCategoryIds = options.hasOption("also-enable-categories") ? options.getOptionValue("also-enable-categories").split(",") : null;
     String[] fileNames = options.getOptionValues('f');
     File languageModelDir = options.hasOption("languagemodel") ? new File(options.getOptionValue("languagemodel")) : null;
-    File word2vecModelDir = options.hasOption("word2vecmodel") ? new File(options.getOptionValue("word2vecmodel")) : null;
-    File neuralNetworkModelDir = options.hasOption("neuralnetworkmodel") ? new File(options.getOptionValue("neuralnetworkmodel")) : null;
     File remoteRules = options.hasOption("remoterules") ? new File(options.getOptionValue("remoterules")) : null;
     Pattern filter = options.hasOption("filter") ? Pattern.compile(options.getOptionValue("filter")) : null;
     String ruleSource = options.hasOption("rulesource") ? options.getOptionValue("rulesource") : null;
@@ -169,12 +165,6 @@ public class SentenceSourceChecker {
     lt.setCleanOverlappingMatches(false);
     if (languageModelDir != null) {
       lt.activateLanguageModelRules(languageModelDir);
-    }
-    if (word2vecModelDir != null) {
-      lt.activateWord2VecModelRules(word2vecModelDir);
-    }
-    if (neuralNetworkModelDir != null) {
-      lt.activateNeuralNetworkRules(neuralNetworkModelDir);
     }
     int activatedBySource = 0;
     for (Rule rule : lt.getAllRules()) {

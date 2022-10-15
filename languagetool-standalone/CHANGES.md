@@ -4,6 +4,10 @@
 
 ...
 
+### General
+  * The deprecated `--word2vecmodel` and `--neuralnetworkmodel` options has been removed,
+    as these features were not maintained and had never been used on languagetool.org
+
 
 ## 5.9 (2022-09-28)
 

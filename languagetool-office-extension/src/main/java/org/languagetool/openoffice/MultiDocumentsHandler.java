@@ -880,13 +880,6 @@ public class MultiDocumentsHandler {
           }
         }
       }
-      File word2VecDirectory = config.getWord2VecDirectory();
-      if (word2VecDirectory != null) {
-        File word2VecLangDir = new File(config.getWord2VecDirectory(), currentLanguage.getShortCode());
-        if (word2VecLangDir.exists()) {  // user might have word2vec data only for some languages and that's okay
-          lt.activateWord2VecModelRules(word2VecDirectory);
-        }
-      }
       for (Rule rule : lt.getAllActiveOfficeRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
           lt.disableRule(rule.getId());

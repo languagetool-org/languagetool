@@ -23,8 +23,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.pt.*;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
@@ -169,18 +167,6 @@ public class Portuguese extends Language implements AutoCloseable {
     return Arrays.asList(
             new PortugueseConfusionProbabilityRule(messages, languageModel, this)
     );
-  }
-
-  /** @since 4.0 */
-  @Override
-  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
-    return new Word2VecModel(indexDir + File.separator + getShortCode());
-  }
-
-  /** @since 4.0 */
-  @Override
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
   }
 
   /** @since 3.6 */

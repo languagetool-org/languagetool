@@ -254,7 +254,6 @@ class LanguageToolSupport {
       languageTool.setCleanOverlappingMatches(false);
       Tools.configureFromRules(languageTool, config);
       activateLanguageModelRules(language);
-      activateWord2VecModelRules(language);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -274,21 +273,6 @@ class LanguageToolSupport {
         // might not have the data for other languages that supports ngram, so don't
         // annoy them with an error dialog:
         System.err.println("Not loading ngram data, directory does not exist: " + ngramLangDir);
-      }
-    }
-  }
-
-  private void activateWord2VecModelRules(Language language) {
-    if (config.getWord2VecDirectory() != null) {
-      File word2vecDir = new File(config.getWord2VecDirectory(), language.getShortCode());
-      if (word2vecDir.exists()) {
-        try {
-          languageTool.activateWord2VecModelRules(config.getWord2VecDirectory());
-        } catch (Exception e) {
-          JOptionPane.showMessageDialog(null, "Error while loading word2vec model.\n" + e.getMessage());
-        }
-      } else {
-        System.err.println("Not loading word2vec data, directory does not exist: " + word2vecDir);
       }
     }
   }

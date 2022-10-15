@@ -31,7 +31,6 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.markup.TextPart;
 import org.languagetool.rules.*;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.LoggingTools;
@@ -579,19 +578,6 @@ public class JLanguageTool {
   }
 
   /**
-   * Activate rules that depend on pre-trained neural network models.
-   *
-   * @param modelDir root dir of exported models
-   * @since 4.4
-   */
-  public void activateNeuralNetworkRules(File modelDir) throws IOException {
-    ResourceBundle messages = getMessageBundle(language);
-    List<Rule> rules = language.getRelevantNeuralNetworkModels(messages, modelDir);
-    userRules.addAll(rules);
-    ruleSetCache.clear();
-  }
-
-  /**
    * Activate rules that depend on a language model. The language model currently
    * consists of Lucene indexes with ngram occurrence counts.
    *
@@ -643,21 +629,6 @@ public class JLanguageTool {
     transformRules(enhanced, builtinRules);
     transformRules(enhanced, userRules);
     ruleSetCache.clear();
-  }
-
-  /**
-   * Activate rules that depend on a word2vec language model.
-   *
-   * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
-   * @since 4.0
-   */
-  public void activateWord2VecModelRules(File indexDir) throws IOException {
-    Word2VecModel word2vecModel = language.getWord2VecModel(indexDir);
-    if (word2vecModel != null) {
-      ResourceBundle messages = getMessageBundle(language);
-      List<Rule> rules = language.getRelevantWord2VecModelRules(messages, word2vecModel);
-      userRules.addAll(rules);
-    }
   }
 
   /**

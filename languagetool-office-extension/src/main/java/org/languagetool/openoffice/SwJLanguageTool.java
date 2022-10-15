@@ -185,19 +185,6 @@ public class SwJLanguageTool {
   }
 
   /**
-   * Activate word2vec rules
-   */
-  public void activateWord2VecModelRules(File indexDir) throws IOException {
-    if (!isRemote) {
-      if (isMultiThread) {
-        mlt.activateWord2VecModelRules(indexDir); 
-      } else {
-        lt.activateWord2VecModelRules(indexDir); 
-      }
-    }
-  }
-
-  /**
    * check text by LT
    * default: check only grammar
    * local: LT checks only grammar (spell check is not implemented locally)

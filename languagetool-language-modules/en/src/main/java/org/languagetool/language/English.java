@@ -30,8 +30,6 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
 import org.languagetool.rules.en.LongSentenceRule;
-import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
@@ -151,11 +149,6 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
-    return new Word2VecModel(indexDir + File.separator + getShortCode());
-  }
-
-  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] { new Contributor("Mike Unwalla"), Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
   }
@@ -252,11 +245,6 @@ public class English extends Language implements AutoCloseable {
       "fr".equals(motherTongue.getShortCode()) ||
       "es".equals(motherTongue.getShortCode()) ||
       "nl".equals(motherTongue.getShortCode()));
-  }
-
-  @Override
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
   }
 
   /** @since 5.1 */

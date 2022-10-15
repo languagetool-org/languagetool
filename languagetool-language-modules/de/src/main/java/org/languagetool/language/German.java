@@ -28,8 +28,6 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.rules.de.*;
-import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
@@ -53,8 +51,6 @@ import java.util.*;
 public class German extends Language implements AutoCloseable {
 
   private LanguageModel languageModel;
-  private List<Rule> nnRules;
-  private Word2VecModel word2VecModel;
 
   /**
    * @deprecated use {@link GermanyGerman}, {@link AustrianGerman}, or {@link SwissGerman} instead -
@@ -213,15 +209,6 @@ public class German extends Language implements AutoCloseable {
     return languageModel;
   }
 
-  /** @since 4.0 */
-  @Override
-  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
-    if (word2VecModel == null) {
-      word2VecModel = new Word2VecModel(indexDir + File.separator + getShortCode());
-    }
-    return word2VecModel;
-  }
-
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
@@ -235,15 +222,6 @@ public class German extends Language implements AutoCloseable {
   @Override
   public Tokenizer createDefaultWordTokenizer() {
     return new GermanWordTokenizer();
-  }
-
-  /** @since 4.0 */
-  @Override
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    if (nnRules == null) {
-      nnRules = NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
-    }
-    return nnRules;
   }
 
   /**

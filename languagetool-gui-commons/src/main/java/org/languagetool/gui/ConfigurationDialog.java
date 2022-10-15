@@ -338,9 +338,6 @@ public class ConfigurationDialog implements ActionListener {
       cons.gridy++;
       cons.anchor = GridBagConstraints.WEST;
       jPane.add(getMotherTonguePanel(cons), cons);
-      cons.gridx = 0;
-      cons.gridy++;
-      jPane.add(getNgramAndWord2VecPanel(), cons);
     }
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
@@ -1070,7 +1067,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(saveCacheBox, cons);
-    
+
     cons.gridy++;
     portPanel.add(getNgramAndWord2VecPanel(), cons);
   }
@@ -1486,7 +1483,7 @@ public class ConfigurationDialog implements ActionListener {
     motherTonguePanel.add(motherTongueBox, cons);
     return motherTonguePanel;
   }
-  
+
   private JPanel getNgramAndWord2VecPanel() {
     JPanel panel = new JPanel();
     panel.setLayout(new GridBagLayout());
@@ -1499,7 +1496,6 @@ public class ConfigurationDialog implements ActionListener {
     cons1.weightx = 0.0f;
     addNgramPanel(cons1, panel);
     cons1.gridy++;
-    addWord2VecPanel(cons1, panel);
     return panel;
   }
 
@@ -1533,38 +1529,6 @@ public class ConfigurationDialog implements ActionListener {
     panel.add(ngramDirButton, cons);
     JButton helpButton = new JButton(messages.getString("guiNgramHelp"));
     helpButton.addActionListener(e -> Tools.openURL("https://dev.languagetool.org/finding-errors-using-n-gram-data"));
-    cons.gridx++;
-    panel.add(helpButton, cons);
-  }
-
-  private void addWord2VecPanel(GridBagConstraints cons, JPanel panel) {
-    cons.gridx = 0;
-    panel.add(new JLabel((messages.getString("guiWord2VecDir")) + "  "), cons);
-    File dir = config.getWord2VecDirectory();
-    int maxDirDisplayLength = 45;
-    String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength) : messages.getString("guiWord2VecDirSelect");
-    JButton word2vecDirButton = new JButton(buttonText);
-    word2vecDirButton.addActionListener(e -> {
-      File newDir = Tools.openDirectoryDialog(owner, dir);
-      if (newDir != null) {
-        try {
-          config.setWord2VecDirectory(newDir);
-          word2vecDirButton.setText(StringUtils.abbreviate(newDir.getAbsolutePath(), maxDirDisplayLength));
-        } catch (Exception ex) {
-          Tools.showErrorMessage(ex);
-        }
-      } else {
-        // not the best UI, but this way user can turn off word2vec feature without another checkbox
-        config.setWord2VecDirectory(null);
-        word2vecDirButton.setText(StringUtils.abbreviate(messages.getString("guiWord2VecDirSelect"), maxDirDisplayLength));
-      }
-    });
-    cons.gridx++;
-    panel.add(word2vecDirButton, cons);
-    JButton helpButton = new JButton(messages.getString("guiWord2VecHelp"));
-    helpButton.addActionListener(e -> {
-      Tools.openURL("https://github.com/gulp21/languagetool-neural-network");
-    });
     cons.gridx++;
     panel.add(helpButton, cons);
   }

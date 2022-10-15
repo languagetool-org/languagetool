@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.util.*;
@@ -501,9 +500,6 @@ class ApiV2 {
     JLanguageTool lt = new JLanguageTool(lang);
     if (textChecker.config.languageModelDir != null) {
       lt.activateLanguageModelRules(textChecker.config.languageModelDir);
-    }
-    if (textChecker.config.word2vecModelDir != null) {
-      lt.activateWord2VecModelRules(textChecker.config.word2vecModelDir);
     }
     List<Rule> rules = lt.getAllRules();
     rules = rules.stream().filter(rule -> !Premium.get().isPremiumRule(rule)).collect(Collectors.toList());
