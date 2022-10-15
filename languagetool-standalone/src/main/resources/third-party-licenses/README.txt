@@ -7,7 +7,6 @@ at.favre.lib:bcrypt:0.6.0 - Apache License, Version 2.0
 at.favre.lib:bytes:0.8.0 - Apache License, Version 2.0
 ch.qos.logback:logback-classic:1.2.3 - Eclipse Public License - v 1.0 & GNU Lesser General Public License
 ch.qos.logback:logback-core:1.2.3 - Eclipse Public License - v 1.0 & GNU Lesser General Public License
-com.auth0:java-jwt:3.12.0 - The MIT License (MIT)
 com.beust:jcommander:1.78 - Apache License, Version 2.0
 com.carrotsearch:hppc:0.8.2 - Apache License, Version 2.0
 com.fasterxml.jackson.core:jackson-annotations:2.12.0 - The Apache Software License, Version 2.0

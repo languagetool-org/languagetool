@@ -122,7 +122,6 @@ abstract class Server {
   protected static void printCommonConfigFileOptions() {
     System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
     System.out.println("                 'maxTextHardLength' - maximum text length, applies even to users with a special secret 'token' parameter (optional)");
-    System.out.println("                 'secretTokenKey' - secret JWT token key, if set by user and valid, maxTextLength can be increased by the user (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
     System.out.println("                 'maxErrorsPerWordRate' - checking will stop with error if there are more rules matches per word (optional)");
     System.out.println("                 'maxSpellingSuggestions' - only this many spelling errors will have suggestions for performance reasons (optional,\n" +

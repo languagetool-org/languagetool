@@ -136,10 +136,7 @@ final class ServerTools {
   }
 
   static UserLimits getUserLimits(Map<String, String> params, HTTPServerConfig config) {
-    if (params.get("token") != null) {
-      logger.warn("User sending 'token': " + params.get("username") + ", " + params.get("token"));
-      return UserLimits.getLimitsFromToken(config, params.get("token"));
-    } else if (params.get("username") != null) {
+    if (params.get("username") != null) {
       if (params.get("apiKey") != null && params.get("password") != null) {
         throw new BadRequestException("apiKey AND password was set, set only apiKey");
       }

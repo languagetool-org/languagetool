@@ -65,7 +65,6 @@ public class HTTPServerConfig {
   protected int maxTextLengthLoggedIn = Integer.MAX_VALUE;
   protected int maxTextLengthPremium = Integer.MAX_VALUE;
   protected int maxTextHardLength = Integer.MAX_VALUE;
-  protected String secretTokenKey = null;
   protected long maxCheckTimeMillisAnonymous = -1;
   protected long maxCheckTimeMillisLoggedIn = -1;
   protected long maxCheckTimeMillisPremium = -1;
@@ -191,7 +190,7 @@ public class HTTPServerConfig {
     "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "pipelineCaching",
     "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
     "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "requestLimitWhitelistUsers", "requestLimitWhitelistLimit",
-    "rulesFile", "secretTokenKey", "serverURL",
+    "rulesFile", "serverURL",
     "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader",
     "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
     "ngramLangIdentData",
@@ -306,7 +305,6 @@ public class HTTPServerConfig {
       try (FileInputStream fis = new FileInputStream(file)) {
         props.load(fis);
         maxTextHardLength = Integer.parseInt(getOptionalProperty(props, "maxTextHardLength", Integer.toString(Integer.MAX_VALUE)));
-        secretTokenKey = getOptionalProperty(props, "secretTokenKey", null);
 
         maxTextLengthAnonymous = maxTextLengthLoggedIn = maxTextLengthPremium = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
         maxTextLengthAnonymous = Integer.parseInt(getOptionalProperty(props, "maxTextLengthAnonymous", String.valueOf(maxTextLengthAnonymous)));
@@ -620,7 +618,7 @@ public class HTTPServerConfig {
   /**
    * @param len the maximum text length allowed (in number of characters), texts that are longer
    *            will cause an exception when being checked, unless the user can provide
-   *            a JWT 'token' parameter with a 'maxTextLength' claim          
+   *            an API key
    */
   public void setMaxTextLengthAnonymous(int len) {
     this.maxTextLengthAnonymous = len;
@@ -636,7 +634,7 @@ public class HTTPServerConfig {
 
   /**
    * @param len the maximum text length allowed (in number of characters), texts that are longer
-   *            will cause an exception when being checked even if the user can provide a JWT token
+   *            will cause an exception when being checked even if the user can provide an API key
    * @since 3.9
    */
   public void setMaxTextHardLength(int len) {
@@ -664,22 +662,6 @@ public class HTTPServerConfig {
    */
   int getMaxTextHardLength() {
     return maxTextHardLength;
-  }
-
-  /**
-   * Optional JWT token key. Can be used to circumvent the maximum text length (but not maxTextHardLength).
-   * @since 3.9
-   */
-  @Nullable
-  String getSecretTokenKey() {
-    return secretTokenKey;
-  }
-
-  /**
-   * @since 4.0
-   */
-  void setSecretTokenKey(String secretTokenKey) {
-    this.secretTokenKey = secretTokenKey;
   }
 
   /**

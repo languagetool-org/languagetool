@@ -18,11 +18,6 @@
  */
 package org.languagetool.server;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -61,7 +56,7 @@ class UserLimits {
   }
 
   /**
-   * @deprecated Use #getLimitsFromToken() instead
+   * @deprecated Use getLimitsByApiKey() instead
    */
   @Deprecated
   static UserLimits getLimitsFromUserAccount(HTTPServerConfig config, @NotNull String username, @NotNull String password) {
@@ -75,45 +70,6 @@ class UserLimits {
       logger.info("Non-premium access via username/password for " + username);
       return new UserLimits(config.getMaxTextLengthLoggedIn(), config.getMaxCheckTimeMillisLoggedIn(), entry.getUserId(), false, entry.getUserDictCacheSize(), entry.getRequestsPerDay(), entry.getLimitEnforcement(), entry);
     }
-  }
-  /**
-   * Get limits from the JWT key itself, no database access needed.
-   */
-  static UserLimits getLimitsFromToken(HTTPServerConfig config, String jwtToken) {
-    Objects.requireNonNull(jwtToken);
-    String secretKey = config.getSecretTokenKey();
-    if (secretKey == null) {
-      throw new RuntimeException("You specified a 'token' parameter but this server is not configured to accept tokens");
-    }
-    Algorithm algorithm = Algorithm.HMAC256(secretKey);
-    DecodedJWT decodedToken;
-    try {
-      JWT.require(algorithm).build().verify(jwtToken);
-      decodedToken = JWT.decode(jwtToken);
-    } catch (JWTDecodeException e) {
-      throw new AuthException("Could not decode token '" + jwtToken + "'", e);
-    }
-    Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
-    Claim premiumClaim = decodedToken.getClaim("premium");
-    boolean hasPremium = config.isPremiumAlways() || (!premiumClaim.isNull() && premiumClaim.asBoolean());
-    Long uid = decodedToken.getClaim("uid").asLong();
-    if (config.isPremiumAlways() && uid == null) {
-      uid = 1L; // need uid to be recognized as premium
-    }
-    // START PREMIUM MODIFICATIONS
-    Claim dictCacheSizeClaim = decodedToken.getClaim("dictCacheSize");
-    Long dictCacheSize = dictCacheSizeClaim.asLong();
-    Claim requestsPerDayClaim = decodedToken.getClaim("requestsPerDay");
-    Long requestsPerDay = requestsPerDayClaim.asLong();
-    Claim limitEnforcementClaim = decodedToken.getClaim("limitEnforcement");
-    LimitEnforcementMode limitEnforcementMode = LimitEnforcementMode.parse(limitEnforcementClaim.asInt());
-    int maxTextLength = maxTextLengthClaim.isNull() ? hasPremium ? config.getMaxTextLengthPremium() : config.getMaxTextLengthLoggedIn() : maxTextLengthClaim.asInt();
-    long maxCheckTime = hasPremium ? config.getMaxCheckTimeMillisPremium() : config.getMaxCheckTimeMillisLoggedIn();
-    UserLimits userLimits = new UserLimits(maxTextLength, maxCheckTime, uid, hasPremium,
-      (dictCacheSize == null || dictCacheSize <= 0) ? null : dictCacheSize,
-      requestsPerDay, limitEnforcementMode);
-    userLimits.skipLimits = decodedToken.getClaim("skipLimits").isNull() ? false : decodedToken.getClaim("skipLimits").asBoolean();
-    return userLimits;
   }
 
   /**

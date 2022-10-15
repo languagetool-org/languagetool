@@ -18,9 +18,6 @@
  */
 package org.languagetool.server;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.markup.AnnotatedTextBuilder;
@@ -76,19 +73,8 @@ public class TextCheckerTest {
     } catch (RuntimeException expected) {
       // server not configured to accept tokens
     }
-    try {
-      config1.secretTokenKey = "foobar";
-      checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params, null, null);
-      fail();
-    } catch (SignatureVerificationException ignore) {}
-
-    config1.secretTokenKey = "foobar";
-    // see test below for how to create a token:
-    params.put("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZm9vYmFyIiwiaWF0IjoxNTA0ODU3NzAzLCJtYXhUZXh0TGVuZ3RoIjozMH0.2ijjMEhSyJPEc0fv91UtOJdQe8CMfo2U9dbXgHOkzr0");
-    checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params, null, null);
 
     try {
-      config1.secretTokenKey = "foobar";
       checker.checkText(new AnnotatedTextBuilder().addText("now it's even longer than 30 chars").build(), new FakeHttpExchange(), params, null, null);
       fail();
     } catch (TextTooLongException expected) {
@@ -96,23 +82,6 @@ public class TextCheckerTest {
     }
   }
   
-  @Test
-  @Ignore("use to create JWT test tokens for the other tests")
-  public void makeToken() {
-    Algorithm algorithm = Algorithm.HMAC256("foobar");
-    String token = JWT.create()
-            .withIssuer("http://foobar")
-            .withIssuedAt(new Date())
-            .withClaim("maxTextLength", 5000)
-            .withClaim("premium", true)
-            .withClaim("dictCacheSize", 10000L)
-            .withClaim("uid", 42L)
-            //.withClaim("skipLimits", true)
-            //.withExpiresAt(new Date());
-            .sign(algorithm);
-    System.out.println(token);
-  }
-
   @Test
   public void testInvalidAltLanguages() throws Exception {
     Map<String, String> params = new HashMap<>();
