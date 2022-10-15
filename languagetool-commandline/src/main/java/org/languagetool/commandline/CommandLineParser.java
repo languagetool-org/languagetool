@@ -145,27 +145,16 @@ class CommandLineParser {
         if (options.isListUnknown()) {
           throw new IllegalArgumentException("You cannot list unknown words in JSON output format");
         }
-      } else if (args[i].equals("--api")) {
-        options.setXmlFormat();
-        if (options.isApplySuggestions()) {
-          throw new IllegalArgumentException("XML API format makes no sense for automatic application of suggestions");
-        }
       } else if (args[i].equals("-a") || args[i].equals("--apply")) {
         options.setApplySuggestions(true);
         if (options.isTaggerOnly()) {
           throw new IllegalArgumentException("You cannot apply suggestions when tagging only");
-        }
-        if (options.isXmlFormat()) {
-          throw new IllegalArgumentException("XML API format makes no sense for automatic application of suggestions");
         }
         if (options.isJsonFormat()) {
           throw new IllegalArgumentException("JSON output format makes no sense for automatic application of suggestions");
         }
       } else if (args[i].equals("-p") || args[i].equals("--profile")) {
         options.setProfile(true);
-        if (options.isXmlFormat()) {
-          throw new IllegalArgumentException("XML API format makes no sense for profiling");
-        }
         if (options.isJsonFormat()) {
           throw new IllegalArgumentException("JSON output format makes no sense for profiling");
         }
@@ -212,7 +201,6 @@ class CommandLineParser {
             + "  -u, --list-unknown       also print a summary of words from the input that LanguageTool doesn't know\n"
             + "  -b2, --bitext            check bilingual texts with a tab-separated input file,\n"
             + "                           see http://languagetool.wikidot.com/checking-translations-bilingual-texts\n"
-            + "  --api                    [deprecated] print results as XML - please use --json or the JSON API in server mode instead\n"
             + "  --json                   print results as JSON (see https://languagetool.org/http-api/#!/default/post_check)\n"
             + "  -p, --profile            print performance measurements\n"
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"

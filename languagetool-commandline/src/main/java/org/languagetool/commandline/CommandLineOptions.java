@@ -156,20 +156,6 @@ public class CommandLineOptions {
   /**
    * @since 3.6
    */
-  public boolean isXmlFormat() {
-    return this.outputFormat == OutputFormat.XML;
-  }
-  
-  /**
-   * @since 3.6
-   */
-  public void setXmlFormat() {
-    this.outputFormat = OutputFormat.XML;
-  }
-
-  /**
-   * @since 3.6
-   */
   public boolean isJsonFormat() {
     return this.outputFormat == OutputFormat.JSON;
   }

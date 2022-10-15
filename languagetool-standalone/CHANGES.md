@@ -5,9 +5,11 @@
 ...
 
 ### General
-  * The `warmup` setting for the config file, which had no effect anymore, has been removed
-  * The deprecated `--word2vecmodel` and `--neuralnetworkmodel` options has been removed,
-    as these features were not maintained and had never been used on languagetool.org
+  * The `--api` parameter for the command-line version has been removed. It had
+    long been deprecated and replaced by `--json`.
+  * The `warmup` setting for the config file, which had no effect anymore, has been removed.
+  * The deprecated `--word2vecmodel` and `--neuralnetworkmodel` options have been removed,
+    as these features were not maintained and had never been used on languagetool.org.
 
 
 ## 5.9 (2022-09-28)

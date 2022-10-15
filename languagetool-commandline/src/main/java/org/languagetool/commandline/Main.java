@@ -160,7 +160,7 @@ class Main {
       if (options.isApplySuggestions()) {
         CommandLineTools.correctBitext(reader, srcLt, lt, bRules);
       } else {
-        CommandLineTools.checkBitext(reader, srcLt, lt, bRules, options.isXmlFormat());
+        CommandLineTools.checkBitext(reader, srcLt, lt, bRules);
       }
     } else {
       String text = getFilteredText(filename, encoding, xmlFiltering);
@@ -183,11 +183,11 @@ class Main {
       } else if (profileRules) {
         CommandLineTools.profileRulesOnText(text, lt);
       } else if (!options.isTaggerOnly()) {
-        CommandLineTools.checkText(text, lt, options.isXmlFormat(), options.isJsonFormat(), 0, options.getLevel(), options.isListUnknown(), options.isVerbose());
+        CommandLineTools.checkText(text, lt, options.isJsonFormat(), 0, options.getLevel(), options.isListUnknown(), options.isVerbose());
       } else {
         CommandLineTools.tagText(text, lt);
       }
-      if (options.isListUnknown() && !options.isXmlFormat() && !options.isJsonFormat()) {
+      if (options.isListUnknown() && !options.isJsonFormat()) {
         System.out.println("Unknown words: " + lt.getUnknownWords());
       }
     }
@@ -198,7 +198,7 @@ class Main {
     if (options.isVerbose()) {
       lt.setOutput(System.err);
     }
-    if (!options.isXmlFormat() && !options.isApplySuggestions()) {
+    if (!options.isApplySuggestions()) {
       if (isStdIn(filename)) {
         System.err.println("Working on STDIN...");
       } else {
@@ -273,7 +273,7 @@ class Main {
     } else if (profileRules) {
       Tools.profileRulesOnLine(s, lt, currentRule);
     } else if (!options.isTaggerOnly()) {
-      CommandLineTools.checkText(s, lt, options.isXmlFormat(), options.isJsonFormat(), -1, 
+      CommandLineTools.checkText(s, lt, options.isJsonFormat(), -1,
           lineOffset, matches, mode, options.isListUnknown(), level, Collections.emptyList(), options.isVerbose());
     } else {
       CommandLineTools.tagText(s, lt);
@@ -400,12 +400,12 @@ class Main {
     }
     String languageHint = null;
     if (options.getLanguage() == null) {
-      if (!options.isXmlFormat() && !options.isAutoDetect()) {
+      if (!options.isAutoDetect()) {
         System.err.println("No language specified, using English (no spell checking active, " +
                 "specify a language variant like 'en-GB' if available)");
       }
       options.setLanguage(new English());
-    } else if (!options.isXmlFormat() && !options.isApplySuggestions()) {
+    } else if (!options.isApplySuggestions()) {
       languageHint = "Expected text language: " + options.getLanguage().getName();
     }
     options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
