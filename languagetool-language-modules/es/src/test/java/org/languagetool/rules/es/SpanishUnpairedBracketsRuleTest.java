@@ -51,6 +51,14 @@ public class SpanishUnpairedBracketsRuleTest {
     // incorrect sentences:
     assertMatches("Soy un hombre muy honrado).", 1);
     assertMatches("Soy un hombre (muy honrado.", 1);
+    assertMatches("Eso es “importante y qué pasa. ", 1);
+    assertMatches("Eso es \"importante y qué. ", 1);
+    assertMatches("Eso es (imposible. ", 1);
+    assertMatches("Eso es (imposible.\n\n", 1);
+    assertMatches("Eso es) imposible. ", 1);
+    assertMatches("Eso es imposible).\t\n ", 1);
+    assertMatches("Eso es «importante, ¿ah que sí?", 1);
+    
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
