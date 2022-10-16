@@ -221,10 +221,12 @@ public class Catalan extends Language {
       case "CAP_ELS_CAP_ALS": return 10; // greater than DET_GN
       case "CASING": return 10; // greater than CONCORDANCES_DET_NOM
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
+      case "ZERO_O": return 10; //greater than SPELLING
       case "CONCORDANCES_DET_NOM": return 5;
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "SPELLING": return 5;
       case "VENIR_NO_REFLEXIU": return 5;
+      case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
@@ -234,6 +236,7 @@ public class Catalan extends Language {
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
+      case "VERBS_NOMSPROPIS": return -20;
       case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
