@@ -18062,7 +18062,7 @@ O namorado dela era um ladrão.
 
 
     <!-- E NÃO SABEM sem saber -->
-    <rule id='E_NÃO_VERB_SEM_VERBINFINITIVE' name="Simplificar: E não + Verbo → Sem + Verbo Infinitivo" type='style'>
+    <rulegroup id='E_NÃO_VERB_SEM_VERBINFINITIVE' name="Simplificar: E não + Verbo → Sem + Verbo Infinitivo" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-16 (25-JUL-2022+) -->
       <!--
       Ao perguntar ele fica perplexo e não sabe o que responder. → Ao perguntar ele fica perplexo sem saber o que responder.
@@ -18070,26 +18070,52 @@ O namorado dela era um ladrão.
       Ao perguntar ele fica perplexo e não sabe a quem responder. → Ao perguntar ele fica perplexo sem saber a quem responder.
       Ao perguntar eles ficam perplexos e não sabem a quem responder. → Ao perguntar eles ficam perplexos sem saber a quem responder.
 
-      LATER: add support for nouns in another subrule: e não sabem as respostas > sem saber a(s)/o(s) respostas
+      Os consertos feitos às pressas costumam custar mais e não resolvem o problema. → Os consertos feitos às pressas costumam custar mais sem resolver o problema.
       -->
-      <pattern>
-        <token><exception postag_regexp='no' postag='SENT_START'/></token>
-        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-        <marker>
-          <token>e</token>
-          <token>não</token>
-          <token postag='VMIP3.+' postag_regexp='yes'/>
-        </marker>
-        <token postag='DA.+|PI.+|SPS00' postag_regexp='yes'/>
-        <token postag='CS|PD.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Esta perífrase poderá ser simplificada.</message>
-      <suggestion>sem <match no='5' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
-      <example correction="sem saber">Ao perguntar ele fica perplexo <marker>e não sabe</marker> o que responder.</example>
-      <example correction="sem saber">Ao perguntar eles ficam perplexos <marker>e não sabem</marker> o que responder.</example>
-      <example correction="sem saber">Ao perguntar ele fica perplexo <marker>e não sabe</marker> a quem responder.</example>
-      <example correction="sem saber">Ao perguntar eles ficam perplexos <marker>e não sabem</marker> a quem responder.</example>
-    </rule>
+
+      <!-- FIRST APPROACH -->
+      <rule>
+        <pattern>
+          <token><exception postag_regexp='no' postag='SENT_START'/></token>
+          <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+          <marker>
+            <token>e</token>
+            <token>não</token>
+            <token postag='VMIP3.+' postag_regexp='yes'/>
+          </marker>
+          <token postag='DA.+|PI.+|SPS00' postag_regexp='yes'/>
+          <token postag='CS|PD.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>sem <match no='5' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+        <example correction="sem saber">Ao perguntar ele fica perplexo <marker>e não sabe</marker> o que responder.</example>
+        <example correction="sem saber">Ao perguntar eles ficam perplexos <marker>e não sabem</marker> o que responder.</example>
+        <example correction="sem saber">Ao perguntar ele fica perplexo <marker>e não sabe</marker> a quem responder.</example>
+        <example correction="sem saber">Ao perguntar eles ficam perplexos <marker>e não sabem</marker> a quem responder.</example>
+      </rule>
+
+      <!-- FOR NOUNS -->
+      <rule>
+        <pattern>
+          <token postag='DA.+|PP.+|DI.+|V.+|NC.+|AQ.+|RM' postag_regexp='yes'/> <!-- DON'T USE: SPS00 -->
+          <token postag='NC.+|AQ.+|V.+|RG|DP.+' postag_regexp='yes'>
+            <exception regexp='no' inflected='yes'>ser</exception>
+          </token>
+          <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+          <marker>
+            <token>e</token>
+            <token>não</token>
+            <token postag='VMIP3.+' postag_regexp='yes'/>
+          </marker>
+          <token regexp='yes'>[ao]s?</token>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>sem <match no='6' postag='VMIP3.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+        <example correction="sem resolver">Os consertos feitos às pressas costumam custar mais <marker>e não resolvem</marker> o problema.</example>
+      </rule>
+
+    </rulegroup>
 
 
     <!-- 	É + QUE + A(S)/O(S) + NC + É/SÃO é a(s)/o(s) NOME ser(em) -->
