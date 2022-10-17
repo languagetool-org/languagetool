@@ -8155,12 +8155,15 @@ O namorado dela era um ladrão.
         </antipattern>
         <!-- MARCOAGPINTO 2020-10-21 (21-OCT-2020+) *END* -->
         <pattern>
+         <marker>
           <token>nós</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception>,</exception></token> <!-- REMOVED: scope='next' - MARCOAGPINTO 2022-04-13 -->
           <token postag='V.[CIS].([23]P|[123]S).' postag_regexp='yes'>
             <exception>como</exception>
             <exception postag='V.[CIS].1P0' postag_regexp='yes'/></token>
+         </marker>
+           <token negate_pos='yes' postag='AQ..S.+' postag_regexp='yes'/>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
@@ -8263,7 +8266,7 @@ O namorado dela era um ladrão.
         <example>A maioria de vós passeia na praia.</example>
       </rule>
 
-      <rule default='temp_off'>
+      <rule>
         <antipattern>
           <token>eu</token>
           <token regexp='yes' case_sensitive='yes'>e|ou</token>
@@ -8425,13 +8428,14 @@ O namorado dela era um ladrão.
       </antipattern>
         <pattern>
          <marker>
-          <token postag='PP3.P0.+' postag_regexp='yes'/>
+          <token postag='PP3.P0.+' postag_regexp='yes'>
+            <exception>vos</exception></token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception>,</exception></token> <!-- REMOVED: scope='next' - MARCOAGPINTO 2022-04-13 -->
           <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'>
             <exception postag='V.[CIS].3P0' postag_regexp='yes'/>
             <exception postag='AQ.+|N.+|R.+|SPS00|SPS00:.+' postag_regexp='yes'/>
-            <exception regexp='yes'>como|Vogue|entre|pag[ao]s?|regular|sobre|tendo|ate|querendo|registrais</exception>
+            <exception regexp='yes'>como|pela|Vogue|entre|just[oa]s?|pag[ao]s?|regular|sobre|tendo|ate|querendo|registrais</exception>
             <exception postag='VMN0000'/></token>
            </marker>
           <token negate_pos='yes' postag='AQ..P.+' postag_regexp='yes'/>
@@ -8478,7 +8482,7 @@ O namorado dela era um ladrão.
       <pattern>
           <token postag='_PUNCT|_QUOT|SENT_START|C.+' postag_regexp='yes'/>
          <marker>
-          <token postag='PP1.P0.+' postag_regexp='yes'/>
+          <token>nós</token>
           <token min="0" max="3" postag='R.+' postag_regexp='yes'>
             <exception>,</exception></token> <!-- REMOVED: scope='next' - MARCOAGPINTO 2022-04-13 -->
           <token postag='V.[CIS].3S.' postag_regexp='yes'>
