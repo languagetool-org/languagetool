@@ -5246,6 +5246,10 @@ O namorado dela era um ladrão.
           <token min='0' postag='(?:A..|Z.)C.+' postag_regexp='yes'/>
           <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'/>
         </antipattern>
+        <antipattern>
+          <token>busca</token>
+          <token postag="N.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -19404,7 +19408,8 @@ O namorado dela era um ladrão.
           <marker>
             <token>de</token>
             <token regexp='yes' case_sensitive='yes' skip='-1'>[ao]s?
-              <exception scope='next' postag='VMN0000'/></token>
+              <exception scope='next' postag='VMN0000'/>
+              <exception scope="next">ser</exception></token>
           </marker>
           <token postag='SENT_END'/>
         </pattern>

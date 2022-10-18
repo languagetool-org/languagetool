@@ -1537,7 +1537,7 @@
         <marker>
           <token>a</token>
         </marker>
-          <token postag="[RZ].+" postag_regexp="yes"/>
+          <token postag="[RZ].+|D[^A].*" postag_regexp="yes"/>
       </pattern>
       <disambig action="filter" postag="S.+"/>
     </rule>
@@ -1625,7 +1625,56 @@
       <disambig action="filter" postag="S.+"/>
     </rule>
   </rulegroup>
-
+  
+  <rulegroup id="DET-NOUN_PRON-VERB" name="det+noun vs. pron+verb 'a casa'">
+    <rule>
+      <pattern>
+        <token postag="SENT_START|V.[SI].*" postag_regexp="yes"/>
+        <marker>
+          <and>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="P.*" postag_regexp="yes"/>
+          </and>  
+        </marker>
+        <and>
+          <token postag="V.[SI].*" postag_regexp="yes"><exception inflected="yes">ser</exception></token>
+          <token postag="N.*" postag_regexp="yes"/>
+        </and>
+      </pattern>
+      <disambig action="remove" postag="P.*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="SENT_START|V.[SI].*" postag_regexp="yes"/>
+          <and>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="P.*" postag_regexp="yes"/>
+          </and>  
+        <marker>
+          <and>
+            <token postag="V.[SI].*" postag_regexp="yes"><exception inflected="yes">ser</exception></token>
+            <token postag="N.*" postag_regexp="yes"/>
+          </and>  
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.[SI].*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="SP.*|SENT_START" postag_regexp="yes"/>
+        <marker>
+          <unify>
+            <feature id="gender"/>
+            <feature id="number"/>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="[NA].*|DP.*" postag_regexp="yes"/>
+          </unify>  
+        </marker>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+  </rulegroup>
+  
     <!--P_V Quando está a frente de um verbo, trata-se de um pronome-->
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule id="P_V" name="Pronome + Verbo">
