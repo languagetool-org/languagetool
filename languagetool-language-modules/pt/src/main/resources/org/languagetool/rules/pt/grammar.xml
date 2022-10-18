@@ -8516,7 +8516,7 @@ O namorado dela era um ladrão.
         <example>Metade de vocês é idiota.</example>
         <example>Quem de vocês deseja falar?</example>
       </rule>
-      <rule default='temp_off'>
+      <rule>
       <pattern>
           <token postag='_PUNCT|_QUOT|SENT_START|C.+' postag_regexp='yes'/>
          <marker>
@@ -8534,7 +8534,8 @@ O namorado dela era um ladrão.
         <message>&MSG_ECV;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\1P$2' postag_regexp='yes'/> <match no='5' include_skipped='all' postag='(AQ..)S(.+)' postag_replace='$1P$2' postag_regexp='yes'/></suggestion>
         <suggestion>a gente <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <example correction='Nós somos legais|A gente é legal'><marker>Nós é legal</marker>.</example>
+        <suggestion><match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <example correction='Nós somos legais|A gente é legal|Nós, é legal'><marker>Nós é legal</marker>.</example>
       </rule>
       <rule>
         <antipattern>
