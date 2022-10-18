@@ -9868,16 +9868,62 @@ O namorado dela era um ladrão.
 	
       <!-- 	VERBO_SER + EU fui eu -->
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-12 (21-OCT-2020+)     -->
-      <rule>
+      <!--      Improved by Susana Boatto, 2022-10-18     -->
+      <rule default='temp_off'>
         <pattern>
           <marker>
-            <token regexp='yes'>foi|foram</token>
+        <and>
+          <token inflected="yes">ser</token>
+          <token postag="VMI.3S." postag_regexp="yes"/>
+        </and>
           </marker>
           <token>eu</token>
         </pattern>
         <message>&MSG_ECV;</message>
-        <suggestion>fui</suggestion>
+        <suggestion><match no='1' postag='(VMI.)3S(.)' postag_replace='$1\1S$2' postag_regexp='yes'/></suggestion>
         <example correction='fui'>Quem deu a cara <marker>foi</marker> eu.</example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+          <marker>
+        <and>
+          <token inflected="yes">ser</token>
+          <token postag="VMI.3S." postag_regexp="yes"/>
+        </and>
+          </marker>
+          <token>nós</token>
+        </pattern>
+        <message>&MSG_ECV;</message>
+        <suggestion><match no='1' postag='(VMI.)3S(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
+        <example correction='fomos'>Quem deu a cara <marker>foi</marker> nós.</example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+          <marker>
+        <and>
+          <token inflected="yes">ser</token>
+          <token postag="VMI.3S." postag_regexp="yes"/>
+        </and>
+          </marker>
+          <token>vós</token>
+        </pattern>
+        <message>&MSG_ECV;</message>
+        <suggestion><match no='1' postag='(VMI.)3S(.)' postag_replace='$1\2P$2' postag_regexp='yes'/></suggestion>
+        <example correction='fostes'>Quem deu a cara <marker>foi</marker> vós.</example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+          <marker>
+        <and>
+          <token inflected="yes">ser</token>
+          <token postag="VMI.3S." postag_regexp="yes"/>
+        </and>
+          </marker>
+          <token postag='PP3.P.+' postag_regexp='yes'/>
+        </pattern>
+        <message>&MSG_ECV;</message>
+        <suggestion><match no='1' postag='(VMI.)3S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
+        <example correction='foram'>Quem deu a cara <marker>foi</marker> vocês.</example>
       </rule>
 	
       <!-- PRECISAM-SE/TRATAM-SE precisa-se/trata-se -->
