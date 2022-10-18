@@ -2798,6 +2798,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "pdfs": return topMatch("PDFs");
       case "Pdfs": return topMatch("PDFs");
       case "gekriecht": return topMatch("gekrochen");
+      case "einzigst": return topMatch("einzig");
+      case "Einzigst": return topMatch("Einzig");
+      case "Eifelturm": return topMatch("Eiffelturm");
+      case "Eifelturms": return topMatch("Eiffelturms");
       case "Jojo-Effekt": return topMatch("Jo-Jo-Effekt");
       case "Jojo-Effekts": return topMatch("Jo-Jo-Effekts");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
