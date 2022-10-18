@@ -333,13 +333,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ********************************************************** -->
     <!-- CONFUNDIR ÀS|À POR AS|A ANTES DA INDICAÇÃO PONTUAL DE HORAS|TERRA FIRME -->
 
-    <rule id="AS_PONTUAL_BR" name="Usar 'às' com horas pontuais">
+    <rule id="AS_PONTUAL_BR" name="Usar 'às' com horas pontuais" default="temp_off">
       <pattern>
         <marker>
+          <token postag="SENT_START"/>
           <token>As</token>
         </marker>
         <token regexp="yes">uma|duas|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze</token>
-        <token negate_pos="yes" postag="N.+|A.+|VMIP3P0" postag_regexp="yes"/>
+        <token regexp="yes">,|horas|da|em</token>
       </pattern>
       <message>Substitua «as» por <suggestion>às</suggestion> se estiver fazendo indicação pontual de hora.</message>
       <example correction="Às"><marker>As</marker> duas da tarde.</example>
