@@ -2367,6 +2367,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd pos="AQ0CN0"/>
         </disambig>
     </rule>
+    <rule id="prefixos_ortografia" name="ignora l'ortografia de prefixos correctes">
+        <pattern>
+            <marker>
+                <token regexp="yes">kilo|mini|micro|semi|multi|anti|super|re|pro|sots|arxi|bes|plus|per|post|pre|pro|pseudo|quasi|semi|sobre|sots|sub|ultra|vice|auto|greco|mini|micro|multi|anti|gal·lo|super</token>
+            </marker>
+            <token spacebefore="no">-</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="sufixos_ortografia" name="ignora l'ortografia de sufixos">
+        <pattern>
+            <token spacebefore="yes">-</token>
+            <marker>
+                <token regexp="yes" spacebefore="no">indre|ldre|ns|scs|scos|igs|ix|eix|é|ena|è|it|ert</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule id="no_ij" name="no interjecció">
         <pattern>
             <marker>
