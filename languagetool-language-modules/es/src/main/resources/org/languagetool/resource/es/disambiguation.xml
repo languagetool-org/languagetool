@@ -6098,6 +6098,26 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="_allow_repeat"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">ja|je|ji|ha|he|hi</token>
+                <token>,</token>
+                <marker>
+                    <token><match no="0"/></token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">ja|je|ji|ha|he|hi</token>
+                </marker>
+                <token>,</token>
+                <token><match no="0"/></token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
     </rulegroup>
     <!-- SOME EXTRA TAGGING -->
     <rulegroup id="letras_mayusculas" name="letras sueltas mayúsculas">
