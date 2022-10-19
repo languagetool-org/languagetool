@@ -8132,6 +8132,36 @@ RB => Règles Brutes
             <disambig postag="N m s"/>
         </rule>
     </rulegroup>
+    <rulegroup id="TON_NOM" name="ton (nom)">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="gender"/>
+                    <feature id="number"/>
+                    <token regexp="yes" inflected="yes">suggestion|contour|liberté|hauteur|variation|changement|tiers|quart|production|différence|absence|marque|modificatif</token>
+                    <unify-ignore>
+                        <token>de</token>
+                        <marker>
+                            <token postag="N m s">ton</token>
+                        </marker>    
+                    </unify-ignore>
+                    <token postag="J.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="filter" postag="N m s"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">suggestion|contour|liberté|hauteur|variation|changement|tiers|quart|production|différence|absence|marque|modificatif</token>
+                <token>de</token>
+                <marker>
+                    <token postag="N m s">ton</token>
+                </marker>
+                <token postag="V.*[123].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="N m s"/>
+        </rule>
+    </rulegroup>
     <rulegroup name="RP : mon/ton/son" id="RP-MON_TON_SON">
         <rule>
             <pattern>
