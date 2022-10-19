@@ -9913,6 +9913,7 @@ O namorado dela era um ladrão.
       </rule>
       <rule default='temp_off'>
         <pattern>
+          <token negate_pos='yes' postag='SPS.+' postag_regexp='yes'/>
           <marker>
         <and>
           <token inflected="yes">ser</token>
@@ -9922,7 +9923,7 @@ O namorado dela era um ladrão.
           <token>nós</token>
         </pattern>
         <message>&MSG_ECV;</message>
-        <suggestion><match no='1' postag='(VMI.)3S(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
+        <suggestion><match no='2' postag='(VMI.)3S(.)' postag_replace='$1\1P$2' postag_regexp='yes'/></suggestion>
         <example correction='fomos'>Quem deu a cara <marker>foi</marker> nós.</example>
       </rule>
       <rule default='temp_off'>
@@ -9993,6 +9994,7 @@ O namorado dela era um ladrão.
             <token postag='DP3.P.+' postag_regexp='yes'/>
             <token postag='N..P.+' postag_regexp='yes'/>
           </marker>
+          <token negate_pos='yes' postag='SPS.+' postag_regexp='yes'/>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' postag='(VMI.3)S(.)' postag_regexp="yes" postag_replace='$1P$2'/> \2 \3</suggestion>
