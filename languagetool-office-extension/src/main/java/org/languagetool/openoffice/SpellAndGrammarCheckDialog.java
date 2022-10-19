@@ -49,6 +49,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
@@ -414,9 +415,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (debugMode) {
       MessageHandler.printToLogFile("CheckDialog: changeTextOfParagraph: set setFlatParagraph: " + sPara);
     }
-    docCache.setFlatParagraph(nFPara, sPara);
-    document.removeResultCache(nFPara);
-    document.removeIgnoredMatch(nFPara, true);
     if (docType == DocumentType.IMPRESS) {
       OfficeDrawTools.changeTextOfParagraph(nFPara, nStart, nLength, replace, document.getXComponent());
     } else if (docType == DocumentType.CALC) {
@@ -440,8 +438,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
       } else {
 */
         document.getFlatParagraphTools().changeTextOfParagraph(nFPara, nStart, nLength, replace);
-      }
-//    }
+//      }
+    }
+    docCache.setFlatParagraph(nFPara, sPara);
+    document.removeResultCache(nFPara);
+    document.removeIgnoredMatch(nFPara, true);
     if (documents.getConfiguration().useTextLevelQueue() && !documents.getConfiguration().noBackgroundCheck()) {
       for (int i = 1; i < documents.getNumMinToCheckParas().size(); i++) {
         document.addQueueEntry(nFPara, i, documents.getNumMinToCheckParas().get(i), document.getDocID(), false, true);
@@ -590,7 +591,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
       setLangTool(documents, lastLanguage);
       document.removeResultCache(nFPara);
     }
-    while (paRes.nStartOfNextSentencePosition < text.length()) {
+    int lastSentenceStart = -1;
+    while (paRes.nStartOfNextSentencePosition < text.length() && paRes.nStartOfNextSentencePosition != lastSentenceStart) {
+      lastSentenceStart = paRes.nStartOfNextSentencePosition;
       paRes.nStartOfSentencePosition = paRes.nStartOfNextSentencePosition;
       paRes.nStartOfNextSentencePosition = text.length();
       paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
@@ -1331,14 +1334,14 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     void setProgressValue(int value, boolean setText) {
       int max = checkProgress.getMaximum();
-      value = value < 0 ? 1 : value + 1;
-      if (value > max) {
-        value = max;
+      int val = value < 0 ? 1 : value + 1;
+      if (val > max) {
+        val = max;
       }
-      checkProgress.setValue(value);
+      checkProgress.setValue(val);
       if (setText) {
-        int p = (int) (((value * 100) / max) + 0.5);
-        checkProgress.setString(p + " %  ( " + value + " / " + max + " )");
+        int p = (int) (((val * 100) / max) + 0.5);
+        checkProgress.setString(p + " %  ( " + val + " / " + max + " )");
         checkProgress.setStringPainted(true);
       }
     }
