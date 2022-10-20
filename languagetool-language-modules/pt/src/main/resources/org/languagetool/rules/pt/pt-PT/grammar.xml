@@ -4725,6 +4725,29 @@
 
     <rulegroup id='T-V_DISTINCTION_ALL' name='Tratamento formal: Todas as formas na segunda pessoa, sem salvaguardas' default='off'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
+      <!-- MARCOAGPINTO inserted global antipatterns for all subrules on top -->
+
+      <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='RM|RG' postag_regexp="yes">
+          <exception scope='previous' postag_regexp='no' postag='SENT_START'/>
+         </token>
+        <token postag='VMM02S0|VMSP2S0|VMP00.+|AQ0FP0|NCFP000' postag_regexp="yes"/> <!-- "AQ0FP0|NCFP000" does a nice job here -->
+        <example>Ele dificilmente estuda química.</example>
+        <example>Nossa professora raramente ri.</example>
+        <example>Ele sempre planeja uma coisa cuidadosamente antes de fazê-la.</example>
+        <example>Bob raramente escreve para seus pais.</example>
+        <example>Ele provavelmente vai ganhar a próxima eleição.</example>
+        <example>Isso aconteceu somente há um ano atrás.</example>
+        <example>Uma jovem de dezessete anos que atualmente vive por conta própria.</example>
+        <example>Junko ainda depende de seus pais para bancá-la.</example>
+        <example>Eu devo chegar lá pelas 9 horas.</example>
+        <example>Com licença, onde fica a seção de calçados masculinos?</example>
+        <example>Ele nunca mantém sua palavra.</example>
+        <example>Agora, enquanto há tempo.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <rule>
         <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
