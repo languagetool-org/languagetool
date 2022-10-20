@@ -12397,9 +12397,57 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
+
     <rulegroup id='CRASE_CONFUSION' name="Erros de crase">
       <!--      Created by Tiago F. Santos, Portuguese rule, 2016-12-23      -->
-      <short>Erro de crase</short>
+<!--      <short>Erro de crase</short> - REMMED BY MARCOAGPINTO 2022-10-20 -->
+      <!-- MARCOAGPINTO inserted global antipatterns for all subrules on top -->
+
+      <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='AQ.+|NC.+' postag_regexp="yes"/>
+        <token regexp='yes'>às?</token>
+        <token postag='VMP00.+' postag_regexp="yes"/>
+        <example>Segundo ela, no ano passado a demanda por compósitos foi praticamente igual à registrada em 2018.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token regexp='yes'>às?</token>
+        <token postag='AQ.[CM].+|NC[CM].+' postag_regexp="yes"/>
+        <token regexp='yes'>às?</token>
+        <example>Há com cada abécula na estrada...e os espertos, bem detesto os espertos, metem-se à cão à nossa frente sem fazer pisca, ultrapassam pela direita...</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token regexp='yes'>as?</token>
+        <token postag='PP.+' postag_regexp="yes"/>
+        <example>Ele adotou um comportamento agressivo em relação a mim.</example>
+        <example>O MORE tem desabafos/opiniões em relação a mim e ao que se passa à minha volta.</example>
+        <example>Meus pais mantinham altas expectativas em relação a mim.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token inflected='yes'>ir</token>
+        <token regexp='no'>a</token>
+        <token postag='NP.SG.+' postag_regexp="yes">
+          <exception scope='next' regexp='yes'>d[ao]s?|de</exception>
+        </token>
+        <example>Quero ir a Osaca uma vez.</example>
+        <example>Quando você irá a Curitiba?</example>
+        <example>Vou a Londres.</example>
+        <example>De vez em quando vamos a Londres a trabalho.</example>
+        <example>"Quanto tempo demora para ir a Viena a pé?" "Sinto muito, eu não sou daqui."</example>
+        <example>Nós vamos a Roma por uma semana.</example>
+        <example>No ano que vem eu vou a Barcelona.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <antipattern>
         <token>a</token>
         <token>que</token>
