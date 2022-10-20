@@ -2960,7 +2960,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception scope='previous'>não</exception>
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
           <token postag='(?:[NZ].|A..)MS.+' postag_regexp='yes'>
-            <exception regexp='yes'>&pontos_cardeais;|contrário|nível|solo|um|despropósito</exception><!-- |escassos --> <!-- MARCOAGPINTO 2020-10-04 (2-JUL-2020+) -->
+            <exception regexp='yes'>&pontos_cardeais;|&meses_ano;|\d+|&abreviaturas;|médio|longo|\p{Lu}+|master|contrário|nível|solo|um|despropósito</exception><!-- |escassos --> <!-- MARCOAGPINTO 2020-10-04 (2-JUL-2020+) -->
             <exception postag_regexp='yes' postag='(?:[NZ].|A..)[CF].+'/></token>
         </pattern>
         <message>&MSG_ECG;</message>
@@ -3100,6 +3100,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='NPM.+' postag_regexp='yes' skip='-1'/>
           <token>,</token>
           <example>A Antonio Roberto Espinosa e Aluizio Leite, editores aos quais coube a difícil tarefa de conduzir esse imenso trabalho.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>propens[oa]s?|suscetível|suscetíveis</token>
+          <token>a</token>
+          <example>Estão mais propensos a dores</example>
         </antipattern>
         <pattern>
           <token>a
@@ -5949,6 +5954,11 @@ O namorado dela era um ladrão.
            <token>a</token>
            <token postag='(?:NC|A..)[FC]P.+' postag_regexp='yes'/>
            <example>Ambiente acessível a cadeiras de rodas.</example>
+        </antipattern>
+        <antipattern>
+           <token regexp='yes'>propens[oa]s?|suscetível|suscetíveis</token>
+           <token>a</token>
+           <example>Estão mais propensas a dores.</example>
         </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
