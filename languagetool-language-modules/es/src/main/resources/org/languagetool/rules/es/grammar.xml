@@ -11187,14 +11187,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No si podemos evitarlo.</example>
                 <example>Veamos si podemos evitarlo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" regexp="yes">\p{P}</token>
                     <marker>
                         <token>si</token>
                     </marker>
-                    <token regexp="yes">\p{P}</token>
+                    <token regexp="yes">[\.,;:!\?]</token>
                 </pattern>
                 <message>Como adverbio de afirmación, se escribe con tilde.</message>
                 <suggestion>sí</suggestion>
@@ -11203,7 +11203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sí"><marker>Si</marker>, me gusta mucho.</example>
                 <example correction="Sí">¡<marker>Si</marker>, me gusta mucho!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>si</token>
