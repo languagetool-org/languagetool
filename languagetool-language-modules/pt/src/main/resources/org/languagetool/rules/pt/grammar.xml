@@ -18519,6 +18519,37 @@ O namorado dela era um ladrão.
       <example>e que apenas difere das pessoas ditas normais</example>
     </rule>
 
+
+    <!-- MAS SIM QUE ERA DEVIDO mas era devido -->
+    <rulegroup id='MAS_QUE_ERA_VERBOPARTPASSADO_MAS_VERBOPARTPASSADO' name="Simplificar: mas + que + V. Ser + V. Part. Passado → mas + V. Ser + V. Part. Passado" type='style'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-20 (25-JUL-2022+) -->
+      <!--
+      Soube que o problema não se devia ao esgotamento, mas sim que era derivado a uma doença antiga. → Soube que o problema não se devia ao esgotamento, mas derivado a uma doença antiga.
+      -->
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>mas</token>
+            <token min="0" max="1">sim</token>
+            <token>que</token>
+<!--
+            <token regexp='yes'>eram?|é|são|foi|foram</token>
+-->
+            <token inflected='yes'>ser</token>
+            <token postag='VMP00.+' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\1 \4 \5</suggestion>
+        <example correction="mas era derivado">Soube que o problema não se devia ao esgotamento, <marker>mas sim que era derivado</marker> a uma doença antiga.</example>
+        <example correction="mas era derivado">Soube que o problema não se devia ao esgotamento, <marker>mas que era derivado</marker> a uma doença antiga.</example>
+        <example correction="mas seria derivado">Soube que o problema não se devia ao esgotamento, <marker>mas que seria derivado</marker> a uma doença antiga.</example>
+      </rule>
+
+    </rulegroup>
+
+
     <!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
     <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 + 2021-07-22 (25-JUN-2021+)      -->
