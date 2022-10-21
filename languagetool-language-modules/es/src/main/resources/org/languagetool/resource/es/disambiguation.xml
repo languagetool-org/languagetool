@@ -2026,6 +2026,15 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="replace" postag="NCFS000"/>
     </rule>
+    <rule id="no_adj" name="no adj">
+        <pattern>
+            <marker>
+                <token postag="NC.*" postag_regexp="yes" inflected="yes">campeón</token>
+            </marker>
+            <token postag="N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="A.*"/>
+    </rule>
     <rule id="amigo_n" name="amigo not adj">
         <pattern>
             <token regexp="yes" inflected="yes">bueno|malo|mal</token>
