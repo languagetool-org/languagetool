@@ -4729,7 +4729,6 @@
       <!-- MARCOAGPINTO inserted global antipatterns for all subrules on top -->
 
       <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-      <!-- Note: create an antipattern of _PUNCT after RG/RM, in this one it creates false positives with some verbs after the RG/RM -->
       <antipattern>
         <token postag='RM|RG' postag_regexp="yes">
           <exception scope='previous' postag_regexp='no' postag='SENT_START'/>
@@ -4749,6 +4748,26 @@
         <example>Agora, enquanto há tempo.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2022-10-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <!-- This is the above antipattern dealing with _PUNCT after the "RM|RG". I had to remove their "NC.+|AQ.+" because it created false positives -->
+      <antipattern>
+        <token postag='RM|RG' postag_regexp="yes">
+          <exception scope='previous' postag_regexp='no' postag='SENT_START'/>
+          <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </token>
+        <token postag='_PUNCT' postag_regexp="no"/>
+        <token postag='VMM02S0|VMSP2S0|VMP00.+|AQ0FP0|NCFP000' postag_regexp="yes"> <!-- "AQ0FP0|NCFP000" does a nice job here -->
+          <exception scope='next' postag_regexp='no' postag='_PUNCT'/>
+        </token>
+        <example>De certo modo, parece gostar de situações de confronto, que estimulam sua adrenalina e sua disposição física.</example>
+        <example>Temos muito em comum, dá pra perceber só de ler esse relato!</example>
+        <example>Por enquanto, nada.</example>
+        <example>Esqueça o velho ditado: alguns homens são, de fato, ilhas.</example>
+        <example>No entanto, pela sua gravidade, a crise teve fortes impactos nas empresas.</example>
+        <example>Depois, voltam para casa levando o que não tinham, para um lugar onde, provavelmente, há um avô, uma mãe, um pai.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <!-- MARCOAGPINTO 2022-10-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
