@@ -7657,7 +7657,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">missa|coma|comes|meta|metes|menta|humana|humanes|escàs|poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només|noms?<exception postag="_GV_"/></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">alcohol|cilindre|cilindres|missa|coma|comes|meta|metes|menta|humana|humanes|escàs|poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només|noms?<exception postag="_GV_"/></token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -12833,6 +12833,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- se sent sola; s'havia fet.. com tractar: el metges, es fan... -->
         <!--creat per "ens ensenya". Excep: en complexes perspectives-->
         <rule>
+            <!-- Si som en una varietat no balear, aquesta regla és molt clara.
+            En canvi, si som en balear, podria ser errònia. -->
+            <pattern>
+                <token>els</token>
+                <marker>
+                    <and>
+                        <token postag="VMIP1S0B"/>
+                        <token postag="NCMS000"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NCMS000"/>
+        </rule>
+        <rule>
             <pattern>
                 <marker>
                     <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">si|en|l'|el|la|els|les|['-].+</exception></token>
@@ -14494,7 +14508,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="nNom2" name="no nom si no ha concordat">
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">màgics?|màgica|màgiques|pinte|trenca|guarda|passa|salva|faig|dic|jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?|visc<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">busca|busques|màgics?|màgica|màgiques|pinte|trenca|guarda|passa|salva|faig|dic|jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?|visc<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <token postag="[AVCP].*|SPS00" postag_regexp="yes"/>
             </and>
         </pattern>
