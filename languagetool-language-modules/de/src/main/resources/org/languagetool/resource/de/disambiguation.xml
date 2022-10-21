@@ -2152,7 +2152,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="CO₂-Emission" id="CO2-EMISSION">
         <pattern>
-            <token regexp="yes">CO₂-(Emission|Emissionen|Ausstoß|Ausstoßes|Steuern?|Rechnern?|Preis|Zylinder|Fußabdrucks?|Bepreisung)</token>
+            <token regexp="yes">CO₂-(Emission(en)?|Ausstoß(es)?|Steuern?|Rechnern?|Preis|Zylinder|Fußabdrucks?|Bepreisung)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -6070,6 +6070,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
             <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
             <token regexp="yes">(ab|auf)wärts</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_TAG_UND_NACHTAKTIV" name="ignore 'tag- und dämmerungsaktiv'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">(tag|nacht)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">(nacht|tag|dämmerungs).+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
