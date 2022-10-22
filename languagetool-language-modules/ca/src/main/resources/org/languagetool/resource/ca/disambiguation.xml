@@ -12838,15 +12838,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <!-- Si som en una varietat no balear, aquesta regla és molt clara.
             En canvi, si som en balear, podria ser errònia. -->
             <pattern>
-                <token regexp="yes">els|la</token>
+                <token postag_regexp="yes" postag="D.*"/>
                 <marker>
                     <and>
                         <token postag="VMIP1S0B"/>
-                        <token postag="NCMS000"/>
+                        <token postag="NC.*" postag_regexp="yes"/>
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="NCMS000"/>
+            <disambig action="filter" postag="NC.*"/>
         </rule>
         <rule>
             <pattern>
