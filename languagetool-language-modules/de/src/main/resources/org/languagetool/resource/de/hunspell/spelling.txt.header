@@ -3,10 +3,18 @@
 # Hyphenated compound words containing words listed here will be accepted, too:
 # If this file contains "Au-pair", then "Au-pair-Agentur" will not be marked as incorrect.
 # Compound words starting with words listed here will be accepted, too:
-# If this file contains "Secondhand" or "Helizität", then "Secondhandladen" or "Helizitätsoperator" will not be marked as incorrect.
+# If this file contains "Secondhand" or "Helizität", then "Secondhandladen"
+#  or "Helizitätsoperator" will not be marked as incorrect.
+# (For words ending with "tum", "ling", "ion", "tät", "keit", "schaft", "sicht", "ung", or "en"
+#  a Fugen-S will be inserted internally, such as in 'HelizitätSoperator')
 # Supported suffixes for German:
 # /E will add e
 # /S will add s
 # /N will add n
 # /A will add e, er, es, en, em (for adjectives - no comparative, no superlative)
+#             if the word already ends in 'e', only r, s, n, m will be added
 # /F will add in (for gendered nouns)
+# Use `prefix_verb` to prepend the given prefix to all forms of the verb (does not work for verbs with "ß" yet).
+# Use `\_` to add words with an underscore.
+# Words ending in `_in` will be expanded to have the common gender gap characters: $1*in, $1:in, $1_in, $1*innen, $1:innen, $1_innen
+# The lines in `prefix_verb` syntax will also be used by GermanTagger.
