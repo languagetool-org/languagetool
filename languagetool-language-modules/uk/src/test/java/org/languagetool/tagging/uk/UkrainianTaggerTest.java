@@ -134,7 +134,7 @@ public class UkrainianTaggerTest {
 
     TestTools.myAssert("300 тис. гривень", 
         "300/[300]number "
-        + "-- тис./[тис.]numr:f:v_dav:nv:abbr|тис./[тис.]numr:f:v_mis:nv:abbr|тис./[тис.]numr:f:v_naz:nv:abbr|тис./[тис.]numr:f:v_oru:nv:abbr|тис./[тис.]numr:f:v_rod:nv:abbr|тис./[тис.]numr:f:v_zna:nv:abbr|тис./[тис.]numr:p:v_dav:nv:abbr|тис./[тис.]numr:p:v_mis:nv:abbr|тис./[тис.]numr:p:v_naz:nv:abbr|тис./[тис.]numr:p:v_oru:nv:abbr|тис./[тис.]numr:p:v_rod:nv:abbr|тис./[тис.]numr:p:v_zna:nv:abbr "
+        + "-- тис./[тис.]noun:inanim:n:v_dav:nv:abbr|тис./[тис.]noun:inanim:n:v_mis:nv:abbr|тис./[тис.]noun:inanim:n:v_naz:nv:abbr|тис./[тис.]noun:inanim:n:v_oru:nv:abbr|тис./[тис.]noun:inanim:n:v_rod:nv:abbr|тис./[тис.]noun:inanim:n:v_zna:nv:abbr|тис./[тис.]noun:inanim:p:v_dav:nv:abbr|тис./[тис.]noun:inanim:p:v_mis:nv:abbr|тис./[тис.]noun:inanim:p:v_naz:nv:abbr|тис./[тис.]noun:inanim:p:v_oru:nv:abbr|тис./[тис.]noun:inanim:p:v_rod:nv:abbr|тис./[тис.]noun:inanim:p:v_zna:nv:abbr|тис./[тис.]numr:f:v_dav:nv:abbr|тис./[тис.]numr:f:v_mis:nv:abbr|тис./[тис.]numr:f:v_naz:nv:abbr|тис./[тис.]numr:f:v_oru:nv:abbr|тис./[тис.]numr:f:v_rod:nv:abbr|тис./[тис.]numr:f:v_zna:nv:abbr|тис./[тис.]numr:p:v_dav:nv:abbr|тис./[тис.]numr:p:v_mis:nv:abbr|тис./[тис.]numr:p:v_naz:nv:abbr|тис./[тис.]numr:p:v_oru:nv:abbr|тис./[тис.]numr:p:v_rod:nv:abbr|тис./[тис.]numr:p:v_zna:nv:abbr "
         + "-- гривень/[гривня]noun:inanim:p:v_rod",
          tokenizer, tagger);
 
@@ -205,6 +205,7 @@ public class UkrainianTaggerTest {
     assertNotTagged("54–бкх");
 
     TestTools.myAssert("15-ти", "15-ти/[15]numr:p:v_dav:bad|15-ти/[15]numr:p:v_mis:bad|15-ти/[15]numr:p:v_rod:bad", tokenizer, tagger);
+    TestTools.myAssert("20-ці", "20-ці/[20]numr:f:v_dav:bad|20-ці/[20]numr:f:v_mis:bad", tokenizer, tagger);
 
     TestTools.myAssert("100-річчя", "100-річчя/[100-річчя]noun:inanim:n:v_kly|100-річчя/[100-річчя]noun:inanim:n:v_naz|100-річчя/[100-річчя]noun:inanim:n:v_rod|100-річчя/[100-річчя]noun:inanim:n:v_zna|100-річчя/[100-річчя]noun:inanim:p:v_kly|100-річчя/[100-річчя]noun:inanim:p:v_naz|100-річчя/[100-річчя]noun:inanim:p:v_zna", tokenizer, tagger);
     TestTools.myAssert("100-метрівка", "100-метрівка/[100-метрівка]noun:inanim:f:v_naz", tokenizer, tagger);
