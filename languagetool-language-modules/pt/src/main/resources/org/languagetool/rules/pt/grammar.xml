@@ -7924,7 +7924,7 @@ O namorado dela era um ladrão.
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
       <!--      Improved by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-6/13/14 (1-JAN-2022+)      -->
       <!--
-           MARCOAGPINTO started adding antipatterns at the top to affect all subrules - 2022-09-24
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
       -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_verbal</url>
       <antipattern>
@@ -8006,6 +8006,25 @@ O namorado dela era um ladrão.
         <example>[18] Sua população total em 2010 somando todas as etnias era de 66 961.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2022-09-25 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-10-23 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <!-- The first word after a "tod[ao]s" appears as a noun/adjective -->
+      <antipattern>
+        <token regexp='yes'>tod[ao]s</token>
+        <token postag='AQ..P.+|NC.P.+|DA0.P.+' postag_regexp='yes'/> <!-- It seems it also accepts DA.+ -->
+        <token min="0" max="1" postag='AQ..P.+|NC.P.+|SPS00|CC|CS|RG|I|RM|RN|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='RN' postag_regexp='no'/>
+        <token postag='VM...P.+' postag_regexp='yes'/>
+        <example>Todos nós aprovamos o plano.</example>
+        <example>Todos nós vamos ficar orgulhosos do que vocês já sabem fazer!</example>
+        <example>Todos nós somos.</example>
+        <example>Todos nós estávamos quietos.</example>
+        <example>Todos juntos faremos um mundo melhor guiados sempre pelo mestre maior, Hashém.</example>
+        <example>Todos nós certamente concordamos em que ele é um insensato.</example>
+        <example>Todos nós vimos aquilo antes.</example>
+        <example>O conteúdo deste portal pode ser utilizado para todos os fins não comerciais, respeitados e reservados os direitos morais dos autores.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-10-23 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <!-- MARCOAGPINTO 2020-02-16 *START* -->
       <!-- "Variamos os argumentos caso estes representem resultados fracos." -->
