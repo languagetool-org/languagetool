@@ -97,7 +97,7 @@ public class CatalanTagger extends BaseTagger {
       }
       
       //tag all-uppercase proper nouns (ex. FRANÇA)
-      if (isAllUpper) { //l.isEmpty() &&
+      if ((l.isEmpty() || normalizedWord.equals("ARNAU")) && isAllUpper) {
         final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
         List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(firstUpper));
         addTokens(firstupperTaggerTokens, l);
