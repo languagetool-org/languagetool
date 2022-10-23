@@ -7896,6 +7896,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
                         <token postag="N.*" postag_regexp="yes">era</token>
                     </marker>
                 </unify>
+                <token postag="NP.*|_possible_nompropi" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                    <token postag="D[^R].*|A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes">era</token>
+                    </marker>
+                </unify>
                 <token min="0" max="3" postag="&pronom_feble;|RN" postag_regexp="yes"/>
                 <token postag="V.[MSI].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[MSI].*" postag_regexp="yes"/></token>
             </pattern>
