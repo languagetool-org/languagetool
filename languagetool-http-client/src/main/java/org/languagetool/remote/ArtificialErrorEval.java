@@ -156,7 +156,7 @@ public class ArtificialErrorEval {
     File[] languageDirectories = new File(inputFolder).listFiles(File::isDirectory);
     for (File languageDirectory : languageDirectories) {
       langCode = languageDirectory.getName();
-//      if (!langCode.toString().equals("de-DE")) {
+//      if (!langCode.toString().equals("es")) {
 //        continue;
 //      }
       language = Languages.getLanguageForShortCode(langCode);
@@ -303,7 +303,7 @@ public class ArtificialErrorEval {
         countLine++;
         String[] parts = line.split("\t");
         // adjust the numbers 3 and 4 according to the source file
-        if (parts.length < 5) {
+        if (parts.length < columnCorrect && parts.length < columnIncorrect) {
           continue;
         }
         String correctSource = parts[columnCorrect - 1];
