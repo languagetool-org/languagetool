@@ -2885,8 +2885,8 @@
     <rulegroup id='VERBO_HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-04 -->
       <!-- Brazilian Portuguese has some inverted colocations  -->
-      <!-- MARCOAGPINTO: Notice that I created some global antipatterns for this rulegroup because they are common to all subrules.
-                         I started adding the 2022+ antipatterns from the top and not from the bottom.
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
       -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-colocacao-dos-pronomes-atonos/11366</url>
       <short>Erro de colocação pronominal</short>
@@ -3021,6 +3021,22 @@
           <example>Não se preocupe em me entender pois há vezes que nem eu me entendo.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-26 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-10-24 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <antipattern>
+          <token postag='RG' postag_regexp='no'/>
+          <token regexp='yes'>&pronomes_obliquos;</token>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='NC.+|AQ.+|NP.+|VMG0000|VMIP1S0'/>
+          </token>
+          <token postag='VMN0000' postag_regexp='no'/>
+          <example>Agora falando sério, o episódio 21 quase me fez chorar de rir.</example>
+          <example>A atualização de hoje me fez resolver testar esse tema novo do WordPress.</example>
+          <example>Com os clientes, comportavam-se como astutos cortesãos, e quase todos os dias me faziam lembrar o Polônio, de Shakespeare.</example>
+          <example>Você também me fez chorar.</example>
+          <example>Os baixos preços de compra das lavouras do Estado também lhe permitiram financiar a industrialização.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-10-24 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <!-- MARCOAGPINTO 2021-04-30 + 2021-05-01 + 2021-05-04 (17-MAR-2021+) *START* -->
       <!--
