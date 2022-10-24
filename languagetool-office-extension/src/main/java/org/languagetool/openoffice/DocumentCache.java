@@ -1410,10 +1410,10 @@ public class DocumentCache implements Serializable {
   public List<Integer> getChangedUnsupportedParagraphs(FlatParagraphTools flatPara, ResultCache firstResultCache) {
     rwLock.writeLock().lock();
     List<Integer> nChanged = new ArrayList<>();
-    if (flatPara == null) {
-      return nChanged;
-    }
     try {
+      if (flatPara == null) {
+        return nChanged;
+      }
       if (toParaMapping.get(CURSOR_TYPE_SHAPE).isEmpty() && toParaMapping.get(CURSOR_TYPE_TABLE).isEmpty()) {
         return null;
       }
@@ -1424,6 +1424,9 @@ public class DocumentCache implements Serializable {
         }
       }
       List<String> fParas = flatPara.getFlatParagraphs(nParas);
+      if (fParas == null) {
+        return nChanged;
+      }
       for (int i = 0; i < fParas.size(); i++) {
         int nFPara = nParas.get(i);
         if (firstResultCache.getCacheEntry(nFPara) == null || !paragraphs.get(nFPara).equals(fParas.get(i))) {

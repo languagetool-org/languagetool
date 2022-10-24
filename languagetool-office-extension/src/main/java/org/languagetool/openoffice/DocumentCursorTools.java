@@ -1180,22 +1180,24 @@ class DocumentCursorTools {
                     if (xShapeText != null) {
                       XTextCursor xTextCursor = xShapeText.createTextCursor();
                       XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-                      xParagraphCursor.gotoStart(false);
-                      do {
-                        if (nPara == number) {
-                          XMarkingAccess xMarkingAccess = UnoRuntime.queryInterface(XMarkingAccess.class, xParagraphCursor);
-                          if (xMarkingAccess == null) {
-                            MessageHandler.printToLogFile("FlatParagraphTools: addMarksToOneParagraph: xMarkingAccess == null");
-                          } else {
-                            xMarkingAccess.invalidateMarkings(TextMarkupType.PROOFREADING);
+                      if (xParagraphCursor != null) {
+                        xParagraphCursor.gotoStart(false);
+                        do {
+                          if (nPara == number) {
+                            XMarkingAccess xMarkingAccess = UnoRuntime.queryInterface(XMarkingAccess.class, xParagraphCursor);
+                            if (xMarkingAccess == null) {
+                              MessageHandler.printToLogFile("FlatParagraphTools: addMarksToOneParagraph: xMarkingAccess == null");
+                            } else {
+                              xMarkingAccess.invalidateMarkings(TextMarkupType.PROOFREADING);
+                            }
+                            j++;
+                            if (j < paras.get(type).size()) {
+                              number = paras.get(type).get(j);
+                            }
                           }
-                          j++;
-                          if (j < paras.get(type).size()) {
-                            number = paras.get(type).get(j);
-                          }
-                        }
-                        nPara++;
-                      } while (j < paras.get(type).size() && xParagraphCursor.gotoNextParagraph(false));
+                          nPara++;
+                        } while (j < paras.get(type).size() && xParagraphCursor.gotoNextParagraph(false));
+                      }
                     }
                   }
                 }
