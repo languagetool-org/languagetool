@@ -262,11 +262,10 @@ public class Catalan extends Language {
       return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
   
-  
   private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
   private static final Pattern CA_APOSTROPHES = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
-  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtl])['’]([^haeiou])");
+  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtl])['’]([^haeiou“«\"])");
   private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtl])[ea]? ([aeiou])");
   
   @Override
