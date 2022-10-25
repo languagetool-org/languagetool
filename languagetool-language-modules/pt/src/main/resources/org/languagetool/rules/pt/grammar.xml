@@ -42629,13 +42629,26 @@ O namorado dela era um ladrão.
 
     <rulegroup type="locale-violation" id='CURRENCY' name="Posição dos símbolos de moeda: '100£ (£100)">
       <rule>
-        <pattern>
+        <antipattern>
+          <token regexp="yes" skip="-1">&palavras_estrangeiras;</token>
           <token regexp="yes">[\d\,\.]+[$£¥\u8371]</token>
+          <example>Your 300$ Euro demurrage</example>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes" skip="-1">[\d\,\.]+[$£¥€\u8371]</token>
+          <token regexp="yes">&palavras_estrangeiras;</token>
+          <example>20$ dollars a week</example>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[\d\,\.]+[$£¥\u8371]
+            <exception regexp="yes">[$£¥€\u8371][\d\,\.]+</exception>
+            <exception regexp="yes">[\d\,\.]+€</exception></token>
         </pattern>
         <message>O símbolo desta divisa é por norma colocado antes do valor: <suggestion><match no='1' regexp_match="([\d\,\.]+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
         <short>Coloque a divisa no início</short>
         <example correction="£100">Deve <marker>100£</marker>.</example>
         <example correction="£100.00">Deve <marker>100.00£</marker>.</example>
+        <example>Houve uma taxa de cancelamento de 150€ no dia da partida.</example>
       </rule>
       <rule>
         <pattern>
