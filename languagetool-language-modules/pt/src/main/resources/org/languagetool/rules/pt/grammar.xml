@@ -144,7 +144,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!ENTITY nomes_de_instituicoes_final "Productions|House|TV|Partnership|University|Hotel|Films|Designs?|Society|Records|Entertainment|Pictures|Company|Studios">
 
-    <!ENTITY livros_biblicos "Salmos?|Alcorão|Gênesis|Êxodo|Levítico|Deuteronômio|Josué|Juízes|Rute|Samuel|Reis|Crônicas|Esdras|Neemias|Ester|Jó|Salmos|Provérbios|Eclesiastes|Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|Oseias|Joel|Amós|Obadias|Jonas|Miqueias|Naum|Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Tobias|Judite|Macabeus|Sabedoria|Eclesiástico|Baruque|Mateus|Marcos|Lucas|João|Apóstolos|Romanos|Coríntios|Gálatas|Efésios|Filipenses|Colossenses|Tessalonicenses|Timóteo|Tito|Filémon|Hebreus|Tiago|Pedro|Judas|Apocalipse">
+    <!ENTITY livros_biblicos "Atos?|Salmos?|Alcorão|Gênesis|Êxodo|Levítico|Deuteronômio|Josué|Juízes|Rute|Samuel|Reis|Crônicas|Esdras|Neemias|Ester|Jó|Salmos|Provérbios|Eclesiastes|Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|Oseias|Joel|Amós|Obadias|Jonas|Miqueias|Naum|Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Tobias|Judite|Macabeus|Sabedoria|Eclesiástico|Baruque|Mateus|Marcos|Lucas|João|Apóstolos|Romanos|Coríntios|Gálatas|Efésios|Filipenses|Colossenses|Tessalonicenses|Timóteo|Tito|Filémon|Hebreus|Tiago|Pedro|Judas|Apocalipse">
+
+    <!ENTITY livros_biblicos_abrev "Co|Cr|Jo|Pe|Rs|Sm|Tm|Ts|Ag|Am|Ap|At|Cl|Ct|Dn|Dt|Ec|Ed|Ef|Ex|Ez|Fm|Fp|Gl|Gn|Hb|Hc|Is|Jd|Jl|Jn|Jr|Js|Jz|Lc|Lm|Lv|Mc|Ml|Mq|Mt|Na|Ne|Nm|Ob|Os|Pv|Rm|Rt|Sf|Sl|Tg|Tt|Zc">
 
     <!ENTITY linguagem_internet "vcs?|pq|[qpnñ]|eh|blz|abs|bjs|omg|wtf|qn[dt]|q[td]|kk|pf|tbm?">
 
@@ -42759,14 +42761,22 @@ O namorado dela era um ladrão.
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/sobre-a-escrita-dos-numeros-das-horas-e-de-outras-representacoes/3267</url>
       <short>Preferência tipográfica</short>
       <rule>
-        <pattern>
+        <antipattern>
+          <token regexp="yes">&livros_biblicos;|&livros_biblicos_abrev;</token>
           <token regexp="yes">[012]?\d[,\.][012345]\d[,\.][012345]\d([,.]\d+)?</token>
+          <example>Dt 18.22; At 3.22,23.</example>
+          <example>Em Romanos 1.29,30, há uma lista...</example>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[012]?\d[,\.][012345]\d[,\.][012345]\d([,.]\d+)?
+            <exception regexp="yes">[012]?[0123456789]\.[01]?[123456789]\.\d{2,4}</exception></token>
         </pattern>
         <message>Em expressões de horas, utilize dois pontos.</message>
         <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)[,\.](.+)' regexp_replace='$1:$2:$3'/></suggestion>
         <suggestion><match no='1' regexp_match='(\d+)[,\.](\d+)[,\.](.+)' regexp_replace='$1&#160;h&#160;$2&#160;min&#160;$3&#160;s'/></suggestion>
         <example correction="10:00:43|10&#160;h&#160;00&#160;min&#160;43&#160;s">Às <marker>10.00.43</marker>.</example>
         <example correction="10:00:43,5|10&#160;h&#160;00&#160;min&#160;43,5&#160;s">Às <marker>10.00.43,5</marker>.</example>
+        <example>22.04.1992</example>
       </rule>
       <rule>
         <pattern>
