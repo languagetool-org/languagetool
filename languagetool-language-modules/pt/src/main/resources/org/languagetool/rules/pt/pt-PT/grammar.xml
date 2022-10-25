@@ -2237,7 +2237,21 @@
     <rulegroup id="POSSESSIVE_WITHOUT_ARTICLE" name="Determinante possessivo sem artigo">
       <!-- Improved by Tiago F. Santos, Portuguese rule, 2016-10-18 	-->
       <!--     Base rule id="A_SUA" name="a sua" by Marco Pinto	-->
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
+
+        <!-- MARCOAGPINTO 2022-10-25 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- zero hits in 600 000 sentences -->
+        <antipattern>
+          <token postag='PD.+' postag_regexp='yes'/>
+          <token postag='DP.+' postag_regexp='yes'/>
+          <token postag='SPS00' postag_regexp='no'/>
+          <example>Estão dispostos a retomar tudo aquilo seu por direito, com sinceridade e lealdade.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-10-25 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <rule>
         <antipattern>
           <token postag='N.FS.+' postag_regexp='yes'>
