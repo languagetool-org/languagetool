@@ -9311,6 +9311,14 @@ O namorado dela era um ladrão.
           <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
           <example>A resposta para todas essas perguntas é não.</example>
         </antipattern>
+        <antipattern>
+          <token regexp="yes">tod[oa]s</token>
+          <token min="0" regexp="yes">[nv]ós</token>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([12]P|[123]S).' postag_regexp='yes'/>
+          <token>Todos somos pobres</token>
+        </antipattern>
         <pattern>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
