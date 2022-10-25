@@ -18215,6 +18215,40 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- COMO É VISTO conforme visto -->
+    <rule id='COMO_É_CONFORME' name="Simplificar: Como é → Conforme" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-07 (25-JUL-2022+) -->
+      <!--
+      A soma total dá 10, como é visto na figura seguinte. → A soma total dá 10, conforme visto na figura seguinte.
+      A soma total dá 20, como é observável na figura a seguir. → A soma total dá 20, conforme observável na figura a seguir.
+      A soma total dá 20, como é observável abaixo. → A soma total dá 20, conforme observável abaixo.
+      -->
+      <pattern>
+        <marker>
+          <token>como
+          <exception scope="previous" postag_regexp='no' postag='RG'/>
+          </token>
+          <token regexp='yes'>é|são</token>
+        </marker>
+        <token postag='NC.+|AQ.+|VMP00.+' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='VMN0000'/>
+        </token>
+        <or>
+          <token regexp='yes'>em|n[ao]s?|por</token>
+          <token postag='RG' postag_regexp='no'> <!-- "abaixo" ("conforme visto abaixo") -->
+            <exception regexp='no'>aqui</exception>
+          </token>
+        </or>
+        <token><exception postag_regexp='yes' postag='NP.+|PP.+'/></token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>conforme</suggestion>
+      <example correction="conforme">A soma total dá 10,<marker>como é</marker> visto na figura seguinte.</example>
+      <example correction="conforme">A soma total dá 20,<marker>como é</marker> observável na figura a seguir.</example>
+      <example correction="conforme">A soma total dá 20,<marker>como é</marker> observável abaixo.</example>
+    </rule>
+
+
     <!-- ISSO ACONTECE DESDE A ALTURA isso acontece desde então -->
     <rule id='DESDE_A_ALTURA_DESDE_ENTÃO' name="Simplificar: Desde a altura → desde então" type='style'>
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-07 (25-JUL-2022+) -->
