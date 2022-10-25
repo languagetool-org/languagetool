@@ -9162,12 +9162,62 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="DA.*"/>
     </rule>
+    <rulegroup id="elimina_alguns_balears" name="elimina verb balear en alguns casos">
+        <rule>
+            <!-- Si som en una varietat no balear, aquesta regla és molt clara.
+            En canvi, si som en balear, podria ser errònia. -->
+            <pattern>
+                <token postag_regexp="yes" postag="D.*"/>
+                <marker>
+                    <and>
+                        <token postag="VMIP1S0B"/>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VMIP1S0B"/>
+        </rule>
+        <rule>
+            <!-- Si som en una varietat no balear, aquesta regla és molt clara.
+            En canvi, si som en balear, podria ser errònia. -->
+            <pattern>
+                <!-- error en: em -> hem -->
+                <token>em</token>
+                <marker>
+                    <and>
+                        <token postag="VMIP1S0B"/>
+                        <token postag="V.P.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VMIP1S0B"/>
+        </rule>
+    </rulegroup>
+    <rule id="en_practica" name="posar en pràctica">
+        <pattern>
+            <token inflected="yes" regexp="yes">posar|tenir</token>
+            <marker>
+                <token postag="SPS00">en</token>
+            </marker>
+            <token regexp="yes" inflected="yes">marxa|pràctica|practica|compte</token>
+        </pattern>
+        <disambig action="remove" postag="P.*"/>
+    </rule>
     <!--en l'obra, en la causa, en(s) el porten -->
     <!-- pronom personal + pronom personal + verb -->
     <rulegroup id="PPdos_VERB" name="dos o més pronoms personals i verb">
         <antipattern>
             <token>en</token>
             <token regexp="yes">la|el|l'|els|les|en</token>
+        </antipattern>
+        <antipattern>
+            <token postag="SPS00"/>
+            <!-- error: vos -> vós -->
+            <token>vos</token>
+        </antipattern>
+        <antipattern>
+            <token>te</token>
+            <token>en</token>
         </antipattern>
         <rule id="dosPP_VERB" name="dos pronoms personals més verb">
             <antipattern>
@@ -12858,20 +12908,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- estudiar concordances de persona i nombre!!!!!!<exception postag="D.*" postag_regexp="yes"/> -->
         <!-- se sent sola; s'havia fet.. com tractar: el metges, es fan... -->
         <!--creat per "ens ensenya". Excep: en complexes perspectives-->
-        <rule>
-            <!-- Si som en una varietat no balear, aquesta regla és molt clara.
-            En canvi, si som en balear, podria ser errònia. -->
-            <pattern>
-                <token postag_regexp="yes" postag="D.*"/>
-                <marker>
-                    <and>
-                        <token postag="VMIP1S0B"/>
-                        <token postag="NC.*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-            </pattern>
-            <disambig action="remove" postag="VMIP1S0B"/>
-        </rule>
         <rule>
             <pattern>
                 <marker>
