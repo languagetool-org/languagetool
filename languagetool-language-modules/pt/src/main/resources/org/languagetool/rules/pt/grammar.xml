@@ -42399,10 +42399,11 @@ O namorado dela era um ladrão.
       <!-- Based on Catalan grammar.xml, by Tiago F. Santos on 11-02-2017 -->
       <regexp>[`´]</regexp>
       <message>Carácter incorreto. Utilize antes o apóstrofe ou reveja a acentuação.</message>
+      <suggestion>'</suggestion>
       <suggestion>’</suggestion>
       <suggestion/>
       <short>Carácter incorreto</short>
-      <example correction="’|">Não e<marker>´</marker> comum encontrar erros deste tipo.</example>
+      <example correction="'|’|">Não e<marker>´</marker> comum encontrar erros deste tipo.</example>
     </rule>
 
     <rule id="SPACE_INDENTATION" name="Indentação com espaços" default='off'>
@@ -50754,7 +50755,10 @@ O namorado dela era um ladrão.
         <token regexp='yes'>\p{L}+
           <exception regexp='yes'>\p{Lu}\p{Ll}+|\p{Lu}\p{Ll}\p{Lu}+|McDonald|America|dog|&palavras_estrangeiras;|Rupaul|\.com</exception>
         </token>
+       <or>
+        <token>´</token>
         <token spacebefore='no' postag='_QUOT'/>
+       </or>
         <token spacebefore='no'>s</token>
       </pattern>
       <message>Possível erro de digitação.</message>
