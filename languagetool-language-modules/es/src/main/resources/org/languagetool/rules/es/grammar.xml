@@ -12847,7 +12847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">...+<exception>cercano</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">El prefijo 'super-' se escribe junto.</message>
-                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)ú" regexp_replace="u" case_conversion="preserve"/><match no="3" regexp_match="(.+)" regexp_replace="$1" case_conversion="alllower"/></suggestion>
                 <example correction="superbuenas">Son <marker>súper buenas</marker></example>
                 <example correction="superintendente">Él es el <marker>super-intendente</marker></example>
                 <example>Lo pasamos súper en la fiesta.</example>
@@ -12871,7 +12871,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="A.*|V.P.*" postag_regexp="yes"><exception regexp="yes">super|súper|cercano</exception></token>
                 </pattern>
                 <message>Como prefijo de un adjetivo, 'super-' se escribe junto, aunque la palabra resultante no esté en el diccionario.</message>
-                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)ú" regexp_replace="u" case_conversion="preserve"/><match no="3" regexp_match="(.+)" regexp_replace="$1" case_conversion="alllower"/></suggestion>
                 <example correction="superimportantes">Son <marker>super importantes</marker></example>
                 <example>Es una super gran oportunidad.</example>
             </rule>
@@ -12882,7 +12882,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes"><exception regexp="yes">\d+|Nintendo</exception></token>
                 </pattern>
                 <message>Como prefijo, 'super-' se escribe junto, aunque la palabra resultante no esté en el diccionario.</message>
-                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)ú" regexp_replace="u" case_conversion="preserve"/><match no="3" regexp_match="(.+)" regexp_replace="$1" case_conversion="alllower"/></suggestion>
                 <example correction="supercamino">Son un <marker>super camino</marker></example>
                 <example>En la Super Bowl.</example>
                 <example>Super-8.</example>
