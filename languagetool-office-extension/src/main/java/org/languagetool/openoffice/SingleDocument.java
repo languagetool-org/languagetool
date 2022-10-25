@@ -574,6 +574,27 @@ class SingleDocument {
     }
   }
   
+  /**
+   * Remove a special Proofreading error from all caches of document
+   */
+  public void removeRuleError(String ruleId) {
+    List<Integer> allChanged = new ArrayList<>();
+    for (ResultCache cache : paragraphsCache) {
+      List<Integer> changed = cache.removeRuleError(ruleId);
+      if (changed.size() > 0) {
+        for (int n : changed) {
+          if (!allChanged.contains(n)) {
+            allChanged.add(n);
+          }
+        }
+      }
+    }
+    if (allChanged.size() > 0) {
+      allChanged.sort(null);
+      remarkChangedParagraphs(allChanged, true);
+    }
+  }
+  
   /** 
    * Open new flat paragraph tools or initialize them again
    */

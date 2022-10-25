@@ -457,7 +457,7 @@ public class TextLevelCheckQueue {
      */
     @Override
     public boolean equals(Object o) {
-      if (o == null || !(o instanceof QueueEntry)) {
+      if (o == null || !(o instanceof QueueEntry) || nStart == null) {
         return false;
       }
       QueueEntry e = (QueueEntry) o;
@@ -472,7 +472,7 @@ public class TextLevelCheckQueue {
      * entry is equal but number of cache is smaller then new entry e
      */
     public boolean isEqualButSmallerCacheNumber(QueueEntry e) {
-      if (e == null || nStart.type != e.nStart.type) {
+      if (e == null || nStart == null || nStart.type != e.nStart.type) {
         return false;
       }
       if (nStart.number >= e.nStart.number && nEnd.number <= e.nEnd.number && nCache < e.nCache && docId.equals(e.docId)) {
@@ -485,7 +485,7 @@ public class TextLevelCheckQueue {
      * entry is obsolete and should be replaced by new entry e
      */
     public boolean isObsolete(QueueEntry e) {
-      if (e == null || nCheck != e.nCheck || nCache != e.nCache || nStart.type != e.nStart.type || docId == null || !docId.equals(e.docId)) {
+      if (e == null || nStart == null || nCheck != e.nCheck || nCache != e.nCache || nStart.type != e.nStart.type || docId == null || !docId.equals(e.docId)) {
         return false;
       }
       if (nCheck < -1 || (nCheck == -1 && e.nStart.number >= nStart.number && e.nStart.number <= nEnd.number) 

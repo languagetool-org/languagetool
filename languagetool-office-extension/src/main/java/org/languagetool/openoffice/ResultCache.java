@@ -354,6 +354,42 @@ class ResultCache implements Serializable {
   }
 
   /**
+   * Remove a special Proofreading error from cache
+   * Returns all changed paragraphs as list
+   */
+  List<Integer> removeRuleError(String ruleId) {
+    rwLock.writeLock().lock();
+    try {
+      List<Integer> changed = new ArrayList<>();
+      Set<Integer> keySet = entries.keySet();
+      for (int n : keySet) {
+        CacheEntry entry = entries.get(n);
+        SingleProofreadingError[] eArray = entry.getErrorArray();
+        int nErr = 0;
+        for (SingleProofreadingError sError : eArray) {
+          if (sError.aRuleIdentifier.equals(ruleId)) {
+            nErr++;
+          }
+        }
+        if (nErr > 0) {
+          changed.add(n);
+          SingleProofreadingError[] newArray = new SingleProofreadingError[eArray.length - nErr];
+          for (int i = 0, j = 0; i < eArray.length && j < newArray.length; i++) {
+            if (!eArray[i].aRuleIdentifier.equals(ruleId)) {
+              newArray[j] = eArray[i];
+              j++;
+            }
+          }
+          entries.put(n, new CacheEntry(entry.nextSentencePositions, newArray));
+        }
+      }
+      return changed;
+    } finally {
+      rwLock.writeLock().unlock();
+    }
+  }
+
+  /**
    * get number of paragraphs stored in cache
    */
   int getNumberOfParas() {

@@ -2089,7 +2089,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         documents.getLtDictionary().addIgnoredWord(wrongWord);
       } else {
         documents.ignoreRule(error.aRuleIdentifier, locale);
-        documents.initDocuments();
+        documents.initDocuments(true);
         documents.resetDocument();
         doInit = true;
       }
@@ -2335,7 +2335,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           } else {
             Locale locale = docCache.getFlatParagraphLocale(yUndo);
             documents.removeDisabledRule(OfficeTools.localeToString(locale), lastUndo.ruleId);
-            documents.initDocuments();
+            documents.initDocuments(true);
             documents.resetDocument();
             doInit = true;
           }

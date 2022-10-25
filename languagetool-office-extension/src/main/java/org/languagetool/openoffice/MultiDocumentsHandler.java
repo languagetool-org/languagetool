@@ -208,7 +208,7 @@ public class MultiDocumentsHandler {
         lt = initLanguageTool(!isSameLanguage);
         initCheck(lt);
         if (initDocs) {
-          initDocuments();
+          initDocuments(true);
         }
       }
     }
@@ -937,7 +937,7 @@ public class MultiDocumentsHandler {
   /**
    * Initialize single documents, prepare text level rules and start queue
    */
-  void initDocuments() {
+  void initDocuments(boolean resetCache) {
     setConfigValues(config, lt);
     String langCode = lt.getLanguage().getShortCodeWithCountryAndVariant();
     sortedTextRules = new SortedTextRules(lt, config, getDisabledRules(langCode));
@@ -948,7 +948,9 @@ public class MultiDocumentsHandler {
         textLevelQueue.setReset();
       }
     }
-    resetResultCaches();
+    if (resetCache) {
+      resetResultCaches();
+    }
   }
   
   /**
@@ -1160,6 +1162,15 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * Remove a special Proofreading error from all caches
+   */
+  private void removeRuleError(String ruleId) {
+    for (SingleDocument document : documents) {
+      document.removeRuleError(ruleId);
+    }
+  }
+  
+  /**
    * Deactivate a rule by rule iD
    */
   public void deactivateRule(String ruleId, String langcode, boolean reactivate) {
@@ -1171,13 +1182,17 @@ public class MultiDocumentsHandler {
         if (reactivate) {
           confg.removeDisabledRuleIds(ruleIds);
           removeDisabledRule(langcode, ruleId);
+          confg.saveConfiguration(docLanguage);
+          initDocuments(true);
+          resetDocument();
         } else {
           confg.addDisabledRuleIds(ruleIds);
           addDisabledRule(langcode, ruleId);
+          confg.saveConfiguration(docLanguage);
+          lt.disableRule(ruleId);
+          initDocuments(false);
+          removeRuleError(ruleId);
         }
-        confg.saveConfiguration(docLanguage);
-        initDocuments();
-        resetDocument();
         if (debugMode) {
           MessageHandler.printToLogFile("MultiDocumentsHandler: deactivateRule: Rule " + (reactivate ? "enabled: " : "disabled: ") 
               + (ruleId == null ? "null" : ruleId));
@@ -1424,7 +1439,6 @@ public class MultiDocumentsHandler {
         ignoreOnce();
       } else if ("deactivateRule".equals(sEvent)) {
         deactivateRule();
-        resetDocument();
       } else if (sEvent.startsWith("activateRule_")) {
         String ruleId = sEvent.substring(13);
         activateRule(ruleId);
@@ -1598,7 +1612,7 @@ public class MultiDocumentsHandler {
         extraRemoteRules.clear();
         lt = initLanguageTool(true);
         initCheck(lt);
-        initDocuments();
+        initDocuments(true);
         setJavaLookAndFeel();
         return true;
       } else {
