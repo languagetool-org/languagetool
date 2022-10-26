@@ -12846,7 +12846,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">-</token>
                     <token regexp="yes">...+<exception>cercano</exception></token>
                 </pattern>
-                <message suppress_misspelled="yes">El prefijo 'super-' se escribe junto.</message>
+                <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>El prefijo 'super-' se escribe junto.</message>
                 <suggestion><match no="1" regexp_match="(?iu)ú" regexp_replace="u" case_conversion="preserve"/><match no="3" regexp_match="(.+)" regexp_replace="$1" case_conversion="alllower"/></suggestion>
                 <example correction="superbuenas">Son <marker>súper buenas</marker></example>
                 <example correction="superintendente">Él es el <marker>super-intendente</marker></example>
