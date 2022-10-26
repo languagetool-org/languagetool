@@ -61,6 +61,12 @@ public class CompoundInfinitivRule extends Rule {
       token("sicher"),
       token("zu")
     ),
+    Arrays.asList(
+      token("Gedanken"),
+      tokenRegex("dazu|darüber"),
+      token("zu"),
+      token("machen")
+    ),
     Arrays.asList(  // "um dort die Nacht über zu stehen."
       tokenRegex("Spiel|Tag|Nacht|Morgen|Nachmittag|Abend|Zeit|.+zeit"),
       token("über"),
