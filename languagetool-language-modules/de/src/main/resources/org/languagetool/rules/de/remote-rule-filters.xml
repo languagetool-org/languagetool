@@ -156,6 +156,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ich bin ein Satz &#8291; <marker>Ich</marker> bin noch ein Satz.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token case_sensitive="yes">Stand</token>
+                    </marker>
+                    <token>jetzt</token>
+                    <token>,</token>
+                </pattern>
+                <example correction="">Ich bin, <marker>Stand</marker> jetzt, unzufrieden damit.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
             <rule><!-- avoid loop MC_2 w/ FEHLERHAFTES_KOMMA_ALLG[1] -->
