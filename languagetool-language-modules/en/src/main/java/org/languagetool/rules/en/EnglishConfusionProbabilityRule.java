@@ -493,7 +493,17 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "people from there", // vs their
       "as you well know", // vs known
       "as they well know", // vs known
-      "as we well know" // vs known
+      "as we well know", // vs known
+      "close to god", // vs good
+      "close with god", // vs good
+      "see god when", // vs good
+      "in a god", // vs good
+      "he was a god", // vs good
+      "she was a god", // vs good
+      "she gave god", // vs good
+      "he gave god", // vs good
+      "believed in god", // vs good
+      "faith with god" // vs good
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(

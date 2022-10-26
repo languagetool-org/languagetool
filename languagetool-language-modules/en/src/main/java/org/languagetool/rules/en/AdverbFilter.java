@@ -534,6 +534,8 @@ public class AdverbFilter extends RuleFilter {
     put("brusquely", "brusque");
     put("humbly", "humble");
     put("promptly", "prompt");
+    put("identically", "identical");
+    put("militarily", "military");
     put("neatly", "neat");
     put("insanely", "insane");
     put("analytically", "analytical");
