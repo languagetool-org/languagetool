@@ -33584,6 +33584,42 @@ steenwijk;Steenwijk
                 <example correction="word|wordt">Ik <marker>wort</marker> gek.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WORD_ZONDER_IK" name="word zonder ik" default="temp_off">
+            <rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1">ik</token><token postag="SENT_END"/></antipattern>
+                <pattern>
+                    <!-- voorkom (Microsoft) Word -->
+                    <marker>
+                        <token case_sensitive="yes">word</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">je|jij</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>wordt</suggestion>.</message>
+                <example correction="wordt">Het <marker>word</marker> vaak fout gedaan.</example>
+                <example>Dan <marker>word</marker> je gecorrigeerd.</example>
+                <example>Ik loop weg en <marker>word</marker> gemist.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik" default="temp_off">
+            <rule>
+                <antipattern><token>van</token><token>dien</token></antipattern>
+                <antipattern><token>in</token><token>zwijm</token></antipattern>
+                <antipattern><token>op</token><token>zoek</token></antipattern>
+                <antipattern><token postag_regexp="yes" postag="SENT_START|UNKNOWN"/><token postag="WKW:TGW:1EP"/></antipattern>
+                <antipattern><token regexp="yes">en|of|maar|dus|ben|[,;:"'‘]</token><token postag="WKW:TGW:1EP"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">ik(zelf)?</token><token postag="SENT_END"/></antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
+                    </marker>
+                    <token negate="yes" regexp="yes">je|jij</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>. Of er is nog iets anders mis, zoals een ontbrekend leesteken of een spatie- of spelfout.</message>
+                <example correction="gaat">Het <marker>ga</marker> vaak fout.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="NAAR_BET" name="Naar bet → naar het of naar bed">
             <rule>
                 <pattern>
@@ -43838,6 +43874,36 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
         -->
+        <rulegroup id="BEHOUD_ZICH" name="Voor zich past geen 1e persoon" default="temp_off">
+            <!-- R. Baars 2022-10-21
+            Helaas zijn sommige vormen ook een znw, dat zorgt voor veel uitzonderingen.
+            -->
+            <antipattern>
+                <token>op</token>
+                <token>zich</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig</exception></token>
+                    </marker>
+                    <token>zich</token>
+                </pattern>
+                <message>U bedoelt vast :<suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>.</message>
+                <example correction="behoedt">Hij <marker>behoed</marker> zich.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zich</token>
+                    <marker>
+                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*|BNW:STL:ONV"/><exception regexp="yes">men|bereid|beter|indien|maar|minder</exception></token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast :<suggestion><match no="2" postag="WKW:TGW:3EP"/></suggestion>.</message>
+                <example correction="behoedt">ALs hij zich <marker>behoed</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="DAT_IK_HOUD_NIET_VAN" name="verkeerde woordvolgorde" >
             <rule>
                 <pattern>
