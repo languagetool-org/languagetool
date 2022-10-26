@@ -3275,6 +3275,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="Master- und Bachelorarbeit" id="MASTER_UND_BACHELORARBEIT">
+        <pattern>
+            <marker>
+                <token regexp="yes">(Master|Bachelor)-</token>
+            </marker>
+            <token regexp='yes'>und|oder|&amp;|\/|beziehungsweise|bzw|sowie|noch|\+|plus</token>
+            <token min="0">.</token>
+            <token regexp="yes">(Master|Bachelor).+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
     <rule name="in- und ausländisch" id="IN_UND_AUSLAENDISCH">
         <pattern>
