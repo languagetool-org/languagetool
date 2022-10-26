@@ -63,13 +63,18 @@ public class CompoundInfinitivRule extends Rule {
       token("sicher"),
       token("zu")
     ),
-    Arrays.asList(
+    Arrays.asList(  // "Der diensthabende Kollege hatte ganz schön zu tun."
+      token("ganz"),
+      token("schön"),
+      token("zu")
+    ),
+    Arrays.asList(  // "Fang dort an zu lesen, wo du aufgehört hast."
       tokenRegex("fang|fängst|fängt|fangt|fangen|fing|fingen"),
       posRegex("ADV.*"),
       token("an"),
       token("zu")
     ),
-    Arrays.asList(
+    Arrays.asList(  // "Hab keine Lust, mir Gedanken darüber zu machen."
       token("Gedanken"),
       tokenRegex("dazu|darüber"),
       token("zu"),

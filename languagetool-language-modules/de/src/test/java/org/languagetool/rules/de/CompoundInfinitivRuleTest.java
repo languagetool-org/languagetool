@@ -59,6 +59,7 @@ public class CompoundInfinitivRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Hab keine Lust, mir Gedanken darüber zu machen.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Fang an zu lesen, wo du aufgehört hast.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Fang dort an zu lesen, wo du aufgehört hast.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Der diensthabende Kollege hatte ganz schön zu tun.")).length, is(0));
   }
 
 }
