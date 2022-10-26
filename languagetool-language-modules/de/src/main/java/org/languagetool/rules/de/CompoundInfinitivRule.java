@@ -28,6 +28,8 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 import java.io.IOException;
@@ -59,6 +61,12 @@ public class CompoundInfinitivRule extends Rule {
       token("auf"),
       token("Nummer"),
       token("sicher"),
+      token("zu")
+    ),
+    Arrays.asList(
+      tokenRegex("fang|fängst|fängt|fangt|fangen|fing|fingen"),
+      posRegex("ADV.*"),
+      token("an"),
       token("zu")
     ),
     Arrays.asList(
