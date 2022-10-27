@@ -292,7 +292,8 @@ public class Catalan extends Language {
   private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
   private static final Pattern CA_APOSTROPHES = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
   private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtls])['’]([^haeiouáàèéíòóú“«\"])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtl])[ea]? ([aeiou])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtl])[e]? ([aeiou])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeo])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   public String adaptContractionsApostrophes (String s) {
     Matcher m1 = CA_CONTRACTIONS.matcher(s);
@@ -303,6 +304,8 @@ public class Catalan extends Language {
     s = m3.replaceAll("e$1 $2");
     Matcher m4 = CA_APOSTROPHES3.matcher(s);
     s = m4.replaceAll("$1'$2");
+    Matcher m5 = CA_APOSTROPHES4.matcher(s);
+    s = m5.replaceAll("$1'$2");
     return s;
   }
 }

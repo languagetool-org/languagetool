@@ -10,8 +10,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY masculi_inusual "policia|justícia|part[123]">
-    <!ENTITY nom_o_verb "angoixa|coma|boxa|taula|suïcida|revés|revolta|predomini|revista|debat|mofa|força|crani|imperi|consum|forma|revenja|col·loqui|poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta|veu|copa|extermini|dona|esquerra|roba|bot">
-    <!ENTITY nom_seguitde_nompropi "poble|copa|casa|abat|informe|senyor|estàndard|tipus|adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema|revista|marca|cable">
+    <!ENTITY nom_o_verb "centre|angoixa|coma|boxa|taula|suïcida|revés|revolta|predomini|revista|debat|mofa|força|crani|imperi|consum|forma|revenja|col·loqui|poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta|veu|copa|extermini|dona|esquerra|roba|bot">
+    <!ENTITY nom_seguitde_nompropi "centre|poble|copa|casa|abat|informe|senyor|estàndard|tipus|adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema|revista|marca|cable">
     <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
@@ -2378,12 +2378,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="sufixos_ortografia" name="ignora l'ortografia de sufixos">
         <pattern>
-            <token spacebefore="yes">-</token>
+            <token>-</token>
             <marker>
-                <token regexp="yes" spacebefore="no">indre|ldre|ns|scs|scos|igs|ix|eix|é|ena|è|it|ert</token>
+                <token regexp="yes" spacebefore="no">indre|ldre|ns|scs|scos|igs|ix|eix|é|ena|è|it|ert|ir|ar|er|re</token>
             </marker>
         </pattern>
-        <disambig action="ignore_spelling"/>
+        <disambig action="immunize"/>
     </rule>
     <rule id="no_ij" name="no interjecció">
         <pattern>
@@ -4079,13 +4079,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <!-- error en: te -> té -->
             <token>te</token>
-            <token>la</token>
+            <token regexp="yes">la|l'</token>
             <marker>
                 <!-- generalitzar? -->
-                <token postag="NCFS000" regexp="yes">culpa|pell</token>
+                <token postag="NC.S000" postag_regexp="yes" regexp="yes">culpa|pell|avantatge</token>
             </marker>
         </pattern>
-        <disambig action="filter" postag="NCFS000"/>
+        <disambig action="filter" postag="NC.S000"/>
     </rule>
     <rule id="espes" name="espès (no participi)">
         <pattern>
@@ -4124,6 +4124,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
     </rulegroup>
     <rulegroup id="noms_aposicio" name="noms en aposició">
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">salsa|espagueti|macarró|pasta</token>
+                <marker>
+                    <token>carbonara</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
         <rule>
             <pattern>
                 <token regexp="yes" inflected="yes">pantalla|televisió|televisor|bombeta</token>
