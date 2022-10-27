@@ -891,7 +891,7 @@ public abstract class Language {
     return getShortCodeWithCountryAndVariant().hashCode();
   }
   
-  /*
+  /**
    * @since 5.1 
    * Some rules contain the field min_matches to check repeated patterns 
    */
@@ -899,9 +899,20 @@ public abstract class Language {
     return false;
   }
   
-  /** @since 5.6 */
+  /** 
+   * @since 5.6 
+   * Adjust suggestions depending on the enabled rules
+   */
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
 	  return ruleMatches;
+  }
+  
+  /**
+   * @since 6.0 
+   * Adjust suggestions always 
+   */
+  public List<String> adaptSuggestions(List<String> l) {
+    return l;
   }
   
 }

@@ -275,7 +275,7 @@ public class Catalan extends Language {
         if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
           s = s.replace("'", "’");
         }
-        s = adaptContractionsApostrophes(s);
+        //s = adaptContractionsApostrophes(s);
         Matcher m5 = CA_OLD_DIACRITICS.matcher(s);
         if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
           // skip this suggestion with traditional diacritics
@@ -289,13 +289,22 @@ public class Catalan extends Language {
     return newRuleMatches;
   }
   
+  @Override
+  public List<String> adaptSuggestions(List<String> l) {
+    List<String> adjustedSuggestions = new ArrayList<>();
+    for (String s : l) {
+      adjustedSuggestions.add(adaptContractionsApostrophes(s));
+    }
+    return adjustedSuggestions;
+  }
+  
   private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
   private static final Pattern CA_APOSTROPHES = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
   private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtls])['’]([^haeiouáàèéíòóú“«\"])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtl])[e]? ([aeiou])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeo])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
-  public String adaptContractionsApostrophes (String s) {
+  private String adaptContractionsApostrophes (String s) {
     Matcher m1 = CA_CONTRACTIONS.matcher(s);
     s = m1.replaceAll("$1$2");
     Matcher m2 = CA_APOSTROPHES.matcher(s);
@@ -308,4 +317,6 @@ public class Catalan extends Language {
     s = m5.replaceAll("$1'$2");
     return s;
   }
+  
+  
 }

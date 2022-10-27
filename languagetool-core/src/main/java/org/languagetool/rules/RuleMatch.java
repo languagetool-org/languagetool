@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.ApiCleanupNeeded;
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleMatcher;
 import org.languagetool.tools.StringTools;
@@ -397,8 +399,15 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public void setSuggestedReplacements(List<String> replacements) {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
     suggestionsComputed = true;
+    List<String> adjustedReplacements = new ArrayList<>();
+    if (rule instanceof AbstractPatternRule) {
+      Language lang = ((AbstractPatternRule) rule).getLanguage();
+      adjustedReplacements = lang.adaptSuggestions(replacements);
+    } else {
+      adjustedReplacements = replacements;
+    }
     suggestedReplacements = Suppliers.ofInstance(
-      replacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
+        adjustedReplacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
     );
   }
 
