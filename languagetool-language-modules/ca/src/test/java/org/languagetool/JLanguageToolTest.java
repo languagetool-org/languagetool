@@ -23,7 +23,9 @@ import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -62,6 +64,15 @@ public class JLanguageToolTest {
     assertEquals(lang.toAdvancedTypography("És \"molt 'important'\"."), "És «molt ‘important’».");
     assertEquals(lang.toAdvancedTypography("Si és del v. 'haver'."), "Si és del v.\u00a0‘haver’.");
     assertEquals(lang.toAdvancedTypography("Amb el so de 's'."), "Amb el so de ‘s’.");
+    
+    assertEquals(((Catalan) lang).adaptContractionsApostrophes("l'IEC"), "l'IEC");
+    assertEquals(((Catalan) lang).adaptContractionsApostrophes("l'Albert"), "l'Albert");
+    assertEquals(((Catalan) lang).adaptContractionsApostrophes("l'«Albert»"), "l'«Albert»");
+    assertEquals(((Catalan) lang).adaptContractionsApostrophes("l’«Albert»"), "l’«Albert»");
+    assertEquals(((Catalan) lang).adaptContractionsApostrophes("l'\"Albert\""), "l'\"Albert\"");
+    assertEquals(((Catalan) lang).adaptContractionsApostrophes("m'tancava"), "em tancava");
+    assertEquals(((Catalan) lang).adaptContractionsApostrophes("s'tancava"), "es tancava");
+    
   }
   
 }

@@ -264,10 +264,6 @@ public class Catalan extends Language {
   }
   
   private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
-  private static final Pattern CA_APOSTROPHES = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
-  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtl])['’]([^haeiou“«\"])");
-  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtl])[ea]? ([aeiou])");
   
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
@@ -279,14 +275,7 @@ public class Catalan extends Language {
         if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
           s = s.replace("'", "’");
         }
-        Matcher m1 = CA_CONTRACTIONS.matcher(s);
-        s = m1.replaceAll("$1$2");
-        Matcher m2 = CA_APOSTROPHES.matcher(s);
-        s = m2.replaceAll("$1");
-        Matcher m3 = CA_APOSTROPHES2.matcher(s);
-        s = m3.replaceAll("e$1 $2");
-        Matcher m4 = CA_APOSTROPHES3.matcher(s);
-        s = m4.replaceAll("$1'$2");
+        s = adaptContractionsApostrophes(s);
         Matcher m5 = CA_OLD_DIACRITICS.matcher(s);
         if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
           // skip this suggestion with traditional diacritics
@@ -298,5 +287,22 @@ public class Catalan extends Language {
       newRuleMatches.add(newMatch);
     }
     return newRuleMatches;
+  }
+  
+  private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
+  private static final Pattern CA_APOSTROPHES = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
+  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtls])['’]([^haeiouáàèéíòóú“«\"])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtl])[ea]? ([aeiou])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  
+  public String adaptContractionsApostrophes (String s) {
+    Matcher m1 = CA_CONTRACTIONS.matcher(s);
+    s = m1.replaceAll("$1$2");
+    Matcher m2 = CA_APOSTROPHES.matcher(s);
+    s = m2.replaceAll("$1");
+    Matcher m3 = CA_APOSTROPHES2.matcher(s);
+    s = m3.replaceAll("e$1 $2");
+    Matcher m4 = CA_APOSTROPHES3.matcher(s);
+    s = m4.replaceAll("$1'$2");
+    return s;
   }
 }
