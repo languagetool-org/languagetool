@@ -1350,6 +1350,28 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rulegroup id="UNIDADES2" name="abreiaturas de unidades">
+        <rule>
+            <pattern>
+                <token regexp="yes">[1234567890., ]+|/|por<exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>ha</token>
+                </marker>
+                <token><exception postag="V.P..SM" postag_regexp="yes"/></token>
+                <!-- Exception: 2012 ha sido -->
+            </pattern>
+            <disambig action="replace"><wd lemma="hectárea" pos="NCFN000"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[h1234567890., ]+|/|per<exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>min</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="minuto" pos="NCMN000"/></disambig>
+        </rule>
+    </rulegroup>
     <rule id="hemos" name="hemos (haber)">
         <pattern>
             <token postag="VAIP1P0">hemos</token>
