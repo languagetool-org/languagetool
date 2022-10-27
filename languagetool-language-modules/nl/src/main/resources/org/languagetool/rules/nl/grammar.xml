@@ -30323,7 +30323,7 @@ steenwijk;Steenwijk
                 <example correction="al">Bezit u <marker>reeds</marker> een stuk grond?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REFERENTIE" name="referentie">
+        <rulegroup id="REFERENTIE" name="referentie" tags="picky">
             <rule>
                 <pattern>
                     <token inflected="yes">referentie</token>
@@ -33604,6 +33604,7 @@ steenwijk;Steenwijk
 
         <rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik" default="temp_off">
             <rule>
+                <antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">en|of</token><token postag="WKW:TGW:1EP"/></antipattern>
                 <antipattern><token regexp="yes" case_sensitive="yes">[A-Z].*</token><token>ben</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern>
                 <antipattern><token>van</token><token>dien</token></antipattern>
                 <antipattern><token>in</token><token>zwijm</token></antipattern>
@@ -43945,6 +43946,37 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
+        <rulegroup id="RONDT_UUR" name="rondt/rond" default="temp_off">
+            <!-- R. Baars 27-10-2022 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>rondt</token>
+                    </marker>
+					<token postag_regexp="yes" postag="GET.*(ARA|TXT).*"/>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>rond</suggestion>.</message>
+                <example correction="rond">Het gebeurt <marker>rondt</marker> 5 uur.</example>
+                <example correction="rond">Het gebeurt <marker>rondt</marker> tien uur.</example>
+            </rule>
+        </rulegroup>
+
+		<rulegroup id="TOD" name="tod/tot" default="temp_off">
+            <!-- R. Baars 27-10-2022 -->
+	        <antipattern>
+				<token regexp="yes" skip="1">de</token>
+				<token>tod</token>
+	        </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">tod</token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>tot</suggestion>. Een tod is een vod.</message>
+                <example correction="tot">Het gebeurt <marker>tod</marker> 5 uur.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="DEZE_WASMIDDEL" name="deze/dit" >
             <rule>
