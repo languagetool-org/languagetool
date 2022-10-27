@@ -221,6 +221,7 @@ public class Catalan extends Language {
       case "HAVER_SENSE_HAC": return 10;
       case "CAP_ELS_CAP_ALS": return 10; // greater than DET_GN
       case "CASING": return 10; // greater than CONCORDANCES_DET_NOM
+      case "DOS_ARTICLES": return 10; // greater than apostrophation rules
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
       case "ZERO_O": return 10; //greater than SPELLING
       case "CONCORDANCES_DET_NOM": return 5;
