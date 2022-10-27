@@ -30323,7 +30323,7 @@ steenwijk;Steenwijk
                 <example correction="al">Bezit u <marker>reeds</marker> een stuk grond?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REFERENTIE" name="referentie" tags="picky">
+        <rulegroup id="REFERENTIE" name="referentie">
             <rule>
                 <pattern>
                     <token inflected="yes">referentie</token>
@@ -33604,8 +33604,9 @@ steenwijk;Steenwijk
 
         <rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik" default="temp_off">
             <rule>
-                <antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">en|of</token><token postag="WKW:TGW:1EP"/></antipattern>
+                <antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">en|én|of|óf</token><token postag="WKW:TGW:1EP"/></antipattern>
                 <antipattern><token regexp="yes" case_sensitive="yes">[A-Z].*</token><token>ben</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern>
+                <antipattern><token>uit</token><token>dien</token><token>hoofde</token></antipattern>
                 <antipattern><token>van</token><token>dien</token></antipattern>
                 <antipattern><token>in</token><token>zwijm</token></antipattern>
                 <antipattern><token>op</token><token>zoek</token></antipattern>
@@ -33618,7 +33619,7 @@ steenwijk;Steenwijk
                     </marker>
                     <token negate="yes" regexp="yes">je|jij</token>
                 </pattern>
-                <message>U bedoelt vast: <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>. Of er is nog iets anders mis, zoals een ontbrekend leesteken of een spatie- of spelfout.</message>
+                <message>U bedoelt vast: <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>, want er staat geen 'ik' in de zin. Of er is nog iets anders mis, zoals een ontbrekend leesteken of een spatie- of spelfout.</message>
                 <example correction="gaat">Het <marker>ga</marker> vaak fout.</example>
             </rule>
         </rulegroup>
@@ -43907,7 +43908,7 @@ steenwijk;Steenwijk
         <rulegroup id="NUM_PONT" name="pont/pond" default="temp_off">
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="GET.*(NUM|TXT).*"/>
+                    <token postag_regexp="yes" postag="GET.*(NUM|TXT).*"><exception>een</exception></token>
                     <marker>
                         <token>pont</token>
                     </marker>
