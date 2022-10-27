@@ -2508,6 +2508,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp='yes' spacebefore='no'>&pronomes_ambiguos;</token>
         </antipattern>
 
+        <!-- MARCOAGPINTO 2022-10-27 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- It has zero hits in 600 000 sentences, it just removes one false positive in a sentence -->
+        <antipattern>
+          <token postag='SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR].M.+' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR].F.+' postag_regexp='yes'/>
+          <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+          <example>Precisamos ler nos outros as lágrimas escondidas.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-10-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <unify negate="yes">
           <feature id="gender"/>
