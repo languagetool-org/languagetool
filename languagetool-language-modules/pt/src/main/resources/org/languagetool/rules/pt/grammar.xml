@@ -3226,7 +3226,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- COME comer-->
-    <rule id='VERBO_INFINITIVO' name="Usar verbo no infinitivo" type="style">
+    <rule id='VERBO_INFINITIVO' name="Usar verbo no infinitivo" type="style" default="temp_off">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-16 (25-JUN-2021+)      -->
       <!--
       Para reescreve o código levará mais tempo. → Para reescrever o código levará mais tempo.
@@ -3255,10 +3255,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='V.+|DA.+' postag_regexp='yes'/>
       </antipattern>
       <!-- MARCOAGPINTO 2021-11-17 (25-JUN-2021+) *END* -->
+      <antipattern>
+        <token postag='PD.+|DD.+|SPS00:PD.+' postag_regexp='yes'/>
+        <token min='0' regexp='yes'>el[ae]</token>
+        <token postag='VMM02S0'/>
+        <example>Para isso ele escreve tudo</example>
+        <example>Declaramos esta cerimonia aberta.</example>
+        <example>Disto depende nossa sorte e a do mundo inteiro.</example>
+      </antipattern>
+      <antipattern>
+        <token negate_pos="yes" postag="SENT_START"/>
+        <token regexp="yes">\p{Lu}\p{Ll}*</token>
+        <token postag='VMM02S0'/>
+        <example>O Um Dia Me Livro faz parte do time de Embaixadores da Editora.</example>
+        <example>O Bonham iria realizar partes da canção.</example>
+      </antipattern>
+      <antipattern>
+       <and>
+        <token regexp="yes">\p{L}*</token>
+        <token postag='VMM02S0'/>
+       </and>
+         <token spacebefore='no'>-</token>
+         <token spacebefore='no' regexp="yes">\p{L}*</token>
+         <example>Para lava-los use o programa Edredom</example>
+      </antipattern>
       <pattern>
         <token negate_pos="yes" postag='SPS.+|PD.+|PP.+|DA.+|V.+|AQ.+|NC.+|I|PE.+|PR.+|PT.+|RG|CC|RN|CS|RM|PI.+|AP.+|DP.+' postag_regexp='yes'/>
         <or>
-        <token postag='VMIP.+' postag_regexp='yes'>
+        <token postag='VMI[SP].+' postag_regexp='yes'>
           <exception postag_regexp='yes' postag='AQ.+|NC.+|NP.+|RG|CS|DP.+|AO.+'/>
         </token>
         <token>para</token>
@@ -3270,7 +3294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <marker>
           <token postag='VMM02S0'>
             <exception postag_regexp='yes' postag='RN|AQ.+|NC.+|NP.+|SPS.+|Z0.+|RG|CC'/>
-            <exception regexp='yes'>há|existe</exception>
+            <exception regexp='yes'>há|existe|ela|sua</exception>
           </token>
         </marker>
         <or>
@@ -3280,7 +3304,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </pattern>
       <message>Use a forma verbal no infinitivo.</message>
       <suggestion><match no='5' postag='VMN0000' postag_replace='VMM02S0'/></suggestion>
-      <example correction="comer">Quero <marker>come</marker> a fruta.</example>
+      <suggestion>, \5</suggestion>
+      <example correction="comer|, come">Quero<marker> come</marker> a fruta.</example>
       <example>Ele não é nada além de um tolo.</example>
       <example>Nós não podemos perguntar nada sobre idade ou problemas físicos.</example>
       <example>Bom dia, como vai?</example>
