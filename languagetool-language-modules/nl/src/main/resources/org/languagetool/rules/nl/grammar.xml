@@ -33586,7 +33586,8 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="WORD_ZONDER_IK" name="word zonder ik" default="temp_off">
             <rule>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1">ik</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token regexp="yes">[,;:]</token><token postag="WKW:TGW:1EP"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">ik|-ik|ikzelf</token><token postag="SENT_END"/></antipattern>
                 <pattern>
                     <!-- voorkom (Microsoft) Word -->
                     <marker>
@@ -33603,6 +33604,7 @@ steenwijk;Steenwijk
 
         <rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik" default="temp_off">
             <rule>
+                <antipattern><token regexp="yes" case_sensitive="yes">[A-Z].*</token><token>ben</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern>
                 <antipattern><token>van</token><token>dien</token></antipattern>
                 <antipattern><token>in</token><token>zwijm</token></antipattern>
                 <antipattern><token>op</token><token>zoek</token></antipattern>
@@ -43878,14 +43880,12 @@ steenwijk;Steenwijk
             <!-- R. Baars 2022-10-21
             Helaas zijn sommige vormen ook een znw, dat zorgt voor veel uitzonderingen.
             -->
-            <antipattern>
-                <token>op</token>
-                <token>zich</token>
-            </antipattern>
+            <antipattern><token>op</token><token>zich</token></antipattern>
+            <antipattern><token>heeft</token><token>zich</token></antipattern>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig</exception></token>
+                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
                     </marker>
                     <token>zich</token>
                 </pattern>
@@ -43896,14 +43896,25 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>zich</token>
                     <marker>
-                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*|BNW:STL:ONV"/><exception regexp="yes">men|bereid|beter|indien|maar|minder</exception></token>
+                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*|BNW:STL:ONV"/><exception regexp="yes">men|bereid|beter|indien|maar|minder|jou|nader|nadien|schuil</exception></token>
                     </marker>
                 </pattern>
                 <message>U bedoelt vast :<suggestion><match no="2" postag="WKW:TGW:3EP"/></suggestion>.</message>
                 <example correction="behoedt">ALs hij zich <marker>behoed</marker>.</example>
             </rule>
         </rulegroup>
-
+        <rulegroup id="NUM_PONT" name="pont/pond" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="GET.*(NUM|TXT).*"/>
+                    <marker>
+                        <token>pont</token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>pond</suggestion>.</message>
+                <example correction="pond">Het kost vijftien <marker>pont</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DAT_IK_HOUD_NIET_VAN" name="verkeerde woordvolgorde" >
             <rule>
                 <pattern>
