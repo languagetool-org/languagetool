@@ -3270,7 +3270,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="In- und Ausland" id="IN_UND_AUSLAND">
         <pattern>
             <token>In-</token>
-            <token regexp='yes' case_sensitive="yes">und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus</token>
+            <token regexp='yes' case_sensitive="yes">und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus|bzw</token>
+            <token min="0">.</token>
             <token regexp="yes" case_sensitive="yes">Ausland|außerhalb</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -3280,7 +3281,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Master|Bachelor)-</token>
             </marker>
-            <token regexp='yes'>und|oder|&amp;|\/|beziehungsweise|bzw|sowie|noch|\+|plus</token>
+            <token regexp='yes' case_sensitive="yes">und|oder|&amp;|\/|beziehungsweise|bzw|sowie|noch|\+|plus</token>
             <token min="0">.</token>
             <token regexp="yes">(Master|Bachelor).+</token>
         </pattern>
@@ -3290,7 +3291,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="in- und ausländisch" id="IN_UND_AUSLAENDISCH">
         <pattern>
             <token>in-</token>
-            <token regexp='yes'>und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus</token>
+            <token regexp='yes' case_sensitive="yes">und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus|bzw</token>
+            <token min="0">.</token>
             <token regexp='yes'>ausländisch(e[mnrs]?)?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -3301,7 +3303,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>an-</token>
             </marker>
-            <token regexp='yes'>und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus</token>
+            <token regexp='yes'>und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus|bzw</token>
+            <token min="0">.</token>
             <token regexp='yes'>ab.+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -4801,7 +4804,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token case_sensitive="yes">Sonn-</token>
             </marker>
-            <token regexp="yes">und|oder|bzw\.?|&amp;|\/</token>
+            <token regexp="yes">und|oder|bzw|&amp;|\/|sowie</token>
+            <token min="0">.</token>
             <token regexp="yes">(Sams|Feier)tag.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6013,7 +6017,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Weiter|Fort|Aus)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Weiter|Fort|Aus)bildung.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6022,10 +6027,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule id="IGNORE_SPELLING_OF_HOL_UND_BRINGDIENST" name="ignore 'Hol- und Bringdienst'">
         <pattern case_sensitive="yes">
             <marker>
-                <token>Hol-</token>
+                <token regexp="yes">(Hol|Bring)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
-            <token regexp="yes">Bring.+</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
+            <token regexp="yes">(Hol|Bring).+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -6035,7 +6041,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Ent|Ver)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Ent|Ver)sorgung.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6046,7 +6053,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">([bB]e|[vV]er)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Be|Ver)arbeit.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6057,7 +6065,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Hard|Soft)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Hard|Soft)ware.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6068,7 +6077,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Ex|Im)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Ex|Im)port.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6079,7 +6089,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(ab|auf)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(ab|auf)wärts</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6088,9 +6099,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule id="IGNORE_SPELLING_OF_TAG_UND_NACHTAKTIV" name="ignore 'tag- und dämmerungsaktiv'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">(tag|nacht)-</token>
+                <token regexp="yes">(tag|nacht|dämmerungs)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(nacht|tag|dämmerungs).+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6101,7 +6113,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Aus|Ein)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Aus|Ein).+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -6112,7 +6125,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Aus|Ein|Durch|Weiter)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Aus|Ein|Durch|Weiter).+</token>
         </pattern>
         <disambig action="ignore_spelling"/>

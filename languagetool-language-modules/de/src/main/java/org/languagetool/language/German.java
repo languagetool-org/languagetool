@@ -406,7 +406,6 @@ public class German extends Language implements AutoCloseable {
       case "SCHOENE_WETTER": return -2; // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)
       case "MEIN_KLEIN_HAUS": return -2; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
       case "UNPAIRED_BRACKETS": return -2;
-      case "ICH_GEHE_DU_BLEIBST": return -2; // prefer ICH_GLAUBE_FUER_EUCH
       case "ICH_GLAUBE_FUER_EUCH": return -2; // prefer agreement rules
       case "OBJECT_AGREEMENT": return -2; // less prio than DE_AGREEMENT
       case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
@@ -420,6 +419,7 @@ public class German extends Language implements AutoCloseable {
       case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // overwrite spell checker
       case "ZAHL_IM_WORT": return -2; //should not override rules like H2O
       case "ICH_LIEBS": return -2;  // higher prio than spell checker
+      case "ICH_GEHE_DU_BLEIBST": return -3; // prefer ICH_GLAUBE_FUER_EUCH
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
