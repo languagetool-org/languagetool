@@ -376,7 +376,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   public void addSuggestedReplacements(List<String> replacements) {
-    Objects.requireNonNull(replacements, "replacements may be empty but not null");
+    Objects.requireNonNull(replacements, "replacements may be empty but not null");    
     Supplier<List<SuggestedReplacement>> prev = suggestedReplacements;
     setLazySuggestedReplacements(() ->
       Lists.newArrayList(Iterables.concat(prev.get(), Iterables.transform(replacements, SuggestedReplacement::new))));
@@ -399,15 +399,8 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public void setSuggestedReplacements(List<String> replacements) {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
     suggestionsComputed = true;
-    List<String> adjustedReplacements = new ArrayList<>();
-    if (rule instanceof AbstractPatternRule) {
-      Language lang = ((AbstractPatternRule) rule).getLanguage();
-      adjustedReplacements = lang.adaptSuggestions(replacements);
-    } else {
-      adjustedReplacements = replacements;
-    }
     suggestedReplacements = Suppliers.ofInstance(
-        adjustedReplacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
+        replacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
     );
   }
 

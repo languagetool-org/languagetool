@@ -29,7 +29,9 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
@@ -136,7 +138,18 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
       if (!suggestionUsed) {
         replacementsList.addAll(Arrays.asList(replacements));
       }
-      newMatch.setSuggestedReplacements(replacementsList);
+      
+      List<String> adjustedReplacementsList = new ArrayList<>();
+      Rule rule = match.getRule();
+      if (rule instanceof AbstractPatternRule) {  
+        Language lang = ((AbstractPatternRule) rule).getLanguage();
+        for (String replacement : replacementsList) {
+          adjustedReplacementsList.add(lang.adaptSuggestion(replacement));  
+        }
+      } else {
+        adjustedReplacementsList = replacementsList;
+      }
+      newMatch.setSuggestedReplacements(adjustedReplacementsList);
       return newMatch;
     }
     return match;

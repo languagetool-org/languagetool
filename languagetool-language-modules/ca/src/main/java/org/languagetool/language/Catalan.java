@@ -289,32 +289,29 @@ public class Catalan extends Language {
     return newRuleMatches;
   }
   
-  @Override
-  public List<String> adaptSuggestions(List<String> l) {
-    List<String> adjustedSuggestions = new ArrayList<>();
-    for (String s : l) {
-      adjustedSuggestions.add(adaptContractionsApostrophes(s));
-    }
-    return adjustedSuggestions;
-  }
-  
   private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
-  private static final Pattern CA_APOSTROPHES = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
-  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtls])['’]([^haeiouáàèéíòóú“«\"])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtl])[e]? ([aeiou])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeo])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
-  private String adaptContractionsApostrophes (String s) {
-    Matcher m1 = CA_CONTRACTIONS.matcher(s);
-    s = m1.replaceAll("$1$2");
-    Matcher m2 = CA_APOSTROPHES.matcher(s);
-    s = m2.replaceAll("$1");
-    Matcher m3 = CA_APOSTROPHES2.matcher(s);
-    s = m3.replaceAll("e$1 $2");
-    Matcher m4 = CA_APOSTROPHES3.matcher(s);
+  private static final Pattern CA_APOSTROPHES1 = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
+  // exceptions: l'FBI, l'statu quo
+  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtls])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+  // exceptions: el iogurt, la essa
+  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtsl])e? ([aeiouàèéíòóú])",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeoàúèéí][^ ])",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
+  @Override
+  public String adaptSuggestion(String s) {
+    // Exceptions: Digues-me alguna cosa, urbi et orbi, Guns N' Roses
+    Matcher m = CA_CONTRACTIONS.matcher(s);
+    s = m.replaceAll("$1$2");
+    Matcher m1 = CA_APOSTROPHES1.matcher(s);
+    s = m1.replaceAll("$1");
+    Matcher m2 = CA_APOSTROPHES2.matcher(s);
+    s = m2.replaceAll("e$1 $2");
+    Matcher m3 = CA_APOSTROPHES3.matcher(s);
+    s = m3.replaceAll("$1'$2");
+    Matcher m4 = CA_APOSTROPHES4.matcher(s);
     s = m4.replaceAll("$1'$2");
-    Matcher m5 = CA_APOSTROPHES4.matcher(s);
-    s = m5.replaceAll("$1'$2");
     return s;
   }
   

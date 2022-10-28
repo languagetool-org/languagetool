@@ -909,10 +909,10 @@ public abstract class Language {
   
   /**
    * @since 6.0 
-   * Adjust suggestions always 
+   * Adjust suggestion 
    */
-  public List<String> adaptSuggestions(List<String> l) {
-    return l;
+  public String adaptSuggestion(String s) {
+    return s;
   }
   
 }

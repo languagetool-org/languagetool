@@ -56,20 +56,19 @@ public class JLanguageToolTest {
     assertEquals(lang.toAdvancedTypography("Si és del v. 'haver'."), "Si és del v.\u00a0‘haver’.");
     assertEquals(lang.toAdvancedTypography("Amb el so de 's'."), "Amb el so de ‘s’.");
 
-    List<String> replacements = new ArrayList<>();
-    replacements.add("L'IEC");
-    replacements.add("te estimava");
-    replacements.add("el Albert");
-    replacements.add("l'Albert");
-    replacements.add("l'«Albert»");
-    replacements.add("l’«Albert»");
-    replacements.add("l'\"Albert\"");
-    replacements.add("m'tancava");
-    replacements.add("s'tancava");
-
-    assertEquals(lang.adaptSuggestions(replacements).toString(),
-        "[L'IEC, t'estimava, l'Albert, l'Albert, l'«Albert», l’«Albert», l'\"Albert\", em tancava, es tancava]");
+    assertEquals(lang.adaptSuggestion("L'IEC"), "L'IEC");
+    assertEquals(lang.adaptSuggestion("te estimava"), "t'estimava");
+    assertEquals(lang.adaptSuggestion("el Albert"), "l'Albert");
+    assertEquals(lang.adaptSuggestion("l'Albert"), "l'Albert");
+    assertEquals(lang.adaptSuggestion("l'«Albert»"), "l'«Albert»");
+    assertEquals(lang.adaptSuggestion("l’«Albert»"), "l’«Albert»");
+    assertEquals(lang.adaptSuggestion("l'\"Albert\""), "l'\"Albert\"");
+    assertEquals(lang.adaptSuggestion("m'tancava"), "em tancava");
+    assertEquals(lang.adaptSuggestion("s'tancava"), "es tancava");
+    assertEquals(lang.adaptSuggestion("l'R+D"), "l'R+D");
+    assertEquals(lang.adaptSuggestion("l'FBI"), "l'FBI");
 
   }
 
 }
+
