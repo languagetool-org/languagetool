@@ -385,7 +385,8 @@ public class English extends Language implements AutoCloseable {
       case "A_SNICKERS":                return 1;   // higher prio than A_NNS
       case "ROUND_A_BOUT":              return 1;   // higher prio than A_NNS
       case "A_NNS_BEST_NN":             return 1;   // higher prio than A_NNS
-      case "A_BACHELORS_IN":            return 1;   // higher prio than A_NNS
+      case "BACHELORS":                 return 1;   // higher prio than A_NNS
+      case "WERE_WEAR":                 return 1;   // higher prio than agreement rules
       case "NEITHER_NOR":               return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
       case "FOR_AWHILE":                return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
       case "A_BUT":                     return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
@@ -432,7 +433,6 @@ public class English extends Language implements AutoCloseable {
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
       case "ULTRA_HYPHEN":              return 1;   // prefer over EN_COMPOUND_ADJECTIVE_INTERNAL
       case "THINK_BELIEVE_THAT":        return 1;
-      case "IF_DT_NN_VBZ":              return -1;  // prefer IF_PLEASE_COMMA
       case "MD_VBD":                    return -1;  // prefer LOWERCASE_MONTHS
       case "PRP_PRP":                   return -1;  // prefer other rules that give a suggestion
       case "IS_LIKELY_TO_BE":           return -1;  // give IS_RB_BE precedence (more suggestions)
@@ -565,6 +565,7 @@ public class English extends Language implements AutoCloseable {
       case "BE_WITH_WRONG_VERB_FORM":   return -11;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
+      case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
