@@ -240,10 +240,15 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
         return true;
       } else if (noException && (isSpecialCase || tokens[i].isSentenceEnd())
               && token.equals(endSymbols.get(j))) {
-        if (i > 1 && endSymbols.get(j).equals(")")
+        if ((i > 2 && endSymbols.get(j).equals(")")
+                && tokens[i - 1].getToken().equals(".")
+                && (numerals.matcher(tokens[i - 2].getToken()).matches()
+                && !(!symbolStack.empty()
+                && "(".equals(symbolStack.peek().getSymbol().symbol))))
+        || (i > 1 && endSymbols.get(j).equals(")")
                 && (numerals.matcher(tokens[i - 1].getToken()).matches()
                 && !(!symbolStack.empty()
-                && "(".equals(symbolStack.peek().getSymbol().symbol)))) {
+                && "(".equals(symbolStack.peek().getSymbol().symbol))))) {
         } else {
           if (symbolStack.empty()) {
             symbolStack.push(new SymbolLocator(new Symbol(endSymbols.get(j), Symbol.Type.Closing), i, startPos, sentence, sentenceIdx));
