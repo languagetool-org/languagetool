@@ -33603,6 +33603,9 @@ steenwijk;Steenwijk
         </rulegroup>
 
         <rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik" default="temp_off">
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|kan|opzoek</token>
+            </antipattern>
             <rule>
                 <antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">en|én|of|óf</token><token postag="WKW:TGW:1EP"/></antipattern>
                 <antipattern><token regexp="yes" case_sensitive="yes">[A-Z].*</token><token>ben</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern>
@@ -33612,15 +33615,72 @@ steenwijk;Steenwijk
                 <antipattern><token>op</token><token>zoek</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|UNKNOWN"/><token postag="WKW:TGW:1EP"/></antipattern>
                 <antipattern><token regexp="yes">en|of|maar|dus|ben|[,;:"'‘]</token><token postag="WKW:TGW:1EP"/></antipattern>
-                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">ik(zelf)?</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">'k|ik(zelf)?</token><token postag="SENT_END"/></antipattern>
                 <pattern>
                     <marker>
-                        <token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
+                        <token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception><exception>ben</exception></token>
                     </marker>
                     <token negate="yes" regexp="yes">je|jij</token>
                 </pattern>
                 <message>U bedoelt vast: <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>, want er staat geen 'ik' in de zin. Of er is nog iets anders mis, zoals een ontbrekend leesteken of een spatie- of spelfout.</message>
                 <example correction="gaat">Het <marker>ga</marker> vaak fout.</example>
+            </rule>
+
+            <rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">'k|ik(zelf)?</token><token postag="SENT_END"/></antipattern>
+                <!-- sluit naam Ben uit -->
+                <antipattern><token/><token/><token case_sensitive="yes">Ben</token></antipattern>
+                <antipattern><token postag="SENT_START"/><token>ben</token></antipattern>
+                <antipattern><token regexp="yes">[:;,]|en|of|dus</token><token>ben</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token>ben</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">je|jij</token>
+                </pattern>
+                <message>Bij 'ben' hoort ergens 'ik' in de zin. Mogelijk bedoelt u <suggestion>bent</suggestion>.</message>
+                <example correction="bent">Alles <marker>ben</marker> fout.</example>
+            </rule>
+            <rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">ik(zelf)?</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token case_sensitive="yes">Ben</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
+                <antipattern><token case_sensitive="yes">Ben</token><token regexp="yes">[A-Z]a-z].*</token></antipattern>
+                <antipattern><token>ben</token><token>u</token></antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token case_sensitive="yes">Ben</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">je|jij</token>
+                </pattern>
+                <message>Bij 'ben' hoort ergens 'ik' in de zin. U bedoelt vast <suggestion>Ik ben</suggestion>.</message>
+                <example correction="Ik ben"><marker>Ben</marker> blij met alles.</example>
+            </rule>
+            <rule>
+                <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">ik(zelf)?</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token case_sensitive="yes">Ben</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
+                <antipattern><token case_sensitive="yes">Ben</token><token regexp="yes">[A-Z]a-z].*</token></antipattern>
+                <antipattern><token>ben</token><token>u</token></antipattern>
+                <pattern>
+                    <token regexp="yes">[:;,]|en|of|dus</token>
+                    <marker>
+                        <token case_sensitive="yes">ben</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">je|jij</token>
+                </pattern>
+                <message>Bij 'ben' hoort ergens 'ik' in de zin. U bedoelt vast <suggestion>ik ben</suggestion>.</message>
+                <example correction="ik ben">Dus, <marker>ben</marker> blij met alles.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="BETEKEND_BETEKENT" name="betekend/betekent" default="temp_off">
+            <rule>
+                <antipattern><token postag_regexp="yes" postag="SENT_START" skip="-1"/><token inflected="yes" skip="-1">hebben</token><token postag="SENT_END"/></antipattern>
+                <pattern>
+                    <token>betekend</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>betekent</suggestion>.</message>
+                <example correction="betekent">Het <marker>betekend</marker> veel.</example>
             </rule>
         </rulegroup>
 
@@ -43884,10 +43944,11 @@ steenwijk;Steenwijk
             -->
             <antipattern><token>op</token><token>zich</token></antipattern>
             <antipattern><token>heeft</token><token>zich</token></antipattern>
+            <antipattern><token/><token case_sensitive="yes" regexp="yes">[A-Z].*</token><token>zich</token></antipattern>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
+                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig</exception></token>
                     </marker>
                     <token>zich</token>
                 </pattern>
@@ -43976,6 +44037,24 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>U bedoelt vast: <suggestion>tot</suggestion>. Een tod is een vod.</message>
                 <example correction="tot">Het gebeurt <marker>tod</marker> 5 uur.</example>
+            </rule>
+        </rulegroup>
+
+		<rulegroup id="PAT" name="pat/pad" default="temp_off">
+            <!-- R. Baars 28-10-2022 -->
+            <antipattern>
+                <token postag="SENT_START" skip="-1"/>
+                <token regexp="yes" skip="-1">schaken|schaak|mat|partij|zet|remise</token>
+                <token postag="SENT_START"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">pat</token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt mogelijk: <suggestion>pad</suggestion>. Een pad is een weggetje, dier of kussentje.</message>
+                <example correction="pad">Hij loopt op het <marker>pat</marker>.</example>
             </rule>
         </rulegroup>
 
