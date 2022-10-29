@@ -42,7 +42,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern CAMEL_CASE = Pattern.compile("^(.[\\p{Ll}·]+)([A-ZÀÈÉÍÒÓÚÇ][\\p{Ll}·]+)$",
       Pattern.UNICODE_CASE);
   private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile(
-      "^(pod|ultra|eco|tele|anti|re|des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro|g) (..+)|.+ s$",
+      "^(pod|ultra|eco|tele|anti|re|des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans|pro|g|l|m) (..+)|.+ s$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])[90]?(h?[aeiouàéèíòóú].*)$",
@@ -112,13 +112,18 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
     String wordWithouDiacriticsString = StringTools.removeDiacritics(word);
     for (int i = 0; i < suggestions.size(); i++) {
-
+      
+      String replacement = suggestions.get(i).getReplacement();
       // remove always
-      if (suggestions.get(i).getReplacement().equalsIgnoreCase("como")) {
+      if (replacement.equalsIgnoreCase("como")) {
         continue;
       }
+      // l'_ : remove superfluous space
+      if (replacement.contains("' ")) {
+        suggestions.get(i).setReplacement(replacement.replace("' ", "'"));
+      }
       // remove wrong split prefixes
-      if (PREFIX_AMB_ESPAI.matcher(suggestions.get(i).getReplacement()).matches()) {
+      if (PREFIX_AMB_ESPAI.matcher(replacement).matches()) {
         continue;
       }
 
@@ -131,7 +136,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       }
 
       // move some split words to first place
-      Matcher matcher = PARTICULA_INICIAL.matcher(suggestions.get(i).getReplacement());
+      Matcher matcher = PARTICULA_INICIAL.matcher(replacement);
       if (matcher.matches()) {
         String newSuggestion = matcher.group(2);
         List<AnalyzedTokenReadings> atkn = tagger.tag(Arrays.asList(newSuggestion));
@@ -142,14 +147,14 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         }
       }
 
-      String suggWithoutDiacritics = StringTools.removeDiacritics(suggestions.get(i).getReplacement());
+      String suggWithoutDiacritics = StringTools.removeDiacritics(replacement);
       if (word.equalsIgnoreCase(suggWithoutDiacritics)) {
         newSuggestions.add(posNewSugg, suggestions.get(i));
         continue;
       }
 
       // move words with apostrophe or hyphen to second position
-      String cleanSuggestion = suggestions.get(i).getReplacement().replaceAll("'", "").replaceAll("-", "");
+      String cleanSuggestion = replacement.replaceAll("'", "").replaceAll("-", "");
       if (i > 1 && suggestions.size() > 2 && cleanSuggestion.equalsIgnoreCase(word)) {
         if (posNewSugg == 0) {
           posNewSugg = 1;
@@ -210,7 +215,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
       AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
-      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer")
+      if ((!newatr.hasPosTag("VMIP1S0B") || newSuggestion.equalsIgnoreCase("fer") || newSuggestion.equalsIgnoreCase("ajust")
           || newSuggestion.equalsIgnoreCase("gran")) && matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + separator + matcher.group(2);
       }
