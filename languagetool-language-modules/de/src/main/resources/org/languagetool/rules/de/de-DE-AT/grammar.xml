@@ -86,7 +86,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">\-|\.|:|\!|;</token>
                     </marker>
                 </pattern>
-                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\2 \3 \4 \5,</suggestion></message>
+                <message>Nach der Anredeformel sollte ein Komma stehen.</message>
+                <suggestion>\2 \3 \4 \5,</suggestion>
                 <short>Nach der Anredeformel sollte ein Komma stehen.</short>
                 <example correction="Sehr geehrter Herr Müller,"><marker>Sehr geehrter Herr Müller!</marker></example>
             </rule>
@@ -102,7 +103,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes" postag=".*SENT_END.*" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
                     </marker>
                 </pattern>
-                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\7,</suggestion></message>
+                <message>Nach der Anredeformel sollte ein Komma stehen.</message>
+                <suggestion>\7,</suggestion>
                 <example correction="Müller,">Sehr geehrte Frau Dr. <marker>Müller</marker></example>
                 <example correction="Müller,">Sehr geehrter Herr <marker>Müller</marker></example>
             </rule>
@@ -117,7 +119,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SENT_END">Herren</token>
                     </marker>
                 </pattern>
-                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>Herren,</suggestion></message>
+                <message>Nach der Anredeformel sollte ein Komma stehen.</message>
+                <suggestion>Herren,</suggestion>
                 <example correction="Herren,">Sehr geehrte Damen und <marker>Herren</marker></example>
             </rule>
         </rulegroup>
@@ -152,7 +155,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|herr|frau|liebes?|meine?|moin|zusammen|miteinander|und|oder|ihr|du|@.*</exception>
                     </token>
                 </pattern>
-                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\3,</suggestion></message>
+                <message>Nach der Anredeformel sollte ein Komma stehen.</message>
+                <suggestion>\3,</suggestion>
                 <example><marker>Hallo</marker> Tom!</example>
                 <example><marker>"Moin"</marker> ist Norddeutsch.</example>
                 <example correction="Hallo,">„<marker>Hallo</marker> da seid ihr ja endlich!“</example>
