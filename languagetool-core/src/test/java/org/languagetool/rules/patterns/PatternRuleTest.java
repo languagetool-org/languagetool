@@ -328,7 +328,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     for (Rule rule : rules) {
       if (rule instanceof AbstractPatternRule) {
         AbstractPatternRule apRule = (AbstractPatternRule) rule;
-        List<PatternToken> patternTokens = apRule.getPatternTokens();
         List<Match> suggestionMatches = new ArrayList<>();
         if (apRule.getSuggestionMatches() != null) {
           suggestionMatches.addAll(apRule.getSuggestionMatches());
@@ -462,6 +461,11 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       }
       if (msg.toLowerCase().contains("tbd")) {
         fail("Unfinished message (contains 'tbd') of rule " + rule.getFullId() + ": '" + msg + "'");
+      }
+      if (lang.getShortCode().matches("de|en|fr|es|nl")) {  // not yet 'pt' due to many matches there
+        if (!msg.trim().equals(rule.getMessage())) {
+          System.err.println("*** WARNING: Message of rule " + rule.getFullId() + " starts or ends with spaces: '" + rule.getMessage() + "'");
+        }
       }
       if (lang.getShortCode().equals("de") && !msg.equals("Failing for testing purposes")) {
         if (msg.trim().endsWith("!")) {
