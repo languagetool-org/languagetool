@@ -11553,7 +11553,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Autorízase el ingreso de agente.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONTRACCIONES" name="contracciones: del, al" default="on">
+        <rulegroup id="CONTRACCIONES" name="contracciones: del, al">
             <!-- It must be coherent with rule EL_TILDE-->
             <antipattern>
                 <token>el</token>
@@ -11588,6 +11588,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1l</suggestion>
                 <example correction="al">Ve <marker>a el</marker> que más te guste</example>
                 <example correction="del">autor <marker>de el</marker> cual no se sabe nada</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">de|a<exception postag="_possible_NP"/></token>
+                        <token case_sensitive="yes">el</token>
+                    </marker>
+                    <token regexp="yes">&nombre_fem_el;</token>
+                </pattern>
+                <message>Contracción</message>
+                <suggestion>\1l</suggestion>
+                <example correction="del">La casa <marker>de el</marker> agua.</example>
+                <example correction="al">Los mercados van <marker>a el</marker> alza.</example>
+                <example>De El Mundo o de El País.</example>
+                <example>G es la constante y A el área.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ARTICULO_EN_TOPONIMOS" name="del Cario > de El Cairo" default="on">
