@@ -326,7 +326,7 @@ public final class PatternTestTools {
           String ruleId,
           int tokenIndex) {
 
-    if (isRegularExpression && (stringValue.startsWith("|") || stringValue.endsWith("|"))) {
+    if (isRegularExpression && (stringValue.startsWith("|") || stringValue.endsWith("|")) && !stringValue.endsWith("\\|")) {
       fail("Regex of " + ruleId + " starts or ends with '|', which is probably invalid: " + stringValue);
     }
 
