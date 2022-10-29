@@ -18685,8 +18685,8 @@ O namorado dela era um ladrão.
 
 
     <!-- NA SEMANA QUE PASSOU na semana passada -->
-    <rulegroup id='QUE_VERBOPASSADO_VERBOPARTPASSADO' name="Simplificar: Que + Verbo Passado → Verbo Particípio passado" type="style">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-28 (25-JUL-2022+) -->
+    <rulegroup id='QUE_VERBOPASSADO_VERBOPARTPASSADO' name="Simplificar: Que + Verbo Passado → Verbo Particípio passado" type="style" default="temp_off">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-28/29 (25-JUL-2022+) -->
       <!--
       Isso aconteceu na semana que passou. → Isso aconteceu na semana passada.
       Isso aconteceu na semana toda que passou. → Isso aconteceu na semana toda passada.
@@ -18695,9 +18695,10 @@ O namorado dela era um ladrão.
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
       -->
 
+      <!-- This antipattern was created when I was getting 'NC[FM].+' instead of time expressions, I kept it just in case... -->
       <antipattern>
-        <token postag='NC.+|AQ.+|CC|RG|V.+' postag_regexp='yes'/>
-        <token regexp='yes'>n[ao]s?|d[ao]s?</token>
+        <token postag='NC.+|AQ.+|CC|RG|V.+|SPS00:DA.+' postag_regexp='yes'/>
+        <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
         <token postag='NC[FM].+' postag_regexp='yes'/>
         <token min="0" max="1" postag='DI.+|NC.+|AQ.+|RM' postag_regexp='yes'>
           <exception postag_regexp='yes' postag='V.+'/>
@@ -18709,17 +18710,20 @@ O namorado dela era um ladrão.
           <exception regexp='no'>à</exception>
         </token>
         <example>Houve exibição da banda e, de imediato, todos se adentraram na sede da Instituição que comportou quase 400 pessoas.</example>
-        <example>Já aconteceu erros em vacinas no passado que matou mais que a própria doença, e por uma enorme coincidência na maioria das vezes se tratou de vírus da...</example>        
+        <example>Já aconteceu erros em vacinas no passado que matou mais que a própria doença, e por uma enorme coincidência na maioria das vezes se tratou de vírus</example>
         <example>Por causa da chuva que começou forte, nós jogamos dentro.</example>
-        <example>[22] No último ranking da confederação que levou em conta um período histórico mais abrangente do futebol brasileiro e que foi divulgado em 2011, o ...</example>
+        <example>[22] No último ranking da confederação que levou em conta um período histórico mais abrangente do futebol brasileiro e que foi divulgado em 2011,</example>
         <example>A derrama foi um dos factos que motivou depois a Inconfidência Mineira.</example>
       </antipattern>
 
       <rule>
         <pattern>
-          <token postag='NC.+|AQ.+|CC|RG|V.+' postag_regexp='yes'/>
-          <token regexp='yes'>n[ao]s?|d[ao]s?</token>
-          <token regexp='yes'>&meses_ano_abrev;&meses_ano;&dias_semana_abrev;&dias_semana;&partes_do_dia;&expressoes_de_tempo_simples;</token>
+          <token postag='NC.+|AQ.+|CC|RG|V.+|SPS00:DA.+' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+          <and>
+            <token regexp='yes' inflected='yes'>&meses_ano_abrev;&meses_ano;&dias_semana_abrev;&dias_semana;&partes_do_dia;&expressoes_de_tempo;</token>
+            <token postag='NC[FM].+' postag_regexp='yes'/>
+          </and>
           <token postag='DI.+|NC.+|AQ.+|RM' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='V.+'/>
           </token>
@@ -18730,7 +18734,8 @@ O namorado dela era um ladrão.
               <exception postag_regexp='yes' postag='VMIP3.+'/>
             </token>
           </marker>
-          <token postag='_PUNCT|RG|CC|SENT_END' postag_regexp='yes'>
+          <token postag='_PUNCT|RG|CC|SENT_END|SPS00:DA.+|VMP00.+' postag_regexp='yes'>
+            <exception regexp='no'>à</exception>
             <exception postag_regexp='yes' postag='DI.+'/>
             <exception scope="next" postag_regexp='yes' postag='VMP00.+'/>
           </token>
@@ -18743,9 +18748,12 @@ O namorado dela era um ladrão.
 
       <rule>
         <pattern>
-          <token postag='NC.+|AQ.+|CC|RG|V.+' postag_regexp='yes'/>
-          <token regexp='yes'>n[ao]s?|d[ao]s?</token>
-          <token regexp='yes'>&meses_ano_abrev;&meses_ano;&dias_semana_abrev;&dias_semana;&partes_do_dia;&expressoes_de_tempo_simples;</token>
+          <token postag='NC.+|AQ.+|CC|RG|V.+|SPS00:DA.+' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+          <and>
+            <token regexp='yes' inflected='yes'>&meses_ano_abrev;&meses_ano;&dias_semana_abrev;&dias_semana;&partes_do_dia;&expressoes_de_tempo;</token>
+            <token postag='NC[FM].+' postag_regexp='yes'/>
+          </and>
           <marker>
             <token>que</token>
             <token postag='VMIS3.+' postag_regexp='yes'>
@@ -18753,9 +18761,10 @@ O namorado dela era um ladrão.
               <exception postag_regexp='yes' postag='VMIP3.+'/>
             </token>
           </marker>
-          <token postag='_PUNCT|RG|CC|SENT_END' postag_regexp='yes'>
-             <exception postag_regexp='yes' postag='DI.+'/>
-             <exception scope="next" postag_regexp='yes' postag='VMP00.+'/>
+          <token postag='_PUNCT|RG|CC|SENT_END|SPS00:DA.+|VMP00.+' postag_regexp='yes'>
+            <exception regexp='no'>à</exception>
+            <exception postag_regexp='yes' postag='DI.+'/>
+            <exception scope="next" postag_regexp='yes' postag='VMP00.+'/>
           </token>
         </pattern>
         <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:5 lemmaSelect:V.* postagFrom:3 postagSelect:NC(.)(.)000 postagReplace:VMP00\b2\b1" />
