@@ -463,9 +463,15 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (msg.toLowerCase().contains("tbd")) {
         fail("Unfinished message (contains 'tbd') of rule " + rule.getFullId() + ": '" + msg + "'");
       }
-      //if (msg.matches(".*[^\"'>)?!.]$")) {
-      //  System.err.println("Warning: Message of " + rule.getFullId() + " doesn't end in [.!?]: " + msg);
-      //}
+      if (lang.getShortCode().equals("de") && !msg.equals("Failing for testing purposes")) {
+        if (msg.trim().endsWith("!")) {
+          fail("Message ends in '!' for rule " + rule.getFullId() + ": '" + msg + "'");
+        }
+        if (!msg.trim().matches(".*[.?)'\"]$")) {
+          fail("Message doesn't end with [.?)'\"] for rule " + rule.getFullId() + ": '" + msg + "'");
+          //System.out.println("Message doesn't end with [.?)'\"] for rule " + rule.getFullId() + ": '" + msg + "'");
+        }
+      }
     }
   }
   
