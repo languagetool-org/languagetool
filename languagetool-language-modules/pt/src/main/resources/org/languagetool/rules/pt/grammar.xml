@@ -44670,7 +44670,7 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
-    <rule default="on" id='SENT_START_NUM' name="Número no início da frase" tags="picky">
+    <rulegroup default="on" id='SENT_START_NUM' name="Número no início da frase" tags="picky">
       <!--  Based on English CAPITALIZATION rule, by Tiago F. Santos, 2017-05-09      -->
       <antipattern>
         <token postag="SENT_START"/>
@@ -44733,47 +44733,67 @@ O namorado dela era um ladrão.
          <token regexp="yes">\d+</token>
          <example>apto. 22</example>
       </antipattern>
-      <pattern>
-        <token postag="SENT_START"/>
-        <token regexp="yes" min="0" max="3">\p{P}</token>
-        <marker>
-          <token regexp="yes">
-            [\d,.]+
-            <exception regexp="yes">0.*</exception>
-          </token>
-        </marker>
-        <token skip="-1">
-          <exception postag_regexp='yes' postag='_PUNCT|Z.+'/></token>
-        <token postag="SENT_END" regexp="yes">[.!?»]</token>
-      </pattern>
-      <message>Números no início de frases devem ser escritos por extenso.</message>
-      <suggestion><match no="3" postag="_spell_number_" case_conversion="firstupper"/></suggestion>
-      <short>Número no início da frase</short>
-      <example correction="Doze"><marker>12</marker> meses no ano.</example>
-      <example correction="Doze">«<marker>12</marker> meses no ano.»</example>
-      <example correction="Mil">—<marker>1000</marker> vezes! Já o disse 1000 vezes!</example>
-      <example>Doze meses no ano.</example>
-      <example>Mil vezes! Já o disse 1000 vezes!</example>
-      <example><marker>1.</marker> Introdução</example>
-      <example><marker>1.-</marker> Introdução</example>
-      <example><marker>1.--</marker> Introdução</example>
-      <example><marker>1.2.</marker> Introdução</example>
-      <example><marker>1.3.—</marker> Introdução</example>
-      <example>50-30</example>
-      <example>25/12/2017</example>
-      <example>25.12.2017 às 12h00</example>
-	  
-      <example>27 de janeiro de 1974.</example>
-      <example>Acesso em: 10 set 2007.</example>
-      <example>André 23:07, 14 nov 2004 (UTC).</example>
-      <example>2 jul 1605.</example>
-
-      <example>4 a.C.</example>
-      <example>4 d.C.</example>
-	  
-      <example>10 A.D.</example>
-    </rule>
-
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes" min="0" max="3">\p{P}</token>
+          <marker>
+            <token regexp="yes">
+              [\d,.]+
+              <exception regexp="yes">0.*</exception>
+            </token>
+          </marker>
+          <token postag="NC[MC].*|A..[MC][PN]." postag_regexp="yes" skip="-1">
+            <exception postag_regexp='yes' postag='_PUNCT|Z.+'/></token>
+          <token postag="SENT_END" regexp="yes">[.!?»]</token>
+        </pattern>
+        <message>Números no início de frases devem ser escritos por extenso.</message>
+        <suggestion><match no="3" postag="_spell_number_" case_conversion="firstupper"/></suggestion>
+        <short>Número no início da frase</short>
+        <example correction="Doze"><marker>12</marker> meses no ano.</example>
+        <example correction="Doze">«<marker>12</marker> meses no ano.»</example>
+        <example>Doze meses no ano.</example>
+        <example>Mil vezes! Já o disse 1000 vezes!</example>
+        <example><marker>1.</marker> Introdução</example>
+        <example><marker>1.-</marker> Introdução</example>
+        <example><marker>1.--</marker> Introdução</example>
+        <example><marker>1.2.</marker> Introdução</example>
+        <example><marker>1.3.—</marker> Introdução</example>
+        <example>50-30</example>
+        <example>25/12/2017</example>
+        <example>25.12.2017 às 12h00</example>
+        <example>27 de janeiro de 1974.</example>
+        <example>Acesso em: 10 set 2007.</example>
+        <example>André 23:07, 14 nov 2004 (UTC).</example>
+        <example>2 jul 1605.</example>
+        <example>4 a.C.</example>
+        <example>4 d.C.</example>
+        <example>10 A.D.</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes" min="0" max="3">\p{P}</token>
+          <marker>
+            <token regexp="yes">
+              [\d,.]+
+              <exception regexp="yes">0.*</exception>
+            </token>
+          </marker>
+          <token postag="NCF.*|A..F[PN]." postag_regexp="yes" skip="-1">
+            <exception postag_regexp='yes' postag='_PUNCT|Z.+'/></token>
+          <token postag="SENT_END" regexp="yes">[.!?»]</token>
+        </pattern>
+        <message>Números no início de frases devem ser escritos por extenso.</message>
+        <suggestion><match no="3" postag="_spell_number_feminine_" case_conversion="firstupper"/></suggestion>
+        <short>Número no início da frase</short>
+        <example correction="Uma"><marker>1</marker> pessoas.</example>
+        <example correction="Duas"><marker>2</marker> pessoas.</example>
+        <example correction="Mil">—<marker>1000</marker> vezes! Já o disse 1000 vezes!</example>
+        <example correction="Trezentas"><marker>300</marker> pessoas.</example>
+        <example correction="Duzentas e trinta e duas"><marker>232</marker> pessoas.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id='CERCA_DE_NR' name="Aproximação excessivamente precisa" default='off'>
       <!-- Created by Tiago F. Santos, 2017-02-28 -->
