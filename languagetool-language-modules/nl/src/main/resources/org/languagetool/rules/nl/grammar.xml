@@ -33627,7 +33627,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
-        <rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik" default="temp_off">
+        <rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik">
             <antipattern>
                 <!-- werkwoorden van merken, vaak spatiefout -->
                 <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|kan|opzoek</token>
@@ -33724,7 +33724,7 @@ steenwijk;Steenwijk
         <rulegroup id="BETEKEND_BETEKENT" name="betekend/betekent" >
             <!-- R. Baars, oktober 2022 -->
             <rule>
-                <antipattern><token postag_regexp="yes" postag="SENT_START" skip="-1"/><token inflected="yes" skip="-1">hebben</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag_regexp="yes" postag="SENT_START" skip="-1"/><token inflected="yes" regexp="yes" skip="-1">hebben|worden</token><token postag="SENT_END"/></antipattern>
                 <pattern>
                     <token>betekend</token>
                 </pattern>
@@ -43987,7 +43987,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
         -->
-        <rulegroup id="BEHOUD_ZICH" name="Voor zich past geen 1e persoon" default="temp_off">
+        <rulegroup id="BEHOUD_ZICH" name="Voor zich past geen 1e persoon" >
             <!-- R. Baars 2022-10-21
             Helaas zijn sommige vormen ook een znw, dat zorgt voor veel uitzonderingen.
             -->
@@ -44093,7 +44093,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
-		<rulegroup id="PAT" name="pat/pad" default="temp_off">
+		<rulegroup id="PAT" name="pat/pad">
             <!-- R. Baars 28-10-2022 -->
             <antipattern>
                 <token postag="SENT_START" skip="-1"/>
