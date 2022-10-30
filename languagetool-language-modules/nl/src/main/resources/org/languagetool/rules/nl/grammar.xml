@@ -33252,6 +33252,25 @@ steenwijk;Steenwijk
                 <example correction="waarschuwde">Toen <marker>waarschuw de</marker> hij.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DAT_GELD" name="dat geld voor/dat geldt voor" default="temp_off">
+            <!-- R. Baars, oktober 2022 -->
+            <rule>
+                <pattern>
+                    <or>
+                        <token regexp="yes">[:;,]</token>
+                        <token postag="SENT_START"/>
+                    </or>
+                    <token regexp="yes">dat|dit</token>
+                    <marker>
+                        <token skip="2">geld</token>
+                    </marker>
+                    <token>voor</token>
+                </pattern>
+                <message>Waarschijnlijk bedoelt u <suggestion>geldt</suggestion>.</message>
+                <example correction="geldt">Dat <marker>geld</marker> natuurlijk ook voor elke andere fout.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="PH" name="pH">
             <rule>
                 <antipattern case_sensitive="yes"><token>Ph</token><token>.</token></antipattern>
