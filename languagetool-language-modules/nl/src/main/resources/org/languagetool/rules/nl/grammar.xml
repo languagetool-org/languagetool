@@ -1155,6 +1155,17 @@ regexp case-insensitive maken: (?i)
                 <example correction="deur">Het woord <marker>dur</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ZIEDEN" name="Zieden/zien" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">zieden<exception regexp="yes">ziedende?</exception></token>
+                </pattern>
+                <message>Niemand gebruikt tegenwoordig nog dit werkwoord voor 'koken'. Uf is dit een foutje van 'zien'?</message>
+                <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">koken</match></suggestion>
+                <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">zien</match></suggestion>
+                <example correction="kookt|ziet">Dat <marker>ziedt</marker> er slecht uit.</example>
+            </rule>
+        </rulegroup>
 <!-- too many false positives
         <rulegroup id="DEUREN_DUREN" name="waarschuwing bij gebruik duren i.p.v. deuren">
             <rule>
@@ -2898,7 +2909,7 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="AAN_BOT" name="Aan bot/aan bod" default="temp_off">
+        <rulegroup id="AAN_BOT" name="Aan bot/aan bod">
             <!-- R. Baars oktober 2022 -->
             <rule>
                 <pattern>
@@ -33609,7 +33620,7 @@ steenwijk;Steenwijk
                 <example correction="word|wordt">Ik <marker>wort</marker> gek.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WORD_ZONDER_IK" name="word zonder ik" default="temp_off">
+        <rulegroup id="WORD_ZONDER_IK" name="word zonder ik">
             <rule>
                 <antipattern><token regexp="yes">[,;:]</token><token postag="WKW:TGW:1EP"/></antipattern>
                 <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">ik|-ik|ikzelf</token><token postag="SENT_END"/></antipattern>
@@ -44019,7 +44030,7 @@ steenwijk;Steenwijk
                 <example correction="behoedt">ALs hij zich <marker>behoed</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NUM_PONT" name="pont/pond" default="temp_off">
+        <rulegroup id="NUM_PONT" name="pont/pond">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="GET.*(NUM|TXT).*"><exception>een</exception></token>
