@@ -173,6 +173,7 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.isProhibited("Feuerwerksartigel")); // entry with ".*" at line start in prohibited.txt
     assertTrue(rule.isProhibited("Feuerwerksartigeln")); // entry with ".*" at line start in prohibited.txt
     assertTrue(rule.isProhibited("Feuerwerksartigels")); // entry with ".*" at line start in prohibited.txt
+    assertTrue(rule.isProhibited("To-go")); // entry with ".*" at line start in prohibited.txt
   }
 
   @Test
@@ -727,12 +728,13 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen-Au-pair")).length);  // from spelling.txt formed hyphenated compound
 
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Fermi-Dirac-Statistik")).length);  // from spelling.txt formed hyphenated compound
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("To-go-Becher")).length);  // from spelling.txt formed hyphenated compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Au-pair-Wichtelmännchen")).length);  // from spelling.txt formed hyphenated compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Secondhandware")).length);  // from spelling.txt formed compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Feynmandiagramme")).length);  // from spelling.txt formed compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Helizitätsoperator")).length);  // from spelling.txt formed compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wodkaherstellung")).length);  // from spelling.txt formed compound
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Latte-macchiato-Glas")).length);  // formelery from spelling.txt formed compound
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Latte-macchiato-Glas")).length);  // formerly from spelling.txt formed compound
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Werkverträgler-Glas")).length);  // from spelling.txt formed compound
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Werkverträglerglas")).length);  // from spelling.txt formed compound
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Werkverträglerdu")).length);  // from spelling.txt formed "compound" with last part too short
