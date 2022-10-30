@@ -234,13 +234,14 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       boolean isSpecialCase = getSpecialCase(tokens, i, j);
       boolean noException = isNoException(token, tokens, i, j,
               precededByWhitespace, isSpecialCase, symbolStack);
-
+      
       if (noException && precededByWhitespace && token.equals(startSymbols.get(j))) {
         symbolStack.push(new SymbolLocator(new Symbol(startSymbols.get(j), Symbol.Type.Opening), i, startPos, sentence, sentenceIdx));
         return true;
       } else if (noException && (isSpecialCase || tokens[i].isSentenceEnd())
               && token.equals(endSymbols.get(j))) {
         if ((i > 2 && endSymbols.get(j).equals(")")
+                && (tokens[i - 3].hasPosTag("SENT_START") || tokens[i - 2].isWhitespaceBefore())
                 && tokens[i - 1].getToken().equals(".")
                 && (numerals.matcher(tokens[i - 2].getToken()).matches()
                 && !(!symbolStack.empty()
