@@ -33237,6 +33237,21 @@ steenwijk;Steenwijk
                 <example correction="van een">De waardering <marker>ve</marker> betaalmiddel.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="STAM_DE_HIJ" name="muteer de hij/muteerde hij">
+            <!-- R. Baars, oktober 2022 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="WKW:TGW:1EP"/>
+                        <token>de</token>
+                    </marker>
+                    <token regexp="yes">[hz]ij</token>
+                </pattern>
+                <filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+                <message>Waarschijnlijk bedoelt u <suggestion>\1\2</suggestion>.</message>
+                <example correction="waarschuwde">Toen <marker>waarschuw de</marker> hij.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PH" name="pH">
             <rule>
                 <antipattern case_sensitive="yes"><token>Ph</token><token>.</token></antipattern>
