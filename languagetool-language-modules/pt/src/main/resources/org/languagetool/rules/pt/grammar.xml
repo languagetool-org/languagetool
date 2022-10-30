@@ -44736,10 +44736,9 @@ O namorado dela era um ladrão.
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes" min="0" max="3">\p{P}</token>
+          <token regexp="yes" min="0">[“"‘'«]</token>
           <marker>
-            <token regexp="yes">
-              [\d,.]+
+            <token regexp="yes">\d{1,3}0*
               <exception regexp="yes">0.*</exception>
             </token>
           </marker>
@@ -44770,13 +44769,12 @@ O namorado dela era um ladrão.
         <example>4 d.C.</example>
         <example>10 A.D.</example>
       </rule>
-      <rule default="temp_off">
+      <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes" min="0" max="3">\p{P}</token>
+          <token regexp="yes" min="0">[“"‘'«]</token>
           <marker>
-            <token regexp="yes">
-              [\d,.]+
+            <token regexp="yes">\d{1,3}0*
               <exception regexp="yes">0.*</exception>
             </token>
           </marker>
@@ -44789,7 +44787,7 @@ O namorado dela era um ladrão.
         <short>Número no início da frase</short>
         <example correction="Uma"><marker>1</marker> pessoas.</example>
         <example correction="Duas"><marker>2</marker> pessoas.</example>
-        <example correction="Mil">—<marker>1000</marker> vezes! Já o disse 1000 vezes!</example>
+        <!--<example correction="Mil">—<marker>1000</marker> vezes! Já o disse 1000 vezes!</example>-->
         <example correction="Trezentas"><marker>300</marker> pessoas.</example>
         <example correction="Duzentas e trinta e duas"><marker>232</marker> pessoas.</example>
       </rule>
