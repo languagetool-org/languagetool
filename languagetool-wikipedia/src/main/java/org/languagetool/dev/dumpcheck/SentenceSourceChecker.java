@@ -106,6 +106,8 @@ public class SentenceSourceChecker {
             .desc("an unpacked Wikipedia XML dump; (must be named *.xml, dumps are available from http://dumps.wikimedia.org/backup-index.html) " +
                   "or a Tatoeba CSV file filtered to contain only one language (must be named tatoeba-*). You can specify this option more than once.")
             .required().build());
+    options.addOption(Option.builder().longOpt("csv")
+            .desc("print matches in a simple CSV format, marking matches like '__matched words__'").build());
     options.addOption(Option.builder().longOpt("max-sentences").argName("number").hasArg()
             .desc("maximum number of sentences to check").build());
     options.addOption(Option.builder().longOpt("max-errors").argName("number").hasArg()
@@ -222,7 +224,9 @@ public class SentenceSourceChecker {
     int ignoredCount = 0;
     boolean skipMessageShown = false;
     try {
-      if (propFile != null) {
+      if (options.hasOption("csv"))  {
+        resultHandler = new CSVHandler(maxSentences, maxErrors);
+      } else if (propFile != null) {
         resultHandler = new DatabaseHandler(propFile, maxSentences, maxErrors);
       } else {
         resultHandler = new StdoutHandler(maxSentences, maxErrors, contextSize);
