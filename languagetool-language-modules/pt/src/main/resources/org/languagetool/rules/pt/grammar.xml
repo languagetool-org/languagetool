@@ -12219,6 +12219,34 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
+
+    <!-- COM MAIS REALIDADE com mais realismo -->
+    <rule id='REALIDADE_REALISMO' name="Confusão: Realidade/realismo">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-31 (25-JUL-2022+) -->
+      <!--
+      A equação dá mais realidade aos modelos. → A equação dá mais realismo aos modelos.
+      Isto permite modelar com enorme realidade. → Isto permite modelar com enorme realismo.
+      A equação para mais realidade é esta. → A equação para mais realismo é esta.
+	  A equação para maior realidade é esta. → A equação para maior realismo é esta.
+      -->
+      <pattern>
+        <token postag_regexp='yes' postag='V.+|SPS00'/>
+        <token postag_regexp='yes' postag='AQ.+|RG'>
+          <exception postag_regexp='no' postag='CS'/> <!-- Remove "como" -->
+        </token>
+        <marker>
+          <token>realidade</token>
+        </marker>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>realismo</suggestion>
+      <example correction="realismo">A equação dá mais <marker>realidade</marker> aos modelos.</example>
+      <example correction="realismo">Isto permite modelar com enorme <marker>realidade</marker>.</example>
+      <example correction="realismo">A equação para mais <marker>realidade</marker> é esta.</example>
+	  <example correction="realismo">A equação para maior <marker>realidade</marker> é esta.</example>
+    </rule>
+
+
     <!-- TIVE DE FÉRIAS estive de férias -->
     <rule id='TIVE_ESTIVE' name="Confusão: Ter/estar">
       <!--      Created by Marco A.G.Pinto, Portuguese 2021-10-11 (25-JUN-2021+)      -->
