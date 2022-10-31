@@ -28357,6 +28357,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="GUION_LARGO" name="Guion largo">
             <url>https://www.rae.es/dpd/raya</url>
             <antipattern>
+                <token>−</token>
+                <token regexp="yes">\d.*</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes" inflected="yes">acabar|terminar</token>
                 <token skip="5">en</token>
                 <token spacebefore="yes">-</token>
@@ -28371,7 +28375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token spacebefore="yes" regexp="yes">[–‒-]</token>
+                        <token spacebefore="yes" regexp="yes">[−–‒-]</token>
                     </marker>
                     <token spacebefore="no" regexp="yes">[^-\d].*<exception regexp="yes">[^ayoe\p{P}]</exception></token>
                 </pattern>
@@ -28401,13 +28405,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">\d+</token>
-                    <token spacebefore="no" regexp="yes">[–‒-]</token>
+                    <token spacebefore="no" regexp="yes">[−–‒-]</token>
                     <token regexp="yes">\d+</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">.*[^\-]</token>
                     <marker>
-                        <token spacebefore="no" regexp="yes">[–‒-]</token>
+                        <token spacebefore="no" regexp="yes">[−–‒-]</token>
                     </marker>
                     <token spacebefore="yes"/>
                 </pattern>
@@ -28424,7 +28428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">.*[^\-]</token>
                     <marker>
-                        <token spacebefore="no" regexp="yes">[–‒-]</token>
+                        <token spacebefore="no" regexp="yes">[−–‒-]</token>
                     </marker>
                     <token regexp="yes">;|,|\.</token>
                 </pattern>
@@ -28435,8 +28439,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">[–‒-]</token>
-                    <token regexp="yes">[–‒-]</token>
+                    <token regexp="yes">[−–‒-]</token>
+                    <token regexp="yes">[−–‒-]</token>
                 </pattern>
                 <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>
                 <suggestion>—</suggestion>
@@ -28447,7 +28451,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">[–‒-]</token>
+                        <token regexp="yes">[−–‒-]</token>
                     </marker>
                 </pattern>
                 <message>En una tipografía cuidada, utilice el carácter adecuado de guion largo (raya).</message>

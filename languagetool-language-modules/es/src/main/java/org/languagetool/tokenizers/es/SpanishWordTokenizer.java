@@ -43,6 +43,8 @@ public class SpanishWordTokenizer extends WordTokenizer {
   // ordinals
   private static final Pattern ORDINAL_POINT= Pattern.compile("\\b([\\d]+)\\.(º|ª|o|a|er|os|as)\\b",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
+  private final String ES_TOKENIZING_CHARACTERS = getTokenizingCharacters() + "−";
+  
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
@@ -55,7 +57,7 @@ public class SpanishWordTokenizer extends WordTokenizer {
     matcher = ORDINAL_POINT.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ES_ORDINAL_POINT\u0001\u0001$2");
 
-    StringTokenizer st = new StringTokenizer(auxText, getTokenizingCharacters(), true);
+    StringTokenizer st = new StringTokenizer(auxText, ES_TOKENIZING_CHARACTERS, true);
     String s;
 
     while (st.hasMoreElements()) {
