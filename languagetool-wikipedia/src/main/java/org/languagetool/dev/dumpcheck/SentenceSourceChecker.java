@@ -130,6 +130,8 @@ public class SentenceSourceChecker {
             .desc("Print the duration of analysis in milliseconds").build());
     options.addOption(Option.builder().longOpt("nerUrl").argName("url").hasArg()
             .desc("URL of a named entity recognition service").build());
+    options.addOption(Option.builder().longOpt("skip-exceptions")
+            .desc("Whether internal Java exceptions should only be printed instead of stopping this script").build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
@@ -257,7 +259,11 @@ public class SentenceSourceChecker {
         } catch (DocumentLimitReachedException | ErrorLimitReachedException e) {
           throw e;
         } catch (Exception e) {
-          throw new RuntimeException("Check failed on sentence: " + StringUtils.abbreviate(sentence.getText(), 250), e);
+          if (options.hasOption("skip-exceptions")) {
+            e.printStackTrace();
+          } else {
+            throw new RuntimeException("Check failed on sentence: " + StringUtils.abbreviate(sentence.getText(), 250), e);
+          }
         }
       }
       ignoredCount = mixingSource.getIgnoredCount();
