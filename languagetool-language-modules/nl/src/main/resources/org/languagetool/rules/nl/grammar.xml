@@ -33673,8 +33673,8 @@ steenwijk;Steenwijk
         </rulegroup>
 
         <rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik">
+            <!-- R. Baars, oktober 2022 -->
             <antipattern>
-                <!-- werkwoorden van merken, vaak spatiefout -->
                 <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|kan|opzoek</token>
             </antipattern>
             <antipattern>
@@ -34914,6 +34914,30 @@ steenwijk;Steenwijk
                 <example correction="Ik ben"><marker>Ik is</marker> telkens weer een ander.</example>
                 <example correction="Ik word"><marker>Ik wordt</marker> er gewoon ziek van.</example>
                 <example correction="Ik vind"><marker>Ik vindt</marker> het onvolwassen gedrag.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LOOPT_IK" name="loopt ik" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="WKW:TGW:3EP"><exception postag="WKW:TGW:1EP|WKW:VLT:1EP|ZNW.*" postag_regexp="yes"/><exception>want</exception></token>
+                    <token case_sensitive="yes">ik</token>
+                </pattern>
+                <message>Deze werkwoordsvorm past niet bij 'ik'.</message>
+                <suggestion><match no="1" postag_regexp="yes" postag="WKW:TGW:1EP"/> <match no="2"/></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="WKW:VLT:1EP"/> <match no="2"/></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="WKW:TGW:1EP"/>; <match no="2"/></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="WKW:TGW:1EP"/>, <match no="2"/></suggestion>
+                <suggestion><match no="1" postag_regexp="yes" postag="WKW:TGW:1EP"/>: <match no="2"/></suggestion>
+                <example correction="vind ik|vond ik|vind; ik|vind, ik|vind: ik">Dat <marker>vindt ik</marker> onvolwassen gedrag.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="WKW:TGW:3EP"></token>
+                    <token case_sensitive="yes">Ik</token>
+                </pattern>
+                <message>Het lijkt erop dat u een punt vergeten bent te zetten.</message>
+                <suggestion><match no="1"/>. <match no="2"/></suggestion>
+                <example correction="helpt. Ik">Dat <marker>helpt Ik</marker> heb het uitgelegd.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HIJ_WILT" name="hij wilt">
