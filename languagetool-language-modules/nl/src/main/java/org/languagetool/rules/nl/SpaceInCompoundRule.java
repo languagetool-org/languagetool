@@ -25,17 +25,12 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import java.util.*;
 
-import org.apache.commons.lang3.StringUtils;
-import static java.lang.Character.isLowerCase;
-import static java.lang.Character.isUpperCase;
-
 public class SpaceInCompoundRule extends Rule {
 
   private static final Map<String, String> normalizedCompound2message = new HashMap<>();
   private static final AhoCorasickDoubleArrayTrie<String> trie = getTrie();
 
   public SpaceInCompoundRule(ResourceBundle messages) {
-    //setDefaultTempOff();  // TODO
   }
 
   private static AhoCorasickDoubleArrayTrie<String> getTrie() {
