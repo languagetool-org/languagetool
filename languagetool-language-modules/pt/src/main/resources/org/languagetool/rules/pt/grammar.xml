@@ -13117,7 +13117,7 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rule id='TODOS_FOLLOWED_BY_NOUN_PLURAL' name="Expressão: Todos + 'nome sem artigo'" default="temp_off">
+    <rule id='TODOS_FOLLOWED_BY_NOUN_PLURAL' name="Expressão: Todos + 'nome sem artigo'" default="on">
       <!-- FIXME: too many matches -->
       <!-- Created by Tiago F. Santos, 2017-03-12 -->
       <!-- XXX Brazilian portuguese has as different interpretations for tod[ao] -->
@@ -13238,9 +13238,23 @@ O namorado dela era um ladrão.
         <example>Quase praticamente todos carros muito novos.</example>
         <example>Todos carros novos.</example>
       </antipattern>
+      <antipattern>
+      <token postag="SENT_START|_PUNCT" postag_regexp="yes"/>
+        <token regexp='yes'>tod[ao]s</token>
+        <token postag_regexp='yes' postag='(?:N|A).+'/>
+        <token postag='VMP.+' postag_regexp='yes'>
+          <exception>reservados</exception></token>
+        <example>Há cinco composições, todas músicas compostas pela banda.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes' regexp='yes'>ser|considerar</token>
+        <token regexp='yes'>tod[ao]s</token>
+        <token postag_regexp='yes' postag='(?:N|A).+'/>
+        <example>Haviam cinco homens, sendo todos ex-lutadores.</example>
+      </antipattern>
       <pattern>
         <token regexp='yes'>tod[ao]s</token>
-        <token postag_regexp='yes' postag='(?:N|A).+'>
+        <token postag_regexp='yes' postag='(?:NC|A).+'>
           <exception regexp='yes'>uns|umas|iguais</exception>
           <exception negate_pos='yes' postag_regexp='yes' postag='(?:N|A).+'/></token>
       </pattern>
