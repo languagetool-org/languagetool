@@ -9921,6 +9921,10 @@ O namorado dela era um ladrão.
           <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
           <example>Quando redes como o TikTok ganharam enorme protagonismo.</example>
         </antipattern>
+        <antipattern>
+          <token>ambos</token>
+          <token>nós</token>
+        </antipattern>
         <pattern>
           <!-- MARCOAGPINTO 2020-05-09 *START* -->
           <!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->
@@ -9999,7 +10003,7 @@ O namorado dela era um ladrão.
         <and>
           <token inflected="yes">ser</token>
           <token postag="VMI.3S." postag_regexp="yes">
-            <exception regexp='yes'>era|fora</exception></token>
+            <exception postag="VMI.1S." postag_regexp="yes"/></token>
         </and>
           <token>eu</token>
         </pattern>
@@ -10045,7 +10049,8 @@ O namorado dela era um ladrão.
           <token postag="VMI.3S." postag_regexp="yes"/>
         </and>
           </marker>
-          <token postag='PP3.P0.+' postag_regexp='yes'/>
+          <token postag='PP3.P0.+' postag_regexp='yes'>
+             <exception>nos</exception></token>
         </pattern>
         <message>&MSG_ECV;</message>
         <suggestion><match no='1' postag='(VMI.)3S(.)' postag_replace='$1\3P$2' postag_regexp='yes'/></suggestion>
