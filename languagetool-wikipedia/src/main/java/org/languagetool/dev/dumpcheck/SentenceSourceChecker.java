@@ -175,7 +175,7 @@ public class SentenceSourceChecker {
       if (ruleSource != null) {
         boolean enable = false;
         if (rule instanceof AbstractPatternRule) {
-          String sourceFile = ((AbstractPatternRule) rule).getSourceFile();
+          String sourceFile = rule.getSourceFile();
           if (sourceFile != null && sourceFile.endsWith("/" + ruleSource) && !rule.isDefaultOff()) {
             enable = true;
             activatedBySource++;
@@ -319,7 +319,7 @@ public class SentenceSourceChecker {
       for (String categoryId : additionalCategoryIds) {
         for (Rule rule : lt.getAllRules()) {
           CategoryId id = rule.getCategory().getId();
-          if (id != null && id.toString().equals(categoryId)) {
+          if (id.toString().equals(categoryId)) {
             System.out.println("Activating " + rule.getId() + " in category " + categoryId);
             lt.enableRule(rule.getId());
           }
