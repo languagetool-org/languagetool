@@ -13067,6 +13067,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Este auto usado es tan bueno como uno nuevo.</example>
             </rule>
         </rulegroup>
+        <rule id="PREFIJOS_JUNTOS_EN_DICCIONARIO" name="prefijos escritos juntos: *anti occidental" default="temp_off">
+            <pattern>
+                <!-- per, sobre -->
+                <token regexp="yes">auto|anglo|archi|bis|plus|post|pre|pro|pseudo|cuasi|semi|sub|ultra|vice|auto|greco|mini|micro|multi|anti|galo</token>
+                <token min="0">-</token>
+                <token regexp="yes">....+<exception regexp="yes">\p{Lu}.*|\d+</exception></token>
+            </pattern>
+            <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+            <message>Se escribe junto.</message>
+            <suggestion><match no="1"/><match no="3"/></suggestion>
+            <suggestion><match no="1"/>r<match no="3"/></suggestion>
+            <example correction="antioccidental">Es muy <marker>anti occidental</marker>.</example>
+            <example correction="grecorromanas">Las aportaciones <marker>greco romanas</marker> al arte.</example>
+        </rule>
         <rule id="ALREDEDOR" name="*(a) alrededor">
             <antipattern>
                 <token inflected="yes" regexp="yes">ascender|emplear|afectar</token>
