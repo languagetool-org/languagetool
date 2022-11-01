@@ -12228,10 +12228,43 @@ O namorado dela era um ladrão.
       Isto permite modelar com enorme realidade. → Isto permite modelar com enorme realismo.
       A equação para mais realidade é esta. → A equação para mais realismo é esta.
       A equação para maior realidade é esta. → A equação para maior realismo é esta.
+
+      Added in V2 commit:
+      As equações aumentam o grau de realidade dos modelos. → As equações aumentam o grau de realismo dos modelos.
+      Há diferentes graus de realidade nos modelos. → Há diferentes graus de realismo nos modelos.
       -->
+
+      <!-- Fix for V2 commit, antipatterns as it would generate tons of false positives. -->
+      <antipattern>
+        <token postag_regexp='yes' postag='V.+'/>
+        <token min="0" max="1" postag_regexp='no' postag='SPS00'/>
+        <token>realidade</token>
+        <example>Neblina turva e brilhante os veus que encobrem a realidade.</example>
+        <example>Eu não sei por que, mas por alguma razão ele se recusa a enxergar a realidade e a tirar conclusões lógicas.</example>
+        <example>É triste mas é a realidade.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag_regexp='no' postag='SPS00'/>
+        <token>realidade</token>
+        <token postag_regexp='yes' postag='V.+|NC.+|AQ.+'/>
+        <example>Recentemente, lançou a campanha “Menos Preconceito, Mais Índio” e o primeiro documentário em realidade virtual numa aldeia indígena: “Fogo na Floresta”.</example>
+        <example>Com 17 unidades, atualmente, a franquia levará para a feira óculos de realidade aumentada para que a pessoa se sinta dentro de um Bar do Urso já existente.</example>
+        <example>...de Realidade Estruturada, Melhor Direção de Reality Show e Melhor Edição de Imagem para Programa de Realidade Estruturada ou Competição.</example>
+      </antipattern>
+
+      <antipattern>
+        <token regexp='yes'>a|em</token>
+        <token>realidade</token>
+        <example>Olhe uma parte do filme Garota Infernal, vocês vão ver como é quase igual a realidade com a cena do filme.</example>
+        <example>Aceitamos facilmente a realidade, talvez porque intuímos que nada é real.</example>
+        <example>Aquela era a realidade.</example>
+        <example>Inspire-se e transforme seu sonho em realidade conosco.</example>
+      </antipattern>
+
       <pattern>
         <token postag_regexp='yes' postag='V.+|SPS00'/>
-        <token postag_regexp='yes' postag='AQ.+|RG'>
+        <token min="0" max="1" postag_regexp='yes' postag='AQ.+|RG'>
           <exception postag_regexp='no' postag='CS'/> <!-- Remove "como" -->
         </token>
         <marker>
@@ -12243,7 +12276,9 @@ O namorado dela era um ladrão.
       <example correction="realismo">A equação dá mais <marker>realidade</marker> aos modelos.</example>
       <example correction="realismo">Isto permite modelar com enorme <marker>realidade</marker>.</example>
       <example correction="realismo">A equação para mais <marker>realidade</marker> é esta.</example>
-	  <example correction="realismo">A equação para maior <marker>realidade</marker> é esta.</example>
+      <example correction="realismo">A equação para maior <marker>realidade</marker> é esta.</example>
+      <example correction="realismo">As equações aumentam o grau de <marker>realidade</marker> dos modelos.</example>
+      <example correction="realismo">Há diferentes graus de <marker>realidade</marker> nos modelos.</example>
     </rule>
 
 
