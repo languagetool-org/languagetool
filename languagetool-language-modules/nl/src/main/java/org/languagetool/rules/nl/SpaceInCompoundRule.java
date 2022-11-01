@@ -46,6 +46,9 @@ public class SpaceInCompoundRule extends Rule {
         throw new RuntimeException("Unexpected format in " + filename + ", expected 2 columns separated by '|': " + line);
       }
       String wordParts = lineParts[0];
+      if (!wordParts.contains(" ")) {
+        throw new RuntimeException("Unexpected format in " + filename + ", expected multi-word (i.e. spaces) left of the '|': " + line);
+      }
       String[] words = wordParts.split(" ");
       generateVariants("", Arrays.asList(words), result);
       if (normalizedCompound2message.containsKey(Tools.glueParts(words))) {
