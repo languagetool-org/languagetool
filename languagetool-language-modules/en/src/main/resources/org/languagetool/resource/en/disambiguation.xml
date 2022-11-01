@@ -8036,6 +8036,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB" min="0" />
             <token postag="VB" />
         </antipattern>
+        <antipattern><!-- incorrect chunking -->
+            <token>to</token>
+            <token regexp="yes">both|all</token>
+            <token postag="VB" chunk="E-NP-singular" />
+            <token postag="RP" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
