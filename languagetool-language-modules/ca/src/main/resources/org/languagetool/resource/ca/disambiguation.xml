@@ -4092,6 +4092,25 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="NCF.*"/>
         </rule>
     </rulegroup>
+    <rulegroup id="possibilitat" name="possibilitat">
+        <rule>
+            <pattern>
+                <token regexp="yes">més|menys</token>
+                <marker>
+                    <token regexp="yes">possibilitats?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.P.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">possibilitats?<exception scope="previous" inflected="yes">haver</exception><exception scope="next" regexp="yes">per|pe</exception></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.P.*"/>
+        </rule>
+    </rulegroup>
     <rule id="la_culpa" name="culpa (nom)">
         <pattern>
             <!-- error en: te -> té -->
@@ -14120,15 +14139,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="[ND].*|RG" postag_regexp="yes"/>
             </pattern>
             <disambig action="remove" postag="[AN].*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">més|menys</token>
-                <marker>
-                    <token regexp="yes">possibilitats?<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="remove" postag="V.P.*"/>
         </rule>
     </rulegroup>
     <rule id="corrent_per_gerundi" name="corrent per (gerundi)">
