@@ -468,6 +468,53 @@
     </rule>
 
 
+    <!-- DO QUE AQUELE QUE àquele que -->
+    <rulegroup id='DO_QUE_AQUELE_QUE_ÀQUELE_QUE_PT_PT' name="Simplificar: do que aquel[ae](s) que → àquel[ae](s) que">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-01 (25-JUL-2022+) -->
+      <!--
+      Esta equação é muito mais rápida do que aquela que tínhamos. → Esta equação é muito mais rápida àquela que tínhamos.
+      Estas equações são muito mais rápidas do que aquelas que tínhamos. → Estas equações são muito mais rápidas àquelas que tínhamos.
+      Este modelo é muito mais rápido do que aquele que tínhamos. → Este modelo é muito mais rápido àquele que tínhamos.
+      Estes modelos são muito mais rápidos do que aqueles que tínhamos. → Estes modelos são muito mais rápidos àqueles que tínhamos.
+      -->
+
+      <!-- FEMALE -->
+      <rule>
+        <pattern>
+          <marker>
+            <token>do</token>
+            <token>que</token>
+            <token case_sensitive='yes' regexp='yes'>aquelas?</token>
+            <token>que</token>
+          </marker>
+          <token postag_regexp='yes' postag='V.+'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>àquela<match no='3' regexp_match='(aquela)(s?)' regexp_replace='$2'/> que</suggestion>
+        <example correction="àquela que">Esta equação é muito mais rápida <marker>do que aquela que</marker> tínhamos.</example>
+        <example correction="àquelas que">Estas equações são muito mais rápidas <marker>do que aquelas que</marker> tínhamos.</example>
+      </rule>
+
+      <!-- MALE -->
+      <rule>
+        <pattern>
+          <marker>
+            <token>do</token>
+            <token>que</token>
+            <token case_sensitive='yes' regexp='yes'>aqueles?</token>
+            <token>que</token>
+          </marker>
+          <token postag_regexp='yes' postag='V.+'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>àquele<match no='3' regexp_match='(aquele)(s?)' regexp_replace='$2'/> que</suggestion>
+        <example correction="àquele que">Este modelo é muito mais rápido <marker>do que aquele que</marker> tínhamos.</example>
+        <example correction="àqueles que">Estes modelos são muito mais rápidos <marker>do que aqueles que</marker> tínhamos.</example>
+      </rule>
+
+    </rulegroup>
+
+
     <rule id="EFEITO_ESTUFA" name="Hifenização: Efeito-estufa">
       <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-25 -->
       <pattern>
