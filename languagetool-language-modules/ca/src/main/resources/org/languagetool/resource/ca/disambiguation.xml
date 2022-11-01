@@ -765,6 +765,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
+    <rule id="de_A" name="de A">
+        <pattern>
+            <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+            <marker>
+                <token case_sensitive="yes">A</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd lemma="A" pos="NCCS000"/></disambig>
+    </rule>
     <rulegroup id="any_en_xifres" name="El + any (en xifres)">
         <antipattern>
             <token regexp="yes">\d+</token>

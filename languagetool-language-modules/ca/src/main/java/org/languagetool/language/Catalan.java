@@ -294,7 +294,7 @@ public class Catalan extends Language {
   // exceptions: l'FBI, l'statu quo
   private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtls])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
   // exceptions: el iogurt, la essa
-  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtsl])e? ([aeiouàèéíòóú])",
+  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtsld])e? ([aeiouàèéíòóú])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeoàúèéí][^ ])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
