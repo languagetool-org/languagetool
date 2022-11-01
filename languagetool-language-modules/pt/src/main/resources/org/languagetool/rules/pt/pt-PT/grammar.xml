@@ -327,6 +327,27 @@
     </rule>
 
 
+    <!-- AVIÃO DE COMBATE caça -->
+    <rule id='AVIÃO_DE_COMBATE_PT_PT' name="Avião(ões) de combate → caça(s)">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-01 (25-JUL-2022+) -->
+      <!--
+      O avião de combate é muito rápido. → O caça é muito rápido.
+      Os aviões de combate são muito rápidos. → Os caças são muito rápidos.
+      -->
+      <pattern>
+        <marker>
+          <token regexp='yes'>avião|aviões</token>
+          <token>de</token>
+          <token>combate</token>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='1' postag='NC.(.)000' postag_replace='NCC$1000'>caça</match></suggestion>
+      <example correction="caça">O <marker>avião de combate</marker> é muito rápido.</example>
+      <example correction="caças">Os <marker>aviões de combate</marker> são muito rápidos.</example>
+    </rule>
+
+
     <rulegroup id='AVOID_GERUND' name='Evitar o Gerúndio (perifrásico)' default='on' type='style'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-11-24 -->
       <url>https://pt.wikipedia.org/wiki/Gerundismo</url>
