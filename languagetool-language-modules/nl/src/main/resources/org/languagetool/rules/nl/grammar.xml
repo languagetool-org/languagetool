@@ -13440,7 +13440,7 @@ onwaarschijnlijk
                     <token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)</token>
                 </antipattern>
                 <pattern>
-                    <token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)<exception postag_regexp="yes" postag="BYW"/><exception regexp="yes">.*(school|winkel|spoor|terug|verbindings|speel|vlucht|uitvals|ontmoetings|inrij|oprij|toegangs|levens|autosnel|lijdens|milieu|asfalt|baans|tram|slinger|modder|wandel|cultuur|water|richtings|verkeers|kleuter|geloofs|magi|test)(straat|plein|laan|beek|weg)</exception></token>
+                    <token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)<exception postag="BYW"/><exception regexp="yes">.*(school|winkel|spoor|terug|verbindings|speel|vlucht|uitvals|ontmoetings|inrij|oprij|toegangs|levens|autosnel|lijdens|milieu|asfalt|baans|tram|slinger|modder|wandel|cultuur|water|richtings|verkeers|kleuter|geloofs|magi|test)(straat|plein|laan|beek|weg)</exception></token>
                 </pattern>
                 <message>Als dit de naam van een specifieke locatie is, dan heeft het een hoofdletter nodig: <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
                 <short>Hoofdletter</short>
@@ -33769,7 +33769,7 @@ steenwijk;Steenwijk
         <rulegroup id="BETEKEND_BETEKENT" name="betekend/betekent" >
             <!-- R. Baars, oktober 2022 -->
             <rule>
-                <antipattern><token postag_regexp="yes" postag="SENT_START" skip="-1"/><token inflected="yes" regexp="yes" skip="-1">hebben|worden</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag="SENT_START" skip="-1"/><token inflected="yes" regexp="yes" skip="-1">hebben|worden</token><token postag="SENT_END"/></antipattern>
                 <pattern>
                     <token>betekend</token>
                 </pattern>
@@ -35045,7 +35045,7 @@ steenwijk;Steenwijk
                     <token postag_regexp="yes" postag="SENT_START|START"/>
                     <marker>
                         <token regexp="yes">jij|hij|u|zij|je|men</token>
-                        <token postag="WKW:VTD:ONV" regexp="yes">.*d<exception postag="WKW:TGW:3EP" postag_regexp="yes"/></token>
+                        <token postag="WKW:VTD:ONV" regexp="yes">.*d<exception postag="WKW:TGW:3EP"/></token>
                     </marker>
                 </pattern>
                 <message>U bedoelt vast <suggestion><match no="2"/> <match no="3" postag="WKW:TGW:3EP"/></suggestion>.</message>
@@ -36783,7 +36783,7 @@ steenwijk;Steenwijk
                 <antipattern>
                     <token>geen</token>
                     <token regexp="yes" skip="3">reden(en)?</token>
-                    <token regexp="yes" skip="3">waarom</token>
+                    <token  skip="3">waarom</token>
                     <token regexp="yes">geen|niet|nooit</token>
                 </antipattern>
                 <pattern>
@@ -39094,7 +39094,7 @@ steenwijk;Steenwijk
                     <token>.</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">Als(je|tu)blieft|Bedankt|Dank|Dankje|Dank(je|u)wel|Gefeliciteerd|Welkom</token>
+                    <token case_sensitive="yes" regexp="yes">Als(je|tu)blieft|Bedankt|Dank|Dankje|Dank(je|u)wel|Gefeliciteerd|Welkom</token>
                     <token regexp="yes">\?|\!|\.</token>
                 </antipattern>
                 <pattern>
@@ -43744,10 +43744,7 @@ steenwijk;Steenwijk
                     <token regexp="yes">[A-Z][a-z].*</token>
                     <token regexp="yes">[A-Z][a-z].*</token>
                 </antipattern>
-                <antipattern>
-                    <token regexp="yes">aanbod|(aan|ge)?tal|blik|glas|type</token>
-                    <token postag="ZNW:EKV|ZNW.*DE_"></token>
-                </antipattern>
+
                 <pattern>
                     <marker>
                         <token>de</token>
@@ -44148,7 +44145,7 @@ steenwijk;Steenwijk
 		<rulegroup id="TOD" name="tod/tot" >
             <!-- R. Baars 27-10-2022 -->
 	        <antipattern>
-				<token regexp="yes" skip="1">de</token>
+				<token skip="1">de</token>
 				<token>tod</token>
 	        </antipattern>
             <rule>
