@@ -12222,7 +12222,7 @@ O namorado dela era um ladrão.
 
     <!-- COM MAIS REALIDADE com mais realismo -->
     <rule id='REALIDADE_REALISMO' name="Confusão: Realidade/realismo">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-31 (25-JUL-2022+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-31 + 2022-11-01 (25-JUL-2022+) -->
       <!--
       A equação dá mais realidade aos modelos. → A equação dá mais realismo aos modelos.
       Isto permite modelar com enorme realidade. → Isto permite modelar com enorme realismo.
@@ -12260,6 +12260,17 @@ O namorado dela era um ladrão.
         <example>Aceitamos facilmente a realidade, talvez porque intuímos que nada é real.</example>
         <example>Aquela era a realidade.</example>
         <example>Inspire-se e transforme seu sonho em realidade conosco.</example>
+      </antipattern>
+
+      <!-- Antipattern to fix the three sentences that Ricardo Joseh Lima said to be valid in pt-BR. -->
+      <antipattern>
+        <token postag_regexp='yes' postag='DI.+'/>
+        <token postag_regexp='yes' postag='NC.+|AQ.+|UNKNOWN'/> <!-- "UNKNOWN" because "choquezinho" doesn't have a POS -->
+        <token>de</token>
+        <token>realidade</token>
+        <example>Todos com muitas frases feitas na cabeça e nenhum senso de realidade.</example>
+        <example>...italismo FDP foi o maior feito do Lula não escreveria tanas críticas , precisa de um choquezinho de realidade das favelas!</example>
+        <example>Desejo lhe um choque de realidade.</example>
       </antipattern>
 
       <pattern>
