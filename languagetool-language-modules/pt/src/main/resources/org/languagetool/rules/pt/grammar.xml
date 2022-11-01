@@ -142,7 +142,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!ENTITY nomes_de_instituicoes "Anuário|Jardim|Aeroporto|Classificação|Fundação|Diretrize?s?|Península|Normas?|Consultoria|Empresa|Empirismo|Conjuração|Inconfidência|Inquisição|Rede|Códigos?|Vale|Título|Plano|Frente|Vanguarda|tradutor[ae]s?|Lei|Indústria|Realismo|Conferência|Constituição|Colégio|Conselho|Comunidade|Estatuto|Serviço|Coletivo|Assuntos|Revoluções|Tabela|Encontro|Secretaria|Consulado|Comissão|Comitês?|Fórum|Núcleo|Posto|Jornal|Sistema|Lojas?|Tribunal|Cinemateca|Nacional|Sinfonia|Vila|Protocolos?|Grupos?|Peste|Gripe|Festival|Velódromo|Memorial|Programa|Expressionismo|Assembleias?|Forças?|Câmara|Impressionismo|Clubes?|Estudos|Regimentos?|Fundo|Banco|Campeonato|Conferência|Partido|Aliança|Seleção|Museu|Taça|Copa|Organização|Unidades?|Hospital|Campanha|Corporação|Correio|Marinha|Juventude|Sociedades?|Ligas?|Letras|Literaturas?|Línguas?|Revolta|Armada|Grêmio|Jogos|Academia|Associação|Centro|Companhia|Cultura|Congressos?|Revista|Montanhas?|Morros?|Complexo|Ministério|Confederação|Coroa|Embaixada|Emirados?|Enciclopédia|Era|Escola|Exército|Circuito|Faculdade|Tesouro|Federação|Guerra|Igreja|Ilhas|Império|Torneios?|Índia|Instituição|Instituto|Mar|Repúblicas?|Revolução|União|Universidade|Superliga|Teatro">
 
-    <!ENTITY nomes_de_instituicoes_final "Productions|House|TV|Partnership|University|Hotel|Films|Designs?|Society|Records|Entertainment|Pictures|Company|Studios">
+    <!ENTITY nomes_de_instituicoes_final "Productions|Hall|House|TV|Partnership|University|Hotel|Films|Designs?|Society|Records|Entertainment|Pictures|Company|Studios">
 
     <!ENTITY livros_biblicos "Atos?|Salmos?|Alcorão|Gênesis|Êxodo|Levítico|Deuteronômio|Josué|Juízes|Rute|Samuel|Reis|Crônicas|Esdras|Neemias|Ester|Jó|Salmos|Provérbios|Eclesiastes|Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|Oseias|Joel|Amós|Obadias|Jonas|Miqueias|Naum|Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Tobias|Judite|Macabeus|Sabedoria|Eclesiástico|Baruque|Mateus|Marcos|Lucas|João|Apóstolos|Romanos|Coríntios|Gálatas|Efésios|Filipenses|Colossenses|Tessalonicenses|Timóteo|Tito|Filémon|Hebreus|Tiago|Pedro|Judas|Apocalipse">
 
@@ -1565,6 +1565,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            <token min='0' postag='(?:A..)C[SN].+' postag_regexp='yes'/>
            <token postag='(?:N.|A..|DP.)F.+' postag_regexp='yes'/>
            <example>A concepção do inconsciente trazida</example>
+        </antipattern>
+        <antipattern>
+            <token postag='DI0M.+|SPS00:D..M.+' postag_regexp='yes'/>
+            <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+            <token min='0' postag='(?:A..)C[SN].+' postag_regexp='yes'/>
+            <token skip='3' postag='(?:N.|A..|DP.)F.+' postag_regexp='yes'/>
+            <token regexp="yes">&nomes_de_instituicoes_final;</token>
+            <example>"Ocean's 8" estreou no Alice Tully Hall em 5 de junho de 2018</example>
         </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;|&pronomes_obliquos;</token>
