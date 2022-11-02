@@ -776,7 +776,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token case_sensitive="yes">A</token>
             </marker>
         </pattern>
-        <disambig action="replace"><wd lemma="A" pos="NCCS000"/></disambig>
+        <disambig action="replace">
+            <wd lemma="A" pos="NCCS000"/>
+        </disambig>
     </rule>
     <rulegroup id="any_en_xifres" name="El + any (en xifres)">
         <antipattern>
@@ -15679,6 +15681,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace">
                 <wd pos="CC"/>
             </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="allow_tant" skip="21">tant</token>
+                <marker>
+                    <token>com</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="RG|allow_com"/>
         </rule>
     </rulegroup>
     <rulegroup id="com_més__més" name="com més __ + més +adj">
