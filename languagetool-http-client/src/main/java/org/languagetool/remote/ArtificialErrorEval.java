@@ -156,7 +156,7 @@ public class ArtificialErrorEval {
     File[] languageDirectories = new File(inputFolder).listFiles(File::isDirectory);
     for (File languageDirectory : languageDirectories) {
       langCode = languageDirectory.getName();
-//      if (!langCode.toString().equals("es")) {
+//      if (!langCode.toString().equals("de-DE")) {
 //        continue;
 //      }
       language = Languages.getLanguageForShortCode(langCode);
