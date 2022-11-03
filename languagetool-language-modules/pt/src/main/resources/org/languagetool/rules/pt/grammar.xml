@@ -18500,6 +18500,27 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- PARA QUANDO quando -->
+    <rule id='PARA_QUANDO_QUANDO' name="Simplificar: Para quando → quando" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-03 (25-JUL-2022+) -->
+      <!--
+      A fiabilidade das equações é necessária para quando se quer transmitir dados. → A fiabilidade das equações é necessária quando se quer transmitir dados.
+      -->
+      <pattern>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <marker>
+          <token>para</token>
+          <token>quando</token>
+        </marker>
+        <token regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</token>
+        <token postag='V.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>quando</suggestion>
+      <example correction="quando">A fiabilidade das equações é necessária <marker>para quando</marker> se quer transmitir dados.</example>
+    </rule>
+
+
     <!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
     <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 + 2021-07-22 (25-JUN-2021+)      -->
