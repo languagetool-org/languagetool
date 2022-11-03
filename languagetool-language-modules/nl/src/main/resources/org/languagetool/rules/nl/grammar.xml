@@ -20765,6 +20765,66 @@ steenwijk;Steenwijk
                 <example correction="snelheidsregeling|tempomaat">Ook de <marker>cruisecontrol</marker> en speedlimit is hierop handig in te stellen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="call" name="overbodig Engels: call" tags="picky">
+            <rule>
+                <antipattern><token>collect</token><token>call</token></antipattern>
+                <!-- november 2022 R. Baars -->
+                <pattern>
+                    <token>call</token>
+                </pattern>
+                <message>&leenwoord_mess;</message>
+                <suggestion>gesprek</suggestion>
+                <suggestion>oproep</suggestion>
+                <suggestion>aanroep</suggestion>
+                <suggestion>melding</suggestion>
+                <example correction="gesprek|oproep|aanroep|melding">Gebruik de <marker>call</marker>.</example>
+            </rule>
+            <rule>
+                <!-- nolvember 2022 R. Baars -->
+                <pattern>
+                    <token>calls</token>
+                </pattern>
+                <message>&leenwoord_mess;</message>
+                <suggestion>gesprekken</suggestion>
+                <suggestion>oproepen</suggestion>
+                <suggestion>aanroepen</suggestion>
+                <suggestion>meldingen</suggestion>
+                <example correction="gesprekken|oproepen|aanroepen|meldingen">Gebruik de <marker>calls</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="hey" name="overbodig Engels: hey" tags="picky">
+            <rule>
+                <!-- nolvember 2022 R. Baars -->
+                <pattern>
+                    <token>hey</token>
+                </pattern>
+                <message>&leenwoord_mess;</message>
+                <suggestion>Hee</suggestion>
+                <suggestion>Hé</suggestion>
+                <example correction="Hee|Hé"><marker>Hey</marker> daar.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="developer" name="overbodig Engels: developer" tags="picky">
+            <rule>
+                <!-- november 2022 R. Baars -->
+                <pattern>
+                    <token>developer</token>
+                </pattern>
+                <message>&leenwoord_mess;</message>
+                <suggestion>ontwikkelaar</suggestion>
+                <example correction="Ontwikkelaar"><marker>Developer</marker> is een rol.</example>
+            </rule>
+            <rule>
+                <!-- november 2022 R. Baars -->
+                <pattern>
+                    <token>developers</token>
+                </pattern>
+                <message>&leenwoord_mess;</message>
+                <suggestion>ontwikkelaars</suggestion>
+                <example correction="Ontwikkelaars"><marker>Developers</marker> zijn techneuten.</example>
+            </rule>
+        </rulegroup>
+
     </category>
     <category id="CONGRUENTIE" name="Congruentie">
 
@@ -33763,6 +33823,26 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Bij 'ben' hoort ergens 'ik' in de zin. U bedoelt vast <suggestion>ik ben</suggestion>.</message>
                 <example correction="ik ben">Dus, <marker>ben</marker> blij met alles.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="BETEKENT_HEEFT" name="3e persoon i.p.v. voltooid deelwoord" default="temp_off">
+            <!-- R. Baars, november 2022 -->
+            <rule>
+                <antipattern><token>de</token><token>was</token></antipattern>
+                <antipattern><token>zijn</token><token postag_regexp="yes" postag="ZNW.*|BNW.*"/></antipattern>
+                <antipattern><token postag="WKW:VTD:ONV"/><token>zijn</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">is|was|heb|had|heeft|wordt|word|werd|worden|werden|waren|zijn</token>
+                        <token case_sensitive="yes" postag="WKW:TGW:3EP" regexp="yes">[a-z].*t<exception postag_regexp="yes" postag="WKW:VTD:ONV|GET.*|ZNW.*|BNW.*|BYW.*|VRZ"/><exception>kwijt</exception></token>
+                    </marker>
+                    <token><exception regexp="yes">het|de|een|geen|u</exception></token>
+                </pattern>
+                <message>Mogelijk staat hier een verkeerde werkwoordsvorm of ontbreekt een komma.</message>
+                <suggestion>\1 <match no="2" postag="WKW:VTD:ONV"/></suggestion>
+                <suggestion>\1, \2</suggestion>
+                <example correction="heeft betekend|heeft, betekent">Wat het ook <marker>heeft betekent</marker>.</example>
             </rule>
         </rulegroup>
 
