@@ -5395,6 +5395,18 @@ O namorado dela era um ladrão.
           <example>Verificámos que ao termos bonitos uniformes tudo parece melhor.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-09-17 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-11-03 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- It has no hits in 600 000 sentences, it just removes one false positive in my thesis -->
+        <antipattern>
+          <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+' postag_regexp='yes'/>
+          <token postag='VM...P.+' postag_regexp='yes'/>
+          <token postag='Z0.N.+|AQ0.N.+|NC.N.+' postag_regexp='yes'/>
+          <token postag='AQ0.P.+|NC.P.+' postag_regexp='yes'/>
+          <example>A situação acima ocorre ao termos 4 humanos no veículo.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-11-03 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
