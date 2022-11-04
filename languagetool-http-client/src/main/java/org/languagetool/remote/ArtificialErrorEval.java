@@ -103,48 +103,77 @@ public class ArtificialErrorEval {
       runEvaluationOnFolders(inputFolder, outpuFolder, remoteServer, printSummaryDetails, printHeader);
       System.exit(0);
     }
-    if (args.length < 4 || args.length > 12) {
-      writeHelp();
-      System.exit(1);
+    // language code + input file
+    if (args.length == 2) { 
+      runEvaluationOnFile(args[0], args[1]);
+      System.exit(0);
     }
     
-    //Parse options from args
-    for (int k = 4; k < args.length; k++) {
-      if (args[k].contentEquals("-v")) {
-        verboseOutput = true;
-      }
-      if (args[k].contentEquals("-u")) {
-        unidirectional = true;
-      }
-      if (args[k].contentEquals("-r")) {
-        onlyRules = Arrays.asList(args[k + 1].split(","));
-      }
-      if (args[k].contentEquals("-s")) {
-        summaryOutputFilename = args[k + 1];
-      }
-      if (args[k].contentEquals("-c")) {
-        errorCategory = args[k + 1];
-      }
-      if (args[k].contentEquals("--inflected")) {
-        inflected = true;
-      }
-    }
-    words[0] = args[2];
-    words[1] = args[3];
-    lemmas[0] = words[0];
-    lemmas[1] = words[1];
-    langCode = args[0];
-    corpusFilePath = args[1];
+    writeHelp();
+    System.exit(1);
+  }
+  
+  private static void runEvaluationOnFile(String languageCode, String inputFile) throws IOException {
+    langCode = languageCode;
+    corpusFilePath = inputFile;
+    verboseOutput = true;
     language = Languages.getLanguageForShortCode(langCode);
     localLt = new JLanguageTool(language);
     synth = language.getSynthesizer();
     lt = new RemoteLanguageTool(Tools.getUrl("http://localhost:8081"));
+    File corpusFile = new File(corpusFilePath);
+    String fileName = corpusFile.getName();
+    System.out.println("Analyzing file: " + fileName);
+    fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+    verboseOutputFilename = inputFile +".results";
+    // reset all global Variables to default
+    unidirectional = false;
+    wholeword = true;
+    isDoubleLetters = false;
+    isDiacritics = false;
+    inflected = false;
+    isParallelCorpus = false;
+    columnCorrect = 1;
+    columnIncorrect = 2;
+    if (fileName.startsWith("parallelcorpus")) {
+      isParallelCorpus = true;
+      unidirectional = true;
+      String parts[] = fileName.split("-");
+      if (parts.length > 2) {
+        columnCorrect = Integer.parseInt(parts[1]);
+        columnIncorrect = Integer.parseInt(parts[2]);
+      }
+    }
+    else if (fileName.equals("diacritics")) {
+      isDiacritics = true;
+      unidirectional = true;
+    }
+    else if (fileName.equals("double_letters")) {
+      isDoubleLetters = true;
+      unidirectional = true;
+    }
+    else {
+      String[] parts = fileName.split("~");
+      words[0] = parts[0].replaceAll("_", " ");
+      words[1] = parts[1].replaceAll("_", " ");
+      if (parts.length > 2) {
+        unidirectional = parts[2].equals("u");
+        if (parts[2].equals("u_notwholeword")) {
+          unidirectional = true;
+          wholeword = false;
+        }
+        if (parts[2].equals("notwholeword")) {
+          wholeword = false;
+        }
+      }  
+    }
+     
     run(true);
-    // end of parsing from args  
   }
   
-  private static void runEvaluationOnFolders(String inputFolder, String outputFolder, String remoteServer, boolean printSummaryDetails, boolean printHeader) throws IOException {
-    
+  private static void runEvaluationOnFolders(String inputFolder, String outputFolder, String remoteServer,
+      boolean printSummaryDetails, boolean printHeader) throws IOException {
+ 
     verboseOutput = true;
     SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
     Date date = new Date(System.currentTimeMillis());
@@ -156,9 +185,6 @@ public class ArtificialErrorEval {
     File[] languageDirectories = new File(inputFolder).listFiles(File::isDirectory);
     for (File languageDirectory : languageDirectories) {
       langCode = languageDirectory.getName();
-//      if (!langCode.toString().equals("de-DE")) {
-//        continue;
-//      }
       language = Languages.getLanguageForShortCode(langCode);
       Files.createDirectories(Paths.get(outputPathRoot+"/"+langCode));
       summaryOutputFilename = outputPathRoot+"/"+langCode+"/"+langCode+".tsv";
@@ -176,9 +202,6 @@ public class ArtificialErrorEval {
           String fileName = myCorpusFile.getName();
           System.out.println("Analyzing file: " + fileName);
           fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-//          if (!fileName.startsWith("parallelcorpus")) {
-//            continue;
-//          }
           //reset all global Variables to default
           unidirectional = false;
           wholeword = true;
@@ -441,7 +464,7 @@ public class ArtificialErrorEval {
       resultsString.append("Recall: " + String.format(Locale.ROOT, "%.4f", recall) + "\n");
       // out.write("TP with expected suggestion: " + String.format("%.4f",
       // expectedSuggestionPercentage)+"\n");
-      resultsString.append("Errors: " + String.valueOf(errorsTotal) + "\n");
+      resultsString.append("Total sentences: " + String.valueOf(errorsTotal) + "\n");
       appendToFile(verboseOutputFilename, resultsString.toString());
       
       if (printSummaryDetails) {
@@ -632,19 +655,9 @@ public class ArtificialErrorEval {
   }
   
   private static void writeHelp() {
-    System.out.println("Usage: " + ArtificialErrorEval.class.getSimpleName()
-        + " <language code> <file> <string1> <string2> <options>");
-    System.out.println("  <language code>, e.g. en, en-US, de, fr...");
-    System.out.println("  <file> is a file with correct sentences, once sentence per line; errors will be "
-        + "introduced and each line will be checked");
-    System.out.println("  <string1> is the string to be replaced by <string2>, word boundaries will be "
-        + "assumed at the start and the end of the strings");
-    System.out.println("  <options>");
-    System.out.println("    -v           verbose, print all false positive or false negative sentences");
-    System.out.println("    -u           unidirectional, analyze only rules for string1 (wrong) -> string2 (correct)");
-    System.out.println("    -r           list of comma-separated rules to be considered");
-    System.out.println("    -s           summary output file");
-    System.out.println("    -c           error category");
-    System.out.println("    --inflected  search lemmas insted of forms");
+    System.out.println("Usage 1: " + ArtificialErrorEval.class.getSimpleName()
+        + " <language code> <input file>");
+    System.out.println("Usage 2: " + ArtificialErrorEval.class.getSimpleName()
+        + " <configuration file>");
   }
 }
