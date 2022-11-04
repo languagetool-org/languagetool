@@ -41,6 +41,10 @@ public class MorfologikCatalanSpellerRuleTest {
 
         RuleMatch[] matches;
         JLanguageTool lt = new JLanguageTool(new Catalan());
+        
+        matches = rule.match(lt.getAnalyzedSentence("Tornaràn"));
+        assertEquals(1, matches.length);
+        assertEquals("Tornaran", matches[0].getSuggestedReplacements().get(0));
 
         // prefixes and suffixes.
         assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autodefineixin com a populars.")).length);
