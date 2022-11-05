@@ -42,7 +42,6 @@ import static org.languagetool.JLanguageTool.getDataBroker;
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. 
  * <p>Unlike AbstractSimpleReplaceRule, it supports phrases (Ex: "aqua forte" -&gt; "acvaforte").
- *
  * Note: Merge this into {@link AbstractSimpleReplaceRule}
  *
  * @author Ionuț Păduraru
@@ -50,6 +49,7 @@ import static org.languagetool.JLanguageTool.getDataBroker;
 public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   private final Language language;
+
   protected boolean subRuleSpecificIds;
   
   public abstract List<String> getFileNames();
@@ -58,18 +58,21 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   @Override
   public abstract String getDescription();
   public abstract String getShort();
+
   /**
    * @return A string where {@code $match} will be replaced with the matching word
    * and {@code $suggestions} will be replaced with the alternatives. This is the string
    * shown to the user.
    */
   public abstract String getMessage();
+
   /**
    * @return the word used to separate multiple suggestions; used only before last suggestion, the rest are comma-separated.  
    */
   public String getSuggestionsSeparator() {
     return ", ";
   }
+
   /**
    * locale used on case-conversion
    */
