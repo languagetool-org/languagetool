@@ -2767,6 +2767,32 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="am_pm" name="am pm">
+        <rule>
+            <pattern>
+                <token regexp="yes">[012]?\d</token>
+                <token>:</token>
+                <token regexp="yes">[0-5]?\d</token>
+                <marker>
+                    <token regexp="yes">am|pm</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="ampm" pos="Y"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[012]?\d\.[0-5]?\d</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">am|pm|AM|PM</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="am_pm" pos="Y"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="unitats" name="unitats de mesura abreviades">
         <rule>
             <pattern>
@@ -7719,7 +7745,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">embalatges?|alcohol|cilindre|cilindres|missa|coma|comes|meta|metes|menta|humana|humanes|escàs|poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només|noms?<exception postag="_GV_"/></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">cables?|embalatges?|alcohol|cilindre|cilindres|missa|coma|comes|meta|metes|menta|humana|humanes|escàs|poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només|noms?<exception postag="_GV_"/></token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -9299,6 +9325,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <antipattern>
                 <token>el</token>
                 <token>la</token>
+            </antipattern>
+            <antipattern>
+                <token>l'</token>
+                <token>ho</token>
             </antipattern>
             <pattern>
                 <marker>
@@ -12984,6 +13014,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- estudiar concordances de persona i nombre!!!!!!<exception postag="D.*" postag_regexp="yes"/> -->
         <!-- se sent sola; s'havia fet.. com tractar: el metges, es fan... -->
         <!--creat per "ens ensenya". Excep: en complexes perspectives-->
+        <antipattern>
+            <token>l'</token>
+            <token>ho</token>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>
@@ -13783,7 +13817,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="V.[MSI].*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
-            <token><exception postag="V.[MSING].*|_GV_|R[GN]|.*LOC_ADV.*|C.*|_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">["“«'‘(]|\d+</exception><exception inflected="yes" regexp="yes">mot|paraula|terme|expressió|vocable|nom|tipus</exception></token>
+            <token><exception postag="V.[MSING].*|_GV_|R[GN]|.*LOC_ADV.*|C.*|_PUNCT.*|SENT_START" postag_regexp="yes"/><exception regexp="yes">["“«'‘(]|\d+</exception><exception inflected="yes" regexp="yes">mot|paraula|terme|expressió|vocable|nom|tipus</exception></token>
             <marker>
                 <and>
                     <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">força|coma|cap|noms?|nous?|deu|viu|cometa</exception></token>
@@ -14590,6 +14624,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <antipattern>
             <token>conforme</token>
             <token>a</token>
+        </antipattern>
+        <antipattern>
+            <token>l'</token>
+            <token>ho</token>
+            <token postag="A.*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
             <token><exception regexp="yes">tant|com|tan</exception><exception postag="DA.*" postag_regexp="yes"/></token>
