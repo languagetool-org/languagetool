@@ -88,18 +88,14 @@ public class AbstractSimpleReplaceRule2Test {
       return Locale.ENGLISH;
     }
     @Override
-    public boolean isCaseSensitive() {
-      return true;
+    public CaseSensitivy getCaseSensitivy() {
+      return CaseSensitivy.CS;
     }
   }
 
   static class MyCaseInsensitiveRule extends MyCaseSensitiveRule {
     MyCaseInsensitiveRule(ResourceBundle messages, Language language) {
       super(messages, language);
-    }
-    @Override
-    public boolean isCaseSensitive() {
-      return false;
     }
   }
 }

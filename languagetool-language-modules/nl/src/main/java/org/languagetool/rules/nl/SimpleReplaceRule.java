@@ -52,13 +52,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public boolean isSemiCaseSensitive() {
-    return true;
-  }
-
-  @Override
-  public boolean isCaseSensitive() {
-    return true;
+  public CaseSensitivy getCaseSensitivy() {
+    return CaseSensitivy.CSExceptAtSentenceStart;
   }
 
   @Override

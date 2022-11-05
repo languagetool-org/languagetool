@@ -48,6 +48,8 @@ import static org.languagetool.JLanguageTool.getDataBroker;
  */
 public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
+  public enum CaseSensitivy {CS, CI, CSExceptAtSentenceStart}
+
   private final Language language;
 
   protected boolean subRuleSpecificIds;
@@ -106,18 +108,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     subRuleSpecificIds = true;
   }
   
-  /**
-   * use case-sensitive matching.
-   */
-  public boolean isCaseSensitive() {
-    return false;
-  }
-
-  /**
-   * Use case-sensitive matching, except for sentence start.
-   */
-  public boolean isSemiCaseSensitive() {
-    return false;
+  public CaseSensitivy getCaseSensitivy() {
+    return CaseSensitivy.CI;
   }
 
   /**
@@ -125,7 +117,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    */
   public List<Map<String, SuggestionWithMessage>> getWrongWords(boolean checkingCase) {
     try {
-      return cache.get(new PathsAndLanguage(getFileNames(), language, isCaseSensitive(), checkingCase));
+      boolean caseSen = getCaseSensitivy() == CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart;
+      return cache.get(new PathsAndLanguage(getFileNames(), language, caseSen, checkingCase));
     } catch (ExecutionException e) {
       throw new RuntimeException(e);
     }
@@ -251,10 +244,11 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         String crt = variants.get(j);
         int crtWordCount = len - j;
         SuggestionWithMessage crtMatch;
-        if (isSemiCaseSensitive() && i - crtWordCount == 0) {  // at sentence start, words can be uppercase
+        if (getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart && i - crtWordCount == 0) {  // at sentence start, words can be uppercase
           crtMatch = wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
         } else {
-          crtMatch = isCaseSensitive() ?
+          boolean caseSen = getCaseSensitivy() == CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart;
+          crtMatch = caseSen ?
             wrongWords.get(crtWordCount - 1).get(crt) :
             wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
         }
@@ -278,7 +272,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           if (subRuleSpecificIds) {
             ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + crt));
           }
-          if ((!isCaseSensitive() || isSemiCaseSensitive()) && StringTools.startsWithUppercase(crt)) {
+          if ((getCaseSensitivy() != CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart)
+               && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {
               replacements.set(k, StringTools.uppercaseFirstChar(replacements.get(k)));
             }

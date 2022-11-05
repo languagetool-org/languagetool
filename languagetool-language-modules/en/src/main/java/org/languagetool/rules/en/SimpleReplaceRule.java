@@ -67,11 +67,6 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public boolean isCaseSensitive() {
-    return false;
-  }
-  
-  @Override
   public Locale getLocale() {
     return EN_LOCALE;
   }
