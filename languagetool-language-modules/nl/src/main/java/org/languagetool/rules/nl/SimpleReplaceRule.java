@@ -52,6 +52,16 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
+  public boolean isSemiCaseSensitive() {
+    return true;
+  }
+
+  @Override
+  public boolean isCaseSensitive() {
+    return true;
+  }
+
+  @Override
   public List<String> getFileNames() {
     return Collections.singletonList("/nl/replace.txt");
   }

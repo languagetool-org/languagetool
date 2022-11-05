@@ -45,9 +45,13 @@ public class SimpleReplaceRuleTest {
   public void testRule() throws IOException {
     // correct sentences:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("all right")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("De Kudde eigenschappen")).length);  // no match b/c case-sensitivity
 
     // incorrect sentences:
     checkSimpleReplaceRule("ofzo", "of zo");
+    checkSimpleReplaceRule("Kudde eigenschappen.", "Kudde-eigenschappen");
+    checkSimpleReplaceRule("kudde eigenschappen.", "kudde-eigenschappen");
+    checkSimpleReplaceRule("De kudde eigenschappen.", "kudde-eigenschappen");
   }
 
   private void checkSimpleReplaceRule(String sentence, String suggestion) throws IOException {

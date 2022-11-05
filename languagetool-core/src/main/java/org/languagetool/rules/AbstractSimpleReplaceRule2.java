@@ -111,6 +111,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   }
 
   /**
+   * Use case-sensitive matching, except for sentence start.
+   */
+  public boolean isSemiCaseSensitive() {
+    return false;
+  }
+
+  /**
    * @return the list of wrong words for which this rule can suggest corrections. The list cannot be modified.
    */
   public List<Map<String, SuggestionWithMessage>> getWrongWords(boolean checkingCase) {
@@ -240,9 +247,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       for (int j = 0; j < len; j++) { // longest words first
         String crt = variants.get(j);
         int crtWordCount = len - j;
-        SuggestionWithMessage crtMatch = isCaseSensitive() ?
-          wrongWords.get(crtWordCount - 1).get(crt) :
-          wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
+        SuggestionWithMessage crtMatch;
+        if (isSemiCaseSensitive() && i - crtWordCount == 0) {  // at sentence start, words can be uppercase
+          crtMatch = wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
+        } else {
+          crtMatch = isCaseSensitive() ?
+            wrongWords.get(crtWordCount - 1).get(crt) :
+            wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
+        }
         if (crtMatch != null) {
           List<String> replacements = Arrays.asList(crtMatch.getSuggestion().split("\\|"));
           String msgSuggestions = "";
@@ -263,7 +275,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           if (subRuleSpecificIds) {
             ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + crt));
           }
-          if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
+          if ((!isCaseSensitive() || isSemiCaseSensitive()) && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {
               replacements.set(k, StringTools.uppercaseFirstChar(replacements.get(k)));
             }
