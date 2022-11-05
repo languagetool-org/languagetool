@@ -18512,6 +18512,27 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- O QUE ESTÁ ESTIPULADO o estipulado -->
+    <rule id='O_QUE_ESTAR_PARTICIPIOPASSADO' name="Simplificar: O que está + V. Part. Passado → o + V. Part. Passado" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-04/5 (25-JUL-2022+) -->
+      <!--
+      Agimos perante o que está estipulado no manual de utilizador. → Agimos perante o estipulado no manual de utilizador.
+      -->
+      <pattern>
+        <token postag='SPS00' postag_regexp='no'/>
+        <marker>
+          <token postag='DA.+' postag_regexp='yes'/>
+          <token>que</token>
+          <token regexp='yes'>está|estão</token>
+          <token postag='VMP00.+' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\2 \5</suggestion>
+      <example correction="o estipulado">Agimos perante <marker>o que está estipulado</marker> no manual de utilizador.</example>
+    </rule>
+
+
     <!-- PARA QUANDO quando -->
     <rule id='PARA_QUANDO_QUANDO' name="Simplificar: Para quando → quando" type="style">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-03 (25-JUL-2022+) -->
