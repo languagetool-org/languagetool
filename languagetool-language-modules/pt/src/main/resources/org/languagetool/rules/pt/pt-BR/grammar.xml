@@ -42,6 +42,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
   <category id="MISC" name="Gramática Geral">
 
+
+    <!-- E QUE ESTÁ FELIZ e está feliz -->
+    <rule id='E_QUE_VERBO_REMOVER_QUE_PT_BR' name="Simplificar: E que → e" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-05 (25-JUL-2022+) -->
+      <!--
+      Ele disse que vai sair e que está feliz. → Ele disse que vai sair e está feliz.
+      -->
+
+      <antipattern>	    
+        <token postag='SENT_START' postag_regexp='no'/>
+        <token>e</token>
+        <token>que</token>
+        <token postag='VMIP3.+' postag_regexp='yes' skip='-1'/>
+        <token postag='_PUNCT_INTERROGATION' postag_regexp='no'/>
+        <example>E que é que ela me responde?</example>
+        <example>E que tem você com isso?</example>
+      </antipattern>
+
+      <pattern>
+        <marker>
+          <token>e</token>
+          <token>que</token>
+        </marker>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Em português (Brasil) poderá omitir a conjunção 'que'.</message>
+      <suggestion>\1</suggestion>
+      <example correction="e">Ele disse que vai sair <marker>e que</marker> está feliz.</example>
+    </rule>
+
+
     <rulegroup id='ORDINAL_ABREVIATION' name="Abreviatura de ordinais: 1o -> 1.º" default="on">
       <!--  Created by Tiago F. Santos, 20-07-2017 -->
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ainda-sobre-a-abreviatura-do-numeral-ordinal-com-ou-sem-o-sobrescrito-sublinhado/2680</url>
