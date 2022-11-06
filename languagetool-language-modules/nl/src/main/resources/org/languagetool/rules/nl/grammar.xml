@@ -4,7 +4,7 @@
 <!--
 Dutch grammar, typo and style rules for LanguageTool
 Copyright (C) 2018 Robin van der Vliet (info@robinvandervliet.com) (miniscule changes)
-Copyright (C) 2006-2021 Ruud Baars (baarsrj@xs4all.nl)
+Copyright (C) 2006-2022 Ruud Baars (baarsrj@xs4all.nl)
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -3070,6 +3070,36 @@ regexp case-insensitive maken: (?i)
                 <pattern><token skip="5">tot</token><marker><token regexp="yes">lijdt?</token></marker></pattern>
                 <message>Bedoelt u misschien <suggestion><match no="2" regexp_match="lijd" regexp_replace="leid"/></suggestion> (stuurt)? Of toch pijn hebben?</message>
                 <example correction="leidt">Het woord tot <marker>lijdt</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="WILD_U" name="Wild u/ wilt u" default="temp_off">
+            <!-- R. Baars, november 2022 -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>wild</token>
+                    </marker>
+                    <token>u</token></pattern>
+                <message>Bedoelt u misschien <suggestion>wilt</suggestion>?</message>
+                <example correction="Wilt"><marker>Wild</marker> u deze fout corrigeren?</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="RONDT" name="Rondt/rond" default="temp_off">
+            <!-- R. Baars, november 2022 -->
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token skip="-1">af</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                     <token>rondt</token>
+                 </pattern>
+                <message>U bedoelt vast: <suggestion>rond</suggestion>. Rondt is een vorm van het werkwoord 'ronden' (bocht om gaan) of 'afronden'.</message>
+                <example correction="rond">Hij loopt maar wat <marker>rondt</marker> het gebouw.</example>
             </rule>
         </rulegroup>
 
