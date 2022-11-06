@@ -2783,6 +2783,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token regexp="yes">[012]?\d</token>
+                <marker>
+                    <token regexp="yes">am|pm</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="ampm" pos="Y"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">[012]?\d\.[0-5]?\d</token>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">am|pm|AM|PM</token>
@@ -8671,6 +8682,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="R.*|V.[MSI].*|PP.*|P0.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="[^N].*"/>
+    </rule>
+    <rule id="nVerb0" name="no verb, si no hi ha pronom">
+        <antipattern>
+            <token postag_regexp="yes" postag="&pronom_feble;"><exception>el</exception></token>
+            <token postag="V.[IS].*" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="V.*" postag_regexp="yes">projecte<exception postag="_GV_"/></token>
+                    <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
     </rule>
     <rule id="infinitiu_nomverb_nom0" name="infinitiu + verb/nom + nom">
         <!-- Per a berenar menges pa-->
@@ -14847,6 +14873,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>vaja</token>
                 </marker>
                 <token postag="CC|_PUNCT.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="replace" postag="I"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>vaja</token>
+                <token inflected="yes" regexp="yes">quin|com</token>
             </pattern>
             <disambig action="replace" postag="I"/>
         </rule>

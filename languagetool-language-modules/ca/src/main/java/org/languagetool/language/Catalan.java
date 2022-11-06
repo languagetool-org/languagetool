@@ -32,6 +32,7 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -292,9 +293,9 @@ public class Catalan extends Language {
   private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
   private static final Pattern CA_APOSTROPHES1 = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
   // exceptions: l'FBI, l'statu quo
-  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtls])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
   // exceptions: el iogurt, la essa
-  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtsld])e? ([aeiouàèéíòóú])",
+  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtsldn])e? (h?[aeiouàèéíòóú])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeoàúèéí][^ ])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -302,6 +303,7 @@ public class Catalan extends Language {
   @Override
   public String adaptSuggestion(String s) {
     // Exceptions: Digues-me alguna cosa, urbi et orbi, Guns N' Roses
+    boolean capitalized = StringTools.isCapitalizedWord(s);
     Matcher m = CA_CONTRACTIONS.matcher(s);
     s = m.replaceAll("$1$2");
     Matcher m1 = CA_APOSTROPHES1.matcher(s);
@@ -312,6 +314,9 @@ public class Catalan extends Language {
     s = m3.replaceAll("$1'$2");
     Matcher m4 = CA_APOSTROPHES4.matcher(s);
     s = m4.replaceAll("$1'$2");
+    if (capitalized) {
+      s = StringTools.uppercaseFirstChar(s);
+    }
     return s;
   }
   

@@ -28,6 +28,7 @@ import java.util.regex.PatternSyntaxException;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.tools.StringTools;
 
 /**
  * Catalan word form synthesizer.
@@ -115,6 +116,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
         if (addDt) {
           List<String> wordForms = lookup(lemma, tag);
           for (String word : wordForms) {
+            word = StringTools.preserveCase(word, token.getToken());
             results.addAll(addPrepositionAndDeterminer(word, tag, prep));
           }
         } else {

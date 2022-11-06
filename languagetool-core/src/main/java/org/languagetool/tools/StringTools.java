@@ -499,6 +499,25 @@ public final class StringTools {
   public static String normalizeNFC(String str) {
     return Normalizer.normalize(str, Normalizer.Form.NFC);
   }
+  
+  /**
+   * Apply to inputString the casing of modelString
+   * @param inputString, modelString 
+   * @return string
+   */
+  public static String preserveCase(String inputString, String modelString) {
+    if (isAllUppercase(modelString)) {
+      return inputString.toUpperCase(); 
+    }
+    if (isCapitalizedWord(modelString)) {
+      return uppercaseFirstChar(inputString.toLowerCase()); 
+    }
+//    if (!isNotAllLowercase(modelString)) {
+//      return inputString.toLowerCase();
+//    }
+    return inputString;
+    
+  }
 
   @Nullable
   public static String asString(CharSequence s) {
