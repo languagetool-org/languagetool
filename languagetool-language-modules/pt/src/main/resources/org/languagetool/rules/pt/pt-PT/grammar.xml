@@ -762,6 +762,86 @@
     </rulegroup>
 
 
+    <!-- TRANSMITE E QUE PERMITE transmite que permite -->
+    <rule id='E_QUE_VERBO_REMOVER_E_PT_PT' name="Simplificar: E que → que" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-06 (25-JUL-2022+) -->
+      <!--
+      Atenção àquilo que transmite e que permite ao recetor agir corretamente. → Atenção àquilo que transmite que permite ao recetor agir corretamente.
+      -->
+
+      <antipattern>
+        <token postag='DA.+|SPS00:DA.+|CC|RN|RG|V.+|NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='DI.+'/>
+          <exception scope="previous" postag_regexp='yes' postag='DI.+'/>
+        </token>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <token postag='NC.+|AQ.+|NP.+|V.+|RN' postag_regexp='yes'/>
+        <token>e</token>
+        <token>que</token>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        <example>Além disso, as corretoras de valores oferecem profissionais que acompanham os investimentos e que tem o compromisso de auxiliar e assessorar o investidor.</example>
+        <example>...sem dúvida a pior elite que existe hoje no Brasil é a elite política que domina atualmente o Brasil e que faz da corrupção desavergonhada, do aparelhamento do Estado e das Estatais e da nefasta política do...</example>
+        <example>...lhar ou para a aventura, porque um carro que lhe dá duas opções de motorização, gasolina ou híbrido e que inova na sua classe, dá para todos.</example>
+        <example>...olar protege a pele, além do sol, de pequenas sujeiras durante o dia, poeirinhas que a gente não vê e que penetram na pele.</example>
+        <example>...rmar os desejos mais difíceis em sonhos reais, que alimentam sua alma através da essência da poesia e que penetra o nosso íntimo arrancando lágrimas e sorrisos.</example>
+        <example>A melancolia existente em cada encontro, que persiste na paixão e que permanece na despedida.</example>
+        <example>A imagem é apenas um sinal visível do que é bem maior e que transcende o sensível.</example>
+        <example>expliquei a situação para a inspetora a mesma disse que não pode fazer nada e que precisa do DOC.</example>
+        <example>...panhola Fiabee, e que é um sistema corporativo de arquivos na nuvem que permite a colaboração móvel e que cuida da segurança dos dados trocados por seus usuários.</example>
+        <example>Tom disse que não gosta de livros digitais e que prefere os livros físicos.</example>
+        <example>...iberais em geral, é a premissa de que existe um capitalismo puro, bom, saudável, que se auto-regula e que é contaminado e deturpado pelas mãos sujas do Estado ( não seria essa a idéia fixa de maluco?).</example>
+        <example>Dentro dos sistemas de incêndio , existem os painéis de controle, que inteligentes, endereçáveis e que possuem saídas com protocolo aberto (Ethernet TCP IP e Modbus TCP IP) e dentre outros.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='SPS00|V.+|DA.+|SPS00:DA.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|V.+|SPS00' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <token postag='SPS00|SPS00:DA.+|CS' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+|UNKNOWN|V.+' postag_regexp='yes'/>
+        <token>e</token>
+        <token>que</token>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        <example>... ou comentário do cliente, aceita que as suas submissões não estão protegidas por direitos de autor e que autoriza a sua publicação no nosso Website.</example>
+        <example>Toda autoridade é delegada por Deus e que precisa ser exercida”, finalizou.</example>
+        <example>Em nota, a AGU (Advogacia-Geral da União) afirmou que ainda não foi intimada sobre a decisão e que vai entrar com um recurso assim que isso acontecer.</example>
+        <example>... acontecerá se houver por parte do usuário a manifestação de que não concorda com a decisão do INSS e que deseja apresentar defesa para embasar o seu recurso.</example>
+        <example>Os tamanhos disponíveis são os mostrados na web em negrito e que permitem selecionar.</example>
+        <example>...tos, os que choram e os que são odiados enquanto “ai” daqueles que são ricos, têm fartura, que riem e que são elogiados?</example>
+      </antipattern>
+
+     <antipattern>
+        <token>e</token>
+        <token>que</token>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        <token postag='DA.+|SPS00:DA.+|VMN0000|VMP00.+|NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='SPS00' postag_regexp='no'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Dizem que o mulo tem um caráter muito especial e que é difícil de conduzir.</example>
+      </antipattern>
+
+      <pattern>
+        <marker>
+          <token>e
+            <exception scope='previous' postag_regexp='no' postag='SENT_START'/>
+          </token>
+          <token>que</token>
+        </marker>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        <token postag='DA.+|SPS00:DA.+|VMN0000|VMP00.+|NC.+|AQ.+' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='RG'/>
+        </token>
+      </pattern>
+      <message>Em português (europeu) poderá omitir a conjunção 'e'.</message>
+      <suggestion>\2</suggestion>
+      <example correction="que">Atenção àquilo que transmite <marker>e que</marker> permite ao recetor agir corretamente.</example>
+      <example correction="que">São regras muito simples <marker>e que</marker> permitem agir corretamente.</example>
+      <example>Algo pelo qual você pode se guiar, se orientar e que é algo compartilhado.</example>
+      <example>Bolsonaro possui alguém que se comporta dessa maneira e que age conforme os requisitos para o cargo – tanto que foi devidamente reconhecido pelo filho do deput...</example>
+
+    </rule>
+
+
     <rule id="EFEITO_ESTUFA" name="Hifenização: Efeito-estufa">
       <!-- Created by Marco A.G.Pinto, Portuguese rule, 2017-01-25 -->
       <pattern>
