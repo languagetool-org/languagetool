@@ -79,6 +79,9 @@ public class ArtificialErrorEval {
   static String corpusFilePath = "";
   static String outputPathRoot = "";
   static HashMap<String, List<RemoteRuleMatch>> cachedMatches; 
+  static String remoteServer = "http://localhost:8081";
+  static String userName = "";
+  static String apiKey = "";
 
   public static void main(String[] args) throws IOException {
     //use configuration file
@@ -87,9 +90,6 @@ public class ArtificialErrorEval {
       Properties prop = new Properties();
       FileInputStream fis = new FileInputStream(configurationFilename);
       prop.load(fis);
-      String inputFolder = prop.getProperty("inputFolder");
-      String outpuFolder = prop.getProperty("outputFolder");
-      String remoteServer = prop.getProperty("remoteServer");
       String maxInputSentencesStr = prop.getProperty("maxInputSentences");
       String maxCheckedSentencesStr = prop.getProperty("maxCheckedSentences");
       if (maxInputSentencesStr != null) {
@@ -100,17 +100,27 @@ public class ArtificialErrorEval {
       }
       boolean printSummaryDetails = Boolean.parseBoolean(prop.getProperty("printSummaryDetails", "true"));
       boolean printHeader = Boolean.parseBoolean(prop.getProperty("printHeader", "true"));
-      runEvaluationOnFolders(inputFolder, outpuFolder, remoteServer, printSummaryDetails, printHeader);
-      System.exit(0);
+      remoteServer = prop.getProperty("remoteServer");
+      // Only one file
+      String analyzeOneFile = prop.getProperty("analyzeOneFile");
+      if (analyzeOneFile.equalsIgnoreCase("true")) {
+        userName = prop.getProperty("userName");
+        apiKey = prop.getProperty("apiKey");
+        runEvaluationOnFile(prop.getProperty("languageCode"), prop.getProperty("inputFile"));
+      }
+      else {
+        String inputFolder = prop.getProperty("inputFolder");
+        String outpuFolder = prop.getProperty("outputFolder");
+        runEvaluationOnFolders(inputFolder, outpuFolder, printSummaryDetails, printHeader);
+      }
     }
     // language code + input file
-    if (args.length == 2) { 
+    else if (args.length == 2) { 
       runEvaluationOnFile(args[0], args[1]);
-      System.exit(0);
+    } else {
+      writeHelp();
+      System.exit(1);  
     }
-    
-    writeHelp();
-    System.exit(1);
   }
   
   private static void runEvaluationOnFile(String languageCode, String inputFile) throws IOException {
@@ -120,7 +130,7 @@ public class ArtificialErrorEval {
     language = Languages.getLanguageForShortCode(langCode);
     localLt = new JLanguageTool(language);
     synth = language.getSynthesizer();
-    lt = new RemoteLanguageTool(Tools.getUrl("http://localhost:8081"));
+    lt = new RemoteLanguageTool(Tools.getUrl(remoteServer));
     File corpusFile = new File(corpusFilePath);
     String fileName = corpusFile.getName();
     System.out.println("Analyzing file: " + fileName);
@@ -171,7 +181,7 @@ public class ArtificialErrorEval {
     run(true);
   }
   
-  private static void runEvaluationOnFolders(String inputFolder, String outputFolder, String remoteServer,
+  private static void runEvaluationOnFolders(String inputFolder, String outputFolder, 
       boolean printSummaryDetails, boolean printHeader) throws IOException {
  
     verboseOutput = true;
@@ -271,6 +281,8 @@ public class ArtificialErrorEval {
     CheckConfiguration config = new CheckConfigurationBuilder(langCode)
       .disabledRuleIds("WHITESPACE_RULE")
       .textSessionID("-2")
+      .username(userName)
+      .apiKey(apiKey)
       .build();
     long start = System.currentTimeMillis();
     List<String> lines = Files.readAllLines(Paths.get(corpusFilePath));
