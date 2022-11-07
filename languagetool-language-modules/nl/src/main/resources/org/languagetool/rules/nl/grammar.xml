@@ -2908,6 +2908,22 @@ regexp case-insensitive maken: (?i)
                 <example correction="dicht">Het woord <marker>digt</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SCHUT" name="Schut/scvhud-schudt" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>voor</token>
+                    <token>schut</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token skip="-1" regexp="yes">sluis|schip</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern><token case_sensitive="yes">schut</token></pattern>
+                <message>De kans is groot dat u <suggestion>schud</suggestion>of <suggestion>schudt</suggestion> bedoelt. Het werkwoord 'schutten' hoort bij de scheepvaart.</message>
+                <example correction="schud|schudt">Het woord <marker>schut</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="AAN_BOT" name="Aan bot/aan bod">
             <!-- R. Baars oktober 2022 -->
@@ -3073,7 +3089,7 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="WILD_U" name="Wild u/ wilt u" default="temp_off">
+        <rulegroup id="WILD_U" name="Wild u/ wilt u" >
             <!-- R. Baars, november 2022 -->
             <rule>
                 <pattern>
@@ -3087,7 +3103,7 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="RONDT" name="Rondt/rond" default="temp_off">
+        <rulegroup id="RONDT" name="Rondt/rond" >
             <!-- R. Baars, november 2022 -->
             <rule>
                 <antipattern>
