@@ -49,8 +49,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <!--
       Ele disse que vai sair e que está feliz. → Ele disse que vai sair e está feliz.
       -->
-
-      <antipattern>	    
+      <antipattern>
+        <token>vitamina</token>
+        <token>E</token>
+      </antipattern>
+      <antipattern>
         <token postag='SENT_START' postag_regexp='no'/>
         <token>e</token>
         <token>que</token>
@@ -59,8 +62,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>E que é que ela me responde?</example>
         <example>E que tem você com isso?</example>
       </antipattern>
-
+      <antipattern>
+          <token skip="-1">que</token>
+          <token>e</token>
+          <token>que</token>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        <example>É um tema que é indivisível, e que possui vantagens.</example>
+      </antipattern>
       <pattern>
+          <token negate_pos="yes" postag="SENT_START"/>
         <marker>
           <token>e</token>
           <token>que</token>
@@ -68,8 +78,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token postag='VMIP3.+' postag_regexp='yes'/>
       </pattern>
       <message>Em português (Brasil) poderá omitir a conjunção 'que'.</message>
-      <suggestion>\1</suggestion>
-      <example correction="e">Ele disse que vai sair <marker>e que</marker> está feliz.</example>
+      <suggestion> \2</suggestion>
+      <suggestion> \3</suggestion>
+      <suggestion>, \3</suggestion>
+      <example correction=" e| que|, que">Um romance eterno, perfeito para adolescentes<marker> e que</marker> conta com um jovem elenco.</example>
     </rule>
 
 
