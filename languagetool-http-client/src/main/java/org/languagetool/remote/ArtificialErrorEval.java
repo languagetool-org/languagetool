@@ -278,12 +278,21 @@ public class ArtificialErrorEval {
     Arrays.fill(results[1], 0);
     fakeRuleIDs[0] = "rules_" + words[0] + "->" + words[1]; // rules in one direction
     fakeRuleIDs[1] = "rules_" + words[1] + "->" + words[0]; // rules in the other direction
-    CheckConfiguration config = new CheckConfigurationBuilder(langCode)
-      .disabledRuleIds("WHITESPACE_RULE")
-      .textSessionID("-2")
-      .username(userName)
-      .apiKey(apiKey)
-      .build();
+    CheckConfiguration config;
+    if (!userName.isEmpty() && !apiKey.isEmpty()) {
+      config = new CheckConfigurationBuilder(langCode)
+          .disabledRuleIds("WHITESPACE_RULE")
+          .textSessionID("-2")
+          .username(userName)
+          .apiKey(apiKey)
+          .build();  
+    } else {
+      config = new CheckConfigurationBuilder(langCode)
+          .disabledRuleIds("WHITESPACE_RULE")
+          .textSessionID("-2")
+          .build();
+    }
+    
     long start = System.currentTimeMillis();
     List<String> lines = Files.readAllLines(Paths.get(corpusFilePath));
     if (!inflected && !isDoubleLetters && !isDiacritics && !isParallelCorpus) {
