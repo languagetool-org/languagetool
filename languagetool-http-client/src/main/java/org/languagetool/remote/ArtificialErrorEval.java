@@ -132,6 +132,9 @@ public class ArtificialErrorEval {
     synth = language.getSynthesizer();
     lt = new RemoteLanguageTool(Tools.getUrl(remoteServer));
     File corpusFile = new File(corpusFilePath);
+    if (!corpusFile.exists() || corpusFile.isDirectory()) {
+      throw new IOException("File not found: " + corpusFilePath);
+    }
     String fileName = corpusFile.getName();
     System.out.println("Analyzing file: " + fileName);
     fileName = fileName.substring(0, fileName.lastIndexOf('.'));
