@@ -50,8 +50,10 @@ public class ArtificialErrorEval {
   static String[] words = new String[2];
   static String[] lemmas = new String[2];
   static String[] fakeRuleIDs = new String[2];
-  static List<String> classifyTypes = Arrays.asList("TP", "FP", "TN", "FN", "TPs");
-  static int[][] results = new int[2][5]; // word0/word1 ; TP/FP/TN/FN/TP with expected suggestion
+  //TP: true positive with the expected suggestion
+  //TPns: true positive with no suggestion
+  static List<String> classifyTypes = Arrays.asList("TP", "FP", "TN", "FN", "TPns");
+  static int[][] results = new int[2][5]; // word0/word1 ; TP/FP/TN/FN/TP with no suggestion
   static int[] accumulateResults = new int[5]; // totalErrors/TP/FP/TN/FN
   static RemoteLanguageTool lt;
   static JLanguageTool localLt;
@@ -470,7 +472,12 @@ public class ArtificialErrorEval {
       float precision = results[i][classifyTypes.indexOf("TP")]
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]);
       float recall = results[i][classifyTypes.indexOf("TP")]
-          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")]);
+          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")] + results[i][classifyTypes.indexOf("TPns")]);
+      
+      // recall including empty suggestions
+      float recall2 = (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("TPns")])
+          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")] + results[i][classifyTypes.indexOf("TPns")]);
+      
       //float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")]
       //    / results[i][classifyTypes.indexOf("TP")];
       int errorsTotal = results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]
@@ -479,15 +486,14 @@ public class ArtificialErrorEval {
 
       resultsString.append("-------------------------------------\n");
       resultsString.append("Results for " + fakeRuleIDs[i] + "\n");
-      //resultsString.append("TP (with expected suggestion): " + results[i][4] + "\n");
       for (int j = 0; j < 4; j++) {
         resultsString.append(classifyTypes.get(j) + ": " + results[i][j] + "\n");
       }
+      resultsString.append("TP (including empty suggestion): " + results[i][4] + "\n");
 
       resultsString.append("Precision: " + String.format(Locale.ROOT, "%.4f", precision) + "\n");
       resultsString.append("Recall: " + String.format(Locale.ROOT, "%.4f", recall) + "\n");
-      // out.write("TP with expected suggestion: " + String.format("%.4f",
-      // expectedSuggestionPercentage)+"\n");
+      resultsString.append("Recall (including empty suggestions): " + String.format(Locale.ROOT, "%.4f", recall2) + "\n");
       resultsString.append("Total sentences: " + String.valueOf(errorsTotal) + "\n");
       appendToFile(verboseOutputFilename, resultsString.toString());
       
@@ -577,14 +583,13 @@ public class ArtificialErrorEval {
       
       List<String> ruleIDs = ruleIDsAtPos(matchesWrong, fromPos, originalString);
       if (ruleIDs.size() > 0) {
-        //results[1 - j][classifyTypes.indexOf("TP")]++;
         if (isExpectedSuggestionAtPos(matchesWrong, fromPos, originalString, wrongSentence, correctSentence)) {
-          //results[1 - j][classifyTypes.indexOf("TPs")]++;
           results[1 - j][classifyTypes.indexOf("TP")]++;
           printSentenceOutput("TP", wrongSentence, 1 - j, String.join(",", ruleIDs));
+        } else if (isEmptySuggestionAtPos(matchesWrong, fromPos, originalString, wrongSentence, correctSentence)) {
+          results[1 - j][classifyTypes.indexOf("TPns")]++;
+          printSentenceOutput("TPns", wrongSentence, 1 - j, String.join(",", ruleIDs));
         } else {
-          //printSentenceOutput("TP no expected suggestion", wrongSentence,
-          //    fakeRuleIDs[1 - j] + ":" + String.join(",", ruleIDs));
           results[1 - j][classifyTypes.indexOf("FN")]++;
           printSentenceOutput("FN", wrongSentence, 1 - j, "");
         }
@@ -672,6 +677,18 @@ public class ArtificialErrorEval {
           if (correctedSentence.equals(correctSentence)) {
             return true;
           }
+        }
+      }
+    }
+    return false;
+  }
+  
+  private static boolean isEmptySuggestionAtPos(List<RemoteRuleMatch> matchesCorrect, int pos,
+      String expectedSuggestion, String wrongSentence, String correctSentence) {
+    for (RemoteRuleMatch match : matchesCorrect) {
+      if (match.getReplacements().get().size() == 0) {
+        if (match.getErrorOffset() <= pos && match.getErrorOffset() + match.getErrorLength() >= pos) {
+          return true;
         }
       }
     }
