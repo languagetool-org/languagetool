@@ -106,8 +106,8 @@ public class ArtificialErrorEval {
       // Only one file
       String analyzeOneFile = prop.getProperty("analyzeOneFile");
       if (analyzeOneFile.equalsIgnoreCase("true")) {
-        userName = prop.getProperty("userName");
-        apiKey = prop.getProperty("apiKey");
+        userName = prop.getProperty("userName", "");
+        apiKey = prop.getProperty("apiKey", "");
         runEvaluationOnFile(prop.getProperty("languageCode"), prop.getProperty("inputFile"));
       }
       else {
@@ -150,7 +150,7 @@ public class ArtificialErrorEval {
     isParallelCorpus = false;
     columnCorrect = 1;
     columnIncorrect = 2;
-    if (fileName.startsWith("parallelcorpus")) {
+    if (fileName.startsWith("parallelcorpus") || fileName.startsWith("pc-")) {
       isParallelCorpus = true;
       unidirectional = true;
       String parts[] = fileName.split("-");
@@ -226,7 +226,7 @@ public class ArtificialErrorEval {
           isParallelCorpus = false;
           columnCorrect = 1;
           columnIncorrect = 2;
-          if (fileName.startsWith("parallelcorpus")) {
+          if (fileName.startsWith("parallelcorpus") || fileName.startsWith("pc-")) {
             isParallelCorpus = true;
             unidirectional = true;
             String parts[] = fileName.split("-");
@@ -473,23 +473,26 @@ public class ArtificialErrorEval {
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]);
       float recall = results[i][classifyTypes.indexOf("TP")]
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")] + results[i][classifyTypes.indexOf("TPns")]);
-      
       // recall including empty suggestions
       float recall2 = (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("TPns")])
-          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")] + results[i][classifyTypes.indexOf("TPns")]);
-      
+          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")]
+              + results[i][classifyTypes.indexOf("TPns")]);
       //float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")]
       //    / results[i][classifyTypes.indexOf("TP")];
       int errorsTotal = results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]
-          + results[i][classifyTypes.indexOf("TN")] + results[i][classifyTypes.indexOf("FN")];
+          + results[i][classifyTypes.indexOf("TN")] + results[i][classifyTypes.indexOf("FN")] + results[i][classifyTypes.indexOf("TPns")];
       StringWriter resultsString = new StringWriter();
 
       resultsString.append("-------------------------------------\n");
       resultsString.append("Results for " + fakeRuleIDs[i] + "\n");
-      for (int j = 0; j < 4; j++) {
+      
+      resultsString.append("TP (total): " + (results[i][4] + results[i][0]) + "\n");
+      resultsString.append("TP (expected suggestion): " + results[i][0] + "\n");
+      resultsString.append("TPns (no suggestion): " + results[i][4] + "\n");
+      for (int j = 1; j < 4; j++) {
         resultsString.append(classifyTypes.get(j) + ": " + results[i][j] + "\n");
       }
-      resultsString.append("TP (including empty suggestion): " + results[i][4] + "\n");
+      
 
       resultsString.append("Precision: " + String.format(Locale.ROOT, "%.4f", precision) + "\n");
       resultsString.append("Recall: " + String.format(Locale.ROOT, "%.4f", recall) + "\n");
@@ -623,18 +626,19 @@ public class ArtificialErrorEval {
     List<String> ruleIDs = new ArrayList<>();
     for (RemoteRuleMatch match : matchesCorrect) {
       if (match.getErrorOffset() <= pos && match.getErrorOffset() + match.getErrorLength() >= pos) {
+        
         if (!onlyRules.isEmpty() && !onlyRules.contains(match.getRuleId())) {
           continue;
         }
         String subId = null;
-        List<String> replacements = null;
         try {
           subId = match.getRuleSubId().get();
         } catch (NoSuchElementException e) {
           // System.out.println("Exception, skipping '" + countLine + "': ");
           // e.printStackTrace();
         }
-        try {
+        /*List<String> replacements = null;
+          try {
           replacements = match.getReplacements().get();
         } catch (NoSuchElementException e) {
         }
@@ -655,7 +659,7 @@ public class ArtificialErrorEval {
         }
         if (!containsDesiredSuggestion) {
           continue;
-        }
+        }*/
         if (subId != null) {
           ruleIDs.add(match.getRuleId() + "[" + match.getRuleSubId().get() + "]");
         } else {
