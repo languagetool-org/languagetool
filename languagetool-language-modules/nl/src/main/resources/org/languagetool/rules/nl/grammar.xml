@@ -44273,6 +44273,27 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
         -->
+
+        <rulegroup id="VERHUISD_HIJ" name="Verhuisd/verhuist" default="temp_off">
+            <!-- R. Baars november 2022           -->
+            <rule>
+                <antipattern><token>hij</token><token>die</token></antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes" skip="-1">is|was|heb|heeft</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="WKW:VTD:ONV" regexp="yes">.*d<exception postag="WKW:TGW:1EP"/></token>
+                    </marker>
+                    <token regexp="yes">hij|zij|men|u</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>.</message>
+                <example correction="verhuist">Dan <marker>verhuisd</marker> hij.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="BEHOUD_ZICH" name="Voor zich past geen 1e persoon" >
             <!-- R. Baars 2022-10-21
             Helaas zijn sommige vormen ook een znw, dat zorgt voor veel uitzonderingen.
