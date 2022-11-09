@@ -69,7 +69,7 @@ public class PortugueseClicheRuleTest {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
             + sentence, 1, matches.length);
-    assertEquals("Invalid replacement count wile checking sentence: "
+    assertEquals("Invalid replacement count while checking sentence: "
             + sentence, 1, matches[0].getSuggestedReplacements().size());
     assertEquals("Invalid suggested replacement while checking sentence: "
             + sentence, word, matches[0].getSuggestedReplacements().get(0));
