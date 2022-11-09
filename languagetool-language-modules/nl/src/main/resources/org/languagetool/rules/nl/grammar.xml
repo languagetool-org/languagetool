@@ -270,6 +270,7 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
 
         <rulegroup id="DE_HERE" name="Heer/Here" default="temp_off">
+            <!-- R. Baars, november 2022 -->
             <rule>
                 <pattern>
                     <token>de</token>
@@ -283,6 +284,7 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
 
         <rulegroup id="SOURCE" name="Source/bron" default="temp_off">
+            <!-- R. Baars, november 2022 -->
             <rule>
                 <pattern>
                     <token negate="yes">open</token>
@@ -292,6 +294,24 @@ regexp case-insensitive maken: (?i)
                 </pattern>
                 <message>In het Nederlands is dat <suggestion>bron</suggestion> of <suggestion>broncode</suggestion>.</message>
                 <example correction="bron|broncode">Ik zoek de <marker>source</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="DD" name="Dd/d.d." default="temp_off">
+            <!-- R. Baars, november 2022 -->
+            <rule>
+                <antipattern>
+                    <!-- datumpatroon uitsluiten -->
+                    <token case_sensitive="yes">dd</token>
+                    <token>/</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>dd</token>
+                    </marker>
+                </pattern>
+                <message>De dato heeft als afkorting <suggestion>d.d.</suggestion></message>
+                <example correction="d.d.">Hij vertrok <marker>dd</marker> 18 januari.</example>
             </rule>
         </rulegroup>
 
