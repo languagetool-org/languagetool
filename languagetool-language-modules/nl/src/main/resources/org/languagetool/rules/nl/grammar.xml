@@ -269,6 +269,32 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
+        <rulegroup id="DE_HERE" name="Heer/Here" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <marker>
+                        <token case_sensitive="yes">here</token>
+                    </marker>
+                </pattern>
+                <message>Bedoelt u misschien <suggestion>Here</suggestion> of <suggestion>Heer</suggestion>?</message>
+                <example correction="Here|Heer">Ik bid tot de <marker>here</marker>.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="SOURCE" name="Source/bron" default="temp_off">
+            <rule>
+                <pattern>
+                    <token negate="yes">open</token>
+                    <marker>
+                        <token>source</token>
+                    </marker>
+                </pattern>
+                <message>In het Nederlands is dat <suggestion>bron</suggestion> of <suggestion>broncode</suggestion>.</message>
+                <example correction="bron|broncode">Ik zoek de <marker>source</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="A_LA" name="a la / á la">
             <rule>
                 <pattern case_sensitive="yes">
@@ -13460,6 +13486,54 @@ onwaarschijnlijk
                 <example correction="Laten we"><marker>Laat ons</marker> ophouden naïef te zijn!</example>
                 <example correction="Laten we"><marker>Laat ons</marker> zeggen dat ze meteen door hadden hoe kwetsbaar ik was.</example>
                 <example correction="Laten we"><marker>Laat ons</marker> veronderstellen dat dit erin staat.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="DIT_VERANDERD" name="Dit veranderd/verandert" default="temp_off">
+            <!-- R. Baars, november 2022 -->
+            <rule>
+                <antipattern>
+                    <token>gezegd</token><token>zijnde</token>
+                </antipattern>
+                <antipattern>
+                    <token>Verenigd</token><token>Koninkrijk</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">dit|dat|het</token>
+                     <token regexp="yes" postag="WKW:VTD:ONV">.*d</token>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="SENT_START|START"/>
+                    <token regexp="yes">dit|dat|het</token>
+                    <marker>
+                        <token regexp="yes" postag="WKW:VTD:ONV">.*d<exception postag_regexp="yes" postag="ZNW.*"/></token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast <suggestion><match no="3" postag="WKW:TGW:3EP"/></suggestion>.</message>
+                <example correction="verandert">Dit <marker>veranderd</marker> voortdurend.</example>
+                <example>Dit ondertekend geschrift wordt dan gehecht.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="EEN_VERSTOORT" name="Een verstoort/verstoord" default="temp_off">
+            <!-- R. Baars, november 2022 -->
+            <rule>
+                <antipattern><token>de</token><token>een</token></antipattern>
+                <pattern>
+                    <token regexp="yes">een|geen</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="WKW:TGW:3EP"><exception postag_regexp="yes" postag="WKW:VTD:ONV|ZNW.*|WKW:TGW:1EP|BNW.*"/><exception regexp="yes">heeft</exception></token>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+                </pattern>
+                <message>U bedoelt vast <suggestion><match no="2" postag="WKW:VTD:ONV"/></suggestion>.</message>
+                <example correction="verstoord">Hij heeft een <marker>verstoort</marker> evenwicht.</example>
+                <example>Daarover heeft het bestuur nog geen besluit genomen.</example>
+                <example>De een begint te blozen, de ander zegt niets.</example>
+                <example>Aan het einde van de therapie schreef ik een afsluit brief</example>
+                <example>Giet geen heet water in het glas.</example>
+                <example>AfterPay hanteert een strikt privacybeleid</example>
             </rule>
         </rulegroup>
     </category>
