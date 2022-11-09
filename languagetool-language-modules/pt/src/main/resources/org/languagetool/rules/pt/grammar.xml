@@ -1388,7 +1388,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>O camisa 23 colorado ainda fez bons lançamentos na área chilena, mas defesa cumpriu bem seu papel.</example>
           <example>Além de fazer algumas defesas importantes, o camisa 1 do time potiguar conseguiu tirar o meia VALDÍVIA do sério.</example>
           <example>Muito aplaudido pela torcida, o camisa 21, Hashimoto, foi substituído por Schneider aos 29 minutos do segundo tempo.</example>
-          <example>Aos 19 minutos do primeiro tempo ainda, o técnico do Alpha FC substituiu o camisa 15, Monteiro pelo camisa 8, Dimítros.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
         <antipattern>
@@ -1472,8 +1471,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
-            <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..)[CF][NS].+|V.[CSIG].+|(C|R).+|SPS.+' postag_regexp='yes'/>
+            <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MS.+' postag_regexp='yes'>
+              <exception postag='(?:[NZ].|A..)[CF][NS].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
               <exception regexp='yes'>ás?</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception regexp='yes'>e|era|ser|efeito|cada|tido|uso|sozinho|nele|casal|mora|chamado|são|serão|média?|nós|termo|nome|haver|x|bairro|saber|tao</exception></token>
@@ -1483,7 +1482,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception regexp='yes'>x|ás?</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
-            <token postag='(?:N.|A..)F.+' postag_regexp='yes'>
+            <token postag='(?:N.|A..)F[SN].+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM].+|V.[CMNSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception regexp='yes'>uma|&dias_semana;|mas|x|á|leva|ama|manda|olha|perca|tao|e|era|semana|noite|sozinha|ser|mora|são|serão|média?|nós|termo|nome|haver|saber</exception>
@@ -1491,7 +1490,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
         </pattern>
         <message>&MSG_ECG;</message>
-        <suggestion suppress_misspelled="yes"><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)M(.+)" postag_replace='$1F$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
+        <suggestion suppress_misspelled="yes"><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.|SPS00:D..)M(.+)" postag_replace='$1F$2' postag_regexp="yes" include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
         <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F(.+)" postag_replace='$1M$2' postag_regexp="yes"/></suggestion>
         <!-- TEMP REMOVE		<suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>  MARCOAGPINTO 2019-12-27 -->
         <!-- TEMP REMOVE        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>  MARCOAGPINTO 2019-12-27 -->
@@ -1502,6 +1501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Diz-se que a cada dia nasce um trouxa, e disso o vigarista sabe.</example>
         <example correction="uma terrível dor|um terrível, dor">Tenho <marker>um terrível dor</marker> na cabeça.</example>
         <example correction="uma grande erupção|um grande, erupção">Por exemplo, <marker>um grande erupção</marker> vulcânica causa maior reflexão da luz solar de vo…</example>
+        <example correction='da milícia|do, milícia'>É membro <marker>do milícia</marker>.</example>
         <example>O monte Farinha é uma montanha do distrito de Vila Real.</example>
         <example>Não parece haver má notícia capaz de…</example>
         <example>…tecnologia o mais rápida possível…</example>
@@ -2312,7 +2312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/>
               <exception regexp='yes'>\p{Lu}+</exception></token>
            <and>
-            <token postag='(?:N.|A..|DP.)M.+' postag_regexp='yes'>
+            <token postag='(?:N.|A..|DP.)MS.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..|DP.)[CF].+|V.[NMCSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|devido|sozinhos?|mesmos?</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
