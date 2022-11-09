@@ -770,6 +770,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <regexp case_sensitive="yes" mark="2">^@[A-ZÄÖÜ][a-zäöüß\-0-9]+\s+(v[ao]n\s+)?[A-ZÄÖÜ][a-zäöüß\-0-9]+(\s+das)</regexp>
                 <example correction="">@Emanuel Peter<marker> das</marker> ist einer aus diesem Issue.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\u2063</token>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ich weiß &#8291; <marker>das</marker> ist einer aus diesem Issue.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CP_DAS_DASS" name="">
             <rule>
@@ -781,6 +790,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Manche Katzen weigern Würmer sonnik gesehen jedoch, Essen zu sich zu nehmen, <marker>das</marker> .</example>
                 <example correction="">Einer beziehung zerstörst, was sie bequem für lust statt bars zu versuchen sie mag, <marker>das</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_DE_HYDRA_LEO_CASING_LOWER_TO_UPPER" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">und|oder|aber</token>
+                    <marker>
+                        <token postag="VER:IMP:SIN.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[a-zäöü].*</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">dann|bitte|mal</token>
+                </pattern>
+                <example correction="">Geh mal auf https://www.icloud.com/ und <marker>klick</marker> dann links unten auf den kleinen Link "Apple ID erstellen"</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_NOUN_SPACE" name="">
