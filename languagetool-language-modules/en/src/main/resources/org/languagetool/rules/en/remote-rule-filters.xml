@@ -30,6 +30,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_HYDRA_LEO_CP_THE_THEY" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>the</token>
+                    </marker>
+                    <token regexp="yes">\u2063</token>
+                </pattern>
+                <example correction=""><marker>The</marker> &#8291; are happy.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CP_YOUARE_YOU" name="">
             <rule>
                 <pattern>
@@ -643,7 +654,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <pattern>
                     <token chunk_re="E-NP.*" />
                     <marker>
-                        <token spacebefore="yes">but</token>
+                        <token>but</token>
                     </marker>
                     <token inflected="yes" regexp="yes">be|have</token>
                     <token postag="RB" min="0" />
