@@ -350,6 +350,9 @@ public class ArtificialErrorEval {
       for (String line : lines) {
         cachedMatches = new HashMap<>();
         countLine++;
+        if (countLine > maxInputSentences || checkedSentences > maxCheckedSentences) {
+          break;
+        }
         String[] parts = line.split("\t");
         // adjust the numbers 3 and 4 according to the source file
         if (parts.length < columnCorrect && parts.length < columnIncorrect) {
@@ -486,18 +489,24 @@ public class ArtificialErrorEval {
       resultsString.append("-------------------------------------\n");
       resultsString.append("Results for " + fakeRuleIDs[i] + "\n");
       
-      resultsString.append("TP (total): " + (results[i][4] + results[i][0]) + "\n");
-      resultsString.append("TP (expected suggestion): " + results[i][0] + "\n");
-      resultsString.append("TPns (no suggestion): " + results[i][4] + "\n");
-      for (int j = 1; j < 4; j++) {
-        resultsString.append(classifyTypes.get(j) + ": " + results[i][j] + "\n");
-      }
+      int nCorrectSentences =  results[i][1] + results[i][2] ; // FP + TN
+      int nIncorrectSentences =  results[i][0] + results[i][4] + results[i][3]; // TP + TPns + FN  
       
+      resultsString.append("Total sentences: " + String.valueOf(errorsTotal) + "\n");
+      resultsString.append(formattedAbsoluteAndPercentage("\nCorrect sentences", nCorrectSentences, nCorrectSentences + nIncorrectSentences));
+      resultsString.append(formattedAbsoluteAndPercentage("FP", results[i][1], nCorrectSentences));
+      resultsString.append(formattedAbsoluteAndPercentage("TN", results[i][2], nCorrectSentences));
+      
+      resultsString.append(formattedAbsoluteAndPercentage("\nIncorrect sentences", nIncorrectSentences, nCorrectSentences + nIncorrectSentences));
+      resultsString.append(formattedAbsoluteAndPercentage("TP (total)", results[i][4] + results[i][0], nIncorrectSentences));
+      resultsString.append(formattedAbsoluteAndPercentage("TP (expected suggestion)", results[i][0], nIncorrectSentences));
+      resultsString.append(formattedAbsoluteAndPercentage("TPns (no suggestion)", results[i][4], nIncorrectSentences));
+      resultsString.append(formattedAbsoluteAndPercentage("FN", results[i][3], nIncorrectSentences));
 
-      resultsString.append("Precision: " + String.format(Locale.ROOT, "%.4f", precision) + "\n");
+      resultsString.append("\nPrecision: " + String.format(Locale.ROOT, "%.4f", precision) + "\n");
       resultsString.append("Recall: " + String.format(Locale.ROOT, "%.4f", recall) + "\n");
       resultsString.append("Recall (including empty suggestions): " + String.format(Locale.ROOT, "%.4f", recall2) + "\n");
-      resultsString.append("Total sentences: " + String.valueOf(errorsTotal) + "\n");
+      
       appendToFile(verboseOutputFilename, resultsString.toString());
       
       if (printSummaryDetails) {
@@ -520,6 +529,18 @@ public class ArtificialErrorEval {
     System.out.println("Total time: " + String.format(Locale.ROOT, "%.2f", time) + " seconds");
     System.out.println("-------------------------------------");
   }
+  
+  private static String formattedAbsoluteAndPercentage (String tag, int i, int j) {
+    float percentage = (float) i*100/j;
+    StringWriter r = new StringWriter();
+    r.append(tag+": ");
+    r.append(Integer.toString(i));
+    r.append(" (");
+    r.append(String.format(Locale.ROOT, "%.2f", percentage));
+    r.append("%)\n");
+    return r.toString();
+  }
+  
   
   private static void appendToFile(String FilePath, String text) throws IOException {
     if (!FilePath.isEmpty()) { 
