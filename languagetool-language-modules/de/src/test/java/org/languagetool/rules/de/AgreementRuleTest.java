@@ -652,6 +652,41 @@ public class AgreementRuleTest {
     assertGood("Die Adelmanns wohnen in Herford.");
     assertBad("Die Idee des Werbekaufmann kam gut an.");
     assertGood("Die Idee des Werbekaufmanns kam gut an.");
+    assertGood("Solch harte Worte!");
+    assertGood("Es besteht durchaus die Gefahr, dass die Telekom eine solch starke monopolistische Stellung auf dem Markt hat, dass sich kaum Wettbewerb entfalten kann.");
+    assertBad("Ich habe keine Zeit für solche kleinlichen Belangen.");
+    // TODO:
+    // assertBad("Solch hartes Worte!");
+    // unsure:
+    // assertGood("Wie konnte mir solch Feindseligkeit innerhalb meiner Familie entgehen?");
+    // assertGood("Es ist schon faszinierend wie verzaubernd solch Klänge wirken und dann die facettenreiche Programmzusammenstellung bei Tango und Polka die Besucher im „Sturm“ mitreißen. ");
+    assertBad("Solche kleinen Anbietern nutzen dann eines der drei großen Mobilfunknetze Deutschlands.");
+    assertGood("Solch frivolen Gedanken wollen wir gar nicht erst nachgehen.");
+    assertGood("Er erwartete solch aggressives Verhalten.");
+    assertGood("Eine solch schöne Frau.");
+    assertGood("Einer solch schönen Frau.");
+    assertGood("Ein solch schöner Tisch.");
+    assertGood("Ein solch schöner neuer Tisch.");
+    assertGood("Eine solch begnadete Fotografin mit dabei zu haben und Tipps für die Fotosession zu bekommen, wäre schon toll.");
+    assertGood("Wie können wir als globale Gemeinschaft solch brennende Themen wie Klimawandel und Rezession in entwickelten Märkten in Angriff nehmen?");
+    assertGood("Wir waren überrascht, von ihm solch beißende Bemerkungen über seinen besten Freund zu hören.");
+    assertGood("Worten, wohl gewählt, wohnt solch große Macht inne.");
+    assertGood("Warum gelingt es den Stuten die Hengste in solch großen Rennen zu schlagen.");
+    assertGood("Eine solch gute Beratung kann natürlich nicht kostenlos sein, daher lassen Sie mich bitte wissen welche Kosten für die PKV und BU-Beratung auf mich zukommen werden.");
+    assertGood("Ein solch großer Ausbruch außerhalb des Nahen Ostens ist eine neue Entwicklung, heißt es weiter.");
+    assertGood("Natürlich dürfen unsere Sporteinheiten nicht fehlen, vor allem nicht bei solch gutem Essen.");
+    assertGood("Wie konnten Sie solch harte Songs gegen Ihre Familie schreiben?");
+    assertGood("Zur Krönung auf dem schönsten Aussichtsberg in der Ferienregion Tirol West gelegen, bietet die Venet Gipfelhütte alle Annehmlichkeiten, die man sich auf solch hohem Niveau (2.212 m) wünschen kann.");
+    assertGood("Vor allem nicht einen, der sich ein solch hohen Ballbesitz organisierte und die Berliner nicht zur Entfaltung kommen ließ.");
+    assertGood("Du solltest im Winter keinen solch hohen Berg besteigen.");
+    assertGood("Man darf an dieser Stelle fragen, wie ein solch hoher Verlust zustande kommt, wo doch der Stuttgarter Weg aus Sparen bestand.");
+    assertGood("Kann der Patient eine solch lange Operation überstehen?");
+    assertGood("Er kennt sich aus mit solch monumentalen Projekten.");
+    assertGood("Eine solch schöne hübsche Frau.");
+    assertGood("Bisher hat Gül einen solch offenen Affront gegen die ErdoganRegierung vermieden.");
+    assertBad("..., das heißt solche natürliche Personen, welche unsere Leistungen in Anspruch nehmen, ...");
+    assertBad("Der Erwerb solcher kultureller Güter ist natürlich stark an das ökonomische Kapital gebunden.");
+    assertGood("Umso dankbarer bin ich für Brüder, die klare Kante in theologischer Hinsicht zeigen und nachvollziehbar die Bibel auch in solch schwierigen unpopulären Themen auslegen.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");
