@@ -752,6 +752,62 @@ class AgreementRuleAntiPatterns1 {
       regex("jede[rsm]?"),
       regex("solche[rsm]?"),
       posRegex("SUB.*PLU.*")
+    ),
+    asList(
+      regex("als|um"),
+      token("solche")
+    ),
+    asList(
+      // "Solch frivolen Gedanken wollen wir gar nicht erst nachgehen."
+      token("solch"),
+      csRegex("[a-zäöüß]+en?"),
+      posRegex("SUB.*PLU.*")
+    ),
+    asList(
+      // "Solch frivolen ungewohnten Gedanken wollen wir gar nicht erst nachgehen."
+      token("solch"),
+      csRegex("[a-zäöüß]+en?"),
+      csRegex("[a-zäöüß]+en?"),
+      posRegex("SUB.*PLU.*")
+    ),
+    asList(
+      // "Er erwartete solch aggressives Verhalten."
+      token("solch"),
+      csRegex("[a-zäöüß]+e[nms]"),
+      posRegex("SUB.*SIN.*NEU.*")
+    ),
+    asList(
+      // "Er erwartete solch aggressives ungewohntes Verhalten."
+      token("solch"),
+      csRegex("[a-zäöüß]+e[nms]"),
+      csRegex("[a-zäöüß]+e[nms]"),
+      posRegex("SUB.*SIN.*NEU.*")
+    ),
+    asList(
+      // "Ein solch schöner Tisch."
+      token("solch"),
+      csRegex("[a-zäöüß]+e[nmr]"),
+      posRegex("SUB.*SIN.*MAS.*")
+    ),
+    asList(
+      // "Ein solch schöner neuer Tisch."
+      token("solch"),
+      csRegex("[a-zäöüß]+e[nmr]"),
+      csRegex("[a-zäöüß]+e[nmr]"),
+      posRegex("SUB.*SIN.*MAS.*")
+    ),
+    asList(
+      // "Eine solch schöne Frau."
+      token("solch"),
+      csRegex("[a-zäöüß]+e[rn]?"),
+      posRegex("SUB.*SIN.*FEM.*")
+    ),
+    asList(
+      // "Eine solch schöne hübsche Frau."
+      token("solch"),
+      csRegex("[a-zäöüß]+e[rn]?"),
+      csRegex("[a-zäöüß]+e[rn]?"),
+      posRegex("SUB.*SIN.*FEM.*")
     )
   );
 
