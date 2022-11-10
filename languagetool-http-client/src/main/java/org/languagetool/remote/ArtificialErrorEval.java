@@ -499,14 +499,15 @@ public class ArtificialErrorEval {
       
       resultsString.append(formattedAbsoluteAndPercentage("\nIncorrect sentences", nIncorrectSentences, nCorrectSentences + nIncorrectSentences));
       resultsString.append(formattedAbsoluteAndPercentage("TP (total)", results[i][4] + results[i][0], nIncorrectSentences));
-      resultsString.append(formattedAbsoluteAndPercentage("TP (expected suggestion)", results[i][0], nIncorrectSentences));
-      resultsString.append(formattedAbsoluteAndPercentage("TPns (no suggestion)", results[i][4], nIncorrectSentences));
+      resultsString.append(formattedAbsoluteAndPercentage(" TP (expected suggestion)", results[i][0], nIncorrectSentences));
+      resultsString.append(formattedAbsoluteAndPercentage(" TPns (no suggestion)", results[i][4], nIncorrectSentences));
       resultsString.append(formattedAbsoluteAndPercentage("FN", results[i][3], nIncorrectSentences));
 
       resultsString.append("\nPrecision: " + String.format(Locale.ROOT, "%.4f", precision) + "\n");
       resultsString.append("Recall: " + String.format(Locale.ROOT, "%.4f", recall) + "\n");
       resultsString.append("Recall (including empty suggestions): " + String.format(Locale.ROOT, "%.4f", recall2) + "\n");
       
+      resultsString.append(printTimeFromStart(start));
       appendToFile(verboseOutputFilename, resultsString.toString());
       
       if (printSummaryDetails) {
@@ -525,8 +526,7 @@ public class ArtificialErrorEval {
       accumulateResults[4] += results[i][classifyTypes.indexOf("FN")];
       
     }
-    float time = (float) ((System.currentTimeMillis() - start) / 1000.0);
-    System.out.println("Total time: " + String.format(Locale.ROOT, "%.2f", time) + " seconds");
+    System.out.println(printTimeFromStart(start));
     System.out.println("-------------------------------------");
   }
   
@@ -541,6 +541,13 @@ public class ArtificialErrorEval {
     return r.toString();
   }
   
+  private static String printTimeFromStart(long start) {
+    long totalSecs = (long) ((System.currentTimeMillis() - start) / 1000.0);
+    long hours = totalSecs / 3600;
+    int minutes = (int) ((totalSecs % 3600) / 60);
+    int seconds = (int) (totalSecs % 60);
+    return String.format("\nTime: %02d:%02d:%02d\n", hours, minutes, seconds);
+  }
   
   private static void appendToFile(String FilePath, String text) throws IOException {
     if (!FilePath.isEmpty()) { 
@@ -639,7 +646,6 @@ public class ArtificialErrorEval {
           out.write(countLine + "\t" + classification + "\t" + sentence + "\t" + fakeRuleID + ":" + ruleIds+"\n");
         }  
       }
-      
     }
   }
 
@@ -655,32 +661,9 @@ public class ArtificialErrorEval {
         try {
           subId = match.getRuleSubId().get();
         } catch (NoSuchElementException e) {
-          // System.out.println("Exception, skipping '" + countLine + "': ");
-          // e.printStackTrace();
+          //System.out.println("Exception, skipping '" + countLine + "': ");
+          //e.printStackTrace();
         }
-        /*List<String> replacements = null;
-          try {
-          replacements = match.getReplacements().get();
-        } catch (NoSuchElementException e) {
-        }
-        boolean containsDesiredSuggestion = false;
-        if (replacements != null) {
-          if (expectedSuggestion == null) {
-            //expectedSuggestion is undefined
-            //consider any match at this position
-            containsDesiredSuggestion = true;
-          }
-          else {
-            for (String replacement : replacements) {
-              if (replacement.contains(expectedSuggestion.trim())) {
-                containsDesiredSuggestion = true;
-              }
-            }
-          }
-        }
-        if (!containsDesiredSuggestion) {
-          continue;
-        }*/
         if (subId != null) {
           ruleIDs.add(match.getRuleId() + "[" + match.getRuleSubId().get() + "]");
         } else {
