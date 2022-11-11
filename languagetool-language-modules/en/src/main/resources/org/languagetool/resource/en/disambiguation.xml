@@ -216,7 +216,9 @@
         <rule>
             <pattern>
                 <marker>
-                    <token postag="V.*" postag_regexp="yes"/>    
+                    <token postag="V.*" postag_regexp="yes">
+                        <exception>need</exception><!-- "need" can be used as a modal verb -->
+                    </token>
                 </marker>
                 <token spacebefore="no">n't</token>
             </pattern>
@@ -15217,6 +15219,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
     </rulegroup>
 
+    <rule id="NEED_MD" name="needn't is MD">
+        <pattern>
+            <marker>
+                <token>need</token>
+            </marker>
+            <token>n't</token>
+        </pattern>
+        <disambig action="filter" postag="MD" />
+    </rule>
+
     <rulegroup id="WANT_VB" name="'want' as verb">
         <rule><!-- "want/wants to be" (only verb) -->
             <antipattern>
@@ -16269,5 +16281,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
         </pattern>
         <disambig action="remove" postag="JJ" />
+    </rule>
+    <rule id="PATERNITY_LEAVE_NO_VB" name="'leave' no verb in 'paternity leave'">
+        <antipattern>
+            <token>leave</token>
+            <token>out</token>
+        </antipattern>
+        <pattern>
+            <token regexp="yes">paternity|parental</token>
+            <marker>
+                <token>leave</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VB.*" />
     </rule>
 </rules>
