@@ -55,6 +55,10 @@
     <!ENTITY contracoes_FP "algumas|às|daquelas|das|delas|dessas|destas|doutras|dumas|lhas|mas|naquelas|nas|nelas|nessas|nestas|noutras|numas|pelas|tas">
 
 
+    <!ENTITY numero_por_extenso "bilião|biliões|catorze|cem|cento|centos|cinco|cinquenta|dez|dezanove|dezasseis|dezassete|dezena|dezenas|dezesseis|dezessete|dezoito|dois|doze|duas|duzentos|mil|milhão|milhões|nove|novecentos|noventa|oitenta|oito|oitocentos|onze|quarenta|quatro|quatrocentos|quinhentos|quinze|seis|seiscentos|sessenta|sete|setecentos|setenta|três|treze|trezentos|trilião|triliões|trinta|um|uma|vinte">
+    <!ENTITY unidades_de_medida_por_extenso "centigrama|centigramas|centilitro|centilitros|centímetro|centímetros|decigrama|decigramas|decilitro|decilitros|decímetro|decímetros|grama|gramas|grau|graus|hectares|litro|litros|metro|metros|micrograma|microgramas|microlitro|microlitros|micrometro|micrómetro|micrómetros|milha|milhas|miligrama|miligramas|mililitro|mililitros|milimetro|milímetro|milímetros|quilograma|quilogramas|quilolitro|quilolitros|quilometro|quilómetro|quilómetros|quilotonelada|quilotoneladas|segundo|segundos|tonelada|toneladas">
+
+
     <!ENTITY pronomes_obliquos "[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
     <!ENTITY pronomes_obliquos_sem_a_as_o_os "l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos">
     <!ENTITY pronomes_retos "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
@@ -2572,6 +2576,29 @@
         <example>O consumo de gorduras n-6 aumentou à custa das gorduras n-3.</example>
       </rule>
     </rulegroup>
+
+
+    <!-- MEIO CHEIA meio-cheia -->
+    <rule id='MEIO_ADJETIVO_HÍFEN_PT_PT' name="Hifenizar 'meio' + adjetivo">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-11 (25-JUL-2022+) -->
+      <!--
+      A garrafa está meio cheia. → A garrafa está meio-cheia.
+      -->
+      <pattern>
+        <token postag='V.+|NC.+|AQ.+|RG' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='SPS00|SPS00:.+'/>
+        </token>
+        <marker>
+          <token>meio</token>        
+          <token postag='AQ.+' postag_regexp='yes'>
+            <exception regexp='yes' inflected='yes'>&unidades_de_medida_por_extenso;|&numero_por_extenso;</exception>
+          </token>
+        </marker>
+      </pattern>
+      <message>Este conjunto forma uma palavra composta.</message>
+      <suggestion>\2-\3</suggestion>
+      <example correction="meio-cheia">A garrafa está <marker>meio cheia</marker>.</example>
+    </rule>
 
 
     <rule id='PHRASAL_VERB_RESIDIR_EM' name='Regência verbal: Residir em'>
