@@ -5426,6 +5426,17 @@ O namorado dela era um ladrão.
         </antipattern>
         <!-- MARCOAGPINTO 2022-11-03 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <!-- MARCOAGPINTO 2022-11-11 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- It has no hits in 600 000 sentences, it just removes one false positive in my thesis -->
+        <antipattern>
+          <token postag='SPS00:DA0.S.+' postag_regexp='yes'/>
+          <token postag='VM...P.+' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+' postag_regexp='yes'/>
+          <token postag='AQ0.S.+|NC.S.+' postag_regexp='yes'/>
+          <example>Ao termos o conhecimento conseguimos tudo.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-11-11 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
