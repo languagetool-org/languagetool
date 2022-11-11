@@ -161,6 +161,7 @@ public class AgreementRule extends Rule {
     "nichts",
     "alles",   // "Ruhe vor dem alles verheerenden Sturm", "Alles Große und Edle ist einfacher Art."
     "dies",
+    "ebendies",
     "ich",
     "dir",
     "dich",
@@ -454,7 +455,7 @@ public class AgreementRule extends Rule {
       if (comma) {
         boolean prep = tokens[pos-1].hasPosTagStartingWith("PRP:");
         relPronoun = tokens[pos].hasAnyLemma(REL_PRONOUN_LEMMAS);
-        return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && (tokens[pos].hasLemma("jen") || tokens[pos].hasLemma("dies")));
+        return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && (tokens[pos].hasLemma("jen") || tokens[pos].hasLemma("dies") || tokens[pos].hasLemma("ebendies")));
       }
     }
     return false;
