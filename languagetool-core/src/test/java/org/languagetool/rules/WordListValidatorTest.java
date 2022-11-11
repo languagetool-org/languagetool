@@ -151,6 +151,7 @@ public class WordListValidatorTest {
           "Stevanović",
           "Børge",
           "Børge/S",
+          "Bjørn Gulden/S",
           "Snæfellsjökull/S",
           "Clément/S",
           "Snæfellsjökull",
