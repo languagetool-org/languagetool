@@ -23795,7 +23795,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hola de parte de mi hermano.</example>
             </rule>
         </rulegroup>
-        <rule id="HA_A" name="ha -> a">
+        <rulegroup id="HA_A" name="ha -> a">
             <!-- Probably better than the confusion set rule -->
             <antipattern>
                 <token regexp="yes">[0-9,\.]+<exception regexp="yes">19[0-9][0-9]|20[0-9][0-9]</exception></token>
@@ -23835,31 +23835,63 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">tiempos?|años</token>
                 <token>ha</token>
             </antipattern>
-            <pattern>
-                <marker>
-                    <token>ha</token>
-                </marker>
-                <!--<token postag="[DNAPR].*"/>-->
-            </pattern>
-            <message>Si no es del v. 'haber', se escribe sin hache.</message>
-            <suggestion>a</suggestion>
-            <example correction="A"><marker>Ha</marker> estos no me los creo.</example>
-            <example>Ha dicho que sí.</example>
-            <example>Ha claramente dicho que sí.</example>
-            <example>Ha, ha, ha: no me lo creo.</example>
-            <example correction="a">Lo ha vuelto <marker>ha</marker> hacer.</example>
-            <example correction="a">Volver <marker>ha</marker> casa.</example>
-            <example correction="a">Voy <marker>ha</marker> St. James.</example>
-            <example>Lo ha dicho.</example>
-            <example>Lo ha claramente dicho.</example>
-            <example>Ha de regarse sin falta.</example>
-            <example>que alguien ha incluso incrementado</example>
-            <example>3.500 ha limpias en el bosque.</example>
-            <example>Este año ha llovido bastante.</example>
-            <example>¿Ha usted reservado un cuarto de hotel?</example>
-            <example>Años ha de aquello.</example>
-            <example>¡Ha, y ahora de pronto es "mi" idea!</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ha</token>
+                    </marker>
+                    <!--<token postag="[DNAPR].*"/>-->
+                </pattern>
+                <message>Si no es del v. 'haber', se escribe sin hache.</message>
+                <suggestion>a</suggestion>
+                <example correction="A"><marker>Ha</marker> estos no me los creo.</example>
+                <example>Ha dicho que sí.</example>
+                <example>Ha claramente dicho que sí.</example>
+                <example>Ha, ha, ha: no me lo creo.</example>
+                <example correction="a">Lo ha vuelto <marker>ha</marker> hacer.</example>
+                <example correction="a">Volver <marker>ha</marker> casa.</example>
+                <example correction="a">Voy <marker>ha</marker> St. James.</example>
+                <example>Lo ha dicho.</example>
+                <example>Lo ha claramente dicho.</example>
+                <example>Ha de regarse sin falta.</example>
+                <example>que alguien ha incluso incrementado</example>
+                <example>3.500 ha limpias en el bosque.</example>
+                <example>Este año ha llovido bastante.</example>
+                <example>¿Ha usted reservado un cuarto de hotel?</example>
+                <example>Años ha de aquello.</example>
+                <example>¡Ha, y ahora de pronto es "mi" idea!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>ha<exception postag="_GV_"/></token>
+                        <token><exception regexp="yes">\p{P}</exception></token>
+                    </marker>
+                    <!--<token postag="[DNAPR].*"/>-->
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:1 desiredPostag:V.P..SM"/>
+                <message>¿Quería decir "a" (preposición) o "hay" (del verbo 'haber')? Quizá falta un participio.</message>
+                <suggestion>ha {suggestion}</suggestion>
+                <suggestion>a \2</suggestion>
+                <suggestion>hay \2</suggestion>
+                <example correction="A estos|Hay estos"><marker>Ha estos</marker> no me los creo.</example>
+                <example>Ha dicho que sí.</example>
+                <example>Ha claramente dicho que sí.</example>
+                <example>Ha, ha, ha: no me lo creo.</example>
+                <example correction="a hacer|hay hacer">Lo ha vuelto <marker>ha hacer</marker>.</example>
+                <example correction="a casa|hay casa">Volver <marker>ha casa</marker>.</example>
+                <example correction="a St|hay St">Voy <marker>ha St</marker>. James.</example>
+                <example>Lo ha dicho.</example>
+                <example>Lo ha claramente dicho.</example>
+                <example>Ha de regarse sin falta.</example>
+                <example>que alguien ha incluso incrementado</example>
+                <example>3.500 ha limpias en el bosque.</example>
+                <example>Este año ha llovido bastante.</example>
+                <example>¿Ha usted reservado un cuarto de hotel?</example>
+                <example>Años ha de aquello.</example>
+                <example>¡Ha, y ahora de pronto es "mi" idea!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AYA_HAYA" name="*aya/haya">
             <rule>
                 <pattern>
