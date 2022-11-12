@@ -6591,6 +6591,34 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="N.*"/>
     </rule>
+    <rulegroup id="nVerb0" name="no verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">davall|només|noms?<exception postag="_GV_"/></token>
+                        <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <antipattern>
+                <token postag_regexp="yes" postag="&pronom_feble;"><exception>el</exception></token>
+                <token postag="V.[IS].*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="V.*" postag_regexp="yes">projecte<exception postag="_GV_"/></token>
+                        <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="haver_de_infinitiu" name="haver de + infinitiu">
         <rule>
             <pattern>
@@ -8695,21 +8723,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="R.*|V.[MSI].*|PP.*|P0.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="[^N].*"/>
-    </rule>
-    <rule id="nVerb0" name="no verb, si no hi ha pronom">
-        <antipattern>
-            <token postag_regexp="yes" postag="&pronom_feble;"><exception>el</exception></token>
-            <token postag="V.[IS].*" postag_regexp="yes"/>
-        </antipattern>
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="V.*" postag_regexp="yes">projecte<exception postag="_GV_"/></token>
-                    <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="V.*"/>
     </rule>
     <rule id="infinitiu_nomverb_nom0" name="infinitiu + verb/nom + nom">
         <!-- Per a berenar menges pa-->
@@ -16087,7 +16100,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" inflected="yes">corresponent|invers|dret|referent|proper|pròxim|previ|oposar|contrari|igual|similar|semblant|anàleg|idèntic|equivalent|equiparable|alternatiu|superior|inferior|paral·lel|anterior|posterior</token>
+                <token regexp="yes" inflected="yes">corresponent|invers|dret|referent|proper|pròxim|previ|oposar|contrari|igual|similar|semblant|anàleg|idèntic|equivalent|equiparable|alternatiu|superior|inferior|paral·lel|anterior|posterior|parèixer</token>
                 <marker>
                     <token>a</token>
                 </marker>
