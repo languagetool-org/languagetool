@@ -10145,7 +10145,12 @@ onwaarschijnlijk
                 <message>U bedoelt vast <suggestion>Wouter Bos</suggestion>, de (ex-)politicus.</message>
                 <example correction="Wouter Bos">Kent u <marker>wouter bos</marker>?</example>
             </rule>
-
+            <rule>
+                <antipattern case_sensitive="yes"><token>Hannah</token><token>Arendt</token></antipattern>
+                <pattern><token regexp="yes">hannah?</token><token regexp="yes">aren(d|t|dt)</token></pattern>
+                <message>U bedoelt vast <suggestion>Hannah Arendt</suggestion>, de filosofe.</message>
+                <example correction="Hannah Arendt">Kent u <marker>hanna arend</marker>?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MS_TEAMS" name="Microsoft teams/Microsoftteams">
             <rule>
