@@ -38,8 +38,13 @@ public class GermanSynthesizer extends BaseSynthesizer {
   public static final GermanSynthesizer INSTANCE = new GermanSynthesizer(Languages.getLanguageForShortCode("de-DE"));
   private static final Set<String> REMOVE = new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer"));
 
+  /** @deprecated use {@link #INSTANCE} */
   public GermanSynthesizer(Language lang) {
-    super("de/de.sor", "/de/german_synth.dict", "/de/german_tags.txt", lang);
+    this();
+  }
+
+  private GermanSynthesizer() {
+    super("de/de.sor", "/de/german_synth.dict", "/de/german_tags.txt", "de");
   }
 
   @Override

@@ -60,15 +60,25 @@ public class BaseSynthesizer implements Synthesizer {
   /**
    * @param resourceFileName The dictionary file name.
    * @param tagFileName The name of a file containing all possible tags.
+   * @deprecated use {@link #BaseSynthesizer(String, String, String, String)}
    */
   public BaseSynthesizer(String sorosFileName, String resourceFileName, String tagFileName, Language lang) {
+    this(sorosFileName, resourceFileName, tagFileName, lang.getShortCode());
+  }
+
+  /**
+   * @param resourceFileName The dictionary file name.
+   * @param tagFileName The name of a file containing all possible tags.
+   * @param langShortCode the language short code used to find the data files
+   */
+  public BaseSynthesizer(String sorosFileName, String resourceFileName, String tagFileName, String langShortCode) {
     this.resourceFileName = resourceFileName;
     this.tagFileName = tagFileName;
     this.stemmer = createStemmer();
     this.sorosFileName = sorosFileName;
-    this.numberSpeller = createNumberSpeller(lang.getShortCode());
+    this.numberSpeller = createNumberSpeller(langShortCode);
     try {
-      String path = "/" + lang.getShortCode() + "/added.txt";
+      String path = "/" + langShortCode + "/added.txt";
       if (JLanguageTool.getDataBroker().resourceExists(path)) {
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
           this.manualSynthesizer = new ManualSynthesizer(stream);
@@ -76,7 +86,7 @@ public class BaseSynthesizer implements Synthesizer {
       } else {
         this.manualSynthesizer = null;
       }
-      String removalPath = "/" + lang.getShortCode() + "/removed.txt";
+      String removalPath = "/" + langShortCode + "/removed.txt";
       if (JLanguageTool.getDataBroker().resourceExists(removalPath)) {
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(removalPath)) {
           this.removalSynthesizer = new ManualSynthesizer(stream);
@@ -84,7 +94,7 @@ public class BaseSynthesizer implements Synthesizer {
       } else {
         this.removalSynthesizer = null;
       }
-      String removalPath2 = "/" + lang.getShortCode() + "/do-not-synthesize.txt";
+      String removalPath2 = "/" + langShortCode + "/do-not-synthesize.txt";
       if (JLanguageTool.getDataBroker().resourceExists(removalPath2)) {
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(removalPath2)) {
           this.removalSynthesizer2 = new ManualSynthesizer(stream);
@@ -97,9 +107,16 @@ public class BaseSynthesizer implements Synthesizer {
       throw new RuntimeException(e);
     }
   }
-  
+
+  /**
+   * @deprecated use {@link #BaseSynthesizer(String, String, String)}
+   */
   public BaseSynthesizer(String resourceFileName, String tagFileName, Language lang) {
-    this(null, resourceFileName, tagFileName, lang);
+    this(resourceFileName, tagFileName, lang.getShortCode());
+  }
+
+  public BaseSynthesizer(String resourceFileName, String tagFileName, String langShortCode) {
+    this(null, resourceFileName, tagFileName, langShortCode);
   }
 
   /**

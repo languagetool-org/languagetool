@@ -113,7 +113,7 @@ public class Greek extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new GreekSynthesizer(this);
+    return GreekSynthesizer.INSTANCE;
   }
 
   @Override

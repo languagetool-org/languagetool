@@ -79,7 +79,7 @@ public class Polish extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new PolishSynthesizer(this);
+    return PolishSynthesizer.INSTANCE;
   }
 
   @Override

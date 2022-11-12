@@ -66,7 +66,7 @@ public class Slovak extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new SlovakSynthesizer(this);
+    return SlovakSynthesizer.INSTANCE;
   }
 
   @Override

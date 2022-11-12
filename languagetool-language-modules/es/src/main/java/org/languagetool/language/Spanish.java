@@ -88,7 +88,7 @@ public class Spanish extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new SpanishSynthesizer(this);
+    return SpanishSynthesizer.INSTANCE;
   }
 
   @Override

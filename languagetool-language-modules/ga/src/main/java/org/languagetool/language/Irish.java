@@ -118,7 +118,7 @@ public class Irish extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new IrishSynthesizer(this);
+    return IrishSynthesizer.INSTANCE;
   }
 
   @Override

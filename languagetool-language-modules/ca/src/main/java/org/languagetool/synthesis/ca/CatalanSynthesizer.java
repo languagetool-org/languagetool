@@ -18,17 +18,17 @@
  */
 package org.languagetool.synthesis.ca;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
+import org.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.tools.StringTools;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.Language;
-import org.languagetool.synthesis.BaseSynthesizer;
-import org.languagetool.tools.StringTools;
 
 /**
  * Catalan word form synthesizer.
@@ -68,8 +68,15 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   
   private static final Pattern pLemmaSpace = Pattern.compile("([^ ]+) (.+)");
 
+  public static final CatalanSynthesizer INSTANCE = new CatalanSynthesizer();
+
+  /** @deprecated use {@link #INSTANCE} */
   public CatalanSynthesizer(Language lang) {
-    super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", lang);
+    this();
+  }
+
+  private CatalanSynthesizer() {
+    super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", "ca");
   }
 
   @Override

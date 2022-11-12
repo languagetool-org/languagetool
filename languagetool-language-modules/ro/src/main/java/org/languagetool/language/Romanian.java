@@ -94,7 +94,7 @@ public class Romanian extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new RomanianSynthesizer(this);
+    return RomanianSynthesizer.INSTANCE;
   }
 
   @Override

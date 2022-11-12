@@ -21,6 +21,7 @@ package org.languagetool.server;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.language.*;
@@ -313,7 +314,11 @@ public class HTTPServerTest {
   }
 
   @Test
-  public void testTimeout() {
+  public void testTimeout() throws IOException {
+    GermanyGerman lang = new GermanyGerman();
+    // avoid rule <clinit> being interrupted by timeout, resulting in NCDFEs in the following tests
+    lang.getRelevantRules(JLanguageTool.getMessageBundle(), null, null, Collections.emptyList());
+
     HTTPServerConfig config = new HTTPServerConfig(HTTPTestTools.getDefaultPort(), false);
     config.setMaxCheckTimeMillisAnonymous(1);
     HTTPServer server = new HTTPServer(config, false);
@@ -322,8 +327,8 @@ public class HTTPServerTest {
       try {
         System.out.println("=== Testing timeout now, please ignore the following exception ===");
         long t = System.currentTimeMillis();
-        checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung. "+
-                                     "hir stet noc mer text mt nochh meh feheln. vielleict brucht es soagr nohc mehrr, damt es klapt");
+        checkV2(lang, "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung. " +
+                      "hir stet noc mer text mt nochh meh feheln. vielleict brucht es soagr nohc mehrr, damt es klapt");
         fail("Check was expected to be stopped because it took too long (> 1ms), it took " +
                 (System.currentTimeMillis()-t + "ms when measured from client side"));
       } catch (IOException expected) {
