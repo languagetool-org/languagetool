@@ -283,6 +283,27 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
+        <rulegroup id="WORDT_JE" name="Wordt/word" default="temp_off">
+            <!-- R. Baars, november 2022 -->
+            <rule>
+                <antipattern>
+                    <token>je</token>
+                    <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+                </antipattern>
+                <antipattern>
+                    <token>je</token>
+                    <token postag_regexp="yes" postag="BNW.*"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+                </antipattern>
+                <pattern>
+                    <token>wordt</token>
+                    <token>je</token>
+                </pattern>
+                <message>Als 'je' hier als 'jij' bedoeld is, dan is juist: <suggestion>word je</suggestion>.</message>
+                <example correction="word je">Dan <marker>wordt je</marker> gepiepeld.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="SOURCE" name="Source/bron" default="temp_off">
             <!-- R. Baars, november 2022 -->
             <rule>
