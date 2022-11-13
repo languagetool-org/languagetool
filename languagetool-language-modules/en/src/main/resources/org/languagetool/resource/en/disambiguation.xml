@@ -16295,4 +16295,51 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="remove" postag="VB.*" />
     </rule>
+    <rulegroup id="MIGHT_MD" name="'might' only MD">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">might|may</token>
+                </marker>
+                <token>be</token>
+                <token postag="RB" min="0" />
+                <token postag="JJ.*|VBN" postag_regexp="yes" />
+            </pattern>
+            <disambig action="filter" postag="MD" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">might|may</token>
+                </marker>
+                <token>as</token>
+                <token>well</token>
+                <token>be</token>
+                <token postag="RB" min="0" />
+                <token postag="JJ.*|VBN" postag_regexp="yes" />
+            </pattern>
+            <disambig action="filter" postag="MD" />
+        </rule>
+        <rule>
+            <pattern>
+                <token chunk_re="E-NP.*" />
+                <marker>
+                    <token regexp="yes">might|may</token>
+                </marker>
+                <token postag="VB" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="MD" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">might|may</token>
+                </marker>
+                <token>not</token>
+                <token postag="RB" min="0" />
+                <token postag="VB" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="MD" />
+        </rule>
+    </rulegroup>
 </rules>
