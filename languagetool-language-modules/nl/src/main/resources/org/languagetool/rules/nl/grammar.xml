@@ -299,7 +299,7 @@ regexp case-insensitive maken: (?i)
                     <token>wordt</token>
                     <token>je</token>
                 </pattern>
-                <message>Als 'je' hier als 'jij' bedoeld is, dan is juist: <suggestion>word je</suggestion>.</message>
+                <message>Als 'je' hier als 'jij' bedoeld is, dan is juist: <suggestion>word je</suggestion>. Als het als 'jou' of 'jouw' gelezen kan worden, dan is dit correct.</message>
                 <example correction="word je">Dan <marker>wordt je</marker> gepiepeld.</example>
             </rule>
         </rulegroup>
@@ -21038,13 +21038,23 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="VINDT_IK" name="verkeerde werkwoordvorm">
             <rule>
-                <antipattern><token>je</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
-                <antipattern><token>je</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
-                <antipattern><token regexp="yes">zal|zul</token><token>je</token></antipattern>
+                <antipattern>
+                    <token>je</token>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </antipattern>
+                <antipattern>
+                    <token>je</token>
+                    <token postag_regexp="yes" postag="BNW.*"/>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">zal|zul</token>
+                    <token>je</token>
+                </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="SENT_START|START"/>
                     <marker>
-                        <token postag_regexp="yes" postag="WKW:TGW:3EP.*"><exception>want</exception><exception postag_regexp="yes" postag="WKW:TGW:1EP.*|WKW:VLT:1EP.*"/></token>
+                        <token postag_regexp="yes" postag="WKW:TGW:3EP.*"><exception regexp="yes">want|wordt</exception><exception postag_regexp="yes" postag="WKW:TGW:1EP.*|WKW:VLT:1EP.*"/></token>
                     </marker>
                     <token regexp="yes">ik|je|jij</token>
                 </pattern>
