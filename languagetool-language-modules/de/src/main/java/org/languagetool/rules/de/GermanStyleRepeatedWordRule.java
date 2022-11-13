@@ -123,7 +123,8 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
    */
   protected boolean isTokenPair(AnalyzedTokenReadings[] tokens, int n, boolean before) {
     if (before) {
-      if ((tokens[n-2].hasPosTagStartingWith("SUB") && tokens[n-1].hasPosTagStartingWith("PRP")
+      if (n > 2 && n < tokens.length &&
+          (tokens[n-2].hasPosTagStartingWith("SUB") && tokens[n-1].hasPosTagStartingWith("PRP")
               && tokens[n].hasPosTagStartingWith("SUB"))
           || (tokens[n-2].getToken().equals("hart") && tokens[n-1].getToken().equals("auf") && tokens[n].getToken().equals("hart"))
           || (tokens[n-2].getToken().equals("dicht") && tokens[n-1].getToken().equals("an") && tokens[n].getToken().equals("dicht"))
@@ -131,10 +132,11 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
         return true;
       }
     } else {
-      if ((tokens[n].hasPosTagStartingWith("SUB") && tokens[n+1].hasPosTagStartingWith("PRP")
+      if (n > 0 && n < tokens.length - 2 &&
+          (tokens[n].hasPosTagStartingWith("SUB") && tokens[n+1].hasPosTagStartingWith("PRP")
               && tokens[n+2].hasPosTagStartingWith("SUB"))
-          || (tokens[n].getToken().equals("hart") && tokens[n+1].getToken().equals("auf") && tokens[n + 2].getToken().equals("hart"))
-          || (tokens[n-2].getToken().equals("dicht") && tokens[n-1].getToken().equals("an") && tokens[n].getToken().equals("dicht"))
+          || (tokens[n].getToken().equals("hart") && tokens[n+1].getToken().equals("auf") && tokens[n+2].getToken().equals("hart"))
+          || (tokens[n].getToken().equals("dicht") && tokens[n+1].getToken().equals("an") && tokens[n+2].getToken().equals("dicht"))
          ) {
         return true;
       }
