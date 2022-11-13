@@ -41,7 +41,9 @@ public class ApiV2Test {
     assertTrue(json.contains("\"German (Germany)\""));
     assertTrue(json.contains("\"de\""));
     assertTrue(json.contains("\"de-DE\""));
-    assertTrue(StringUtils.countMatches(json, "\"name\"") >= 43);
+    assertTrue(json.contains("\"fr\""));
+    assertTrue(json.contains("\"fr-FR\""));
+    assertTrue(StringUtils.countMatches(json, "\"name\"") >= 55);
   }
   
   @Test

@@ -458,13 +458,25 @@ class ApiV2 {
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartArray();
       List<Language> languages = new ArrayList<>(Languages.get());
-      languages.sort(Comparator.comparing(Language::getName));
+      Set<String> longCodes = new HashSet<>();
       for (Language lang : languages) {
         g.writeStartObject();
         g.writeStringField("name", lang.getName());
         g.writeStringField("code", lang.getShortCode());
         g.writeStringField("longCode", lang.getShortCodeWithCountryAndVariant());
+        longCodes.add(lang.getShortCodeWithCountryAndVariant());
         g.writeEndObject();
+      }
+      // add mappings like "fr-FR -> fr" because LibreOffice 7.4 needs them:
+      Map<String, Language> codeMap = Languages.getLongCodeToLangMapping();
+      for (Map.Entry<String, Language> entry : codeMap.entrySet()) {
+        if (!longCodes.contains(entry.getKey())) {
+          g.writeStartObject();
+          g.writeStringField("name", entry.getValue().getName());
+          g.writeStringField("code", entry.getValue().getShortCode());
+          g.writeStringField("longCode", entry.getKey());
+          g.writeEndObject();
+        }
       }
       g.writeEndArray();
     }

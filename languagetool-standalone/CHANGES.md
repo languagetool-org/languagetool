@@ -4,6 +4,12 @@
 
 ...
 
+#### HTTP API / LT server
+  * The `/languages` endpoint now lists language codes like `fr-FR` and `es-ES` for languages
+    that actually don't have a variant (e.g. there is no `fr-CA`). These codes can also be used
+    for the `language` parameter when sending a request. `fr-FR` will internally be mapped
+    to `fr` etc. (https://github.com/languagetool-org/languagetool/issues/7421)
+
 ### General
   * The `--api` parameter for the command-line version has been removed. It had
     long been deprecated and replaced by `--json`.
