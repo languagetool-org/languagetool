@@ -224,7 +224,7 @@ class AgreementRuleAntiPatterns2 {
       csToken("Lauer")
     ),
     asList(
-      csRegex("(eben)?dieser"),
+      tokenRegex("(eben)?dieser"),
       csToken("eine"),
       pos("SUB:NOM:SIN:MAS")
     ),
@@ -269,7 +269,7 @@ class AgreementRuleAntiPatterns2 {
       new PatternTokenBuilder().tokenRegex("haben|tun").matchInflectedForms().build()
     ),
     asList(
-      csRegex("(eben)?dieser"),
+      tokenRegex("(eben)?dieser"),
       csToken("einen"),
       pos("SUB:DAT:SIN:FEM")
     ),
