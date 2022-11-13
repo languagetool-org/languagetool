@@ -10433,10 +10433,76 @@ O namorado dela era um ladrão.
     
     </rulegroup>
 
+
     <rulegroup id='REFLEXIVE_VERB_SE_AGREEMENT' name='Concordância verbal: Verbo -se + Plural'>
       <!--      Created by Tiago F. Santos, Portuguese rule, 2017-07-19      -->
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      --> 
       <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
       <short>&MSG_ECV;</short>
+
+      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <!-- Zero hits in 600 000 sentence, only affects my thesis. -->
+      <antipattern>
+        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token min="1" max="2" postag='AQ..S.+|NC.S.+|NP.S.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <token postag='VMI[PS].S.+' postag_regexp='yes'/>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token spacebefore='no' postag='PP3CN000' postag_regexp='no'/> <!-- "se" -->
+        <token postag='RG' postag_regexp='no'/>
+        <token postag='AQ..P.+|NC.P.+|NP.P.+' postag_regexp='yes'/>
+        <example>O jovem vendedor, Rui Santos, imolou-se quando polícias tentaram prendê-lo.</example>
+        <example>O jovem vendedor, Rui Santos, imola-se quando polícias tentaram prendê-lo.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='AQ..P.+|NC.P.+|NP.P.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <token postag='VMI[MPS].P.+' postag_regexp='yes'/>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token spacebefore='no' postag='PP3CN000' postag_regexp='no'/> <!-- "se" -->
+        <token postag='AQ..S.+|NC.S.+|NP.S.+' postag_regexp='yes'/>
+        <example>Suas predições tornaram-se realidade.</example>
+        <example>Seus sonhos tornaram-se realidade.</example>
+        <example>Com a beleza prática de Brinox, os ambientes tornam-se cenário de experiências memoráveis, pois permitem que você possa ter mais tempo para aproveitar a vida junt...</example>
+        <example>...e colaboram para a apropriação de um ambiente de comunicação, o computador e seus inúmeros recursos destacam-se como ferramenta de acesso apoiado por diferentes programas sociais do governo federal.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token min="1" max="2" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+        <token postag='CC' postag_regexp='no'/>
+        <token min="1" max="2" postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <token postag='VMI[MPS].P.+' postag_regexp='yes'/>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token spacebefore='no' postag='PP3CN000' postag_regexp='no'/> <!-- "se" -->
+        <token min="1" max="2" postag='[DP][ADIPR]..S.+|SPS00:[DP][ADIPR]..S.+' postag_regexp='yes'/>
+        <token postag='AQ..S.+|NC.S.+|NP.S.+|_PUNCT' postag_regexp='yes'/>
+        <example>Pão, café e tabaco tornaram-se sua dieta padrão.</example>
+        <example>Pão, café e tabaco tornaram-se a sua dieta padrão.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='_PUNCT' postag_regexp='no'/>
+        <token postag='VMM0.S.+' postag_regexp='yes'/>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token spacebefore='no' postag='PP3CN000' postag_regexp='no'/> <!-- "se" -->
+        <token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+        <token postag='CC' postag_regexp='no'/>
+        <token postag='AQ.+|NC.+|NP.+' postag_regexp='yes'/>
+        <example>...mã, minha digníssima esposa Magnólia, sempre tão solidária em relação aos problemas de sua família (entenda-se pais e irmãs) resolveu convidá-la a ficar uns tempos morando em casa, ou seja, na edícula, com a Freira,...</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <rule>
         <antipattern>
           <token postag_regexp='yes' postag='V....S.+' inflected='yes' regexp='yes'>dizer|ler</token>
