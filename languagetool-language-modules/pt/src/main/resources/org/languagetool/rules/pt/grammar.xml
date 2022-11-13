@@ -18625,6 +18625,28 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- QUE SE ENCONTRA NA na -->
+    <rule id='QUE_SE_ENCONTRAR_NA_NO_NESTA_NESTE' name="Simplificar: que se encontr[ae](m) n[ao](s)/nest[ae](s) → n[ao](s)/nest[ae](s)" type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-13 (25-JUL-2022+) -->
+      <!--
+      Vamos resolver o problema que se encontra nesta equação. → Vamos resolver o problema nesta equação.
+      -->
+      <pattern>
+        <token postag='DD.+|SPS00:DD.+|NC.+|AQ.+|NP.+|_PUNCT' postag_regexp='yes'/>
+        <marker>
+          <token>que</token>
+          <token>se</token>
+          <token regexp='yes'>encontr[ae]m?</token>
+          <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
+        </marker>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\5</suggestion>
+      <example correction="nesta">Vamos resolver o problema <marker>que se encontra nesta</marker> equação.</example>
+    </rule>
+
+
     <!-- NA SEMANA QUE PASSOU na semana passada -->
     <rulegroup id='QUE_VERBOPASSADO_VERBOPARTPASSADO' name="Simplificar: Que + Verbo Passado → Verbo Particípio passado" type="style">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-28/29 (25-JUL-2022+) -->
