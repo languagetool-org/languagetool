@@ -84,7 +84,7 @@
         <!-- grpc related plugins check for updates if grpc is updated -->
         <kr.motd.maven.os-maven-plugin.version>1.6.2</kr.motd.maven.os-maven-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
-        <dependency-check-maven.pluging.version>6.5.3</dependency-check-maven.pluging.version>
+        <dependency-check-maven.pluging.version>7.3.0</dependency-check-maven.pluging.version>
         <flatten.version>1.2.5</flatten.version>
         <!-- Dependency Versions -->
 
@@ -308,6 +308,9 @@
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
                 <version>${dependency-check-maven.pluging.version}</version>
+                <configuration>
+                    <failBuildOnCVSS>8</failBuildOnCVSS>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
