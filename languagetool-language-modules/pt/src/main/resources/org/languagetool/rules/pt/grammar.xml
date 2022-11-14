@@ -1470,11 +1470,91 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='AQ.+' postag_regexp='yes'/>
           <example>O mais atualizada possível.</example>
         </antipattern>
+        <antipattern>
+          <token regexp="yes">\d{1,2}o</token>
+          <token regexp="yes">mínimas?|máximas</token>
+          <example>A temperaturá será de 31o mínima</example>
+        </antipattern>
+        <antipattern>
+          <token postag='(?:N.|A..)FS.+' postag_regexp='yes'/>
+          <token postag='NCMS.+' postag_regexp='yes'/>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
+          <token postag='(?:N.|A..)F[SN].+' postag_regexp='yes'/>
+          <example>A fita crachá personalizada é fabricada com a logomarca da empresa</example>
+          <example>é a invocação de uma instância da função gabarito definida no início</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>\p{Lu}\p{L}+</token>
+          <token postag_regexp='yes' postag='SPS.+|C.+' min='0'/>
+          <token regexp='yes'>\p{Lu}\p{L}+</token>
+          <example>A Ana, jornalista e autora do Ana de Amsterdam, deu dicas sobre como escrever melhor</example>
+          <example>Essa é mais uma campanha da Ipiranga, em parceria com a Unopar e a Secretaria Municipal de Saúde, por meio da Unidade de Saúde do Ana Rosa.</example>
+          <example>Para completar a banda, Marcelo Nova reúne metade do Camisa de Vênus original</example>
+          <example>Quatro semanas mais tarde, Ramiro Rincón impõe-se na Clássica do Carmen de Viboral</example>
+          <example>mais uma vez, denota a qualidade do Compra Certa.</example>
+          <example>Boletins da Sociedade do Geografia de Lisboa</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>\p{Lu}\p{L}+</token>
+          <token regexp='yes'>&palavras_estrangeiras;</token>
+          <token regexp='yes'>\p{Lu}\p{L}+</token>
+          <example>Nossa vítima do Angel of Mercy foi um sucesso.</example>
+        </antipattern>
+        <antipattern>
+         <and>
+          <token postag='(?:NC|A..)FS.+' postag_regexp='yes'/>
+          <token regexp='yes'>\p{Lu}\p{L}+</token>
+         </and>
+          <example>Os arquivos da lista de discussão da "equipe de criação do Divindade" incluem apenas os principais destaques.</example>
+          <example>Ko não é apenas uma regra restritiva do Go</example>
+        </antipattern>
+        <antipattern>
+          <token skip='-1' regexp='yes'>tendo|sendo</token>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
+          <token postag='(?:N.|A..)F[SN].+' postag_regexp='yes'/>
+          <example>tendo o cientista e diplomata americana feito referência</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-06-20 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- 0 hits in 600 000 sentences, only the example here works. -->
+        <antipattern>
+          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
+          <token postag='RN' postag_regexp='no'/>
+          <token postag='AQ.[CF].+|NC[CF].+' postag_regexp='yes'/>
+          <example>Por outro lado, aparecem do nada pessoas, algumas que até nos adoram.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+                <!-- MARCOAGPINTO 2022-06-20 + 2022-07-03 (Checked/Enhanced) (5-JUN-2022+) *START* -->
+        <antipattern>
+          <token postag='AQ.+|NC.+|V.+|CS|CC|RG|SPS00|I' postag_regexp='yes'/>
+          <token min="1" max="2" postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
+          <token postag='AQ.[CM].+|NC[CM].+|V.+' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
+          <token postag='AQ.[CM].+|NC[CM].+|NP[NM].+' postag_regexp='yes'/>
+          <example>Tive minhas primeiras experiências sexuais com uma mulher vários anos mais velha que eu.</example>
+          <example>Em outra publicação sua no mesmo ano, Einstein pôs em dúvida vários princípios do eletromagnetismo clássico.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='AQ.+|NC.+|V.+|CS|CC|RG|SPS00|I' postag_regexp='yes'/>
+          <token min="1" max="2" postag='[DP][ADIPR].M.+|SPS00:[DP][ADIPR].M.+' postag_regexp='yes'/>
+          <token postag='AQ.[CM].+|NC[CM].+|V.+' postag_regexp='yes'/>
+          <token postag='[DP][ADIPR].F.+|SPS00:[DP][ADIPR].F.+' postag_regexp='yes'/>
+          <token postag='AQ.[CF].+|NC[CF].+|NP[NF].+' postag_regexp='yes'/>
+          <example>Esta medida drástica está sendo tomada com o intuito de auxiliar no controle da disseminação do Covid-19 pelo Brasil.</example>
+          <example>É a capacidade de colocar no papel suas ideologias a respeito de determinado assunto.</example>
+          <example>O Tom falou que a gente poderia ligar para ele caso alguma coisa desse errada.</example>
+          <example>Como incentivo a este tipo de música, a Câmara Municipal de Braga criou no estádio 1.º de Maio várias salas de ensaio.</example>
+          <example>Série 9xx Cada série foca um determinado mercado, possuindo os aparelhos várias semelhanças entre si.</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MS.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..)[CF][NS].+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+              <exception postag='(?:[NZ].|A..)[CF][NS].+|(?:[NZ].|A..)MP.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
               <exception regexp='yes'>ás?</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception regexp='yes'>e|era|ser|efeito|cada|tido|uso|sozinho|nele|casal|mora|chamado|são|serão|média?|nós|termo|nome|haver|x|bairro|saber|tao</exception></token>
@@ -1485,7 +1565,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
             <token postag='(?:N.|A..)F[SN].+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..)[CM].+|V.[CMNSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
+              <exception postag='(?:[NZ].|A..)[CM].+|(?:[NZ].|A..)FP.+|V.[CMNSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>\p{Lu}+</exception>
               <exception regexp='yes'>uma|&dias_semana;|mas|x|á|leva|ama|manda|olha|perca|tao|e|era|semana|noite|sozinha|ser|mora|são|serão|média?|nós|termo|nome|haver|saber</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception></token>
@@ -1497,13 +1577,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <!-- TEMP REMOVE		<suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>  MARCOAGPINTO 2019-12-27 -->
         <!-- TEMP REMOVE        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>  MARCOAGPINTO 2019-12-27 -->
         <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
-        <example correction='Uma vaca|Um, vaca'><marker>Um vaca</marker> está no pasto.</example>
-        <example correction='uma omelete|um, omelete'>Você pode fazer <marker>um omelete</marker> espanhola para eu jantar, por favor?</example>
+        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all' case_conversion='startupper'/></suggestion>
+        <example correction='uma vaca|Um, vaca|Um Vaca'><marker>Um vaca</marker> está no pasto.</example>
+        <example correction='uma omelete|um, omelete|um Omelete'>Você pode fazer <marker>um omelete</marker> espanhola para eu jantar, por favor?</example>
         <example>O Um torna-se Dois, o Dois torna-se Três.</example>
         <example>Diz-se que a cada dia nasce um trouxa, e disso o vigarista sabe.</example>
-        <example correction="uma terrível dor|um terrível, dor">Tenho <marker>um terrível dor</marker> na cabeça.</example>
-        <example correction="uma grande erupção|um grande, erupção">Por exemplo, <marker>um grande erupção</marker> vulcânica causa maior reflexão da luz solar de vo…</example>
-        <example correction='da milícia|do, milícia'>É membro <marker>do milícia</marker>.</example>
+        <example correction="uma terrível dor|um terrível, dor|um terrível Dor">Tenho <marker>um terrível dor</marker> na cabeça.</example>
+        <example correction="uma grande erupção|um grande, erupção|um grande Erupção">Por exemplo, <marker>um grande erupção</marker> vulcânica causa maior reflexão da luz solar de vo…</example>
+        <example correction='da milícia|do, milícia|do Milícia'>É membro <marker>do milícia</marker>.</example>
         <example>O monte Farinha é uma montanha do distrito de Vila Real.</example>
         <example>Não parece haver má notícia capaz de…</example>
         <example>…tecnologia o mais rápida possível…</example>
@@ -1561,12 +1642,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <!-- MARCOAGPINTO 2022-08-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
         <antipattern>
-           <token postag='N.F.+|AQ.F.+' postag_regexp='yes'/>
-           <token postag='DI0M.+|SPS00:D..M.+' postag_regexp='yes'/>
+           <token postag='N.FP.+|AQ.FP.+' postag_regexp='yes'/>
+           <token postag='DI0M.+|SPS00:D..MP.+' postag_regexp='yes'/>
            <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
-           <token postag='(?:A..)C[SN].+' postag_regexp='yes'/>
-           <token postag='(?:N.|A..|DP.)F.+' postag_regexp='yes'/>
-           <example>A concepção do inconsciente trazida</example>
+           <token postag='(?:A..)C.+' postag_regexp='yes'/>
+           <token postag='(?:N.|A..|DP.)FP.+' postag_regexp='yes'/>
+           <example>As concepções dos inconscientes trazidas</example>
         </antipattern>
         <antipattern>
             <token postag='DI0M.+|SPS00:D..M.+' postag_regexp='yes'/>
@@ -1576,18 +1657,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token regexp="yes">&nomes_de_instituicoes_final;</token>
             <example>"Ocean's 8" estreou no Alice Tully Hall em 5 de junho de 2018</example>
         </antipattern>
+        <antipattern>
+          <token postag='(?:N.|A..)FP.+' postag_regexp='yes'/>
+          <token postag='NCM.+' postag_regexp='yes'/>
+          <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+          <token min='0' postag='(?:A..)[CF].+' postag_regexp='yes'/>
+          <token postag='(?:N.|A..)F[PN].+' postag_regexp='yes'/>
+          <example>As fitas crachá personalizadas são fabricadas com a logomarca da empresa</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>\p{Lu}\p{L}+</token>
+          <token regexp='yes'>&palavras_estrangeiras;</token>
+          <token regexp='yes'>\p{Lu}\p{L}+</token>
+          <example>Nossa vítima dos Eras of Mercy foi um sucesso.</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;|&pronomes_obliquos;</token>
           <marker>
-            <token postag='DI0M.+|SPS00:D..M.+' postag_regexp='yes'>
-              <exception regexp='yes'>[dn]ele|to</exception>
+            <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MP.+' postag_regexp='yes'>
+              <exception regexp='yes'>[dn]eles|destes|ambos|to</exception>
               <exception postag_regexp='yes' postag='R.|NP.+|N.+_'/></token>
             <token min='0' regexp='yes'>&adverbios_de_intensidade;
               <exception regexp='yes'>quanto|quão</exception></token>
-            <token min='0' postag='(?:A..)C[SN].+' postag_regexp='yes'>
+            <token min='0' postag='(?:A..)C[PN].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:N.|A..)C[SN].+'/>
               <exception regexp='yes'>\p{Lu}+</exception></token>
-            <token postag='(?:N.|A..|DP.)F.+' postag_regexp='yes'>
+            <token postag='(?:N.|A..|DP.)FP.+' postag_regexp='yes'>
               <exception postag='(?:N.|A..|DP.)[CM].+|V.[MNCSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>uma|face|longa|era|semanas?|noites?|mas|\d\:\d</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
@@ -1597,8 +1692,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <message>&MSG_ECG;</message>
         <suggestion><match no='2' postag="(DI.|SPS00:...)M(.+)" postag_replace='$1F$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)F(.+)" postag_replace='$1M$2' postag_regexp="yes"/></suggestion>
-        <example correction='na hora|no (hora)'>Foi resolvido <marker>no hora</marker> certa.</example>
-        <example>Foi resolvido <marker>na hora</marker> certa.</example>
+        <example correction='nas horas|nos (horas)'>Foi resolvido <marker>nos horas</marker> certas.</example>
+        <example>Foi resolvido <marker>nas horas</marker> certas.</example>
       </rule>
       <rule>
         <antipattern>
@@ -1772,7 +1867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/>
               <exception regexp='yes'>\d\%</exception>
               <exception regexp='yes'>\p{Lu}+</exception></token>
-            <token postag='(?:N.|A..)F.+' postag_regexp='yes'>
+            <token postag='(?:N.|A..)FP.+' postag_regexp='yes'>
               <exception postag='(?:[NZ].|A..)[CM].+|V.[CSI].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
               <exception regexp='yes'>uma|mas|média|\d\%</exception>
               <exception regexp='yes'>\p{Lu}+</exception>
