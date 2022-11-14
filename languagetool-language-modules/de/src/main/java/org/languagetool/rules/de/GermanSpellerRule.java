@@ -873,6 +873,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kovult", "Konvolut");
     putRepl("blog(t?en?|t(es?t)?)$", "g", "gg");
     put("Zombiefizierungen", "Zombifizierungen");
+    put("Tret", w -> Arrays.asList("Tritt", "Trete", "Trat"));
     put("Hühne", w -> Arrays.asList("Bühne", "Hüne", "Hühner"));
     put("Hühnen", w -> Arrays.asList("Bühnen", "Hünen", "Hühnern"));
     put("tiptop", "tiptopp");
