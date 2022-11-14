@@ -43,6 +43,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
+    "viel hin und her",
     "möglichkeit weißt",
     "du doch trotzdem",
     "wir stark ausgelastet sind",
