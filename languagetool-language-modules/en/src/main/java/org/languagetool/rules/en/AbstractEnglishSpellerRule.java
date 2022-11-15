@@ -432,6 +432,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("tar ") &&
                    !k.getReplacement().toLowerCase().startsWith("f ") &&
                    !k.getReplacement().toLowerCase().startsWith("k ") &&
+                   !k.getReplacement().toLowerCase().startsWith("l ") &&
                    !k.getReplacement().toLowerCase().startsWith("e ") &&
                    !k.getReplacement().toLowerCase().startsWith("c ") &&
                    !k.getReplacement().toLowerCase().startsWith("p ") &&
@@ -489,6 +490,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" h") &&
                    !k.getReplacement().endsWith(" s") &&
                    !k.getReplacement().endsWith(" r") &&
+                   !k.getReplacement().endsWith(" l") &&
                    !k.getReplacement().endsWith(" um") &&
                    !k.getReplacement().endsWith(" er") &&
                    !k.getReplacement().endsWith(" es") &&
