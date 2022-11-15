@@ -362,9 +362,9 @@ public class ArtificialErrorEval {
         String incorrectSource = parts[columnIncorrect - 1];
         words[0] = null;
         words[1] = null;
-        String correctSentence = "";
+        /*String correctSentence = "";
         String incorrectSentence = "";
-        Matcher mIncorrect = p.matcher(incorrectSource);
+        /*Matcher mIncorrect = p.matcher(incorrectSource);
         if (mIncorrect.matches()) {
           words[0] = mIncorrect.group(2);
         }
@@ -374,7 +374,13 @@ public class ArtificialErrorEval {
           words[1] = mCorrect.group(2);
           correctSentence = mCorrect.group(1) + mCorrect.group(2) + mCorrect.group(3);
           posError = mCorrect.group(1).length();
-        }
+        }*/
+        String correctSentence = correctSource.replaceAll("__", "");
+        String incorrectSentence = incorrectSource.replaceAll("__", "");
+        List<String> diffs = differences(correctSentence, incorrectSentence);
+        int posError = diffs.get(0).length();
+        words[1] = diffs.get(1);
+        words[0] = diffs.get(2);
         if (words[1] != null) {
           // words[0] may be null!
           // check FN
@@ -708,5 +714,29 @@ public class ArtificialErrorEval {
         + " <language code> <input file>");
     System.out.println("Usage 2: " + ArtificialErrorEval.class.getSimpleName()
         + " <configuration file>");
+  }
+  
+  private static List<String> differences(String s1, String s2) {
+    List<String> results = new ArrayList<>();
+    int fromStart = 0;
+    while (s1.charAt(fromStart) == s2.charAt(fromStart)) {
+      fromStart++;
+    }
+    int l1 = s1.length();
+    int l2 = s2.length();
+    int fromEnd = 0;
+    while (s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
+      fromEnd++;
+    }
+    // first common part
+    results.add(s1.substring(0, fromStart));
+    // diff in sentence 1
+    results.add(s1.substring(fromStart, l1 - fromEnd));
+    // diff in setence 2
+    results.add(s2.substring(fromStart, l2 - fromEnd));
+    // last common part
+    results.add(s1.substring(l1 - fromEnd, l1 - 1));
+    return results;
+    
   }
 }
