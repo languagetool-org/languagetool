@@ -728,13 +728,13 @@ public class ArtificialErrorEval {
     while (s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
       fromEnd++;
     }
-    // first common part
+    // common string at start
     results.add(s1.substring(0, fromStart));
     // diff in sentence 1
     results.add(s1.substring(fromStart, l1 - fromEnd));
-    // diff in setence 2
+    // diff in sentence 2
     results.add(s2.substring(fromStart, l2 - fromEnd));
-    // last common part
+    // common string at end
     results.add(s1.substring(l1 - fromEnd, l1 - 1));
     return results;
     
