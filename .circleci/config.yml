@@ -55,6 +55,8 @@ jobs:
           name: Scan dependencies
           command: |
             cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml clean dependency-check:aggregate
+      - store_artifacts:
+          path: $CIRCLE_WORKING_DIRECTORY/target/dependency-check-report.html
   test-and-deploy-full:
     resource_class: medium+
     executor:
