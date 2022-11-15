@@ -735,7 +735,7 @@ public class ArtificialErrorEval {
     // diff in sentence 2
     results.add(s2.substring(fromStart, l2 - fromEnd));
     // common string at end
-    results.add(s1.substring(l1 - fromEnd, l1 - 1));
+    results.add(s1.substring(l1 - fromEnd, l1));
     return results;
     
   }
