@@ -4843,14 +4843,14 @@ O namorado dela era um ladrão.
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]P.+' postag_regexp='yes'>
-              <exception postag='(?:D[ADIP].|N.|A..|P..|Z.)[MC][NS].+|(C|R).+|SPS00' postag_regexp='yes'/>
+              <exception postag='(?:D[ADIP].|N.|A..|P..|Z.)[MC][NS].+|(?:D[ADIP].|NC|A..|P[^IDP].|Z.)F.+|(C|R).+|SPS00' postag_regexp='yes'/>
               <exception regexp='yes'>.+[°′″]|\d.+%|diabos|anos|meses|d[ae]mos|dias</exception></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
               <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C.+'/>
               <exception regexp='yes'>.+[°′″]|x|\p{Lu}+</exception></token>
             <token postag='(?:N.|A..)[MC]S.+' postag_regexp='yes'>
-              <exception postag='(?:[NZ].|A..)[MC][NP].+|Z.+|P[ID].[CFM].+|(C|R).+|SPS00.*|V.[INGMS].+' postag_regexp='yes'/>
+              <exception postag='(?:[NZ].|A..)[MC][NP].+|(?:[NZ].|A..)F.+|Z.+|P[ID].[CFM].+|(C|R).+|SPS00.*|V.[INGMS].+' postag_regexp='yes'/>
               <exception regexp="yes">.+[°′″]|\d[4]|há|damas|são|ser|cor|haver|sozinho|devido|vão|serão|tempo|\p{Lu}+</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+' spacebefore='no' regexp='yes'>&hifen;</exception>
               <exception scope='next' postag_regexp='yes' postag='[^Z].+'>e</exception></token>
