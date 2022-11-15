@@ -18805,6 +18805,28 @@ O namorado dela era um ladrão.
       <!--
       Vamos resolver o problema que se encontra nesta equação. → Vamos resolver o problema nesta equação.
       -->
+      <antipattern>
+        <token inflected='yes'>ser</token>
+        <token postag='D.+' postag_regexp='yes'/>
+        <token postag='DD.+|SPS00:DD.+|NC.+|AQ.+|NP.+|_PUNCT' postag_regexp='yes' skip='-1'/>
+        <token>que</token>
+        <token>se</token>
+        <token regexp='yes'>encontr[ae]m?</token>
+        <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <example>A Spondylus foi um tipo de molusco que se encontra nas águas quentes do oceano Pacífico</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ser</token>
+        <token>a</token>
+        <token postag='DD.+|SPS00:DD.+|NC.+|AQ.+|NP.+|_PUNCT' postag_regexp='yes' skip='-1'/>
+        <token>que</token>
+        <token>se</token>
+        <token regexp='yes'>encontr[ae]m?</token>
+        <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <example>O pássaro nacional de Granada é a pomba-de-granada, que se encontra na lista de espécies em perigo crítico.</example>
+      </antipattern>
       <pattern>
         <token postag='DD.+|SPS00:DD.+|NC.+|AQ.+|NP.+|_PUNCT' postag_regexp='yes'/>
         <marker>
