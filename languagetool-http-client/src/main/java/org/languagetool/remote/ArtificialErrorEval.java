@@ -659,7 +659,6 @@ public class ArtificialErrorEval {
     List<String> ruleIDs = new ArrayList<>();
     for (RemoteRuleMatch match : matchesCorrect) {
       if (match.getErrorOffset() <= pos && match.getErrorOffset() + match.getErrorLength() >= pos) {
-        
         if (!onlyRules.isEmpty() && !onlyRules.contains(match.getRuleId())) {
           continue;
         }
