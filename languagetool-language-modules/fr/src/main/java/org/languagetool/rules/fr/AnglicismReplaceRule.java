@@ -1,7 +1,3 @@
-package org.languagetool.rules.fr;
-
-import org.languagetool.AnalyzedTokenReadings;
-
 /* LanguageTool, a natural language style checker 
  * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
  * 
@@ -21,9 +17,13 @@ import org.languagetool.AnalyzedTokenReadings;
  * USA
  */
 
+package org.languagetool.rules.fr;
+
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Tag;
+
 import org.languagetool.language.French;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
-import org.languagetool.rules.Categories;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.ITSIssueType;
@@ -31,6 +31,7 @@ import org.languagetool.rules.ITSIssueType;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -53,6 +54,7 @@ public class AnglicismReplaceRule extends AbstractSimpleReplaceRule2 {
     super.setCategory(new Category(new CategoryId("CAT_ANGLICISMES"), this.getDescription()));
     setLocQualityIssueType(ITSIssueType.Style);
     super.useSubRuleSpecificIds();
+    this.setTags(Collections.singletonList(Tag.picky));
   }
 
   @Override
