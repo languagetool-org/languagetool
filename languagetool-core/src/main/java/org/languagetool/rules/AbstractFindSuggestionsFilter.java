@@ -20,15 +20,11 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -51,7 +47,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().contains("haguessen")) {
+//    if (match.getSentence().getText().contains("C'est le premier livre que les enfants ")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -196,6 +192,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     if (generateSuggestions) {
       for (String s : match.getSuggestedReplacements()) {
         if (s.contains("{suggestion}") || s.contains("{Suggestion}")) {
+          replacementsUsed = true;
           for (String s2 : replacements) {
             if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
               break;
@@ -203,12 +200,10 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
             if (s.contains("{suggestion}")) {
               if (!definitiveReplacements.contains(s2)) {
                 definitiveReplacements.add(s.replace("{suggestion}", s2));
-                replacementsUsed = true;
               }
             } else {
               if (!definitiveReplacements.contains(StringTools.uppercaseFirstChar(s2))) {
                 definitiveReplacements.add(s.replace("{Suggestion}", StringTools.uppercaseFirstChar(s2)));
-                replacementsUsed = true;
               }
             }
           }
@@ -225,7 +220,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
             }
           }  
         }
-        for (String replacement: replacements) {
+        for (String replacement: replacements) { 
           if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
             break;
           }
