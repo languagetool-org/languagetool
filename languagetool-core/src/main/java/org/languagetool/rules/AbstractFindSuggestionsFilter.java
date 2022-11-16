@@ -51,7 +51,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().contains("Ils prefere")) {
+//    if (match.getSentence().getText().contains("haguessen")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -196,15 +196,20 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     if (generateSuggestions) {
       for (String s : match.getSuggestedReplacements()) {
         if (s.contains("{suggestion}") || s.contains("{Suggestion}")) {
-          replacementsUsed = true;
           for (String s2 : replacements) {
             if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
               break;
             }
             if (s.contains("{suggestion}")) {
-              definitiveReplacements.add(s.replace("{suggestion}", s2));
+              if (!definitiveReplacements.contains(s2)) {
+                definitiveReplacements.add(s.replace("{suggestion}", s2));
+                replacementsUsed = true;
+              }
             } else {
-              definitiveReplacements.add(s.replace("{Suggestion}", StringTools.uppercaseFirstChar(s2)));
+              if (!definitiveReplacements.contains(StringTools.uppercaseFirstChar(s2))) {
+                definitiveReplacements.add(s.replace("{Suggestion}", StringTools.uppercaseFirstChar(s2)));
+                replacementsUsed = true;
+              }
             }
           }
         } else {
@@ -215,12 +220,19 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
         if (replacements.size()==0) {
           Collections.sort(replacements2, stringComparator);
           for (String replacement : replacements2) {
-            if (!replacements.contains(replacement)) {
+            if (!replacements.contains(replacement) && !definitiveReplacements.contains(replacement)) {
               replacements.add(replacement);
             }
           }  
         }
-        definitiveReplacements.addAll(replacements.stream().limit(MAX_SUGGESTIONS).collect(Collectors.toList()));
+        for (String replacement: replacements) {
+          if (definitiveReplacements.size() >= MAX_SUGGESTIONS) {
+            break;
+          }
+          if (!definitiveReplacements.contains(replacement)) {
+            definitiveReplacements.add(replacement);
+          }
+        }
       }
     }
 
