@@ -73,6 +73,7 @@ public class ArtificialErrorEval {
   static int checkedSentences = 0;
   static int maxCheckedSentences = 1000000; // decrease this number for testing
   static List<String> onlyRules = new ArrayList<String>();
+  static List<String> disabledRules = new ArrayList<String>();
   static String summaryOutputFilename = "";
   static String verboseOutputFilename = "";
   static String errorCategory = "";
@@ -103,6 +104,7 @@ public class ArtificialErrorEval {
       boolean printSummaryDetails = Boolean.parseBoolean(prop.getProperty("printSummaryDetails", "true"));
       boolean printHeader = Boolean.parseBoolean(prop.getProperty("printHeader", "true"));
       remoteServer = prop.getProperty("remoteServer", "http://localhost:8081");
+      disabledRules = Arrays.asList(prop.getProperty("disabledRules", "").split(","));
       // Only one file
       String analyzeOneFile = prop.getProperty("analyzeOneFile");
       if (analyzeOneFile.equalsIgnoreCase("true")) {
@@ -681,6 +683,9 @@ public class ArtificialErrorEval {
     List<String> ruleIDs = new ArrayList<>();
     for (RemoteRuleMatch match : matchesCorrect) {
       if (match.getErrorOffset() <= pos && match.getErrorOffset() + match.getErrorLength() >= pos) {
+        if (disabledRules.contains(match.getRuleId())) {
+          continue;
+        }
         if (!onlyRules.isEmpty() && !onlyRules.contains(match.getRuleId())) {
           continue;
         }
