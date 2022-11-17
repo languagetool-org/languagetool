@@ -16,7 +16,12 @@
   * The `warmup` setting for the config file, which had no effect anymore, has been removed.
   * The deprecated `--word2vecmodel` and `--neuralnetworkmodel` options have been removed,
     as these features were not maintained and had never been used on languagetool.org.
-
+  * You can put a file `grammar_custom.xml` into the same directory that contains the
+    `grammar.xml` file for your language. This file will be loaded in addition to
+    `grammar.xml`. It can contain custom rules that you want to use now and with future
+    versions of LanguageTool, without modifying existing files. The `grammar_custom.xml`
+    needs to use the same XML syntax as `grammar.xml` and it must not introduce rule IDs
+    that are in use by other rules already.
 
 ## 5.9 (2022-09-28)
 

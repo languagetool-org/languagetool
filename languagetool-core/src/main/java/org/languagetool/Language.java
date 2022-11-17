@@ -326,6 +326,10 @@ public abstract class Language {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
             + "/" + getShortCode() + "/" + JLanguageTool.PATTERN_FILE);
+    if (dataBroker.ruleFileExists(getShortCode() + "/" + JLanguageTool.CUSTOM_PATTERN_FILE)) {
+      String customFile = dataBroker.getRulesDir() + "/" + getShortCode() + "/" + JLanguageTool.CUSTOM_PATTERN_FILE;
+      ruleFiles.add(customFile);
+    }
     if (getShortCodeWithCountryAndVariant().length() > 2) {
       String fileName = getShortCode() + "/"
               + getShortCodeWithCountryAndVariant()
