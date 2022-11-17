@@ -583,7 +583,13 @@ public class ArtificialErrorEval {
       if (cachedMatches.containsKey(correctSentence)) {
         matchesCorrect = cachedMatches.get(correctSentence);
       } else {
-        matchesCorrect = lt.check(correctSentence, config).getMatches();
+        try {
+          matchesCorrect = lt.check(correctSentence, config).getMatches();
+        } catch (RuntimeException e) {
+          e.printStackTrace();
+          wait(1000);
+          matchesCorrect = lt.check(correctSentence, config).getMatches();
+        }
         checkedSentences++;
         cachedMatches.put(correctSentence, matchesCorrect);
       }
@@ -623,7 +629,13 @@ public class ArtificialErrorEval {
       if (cachedMatches.containsKey(wrongSentence)) {
         matchesWrong = cachedMatches.get(wrongSentence);
       } else {
-        matchesWrong = lt.check(wrongSentence, config).getMatches();
+        try {
+          matchesWrong = lt.check(wrongSentence, config).getMatches();
+        } catch (RuntimeException e) {
+          e.printStackTrace();
+          wait(1000);
+          matchesWrong = lt.check(wrongSentence, config).getMatches();
+        }
         checkedSentences++;
         cachedMatches.put(wrongSentence, matchesWrong);
       }
@@ -754,5 +766,13 @@ public class ArtificialErrorEval {
     results.add(s1.substring(l1 - fromEnd, l1));
     return results;
     
+  }
+  
+  public static void wait(int ms) {
+    try {
+      Thread.sleep(ms);
+    } catch (InterruptedException ex) {
+      Thread.currentThread().interrupt();
+    }
   }
 }
