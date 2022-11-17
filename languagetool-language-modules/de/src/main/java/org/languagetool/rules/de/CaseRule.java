@@ -111,6 +111,8 @@ public class CaseRule extends Rule {
     "Packet", // misspelling of "Paket" (caught by spell checker)
     "Adult", // eng
     "Apart", // eng
+    "Universal", // eng
+    "Multinational", // eng
     "Smart", // eng
     "Different", // eng
     "Light", // eng

@@ -330,6 +330,11 @@ class AgreementRuleAntiPatterns2 {
       tokenRegex("Tankstellen?")
     ),
     asList(
+      posRegex("ART:.*"),
+      csToken("Bund"),
+      csToken("Naturschutz")
+    ),
+    asList(
       csToken("Real"),
       tokenRegex("Madrid|Valladolid|Mallorca")
     ),

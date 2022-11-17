@@ -7116,7 +7116,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token regexp="yes">ich|bitte|dann|daher|deswegen</token>
                 <marker>
                     <!-- verben, die großgeschrieben auch ein Substantiv sein könnten oder mit anderen Wörtern verwechselt werden könnten -->
-                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör</token>
+                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör|grab</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -7125,7 +7125,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern>
                 <marker>
                     <!-- verben, die großgeschrieben auch ein Substantiv sein könnten oder mit anderen Wörtern verwechselt werden könnten -->
-                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|helf|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör</token>
+                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|helf|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör|grab</token>
                 </marker>
                 <token>ich</token>
             </pattern>
@@ -7408,4 +7408,37 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="SUB.*"/>
         </rule>
     </rulegroup>
+    <rule id="UNIVERSAL_UNKNOWN" name="'Universal' als englisches Wort/Eigenname">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Universals?</token>
+            </marker>
+            <token regexp="yes">[A-ZÄÖÜ].*|records?|music|studios|analytics|edition|serial|design|mobile|plug|orlando</token>
+        </pattern>
+        <disambig action="remove" postag="(SUB|ADJ).*"/>
+    </rule>
+    <rule id="PATRIOT_ACT" name="'Patriot' als englisches Wort/Eigenname">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Patriot</token>
+            </marker>
+            <token regexp="yes">Acts?|Movements?|Rails?|Days?|Games?|Hills?|Leagues?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="REAL_KEIN_SUB" name="'Real' als Eigenname">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Real</token>
+            </marker>
+            <token regexp="yes">Madrids?|Mallorcas?|Murcias?|Valladolids?|Sitio|Sociedads?|Universidad|Oviedos?|Times?|Lifes?|People|Racings?|Estates?|Academia|Bras[ií]lias?|BIP|Betis|Cartagenas?|Canoes?|de|Espa[nñ]a|Hospicios?|Hospitals?|Irish|Jard[ií]n|Kakamoras?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="WEISE_KEIN_ADJ" name="Wörter, die mit 'weise' enden sind kein Adjektiv">
+        <pattern>
+                <token regexp="yes" postag="ADJ.*" postag_regexp="yes">.+weise</token>
+        </pattern>
+        <disambig action="remove" postag="ADJ.*"/>
+    </rule>
 </rules>

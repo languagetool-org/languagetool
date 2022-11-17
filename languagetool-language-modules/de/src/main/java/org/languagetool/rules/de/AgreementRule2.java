@@ -136,6 +136,7 @@ public class AgreementRule2 extends Rule {
     asList(token("researchs")),  // engl.
     asList(token("security")),   // engl.
     asList(token("business")),   // oft engl.
+    asList(token("Universal")),   // oft engl.
     asList(token("voll"), token("Sorge")),
     asList(token("Total"), tokenRegex("Tankstellen?")),
     asList(token("Ganz"), token("Gentleman")),
@@ -145,7 +146,7 @@ public class AgreementRule2 extends Rule {
     asList(token("Russisch"), token("Roulette")),
     asList(token("Clever"), tokenRegex("Shuttles?")), // name
     asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer|Brand).*")),
-    asList(tokenRegex("Digital|Fair|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual|Golden|Human"), tokenRegex("(Initiative|Office|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master|Gate|Drive|Learning|Publishing|Signage|Value|Entertainment|Museum|Register|Society|Union|Institute|Symposium|Style|Design).*")),
+    asList(tokenRegex("Digital|Fair|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual|Golden|Human"), tokenRegex("(Initiative|Office|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master|Gate|Drive|Learning|Publishing|Signage|Value|Entertainment|Museum|Register|Society|Union|Institute|Symposium|Style|Design|Edition).*")),
     asList(token("Smart")),
     asList(token("International"), tokenRegex("Society|Olympic|Space")),
     asList(token("GmbH"))

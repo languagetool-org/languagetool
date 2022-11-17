@@ -1283,7 +1283,7 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!:;,\\?…\\)].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
-      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schönes|Schöneres|Schlimmeres|Zutreffendes|Gesehenes|Abgerissenes|Versoffenes|Entnommenes|Sü(ß|ss)es|Saures|Wesentliches|Gegenteiliges|Wegweisendes|Hochprozentiges|Erlerntes|Vergangenes|Unglaubliches|Schlimmes|Eingemachtes|Rares|Brauchbares|Unbrauchbares|Gesehenes|Erlebtes|Privates|Berufliches|Ungeheuerliches|Veganes|Vegetarisches|Eingemachtes|Erwünschtes|Innerstes|Äußerstes|Inhaltliches|Vernichtendes|Salziges|Sü(ß|ss)es|Selbstgemachtes|Inhaltliches|Au(ß|ss)erordentliches|Säuerliches|Göttliches||Hochprozentige[sm]|Erbrochene[ms]|Innere[mns]|Vorhandenes|Relevantes|Geübtes|Unmögliches|Mögliches|Näheres|Wissenswertes|Fundamentales|Interessantes|Uninteressantes|Entsetzliches|Hartnäckiges|Erspartes|Halbgares"),
+      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schönes|Schöneres|Schlimmeres|Zutreffendes|Gesehenes|Abgerissenes|Versoffenes|Entnommenes|Sü(ß|ss)es|Saures|Wesentliches|Gegenteiliges|Wegweisendes|Hochprozentiges|Erlerntes|Vergangenes|Unglaubliches|Schlimmes|Eingemachtes|Rares|Brauchbares|Unbrauchbares|Gesehenes|Erlebtes|Privates|Berufliches|Ungeheuerliches|Veganes|Vegetarisches|Eingemachtes|Erwünschtes|Innerstes|Äußerstes|Inhaltliches|Vernichtendes|Salziges|Sü(ß|ss)es|Selbstgemachtes|Inhaltliches|Au(ß|ss)erordentliches|Säuerliches|Göttliches||Hochprozentige[sm]|Erbrochene[ms]|Innere[mns]|Vorhandenes|Relevantes|Geübtes|Unmögliches|Mögliches|Näheres|Wissenswertes|Fundamentales|Interessantes|Uninteressantes|Entsetzliches|Hartnäckiges|Erspartes|Halbgares|Universales"),
       csRegex("(?!(und|oder))[a-zäöü…\\.!,\\?…\\)“„\"»«–\\-].*")
     ),
     Arrays.asList(
@@ -1410,6 +1410,12 @@ class CaseRuleAntiPatterns {
       csToken("das"),
       csToken("neue"),
       csToken("Normal")
+    ),
+    Arrays.asList( // siehe hierzu: Argentinisches Antarktisterritorium
+      csToken("siehe"),
+      csToken("hierzu"),
+      csToken(":"),
+      csRegex("[A-ZÄÖÜ].*")
     ),
     Arrays.asList( // ... des vierten Offiziellen …
       csRegex("de[mrs]"),

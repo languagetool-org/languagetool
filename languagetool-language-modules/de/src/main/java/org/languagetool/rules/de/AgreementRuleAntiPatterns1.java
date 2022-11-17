@@ -808,6 +808,23 @@ class AgreementRuleAntiPatterns1 {
       csRegex("[a-zäöüß]+e[rn]?"),
       csRegex("[a-zäöüß]+e[rn]?"),
       posRegex("SUB.*SIN.*FEM.*")
+    ),
+    asList(  
+      // "Wenn ein Tiger einen Menschen tötet, ist das Grausamkeit."
+      token(","),
+      new PatternTokenBuilder().tokenRegex("dann|so").min(0).build(),
+      csRegex("ist|wäre?"),
+      csRegex("das(jenige)?|(der|die)jenige"),
+      posRegex("SUB:NOM.*")
+    ),
+    asList(  
+      // "Sind im Molekül mehrere Aminogruppen vertreten, so bestimmt dasjenige Kohlenstoff"
+      new PatternTokenBuilder().tokenRegex("wenn|falls|sobald").matchInflectedForms().setSkip(-1).build(),
+      token(","),
+      new PatternTokenBuilder().tokenRegex("dann|so").min(0).build(),
+      token("bestimmt"),
+      csRegex("das(jenige)?"),
+      posRegex("SUB:NOM.*")
     )
   );
 
