@@ -105,6 +105,7 @@ public class ArtificialErrorEval {
       boolean printHeader = Boolean.parseBoolean(prop.getProperty("printHeader", "true"));
       remoteServer = prop.getProperty("remoteServer", "http://localhost:8081");
       disabledRules = Arrays.asList(prop.getProperty("disabledRules", "").split(","));
+      onlyRules = Arrays.asList(prop.getProperty("onlyRules", "").split(","));
       // Only one file
       String analyzeOneFile = prop.getProperty("analyzeOneFile");
       if (analyzeOneFile.equalsIgnoreCase("true")) {
