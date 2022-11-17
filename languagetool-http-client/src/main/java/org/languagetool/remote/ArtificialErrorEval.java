@@ -279,6 +279,7 @@ public class ArtificialErrorEval {
   }
   
   private static void run(boolean printSummaryDetails) throws IOException {
+    int ignoredLines = 0;
     Arrays.fill(results[0], 0);
     Arrays.fill(results[1], 0);
     fakeRuleIDs[0] = "rules_" + words[0] + "->" + words[1]; // rules in one direction
@@ -377,6 +378,11 @@ public class ArtificialErrorEval {
         }*/
         String correctSentence = correctSource.replaceAll("__", "");
         String incorrectSentence = incorrectSource.replaceAll("__", "");
+        if (correctSentence.equals(incorrectSentence)) {
+          printSentenceOutput("IGNORED LINE: sentences are identical!", correctSource, 0, "");
+          ignoredLines++;
+          continue;
+        }
         List<String> diffs = differences(correctSentence, incorrectSentence);
         int posError = diffs.get(0).length();
         words[1] = diffs.get(1);
@@ -512,6 +518,10 @@ public class ArtificialErrorEval {
       resultsString.append("\nPrecision: " + String.format(Locale.ROOT, "%.4f", precision) + "\n");
       resultsString.append("Recall: " + String.format(Locale.ROOT, "%.4f", recall) + "\n");
       resultsString.append("Recall (including empty suggestions): " + String.format(Locale.ROOT, "%.4f", recall2) + "\n");
+      
+      if (ignoredLines > 0) {
+        resultsString.append("\nIgnored lines from source: " + ignoredLines + "\n");
+      }
       
       resultsString.append(printTimeFromStart(start));
       appendToFile(verboseOutputFilename, resultsString.toString());
@@ -717,6 +727,13 @@ public class ArtificialErrorEval {
   
   private static List<String> differences(String s1, String s2) {
     List<String> results = new ArrayList<>();
+    if (s1.equals(s2)) {
+      results.add(s1);
+      results.add("");
+      results.add("");
+      results.add("");
+      return results;
+    }
     int fromStart = 0;
     while (s1.charAt(fromStart) == s2.charAt(fromStart)) {
       fromStart++;
