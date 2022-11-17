@@ -756,6 +756,13 @@ public class ArtificialErrorEval {
     while (s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
       fromEnd++;
     }
+    // corrections
+    while (fromStart > l1 - fromEnd) {
+      fromEnd--;
+    }
+    while (fromStart > l2 - fromEnd) {
+      fromEnd--;
+    }
     // common string at start
     results.add(s1.substring(0, fromStart));
     // diff in sentence 1
