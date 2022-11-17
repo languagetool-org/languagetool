@@ -104,8 +104,14 @@ public class ArtificialErrorEval {
       boolean printSummaryDetails = Boolean.parseBoolean(prop.getProperty("printSummaryDetails", "true"));
       boolean printHeader = Boolean.parseBoolean(prop.getProperty("printHeader", "true"));
       remoteServer = prop.getProperty("remoteServer", "http://localhost:8081");
-      disabledRules = Arrays.asList(prop.getProperty("disabledRules", "").split(","));
-      onlyRules = Arrays.asList(prop.getProperty("onlyRules", "").split(","));
+      String disabledRulesStr = prop.getProperty("disabledRules", "");
+      if (!disabledRulesStr.isEmpty()) {
+        disabledRules = Arrays.asList(disabledRulesStr.split(","));  
+      }
+      String onlyRulesStr = prop.getProperty("onlyRules", ""); 
+      if (!onlyRulesStr.isEmpty()) {
+        onlyRules = Arrays.asList(onlyRulesStr.split(","));  
+      }
       // Only one file
       String analyzeOneFile = prop.getProperty("analyzeOneFile");
       if (analyzeOneFile.equalsIgnoreCase("true")) {
@@ -598,9 +604,10 @@ public class ArtificialErrorEval {
       }
       String replaceWith = words[1 - j];
       String originalString = correctSentence.substring(fromPos, fromPos + words[j].length());
-      if (StringTools.isCapitalizedWord(originalString) && replaceWith != null) {
-        replaceWith = StringTools.uppercaseFirstChar(replaceWith);
-      }
+      //FIXME: capitalization change only makes sense with full words
+//      if (StringTools.isCapitalizedWord(originalString) && replaceWith != null) {
+//        replaceWith = StringTools.uppercaseFirstChar(replaceWith);
+//      }
       List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos, replaceWith);
       if (ruleIDs.size() > 0) {
         results[j][classifyTypes.indexOf("FP")]++;
@@ -615,12 +622,8 @@ public class ArtificialErrorEval {
     if ( (!unidirectional || j == 1) && words[1 - j] != null) {
       String replaceWith = words[1 - j];
       String originalString = correctSentence.substring(fromPos, fromPos + words[j].length());
-      if (StringTools.isCapitalizedWord(originalString)) {
-        replaceWith = StringTools.uppercaseFirstChar(replaceWith);
-      }
-      if (StringTools.isAllUppercase(originalString)) {
-        replaceWith = replaceWith.toUpperCase();
-      }
+      //FIXME: capitalization change only makes sense with full words
+      //replaceWith = StringTools.preserveCase(replaceWith, originalString);
       String wrongSentence = correctSentence.substring(0, fromPos) + replaceWith
           + correctSentence.substring(fromPos + words[j].length(), correctSentence.length());
       if (wrongSentence.equals(correctSentence)) {

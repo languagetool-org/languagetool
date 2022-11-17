@@ -506,6 +506,9 @@ public final class StringTools {
    * @return string
    */
   public static String preserveCase(String inputString, String modelString) {
+    if (modelString.isEmpty()) {
+      return inputString; 
+    }
     if (isAllUppercase(modelString)) {
       return inputString.toUpperCase(); 
     }
