@@ -1648,7 +1648,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" de")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" en")   // https://github.com/languagetool-org/languagetool/issues/4042
-        && !s.endsWith(" Artigen")   // https://github.com/languagetool-org/languagetool/issues/4042
+        && !s.endsWith(" Artigen")
+        && !s.endsWith(" Artige")
+        && !s.endsWith(" artigen")
+        && !s.endsWith(" artige")
         && !s.matches("[A-ZÖÄÜa-zöäüß] .+") // z.B. nicht "I Tand" für "IT and Services"
         && !s.matches(".+ [a-zöäüßA-ZÖÄÜ]");  // z.B. nicht "rauchen e" für "rauche ne" vorschlagen
   }
@@ -2511,6 +2514,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "wüßte": return topMatch("wüsste");
       case "wüßten": return topMatch("wüssten");
       case "bescheid": return topMatch("Bescheid");
+      case "Facetime": return topMatch("FaceTime");
+      case "Facetimes": return topMatch("FaceTimes");
       case "ausversehen": return topMatch("aus Versehen");
       case "Stückweit": return topMatch("Stück weit");
       case "Uranium": return topMatch("Uran");
