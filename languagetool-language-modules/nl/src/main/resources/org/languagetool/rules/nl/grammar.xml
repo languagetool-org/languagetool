@@ -20910,6 +20910,7 @@ steenwijk;Steenwijk
                 <example correction="luchtverfrisser|luchtbehandeling|klimaatregeling">De hotelkamervoorzieningen zijn onder andere <marker>airconditioning</marker>.</example>
             </rule>
         </rulegroup>
+        <!-- mening van taaladviseurs is veranderd; weekend wordt inmiddels geaccepteerd
         <rulegroup id="WEEKEND" name="weekend → weekeinde" tags="picky">
             <rule>
                 <pattern>
@@ -20924,7 +20925,7 @@ steenwijk;Steenwijk
                 <example correction="weekeind">Prettig <marker>weekend</marker> allemaal.</example>
             </rule>
         </rulegroup>
-
+        -->
         <rulegroup id="CRUISECONTROL" name="cruisecontrol → snelheidsregeling" tags="picky">
             <rule>
                 <!-- 2014-08-20 TaalTik -->
@@ -33921,6 +33922,11 @@ steenwijk;Steenwijk
 
         <rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik">
             <!-- R. Baars, oktober 2022 -->
+            <antipattern>
+                <!-- user feedback -->
+                <token>dan</token>
+                <token postag="WKW:TGW:1EP"/>
+            </antipattern>
             <antipattern>
                 <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|kan|opzoek</token>
             </antipattern>
