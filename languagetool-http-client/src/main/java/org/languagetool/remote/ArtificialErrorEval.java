@@ -33,7 +33,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -92,7 +94,7 @@ public class ArtificialErrorEval {
       String configurationFilename = args[0];
       Properties prop = new Properties();
       FileInputStream fis = new FileInputStream(configurationFilename);
-      prop.load(fis);
+      prop.load(new InputStreamReader(fis, Charset.forName("UTF-8")));
       String maxInputSentencesStr = prop.getProperty("maxInputSentences");
       String maxCheckedSentencesStr = prop.getProperty("maxCheckedSentences");
       if (maxInputSentencesStr != null) {
@@ -162,6 +164,7 @@ public class ArtificialErrorEval {
     if (fileName.startsWith("parallelcorpus") || fileName.startsWith("pc-")) {
       isParallelCorpus = true;
       unidirectional = true;
+      wholeword = false;
       String parts[] = fileName.split("-");
       if (parts.length > 2) {
         columnCorrect = Integer.parseInt(parts[1]);
@@ -604,10 +607,10 @@ public class ArtificialErrorEval {
       }
       String replaceWith = words[1 - j];
       String originalString = correctSentence.substring(fromPos, fromPos + words[j].length());
-      //FIXME: capitalization change only makes sense with full words
-//      if (StringTools.isCapitalizedWord(originalString) && replaceWith != null) {
-//        replaceWith = StringTools.uppercaseFirstChar(replaceWith);
-//      }
+      //capitalization change only makes sense with full words
+      if (wholeword && StringTools.isCapitalizedWord(originalString) && replaceWith != null) {
+        replaceWith = StringTools.uppercaseFirstChar(replaceWith);
+      }
       List<String> ruleIDs = ruleIDsAtPos(matchesCorrect, fromPos, replaceWith);
       if (ruleIDs.size() > 0) {
         results[j][classifyTypes.indexOf("FP")]++;
@@ -622,8 +625,10 @@ public class ArtificialErrorEval {
     if ( (!unidirectional || j == 1) && words[1 - j] != null) {
       String replaceWith = words[1 - j];
       String originalString = correctSentence.substring(fromPos, fromPos + words[j].length());
-      //FIXME: capitalization change only makes sense with full words
-      //replaceWith = StringTools.preserveCase(replaceWith, originalString);
+      // capitalization change only makes sense with full words
+      if (wholeword) {
+        replaceWith = StringTools.preserveCase(replaceWith, originalString);  
+      }
       String wrongSentence = correctSentence.substring(0, fromPos) + replaceWith
           + correctSentence.substring(fromPos + words[j].length(), correctSentence.length());
       if (wrongSentence.equals(correctSentence)) {
@@ -765,7 +770,7 @@ public class ArtificialErrorEval {
     while (s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
       fromEnd++;
     }
-    // corrections
+    // corrections (e.g. stress vs stresses)
     while (fromStart > l1 - fromEnd) {
       fromEnd--;
     }
