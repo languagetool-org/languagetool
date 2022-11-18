@@ -572,7 +572,7 @@ public class English extends Language implements AutoCloseable {
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
-      case "POSSESSIVE_APOSTROPHE":     return -20;  // prefer AI_HYDRA_LEO_APOSTROPHE_S_XS
+      case "POSSESSIVE_APOSTROPHE":     return -10;  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
       case "CONFUSION_RULE":            return -20;
       case "PRP_VB_IMPROVE":            return -24;  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion

@@ -7231,6 +7231,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>comfort</token>
             <token>food</token>
         </antipattern>
+        <antipattern>
+            <token postag="SENT_START|CC|DT|PCT" postag_regexp="yes" />
+            <token postag="MD" />
+            <token inflected="yes">not</token>
+            <token postag="PRP" />
+            <token postag="VB" skip="-1" />
+            <token>?</token>
+        </antipattern>
+        <antipattern>
+            <token postag="SENT_START|CC|DT|PCT" postag_regexp="yes" />
+            <token inflected="yes">do</token>
+            <token inflected="yes">not</token>
+            <token postag="PRP" />
+            <token postag="VB" skip="-1" />
+            <token>?</token>
+        </antipattern>
         <pattern>
             <token postag="PRP">
                 <exception postag="RB|PRP\$" postag_regexp="yes"/>
@@ -16342,4 +16358,32 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="filter" postag="MD" />
         </rule>
     </rulegroup>
+
+    <rule id="A_NOTHER" name="a(nother)"><!-- there's a(nother) thing coming -->
+        <pattern>
+            <token>a</token>
+            <token spacebefore="no">(</token>
+            <marker>
+                <token>nother</token>
+            </marker>
+            <token>)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    
+    <rule id="DO_NN_VB" name="does Peter have (VB) time">
+        <pattern>
+            <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
+            <token regexp="yes" min="0">why|when|where|who|which|what|how</token>
+            <token inflected="yes">do</token>
+            <token regexp="yes" min="0">n't|not</token>
+            <token chunk_re="B-NP.*" min="0" />
+            <token chunk_re="E-NP.*" />
+            <marker>
+                <token postag="VB" chunk_re=".-VP" />
+            </marker>
+            <token postag="P?DT|PRP\$|TO|IN" postag_regexp="yes" />
+        </pattern>
+        <disambig action="filter" postag="VB" />
+    </rule>
 </rules>

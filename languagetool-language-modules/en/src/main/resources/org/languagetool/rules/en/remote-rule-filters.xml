@@ -90,6 +90,42 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Friends</token>
+                    </marker>
+                    <token case_sensitive="yes" regexp="yes">[a-z].*</token>
+                </pattern>
+                <example correction="">The <marker>Friends</marker> actress</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>operations</token>
+                    </marker>
+                    <token regexp="yes">managers?|teams?|officers?</token>
+                </pattern>
+                <example correction="">The <marker>operations</marker> manager</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>thanks</token>
+                    </marker>
+                </pattern>
+                <example correction=""><marker>Thanks</marker> so much</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sticks</token>
+                    </marker>
+                    <token regexp="yes">and|&amp;</token>
+                    <token>stones</token>
+                </pattern>
+                <example correction=""><marker>Sticks</marker> and Stones</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">\d+|two|three|four|five|six|seven|eight|nine|ten</token>
                     <marker>
                         <token>times</token>
@@ -268,6 +304,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token>founders</token>
+                    </marker>
+                    <token>park</token>
+                </pattern>
+                <example correction="">He lives in <marker>founders</marker> park.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>united</token>
                     <marker>
                         <token regexp="yes">daughters|states</token>
@@ -330,7 +375,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern><!-- plural nouns-->
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Suits|Bros|Carlos|Mars|Systems|Princes|Avengers|Williams|Minions|Yates|Edwards|Philips|Nichols|James</token>
+                        <token case_sensitive="yes" regexp="yes">Suits|Bros|Carlos|Hans|Mars|Systems|Princes|Avengers|Williams|Minions|Yates|Edwards|Philips|Nichols|James</token>
                     </marker>
                 </pattern>
                 <example correction="">The <marker>Suits</marker> actress.</example>
