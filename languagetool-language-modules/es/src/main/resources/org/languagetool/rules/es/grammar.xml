@@ -10835,7 +10835,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">más|menos|mejor|peor</token>
+                    <token regexp="yes">más|menos|mejor|peor|si</token>
                     <marker>
                         <token>aun</token>
                     </marker>
@@ -10885,6 +10885,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aun así, me lo pasé bien.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>aun</token>
+                    <token>antes</token>
+                    <token>de</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>aun</token>
+                    <token>lo</token>
+                    <token regexp="yes">más|menos</token>
+                </antipattern>
                 <pattern>
                     <token postag="V.[SI].*" postag_regexp="yes"><exception postag="RG|N.*" postag_regexp="yes"/></token>
                     <marker>
@@ -10899,6 +10910,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Como aun así no sabíamos cuánto era eso, le pedimos que nos mostrara los vasos.</example>
                 <example>Las flores florecen aun cuando nadie las mira.</example>
                 <example>Quien calla aun teniendo razón, está casado.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <unify>
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                        <unify-ignore>
+                            <marker>
+                                <token>aun</token>
+                            </marker>
+                        </unify-ignore>
+                        <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Se acentúan si equivale a "todavía".</message>
+                <suggestion>aún</suggestion>
+                <example correction="aún">Solía mantener una reserva por si llegaban tiempos <marker>aun</marker> peores.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">más|menos|mejor|peor</token>
+                    <marker>
+                        <token>aun</token>
+                    </marker>
+                    <token><exception postag="V.G.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se acentúan si equivale a "todavía".</message>
+                <suggestion>aún</suggestion>
+                <example correction="aún">Menos <marker>aun</marker> que no sean mayores.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>aun</token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Se acentúan si equivale a "todavía".</message>
+                <suggestion>aún</suggestion>
+                <example correction="aún">Podías verlos <marker>aun</marker> pequeños.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>aun</token>
+                    </marker>
+                    <token regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Se acentúan si equivale a "todavía".</message>
+                <suggestion>aún</suggestion>
+                <example correction="aún">Es mi marido <marker>aun</marker>...</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V.P.*|A.*|N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>aun</token>
+                    </marker>
+                    <token postag="CC"/>
+                </pattern>
+                <message>Se acentúan si equivale a "todavía".</message>
+                <suggestion>aún</suggestion>
+                <example correction="aún">Es mi marido <marker>aun</marker> y así seguirá.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SI" name="si/sí">
@@ -22393,6 +22468,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token>aún</token>
+                </antipattern>
+                <antipattern>
+                    <!--<token postag="CC"/>-->
+                    <token regexp="yes">menos|más</token>
+                    <token regexp="yes">aun|aún</token>
+                    <token>que</token>
                 </antipattern>
                 <pattern>
                     <marker>
