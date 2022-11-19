@@ -1651,7 +1651,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.endsWith(" Artigen")
         && !s.endsWith(" Artige")
         && !s.endsWith(" artigen")
+        && !s.endsWith(" artiges")
+        && !s.endsWith(" artiger")
         && !s.endsWith(" artige")
+        && !s.endsWith(" artig")
+        && !s.endsWith(" förmig")
+        && !s.endsWith(" förmige")
+        && !s.endsWith(" förmigen")
+        && !s.endsWith(" förmiger")
+        && !s.endsWith(" förmiges")
         && !s.matches("[A-ZÖÄÜa-zöäüß] .+") // z.B. nicht "I Tand" für "IT and Services"
         && !s.matches(".+ [a-zöäüßA-ZÖÄÜ]");  // z.B. nicht "rauchen e" für "rauche ne" vorschlagen
   }
@@ -2688,6 +2696,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "raufhaute": return topMatch("draufhaute");
       case "raufhauten": return topMatch("draufhauten");
       case "wohlmöglich": return topMatch("womöglich");
+      case "geschalten": return topMatch("geschaltet");
+      case "hiess": return topMatch("hieß");
       case "Click": return topMatch("Klick");
       case "Clicks": return topMatch("Klicks");
       case "jenachdem": return topMatch("je nachdem");
