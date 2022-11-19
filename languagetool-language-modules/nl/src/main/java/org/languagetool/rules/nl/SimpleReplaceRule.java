@@ -53,7 +53,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public CaseSensitivy getCaseSensitivy() {
-    return CaseSensitivy.CSExceptAtSentenceStart;
+    // edit by R. Baars 19-11-2022 to make routine case sensitive
+    return CaseSensitivy.CS;
   }
 
   @Override
