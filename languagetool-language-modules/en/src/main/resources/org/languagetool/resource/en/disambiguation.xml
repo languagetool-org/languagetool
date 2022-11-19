@@ -16386,4 +16386,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="filter" postag="VB" />
     </rule>
+
+    <rule id="PEOPLE_NO_VB" name="'people' and 'company' no verbs">
+        <pattern>
+            <token postag="P?DT|PRP\$|JJ.*" chunk_re=".-NP.*" />
+            <marker>
+                <token regexp="yes">people|company|soldier</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VB.*" />
+    </rule>
 </rules>
