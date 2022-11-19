@@ -273,15 +273,20 @@ public class FlatParagraphTools {
       List<Locale> locales = new ArrayList<>();
       List<int[]> footnotePositions = new ArrayList<>();
       XFlatParagraph tmpFlatPara = xFlatPara;
+      List<Integer> nodeIndexes = getIntPropertyValue("NodeIndex", tmpFlatPara) == -1 ? null : new ArrayList<>();
+      int nodesCount = nodeIndexes == null ? -1 : getIntPropertyValue("NodesCount", tmpFlatPara);
       Locale locale = null;
       while (tmpFlatPara != null) {
         String text = tmpFlatPara.getText();
         int len = text.length();
         allParas.add(0, text);
-        footnotePositions.add(0, getPropertyValues("FootnotePositions", tmpFlatPara));
+        footnotePositions.add(0, getIntArrayPropertyValue("FootnotePositions", tmpFlatPara));
         // add just one local for the whole paragraph
         locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, fixedLocale, locale, false);
         locales.add(0, locale);
+        if (nodeIndexes != null) {
+          nodeIndexes.add(0, getIntPropertyValue("NodeIndex", tmpFlatPara));
+        }
         tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
       }
       tmpFlatPara = xFlatParaIter.getParaAfter(xFlatPara);
@@ -289,15 +294,18 @@ public class FlatParagraphTools {
         String text = tmpFlatPara.getText();
         int len = text.length();
         allParas.add(text);
-        footnotePositions.add(getPropertyValues("FootnotePositions", tmpFlatPara));
+        footnotePositions.add(getIntArrayPropertyValue("FootnotePositions", tmpFlatPara));
         locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, fixedLocale, locale, false);
         locales.add(locale);
         if (debugMode) {
           printPropertyValueInfo(tmpFlatPara);
         }
+        if (nodeIndexes != null) {
+          nodeIndexes.add(getIntPropertyValue("NodeIndex", tmpFlatPara));
+        }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
-      return new FlatParagraphContainer(allParas, locales, footnotePositions);
+      return new FlatParagraphContainer(allParas, locales, footnotePositions, nodeIndexes, nodesCount);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -498,30 +506,73 @@ public class FlatParagraphTools {
   /** 
    * Returns positions of properties by name 
    */
-  private int[] getPropertyValues(String propName, XFlatParagraph xFlatPara) {
-    if (xFlatPara == null) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: FlatParagraph == null");
-      }
-      return  new int[]{};
-    }
-    XPropertySet paraProps = UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
-    if (paraProps == null) {
-      MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: XPropertySet == null");
-      return  new int[]{};
-    }
-    Object propertyValue;
+  private Object getPropertyValueAsObject(String propName, XFlatParagraph xFlatPara) {
     try {
-      propertyValue = paraProps.getPropertyValue(propName);
+      if (xFlatPara == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValueAsObject: FlatParagraph == null");
+        }
+        return  null;
+      }
+      XPropertySet paraProps = UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
+      if (paraProps == null) {
+        MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValueAsObject: XPropertySet == null");
+        return  null;
+      }
+      return paraProps.getPropertyValue(propName);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);
+    }
+    return null;
+  }
+  
+  /** 
+   * Returns positions of properties by name 
+   */
+  private int[] getIntArrayPropertyValue(String propName, XFlatParagraph xFlatPara) {
+    try {
+      Object propertyValue = getPropertyValueAsObject(propName, xFlatPara);
+      if (propertyValue == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("FlatParagraphTools: getIntArrayPropertyValue: propertyValue == null");
+        }
+        return  new int[]{};
+      }
       if (propertyValue instanceof int[]) {
         return (int[]) propertyValue;
       } else {
-        MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: Not of expected type int[]: " + propertyValue + ": " + propertyValue);
+        MessageHandler.printToLogFile("FlatParagraphTools: getIntArrayPropertyValue: Not of expected type int[]: " + propertyValue + ": " + propertyValue);
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
     }
     return new int[]{};
+  }
+  
+  /** 
+   * Returns positions of properties by name 
+   */
+  private int getIntPropertyValue(String propName, XFlatParagraph xFlatPara) {
+    try {
+      Object propertyValue = getPropertyValueAsObject(propName, xFlatPara);
+      if (propertyValue == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("FlatParagraphTools: getIntPropertyValue: propertyValue == null");
+        }
+        return  -1;
+      }
+      if (propertyValue instanceof Integer) {
+        return (int) propertyValue;
+      } else {
+        if (debugMode) {
+          MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: Not of expected type int: " + propertyValue + ": " + propertyValue);
+        }
+        return -1;
+      }
+    } catch (Throwable t) {
+      MessageHandler.printException(t);
+    }
+    return -1;
   }
   
   /** 
@@ -542,7 +593,13 @@ public class FlatParagraphTools {
       XPropertySetInfo propertySetInfo = paraProps.getPropertySetInfo();
       
       for (Property property : propertySetInfo.getProperties()) {
-        MessageHandler.printToLogFile("Name : " + property.Name + "; Type : " + property.Type.getTypeName() + "; Attributes : " + property.Attributes + "; Handle : " + property.Handle);
+        int nValue;
+        if (property.Name.equals("FootnotePositions") || property.Name.equals("FieldPositions")) {
+          nValue = ((int[]) paraProps.getPropertyValue(property.Name)).length;
+        } else {
+          nValue = (int) paraProps.getPropertyValue(property.Name);
+        }
+        MessageHandler.printToLogFile("Name : " + property.Name + "; Type : " + property.Type.getTypeName() + "; Value : " + nValue + "; Handle : " + property.Handle);
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
@@ -877,11 +934,16 @@ public class FlatParagraphTools {
     public List<String> paragraphs;
     public List<Locale> locales;
     public List<int[]> footnotePositions;
+    public List<Integer> nodeIndexes;
+    public int nodesCount;
     
-    FlatParagraphContainer(List<String> paragraphs, List<Locale> locales, List<int[]> footnotePositions) {
+    FlatParagraphContainer(List<String> paragraphs, List<Locale> locales, List<int[]> footnotePositions, 
+        List<Integer> nodeIndexes, int nodesCount) {
       this.paragraphs = paragraphs;
       this.locales = locales;
       this.footnotePositions = footnotePositions;
+      this.nodeIndexes = nodeIndexes;
+      this.nodesCount = nodesCount;
     }
   }
   

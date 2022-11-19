@@ -53,6 +53,7 @@ import com.sun.star.uno.XComponentContext;
  */
 public class LtDictionary {
   
+  private final static String INTERNAL_DICT_PREFIX = "__LT_";
   private final static String[] ADD_ALL = { "e", "er", "es", "en", "em" };
   private final static int MAX_DICTIONARY_SIZE = 30000;
   private final static int NUM_PATHS = 7;
@@ -78,9 +79,12 @@ public class LtDictionary {
     if (listIgnoredWords == null) {
       XDictionary[] dictionaryList = searchableDictionaryList.getDictionaries();
       listIgnoredWords = dictionaryList[dictionaryList.length - 1];
+      if (debugMode) {
+        MessageHandler.printToLogFile("dictionary for ignored words found: " + listIgnoredWords.getName());
+      }
     }
     String shortCode = OfficeTools.localeToString(locale);
-    String dictionaryNamePrefix = "__LT_" + shortCode + "_internal";
+    String dictionaryNamePrefix = INTERNAL_DICT_PREFIX + shortCode + "_internal";
     String dictionaryName = dictionaryNamePrefix + "1.dic";
 //    String dictionaryName = "LT_Spelling_" + shortCode + ".dic";
 //    MessageHandler.printToLogFile("dictionary name: " + dictionaryName);
@@ -350,12 +354,15 @@ public class LtDictionary {
     XDictionary[] dictionaryList = searchableDictionaryList.getDictionaries();
     if (listIgnoredWords == null) {
       listIgnoredWords = dictionaryList[dictionaryList.length - 1];
+      if (debugMode) {
+        MessageHandler.printToLogFile("dictionary for ignored words found: " + listIgnoredWords.getName());
+      }
     }
     List<String> userDictionaries = new ArrayList<String>();
     for (XDictionary dictionary : dictionaryList) {
       if (dictionary.isActive()) {
         String name = dictionary.getName();
-        if (!name.startsWith("__LT_") && !name.equals(listIgnoredWords.getName())) {
+        if (!name.startsWith("INTERNAL_DICT_PREFIX") && !name.equals(listIgnoredWords.getName())) {
           userDictionaries.add(new String(name));
         }
       }

@@ -105,6 +105,7 @@ class SingleDocument {
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
   private boolean resetDocCache = false;          //  true: the cache of the document should be reseted before the next check
   private boolean hasFootnotes = true;            //  true: Footnotes are supported by LO/OO
+  private boolean hasNodeIndex = true;            //  true: Node Index is supported by LO
   private boolean isLastIntern = false;           //  true: last check was intern
   private boolean isRightButtonPressed = false;   //  true: right mouse Button was pressed
   private String lastSinglePara = null;           //  stores the last paragraph which is checked as single paragraph
@@ -173,6 +174,8 @@ class SingleDocument {
     }
     int [] footnotePositions = null;  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
     int proofInfo = OfficeTools.PROOFINFO_UNKNOWN;  //  OO and LO < 6.5 do not support ProofInfo
+    int nodeIndex = -1;
+    int nodesCount = -1;
     for (PropertyValue propertyValue : propertyValues) {
       if ("FootnotePositions".equals(propertyValue.Name)) {
         if (propertyValue.Value instanceof int[]) {
@@ -188,6 +191,30 @@ class SingleDocument {
           MessageHandler.printToLogFile("SingleDocument: getCheckResults: Not of expected type int: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
         }
       }
+      if (hasNodeIndex) {
+        if ("NodeIndex".equals(propertyValue.Name)) {
+          if (propertyValue.Value instanceof Integer) {
+            nodeIndex = (int) propertyValue.Value;
+          } else {
+            MessageHandler.printToLogFile("SingleDocument: getCheckResults: Not of expected type int: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+          }
+        }
+        if ("NodesCount".equals(propertyValue.Name)) {
+          if (propertyValue.Value instanceof Integer) {
+            nodesCount = (int) propertyValue.Value;
+          } else {
+            MessageHandler.printToLogFile("SingleDocument: getCheckResults: Not of expected type int: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+          }
+        }
+      }
+    }
+    if (hasNodeIndex && nodeIndex < 0) {
+      hasNodeIndex = false;
+      MessageHandler.printToLogFile("SingleDocument: getCheckResults: NodeIndex and NodesCount are not supported by LO!");
+    }
+    if (debugMode > 0 && hasNodeIndex) {
+      MessageHandler.printToLogFile("SingleDocument: getCheckResults: nodeIndex: " + nodeIndex);
+      MessageHandler.printToLogFile("SingleDocument: getCheckResults: nodesCount: " + nodesCount);
     }
     hasFootnotes = footnotePositions != null;
     if (!hasFootnotes) {
@@ -263,7 +290,12 @@ class SingleDocument {
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
       }
-      int paraNum = requestAnalysis.getNumberOfParagraph(nPara, paraText, locale, paRes.nStartOfSentencePosition, footnotePositions);
+      int paraNum;
+      if (hasNodeIndex) {
+        paraNum = requestAnalysis.getNumberOfParagraphFromNodeIndex(nodeIndex, nodesCount, paraText, locale, footnotePositions);
+      } else {
+        paraNum = requestAnalysis.getNumberOfParagraph(nPara, paraText, locale, paRes.nStartOfSentencePosition, footnotePositions);
+      }
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
@@ -1134,7 +1166,9 @@ class SingleDocument {
           List<String> lemmas = lt.getLemmasOfWord(word);
           int num = 0;
           for (String lemma : lemmas) {
-            MessageHandler.printToLogFile("SingleDocument: addSynonyms: Find Synonyms for lemma:" + lemma);
+            if (debugMode > 0) {
+              MessageHandler.printToLogFile("SingleDocument: addSynonyms: Find Synonyms for lemma:" + lemma);
+            }
             List<String> synonyms = linguServices.getSynonyms(lemma, locale);
             for (String synonym : synonyms) {
               synonym = synonym.replaceAll("\\(.*\\)", "").trim();

@@ -233,12 +233,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
   }
   
   /**
-   * Actualize impress document cache
+   * Actualize writer document cache
    */
   private void actualizeWriterDocumentCache(SingleDocument document) {
     if (docType == DocumentType.WRITER) {
       XComponent xComponent = document.getXComponent();
-      DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
       DocumentCache oldCache = new DocumentCache(docCache);
       docCache.refresh(document, LinguisticServices.getLocale(documents.getConfiguration().getDefaultLanguage()), locale, xComponent, 8);
       if (!oldCache.isEmpty() && !docCache.isEmpty()) {
@@ -286,7 +285,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             MessageHandler.printToLogFile("CheckDialog: actualizeWriterDocumentCache: Changed paragraphs: from:" + from + ", to: " + to);
           }
           for (ResultCache cache : document.getParagraphsCache()) {
-            cache.removeAndShift(from, to, docCache.size() - oldCache.size());
+            cache.removeAndShift(from, to, oldCache.size(), docCache.size());
           }
         } else {
           for (int i = 0; i < docCache.size(); i++) {
