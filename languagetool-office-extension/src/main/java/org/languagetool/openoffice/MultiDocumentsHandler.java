@@ -1442,6 +1442,9 @@ public class MultiDocumentsHandler {
       } else if (sEvent.startsWith("activateRule_")) {
         String ruleId = sEvent.substring(13);
         activateRule(ruleId);
+      } else if (sEvent.startsWith("addToDictionary_")) {
+        String[] sArray = sEvent.substring(16).split(":");
+        getLtDictionary().addWordToDictionary(sArray[0], sArray[1], xContext);;
       } else if ("renewMarkups".equals(sEvent)) {
         renewMarkups();
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {

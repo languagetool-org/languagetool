@@ -732,6 +732,50 @@ public class ViewCursorTools {
     }
   }
   
+  /** 
+   * Returns the selected String inside a paragraph
+   * Returns null if fails
+   */
+  String getViewCursorSelectedArea() {
+    isBusy++;
+    try {
+      XTextViewCursor vCursor = getViewCursor();
+      if (vCursor == null) {
+        return null;
+      }
+      XText xViewCursorText = vCursor.getText();
+      if (xViewCursorText == null) {
+        return null;
+      }
+      //  Test if cursor position is in table
+      XTextDocument curDoc = getTextDocument();
+      if (curDoc != null) {
+        XTextTablesSupplier xTableSupplier = UnoRuntime.queryInterface(XTextTablesSupplier.class, curDoc);
+        XIndexAccess xTables = UnoRuntime.queryInterface(XIndexAccess.class, xTableSupplier.getTextTables());
+        if (xTables != null) {
+          for (int i = 0; i < xTables.getCount(); i++) {
+            XTextTable xTable = UnoRuntime.queryInterface(XTextTable.class, xTables.getByIndex(i));
+            if (xTable != null) {
+              for (String cellName : xTable.getCellNames()) {
+                XText xTableText = UnoRuntime.queryInterface(XText.class, xTable.getCellByName(cellName) );
+                if (xTableText != null && xViewCursorText.equals(xTableText)) {
+                  XTextRange range = vCursor;
+                  return xTableText.createTextCursorByRange(range).getString();
+                }
+              }
+            }
+          }
+        }
+      }
+      return vCursor.getString();
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;             // Return negative value as method failed
+    } finally {
+      isBusy--;
+    }
+  }
+  
   /**
    * Set the view cursor if the paragraph is inside of text region
    */

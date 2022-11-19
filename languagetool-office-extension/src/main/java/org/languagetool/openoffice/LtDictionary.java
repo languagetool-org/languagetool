@@ -362,7 +362,7 @@ public class LtDictionary {
     for (XDictionary dictionary : dictionaryList) {
       if (dictionary.isActive()) {
         String name = dictionary.getName();
-        if (!name.startsWith("INTERNAL_DICT_PREFIX") && !name.equals(listIgnoredWords.getName())) {
+        if (!name.startsWith(INTERNAL_DICT_PREFIX) && !name.equals(listIgnoredWords.getName())) {
           userDictionaries.add(new String(name));
         }
       }

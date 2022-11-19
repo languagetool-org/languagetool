@@ -67,6 +67,7 @@ public class LanguageToolMenus {
   private static boolean isRunning = false;
   
   private XComponentContext xContext;
+  private XComponent xComponent;
   private SingleDocument document;
   private Configuration config;
 //  private boolean switchOff;
@@ -81,6 +82,7 @@ public class LanguageToolMenus {
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
     this.document = document;
     this.xContext = xContext;
+    this.xComponent = xComponent;
     setConfigValues(config);
     ltHeadMenu = new LTHeadMenu(xComponent);
     ltContextMenu = new ContextMenuInterceptor(xContext);
@@ -392,6 +394,7 @@ public class LanguageToolMenus {
     private final static String LT_ACTIVATE_RULE = "service:org.languagetool.openoffice.Main?activateRule_";
     private final static String LT_REMOTE_HINT = "service:org.languagetool.openoffice.Main?remoteHint";   
     private final static String LT_RENEW_MARKUPS = "service:org.languagetool.openoffice.Main?renewMarkups";
+    private final static String LT_ADD_TO_DICTIONARY = "service:org.languagetool.openoffice.Main?addToDictionary_";
 
     public ContextMenuInterceptor() {}
     
@@ -470,6 +473,34 @@ public class LanguageToolMenus {
                 str = tmpProps.getPropertyValue("CommandURL").toString();
               }
               if (ADD_TO_DICTIONARY_2.equals(str) || ADD_TO_DICTIONARY_3.equals(str)) {
+                ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
+                String wrongWord = viewCursor.getViewCursorSelectedArea();
+                if (wrongWord != null && !wrongWord.isEmpty()) {
+                  if (wrongWord.charAt(wrongWord.length() - 1) == '.') {
+                    wrongWord= wrongWord.substring(0, wrongWord.length() - 1);
+                  }
+                  if (!wrongWord.isEmpty()) {
+                    MessageHandler.printToLogFile("wrong Word: " + wrongWord);
+                    XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
+                    XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
+                        xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
+                    int j = 0;
+                    for (String dict : document.getMultiDocumentsHandler().getLtDictionary().getUserDictionaries(xContext)) {
+                      XPropertySet xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+                          xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+                      xNewSubMenuEntry.setPropertyValue("Text", dict);
+                      xNewSubMenuEntry.setPropertyValue("CommandURL", LT_ADD_TO_DICTIONARY + dict + ":" + wrongWord);
+                      xSubMenuContainer.insertByIndex(j, xNewSubMenuEntry);
+                      j++;
+                    }
+                    XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+                        xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+                    xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuAddToDictionary"));
+                    xNewMenuEntry.setPropertyValue( "SubContainer", (Object)xSubMenuContainer );
+                    xContextMenu.removeByIndex(n);
+                    xContextMenu.insertByIndex(n, xNewMenuEntry);
+                  }
+                }
                 break;
               }
             }
