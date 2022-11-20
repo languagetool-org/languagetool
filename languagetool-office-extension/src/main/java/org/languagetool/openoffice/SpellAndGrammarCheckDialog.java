@@ -31,11 +31,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -76,8 +85,10 @@ import org.languagetool.rules.RuleMatch;
 
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
+import com.sun.star.beans.XPropertySet;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
+import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
@@ -85,6 +96,7 @@ import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XMarkingAccess;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XTextCursor;
+import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -112,6 +124,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private final static String addToDictionaryName = messages.getString("guiOOoaddToDictionary");
   private final static String changeButtonName = messages.getString("guiOOoChangeButton"); 
   private final static String changeAllButtonName = messages.getString("guiOOoChangeAllButton"); 
+  private final static String autoCorrectButtonName = messages.getString("guiOOoAutoCorrectButton"); 
   private final static String helpButtonName = messages.getString("guiOOoHelpButton"); 
   private final static String optionsButtonName = messages.getString("guiOOoOptionsButton"); 
   private final static String undoButtonName = messages.getString("guiUndo");
@@ -137,6 +150,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private final static String addToDictionaryHelp = messages.getString("loDialogAddToDictionaryButtonHelp");
   private final static String changeButtonHelp = messages.getString("loDialogChangeButtonHelp"); 
   private final static String changeAllButtonHelp = messages.getString("loDialogChangeAllButtonHelp"); 
+  private final static String autoCorrectButtonHelp = messages.getString("loDialogAutoCorrectButtonHelp"); 
   private final static String checkStatusInitialization = messages.getString("loCheckStatusInitialization"); 
   private final static String checkStatusCheck = messages.getString("loCheckStatusCheck"); 
   private final static String labelCheckProgress = messages.getString("loLabelCheckProgress"); 
@@ -841,6 +855,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Class for dialog to check text for spell and grammar errors
    */
   public class LtCheckDialog implements ActionListener {
+    private final static String ACORR_PREFIX = "acor_";
+    private final static String ACORR_SUFFIX = ".dat";
     private final static int maxUndos = 20;
     private final static int toolTipWidth = 300;
     
@@ -880,6 +896,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final JComboBox<String> activateRule; 
     private final JButton change; 
     private final JButton changeAll; 
+    private final JButton autoCorrect; 
     private final JButton help; 
     private final JButton options; 
     private final JButton undo; 
@@ -1042,6 +1059,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
           if (changeAll.isEnabled()) {
             changeAll.setEnabled(false);
+          }
+          if (autoCorrect.isEnabled()) {
+            autoCorrect.setEnabled(false);
           }
         }
         @Override
@@ -1251,6 +1271,17 @@ public class SpellAndGrammarCheckDialog extends Thread {
       contentPane.add(changeAll);
 
       ySecondCol += buttonDistCol + buttonHigh;
+      autoCorrect = new JButton (autoCorrectButtonName);
+      autoCorrect.setFont(dialogFont);
+      autoCorrect.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
+      autoCorrect.addActionListener(this);
+      autoCorrect.setActionCommand("autoCorrect");
+      autoCorrect.setEnabled(false);
+      autoCorrect.setToolTipText(formatToolTipText(autoCorrectButtonHelp));
+      autoCorrect.setVisible(false);
+      contentPane.add(autoCorrect);
+
+//      ySecondCol += buttonDistCol + buttonHigh;
       activateRule = new JComboBox<String> ();
       activateRule.setFont(dialogFont);
       activateRule.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
@@ -1567,6 +1598,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       deactivateRule.setEnabled(false);
       change.setEnabled(false);
       changeAll.setVisible(false);
+      autoCorrect.setVisible(false);
       addToDictionary.setEnabled(false);
       more.setEnabled(false);
       help.setEnabled(false);
@@ -1665,11 +1697,13 @@ public class SpellAndGrammarCheckDialog extends Thread {
             suggestions.setBackground(Color.white);
             change.setEnabled(true);
             changeAll.setEnabled(true);
+            autoCorrect.setEnabled(true);
             suggestions.setEnabled(true);
           } else {
             suggestions.setListData(new String[0]);
             change.setEnabled(false);
             changeAll.setEnabled(false);
+            autoCorrect.setEnabled(false);
           }
           if (debugMode) {
             MessageHandler.printToLogFile("CheckDialog: findNextError: Suggestions set");
@@ -1686,7 +1720,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             MessageHandler.printToLogFile("CheckDialog: findNextError: Language set");
           }
           Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap(OfficeTools.localeToString(locale));
-          if (!deactivatedRulesMap.isEmpty()) {
+          if (!isSpellError && !deactivatedRulesMap.isEmpty()) {
             activateRule.removeAllItems();
             activateRule.addItem(messages.getString("loContextMenuActivateRule"));
             for (String ruleId : deactivatedRulesMap.keySet()) {
@@ -1701,14 +1735,17 @@ public class SpellAndGrammarCheckDialog extends Thread {
           if (isSpellError) {
             ignoreAll.setText(ignoreAllButtonName);
             addToDictionary.setVisible(true);
-            changeAll.setVisible(true);
             deactivateRule.setVisible(false);
             addToDictionary.setEnabled(true);
+            changeAll.setVisible(true);
             changeAll.setEnabled(true);
+            autoCorrect.setVisible(true);
+            autoCorrect.setEnabled(true);
           } else {
             ignoreAll.setText(ignoreRuleButtonName);
             addToDictionary.setVisible(false);
             changeAll.setVisible(false);
+            autoCorrect.setVisible(false);
             deactivateRule.setVisible(true);
             deactivateRule.setEnabled(true);
           }
@@ -1727,6 +1764,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           deactivateRule.setEnabled(false);
           change.setEnabled(false);
           changeAll.setVisible(false);
+          autoCorrect.setVisible(false);
           addToDictionary.setVisible(false);
           deactivateRule.setVisible(false);
           more.setVisible(false);
@@ -2006,6 +2044,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
                   } else if (action.getActionCommand().equals("changeAll")) {
                     setAtWorkButtonState();
                     changeAll();
+                  } else if (action.getActionCommand().equals("autoCorrect")) {
+                    setAtWorkButtonState();
+                    autoCorrect();
                   } else if (action.getActionCommand().equals("undo")) {
                     setAtWorkButtonState();
                     undo();
@@ -2248,6 +2289,174 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
     }
 
+    /**
+     * Change all matched words of the document by the selected suggestion
+     * Add word-suggestion-pair to AutoCorrect
+     * @throws Throwable 
+     */
+    private void autoCorrect() throws Throwable {
+      if (suggestions.getComponentCount() > 0) {
+        String orgText = sentenceIncludeError.getText();
+        String word = orgText.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
+        String replace = suggestions.getSelectedValue();
+        XComponent xComponent = currentDocument.getXComponent();
+        DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
+        Map<Integer, List<Integer>> orgParas = spellChecker.replaceAllWordsInText(word, replace, docCursor, currentDocument, viewCursor);
+        if (orgParas != null) {
+          addChangeUndo(error.nErrorStart, y, word, replace, orgParas);
+        }
+        addToAutoCorrect(word, replace);
+        gotoNextError();
+      }
+    }
+    
+    /**
+     * Add word-suggestion-pair to AutoCorrect
+     * @throws Throwable 
+     */
+    private void addToAutoCorrect(String word, String replace) throws Throwable {
+      XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
+          xContext.getServiceManager());
+      if (xMCF == null) {
+        MessageHandler.printToLogFile("Could not get XMultiComponentFactory");
+        return;
+      }
+      Object obj = xMCF.createInstanceWithContext("com.sun.star.util.PathSettings", xContext);
+      XPropertySet xPathSettings = UnoRuntime.queryInterface(XPropertySet.class, obj);
+      String aCorrPathUri = (String) xPathSettings.getPropertyValue("AutoCorrect_writable");
+      URI aCorrUri = new URI(aCorrPathUri);
+      String aCorrFile = aCorrUri.getPath() + "/" + ACORR_PREFIX + locale.Language + "-" + locale.Country + ACORR_SUFFIX;
+      String aCorrTmpFile = aCorrUri.getPath() + "/" + ACORR_PREFIX + locale.Language + "-" + locale.Country + "_tmp" + ACORR_SUFFIX;
+      MessageHandler.printToLogFile("AutoCorrect path: " + aCorrFile);
+      String tmpDir = aCorrUri.getPath() + "/tmp";
+      unzipACorr(tmpDir, aCorrFile);
+      addWordPairToCorFile(tmpDir, word, replace);
+      zipACorr(tmpDir, aCorrTmpFile);
+      File tmpDr = new File(tmpDir); 
+      deleteFullDirectory(tmpDr);
+      File file = new File(aCorrFile);
+      File newFile = new File(aCorrTmpFile);
+      file.delete();
+      newFile.renameTo(file);
+    }
+    
+    boolean deleteFullDirectory(File directory) {
+      File[] contents = directory.listFiles();
+      if (contents != null) {
+          for (File file : contents) {
+              deleteFullDirectory(file);
+          }
+      }
+      return directory.delete();
+    }
+    
+    private void unzipACorr(String destDirPath, String zipFilePath) throws IOException {
+      File destDir = new File(destDirPath);
+      if (destDir.exists() && destDir.isDirectory()) {
+        if(!deleteFullDirectory(destDir)) {
+          throw new IOException("Failed to remove directory " + destDirPath);
+        }
+      }
+      if (!destDir.mkdir()) {
+        throw new IOException("Failed to create directory " + destDirPath);
+      }
+      byte[] buffer = new byte[1024];
+      ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFilePath));
+      ZipEntry zipEntry = zis.getNextEntry();
+      while (zipEntry != null) {
+        File newFile = new File(destDir, zipEntry.getName());
+        if (zipEntry.isDirectory()) {
+          if (!newFile.isDirectory() && !newFile.mkdirs()) {
+            throw new IOException("Failed to create directory " + newFile);
+          }
+        } else {
+          // fix for Windows-created archives
+          File parent = newFile.getParentFile();
+          if (!parent.isDirectory() && !parent.mkdirs()) {
+            throw new IOException("Failed to create directory " + parent);
+          }
+          // write file content
+          FileOutputStream fos = new FileOutputStream(newFile);
+          int len;
+          while ((len = zis.read(buffer)) > 0) {
+            fos.write(buffer, 0, len);
+          }
+          fos.close();
+        }
+        zipEntry = zis.getNextEntry();
+      }
+      zis.closeEntry();
+      zis.close();
+    }
+    
+    private void addWordPairToCorFile(String dirPath, String word, String replace) throws Throwable {
+      String fileName = "DocumentList.xml";
+      String tmpFileName = "DocumentList_tmp.xml";
+      File file = new File(dirPath, fileName);
+      File newFile = new File(dirPath, tmpFileName);
+      FileInputStream fis = new FileInputStream(file);
+      FileOutputStream fos = new FileOutputStream(newFile);
+      byte[] buffer = new byte[1024];
+      int len;
+      long maxReadLen = file.length() - 24;
+      while (maxReadLen > 0 && (len = fis.read(buffer)) > 0) {
+        if (len > maxReadLen) {
+          len = (int) maxReadLen;
+        }
+        fos.write(buffer, 0, len);
+        maxReadLen -= len;
+      }
+      fis.close();
+      String str = "<block-list:block block-list:abbreviated-name=\"" + word + "\" block-list:name=\"" + replace + "\"/></block-list:block-list>";
+      buffer = str.getBytes();
+      len = buffer.length;
+      fos.write(buffer, 0, len);
+      fos.close();
+      file.delete();
+      newFile.renameTo(file);
+    }
+
+    private void zipACorr(String sourceDirPath, String zipFilePath) throws IOException {
+      FileOutputStream fos = new FileOutputStream(zipFilePath);
+      ZipOutputStream zipOut = new ZipOutputStream(fos);
+      File dirToZip = new File(sourceDirPath);
+      File[] children = dirToZip.listFiles();
+      for (File childFile : children) {
+        zipFileRec(childFile, childFile.getName(), zipOut);
+      }
+      zipOut.close();
+      fos.close();
+    }
+    
+    private void zipFileRec(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
+      if (fileToZip.isHidden()) {
+          return;
+      }
+      if (fileToZip.isDirectory()) {
+        if (fileName.endsWith("/")) {
+          zipOut.putNextEntry(new ZipEntry(fileName));
+          zipOut.closeEntry();
+        } else {
+          zipOut.putNextEntry(new ZipEntry(fileName + "/"));
+          zipOut.closeEntry();
+        }
+        File[] children = fileToZip.listFiles();
+        for (File childFile : children) {
+          zipFileRec(childFile, fileName + "/" + childFile.getName(), zipOut);
+        }
+        return;
+      }
+      FileInputStream fis = new FileInputStream(fileToZip);
+      ZipEntry zipEntry = new ZipEntry(fileName);
+      zipOut.putNextEntry(zipEntry);
+      byte[] bytes = new byte[1024];
+      int length;
+      while ((length = fis.read(bytes)) >= 0) {
+          zipOut.write(bytes, 0, length);
+      }
+      fis.close();
+    }
+    
     /**
      * Add undo information
      * maxUndos changes are stored in the undo list
