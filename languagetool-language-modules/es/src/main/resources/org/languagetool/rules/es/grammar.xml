@@ -10809,7 +10809,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">si|cuando</token>
                 </pattern>
-                <message>Solo se acentúan cuando equivale a "todavía".</message>
+                <message>Solo se acentúa cuando equivale a "todavía".</message>
                 <suggestion>aun</suggestion>
                 <example correction="Aun"><marker>Aún</marker> si estas no tienen efecto.</example>
                 <example>Mejor aún si es así.</example>
@@ -10823,7 +10823,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>aún</token>
                     </marker>
                 </pattern>
-                <message>Solo se acentúan cuando equivale a "todavía".</message>
+                <message>Solo se acentúa cuando equivale a "todavía".</message>
                 <suggestion>aun</suggestion>
                 <example correction="aun">ni <marker>aún</marker> la mitad</example>
             </rule>
@@ -10844,7 +10844,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>aun</token>
                     </marker>
                 </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
+                <message>Se acentúa si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="aún">Más <marker>aun</marker> si estas no tienen efecto.</example>
                 <example>Si aun así no te mejora , como último recurso es hacerte unas sesiones de láser.</example>
@@ -10857,7 +10857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>no</token>
                     <token><exception postag="V.G.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
+                <message>Se acentúa si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="Aún"><marker>Aun</marker> no está claro.</example>
                 <example>Aun no siendo así, es fantástico.</example>
@@ -10870,7 +10870,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">más|menos|mejor|peor</token>
                     <token><exception postag="V.G.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
+                <message>Se acentúa si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="aún">Es <marker>aun</marker> más grande de lo que pensaba.</example>
             </rule>
@@ -10882,7 +10882,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" postag="PP.*" postag_regexp="yes"/>
                     <token postag="V.I.*" postag_regexp="yes"><exception postag="RG|N.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
+                <message>Se acentúa si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="Aún"><marker>Aun</marker> pensaba que sí.</example>
                 <example correction="Aún"><marker>Aun</marker> se desconoce.</example>
@@ -10908,7 +10908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception regexp="yes">si|cuando|así</exception></token>
                 </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
+                <message>Se acentúa si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="aún">Pensaba <marker>aun</marker> lo mismo.</example>
                 <example>No me importaría aun si ella no viene.</example>
@@ -10916,7 +10916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Las flores florecen aun cuando nadie las mira.</example>
                 <example>Quien calla aun teniendo razón, está casado.</example>
             </rule>
-            <rule default="temp_off">
+            <!--<rule>
                 <pattern>
                     <unify>
                         <feature id="genero"/>
@@ -10930,11 +10930,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="A.*|V.P.*" postag_regexp="yes"/>
                     </unify>
                 </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
+                <message>Se acentúa si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="aún">Solía mantener una reserva por si llegaban tiempos <marker>aun</marker> peores.</example>
-            </rule>
-            <rule default="temp_off">
+            </rule>-->
+            <rule>
                 <pattern>
                     <token regexp="yes">más|menos|mejor|peor</token>
                     <marker>
@@ -10942,33 +10942,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception postag="V.G.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
+                <message>Se acentúa si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="aún">Menos <marker>aun</marker> que no sean mayores.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token>aun</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token>aun</token>
+                        <token>aun<exception scope="previous" postag="SENT_START"/></token>
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
+                <message>Se acentúa si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="aún">Podías verlos <marker>aun</marker> pequeños.</example>
+                <example>Aun enfermo, el chico fue a la escuela</example>
+                <example>Ofreciendo a Dios sacrificios, aun públicos, para aplacar su justicia.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>aun</token>
                     </marker>
                     <token regexp="yes">\p{P}</token>
                 </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
+                <message>Se acentúa si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="aún">Es mi marido <marker>aun</marker>...</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="V.P.*|A.*|N.*" postag_regexp="yes"/>
                     <marker>
@@ -10976,7 +10982,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="CC"/>
                 </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
+                <message>Se acentúa si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="aún">Es mi marido <marker>aun</marker> y así seguirá.</example>
             </rule>
@@ -11318,7 +11324,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>La grafía adecuada es <suggestion><match no="1" regexp_match="(?iu)k" regexp_replace="" case_conversion="preserve"/></suggestion>.</message>
             <example correction="clic">Haz <marker>click</marker> en el enlace siguiente.</example>
             <example correction="clics">Contamos los <marker>clicks</marker> en el enlace.</example>
-            <example correction="CLIC">HAZ <marker>CLICKclick</marker> AQUÍ.</example>
+            <example correction="CLIC">HAZ <marker>CLICK</marker> AQUÍ.</example>
         </rule>
         <rulegroup id="D_ELA" name="revisar letra suelta: d, l, n">
             <rule>
