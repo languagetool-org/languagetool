@@ -10833,6 +10833,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>aun</token>
                 <token postag="V.G.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>aun</token>
+                <token>así</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">más|menos|mejor|peor|si</token>
@@ -10843,6 +10847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Se acentúan si equivale a "todavía".</message>
                 <suggestion>aún</suggestion>
                 <example correction="aún">Más <marker>aun</marker> si estas no tienen efecto.</example>
+                <example>Si aun así no te mejora , como último recurso es hacerte unas sesiones de láser.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11310,9 +11315,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">clicks?</token>
             </pattern>
-            <message>La grafía adecuada es <suggestion><match no="1" regexp_match="k" regexp_replace="" case_conversion="preserve"/></suggestion>.</message>
+            <message>La grafía adecuada es <suggestion><match no="1" regexp_match="(?iu)k" regexp_replace="" case_conversion="preserve"/></suggestion>.</message>
             <example correction="clic">Haz <marker>click</marker> en el enlace siguiente.</example>
             <example correction="clics">Contamos los <marker>clicks</marker> en el enlace.</example>
+            <example correction="CLIC">HAZ <marker>CLICKclick</marker> AQUÍ.</example>
         </rule>
         <rulegroup id="D_ELA" name="revisar letra suelta: d, l, n">
             <rule>
