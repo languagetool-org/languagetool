@@ -16375,7 +16375,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
             <token regexp="yes" min="0">why|when|where|who|which|what|how</token>
-            <token inflected="yes">do</token>
+            <token inflected="yes" regexp="yes">do|will</token><!-- TODO: add more modal verbs -->
             <token regexp="yes" min="0">n't|not</token>
             <token chunk_re="B-NP.*" min="0" />
             <token chunk_re="E-NP.*" />
@@ -16389,11 +16389,43 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <rule id="PEOPLE_NO_VB" name="'people' and 'company' no verbs">
         <pattern>
-            <token postag="P?DT|PRP\$|JJ.*" chunk_re=".-NP.*" />
+            <token postag="P?DT|PRP\$|JJ.*" postag_regexp="yes" chunk_re=".-NP.*" />
             <marker>
-                <token regexp="yes">people|company|soldier</token>
+                <token regexp="yes">people|company|companies|soldiers?</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="VB.*" />
     </rule>
+
+    <rulegroup id="WHY_ONLY_ADVERB" name="'why' only Adverb">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>why</token>
+                </marker>
+                <token min="0">exactly</token>
+                <token inflected="yes" regexp="yes">have|do|be|will|can|should|must</token>
+                <token chunk_re="B-NP.*" min="0" />
+                <token chunk_re="E-NP.*" />
+                <token postag="RB" min="0" chunk="B-ADVP" />
+                <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="WRB" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>why</token>
+                </marker>
+                <token min="0">exactly</token>
+                <token inflected="yes" regexp="yes">have|do|be|will|can|should|must</token>
+                <token>n't</token>
+                <token chunk_re="B-NP.*" min="0" />
+                <token chunk_re="E-NP.*" />
+                <token postag="RB" min="0" chunk="B-ADVP" />
+                <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" />
+            </pattern>
+            <disambig action="filter" postag="WRB" />
+        </rule>
+    </rulegroup>
 </rules>
