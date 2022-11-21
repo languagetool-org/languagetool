@@ -1360,7 +1360,9 @@ Copyright (C) 2011 Juan Martorell
                 <token><exception postag="V.P..SM" postag_regexp="yes"/></token>
                 <!-- Exception: 2012 ha sido -->
             </pattern>
-            <disambig action="replace"><wd lemma="hectárea" pos="NCFN000"/></disambig>
+            <disambig action="replace">
+                <wd lemma="hectárea" pos="NCFN000"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
@@ -1369,7 +1371,9 @@ Copyright (C) 2011 Juan Martorell
                     <token>min</token>
                 </marker>
             </pattern>
-            <disambig action="replace"><wd lemma="minuto" pos="NCMN000"/></disambig>
+            <disambig action="replace">
+                <wd lemma="minuto" pos="NCMN000"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rule id="hemos" name="hemos (haber)">
@@ -2202,6 +2206,34 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="DA.*"/>
     </rule>
+    <rulegroup id="fuera_de_juego" name="fuera de juego: no adverbio">
+        <rule>
+            <pattern>
+                <token postag="D.*|SP:DA" postag_regexp="yes"/>
+                <marker>
+                    <token>fuera</token>
+                </marker>
+                <token>de</token>
+                <token>juego</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="fuera" pos="NCMS000"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D.*|SP:DA" postag_regexp="yes"/>
+                <marker>
+                    <token>fueras</token>
+                </marker>
+                <token>de</token>
+                <token>juego</token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="fuera" pos="NCMP000"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="solo" name="solo (noun)">
         <rule>
             <pattern>
@@ -2398,7 +2430,7 @@ Copyright (C) 2011 Juan Martorell
                     <token postag="RG">fuera</token>
                 </marker>
                 <token>de</token>
-                <token regexp="yes">lugar|sitio</token>
+                <token regexp="yes">lugar|sitio|juego</token>
             </pattern>
             <disambig action="filter" postag="RG"/>
         </rule>
@@ -7188,6 +7220,17 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token min="0">)</token>
                 <token regexp="yes">.*[a-z].*</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <!--  termina en vocal, n o s -->
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>n</token>
+                </marker>
+                <token>o</token>
+                <token>s</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
