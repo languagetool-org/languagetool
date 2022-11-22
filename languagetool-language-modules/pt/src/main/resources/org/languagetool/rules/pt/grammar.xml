@@ -43051,6 +43051,28 @@ O namorado dela era um ladrão.
         <suggestion>”</suggestion>
         <example correction="”">Disse que “sim<marker>“</marker>.</example>
       </rule>
+      <rule default='temp_off'>
+        <pattern>
+          <marker>
+            <token spacebefore='yes'>’</token>
+          </marker>
+            <token spacebefore='no' regexp='yes'>\p{L}*</token>
+        </pattern>
+        <message>Utilize uma aspa de abertura.</message>
+        <suggestion>‘</suggestion>
+        <example correction="‘">Disse que <marker>’</marker>sim‘.</example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+          <marker>
+            <token spacebefore='yes'>”</token>
+          </marker>
+            <token spacebefore='no' regexp='yes'>\p{L}*</token>
+        </pattern>
+        <message>Utilize uma aspa de abertura.</message>
+        <suggestion>“</suggestion>
+        <example correction="“">Disse que <marker>”</marker>sim”.</example>
+      </rule>
     </rulegroup>
 
     <!--     Typography rules from English grammar.xml      - START-->
@@ -43487,7 +43509,16 @@ O namorado dela era um ladrão.
     <rulegroup id="SPACE_BEFORE_PUNCTUATION" name="Espaços antes da pontuação">
       <!-- Based on German grammar.xml, by Tiago F. Santos, 2017-07-08 -->
       <rule>
-        <regexp>\b([\p{L}\d]+) ([!?»”’,….])</regexp>
+       <antipattern>
+        <token regexp='yes' spacebefore='yes'>\b([\p{L}\d]+)</token>
+        <token regexp="yes" spacebefore="yes">[!?»,….]</token>
+        <token regexp='yes'>&filename_extensions;</token>
+        <example>a relação em .xls e planilha</example>
+       </antipattern>
+       <pattern>
+        <token regexp='yes'>\b([\p{L}\d]+)</token>
+        <token regexp='yes' spacebefore="yes">[!?»”’,….]</token>
+       </pattern>
         <message>Remova o espaço antes deste sinal de pontuação.</message>
         <suggestion>\1\2</suggestion>
         <example correction="escapou!">Como é que isto me <marker>escapou !</marker></example>
