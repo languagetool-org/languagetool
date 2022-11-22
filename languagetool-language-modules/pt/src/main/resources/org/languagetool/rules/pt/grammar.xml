@@ -3037,6 +3037,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup default='on' id='A_WORD' name="Concordância de género e número: A + palavra">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
       <antipattern>
+          <token regexp='yes'>a</token>
+          <token regexp='yes'>\p{Lu}\p{L}+</token>
+          <example>A Angel of Mercy foi um sucesso.</example>
+      </antipattern>
+      <antipattern>
         <token inflected='yes'>abrir</token>
         <token skip='-1'>espaço</token>
         <token>a</token>
@@ -3106,7 +3111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception postag='SPS00'/>
             <exception negate_pos='yes' postag_regexp='yes' postag='D.+'/></token>
           <token postag='(?:[NZ].|A..)MS.+' postag_regexp='yes'>
-            <exception regexp='yes'>&pontos_cardeais;|&meses_ano;|\d+|&abreviaturas;|médio|longo|\p{Lu}+|master|contrário|nível|solo|um|despropósito</exception><!-- |escassos --> <!-- MARCOAGPINTO 2020-10-04 (2-JUL-2020+) -->
+            <exception regexp='yes'>&pontos_cardeais;|&meses_ano;|\d+|&abreviaturas;|médio|preço|longo|\p{Lu}+|master|óbito|domicílio|público|contrário|nível|solo|um|despropósito</exception><!-- |escassos --> <!-- MARCOAGPINTO 2020-10-04 (2-JUL-2020+) -->
             <exception postag_regexp='yes' postag='(?:[NZ].|A..)[CF].+'/></token>
         </pattern>
         <message>&MSG_ECG;</message>
