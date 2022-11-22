@@ -1971,7 +1971,7 @@
     </pattern>
     <disambig action="filter" postag="noun:inanim:m:.*:prop.*"/>
     <example type="ambiguous"
-        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav:coll,трускавка/noun:inanim:f:v_mis:coll]"
+        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav,трускавка/noun:inanim:f:v_mis]"
         outputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo]">В <marker>Трускавці</marker>.</example>
     <example type="untouched">Трускавці треба тепло.</example>
   </rule>
@@ -2017,7 +2017,7 @@
     </pattern>
     <disambig action="filter" postag="noun:inanim:m:v_...:prop:geo"/>
     <example type="ambiguous"
-        inputform="Йорк[Йорк/noun:inanim:m:v_naz:prop:geo,Йорк/noun:inanim:m:v_zna:prop:geo,йорк/noun:anim:m:v_naz:coll]"
+        inputform="Йорк[Йорк/noun:inanim:m:v_naz:prop:geo,Йорк/noun:inanim:m:v_zna:prop:geo,йорк/noun:anim:m:v_naz]"
         outputform="Йорк[Йорк/noun:inanim:m:v_naz:prop:geo,Йорк/noun:inanim:m:v_zna:prop:geo]"
             >в <marker>Йорк</marker>.</example>
     <example type="untouched">прибіг йорк</example>
@@ -2239,7 +2239,7 @@
     </pattern>
     <disambig action="filter" postag="noun:.*prop.*"/>
     <example type="ambiguous"
-        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav:coll,трускавка/noun:inanim:f:v_mis:coll]"
+        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav,трускавка/noun:inanim:f:v_mis]"
         outputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo]">В <marker>Трускавці</marker>.</example>
     <example type="ambiguous"
         inputform="Грушівкою[Грушівка/noun:inanim:f:v_oru:prop:geo,грушівка/noun:inanim:f:v_oru]"
@@ -3491,10 +3491,13 @@
     <pattern>
       <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">геолог.*|порода|родовище</exception></token>
       <marker>
-        <token skip="-1" inflected="yes">світа
+        <and>
+        <token skip="-1" inflected="yes" postag_regexp="yes">світа
           <exception scope="previous" regexp="yes">.*[цс]ьк(а|ої|ій|ою)</exception>
           <exception scope="next" inflected="yes" regexp="yes">геолог.*|порода|родовище</exception>
         </token>
+        <token inflected="yes">світ</token>
+        </and>
         <token postag="SENT_END"><exception scope="current" inflected="yes" regexp="yes">геолог.*|порода|родовище</exception></token>
       </marker>
     </pattern>
@@ -3506,6 +3509,7 @@
     <example type="untouched">Картамиська світа</example>
     <example type="untouched">геологічна щільна світа</example>
     <example type="untouched">Світа Ратаві — іракський нафтовий горизонт — на нафтових родовищах «Ратаві» в Іраку.</example>
+    <example type="untouched">10 світі.</example>
     <!--
     <example type="untouched">світа в геології</example>
     -->
