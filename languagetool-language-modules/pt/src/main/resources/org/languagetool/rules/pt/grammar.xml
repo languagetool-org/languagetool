@@ -17790,17 +17790,24 @@ O namorado dela era um ladrão.
       <example correction="te dê">Talvez <marker>te de</marker> mais novidades.</example>
     </rule>
 
+
     <rule id='TEM_TÊM' name="Confusão: tem/têm">
-      <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Uns tem sorte no jogo. → Uns têm sorte no jogo.
+      Uns não tem sorte no jogo. → Uns não têm sorte no jogo.
+      -->
       <pattern>
-        <token regexp='yes'>uns|umas|outros|outras|alguns|algumas</token>
-        <token min='0'>não</token>
+        <token postag='PI0.P.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='RN' postag_regexp='no'/>
         <marker>
           <token>tem</token>
         </marker>
       </pattern>
-      <message>Substitua por <suggestion>têm</suggestion>.</message>
+      <message>Possível confusão de termos.</message>
+      <suggestion>têm</suggestion>
       <example correction="têm">Uns <marker>tem</marker> sorte no jogo.</example>
+      <example correction="têm">Uns não <marker>tem</marker> sorte no jogo.</example>
     </rule>
 
 
