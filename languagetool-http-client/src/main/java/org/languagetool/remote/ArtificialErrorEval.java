@@ -54,9 +54,9 @@ public class ArtificialErrorEval {
   static String[] fakeRuleIDs = new String[2];
   //TP: true positive with the expected suggestion
   //TPns: true positive with no suggestion
-  static List<String> classifyTypes = Arrays.asList("TP", "FP", "TN", "FN", "TPns");
-  static int[][] results = new int[2][5]; // word0/word1 ; TP/FP/TN/FN/TP with no suggestion
-  static int[] accumulateResults = new int[5]; // totalErrors/TP/FP/TN/FN
+  static List<String> classifyTypes = Arrays.asList("TP", "FP", "TN", "FN", "TPns", "TPws");
+  static int[][] results = new int[2][6]; // word0/word1 ; TP/FP/TN/FN/TP with no suggestion/TP wrong suggestion
+  static int[] accumulateResults = new int[6]; // totalErrors/TP/FP/TN/FN
   static RemoteLanguageTool lt;
   static JLanguageTool localLt;
   static Synthesizer synth;
@@ -499,11 +499,12 @@ public class ArtificialErrorEval {
       float precision = results[i][classifyTypes.indexOf("TP")]
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]);
       float recall = results[i][classifyTypes.indexOf("TP")]
-          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")] + results[i][classifyTypes.indexOf("TPns")]);
+          / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")] 
+              + results[i][classifyTypes.indexOf("TPns")] + results[i][classifyTypes.indexOf("TPws")]);
       // recall including empty suggestions
       float recall2 = (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("TPns")])
           / (float) (results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FN")]
-              + results[i][classifyTypes.indexOf("TPns")]);
+              + results[i][classifyTypes.indexOf("TPns")] + results[i][classifyTypes.indexOf("TPws")]);
       //float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")]
       //    / results[i][classifyTypes.indexOf("TP")];
       int errorsTotal = results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]
@@ -514,7 +515,7 @@ public class ArtificialErrorEval {
       resultsString.append("Results for " + fakeRuleIDs[i] + "\n");
       
       int nCorrectSentences =  results[i][1] + results[i][2] ; // FP + TN
-      int nIncorrectSentences =  results[i][0] + results[i][4] + results[i][3]; // TP + TPns + FN  
+      int nIncorrectSentences =  results[i][0] + results[i][4] + results[i][5] + results[i][3]; // TP + TPns + TPws + FN  
       
       resultsString.append("Total sentences: " + String.valueOf(errorsTotal) + "\n");
       resultsString.append(formattedAbsoluteAndPercentage("\nCorrect sentences", nCorrectSentences, nCorrectSentences + nIncorrectSentences));
@@ -522,9 +523,10 @@ public class ArtificialErrorEval {
       resultsString.append(formattedAbsoluteAndPercentage("TN", results[i][2], nCorrectSentences));
       
       resultsString.append(formattedAbsoluteAndPercentage("\nIncorrect sentences", nIncorrectSentences, nCorrectSentences + nIncorrectSentences));
-      resultsString.append(formattedAbsoluteAndPercentage("TP (total)", results[i][4] + results[i][0], nIncorrectSentences));
+      resultsString.append(formattedAbsoluteAndPercentage("TP (total)", results[i][4] + results[i][5] + results[i][0], nIncorrectSentences));
       resultsString.append(formattedAbsoluteAndPercentage(" TP (expected suggestion)", results[i][0], nIncorrectSentences));
       resultsString.append(formattedAbsoluteAndPercentage(" TPns (no suggestion)", results[i][4], nIncorrectSentences));
+      resultsString.append(formattedAbsoluteAndPercentage(" TPws (wrong suggestion)", results[i][5], nIncorrectSentences));
       resultsString.append(formattedAbsoluteAndPercentage("FN", results[i][3], nIncorrectSentences));
 
       resultsString.append("\nPrecision: " + String.format(Locale.ROOT, "%.4f", precision) + "\n");
@@ -660,8 +662,8 @@ public class ArtificialErrorEval {
           results[1 - j][classifyTypes.indexOf("TPns")]++;
           printSentenceOutput("TPns", wrongSentence, 1 - j, String.join(",", ruleIDs));
         } else {
-          results[1 - j][classifyTypes.indexOf("FN")]++;
-          printSentenceOutput("FN", wrongSentence, 1 - j, "");
+          results[1 - j][classifyTypes.indexOf("TPws")]++;
+          printSentenceOutput("TPws", wrongSentence, 1 - j, String.join(",", ruleIDs));
         }
       } else {
         results[1 - j][classifyTypes.indexOf("FN")]++;
