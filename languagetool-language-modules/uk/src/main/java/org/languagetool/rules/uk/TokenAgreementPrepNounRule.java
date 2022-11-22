@@ -37,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Ukrainian;
+import org.languagetool.Language;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -61,10 +61,13 @@ public class TokenAgreementPrepNounRule extends Rule {
   private static final String reqAnimInanimRegex = ":r(?:in)?anim";
   private static final Pattern REQ_ANIM_INANIM_PATTERN = Pattern.compile(reqAnimInanimRegex);
 
-  private final Ukrainian ukrainian = new Ukrainian();
+  private final Synthesizer synthesizer;
+  private final Language ukrainian;
 
-  public TokenAgreementPrepNounRule(ResourceBundle messages) throws IOException {
+  public TokenAgreementPrepNounRule(ResourceBundle messages, Language ukrainian) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
+    this.ukrainian = ukrainian;
+    this.synthesizer = ukrainian.getSynthesizer();
   }
 
   @Override
@@ -396,8 +399,6 @@ public class TokenAgreementPrepNounRule extends Rule {
   private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, AnalyzedTokenReadings prepTokenReadings, Set<String> posTagsToFind, AnalyzedSentence sentence, AnalyzedTokenReadings[] tokens, int i) throws IOException {
     String tokenString = tokenReadings.getToken();
     
-    Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
-
     List<String> suggestions = new ArrayList<>();
     
     String requiredPostTagsRegEx = ":(" + String.join("|", posTagsToFind) + ")";
@@ -421,7 +422,7 @@ public class TokenAgreementPrepNounRule extends Rule {
       String posTag = oldPosTag.replaceFirst(":v_[a-z]+", requiredPostTagsRegExToApply);
 
       try {
-        String[] synthesized = ukrainianSynthesizer.synthesize(analyzedToken, posTag, true);
+        String[] synthesized = synthesizer.synthesize(analyzedToken, posTag, true);
 
         suggestions.addAll( Arrays.asList(synthesized) );
       } catch (IOException e) {
@@ -463,7 +464,7 @@ public class TokenAgreementPrepNounRule extends Rule {
       msg += ". Можливо, тут потрібно присвійний займенник «їхній» або нормативна форма р.в. «них»?";
       try {
         String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";
-        String[] synthesized = ukrainianSynthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron:pos", "їхній"), newYihPostag, true);
+        String[] synthesized = synthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron:pos", "їхній"), newYihPostag, true);
         suggestions.addAll( Arrays.asList(synthesized) );
       } catch (IOException e) {
         throw new RuntimeException(e);
@@ -474,7 +475,7 @@ public class TokenAgreementPrepNounRule extends Rule {
       msg += ". Можливо, тут потрібно присвійний займенник «" + repl + "»?";
       try {
         String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";
-        String[] synthesized = ukrainianSynthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron:pos", "їхній"), newYihPostag, true);
+        String[] synthesized = synthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron:pos", "їхній"), newYihPostag, true);
         suggestions.addAll( Arrays.asList(synthesized) );
         suggestions.add(repl);
       } catch (IOException e) {
@@ -487,7 +488,7 @@ public class TokenAgreementPrepNounRule extends Rule {
           msg += ". Можливо, тут «о» — це вигук і потрібно кличний відмінок?";
           try {
             String newPostag = token.getPOSTag().replace("v_naz", "v_kly");
-            String[] synthesized = ukrainianSynthesizer.synthesize(token, newPostag, false);
+            String[] synthesized = synthesizer.synthesize(token, newPostag, false);
             for (String string : synthesized) {
               if( ! string.equals(token.getToken()) && ! suggestions.contains(string) ) {
                 suggestions.add( string );

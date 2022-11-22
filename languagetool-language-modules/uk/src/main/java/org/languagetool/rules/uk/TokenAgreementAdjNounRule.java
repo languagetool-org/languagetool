@@ -35,7 +35,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Ukrainian;
+import org.languagetool.Language;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -59,11 +59,11 @@ public class TokenAgreementAdjNounRule extends Rule {
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
   static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("((?:[iu]n)?anim):([mfnps]):(v_...)");
 
-  private final Ukrainian ukrainian = new Ukrainian();
+  private final Synthesizer synthesizer;
 
-  public TokenAgreementAdjNounRule(ResourceBundle messages) throws IOException {
+  public TokenAgreementAdjNounRule(ResourceBundle messages, Language ukrainian) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
-//    setDefaultOff();
+    this.synthesizer = ukrainian.getSynthesizer();
   }
 
   @Override
@@ -274,9 +274,7 @@ public class TokenAgreementAdjNounRule extends Rule {
 
         RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, state.adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
 
-        Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
         List<String> suggestions = new ArrayList<>();
-
 
         try {
 
@@ -297,7 +295,7 @@ public class TokenAgreementAdjNounRule extends Rule {
 
                 String newNounPosTag = nounToken.getPOSTag().replaceFirst(":.:v_...", genderTag + vidmTag);
 
-                String[] synthesized = ukrainianSynthesizer.synthesize(nounToken, newNounPosTag, false);
+                String[] synthesized = synthesizer.synthesize(nounToken, newNounPosTag, false);
 
                 for (String s : synthesized) {
                   String suggestion = state.adjAnalyzedTokenReadings.getToken() + " " + s;
@@ -320,7 +318,7 @@ public class TokenAgreementAdjNounRule extends Rule {
           for(AnalyzedToken adjToken: state.adjTokenReadings) {
             String newAdjTag = adjToken.getPOSTag().replaceFirst(":.:v_...(:r(in)?anim)?", genderTag + vidmTag);
 
-            String[] synthesized = ukrainianSynthesizer.synthesize(adjToken, newAdjTag, false);
+            String[] synthesized = synthesizer.synthesize(adjToken, newAdjTag, false);
 
             for (String s : synthesized) {
               String suggestion = s + " " + tokenReadings.getToken();

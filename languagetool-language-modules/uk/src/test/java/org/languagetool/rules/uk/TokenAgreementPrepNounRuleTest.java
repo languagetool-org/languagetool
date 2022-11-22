@@ -43,8 +43,8 @@ public class TokenAgreementPrepNounRuleTest {
 
   @Before
   public void setUp() throws IOException {
-    rule = new TokenAgreementPrepNounRule(TestTools.getMessages("uk"));
     lt = new JLanguageTool(new Ukrainian());
+    rule = new TokenAgreementPrepNounRule(TestTools.getMessages("uk"), lt.getLanguage());
   }
   
   @Test
