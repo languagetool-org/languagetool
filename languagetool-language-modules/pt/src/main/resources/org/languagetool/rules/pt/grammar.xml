@@ -17847,14 +17847,22 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
+
     <!-- TOMARÁ LUGAR terá lugar -->
-    <rule id='TOMARÁ_LUGAR' name="Terá lugar">
+    <rule id='TOMAR_TER_LUGAR' name="Confusão: Tomar/ter lugar">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      O evento tomará lugar em Lisboa. → O evento terá lugar em Lisboa.
+      -->
       <pattern>
-        <token>tomará</token>
+        <marker>
+          <token inflected='yes'>tomar</token>
+        </marker>
         <token>lugar</token>
       </pattern>
-      <message>Substitua por <suggestion>terá lugar</suggestion>.</message>
-      <example correction="terá lugar">O evento <marker>tomará lugar</marker> em Lisboa.</example>
+      <message>Possível confusão de termos.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match></suggestion>
+      <example correction="terá">O evento <marker>tomará</marker> lugar em Lisboa.</example>
     </rule>
 
 
