@@ -17780,14 +17780,32 @@ O namorado dela era um ladrão.
       <example correction="talvez">Amanhã <marker>tal vez</marker> seja possível.</example>
     </rule>
 
-    <rule id='TE_DE' name="Confusão: de/dê">
-      <!-- Created by Marco A.G. Pinto, Portuguese rule -->
-      <pattern>
-        <token spacebefore='yes' regexp='yes'>&pronomes_nao_ambiguos;</token>
+
+    <rule id='DE_DÊ' name="Confusão: de/dê">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Talvez te de mais novidades. → Talvez te dê mais novidades.
+      -->
+      <antipattern>
+        <token postag='V.+|UNKNOWN' postag_regexp='yes'/>
+        <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token regexp='yes'>&pronomes_nao_ambiguos;</token>
         <token>de</token>
+        <token postag='V.+|NP.+|UNKNOWN' postag_regexp='yes'/>
+        <example>...foi ironizar com o nome “Bina” dado a uma motorizada, pedalar uma bicicleta, ou bina como gosto lhe de chamar, é mais amigo do ambiente, mais económico, e beneficia a nossa saúde, mesmo com esforço e su...</example>
+        <example>...vermelha em quase todas as matérias – menos nas duas em que as professoras concordaram em chamá- lo de Dani.</example>
+      </antipattern>
+
+      <pattern>
+        <token spacebefore='yes' regexp='yes'>&pronomes_nao_ambiguos;
+          <exception postag_regexp='no' postag='UNKNOWN'/>
+        </token>
+        <marker>
+          <token>de</token>
+        </marker>
       </pattern>
-      <message>Se pretende referir-se ao verbo escreva <suggestion>\1 dê</suggestion>.</message>
-      <example correction="te dê">Talvez <marker>te de</marker> mais novidades.</example>
+      <message>Se pretende referir-se ao verbo escreva <suggestion>dê</suggestion>.</message>
+      <example correction="dê">Talvez te <marker>de</marker> mais novidades.</example>
     </rule>
 
 
