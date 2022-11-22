@@ -17803,49 +17803,30 @@ O namorado dela era um ladrão.
       <example correction="têm">Uns <marker>tem</marker> sorte no jogo.</example>
     </rule>
 
-    <rulegroup id='TIRAR_FOTOGRAFIA' name="Fotografar">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-08-18 + 2020-08-19    -->
-      <rule>
-        <pattern>
-          <token inflected='yes'>tirar</token>
-          <token min="0" max="1" regexp='yes'>umas?</token>
-          <token regexp='yes'>fotografias?|fotos?</token>
-          <token regexp='yes'>ao|do</token>
-        </pattern>
-        <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> o</suggestion></message>
-        <example correction="fotografar o">Vamos <marker>tirar uma fotografia ao</marker> Rui.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected='yes'>tirar</token>
-          <token min="0" max="1" regexp='yes'>umas?</token>
-          <token regexp='yes'>fotografias?|fotos?</token>
-          <token regexp='yes'>aos|dos</token>
-        </pattern>
-        <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> os</suggestion></message>
-        <example correction="fotografar os">Vamos <marker>tirar uma fotografia aos</marker> barcos.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected='yes'>tirar</token>
-          <token min="0" max="1" regexp='yes'>umas?</token>
-          <token regexp='yes'>fotografias?|fotos?</token>
-          <token regexp='yes'>à|da</token>
-        </pattern>
-        <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> a</suggestion></message>
-        <example correction="fotografar a">Vamos <marker>tirar uma fotografia à</marker> Ana.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected='yes'>tirar</token>
-          <token min="0" max="1" regexp='yes'>umas?</token>
-          <token regexp='yes'>fotografias?|fotos?</token>
-          <token regexp='yes'>às|das</token>
-        </pattern>
-        <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> as</suggestion></message>
-        <example correction="fotografar as">Vamos <marker>tirar uma fotografia às</marker> irmãs.</example>
-      </rule>
-    </rulegroup>
+
+    <rule id='TIRAR_FOTOGRAFIA_FOTOGRAFAR' name="Simplificar: Tirar fotografia/foto → fotografar">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Vamos tirar uma fotografia ao Rui. → Vamos fotografar o Rui.
+      Vamos tirar uma fotografia aos barcos. → Vamos fotografar os barcos.
+      Vamos tirar uma fotografia à Ana. → Vamos fotografar a Ana.
+      Vamos tirar uma fotografia às irmãs. → Vamos fotografar as irmãs.
+      -->
+      <pattern>
+        <token inflected='yes'>tirar</token>
+        <token min="0" max="1" regexp='yes'>umas?</token>
+        <token regexp='yes'>fotografias?|fotos?</token>
+        <token postag='SPS00:DA.+' postag_regexp='yes'>
+          <exception regexp='yes'>n[ao]s?</exception>
+        </token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fotografar</match> <match no='4' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match></suggestion>
+      <example correction="fotografar o">Vamos <marker>tirar uma fotografia ao</marker> Rui.</example>
+      <example correction="fotografar os">Vamos <marker>tirar uma fotografia aos</marker> barcos.</example>
+      <example correction="fotografar a">Vamos <marker>tirar uma fotografia à</marker> Ana.</example>
+      <example correction="fotografar as">Vamos <marker>tirar uma fotografia às</marker> irmãs.</example>
+    </rule>
 
 
     <!-- TOMARÁ LUGAR terá lugar -->
