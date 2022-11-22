@@ -4370,7 +4370,7 @@
 </rule>
 <rule break="no">
 <beforebreak>\b(р|ред|Рис|рус|с|сб|св|См|см|сов|соч|соц|спец|ср|ст|стр|т|тел|Тел|тех|тов|тт|туп)\.\s</beforebreak>
-<afterbreak></afterbreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b(руб|Руб|тыс|Тыс|трлн)\.\s</beforebreak>
@@ -5551,7 +5551,7 @@
 <afterbreak>\p{Lu}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>[.!?…][\h]+</beforebreak>
+<beforebreak>[.!?…][»“]?[\h]+</beforebreak>
 <afterbreak>[\h]*([«"„“(]|[&#x2010;-&#x2015;-][\h])\p{Ll}</afterbreak>
 </rule>
 <rule break="yes">
@@ -5640,18 +5640,27 @@
 <!-- усталені скорочення, що не збігаються з нескороченими словами -->
 <rule break="no">
 <!-- unfortunately \b ignores \u0301 -->
-<beforebreak>\b(укр|рос|англ|амер|італ|ісп|нім|фр(анц)?|лат|грец(ьк))\.[\h\v]*</beforebreak>
+<beforebreak>\b(укр|рос|англ?|амер|італ|ісп|нім|фр(анц)?|лат|грец(ьк)?)\.[\h\v]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
 <!-- unfortunately \b ignores \u0301 -->
-<beforebreak>\b(абз|арк|ауд|бл|буд|бульв|вул|держ|дод|зав|зб|зв|зовн|екон|к|кв|канд|кн|напр|нац|обл|оп|пл|пол|поч|пп|пор|просп|розд|стор|табл|[Тт]]ел|ч|част)\.[\h\v]*</beforebreak>
+<beforebreak>\b(абз|арк|ауд|бл|буд|бульв|вул|держ|дод|зав|зб|зв|зовн|екон|к|кв|канд|кн|напр|нпр|нац|обл|оп|пл|пол|поч|пп|пор|просп|розд|стор|табл|[Тт]]ел|ч|част)\.[\h\v]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
 <!-- unfortunately \b ignores \u0301 -->
 <beforebreak>\b[сС]т\.[\h\v]</beforebreak>
 <afterbreak>[\h]*(?!([АВУОІЄ]|На|Але|Так?)[\h\v])</afterbreak>
+</rule>
+<!-- нар. 1945 р. | (1966 р. нар.) | 1975 — нар. Осипчук -->
+<rule break="no">
+<beforebreak>([0-9]|[-–—])[\h\v]+нар\.[\h\v]*</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bнар\.[\h\v]*</beforebreak>
+<afterbreak>([0-9]|бл\.|арт\.)</afterbreak>
 </rule>
 <rule break="no">
 <!-- no break only for дол. США -->
@@ -5682,8 +5691,12 @@
 </rule>
 <!-- abbreviation with proper noun: проф. Грицько, о. Лісове -->
 <rule break="no">
-<beforebreak>\b(ап|[Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|оз|ім|інж|упоряд|чл\.-кор|[Пп]реп)\.[\h\v]*</beforebreak>
+<beforebreak>\b(ап|[Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Рр]еж|[Аа]рх|[Сс]вв?|о|оз|ім|інж|дир|тов|упоряд|тт|чл\.-кор|[Пп]реп)\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*[А-ЯІЇЄҐA-Z]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>(?&lt;![іи]\s+)\bдр\.[\h\v]*</beforebreak>
+<afterbreak>[\h\v]*[А-ЯІЇЄҐ]</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\bМан\.[\h\v]*</beforebreak>
@@ -5700,9 +5713,9 @@
 <beforebreak>\b([Аа]рт|[Мм]ал|[Рр]ис)\.[\h\v]*</beforebreak>
 <afterbreak>[\h\v]*[0-9]</afterbreak>
 </rule>
-<!-- ХІІ р., 3-6 арт. -->
+<!-- ХІІ р., 3-6 арт., 2-3 тт. -->
 <rule break="no">
-<beforebreak>[0-9][\h\v]+арт\.[\h\v]*</beforebreak>
+<beforebreak>[0-9][\h\v]+(арт|тт)\.[\h\v]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- місто, але принаймні з парою літер в назві бо є ще метри (м) -->
