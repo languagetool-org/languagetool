@@ -17857,63 +17857,83 @@ O namorado dela era um ladrão.
       <example correction="terá lugar">O evento <marker>tomará lugar</marker> em Lisboa.</example>
     </rule>
 
-    <rule id='TORNAR_MAIS_DIFICIL' name="Dificultar">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-24 (21-OCT-2020+)     -->
+
+    <rule id='TORNAR_MAIS_DIFICIL' name="Tornar mais difícil → Dificultar">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      As regras vão tornar mais difícil o jogo. → As regras vão dificultar o jogo.
+      -->
       <pattern>
         <marker>
           <token inflected='yes'>tornar</token>
           <token min="0" max="1">mais</token>
-          <token>difícil</token>
+          <token regexp='yes'>difícil|difíceis</token>
         </marker>
-        <token postag='DA.+|V.+|SPS.+' postag_regexp='yes'/>
+        <token><exception postag_regexp='no' postag='SPS00'/></token>
       </pattern>
-      <message>Substitua por <match no='1' postag='V.+' postag_regexp='yes'>dificultar</match>.</message>
+      <message>Esta perífrase poderá ser simplificada.</message>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dificultar</match></suggestion>
       <example correction="dificultar">As regras vão <marker>tornar mais difícil</marker> o jogo.</example>
     </rule>
 
-    <rule id='TORNAR_MAIS_FACIL' name="Facilitar">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-24 (21-OCT-2020+)     -->
+
+    <rule id='TORNAR_MAIS_FACIL' name="Tornar mais fácil → Facilitar">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      As regras vão tornar mais fácil o jogo. → As regras vão facilitar o jogo.
+      -->
       <pattern>
         <marker>
           <token inflected='yes'>tornar</token>
           <token min="0" max="1">mais</token>
-          <token>fácil</token>
+          <token regexp='yes'>fácil|fáceis</token>
         </marker>
-        <token postag='DA.+|V.+|SPS.+' postag_regexp='yes'/>
+        <token><exception postag_regexp='no' postag='SPS00'/></token>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>facilitar</match></suggestion></message>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>facilitar</match></suggestion>
       <example correction="facilitar">As regras vão <marker>tornar mais fácil</marker> o jogo.</example>
     </rule>
-	
-    <rule id='TORNAR_MAIS_FORTE' name="Fortalecer">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-24 (21-OCT-2020+)     -->
+
+
+    <rule id='TORNAR_MAIS_FORTE' name="Tornar mais forte → Fortalecer">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      As regras vão tornar mais forte o acordo. → As regras vão fortalecer o acordo.
+      -->
       <pattern>
         <marker>
           <token inflected='yes'>tornar</token>
           <token min="0" max="1">mais</token>
-          <token>forte</token>
+          <token regexp='yes'>fortes?</token>
         </marker>
-        <token postag='DA.+|V.+|SPS.+' postag_regexp='yes'/>
+        <token><exception postag_regexp='no' postag='SPS00'/></token>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fortalecer</match></suggestion></message>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fortalecer</match></suggestion>
       <example correction="fortalecer">As regras vão <marker>tornar mais forte</marker> o acordo.</example>
     </rule>
 
-    <rule id='TORNAR_MAIS_FRACO' name="Enfraquecer">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-24 (21-OCT-2020+)     -->
+
+    <rule id='TORNAR_MAIS_FRACO' name="Tornar mais fraco → Enfraquecer">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      As regras vão tornar mais fraco o acordo. → As regras vão enfraquecer o acordo.
+      -->
       <pattern>
         <marker>
           <token inflected='yes'>tornar</token>
           <token min="0" max="1">mais</token>
-          <token regexp='yes'>fraca|fraco</token>
+          <token regexp='yes'>frac[ao]s?</token>
         </marker>
-        <token postag='DA.+|V.+|SPS.+' postag_regexp='yes'/>
+        <token><exception postag_regexp='no' postag='SPS00'/></token>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enfraquecer</match></suggestion></message>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enfraquecer</match></suggestion>
       <example correction="enfraquecer">As regras vão <marker>tornar mais fraco</marker> o acordo.</example>
     </rule>
-	
+
+
     <rule id='TRABALHO_PAGO' name="trabalho remunerado">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
