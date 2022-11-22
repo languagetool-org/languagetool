@@ -5981,20 +5981,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag=".*"/>
     </rule>
 
-    <rule id="GAR_KEIN_VERB" name="'gar' kein Verb">
-        <antipattern>
-            <token regexp="yes">bitte|ich</token>
-            <token>gar</token>
-        </antipattern>
-        <pattern>
-            <marker>
-                <token>gar</token>
-            </marker>
-            <token regexp="yes" case_sensitive="yes">nichts?|nix|kein[se]?</token>
-        </pattern>
-        <disambig action="remove" postag="VER.*"/>
-    </rule>
-
     <rule id="IGNORE_SPELLING_OF_NUMBER_PERIOD_LETTER" name="ignore '2.a'">
         <pattern>
             <token regexp="yes">\d+</token>
@@ -6484,6 +6470,66 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>dank</token>
         </pattern>
         <disambig action="remove" postag="VER:1.*"/>
+    </rule>
+
+    <rulegroup id="GAR_KEIN_VERB" name="'gar' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte|dann</token>
+            <token>gar</token>
+        </antipattern>
+        <antipattern>
+            <token>gar</token>
+            <token>ich</token>
+        </antipattern>
+        <antipattern>
+            <token postag="SENT_START" />
+            <token>gar</token>
+        </antipattern>
+        <antipattern>
+            <token postag="VER:IMP.*" postag_regexp="yes" />
+            <token regexp="yes">und|oder|&amp;|sowie|/</token>
+            <token>gar</token>
+        </antipattern>
+        <antipattern>
+            <token>ich</token>
+            <token postag="VER:1:SIN.*" postag_regexp="yes" />
+            <token regexp="yes">und|oder|&amp;|sowie|/|,</token>
+            <token>gar</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token>gar</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>gar</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">nichts?|nix|kein[se]?</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup>
+
+    <rule id="WIDER_KEIN_VERB" name="'wider' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte|dann</token>
+            <token>wider</token>
+        </antipattern>
+        <antipattern>
+            <token>wider</token>
+            <token>ich</token>
+        </antipattern>
+        <antipattern>
+            <token postag="SENT_START" />
+            <token>wider</token>
+        </antipattern>
+        <pattern>
+            <token>wider</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
     </rule>
 
     <rule id="SCHNELL_KEIN_VERB" name="'schnell' kein Verb">
