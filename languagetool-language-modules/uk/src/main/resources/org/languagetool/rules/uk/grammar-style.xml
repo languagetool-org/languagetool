@@ -2625,6 +2625,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="pidnimaty_pytannya" name="Піднімати і порушувати питання">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">підняти|підійняти|підіймати|підійма(ючи|вши)|піднімавши</token>
+            <token postag_regexp="yes" postag="(adj|numr):.:v_zna.*" min="0" max="2"/>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">питання</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>порушувати \2 \3</suggestion></message>
+        <suggestion>підносити \2 \3</suggestion>
+        <example correction="порушувати це питання|підносити це питання">він <marker>підняв це питання</marker> одразу.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">підняття|підіймання</token>
+            <token postag_regexp="yes" postag="(adj|numr):.:v_rod.*" min="0" max="2"/>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">питання</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>порушення \2 \3</suggestion></message>
+        <suggestion>піднесення \2 \3</suggestion>
+        <example correction="порушення цього питання|піднесення цього питання">і <marker>підняття цього питання</marker>...</example>
+      </rule>
+    </rulegroup>
+
     <rule id="v_svoiu_chergu" name="В свою чергу">
       <pattern>
         <token regexp="yes">[ву]</token>
