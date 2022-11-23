@@ -10769,6 +10769,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AUN" name="aún -> aun">
+            <antipattern>
+                <token regexp="yes">más|menos|mejor|peor|mayor|menor</token>
+                <token min="0" postag="A.*|V.P.*|N.*|RG" postag_regexp="yes"/>
+                <token>aún</token>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>aún</token>
+                </marker>
+                <token regexp="yes">más|menos|mejor|peor|mayor|menor</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token inflected="yes" regexp="yes">seguir|continuar</token>
@@ -10809,7 +10820,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">si|cuando</token>
                 </pattern>
-                <message>Solo se acentúa cuando equivale a 'todavía'.</message>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
                 <suggestion>aun</suggestion>
                 <example correction="Aun"><marker>Aún</marker> si estas no tienen efecto.</example>
                 <example>Mejor aún si es así.</example>
@@ -10823,9 +10834,201 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>aún</token>
                     </marker>
                 </pattern>
-                <message>Solo se acentúa cuando equivale a 'todavía'.</message>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
                 <suggestion>aun</suggestion>
                 <example correction="aun">ni <marker>aún</marker> la mitad</example>
+            </rule>
+            <!-- new subrules -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token>sin</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> sin saberlo, se fue.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token>a</token>
+                    <token regexp="yes">riesgo|costa</token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> a riesgo de perder, lo intentó.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token>al</token>
+                    <token>cabo</token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> al cabo de los años, no se había cansado.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token>antes</token>
+                    <token>de</token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> antes de saberlo, ya lo temía.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">y|ni|,</token>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token postag="D.*|PD0NS000|SP.*|LOC_PREP|N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="aun">Y <marker>aún</marker> la mitad</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|N.*|C.*|_PUNCT.*" postag_regexp="yes"><exception postag="V.[ISP].*|A.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token postag="D.*|PD0NS000|SP.*|LOC_PREP|N.*" postag_regexp="yes"><exception postag="V.[ISP].*|A.*" postag_regexp="yes"/><exception regexp="yes">en|por</exception></token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> la mitad</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>y</token>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token regexp="yes">solo|ahora</token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="aun">Y <marker>aún</marker> solo cuando le interesaba.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|C.*|_PUNCT.*|N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token regexp="yes">después|sin|entre|dentro|ante|entonces</token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="aun">Pero <marker>aún</marker> dentro de la ley.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{P}</token>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token regexp="yes">con|en</token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="aun">, <marker>aún</marker> con otros intereses</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT_CONT|C.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token regexp="yes">con|en</token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> con otros intereses.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token>lo</token>
+                    <token regexp="yes">más|menos</token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> lo más importante</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token>,</token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> cansado, lo intentó.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>¿</token>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun">¿<marker>Aún</marker> muerto sigues pendiente de la política partidista?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token regexp="yes">si|cuando</token>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> cuando lo desearas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aún<exception scope="previous" regexp="yes">más|menos</exception><exception scope="previous" postag_regexp="yes" postag="V.N.*"/></token>
+                    </marker>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> siendo cierto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token>aún<exception scope="previous" regexp="yes">más|menos</exception><exception scope="previous" postag_regexp="yes" postag="V.N.*"/></token>
+                    </marker>
+                    <token>no</token>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Se escribe sin tilde cuando significa 'hasta, incluo' o 'siquiera'. Solo lleva tilde cuando equivale a 'todavía'.</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> no siendo cierto.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUN2" name="aun -> aún">
