@@ -16168,17 +16168,25 @@ O namorado dela era um ladrão.
       <example correction="está bem na vida">O Rui <marker>está bom na vida</marker>.</example>
     </rule>
 
-    <rule id='DA_UM' name="Confusão: da um/dá um">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+
+    <rule id='DA_DAS_DÁ_DÁS' name="Confusão: da(s)/dá(s)">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-23 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Ana, da um beijo ao Rui. → Ana, dá um beijo ao Rui.
+      -->
       <pattern>
         <marker>
-          <token regexp='yes'>das?</token>
-          <token>um</token>
+          <token regexp='yes'>das?
+            <exception scope='previous' regexp='no'>apesar</exception>
+          </token>
         </marker>
+        <token regexp='yes'>algum|alguns|algumas?|muitos?|nada|nenhum|nenhuns|poucos?|um|uns|umas?|tod[ao]s?|tudo</token>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' regexp_match='a' regexp_replace='á'/> \2</suggestion>.</message>
-      <example correction="dá um">Ana, <marker>da um</marker> beijo ao Rui.</example>
+      <message>Possível confusão de termos.</message>
+      <suggestion><match no='1' regexp_match='a' regexp_replace='á'/></suggestion>
+      <example correction="dá">Ana, <marker>da</marker> um beijo ao Rui.</example>
     </rule>
+
 
     <rule id='DE_PRESSA' name="Confusão: de pressa/depressa">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
