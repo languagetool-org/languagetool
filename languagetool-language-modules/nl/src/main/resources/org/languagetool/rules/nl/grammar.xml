@@ -36240,19 +36240,6 @@ steenwijk;Steenwijk
                 <example correction="ovale">Het is een <marker>ovalen</marker> tafeltje.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DANKJE" name="dankje / dank je">
-            <rule>
-                <antipattern><token>dankje</token><token>wel</token></antipattern>
-                <antipattern><token regexp="yes" skip="1">een|het</token><token>dankje</token></antipattern>
-                <pattern>
-                    <marker>
-                        <token>dankje</token>
-                    </marker>
-                </pattern>
-                <message>Je bedoelt vast: <suggestion>dank je</suggestion>.</message>
-                <example correction="Dank je"><marker>Dankje</marker> voor de correctie.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="KAMT_MET" name="kamt met / kamt met">
             <rule>
                 <pattern>
@@ -44802,8 +44789,8 @@ steenwijk;Steenwijk
                 <example correction="herkend">De taal van deze tekst wordt niet <marker>herkent</marker>.</example>
             </rule>
         </rulegroup>
-
     </category>
+
     <category id="SLORDIG" name="Slordig, maar informeel geaccepteerd" type="style">
         <rulegroup id="IDD" name="idd/inderdaad" default="temp_off">
             <!-- R. Baars november 2022 -->
@@ -44813,7 +44800,7 @@ steenwijk;Steenwijk
                         <token>idd</token>
                     </marker>
                 </pattern>
-                <message>Netter is <suggestion>inderdaad</suggestion>. Idd is geen officiële afkorting, en hoort in officiële documenten niet thuis.</message>
+                <message>Netter is: <suggestion>inderdaad</suggestion>. Idd is geen officiële afkorting, en hoort in zakelijke documenten niet thuis.</message>
                 <example correction="inderdaad">Het is <marker>idd</marker> erg informeel.</example>
             </rule>
         </rulegroup>
@@ -44826,7 +44813,7 @@ steenwijk;Steenwijk
                         <token case_sensitive="yes">enzo</token>
                     </marker>
                 </pattern>
-                <message>U bedoelt vast <suggestion>en zo</suggestion>.</message>
+                <message>Correct is: <suggestion>en zo</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
                 <example correction="en zo">Ik haat fouten <marker>enzo</marker>.</example>
             </rule>
         </rulegroup>
@@ -44838,7 +44825,7 @@ steenwijk;Steenwijk
                         <token>ofzoiets</token>
                     </marker>
                 </pattern>
-                <message>Correct is <suggestion>of zoiets</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie..</message>
+                <message>Correct is: <suggestion>of zoiets</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
                 <example correction="of zoiets">Ik haat fouten <marker>ofzoiets</marker>.</example>
             </rule>
         </rulegroup>
@@ -44848,7 +44835,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>ofzo</token>
                 </pattern>
-                <message>Correct is <suggestion>of zo</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie..</message>
+                <message>Correct is: <suggestion>of zo</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
                 <example correction="of zo">Ik haat fouten <marker>ofzo</marker>.</example>
             </rule>
         </rulegroup>
@@ -44858,7 +44845,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>zogauw</token>
                 </pattern>
-                <message>Correct is <suggestion>zo gauw</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie..</message>
+                <message>Correct is: <suggestion>zo gauw</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
                 <example correction="zo gauw">Ik haat fouten <marker>zogauw</marker>.</example>
             </rule>
         </rulegroup>
@@ -44868,7 +44855,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>maarja</token>
                 </pattern>
-                <message>Correct is <suggestion>maar ja</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie..</message>
+                <message>Correct is: <suggestion>maar ja</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
                 <example correction="maar ja">Ik haat fouten, <marker>maarja</marker>.</example>
             </rule>
         </rulegroup>
@@ -44878,8 +44865,21 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>ff</token>
                 </pattern>
-                <message>Correct is <suggestion>even</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie..</message>
+                <message>Correct is: <suggestion>even</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
                 <example correction="even">Ik haat <marker>ff</marker> verder.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DANKJE" name="dankje / dank je">
+            <rule>
+                <antipattern><token>dankje</token><token>wel</token></antipattern>
+                <antipattern><token regexp="yes" skip="1">een|het</token><token>dankje</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token>dankje</token>
+                    </marker>
+                </pattern>
+                <message>Correct is: <suggestion>dank je</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
+                <example correction="Dank je"><marker>Dankje</marker> voor de correctie.</example>
             </rule>
         </rulegroup>
     </category>
