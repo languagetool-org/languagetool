@@ -44411,6 +44411,19 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
+        <rulegroup id="COPY" name="copy/kopie of kopij" default="temp_off">
+            <!-- R. Baars november 2022 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>copy</token>
+                    </marker>
+                </pattern>
+                <message>In het Nederlands is dit een <suggestion>kopie</suggestion> (duplicaat) of <suggestion>kopij</suggestion> (aangeleverde tekst).</message>
+                <example correction="kopie|kopij">Het is een slechte <marker>copy</marker>.</example>
+            </rule>
+        </rulegroup>
+
 		<rulegroup id="TOD" name="tod/tot" >
             <!-- R. Baars 27-10-2022 -->
 	        <antipattern>
@@ -44438,6 +44451,32 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Dit is natuurlijk lekker kort. Mooier is: <suggestion>\1 of \3</suggestion>.</message>
                 <example correction="hij of zij">Dan doet <marker>hij/zij</marker> het.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="ZIJN_HAAR" name="zijn/haar" tags="picky" default="temp_off">
+            <!-- R. Baars november 2022 -->
+            <rule>
+                <pattern>
+                    <token>zijn</token>
+                    <token>/</token>
+                    <token>haar</token>
+                </pattern>
+                <message>Dit is natuurlijk lekker kort. Mooier is: <suggestion>\1 of \3</suggestion>.</message>
+                <example correction="zijn of haar">Het is <marker>zijn/haar</marker> fout.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="IDD" name="idd/inderdaad" default="temp_off">
+            <!-- R. Baars november 2022 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>idd</token>
+                    </marker>
+                </pattern>
+                <message>Netter is <suggestion>inderdaad</suggestion>. Idd is geen officiële afkorting, en hoort in officiële documenten niet thuis.</message>
+                <example correction="inderdaad">Het is <marker>idd</marker> erg informeel.</example>
             </rule>
         </rulegroup>
 
