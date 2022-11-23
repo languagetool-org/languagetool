@@ -23,7 +23,10 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -33,7 +36,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -59,7 +61,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
@@ -96,7 +97,6 @@ import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XMarkingAccess;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XTextCursor;
-import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -344,7 +344,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
         actualizeNonWriterDocumentCache(currentDocument);
       } else if (docCache.size() == 0) {
         XComponent xComponent = currentDocument.getXComponent();
-        DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
         docCache.refresh(currentDocument, LinguisticServices.getLocale(documents.getConfiguration().getDefaultLanguage()), locale, xComponent, 8);
       } else if (actualize) {
         actualizeWriterDocumentCache(currentDocument);
@@ -860,16 +859,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final static int maxUndos = 20;
     private final static int toolTipWidth = 300;
     
-    private final static int begFirstCol = 10;
-    private final static int widFirstCol = 440;
-    private final static int disFirstCol = 10;
-    private final static int buttonHigh = 30;
-    private final static int begSecondCol = 460;
-    private final static int buttonWidthCol = 160;
-    private final static int buttonDistCol = 10;
-    private final static int buttonWidthRow = 120;
-    private final static int buttonDistRow = (begSecondCol + buttonWidthCol - begFirstCol - 4 * buttonWidthRow) / 3;
-    private final static int progressBarDist = 65;
     private final static int dialogWidth = 640;
     private final static int dialogHeight = 525;
 
@@ -923,15 +912,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private boolean isSpellError = false;
     private boolean focusLost = false;
     private boolean atWork = false;
-//    private boolean loopRuns = false;
-//    private CheckError checkError = null;
 
     private String wrongWord;
     private Locale locale;
-//    private ProgressWindow progressWindow;
-
-//    private Object checkWakeup = new Object();
-
     /**
      * the constructor of the class creates all elements of the dialog
      */
@@ -949,8 +932,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       dialog.setName(dialogName);
       dialog.setTitle(dialogName + " (LanguageTool " + OfficeTools.getLtInformation() + ")");
-      dialog.setLayout(null);
-      dialog.setSize(dialogWidth, dialogHeight);
       dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       ((Frame) dialog.getOwner()).setIconImage(ltImage);
       defaultForeground = dialog.getForeground() == null ? Color.BLACK : dialog.getForeground();
@@ -958,15 +939,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
 
       languageLabel = new JLabel(labelLanguage);
       Font dialogFont = languageLabel.getFont();
-      languageLabel.setBounds(begFirstCol, disFirstCol, 180, 30);
       languageLabel.setFont(dialogFont);
-      contentPane.add(languageLabel);
 
       changeLanguage = new JComboBox<String> (changeLanguageList);
 
       language = new JComboBox<String>(getPossibleLanguages());
       language.setFont(dialogFont);
-      language.setBounds(190, disFirstCol, widFirstCol + begFirstCol - 190, 30);
       language.setToolTipText(formatToolTipText(languageHelp));
       language.addItemListener(e -> {
         if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -976,10 +954,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
         }
       });
-      contentPane.add(language);
 
       changeLanguage.setFont(dialogFont);
-      changeLanguage.setBounds(begSecondCol, disFirstCol, buttonWidthCol, buttonHigh);
       changeLanguage.setToolTipText(formatToolTipText(changeLanguageHelp));
       changeLanguage.addItemListener(e -> {
         if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -1030,9 +1006,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       });
       changeLanguage.setSelectedIndex(0);
       changeLanguage.setEnabled(false);
-      contentPane.add(changeLanguage);
       
-      int yFirstCol = 2 * disFirstCol + 30;
       errorDescription = new JTextArea();
       errorDescription.setEditable(false);
       errorDescription.setLineWrap(true);
@@ -1044,10 +1018,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       errorDescription.setFont(descriptionFont);
       errorDescription.setToolTipText(formatToolTipText(matchDescriptionHelp));
       JScrollPane descriptionPane = new JScrollPane(errorDescription);
-      descriptionPane.setBounds(begFirstCol, yFirstCol, widFirstCol, 40);
-      contentPane.add(descriptionPane);
+      descriptionPane.setMinimumSize(new Dimension(0, 20));
 
-      yFirstCol += disFirstCol + 40;
       sentenceIncludeError = new JTextPane();
       sentenceIncludeError.setFont(dialogFont);
       sentenceIncludeError.setToolTipText(formatToolTipText(matchParagraphHelp));
@@ -1074,37 +1046,26 @@ public class SpellAndGrammarCheckDialog extends Thread {
         }
       });
       JScrollPane sentencePane = new JScrollPane(sentenceIncludeError);
-      sentencePane.setBounds(begFirstCol, yFirstCol, widFirstCol, 110);
-      contentPane.add(sentencePane);
+      sentencePane.setMinimumSize(new Dimension(0, 30));
       
-      yFirstCol += disFirstCol + 110;
       suggestionsLabel = new JLabel(labelSuggestions);
       suggestionsLabel.setFont(dialogFont);
-      suggestionsLabel.setBounds(begFirstCol, yFirstCol, widFirstCol, 15);
-      contentPane.add(suggestionsLabel);
 
-      yFirstCol += disFirstCol + 10;
-      int suggestionsY = yFirstCol;
       suggestions = new JList<String>();
       suggestions.setFont(dialogFont);
       suggestions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       suggestions.setFixedCellHeight((int)(suggestions.getFont().getSize() * 1.2 + 0.5));
       suggestions.setToolTipText(formatToolTipText(suggestionsHelp));
       JScrollPane suggestionsPane = new JScrollPane(suggestions);
-      suggestionsPane.setBounds(begFirstCol, yFirstCol, widFirstCol, 110);
-      contentPane.add(suggestionsPane);
-      
-      yFirstCol += disFirstCol + 105;
+      suggestionsPane.setMinimumSize(new Dimension(0, 30));
+
       checkTypeLabel = new JLabel(Tools.getLabel(messages.getString("guiOOoCheckTypeLabel")));
       checkTypeLabel.setFont(dialogFont);
-      checkTypeLabel.setBounds(begFirstCol, yFirstCol, 3*widFirstCol/16 - 1, 30);
       checkTypeLabel.setToolTipText(formatToolTipText(checkTypeHelp));
-      contentPane.add(checkTypeLabel);
 
       checkTypeButtons = new JRadioButton[3];
       checkTypeGroup = new ButtonGroup();
       checkTypeButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckAllButton")));
-      checkTypeButtons[0].setBounds(begFirstCol + 3*widFirstCol/16, yFirstCol, 3*widFirstCol/16 - 1, 30);
       checkTypeButtons[0].setSelected(true);
       checkTypeButtons[0].addActionListener(e -> {
         setAtWorkButtonState();
@@ -1118,7 +1079,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
         t.start();
       });
       checkTypeButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckSpellingButton")));
-      checkTypeButtons[1].setBounds(begFirstCol + 6*widFirstCol/16, yFirstCol, 5*widFirstCol/16 - 1, 30);
       checkTypeButtons[1].addActionListener(e -> {
         setAtWorkButtonState();
         checkType = 1;
@@ -1131,7 +1091,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
         t.start();
       });
       checkTypeButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckGrammarButton")));
-      checkTypeButtons[2].setBounds(begFirstCol + 11*widFirstCol/16, yFirstCol, 5*widFirstCol/16 - 1, 30);
       checkTypeButtons[2].addActionListener(e -> {
         setAtWorkButtonState();
         checkType = 2;
@@ -1147,85 +1106,59 @@ public class SpellAndGrammarCheckDialog extends Thread {
         checkTypeGroup.add(checkTypeButtons[i]);
         checkTypeButtons[i].setFont(dialogFont);
         checkTypeButtons[i].setToolTipText(formatToolTipText(checkTypeHelp));
-        contentPane.add(checkTypeButtons[i]);
       }
 
-      yFirstCol += 2 * disFirstCol + 30;
       help = new JButton (helpButtonName);
       help.setFont(dialogFont);
-      help.setBounds(begFirstCol, yFirstCol, buttonWidthRow, buttonHigh);
       help.addActionListener(this);
       help.setActionCommand("help");
       help.setToolTipText(formatToolTipText(helpButtonHelp));
-      contentPane.add(help);
       
-      int xButtonRow = begFirstCol + buttonWidthRow + buttonDistRow;
       options = new JButton (optionsButtonName);
       options.setFont(dialogFont);
-      options.setBounds(xButtonRow, yFirstCol, buttonWidthRow, buttonHigh);
       options.addActionListener(this);
       options.setActionCommand("options");
       options.setToolTipText(formatToolTipText(optionsButtonHelp));
-      contentPane.add(options);
       
-      xButtonRow += buttonWidthRow + buttonDistRow;
       undo = new JButton (undoButtonName);
       undo.setFont(dialogFont);
-      undo.setBounds(xButtonRow, yFirstCol, buttonWidthRow, buttonHigh);
       undo.addActionListener(this);
       undo.setActionCommand("undo");
       undo.setToolTipText(formatToolTipText(undoButtonHelp));
-      contentPane.add(undo);
       
-      xButtonRow += buttonWidthRow + buttonDistRow;
       close = new JButton (closeButtonName);
       close.setFont(dialogFont);
-      close.setBounds(xButtonRow, yFirstCol, buttonWidthRow, buttonHigh);
       close.addActionListener(this);
       close.setActionCommand("close");
       close.setToolTipText(formatToolTipText(closeButtonHelp));
-      contentPane.add(close);
       
-      int ySecondCol = 2 * disFirstCol + 30;
       more = new JButton (moreButtonName);
-      more.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       more.setFont(dialogFont);
       more.addActionListener(this);
       more.setActionCommand("more");
       more.setToolTipText(formatToolTipText(moreButtonHelp));
-      contentPane.add(more);
       
-      ySecondCol += disFirstCol + 40;
       ignoreOnce = new JButton (ignoreButtonName);
       ignoreOnce.setFont(dialogFont);
-      ignoreOnce.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       ignoreOnce.addActionListener(this);
       ignoreOnce.setActionCommand("ignoreOnce");
       ignoreOnce.setToolTipText(formatToolTipText(ignoreButtonHelp));
-      contentPane.add(ignoreOnce);
       
-      ySecondCol += buttonDistCol + buttonHigh;
       ignoreAll = new JButton (ignoreAllButtonName);
       ignoreAll.setFont(dialogFont);
-      ignoreAll.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       ignoreAll.addActionListener(this);
       ignoreAll.setActionCommand("ignoreAll");
       ignoreAll.setToolTipText(formatToolTipText(ignoreAllButtonHelp));
-      contentPane.add(ignoreAll);
       
-      ySecondCol += buttonDistCol + buttonHigh;
       deactivateRule = new JButton (deactivateRuleButtonName);
       deactivateRule.setFont(dialogFont);
-      deactivateRule.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       deactivateRule.setVisible(false);
       deactivateRule.addActionListener(this);
       deactivateRule.setActionCommand("deactivateRule");
       deactivateRule.setToolTipText(formatToolTipText(deactivateRuleButtonHelp));
-      contentPane.add(deactivateRule);
       
       addToDictionary = new JComboBox<String> ();
       addToDictionary.setFont(dialogFont);
-      addToDictionary.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       addToDictionary.setToolTipText(formatToolTipText(addToDictionaryHelp));
       addToDictionary.addItemListener(e -> {
         if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -1249,43 +1182,31 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
         }
       });
-      contentPane.add(addToDictionary);
       
-      ySecondCol = suggestionsY;
       change = new JButton (changeButtonName);
       change.setFont(dialogFont);
-      change.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       change.addActionListener(this);
       change.setActionCommand("change");
       change.setToolTipText(formatToolTipText(changeButtonHelp));
-      contentPane.add(change);
       
-      ySecondCol += buttonDistCol + buttonHigh;
       changeAll = new JButton (changeAllButtonName);
       changeAll.setFont(dialogFont);
-      changeAll.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       changeAll.addActionListener(this);
       changeAll.setActionCommand("changeAll");
       changeAll.setEnabled(false);
       changeAll.setToolTipText(formatToolTipText(changeAllButtonHelp));
-      contentPane.add(changeAll);
 
-      ySecondCol += buttonDistCol + buttonHigh;
       autoCorrect = new JButton (autoCorrectButtonName);
       autoCorrect.setFont(dialogFont);
-      autoCorrect.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       autoCorrect.addActionListener(this);
       autoCorrect.setActionCommand("autoCorrect");
       autoCorrect.setEnabled(false);
       autoCorrect.setToolTipText(formatToolTipText(autoCorrectButtonHelp));
-      autoCorrect.setVisible(false);
-      contentPane.add(autoCorrect);
 
-//      ySecondCol += buttonDistCol + buttonHigh;
       activateRule = new JComboBox<String> ();
       activateRule.setFont(dialogFont);
-      activateRule.setBounds(begSecondCol, ySecondCol, buttonWidthCol, buttonHigh);
       activateRule.setToolTipText(formatToolTipText(activateRuleButtonHelp));
+      activateRule.setVisible(false);
       activateRule.addItemListener(e -> {
         if (e.getStateChange() == ItemEvent.SELECTED) {
           Thread t = new Thread(new Runnable() {
@@ -1315,7 +1236,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
           t.start();
         }
       });
-      contentPane.add(activateRule);
       
       dialog.addWindowFocusListener(new WindowFocusListener() {
         @Override
@@ -1352,7 +1272,6 @@ public class SpellAndGrammarCheckDialog extends Thread {
                     MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: cache refreshed - size: " + docCache.size());
                   }
                   gotoNextError();
-    //              dialog.setEnabled(true);
                   focusLost = false;
                 } catch (Throwable t) {
                   MessageHandler.showError(t);
@@ -1378,17 +1297,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
           t.start();
         }
       });
-      
+
       checkProgressLabel = new JLabel(labelCheckProgress);
 
-      checkProgressLabel.setBounds(begFirstCol, dialogHeight - progressBarDist, 100, 20);
-//      checkProgressLabel.setFont(checkProgressLabel.getFont().deriveFont(Font.BOLD));
-      contentPane.add(checkProgressLabel);
-      
       checkProgress = new JProgressBar(0, 100);
       checkProgress.setStringPainted(true);
       checkProgress.setIndeterminate(true);
-      checkProgress.setBounds(begFirstCol + 120, dialogHeight - progressBarDist, dialogWidth - begFirstCol - 140, 20);
 
       //  set selection background color to get compatible layout to LO
       Color selectionColor = UIManager.getLookAndFeelDefaults().getColor("ProgressBar.selectionBackground");
@@ -1398,7 +1312,190 @@ public class SpellAndGrammarCheckDialog extends Thread {
       setJComboSelectionBackground(addToDictionary, selectionColor);
       setJComboSelectionBackground(activateRule, selectionColor);
 
-      contentPane.add(checkProgress);
+      //  Define panels
+
+      //  Define language panel
+      JPanel languagePanel = new JPanel();
+      languagePanel.setLayout(new GridBagLayout());
+      GridBagConstraints cons11 = new GridBagConstraints();
+      cons11.insets = new Insets(2, 2, 2, 2);
+      cons11.gridx = 0;
+      cons11.gridy = 0;
+      cons11.anchor = GridBagConstraints.NORTHWEST;
+      cons11.fill = GridBagConstraints.HORIZONTAL;
+      cons11.weightx = 0.0f;
+      cons11.weighty = 0.0f;
+      languagePanel.add(languageLabel, cons11);
+      cons11.gridx++;
+      cons11.weightx = 1.0f;
+      languagePanel.add(language, cons11);
+
+      //  Define 1. right panel
+      JPanel rightPanel1 = new JPanel();
+      rightPanel1.setLayout(new GridBagLayout());
+      GridBagConstraints cons21 = new GridBagConstraints();
+      cons21.insets = new Insets(2, 0, 2, 0);
+      cons21.gridx = 0;
+      cons21.gridy = 0;
+      cons21.anchor = GridBagConstraints.NORTHWEST;
+      cons21.fill = GridBagConstraints.BOTH;
+      cons21.weightx = 1.0f;
+      cons21.weighty = 0.0f;
+      cons21.gridy++;
+      rightPanel1.add(ignoreOnce, cons21);
+      cons21.gridy++;
+      rightPanel1.add(ignoreAll, cons21);
+      cons21.gridy++;
+      rightPanel1.add(deactivateRule, cons21);
+      rightPanel1.add(addToDictionary, cons21);
+
+      //  Define 2. right panel
+      JPanel rightPanel2 = new JPanel();
+      rightPanel2.setLayout(new GridBagLayout());
+      GridBagConstraints cons22 = new GridBagConstraints();
+      cons22.insets = new Insets(2, 0, 2, 0);
+      cons22.gridx = 0;
+      cons22.gridy = 0;
+      cons22.anchor = GridBagConstraints.NORTHWEST;
+      cons22.fill = GridBagConstraints.BOTH;
+      cons22.weightx = 1.0f;
+      cons22.weighty = 0.0f;
+      cons22.gridy++;
+      cons22.gridy++;
+      rightPanel2.add(change, cons22);
+      cons22.gridy++;
+      rightPanel2.add(changeAll, cons22);
+      cons22.gridy++;
+      rightPanel2.add(autoCorrect, cons22);
+      rightPanel2.add(activateRule, cons22);
+      
+      //  Define language panel
+      JPanel checkTypePanel = new JPanel();
+      checkTypePanel.setLayout(new GridBagLayout());
+      GridBagConstraints cons12 = new GridBagConstraints();
+      cons12.insets = new Insets(2, 2, 2, 2);
+      cons12.gridx = 0;
+      cons12.gridy = 0;
+      cons12.anchor = GridBagConstraints.NORTHWEST;
+      cons12.fill = GridBagConstraints.HORIZONTAL;
+      cons12.weightx = 1.0f;
+      cons12.weighty = 0.0f;
+      checkTypePanel.add(checkTypeLabel, cons12);
+      for (int i = 0; i < 3; i++) {
+        cons12.gridx++;
+        checkTypePanel.add(checkTypeButtons[i], cons12);
+      }
+      
+      //  Define main panel
+      JPanel mainPanel = new JPanel();
+      mainPanel.setLayout(new GridBagLayout());
+      GridBagConstraints cons1 = new GridBagConstraints();
+      cons1.insets = new Insets(4, 4, 4, 4);
+      cons1.gridx = 0;
+      cons1.gridy = 0;
+      cons1.anchor = GridBagConstraints.NORTHWEST;
+      cons1.fill = GridBagConstraints.BOTH;
+      cons1.weightx = 1.0f;
+      cons1.weighty = 0.0f;
+      mainPanel.add(languagePanel, cons1);
+      cons1.weightx = 0.0f;
+      cons1.gridx++;
+      mainPanel.add(changeLanguage, cons1);
+      cons1.gridx = 0;
+      cons1.gridy++;
+      cons1.weightx = 1.0f;
+      cons1.weighty = 1.0f;
+      mainPanel.add(descriptionPane, cons1);
+      cons1.gridx++;
+      cons1.weightx = 0.0f;
+      cons1.weighty = 0.0f;
+      mainPanel.add(more, cons1);
+      cons1.gridx = 0;
+      cons1.gridy++;
+      cons1.weightx = 1.0f;
+      cons1.weighty = 2.0f;
+      mainPanel.add(sentencePane, cons1);
+      cons1.gridx++;
+      cons1.weightx = 0.0f;
+      cons1.weighty = 0.0f;
+      mainPanel.add(rightPanel1, cons1);
+      cons1.gridx = 0;
+      cons1.gridy++;
+      cons1.weightx = 1.0f;
+      mainPanel.add(suggestionsLabel, cons1);
+      cons1.gridy++;
+      cons1.weighty = 2.0f;
+      mainPanel.add(suggestionsPane, cons1);
+      cons1.gridx++;
+      cons1.weightx = 0.0f;
+      cons1.weighty = 0.0f;
+      mainPanel.add(rightPanel2, cons1);
+      cons1.gridx = 0;
+      cons1.gridy++;
+      cons1.weightx = 1.0f;
+      cons1.weighty = 0.0f;
+      mainPanel.add(checkTypePanel, cons1);
+
+      //  Define general button panel
+      JPanel generalButtonPanel = new JPanel();
+      generalButtonPanel.setLayout(new GridBagLayout());
+      GridBagConstraints cons3 = new GridBagConstraints();
+      cons3.insets = new Insets(4, 4, 4, 4);
+      cons3.gridx = 0;
+      cons3.gridy = 0;
+      cons3.anchor = GridBagConstraints.NORTHWEST;
+      cons3.fill = GridBagConstraints.HORIZONTAL;
+      cons3.weightx = 1.0f;
+      cons3.weighty = 0.0f;
+      generalButtonPanel.add(help, cons3);
+      cons3.gridx++;
+      generalButtonPanel.add(options, cons3);
+      cons3.gridx++;
+      generalButtonPanel.add(undo, cons3);
+      cons3.gridx++;
+      generalButtonPanel.add(close, cons3);
+      
+      //  Define check progress panel
+      JPanel checkProgressPanel = new JPanel();
+      checkProgressPanel.setLayout(new GridBagLayout());
+      GridBagConstraints cons4 = new GridBagConstraints();
+      cons4.insets = new Insets(4, 4, 4, 4);
+      cons4.gridx = 0;
+      cons4.gridy = 0;
+      cons4.anchor = GridBagConstraints.NORTHWEST;
+      cons4.fill = GridBagConstraints.HORIZONTAL;
+      cons4.weightx = 0.0f;
+      cons4.weighty = 0.0f;
+      checkProgressPanel.add(checkProgressLabel, cons4);
+      cons4.gridx++;
+      cons4.weightx = 4.0f;
+      checkProgressPanel.add(checkProgress, cons4);
+
+      contentPane.setLayout(new GridBagLayout());
+      GridBagConstraints cons = new GridBagConstraints();
+      cons.insets = new Insets(8, 8, 8, 8);
+      cons.gridx = 0;
+      cons.gridy = 0;
+      cons.anchor = GridBagConstraints.NORTHWEST;
+      cons.fill = GridBagConstraints.BOTH;
+      cons.weightx = 1.0f;
+      cons.weighty = 1.0f;
+      contentPane.add(mainPanel, cons);
+      cons.gridy++;
+      cons.weighty = 0.0f;
+      contentPane.add(generalButtonPanel, cons);
+      cons.gridy++;
+      contentPane.add(checkProgressPanel, cons);
+
+      dialog.pack();
+      // center on screen:
+      Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//    Dimension frameSize = dialog.getSize();
+      Dimension frameSize = new Dimension(dialogWidth, dialogHeight);
+      dialog.setSize(frameSize);
+      dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
+          screenSize.height / 2 - frameSize.height / 2);
+      dialog.setLocationByPlatform(true);
       
       ToolTipManager.sharedInstance().setDismissDelay(30000);
     }
@@ -1597,8 +1694,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       ignoreAll.setEnabled(false);
       deactivateRule.setEnabled(false);
       change.setEnabled(false);
-      changeAll.setVisible(false);
-      autoCorrect.setVisible(false);
+      changeAll.setEnabled(false);
+      autoCorrect.setEnabled(false);
       addToDictionary.setEnabled(false);
       more.setEnabled(false);
       help.setEnabled(false);
@@ -1630,20 +1727,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private void gotoNextError() {
       gotoNextError(true);
     }
-/*    
-    private void gotoNextError(boolean startAtBegin) {
-      Thread t = new Thread(new Runnable() {
-        public void run() {
-//          SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-              findNextError(startAtBegin);
-//            }
-//         });
-        }
-      });
-      t.start();
-    }
-*/    
+
     private void gotoNextError(boolean startAtBegin) {
       try {
         if (!documents.isEnoughHeapSpace()) {
@@ -1653,24 +1737,18 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: start getNextError");
         }
-//        loopRuns = true;
         CheckError checkError = getNextError(startAtBegin);
-//        while (loopRuns) {
-//          Thread.sleep(50);
-//        }
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: Error is " + (checkError == null ? "Null" : "NOT Null"));
         }
         error = checkError == null ? null : checkError.error;
         locale = checkError == null ? null : checkError.locale;
-//        MessageHandler.printToLogFile("CheckDialog: findNextError: locale: " + (locale == null ? "null" : OfficeTools.localeToString(locale)));
         
         dialog.setEnabled(true);
         checkProgress.setIndeterminate(false);
         help.setEnabled(true);
         options.setEnabled(true);
         close.setEnabled(true);
-//        activateRule.setEnabled(true);
         if (sentenceIncludeError == null || errorDescription == null || suggestions == null) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: SentenceIncludeError == null || errorDescription == null || suggestions == null");
           error = null;
@@ -1728,8 +1806,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
             activateRule.setVisible(true);
             activateRule.setEnabled(true);
+            autoCorrect.setVisible(false);
           } else {
             activateRule.setVisible(false);
+            autoCorrect.setVisible(true);
+            autoCorrect.setEnabled(false);
           }
           
           if (isSpellError) {
@@ -1737,20 +1818,17 @@ public class SpellAndGrammarCheckDialog extends Thread {
             addToDictionary.setVisible(true);
             deactivateRule.setVisible(false);
             addToDictionary.setEnabled(true);
-            changeAll.setVisible(true);
             changeAll.setEnabled(true);
-            autoCorrect.setVisible(true);
             autoCorrect.setEnabled(true);
           } else {
             ignoreAll.setText(ignoreRuleButtonName);
             addToDictionary.setVisible(false);
-            changeAll.setVisible(false);
-            autoCorrect.setVisible(false);
+            changeAll.setEnabled(false);
             deactivateRule.setVisible(true);
             deactivateRule.setEnabled(true);
+            autoCorrect.setEnabled(false);
           }
           informationUrl = getUrl(error);
-          more.setVisible(informationUrl != null);
           more.setEnabled(informationUrl != null);
           undo.setEnabled(undoList != null && !undoList.isEmpty());
           if (debugMode) {
@@ -1759,15 +1837,17 @@ public class SpellAndGrammarCheckDialog extends Thread {
         } else {
           Language lang = locale == null || !documents.hasLocale(locale)? lt.getLanguage() : documents.getLanguage(locale);
           language.setSelectedItem(lang.getTranslatedName(messages));
+          language.setEnabled(false);
+          more.setEnabled(false);
           ignoreOnce.setEnabled(false);
           ignoreAll.setEnabled(false);
-          deactivateRule.setEnabled(false);
-          change.setEnabled(false);
-          changeAll.setVisible(false);
-          autoCorrect.setVisible(false);
-          addToDictionary.setVisible(false);
+          addToDictionary.setVisible(true);
+          addToDictionary.setEnabled(false);
           deactivateRule.setVisible(false);
-          more.setVisible(false);
+          changeAll.setEnabled(false);
+          activateRule.setVisible(false);
+          autoCorrect.setVisible(true);
+          autoCorrect.setEnabled(false);
           focusLost = false;
           suggestions.setListData(new String[0]);
           undo.setEnabled(undoList != null && !undoList.isEmpty());
@@ -1776,19 +1856,16 @@ public class SpellAndGrammarCheckDialog extends Thread {
           errorDescription.setBackground(Color.white);
           sentenceIncludeError.setText("");
           errorDescription.setEnabled(true);
+          change.setEnabled(false);
           if (docCache.size() > 0) {
             locale = docCache.getFlatParagraphLocale(docCache.size() - 1);
           }
-//          checkProgress.setValue(docCache != null && docCache.size() > 0 ? docCache.size() : 100);
-        //  Note: a delay interval is needed to update the dialog before ending the Thread
-//        Thread.sleep(500);
         }
       } catch (Throwable e) {
         MessageHandler.showError(e);
         closeDialog();
       }
       atWork = false;
-//      progressWindow.close();
     }
 
     /**
