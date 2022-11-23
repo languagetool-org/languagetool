@@ -508,7 +508,8 @@ public class ArtificialErrorEval {
       //float expectedSuggestionPercentage = (float) results[i][classifyTypes.indexOf("TPs")]
       //    / results[i][classifyTypes.indexOf("TP")];
       int errorsTotal = results[i][classifyTypes.indexOf("TP")] + results[i][classifyTypes.indexOf("FP")]
-          + results[i][classifyTypes.indexOf("TN")] + results[i][classifyTypes.indexOf("FN")] + results[i][classifyTypes.indexOf("TPns")];
+          + results[i][classifyTypes.indexOf("TN")] + results[i][classifyTypes.indexOf("FN")] + results[i][classifyTypes.indexOf("TPns")]
+          + results[i][classifyTypes.indexOf("TPws")];
       StringWriter resultsString = new StringWriter();
 
       resultsString.append("-------------------------------------\n");
