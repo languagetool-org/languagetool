@@ -48,7 +48,8 @@ public class SimpleReplaceRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("De Kudde eigenschappen")).length);  // no match b/c case-sensitivity
     // edit by R. Baars 19-11-2022 to make routine case sensitive
     // incorrect sentences:
-    checkSimpleReplaceRule("ofzo", "of zo");
+    checkSimpleReplaceRule("klaa", "klaar");
+
     //checkSimpleReplaceRule("Kudde eigenschappen.", "Kudde-eigenschappen");
     checkSimpleReplaceRule("een BTW nummer", "btw-nummer");
     checkSimpleReplaceRule("kudde eigenschappen.", "kudde-eigenschappen");
