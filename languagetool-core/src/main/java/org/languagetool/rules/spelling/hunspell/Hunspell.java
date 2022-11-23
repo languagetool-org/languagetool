@@ -1,16 +1,12 @@
 package org.languagetool.rules.spelling.hunspell;
 
-import dumonts.hunspell.bindings.HunspellLibrary;
-import org.bridj.Pointer;
 import org.languagetool.JLanguageTool;
 import org.languagetool.broker.ResourceDataBroker;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.util.*;
 import java.util.function.BiFunction;
-import java.util.stream.Collectors;
 
 public final class Hunspell {
   static class LanguageAndPath {
