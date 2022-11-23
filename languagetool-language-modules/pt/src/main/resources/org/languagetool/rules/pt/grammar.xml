@@ -31838,6 +31838,34 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- MAIS mas -->
+    <rule id='CONFUSÃO_MAIS_MAS' name="Confusão: mais/mas">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-23 (25-JUL-2022+) -->
+      <!--
+      (…) anteriores, mais apenas um disparo destes corresponde a 25% (…) → (…) anteriores, mas apenas um disparo destes corresponde a 25% (…)
+      -->
+      <pattern>
+        <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT'/>
+        <marker>
+          <token>mais</token>
+        </marker>
+        <token regexp='yes'>apenas|não|só|somente|também</token>
+
+<!--
+        <token postag='RG' postag_regexp='no'>
+          <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </token>
+-->
+
+        <token postag='DA.+|DI.+|V.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>mas</suggestion>
+      <example correction="mas">(…) anteriores, <marker>mais</marker> apenas um disparo destes corresponde a 25% (…)</example>
+    </rule>
+
+
     <!-- MEIA CHEIA meio cheio -->
     <rule id='CONFUSÃO_MEIA_MEIO_ADJETIVO' name="Confusão: meia/meio">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-10 (25-JUL-2022+) -->
