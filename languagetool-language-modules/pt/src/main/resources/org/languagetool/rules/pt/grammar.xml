@@ -31372,6 +31372,26 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- MA na -->
+    <rule id='CONFUSÃO_MA_NA' name="Confusão: ma/na">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-24 (25-JUL-2022+) -->
+      <!--
+      Isto é encontrado na topologia, ma geometria, e noutras. → Isto é encontrado na topologia, na geometria, e noutras.
+      -->
+      <pattern>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT'/>
+        <marker>
+          <token>ma</token>
+        </marker>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>na</suggestion>
+      <example correction="na">Isto é encontrado na topologia, <marker>ma</marker> geometria, e noutras.</example>
+    </rule>
+
+
     <!-- DÊS desde -->
     <rulegroup id='CONFUSÃO_DÊS_DESDE' name="Confusão: dês/desde">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-03 (1-JAN-2022+)      -->
