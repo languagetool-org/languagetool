@@ -44398,9 +44398,35 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
+        <rulegroup id="COPY_PASTE" name="copy/paste => copy-paste" default="temp_off">
+            <!-- R. Baars november 2022 -->
+            <rule>
+                <pattern>
+                    <token>copy</token>
+                    <token>/</token>
+                    <token>paste</token>
+                </pattern>
+                <message>Bij gelijkwaardige begrippen hoort een koppelteken.</message> <suggestion>copy-paste</suggestion>
+                <example correction="copy-paste">Het is typisch <marker>copy/paste</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="COPY" name="copy/kopie of kopij" default="temp_off">
             <!-- R. Baars november 2022 -->
             <rule>
+                <antipattern>
+                    <token>copy</token>
+                    <token postag="UNKNOWN"><exception regexp="yes">[.?!]</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>copy</token>
+                    <token>trading</token>
+                </antipattern>
+                <antipattern>
+                    <token>copy</token>
+                    <token>/</token>
+                    <token>paste</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>copy</token>
@@ -44792,7 +44818,7 @@ steenwijk;Steenwijk
     </category>
 
     <category id="SLORDIG" name="Slordig, maar informeel geaccepteerd" type="style">
-        <rulegroup id="IDD" name="idd/inderdaad" default="temp_off">
+        <rulegroup id="IDD" name="idd/inderdaad" >
             <!-- R. Baars november 2022 -->
             <rule>
                 <pattern>
@@ -44817,7 +44843,7 @@ steenwijk;Steenwijk
                 <example correction="en zo">Ik haat fouten <marker>enzo</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="OFZOIETS" name="Ofzoiets/of zoiets" default="temp_off">
+        <rulegroup id="OFZOIETS" name="Ofzoiets/of zoiets" >
             <!-- R. Baars november 2022 -->
             <rule>
                 <pattern>
@@ -44829,7 +44855,7 @@ steenwijk;Steenwijk
                 <example correction="of zoiets">Ik haat fouten <marker>ofzoiets</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="OFZO" name="Ofzo/of zo" default="temp_off" >
+        <rulegroup id="OFZO" name="Ofzo/of zo" >
             <!-- R. Baars november 2022 -->
             <rule>
                 <pattern>
@@ -44839,7 +44865,7 @@ steenwijk;Steenwijk
                 <example correction="of zo">Ik haat fouten <marker>ofzo</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZOGAUW" name="Zogauw/zo gauw" default="temp_off" >
+        <rulegroup id="ZOGAUW" name="Zogauw/zo gauw" >
             <!-- R. Baars november 2022 -->
             <rule>
                 <pattern>
@@ -44849,7 +44875,7 @@ steenwijk;Steenwijk
                 <example correction="zo gauw">Ik haat fouten <marker>zogauw</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MAARJA" name="Maar ja/maar ja" default="temp_off" >
+        <rulegroup id="MAARJA" name="Maar ja/maar ja" >
             <!-- R. Baars november 2022 -->
             <rule>
                 <pattern>
@@ -44859,7 +44885,7 @@ steenwijk;Steenwijk
                 <example correction="maar ja">Ik haat fouten, <marker>maarja</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="FF" name="FF/even" default="temp_off" >
+        <rulegroup id="FF" name="FF/even" >
             <!-- R. Baars november 2022 -->
             <rule>
                 <pattern>
@@ -44882,6 +44908,17 @@ steenwijk;Steenwijk
                 <example correction="Dank je"><marker>Dankje</marker> voor de correctie.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ZODADELIJK" name="Zodadelijk/zo dadelijk" default="temp_off" >
+            <!-- R. Baars november 2022 -->
+            <rule>
+                <pattern>
+                    <token>zodadelijk</token>
+                </pattern>
+                <message>Correct is: <suggestion>zo dadelijk</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
+                <example correction="zo dadelijk">Ik haat fouten, <marker>zodadelijk</marker>.</example>
+            </rule>
+        </rulegroup>
+
     </category>
 
 </rules>
