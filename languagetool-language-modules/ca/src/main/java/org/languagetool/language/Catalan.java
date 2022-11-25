@@ -205,6 +205,7 @@ public class Catalan extends Language {
       case "REEMPRENDRE": return 28; // equal to CA_SIMPLE_REPLACE_VERBS
       case "INCORRECT_WORDS_IN_CONTEXT": return 25; // similar to but lower than CONFUSIONS
       case "ES_UNKNOWN": return 25; 
+      case "HAVER_SENSE_HAC": return 25; // greater than CONFUSIONS_ACCENT avia
       case "PRONOMS_FEBLES_SOLTS2": return 25;  // greater than PRONOMS_FEBLES_SOLTS and ES
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
@@ -219,7 +220,6 @@ public class Catalan extends Language {
       case "ELA_GEMINADA": return 10; // greater than agreement rules
       case "ACCENTUATION_CHECK": return 10;
       case "CONCORDANCES_NUMERALS": return 10;
-      case "HAVER_SENSE_HAC": return 10;
       case "CAP_ELS_CAP_ALS": return 10; // greater than DET_GN
       case "CASING": return 10; // greater than CONCORDANCES_DET_NOM
       case "DOS_ARTICLES": return 10; // greater than apostrophation rules
