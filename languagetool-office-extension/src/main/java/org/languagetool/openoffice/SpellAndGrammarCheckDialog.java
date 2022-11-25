@@ -1756,27 +1756,27 @@ public class SpellAndGrammarCheckDialog extends Thread {
         
         if (error != null) {
           isSpellError = error.aRuleIdentifier.equals(spellRuleId);
+          sentenceIncludeError.setEnabled(true);
           sentenceIncludeError.setBackground(Color.white);
           sentenceIncludeError.setText(docCache.getFlatParagraph(y));
           setAttributesForErrorText(error);
+          errorDescription.setEnabled(true);
           errorDescription.setText(error.aFullComment);
           errorDescription.setForeground(defaultForeground);
           errorDescription.setBackground(Color.white);
-          sentenceIncludeError.setEnabled(true);
-          errorDescription.setEnabled(true);
           ignoreOnce.setEnabled(true);
           ignoreAll.setEnabled(true);
           if (debugMode) {
             MessageHandler.printToLogFile("CheckDialog: findNextError: Error Text set");
           }
           if (error.aSuggestions != null && error.aSuggestions.length > 0) {
+            suggestions.setEnabled(true);
             suggestions.setListData(error.aSuggestions);
             suggestions.setSelectedIndex(0);
             suggestions.setBackground(Color.white);
             change.setEnabled(true);
             changeAll.setEnabled(true);
             autoCorrect.setEnabled(true);
-            suggestions.setEnabled(true);
           } else {
             suggestions.setListData(new String[0]);
             change.setEnabled(false);
