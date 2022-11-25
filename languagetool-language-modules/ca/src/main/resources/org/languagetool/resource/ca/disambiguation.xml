@@ -12141,7 +12141,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="NCMP000|_GN_MP"/>
+            <disambig action="filter" postag="NCMP000|_GN_MP|A.*"/>
         </rule>
         <rule>
             <pattern>
@@ -13097,7 +13097,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">si|en|l'|el|la|els|les|['-].+</exception></token>
                 <marker>
-                    <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
+                    <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+|acord</exception></token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.[^MNPG].*|_GV_|_perfet|_obligacio"/>
@@ -13766,7 +13766,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*|RG.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes">[\p{Ll}·]+(e|[aei]sses|[ae]res|era)|oferta|ofertes</exception></token>
-                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GV_"/><exception regexp="yes">empesa|viu|desperta|nous|buida|buides|composta|compostes</exception></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GV_"/><exception regexp="yes">revés|empesa|viu|desperta|nous|buida|buides|composta|compostes</exception></token>
                     <token postag="N.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
                 </and>
             </marker>
