@@ -18872,10 +18872,14 @@ O namorado dela era um ladrão.
         <token><exception postag_regexp='yes' postag='DA.+|V.+|SPS00|CS'/></token>
         <marker>
           <token>que</token>
-          <token min="0" max="1" regexp='yes'>&pronomes_retos;</token>
+          <token min="0" max="1" regexp='yes'>&pronomes_retos;
+            <exception regexp='yes'>vocês?</exception>
+          </token>
           <token inflected='yes'>ter</token>
           <token>a</token>
-          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception regexp='no' inflected='yes'>ver</exception>
+          </token>
         </marker>
         <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
         <token postag='V.+|SPS00|RG' postag_regexp='yes'>
