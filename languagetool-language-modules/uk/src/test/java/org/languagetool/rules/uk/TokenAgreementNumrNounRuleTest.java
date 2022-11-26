@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,13 +32,9 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
-public class TokenAgreementNumrNounRuleTest {
-
-  private JLanguageTool lt;
-  private TokenAgreementNumrNounRule rule;
+public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
 
 //  static {
 //    System.setProperty("org.languagetool.rules.uk.TokenInflectionAgreementRule.debug", "true");
@@ -47,7 +42,6 @@ public class TokenAgreementNumrNounRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    lt = new JLanguageTool(new Ukrainian());
     rule = new TokenAgreementNumrNounRule(TestTools.getMessages("uk"), lt.getLanguage());
 //    TokenInflectionAgreementRule.DEBUG = true;
   }
@@ -372,30 +366,4 @@ public class TokenAgreementNumrNounRuleTest {
     assertEquals(0, rule.match(sent).length);
   }
   
-  
-  private void assertEmptyMatch(String text) {
-    try {
-      assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(lt.getAnalyzedSentence(text))));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private void assertHasError(String text, String... suggestions) {
-    try {
-      AnalyzedSentence sent = lt.getAnalyzedSentence(text);
-      RuleMatch[] match = rule.match(sent);
-      assertEquals(1, match.length);
-      if( suggestions.length > 0 ) {
-        assertEquals(Arrays.asList(suggestions), match[0].getSuggestedReplacements());
-      }
-      
-      for(String sugg: suggestions) {
-        assertEmptyMatch(sugg);
-      }
-      
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
 }
