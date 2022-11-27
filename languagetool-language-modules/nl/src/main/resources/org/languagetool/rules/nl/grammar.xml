@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<!-- <?xml version="1.0" encoding="utf-8"?> -->
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
@@ -10515,6 +10515,24 @@ onwaarschijnlijk
                 <message>Bij 'minizinnen' worden de woorden gecombineerd met een koppelteken.</message>
                 <suggestion>\1-\2-\3</suggestion>
                 <example correction="doe-het-zelfzaak">Ik mag de <marker>doe het zelfzaak</marker> niet meer in.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="STAND_IN" name="Stand in/stand-in" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token inflected="yes">houden</token>
+                    <token>stand</token>
+                </antipattern>
+                <antipattern>
+                    <token>tot</token>
+                    <token>stand</token>
+                </antipattern>
+                <pattern>
+                    <token>stand</token>
+                    <token>in</token>
+                </pattern>
+                <message>U bedoelt vast een <suggestion>stand-in</suggestion>.</message>
+                <example correction="stand-in">De <marker>stand in</marker> doet de stunts.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FREELANCE_ZNW" name="freelance journalist/freelancejournalist" >
@@ -44908,7 +44926,7 @@ steenwijk;Steenwijk
                 <example correction="Dank je"><marker>Dankje</marker> voor de correctie.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZODADELIJK" name="Zodadelijk/zo dadelijk" default="temp_off" >
+        <rulegroup id="ZODADELIJK" name="Zodadelijk/zo dadelijk" >
             <!-- R. Baars november 2022 -->
             <rule>
                 <pattern>
@@ -44916,6 +44934,28 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Correct is: <suggestion>zo dadelijk</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
                 <example correction="zo dadelijk">Ik haat fouten, <marker>zodadelijk</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VD" name="vd/v.d." default="temp_off" tags="picky" >
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>vd</token>
+                    </marker>
+                </pattern>
+                <message>Officieel is het: <suggestion>v.d.</suggestion> maar nog netter is <suggestion>van de</suggestion>.</message>
+                <example correction="v.d.|van de">Hij komt <marker>vd</marker> bank.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DA_Q_S" name="da's/dat is" default="temp_off" tags="picky" >
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>da's</token>
+                    </marker>
+                </pattern>
+                <message>Netter is: <suggestion>dat is</suggestion>.</message>
+                <example correction="Dat is"><marker>Da's</marker> niet best.</example>
             </rule>
         </rulegroup>
 
