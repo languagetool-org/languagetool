@@ -5,8 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">Ja. Zo gaat het mis.
-</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">Als voetballer wordt hij nooit een prof. Maar prof. N.A.W. Th.Ch. Janssen wordt dat wel.</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1566,11 +1565,11 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(Drs|Art|Afr|Am|Ar|Br|Cie|Comp|Dhr|([Pp]rof\.)?[Dd]r|Em|Fa|Kon|Stb)\.\s</beforebreak>
+<beforebreak>\b(Drs|Art|Afr|Am|Ar|Br|Cie|Comp|Dhr|(Prof\.)?[Dd]r|Em|Fa|Kon|Stb)\.\s</beforebreak>
 <afterbreak>\p{Lu}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(Mej|Mevr|Mgr|Mw|Ndl|Ned|Nl|No|Prof|Secr|Chr|Jac|Wed)\.\s</beforebreak>
+<beforebreak>\b([Mm]ej|[Mm]evr|[Mm]rs|[Mm]gr|[Mm]w|Ndl|Ned|Nl|No|Prof|[Ss]ecr|Chr|Jac|[Ww]ed)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1578,12 +1577,16 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(abs|abstr|adj|adm|afb|[Aa]fd|afk|afl|milj|zgn|plv|bvb|afm|evt|exp|vs)\.\s</beforebreak>
+<beforebreak>\b(abs|abstr|adj|adm|[Aa]fb|[Aa]fd|afk|afl|milj|zgn|plv|bvb|afm|evt|exp|vs)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b(ald|alg|amb|anat|antrop|apoth)\.\s</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\seen\sprof\.\s</beforebreak>
+<afterbreak>\p{Lu}</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b(alc|bro|opm|acc)\.\s</beforebreak>
@@ -1602,7 +1605,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([Ee]d|em|ev|[Ee]xcl|[Ff]a|fam|fig|fin|fl|fr)\.\s</beforebreak>
+<beforebreak>\b([Ee]d|em|ev|[Ee]xcl|[Ff]a|[Ff]am|[fF]ig|fin|fl|fr)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1610,15 +1613,15 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(jl|jr|kr|kt|lic|ll|lt|lw|max|mevr|mi|[Mm]in|mld)\.\s</beforebreak>
+<beforebreak>\b(jl|jr|kr|kt|lic|ll|lt|lw|max|[Mm]evr|mi|[Mm]in|mld)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(mln|mr|mw|nl|no|nr|nrs|ob|obl|ong|onov)\.\s</beforebreak>
+<beforebreak>\b(mln|[Mm]r|[Mm]w|nl|no|nr|nrs|ob|obl|ong|onov)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(opm|org|ov|pag|par|penn|([1-3][\.e]?)[\s]?pers|plm|plv)\.\s</beforebreak>
+<beforebreak>\b(opm|org|ov|[Pp]ag|par|penn|([1-3][\.e]?)[\s]?pers|plm|plv)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1626,8 +1629,8 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([A-Z]|Adr|Chr|Fr|Fred|IJ|Jac|Joh|Ph|St|Th|Tj|v|v\.(\s)?d)\.(\s)?</beforebreak>
-<afterbreak>[A-Z]</afterbreak>
+<beforebreak>\b([A-Z]|Adr|Chr|Fr|Fred|IJ|Jac|Joh|Ph|St|Th|Tj|prof|v|v\.(\s)?d)\.(\s)?</beforebreak>
+<afterbreak>\p{Lu}</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b[vn]\.\s</beforebreak>
@@ -1638,11 +1641,11 @@
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(mm|cm|km|mg|kg|h|kW|mW)\.\s</beforebreak>
+<beforebreak>\b(mm|cm|km|ml|mg|kg|h|kW|kg|mW)\.\s</beforebreak>
 <afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>\b(mm|cm|km|ml|kg|kW|h|mg)\.\s</beforebreak>
+<beforebreak>\b(mm|cm|km|ml|mg|kg|h|kW|kg|mW)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1701,14 +1704,6 @@
 <rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
 <afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak>
-</rule>
-<rule break="yes">
-<beforebreak>\been\sprof\.\s</beforebreak>
-<afterbreak>[^\p{Ll}]</afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\bprof\.\s</beforebreak>
-<afterbreak></afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>[.!?…][’'"]\s</beforebreak>
@@ -1790,6 +1785,10 @@
 <rule break="no">
 <beforebreak>\.\.</beforebreak>
 <afterbreak>" [a-z]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\sBTW\.</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="Slovak">
