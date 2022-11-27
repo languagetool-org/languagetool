@@ -38,6 +38,16 @@ public class GermanTaggerTest {
   private final GermanTagger tagger = new GermanTagger();
 
   @Test
+  public void testAdjectivesFromSpellingTxt() throws IOException {
+    assertEquals("meistgewünschtes[meistgewünscht/ADJ:AKK:SIN:NEU:GRU:IND, meistgewünscht/ADJ:AKK:SIN:NEU:GRU:SOL, " +
+      "meistgewünscht/ADJ:NOM:SIN:NEU:GRU:IND, meistgewünscht/ADJ:NOM:SIN:NEU:GRU:SOL]", toSortedString(tagger.lookup("meistgewünschtes")));
+    assertEquals("meistgewünschter[meistgewünscht/ADJ:DAT:SIN:FEM:GRU:SOL, meistgewünscht/ADJ:GEN:PLU:FEM:GRU:SOL, " +
+      "meistgewünscht/ADJ:GEN:PLU:MAS:GRU:SOL, meistgewünscht/ADJ:GEN:PLU:NEU:GRU:SOL, " +
+      "meistgewünscht/ADJ:GEN:SIN:FEM:GRU:SOL, meistgewünscht/ADJ:NOM:SIN:MAS:GRU:IND, " +
+      "meistgewünscht/ADJ:NOM:SIN:MAS:GRU:SOL]", toSortedString(tagger.lookup("meistgewünschter")));
+  }
+
+  @Test
   public void testLemmaOfForDashCompounds() throws IOException {
     AnalyzedTokenReadings aToken = tagger.lookup("Zahn-Arzt-Verband");
     List<String> lemmas = new ArrayList<>();
