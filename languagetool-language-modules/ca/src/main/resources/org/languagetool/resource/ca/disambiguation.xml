@@ -11883,6 +11883,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rulegroup id="DetNom_exceptions" name="excepcions a DetNom">
+        <rule>
+            <!-- Amb error de concordança adjectiu-nom -->
+            <pattern>
+                <token postag="D[^R].*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">principal|diferent</token>
+                </marker>
+                <token postag_regexp="yes" postag="N.*"/>
+            </pattern>
+            <disambig action="filter" postag="A.*|_GN_.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="DetNom" name="Determinant + nom">
         <!-- Caldria diferenciar/elimianr alguns casos. Per exemple DN + DI
             CAL SEPARAR EL CAS DA+NC QUE ÉS L'UNIC PROBLEMÀTIC -->
@@ -12141,7 +12154,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="NCMP000|_GN_MP|A.*"/>
+            <disambig action="filter" postag="NCMP000|_GN_MP"/>
         </rule>
         <rule>
             <pattern>
