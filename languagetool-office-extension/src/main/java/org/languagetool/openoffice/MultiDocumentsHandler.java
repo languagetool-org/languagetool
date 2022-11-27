@@ -305,7 +305,7 @@ public class MultiDocumentsHandler {
         return docID;
       }
     }
-    return null;
+    return prefix + (documents.size() + 1);
   }
   
   /**
@@ -1524,7 +1524,7 @@ public class MultiDocumentsHandler {
    * Test the language of the document
    * switch the check to LT if possible and language is supported
    */
-  boolean testDocLanguage(boolean showMessage) {
+  boolean testDocLanguage(boolean showMessage) throws Throwable {
     if (docLanguage == null) {
       if (linguServices == null) {
         linguServices = new LinguisticServices(xContext);
@@ -1880,7 +1880,7 @@ public class MultiDocumentsHandler {
       try {
         Thread.sleep(3000);
         testDocLanguage(false);
-      } catch (InterruptedException e) {
+      } catch (Throwable e) {
         MessageHandler.showError(e);
       }
     }

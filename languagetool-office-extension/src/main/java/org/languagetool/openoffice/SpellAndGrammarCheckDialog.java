@@ -911,6 +911,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private int lastY = -1;
     private boolean isSpellError = false;
     private boolean focusLost = false;
+    private boolean blockSentenceError = true;
     private boolean atWork = false;
 
     private String wrongWord;
@@ -919,314 +920,181 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * the constructor of the class creates all elements of the dialog
      */
     public LtCheckDialog(XComponentContext xContext) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: LtCheckDialog called");
-      }
+      ltImage = OfficeTools.getLtImage();
       undoList = new ArrayList<UndoContainer>();
 
-      ltImage = OfficeTools.getLtImage();
-      
       dialog = new JDialog();
-      if (dialog == null) {
-        MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: LtCheckDialog == null");
-      }
-      dialog.setName(dialogName);
-      dialog.setTitle(dialogName + " (LanguageTool " + OfficeTools.getLtInformation() + ")");
-      dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-      ((Frame) dialog.getOwner()).setIconImage(ltImage);
-      defaultForeground = dialog.getForeground() == null ? Color.BLACK : dialog.getForeground();
       contentPane = dialog.getContentPane();
-
       languageLabel = new JLabel(labelLanguage);
-      Font dialogFont = languageLabel.getFont();
-      languageLabel.setFont(dialogFont);
-
       changeLanguage = new JComboBox<String> (changeLanguageList);
-
       language = new JComboBox<String>(getPossibleLanguages());
-      language.setFont(dialogFont);
-      language.setToolTipText(formatToolTipText(languageHelp));
-      language.addItemListener(e -> {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-          String selectedLang = (String) language.getSelectedItem();
-          if (!lastLang.equals(selectedLang)) {
-            changeLanguage.setEnabled(true);
-          }
-        }
-      });
-
-      changeLanguage.setFont(dialogFont);
-      changeLanguage.setToolTipText(formatToolTipText(changeLanguageHelp));
-      changeLanguage.addItemListener(e -> {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-          if (changeLanguage.getSelectedIndex() > 0) {
-            Thread t = new Thread(new Runnable() {
-              public void run() {
-                try {
-                  Locale locale = null;
-                  FlatParagraphTools flatPara= null;
-                  setAtWorkButtonState();
-                  String selectedLang = (String) language.getSelectedItem();
-                  locale = getLocaleFromLanguageName(selectedLang);
-                  flatPara = currentDocument.getFlatParagraphTools();
-                  currentDocument.removeResultCache(y);
-                  if (changeLanguage.getSelectedIndex() == 1) {
-                    if (docType == DocumentType.IMPRESS) {
-                      OfficeDrawTools.setLanguageOfParagraph(y, error.nErrorStart, error.nErrorLength, locale, currentDocument.getXComponent());
-                    } else if (docType == DocumentType.CALC) {
-                      OfficeSpreadsheetTools.setLanguageOfSpreadsheet(locale, currentDocument.getXComponent());
-                    } else {
-                      flatPara.setLanguageOfParagraph(y, error.nErrorStart, error.nErrorLength, locale);
-                    }
-                    addLanguageChangeUndo(y, error.nErrorStart, error.nErrorLength, lastLang);
-                    docCache.setMultilingualFlatParagraph(y);
-                  } else if (changeLanguage.getSelectedIndex() == 2) {
-                    if (docType == DocumentType.IMPRESS) {
-                      OfficeDrawTools.setLanguageOfParagraph(y, 0, docCache.getFlatParagraph(y).length(), locale, currentDocument.getXComponent());
-                    } else if (docType == DocumentType.CALC) {
-                      OfficeSpreadsheetTools.setLanguageOfSpreadsheet(locale, currentDocument.getXComponent());
-                    } else {
-                      flatPara.setLanguageOfParagraph(y, 0, docCache.getFlatParagraph(y).length(), locale);
-                    }
-                    docCache.setFlatParagraphLocale(y, locale);
-                    addLanguageChangeUndo(y, 0, docCache.getFlatParagraph(y).length(), lastLang);
-                  }
-                  lastLang = selectedLang;
-                  changeLanguage.setSelectedIndex(0);
-                  gotoNextError();
-                } catch (Throwable t) {
-                  MessageHandler.showError(t);
-                  closeDialog();
-                }
-              }
-            });
-            t.start();
-          }
-        }
-      });
-      changeLanguage.setSelectedIndex(0);
-      changeLanguage.setEnabled(false);
-      
       errorDescription = new JTextArea();
-      errorDescription.setEditable(false);
-      errorDescription.setLineWrap(true);
-      errorDescription.setWrapStyleWord(true);
-      errorDescription.setBackground(dialog.getContentPane().getBackground());
-      errorDescription.setText(checkStatusInitialization);
-      errorDescription.setForeground(Color.RED);
-      Font descriptionFont = dialogFont.deriveFont(Font.BOLD);
-      errorDescription.setFont(descriptionFont);
-      errorDescription.setToolTipText(formatToolTipText(matchDescriptionHelp));
-      JScrollPane descriptionPane = new JScrollPane(errorDescription);
-      descriptionPane.setMinimumSize(new Dimension(0, 20));
-
       sentenceIncludeError = new JTextPane();
-      sentenceIncludeError.setFont(dialogFont);
-      sentenceIncludeError.setToolTipText(formatToolTipText(matchParagraphHelp));
-      sentenceIncludeError.getDocument().addDocumentListener(new DocumentListener() {
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-          if (!change.isEnabled()) {
-            change.setEnabled(true);
-          }
-          if (changeAll.isEnabled()) {
-            changeAll.setEnabled(false);
-          }
-          if (autoCorrect.isEnabled()) {
-            autoCorrect.setEnabled(false);
-          }
-        }
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-          changedUpdate(e);
-        }
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-          changedUpdate(e);
-        }
-      });
-      JScrollPane sentencePane = new JScrollPane(sentenceIncludeError);
-      sentencePane.setMinimumSize(new Dimension(0, 30));
-      
       suggestionsLabel = new JLabel(labelSuggestions);
-      suggestionsLabel.setFont(dialogFont);
-
       suggestions = new JList<String>();
-      suggestions.setFont(dialogFont);
-      suggestions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-      suggestions.setFixedCellHeight((int)(suggestions.getFont().getSize() * 1.2 + 0.5));
-      suggestions.setToolTipText(formatToolTipText(suggestionsHelp));
-      JScrollPane suggestionsPane = new JScrollPane(suggestions);
-      suggestionsPane.setMinimumSize(new Dimension(0, 30));
-
       checkTypeLabel = new JLabel(Tools.getLabel(messages.getString("guiOOoCheckTypeLabel")));
-      checkTypeLabel.setFont(dialogFont);
-      checkTypeLabel.setToolTipText(formatToolTipText(checkTypeHelp));
-
       checkTypeButtons = new JRadioButton[3];
       checkTypeGroup = new ButtonGroup();
-      checkTypeButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckAllButton")));
-      checkTypeButtons[0].setSelected(true);
-      checkTypeButtons[0].addActionListener(e -> {
-        setAtWorkButtonState();
-        checkType = 0;
-        Thread t = new Thread(new Runnable() {
-          public void run() {
-            setAtWorkButtonState();
-            gotoNextError();
-          }
-        });
-        t.start();
-      });
-      checkTypeButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckSpellingButton")));
-      checkTypeButtons[1].addActionListener(e -> {
-        setAtWorkButtonState();
-        checkType = 1;
-        Thread t = new Thread(new Runnable() {
-          public void run() {
-            setAtWorkButtonState();
-            gotoNextError();
-          }
-        });
-        t.start();
-      });
-      checkTypeButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckGrammarButton")));
-      checkTypeButtons[2].addActionListener(e -> {
-        setAtWorkButtonState();
-        checkType = 2;
-        Thread t = new Thread(new Runnable() {
-          public void run() {
-            setAtWorkButtonState();
-            gotoNextError();
-          }
-        });
-        t.start();
-      });
-      for (int i = 0; i < 3; i++) {
-        checkTypeGroup.add(checkTypeButtons[i]);
-        checkTypeButtons[i].setFont(dialogFont);
-        checkTypeButtons[i].setToolTipText(formatToolTipText(checkTypeHelp));
-      }
-
       help = new JButton (helpButtonName);
-      help.setFont(dialogFont);
-      help.addActionListener(this);
-      help.setActionCommand("help");
-      help.setToolTipText(formatToolTipText(helpButtonHelp));
-      
       options = new JButton (optionsButtonName);
-      options.setFont(dialogFont);
-      options.addActionListener(this);
-      options.setActionCommand("options");
-      options.setToolTipText(formatToolTipText(optionsButtonHelp));
-      
       undo = new JButton (undoButtonName);
-      undo.setFont(dialogFont);
-      undo.addActionListener(this);
-      undo.setActionCommand("undo");
-      undo.setToolTipText(formatToolTipText(undoButtonHelp));
-      
       close = new JButton (closeButtonName);
-      close.setFont(dialogFont);
-      close.addActionListener(this);
-      close.setActionCommand("close");
-      close.setToolTipText(formatToolTipText(closeButtonHelp));
-      
       more = new JButton (moreButtonName);
-      more.setFont(dialogFont);
-      more.addActionListener(this);
-      more.setActionCommand("more");
-      more.setToolTipText(formatToolTipText(moreButtonHelp));
-      
       ignoreOnce = new JButton (ignoreButtonName);
-      ignoreOnce.setFont(dialogFont);
-      ignoreOnce.addActionListener(this);
-      ignoreOnce.setActionCommand("ignoreOnce");
-      ignoreOnce.setToolTipText(formatToolTipText(ignoreButtonHelp));
-      
       ignoreAll = new JButton (ignoreAllButtonName);
-      ignoreAll.setFont(dialogFont);
-      ignoreAll.addActionListener(this);
-      ignoreAll.setActionCommand("ignoreAll");
-      ignoreAll.setToolTipText(formatToolTipText(ignoreAllButtonHelp));
-      
       deactivateRule = new JButton (deactivateRuleButtonName);
-      deactivateRule.setFont(dialogFont);
-      deactivateRule.setVisible(false);
-      deactivateRule.addActionListener(this);
-      deactivateRule.setActionCommand("deactivateRule");
-      deactivateRule.setToolTipText(formatToolTipText(deactivateRuleButtonHelp));
-      
       addToDictionary = new JComboBox<String> ();
-      addToDictionary.setFont(dialogFont);
-      addToDictionary.setToolTipText(formatToolTipText(addToDictionaryHelp));
-      addToDictionary.addItemListener(e -> {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-          if (addToDictionary.getSelectedIndex() > 0) {
-            Thread t = new Thread(new Runnable() {
-              public void run() {
-                try {
-                  setAtWorkButtonState();
-                  String dictionary = (String) addToDictionary.getSelectedItem();
-                  documents.getLtDictionary().addWordToDictionary(dictionary, wrongWord, xContext);
-                  addUndo(y, "addToDictionary", dictionary, wrongWord);
-                  addToDictionary.setSelectedIndex(0);
-                  gotoNextError();
-                } catch (Throwable t) {
-                  MessageHandler.showError(t);
-                  closeDialog();
-                }
-              }
-            });
-            t.start();
-          }
-        }
-      });
-      
       change = new JButton (changeButtonName);
-      change.setFont(dialogFont);
-      change.addActionListener(this);
-      change.setActionCommand("change");
-      change.setToolTipText(formatToolTipText(changeButtonHelp));
-      
       changeAll = new JButton (changeAllButtonName);
-      changeAll.setFont(dialogFont);
-      changeAll.addActionListener(this);
-      changeAll.setActionCommand("changeAll");
-      changeAll.setEnabled(false);
-      changeAll.setToolTipText(formatToolTipText(changeAllButtonHelp));
-
       autoCorrect = new JButton (autoCorrectButtonName);
-      autoCorrect.setFont(dialogFont);
-      autoCorrect.addActionListener(this);
-      autoCorrect.setActionCommand("autoCorrect");
-      autoCorrect.setEnabled(false);
-      autoCorrect.setToolTipText(formatToolTipText(autoCorrectButtonHelp));
-
       activateRule = new JComboBox<String> ();
-      activateRule.setFont(dialogFont);
-      activateRule.setToolTipText(formatToolTipText(activateRuleButtonHelp));
-      activateRule.setVisible(false);
-      activateRule.addItemListener(e -> {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
+      checkProgressLabel = new JLabel(labelCheckProgress);
+      checkProgress = new JProgressBar(0, 100);
+
+      try {
+        if (debugMode) {
+          MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: LtCheckDialog called");
+        }
+  
+        
+        if (dialog == null) {
+          MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: LtCheckDialog == null");
+        }
+        dialog.setName(dialogName);
+        dialog.setTitle(dialogName + " (LanguageTool " + OfficeTools.getLtInformation() + ")");
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        ((Frame) dialog.getOwner()).setIconImage(ltImage);
+        defaultForeground = dialog.getForeground() == null ? Color.BLACK : dialog.getForeground();
+  
+        Font dialogFont = languageLabel.getFont();
+        languageLabel.setFont(dialogFont);
+  
+        language.setFont(dialogFont);
+        language.setToolTipText(formatToolTipText(languageHelp));
+        language.addItemListener(e -> {
+          if (e.getStateChange() == ItemEvent.SELECTED) {
+            String selectedLang = (String) language.getSelectedItem();
+            if (!lastLang.equals(selectedLang)) {
+              changeLanguage.setEnabled(true);
+            }
+          }
+        });
+  
+        changeLanguage.setFont(dialogFont);
+        changeLanguage.setToolTipText(formatToolTipText(changeLanguageHelp));
+        changeLanguage.addItemListener(e -> {
+          if (e.getStateChange() == ItemEvent.SELECTED) {
+            if (changeLanguage.getSelectedIndex() > 0) {
+              Thread t = new Thread(new Runnable() {
+                public void run() {
+                  try {
+                    Locale locale = null;
+                    FlatParagraphTools flatPara= null;
+                    setAtWorkButtonState();
+                    String selectedLang = (String) language.getSelectedItem();
+                    locale = getLocaleFromLanguageName(selectedLang);
+                    flatPara = currentDocument.getFlatParagraphTools();
+                    currentDocument.removeResultCache(y);
+                    if (changeLanguage.getSelectedIndex() == 1) {
+                      if (docType == DocumentType.IMPRESS) {
+                        OfficeDrawTools.setLanguageOfParagraph(y, error.nErrorStart, error.nErrorLength, locale, currentDocument.getXComponent());
+                      } else if (docType == DocumentType.CALC) {
+                        OfficeSpreadsheetTools.setLanguageOfSpreadsheet(locale, currentDocument.getXComponent());
+                      } else {
+                        flatPara.setLanguageOfParagraph(y, error.nErrorStart, error.nErrorLength, locale);
+                      }
+                      addLanguageChangeUndo(y, error.nErrorStart, error.nErrorLength, lastLang);
+                      docCache.setMultilingualFlatParagraph(y);
+                    } else if (changeLanguage.getSelectedIndex() == 2) {
+                      if (docType == DocumentType.IMPRESS) {
+                        OfficeDrawTools.setLanguageOfParagraph(y, 0, docCache.getFlatParagraph(y).length(), locale, currentDocument.getXComponent());
+                      } else if (docType == DocumentType.CALC) {
+                        OfficeSpreadsheetTools.setLanguageOfSpreadsheet(locale, currentDocument.getXComponent());
+                      } else {
+                        flatPara.setLanguageOfParagraph(y, 0, docCache.getFlatParagraph(y).length(), locale);
+                      }
+                      docCache.setFlatParagraphLocale(y, locale);
+                      addLanguageChangeUndo(y, 0, docCache.getFlatParagraph(y).length(), lastLang);
+                    }
+                    lastLang = selectedLang;
+                    changeLanguage.setSelectedIndex(0);
+                    gotoNextError();
+                  } catch (Throwable t) {
+                    MessageHandler.showError(t);
+                    closeDialog();
+                  }
+                }
+              });
+              t.start();
+            }
+          }
+        });
+        changeLanguage.setSelectedIndex(0);
+        changeLanguage.setEnabled(false);
+        
+        errorDescription.setEditable(false);
+        errorDescription.setLineWrap(true);
+        errorDescription.setWrapStyleWord(true);
+        errorDescription.setBackground(dialog.getContentPane().getBackground());
+        errorDescription.setText(checkStatusInitialization);
+        errorDescription.setForeground(Color.RED);
+        Font descriptionFont = dialogFont.deriveFont(Font.BOLD);
+        errorDescription.setFont(descriptionFont);
+        errorDescription.setToolTipText(formatToolTipText(matchDescriptionHelp));
+        JScrollPane descriptionPane = new JScrollPane(errorDescription);
+        descriptionPane.setMinimumSize(new Dimension(0, 20));
+  
+        sentenceIncludeError.setFont(dialogFont);
+        sentenceIncludeError.setToolTipText(formatToolTipText(matchParagraphHelp));
+        sentenceIncludeError.getDocument().addDocumentListener(new DocumentListener() {
+          @Override
+          public void changedUpdate(DocumentEvent e) {
+            if (!blockSentenceError) {
+              if (!change.isEnabled()) {
+                change.setEnabled(true);
+              }
+              if (changeAll.isEnabled()) {
+                changeAll.setEnabled(false);
+              }
+              if (autoCorrect.isEnabled()) {
+                autoCorrect.setEnabled(false);
+              }
+            }
+          }
+          @Override
+          public void insertUpdate(DocumentEvent e) {
+            changedUpdate(e);
+          }
+          @Override
+          public void removeUpdate(DocumentEvent e) {
+            changedUpdate(e);
+          }
+        });
+        JScrollPane sentencePane = new JScrollPane(sentenceIncludeError);
+        sentencePane.setMinimumSize(new Dimension(0, 30));
+        
+        suggestionsLabel.setFont(dialogFont);
+  
+        suggestions.setFont(dialogFont);
+        suggestions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        suggestions.setFixedCellHeight((int)(suggestions.getFont().getSize() * 1.2 + 0.5));
+        suggestions.setToolTipText(formatToolTipText(suggestionsHelp));
+        JScrollPane suggestionsPane = new JScrollPane(suggestions);
+        suggestionsPane.setMinimumSize(new Dimension(0, 30));
+  
+        checkTypeLabel.setFont(dialogFont);
+        checkTypeLabel.setToolTipText(formatToolTipText(checkTypeHelp));
+  
+        checkTypeButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckAllButton")));
+        checkTypeButtons[0].setSelected(true);
+        checkTypeButtons[0].addActionListener(e -> {
+          setAtWorkButtonState();
+          checkType = 0;
           Thread t = new Thread(new Runnable() {
             public void run() {
               try {
-                int selectedIndex = activateRule.getSelectedIndex();
-                if (selectedIndex > 0) {
-                  Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap(OfficeTools.localeToString(locale));
-                  int j = 1;
-                  for(String ruleId : deactivatedRulesMap.keySet()) {
-                    if (j == selectedIndex) {
-                      setAtWorkButtonState();
-                      documents.activateRule(ruleId);
-                      addUndo(y, "activateRule", ruleId, null);
-                      activateRule.setSelectedIndex(0);
-                      gotoNextError();
-                    }
-                    j++;
-                  }
-                }
+                setAtWorkButtonState();
+                gotoNextError();
               } catch (Throwable t) {
                 MessageHandler.showError(t);
                 closeDialog();
@@ -1234,45 +1102,153 @@ public class SpellAndGrammarCheckDialog extends Thread {
             }
           });
           t.start();
+        });
+        checkTypeButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckSpellingButton")));
+        checkTypeButtons[1].addActionListener(e -> {
+          setAtWorkButtonState();
+          checkType = 1;
+          Thread t = new Thread(new Runnable() {
+            public void run() {
+              try {
+                setAtWorkButtonState();
+                gotoNextError();
+              } catch (Throwable t) {
+                MessageHandler.showError(t);
+                closeDialog();
+              }
+            }
+          });
+          t.start();
+        });
+        checkTypeButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiOOoCheckGrammarButton")));
+        checkTypeButtons[2].addActionListener(e -> {
+          setAtWorkButtonState();
+          checkType = 2;
+          Thread t = new Thread(new Runnable() {
+            public void run() {
+              try {
+                setAtWorkButtonState();
+                gotoNextError();
+              } catch (Throwable t) {
+                MessageHandler.showError(t);
+                closeDialog();
+              }
+            }
+          });
+          t.start();
+        });
+        for (int i = 0; i < 3; i++) {
+          checkTypeGroup.add(checkTypeButtons[i]);
+          checkTypeButtons[i].setFont(dialogFont);
+          checkTypeButtons[i].setToolTipText(formatToolTipText(checkTypeHelp));
         }
-      });
-      
-      dialog.addWindowFocusListener(new WindowFocusListener() {
-        @Override
-        public void windowGainedFocus(WindowEvent e) {
-          if (focusLost && !atWork) {
+  
+        help.setFont(dialogFont);
+        help.addActionListener(this);
+        help.setActionCommand("help");
+        help.setToolTipText(formatToolTipText(helpButtonHelp));
+        
+        options.setFont(dialogFont);
+        options.addActionListener(this);
+        options.setActionCommand("options");
+        options.setToolTipText(formatToolTipText(optionsButtonHelp));
+        
+        undo.setFont(dialogFont);
+        undo.addActionListener(this);
+        undo.setActionCommand("undo");
+        undo.setToolTipText(formatToolTipText(undoButtonHelp));
+        
+        close.setFont(dialogFont);
+        close.addActionListener(this);
+        close.setActionCommand("close");
+        close.setToolTipText(formatToolTipText(closeButtonHelp));
+        
+        more.setFont(dialogFont);
+        more.addActionListener(this);
+        more.setActionCommand("more");
+        more.setToolTipText(formatToolTipText(moreButtonHelp));
+        
+        ignoreOnce.setFont(dialogFont);
+        ignoreOnce.addActionListener(this);
+        ignoreOnce.setActionCommand("ignoreOnce");
+        ignoreOnce.setToolTipText(formatToolTipText(ignoreButtonHelp));
+        
+        ignoreAll.setFont(dialogFont);
+        ignoreAll.addActionListener(this);
+        ignoreAll.setActionCommand("ignoreAll");
+        ignoreAll.setToolTipText(formatToolTipText(ignoreAllButtonHelp));
+        
+        deactivateRule.setFont(dialogFont);
+        deactivateRule.setVisible(false);
+        deactivateRule.addActionListener(this);
+        deactivateRule.setActionCommand("deactivateRule");
+        deactivateRule.setToolTipText(formatToolTipText(deactivateRuleButtonHelp));
+        
+        addToDictionary.setFont(dialogFont);
+        addToDictionary.setToolTipText(formatToolTipText(addToDictionaryHelp));
+        addToDictionary.addItemListener(e -> {
+          if (e.getStateChange() == ItemEvent.SELECTED) {
+            if (addToDictionary.getSelectedIndex() > 0) {
+              Thread t = new Thread(new Runnable() {
+                public void run() {
+                  try {
+                    setAtWorkButtonState();
+                    String dictionary = (String) addToDictionary.getSelectedItem();
+                    documents.getLtDictionary().addWordToDictionary(dictionary, wrongWord, xContext);
+                    addUndo(y, "addToDictionary", dictionary, wrongWord);
+                    addToDictionary.setSelectedIndex(0);
+                    gotoNextError();
+                  } catch (Throwable t) {
+                    MessageHandler.showError(t);
+                    closeDialog();
+                  }
+                }
+              });
+              t.start();
+            }
+          }
+        });
+        
+        change.setFont(dialogFont);
+        change.addActionListener(this);
+        change.setActionCommand("change");
+        change.setToolTipText(formatToolTipText(changeButtonHelp));
+        
+        changeAll.setFont(dialogFont);
+        changeAll.addActionListener(this);
+        changeAll.setActionCommand("changeAll");
+        changeAll.setEnabled(false);
+        changeAll.setToolTipText(formatToolTipText(changeAllButtonHelp));
+  
+        autoCorrect.setFont(dialogFont);
+        autoCorrect.addActionListener(this);
+        autoCorrect.setActionCommand("autoCorrect");
+        autoCorrect.setEnabled(false);
+        autoCorrect.setToolTipText(formatToolTipText(autoCorrectButtonHelp));
+  
+        activateRule.setFont(dialogFont);
+        activateRule.setToolTipText(formatToolTipText(activateRuleButtonHelp));
+        activateRule.setVisible(false);
+        activateRule.addItemListener(e -> {
+          if (e.getStateChange() == ItemEvent.SELECTED) {
             Thread t = new Thread(new Runnable() {
               public void run() {
                 try {
-                  Point p = dialog.getLocation();
-                  dialogX = p.x;
-                  dialogY = p.y;
-                  if (debugMode) {
-                    MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: Window Focus gained: Event = " + e.paramString());
+                  int selectedIndex = activateRule.getSelectedIndex();
+                  if (selectedIndex > 0) {
+                    Map<String, String> deactivatedRulesMap = documents.getDisabledRulesMap(OfficeTools.localeToString(locale));
+                    int j = 1;
+                    for(String ruleId : deactivatedRulesMap.keySet()) {
+                      if (j == selectedIndex) {
+                        setAtWorkButtonState();
+                        documents.activateRule(ruleId);
+                        addUndo(y, "activateRule", ruleId, null);
+                        activateRule.setSelectedIndex(0);
+                        gotoNextError();
+                      }
+                      j++;
+                    }
                   }
-                  setAtWorkButtonState();
-                  currentDocument = getCurrentDocument(true);
-                  if (currentDocument == null) {
-                    closeDialog();
-                    return;
-                  }
-                  String newDocId = currentDocument.getDocID();
-                  if (debugMode) {
-                    MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: Window Focus gained: new docID = " + newDocId + ", old = " + docId + ", docType: " + docType);
-                  }
-                  if (!docId.equals(newDocId)) {
-                    docId = newDocId;
-                    undoList.clear();
-                  }
-                  if (!initCursor(false)) {
-                    closeDialog();
-                    return;
-                  }
-                  if (debugMode) {
-                    MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: cache refreshed - size: " + docCache.size());
-                  }
-                  gotoNextError();
-                  focusLost = false;
                 } catch (Throwable t) {
                   MessageHandler.showError(t);
                   closeDialog();
@@ -1281,223 +1257,275 @@ public class SpellAndGrammarCheckDialog extends Thread {
             });
             t.start();
           }
-        }
-        @Override
-        public void windowLostFocus(WindowEvent e) {
-          Thread t = new Thread(new Runnable() {
-            public void run() {
-              if (debugMode) {
-                MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: Window Focus lost: Event = " + e.paramString());
-              }
-              setAtWorkButtonState(atWork);
-              dialog.setEnabled(true);
-              focusLost = true;
+        });
+        
+        dialog.addWindowFocusListener(new WindowFocusListener() {
+          @Override
+          public void windowGainedFocus(WindowEvent e) {
+            if (focusLost && !atWork) {
+              Thread t = new Thread(new Runnable() {
+                public void run() {
+                  try {
+                    Point p = dialog.getLocation();
+                    dialogX = p.x;
+                    dialogY = p.y;
+                    if (debugMode) {
+                      MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: Window Focus gained: Event = " + e.paramString());
+                    }
+                    setAtWorkButtonState();
+                    currentDocument = getCurrentDocument(true);
+                    if (currentDocument == null) {
+                      closeDialog();
+                      return;
+                    }
+                    String newDocId = currentDocument.getDocID();
+                    if (debugMode) {
+                      MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: Window Focus gained: new docID = " + newDocId + ", old = " + docId + ", docType: " + docType);
+                    }
+                    if (!docId.equals(newDocId)) {
+                      docId = newDocId;
+                      undoList.clear();
+                    }
+                    if (!initCursor(false)) {
+                      closeDialog();
+                      return;
+                    }
+                    if (debugMode) {
+                      MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: cache refreshed - size: " + docCache.size());
+                    }
+                    gotoNextError();
+                    focusLost = false;
+                  } catch (Throwable t) {
+                    MessageHandler.showError(t);
+                    closeDialog();
+                  }
+                }
+              });
+              t.start();
             }
-          });
-          t.start();
+          }
+          @Override
+          public void windowLostFocus(WindowEvent e) {
+            Thread t = new Thread(new Runnable() {
+              public void run() {
+                try {
+                  if (debugMode) {
+                    MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: Window Focus lost: Event = " + e.paramString());
+                  }
+                  setAtWorkButtonState(atWork);
+                  dialog.setEnabled(true);
+                  focusLost = true;
+                } catch (Throwable t) {
+                  MessageHandler.showError(t);
+                  closeDialog();
+                }
+              }
+            });
+            t.start();
+          }
+        });
+  
+        checkProgress.setStringPainted(true);
+        checkProgress.setIndeterminate(true);
+  
+        //  set selection background color to get compatible layout to LO
+        Color selectionColor = UIManager.getLookAndFeelDefaults().getColor("ProgressBar.selectionBackground");
+        suggestions.setSelectionBackground(selectionColor);
+        setJComboSelectionBackground(language, selectionColor);
+        setJComboSelectionBackground(changeLanguage, selectionColor);
+        setJComboSelectionBackground(addToDictionary, selectionColor);
+        setJComboSelectionBackground(activateRule, selectionColor);
+  
+        //  Define panels
+  
+        //  Define language panel
+        JPanel languagePanel = new JPanel();
+        languagePanel.setLayout(new GridBagLayout());
+        GridBagConstraints cons11 = new GridBagConstraints();
+        cons11.insets = new Insets(2, 2, 2, 2);
+        cons11.gridx = 0;
+        cons11.gridy = 0;
+        cons11.anchor = GridBagConstraints.NORTHWEST;
+        cons11.fill = GridBagConstraints.HORIZONTAL;
+        cons11.weightx = 0.0f;
+        cons11.weighty = 0.0f;
+        languagePanel.add(languageLabel, cons11);
+        cons11.gridx++;
+        cons11.weightx = 1.0f;
+        languagePanel.add(language, cons11);
+  
+        //  Define 1. right panel
+        JPanel rightPanel1 = new JPanel();
+        rightPanel1.setLayout(new GridBagLayout());
+        GridBagConstraints cons21 = new GridBagConstraints();
+        cons21.insets = new Insets(2, 0, 2, 0);
+        cons21.gridx = 0;
+        cons21.gridy = 0;
+        cons21.anchor = GridBagConstraints.NORTHWEST;
+        cons21.fill = GridBagConstraints.BOTH;
+        cons21.weightx = 1.0f;
+        cons21.weighty = 0.0f;
+        cons21.gridy++;
+        rightPanel1.add(ignoreOnce, cons21);
+        cons21.gridy++;
+        rightPanel1.add(ignoreAll, cons21);
+        cons21.gridy++;
+        rightPanel1.add(deactivateRule, cons21);
+        rightPanel1.add(addToDictionary, cons21);
+  
+        //  Define 2. right panel
+        JPanel rightPanel2 = new JPanel();
+        rightPanel2.setLayout(new GridBagLayout());
+        GridBagConstraints cons22 = new GridBagConstraints();
+        cons22.insets = new Insets(2, 0, 2, 0);
+        cons22.gridx = 0;
+        cons22.gridy = 0;
+        cons22.anchor = GridBagConstraints.NORTHWEST;
+        cons22.fill = GridBagConstraints.BOTH;
+        cons22.weightx = 1.0f;
+        cons22.weighty = 0.0f;
+        cons22.gridy++;
+        cons22.gridy++;
+        rightPanel2.add(change, cons22);
+        cons22.gridy++;
+        rightPanel2.add(changeAll, cons22);
+        cons22.gridy++;
+        rightPanel2.add(autoCorrect, cons22);
+        rightPanel2.add(activateRule, cons22);
+        
+        //  Define language panel
+        JPanel checkTypePanel = new JPanel();
+        checkTypePanel.setLayout(new GridBagLayout());
+        GridBagConstraints cons12 = new GridBagConstraints();
+        cons12.insets = new Insets(2, 2, 2, 2);
+        cons12.gridx = 0;
+        cons12.gridy = 0;
+        cons12.anchor = GridBagConstraints.NORTHWEST;
+        cons12.fill = GridBagConstraints.HORIZONTAL;
+        cons12.weightx = 1.0f;
+        cons12.weighty = 0.0f;
+        checkTypePanel.add(checkTypeLabel, cons12);
+        for (int i = 0; i < 3; i++) {
+          cons12.gridx++;
+          checkTypePanel.add(checkTypeButtons[i], cons12);
         }
-      });
-
-      checkProgressLabel = new JLabel(labelCheckProgress);
-
-      checkProgress = new JProgressBar(0, 100);
-      checkProgress.setStringPainted(true);
-      checkProgress.setIndeterminate(true);
-
-      //  set selection background color to get compatible layout to LO
-      Color selectionColor = UIManager.getLookAndFeelDefaults().getColor("ProgressBar.selectionBackground");
-      suggestions.setSelectionBackground(selectionColor);
-      setJComboSelectionBackground(language, selectionColor);
-      setJComboSelectionBackground(changeLanguage, selectionColor);
-      setJComboSelectionBackground(addToDictionary, selectionColor);
-      setJComboSelectionBackground(activateRule, selectionColor);
-
-      //  Define panels
-
-      //  Define language panel
-      JPanel languagePanel = new JPanel();
-      languagePanel.setLayout(new GridBagLayout());
-      GridBagConstraints cons11 = new GridBagConstraints();
-      cons11.insets = new Insets(2, 2, 2, 2);
-      cons11.gridx = 0;
-      cons11.gridy = 0;
-      cons11.anchor = GridBagConstraints.NORTHWEST;
-      cons11.fill = GridBagConstraints.HORIZONTAL;
-      cons11.weightx = 0.0f;
-      cons11.weighty = 0.0f;
-      languagePanel.add(languageLabel, cons11);
-      cons11.gridx++;
-      cons11.weightx = 1.0f;
-      languagePanel.add(language, cons11);
-
-      //  Define 1. right panel
-      JPanel rightPanel1 = new JPanel();
-      rightPanel1.setLayout(new GridBagLayout());
-      GridBagConstraints cons21 = new GridBagConstraints();
-      cons21.insets = new Insets(2, 0, 2, 0);
-      cons21.gridx = 0;
-      cons21.gridy = 0;
-      cons21.anchor = GridBagConstraints.NORTHWEST;
-      cons21.fill = GridBagConstraints.BOTH;
-      cons21.weightx = 1.0f;
-      cons21.weighty = 0.0f;
-      cons21.gridy++;
-      rightPanel1.add(ignoreOnce, cons21);
-      cons21.gridy++;
-      rightPanel1.add(ignoreAll, cons21);
-      cons21.gridy++;
-      rightPanel1.add(deactivateRule, cons21);
-      rightPanel1.add(addToDictionary, cons21);
-
-      //  Define 2. right panel
-      JPanel rightPanel2 = new JPanel();
-      rightPanel2.setLayout(new GridBagLayout());
-      GridBagConstraints cons22 = new GridBagConstraints();
-      cons22.insets = new Insets(2, 0, 2, 0);
-      cons22.gridx = 0;
-      cons22.gridy = 0;
-      cons22.anchor = GridBagConstraints.NORTHWEST;
-      cons22.fill = GridBagConstraints.BOTH;
-      cons22.weightx = 1.0f;
-      cons22.weighty = 0.0f;
-      cons22.gridy++;
-      cons22.gridy++;
-      rightPanel2.add(change, cons22);
-      cons22.gridy++;
-      rightPanel2.add(changeAll, cons22);
-      cons22.gridy++;
-      rightPanel2.add(autoCorrect, cons22);
-      rightPanel2.add(activateRule, cons22);
-      
-      //  Define language panel
-      JPanel checkTypePanel = new JPanel();
-      checkTypePanel.setLayout(new GridBagLayout());
-      GridBagConstraints cons12 = new GridBagConstraints();
-      cons12.insets = new Insets(2, 2, 2, 2);
-      cons12.gridx = 0;
-      cons12.gridy = 0;
-      cons12.anchor = GridBagConstraints.NORTHWEST;
-      cons12.fill = GridBagConstraints.HORIZONTAL;
-      cons12.weightx = 1.0f;
-      cons12.weighty = 0.0f;
-      checkTypePanel.add(checkTypeLabel, cons12);
-      for (int i = 0; i < 3; i++) {
-        cons12.gridx++;
-        checkTypePanel.add(checkTypeButtons[i], cons12);
+        
+        //  Define main panel
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        GridBagConstraints cons1 = new GridBagConstraints();
+        cons1.insets = new Insets(4, 4, 4, 4);
+        cons1.gridx = 0;
+        cons1.gridy = 0;
+        cons1.anchor = GridBagConstraints.NORTHWEST;
+        cons1.fill = GridBagConstraints.BOTH;
+        cons1.weightx = 1.0f;
+        cons1.weighty = 0.0f;
+        mainPanel.add(languagePanel, cons1);
+        cons1.weightx = 0.0f;
+        cons1.gridx++;
+        mainPanel.add(changeLanguage, cons1);
+        cons1.gridx = 0;
+        cons1.gridy++;
+        cons1.weightx = 1.0f;
+        cons1.weighty = 1.0f;
+        mainPanel.add(descriptionPane, cons1);
+        cons1.gridx++;
+        cons1.weightx = 0.0f;
+        cons1.weighty = 0.0f;
+        mainPanel.add(more, cons1);
+        cons1.gridx = 0;
+        cons1.gridy++;
+        cons1.weightx = 1.0f;
+        cons1.weighty = 2.0f;
+        mainPanel.add(sentencePane, cons1);
+        cons1.gridx++;
+        cons1.weightx = 0.0f;
+        cons1.weighty = 0.0f;
+        mainPanel.add(rightPanel1, cons1);
+        cons1.gridx = 0;
+        cons1.gridy++;
+        cons1.weightx = 1.0f;
+        mainPanel.add(suggestionsLabel, cons1);
+        cons1.gridy++;
+        cons1.weighty = 2.0f;
+        mainPanel.add(suggestionsPane, cons1);
+        cons1.gridx++;
+        cons1.weightx = 0.0f;
+        cons1.weighty = 0.0f;
+        mainPanel.add(rightPanel2, cons1);
+        cons1.gridx = 0;
+        cons1.gridy++;
+        cons1.weightx = 1.0f;
+        cons1.weighty = 0.0f;
+        mainPanel.add(checkTypePanel, cons1);
+  
+        //  Define general button panel
+        JPanel generalButtonPanel = new JPanel();
+        generalButtonPanel.setLayout(new GridBagLayout());
+        GridBagConstraints cons3 = new GridBagConstraints();
+        cons3.insets = new Insets(4, 4, 4, 4);
+        cons3.gridx = 0;
+        cons3.gridy = 0;
+        cons3.anchor = GridBagConstraints.NORTHWEST;
+        cons3.fill = GridBagConstraints.HORIZONTAL;
+        cons3.weightx = 1.0f;
+        cons3.weighty = 0.0f;
+        generalButtonPanel.add(help, cons3);
+        cons3.gridx++;
+        generalButtonPanel.add(options, cons3);
+        cons3.gridx++;
+        generalButtonPanel.add(undo, cons3);
+        cons3.gridx++;
+        generalButtonPanel.add(close, cons3);
+        
+        //  Define check progress panel
+        JPanel checkProgressPanel = new JPanel();
+        checkProgressPanel.setLayout(new GridBagLayout());
+        GridBagConstraints cons4 = new GridBagConstraints();
+        cons4.insets = new Insets(4, 4, 4, 4);
+        cons4.gridx = 0;
+        cons4.gridy = 0;
+        cons4.anchor = GridBagConstraints.NORTHWEST;
+        cons4.fill = GridBagConstraints.HORIZONTAL;
+        cons4.weightx = 0.0f;
+        cons4.weighty = 0.0f;
+        checkProgressPanel.add(checkProgressLabel, cons4);
+        cons4.gridx++;
+        cons4.weightx = 4.0f;
+        checkProgressPanel.add(checkProgress, cons4);
+  
+        contentPane.setLayout(new GridBagLayout());
+        GridBagConstraints cons = new GridBagConstraints();
+        cons.insets = new Insets(8, 8, 8, 8);
+        cons.gridx = 0;
+        cons.gridy = 0;
+        cons.anchor = GridBagConstraints.NORTHWEST;
+        cons.fill = GridBagConstraints.BOTH;
+        cons.weightx = 1.0f;
+        cons.weighty = 1.0f;
+        contentPane.add(mainPanel, cons);
+        cons.gridy++;
+        cons.weighty = 0.0f;
+        contentPane.add(generalButtonPanel, cons);
+        cons.gridy++;
+        contentPane.add(checkProgressPanel, cons);
+  
+        dialog.pack();
+        // center on screen:
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+  //    Dimension frameSize = dialog.getSize();
+        Dimension frameSize = new Dimension(dialogWidth, dialogHeight);
+        dialog.setSize(frameSize);
+        dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
+            screenSize.height / 2 - frameSize.height / 2);
+        dialog.setLocationByPlatform(true);
+        
+        ToolTipManager.sharedInstance().setDismissDelay(30000);
+      } catch (Throwable t) {
+        MessageHandler.showError(t);
+        closeDialog();
       }
-      
-      //  Define main panel
-      JPanel mainPanel = new JPanel();
-      mainPanel.setLayout(new GridBagLayout());
-      GridBagConstraints cons1 = new GridBagConstraints();
-      cons1.insets = new Insets(4, 4, 4, 4);
-      cons1.gridx = 0;
-      cons1.gridy = 0;
-      cons1.anchor = GridBagConstraints.NORTHWEST;
-      cons1.fill = GridBagConstraints.BOTH;
-      cons1.weightx = 1.0f;
-      cons1.weighty = 0.0f;
-      mainPanel.add(languagePanel, cons1);
-      cons1.weightx = 0.0f;
-      cons1.gridx++;
-      mainPanel.add(changeLanguage, cons1);
-      cons1.gridx = 0;
-      cons1.gridy++;
-      cons1.weightx = 1.0f;
-      cons1.weighty = 1.0f;
-      mainPanel.add(descriptionPane, cons1);
-      cons1.gridx++;
-      cons1.weightx = 0.0f;
-      cons1.weighty = 0.0f;
-      mainPanel.add(more, cons1);
-      cons1.gridx = 0;
-      cons1.gridy++;
-      cons1.weightx = 1.0f;
-      cons1.weighty = 2.0f;
-      mainPanel.add(sentencePane, cons1);
-      cons1.gridx++;
-      cons1.weightx = 0.0f;
-      cons1.weighty = 0.0f;
-      mainPanel.add(rightPanel1, cons1);
-      cons1.gridx = 0;
-      cons1.gridy++;
-      cons1.weightx = 1.0f;
-      mainPanel.add(suggestionsLabel, cons1);
-      cons1.gridy++;
-      cons1.weighty = 2.0f;
-      mainPanel.add(suggestionsPane, cons1);
-      cons1.gridx++;
-      cons1.weightx = 0.0f;
-      cons1.weighty = 0.0f;
-      mainPanel.add(rightPanel2, cons1);
-      cons1.gridx = 0;
-      cons1.gridy++;
-      cons1.weightx = 1.0f;
-      cons1.weighty = 0.0f;
-      mainPanel.add(checkTypePanel, cons1);
-
-      //  Define general button panel
-      JPanel generalButtonPanel = new JPanel();
-      generalButtonPanel.setLayout(new GridBagLayout());
-      GridBagConstraints cons3 = new GridBagConstraints();
-      cons3.insets = new Insets(4, 4, 4, 4);
-      cons3.gridx = 0;
-      cons3.gridy = 0;
-      cons3.anchor = GridBagConstraints.NORTHWEST;
-      cons3.fill = GridBagConstraints.HORIZONTAL;
-      cons3.weightx = 1.0f;
-      cons3.weighty = 0.0f;
-      generalButtonPanel.add(help, cons3);
-      cons3.gridx++;
-      generalButtonPanel.add(options, cons3);
-      cons3.gridx++;
-      generalButtonPanel.add(undo, cons3);
-      cons3.gridx++;
-      generalButtonPanel.add(close, cons3);
-      
-      //  Define check progress panel
-      JPanel checkProgressPanel = new JPanel();
-      checkProgressPanel.setLayout(new GridBagLayout());
-      GridBagConstraints cons4 = new GridBagConstraints();
-      cons4.insets = new Insets(4, 4, 4, 4);
-      cons4.gridx = 0;
-      cons4.gridy = 0;
-      cons4.anchor = GridBagConstraints.NORTHWEST;
-      cons4.fill = GridBagConstraints.HORIZONTAL;
-      cons4.weightx = 0.0f;
-      cons4.weighty = 0.0f;
-      checkProgressPanel.add(checkProgressLabel, cons4);
-      cons4.gridx++;
-      cons4.weightx = 4.0f;
-      checkProgressPanel.add(checkProgress, cons4);
-
-      contentPane.setLayout(new GridBagLayout());
-      GridBagConstraints cons = new GridBagConstraints();
-      cons.insets = new Insets(8, 8, 8, 8);
-      cons.gridx = 0;
-      cons.gridy = 0;
-      cons.anchor = GridBagConstraints.NORTHWEST;
-      cons.fill = GridBagConstraints.BOTH;
-      cons.weightx = 1.0f;
-      cons.weighty = 1.0f;
-      contentPane.add(mainPanel, cons);
-      cons.gridy++;
-      cons.weighty = 0.0f;
-      contentPane.add(generalButtonPanel, cons);
-      cons.gridy++;
-      contentPane.add(checkProgressPanel, cons);
-
-      dialog.pack();
-      // center on screen:
-      Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-//    Dimension frameSize = dialog.getSize();
-      Dimension frameSize = new Dimension(dialogWidth, dialogHeight);
-      dialog.setSize(frameSize);
-      dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
-          screenSize.height / 2 - frameSize.height / 2);
-      dialog.setLocationByPlatform(true);
-      
-      ToolTipManager.sharedInstance().setDismissDelay(30000);
     }
     
     /**
@@ -1756,10 +1784,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
         
         if (error != null) {
           isSpellError = error.aRuleIdentifier.equals(spellRuleId);
+          blockSentenceError = true;
           sentenceIncludeError.setEnabled(true);
           sentenceIncludeError.setBackground(Color.white);
           sentenceIncludeError.setText(docCache.getFlatParagraph(y));
           setAttributesForErrorText(error);
+          blockSentenceError = false;
           errorDescription.setEnabled(true);
           errorDescription.setText(error.aFullComment);
           errorDescription.setForeground(defaultForeground);
@@ -1778,6 +1808,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             changeAll.setEnabled(true);
             autoCorrect.setEnabled(true);
           } else {
+            suggestions.setEnabled(true);
             suggestions.setListData(new String[0]);
             change.setEnabled(false);
             changeAll.setEnabled(false);
@@ -1835,6 +1866,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             MessageHandler.printToLogFile("CheckDialog: findNextError: All set");
           }
         } else {
+          language.setEnabled(true);
           Language lang = locale == null || !documents.hasLocale(locale)? lt.getLanguage() : documents.getLanguage(locale);
           language.setSelectedItem(lang.getTranslatedName(messages));
           language.setEnabled(false);
@@ -1849,17 +1881,21 @@ public class SpellAndGrammarCheckDialog extends Thread {
           autoCorrect.setVisible(true);
           autoCorrect.setEnabled(false);
           focusLost = false;
+          suggestions.setEnabled(true);;
           suggestions.setListData(new String[0]);
           undo.setEnabled(undoList != null && !undoList.isEmpty());
+          errorDescription.setEnabled(true);
           errorDescription.setForeground(Color.RED);
           errorDescription.setText(endOfDokumentMessage == null ? "" : endOfDokumentMessage);
           errorDescription.setBackground(Color.white);
+          sentenceIncludeError.setEnabled(true);
           sentenceIncludeError.setText("");
           errorDescription.setEnabled(true);
           change.setEnabled(false);
           if (docCache.size() > 0) {
             locale = docCache.getFlatParagraphLocale(docCache.size() - 1);
           }
+          sentenceIncludeError.setEnabled(false);
         }
       } catch (Throwable e) {
         MessageHandler.showError(e);
@@ -1909,6 +1945,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     private void setAttributesForErrorText(SingleProofreadingError error) {
       //  Get Attributes
+      sentenceIncludeError.setEnabled(true);
       MutableAttributeSet attrs = sentenceIncludeError.getInputAttributes();
       StyledDocument doc = sentenceIncludeError.getStyledDocument();
       //  Set back to default values

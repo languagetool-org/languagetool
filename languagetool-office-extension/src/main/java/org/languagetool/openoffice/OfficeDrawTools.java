@@ -43,6 +43,7 @@ import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.presentation.XHandoutMasterSupplier;
 import com.sun.star.presentation.XPresentationPage;
+import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.uno.UnoRuntime;
@@ -167,8 +168,8 @@ public class OfficeDrawTools {
   /**
    * get all paragraphs from Text of a shape
    */
-  private static void getAllParagraphsFromText(List<String> paragraphs, List<Locale> locales, List<Integer> pageBegins, 
-      XText xText) throws UnknownPropertyException, WrappedTargetException {
+  private static int getAllParagraphsFromText(int nPara, List<String> paragraphs, 
+      List<Locale> locales, XText xText) throws Throwable {
     if (xText != null) {
       XTextCursor xTextCursor = xText.createTextCursor();
       xTextCursor.gotoStart(false);
@@ -178,6 +179,7 @@ public class OfficeDrawTools {
       for (k = 0; k < sText.length(); k++) {
         if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
           paragraphs.add(sText.substring(kStart, k));
+          nPara++;
           xTextCursor.goRight((short)(k - kStart), true);
           XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
           locales.add((Locale) xParaPropSet.getPropertyValue("CharLocale"));
@@ -187,13 +189,15 @@ public class OfficeDrawTools {
       }
       if (k > kStart) {
         paragraphs.add(sText.substring(kStart, k));
+        nPara++;
         xTextCursor.goRight((short)(k - kStart), true);
         XPropertySet xParaPropSet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
         locales.add((Locale) xParaPropSet.getPropertyValue("CharLocale"));
       }
     }
+    return nPara;
   }
-  
+
   /**
    * get all paragraphs of a impress document
    */
@@ -212,15 +216,17 @@ public class OfficeDrawTools {
           } else {
             xDrawPage = getNotesPage(xDrawPage);
           }
-          pageBegins.add(nPara);
           XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
           int nShapes = xShapes.getCount();
+          if (nShapes > 0) {
+            pageBegins.add(nPara);
+          }
           for(int j = 0; j < nShapes; j++) {
             Object oShape = xShapes.getByIndex(j);
             XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
             if (xShape != null) {
               XText xText = UnoRuntime.queryInterface(XText.class, xShape);
-              getAllParagraphsFromText(paragraphs, locales, pageBegins, xText);
+              nPara = getAllParagraphsFromText(nPara, paragraphs, locales, xText);
             } else {
               MessageHandler.printToLogFile("OfficeDrawTools: getAllParagraphs: xShape " + j + " is null");
             }
@@ -233,7 +239,7 @@ public class OfficeDrawTools {
     OfficeDrawTools o = new OfficeDrawTools();
     return o.new ParagraphContainer(paragraphs, locales, pageBegins);
   }
-  
+
   /**
    * find the Paragraph to change in a shape and change the text
    * returns -1 if it was found
@@ -403,17 +409,17 @@ public class OfficeDrawTools {
       if (nParaCount == nPara && sText.length() > 0) {
         return -1;
       }
-      int lastParaEnd = 0;
+      int kStart = 0;
       for (int k = 0; k < sText.length(); k++) {
         if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
           nParaCount++;
-          lastParaEnd = k;
+          kStart = k + 1;
           if (nParaCount == nPara) {
             return -1;
           }
         }
       }
-      if (lastParaEnd < sText.length() - 1) {
+      if (kStart < sText.length()) {
         nParaCount++;
       }
     }
@@ -440,6 +446,7 @@ public class OfficeDrawTools {
           }
           XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
           int nShapes = xShapes.getCount();
+//          MessageHandler.printToLogFile("OfficeDrawTools: setCurrentPage: Page: " + i + ", n: " +n + ", nParaCount: " + nParaCount);
           for(int j = 0; j < nShapes; j++) {
             Object oShape = xShapes.getByIndex(j);
             XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
