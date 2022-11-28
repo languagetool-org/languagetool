@@ -399,10 +399,38 @@ regexp case-insensitive maken: (?i)
                     <example>1</example>
                 </antipattern>
                 <antipattern>
+                    <token regexp="yes">blz|pag|nr|no</token>
+                    <token spacebefore="no">.</token>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">[0-9]+|en|of</token>
+                    <token regexp="yes">[0-9]+</token>
                     <example>telefoonnummer 070 320 123 456</example>
+                    <example>Nummers 1 en 2 zijn goed.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token>t</token>
+                    <token>/</token>
+                    <token>m</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <example>Blad 5 t/m 6 zijn fout.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token>a</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <example>Maar 5 a 6 zijn er goed.</example>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
+                    <token>tot</token>
+                    <token>en</token>
+                    <token>met</token>
+                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
+                    <example>Het loopt van 5 tot en met 6.</example>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[0-9]+</token>
