@@ -394,6 +394,17 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
             <rule>
                 <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="SENT_END" regexp="yes">[0-9]+</token>
+                    <example>1</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token>op</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <example>wel 1 op 10 mensen zet het aan.</example>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">[0-9]+|\p{L}|\p{InLetterlike_Symbols}|\p{Pe}</token>
                     <token regexp="yes">\p{Sm}|[\-\–\/x,.]</token>
                     <token regexp="yes">[0-9]+(&measurementUnitsAll;|[%\-\–\/x])?</token>
