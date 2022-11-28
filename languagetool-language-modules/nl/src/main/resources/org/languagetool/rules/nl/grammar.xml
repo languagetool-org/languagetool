@@ -399,15 +399,34 @@ regexp case-insensitive maken: (?i)
                     <example>1</example>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">blz|pag|nr|no</token>
+                    <token regexp="yes">[1-9][0-9]{1,2}</token>
+                    <token regexp="yes">[0-9]{3}</token>
+                    <example>13 000</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[A-Z].*(straat|plein|weg|straße)|getal</token>
+                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
+                </antipattern>
+                <antipattern>
+                    <token>pagina</token>
+                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
+                    <token>van</token>
+                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">blz|pag|nr|no|art</token>
                     <token spacebefore="no">.</token>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes">[0-9]+|en|of</token>
+                    <token regexp="yes">[×*]</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">[0-9]+</token>
-                    <example>telefoonnummer 070 320 123 456</example>
+                    <token regexp="yes">[0-9]+|en|of|tot</token>
+                    <token regexp="yes">[0-9]+</token>
+                    <example>Telefoonnummer 070 320 123 456.</example>
                     <example>Nummers 1 en 2 zijn goed.</example>
                 </antipattern>
                 <antipattern>
@@ -420,7 +439,7 @@ regexp case-insensitive maken: (?i)
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token>a</token>
+                    <token regexp="yes">a|à|&amp;</token>
                     <token regexp="yes">[0-9]+</token>
                     <example>Maar 5 a 6 zijn er goed.</example>
                 </antipattern>
