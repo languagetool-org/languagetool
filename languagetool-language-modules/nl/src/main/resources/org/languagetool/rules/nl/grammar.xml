@@ -10520,18 +10520,18 @@ onwaarschijnlijk
         <rulegroup id="STAND_IN" name="Stand in/stand-in" default="temp_off">
             <rule>
                 <antipattern>
-                    <token inflected="yes">houden</token>
-                    <token>stand</token>
-                </antipattern>
-                <antipattern>
-                    <token>tot</token>
-                    <token>stand</token>
-                </antipattern>
-                <pattern>
                     <token>stand</token>
                     <token>in</token>
+                    <token>de</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">de|een</token>
+                    <marker>
+                        <token>stand</token>
+                        <token>in</token>
+                    </marker>
                 </pattern>
-                <message>U bedoelt vast een <suggestion>stand-in</suggestion>.</message>
+                <message>Een plaatsvervanger is een <suggestion>stand-in</suggestion>.</message>
                 <example correction="stand-in">De <marker>stand in</marker> doet de stunts.</example>
             </rule>
         </rulegroup>
@@ -44984,7 +44984,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <marker>
-                        <token>vb</token>
+                        <token case_sensitive="yes">vb</token>
                         <token>.</token>
                     </marker>
                 </pattern>
@@ -44998,7 +44998,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <marker>
-                        <token>mtr</token>
+                        <token case_sensitive="yes" regexp="yes">[Mm]tr</token>
                     </marker>
                 </pattern>
                 <message>Dit is geen correcte afkorting.</message>
@@ -45009,7 +45009,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <marker>
-                        <token>sec</token>
+                        <token case_sensitive="yes" regexp="yes">[Ss]ec</token>
                     </marker>
                 </pattern>
                 <message>Dit is geen correcte afkorting.</message>
@@ -45023,7 +45023,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <marker>
-                        <token>ivm</token>
+                        <token case_sensitive="yes">ivm</token>
                     </marker>
                 </pattern>
                 <message>In deze afkorting horen punten.</message>
@@ -45033,7 +45033,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <marker>
-                        <token>ipv</token>
+                        <token case_sensitive="yes">ipv</token>
                     </marker>
                 </pattern>
                 <message>In deze afkorting horen punten.</message>
