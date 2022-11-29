@@ -212,6 +212,7 @@ public class Spanish extends Language implements AutoCloseable {
       case "CONFUSIONS": return 40;
       case "NO_SEPARADO": return 40;
       case "PARTICIPIO_MS": return 40;
+      case "VERBO_MODAL_INFINITIVO": return 40; // greater than DIACRITICS
       case "EL_NO_TILDE": return 40; // greater than SE_CREO
       case "SE_CREO": return 35; // greater than DIACRITICS --> or less than DIACRITICS_VERB_N_ADJ ????
       case "DIACRITICS": return 30;

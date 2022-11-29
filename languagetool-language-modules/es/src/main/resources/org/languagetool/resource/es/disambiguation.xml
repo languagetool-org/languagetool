@@ -1500,6 +1500,27 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="V.N.*"/>
     </rule>
+    <rulegroup id="poder_inf_nom" name="poder (inf/nom)">
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">coger|tomar|disminuir|aumentar</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">poder</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.N.*"/>
+        </rule>
+        <rule>
+            <!--needed when next word should be infinitive, but the infinitive is wrong or missing -->
+            <pattern>
+                <token>no</token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes">poder<exception postag="_GN_MS"/></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
+        </rule>
+    </rulegroup>
     <rule id="poder_podar" name="poder/podar + infinitiu">
         <pattern>
             <marker>
@@ -5153,7 +5174,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token postag="D[^R].[MC][SN0].*" postag_regexp="yes"><exception postag="RG"/></token>
+                    <token postag="D[^R].[MC][SN0].*" postag_regexp="yes"/>
                     <token postag="(N|A.|PX).[MC][SN0].*|V.P..SM" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>

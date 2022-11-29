@@ -14798,13 +14798,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token skip="5">si</token>
                 <token inflected="yes" regexp="yes">poder|deber</token>
             </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token>cuanto</token>
+                <token inflected="yes">poder</token>
+            </antipattern>
             <pattern>
-                <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">poder|deber<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">poder|deber|gustar|desear|querer<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <marker>
-                    <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|ser</exception></token>
+                    <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|ser</exception></token>
                 </marker>
             </pattern>
-            <message>Posible confusión. ¿Quería decir <suggestion><match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N...."/></suggestion>?</message>
+            <message>Posible confusión. ¿Quería decir <suggestion><match no="2" postag="(V.)IP.*" postag_regexp="yes" postag_replace="$1N...."/></suggestion>?</message>
+            <!-- bug: why 'entrever' is synthesized? -->
             <example correction="entrever|entrevistar">Es una lástima no poder <marker>entrevista</marker> al diputado.</example>
             <example correction="hacer">Quien pueda <marker>hace</marker> un milagro que lo haga.</example>
             <example>Un gran poder conlleva una gran responsabilidad.</example>
@@ -14818,7 +14824,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Como instrumento de poder puede conducir a resultados ciertamente perversos.</example>
             <example>y grupos cuyo poder pasaba fuera de las fronteras nacionales.</example>
             <example>El dictador llegó al poder hace quince años.</example>
-            <!-- TODO: <example>en cuanto Franco coge poder desaparece el partido</example>-->
+            <example>en cuanto Franco coge poder desaparece el partido</example>
+            <example>Y en cuanto puedas repite.</example>
+            <example>Lo que probablemente te recuerde cuanto poder tiene sobre tu corazón.</example>
         </rule>
         <rule id="DOS_VERBOS_MODALES" name="dos verbos modales seguidos" default="temp_off">
             <antipattern>
