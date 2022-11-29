@@ -16206,6 +16206,20 @@ O namorado dela era um ladrão.
       <!--
       Ana, da um beijo ao Rui. → Ana, dá um beijo ao Rui.
       -->
+      <antipattern>
+        <token>da</token>
+        <token>uma</token>
+        <token>da</token>
+        <token regexp='yes'>tarde|manhã|madrugada</token>
+        <example>Por volta da uma da tarde o comboio estava a aproximar-se da cidade</example>
+      </antipattern>
+      <antipattern>
+        <token>da</token>
+        <token regexp='yes'>muito|pouco</token>
+        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+        <example>e da pouco límpida água do rio</example>
+        <example>além da muito comentada quebra do sigilo bancário</example>
+      </antipattern>
       <pattern>
         <marker>
           <token regexp='yes'>das?
@@ -16216,7 +16230,9 @@ O namorado dela era um ladrão.
       </pattern>
       <message>Possível confusão de termos.</message>
       <suggestion><match no='1' regexp_match='a' regexp_replace='á'/></suggestion>
-      <example correction="dá">Ana, <marker>da</marker> um beijo ao Rui.</example>
+      <suggestion>dar</suggestion>
+      <suggestion>de</suggestion>
+      <example correction="dá|dar|de">Ana, <marker>da</marker> um beijo ao Rui.</example>
     </rule>
 
 
