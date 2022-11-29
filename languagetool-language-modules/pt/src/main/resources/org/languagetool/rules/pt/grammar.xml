@@ -18450,6 +18450,28 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <rulegroup id='CAUSAR_DIFICULDADE_DIFICULTAR' name="Simplificar: Causar dificuldade → Dificultar">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-29 (25-JUL-2022+) -->
+
+      <!--
+      A equação vai causar dificuldades na criação do algoritmo. → A equação vai dificultar na criação do algoritmo.
+      -->
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected='yes'>causar</token>
+            <token regexp="yes">dificuldades?</token>
+          </marker>
+          <token><exception postag_regexp='yes' postag='NC.+|AQ.+'/></token>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dificultar</match></suggestion>
+        <example correction="dificultar">A equação vai <marker>causar dificuldades</marker> na criação do algoritmo.</example>
+      </rule>
+
+    </rulegroup>
+
+
     <!-- COMO É VISTO conforme visto -->
     <rule id='COMO_É_CONFORME' name="Simplificar: Como é → Conforme" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-25 (25-JUL-2022+) -->
