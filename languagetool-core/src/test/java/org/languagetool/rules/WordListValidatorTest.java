@@ -147,6 +147,7 @@ public class WordListValidatorTest {
           "İlkay",
           "Gündoğan",
           "Tuğrul",
+          "Kīlauea",
           "Terzić",
           "Ñuñoa",
           "Stevanović",
