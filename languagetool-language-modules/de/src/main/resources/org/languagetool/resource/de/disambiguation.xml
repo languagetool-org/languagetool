@@ -7487,4 +7487,34 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="ADJ.*"/>
     </rule>
+    <rulegroup id="LANGE_KEIN_VER" name="'lang' kein Verb">
+        <antipattern>
+            <token regexp="yes">lange?</token>
+            <token>ich</token>
+            <token>zu</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token>wie</token>
+                <marker>
+                    <token regexp="yes" postag="VER.*" postag_regexp="yes">lange?</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <antipattern>
+                <token>ich</token>
+                <token min="0">zu</token>
+                <token regexp="yes">lange?</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes" postag="VER.*" postag_regexp="yes">lange?</token>
+                </marker>
+                <token>her</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup>
 </rules>
