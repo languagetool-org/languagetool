@@ -19441,6 +19441,71 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <rulegroup id='VERBO_PRON_PESS_REM_PRON_PESS' name="Simplificar: Frase com Verbo + Pronome Pessoal → Omitir Pronome Pessoal">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-29 (25-JUL-2022+) -->
+      <!--
+      Se me reformar DEDICAREI o resto da MINHA vida a isso. → Se me reformar DEDICAREI o resto da vida a isso.
+      Se te reformares DEDICARÁS o resto da TUA vida a isso. → Se te reformares DEDICARÁS o resto da vida a isso.
+      Se se reformarem DEDICARÃO o resto das SUAS vidas a isso. → Se se reformarem DEDICARÃO o resto das vidas a isso.
+      -->
+
+      <!-- 1st person -->
+      <rule>
+        <pattern>
+          <token postag='VMI.1.+' postag_regexp='yes'/>
+          <token/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <marker>
+            <token postag='SPS00:DA.+' postag_regexp='yes'/>
+            <token regexp='yes'>minhas?</token>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          </marker>
+          <token regexp='no'><exception postag_regexp='yes' postag='_PUNCT|SPS00:DA.+'/></token>
+        </pattern>
+        <message>Poderá omitir o pronome pessoal nesta perífrase.</message>
+        <suggestion>\4 \6</suggestion>
+        <example correction="da vida">Se me reformar dedicarei o resto <marker>da minha vida</marker> a isso.</example>
+      </rule>
+
+      <!-- 2nd person -->
+      <rule>
+        <pattern>
+          <token postag='VMI.2.+' postag_regexp='yes'/>
+          <token/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <marker>
+            <token postag='SPS00:DA.+' postag_regexp='yes'/>
+            <token regexp='yes'>tuas?</token>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          </marker>
+          <token regexp='no'><exception postag_regexp='yes' postag='_PUNCT|SPS00:DA.+'/></token>
+        </pattern>
+        <message>Poderá omitir o pronome pessoal nesta perífrase.</message>
+        <suggestion>\4 \6</suggestion>
+        <example correction="da vida">Se te reformares dedicarás o resto <marker>da tua vida</marker> a isso.</example>
+      </rule>
+
+      <!-- 3rd person -->
+      <rule>
+        <pattern>
+          <token postag='VMI.3.+' postag_regexp='yes'/>
+          <token/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <marker>
+            <token postag='SPS00:DA.+' postag_regexp='yes'/>
+            <token regexp='yes'>suas?</token>
+            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          </marker>
+          <token regexp='no'><exception postag_regexp='yes' postag='_PUNCT|SPS00:DA.+'/></token>
+        </pattern>
+        <message>Poderá omitir o pronome pessoal nesta perífrase.</message>
+        <suggestion>\4 \6</suggestion>
+        <example correction="das vidas">Se se reformarem dedicarão o resto <marker>das suas vidas</marker> a isso.</example>
+      </rule>
+
+    </rulegroup>
+
+
     <!-- VÍDEO CONFERÊNCIA videoconferência -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-24 (21-OCT-2020+)     -->
     <rulegroup id='VÍDEO_CONFERÊNCIA' name="Videoconferência">
