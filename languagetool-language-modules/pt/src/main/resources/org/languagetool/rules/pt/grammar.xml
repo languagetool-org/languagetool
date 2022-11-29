@@ -7896,6 +7896,32 @@ O namorado dela era um ladrão.
 	  
     </rulegroup>
 
+    <rulegroup id='GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS' name="Concordância nominal: Gênero e número" default='temp_off'>
+        <rule>
+            <pattern>
+                <token negate='yes' regexp='yes'>&hifen;</token>
+                <marker>
+                    <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MS.+' postag_regexp='yes'>
+                        <exception postag='(?:[NZ].|A..)[CF][NS].+|(?:[NZ].|A..)MP.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+                    <token min='0' regexp='yes'>&adverbios_de_intensidade;
+                        <exception regexp='yes'>quanto|quão|tão</exception></token>
+                    <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'>
+                        <exception regexp='yes'>x|ás?</exception>
+                        <exception regexp='yes'>\p{Lu}+</exception></token>
+                    <token postag='(?:N.|A..)FP.+' postag_regexp='yes'>
+                        <exception regexp='yes'>\p{Lu}+</exception></token>
+                </marker>
+            </pattern>
+            <message>Possível erro de concordância de gênero ou número.</message>
+            <suggestion><match no='2' postag="(D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+            <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+            <suggestion><match no='2' postag="(D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+            <suggestion><match no='2' postag="(D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+            <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
+            <example correction='As enxadas|O enxada|A enxada|Os enxada|O, enxadas'><marker>O enxadas</marker> são pesadas.</example>
+        </rule>
+    </rulegroup>
+
     <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
       <!--              General verbal concordance errors           -->
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16  -->
