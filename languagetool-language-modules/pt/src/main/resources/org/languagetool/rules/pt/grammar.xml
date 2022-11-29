@@ -12891,10 +12891,41 @@ O namorado dela era um ladrão.
         <example>O almoço foi à uma da tarde.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>bife</token>
+          <token>à</token>
+          <example>bife à café</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>à</token>
+         <and>
+          <token postag='NC.+|A.+' postag_regexp='yes'/>
+          <token regexp="yes">\p{Lu}.*</token>
+         </and>
+          <example>à Sapatos Bem Grandes de Lubbock</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>à</token>
+          <token postag='NPM.G.+' postag_regexp='yes'/>
+         <and>
+          <token postag='NC.+|A.+' postag_regexp='yes'/>
+          <token regexp="yes">\p{Lu}*</token>
+         </and>
+          <example>Em 1986 a empresa foi vendida à Rio Gráfica Editora</example>
+          <example>Foi uma concessionária municipal filiada à Rio Ônibus.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>à</token>
+          <token regexp='yes'>sr|dr|prof</token>
+          <token spacebefore='no'>.</token>
+          <token spacebefore='no'>ª</token>
+          <example>à Sr.ª Ministra de Estado</example>
+        </antipattern>
         <pattern>
           <token regexp='yes'>à</token>
           <token postag='D[IP].M.+|N.M.+|A..M.+|P..M.+' postag_regexp='yes'>
             <exception postag='D[IP].[FC].+|N.[FC].+|A..[FC].+|P..[FC].+' postag_regexp='yes'/>
+            <exception regexp="yes">PR-*|euro-ásia</exception>
           </token>
         </pattern>
         <message>Não se utiliza a crase antes de palavras masculinas.</message>
