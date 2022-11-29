@@ -143,6 +143,7 @@ public class WordListValidatorTest {
           "S&P",
           "ČSSR",
           "V&D",
+          "Loïc/S",
           "İlkay",
           "Gündoğan",
           "Tuğrul",
