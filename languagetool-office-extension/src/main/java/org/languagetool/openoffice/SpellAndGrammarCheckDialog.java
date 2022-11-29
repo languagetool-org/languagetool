@@ -921,6 +921,9 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     public LtCheckDialog(XComponentContext xContext) {
       ltImage = OfficeTools.getLtImage();
+      if (!documents.isJavaLookAndFeelSet()) {
+        documents.setJavaLookAndFeel();
+      }
       undoList = new ArrayList<UndoContainer>();
 
       dialog = new JDialog();

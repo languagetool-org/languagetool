@@ -1005,38 +1005,49 @@ public class DocumentCache implements Serializable {
    * reset the document cache for impress documents
    */
   private void refreshImpressCalcCache(XComponent xComponent) {
-    ParagraphContainer container;
-    if (docType == DocumentType.IMPRESS) {
-      container = OfficeDrawTools.getAllParagraphs(xComponent);
-    } else if (docType == DocumentType.CALC) {
-      container = OfficeSpreadsheetTools.getAllParagraphs(xComponent);
-    } else {
-      return;
-    }
-    clear();
-    paragraphs.addAll(container.paragraphs);
-    for (int i = 0; i < NUMBER_CURSOR_TYPES - 1; i++) {
-      chapterBegins.add(new ArrayList<Integer>());
-    }
-    nText = container.paragraphs.size();
-    chapterBegins.get(CURSOR_TYPE_TEXT).addAll(container.pageBegins);
-    for (Locale locale : container.locales) {
-      locales.add(new SerialLocale(locale));
-    }
-    for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
-      toParaMapping.add(new ArrayList<Integer>());
-    }
-    for (int i = 0; i < paragraphs.size(); i++) {
-      toTextMapping.add(new TextParagraph(CURSOR_TYPE_TEXT, i));
-      toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
-      footnotes.add(new int[0]);
-      deletedCharacters.add(null);
-    }
-    if (debugMode) {
-      MessageHandler.printToLogFile("DocumentCache: reset: isImpress: Number of paragraphse: " + paragraphs.size());
-      for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
-        MessageHandler.printToLogFile("DocumentCache: reset: CursorType: " + i + "; Number of paragraphs: " + toParaMapping.get(i).size());
+    try {
+      isDirty = false;
+      ParagraphContainer container;
+      if (docType == DocumentType.IMPRESS) {
+        container = OfficeDrawTools.getAllParagraphs(xComponent);
+      } else if (docType == DocumentType.CALC) {
+        container = OfficeSpreadsheetTools.getAllParagraphs(xComponent);
+      } else {
+        return;
       }
+      clear();
+      paragraphs.addAll(container.paragraphs);
+      for (int i = 0; i < NUMBER_CURSOR_TYPES - 1; i++) {
+        chapterBegins.add(new ArrayList<Integer>());
+      }
+      chapterBegins.get(CURSOR_TYPE_TEXT).addAll(container.pageBegins);
+      for (Locale locale : container.locales) {
+        locales.add(new SerialLocale(locale));
+      }
+      for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+        toParaMapping.add(new ArrayList<Integer>());
+      }
+      for (int i = 0; i < paragraphs.size(); i++) {
+        toTextMapping.add(new TextParagraph(CURSOR_TYPE_TEXT, i));
+        toParaMapping.get(CURSOR_TYPE_TEXT).add(i);
+        footnotes.add(new int[0]);
+        deletedCharacters.add(null);
+      }
+      nText = toParaMapping.get(CURSOR_TYPE_TEXT).size();
+      nTable = toParaMapping.get(CURSOR_TYPE_TABLE).size();
+      nShape = toParaMapping.get(CURSOR_TYPE_SHAPE).size();
+      nFootnote = toParaMapping.get(CURSOR_TYPE_FOOTNOTE).size();
+      nEndnote = toParaMapping.get(CURSOR_TYPE_ENDNOTE).size();
+      nHeaderFooter = toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size();
+      if (debugMode) {
+        MessageHandler.printToLogFile("DocumentCache: reset: isImpress: Number of paragraphse: " + paragraphs.size());
+        for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
+          MessageHandler.printToLogFile("DocumentCache: reset: CursorType: " + i + "; Number of paragraphs: " + toParaMapping.get(i).size());
+        }
+      }
+    } catch (Throwable t) {
+      isDirty = true;
+      MessageHandler.showError(t);
     }
   }
 
