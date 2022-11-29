@@ -49201,6 +49201,13 @@ O namorado dela era um ladrão.
         <example>E olha que tem muitos afilhados para estas vagas de coordenadores!</example>
         <example>Acha que tem mão da rede globo nisso aí?</example>
       </antipattern>
+      <antipattern>
+          <token>que</token>
+          <token regexp="yes">t[eê]m</token>
+          <token>a</token>
+          <token postag='VMN0000'/>
+          <example>uma realidade construída pelo homem que tem a ver com a interação das pessoas.</example>
+      </antipattern>
 
       <pattern>
         <token negate="yes" inflected='yes'>ser</token>
@@ -49218,9 +49225,10 @@ O namorado dela era um ladrão.
         <token negate_pos="yes" postag='_PUNCT|SENT_END' postag_regexp='yes'/>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
-      <suggestion>com</suggestion>
-      <example correction="com">São dicionários <marker>que têm</marker> milhões de palavras.</example>
-      <example>São dicionários <marker>com</marker> milhões de palavras.</example>
+      <suggestion> com</suggestion>
+      <suggestion>, com</suggestion>
+      <example correction=" com|, com">São dicionários<marker> que têm</marker> milhões de palavras.</example>
+      <example>São dicionários<marker> com</marker> milhões de palavras.</example>
 
       <example>Contudo, os simuladores não são perfeitos e têm limitações.</example>
     </rule>
