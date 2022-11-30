@@ -7898,27 +7898,56 @@ O namorado dela era um ladrão.
 
     <rulegroup id='GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS' name="Concordância nominal: Gênero e número" default='temp_off'>
         <rule>
+            <antipattern>
+              <token regexp='yes'>\p{L}*-\p{L}*</token>
+              <example>Quem inventou o micro-ondas?</example>
+            </antipattern>
+            <antipattern>
+               <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)MS.+' postag_regexp='yes'/>
+              <and>
+               <token postag='(?:N.|A..)FP.+' postag_regexp='yes'/>
+               <token regexp='yes'>\p{Lu}.*</token>
+              </and>
+               <example>Daniel Müller, nova voz do Chaves, está agora nos créditos da abertura</example>
+               <example>durante a abertura do Cidades Inteligentes</example>
+            </antipattern>
+            <antipattern>
+               <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)MS.+' postag_regexp='yes'/>
+               <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+               <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
+               <token postag='(?:N.|A..)FP.+' min='2' postag_regexp='yes'/>
+               <example>A costa norte tem muitas praias, e a do sul numerosas enseadas</example>
+            </antipattern>
+            <antipattern>
+               <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)MS.+' postag_regexp='yes'/>
+               <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+               <token postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
+               <token>semanas</token>
+               <example>do titular semanas antes</example>
+            </antipattern>
             <pattern>
                 <token negate='yes' regexp='yes'>&hifen;</token>
                 <marker>
-                    <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MS.+' postag_regexp='yes'>
+                    <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)MS.+' postag_regexp='yes'>
                         <exception postag='(?:[NZ].|A..)[CF][NS].+|(?:[NZ].|A..)MP.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
                     <token min='0' regexp='yes'>&adverbios_de_intensidade;
                         <exception regexp='yes'>quanto|quão|tão</exception></token>
                     <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'>
                         <exception regexp='yes'>x|ás?</exception>
-                        <exception regexp='yes'>\p{Lu}+</exception></token>
+                        <exception regexp='yes'>\p{Lu}+</exception>
+                        <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
                     <token postag='(?:N.|A..)FP.+' postag_regexp='yes'>
-                        <exception regexp='yes'>\p{Lu}+</exception></token>
+                        <exception regexp='yes'>\p{Lu}*|cais</exception>
+                        <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)M.+|(?:N.|A..).S.+|V..P2.+'/></token>
                 </marker>
             </pattern>
             <message>Possível erro de concordância de gênero ou número.</message>
-            <suggestion><match no='2' postag="(D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+            <suggestion><match no='2' postag="(D[ADIP].|P[^IDP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
             <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
-            <suggestion><match no='2' postag="(D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
-            <suggestion><match no='2' postag="(D[ADIP].|NC|A..|P[^IDP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+            <suggestion><match no='2' postag="(D[ADIP].|P[^IDP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+            <suggestion><match no='2' postag="(D[ADIP].|P[^IDP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
             <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
-            <example correction='As enxadas|O enxada|A enxada|Os enxada|O, enxadas'><marker>O enxadas</marker> são pesadas.</example>
+            <example correction='As canecas|O caneca|A caneca|Os caneca|O, canecas'><marker>O canecas</marker> são pesadas.</example>
         </rule>
     </rulegroup>
 
