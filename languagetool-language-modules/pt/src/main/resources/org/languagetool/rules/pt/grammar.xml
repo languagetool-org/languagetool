@@ -50978,7 +50978,7 @@ O namorado dela era um ladrão.
 
 
     <rule id='PHD_POSSA_POSSAM_PÔR' name="Tese Doutoramento: Evitar expressões do tipo 'possa(m) pôr’ → 'ponha(m)'" tags="picky" default='temp_off'>
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-30 (25-JUL-2022+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima and Susana Boatto suggestions, Portuguese rule 2022-11-30 (25-JUL-2022+) -->
       <!--
       Para impedir que o radical possa pôr em perigo o ocidente. → Para impedir que o radical ponha em perigo o ocidente.
       Para impedir que os radicais possam pôr em perigo o ocidente. → Para impedir que os radicais ponham em perigo o ocidente.
@@ -50989,8 +50989,9 @@ O namorado dela era um ladrão.
         <token postag='NP.+|NC.+|AQ.+|CS|CC' postag_regexp='yes'/>
         <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
         <marker>
-          <token postag='VMM03.+' postag_regexp='yes'>
+          <token postag='VMS.3.+' postag_regexp='yes'> <!-- Replaced 'VMM03.+' to 'VMS.3.+' (subjunctive) suggested by SUSANA BOATTO -->
             <exception regexp='yes' inflected='yes'>buscarxxx|deixar|entrar|evitar|fazerxxx|procurarxxx|pretender|querer|ser|tentar|tenter</exception>
+            <exception regexp='no' inflected='yes'>podar</exception> <!-- "I want to remove "podar" because that's the one which seems to be causing the problem." SUSANA BOATTO -->
             <exception postag_regexp='yes' postag='NC.+|AQ.+|RG'/>
           </token>
           <token postag='VMN0000' postag_regexp='no'>
