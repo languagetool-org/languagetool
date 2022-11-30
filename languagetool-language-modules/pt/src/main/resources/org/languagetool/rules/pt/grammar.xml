@@ -50897,6 +50897,36 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <rule id='PHD_POSSA_POSSAM_PÔR' name="Tese Doutoramento: Evitar expressões do tipo 'possa(m) pôr’ → 'ponha(m)'" tags="picky" default='on'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-30 (25-JUL-2022+) -->
+      <!--
+      Para impedir que o radical possa pôr em perigo o ocidente. → Para impedir que o radical ponha em perigo o ocidente.
+      Para impedir que os radicais possam pôr em perigo o ocidente. → Para impedir que os radicais ponham em perigo o ocidente.
+
+      In this rule, the verbs with "xxx" in the exceptions means that I tried them, but the results weren't wrong or were acceptable.
+      -->
+      <pattern>
+        <token postag='NP.+|NC.+|AQ.+|CS|CC' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <marker>
+          <token postag='VMM03.+' postag_regexp='yes'>
+            <exception regexp='yes' inflected='yes'>buscarxxx|deixar|entrar|evitar|fazerxxx|procurarxxx|pretender|querer|ser|tentar|tenter</exception>
+            <exception postag_regexp='yes' postag='NC.+|AQ.+|RG'/>
+          </token>
+          <token postag='VMN0000' postag_regexp='no'>
+            <exception postag_regexp='yes' postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN'/> <!-- no hits, but just in case... -->
+          </token>
+        </marker>
+        <token regexp="yes">em|n[ao]s?|[ao]s?</token>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:2 postagSelect:V.*"/>
+      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+      <suggestion>{suggestion}</suggestion>
+      <example correction="ponha">Para impedir que o radical <marker>possa pôr</marker> em perigo o ocidente.</example>
+      <example correction="ponham">Para impedir que os radicais <marker>possam pôr</marker> em perigo o ocidente.</example>
+    </rule>
+
+
     <!-- PROCURA PROVAR prova provará -->
     <rulegroup id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="Tese Doutoramento: Evitar expressões do tipo 'procura provar'" tags="picky" default='on'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 + 2021-02-25 + 2021-03-02 + 2021-03-07 + 2022-03-02 (1-JAN-2021+)      -->
