@@ -124,7 +124,7 @@ public class Italian extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new ItalianSynthesizer(this);
+    return ItalianSynthesizer.INSTANCE;
   }
 
   @Override

@@ -74,7 +74,7 @@ public class French extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new FrenchSynthesizer(this);
+    return FrenchSynthesizer.INSTANCE;
   }
   
   @Override

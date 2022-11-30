@@ -18,9 +18,6 @@
  */
 package org.languagetool.rules.en;
 
-import java.util.*;
-import java.util.function.Supplier;
-
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Tag;
 import org.languagetool.language.AmericanEnglish;
@@ -32,12 +29,13 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
+import java.util.*;
+import java.util.function.Supplier;
+
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
   
-  private static final EnglishSynthesizer synth = new EnglishSynthesizer(new AmericanEnglish());
-
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
@@ -213,7 +211,7 @@ public class EnglishRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   @Override
   protected Synthesizer getSynthesizer() {
-    return synth;
+    return EnglishSynthesizer.INSTANCE;
   }
 
   @Override

@@ -18,6 +18,12 @@
  */
 package org.languagetool.rules.ca;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.synthesis.ca.CatalanSynthesizer;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,13 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Catalan;
-import org.languagetool.rules.*;
-import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
 /**
  * This rule checks if an adjective doesn't agree with the previous noun and at
@@ -109,8 +108,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
   
-  private static final CatalanSynthesizer synth = new CatalanSynthesizer(new Catalan());
-
   boolean adverbAppeared = false;
   boolean conjunctionAppeared = false;
   boolean punctuationAppeared = false;
@@ -380,8 +377,10 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
       }
     }
 
+    CatalanSynthesizer synth = CatalanSynthesizer.INSTANCE;
+
     // The rule matches
-    // Synthesize suggestions  
+    // Synthesize suggestions
     List<String> suggestions = new ArrayList<>();
     AnalyzedToken at = getAnalyzedToken(tokens[patternTokenPos], ADJECTIU_CS);
     if (at != null) {

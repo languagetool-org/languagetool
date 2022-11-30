@@ -20,7 +20,6 @@
 package org.languagetool.rules.ru;
 
 
-import org.languagetool.language.Russian;
 import org.languagetool.rules.AbstractAdvancedSynthesizerFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ru.RussianSynthesizer;
@@ -34,11 +33,9 @@ import org.languagetool.synthesis.ru.RussianSynthesizer;
  */
 public class AdvancedSynthesizerFilter extends AbstractAdvancedSynthesizerFilter {
 
-  private final RussianSynthesizer synth = new RussianSynthesizer(new Russian());
-  
   @Override
   protected Synthesizer getSynthesizer() {
-    return synth;
+    return RussianSynthesizer.INSTANCE;
   }
 
 }

@@ -18,16 +18,16 @@
  */
 package org.languagetool.synthesis.es;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
+import org.languagetool.synthesis.BaseSynthesizer;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.Language;
-import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Spanish word form synthesizer.
@@ -43,8 +43,14 @@ public class SpanishSynthesizer extends BaseSynthesizer {
 
   private static final Pattern pLemmaSpace = Pattern.compile("([^ ]+) (.+)");
 
+  public static final SpanishSynthesizer INSTANCE = new SpanishSynthesizer();
+
+  /** @deprecated use {@link #INSTANCE} */
   public SpanishSynthesizer(Language lang) {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+    this();
+  }
+  private SpanishSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "es");
   }
 
   @Override

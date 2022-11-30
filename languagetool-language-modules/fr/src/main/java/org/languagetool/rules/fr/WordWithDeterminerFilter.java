@@ -18,14 +18,6 @@
  */
 package org.languagetool.rules.fr;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -36,12 +28,19 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.tools.StringTools;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /*
  * Create suggestions for: determiner + noun/adjective
  */
 public class WordWithDeterminerFilter extends RuleFilter {
 
-  private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
   private static final JLanguageTool lt = new JLanguageTool(new French());
 
   private static final String determinerRegexp = "(P.)?D .*|J .*|V.* ppa .*";
@@ -112,8 +111,8 @@ public class WordWithDeterminerFilter extends RuleFilter {
     String[][] determinerForms = new String[4][];
     String[][] wordForms = new String[4][];
     for (int i = 0; i < 4; i++) {
-      determinerForms[i] = synth.synthesize(atDeterminer, determiner + GenderNumber[i], true);
-      wordForms[i] = synth.synthesize(atWord, prefix + GenderNumber[i], true);
+      determinerForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atDeterminer, determiner + GenderNumber[i], true);
+      wordForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atWord, prefix + GenderNumber[i], true);
       // if it cannot be synthesyzed, keep the original determiner
       if (determinerForms[i].length == 0 && atDeterminer.getPOSTag().matches(".+" + GenderNumber[i])) {
         determinerForms[i] = new String[] { atDeterminer.getToken() };

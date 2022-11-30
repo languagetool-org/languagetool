@@ -96,7 +96,7 @@ public class Portuguese extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new PortugueseSynthesizer(this);
+    return PortugueseSynthesizer.INSTANCE;
   }
 
   @Override

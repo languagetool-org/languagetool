@@ -73,7 +73,7 @@ public class Dutch extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new DutchSynthesizer(this);
+    return DutchSynthesizer.INSTANCE;
   }
 
   @Override

@@ -97,7 +97,7 @@ public class Ukrainian extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new UkrainianSynthesizer(this);
+    return UkrainianSynthesizer.INSTANCE;
   }
 
   @Override

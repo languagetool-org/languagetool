@@ -21,7 +21,6 @@ package org.languagetool.synthesis.pt;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.Portuguese;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -35,7 +34,7 @@ public class PortugueseSynthesizerTest {
 
   @Test
   public final void testSynthesizeString() throws IOException {
-    PortugueseSynthesizer synth = new PortugueseSynthesizer(new Portuguese());
+    PortugueseSynthesizer synth = PortugueseSynthesizer.INSTANCE;
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
     assertEquals("[bois]", Arrays.toString(

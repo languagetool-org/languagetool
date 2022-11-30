@@ -129,7 +129,7 @@ public class English extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new EnglishSynthesizer(this);
+    return EnglishSynthesizer.INSTANCE;
   }
 
   @Override

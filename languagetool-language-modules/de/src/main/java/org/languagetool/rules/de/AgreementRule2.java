@@ -152,14 +152,12 @@ public class AgreementRule2 extends Rule {
     asList(token("GmbH"))
   );
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
-  private final GermanSynthesizer synthesizer;
 
   public AgreementRule2(ResourceBundle messages, Language language) {
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Kleiner Haus</marker> am Waldrand"),
                    Example.fixed("<marker>Kleines Haus</marker> am Waldrand"));
     antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);
-    synthesizer = new GermanSynthesizer(language);
   }
 
   @Override
@@ -232,7 +230,7 @@ public class AgreementRule2 extends Rule {
         if (number == null) {
           continue;
         }
-        String[] forms = synthesizer.synthesize(adjToken, "ADJ:NOM:" + number + ":" + gender + ":GRU:SOL", true);
+        String[] forms = GermanSynthesizer.INSTANCE.synthesize(adjToken, "ADJ:NOM:" + number + ":" + gender + ":GRU:SOL", true);
         for (String s : forms) {
           String fullSugg = uppercaseFirstChar(s) + " " + nounToken.getToken();
           if (!suggestions.contains(fullSugg)) {

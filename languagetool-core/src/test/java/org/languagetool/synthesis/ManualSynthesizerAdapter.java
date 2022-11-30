@@ -18,13 +18,13 @@
  */
 package org.languagetool.synthesis;
 
+import morfologik.stemming.IStemmer;
+import org.languagetool.Language;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import morfologik.stemming.IStemmer;
-import org.languagetool.Language;
 
 /**
  *  Adapter from {@link ManualSynthesizer} to {@link Synthesizer}. 
@@ -35,7 +35,7 @@ public class ManualSynthesizerAdapter extends BaseSynthesizer {
   private final ManualSynthesizer manualSynthesizer;
 
   public ManualSynthesizerAdapter(ManualSynthesizer manualSynthesizer, Language lang) {
-    super(null, null, lang); // no file
+    super(null, null, lang.getShortCode()); // no file
     this.manualSynthesizer = manualSynthesizer;
   }
 

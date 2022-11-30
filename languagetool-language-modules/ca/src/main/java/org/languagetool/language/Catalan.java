@@ -115,7 +115,7 @@ public class Catalan extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new CatalanSynthesizer(this);
+    return CatalanSynthesizer.INSTANCE;
   }
 
   @Override
