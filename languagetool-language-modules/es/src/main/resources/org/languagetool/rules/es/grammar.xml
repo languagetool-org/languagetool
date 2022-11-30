@@ -13979,6 +13979,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[a-z]</token>
                 <token regexp="yes" spacebefore="no">[\)\.\]/]</token>
             </antipattern>
+            <antipattern>
+                <token>n</token>
+                <token regexp="yes">\.|º|ª|/|\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">/|'</token>
+                <token>n</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">N<exception scope="previous" postag="SENT_STAT"/></token>
+            </antipattern>
+            <antipattern>
+                <token skip="4">n</token>
+                <token>m</token>
+            </antipattern>
+            <antipattern>
+                <token spacebefore="no">'</token>
+                <token spacebefore="no">n</token>
+            </antipattern>
+            <antipattern>
+                <token>n</token>
+                <token regexp="yes">veces|intervalos|niveles|ecuaciones|revoluciones|grados|vértices|átomos</token>
+            </antipattern>
+            <antipattern>
+                <token>siendo</token>
+                <token>n</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -17547,6 +17574,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="mapuches">Algunos <marker>mapuche</marker>.</example>
         </rule>
         <rulegroup id="AGREEMENT_DET_NOUN_EXCEPTIONS" name="Concordancias determinante y sustantivo (excepciones)" default="on">
+            <antipattern>
+                <token>cuanto</token>
+                <token postag="NP.*|_possible_NP" postag_regexp="yes"/>
+                <example>Tom no tiene idea de cuanto Mary lo ama.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
