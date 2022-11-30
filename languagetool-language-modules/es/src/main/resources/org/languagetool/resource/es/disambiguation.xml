@@ -2282,6 +2282,16 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="ADVERBS" name="adverbios">
         <rule>
             <pattern>
+                <marker>
+                    <token postag="RG">cuanto</token>
+                </marker>
+                <token regexp="yes">más|menos</token>
+                <token postag="A.*|V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">lo|qué</token>
                 <marker>
                     <token>cerca</token>
