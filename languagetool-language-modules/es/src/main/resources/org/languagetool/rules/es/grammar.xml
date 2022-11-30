@@ -14836,25 +14836,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token inflected="yes" regexp="yes">querer|desear</token>
-                <token postag="NC.*" postag_regexp="yes"/>
+                <token postag="NC.*|RG" postag_regexp="yes"/>
                 <example>Quiero agua fría.</example>
                 <example>Es difícil ayudar a la gente que no quiere ayuda.</example>
                 <example>Quiero sopa de tomate.</example>
+                <example>Te quiero afuera haciendo la guardia.</example>
             </antipattern>
             <antipattern>
-                <token postag="V...[12].." postag_regexp="yes" inflected="yes">gustar</token>
+                <token postag="V...[12]..|V...3P." postag_regexp="yes" inflected="yes">gustar</token>
                 <example>¿Qué gusto tiene eso?</example>
+                <example>Plantar flores que les gusten da muchas satisfacciones y alegrías.</example>
+            </antipattern>
+            <antipattern>
+                <token>parece</token>
+                <token>que</token>
+                <example>Tío, todas esas cosas que quiero parece que están a un millón de millas.</example>
             </antipattern>
             <pattern>
                 <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">poder|deber|gustar|desear|querer<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <marker>
-                    <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|ser|haber</exception></token>
+                    <and>
+                        <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|ser|haber|afuera</exception></token>
+                        <!-- no: comparte/compartir -->
+                        <token inflected="yes" regexp="yes">.*[ae]r</token>
+                    </and>
                 </marker>
             </pattern>
             <message>Posible confusión. ¿Quería decir <suggestion><match no="2" postag="(V.)IP.*" postag_regexp="yes" postag_replace="$1N...."/></suggestion>?</message>
             <!-- bug: why 'entrever' is synthesized? -->
             <example correction="entrever|entrevistar">Es una lástima no poder <marker>entrevista</marker> al diputado.</example>
             <example correction="hacer">Quien pueda <marker>hace</marker> un milagro que lo haga.</example>
+            <example correction="comer">Me gusta <marker>come</marker> chocolate.</example>
             <example>Un gran poder conlleva una gran responsabilidad.</example>
             <example>El deber debería venir antes que cualquier otra cosa.</example>
             <example>Si puedes anda a aver.</example>
@@ -14871,6 +14883,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lo que probablemente te recuerde cuanto poder tiene sobre tu corazón.</example>
             <example>Holter debe parte de su éxito al triunfo de Beach House.</example>
             <example>Todo lo que una vez quise ha sido destruído.</example>
+            <example>¡Si te gusta comparte!</example>
         </rule>
         <rule id="DOS_VERBOS_MODALES" name="dos verbos modales seguidos" default="temp_off">
             <antipattern>
@@ -17828,6 +17841,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="El viceministro|Los viceministros|La viceministra|Las viceministras"><marker>La viceministro</marker></example>
                 <example correction="un sitio|unos sitios">Entramos en <marker>una sitio</marker> oscuro.</example>
                 <example correction="el español|los españoles|la española|las españolas">Mientras <marker>las españoles</marker> lo hacían desde el sur.</example>
+                <example correction="cuanto año|cuantos años">Se preguntó <marker>cuanto años</marker> tenía el joven.</example>
                 <!-- TODO: De alguna forma terminaré esta trabajo.
                 Tengo tiempo libre este tarde. -->
                 <example>También lo contrario.</example>
