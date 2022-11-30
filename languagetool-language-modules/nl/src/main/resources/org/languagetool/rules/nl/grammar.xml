@@ -174,7 +174,31 @@ regexp case-insensitive maken: (?i)
     <category id="GENDER_NEUTRALITY">
     </category>
     -->
-    <category id="GRAMMAR" name="Grammaticaregels.">
+    <category id="MOM__GRAMMAR__CONSTITUENT_AGREEMENT__NOUN_PHRASE" name="noun phrase agreement">
+        <rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="ZNW:EKV:DE_"/>
+                </pattern>
+                <message>\1 is hier waarschijnlijk niet het juiste lidwoord omdat \2 een de-woord is.</message>
+                <suggestion>de \2</suggestion>
+                <example correction="de toren">We hebben gisteren <marker>het toren</marker> bezichtigd.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="ZNW:MRV.*"/>
+                </pattern>
+                <message>\1 is hier niet het juiste lidwoord omdat \2 in het meervooud staat.</message>
+                <suggestion>de \2</suggestion>
+                <example correction="de huizen">We hebben gisteren <marker>het huizen</marker> bezichtigd.</example>
+                <example correction="de huisjes">We hebben gisteren <marker>het huisjes</marker> bezichtigd.</example>
+            </rule>
+        </rulegroup>
+    </category>
+
+    <category id="GRAMMAR" name="Grammaticaregels">
         <rulegroup id="AFTE" name="afte lopen/af te lopen">
             <rule>
                 <pattern>
