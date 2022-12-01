@@ -9653,22 +9653,108 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Esta"><marker>Está</marker> misma mañana.</example>
             </rule>
         </rulegroup>
-        <rule id="IRA_TILDE" name="ira/irá">
+        <rulegroup id="IRA_TILDE" name="ira/irá">
             <antipattern>
-                <token postag="SP.*" postag_regexp="yes"/>
-                <token postag="D.*" postag_regexp="yes"/>
-                <token regexp="yes">ira|iras</token>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <token postag="D.*|A..[FC][SN].|V.P..SF" postag_regexp="yes" min="0"/>
+                <token>ira</token>
+                <example>con gran ira</example>
             </antipattern>
-            <pattern>
-                <marker>
-                    <token regexp="yes">ira|iras<exception postag="_GN_FS|_GN_FP" postag_regexp="yes"/></token>
-                </marker>
-                <token postag="V.P..SM|A..MS." postag_regexp="yes"/>
-            </pattern>
-            <message>Si es del v. 'ir', se escribe con acento.</message>
-            <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
-            <example correction="irá">Sabe cómo <marker>ira</marker> armado.</example>
-        </rule>
+            <antipattern>
+                <token postag="DP.*" postag_regexp="yes"/>
+                <token>ira</token>
+                <example>desahogará su ira actuando contra la alianza</example>
+            </antipattern>
+            <antipattern>
+                <token>ira</token>
+                <token regexp="yes">de|del</token>
+                <token regexp="yes">señor|dios|rey</token>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token postag="SP.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token regexp="yes">ira|iras</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ira|iras<exception postag="_GN_FS|_GN_FP" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="V.P..SM|A..MS." postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del v. 'ir', se escribe con acento.</message>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
+                <example correction="irá">Sabe cómo <marker>ira</marker> armado.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="_QM_OPEN"/>
+                    <token>ira</token>
+                    <token min="0" postag="_QM_CLOSE"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="D..[FC][SCN]." postag_regexp="yes"/>
+                    <token min="0" postag="_QM_OPEN"/>
+                    <token>ira</token>
+                    <example>su «bondad» sobrepasa con mucho a su «ira»</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="D..[FC][SCN]." postag_regexp="yes"/>
+                    <token min="0" postag="_QM_OPEN"/>
+                    <token postag="A..[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                    <token>ira</token>
+                    <example>Una gran ira</example>
+                </antipattern>
+                <antipattern>
+                    <token>ira</token>
+                    <token regexp="yes">,|e|y|o|ni</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token regexp="yes">,|e|y|o|ni</token>
+                    <token>ira</token>
+                    <example>pasiones, amor, celos, ira...</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">haber|llamar|dar|sentir|experimentar</token>
+                    <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token>ira</token>
+                    <example>No hay ira mayor que la suya.</example>
+                </antipattern>
+                <antipattern>
+                    <!-- proper name -->
+                    <token case_sensitive="yes">Ira</token>
+                    <token postag="R.*|LOC_ADV" min="0" max="4" postag_regexp="yes"/>
+                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="10">ira</token>
+                    <token postag="_GN_FS">ira</token>
+                    <example>ira para el día de la ira</example>
+                </antipattern>
+                <pattern>
+                    <token>ira<exception postag="_possible_NP"/></token>
+                </pattern>
+                <message>Si es del verbo 'ir', se escribe con tilde. Correcto si es un sustantivo (indignación, furia).</message>
+                <suggestion>irá</suggestion>
+                <example correction="irá">Se <marker>ira</marker> a casa pronto.</example>
+                <example correction="irá">Sabe cómo <marker>ira</marker> armado.</example>
+                <example>Conseguirán aplacar la ira del pueblo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ira</token>
+                    </marker>
+                    <token postag="V.G...." postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del verbo 'ir', se escribe con tilde. Correcto si es un sustantivo (indignación, furia).</message>
+                <suggestion>irá</suggestion>
+                <example correction="irá">La <marker>ira</marker> viendo cuando pueda.</example>
+                <example correction="irá">Está en germen e <marker>ira</marker> creciendo.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ESTAS_TILDE" name="estas/estás">
             <antipattern>
                 <token><exception>si</exception></token>
@@ -9923,7 +10009,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pero de verdad, que con columnas como estas, no tiene nada de culto ni distinto.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ESTE_TILDE" name="*este/esté" default="on">
+        <rulegroup id="ESTE_TILDE" name="este/esté" default="on">
             <!-- TODO: que este abierto -->
             <antipattern>
                 <token postag="SPS00"/>
@@ -24216,6 +24302,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="revelados">Los detalles <marker>rebelados</marker> por el presidente.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">rebelar</token>
+                    <token>contra</token>
+                    <example>Se rebelaron contra la verdad.</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token inflected="yes">rebelar</token>
