@@ -8056,18 +8056,53 @@ O namorado dela era um ladrão.
             <example correction='As canecas|A caneca|Os canecos|O caneco|As, caneco'><marker>As caneco</marker> são pesadas.</example>
         </rule>
         <rule>
+            <antipattern>
+              <token postag='VMP.+|N.+|A.+' postag_regexp='yes' skip='-1'/>
+              <token regexp='yes' min='0'>ou|e|,</token>
+              <token>a</token>
+              <token postag='(?:N.|A..)MP.+' postag_regexp='yes'/>
+              <example>Foram conservadas e publicadas cartas endereçadas aos pais ou a amigos</example>
+              <example>Foram conservadas e publicadas cartas endereçadas a pais</example>
+              <example>acesso fácil aos objetos ou a arquivos</example>
+              <example>acesso fácil a arquivos</example>
+            </antipattern>
+            <antipattern>
+              <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..).+' postag_regexp='yes'/>
+              <token skip='-1' postag='(?:N.|A..).+' postag_regexp='yes'/>
+              <token>a</token>
+              <token postag='(?:N.|A..)MP.+' postag_regexp='yes'/>
+              <example>de microorganismos e bactérias a antibióticos e antifúngicos.</example>
+              <example>do IPTU e ISS a clubes milionários da Cidade</example>
+            </antipattern>
+            <antipattern>
+              <token postag='V.+' postag_regexp='yes'/>
+              <token postag='(?:D[ADIP].|Z.).+' postag_regexp='yes'/>
+              <token postag='R[MG]' postag_regexp='yes'/>
+              <token postag='(?:N.|A..).+' max='2' postag_regexp='yes'/>
+              <token>a</token>
+              <token postag='(?:N.|A..)MP.+' postag_regexp='yes'/>
+              <example>submeteram os mais numerosos quarteis a danos criminais</example>
+            </antipattern>
+            <antipattern>
+              <token postag='V.+' postag_regexp='yes'/>
+              <token postag='(?:D[ADIP].|Z.).+' postag_regexp='yes'/>
+              <token regexp='yes' min='1' max='5'>\p{Lu}\p{Ll}*</token>
+              <token>a</token>
+              <token postag='(?:N.|A..)MP.+' postag_regexp='yes'/>
+              <example>tenham submetido o SCL Group a danos criminais</example>
+            </antipattern>
             <pattern>
                 <token negate='yes' regexp='yes'>&hifen;</token>
               <marker>
                 <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)FS.+' postag_regexp='yes'>
-                    <exception postag='(?:[NZ].|A..)[CF][NS].+|(?:[NZ].|A..)M.+|(?:[NZ].|A..).P.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+                    <exception postag='(?:[NZ].|A..)[CF][NS].+|(?:[NZ].|A..)M.+|(?:[NZ].|A..).P.+|SPS00|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
                 <token min='0' regexp='yes'>&adverbios_de_intensidade;
                     <exception regexp='yes'>quanto|quão|tão</exception></token>
                 <token min='0' postag='(?:A..)[CM][SN].+' postag_regexp='yes'>
                     <exception regexp='yes'>\p{Lu}+</exception>
                     <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
                 <token postag='(?:N.|A..)MP.+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}*|cais</exception>
+                    <exception regexp='yes'>\p{Lu}\p{Ll}*|cais|\d+%</exception>
                     <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)F.+|(?:N.|A..).S.+|V.+'/></token>
               </marker>
             </pattern>
@@ -8078,6 +8113,9 @@ O namorado dela era um ladrão.
             <suggestion><match no='2' postag="(D[ADIP].|P[^IDP].|Z.|SPS00:D..)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)MP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
             <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
             <example correction='A caneca|Os canecos|As canecas|O caneco|A, canecos'><marker>A canecos</marker> são pesadas.</example>
+            <example>varia de 30% a 84% dos pacientes operados</example>
+            <example>bloqueando todas as extensões que a Donuts gerenciará</example>
+            <example>processo direcionado a jovens ou a adultos</example>
         </rule>
     </rulegroup>
 
