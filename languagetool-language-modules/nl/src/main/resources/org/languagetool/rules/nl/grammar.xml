@@ -196,6 +196,38 @@ regexp case-insensitive maken: (?i)
                 <example correction="de huisjes">We hebben gisteren <marker>het huisjes</marker> bezichtigd.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="POSS_PRON_PLUS_NOUN" name="ons/onze congruentie" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>ons</token>
+                    <token postag_regexp="yes" postag="ZNW:EKV:DE_"/>
+                </pattern>
+                <message>\1 is hier waarschijnlijk niet juist omdat \2 een de-woord is.</message>
+                <suggestion>onze \2</suggestion>
+                <example correction="onze vader">We hebben gisteren <marker>ons vader</marker> bezocht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ons</token>
+                    <token postag_regexp="yes" postag="ZNW:MRV.*"/>
+                </pattern>
+                <message>\1 is hier niet juist omdat \2 in het meervooud staat.</message>
+                <suggestion>onze \2</suggestion>
+                <example correction="onze ouders">We hebben gisteren <marker>ons ouders</marker> bezocht.</example>
+                <example correction="onze huisjes">We hebben gisteren <marker>ons huisjes</marker> schoon gemaakt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>onze</token>
+                    <token postag_regexp="yes" postag="ZNW:EKV.*:HET"/>
+                </pattern>
+                <message>\1 is hier niet juist omdat \2 een het-woord is. Misschien bedoelt u ook het meervoud.</message>
+                <suggestion>ons \2</suggestion>
+                <suggestion>\1 <match no="2" postag="ZNW:MRV:DE_"></match></suggestion>
+                <example correction="ons huis|onze huizen">We hebben gisteren <marker>onze huis</marker> schoon gemaakt.</example>
+                <example correction="ons schoentje|onze schoenen">We hebben gisteren <marker>onze schoentje</marker> schoon gemaakt.</example> <!-- no insertion of pluralized diminutives possible as lemmata are base forms -->
+            </rule>
+        </rulegroup>
     </category>
 
     <category id="GRAMMAR" name="Grammaticaregels">
