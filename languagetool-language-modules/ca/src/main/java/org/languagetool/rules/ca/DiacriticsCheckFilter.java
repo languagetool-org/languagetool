@@ -48,6 +48,7 @@ public class DiacriticsCheckFilter extends RuleFilter {
     String postag = getRequired("postag", arguments);
     String originalForm = getRequired("form", arguments);
     boolean isAllUppercase = StringTools.isAllUppercase(originalForm);
+    boolean isCapitalized = StringTools.isCapitalizedWord(originalForm);
     String form = originalForm.toLowerCase();
     
     String gendernumberFrom = getOptional("gendernumberFrom", arguments);
@@ -91,6 +92,9 @@ public class DiacriticsCheckFilter extends RuleFilter {
       ruleMatch.setType(match.getType());
       if (isAllUppercase) {
         replacement = replacement.toUpperCase();
+      }
+      if (isCapitalized) {
+        replacement = StringTools.uppercaseFirstChar(replacement);
       }
       for (String sugg : match.getSuggestedReplacements()) {
         String suggestion = sugg.replace("{suggestion}", replacement);

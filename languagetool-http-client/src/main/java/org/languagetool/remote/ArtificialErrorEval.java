@@ -127,7 +127,7 @@ public class ArtificialErrorEval {
       }
       if (!inputFolder.isEmpty()) {
         summaryOutputFilename = outputFolder + "/" + prop.getProperty("languageCode") + "-summary.tsv";
-        appendToFile(summaryOutputFilename, "Category\tRules\tErrors\tPrecision\tRecall\tTP\tFP\tTN\tFN\tTPns\tTPws");
+        appendToFile(summaryOutputFilename, "Category\tRules\tSentences\tPrecision\tRecall\tTP\tFP\tTN\tFN\tTPns\tTPws");
         File[] inputFiles = new File(inputFolder).listFiles(File::isFile);
         for (File inputFile : inputFiles) {
           runEvaluationOnFile(prop.getProperty("languageCode"), inputFile.getAbsolutePath(), outputFolder);
@@ -235,7 +235,7 @@ public class ArtificialErrorEval {
       Files.createDirectories(Paths.get(outputPathRoot+"/"+langCode));
       summaryOutputFilename = outputPathRoot+"/"+langCode+"/"+langCode+".tsv";
       if (printHeader) {
-        appendToFile(summaryOutputFilename, "Category\tRules\tErrors\tPrecision\tRecall\tTP\tFP\tTN\tFN");
+        appendToFile(summaryOutputFilename, "Category\tRules\tSentences\tPrecision\tRecall\tTP\tFP\tTN\tFN\tTPns\tTPws");
       }
       File[] categoryDirectories = languageDirectory.listFiles(File::isDirectory);
       for (File categoryDirectory: categoryDirectories) {
