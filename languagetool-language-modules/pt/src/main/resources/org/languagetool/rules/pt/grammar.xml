@@ -50989,12 +50989,14 @@ O namorado dela era um ladrão.
         <token postag='NP.+|NC.+|AQ.+|CS|CC' postag_regexp='yes'/>
         <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
         <marker>
-          <token postag='VMS.3.+' postag_regexp='yes'> <!-- Replaced 'VMM03.+' to 'VMS.3.+' (subjunctive) suggested by SUSANA BOATTO -->
+         <and>
+          <token postag='VMS.+' postag_regexp='yes'> <!-- Replaced 'VMM03.+' to 'VMS.3.+' (subjunctive) suggested by SUSANA BOATTO -->
             <exception regexp='yes' inflected='yes'>buscarxxx|deixar|entrar|evitar|fazerxxx|procurarxxx|pretender|querer|ser|tentar|tenter</exception>
-            <exception regexp='no' inflected='yes'>podar</exception> <!-- "I want to remove "podar" because that's the one which seems to be causing the problem." SUSANA BOATTO -->
-            <exception postag_regexp='yes' postag='NC.+|AQ.+|RG'/>
-          </token>
-          <token postag='VMN0000' postag_regexp='no'>
+            <exception regexp='yes' inflected='yes'>podar|dever</exception> <!-- "I want to remove "podar" because that's the one which seems to be causing the problem." SUSANA BOATTO -->
+            <exception postag_regexp='yes' postag='NC.+|AQ.+|RG|VMN.+'/></token>
+          <token regexp='yes' inflected='yes'>&verbos_auxiliares_modais;|conseguir</token>
+         </and>
+          <token postag='VMN0000'>
             <exception postag_regexp='yes' postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN'/> <!-- no hits, but just in case... -->
           </token>
         </marker>
