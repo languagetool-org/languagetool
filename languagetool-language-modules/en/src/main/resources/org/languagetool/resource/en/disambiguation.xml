@@ -4580,7 +4580,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
            <token regexp="yes">Atty|Sg?t|[SG]en|Gov|Hon|Prof|Mr?s|[DMJS]r|Col|Maj|Brig|Capt|Cmnd|Revd?|Rep</token>
             <token>.</token>
             <marker>
-              <token regexp="yes">\p{Lu}\p{Ll}*<exception>I</exception></token>
+              <token regexp="yes">\p{Lu}\p{Ll}*
+                <exception>I</exception>
+                <exception postag="P?DT|PRP.*|CC|W.*|EX" postag_regexp="yes" />
+              </token>
             </marker>
         </pattern>
         <disambig postag="NNP"/>
