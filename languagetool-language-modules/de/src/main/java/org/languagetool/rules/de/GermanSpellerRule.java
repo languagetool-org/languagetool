@@ -62,7 +62,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final String adjSuffix = "(basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
     "übergreifend|tauglich|artig|bezogen|orientiert|berechtigt|fremd|liebend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlicher|feindlich|gemäß|neutral|seitig)";
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlicher|feindlich|gemäß|neutral|seitig|begeistert)";
   private static final Pattern missingAdjPattern =
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
 
@@ -268,6 +268,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Bole", "Bowle");
     put("letzens", "letztens");
     put("Pakur", w -> Arrays.asList("Parcours", "Parkuhr"));
+    put("Dez", w -> Arrays.asList("Dez.", "Der"));
     put("Erstsemesterin", w -> Arrays.asList("Erstsemester", "Erstsemesters", "Erstsemesterstudentin"));
     put("Erstsemesterinnen", w -> Arrays.asList("Erstsemesterstudentinnen", "Erstsemester", "Erstsemestern"));
     put("kreativlos(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("kreativ", "fantasie"), w.replaceFirst("kreativ", "einfalls"), w.replaceFirst("kreativlos", "unkreativ"), w.replaceFirst("kreativlos", "uninspiriert")));
@@ -306,6 +307,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("angelügt", "angelogen");
     put("Bitet", "Bittet");
     put("dagen", "sagen");
+    put("ändenr", "ändern");
+    put("übetragen", "übertragen");
+    put("Ihrn", "Ihren");
     put("Emal", "E-Mail");
     put("Emai", "E-Mail");
     put("schuen", "schauen");
