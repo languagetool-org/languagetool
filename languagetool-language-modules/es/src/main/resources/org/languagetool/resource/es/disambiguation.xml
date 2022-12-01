@@ -4414,6 +4414,15 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="SPS00"/>
         </rule>
     </rulegroup>
+    <rule id="MIRADA" name="mirada (no participio)">
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">miradas</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.P.*"/>
+    </rule>
     <rule id="MADRUGADA" name="madurgada (no participio)">
         <pattern>
             <token regexp="yes">madrugadas?|revistas?|validas?</token>
