@@ -7973,19 +7973,78 @@ O namorado dela era um ladrão.
             <example correction='As canecas|A caneca|Os canecos|O caneco|Os, caneca'><marker>Os caneca</marker> são pesadas.</example>
         </rule>
         <rule>
+            <antipattern>
+              <token postag='VMI.[13]S0' postag_regexp='yes'/>
+              <token postag='(?:D[DIP].|P[^IDP].|Z.)FP.+' postag_regexp='yes'/>
+              <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+              <token postag='A..MS.+' postag_regexp='yes'/>
+              <example>separou algumas bem crédulo</example>
+            </antipattern>
+            <antipattern>
+              <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)FP.+' postag_regexp='yes'/>
+              <token regexp='yes'>\p{Lu}\p{Ll}*</token>
+              <token regexp='yes'>\p{Lu}\p{Ll}*s</token>
+              <example>eram imunes as Volt Weapons das Pandoras</example>
+              <example>e as San Andres a leste</example>
+              <example>e as Plasma Weapons</example>
+              <example>As Phyton Wheels substituíram as anteriores</example>
+            </antipattern>
+            <antipattern>
+              <token postag='SPS.+|C.+|_PUNCT' postag_regexp='yes'/>
+              <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)FP.+' postag_regexp='yes'/>
+              <token postag='VMP00SM'/>
+              <example>e as enviado para a Metrópole</example>
+              <example>e em ambas exilado na Europa.</example>
+            </antipattern>
+            <antipattern>
+              <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)FP.+' postag_regexp='yes'/>
+              <token>pin</token>
+              <token regexp='yes'>ups?</token>
+              <example>é um símbolo para as pin ups</example>
+            </antipattern>
+            <antipattern>
+              <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)FP.+' postag_regexp='yes'/>
+              <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+              <token min='0' postag='(?:A..)[CM][SN].+' postag_regexp='yes'/>
+              <token postag='(?:N.|A..)MS.+' postag_regexp='yes'/>
+              <token min='0'>-</token>
+              <token postag='(?:N.|A..)FP.+' postag_regexp='yes'/>
+              <example>a exibição das vídeo aulas</example>
+              <example>começou as pré-visualizações</example>
+            </antipattern>
+            <antipattern>
+              <token postag='VMG.+' postag_regexp='yes'/>
+              <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)FP.+' postag_regexp='yes'/>
+              <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+              <token min='0' postag='(?:A..)[CM][SN].+' postag_regexp='yes'/>
+              <token postag='(?:N.|A..)MS.+' postag_regexp='yes'/>
+              <example>as nadadeiras peitorais ajudam no direcionamento desses animais, sendo estas resultado da transformação dos membros anteriores</example>
+            </antipattern>
+            <antipattern>
+              <token postag='(?:D[ADIP].|SPS00:D..)FP.+|RG' postag_regexp='yes'/>
+              <token min='0'>vezes</token>
+              <token postag='V.+' postag_regexp='yes'/>
+              <token postag='A.+' postag_regexp='yes'/>
+              <token postag='_PUNCT|C.+|SPS.+' max='2' postag_regexp='yes'/>
+              <token postag='(?:D[ADIP].|SPS00:D..)FP.+' postag_regexp='yes'/>
+              <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+              <token postag='(?:N.|A..)MS.+' postag_regexp='yes'/>
+              <example>Algumas vezes está contente, outras melancólico.</example>
+            </antipattern>
             <pattern>
                 <token negate='yes' regexp='yes'>&hifen;</token>
               <marker>
                 <token postag='(?:D[ADIP].|P[^IDP].|Z.|SPS00:D..)FP.+' postag_regexp='yes'>
+                    <exception case_sensitive='yes'>Dumas</exception>
                     <exception postag='(?:[NZ].|A..)[CM][NP].+|(?:[NZ].|A..)FS.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
                 <token min='0' regexp='yes'>&adverbios_de_intensidade;
                     <exception regexp='yes'>quanto|quão|tão</exception></token>
                 <token min='0' postag='(?:A..)[CM][SN].+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}+</exception>
+                    <exception regexp='yes'>\p{Lu}+|bem</exception>
                     <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
                 <token postag='(?:N.|A..)MS.+' postag_regexp='yes'>
                     <exception regexp='yes'>\p{Lu}*</exception>
-                    <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)F.+|(?:N.|A..).P.+|V..P1.+'/></token>
+                    <exception postag_regexp='yes' postag='Z.+|SPS.+|D.+|R.+|P.+|(?:N.|A..)[CF].+|(?:N.|A..).[PN].+|V..P1.+|V...3.+|VM[NG].+'/></token>
               </marker>
             </pattern>
             <message>Possível erro de concordância de gênero ou número.</message>
