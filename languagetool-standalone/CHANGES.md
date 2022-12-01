@@ -2,6 +2,10 @@
 
 ## 6.0-SNAPSHOT (release planned for 2022-12-29)
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
 ...
 
 #### HTTP API / LT server
