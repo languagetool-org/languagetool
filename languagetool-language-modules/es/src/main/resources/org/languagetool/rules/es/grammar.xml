@@ -14843,7 +14843,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Te quiero afuera haciendo la guardia.</example>
             </antipattern>
             <antipattern>
-                <token postag="V...[12]..|V...3P." postag_regexp="yes" inflected="yes">gustar</token>
+                <token>ve</token>
+                <token postag="V.G.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V...[12]..|V...3P." postag_regexp="yes" inflected="yes">gustar<exception postag_regexp="yes" postag="V...3S."/></token>
                 <example>¿Qué gusto tiene eso?</example>
                 <example>Plantar flores que les gusten da muchas satisfacciones y alegrías.</example>
             </antipattern>
@@ -14867,6 +14871,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="entrever|entrevistar">Es una lástima no poder <marker>entrevista</marker> al diputado.</example>
             <example correction="hacer">Quien pueda <marker>hace</marker> un milagro que lo haga.</example>
             <example correction="comer">Me gusta <marker>come</marker> chocolate.</example>
+            <example correction="practicar">Me gustaría <marker>practica</marker> mecanografía.</example>
             <example>Un gran poder conlleva una gran responsabilidad.</example>
             <example>El deber debería venir antes que cualquier otra cosa.</example>
             <example>Si puedes anda a aver.</example>
@@ -14884,6 +14889,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Holter debe parte de su éxito al triunfo de Beach House.</example>
             <example>Todo lo que una vez quise ha sido destruído.</example>
             <example>¡Si te gusta comparte!</example>
+            <example type="triggers_error" reason="ambiguous, punctuation">Cuando puede intenta escaparse al extrangero.</example>
         </rule>
         <rule id="DOS_VERBOS_MODALES" name="dos verbos modales seguidos" default="temp_off">
             <antipattern>
