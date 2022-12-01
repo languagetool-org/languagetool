@@ -9963,6 +9963,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!--esté + gerundio-->
+                <antipattern>
+                    <token>como</token>
+                    <token>este</token>
+                </antipattern>
                 <pattern>
                     <token postag="PR.*" postag_regexp="yes" skip="6"/>
                     <marker>
@@ -9974,6 +9978,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
                 <example correction="esté">cuando <marker>este</marker> cantando.</example>
                 <example correction="esté">En donde se <marker>este</marker> realizando el contrato</example>
+                <example>¿Quién tan rico en un reino, como este siendo peregrino?</example>
             </rule>
             <rule>
                 <!--se esté -->
@@ -10000,6 +10005,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token regexp="yes">lo|la</token>
                     <token postag="V...3S." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>este</token>
+                    <token>mal</token>
+                    <token min="0" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"/></token>
