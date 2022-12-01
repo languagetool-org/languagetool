@@ -89,6 +89,7 @@ public class ArtificialErrorEval {
   static String apiKey = "";
 
   public static void main(String[] args) throws IOException {
+    long start = System.currentTimeMillis();
     //use configuration file
     if (args.length==1) {
       String configurationFilename = args[0];
@@ -114,29 +115,42 @@ public class ArtificialErrorEval {
       if (!onlyRulesStr.isEmpty()) {
         onlyRules = Arrays.asList(onlyRulesStr.split(","));  
       }
+      userName = prop.getProperty("userName", "");
+      apiKey = prop.getProperty("apiKey", "");
+      String inputFolder = prop.getProperty("inputFolder", "");
+      String outputFolder = prop.getProperty("outputFolder", inputFolder);
       // Only one file
-      String analyzeOneFile = prop.getProperty("analyzeOneFile");
-      if (analyzeOneFile.equalsIgnoreCase("true")) {
-        userName = prop.getProperty("userName", "");
-        apiKey = prop.getProperty("apiKey", "");
-        runEvaluationOnFile(prop.getProperty("languageCode"), prop.getProperty("inputFile"));
+      //String analyzeOneFile = prop.getProperty("analyzeOneFile");
+      String inputFilename = prop.getProperty("inputFile", "");
+      if (!inputFilename.isEmpty()) {
+        runEvaluationOnFile(prop.getProperty("languageCode"), inputFilename, outputFolder);
       }
+      if (!inputFolder.isEmpty()) {
+        summaryOutputFilename = outputFolder + "/" + prop.getProperty("languageCode") + "-summary.tsv";
+        appendToFile(summaryOutputFilename, "Category\tRules\tErrors\tPrecision\tRecall\tTP\tFP\tTN\tFN\tTPns\tTPws");
+        File[] inputFiles = new File(inputFolder).listFiles(File::isFile);
+        for (File inputFile : inputFiles) {
+          runEvaluationOnFile(prop.getProperty("languageCode"), inputFile.getAbsolutePath(), outputFolder);
+        }
+      }
+      /* Obsolete...
       else {
         String inputFolder = prop.getProperty("inputFolder");
         String outpuFolder = prop.getProperty("outputFolder");
         runEvaluationOnFolders(inputFolder, outpuFolder, printSummaryDetails, printHeader);
-      }
+      }*/
     }
     // language code + input file
     else if (args.length == 2) { 
-      runEvaluationOnFile(args[0], args[1]);
+      runEvaluationOnFile(args[0], args[1], "");
     } else {
       writeHelp();
       System.exit(1);  
     }
+    System.out.println(printTimeFromStart(start, "Total time:"));
   }
   
-  private static void runEvaluationOnFile(String languageCode, String inputFile) throws IOException {
+  private static void runEvaluationOnFile(String languageCode, String inputFile, String outputFolder) throws IOException {
     langCode = languageCode;
     corpusFilePath = inputFile;
     verboseOutput = true;
@@ -151,8 +165,13 @@ public class ArtificialErrorEval {
     String fileName = corpusFile.getName();
     System.out.println("Analyzing file: " + fileName);
     fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-    verboseOutputFilename = inputFile +".results";
-    // reset all global Variables to default
+    if (outputFolder.isEmpty()) {
+      verboseOutputFilename = corpusFile.getParentFile()+ "/"+ fileName + "-results.txt";
+    } else {
+      verboseOutputFilename = outputFolder + fileName + "-results.txt";
+    }
+    
+    // reset all global variables to default
     unidirectional = false;
     wholeword = true;
     isDoubleLetters = false;
@@ -317,16 +336,16 @@ public class ArtificialErrorEval {
       final Pattern p0;
       Matcher mWordBoundaries = pWordboundaries.matcher(words[0]);
       if (mWordBoundaries.matches() && wholeword) {
-        p0 = Pattern.compile("\\b" + words[0] + "\\b", Pattern.CASE_INSENSITIVE);
+        p0 = Pattern.compile("\\b" + words[0] + "\\b", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
       } else {
-        p0 = Pattern.compile(words[0], Pattern.CASE_INSENSITIVE);
+        p0 = Pattern.compile(words[0], Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
       }
       final Pattern p1;
       mWordBoundaries = pWordboundaries.matcher(words[1]);
       if (mWordBoundaries.matches() && wholeword) {
-        p1 = Pattern.compile("\\b" + words[1] + "\\b", Pattern.CASE_INSENSITIVE);
+        p1 = Pattern.compile("\\b" + words[1] + "\\b", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
       } else {
-        p1 = Pattern.compile(words[1], Pattern.CASE_INSENSITIVE);
+        p1 = Pattern.compile(words[1], Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
       }
       countLine = 0;
       checkedSentences = 0;
@@ -538,7 +557,7 @@ public class ArtificialErrorEval {
         resultsString.append("\nIgnored lines from source: " + ignoredLines + "\n");
       }
       
-      resultsString.append(printTimeFromStart(start));
+      resultsString.append(printTimeFromStart(start, ""));
       appendToFile(verboseOutputFilename, resultsString.toString());
       
       if (printSummaryDetails) {
@@ -547,7 +566,9 @@ public class ArtificialErrorEval {
                   + results[i][classifyTypes.indexOf("TP")] + "\t"
                   + results[i][classifyTypes.indexOf("FP")] + "\t"
                   + results[i][classifyTypes.indexOf("TN")] + "\t"
-                  + results[i][classifyTypes.indexOf("FN")] + "\t");
+                  + results[i][classifyTypes.indexOf("FN")] + "\t"
+                  + results[i][classifyTypes.indexOf("TPns")] + "\t"
+                  + results[i][classifyTypes.indexOf("TPws")] + "\t");
       }
       
       accumulateResults[0] += errorsTotal;
@@ -557,7 +578,7 @@ public class ArtificialErrorEval {
       accumulateResults[4] += results[i][classifyTypes.indexOf("FN")];
       
     }
-    System.out.println(printTimeFromStart(start));
+    System.out.println(printTimeFromStart(start, ""));
     System.out.println("-------------------------------------");
   }
   
@@ -572,12 +593,15 @@ public class ArtificialErrorEval {
     return r.toString();
   }
   
-  private static String printTimeFromStart(long start) {
+  private static String printTimeFromStart(long start, String tag) {
+    if (tag.isEmpty()) {
+      tag = "Time:";
+    }
     long totalSecs = (long) ((System.currentTimeMillis() - start) / 1000.0);
     long hours = totalSecs / 3600;
     int minutes = (int) ((totalSecs % 3600) / 60);
     int seconds = (int) (totalSecs % 60);
-    return String.format("\nTime: %02d:%02d:%02d\n", hours, minutes, seconds);
+    return String.format(tag+" %02d:%02d:%02d\n", hours, minutes, seconds);
   }
   
   private static void appendToFile(String FilePath, String text) throws IOException {
