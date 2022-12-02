@@ -106,9 +106,9 @@ public abstract class LemmaHelper {
     return false;
   }
 
-  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, String lemmas) {
+  public static boolean hasLemma(AnalyzedTokenReadings analyzedTokenReadings, String lemma) {
     for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {
-      if( lemmas.equals(analyzedToken.getLemma()) ) {
+      if( lemma.equals(analyzedToken.getLemma()) ) {
         return true;
       }
     }

@@ -2471,6 +2471,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="pidnimaty_pytannya" name="Піднімати і порушувати питання">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">підняти|підійняти|підіймати|підійма(ючи|вши)|піднімавши</token>
+            <token postag_regexp="yes" postag="(adj|numr):.:v_zna.*" min="0" max="2"/>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">питання</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>порушувати \2 \3</suggestion></message>
+        <suggestion>підносити \2 \3</suggestion>
+        <example correction="порушувати це питання|підносити це питання">він <marker>підняв це питання</marker> одразу.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">підняття|підіймання</token>
+            <token postag_regexp="yes" postag="(adj|numr):.:v_rod.*" min="0" max="2"/>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">питання</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>порушення \2 \3</suggestion></message>
+        <suggestion>піднесення \2 \3</suggestion>
+        <example correction="порушення цього питання|піднесення цього питання">і <marker>підняття цього питання</marker>...</example>
+      </rule>
+    </rulegroup>
+
     <rule id="slang_words" name="Жаргонні слова">
       <pattern>
         <token postag_regexp="yes" postag=".*:slang.*">
@@ -2625,33 +2652,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="pidnimaty_pytannya" name="Піднімати і порушувати питання">
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes" inflected="yes">підняти|підійняти|підіймати|підійма(ючи|вши)|піднімавши</token>
-            <token postag_regexp="yes" postag="(adj|numr):.:v_zna.*" min="0" max="2"/>
-            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">питання</token>
-          </marker>
-        </pattern>
-        <message>Краще: <suggestion>порушувати \2 \3</suggestion></message>
-        <suggestion>підносити \2 \3</suggestion>
-        <example correction="порушувати це питання|підносити це питання">він <marker>підняв це питання</marker> одразу.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes" inflected="yes">підняття|підіймання</token>
-            <token postag_regexp="yes" postag="(adj|numr):.:v_rod.*" min="0" max="2"/>
-            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">питання</token>
-          </marker>
-        </pattern>
-        <message>Краще: <suggestion>порушення \2 \3</suggestion></message>
-        <suggestion>піднесення \2 \3</suggestion>
-        <example correction="порушення цього питання|піднесення цього питання">і <marker>підняття цього питання</marker>...</example>
-      </rule>
-    </rulegroup>
-
     <rule id="v_svoiu_chergu" name="В свою чергу">
       <pattern>
         <token regexp="yes">[ву]</token>
@@ -2661,6 +2661,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Правильно: <suggestion>своєю чергою</suggestion></message>
       <suggestion>і собі</suggestion>
       <example correction="своєю чергою|і собі"><marker>в свою чергу</marker></example>
+    </rule>
+
+    <rule id="sprytni_napoi" name="Спритні напої">
+      <pattern>
+        <token inflected="yes">спритний</token>
+        <token inflected="yes">напій</token>
+      </pattern>
+      <message>Можливо ви мали на увазі: <suggestion><match no="1" regexp_match="спритн(.*)" regexp_replace="спиртн$1"/> \2</suggestion></message>
+      <example correction="спиртними напоями"><marker>спритними напоями</marker></example>
     </rule>
 
     <rule id="v_poriadku_chergy" name="В порядку черги">
@@ -2743,7 +2752,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token regexp="yes">давай(те)?</token>
-            <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf(?!:arch:short).*"/>
+            <token postag_regexp="yes" postag="verb(:rev)?:imperf:inf(?!:arch:short).*">
+              <exception inflected="yes">знати</exception>
+            </token>
           </marker>
         </pattern>
         <message>Щоб висловити заклик до спільної дії, рекомендують вживати наказову форму дієслова</message>
@@ -2752,13 +2763,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <url>http://r2u.org.ua/node/216</url>
         <example correction="Граймо|Нумо грати"><marker>Давай грати</marker> чесно...</example>
         <example correction="вчімось|вчімося|вчімся|нумо вчитися">Тому <marker>давайте вчитися</marker> разом</example>
+        <!--
         <example correction="знаймо|нумо знати"><marker>давайте знати</marker> про свої права</example>
+        -->
         <example correction="катаймось|катаймося|нумо кататися"><marker>давайте кататися</marker></example>
         <example correction="Дивімось|Дивімося|Дивімся|Нумо дивитися"><marker>Давайте дивитися</marker>.</example>
         <example>Давайте горілку</example>
         <example>Давайте будем знов сміятись</example>
         <example>Давай оброблятиму тобі землю</example>
         <example>накидав зверху каміння та давай носити воду</example>
+        <example>Давай знати</example>
         <!-- перев. рос. слова -->
         <example>давайте ронять слова</example>
       </rule>
