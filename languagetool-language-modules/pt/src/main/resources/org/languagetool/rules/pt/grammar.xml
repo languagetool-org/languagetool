@@ -19366,6 +19366,64 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- QUE EU RAPIDAMENTE USEI que rapidamente usei -->
+    <rulegroup id='REMOVER_EU_NÓS' name="Simplificar: Eliminação do pronome pessoal eu/nós" type='style'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-02 (25-JUL-2022+) -->
+      <!--
+      Este foi o truque que eu usei. → Este foi o truque que usei.
+      Este foi o truque que eu rapidamente usei. → Este foi o truque que rapidamente usei.
+
+      Este foi o truque que nós usámos. → Este foi o truque que nós usámos.
+      Este foi o truque que nós rapidamente usámos. → Este foi o truque que nós rapidamente usámos.
+
+      Este foi o truque que nós usamos. → Este foi o truque que nós usamos.
+      Este foi o truque que nós rapidamente usamos. → Este foi o truque que nós rapidamente usamos.
+      -->
+
+      <!-- WITHOUT ADVERB -->
+      <rule>
+        <pattern>
+          <token><exception postag_regexp='yes' postag='_PUNCT|_QUOT'/></token>
+          <marker>
+            <token>que</token>
+            <token regexp='yes'>eu|nós</token>
+            <token postag='VMIS1.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='VMI[CIS]3S0'/>
+            </token>
+          </marker>
+          <token><exception postag_regexp='yes' postag='_PUNCT_INTERROGATION|_PUNCT_EXCLAMATION'/></token>
+        </pattern>
+        <message>Poderá omitir o pronome pessoal nesta perífrase.</message>
+        <suggestion>\2 \4</suggestion>
+        <example correction="que usei">Este foi o truque <marker>que eu usei</marker>.</example>
+        <example correction="que usámos">Este foi o truque <marker>que nós usámos</marker>.</example>
+        <example correction="que usamos">Este foi o truque <marker>que nós usamos</marker>.</example>
+      </rule>
+
+      <!-- WITH ADVERB -->
+      <rule>
+        <pattern>
+          <token><exception postag_regexp='yes' postag='_PUNCT|_QUOT'/></token>
+          <marker>
+            <token>que</token>
+            <token regexp='yes'>eu|nós</token>
+            <token postag='RM' postag_regexp='no'/>
+            <token postag='VMIS1.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='VMI[CIS]3S0'/>
+            </token>
+          </marker>
+          <token><exception postag_regexp='yes' postag='_PUNCT_INTERROGATION|_PUNCT_EXCLAMATION'/></token>
+        </pattern>
+        <message>Poderá omitir o pronome pessoal nesta perífrase.</message>
+        <suggestion>\2 \4 \5</suggestion>
+        <example correction="que rapidamente usei">Este foi o truque <marker>que eu rapidamente usei</marker>.</example>
+        <example correction="que rapidamente usámos">Este foi o truque <marker>que nós rapidamente usámos</marker>.</example>
+        <example correction="que rapidamente usamos">Este foi o truque <marker>que nós rapidamente usamos</marker>.</example>
+      </rule>      
+
+    </rulegroup>
+
+
     <!-- QUE PÕE/PÕEM EM pondo em -->
     <rule id='QUE_VERB_GERUND' name="Que + verbo + em → Gerúndio + em" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-23 + 2021-07-25 (25-JUN-2021+)      -->
