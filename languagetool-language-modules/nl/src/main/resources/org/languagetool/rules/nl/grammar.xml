@@ -567,6 +567,10 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes" case_sensitive="yes">&measurementUnitsAll;|[%/]|\p{Sc}|euro|dollars?</token>
                 </antipattern>
                 <antipattern>
+                    <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
+                    <token>procent</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">bij|en|tot</token>
                     <token regexp="yes">[0-9]+</token>
@@ -34110,7 +34114,7 @@ steenwijk;Steenwijk
             <antipattern><token>wil</token><token regexp="yes">hij|zij|men|u</token></antipattern>
             <antipattern><token>dan</token><token postag="WKW:TGW:1EP"/></antipattern>
             <antipattern>
-                <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|youtube|kan|opzoek</token>
+                <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|youtube|kan|opzoek|netflix</token>
             </antipattern>
             <antipattern>
                 <!-- ik staat in de zin -->
@@ -40684,16 +40688,28 @@ steenwijk;Steenwijk
         <rulegroup id="HANDEN_EN_VOETEN" name="Handen en voeten">
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">van|op|aan|je|uw|zijn|hun|koude|,</exception></token>
+                    <token skip="-1" inflected="yes">geven</token>
                     <marker>
                         <token>handen</token>
                         <token>en</token>
                         <token>voeten</token>
                     </marker>
-                    <token><exception>koud</exception></token>
                 </pattern>
                 <message>Pas op voor clichés. Als u niet de letterlijke 'handen en voeten' bedoelt, probeer het dan op een andere manier uit te drukken.</message>
-                <example correction="">Ze spreken een inlandse taal, dus communiceren gaat met <marker>handen en voeten</marker>.</example>
+                <example correction="">Ze geven het <marker>handen en voeten</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- <token><exception regexp="yes">van|op|aan|je|uw|zijn|hun|koude|,</exception></token> -->
+                    <marker>
+                        <token>handen</token>
+                        <token>en</token>
+                        <token skip="-1">voeten</token>
+                    </marker>
+                    <token inflected="yes">geven</token>
+                </pattern>
+                <message>Pas op voor clichés. Als u niet de letterlijke 'handen en voeten' bedoelt, probeer het dan op een andere manier uit te drukken.</message>
+                <example correction="">Ze proberen het <marker>handen en voeten</marker> te geven.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GROEIEN_ALS_KOOL" name="Groeien als kool">
@@ -44708,6 +44724,7 @@ steenwijk;Steenwijk
         <rulegroup id="LICHT_AMANDELGEUR" name="licht/lichte" >
             <!-- veel uitzonderingen nodig!, zoals voor 'een groot man' etc. -->
             <rule>
+                <antipattern><token regexp="yes">commercieel|administratief|financieel-administratief</token><token>medewerker</token></antipattern>
                 <antipattern>
                     <token>een</token>
                     <token>ander</token>
