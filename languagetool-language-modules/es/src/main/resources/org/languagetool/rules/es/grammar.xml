@@ -16993,6 +16993,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
+        <rulegroup id="UNO_DE_LAS" name="Concordancias de «*uno de las»" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="PI.M.*|DN0MP0" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito</exception></token>
+                    </marker>
+                    <token postag="SPS00" inflected="yes">de</token>
+                    <token postag="D[AD].FP.*|PP3FP000|_GN_FP" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion><match no="1" postag="PI.F.*|DN0FP0" postag_regexp="yes"/></suggestion>
+                <example correction="Una|Unas"><marker>Uno</marker> de sus casas.</example>
+                <example correction="Alguna|Algunas"><marker>Algunos</marker> de estas casas.</example>
+                <example correction="Una|Unas"><marker>Uno</marker> de las casas.</example>
+                <example correction="Doscientas"><marker>Doscientos</marker> de estas girafas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="PI.F.*|DN0FP0" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito</exception></token>
+                    </marker>
+                    <token postag="SPS00" inflected="yes">de</token>
+                    <token postag="D[AD].MP.*|_GN_MP" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion><match no="1" postag="PI.M.*|DN0MP0" postag_regexp="yes"/></suggestion>
+                <example correction="Alguno|Algunos"><marker>Alguna</marker> de estos animales.</example>
+                <example correction="Uno|Unos"><marker>Una</marker> de estos animeles.</example>
+                <example correction="Doscientos"><marker>Doscientas</marker> de aquellos animales.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="PI.MP.*" postag_regexp="yes" inflected="yes" regexp="yes">mucho|tanto|poco<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SPS00" inflected="yes">de</token>
+                    <token postag="D[AD].FP.*|_GN_FP" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion><match no="1" postag="PI.FP.*" postag_regexp="yes"/></suggestion>
+                <example correction="Muchas"><marker>Muchos</marker> de sus casas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="PI.FP.*" postag_regexp="yes" inflected="yes" regexp="yes">mucho|tanto|poco<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SPS00" inflected="yes">de</token>
+                    <token postag="D[AD].MP.*|_GN_MP" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion><match no="1" postag="PI.MP.*" postag_regexp="yes"/></suggestion>
+                <example correction="Pocos"><marker>Pocas</marker> de estos casos.</example>
+                <example correction="Muchos"><marker>Muchas</marker> de sus casos.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="concordancia número + nombre/adjetivo plural">
             <rule>
                 <pattern>
