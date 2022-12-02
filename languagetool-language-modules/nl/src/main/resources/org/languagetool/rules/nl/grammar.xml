@@ -827,6 +827,11 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <token postag_regexp="yes" postag="SENT_START|START"/>
                     <token regexp="yes">Wij|Zij|Jij</token>
+                    <token postag="BNW:STL:ONV"/>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="SENT_START|START"/>
+                    <token regexp="yes">Wij|Zij|Jij</token>
                     <token regexp="yes">van|en|als</token>
                 </antipattern>
                 <antipattern>
@@ -18756,7 +18761,7 @@ steenwijk;Steenwijk
                 <regexp type="exact" mark="1">[A-Za-zéèëêïîìáàâçôòüûùäöüß,.;]([&nbsp; ]{2})[A-Za-zéèëêïîìáàâçôòüûùäöüß,.;]</regexp><!-- TODO: add "nnbsp" -->
                 <message>Hier is schijnbaar een spatie te veel.</message>
                 <suggestion> </suggestion>
-                <example correction=" ">Deze zin bevat een dubbele<marker>  </marker>spatie.</example>
+                <example correction=" ">Deze zin bevat een dubbele<marker>  </marker>spatie (al valt die wellicht niet op).</example>
             </rule>
         </rulegroup>
         <rulegroup id="SPATIES_OM_KOPPEL" name="spaties om -">
@@ -41478,7 +41483,7 @@ steenwijk;Steenwijk
         </rulegroup>
     </category>
     <category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
-        <rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
+        <rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen" tags="picky">
             <rule>
                 <antipattern>
                     <!-- smiley -->
