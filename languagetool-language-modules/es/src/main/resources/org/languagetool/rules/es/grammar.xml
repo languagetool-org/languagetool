@@ -9656,9 +9656,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="IRA_TILDE" name="ira/irá">
             <antipattern>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
-                <token postag="D.*|A..[FC][SN].|V.P..SF" postag_regexp="yes" min="0"/>
+                <token postag="D.*|A..[FC][SN].|V.P..SF|RG" postag_regexp="yes" min="0"/>
                 <token>ira</token>
                 <example>con gran ira</example>
+                <example>con más ira</example>
             </antipattern>
             <antipattern>
                 <token postag="DP.*" postag_regexp="yes"/>
@@ -9670,6 +9671,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">de|del</token>
                 <token regexp="yes">señor|dios|rey</token>
             </antipattern>
+            <!-- ira -> ir a -->
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">deber|querer|gustar</token>
+                    <marker>
+                        <token>ira</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>ir a</suggestion>?</message>
+                <example correction="ir a">Deberías <marker>ira</marker> clase.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token postag="SP.*" postag_regexp="yes"/>
@@ -9682,11 +9694,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="V.P..SM|A..MS." postag_regexp="yes"/>
                 </pattern>
-                <message>Si es del v. 'ir', se escribe con acento.</message>
+                <message>Si es del verbo 'ir', se escribe con tilde. Correcto si es un nombre con el sentido de 'indignación, furia'.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="irá">Sabe cómo <marker>ira</marker> armado.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                    <token>ira</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                    <example>el amor esté entremezclado con... ira. </example>
+                    <example>Ghadab, es decir, ira, la cual le previene de ser justo.</example>
+                </antipattern>
                 <antipattern>
                     <token postag="_QM_OPEN"/>
                     <token>ira</token>
@@ -9717,7 +9736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>pasiones, amor, celos, ira...</example>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" regexp="yes">haber|llamar|dar|sentir|experimentar</token>
+                    <token inflected="yes" regexp="yes">haber|llamar|dar|sentir|experimentar|quedar|tener</token>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <token>ira</token>
                     <example>No hay ira mayor que la suya.</example>
@@ -9729,6 +9748,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[IS].*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
+                    <!-- proper name -->
+                    <token case_sensitive="yes">Ira</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <token skip="10">ira</token>
                     <token postag="_GN_FS">ira</token>
                     <example>ira para el día de la ira</example>
@@ -9736,7 +9760,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>ira<exception postag="_possible_NP"/></token>
                 </pattern>
-                <message>Si es del verbo 'ir', se escribe con tilde. Correcto si es un sustantivo (indignación, furia).</message>
+                <message>Si es del verbo 'ir', se escribe con tilde. Correcto si es un nombre con el sentido de 'indignación, furia'.</message>
                 <suggestion>irá</suggestion>
                 <example correction="irá">Se <marker>ira</marker> a casa pronto.</example>
                 <example correction="irá">Sabe cómo <marker>ira</marker> armado.</example>
@@ -9749,7 +9773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="V.G...." postag_regexp="yes"/>
                 </pattern>
-                <message>Si es del verbo 'ir', se escribe con tilde. Correcto si es un sustantivo (indignación, furia).</message>
+                <message>Si es del verbo 'ir', se escribe con tilde. Correcto si es un nombre con el sentido de 'indignación, furia'.</message>
                 <suggestion>irá</suggestion>
                 <example correction="irá">La <marker>ira</marker> viendo cuando pueda.</example>
                 <example correction="irá">Está en germen e <marker>ira</marker> creciendo.</example>
