@@ -177,30 +177,70 @@ regexp case-insensitive maken: (?i)
     <category id="MOM__GRAMMAR__CONSTITUENT_AGREEMENT__NOUN_PHRASE" name="noun phrase agreement">
         <rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="temp_off">
             <rule>
+                <antipattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="ZNW.*HET|ENM.*"/>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="BNW.*"/>
+                    <token postag_regexp="yes" postag="ZNW.*HET|ZNW:EKV|WKW:INF:ZNW:HET"/>
+                </antipattern>
                 <pattern>
                     <token>het</token>
-                    <token postag_regexp="yes" postag="ZNW:EKV:DE_"/>
+                    <token postag="ZNW:EKV:DE_"/>
                 </pattern>
                 <message>\1 is hier waarschijnlijk niet het juiste lidwoord omdat \2 een de-woord is.</message>
                 <suggestion>de \2</suggestion>
                 <example correction="de toren">We hebben gisteren <marker>het toren</marker> bezichtigd.</example>
             </rule>
             <rule>
+            <!-- The following 2 rules could be more effective if dependency parsing was harnessed to distinguish
+            between [het + plural noun] and [het + infinitive verb]. XML can't provide coverage for that. -->
+                <antipattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="ZNW.*HET|BYW:JES|ENM.*"/>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="BNW.*"/>
+                    <token postag_regexp="yes" postag="ZNW.*HET|WKW:INF:ZNW:HET"/>
+                </antipattern>
                 <pattern>
                     <token>het</token>
-                    <token postag_regexp="yes" postag="ZNW:MRV.*"/>
+                    <token postag_regexp="yes" postag="ZNW:MRV:DE_"><exception postag_regexp="yes" postag=".*INF.*"/></token>
                 </pattern>
-                <message>\1 is hier niet het juiste lidwoord omdat \2 in het meervooud staat.</message>
+                <message>\1 is hier niet het juiste lidwoord omdat \2 in het meervoud staat.</message>
                 <suggestion>de \2</suggestion>
-                <example correction="de huizen">We hebben gisteren <marker>het huizen</marker> bezichtigd.</example>
-                <example correction="de huisjes">We hebben gisteren <marker>het huisjes</marker> bezichtigd.</example>
+                <suggestion>\1 <match no="2" postag="ZNW:EKV:HET"></match></suggestion>
+                <example correction="de eilanden|het eiland">We hebben gisteren <marker>het eilanden</marker> bezichtigd.</example>
+                <example>Ik vond het huizen onder de brug heel erg.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="ZNW.*HET|BYW:JES|ENM.*"/>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="BNW.*"/>
+                    <token postag_regexp="yes" postag="ZNW.*HET|WKW:INF:ZNW:HET"/>
+                </antipattern>
+                <pattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="ZNW:MRV:VRK:DE_"/>
+                </pattern>
+                <message>\1 is hier niet het juiste lidwoord omdat \2 in het meervoud staat.</message>
+                <suggestion>de \2</suggestion>
+                <suggestion>\1 <match no="2" postag="ZNW:EKV:VRK:HET"></match></suggestion>
+                <example correction="de eilandjes|het eilandje">We hebben gisteren <marker>het eilandjes</marker> bezichtigd.</example>
             </rule>
         </rulegroup>
         <rulegroup id="POSS_PRON_PLUS_NOUN" name="ons/onze congruentie" default="temp_off">
             <rule>
                 <pattern>
                     <token>ons</token>
-                    <token postag_regexp="yes" postag="ZNW:EKV:DE_"/>
+                    <token postag="ZNW:EKV:DE_"/>
                 </pattern>
                 <message>\1 is hier waarschijnlijk niet juist omdat \2 een de-woord is.</message>
                 <suggestion>onze \2</suggestion>
@@ -211,7 +251,7 @@ regexp case-insensitive maken: (?i)
                     <token>ons</token>
                     <token postag_regexp="yes" postag="ZNW:MRV.*"/>
                 </pattern>
-                <message>\1 is hier niet juist omdat \2 in het meervooud staat.</message>
+                <message>\1 is hier niet juist omdat \2 in het meervoud staat.</message>
                 <suggestion>onze \2</suggestion>
                 <example correction="onze ouders">We hebben gisteren <marker>ons ouders</marker> bezocht.</example>
                 <example correction="onze huisjes">We hebben gisteren <marker>ons huisjes</marker> schoon gemaakt.</example>
