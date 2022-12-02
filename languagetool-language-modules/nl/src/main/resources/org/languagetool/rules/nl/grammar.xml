@@ -34105,13 +34105,12 @@ steenwijk;Steenwijk
 
         <rulegroup id="STAM_ZONDER_IK" name="werkwoordstam zonder ik">
             <!-- R. Baars, oktober 2022 -->
+            <antipattern><token>de</token><token>war</token></antipattern>
+            <antipattern><token>no</token><token>time</token></antipattern>
+            <antipattern><token>wil</token><token regexp="yes">hij|zij|men|u</token></antipattern>
+            <antipattern><token>dan</token><token postag="WKW:TGW:1EP"/></antipattern>
             <antipattern>
-                <!-- user feedback -->
-                <token>dan</token>
-                <token postag="WKW:TGW:1EP"/>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|kan|opzoek</token>
+                <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|youtube|kan|opzoek</token>
             </antipattern>
             <antipattern>
                 <!-- ik staat in de zin -->
