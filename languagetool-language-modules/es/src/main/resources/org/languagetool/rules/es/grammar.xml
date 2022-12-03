@@ -17003,10 +17003,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="D.*" postag_regexp="yes"/>
                 <token postag="NP.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <token regexp="yes">alguno|alguna</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="PI.M.*|DN0MP0" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito|medio|todo</exception></token>
+                        <token postag="PI.M.*|DN0MP0" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito|medio|todo|mismo</exception></token>
                     </marker>
                     <token postag="SPS00" inflected="yes">de</token>
                     <token postag="D[AD].FP.*|PP3FP000|_GN_FP" postag_regexp="yes"><exception postag="_GN_MP|DN.*" postag_regexp="yes"/></token>
@@ -17018,13 +17022,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Una|Unas"><marker>Uno</marker> de las casas.</example>
                 <example correction="Doscientas"><marker>Doscientos</marker> de estas girafas.</example>
                 <example correction="Una|Unas"><marker>Uno</marker> de ellas.</example>
+                <example correction="Una|Unas"><marker>Uno</marker> de sus mayores riquezas.</example>
                 <example>Algunso de mis mejores amigos.</example>
                 <example>Y OTRO DE 3 CM DEL OTRO LADO</example>
+                <example>podría decir lo mismo de tus mayúsculas</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="PI.F.*|DN0FP0" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito|medio|todo</exception></token>
+                        <token postag="PI.F.*|DN0FP0" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito|medio|todo|mismo</exception></token>
                     </marker>
                     <token postag="SPS00" inflected="yes">de</token>
                     <token postag="D[AD].MP.*|_GN_MP" postag_regexp="yes"><exception postag="_GN_FP|NP.*|DN.*" postag_regexp="yes"/></token>
@@ -17041,6 +17047,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Y es que el dibujo, es otra de sus grandes pasiones.</example>
                 <example>Yo tengo otra de 10 años.</example>
                 <example>Cada una de cinco versos.</example>
+                <example>pero todas de tamaños diferentes</example>
+                <example>No hemos oído prédica alguna de nuestros jerarcas religiosos.</example>
                 <!-- una de ellos (acceptable?) -->
                 <!-- Una de los rehenes (?) -->
             </rule>
