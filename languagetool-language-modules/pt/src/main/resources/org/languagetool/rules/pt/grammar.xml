@@ -19424,6 +19424,27 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- TORNANDO POSSÍVEL permitindo -->
+    <rule id='TORNAR_POSSÍVEL_PERMITIR_POSSIBILITAR' name="Simplificar: Tornar possível → permitir/possibilitar" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-03 (25-JUL-2022+) -->
+      <!--
+      É preciso um estudo estocástico, tornando possível validar as hipóteses científicas. → É preciso um estudo estocástico, permitindo validar as hipóteses científicas.
+      -->
+      <pattern>
+        <token><exception postag_regexp='yes' postag='PP.+'/></token>
+        <marker>
+          <token inflected='yes'>tornar</token>
+          <token>possível</token>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>permitir</match></suggestion>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>possibilitar</match></suggestion>
+      <example correction="permitindo|possibilitando">É preciso um estudo estocástico, <marker>tornando possível</marker> validar as hipóteses científicas.</example>
+      <example>O amor faz tudo se tornar possível.</example>
+    </rule>
+
+
     <!-- QUE PÕE/PÕEM EM pondo em -->
     <rule id='QUE_VERB_GERUND' name="Que + verbo + em → Gerúndio + em" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-23 + 2021-07-25 (25-JUN-2021+)      -->
