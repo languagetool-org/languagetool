@@ -61,7 +61,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final int MAX_EDIT_DISTANCE = 2;
 
   private static final String adjSuffix = "(basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
-    "übergreifend|tauglich|artig|bezogen|orientiert|berechtigt|fremd|liebend|bildend|hemmend|abhängig|zentriert|" +
+    "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|berechtigt|fremd|liebend|bildend|hemmend|abhängig|zentriert|" +
     "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlicher|feindlich|gemäß|neutral|seitig|begeistert)";
   private static final Pattern missingAdjPattern =
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
@@ -596,6 +596,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("palletten?", w -> Arrays.asList(w.replaceFirst("pall", "Pal"), w.replaceFirst("pa", "Pai")));
     put("[pP]allete", "Palette");
     put("Geräuch", w -> Arrays.asList("Geräusch", "Gesträuch"));
+    put("Eon", w -> Arrays.asList("Ein", "E.ON", "Von"));
     put("[sS]chull?igung", "Entschuldigung");
     put("Geerte", "geehrte");
     put("versichen", "versichern");
