@@ -16430,4 +16430,26 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+    <rulegroup id="GOING_NO_NNP" name="'Going' no proper noun">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Going</token>
+                </marker>
+                <token>forward</token>
+            </pattern>
+            <disambig action="remove" postag="NNP" />
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">be</token>
+                <token postag="PRP" min="0" />
+                <marker>
+                    <token case_sensitive="yes">Going</token>
+                </marker>
+                <token>to</token>
+            </pattern>
+            <disambig action="remove" postag="NNP" />
+        </rule>
+    </rulegroup>
 </rules>
