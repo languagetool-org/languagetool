@@ -9690,13 +9690,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">ira|iras<exception postag="_GN_FS|_GN_FP" postag_regexp="yes"/></token>
+                        <token regexp="yes">ira|iras<exception postag="_GN_FS|_GN_FP|NP.*|_possible_NP" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="V.P..SM|A..MS." postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del verbo 'ir', se escribe con tilde. Correcto si es un nombre con el sentido de 'indignación, furia'.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="irá">Sabe cómo <marker>ira</marker> armado.</example>
+                <example>Dicen que ha sido el IRA Auténtico.</example>
+                <example type="triggers_error" reason="ambiguous">Cualquier signo de rechazo e ira dirigido a ellos.</example>
             </rule>
             <rule>
                 <antipattern>
