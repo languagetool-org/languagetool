@@ -17007,6 +17007,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NC.*" postag_regexp="yes"/>
                 <token regexp="yes">alguno|alguna</token>
             </antipattern>
+            <antipattern>
+                <token>número</token>
+                <token>uno</token>
+                <example>entrando en número uno de las listas</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -17028,6 +17033,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>podría decir lo mismo de tus mayúsculas</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="PI.F.*|DN0FP0" postag_regexp="yes"/>
+                    <token>de</token>
+                    <token>los</token>
+                    <token regexp="yes">cientos|miles</token>
+                    <token>de</token>
+                    <token postag="NC[FS]P000" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="PI.F.*|DN0FP0" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito|medio|todo|mismo</exception></token>
@@ -17049,6 +17062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cada una de cinco versos.</example>
                 <example>pero todas de tamaños diferentes</example>
                 <example>No hemos oído prédica alguna de nuestros jerarcas religiosos.</example>
+                <example>Es una de los cientos de ideas</example>
                 <!-- una de ellos (acceptable?) -->
                 <!-- Una de los rehenes (?) -->
             </rule>
