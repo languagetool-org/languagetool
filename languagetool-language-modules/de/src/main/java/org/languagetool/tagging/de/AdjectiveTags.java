@@ -25,6 +25,11 @@ import static java.util.Collections.unmodifiableList;
 
 class AdjectiveTags {
 
+  // adjective forms for base form, like "chemisch":
+  static List<String> tagsForAdj = unmodifiableList(asList(
+    "ADJ:PRD:GRU"
+  ));
+
   // adjective forms ending in -e, like "chemische":
   static List<String> tagsForAdjE = unmodifiableList(asList(
     "ADJ:AKK:PLU:FEM:GRU:SOL",

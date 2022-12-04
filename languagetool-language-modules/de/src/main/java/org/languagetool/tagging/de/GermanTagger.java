@@ -120,8 +120,12 @@ public class GermanTagger extends BaseTagger {
     Map<String, List<AdjInfo>> adjInfos = new THashMap<>();
     List<String> spellingWords = new CachingWordListLoader().loadWords("de/hunspell/spelling.txt");
     for (String line : spellingWords) {
-      if (line.endsWith("/A") && !line.endsWith("er/A")) {  // '/A' adds the typical adjective endings, so assume it's an adjective
+      // '/A' adds the typical adjective endings, so assume it's an adjective:
+      if (line.endsWith("/A") &&
+          !line.endsWith("ste/A") &&  // don't tag e.g. "fünftjünste/A", would miss the comparative tagging
+          !line.endsWith("er/A")) {   // don't tag e.g. "margenstärker/A", would miss the comparative tagging
         String word = line.replaceFirst("/.*", "");
+        fillAdjInfos(word, "",  AdjectiveTags.tagsForAdj, adjInfos);
         fillAdjInfos(word, "e",  AdjectiveTags.tagsForAdjE, adjInfos);
         fillAdjInfos(word, "en", AdjectiveTags.tagsForAdjEn, adjInfos);
         fillAdjInfos(word, "er", AdjectiveTags.tagsForAdjEr, adjInfos);
