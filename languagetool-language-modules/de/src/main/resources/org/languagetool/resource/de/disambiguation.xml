@@ -7487,7 +7487,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="ADJ.*"/>
     </rule>
-    <rulegroup id="LANGE_KEIN_VER" name="'lang' kein Verb">
+    <rulegroup id="LANGE_UND_NAHE_KEIN_VER" name="'lang' kein Verb">
         <antipattern>
             <token regexp="yes">lange?|nahe?</token>
             <token>ich</token>
@@ -7513,6 +7513,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                     <token regexp="yes" postag="VER.*" postag_regexp="yes">lange?</token>
                 </marker>
                 <token>her</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER:(MOD|AUX).*" postag_regexp="yes" skip="-1" />
+                <marker>
+                    <token regexp="yes" postag="VER.*" postag_regexp="yes">nahe?</token>
+                </marker>
+                <token inflected="yes">kommen</token>
             </pattern>
             <disambig action="remove" postag="VER.*"/>
         </rule>
