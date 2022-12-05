@@ -504,7 +504,7 @@ regexp case-insensitive maken: (?i)
                     <example>13 000</example>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[A-Z].*(straat|plein|weg|straße)|getal|jaren|bladzijde|kwartaal|opgave|AVI|thema|procent|type|:|lijn|Win|Windows|part|leerdoel|fase|week|slide</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*(straat|plein|weg|straße|vest|singel)|getal|jaren|bladzijde|kwartaal|opgave|AVI|thema|procent|type|:|lijn|Win|Windows|part|leerdoel|fase|week|slide|unit|Radio|dal</token>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
@@ -34133,7 +34133,27 @@ steenwijk;Steenwijk
             <antipattern><token>wil</token><token regexp="yes">hij|zij|men|u</token></antipattern>
             <antipattern><token>dan</token><token postag="WKW:TGW:1EP"/></antipattern>
             <antipattern>
-                <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|youtube|kan|opzoek|netflix</token>
+                <!-- stam gebruikt als znw :
+                ... al in de ruwe |render| en hadden we t...
+                -->
+                <token regexp="yes">de|een|geen</token>
+                <token postag_regexp="yes" postag="BNW.*VRB"/>
+                <token postag="WKW:TGW:1EP"/>
+            </antipattern>
+            <antipattern>
+                <!-- stam gebruikt als znw
+                ...al elke dag de |inruim| in de winkel m...
+                -->
+                <token regexp="yes">de|een|geen</token>
+                <token postag="WKW:TGW:1EP"/>
+            </antipattern>
+            <antipattern>
+                <!-- neem dan -->
+                <token postag="WKW:TGW:1EP"/>
+                <token>dan</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|youtube|kan|opzoek|netflix|zie</token>
             </antipattern>
             <antipattern>
                 <!-- ik staat in de zin -->
