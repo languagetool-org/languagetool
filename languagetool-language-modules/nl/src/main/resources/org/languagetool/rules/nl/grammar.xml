@@ -14421,6 +14421,19 @@ onwaarschijnlijk
                 <example correction="etc.">We gaan kleding, schoenen <marker>ETc</marker> in de winkel kopen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DJ" name="DJ/dj" type="misspelling">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">DJ</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[^A-Z].*</token>
+                </pattern>
+                <message>Omdat diskjockey zonder hoofdletters is, is <suggestion><match no="1" case_conversion="alllower"/></suggestion> dat ook.</message>
+                <short>Zonder hoofdletters</short>
+                <example correction="dj">De <marker>DJ</marker> gaat uit zijn bol.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TEL_ZONDER_HOOFDLETTERS" name="TEL./tel." type="misspelling">
             <rule>
                 <antipattern>
@@ -34172,10 +34185,10 @@ steenwijk;Steenwijk
                 <token postag="SENT_END"/>
             </antipattern>
             <antipattern>
-                <!-- Arabische naam -->
-                <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
-                <token>ben</token>
-                <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                <token postag="SENT_START"/>
+                <token postag="WKW:TGW:1EP" skip="-1"/>
+                <token regexp="yes">en|of|én|óf|;|,</token>
+                <token postag="WKW:TGW:1EP"/>
             </antipattern>
             <rule>
                 <antipattern><token postag="WKW:TGW:1EP"/><token regexp="yes">en|én|of|óf</token><token postag="WKW:TGW:1EP"/></antipattern>
@@ -34191,10 +34204,16 @@ steenwijk;Steenwijk
                     </marker>
                     <token negate="yes" regexp="yes">je|jij</token>
                 </pattern>
-                <message>U bedoelt vast: <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>, want er staat geen 'ik' in de zin. Of er is nog iets anders mis, zoals een ontbrekend leesteken of een spatie- of spelfout.</message>
+                <message>U bedoelt vast: <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>, want er staat geen 'ik' in de zin. Als het een opdracht is, dan staat er meestal een komma voor of een voegwoord.</message>
                 <example correction="gaat">Het <marker>ga</marker> vaak fout.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <!-- Arabische naam -->
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <token case_sensitive="yes">ben</token>
+                    <token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception><exception>ben</exception></token>
+                </antipattern>
                 <antipattern>
                 <!-- sluit naam Ben uit -->
                     <token/>
