@@ -34133,6 +34133,19 @@ steenwijk;Steenwijk
             <antipattern><token>wil</token><token regexp="yes">hij|zij|men|u</token></antipattern>
             <antipattern><token>dan</token><token postag="WKW:TGW:1EP"/></antipattern>
             <antipattern>
+                <token><exception regexp="yes">[;,:]</exception></token>
+                <token postag="WKW:TGW:1EP"><exception regexp="yes">ben|word|heb|kan|zal</exception></token>
+                <token>dan</token>
+            </antipattern>
+            <antipattern>
+                <!--
+                ...d een centraal |stofzuig| systeem laten ...
+                -->
+                <!-- dit doet vast te veel, maar dat moet dan maar anders worden opgevangen.-->
+                <token postag="WKW:TGW:1EP"><exception regexp="yes">ben|word|heb|kan|zal</exception></token>
+                <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+            </antipattern>
+            <antipattern>
                 <!-- stam gebruikt als znw :
                 ... al in de ruwe |render| en hadden we t...
                 -->
@@ -34146,11 +34159,6 @@ steenwijk;Steenwijk
                 -->
                 <token regexp="yes">de|een|geen</token>
                 <token postag="WKW:TGW:1EP"/>
-            </antipattern>
-            <antipattern>
-                <!-- neem dan -->
-                <token postag="WKW:TGW:1EP"/>
-                <token>dan</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" case_sensitive="yes">heb|facebook|instagram|ipad|youtube|kan|opzoek|netflix|zie</token>
