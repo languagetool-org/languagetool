@@ -976,7 +976,7 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <pattern>
                     <token>meest</token>
-                    <token postag_regexp="yes" postag="BNW:STL.*"/>
+                    <token postag_regexp="yes" postag="BNW:STL.*"><exception regexp="yes">.*st</exception></token>
                 </pattern>
                 <message>Sommigen vinden dit 'te Engels' en geven de voorkeur aan: <suggestion><match no="2" postag_regexp="yes" postag="(BNW:STL:)(.*)" postag_replace="BNW:OVR:$2"/></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/meest-origineel-origineelst</url>
@@ -11062,6 +11062,7 @@ onwaarschijnlijk
         </rulegroup>
         <rulegroup id="SAMENSTELLING_STAM_ZNW" name="lees ervaring">
             <rule>
+                <antipattern><token>zoek</token><token regexp="yes">was|is|zijn</token></antipattern>
                 <antipattern><token>tas</token><token>zit</token></antipattern>
                 <antipattern><token>deze</token><token>tand</token><token>pijn</token></antipattern>
                 <antipattern><token regexp="yes">je|hij|ik|zij|men</token><token>deze</token><token>brief</token><token>post</token></antipattern>
@@ -34204,8 +34205,11 @@ steenwijk;Steenwijk
                     </marker>
                     <token negate="yes" regexp="yes">je|jij</token>
                 </pattern>
-                <message>U bedoelt vast: <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>, want er staat geen 'ik' in de zin. Als het een opdracht is, dan staat er meestal een komma voor of een voegwoord.</message>
-                <example correction="gaat">Het <marker>ga</marker> vaak fout.</example>
+                <message>Dit is de ik-vorm van het werkwoord, maar er staat geen ik in de zin, en geen 'je' achter. Er lijkt daarom iets mis te zijn.</message>
+                <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>
+                <suggestion>; \1</suggestion>
+                <suggestion>en \1</suggestion>
+                <example correction="gaat|; ga|en ga">Het <marker>ga</marker> vaak fout.</example>
             </rule>
             <rule>
                 <antipattern>
