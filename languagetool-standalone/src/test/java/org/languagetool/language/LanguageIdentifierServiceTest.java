@@ -31,7 +31,8 @@ import java.util.Collections;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotEquals;
 
-public class LangaugeIdentifierServiceTest {
+public class LanguageIdentifierServiceTest {
+
   @Test
   public void testFactory() {
     LanguageIdentifier default1 = LanguageIdentifierService.INSTANCE
