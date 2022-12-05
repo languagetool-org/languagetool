@@ -504,7 +504,7 @@ regexp case-insensitive maken: (?i)
                     <example>13 000</example>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">[A-Z].*(straat|plein|weg|straße)|getal|jaren</token>
+                    <token regexp="yes">[A-Z].*(straat|plein|weg|straße)|getal|jaren|bladzijde|kwartaal|opgave|AVI|thema|procent|type|:|lijn|Win|Windows|part|leerdoel|fase|week|slide</token>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
@@ -514,7 +514,14 @@ regexp case-insensitive maken: (?i)
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">blz|pag|nr|no|art</token>
+                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
+                    <token regexp="yes">v|n</token>
+                    <token>.</token>
+                    <token>Chr</token>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">blz|pag|nr|no|art|p</token>
                     <token spacebefore="no">.</token>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                 </antipattern>
@@ -542,6 +549,13 @@ regexp case-insensitive maken: (?i)
                     <token regexp="yes">a|à|&amp;</token>
                     <token regexp="yes">[0-9]+</token>
                     <example>Maar 5 a 6 zijn er goed.</example>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
+                    <token>van</token>
+                    <token>de</token>
+                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
+                    <example>Het loopt van 5 tot en met 6.</example>
                 </antipattern>
                 <antipattern>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
