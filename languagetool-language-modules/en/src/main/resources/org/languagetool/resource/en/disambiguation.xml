@@ -8067,6 +8067,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB" chunk="E-NP-singular" />
             <token postag="RP" />
         </antipattern>
+        <antipattern>
+            <token>how</token>
+            <token>many</token>
+            <token postag="VBP" chunk="E-NP-singular" />
+            <token regexp="yes">and|n?or</token>
+            <token postag="VBP" chunk_re=".-VP" />
+            <token postag="P?DT|PRP.*" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
