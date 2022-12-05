@@ -7489,15 +7489,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rulegroup id="LANGE_KEIN_VER" name="'lang' kein Verb">
         <antipattern>
-            <token regexp="yes">lange?</token>
+            <token regexp="yes">lange?|nahe?</token>
             <token>ich</token>
             <token>zu</token>
         </antipattern>
         <rule>
             <pattern>
-                <token>wie</token>
+                <token regexp="yes">wie|so</token>
                 <marker>
-                    <token regexp="yes" postag="VER.*" postag_regexp="yes">lange?</token>
+                    <token regexp="yes" postag="VER.*" postag_regexp="yes">lange?|nahe?</token>
                 </marker>
             </pattern>
             <disambig action="remove" postag="VER.*"/>
