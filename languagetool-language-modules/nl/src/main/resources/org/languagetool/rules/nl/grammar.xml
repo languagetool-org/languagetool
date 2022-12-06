@@ -494,26 +494,37 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
             <rule>
                 <antipattern>
+                    <!-- v1.0 -->
+                    <token regexp="yes">v[0-9]+</token>
+                    <token>.<token>
+                    <token regexp="yes">[0-9]+</token>
+                </antipattern>
+                <antipattern>
+                    <!-- page number -->
                     <token postag="SENT_START"/>
                     <token postag="SENT_END" regexp="yes">[0-9]+</token>
                     <example>1</example>
                 </antipattern>
                 <antipattern>
+                    <!-- phone number etc. -->
                     <token regexp="yes">[1-9][0-9]{1,2}</token>
                     <token regexp="yes">[0-9]{3}</token>
                     <example>13 000</example>
                 </antipattern>
                 <antipattern>
-                    <token case_sensitive="yes" regexp="yes">[A-Z].*(straat|plein|weg|straße|vest|singel)|getal|jaren|bladzijde|kwartaal|opgave|AVI|thema|procent|type|:|lijn|Win|Windows|part|leerdoel|fase|week|slide|unit|Radio|dal</token>
+                    <!-- number of item -->
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*(straat|plein|weg|straße|vest|singel)|getal|jaren|bladzijde|kwartaal|opgave|AVI|thema|procent|type|:|lijn|Win|Windows|part|leerdoel|fase|week|slide|unit|Radio|dal|[hm]avo</token>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
+                    <!-- page number -->
                     <token>pagina</token>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                     <token>van</token>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
+                    <!-- before/after Christ -->
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                     <token regexp="yes">v|n</token>
                     <token>.</token>
@@ -521,15 +532,18 @@ regexp case-insensitive maken: (?i)
                     <token>.</token>
                 </antipattern>
                 <antipattern>
+                    <!-- abbreviation + number -->
                     <token regexp="yes">blz|pag|nr|no|art|p</token>
                     <token spacebefore="no">.</token>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
+                    <!-- calculation -->
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">[×*]</token>
                 </antipattern>
                 <antipattern>
+                    <!-- number range -->
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">[0-9]+|en|of|tot</token>
                     <token regexp="yes">[0-9]+</token>
@@ -537,6 +551,7 @@ regexp case-insensitive maken: (?i)
                     <example>Nummers 1 en 2 zijn goed.</example>
                 </antipattern>
                 <antipattern>
+                    <!-- number range -->
                     <token regexp="yes">[0-9]+</token>
                     <token>t</token>
                     <token>/</token>
@@ -545,12 +560,14 @@ regexp case-insensitive maken: (?i)
                     <example>Blad 5 t/m 6 zijn fout.</example>
                 </antipattern>
                 <antipattern>
+                    <!-- number range -->
                     <token regexp="yes">[0-9]+</token>
                     <token regexp="yes">a|à|&amp;</token>
                     <token regexp="yes">[0-9]+</token>
                     <example>Maar 5 a 6 zijn er goed.</example>
                 </antipattern>
                 <antipattern>
+                    <!-- number range -->
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                     <token>van</token>
                     <token>de</token>
@@ -558,6 +575,7 @@ regexp case-insensitive maken: (?i)
                     <example>Het loopt van 5 tot en met 6.</example>
                 </antipattern>
                 <antipattern>
+                    <!-- number range -->
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                     <token>tot</token>
                     <token>en</token>
@@ -566,12 +584,14 @@ regexp case-insensitive maken: (?i)
                     <example>Het loopt van 5 tot en met 6.</example>
                 </antipattern>
                 <antipattern>
+                    <!-- chance -->
                     <token regexp="yes">[0-9]+</token>
                     <token>op</token>
                     <token regexp="yes">[0-9]+</token>
                     <example>wel 1 op 10 mensen zet het aan.</example>
                 </antipattern>
                 <antipattern>
+                    <!-- before units of measurement -->
                     <token regexp="yes">[0-9]+|\p{L}|\p{InLetterlike_Symbols}|\p{Pe}</token>
                     <token regexp="yes">\p{Sm}|[\-\–\/x,.]</token>
                     <token regexp="yes">[0-9]+(&measurementUnitsAll;|[%\-\–\/x])?</token>
