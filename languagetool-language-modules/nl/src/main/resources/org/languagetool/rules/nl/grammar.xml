@@ -339,6 +339,8 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
 
         <rulegroup id="BE" name="be kan van alles zijn…">
+            <antipattern><token postag="UNKOWN"/><token>be</token></antipattern> <!-- Engels -->
+            <antipattern><token>be</token><token postag="UNKOWN"/></antipattern> <!-- Engels -->
             <antipattern><token>.</token><token spacebefore="no">be</token></antipattern>
             <antipattern><token>to</token><token>be</token></antipattern>
             <antipattern><token>(</token><token>be</token><token>)</token></antipattern>
@@ -356,13 +358,17 @@ regexp case-insensitive maken: (?i)
 
         <rulegroup id="EN_OF" name="En of / en/of">
             <rule>
+                <antipattern><token>of</token><token regexp="yes">er|u|we|hij|men|ze</token></antipattern>
                 <antipattern><token>of</token><token>die</token><token>alleen</token></antipattern>
                 <antipattern><token>of</token><token regexp="yes">jij|je|hij|ze|zij|wij|men|het</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>en</token></antipattern>
                 <antipattern><token>of</token><token regexp="yes">het|dit|dat</token><token postag="BYW" min="0" max="3"/><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/></antipattern>
                 <pattern>
-                    <token>en</token>
-                    <token>of</token>
+                    <marker>
+                        <token>en</token>
+                        <token>of</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="BNW.*|ZNW.*"/>
                 </pattern>
                 <message>Bedoelt u misschien <suggestion>en/of</suggestion>?</message>
                 <example correction="en/of">Ik houd van appels <marker>en of</marker> peren.</example>
@@ -11064,7 +11070,7 @@ onwaarschijnlijk
             <rule>
                 <pattern>
                     <token>te</token>
-                    <token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk</exception></token>
+                    <token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk|fiets</exception></token>
                 </pattern>
                 <message>Voor een zelfstandig naamwoord hoort 'de'.</message>
                 <suggestion>de \2</suggestion>
@@ -13095,6 +13101,8 @@ onwaarschijnlijk
         <rulegroup id="AFKO_PUNT" name="dhr → dhr.">
             <!-- 2014-08-22 TaalTik -->
             <rule>
+                <antipattern><token regexp="yes" case_sensitive="yes">[A-Z]{2,}</token><token>.</token></antipattern>
+                <antipattern><token/><token/><token case_sensitive="yes">Ca</token></antipattern><!-- Calcium -->
                 <antipattern><token regexp="yes">geen|het</token><token>ov</token></antipattern>
                 <antipattern><token regexp="yes">art|no</token><token regexp="yes" negate="yes">[0-9]*</token></antipattern> <!-- tegen art house , no nonsense etc -->
                 <antipattern><token regexp="yes">een|de</token><token>div</token></antipattern> <!-- tegen html-klets -->
@@ -13280,13 +13288,15 @@ onwaarschijnlijk
             <rule>
                 <antipattern><token>zij</token><token>aan</token><token>zij</token></antipattern>
                 <antipattern><token>Wat</token><token>er</token><token>ook</token><token>van</token><token>zij</token></antipattern>
+                <antipattern><token>wij</token><token>tegen</token><token>zij</token></antipattern>
                 <pattern>
                     <token postag="VRZ"><exception regexp="yes">behalve|tot|naar|voor|sinds|vóór|gezien</exception></token>
                     <token postag_regexp="yes" postag="VNW:PER.*ACT"><exception postag_regexp="yes" postag="VNW:PER.*PSF"/></token>
                 </pattern>
                 <message>Het woord '\2' staat hier wat vreemd. Kijk dit nog eens na s.v.p.</message>
+                <suggestion>\1; \2</suggestion>
                 <short>Vreemd!</short>
-                <example correction="">Geef het <marker>aan hij</marker>.</example>
+                <example correction="aan; hij">Geef het <marker>aan hij</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -14534,6 +14544,8 @@ onwaarschijnlijk
         </rulegroup>
         <rulegroup id="AN" name="an/An" type="misspelling">
             <rule>
+                <antipattern><token postag="UNKOWN"/><token>an</token></antipattern> <!-- Engels -->
+                <antipattern><token>an</token><token postag="UNKOWN"/></antipattern> <!-- Engels -->
                 <antipattern><token>an</token><token>sich</token></antipattern>
                 <antipattern><token>zin</token><token>an</token></antipattern><!-- detected elsewhere -->
                 <pattern>
@@ -18981,6 +18993,16 @@ steenwijk;Steenwijk
 
         <rulegroup id="PUNT_GEEN_HL" name="Geen spatie en hoofdletter na punt">
             <rule>
+                <antipattern>
+                    <token case_sensitive="yes">Ph</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">D</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">.*[a-z]</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes" case_sensitive="yes">pdf|io|storage|java|core|audio</token>
+                </antipattern>
                 <antipattern>
                     <token regexp="yes">.</token>
                     <token spacebefore="no">.</token>
@@ -38533,6 +38555,7 @@ steenwijk;Steenwijk
         <rulegroup id="KOMMA_HOOR" name=", hoor.">
             <!-- bron: Onze Taal via Woordpost 2014-08-27 -->
             <rule>
+                <antipattern><token>of</token><token>hoor</token><token postag="SENT_END"/></antipattern>
                 <antipattern><token>als</token><token>ik</token><token>mezelf</token><token>hoor</token></antipattern>
                 <antipattern><token>die</token><token>ik</token><token>hoor</token></antipattern>
                 <pattern>
@@ -44343,7 +44366,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <token regexp="yes">.*(heid|teit|ing|aandacht|gezicht|aanval|aanvang|achterhand|achterhoofd|achterstand|advent|afdracht|afstand|schap|alleman|almacht|ambacht|ambt|ement|arbeid|arend|iment|baren|bedrijf|begrip|beleid|beroep|bestand|bestuur|bevel|bewind|bewustzijn|bezit|bijstand|bisschop|boldriehoek|bond|bruid|bruiloft|contingent|staat|delict|district|doctoraat|doorgang|dorp|eigendom|eten|evenwicht|fabriek|fatsoen|garnizoen|gebed|gebied|gebit|gebruik|gedrag|gelaat|geloof|geluk|gerecht|geslacht|gevecht|gevoel|gewicht|gewricht|gezag|gezin|groep|heiligdom|huwelijk|ingang|inhoud|invloed|kabinet|kalf|kandidaat|kanon|kievit|kok|krijg|lichaam|macht|najaar|olifant|omgang|onderhoud|ongeval|onweer|oorlog|oorsprong|opstand|overdracht|overgang|overmacht|overzicht|personeel|persoon|predikant|premier|president|publiek|rijk|rijkelui|ruggengraat|scheep|stad|stilstand|tabak|tegenstand|toegang|toestand|uitgaan|uitgang|uitgebreid|vaderland|vakbond|verblijf|verbod|verbruik|verdrag|verjaardag|verkeer|verstand|vertrouwen|verzet|vicepresident|volk|voorhoofd|voorjaar|voorkeur|voortgang|weerstand|welstand|welzijn|zondag|boekweit|gemoed|heronderzoek|leegstand|middenstand|noodlot|oudejaar|ouderdom|platteland|proletariaat|voorrang|vooruitgang|welvaart|zeeman|gemeenteraad|bestaan|wanhoop|gesprek|burgerman|ledenraad|ondernemingsraad|kerkenraad|meergezin|afgod|geluid|genot|heil|kapitaal|leid|onderzoek|recht|resultaat|sabbat|seizoen|spreid|tijd|vervoer|voorbereid|wet|driehoek|vrijetijd|grondwet|koopman|eindejaar|voorzorg|krijgsmacht|hemelvaart|timmerman|werkman|diepgang|nieuwjaar|deelraad|werkwoord|achteruitgang)s-?<exception regexp="yes">destijds|bijtijds|boxsprings|settings|campings|coatings|dumplings</exception><exception postag_regexp="yes" postag="BNW.*|.*MRV.*|ENM.*|BYW"/></token>
-                    <token postag_regexp="yes" postag="ZNW.*"><exception>weer</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
+                    <token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes">weer|kan|houten</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
                 </pattern>
                 <message>Dit is mogelijk een spatiefout.</message>
                 <suggestion><match no="1" regexp_match="-$" regexp_replace=""/>\2</suggestion>
