@@ -17037,35 +17037,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
-                    <token>cada</token>
-                    <marker>
-                        <token>una</token>
-                    </marker>
-                    <token>de</token>
-                    <token>los</token>
-                </pattern>
-                <message>Posible falta de concordancia.</message>
-                <suggestion>uno</suggestion>
-                <example correction="uno">Cada <marker>una</marker> de los caballeros está ocupado.</example>
-                <example>Cada uno de los caballeros está ocupado.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>cada</token>
-                    <marker>
-                        <token>uno</token>
-                    </marker>
-                    <token>de</token>
-                    <token>las</token>
-                </pattern>
-                <message>Posible falta de concordancia.</message>
-                <suggestion>una</suggestion>
-                <example correction="una">Cada <marker>uno</marker> de las damas está ocupada.</example>
-                <example>Cada una de las damas está ocupada.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <marker>
                         <token postag="PI.MS.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito|medio|todo|mismo</exception></token>
                     </marker>
@@ -17078,6 +17049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Una"><marker>Uno</marker> de las casas.</example>
                 <example correction="Una"><marker>Uno</marker> de ellas.</example>
                 <example correction="Una"><marker>Uno</marker> de sus mayores riquezas.</example>
+                <example correction="una">Cada <marker>uno</marker> de las damas está ocupada.</example>
                 <example>Algunos de mis mejores amigos.</example>
                 <example>Y OTRO DE 3 CM DEL OTRO LADO</example>
                 <example>podría decir lo mismo de tus mayúsculas</example>
@@ -17104,6 +17076,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="PI.MS.*" postag_regexp="yes"/></suggestion>
                 <example correction="Alguno"><marker>Alguna</marker> de estos animales.</example>
                 <example correction="Uno"><marker>Una</marker> de estos animales.</example>
+                <example correction="uno">Cada <marker>una</marker> de los caballeros está ocupado.</example>
                 <example>Una de sus pacientes fue encontrada muerta.</example>
                 <example>Una de tus asistentes lo traía puesto.</example>
                 <example>El músico colaboró con algunas de sus cantantes preferidas.</example>
