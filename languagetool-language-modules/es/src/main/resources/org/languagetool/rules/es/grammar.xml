@@ -16998,6 +16998,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="UNO_DE_LAS" name="Concordancias de «*uno de las»">
             <url>https://www.wikilengua.org/index.php/uno_de_los/una_de_las</url>
             <antipattern>
+                <!-- agreement error in det+noun -->
+                <token postag="PI.M.*|DN0MP0" postag_regexp="yes"/>
+                <token>de</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="NCM.*|_GN_M." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <!-- agreement error in det+noun -->
+                <token postag="PI.F.*|DN0FP0" postag_regexp="yes"/>
+                <token>de</token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="NCF.*|_GN_F." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
                 <token postag="PI.*|DN.*" postag_regexp="yes"/>
                 <token>de</token>
                 <token postag="D.*" postag_regexp="yes"/>
@@ -17012,6 +17026,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>uno</token>
                 <example>entrando en número uno de las listas</example>
             </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token postag_regexp="yes" postag="N.*"/>
+            </antipattern>
+            <antipattern>
+                <token>de</token>
+                <token regexp="yes">muchos|muchas</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>cada</token>
+                    <marker>
+                        <token>una</token>
+                    </marker>
+                    <token>de</token>
+                    <token>los</token>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion>uno</suggestion>
+                <example correction="uno">Cada <marker>una</marker> de los caballeros está ocupado.</example>
+                <example>Cada uno de los caballeros está ocupado.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>cada</token>
+                    <marker>
+                        <token>uno</token>
+                    </marker>
+                    <token>de</token>
+                    <token>las</token>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion>una</suggestion>
+                <example correction="una">Cada <marker>uno</marker> de las damas está ocupada.</example>
+                <example>Cada una de las damas está ocupada.</example>
+            </rule>
+            <!-- TODO: suggest only singular? -->
             <rule>
                 <pattern>
                     <marker>
@@ -17031,6 +17084,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Algunso de mis mejores amigos.</example>
                 <example>Y OTRO DE 3 CM DEL OTRO LADO</example>
                 <example>podría decir lo mismo de tus mayúsculas</example>
+                <example>Esto año fue uno de muchas novedades.</example>
+                <example>Algunos de características particulares.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -17063,10 +17118,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>pero todas de tamaños diferentes</example>
                 <example>No hemos oído prédica alguna de nuestros jerarcas religiosos.</example>
                 <example>Es una de los cientos de ideas</example>
+                <example>Con otras de tiempos pasados.</example>
                 <!-- una de ellos (acceptable?) -->
                 <!-- Una de los rehenes (?) -->
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">decir</token>
+                    <token>muchos</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="PI.MP.*" postag_regexp="yes" inflected="yes" regexp="yes">mucho|tanto|poco<exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -17079,8 +17139,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Muchas"><marker>Muchos</marker> de sus casas.</example>
                 <example>Muchos de mis familiares.</example>
                 <example>Muchos de sus componentes.</example>
+                <example>Lo que dirán muchos de otras generaciones.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">decir</token>
+                    <token>muchas</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="PI.FP.*" postag_regexp="yes" inflected="yes" regexp="yes">mucho|tanto|poco<exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -19008,34 +19073,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="las">Cumplir dos de <marker>los</marker> tres preguntas.</example>
                 <example correction="las">Puede dar <marker>los</marker> cinco ideas nuevas.</example>
                 <example>¿Cuál de los dos eres?</example>
-            </rule>
-            <rule id="CADA_UNA_DE_LOS" name="Concordancia «Cada una de los»">
-                <pattern case_sensitive="no">
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token>cada</token>
-                        <token>una</token>
-                        <token>de</token>
-                        <token>los</token>
-                    </marker>
-                </pattern>
-                <message>Posible falta de concordancia.</message>
-                <example correction=""><marker>Cada una de los</marker> caballeros está ocupado.</example>
-                <example>Cada uno de los caballeros está ocupado.</example>
-            </rule>
-            <rule id="CADA_UNO_DE_LAS" name="Concordancia «Cada una de las»">
-                <pattern case_sensitive="no">
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token>cada</token>
-                        <token>uno</token>
-                        <token>de</token>
-                        <token>las</token>
-                    </marker>
-                </pattern>
-                <message>Posible falta de concordancia.</message>
-                <example correction=""><marker>Cada uno de las</marker> damas está ocupada.</example>
-                <example>Cada una de las damas está ocupada.</example>
             </rule>
             <!-- EL_AGRAVANTE Concordancia (este atenuante) -->
             <!-- Esta regla solapaba a EL_NOM_MASC en algunos casos y se añade una excepción para evitarlo -->
