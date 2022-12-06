@@ -17064,7 +17064,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="una">Cada <marker>uno</marker> de las damas está ocupada.</example>
                 <example>Cada una de las damas está ocupada.</example>
             </rule>
-            <!-- TODO: suggest only singular? -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="PI.MS.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito|medio|todo|mismo</exception></token>
+                    </marker>
+                    <token postag="SPS00" inflected="yes">de</token>
+                    <token postag="D[AD].FP.*|PP3FP000|_GN_FP" postag_regexp="yes"><exception postag="_GN_MP|DN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion><match no="1" postag="PI.FS.*" postag_regexp="yes"/></suggestion>
+                <example correction="Una"><marker>Uno</marker> de sus casas.</example>
+                <example correction="Una"><marker>Uno</marker> de las casas.</example>
+                <example correction="Una"><marker>Uno</marker> de ellas.</example>
+                <example correction="Una"><marker>Uno</marker> de sus mayores riquezas.</example>
+                <example>Algunos de mis mejores amigos.</example>
+                <example>Y OTRO DE 3 CM DEL OTRO LADO</example>
+                <example>podría decir lo mismo de tus mayúsculas</example>
+                <example>Esto año fue uno de muchas novedades.</example>
+                <example>Algunos de características particulares.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="PI.F.*" postag_regexp="yes"/>
+                    <token>de</token>
+                    <token>los</token>
+                    <token regexp="yes">cientos|miles|millones|millares|centenares</token>
+                    <token>de</token>
+                    <token postag="NC[FC]P000" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="PI.FS.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito|medio|todo|mismo</exception></token>
+                    </marker>
+                    <token postag="SPS00" inflected="yes">de</token>
+                    <token postag="D[AD].MP.*|_GN_MP" postag_regexp="yes"><exception postag="_GN_FP|NP.*|DN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion><match no="1" postag="PI.MS.*" postag_regexp="yes"/></suggestion>
+                <example correction="Alguno"><marker>Alguna</marker> de estos animales.</example>
+                <example correction="Uno"><marker>Una</marker> de estos animales.</example>
+                <example>Una de sus pacientes fue encontrada muerta.</example>
+                <example>Una de tus asistentes lo traía puesto.</example>
+                <example>El músico colaboró con algunas de sus cantantes preferidas.</example>
+                <example>Habrá seis bandas, algunas de Los Ángeles y de Austin.</example>
+                <example>Y es que el dibujo, es otra de sus grandes pasiones.</example>
+                <example>Yo tengo otra de 10 años.</example>
+                <example>Cada una de cinco versos.</example>
+                <example>pero todas de tamaños diferentes</example>
+                <example>No hemos oído prédica alguna de nuestros jerarcas religiosos.</example>
+                <example>Es una de los cientos de ideas</example>
+                <example>Con otras de tiempos pasados.</example>
+                <!-- una de ellos (acceptable?) -->
+                <!-- Una de los rehenes (?) -->
+            </rule>
             <rule>
                 <pattern>
                     <marker>
