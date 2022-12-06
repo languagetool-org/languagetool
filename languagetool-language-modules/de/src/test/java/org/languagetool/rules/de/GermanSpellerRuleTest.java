@@ -148,6 +148,20 @@ public class GermanSpellerRuleTest {
             is("[Fehler, fehla, xxx]"));
     assertThat(rule.sortSuggestionByQuality("mülleimer", Arrays.asList("Mülheimer", "-mülheimer", "Melkeimer", "Mühlheimer", "Mülleimer")).toString(),
             is("[Mülleimer, Mülheimer, -mülheimer, Melkeimer, Mühlheimer]"));
+    
+    // filtering out undesired inflected forms
+    assertThat(
+        rule.sortSuggestionByQuality("glückklich",
+            Arrays.asList("glücklich", "glückliche", "glücklichen", "glücklicher", "glückliches")).toString(),
+        is("[glücklich]"));
+    assertThat(
+        rule.sortSuggestionByQuality("Fußbaall", Arrays.asList("Fußball", "Fußballs", "Ausball", "Fußball", "Fußbälle"))
+            .toString(),
+        is("[Fußball, Ausball]"));
+    assertThat(
+        rule.sortSuggestionByQuality("glücklichr",
+            Arrays.asList("glücklich", "glückliche", "glücklicher", "glücklichen", "glückliches")).toString(),
+        is("[glücklich, glückliche, glücklicher, glücklichen, glückliches]"));
   }
 
   @Test
@@ -772,10 +786,10 @@ public class GermanSpellerRuleTest {
   @Test
   public void testGetSuggestionsFromSpellingTxt() throws Exception {
     MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertThat(ruleGermany.getSuggestions("Ligafußboll").toString(), is("[Ligafußball, Ligafußballs]"));  // from spelling.txt
+    assertThat(ruleGermany.getSuggestions("Ligafußboll").toString(), is("[Ligafußball]"));  // from spelling.txt, removed: Ligafußballs
     assertThat(ruleGermany.getSuggestions("free-and-open-source").toString(), is("[]"));  // to prevent OutOfMemoryErrors: do not create hyphenated compounds consisting of >3 parts
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
-    assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
+    assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball]")); // removed: Ligafussballs
     assertThat(ruleSwiss.getSuggestions("konfliktbereid").toString(), is("[konfliktbereit, konfliktbereite]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereitel").toString(),
                is("[konfliktbereite, konfliktbereiten, konfliktbereitem, konfliktbereiter, konfliktbereites, konfliktbereit]"));

@@ -1757,10 +1757,40 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
+    // filter some undesired inflected forms
+    List<String> filteredSuggestions = new ArrayList<>();
+    List<AnalyzedTokenReadings> readingsList = new ArrayList<>();
+    try {
+      readingsList = getTagger().tag(suggestions);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    String lemmaToFilter = "";
+    for (AnalyzedTokenReadings readings : readingsList) {
+      if (readings.hasAnyPartialPosTag("ADJ") || readings.hasAnyPartialPosTag("SUB")) {
+        if (readings.hasAnyLemma(readings.getToken())) {
+          lemmaToFilter = readings.getToken();
+          break;
+        }
+      }
+    }
+    if (!lemmaToFilter.isEmpty() && misspelling.length() > 1
+        && lemmaToFilter.endsWith(misspelling.substring(misspelling.length() - 1))) {
+      for (int i = 0; i < suggestions.size(); i++) {
+        if (suggestions.get(i).equals(lemmaToFilter) || !readingsList.get(i).hasAnyLemma(lemmaToFilter)) {
+          if (!filteredSuggestions.contains(suggestions.get(i))) {
+            filteredSuggestions.add(suggestions.get(i));
+          }
+        }
+      }
+    } else {
+      filteredSuggestions.addAll(suggestions);
+    }
+    // end of filtering
     List<String> result = new ArrayList<>();
     List<String> topSuggestions = new ArrayList<>(); // candidates from suggestions that get boosted to the top
-
-    for (String suggestion : suggestions) {
+    for (String suggestion : filteredSuggestions) {
       if (misspelling.equalsIgnoreCase(suggestion)) { // this should be preferred - only case differs
         topSuggestions.add(suggestion);
       } else if (suggestion.contains(" ")) { // this should be preferred - prefer e.g. "vor allem":
@@ -1785,7 +1815,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     result.addAll(0, topSuggestions);
-
     return result;
   }
 
