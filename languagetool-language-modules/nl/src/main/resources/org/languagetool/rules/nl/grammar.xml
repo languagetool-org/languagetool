@@ -496,7 +496,7 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <!-- v1.0 -->
                     <token regexp="yes">v[0-9]+</token>
-                    <token>.<token>
+                    <token>.</token>
                     <token regexp="yes">[0-9]+</token>
                 </antipattern>
                 <antipattern>
@@ -13095,16 +13095,13 @@ onwaarschijnlijk
         <rulegroup id="AFKO_PUNT" name="dhr → dhr.">
             <!-- 2014-08-22 TaalTik -->
             <rule>
-                <antipattern><token regexp="yes" case_sensitive="yes">ING|Max|WW|BW|MAX|NL|DIV|DS|dS|E[Tt][Cc]|FAM|FA|IR|MLD|MR</token></antipattern>
                 <antipattern><token regexp="yes">geen|het</token><token>ov</token></antipattern>
-                <antipattern><token>de</token><token>MR</token></antipattern>
                 <antipattern><token regexp="yes">art|no</token><token regexp="yes" negate="yes">[0-9]*</token></antipattern> <!-- tegen art house , no nonsense etc -->
-                <antipattern><token regexp="yes">[0-9]*</token><token>art</token></antipattern> <!-- tegen centiare -->
                 <antipattern><token regexp="yes">een|de</token><token>div</token></antipattern> <!-- tegen html-klets -->
                 <antipattern><token>.</token><token spacebefore="no">nl</token></antipattern> <!-- tegen html-klets -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|dhr|div|drs|ds|enz|etc|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mld|mln|mr|nl|no|nr|nrs|ong|onov|pag|plm|plv|resp|vgl|vnl|vnw|voorz|zgn|mrs<exception postag="SENT_END"/></token>
+                        <token regexp="yes" case_sensitive="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|dhr|div|drs|ds|enz|etc|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mld|mln|mr|nl|no|nr|nrs|ong|onov|pag|plm|plv|resp|vgl|vnl|vnw|voorz|zgn|mrs<exception postag="SENT_END"/></token>
                     </marker>
                     <token negate="yes">.</token>
                 </pattern>
