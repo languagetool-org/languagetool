@@ -840,6 +840,12 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <antipattern>
                     <token postag_regexp="yes" postag="SENT_START|START"/>
+                    <token>Jij</token>
+                    <token/>
+                    <token postag="SENT_END">!</token>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="SENT_START|START"/>
                     <token regexp="yes">Wij|Zij|Jij</token>
                     <token postag="BNW:STL:ONV"/>
                 </antipattern>
@@ -34216,7 +34222,7 @@ steenwijk;Steenwijk
                     <!-- Arabische naam -->
                     <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
                     <token case_sensitive="yes">ben</token>
-                    <token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception><exception>ben</exception></token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
                 </antipattern>
                 <antipattern>
                 <!-- sluit naam Ben uit -->
@@ -44363,6 +44369,7 @@ steenwijk;Steenwijk
             <antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*EKV|GET.*MRV"/></antipattern>
             <antipattern><token>de</token><token regexp="yes">einde?|begin</token><token regexp="yes">[0-9]{4}</token></antipattern>
             <antipattern><token>de</token><token>wat</token><token postag_regexp="yes" postag="BNW:(STL|VGR):(VRB|ONV)"/></antipattern>
+            <antipattern><token>fleur</token><token>de</token><token>sel</token></antipattern>
             <antipattern><token>de</token><token>facto</token></antipattern>
             <antipattern><token>op</token><token>de</token><token>been</token></antipattern>
             <antipattern><token>in</token><token>de</token><token>war</token></antipattern>
@@ -44379,7 +44386,7 @@ steenwijk;Steenwijk
             <antipattern><token>de</token><token>fine</token><token>fleur</token></antipattern>
             <antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
             <antipattern><token>de</token><token>,</token><token>,</token></antipattern>
-            <antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal|zoveelste|het|ter|zelf|enigzins|enigszins|verscheidene|ins|anderhalf|elkaar|ten|art|iTunes|pits|dit|onderscheidene|[.]|jouwen|golden|alles|mm|…</token></antipattern>
+            <antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun|meesten|meest|meeste|weinig|weinigen?|nogal|zoveelste|het|ter|zelf|enigzins|enigszins|verscheidene|ins|anderhalf|elkaar|ten|art|iTunes|pits|dit|onderscheidene|[.]|jouwen|golden|alles|mm|…|[a-z].*–</token></antipattern>
             <antipattern><token>de</token><token postag="WKW:TGW:1EP"/><token postag_regexp="yes" postag="ZNW.*DE_"/></antipattern><!-- de betaal conditie -->
             <antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
 
