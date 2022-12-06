@@ -14456,7 +14456,7 @@ onwaarschijnlijk
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">DJ</token>
+                        <token case_sensitive="yes">DJ</token>
                     </marker>
                     <token regexp="yes" case_sensitive="yes">[^A-Z].*</token>
                 </pattern>
@@ -21805,6 +21805,8 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="OR_EENH_GETAL" name="Tussen eenheid en getal een spatie">
             <rule>
+                <antipattern><token regexp="yes">[0-9]+</token><token>.</token></antipattern>
+                <antipattern><token regexp="yes" case_sensitive="yes">:|nummer|[A-Z].*</token><token regexp="yes" case_sensitive="yes">[0-9]+[A-Z]</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,3}[AB]</token></antipattern>
                 <antipattern><token regexp="yes">[0-9]{1,3}[AB]</token><token>en</token><token regexp="yes">[0-9]{1,3}[AB]</token></antipattern>
                 <pattern case_sensitive="yes">
@@ -35785,7 +35787,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token regexp="yes">lange|korte|langere</token>
                     <token>termijn</token>
-                    <token postag ="ZNW.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW.*VRB|WKW:TGW:3EP"/><exception regexp="yes">één|een</exception></token>
+                    <token postag ="ZNW.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW.*VRB|WKW:TGW:3EP|WKW:TGW:INF"/><exception regexp="yes">één|een</exception></token>
                 </pattern>
                 <message>U bedoelt mogelijk: <suggestion>\1\2\3</suggestion>.</message>
                 <example correction="langetermijngeheugen">QQ <marker>lange termijn geheugen</marker> QQQ.</example>
@@ -37126,13 +37128,11 @@ steenwijk;Steenwijk
                 <example correction="">Ik zie de <marker>kakelvrije</marker> zin.</example>
             </rule>
         </rulegroup>
-
-        <rulegroup id="VOORWAARDEN" name="op deze voorwaarden">
+        <rulegroup id="VOORWAARDEN" name="Aan/op deze voorwaarden">
             <rule>
-                <antipattern><token regexp="yes">op|onder|tegen</token><token>deze</token><token>voorwaarden</token></antipattern>
                 <pattern>
                     <marker>
-                        <token postag="VRZ"/>
+                        <token>aan</token>
                     </marker>
                     <token regexp="yes">deze|die</token>
                     <token>voorwaarden</token>
@@ -44436,6 +44436,11 @@ steenwijk;Steenwijk
 
         <rulegroup id="EEN_VAN_DE_MAN" name="is een van de bekendste man/mannen">
             <rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag_regexp="yes" postag=".*MRV.*|.*VRB"/></token>
+                    <token>zijn</token>
+                    <token postag_regexp="yes" postag=".*MRV.*"/>
+                </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="WKW:(TGW|VLT):[13]EP"/>
                     <token regexp="yes">een|één</token>
