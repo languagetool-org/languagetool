@@ -32,6 +32,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sept?|o[ck]t|nov|dec">
     <!ENTITY timeOfDayToday "vanmorgen|vanmiddag|vanavond|vannacht">
     <!ENTITY timeOfDayGeneral "morgen|middag|avond|nacht">
+    <!ENTITY twentyfourHours "[0-2]?[0-9]:[0-5][0-9]">
 
     <!ENTITY linuxDistros "Arch|CentOS|Debian|Fedora|Gentoo|Knoppix|Mint|(open)?SUSE|RHEL|Slackware|Slax">
 
@@ -225,6 +226,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">De verantwoordelijke voor de gegevensverwerking is Molenaar Solutions, Schakel 4, <marker>3645</marker> SJ Vinkeveen.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">[1-2]?[0-9]{3}</token>
+                    <token regexp="yes">&twentyfourHours;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&twentyfourHours;</token>
+                    <token regexp="yes" min="0">[0-2]?[0-9]</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes" min="0">[1-2]?[0-9]{3}</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">[0-9]+</token>
