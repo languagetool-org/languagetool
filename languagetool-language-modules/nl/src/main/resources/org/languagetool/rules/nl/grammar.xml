@@ -974,33 +974,27 @@ regexp case-insensitive maken: (?i)
                 <example>Want hij of <marker>zij</marker> moet gewoon een goede luisteraar zijn.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token regexp="yes">bovenover|door|over|tegen|volgens|voor</token>
-                    <token regexp="yes">jouw|jou</token>
-                </antipattern>
-                <antipattern>
-                    <token>zij</token>
-                    <token>jou</token>
-                </antipattern>
-                <antipattern>
-                    <token>jou</token>
-                    <token regexp="yes">en|of</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">met|bij</token>
-                    <token>jou</token>
-                    <token postag_regexp="yes" postag="WKW.*"/>
-                </antipattern>
                 <pattern>
-                    <token regexp="yes">jouw|jou</token>
+                    <marker>
+                        <token>jouw</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="BNW.*|ZNW.*"/>
                 </pattern>
                 <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
                 <short>Nadruk?</short>
                 <example correction="je">Ik zie <marker>jouw</marker> auto</example>
-                <example>Wie zal so iets tegen <marker>jou</marker> willen zeggen?</example>
-                <example><marker>Jou</marker> en je zus mogen meekomen.</example>
-                <example>Je wilt bewuste keuzes maken die echt bij <marker>jou</marker> passen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>jou</token>
+                    </marker>
+                </pattern>
+                <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
+                <short>Nadruk?</short>
+                <example correction="je">Ik zie <marker>jou</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MEEST_GEWOON" name="Meest gewoon/gewoonst" tags="picky">
@@ -18692,6 +18686,11 @@ steenwijk;Steenwijk
         <rulegroup id="JE_EIGEN" name="je eigen">
             <!-- 2014-08-18 TaalTik: regel werkt heel goed. Geen url gevonden -->
             <rule>
+                <antipattern>
+                    <!-- je eigen auto -->
+                    <token>eigen</token>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>je</token>
@@ -37005,7 +37004,7 @@ steenwijk;Steenwijk
                 <example correction="">Wanneer de rivier dicht gaat <marker>slippen</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WOUDEN" name="wilden of wouden">
+        <rulegroup id="WOUDEN" name="wilden of wouden" tags="picky">
             <rule>
                 <pattern>
                     <token regexp="yes">ik|je|jij|hij</token>
@@ -37904,6 +37903,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="DES" name="Waarschuwen voor 'des' buiten staande uitdrukkingen">
             <rule>
+                <antipattern><token postag="UNKOWN"/><token>des</token><token postag="UNKOWN"/></antipattern> <!-- Frans -->
                 <antipattern>
                     <token>Promenade</token>
                     <token>des</token>
