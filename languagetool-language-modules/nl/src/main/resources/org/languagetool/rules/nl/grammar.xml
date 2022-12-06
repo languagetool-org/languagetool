@@ -13832,6 +13832,9 @@ onwaarschijnlijk
 
         <rulegroup id="STRAAT_HL" name="Straat als soortnaam of eigennaam">
             <rule>
+                <antipattern><token>het</token><token>dorpsplein</token></antipattern>
+                <antipattern><token>de</token><token>luchtweg</token></antipattern>
+                <antipattern><token>de</token><token>lichtweg</token></antipattern>
                 <antipattern><token>gulden</token><token>middenweg</token></antipattern>
                 <antipattern> <!-- met huisnummer mag het strenger.. -->
                     <token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,50}(straat|plein|laan|beek|weg)</token>
@@ -18686,17 +18689,12 @@ steenwijk;Steenwijk
         <rulegroup id="JE_EIGEN" name="je eigen">
             <!-- 2014-08-18 TaalTik: regel werkt heel goed. Geen url gevonden -->
             <rule>
-                <antipattern>
-                    <!-- je eigen auto -->
-                    <token>eigen</token>
-                    <token postag_regexp="yes" postag="ZNW.*"/>
-                </antipattern>
                 <pattern>
                     <marker>
                         <token>je</token>
                         <token>eigen</token>
                     </marker>
-                    <token postag="SENT_END"/>
+                    <token postag="SENT_END" regexp="yes">[.!?]</token>
                 </pattern>
                 <message>U bedoelt misschien: <suggestion>jezelf</suggestion>?</message>
                 <example correction="jezelf">Kijk naar <marker>je eigen</marker>.</example>
@@ -35551,7 +35549,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="JIJ_LOOP" name="jij loop">
             <rule>
-                <antipattern><token>Jij</token><token>weer</token></antipattern>
+                <antipattern><token regexp="yes">zij|hij|jij</token><token>weer</token></antipattern>
                 <antipattern><token>Jij</token><token>wel</token><token regexp="yes">[.!?;,:]</token></antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="SENT_START|START"/>
