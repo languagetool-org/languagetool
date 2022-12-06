@@ -10890,7 +10890,7 @@ onwaarschijnlijk
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token postag_regexp="yes" postag="WKW:TGW:1EP.*"><exception regexp="yes">maar|veel</exception><exception postag_regexp="yes" postag="BNW.*|VNW.*|ZNW.*"/></token>
+                        <token postag_regexp="yes" postag="WKW:TGW:1EP.*"><exception regexp="yes">maar|veel|uit|bevat</exception><exception postag_regexp="yes" postag="BNW.*|VNW.*|ZNW.*"/></token>
                         <token regexp="yes">ding|dingen</token>
                     </marker>
                 </pattern>
@@ -11237,7 +11237,7 @@ onwaarschijnlijk
                 <antipattern><token>de</token><token>mini</token><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/></antipattern>
                 <pattern>
                     <token regexp="yes" >mini|ultra|giga|mega|tera|nano|micro|macro</token>
-                    <token postag_regexp="yes" postag="ZNW.*|BNW.*"/>
+                    <token postag_regexp="yes" postag="ZNW.*|BNW.*"><exception>kan</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
                 <!-- <filter class="org.languagetool.rules.nl.CompoundFilter" args="words:\1|\2"/> -->
@@ -20904,7 +20904,7 @@ steenwijk;Steenwijk
             <rule>
                 <!-- 2014-08-22 TaalTik -->
                 <pattern>
-                    <token inflected="yes">commercial</token>
+                    <token inflected="yes" case_sensitive="yes">commercial</token>
                 </pattern>
                 <message>&leenwoord_mess;</message>
                 <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">reclame</match></suggestion>
@@ -21355,7 +21355,7 @@ steenwijk;Steenwijk
                 <antipattern><token>geïnteresseerden</token><token regexp="yes">informatie|kennis</token></antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF|ZNW:MRV:DE_|BNW:STF|BNW.*VRB" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden|gesloten|.*fijn</exception></token>
-                    <token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen|zo|moet|stond|hen|&weekdays;|Grand</exception></token>
+                    <token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">kan|bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen|zo|moet|stond|hen|&weekdays;|Grand</exception></token>
                 </pattern>
                 <message>Er staat misschien een n te veel: <suggestion><match no="1" regexp_match="n$" regexp_replace=""/> \2</suggestion>.</message>
                 <example correction="gestoorde man">Ik zie de <marker>gestoorden man</marker> lopen.</example>
@@ -33797,7 +33797,7 @@ steenwijk;Steenwijk
         <rulegroup id="SEMI" name="Semi is meestal een voorvoegsel" >
             <rule>
                 <pattern>
-                    <token>semi</token>
+                    <token case_sensitive="yes">semi</token>
                     <token regexp="yes">[a-z].*</token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:false"/>
@@ -34739,6 +34739,8 @@ steenwijk;Steenwijk
             <rule>
                 <!-- TODO: false positives bestrijden -->
                 <antipattern><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>zal</token></antipattern>
+                <antipattern><token postag_regexp="yes" postag="ENM.*"/><token>zal</token></antipattern>
+                <antipattern><token>Hoe</token><token>zal</token></antipattern>
                 <pattern>
                     <marker>
                         <token>zal</token>
@@ -35492,7 +35494,7 @@ steenwijk;Steenwijk
         <rulegroup id="LOOPT_IK" name="loopt ik" >
             <rule>
                 <pattern>
-                    <token postag="WKW:TGW:3EP"><exception postag="WKW:TGW:1EP|WKW:VLT:1EP|ZNW.*" postag_regexp="yes"/><exception>want</exception></token>
+                    <token postag="WKW:TGW:3EP"><exception postag="WKW:TGW:1EP|WKW:VLT:1EP|ZNW.*" postag_regexp="yes"/><exception regexp="yes">want|is</exception></token>
                     <token case_sensitive="yes">ik</token>
                 </pattern>
                 <message>Deze werkwoordsvorm past niet bij 'ik'.</message>
@@ -37135,7 +37137,7 @@ steenwijk;Steenwijk
                     <token regexp="yes">deze|die</token>
                     <token>voorwaarden</token>
                 </pattern>
-                <message>Gebruikelijke zijn <suggestion>onder</suggestion>, <suggestion>tegen</suggestion> <suggestion>op</suggestion>.</message>
+                <message>Gebruikelijk zijn <suggestion>onder</suggestion>, <suggestion>tegen</suggestion> <suggestion>op</suggestion>.</message>
                 <url>https://taaladvies.net/taal/advies/vraag/882/voorwaarden_in_op_onder_tegen_deze/</url>
                 <example correction="onder|tegen|op">Ik krijg het <marker>aan</marker> deze voorwaarden.</example>
             </rule>
@@ -40216,15 +40218,8 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
                 <example correction="">Ik wil niet dat ze zich <marker>in de voet schieten</marker>.</example>
-                <example>Er is geen correct voorbeeld van.</example>
-                <!-- possible examples
-                <example correction="">Brugge kan slechts hopen dat Gavere iets van <marker>in eigen voet schiet</marker>.</example>
                 <example correction="">BDW zal zich niet <marker>in zijn voet schieten</marker> als hij de regeringsvorming laat in elkaar stuiken op de onredelijke eisen van de Franstaligen.</example>
-                <example correction="">Wel moeten vakbonden toch eens gaan begrijpen dat ze zichzelf èn hun leden <marker>in de voet schieten</marker> wanneer ze niet op een constructievere manier meedenken over de ingrijpende sociale en economische veranderingen die ons te wachten staan.</example>
-                <example correction="">Maar nu is er ook nog een andere soort wielerliefhebber: die alles al wel gezien heeft, beseft dat de wielersport gedoemd is om zichzelf tot in den treure <marker>in eigen voet te schieten</marker> en weet dat het dopingprobleem een complexe mentaliteitskwestie is die zich niet laat oplossen door nog meer en nog vernuftigere dopingtests.</example>
-                <example correction="">De reactie van Thielemans destijds ten aanzien van Picnic the streets sprak boekdelen: een combinatie van loze dreigingen, onhandig schouderophalen en de excuus dat er nog geen globaal mobiliteitsplan was – een apologie waarmee iedere collega burgemeester van een Europese grootstad zich een kogel <marker>in de voet zou schieten</marker>.</example>
-                <example correction="">Het waren vooral de regeringsleden zelf die zich <marker>in de voet schoten</marker>: Jan Jambon zette zichzelf in het oog van de storm door zijn uitspraken of het Belgische vicepremierschap ‘het wel allemaal waard is’; Alexander De Croo wekte even de indruk de loonplafonnering van managers van overheidsbedrijven los te laten en Charles Michel moest het bestaan van atomaschriftjes met geheime communautaire afspraken ontkennen.</example>
-                -->
+                <example correction="">Wel moeten vakbonden toch eens gaan begrijpen dat ze zichzelf én hun leden <marker>in de voet schieten</marker> wanneer ze niet op een constructievere manier meedenken over de ingrijpende sociale en economische veranderingen die ons te wachten staan.</example>
             </rule>
             <rule>
                 <pattern>
@@ -40234,50 +40229,11 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
                 <example correction="">Ze <marker>schoten zichzelf in de voet</marker>.</example>
-                <example>Er is geen correct voorbeeld van.</example>
-                <!-- possible examples
                 <example correction="">We <marker>schieten onszelf daarmee al jaren in de voet</marker>.</example>
                 <example correction="">Door veel tijd door te brengen met negatief ingestelde mensen <marker>schiet u zichzelf in de voet</marker>.</example>
                 <example correction="">Door zonder overleg te beslissen om de ziekenfondsen zwaar te laten inleveren, <marker>schiet de regering in eigen voet</marker>.</example>
                 <example correction="">Wanneer consumenten doelbewust het advertentie-model vernietigen met adblockers <marker>schieten ze rechtstreeks in eigen voet</marker>.</example>
                 <example correction="">Tunesië kon zelf nauwelijks iets klaarmaken, maar <marker>schoot zich net na het uur in de voet</marker> met een domme tweede gele kaart voor Jemaa.</example>
-                -->
-            </rule>
-        </rulegroup>
-        <rulegroup id="HART_VOOR" name="Hart hebben voor">
-            <rule>
-                <pattern>
-                    <token>hart</token>
-                    <token>voor</token>
-                </pattern>
-                <message>&cliche_mess;</message>
-                <example correction="">Hij heeft <marker>hart voor</marker> de zaak.</example>
-                <example>Er is geen correct voorbeeld van.</example>
-                <!-- possible examples
-                <example correction=""><marker>Hart voor</marker> je werk hebben.</example>
-                <example correction="">We hebben een <marker>hart voor</marker> de natuur.</example>
-                <example correction="">Ik hield mijn <marker>hart vast voor</marker> een zware vorstperiode.</example>
-                <example correction="">Weer had zijn zwakke <marker>hart een schot voor</marker> de boeg gelost.</example>
-                <example correction="">Aan te raden bij iedereen die een <marker>hart heeft voor</marker> muziek.</example>
-                <example correction="">Mijn nog speels en jong <marker>hart kiest voor</marker> het eeuwig Leven.</example>
-                <example correction="">Tom, ik weet dat je intelligent bent én een <marker>hart hebt voor</marker> Gent.</example>
-                <example correction="">De rozet boven het hoogkoor stelt het Heilig <marker>Hart van Jezus voor</marker>.</example>
-                <example correction="">Probeer met een gerust <marker>hart mijn recept voor</marker> klassiek stoofvlees.</example>
-                <example correction="">Iemand met een interessante visie en een <marker>hart dat klopt voor</marker> ‘t Stad.</example>
-                <example correction="">Hij zette zich in met <marker>hart en ziel voor</marker> de opvoeding van arme kinderen.</example>
-                <example correction="">Hierdoor kan u ze met een gerust <marker>hart achterlaten voor</marker> uw eigen vertrek.</example>
-                <example correction="">Door te zingen houd je je <marker>hart open voor</marker> een dimensie waar het anders is.</example>
-                <example correction="">Eens wij ons <marker>hart geopend hebben voor</marker> Jezus, zal de Geest zijn werk doen.</example>
-                <example correction="">De slokdarm ligt in de borstholte, achter het <marker>hart en voor</marker> de wervelkolom.</example>
-                <example correction="">"Mensen die hun <marker>hart uitstorten voor</marker> de microfoon, daar word je nederig van"</example>
-                <example correction="">Hij zou ook een enorm groot <marker>hart gehad hebben voor</marker> de vele armen uit die tijd.</example>
-                <example correction="">De cardioloog neemt telefonisch contact wanneer er een geschikt <marker>hart is voor</marker> u.</example>
-                <example correction="">Goede Vrijdag, de dag waarop Jezus "zich helemaal <marker>hart heeft gemaakt voor</marker> mij".</example>
-                <example correction="">Spreken, met gezag, maar dan van hart tot <marker>hart, voor</marker> alle mensen die Hij tegenkwam.</example>
-                <example correction="">WIE oh WIE heeft er een plek in haar of zijn <marker>hart en thuis voor</marker> dit lieve schatje!</example>
-                <example correction="">Het <marker>hart staat voor</marker> liefde, voor van harte iets geven en jezelf van harte iets gunnen.</example>
-                <example correction="">Ik heb altijd een <marker>hart gehad voor</marker> maatschappijkritische hiphop, reggae en de kleinkunst."</example>
-                -->
             </rule>
         </rulegroup>
         <rulegroup id="STEEN_BIJDRAGEN" name="Een steentje bijdragen">
@@ -41560,6 +41516,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="JOU_JOUW" name="jou of jouw"> <!-- TODO: Later tag as learner rule -->
             <rule>
+                <antipattern><token>jou</token><token>best</token></antipattern>
                 <antipattern><token>jou</token><token postag="ZNW.*" postag_regexp="yes"/><token>heeft</token><token postag="WKW:VTD:ONV"/></antipattern>
                 <antipattern><token>Voor</token><token regexp="yes">jou|hem|mij</token><token postag_regexp="yes" postag="GET.*MRV"/><token>anderen</token></antipattern>
                 <antipattern><token>jou</token><token postag_regexp="yes" postag="BNW.*"/><token postag=".*ZNW.*" postag_regexp="yes"/></antipattern>
@@ -41571,11 +41528,9 @@ steenwijk;Steenwijk
                         <token postag=".*ZNW.*" postag_regexp="yes"><exception postag="WKW.*|BNW:STL:ONV" postag_regexp="yes"/><exception regexp="yes">tegen|gewoon|immers|van|over|wat|nu|bij|goed|een|voor|iets|thuis|alles|super|niets</exception></token>
                     </marker>
                 </pattern>
-                <message>Bedoelt u misschien <suggestion>jouw <match no="3"/></suggestion>?</message>
-                <example correction="jouw emotie">Bezit is voor <marker>jou emotie</marker>.</example>
+                <message>Bedoelt u misschien <suggestion>jouw <match no="3"/></suggestion> (van jou)?</message>
                 <example correction="jouw hartchakra">Eer dan <marker>jou hartchakra</marker>.</example>
                 <example correction="jouw huisje">Ik wens dat rond <marker>jou huisje</marker>.</example>
-                <example correction="jouw zekerheid">Dat geeft ook <marker>jou zekerheid</marker>.</example>
                 <example correction="jouw ex">Dat ze dan de kant kiezen van <marker>jou ex</marker>.</example>
             </rule>
             <rule>
@@ -44226,7 +44181,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>de</token>
                     <marker>
-                        <token postag="WKW:TGW:3EP"><exception postag_regexp="yes" postag="ZNW.*|WKW:VLT.*|WKW:TGW:1EP|ENM.*"/></token>
+                        <token postag="WKW:TGW:3EP" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|WKW:VLT.*|WKW:TGW:1EP|ENM.*"/></token>
                     </marker>
                 </pattern>
                 <message>De hij-vorm komt niet vaak voor na 'de'. Er is vast iets mis. Mogelijk kan de eind-t weg. Of 'de'.</message>
@@ -44342,7 +44297,8 @@ steenwijk;Steenwijk
                 <example>Het was hun eerste medaille bij de EK Kunstschaatsen.</example>
                 <example>Probeer op maandag- t/m donderdagmiddag eens de menú del día.</example>
             </rule>
-            <rule> <!-- TODO:  Consider moving to other category as separate rule (with reference to this one) -->
+            <rule>
+                <!-- TODO:  Consider moving to other category as separate rule (with reference to this one) -->
                 <pattern>
                     <token>de</token>
                     <marker>
@@ -44360,7 +44316,8 @@ steenwijk;Steenwijk
                 <example>Het belangrijkste strijdpunt van de ARP was de gelijkstelling van het openbaar en bijzonder onderwijs.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SPATIEFOUT_HEIDS" name="foutheids criterium"> <!-- TODO:  Consider moving to other category -->
+        <rulegroup id="SPATIEFOUT_HEIDS" name="foutheids criterium">
+            <!-- TODO:  Consider moving to other category -->
             <rule>
                 <pattern>
                     <token regexp="yes">.*(heid|teit|ing|aandacht|gezicht|aanval|aanvang|achterhand|achterhoofd|achterstand|advent|afdracht|afstand|schap|alleman|almacht|ambacht|ambt|ement|arbeid|arend|iment|baren|bedrijf|begrip|beleid|beroep|bestand|bestuur|bevel|bewind|bewustzijn|bezit|bijstand|bisschop|boldriehoek|bond|bruid|bruiloft|contingent|staat|delict|district|doctoraat|doorgang|dorp|eigendom|eten|evenwicht|fabriek|fatsoen|garnizoen|gebed|gebied|gebit|gebruik|gedrag|gelaat|geloof|geluk|gerecht|geslacht|gevecht|gevoel|gewicht|gewricht|gezag|gezin|groep|heiligdom|huwelijk|ingang|inhoud|invloed|kabinet|kalf|kandidaat|kanon|kievit|kok|krijg|lichaam|macht|najaar|olifant|omgang|onderhoud|ongeval|onweer|oorlog|oorsprong|opstand|overdracht|overgang|overmacht|overzicht|personeel|persoon|predikant|premier|president|publiek|rijk|rijkelui|ruggengraat|scheep|stad|stilstand|tabak|tegenstand|toegang|toestand|uitgaan|uitgang|uitgebreid|vaderland|vakbond|verblijf|verbod|verbruik|verdrag|verjaardag|verkeer|verstand|vertrouwen|verzet|vicepresident|volk|voorhoofd|voorjaar|voorkeur|voortgang|weerstand|welstand|welzijn|zondag|boekweit|gemoed|heronderzoek|leegstand|middenstand|noodlot|oudejaar|ouderdom|platteland|proletariaat|voorrang|vooruitgang|welvaart|zeeman|gemeenteraad|bestaan|wanhoop|gesprek|burgerman|ledenraad|ondernemingsraad|kerkenraad|meergezin|afgod|geluid|genot|heil|kapitaal|leid|onderzoek|recht|resultaat|sabbat|seizoen|spreid|tijd|vervoer|voorbereid|wet|driehoek|vrijetijd|grondwet|koopman|eindejaar|voorzorg|krijgsmacht|hemelvaart|timmerman|werkman|diepgang|nieuwjaar|deelraad|werkwoord|achteruitgang)s-?<exception regexp="yes">destijds|bijtijds|boxsprings|settings|campings|coatings|dumplings</exception><exception postag_regexp="yes" postag="BNW.*|.*MRV.*|ENM.*|BYW"/></token>
