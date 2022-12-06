@@ -1763,8 +1763,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     try {
       readingsList = getTagger().tag(suggestions);
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
     String lemmaToFilter = "";
     for (AnalyzedTokenReadings readings : readingsList) {
