@@ -10365,6 +10365,20 @@ onwaarschijnlijk
                 <message>U bedoelt vast <suggestion>Hannah Arendt</suggestion>, de filosofe.</message>
                 <example correction="Hannah Arendt">Kent u <marker>hanna arend</marker>?</example>
             </rule>
+            <rule>
+                <antipattern case_sensitive="yes"><token>Annie</token><token>M</token><token>.</token><token>G</token><token>.</token><token>Schmidt</token></antipattern>
+                <pattern>
+                    <token regexp="yes">Ann?(ie|y)</token>
+                    <token>m</token>
+                    <token>.</token>
+                    <token>g</token>
+                    <token>.</token>
+                    <token regexp="yes">sc?h?mi(t|d|dt)</token>
+                </pattern>
+                <message>U bedoelt vast <suggestion>Annie M.G. Schmidt</suggestion>, de schrijfster.</message>
+                <example correction="Annie M.G. Schmidt">Kent u <marker>anny m.g. schmid</marker>?</example>
+            </rule>
+
         </rulegroup>
         <rulegroup id="MS_TEAMS" name="Microsoft teams/Microsoftteams">
             <rule>
