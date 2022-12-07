@@ -250,6 +250,7 @@ regexp case-insensitive maken: (?i)
                 <suggestion>onze \2</suggestion>
                 <example correction="onze vader">We hebben gisteren <marker>ons vader</marker> bezocht.</example>
             </rule>
+            <!-- The following rule produces too many FPs if implemented in XML. As many plural nouns are ambiguously tagged as verbs. This is a spaCy candidate.
             <rule>
                 <pattern>
                     <token>ons</token>
@@ -260,6 +261,7 @@ regexp case-insensitive maken: (?i)
                 <example correction="onze ouders">We hebben gisteren <marker>ons ouders</marker> bezocht.</example>
                 <example correction="onze huisjes">We hebben gisteren <marker>ons huisjes</marker> schoon gemaakt.</example>
             </rule>
+            -->
             <rule>
                 <pattern>
                     <token>onze</token>
@@ -13110,6 +13112,7 @@ onwaarschijnlijk
         <rulegroup id="AFKO_PUNT" name="dhr → dhr.">
             <!-- 2014-08-22 TaalTik -->
             <rule>
+                <antipattern><token regexp="yes" case_sensitive="yes">ING|Max|WW|BW|MAX|NL|DIV|DS|dS|E[Tt][Cc]|FAM|FA|IR|MLD|MR</token></antipattern>
                 <antipattern><token regexp="yes" case_sensitive="yes">[A-Z]{2,}</token><token>.</token></antipattern>
                 <antipattern><token/><token/><token case_sensitive="yes">Ca</token></antipattern><!-- Calcium -->
                 <antipattern><token regexp="yes">geen|het</token><token>ov</token></antipattern>
