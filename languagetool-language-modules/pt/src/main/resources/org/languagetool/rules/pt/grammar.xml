@@ -4149,7 +4149,7 @@ O namorado dela era um ladrão.
 
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
-    <rule id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordância de género: O + Feminino">
+    <rulegroup id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordância de género: O + Feminino">
 
       <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
       <!-- This antipattern was placed in more parts since other gender rules use it too. -->
@@ -4174,23 +4174,51 @@ O namorado dela era um ladrão.
         <example>E assim o camisola vermelha é ótimo.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *END* -->
-
+    <rule>
       <pattern>
         <marker>
           <token>o</token>
-          <token postag='(?:[NZ].|A..)F.+' postag_regexp='yes'>
+        <and>
+          <token postag='(?:[NZ].|A..)FS.+' postag_regexp='yes'>
             <exception postag='(?:[NZ].|A..)F.+' postag_regexp='yes' negate_pos='yes'/>
-            <exception regexp='yes'>umas?|e|ser|nome|termo</exception></token>
+            <exception regexp='yes'>umas?|e|ser|nome|termo|\p{Lu}*</exception></token>
+          <token regexp='yes'>\p{Ll}*</token>
+        </and>
         </marker>
         <token negate='yes' regexp='yes'>&hifen;</token>
       </pattern>
       <message>&MSG_ECG;</message>
       <suggestion>a \2</suggestion>
       <suggestion suppress_misspelled="yes">o <match no='2' postag='(A..|N.|Z.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/></suggestion>
+      <suggestion>\1 <match no='2' case_conversion='startupper'/></suggestion>
       <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
-      <example correction='A cadela'><marker>O cadela</marker> está no pasto.</example>
+      <example correction='A cadela|O Cadela'><marker>O cadela</marker> está no pasto.</example>
       <example>A cadela está no pasto.</example>
     </rule>
+    <rule default='temp_off'>
+      <pattern>
+        <marker>
+          <token>o</token>
+        <and>
+          <token postag='(?:[NZ].|A..)FP.+' postag_regexp='yes'>
+            <exception postag='(?:[NZ].|A..)F.+' postag_regexp='yes' negate_pos='yes'/>
+            <exception regexp='yes'>umas?|e|ser|nome|termo|\p{Lu}*</exception></token>
+          <token regexp='yes'>\p{Ll}*</token>
+        </and>
+        </marker>
+        <token negate='yes' regexp='yes'>&hifen;</token>
+      </pattern>
+      <message>&MSG_ECG;</message>
+      <suggestion>a \2</suggestion>
+      <suggestion>a <match no='2' postag='(A..|N.|Z.)FP(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
+      <suggestion>as \2</suggestion>
+      <suggestion suppress_misspelled="yes">o <match no='2' postag='(A..|N.|Z.)FP(.+)' postag_replace='$1MP$2' postag_regexp='yes'/></suggestion>
+      <suggestion>\1 <match no='2' case_conversion='startupper'/></suggestion>
+      <url>https://pt.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <example correction='A cadelas|A cadela|As cadelas|O Cadelas'><marker>O cadelas</marker> está no pasto.</example>
+      <example>A cadela está no pasto.</example>
+    </rule>
+   </rulegroup>
 
 
     <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordância de Número: Geral">
