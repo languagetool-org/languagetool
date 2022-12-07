@@ -39,7 +39,10 @@ public class GermanTaggerTest {
 
   @Test
   public void testAdjectivesFromSpellingTxt() throws IOException {
-    assertEquals("meistgewünscht[meistgewünscht/ADJ:PRD:GRU]", toSortedString(tagger.lookup("meistgewünscht")));
+    assertEquals("stahlummantelt[stahlummantelt/PA2:PRD:GRU:VER]", toSortedString(tagger.lookup("stahlummantelt")));
+    assertEquals("stahlummanteltes[stahlummantelt/PA2:AKK:SIN:NEU:GRU:IND:VER, " +
+      "stahlummantelt/PA2:AKK:SIN:NEU:GRU:SOL:VER, stahlummantelt/PA2:NOM:SIN:NEU:GRU:IND:VER, " +
+      "stahlummantelt/PA2:NOM:SIN:NEU:GRU:SOL:VER]", toSortedString(tagger.lookup("stahlummanteltes")));
     assertNull(tagger.lookup("fünftjüngste"));  // skipped to avoid false tagging that misses comparative
     assertEquals("meistgewünschtes[meistgewünscht/ADJ:AKK:SIN:NEU:GRU:IND, meistgewünscht/ADJ:AKK:SIN:NEU:GRU:SOL, " +
       "meistgewünscht/ADJ:NOM:SIN:NEU:GRU:IND, meistgewünscht/ADJ:NOM:SIN:NEU:GRU:SOL]", toSortedString(tagger.lookup("meistgewünschtes")));
@@ -47,6 +50,7 @@ public class GermanTaggerTest {
       "meistgewünscht/ADJ:GEN:PLU:MAS:GRU:SOL, meistgewünscht/ADJ:GEN:PLU:NEU:GRU:SOL, " +
       "meistgewünscht/ADJ:GEN:SIN:FEM:GRU:SOL, meistgewünscht/ADJ:NOM:SIN:MAS:GRU:IND, " +
       "meistgewünscht/ADJ:NOM:SIN:MAS:GRU:SOL]", toSortedString(tagger.lookup("meistgewünschter")));
+    assertEquals("meistgewünscht[meistgewünscht/ADJ:PRD:GRU]", toSortedString(tagger.lookup("meistgewünscht")));
   }
 
   @Test

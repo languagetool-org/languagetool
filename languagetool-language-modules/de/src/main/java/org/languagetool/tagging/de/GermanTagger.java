@@ -121,7 +121,15 @@ public class GermanTagger extends BaseTagger {
     List<String> spellingWords = new CachingWordListLoader().loadWords("de/hunspell/spelling.txt");
     for (String line : spellingWords) {
       // '/A' adds the typical adjective endings, so assume it's an adjective:
-      if (line.endsWith("/A") &&
+      if (line.endsWith("/P")) {
+        String word = line.replaceFirst("/.*", "");
+        fillAdjInfos(word, "", toPA2(AdjectiveTags.tagsForAdj), adjInfos);
+        fillAdjInfos(word, "e", toPA2(AdjectiveTags.tagsForAdjE), adjInfos);
+        fillAdjInfos(word, "en", toPA2(AdjectiveTags.tagsForAdjEn), adjInfos);
+        fillAdjInfos(word, "er", toPA2(AdjectiveTags.tagsForAdjEr), adjInfos);
+        fillAdjInfos(word, "em", toPA2(AdjectiveTags.tagsForAdjEm), adjInfos);
+        fillAdjInfos(word, "es", toPA2(AdjectiveTags.tagsForAdjEs), adjInfos);
+      } else if (line.endsWith("/A") &&
           !line.endsWith("ste/A") &&  // don't tag e.g. "fünftjünste/A", would miss the comparative tagging
           !line.endsWith("er/A")) {   // don't tag e.g. "margenstärker/A", would miss the comparative tagging
         String word = line.replaceFirst("/.*", "");
@@ -153,6 +161,13 @@ public class GermanTagger extends BaseTagger {
       }
     }
     return new ExpansionInfos(verbInfos, nominalizedVerbInfos, nominalizedGenVerbInfos, adjInfos);
+  }
+
+  private static List<String> toPA2(List<String> tags) {
+    return tags.stream().
+      map(k -> k.replaceAll("ADJ:", "PA2:")).
+      map(k -> k + ":VER").
+      collect(Collectors.toList());
   }
 
   private static void fillAdjInfos(String word, String suffix, List<String> tagsForForm, Map<String, List<AdjInfo>> adjInfos) {
