@@ -11389,6 +11389,31 @@ O namorado dela era um ladrão.
       <example>Espero que nenhum deles esteja envolvido no acidente de trânsito.</example>
     </rule>
 
+
+    <rule id='SEGUIR_SINGULAR_PLURAL' name="Verbo 'seguir' singular + sujeito plural → Verbo plural">
+      <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2022-12-07 (25-JUL-2022+) -->
+      <!--
+      Segue as datas. → Seguem as datas.
+      -->
+      <pattern>
+        <token postag='SENT_START' postag_regexp='no'/>
+        <marker>
+          <and>
+            <token inflected='yes'>seguir</token>
+            <token postag='VMI.3S0' postag_regexp='yes'/>
+          </and>
+        </marker>
+        <token postag='[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+        <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+        <token><exception postag_regexp='yes' postag='SPS00|[DP][ADIPR]..S.+'/></token>
+      </pattern>
+      <message>Verifique se o sujeito do verbo 'seguir' é o elemento que está no plural. Se for, coloque o verbo 'seguir' no plural.</message>
+      <suggestion><match no='2' postag='VMI(.)3S0' postag_replace='VMI$13P0'>seguir</match></suggestion>
+      <example correction="Seguem"><marker>Segue</marker> as datas.</example>
+      <example>Segue os ditames de tua consciência.</example>
+    </rule>
+
+
     <rule id='WRONG_REFLEXIVE_MOS' name='Conjugação verbal: Reflexivo -mos em lugar da primeira pessoa do plural'>
       <!-- Created by Tiago F. Santos, 2017-11-13 -->
       <pattern>
