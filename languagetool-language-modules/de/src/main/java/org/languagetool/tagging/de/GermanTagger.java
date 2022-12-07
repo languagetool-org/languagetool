@@ -118,10 +118,13 @@ public class GermanTagger extends BaseTagger {
     Map<String, NominalizedVerb> nominalizedVerbInfos = new THashMap<>();
     Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos = new THashMap<>();
     Map<String, List<AdjInfo>> adjInfos = new THashMap<>();
-    List<String> spellingWords = new CachingWordListLoader().loadWords("de/hunspell/spelling.txt");
+    String filename = "de/hunspell/spelling.txt";
+    List<String> spellingWords = new CachingWordListLoader().loadWords(filename);
     for (String line : spellingWords) {
       // '/A' adds the typical adjective endings, so assume it's an adjective:
-      if (line.endsWith("/P")) {
+      if (line.endsWith("/PA") || line.endsWith("/AP")) {
+        throw new RuntimeException("Use '/P' or '/A', but not both for a word in " + filename + ": " + line);
+      } if (line.endsWith("/P")) {
         String word = line.replaceFirst("/.*", "");
         fillAdjInfos(word, "", toPA2(AdjectiveTags.tagsForAdj), adjInfos);
         fillAdjInfos(word, "e", toPA2(AdjectiveTags.tagsForAdjE), adjInfos);
