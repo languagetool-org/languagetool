@@ -410,7 +410,7 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="SOURCE" name="Source/bron" default="temp_off">
+        <rulegroup id="SOURCE" name="Source/bron" >
             <!-- R. Baars, november 2022 -->
             <rule>
                 <pattern>
@@ -13285,7 +13285,7 @@ onwaarschijnlijk
                 <antipattern><token>wij</token><token>tegen</token><token>zij</token></antipattern>
                 <pattern>
                     <token postag="VRZ"><exception regexp="yes">behalve|tot|naar|voor|sinds|vóór|gezien</exception></token>
-                    <token postag_regexp="yes" postag="VNW:PER.*ACT"><exception postag_regexp="yes" postag="VNW:PER.*PSF"/></token>
+                    <token postag_regexp="yes" postag="VNW:PER.*ACT"><exception postag_regexp="yes" postag="VNW:PER.*PSF"/><exception case_sensitive="yes">IE</exception></token>
                 </pattern>
                 <message>Het woord '\2' staat hier wat vreemd. Kijk dit nog eens na s.v.p.</message>
                 <suggestion>\1; \2</suggestion>
@@ -34209,7 +34209,7 @@ steenwijk;Steenwijk
                 <!-- stam gebruikt als znw :
                 ... al in de ruwe |render| en hadden we t...
                 -->
-                <token regexp="yes">de|een|geen</token>
+                <token regexp="yes">de|een|geen|het</token>
                 <token postag_regexp="yes" postag="BNW.*VRB"/>
                 <token postag="WKW:TGW:1EP"/>
             </antipattern>
@@ -36330,6 +36330,8 @@ steenwijk;Steenwijk
                 TODO: VRT: In België is de gebruikelijke vorm wetens en willens, in Nederland willens en wetens.
                 Er bestaat ook een achternaam willens, die het weer lastig maakt!
                 -->
+                <antipattern><token>ins</token><token>en</token><token>outs</token></antipattern>
+                <antipattern><token>voors</token><token>en</token><token>tegens</token></antipattern>
                 <antipattern><token>willens</token><token>en</token><token>wetens</token></antipattern>
                 <antipattern><token>wetens</token><token>en</token><token>willens</token></antipattern>
                 <antipattern><token>willens</token><token>nillens</token></antipattern>
@@ -45148,6 +45150,21 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Correct is: <suggestion>of zo</suggestion>. Het is wel erg gebruikelijk, maar niet geschikt voor zakelijke communicatie.</message>
                 <example correction="of zo">Ik haat fouten <marker>ofzo</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="I_HAD" name="I/Ik" default="temp_off">
+            <!-- R. Baars december 2022 -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>I</token>
+                        <token postag_regexp="yes" postag="WKW.*1EP"/>
+                    </marker>
+                    <token><exception postag="UNKNOWN"/></token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>Ik \3</suggestion>.</message>
+                <example correction="Ik had"><marker>I had</marker> het fout.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZOGAUW" name="Zogauw/zo gauw" >
