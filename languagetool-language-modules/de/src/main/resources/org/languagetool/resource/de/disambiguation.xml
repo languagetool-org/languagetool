@@ -7530,7 +7530,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule id="ÄUSSERST_KEIN_VERB" name="'äußerst' kein Verb">
         <pattern>
-            <token postag="VER.*" postag_regexp="yes" />
+            <token postag="VER.*" postag_regexp="yes">
+                <exception postag="ADV.*" postag_regexp="yes" />
+            </token>
             <marker>
                 <token case_sensitive="yes" regexp="yes">äu(ss|ß)erst</token>
             </marker>
