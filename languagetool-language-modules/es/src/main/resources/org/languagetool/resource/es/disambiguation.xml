@@ -4442,15 +4442,28 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="V.P.*"/>
     </rule>
-    <rule id="pequeno" name="pequeño: adjectivo ante nombre">
+    <rule id="pequeno" name="pequeño: adjectivo, no nombre, ante nombre">
         <pattern>
             <marker>
-                <token postag="AQ.*" postag_regexp="yes" inflected="yes">pequeño</token>
+                <token postag="AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">pequeño|grande</token>
             </marker>
             <token postag="N.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="AQ.*"/>
     </rule>
+    <rulegroup id="adj_nom" name="adj + nombre">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="numero"></feature>
+                    <feature id="genero"></feature>
+                    <token postag="AQ.*|D.*" postag_regexp="yes" regexp="yes" inflected="yes">principal|pequeño|grande|diferente|vario|distinto</token>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="los_distintos" name="los distintos">
         <rule>
             <pattern>
