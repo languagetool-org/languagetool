@@ -4598,6 +4598,7 @@ regexp case-insensitive maken: (?i)
 
         <rulegroup id="BASEN_BAZEN" name="waarschuwing bij gebruik basen i.p.v. bazen">
             <rule>
+                <antipattern><token>zuren</token><token>en</token><token>basen</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token>zuren</token></antipattern>
                 <pattern><token>basen</token></pattern>
                 <message>Bedoelt u misschien <suggestion>bazen</suggestion> (chefs)? Of toch de chemische term?</message>
@@ -44611,7 +44612,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig</exception></token>
+                        <token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP|ZNW.*"/><exception regexp="yes">men|bereid|beter|indien|maar|nodig|bezig</exception></token>
                     </marker>
                     <token>zich</token>
                 </pattern>
