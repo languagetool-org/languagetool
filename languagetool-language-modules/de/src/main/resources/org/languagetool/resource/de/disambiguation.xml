@@ -7527,4 +7527,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="remove" postag="VER.*"/>
         </rule>
     </rulegroup>
+
+    <rule id="ÄUSSERST_KEIN_VERB" name="'äußerst' kein Verb">
+        <pattern>
+            <token postag="VER.*" postag_regexp="yes" />
+            <marker>
+                <token case_sensitive="yes" regexp="yes">äu(ss|ß)erst</token>
+            </marker>
+            <token postag="ADJ:PRD:GRU" />
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
 </rules>
