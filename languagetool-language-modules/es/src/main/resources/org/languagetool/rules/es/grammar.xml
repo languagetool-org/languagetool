@@ -17002,7 +17002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="PI.M.*|DN0MP0" postag_regexp="yes"/>
                 <token>de</token>
                 <token postag="D.*" postag_regexp="yes"/>
-                <token postag="NCM.*|_GN_M." postag_regexp="yes"/>
+                <token postag="NCM.*|_GN_M." postag_regexp="yes"><exception regexp="yes">cientos|miles|millones|millares|centenares</exception></token>
             </antipattern>
             <antipattern>
                 <!-- agreement error in det+noun -->
@@ -17027,6 +17027,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>entrando en número uno de las listas</example>
             </antipattern>
             <antipattern>
+                <token postag="PI.*|DN.*" postag_regexp="yes"/>
                 <token>de</token>
                 <token postag_regexp="yes" postag="N.*"/>
             </antipattern>
@@ -17183,6 +17184,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="PI.MP.*" postag_regexp="yes"/></suggestion>
                 <example correction="Pocos"><marker>Pocas</marker> de estos casos.</example>
                 <example correction="Muchos"><marker>Muchas</marker> de sus casos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="PI.MS.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mucho|tanto|poco|poquito|medio|todo|mismo</exception></token>
+                    </marker>
+                    <token>de</token>
+                    <token>los</token>
+                    <token regexp="yes">cientos|miles|millones|millares|centenares</token>
+                    <token>de</token>
+                    <token postag="NCFP000"/>
+                </pattern>
+                <message>Posible falta de concordancia.</message>
+                <suggestion><match no="1" postag="PI.FS.*" postag_regexp="yes"/></suggestion>
+                <example correction="una">Es <marker>uno</marker> de los cientos de ideas que tengo.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_NUMERAL_PLURAL" name="concordancia número + nombre/adjetivo plural">
