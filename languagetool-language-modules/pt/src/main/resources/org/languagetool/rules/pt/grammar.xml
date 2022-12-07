@@ -31133,14 +31133,18 @@ O namorado dela era um ladrão.
         </antipattern>
         <pattern>
           <token regexp='yes'>ta|da</token>
-          <token postag='NCM.+|A..M|D..M.+|SPS00:D..M.+' postag_regexp='yes'>
+        <and>
+          <token postag='NCM.+|A..M.+|D..M.+|SPS00:D..M.+' postag_regexp='yes'>
             <exception regexp='yes'>\p{Lu}+</exception>
             <exception postag='N.[CF].+|A..[CF].+|D..[CF].+|SPS00:D..[CF].+|R.+' postag_regexp='yes'/>
             <exception regexp='yes'>média|auto|contra|covid|cá|dos?|pré|pós</exception>
           </token>
+          <token regexp='yes'>\p{Ll}*</token>
+        </and>
         </pattern>
-        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 <match no='2' postag="(N.|A..|D..|SPS00:D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion> ou <suggestion><match no='1' regexp_match="a" regexp_replace='o' postag_regexp="yes"/> \2</suggestion>.</message>
-        <example correction="dá branco|da branca|do branco">Isso me <marker>da branco</marker> total.</example>
+        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de gênero, substitua por <suggestion suppress_misspelled="yes">\1 <match no='2' postag="(N.|A..|D..|SPS00:D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion>, <suggestion><match no='1' regexp_match="a" regexp_replace='o' postag_regexp="yes"/> \2</suggestion> ou <suggestion suppress_misspelled="yes"><match no='1' regexp_match="a" regexp_replace='os' postag_regexp="yes"/> <match no='2' postag="(N.|A..|D..|SPS00:D..)MS(..+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>.</message>
+        <suggestion>\1 <match no='2' case_conversion='startupper'/></suggestion>
+        <example correction="dá branco|da branca|do branco|dos brancos|da Branco">Isso me <marker>da branco</marker> total.</example>
     </rule>
     <rule default='on'>
         <pattern>
