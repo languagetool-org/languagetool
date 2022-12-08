@@ -161,7 +161,19 @@ public class GermanSpellerRuleTest {
     assertThat(
         rule.sortSuggestionByQuality("glücklichr",
             Arrays.asList("glücklich", "glückliche", "glücklicher", "glücklichen", "glückliches")).toString(),
-        is("[glücklich, glückliche, glücklicher, glücklichen, glückliches]"));
+        is("[glücklicher]"));
+  }
+  
+  @Test
+  public void testFilteringOutSuggestions() throws Exception {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertThat(rule.match(lt.getAnalyzedSentence("glückklich"))[0].getSuggestedReplacements().toString(),
+        is("[glücklich, glücklichst]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("erleddigt"))[0].getSuggestedReplacements().toString(),
+        is("[erledigt, erledige, erledigst]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("glücklichhe"))[0].getSuggestedReplacements().toString(),
+        is("[glückliche, glücklichst]"));
   }
 
   @Test

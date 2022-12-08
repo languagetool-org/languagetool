@@ -1767,18 +1767,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       throw new RuntimeException(e);
     }
     String lemmaToFilter = "";
+    String formToAccept = "";
     for (AnalyzedTokenReadings readings : readingsList) {
-      if (readings.hasAnyPartialPosTag("ADJ") || readings.hasAnyPartialPosTag("SUB")) {
-        if (readings.hasAnyLemma(readings.getToken())) {
-          lemmaToFilter = readings.getToken();
+      if (readings.hasAnyPartialPosTag("ADJ") || readings.hasAnyPartialPosTag("SUB")
+          || readings.hasAnyPartialPosTag("PA1:") || readings.hasAnyPartialPosTag("PA2:")) {
+        if (readings.getToken().endsWith(misspelling.substring(misspelling.length() - 1))) {
+          formToAccept = readings.getToken();
+          lemmaToFilter = readings.getAnalyzedToken(0).getLemma();
           break;
         }
       }
     }
-    if (!lemmaToFilter.isEmpty() && misspelling.length() > 1
-        && lemmaToFilter.endsWith(misspelling.substring(misspelling.length() - 1))) {
+    if (!lemmaToFilter.isEmpty() && !formToAccept.isEmpty() && misspelling.length() > 1) {
       for (int i = 0; i < suggestions.size(); i++) {
-        if (suggestions.get(i).equals(lemmaToFilter) || !readingsList.get(i).hasAnyLemma(lemmaToFilter)) {
+        if (suggestions.get(i).equals(formToAccept) || !readingsList.get(i).hasAnyLemma(lemmaToFilter)) {
           if (!filteredSuggestions.contains(suggestions.get(i))) {
             filteredSuggestions.add(suggestions.get(i));
           }
