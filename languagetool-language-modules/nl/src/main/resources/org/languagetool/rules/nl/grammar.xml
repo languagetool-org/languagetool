@@ -415,6 +415,10 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="SOURCE" name="Source/bron" >
             <!-- R. Baars, november 2022 -->
             <rule>
+                <antipattern>
+                    <token skip="-1">source</token>
+                    <token>drain</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">open</token>
                     <marker>
@@ -866,6 +870,7 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij/jou/jouw, mij → we, ze, je, me" tags="picky">
             <rule>
+                <antipattern><token regexp="yes">ook|tussen</token><token regexp="yes">[jwm]ij</token></antipattern>
                 <antipattern>
                     <token postag_regexp="yes" postag="SENT_START|START"/>
                     <token>Jij</token>
@@ -1004,7 +1009,7 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <pattern>
                     <token>meest</token>
-                    <token postag_regexp="yes" postag="BNW:STL.*"><exception regexp="yes">.*st</exception></token>
+                    <token postag_regexp="yes" postag="BNW:STL.*"><exception regexp="yes">.*(st|isch)e?</exception></token>
                 </pattern>
                 <message>Sommigen vinden dit 'te Engels' en geven de voorkeur aan: <suggestion><match no="2" postag_regexp="yes" postag="(BNW:STL:)(.*)" postag_replace="BNW:OVR:$2"/></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/meest-origineel-origineelst</url>
@@ -13597,7 +13602,7 @@ onwaarschijnlijk
         </rulegroup>
         <rulegroup id="GROTERE_ALS" name="grotere als">
             <rule>
-                <antipattern><token>als</token><token regexp="yes">je|hij|zij|men</token><token postag="WKW:TGW:3EP"/></antipattern>
+                <antipattern><token>als</token><token regexp="yes">je|hij|zij|men|u|jij</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
                 <antipattern><token regexp="yes">eerder|lekker|ouders|later|vroeger</token><token>als</token></antipattern>
                 <antipattern><token>als</token><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
                 <antipattern><token>als</token><token regexp="yes">ik|jij|hij|zij|u|men</token></antipattern>
