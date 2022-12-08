@@ -4,10 +4,10 @@
 <formathandle type="start" include="no"></formathandle>
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
-<okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">Als een hoogleraar met emeritaat ('pensioen') is, mag hij de functieaanduiding prof. blijven gebruiken, maar hij heeft tevens het recht gekregen om het bijvoeglijk naamwoord emeritus (Latijn voor 'uitgediend') aan zijn functietitel toe te voegen: em. prof. dr.
+<okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes"></okpsrx:options>
+<okpsrx:sample language="pl" useMappedRules="yes">Als een hoogleraar met emeritaat ('pensioen') is, mag hij de functieaanduiding prof. blijven gebruiken, maar hij heeft tevens het recht gekregen om het bijvoeglijk naamwoord emeritus (Latijn voor 'uitgediend') aan zijn functietitel toe te voegen: em. prof. dr.
 Tussen de twee wereldoorlogen vestigde prof. ir. Messerschmitt zich in Augsburg waar hij met behulp van een oudere, rijke vriendin (met wie hij later trouwde) zijn eerste vliegtuigen bouwde, het waren passagierstoestellen.
-</okpsrx:sample>
+250 p. n.e.</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1085,6 +1085,11 @@ Tussen de twee wereldoorlogen vestigde prof. ir. Messerschmitt zich in Augsburg 
 <rule break="no">
 <beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\u0002]*\p{Pe}\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!--p. n.e. (błędny podział wiersza)-->
+<rule break="no">
+<beforebreak>p\.\s</beforebreak>
+<afterbreak>n\.\s?e\.</afterbreak>
 </rule>
 <rule break="yes">
 <beforebreak>[\.!?…]['"\p{Pe}\u00BB\u2019\u201D\u203A\u0002¹²³]*\s</beforebreak>

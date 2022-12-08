@@ -4864,7 +4864,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>Taką tezę głosił J.A. Fodor.</example>
         </rule>
         -->
-				<rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym (cudzysłów, nawias)">
+
+            <rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym (cudzysłów, nawias)">
 						<pattern>
 								<token regexp="yes">[„\[]</token>
 								<token spacebefore="yes"></token>
@@ -5629,8 +5630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <example>Spółka z o.o.</example>
                       <example correction="z o.o.">Spółka <marker>z o. o.</marker> Jurek.</example>
                     </rule>
-                    <!-- does not work due to sentence splitting
-                    <rule>
+                    <rule id="PNE_SPACJE" name="Zbędne spacje w skrócie „p.n.e.”">
                       <pattern>
                         <token>p</token>                        
                         <token>.</token>
@@ -5643,7 +5643,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <short>Zbędna spacja</short>                                            
                       <example correction="p.n.e">To było w roku 241 <marker>p. n.e</marker>.</example>
                     </rule>
-                    -->
                     <rule>
                       <pattern>
                         <token>p</token>                        
@@ -5714,6 +5713,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Błąd typograficzny</short>
                     <example correction="?|;">Skąd ten pomysł<marker>;?</marker></example>
                     <example>Skąd ten pomysł?</example>
+                </rule>
+                <rule type="locale-violation" id="_NR_" name="'#1' (nr 1)">
+                    <pattern>
+                        <token postag='(subst|ger):.*' postag_regexp='yes'></token>
+                        <marker>
+                            <token>#</token>
+                            <token regexp='yes'>\d+</token>
+                        </marker>
+                    </pattern>
+                    <message>Anglicyzm. W polskiej tradycji typograficznej powinno być: <suggestion>nr <match no="3"/></suggestion>.</message>
+                    <short>Anglicyzm</short>
+                    <example correction='nr 1'>To jest zarzut <marker>#1</marker>.</example>
+                    <example>To jest zarzut nr 1.</example>
                 </rule>
 		</category>
 		<category id="GRAMMAR" name="Błędy odmiany" type="grammar">
