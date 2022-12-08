@@ -2906,6 +2906,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Gespraechs": return topMatch("Gesprächs");
       case "Aussenbereich": return topMatch("Außenbereich");
       case "Aussenbereichs": return topMatch("Außenbereichs");
+      case "Portrait": return topMatch("Porträt");
+      case "Portraits": return topMatch("Porträts");
       case "weinachten": return topMatch("Weihnachten");
       case "Weinachten": return topMatch("Weihnachten");
       case "sontag": return topMatch("Sonntag");

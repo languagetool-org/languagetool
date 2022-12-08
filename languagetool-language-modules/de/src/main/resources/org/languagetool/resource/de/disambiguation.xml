@@ -7540,4 +7540,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER.*"/>
     </rule>
+
+    <rule id="DENN_EIG" name="denn's kein Adverb">
+        <pattern>
+            <marker>
+                <token>denn</token>
+            </marker>
+            <token spacebefore="no" regexp="yes">&apostrophe;</token>
+            <token spacebefore="no">s</token>
+        </pattern>
+        <disambig action="remove" postag="ADV.*|KON.*"/>
+    </rule>
 </rules>
