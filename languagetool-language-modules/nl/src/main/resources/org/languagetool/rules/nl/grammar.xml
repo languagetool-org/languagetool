@@ -179,7 +179,7 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <antipattern>
                     <token>het</token>
-                    <token postag_regexp="yes" postag="ZNW.*HET|ENM.*"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|ENM.*|BNW.*"/>
                 </antipattern>
                 <antipattern>
                     <token>het</token>
@@ -197,18 +197,19 @@ regexp case-insensitive maken: (?i)
                 <message>\1 is hier waarschijnlijk niet het juiste lidwoord omdat \2 een de-woord is.</message>
                 <suggestion>de \2</suggestion>
                 <example correction="de toren">We hebben gisteren <marker>het toren</marker> bezichtigd.</example>
+                <example>Het Belgische Stocletpaleis wordt toegevoegd aan de Werelderfgoedlijst van UNESCO.</example>
             </rule>
             <rule>
             <!-- The following 2 rules could be more effective if dependency parsing was harnessed to distinguish
             between [het + plural noun] and [het + infinitive verb]. XML can't provide coverage for that. -->
                 <antipattern>
                     <token>het</token>
-                    <token postag_regexp="yes" postag="ZNW.*HET|BYW:JES|ENM.*"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|BYW:JES|ENM.*"/>
                 </antipattern>
                 <antipattern>
                     <token>het</token>
                     <token postag_regexp="yes" postag="BNW.*"/>
-                    <token postag_regexp="yes" postag="ZNW.*HET|WKW:INF:ZNW:HET"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|WKW:INF:ZNW:HET"/>
                 </antipattern>
                 <pattern>
                     <token>het</token>
@@ -223,12 +224,17 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <antipattern>
                     <token>het</token>
-                    <token postag_regexp="yes" postag="ZNW.*HET|BYW:JES|ENM.*"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|BYW:JES|ENM.*"/>
                 </antipattern>
                 <antipattern>
                     <token>het</token>
                     <token postag_regexp="yes" postag="BNW.*"/>
-                    <token postag_regexp="yes" postag="ZNW.*HET|WKW:INF:ZNW:HET"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|WKW:INF:ZNW:HET"/>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="BNW.*"/>
+                    <token postag_regexp="yes" postag="BNW.*"/>
                 </antipattern>
                 <pattern>
                     <token>het</token>
@@ -238,17 +244,49 @@ regexp case-insensitive maken: (?i)
                 <suggestion>de \2</suggestion>
                 <suggestion>\1 <match no="2" postag="ZNW:EKV:VRK:HET"></match></suggestion>
                 <example correction="de eilandjes|het eilandje">We hebben gisteren <marker>het eilandjes</marker> bezichtigd.</example>
+                <example>Het Ierse Republikeinse Leger belooft zich te ontwapenen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="POSS_PRON_PLUS_NOUN" name="ons/onze congruentie" default="temp_off">
             <rule>
-                <pattern>
+                <antipattern>
                     <token>ons</token>
-                    <token postag="ZNW:EKV:DE_"/>
+                    <token regexp="yes">onze|privacy|drie|twee|was|Heer|kan</token>
+                </antipattern>
+                <antipattern>
+                    <token>ons</token>
+                    <token postag_regexp="yes" postag="BYW.*|BNW.*|WKW.*"/>
+                </antipattern>
+                <antipattern>
+                    <token>ons</token>
+                    <token postag="ZNW:EKV:DE_|BNW.*"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV.*:HET"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>ons</token>
+                        <token postag="ZNW:EKV:DE_"/>
+                    </marker>
                 </pattern>
                 <message>\1 is hier waarschijnlijk niet juist omdat \2 een de-woord is.</message>
                 <suggestion>onze \2</suggestion>
-                <example correction="onze vader">We hebben gisteren <marker>ons vader</marker> bezocht.</example>
+                <example correction="onze broer">We hebben gisteren <marker>ons broer</marker> bezocht.</example>
+                <example>We hebben gisteren ons vader bezocht.</example><!-- This case can't be properly covered without dependency parsing. -->
+                <example>Vergeef ons onze schulden, zoals ook wij hebben vergeven wie ons iets schuldig was.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ons</token>
+                        <token postag="ZNW:EKV:DE_"/>
+                        <token postag_regexp="yes" postag="ZNW:EKV.*:HET"/>
+                    </marker>
+                </pattern>
+                <message>Misschien horen \2 en \3 aan elkaar of je moet onze gebruiken omdat \2 een de-woord is.</message>
+                <suggestion>ons \2\3</suggestion>
+                <suggestion>ons \2-\3</suggestion>
+                <suggestion>onze \2 \3</suggestion>
+                <example correction="ons zusterhotel|ons zuster-hotel|onze zuster hotel">In 1917, bij <marker>ons zuster hotel</marker> in New York, diende de chef een soep op, die populair gemaakt werd door Monsieur Gouffe en de grote Monsieur Escoffier.</example>
             </rule>
             <!-- The following rule produces too many FPs if implemented in XML. As many plural nouns are ambiguously tagged as verbs. This is a spaCy candidate.
             <rule>
@@ -263,6 +301,11 @@ regexp case-insensitive maken: (?i)
             </rule>
             -->
             <rule>
+                <antipattern>
+                    <token>onze</token>
+                    <token postag_regexp="yes" postag="ZNW:EKV.*:HET|BNW.*"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:MRV.*"/>
+                </antipattern>
                 <pattern>
                     <token>onze</token>
                     <token postag_regexp="yes" postag="ZNW:EKV.*:HET"/>
@@ -272,6 +315,7 @@ regexp case-insensitive maken: (?i)
                 <suggestion>\1 <match no="2" postag="ZNW:MRV:DE_"></match></suggestion>
                 <example correction="ons huis|onze huizen">We hebben gisteren <marker>onze huis</marker> schoon gemaakt.</example>
                 <example correction="ons schoentje|onze schoenen">We hebben gisteren <marker>onze schoentje</marker> schoon gemaakt.</example> <!-- no insertion of pluralized diminutives possible as lemmata are base forms -->
+                <example>Onze budget laptops zijn voldoende voor je standaard computerwensen.</example>
             </rule>
         </rulegroup>
     </category>
@@ -38176,7 +38220,7 @@ steenwijk;Steenwijk
                     <marker>
                         <token regexp="yes">jouwen|uwen|onzen|hunnen|zijnen</token>
                     </marker>
-                    <token regexp="yes" negate="yes">aanzien|gunste|huize|behoeve|burele|dienste|genoegen|gerieve|kantore|laste|nadele|voordele</token>
+                    <token regexp="yes" negate="yes">God|aanzien|gunste|huize|behoeve|burele|dienste|genoegen|gerieve|kantore|laste|nadele|voordele</token>
                 </pattern>
                 <message>In moderne teksten past geen '\2' buiten staande uitdrukkingen. Corrigeer de staande uitdrukking of moderniseer de tekst.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
@@ -44298,7 +44342,6 @@ steenwijk;Steenwijk
                     <token regexp="yes">[A-Z][a-z].*</token>
                     <token regexp="yes">[A-Z][a-z].*</token>
                 </antipattern>
-
                 <pattern>
                     <marker>
                         <token>de</token>
