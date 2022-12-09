@@ -161,7 +161,7 @@ public class GermanSpellerRuleTest {
     assertThat(
         rule.sortSuggestionByQuality("glücklichr",
             Arrays.asList("glücklich", "glückliche", "glücklicher", "glücklichen", "glückliches")).toString(),
-        is("[glücklicher]"));
+        is("[glücklich, glückliche, glücklicher, glücklichen, glückliches]"));
   }
   
   @Test
@@ -174,6 +174,8 @@ public class GermanSpellerRuleTest {
         is("[erledigt, erledige, erledigst]"));
     assertThat(rule.match(lt.getAnalyzedSentence("glücklichhe"))[0].getSuggestedReplacements().toString(),
         is("[glückliche, glücklichst]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("glückklicher"))[0].getSuggestedReplacements().toString(),
+        is("[glücklicher, glücklichst]"));
   }
 
   @Test
