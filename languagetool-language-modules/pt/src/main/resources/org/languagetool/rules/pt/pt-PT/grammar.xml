@@ -5555,6 +5555,18 @@
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/prefixos-e-hifen/17908</url>
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/o-uso-do-hifen-segundo-o-acordo-ortografico/3195</url>-->
       <url>https://pt.wikipedia.org/wiki/Uso_do_h%C3%ADfen_conforme_o_Acordo_Ortogr%C3%A1fico_de_1990</url>
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2022-12-09 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token regexp='yes'>auto|bio|quilo</token>
+        <token postag='D[AI].+|SPS00:D[AI].+|CS|CC|SPS00' postag_regexp='yes'/>
+        <example>Leia a reportagem completa no Semanário nas bancas e através do link na bio do @jornalexpresso.</example>
+        <example>Ficou registado no auto que se tratara de um acidente.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-09 (Checked/Enhanced) (25-JUL-2022+) *END* --> 
 
       <!-- MARCOAGPINTO 2022-01-12 (Checked/Enhanced) (1-JAN-2022+) *START* -->
       <!--
@@ -5789,15 +5801,6 @@
           <token regexp='yes'>auto|quilo</token>
           <token regexp='yes'>d[aeo]s?|policial</token>
         </antipattern>
-        <!-- MARCOAGPINTO 2021-02-07 (1-JAN-2021+) *START* -->
-        <!--
-        Ficou registado no auto que se tratara de um acidente.
-        -->
-        <antipattern>
-          <token regexp='yes'>auto|quilo</token>
-          <token postag='SPS.+|CS|CC' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-02-07 (1-JAN-2021+) *END* -->
         <pattern>
           <token regexp='yes'>&prefixos_o;|&prefixos_o_2;|arqui
             <exception case_sensitive='yes'>Homo</exception></token>
