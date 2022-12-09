@@ -290,6 +290,8 @@ public class French extends Language implements AutoCloseable {
       case "ACCORD_PLURIEL_ORDINAUX": return 10; // needs higher priority than D_J
       case "SUJET_AUXILIAIRE": return 10; // needs higher priority than JE_VERBE; TU_VERBE; IL_VERBE; ILS_VERBE; ON_VERBE;
       case "ADJ_ADJ_SENT_END": return 10; // needs higher priority than ACCORD_COULEUR
+      case "OU_PAS": return 10; // needs higher priority than VERBE_OBJ
+      case "PLACE_DE_LA_VIRGULE": return 10; // needs higher priority than C_EST_QUOI
       case "SE_CE": return -10; // needs higher priority than ELISION
       case "SYNONYMS": return -10; // less than ELISION
       case "PAS_DE_SOUCIS": return 10; // needs higher priority than PAS_DE_PB_SOUCIS (premium)
