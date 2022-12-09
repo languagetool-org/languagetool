@@ -4891,9 +4891,9 @@ O namorado dela era um ladrão.
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
-        <suggestion><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N..|[AD]...|Z..)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' postag="(D[ADIP]..|N..|A...|P[^IDP]..|Z..)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N..|[AD]...|Z..)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
         <example correction='O cão|Os cães|Os, cão'><marker>Os cão</marker> está no pasto.</example>
         <example correction="pai natal|pais natais|pais, natal">Havia <marker>pais natal</marker> na festa.</example>
         <example correction="o dourado|os dourados|os, dourado">Macacos maiores como <marker>os dourado</marker></example>
@@ -5041,13 +5041,12 @@ O namorado dela era um ladrão.
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
-        <suggestion><match no='2' postag="(D..|SPS00:D..)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no='2' postag="(D..|SPS00:D..)MP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' postag="(A..|Z.)C.(.+)" postag_replace='$1CS$2' postag_regexp="yes"/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/>-</suggestion>
-        <example correction='das pai|dos pais|do pai|dos, pai|dos pai-'>É o orgulho <marker>dos pai</marker>.</example>
-        <example correction="das melhores podcast|dos melhores podcasts|do melhor podcast|dos, melhores podcast|dos melhores podcast-">Um <marker>dos melhores podcast</marker> que já ouvi!</example>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N..|[AD]...|Z..)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' postag="(D...|SPS00:D...)P(.+)" postag_replace='$1M$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' postag="(A...|Z..).(.+)" postag_replace='$1S$2' postag_regexp="yes"/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/><match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/>-</suggestion>
+        <example correction='dos pais|dos, pai|dos pai-'>É o orgulho <marker>dos pai</marker>.</example>
+        <example correction="dos melhores podcasts|dos, melhores podcast|dos melhores podcast-">Um <marker>dos melhores podcast</marker> que já ouvi!</example>
         <example>Aos 37 min, </example>
         <example>Maria ficou grávida aos quatorze anos.</example>
       </rule>
@@ -5501,9 +5500,9 @@ O namorado dela era um ladrão.
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
         <message>&MSG_ECN;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)[MC]S(.+)" postag_replace='$1[MC]P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N..|[AD]...|Z..)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' postag="(D[ADIP]..|N..|A...|P[^IDP]..|Z..)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
         <example correction='Este gato|Estes gatos|Este, gatos'><marker>Este gatos</marker> estão no pasto.</example>
         <example>Uso óculos desde os 6 anos,</example>
         <example>Calças, o mais possível rasgadas.</example>
@@ -5606,8 +5605,8 @@ O namorado dela era um ladrão.
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
         <message>&MSG_ECN;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[MC]P(.+)" postag_replace='$1[MC]S$2' postag_regexp="yes"/></suggestion>
-        <suggestion>\2s <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N..|[AD]...|Z..)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/></suggestion>
+        <suggestion suppress_misspelled='yes'>\2s <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <example correction='do pai|dos pais'>É o orgulho <marker>do pais</marker>.</example>
         <example correction='pelo meio|pelos meios'>Conseguiram combater o fogo <marker>pelo meios</marker> de todos os revezes.</example>
         <example>Pelo menos nós terminamos o trabalho pesado.</example>
@@ -6227,11 +6226,11 @@ O namorado dela era um ladrão.
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
         <message>&MSG_ECN;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no='2' postag="(D[ADIP]..|NC.|A...|P[^IDP]..|Z..)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> das <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/>-<match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N..|[AD]...)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' postag="(D[ADIP]..|NC.|A...|P[^IDP]..|Z..)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> das <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/>-<match no='5' include_skipped='all'/></suggestion>
         <example correction='A vaca|As vacas|A, vacas|A das vacas|A-vacas'><marker>A vacas</marker> são malhadas.</example>
         <example>O programa Lendas do Futuro é bom?</example>
         <example>Uma vez acordadas as novas condições, será feito o abastecimento elétrico.</example>
@@ -6337,9 +6336,9 @@ O namorado dela era um ladrão.
           <token negate='yes' regexp='yes'>&hifen;</token>
         </pattern>
         <message>&MSG_ECN;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
-        <suggestion>\2s <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N..|[AD]...|Z..)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/></suggestion>
+        <suggestion suppress_misspelled='yes'>\2s <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
         <example correction='numa espécie|numas espécies|numa, espécies'>Valor contido <marker>numa espécies</marker> por descobrir.</example>
 	  
         <example>O patrão deve vários meses de salário aos trabalhadores.</example>
@@ -6962,10 +6961,10 @@ O namorado dela era um ladrão.
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
-        <suggestion><match no='2' postag="(D[ADIP].|N.|A..|P[^IDP].|Z.)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
-        <suggestion><match no='2' include_skipped='all'/> de <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' postag="(D[ADIP]..|N.|A...|P[^IDP]..|Z..)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N..|[AD]...|Z..)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/>, <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' include_skipped='all'/> de <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <example correction='A vaca|As vacas|As, vaca|As de vaca'><marker>As vaca</marker> são malhadas.</example>
         <example>Apresentou os programas Jornal do Mundo, Internacional Patati e Plus Berlin.</example>
         <example>Conforme mais dados vão sendo acumulados de pessoas de todas as idades.</example>
@@ -7075,8 +7074,8 @@ O namorado dela era um ladrão.
           </marker>
         </pattern>
         <message>&MSG_ECN;</message>
-        <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|[AD]..|Z.)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/></suggestion>
-        <suggestion><match no='2' postag="(DI.|SPS00:D..)FP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
+        <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N..|[AD]...|Z..)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/></suggestion>
+        <suggestion suppress_misspelled="yes"><match no='2' postag="(DI..|SPS00:D...)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <example correction='numas espécies|numa espécie'>Valor contido <marker>numas espécie</marker> por descobrir.</example>
       </rule>
       <rule>
@@ -7245,8 +7244,8 @@ O namorado dela era um ladrão.
           </unify>
         </pattern>
         <message>&MSG_ECN;</message>
-        <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/></suggestion>
-        <suggestion><match no='1' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/></suggestion>
+        <suggestion suppress_misspelled="yes"><match no='1' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1S$2' postag_regexp='yes'/></suggestion>
+        <suggestion suppress_misspelled="yes"><match no='1' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/> <match no='2' postag='D(...).(.+)' postag_replace='D$1P$2' postag_regexp='yes'/></suggestion>
         <suggestion>\1, \2</suggestion>
         <example correction="A nossa|As nossas|As, nossa"><marker>As nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
 
