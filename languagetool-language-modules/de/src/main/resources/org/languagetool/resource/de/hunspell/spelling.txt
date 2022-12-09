@@ -15,7 +15,9 @@
 #             if the word already ends in 'e', only r, s, n, m will be added
 #             NOTE: words marked with '/A' - unless they end in "er" - will also be
 #             considered adjectives by the German tagger and all their forms will be added if
-#             the word hasn't been tagged otherwise. Same for '/P', these will get PA2 readings.
+#             the word hasn't been tagged otherwise. Same for '/P', these will get PA2 readings (PA1 readings pending)
+#             /P for clear-cut cases (where a verb infinitive can be formed, like "abgemindert" or "reguliert")
+#             /A is kept for compound participles (where no corresponding verb infinitive can be formed, such as "datenbasiert" or "meistgewählt")
 # /F will add in (for gendered nouns)
 # Use `prefix_verb` to prepend the given prefix to all forms of the verb (does not work for verbs with "ß" yet).
 # Use `\_` to add words with an underscore.
@@ -1191,16 +1193,16 @@ a cappella
 AAP #abk
 Abbestellungswunsch/S
 Abfahrgrenze/N
-abgekitzelt
+abgekitzelt/P
 abgeklappt/P
 Abgelenktheit
 abgelutscht/P
-abgemindert/A
-abgespart/A
+abgemindert/P
+abgespart/P
 Abies
 abkitzele
 abkitzeln
-abkitzelnd/A
+abkitzelnd/A #PA1
 abkitzelst
 abkitzelt
 abkitzelte
@@ -1285,7 +1287,7 @@ Aequer/N
 aerifiziere/N
 aerifizierend/A
 aerifizierst
-aerifiziert/A
+aerifiziert/P
 aerifiziertest
 aerobisch/A
 Aerosolabscheider/NS
@@ -50933,7 +50935,7 @@ Hip-Hop-Szene
 Hip-Hop-Band/S
 altafrikanisch/A
 flächenidentisch/A
-stahlummantelt/P
+stahlummantelt/A
 stahlumrandet/A
 bleiumrandet/A
 goldummantelt/A
