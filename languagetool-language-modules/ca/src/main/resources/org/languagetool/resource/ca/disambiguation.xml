@@ -1511,6 +1511,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd lemma="de moda" pos="LOC_ADJ"/>
             </disambig>
         </rule>
+        <rule id="gracies_a" name="gràcies a (locució preposicional)">
+            <pattern>
+                <marker>
+                    <token>gràcies<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                    <token>a</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="gràcies a" pos="LOC_PREP"/>
+                <wd lemma="gràcies a" pos="LOC_PREP"/>
+            </disambig>
+            <example type="untouched">Per fi, ens l'hem <marker>llevat de</marker> damunt.</example>
+        </rule>
         <rule id="llevat_de" name="llevat de (locució preposicional)">
             <pattern>
                 <token><exception inflected="yes">haver</exception></token>
@@ -9548,7 +9561,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="P.*" postag_regexp="yes" inflected="yes">altre<exception scope="previous" regexp="yes">ningú|algú|cadascú</exception></token>
                 </marker>
-                <token><exception postag="[NA].*|PX.*|V.P.*" postag_regexp="yes"/></token>
+                <token><exception postag="[NA].*|PX.*|V.P.*|DN.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="filter" postag="P.*"/>
         </rule>
@@ -9707,6 +9720,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <unify>
                     <feature id="nombre"/>
                     <feature id="genere"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="DI.*" postag_regexp="yes" inflected="yes">poc</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
                     <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">un|el</token>
                     <token postag="DD.*" postag_regexp="yes" inflected="yes">tal</token>
                     <token postag="N.*" postag_regexp="yes"/>
@@ -9720,7 +9745,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="nombre"/>
                     <feature id="genere"/>
                     <token postag="D..MS." postag_regexp="yes" inflected="yes" regexp="yes">un|el</token>
-                    <token postag="DD.*" postag_regexp="yes" inflected="yes">tal</token>
+                    <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">tal|poc</token>
                     <token postag="N.*" postag_regexp="yes"/>
                 </unify>
             </pattern>
@@ -9736,7 +9761,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="nombre"/>
                     <feature id="genere"/>
                     <token postag="D..FS." postag_regexp="yes" inflected="yes" regexp="yes">un|el</token>
-                    <token postag="DD.*" postag_regexp="yes" inflected="yes">tal</token>
+                    <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">tal|poc</token>
                     <token postag="N.*" postag_regexp="yes"/>
                 </unify>
             </pattern>
@@ -9752,7 +9777,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="nombre"/>
                     <feature id="genere"/>
                     <token postag="D..MP." postag_regexp="yes" inflected="yes" regexp="yes">un|el</token>
-                    <token postag="DD.*" postag_regexp="yes" inflected="yes">tal</token>
+                    <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">tal|poc</token>
                     <token postag="N.*" postag_regexp="yes"/>
                 </unify>
             </pattern>
@@ -9768,7 +9793,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="nombre"/>
                     <feature id="genere"/>
                     <token postag="D..FP." postag_regexp="yes" inflected="yes" regexp="yes">un|el</token>
-                    <token postag="DD.*" postag_regexp="yes" inflected="yes">tal</token>
+                    <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">tal|poc</token>
                     <token postag="N.*" postag_regexp="yes"/>
                 </unify>
             </pattern>
