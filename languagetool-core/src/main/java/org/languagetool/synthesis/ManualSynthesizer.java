@@ -139,7 +139,9 @@ public final class ManualSynthesizer {
    */
   @Nullable
   public List<String> lookup(String lemma, String posTag) {
-    if (lemma == null || posTag == null) return null;
+    if (lemma == null || posTag == null) {
+      return null;
+    }
 
     int value = map.get(hashCode(lemma, posTag));
     if (value == 0) return null;

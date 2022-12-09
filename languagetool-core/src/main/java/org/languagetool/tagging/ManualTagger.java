@@ -129,7 +129,9 @@ public class ManualTagger implements WordTagger {
   @Override
   public List<TaggedWord> tag(String word) {
     int value = map.get(word);
-    if (value == 0) return Collections.emptyList();
+    if (value == 0) {
+      return Collections.emptyList();
+    }
 
     int offset = (value >>> OFFSET_SHIFT) * ENTRY_SIZE;
     int length = value & MAX_LENGTH;
