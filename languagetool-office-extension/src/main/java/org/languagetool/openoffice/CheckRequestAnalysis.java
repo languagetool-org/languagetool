@@ -106,21 +106,21 @@ class CheckRequestAnalysis {
   /**
    * get number of paragraph from node index
    */
-  int getNumberOfParagraphFromNodeIndex(int nodeIndex, int nodesCount, String paraText, Locale locale, int[] footnotePosition) {
+  int getNumberOfParagraphFromSortedTextId(int sortedTextId, int documentElementsCount, String paraText, Locale locale, int[] footnotePosition) {
     //  test if doc cache has changed --> actualize
-    if (!docCache.isActual(nodesCount)) {
+    if (!docCache.isActual(documentElementsCount)) {
       handleCacheChanges();
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("CheckRequestAnalyzes: getNumberOfParagraphFromNodeIndex: cache actualized, nodesCount: " + nodesCount);
+        MessageHandler.printToLogFile("CheckRequestAnalyzes: getNumberOfParagraphFromSortedTextId: cache actualized, documentElementsCount: " + documentElementsCount);
       }
     }
-    int paraNum = docCache.getFlatparagraphFromNodeIndex(nodeIndex);
+    int paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
     //  if number of paragraph < 0 --> actualize doc cache and try again
     if (paraNum < 0) {
       handleCacheChanges();
-      paraNum = docCache.getFlatparagraphFromNodeIndex(nodeIndex);
+      paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("CheckRequestAnalyzes: getNumberOfParagraphFromNodeIndex: paraNum < 0 " + 
+        MessageHandler.printToLogFile("CheckRequestAnalyzes: getNumberOfParagraphFromSortedTextId: paraNum < 0 " + 
               " --> cache actualized, new paraNum: " + paraNum);
       }
     }

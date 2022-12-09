@@ -72,10 +72,10 @@ public class DocumentCache implements Serializable {
   private final List<TextParagraph> toTextMapping = new ArrayList<>(); // Mapping from FlatParagraph to DocumentCursor
   private final List<List<Integer>> toParaMapping = new ArrayList<>(); // Mapping from DocumentCursor to FlatParagraph
   private final DocumentType docType;                 // stores the document type (Writer, Impress, Calc)
-  private List<Integer> nodeIndexes = null;           // stores the node index of the paragraphs (since LO 7.5 / else null)
+  private List<Integer> sortedTextIds = null;           // stores the node index of the paragraphs (since LO 7.5 / else null)
   private boolean isReset = false;
   private boolean isDirty = false;
-  private int nodesCount = -1;
+  private int documentElementsCount = -1;
   private int nEndnote = 0;
   private int nFootnote = 0;
   private int nHeaderFooter = 0;
@@ -194,7 +194,7 @@ public class DocumentCache implements Serializable {
       List<int[]> footnotes = new ArrayList<int[]>();
       List<TextParagraph> toTextMapping = new ArrayList<>();
       List<List<Integer>> toParaMapping = new ArrayList<>();
-      List<Integer> nodeIndexes;
+      List<Integer> sortedTextIds;
       clear();
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         toParaMapping.add(new ArrayList<Integer>());
@@ -262,7 +262,7 @@ public class DocumentCache implements Serializable {
         locales.add(new SerialLocale(locale));
       }
       footnotes.addAll(paragraphContainer.footnotePositions);
-      nodeIndexes = paragraphContainer.nodeIndexes;
+      sortedTextIds = paragraphContainer.sortedTextIds;
       
       if (debugMode) {
         int unknown = 0;
@@ -273,48 +273,48 @@ public class DocumentCache implements Serializable {
         }
         unknown = paragraphs.size() - unknown;
         MessageHandler.printToLogFile("DocumentCache: refresh: unkonwn paragraphs: " + unknown);
-        if (nodeIndexes == null) {
-          MessageHandler.printToLogFile("DocumentCache: refresh: paragraphContainer.nodeIndexes == null");
+        if (sortedTextIds == null) {
+          MessageHandler.printToLogFile("DocumentCache: refresh: paragraphContainer.sortedTextIds == null");
         } else {
           for (DocumentText documentText : documentTexts) {
-            if (documentText != null && documentText.nodeIndexes != null) {
-              for (int n : documentText.nodeIndexes) {
-                if (!nodeIndexes.contains(n)) {
-                  MessageHandler.printToLogFile("DocumentCache: refresh: nodeIndex not in flatparagraph: " + n);
+            if (documentText != null && documentText.sortedTextIds != null) {
+              for (int n : documentText.sortedTextIds) {
+                if (!sortedTextIds.contains(n)) {
+                  MessageHandler.printToLogFile("DocumentCache: refresh: sortedTextId not in flatparagraph: " + n);
                 }
               }
             }
           }
-          for (int n : nodeIndexes) {
+          for (int n : sortedTextIds) {
             boolean found = false;
             for (DocumentText documentText : documentTexts) {
-              if (documentText != null && documentText.nodeIndexes != null && documentText.nodeIndexes.contains(n)) {
+              if (documentText != null && documentText.sortedTextIds != null && documentText.sortedTextIds.contains(n)) {
                 found = true;
                 break;
               }
             }
             if (!found) {
-              MessageHandler.printToLogFile("DocumentCache: refresh: nodeIndex not in documentText: " + n);
+              MessageHandler.printToLogFile("DocumentCache: refresh: sortedTextId not in documentText: " + n);
             }
           }
         }
       }
-      if (nodeIndexes == null) {
+      if (sortedTextIds == null) {
         List<List<String>> textParas = new ArrayList<>();
         for (DocumentText documentText : documentTexts) {
           textParas.add(documentText.paragraphs);
         }
         mapParagraphs(paragraphs, toTextMapping, toParaMapping, chapterBegins, locales, footnotes, textParas, deletedCharacters, deletedChars);
       } else {
-        nodesCount = paragraphContainer.nodesCount;
-        List<List<Integer>> textNodeIndexes = new ArrayList<>();
+        documentElementsCount = paragraphContainer.documentElementsCount;
+        List<List<Integer>> textSortedTextIds = new ArrayList<>();
         for (DocumentText documentText : documentTexts) {
-          textNodeIndexes.add(documentText.nodeIndexes);
+          textSortedTextIds.add(documentText.sortedTextIds);
         }
-        mapParagraphsWNI(paragraphs, toTextMapping, toParaMapping, chapterBegins, locales, footnotes, textNodeIndexes, nodeIndexes, deletedCharacters, deletedChars);
+        mapParagraphsWNI(paragraphs, toTextMapping, toParaMapping, chapterBegins, locales, footnotes, textSortedTextIds, sortedTextIds, deletedCharacters, deletedChars);
       }
       actualizeCache (paragraphs, chapterBegins, locales, footnotes, toTextMapping, toParaMapping, 
-          deletedCharacters, documentTexts.get(CURSOR_TYPE_TEXT).automaticTextParagraphs, nodeIndexes);
+          deletedCharacters, documentTexts.get(CURSOR_TYPE_TEXT).automaticTextParagraphs, sortedTextIds);
       document.getMultiDocumentsHandler().runShapeCheck(hasUnsupportedText(), fromWhere);
       if (fromWhere != 2 || debugModeTm) { //  do not write time to log for text level queue
         long endTime = System.currentTimeMillis();
@@ -329,7 +329,7 @@ public class DocumentCache implements Serializable {
    */
   private void actualizeCache (List<String> paragraphs, List<List<Integer>> chapterBegins, List<SerialLocale> locales, 
       List<int[]> footnotes, List<TextParagraph> toTextMapping, List<List<Integer>> toParaMapping, 
-      List<List<Integer>> deletedCharacters, List<Integer> automaticParagraphs, List<Integer> nodeIndexes) {
+      List<List<Integer>> deletedCharacters, List<Integer> automaticParagraphs, List<Integer> sortedTextIds) {
     this.paragraphs.clear();
     this.paragraphs.addAll(paragraphs);
     this.chapterBegins.clear();
@@ -344,13 +344,13 @@ public class DocumentCache implements Serializable {
     this.deletedCharacters.clear();
     this.deletedCharacters.addAll(deletedCharacters);
     this.automaticParagraphs.addAll(automaticParagraphs);
-    if (nodeIndexes != null) {
-      if (this.nodeIndexes == null) {
-        this.nodeIndexes = new ArrayList<>();
+    if (sortedTextIds != null) {
+      if (this.sortedTextIds == null) {
+        this.sortedTextIds = new ArrayList<>();
       } else {
-        this.nodeIndexes.clear();
+        this.sortedTextIds.clear();
       }
-      this.nodeIndexes.addAll(nodeIndexes);
+      this.sortedTextIds.addAll(sortedTextIds);
     }
   }
   
@@ -915,25 +915,25 @@ public class DocumentCache implements Serializable {
    * Use node indexes of paragraphs (since LO 7.5)
    */
   private void mapParagraphsWNI(List<String> paragraphs, List<TextParagraph> toTextMapping, List<List<Integer>> toParaMapping,
-        List<List<Integer>> chapterBegins, List<SerialLocale> locales, List<int[]> footnotes, List<List<Integer>> textNodeIndexes, 
-        List<Integer> nodeIndexes, List<List<Integer>> deletedCharacters, List<List<List<Integer>>> deletedChars) {
+        List<List<Integer>> chapterBegins, List<SerialLocale> locales, List<int[]> footnotes, List<List<Integer>> textSortedTextIds, 
+        List<Integer> sortedTextIds, List<List<Integer>> deletedCharacters, List<List<List<Integer>>> deletedChars) {
     isDirty = false;
     List<Integer> nMapped = new ArrayList<>();  // Mapped paragraphs per cursor type
     int nUnknown = 0;
     for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
       nMapped.add(0);
-      if (textNodeIndexes.get(i) == null) {
-        textNodeIndexes.set(i, new ArrayList<>());
+      if (textSortedTextIds.get(i) == null) {
+        textSortedTextIds.set(i, new ArrayList<>());
         if (debugMode) {
-          MessageHandler.printToLogFile("Document cache: mapParagraphsWNI: Empty textNodeIndexes for type: " + i);
+          MessageHandler.printToLogFile("Document cache: mapParagraphsWNI: Empty textSortedTextIds for type: " + i);
         }
       }
-      nUnknown += textNodeIndexes.get(i).size();
-      for (int j = 0; j < textNodeIndexes.get(i).size(); j++) {
+      nUnknown += textSortedTextIds.get(i).size();
+      for (int j = 0; j < textSortedTextIds.get(i).size(); j++) {
         toParaMapping.get(i).add(-1);
       }
     }
-    nUnknown = nodeIndexes.size() - nUnknown;
+    nUnknown = sortedTextIds.size() - nUnknown;
     if (nUnknown < 0) {
       isDirty = true;
       if (debugMode) {
@@ -943,26 +943,26 @@ public class DocumentCache implements Serializable {
     if (debugMode) {
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         MessageHandler.printToLogFile("\nDocument cache: mapParagraphsWNI: node indexes for type: " + i);
-        for (int j = 0; j < textNodeIndexes.get(i).size(); j++) {
-          MessageHandler.printToLogFile("Document cache: mapParagraphsWNI: node index: " + textNodeIndexes.get(i).get(j));
+        for (int j = 0; j < textSortedTextIds.get(i).size(); j++) {
+          MessageHandler.printToLogFile("Document cache: mapParagraphsWNI: node index: " + textSortedTextIds.get(i).get(j));
         }
       }
       MessageHandler.printToLogFile("\nDocument cache: mapParagraphsWNI: unknown paragraphs: " + nUnknown);
     }
     int notMapped = 0;
-    for (int n = 0; n < nodeIndexes.size(); n++) {
+    for (int n = 0; n < sortedTextIds.size(); n++) {
       boolean found = false;
-//      for (int i = 0; !found && i < NUMBER_CURSOR_TYPES && nMapped.get(i) < textNodeIndexes.get(i).size(); i++) {
+//      for (int i = 0; !found && i < NUMBER_CURSOR_TYPES && nMapped.get(i) < textSortedTextIds.get(i).size(); i++) {
       for (int i = 0; !found && i < NUMBER_CURSOR_TYPES; i++) {
-        List<Integer> txtNdIndexes = textNodeIndexes.get(i);
+        List<Integer> txtNdIndexes = textSortedTextIds.get(i);
         for (int j = 0; !found && j < txtNdIndexes.size(); j++) {
-          if (((int)txtNdIndexes.get(j)) == ((int)nodeIndexes.get(n))) {
+          if (((int)txtNdIndexes.get(j)) == ((int)sortedTextIds.get(n))) {
             found = true;
             toParaMapping.get(i).set(j, n);
             toTextMapping.add(new TextParagraph(i, j));
 //            nMapped.set(i, nMapped.get(i) + 1);
-//          } else if(nodeIndexes.get(n) == 129) {
-//            MessageHandler.printToLogFile("Document cache: mapParagraphsWNI: not equal: nodeIndex: " + nodeIndexes.get(n) +
+//          } else if(sortedTextIds.get(n) == 129) {
+//            MessageHandler.printToLogFile("Document cache: mapParagraphsWNI: not equal: sortedTextId: " + sortedTextIds.get(n) +
 //                "; txtNdIndexes: " + txtNdIndexes.get(j) + "; type: " + i);
           }
         }
@@ -971,7 +971,7 @@ public class DocumentCache implements Serializable {
         toTextMapping.add(new TextParagraph(CURSOR_TYPE_UNKNOWN, -1));
         notMapped++;
         if (debugMode) {
-          MessageHandler.printToLogFile("Document cache: mapParagraphsWNI: Not found node: " + nodeIndexes.get(n));
+          MessageHandler.printToLogFile("Document cache: mapParagraphsWNI: Not found node: " + sortedTextIds.get(n));
         }
       }
     }
@@ -1270,8 +1270,8 @@ public class DocumentCache implements Serializable {
     toTextMapping.clear();
     toParaMapping.clear();
     deletedCharacters.clear();
-    if (nodeIndexes != null) {
-      nodeIndexes.clear();
+    if (sortedTextIds != null) {
+      sortedTextIds.clear();
     }
   }
   
@@ -1288,10 +1288,10 @@ public class DocumentCache implements Serializable {
       toParaMapping.add(new ArrayList<Integer>(in.toParaMapping.get(i)));
     }
     deletedCharacters.addAll(in.deletedCharacters);
-    if (in.nodeIndexes != null) {
-      nodeIndexes = new ArrayList<>(in.nodeIndexes);
+    if (in.sortedTextIds != null) {
+      sortedTextIds = new ArrayList<>(in.sortedTextIds);
     }
-    nodesCount = in.nodesCount;
+    documentElementsCount = in.documentElementsCount;
     nText = in.nText;
     nTable = in.nTable;
 //    nFrame = in.nFrame;
@@ -1888,20 +1888,20 @@ public class DocumentCache implements Serializable {
   /**
    * Return Number of flat Paragraph from node index
    */
-  public int getFlatparagraphFromNodeIndex(int nodeIndex) {
+  public int getFlatparagraphFromSortedTextId(int sortedTextId) {
     rwLock.readLock().lock();
     try {
-      if (nodeIndexes == null) {
-//        MessageHandler.printToLogFile("DocumentCache:isActual: nodeIndexes == null: return -1"); 
+      if (sortedTextIds == null) {
+//        MessageHandler.printToLogFile("DocumentCache:isActual: sortedTextIds == null: return -1"); 
         return -1;
       }
-      for (int i = 0; i < nodeIndexes.size(); i++) {
-        if (nodeIndexes.get(i) == nodeIndex) {
-//          MessageHandler.printToLogFile("DocumentCache:isActual: return " + i + " for nodeIndex " + nodeIndex); 
+      for (int i = 0; i < sortedTextIds.size(); i++) {
+        if (sortedTextIds.get(i) == sortedTextId) {
+//          MessageHandler.printToLogFile("DocumentCache:isActual: return " + i + " for sortedTextId " + sortedTextId); 
           return i;
         }
       }
-//      MessageHandler.printToLogFile("DocumentCache:isActual: nodeIndex " + nodeIndex + " not found: return -1"); 
+//      MessageHandler.printToLogFile("DocumentCache:isActual: sortedTextId " + sortedTextId + " not found: return -1"); 
       return -1;
     } finally {
       rwLock.readLock().unlock();
@@ -1911,13 +1911,13 @@ public class DocumentCache implements Serializable {
   /**
    * Return false if cache has to be actualized
    */
-  public boolean isActual(int nodesCount) {
+  public boolean isActual(int documentElementsCount) {
     rwLock.readLock().lock();
     try {
-      if (isDirty || nodeIndexes == null || nodesCount == -1 || this.nodesCount != nodesCount) {
+      if (isDirty || sortedTextIds == null || documentElementsCount == -1 || this.documentElementsCount != documentElementsCount) {
 //        MessageHandler.printToLogFile("DocumentCache:isActual: FALSE; isDirty: " + isDirty + 
-//            ", old nodesCount: " + this.nodesCount + ", new nodesCount: " + nodesCount + 
-//            ", nodeIndexes " + (nodeIndexes == null ? "==" : "!=") + " null"); 
+//            ", old documentElementsCount: " + this.documentElementsCount + ", new documentElementsCount: " + documentElementsCount + 
+//            ", sortedTextIds " + (sortedTextIds == null ? "==" : "!=") + " null"); 
         return false;
       }
 //      MessageHandler.printToLogFile("DocumentCache:isActual: TRUE"); 

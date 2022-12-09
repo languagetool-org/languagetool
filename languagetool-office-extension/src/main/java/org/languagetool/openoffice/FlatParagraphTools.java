@@ -273,8 +273,8 @@ public class FlatParagraphTools {
       List<Locale> locales = new ArrayList<>();
       List<int[]> footnotePositions = new ArrayList<>();
       XFlatParagraph tmpFlatPara = xFlatPara;
-      List<Integer> nodeIndexes = getIntPropertyValue("NodeIndex", tmpFlatPara) == -1 ? null : new ArrayList<>();
-      int nodesCount = nodeIndexes == null ? -1 : getIntPropertyValue("NodesCount", tmpFlatPara);
+      List<Integer> sortedTextIds = getIntPropertyValue("SortedTextId", tmpFlatPara) == -1 ? null : new ArrayList<>();
+      int documentElementsCount = sortedTextIds == null ? -1 : getIntPropertyValue("DocumentElementsCount", tmpFlatPara);
       Locale locale = null;
       while (tmpFlatPara != null) {
         String text = tmpFlatPara.getText();
@@ -284,8 +284,8 @@ public class FlatParagraphTools {
         // add just one local for the whole paragraph
         locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, fixedLocale, locale, false);
         locales.add(0, locale);
-        if (nodeIndexes != null) {
-          nodeIndexes.add(0, getIntPropertyValue("NodeIndex", tmpFlatPara));
+        if (sortedTextIds != null) {
+          sortedTextIds.add(0, getIntPropertyValue("SortedTextId", tmpFlatPara));
         }
         tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
       }
@@ -300,12 +300,12 @@ public class FlatParagraphTools {
         if (debugMode) {
           printPropertyValueInfo(tmpFlatPara);
         }
-        if (nodeIndexes != null) {
-          nodeIndexes.add(getIntPropertyValue("NodeIndex", tmpFlatPara));
+        if (sortedTextIds != null) {
+          sortedTextIds.add(getIntPropertyValue("SortedTextId", tmpFlatPara));
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
-      return new FlatParagraphContainer(allParas, locales, footnotePositions, nodeIndexes, nodesCount);
+      return new FlatParagraphContainer(allParas, locales, footnotePositions, sortedTextIds, documentElementsCount);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -934,16 +934,16 @@ public class FlatParagraphTools {
     public List<String> paragraphs;
     public List<Locale> locales;
     public List<int[]> footnotePositions;
-    public List<Integer> nodeIndexes;
-    public int nodesCount;
+    public List<Integer> sortedTextIds;
+    public int documentElementsCount;
     
     FlatParagraphContainer(List<String> paragraphs, List<Locale> locales, List<int[]> footnotePositions, 
-        List<Integer> nodeIndexes, int nodesCount) {
+        List<Integer> sortedTextIds, int documentElementsCount) {
       this.paragraphs = paragraphs;
       this.locales = locales;
       this.footnotePositions = footnotePositions;
-      this.nodeIndexes = nodeIndexes;
-      this.nodesCount = nodesCount;
+      this.sortedTextIds = sortedTextIds;
+      this.documentElementsCount = documentElementsCount;
     }
   }
   
