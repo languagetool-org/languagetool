@@ -201,7 +201,7 @@ class DatabaseAccessOpenSource extends DatabaseAccess {
       throw new IllegalArgumentException("apiKey must be set");
     }
     if (sqlSessionFactory == null) {
-      throw new IllegalStateException("This is the endpoint for the basic version of LanguageTool. " +
+      throw new AuthException("This is the endpoint for the basic version of LanguageTool. " +
         "When using 'username' and 'apiKey' to access the premium version, use api.languagetoolplus.com instead.");
     }
     try {
