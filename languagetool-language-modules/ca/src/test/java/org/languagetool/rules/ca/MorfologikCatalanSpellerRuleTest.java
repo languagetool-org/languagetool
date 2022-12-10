@@ -670,5 +670,11 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
         assertEquals(10, matches[0].getToPos());
+        
+        // do not suggest forms of "sentar, enterar".
+        matches = rule.match(lt.getAnalyzedSentence("sentences"));
+        assertEquals(1, matches.length);
+        assertEquals("[sentències, sentencies, sentenciés, senten ces]", matches[0].getSuggestedReplacements().toString());
+        
     }
 }

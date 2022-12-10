@@ -1512,9 +1512,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
         <rule id="gracies_a" name="gràcies a (locució preposicional)">
+            <antipattern>
+                <token postag="D.*" postag_regexp="yes"><exception inflected="yes">tot</exception></token>
+                <token>gràcies</token>
+                <token>a</token>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token>gràcies<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+                    <token>gràcies</token>
                     <token>a</token>
                 </marker>
             </pattern>
@@ -6105,6 +6110,33 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="replace" postag="NCMS000"/>
     </rule>
+    <rulegroup id="SENTAR" name="sentar/sentir">
+        <rule>
+            <pattern>
+                <token regexp="yes">se|es</token>
+                <marker>
+                    <token>senta</token>
+                </marker>
+                <token postag="RG.*|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
+                <token postag="V.P.*|A.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove">
+                <wd lemma="sentar"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>senta</token>
+                </marker>
+                <token postag="RG.*|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
+                <token>que</token>
+            </pattern>
+            <disambig action="remove">
+                <wd lemma="sentar"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="dur_a_terme" name="dur a terme">
         <!-- plantar cara, posar/tenir/estar/mantenir al corrent -->
         <rule>
@@ -7892,8 +7924,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^D].*"/>
     </rule>
     <rule id="el_be" name="el bé">
+        <antipattern>
+            <token>lo</token>
+            <token>bé</token>
+        </antipattern>
         <pattern>
-            <token postag="DA0MS0"/>
+            <token postag="DA0MS0"></token>
             <marker>
                 <token postag="NC.*" postag_regexp="yes" regexp="yes">bé|darrere|davant</token>
             </marker>
@@ -12515,7 +12551,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="A..[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_|N.CN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|voler|saber</exception></token>
+                    <token postag="A..[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_|N.CN.*|VAP00SM0" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|voler|saber</exception></token>
                     <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">recull|ens|estic|tant|cap</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>

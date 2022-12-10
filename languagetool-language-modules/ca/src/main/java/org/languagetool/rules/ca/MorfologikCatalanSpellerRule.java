@@ -71,6 +71,11 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   private static final Pattern VERB_INF = Pattern.compile("V.N.*");
   private static final Pattern ANY_TAG = Pattern.compile("[NVACPDRS].*");
+  
+  /* lemma exceptions */
+  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar"};
+  public static final String[] LemmasToAllow =  new String[] {"enter", "sentir"};
+  
   private CatalanTagger tagger;
 
   public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
@@ -116,6 +121,17 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       String replacement = suggestions.get(i).getReplacement();
       // remove always
       if (replacement.equalsIgnoreCase("como")) {
+        continue;
+      }
+      boolean ignoreSuggestion = false;
+      String[] wordsToAnalyze = replacement.split(" ");
+      List<AnalyzedTokenReadings> newatrs = tagger.tag(Arrays.asList(wordsToAnalyze));
+      for (AnalyzedTokenReadings newatr : newatrs) {
+        if (newatr.hasAnyLemma(LemmasToIgnore) && !newatr.hasAnyLemma(LemmasToAllow)) {
+          ignoreSuggestion = true;
+        }
+      }
+      if (ignoreSuggestion) {
         continue;
       }
       // l'_ : remove superfluous space
