@@ -449,7 +449,6 @@ public abstract class Language {
     if (wordTokenizer == null) {
       wordTokenizer = createDefaultWordTokenizer();
     }
-
     return wordTokenizer;
   }
 
