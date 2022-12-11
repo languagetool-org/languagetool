@@ -19161,6 +19161,27 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- QUE É DEPOIS TRANSFORMADO depois transformado -->
+    <rule id='QUE_É_ADVERBIO_VERPARTPASSADO' name="Simplificar: Que é + Adv + V.Part.Pass → Adv V.Part.Pass" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-11 (25-JUL-2022+) -->
+      <!--
+      Elas regressam a casa deixando um rasto que é depois seguido por outras. → Elas regressam a casa deixando um rasto depois seguido por outras.
+      -->
+      <pattern>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <marker>
+          <token>que</token>
+          <token regexp='yes'>é|são</token>
+          <token postag='RG|RM' postag_regexp='yes'/>
+          <token postag='VMP00.+' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\4 \5</suggestion>
+      <example correction="depois seguido">Elas regressam a casa deixando um rasto <marker>que é depois seguido</marker> por outras.</example>
+    </rule>
+
+
     <!-- QUE É/SÃO NC/ADJ COMO/POR nc/adj como/por -->
     <rule id='QUE_É-SÃO_NC-ADJ_COMO-POR' name="Que é/são NC/Adj como/por → NC/Adj como/por" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-21 + 2021-07-22 (25-JUN-2021+)      -->
