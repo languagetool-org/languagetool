@@ -22,6 +22,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
+    <!ENTITY colores "amarillo|azul|beige|blanco|borgoña|cian|ciruela|fucsia|granate|gris|lavanda|lila|lima|magenta|malva|marrón|melocotón|menta|mostaza|naranja|negro|ocre|oliva|púrpura|rojo|rosa|rosado|salmón|trullo|turquesa|verde|violeta">
     <!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
     <!ENTITY nnbsp "&#x202F;"> <!-- narrow no-break space -->
     <!ENTITY msg_semicolon_comma "Esta locución se escribe normalmente entre comas. Use un punto y coma para empezar una nueva frase que contrasta con la anterior.">
@@ -16995,7 +16996,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
-        <rulegroup id="CONCORDANCIA_ADJECTIVOS_NEUTROS" name="concordancias con adjetivos neutros" default="temp_off">
+        <rulegroup id="CONCORDANCIA_ADJECTIVOS_NEUTROS" name="concordancias con adjetivos neutros">
             <rule>
                 <pattern>
                     <and>
@@ -17003,7 +17004,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="D.*" postag_regexp="yes"/>
                     </and>
                     <and>
-                        <token postag="AQ.C.*" postag_regexp="yes"/>
+                        <token postag="AQ.C.*" postag_regexp="yes"><exception regexp="yes">&colores;</exception></token>
                         <token postag="_GN_MS"/>
                         <token postag="_GN_FS"/>
                     </and>
@@ -17013,6 +17014,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(D..)..(.)" postag_regexp="yes" postag_replace="$1FS$2"/> \2 \3</suggestion>
                 <example correction="aquella gran impresión">De <marker>aquel gran impresión</marker></example>
                 <example correction="la suave corriente">Con <marker>el suave corriente</marker> del río.</example>
+                <example>Un celular penca</example>
             </rule>
             <rule>
                 <pattern>
@@ -17021,7 +17023,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="D.*" postag_regexp="yes"/>
                     </and>
                     <and>
-                        <token postag="AQ.C.*" postag_regexp="yes"/>
+                        <token postag="AQ.C.*" postag_regexp="yes"><exception regexp="yes">&colores;</exception></token>
                         <token postag="_GN_MP"/>
                         <token postag="_GN_FP"/>
                     </and>
@@ -17040,7 +17042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="D.*" postag_regexp="yes"/>
                     </and>
                     <and>
-                        <token postag="AQ.C.*" postag_regexp="yes"/>
+                        <token postag="AQ.C.*" postag_regexp="yes"><exception regexp="yes">&colores;</exception></token>
                         <token postag="_GN_MS"/>
                         <token postag="_GN_FS"/>
                     </and>
@@ -17060,7 +17062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="D.*" postag_regexp="yes"/>
                     </and>
                     <and>
-                        <token postag="AQ.C.*" postag_regexp="yes"/>
+                        <token postag="AQ.C.*" postag_regexp="yes"><exception regexp="yes">&colores;</exception></token>
                         <token postag="_GN_MP"/>
                         <token postag="_GN_FP"/>
                     </and>
@@ -17079,7 +17081,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </and>
                     <token min="0" inflected="yes">altre</token>
                     <and>
-                        <token postag="AQ.C.*" postag_regexp="yes"/>
+                        <token postag="AQ.C.*" postag_regexp="yes"><exception regexp="yes">&colores;</exception></token>
                         <token postag="_GN_M." postag_regexp="yes"/>
                         <token postag="_GN_F." postag_regexp="yes"/>
                     </and>
@@ -17096,7 +17098,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </and>
                     <token min="0" inflected="yes">altre</token>
                     <and>
-                        <token postag="AQ.C.*" postag_regexp="yes"/>
+                        <token postag="AQ.C.*" postag_regexp="yes"><exception regexp="yes">&colores;</exception></token>
                         <token postag="_GN_M." postag_regexp="yes"/>
                         <token postag="_GN_F." postag_regexp="yes"/>
                     </and>
