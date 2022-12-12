@@ -220,6 +220,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd pos="_enumeracio"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[\{\[\(]</token>
+                <marker>
+                    <token regexp="yes" spacebefore="no">[a-z]</token>
+                </marker>
+                <token spacebefore="no" regexp="yes">[\)\}\]]</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_enumeracio"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="tokenization_error" name="tokenization problem: Castella-la Manxa, D'Hondt">
         <rule>
@@ -4236,6 +4248,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="immunize"/>
         </rule>
     </rulegroup>
+    <rule id="el_be" name="el bé">
+        <antipattern>
+            <token>lo</token>
+            <token>bé</token>
+        </antipattern>
+        <pattern>
+            <token postag="DA0MS0"/>
+            <marker>
+                <token postag="NC.*" postag_regexp="yes" regexp="yes">bé|darrere|davant</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="NC.*"/>
+    </rule>
     <rulegroup id="noms_aposicio" name="noms en aposició">
         <rule>
             <pattern>
@@ -7929,19 +7954,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="[^D].*"/>
-    </rule>
-    <rule id="el_be" name="el bé">
-        <antipattern>
-            <token>lo</token>
-            <token>bé</token>
-        </antipattern>
-        <pattern>
-            <token postag="DA0MS0"></token>
-            <marker>
-                <token postag="NC.*" postag_regexp="yes" regexp="yes">bé|darrere|davant</token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="NC.*"/>
     </rule>
     <rule id="fer_be" name="fer bé">
         <pattern>
@@ -14322,7 +14334,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!--  paraules que habitualment no són adjectius si no han concordat: fer|segons|envolta-->
         <rule>
             <antipattern>
-                <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
+                <token postag="V.[SIN].*|_GV_" postag_regexp="yes"/>
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="A.*" postag_regexp="yes"/>
             </antipattern>
@@ -18715,6 +18727,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token regexp="yes" spacebefore="no">.</token>
             </marker>
             <token postag="_QM_CLOSE"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="IGNORE_LETTER_PARENTHESIS" name="ignore letters between quotes">
+        <pattern>
+            <token regexp="yes">[\{\[\(]</token>
+            <marker>
+                <token regexp="yes" spacebefore="no">.</token>
+            </marker>
+            <token regexp="yes">[\}\]\)]</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
