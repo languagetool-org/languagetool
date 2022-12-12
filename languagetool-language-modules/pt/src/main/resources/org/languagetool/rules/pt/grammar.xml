@@ -2632,23 +2632,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Precisamos ler nos outros as lágrimas escondidas.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-10-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+        <antipattern>
+          <token regexp='yes'>tod[ao]s</token>
+          <token regexp='yes'>uns|umas</token>
+          <example>Todas uns êxitos</example>
+        </antipattern>
         <pattern>
           <unify negate="yes">
           <feature id="gender"/>
           <token postag_regexp='yes' postag='D.+'>
-            <exception>a</exception><!-- XXX handled by more specific rule A_WORD -->
+            <exception regexp='yes'>a|algum|algumas?|nenhum|nenhumas?|alguns|esta|mesm[ao]s?|outr[oa]s?</exception><!-- XXX handled by more specific rule A_WORD -->
             <exception scope='previous' spacebefore='no' regexp='yes'>&hifen;</exception>
             <exception postag_regexp='yes' postag='D.+' negate_pos='yes'/></token>
           <token postag_regexp='yes' postag='D.+'>
-            <exception>a</exception><!-- XXX here it has to be SPS00 wrongly disambiguated -->
+            <exception regexp='yes'>a|\p{Lu}*|aquel[ae]s?</exception><!-- XXX here it has to be SPS00 wrongly disambiguated -->
             <exception postag_regexp='yes' postag='D.+' negate_pos='yes'/></token>
           </unify>
         </pattern>
         <message>&MSG_ECG;</message>
         <suggestion suppress_misspelled="yes"><match no='1' postag='D(..).(.+)' postag_replace='D$1M$2' postag_regexp='yes'/> <match no='2' postag='D(..).(.+)' postag_replace='D$1M$2' postag_regexp='yes'/></suggestion>
         <suggestion suppress_misspelled="yes"><match no='1' postag='D(..).(.+)' postag_replace='D$1F$2' postag_regexp='yes'/> <match no='2' postag='D(..).(.+)' postag_replace='D$1F$2' postag_regexp='yes'/></suggestion>
-        <example correction="O nosso|A nossa"><marker>O nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
+        <suggestion>\1, \2</suggestion>
+        <example correction="O nosso|A nossa|O, nossa"><marker>O nossa</marker> equipa de operações está muito focada nos campos de verão..</example>
         <example>…pelo ato", o que inspiraria trabalhadores como um todo a se revoltar e coletivizar forçadamente os meios d…</example>
         <example>Idealizou-o este barão de Jaraguá, contribuindo dessa forma para o…</example>
         <example>A este nível, estas metas incluem, entre outros assuntos…</example>
@@ -4202,6 +4207,8 @@ O namorado dela era um ladrão.
       <example>A cadela está no pasto.</example>
     </rule>
     <rule default='temp_off'>
+      <antipattern>
+      </antipattern>
       <pattern>
         <marker>
           <token>o</token>
