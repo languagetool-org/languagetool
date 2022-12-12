@@ -4827,6 +4827,7 @@ regexp case-insensitive maken: (?i)
 
         <rulegroup id="SINT_ZINT" name="waarschuwing bij gebruik sint i.p.v. zint">
             <rule>
+                <antipattern><token>sint</token><token>en</token><token>piet</token></antipattern>
                 <antipattern><token>echte</token><token>sint</token></antipattern>
                 <pattern>
                     <token negate="yes">de</token>
@@ -11130,7 +11131,7 @@ onwaarschijnlijk
             <rule>
                 <pattern>
                     <token>te</token>
-                    <token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk|fiets</exception></token>
+                    <token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk|fiets|keer</exception></token>
                 </pattern>
                 <message>Voor een zelfstandig naamwoord hoort 'de'.</message>
                 <suggestion>de \2</suggestion>
@@ -11209,10 +11210,14 @@ onwaarschijnlijk
                     <token>peer</token>
                     <token regexp="yes">reviews?</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">die|dat</token>
+                    <token regexp="yes">een|geen</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">de|een|geen|deze|menige?|elke?|iedere?|sommige?</token>
                     <marker>
-                        <token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">^[a-z].*<exception regexp="yes">weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel|eer|mag</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV"></exception></token>
+                        <token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">^[a-z].*<exception regexp="yes">weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel|eer|mag</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV|ZNW.*"></exception></token>
                         <token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="BNW.*|BYW.*|WKW:TGW:INF.*|WKW:VTD.*|WKW:VLT.*|GET.*|ENM:LOC.*"/><exception regexp="yes">bent|zult|zo|kan|moet|wil|was|over|staat|weer|tegen|niets|at|kost|haar|zit</exception></token>
                     </marker>
                     <token postag_regexp="yes" postag="WKW.*|VRZ.*|SENT_END"/>
@@ -13347,6 +13352,8 @@ onwaarschijnlijk
 
         <rulegroup id="VREEMD_VRZ_HIJ" name="Vreemd voorzetsel">
             <rule>
+                <antipattern><token>neem</token><token>aan</token><token/><token>ook</token></antipattern>
+                <antipattern><token>zij</token><token>die</token></antipattern>
                 <antipattern><token>zij</token><token>aan</token><token>zij</token></antipattern>
                 <antipattern><token>Wat</token><token>er</token><token>ook</token><token>van</token><token>zij</token></antipattern>
                 <antipattern><token>wij</token><token>tegen</token><token>zij</token></antipattern>
@@ -13356,8 +13363,9 @@ onwaarschijnlijk
                 </pattern>
                 <message>Het woord '\2' staat hier wat vreemd. Kijk dit nog eens na s.v.p.</message>
                 <suggestion>\1; \2</suggestion>
+                <suggestion>\1. <match no="2" case_conversion="startupper"/></suggestion>
                 <short>Vreemd!</short>
-                <example correction="aan; hij">Geef het <marker>aan hij</marker>.</example>
+                <example correction="aan; hij|aan. Hij">Geef het <marker>aan hij</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -13646,8 +13654,8 @@ onwaarschijnlijk
         </rulegroup>
         <rulegroup id="GROTERE_ALS" name="grotere als">
             <rule>
-                <antipattern><token>als</token><token regexp="yes">je|hij|zij|men|u|jij</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
-                <antipattern><token regexp="yes">eerder|lekker|ouders|later|vroeger</token><token>als</token></antipattern>
+                <antipattern><token>als</token><token regexp="yes">je|hij|zij|men|u|jij|we|ze|er</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
+                <antipattern><token regexp="yes">eerder|lekker|ouders|later|vroeger|meer|minder</token><token>als</token></antipattern>
                 <antipattern><token>als</token><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
                 <antipattern><token>als</token><token regexp="yes">ik|jij|hij|zij|u|men</token></antipattern>
                 <pattern>
@@ -19058,6 +19066,17 @@ steenwijk;Steenwijk
         <rulegroup id="PUNT_GEEN_HL" name="Geen spatie en hoofdletter na punt">
             <rule>
                 <antipattern>
+                    <!-- mijn.net etc. -->
+                    <token case_sensitive="yes" regexp="yes">[a-z]{3,20}</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" case_sensitive="yes" regexp="yes">[a-z]{3,20}</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">o</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">a</token>
+                </antipattern>
+                <antipattern>
                     <token case_sensitive="yes">Ph</token>
                     <token spacebefore="no">.</token>
                     <token spacebefore="no">D</token>
@@ -20674,6 +20693,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="PUNT_UITR" name=".! of .?">
             <rule>
+                <antipattern><token>.</token><token spacebefore="no" regexp="yes">[a-z]</token><token spacebefore="no">.</token></antipattern>
                 <antipattern><token>.</token><token>.</token><token>.</token><token regexp="yes">[\?!]</token></antipattern>
                 <antipattern><token>etc</token><token>.</token><token regexp="yes">[\?!]</token></antipattern>
                 <pattern>
@@ -20684,6 +20704,7 @@ steenwijk;Steenwijk
                 <short>Geen punt</short>
                 <example correction="">Dit is fout<marker>.!</marker></example>
                 <example>Dit is correct<marker>!</marker></example>
+                <example>Doe dat a.u.b<marker>.!</marker></example>
                 <example correction="">Ze wilde niet meer mee.<marker>.!</marker></example>
             </rule>
         </rulegroup>
@@ -34234,6 +34255,16 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
         <rulegroup id="WORD_ZONDER_IK" name="word zonder ik">
+            <antipattern>
+                <!-- voorkom Engels -->
+                <token postag="UNKNOWN"/>
+                <token>word</token>
+            </antipattern>
+            <antipattern>
+                <!-- voorkom Engels -->
+                <token>word</token>
+                <token postag="UNKNOWN"/>
+            </antipattern>
             <rule>
                 <antipattern><token regexp="yes">[,;:]</token><token postag="WKW:TGW:1EP"/></antipattern>
                 <antipattern><token postag="SENT_START" skip="-1"/><token skip="-1" regexp="yes">ik|-ik|ikzelf</token><token postag="SENT_END"/></antipattern>
@@ -34259,6 +34290,7 @@ steenwijk;Steenwijk
             <antipattern><token>no</token><token>time</token></antipattern>
             <antipattern><token>wil</token><token regexp="yes">hij|zij|men|u</token></antipattern>
             <antipattern><token>dan</token><token postag="WKW:TGW:1EP"/></antipattern>
+
             <antipattern>
                 <token><exception regexp="yes">[;,:]</exception></token>
                 <token postag="WKW:TGW:1EP"><exception regexp="yes">ben|word|heb|kan|zal</exception></token>
@@ -34316,7 +34348,7 @@ steenwijk;Steenwijk
                     </marker>
                     <token negate="yes" regexp="yes">je|jij</token>
                 </pattern>
-                <message>Dit is de ik-vorm van het werkwoord, maar er staat geen ik in de zin, en geen 'je' achter. Er lijkt daarom iets mis te zijn.</message>
+                <message>De vorm van het werkwoord is verkeerd, er ontbreekt een leesteken, of er staat een spatie te veel.</message>
                 <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>
                 <suggestion>; \1</suggestion>
                 <suggestion>en \1</suggestion>
@@ -34391,6 +34423,7 @@ steenwijk;Steenwijk
         <rulegroup id="BETEKENT_HEEFT" name="3e persoon i.p.v. voltooid deelwoord">
             <!-- R. Baars, november 2022 -->
             <rule>
+                <antipattern><token>art</token><token spacebefore="no">.</token></antipattern>
                 <antipattern><token>de</token><token>was</token></antipattern>
                 <antipattern><token>zijn</token><token postag_regexp="yes" postag="ZNW.*|BNW.*"/></antipattern>
                 <antipattern><token postag="WKW:VTD:ONV"/><token>zijn</token></antipattern>
@@ -34814,13 +34847,11 @@ steenwijk;Steenwijk
                     <marker>
                         <token>zal</token>
                     </marker>
-                    <token regexp="yes">je|jij</token>
+                    <token>jij</token>
                 </pattern>
                 <message>Velen zien <suggestion>zul</suggestion> nog als beter.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
-                <example correction="zul">Afdingen <marker>zal</marker> je.</example>
-                <example>Ik zal je morgen bezoeken.</example>
-                <example>Dat ik dan nooit meer een date voor je zal regelen.</example>
+                <example correction="zul">Afdingen <marker>zal</marker> jij.</example>
             </rule>
             <rule>
                 <!-- 2014-08-22 TaalTik -->
@@ -34845,6 +34876,17 @@ steenwijk;Steenwijk
                 <example><marker>U zult</marker> dat toch wel even doen voor mij?</example>
                 <example correction="je zult">En jawel, <marker>je zal</marker> het merken.</example>
                 <example correction="U zult"><marker>U zal</marker> mij ooit nog gelijk geven.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>zal</token>
+                    </marker>
+                    <token>je</token>
+                </pattern>
+                <message>Als 'je' hier als 'jij' geschreven kan worden, dan zien velen <suggestion>zul</suggestion> nog als beter.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+                <example correction="zul">Afdingen <marker>zal</marker> je.</example>
             </rule>
         </rulegroup>
 
@@ -35442,6 +35484,13 @@ steenwijk;Steenwijk
 
         <rulegroup id="UW_U_a" name="uw gaat → u gaat">
             <rule>
+                <antipattern case_sensitive="yes"><token>God</token><token>ontferm</token><token>U</token></antipattern>
+                <antipattern case_sensitive="yes">
+                    <!-- geheel in hoofdletters -->
+                    <token regexp="yes">[A-Z]+</token>
+                    <token>U</token>
+                    <token regexp="yes">[A-Z]+</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>uw</token>
@@ -37972,6 +38021,9 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="DES" name="Waarschuwen voor 'des' buiten staande uitdrukkingen">
             <rule>
+                <antipattern><token postag="UNKNWON"/><token>des</token></antipattern>
+                <antipattern><token>des</token><token postag="UNKNWON"/></antipattern>
+                <antipattern><token>procureur</token><token>des</token><token>Konings</token></antipattern>
                 <antipattern><token postag="UNKOWN"/><token>des</token><token postag="UNKOWN"/></antipattern> <!-- Frans -->
                 <antipattern>
                     <token>Promenade</token>
@@ -38073,7 +38125,6 @@ steenwijk;Steenwijk
                 <short>staande uitdrukking</short>
                 <example correction="Van de"><marker>Des</marker> Yanks eigen.</example>
                 <example correction="van de">De tol <marker>des</marker> bloeds.</example>
-                <example correction="van de">Het werd aan de procureur <marker>des</marker> Konings doorgestuurd.</example>
                 <example correction="van de">Elk jaar is het weer feest in het zuiden <marker>des</marker> lands.</example>
             </rule>
         </rulegroup>
@@ -38096,6 +38147,18 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="DER" name="Waarschuwen voor 'der' buiten staande uitdrukkingen">
             <rule>
+                <antipattern>
+                    <!-- haal Duits weg -->
+                    <token postag="UNKNOWN"/>
+                    <token>der</token>
+                </antipattern>
+                <antipattern>
+                    <!-- haal Duits weg -->
+                    <token>der</token>
+                    <token postag="UNKNOWN"/>
+                </antipattern>
+                <antipattern case_sensitive="yes"><token>Vallei</token><token>der</token><token>Koningen</token></antipattern>
+                <antipattern><token>loop</token><token>der</token><token regexp="yes">jaren|tijd</token></antipattern>
                 <antipattern><token>Republiek</token><token>der</token><token>Nederlanden</token></antipattern>
                 <antipattern><token>Commandant</token><token>der</token><token>Strijdkrachten</token></antipattern>
                 <antipattern><token>her</token><token>en</token><token>der</token></antipattern>
@@ -38145,6 +38208,8 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="DEN" name="Waarschuwen voor 'den' buiten staande uitdrukkingen">
             <rule>
+                <antipattern><token>den</token><token>.</token></antipattern>
+                <antipattern><token>(</token><token>den</token><token>)</token></antipattern>
                 <antipattern case_sensitive="yes"><token/><token/><token>Den</token></antipattern>
                 <antipattern><token>in</token><token>den</token><token>eeuwigheid</token></antipattern>
                 <antipattern><token>in</token><token>den</token><token>beginne</token></antipattern>
@@ -41719,7 +41784,7 @@ steenwijk;Steenwijk
                     <token><exception>zich</exception></token>
                     <token spacebefore="yes" regexp="yes">[-—]</token>
                     <token spacebefore="yes" regexp="yes">en|of</token>
-                    <token/>
+                    <token><exception>=</exception></token>
                 </pattern>
                 <message>Bij het weglaten van een deel van een woord hoort het koppelteken vast aan het woord. In andere gevallen wordt een ander streepje aangeraden.</message>
                 <suggestion>\1\2 \3 \4</suggestion>
@@ -44871,7 +44936,9 @@ steenwijk;Steenwijk
         <rulegroup id="LICHT_AMANDELGEUR" name="licht/lichte" >
             <!-- veel uitzonderingen nodig!, zoals voor 'een groot man' etc. -->
             <rule>
-                <antipattern><token regexp="yes">commercieel|administratief|financieel-administratief|logistiek|ontwerpend</token><token regexp="yes">medewerker|onderzoeker</token></antipattern>
+                <antipattern><token regexp="yes">voormmalig|psychologisch|functioneel|commercieel|administratief|financieel-administratief|logistiek|ontwerpend</token><token regexp="yes">beheerder|medewerker|onderzoeker|consulent</token></antipattern>
+                <antipattern><token>een</token><token>ander</token></antipattern>
+                <antipattern><token>verdeeld</token><token>Europa</token></antipattern>
                 <antipattern><token>blind</token><token>date</token></antipattern>
                 <antipattern><token>long</token><token>shot</token></antipattern>
                 <antipattern><token>onafhankelijk</token><token>België</token></antipattern>
@@ -44879,7 +44946,10 @@ steenwijk;Steenwijk
                 <antipattern><token>sociaal</token><token>werker</token></antipattern>
                 <antipattern><token>systemisch</token><token>hulpverlener</token></antipattern>
                 <antipattern><token>verpleegkundig</token><token>consulent</token></antipattern>
+                <antipattern><token>fout</token><token>leek</token></antipattern>
                 <antipattern><token>geseculariseerd</token><token>Vlaanderen</token></antipattern>
+                <antipattern><token>medisch</token><token>attest</token></antipattern>
+                <antipattern><token>vol</token><token>bewondering</token></antipattern>
                 <antipattern>
                     <token>een</token>
                     <token>ander</token>
@@ -44901,7 +44971,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>een</token>
                     <marker>
-                        <token postag_regexp="yes" postag="BNW:STL:ONV|WKW:ODW:ONV|WKW:VTD:ONV"><exception postag_regexp="yes" postag=".*VRB"/><exception regexp="yes">dier|heel|herstart|laag|naar|paar|stuk|super|totaal|tweedehands|veel|week</exception><exception case_sensitive="yes">Trouw</exception></token>
+                        <token postag_regexp="yes" postag="BNW:STL:ONV|WKW:ODW:ONV|WKW:VTD:ONV"><exception postag_regexp="yes" postag=".*VRB"/><exception regexp="yes">dier|heel|herstart|laag|naar|paar|stuk|super|totaal|tweedehands|veel|week|content|veeg</exception><exception case_sensitive="yes">Trouw|Bol</exception></token>
                         <token postag_regexp="yes" postag="ZNW.*DE_"><exception postag_regexp="yes" postag=".*HET|ZNW:EKV|GET.*MRV|.*VRB|WKW.*INF"/><exception regexp="yes">moet|won|plaats|waar|was|stuk|staat|waard|kan|wil|ander|.*(man|geleerde|agent|adviseur|aanklager|arts|ballerina|begeleider|architect|tennisser|enaar|reiziger|politicus|marxist|fiolosoof|meester|vader|ieur|teur|aander|politica|collega|moslima|Ajacied|trice|gedetineerde|gedeputeerde|dominee|leerlinge|soapie|hippie|kampioene|goeroe|kandidate|atlete|docente|presidente|dissidente|studente|agente|patiënte|echtgenote|journaliste|detective|filosoof|strateeg|leerling|koning|oloog|coach|nazi|kok|kardinaal|generaal|crimineel|kolonel|consul|econoom|kampioen|christen|koningin|spion|worstelaar|gijzelaar|minnaar|winnaar|leraar|hebber|leider|strijder|velder|voerder|Feyenoorder|speurder|bestuurder|stadhouder|manager|aanhanger|zanger|officier|priester|maker|onist|olist|vorst|ambassadeur|staatsburger|organist|icus|aris|ontwerper|geneesheer|astronoom|dichter|gitarist|jurist|schrijver|schilder|persoon|kunstschilder|advocaat|componist|student|militair|keizer|wetgever|voorstander|verdediger|toneelschrijver|secretaris|politiek|pleitbezorger|pianist|organisator|koloniaal|heerser|eraar|zwemster|zangeres|werkster|waarnemer|voorloper|baller|violist|vibrafonist|vegetariër|tennisster|presentator|tegenstander|superieur|spreker|speelster|specialist|solist|soldaat|schrijfster|romancier|rechter|publicist|psychiater|proteïne|propagandist|programmeur|producent|literatuur|lesgever|ograaf|moordenaar|katholiek|isotoop|intellectueel|industrieel|hervormer|held|handwerker|goochelaar|fan|tator|commandant|dictator|despoot|democraat|criticus|conservatief|communist|chemicus|chansonnier|burger|artiest|antisemiet|elaar|adeldom|bezoeker|blogger|vlogger|minister|misdadiger|kandidaat|alchemist|onderwijzer|stilist|chirurg)</exception></token>
                     </marker>
                 </pattern>
