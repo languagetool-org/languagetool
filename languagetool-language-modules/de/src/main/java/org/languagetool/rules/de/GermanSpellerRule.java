@@ -62,7 +62,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final String adjSuffix = "(basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
     "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|berechtigt|fremd|liebend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlicher|feindlich|gemäß|neutral|seitig|begeistert)";
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlicher|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet)";
   private static final Pattern missingAdjPattern =
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
 
@@ -2892,6 +2892,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "homepage": return topMatch("Homepage");
       case "interesse": return topMatch("Interesse");
       case "moglich": return topMatch("möglich");
+      case "zusammenfässt": return topMatch("zusammenfasst");
       case "grossartig": return topMatch("großartig");
       case "grosszügig": return topMatch("großzügig");
       case "moeglich": return topMatch("möglich");
