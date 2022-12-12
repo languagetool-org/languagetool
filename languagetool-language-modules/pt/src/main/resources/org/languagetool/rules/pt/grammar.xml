@@ -1023,13 +1023,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <token regexp="yes">estas?</token>
           </marker>
           <token postag='NCM.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='N[CP][CF].+|VMIP3.+|VMG0000|VMIF3.+|VMN03.+|VMII.+|RG|Z0.P.+'/>
+            <exception postag_regexp='yes' postag='N[CP][CF].+|VMIP3.+|VMG0000|VMIF3.+|VMN03.+|VMI[SI].+|RG|Z0.P.+'/>
+            <exception scope='next' spacebefore='no'>-</exception>
+            <exception>só</exception>
           </token>
         </pattern>
         <message>&MSG_ECG;</message>
         <suggestion><match no='2' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match></suggestion>
-        <example correction="este">E <marker>esta</marker> documento foi redigido por mim.</example>
-        <example correction="estes">E <marker>estas</marker> documentos foram redigidas por mim.</example>
+        <suggestion>está</suggestion>
+        <suggestion>estás</suggestion>
+        <example correction="este|está|estás">E <marker>esta</marker> documento foi redigido por mim.</example>
+        <example correction="estes|está|estás">E <marker>estas</marker> documentos foram redigidas por mim.</example>
+        <example>Esta só pode ser a sombrinha dele.</example>
+        <example>Esta teve pouca atividade</example>
       </rule>
     </rulegroup>
 
