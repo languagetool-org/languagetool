@@ -165,7 +165,7 @@ public class CompoundInfinitivRule extends Rule {
     } else {
       linguServices = null;
     }
-    setUrl(Tools.getUrl("https://www.duden.de/sprachwissen/sprachratgeber/Infinitiv-mit-zu"));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/de/beitrag/zu-zusammen-oder-getrennt/"));
     antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
   }
 
