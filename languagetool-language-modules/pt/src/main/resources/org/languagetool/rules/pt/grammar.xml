@@ -19167,8 +19167,21 @@ O namorado dela era um ladrão.
       <!--
       Elas regressam a casa deixando um rasto que é depois seguido por outras. → Elas regressam a casa deixando um rasto depois seguido por outras.
       -->
+      <antipattern>
+        <token>tão</token>
+        <token postag='AQ.+' postag_regexp='yes'/>
+        <token>que</token>
+        <example>Algumas dessas divergências podem ser tão pequenas que são facilmente adaptadas</example>
+      </antipattern>
+      <antipattern>
+        <token>de</token>
+        <token>forma</token>
+        <token>que</token>
+        <example>Mas Paulo o descreveu como um soldado famoso e valente, de forma que é frequentemente identificado com o Grande</example>
+      </antipattern>
       <pattern>
-        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'>
+          <exception postag='V.+' postag_regexp='yes'/></token>
         <marker>
           <token>que</token>
           <token regexp='yes'>é|são</token>
@@ -19177,8 +19190,9 @@ O namorado dela era um ladrão.
         </marker>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
-      <suggestion>\4 \5</suggestion>
-      <example correction="depois seguido">Elas regressam a casa deixando um rasto <marker>que é depois seguido</marker> por outras.</example>
+      <suggestion> \4 \5</suggestion>
+      <suggestion>, \4 \5</suggestion>
+      <example correction=" depois seguido|, depois seguido">Elas regressam a casa deixando um rasto<marker> que é depois seguido</marker> por outras.</example>
     </rule>
 
 
