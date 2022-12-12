@@ -417,6 +417,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("infra ") &&
                    !k.getReplacement().toLowerCase().startsWith("hypo ") &&
                    !k.getReplacement().toLowerCase().startsWith("syn ") &&
+                   !k.getReplacement().toLowerCase().startsWith("adv ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().toLowerCase().startsWith("ed ") &&
                    !k.getReplacement().toLowerCase().startsWith("ac ") &&
@@ -483,6 +484,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ge") &&
                    !k.getReplacement().endsWith(" ab") &&
                    !k.getReplacement().endsWith(" tar") &&
+                   !k.getReplacement().endsWith(" adv") &&
                    !k.getReplacement().endsWith(" re") &&
                    !k.getReplacement().endsWith(" e") &&
                    !k.getReplacement().endsWith(" c") &&

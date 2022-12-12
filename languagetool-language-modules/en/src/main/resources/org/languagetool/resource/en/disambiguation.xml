@@ -3398,6 +3398,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>show</token><!-- Semantics is important here -->
                 <token postag="IN"/>
             </antipattern>
+            <antipattern>
+                <token>not</token>
+                <token postag="VB" chunk_re=".-VP">
+                    <exception postag="NN:U" />
+                    <exception regexp="yes">people|company|soldier</exception>
+                </token>
+                <token postag="R[BP]" postag_regexp="yes" min="0" />
+                <token postag="P?DT|PCT|PRP.*" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token regexp="yes">are|is|was|been</token>
                 <token>not</token>
@@ -3414,6 +3423,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Incorrect grammar: He was not find his glasses anywhere.</example>
             <example type="untouched">Incorrect grammar: He was not founder his club, although he was one of its first members.</example>
             <example type="untouched">Incorrect grammar: Results is not limit by these tests.</example>
+            <example type="untouched">Incorrect grammar: Word is not release yet, but we're working on it.</example>
             <example type="untouched">Ambiguous: These are not show in my opinion, because they don't make sufficient profit.</example><!-- Premium #1179 -->
             <example type="untouched">Ambiguous: They are not show on her report.</example><!-- Premium #1179 -->
             <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was not <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
@@ -8075,6 +8085,28 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBP" chunk_re=".-VP" />
             <token postag="P?DT|PRP.*" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- incorrect chunking -->
+            <token>cannot</token>
+            <token postag="VB" chunk="E-NP-singular" />
+        </antipattern>
+        <antipattern><!-- incorrect chunking -->
+            <token chunk_re="E-NP.*" postag="NNP" />
+            <token postag="MD">
+                <exception>need</exception>
+            </token>
+            <token postag="VB" chunk="E-NP-singular" />
+        </antipattern>
+        <antipattern><!-- incorrect chunking -->
+            <token chunk_re="E-NP.*" postag="P?DT" postag_regexp="yes" />
+            <token postag="MD">
+                <exception>need</exception>
+            </token>
+            <token postag="VB" chunk="E-NP-singular" />
+        </antipattern>
+        <antipattern>
+            <token>barley</token><!-- commonly confused with "barely" -->
+            <token postag="VB.*" postag_regexp="yes" chunk="E-NP-singular" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -8110,6 +8142,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">For a person who's wrong frequently, it's nice to be right.</example>
         <example type="untouched">Many play, but only one will win.</example>
         <example type="untouched">This will bright my day.</example>
+        <example type="untouched">Ms. Tanaka can type, can't she?</example>
+        <example type="untouched">Also if you have made any other significant changes to your application that may conflict with the agent, it would be great to know.</example>
         <example type="untouched">Many claim that the behavior is in the past.</example>
         <example type="untouched">Doubled consonants count as two consonants.</example>
         <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
@@ -10262,6 +10296,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>'d</token>
                 <token postag="VB|VBN" postag_regexp="yes" />
             </antipattern>
+            <antipattern>
+                <token postag="MD|TO" postag_regexp="yes" />
+                <token postag="RB" min="0" />
+                <token postag="VB" chunk_re=".-VP" />
+                <token regexp="yes" postag="CC">and|or|as</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
@@ -10286,6 +10326,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">We will be lost when they <marker>die</marker> and computers take over the world.</example><!-- #2343 -->
             <example type="untouched">They could maybe go and hangout.</example><!-- #2386 -->
             <example type="untouched">She might possibly go and hangout.</example><!-- #2386 -->
+            <example type="untouched">Are there specific lock models where some commands would function and others wouldn't?</example>
             <example type="untouched">I can't restart or logoff.</example><!-- #2501 -->
             <example type="untouched">Currently we email and share the stuff.</example><!-- #2539 -->
             <example type="untouched">They always can't rest and something is waiting for them.</example><!-- #2723 -->
