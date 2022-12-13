@@ -11927,10 +11927,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <!--  massa coses -->
+            <!-- massa material: ambiguous -->
             <pattern>
                 <marker>
                     <and>
-                        <token postag="RG.*" postag_regexp="yes"/>
+                        <token postag="RG.*" postag_regexp="yes">massa</token>
                         <token postag="DI.CN.*" postag_regexp="yes"/>
                     </and>
                 </marker>
@@ -11963,8 +11964,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="gens" name="gens + adj">
         <pattern>
-            <token postag="D.*" postag_regexp="yes">gens</token>
-            <token postag="AQ.*|RG.*" postag_regexp="yes"><exception postag="[CP].*" postag_regexp="yes"/></token>
+            <token postag="RG.*" postag_regexp="yes" regexp="yes">gens|massa</token>
+            <token postag="AQ.*|RG.*" postag_regexp="yes"><exception postag="C.*|P[0P].*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
