@@ -787,12 +787,12 @@ public class ArtificialErrorEval {
       results.add("");
       return results;
     }
-    int fromStart = 0;
-    while (s1.charAt(fromStart) == s2.charAt(fromStart)) {
-      fromStart++;
-    }
     int l1 = s1.length();
     int l2 = s2.length();
+    int fromStart = 0;
+    while (fromStart < l1 && fromStart < l2 && s1.charAt(fromStart) == s2.charAt(fromStart)) {
+      fromStart++;
+    }
     int fromEnd = 0;
     while (s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
       fromEnd++;
