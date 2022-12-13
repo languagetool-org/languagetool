@@ -273,8 +273,17 @@ regexp case-insensitive maken: (?i)
                 <example correction="onze broer">We hebben gisteren <marker>ons broer</marker> bezocht.</example>
                 <example>We hebben gisteren ons vader bezocht.</example><!-- This case can't be properly covered without dependency parsing. -->
                 <example>Vergeef ons onze schulden, zoals ook wij hebben vergeven wie ons iets schuldig was.</example>
+                <example>Eerst wil ik gaan vrijen met ons Amerikaanse danseresje.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>ons</token>
+                    <token postag_regexp="yes" postag="BYW.*|BNW.*|WKW.*"/>
+                </antipattern>
+                <antipattern>
+                    <token>ons</token>
+                    <token regexp="yes">privacy|kan</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>ons</token>
@@ -287,6 +296,7 @@ regexp case-insensitive maken: (?i)
                 <suggestion>ons \2-\3</suggestion>
                 <suggestion>onze \2 \3</suggestion>
                 <example correction="ons zusterhotel|ons zuster-hotel|onze zuster hotel">In 1917, bij <marker>ons zuster hotel</marker> in New York, diende de chef een soep op, die populair gemaakt werd door Monsieur Gouffe en de grote Monsieur Escoffier.</example>
+                <example>In principe loopt in ons Surinaamse ziekenhuis alles via de verpleegkundigen.</example>
             </rule>
             <!-- The following rule produces too many FPs if implemented in XML. As many plural nouns are ambiguously tagged as verbs. This is a spaCy candidate.
             <rule>
