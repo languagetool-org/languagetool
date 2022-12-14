@@ -182,7 +182,7 @@ class SingleCheck {
         boolean checkOnlyParagraph, boolean override, boolean isIntern, boolean hasFootnotes) {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
-    DocumentCursorTools docCursor = this.docCursor;
+//    DocumentCursorTools docCursor = this.docCursor;
     if (isDisposed() || docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
       MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: return: isDisposed = " + isDisposed() + ", nFPara = " + nFPara 
           + ", docCache(Size) = " + (docCache == null ? "null" : docCache.size()) );
@@ -213,6 +213,7 @@ class SingleCheck {
           MessageHandler.printToLogFile("Error: doc cache problem: error cache(" + cacheNum 
               + ") set empty for nFpara = " + nFPara + "!");
           paragraphsCache.get(cacheNum).put(nFPara, null, new SingleProofreadingError[0]);
+          oldCache = null;
           return;
         }
       }
@@ -244,6 +245,7 @@ class SingleCheck {
           MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: return: isDisposed = " + isDisposed() + ", useQueue = " + useQueue
               + ", isDialogRequest = " + isDialogRequest + ", TextLevelCheckQueue(isInterrupted) = " 
               + (mDH.getTextLevelCheckQueue() == null ? "null" : mDH.getTextLevelCheckQueue().isInterrupted()));
+          oldCache = null;
           return;
         }
         TextParagraph textPara = docCache.createTextParagraph(cursorType, i);
@@ -298,6 +300,7 @@ class SingleCheck {
       }
       if (!isDisposed() && docType == DocumentType.WRITER && useQueue && !isDialogRequest) {
         if (mDH.getTextLevelCheckQueue() == null || mDH.getTextLevelCheckQueue().isInterrupted()) {
+          oldCache = null;
           return;
         }
         if (docCursor == null) {
@@ -313,7 +316,7 @@ class SingleCheck {
           for (int nText = startPara; nText < endPara; nText++) {
             int nFlat = docCache.getFlatParagraphNumber(docCache.createTextParagraph(cursorType, nText));
             if (paragraphsCache.get(0).getCacheEntry(nFlat) != null) {
-              if (ResultCache.areDifferentEntries(paragraphsCache.get(cacheNum).getCacheEntry(nFlat), oldCache.getCacheEntry(nFlat))) {
+              if (ResultCache.areDifferentEntries(paragraphsCache.get(cacheNum).getSerialCacheEntry(nFlat), oldCache.getSerialCacheEntry(nFlat))) {
                 changedParas.add(nFlat);
               }
             }
@@ -337,6 +340,7 @@ class SingleCheck {
           }
         }
       }
+      oldCache = null;
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
@@ -943,7 +947,7 @@ class SingleCheck {
   /**
    * Class of proofreading errors of one sentence
    */
-  class SentenceErrors {
+  public static class SentenceErrors {
     final int sentenceStart;
     final int sentenceEnd;
     final SingleProofreadingError[] sentenceErrors;

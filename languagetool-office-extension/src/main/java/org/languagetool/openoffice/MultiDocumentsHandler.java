@@ -1726,7 +1726,7 @@ public class MultiDocumentsHandler {
   /**
    * class to run the about dialog
    */
-  private static class AboutDialogThread extends Thread {
+  private class AboutDialogThread extends Thread {
 
     private final ResourceBundle messages;
     private final XComponentContext xContext;

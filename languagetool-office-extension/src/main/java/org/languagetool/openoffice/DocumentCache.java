@@ -219,7 +219,7 @@ public class DocumentCache implements Serializable {
       documentTexts.set(CURSOR_TYPE_HEADER_FOOTER, docCursor.getTextOfAllHeadersAndFooters());
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         if(documentTexts.get(i) == null) {
-          documentTexts.set(i, docCursor.new DocumentText());
+          documentTexts.set(i, new DocumentText());
         }
       }
       nText = documentTexts.get(CURSOR_TYPE_TEXT).paragraphs.size();
@@ -1955,7 +1955,7 @@ public class DocumentCache implements Serializable {
   /**
    * Class of serializable locale needed to save cache
    */
-  class SerialLocale implements Serializable {
+  private class SerialLocale implements Serializable {
 
     private static final long serialVersionUID = 1L;
     String Country;

@@ -930,7 +930,7 @@ public class FlatParagraphTools {
     return isBusy > 0;
   }
   
-  public class FlatParagraphContainer {
+  public static class FlatParagraphContainer {
     public List<String> paragraphs;
     public List<Locale> locales;
     public List<int[]> footnotePositions;

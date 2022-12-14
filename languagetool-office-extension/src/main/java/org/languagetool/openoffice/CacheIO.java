@@ -39,10 +39,8 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
 
-import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.XComponent;
-import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
 
 /**
@@ -418,7 +416,7 @@ public class CacheIO implements Serializable {
    * cache files are stored in the LT configuration directory subdirectory 'cache'
    * the paths of documents are mapped to cache files and stored in the cache map
    */
-  class CacheFile implements Serializable {
+  private class CacheFile implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private CacheMap cacheMap;
@@ -510,7 +508,7 @@ public class CacheIO implements Serializable {
      * Class to create and handle the cache map
      * the clean up process is run in a separate parallel thread
      */
-    class CacheMap implements Serializable {
+    private class CacheMap implements Serializable {
       private static final long serialVersionUID = 1L;
       private Map<String, String> cacheNames;     //  contains the mapping from document paths to cache file names
       
@@ -600,7 +598,7 @@ public class CacheIO implements Serializable {
      * remove not existent document paths and cache files from map
      * the clean up process is ran in a separate thread 
      */
-    class CacheCleanUp extends Thread implements Serializable {
+    private class CacheCleanUp extends Thread implements Serializable {
       private static final long serialVersionUID = 1L;
       private CacheMap cacheMap;
       private String currentFile;

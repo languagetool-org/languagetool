@@ -18,7 +18,6 @@
  */
 package org.languagetool.openoffice;
 
-import java.awt.Frame;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

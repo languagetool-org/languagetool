@@ -27,7 +27,6 @@ import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 
 import com.sun.star.lang.Locale;
-import com.sun.star.lang.XComponent;
 
 /**
  * Class of a queue to handle parallel check of text level rules
@@ -56,8 +55,6 @@ public class TextLevelCheckQueue {
   private int lastCache = -1;
   private String lastDocId = null;
   private Language lastLanguage = null;
-  private int lastCursorPara = -1;
-  private XComponent lastCursorComponent = null;
   private boolean interruptCheck = false;
   private boolean queueRuns = false;
   private boolean queueWaits = false;
@@ -402,11 +399,30 @@ public class TextLevelCheckQueue {
     return true;
   }
 
+  /**
+   *  run a queue entry for the specific document
+   */
+  void runQueueEntry(QueueEntry qEntry, MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) {
+    if (testHeapSpace()) {
+      SingleDocument document = getSingleDocument(qEntry.docId);
+      if (document != null && !document.isDisposed()) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("TextLevelCheckQueue: runQueueEntry: nstart = " + qEntry.nStart.number + "; nEnd = "  + qEntry.nEnd.number 
+              + "; nCache = "  + qEntry.nCache + "; nCheck = "  + qEntry.nCheck + "; overrideRunning = "  + qEntry.overrideRunning);
+        }
+        document.runQueueEntry(qEntry.nStart, qEntry.nEnd, qEntry.nCache, qEntry.nCheck, qEntry.overrideRunning, lt);
+      }
+    } else {
+      MessageHandler.printToLogFile("Warning: Not enough heap space; text level queue stopped!");
+      setStop();
+    }
+  }
+  
   
   /**
    * Internal class to store queue entries
    */
-  class QueueEntry {
+  static class QueueEntry {
     TextParagraph nStart;
     TextParagraph nEnd;
     int nCache;
@@ -500,31 +516,12 @@ public class TextLevelCheckQueue {
       return false;
     }
 
-    /**
-     *  run a queue entry for the specific document
-     */
-    void runQueueEntry(MultiDocumentsHandler multiDocHandler, SwJLanguageTool lt) {
-      if (testHeapSpace()) {
-        SingleDocument document = getSingleDocument(docId);
-        if (document != null && !document.isDisposed()) {
-          if (debugMode) {
-            MessageHandler.printToLogFile("TextLevelCheckQueue: runQueueEntry: nstart = " + nStart.number + "; nEnd = "  + nEnd.number 
-                + "; nCache = "  + nCache + "; nCheck = "  + nCheck + "; overrideRunning = "  + overrideRunning);
-          }
-          document.runQueueEntry(nStart, nEnd, nCache, nCheck, overrideRunning, lt);
-        }
-      } else {
-        MessageHandler.printToLogFile("Warning: Not enough heap space; text level queue stopped!");
-        setStop();
-      }
-    }
-    
   }
 
   /**
    * class for automatic iteration of the queue
    */
-  class QueueIterator extends Thread {
+  private class QueueIterator extends Thread {
     
     private SwJLanguageTool lt;
 
@@ -689,7 +686,7 @@ public class TextLevelCheckQueue {
                   MessageHandler.printToLogFile("TextLevelCheckQueue: run: entryLanguage == null: lt set to null"); 
                 }
                 if (!interruptCheck) {
-                  queueEntry.runQueueEntry(multiDocHandler, entryLanguage == null ? null : lt);
+                  runQueueEntry(queueEntry, multiDocHandler, entryLanguage == null ? null : lt);
                 }
                 queueEntry = null;
                 if (debugModeTm) {

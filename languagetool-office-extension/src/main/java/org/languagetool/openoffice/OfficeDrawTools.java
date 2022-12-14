@@ -43,7 +43,6 @@ import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.presentation.XHandoutMasterSupplier;
 import com.sun.star.presentation.XPresentationPage;
-import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.uno.UnoRuntime;
@@ -236,8 +235,7 @@ public class OfficeDrawTools {
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    OfficeDrawTools o = new OfficeDrawTools();
-    return o.new ParagraphContainer(paragraphs, locales, pageBegins);
+    return new ParagraphContainer(paragraphs, locales, pageBegins);
   }
 
   /**
@@ -581,7 +579,7 @@ public class OfficeDrawTools {
     return null;
   }
   
-  public class ParagraphContainer {
+  public static class ParagraphContainer {
     public List<String> paragraphs;
     public List<Locale> locales;
     public List<Integer> pageBegins;

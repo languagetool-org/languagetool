@@ -651,7 +651,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Class for spell checking in LT check dialog
    * The LO/OO spell checker is used
    */
-  public class ExtensionSpellChecker {
+  private class ExtensionSpellChecker {
 
     private LinguisticServices linguServices;
      
@@ -819,7 +819,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   /**
    * class to store the information for undo
    */
-  public class UndoContainer {
+  private class UndoContainer {
     public int x;
     public int y;
     public String action;
@@ -840,7 +840,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   /**
    * class contains the SingleProofreadingError and the locale of the match
    */
-  public class CheckError {
+  private class CheckError {
     public Locale locale;
     public SingleProofreadingError error;
     

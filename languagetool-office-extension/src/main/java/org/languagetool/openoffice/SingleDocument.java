@@ -1013,7 +1013,7 @@ class SingleDocument {
   /**
    * class for store and handle ignored matches
    */
-  class IgnoredMatches {
+  public static class IgnoredMatches {
     
     private Map<Integer, Map<String, Set<Integer>>> ignoredMatches;
     
@@ -1225,7 +1225,7 @@ class SingleDocument {
     }
   }
   
-  class RuleDesc {
+  public static class RuleDesc {
     String langCode;
     String ruleID;
     
@@ -1235,7 +1235,7 @@ class SingleDocument {
     }
   }
   
-  class LTDokumentEventListener implements XDocumentEventListener, XMouseClickHandler {
+  private class LTDokumentEventListener implements XDocumentEventListener, XMouseClickHandler {
 
     @Override
     public void disposing(EventObject event) {

@@ -46,7 +46,6 @@ import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
-import com.sun.star.text.XTextFramesSupplier;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextTable;
@@ -1348,7 +1347,7 @@ class DocumentCursorTools {
   /**
    * Class to give back the text and the headings under the specified cursor
    */
-  public class DocumentText {
+  public static class DocumentText {
     List<String> paragraphs;
     List<Integer> headingNumbers;
     List<Integer> automaticTextParagraphs;

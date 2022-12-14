@@ -108,7 +108,7 @@ public class LanguageToolMenus {
   /**
    * Class to add or change some items of the LT head menu
    */
-  class LTHeadMenu implements XMenuListener {
+  private class LTHeadMenu implements XMenuListener {
     // If anything on the position of LT menu is changed the following has to be changed
     private static final String TOOLS_COMMAND = ".uno:ToolsMenu";             //  Command to open tools menu
     private static final String COMMAND_BEFORE_LT_MENU = ".uno:LanguageMenu";   //  Command for Language Menu (LT menu is installed after)
@@ -383,7 +383,7 @@ public class LanguageToolMenus {
    * Class to add a LanguageTool Options item to the context menu
    * since 4.6
    */
-  class ContextMenuInterceptor implements XContextMenuInterceptor {
+  private class ContextMenuInterceptor implements XContextMenuInterceptor {
     
     private final static String IGNORE_ONCE_URL = "slot:201";
     private final static String ADD_TO_DICTIONARY_2 = "slot:2";
