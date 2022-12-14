@@ -54,6 +54,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
+    useSubRuleSpecificIds();
     /*addExamplePair(Example.wrong("<marker>device</marker>"),
                    Example.fixed("<marker>dispositivo</marker>"));*/
   }

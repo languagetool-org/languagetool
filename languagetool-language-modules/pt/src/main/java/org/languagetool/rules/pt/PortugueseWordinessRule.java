@@ -55,6 +55,7 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
     super(messages, new Portuguese());
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
+    useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>Raramente é o caso em que acontece</marker> isto."),
                    Example.fixed("<marker>Raramente acontece</marker> isto."));
   }
