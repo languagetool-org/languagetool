@@ -34858,7 +34858,7 @@ steenwijk;Steenwijk
                 <example>Uw kinderbijslagfonds kan u vertellen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZAL_ZUL" name="zal of zul">
+        <rulegroup id="ZAL_ZUL" name="zal of zul" tags="picky">
             <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token regexp="yes" skip="-1">ik|men|hij|zij|ze</token><token postag="SENT_END"/></antipattern>
             <antipattern><token regexp="yes">het|dit|dat</token><token>zal</token></antipattern>
             <antipattern><token postag="VRZ"/><token>je</token><token>zal</token></antipattern>
@@ -34903,7 +34903,7 @@ steenwijk;Steenwijk
                 <example correction="je zult">En jawel, <marker>je zal</marker> het merken.</example>
                 <example correction="U zult"><marker>U zal</marker> mij ooit nog gelijk geven.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern><token postag="ENM.*|ZNW:EKV.*" postag_regexp="yes"/><token>zal</token></antipattern>
                 <antipattern><token>er</token><token>zal</token></antipattern>
                 <pattern>
