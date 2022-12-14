@@ -11201,7 +11201,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="AQ.*" postag_regexp="yes"/>
-                        <token postag="V.N.*" postag_regexp="yes"/>
+                        <token postag="V.N.*" postag_regexp="yes"><exception>fer</exception></token>
                     </and>
                 </marker>
             </pattern>
@@ -11963,6 +11963,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^N].*"/>
     </rule>
     <rule id="gens" name="gens + adj">
+        <antipattern>
+            <token postag="D..FS." postag_regexp="yes"/>
+            <token>massa</token>
+        </antipattern>
         <pattern>
             <token postag="RG.*" postag_regexp="yes" regexp="yes">gens|massa</token>
             <token postag="AQ.*|RG.*" postag_regexp="yes"><exception postag="C.*|P[0P].*" postag_regexp="yes"/></token>
