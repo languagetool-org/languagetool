@@ -238,6 +238,7 @@ public class Spanish extends Language implements AutoCloseable {
       case "TE_TILDE2": return 10; // less than PRONOMBRE_SIN_VERBO
       case "SINGLE_CHARACTER": return 5;
       case "SEPARADO": return 1;
+      case "ES_SPLIT_WORDS": return 0; 
       case "E_EL": return -10;
       case "EL_TILDE": return -10;
       case "TOO_LONG_PARAGRAPH": return -15;
