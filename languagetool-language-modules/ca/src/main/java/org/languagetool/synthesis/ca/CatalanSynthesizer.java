@@ -162,7 +162,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     if (posTagRegExp) {
       String lemma = token.getLemma();
       if (LemmasToIgnore.contains(lemma)) {
-        return null;
+        return new String[0];
       }
       String toAddAfter = "";
       // verbs with noun
