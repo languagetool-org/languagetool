@@ -2899,6 +2899,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "naturlich": return topMatch("natürlich");
       case "natuerlich": return topMatch("natürlich");
       case "unregelmässig": return topMatch("unregelmäßig");
+      case "unregelmässige": return topMatch("unregelmäßige");
+      case "unaktiv": return topMatch("inaktiv");
+      case "unaktive": return topMatch("inaktive");
+      case "unaktiver": return topMatch("inaktiver");
+      case "unaktives": return topMatch("inaktives");
+      case "unaktiven": return topMatch("inaktiven");
       case "uneffektiv": return topMatch("ineffektiv");
       case "uneffezient": return topMatch("ineffizient");
       case "rechtstaatlich": return topMatch("rechtsstaatlich");
@@ -2913,6 +2919,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Portraits": return topMatch("Porträts");
       case "weinachten": return topMatch("Weihnachten");
       case "Weinachten": return topMatch("Weihnachten");
+      case "unterstüzt": return topMatch("unterstützt");
+      case "untersützt": return topMatch("unterstützt");
       case "sontag": return topMatch("Sonntag");
       case "Typescript": return topMatch("TypeScript");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
