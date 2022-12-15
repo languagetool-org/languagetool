@@ -47,6 +47,7 @@ import java.util.function.Function;
  * @see BaseSynthesizer
  */
 public final class ManualSynthesizer {
+  private static final String SUFFIX_MARKER = "+";
   private final Set<String> possibleTags;
 
   private static final int OFFSET_SHIFT = 8;
@@ -95,18 +96,44 @@ public final class ManualSynthesizer {
 
   private static TIntObjectHashMap<List<Triple<String, String, String>>> groupByHash(Map<TaggedWord, List<String>> mapping) {
     TIntObjectHashMap<List<Triple<String, String, String>>> byHash = new TIntObjectHashMap<>(mapping.size());
+    Map<String, String> internedStrings = new HashMap<>();
     for (Map.Entry<TaggedWord, List<String>> entry : mapping.entrySet()) {
       TaggedWord tw = entry.getKey();
-      int hash = hashCode(tw.getLemma(), tw.getPosTag());
+      String lemma = tw.getLemma();
+      int hash = hashCode(lemma, tw.getPosTag());
       List<Triple<String, String, String>> list = byHash.get(hash);
       if (list == null) {
         byHash.put(hash, list = new ArrayList<>());
       }
       for (String word : entry.getValue()) {
-        list.add(new ImmutableTriple<>(tw.getLemma(), tw.getPosTag(), word));
+        if (word.startsWith(SUFFIX_MARKER)) {
+          throw new UnsupportedOperationException("Words can't start with " + SUFFIX_MARKER);
+        }
+        String value = internedStrings.computeIfAbsent(encodeForm(lemma, word), Function.identity());
+        list.add(new ImmutableTriple<>(lemma, tw.getPosTag(), value));
       }
     }
     return byHash;
+  }
+
+  private static String encodeForm(String lemma, String word) {
+    if (word.length() > lemma.length() && word.startsWith(lemma)) {
+      return SUFFIX_MARKER + word.substring(lemma.length());
+    }
+    if (word.length() >= lemma.length() && word.startsWith(lemma.substring(0, lemma.length() - 1))) {
+      return SUFFIX_MARKER + SUFFIX_MARKER + word.substring(lemma.length() - 1);
+    }
+    return word;
+  }
+
+  private static String decodeForm(String lemma, String word) {
+    if (word.startsWith(SUFFIX_MARKER)) {
+      if (word.startsWith(SUFFIX_MARKER, SUFFIX_MARKER.length())) {
+        return lemma.substring(0, lemma.length() - 1) + word.substring(SUFFIX_MARKER.length() * 2);
+      }
+      return lemma + word.substring(SUFFIX_MARKER.length());
+    }
+    return word;
   }
 
   private static THashSet<String> collectTags(Map<TaggedWord, List<String>> mapping) {
@@ -151,7 +178,8 @@ public final class ManualSynthesizer {
     List<String> result = new ArrayList<>(length);
     for (int i = 0; i < length; i++) {
       if (lemma.equals(data[offset + i * ENTRY_SIZE]) && posTag.equals(data[offset + i * ENTRY_SIZE + 1])) {
-        result.add(data[offset + i * ENTRY_SIZE + 2]);
+        String word = data[offset + i * ENTRY_SIZE + 2];
+        result.add(decodeForm(lemma, word));
       }
     }
     return result;
