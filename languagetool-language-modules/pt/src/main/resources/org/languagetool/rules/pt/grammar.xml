@@ -47003,6 +47003,18 @@ O namorado dela era um ladrão.
 
     <rule id='IR_AOS_POUCOS_BOCADOS_BOCADINHOS' name="gradualmente">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-10 (Enhanced) (25-JUN-2021+)      -->
+
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token>aos</token>
+        <token regexp="yes">(?:pouc|bocad)(?:os|inhos)</token>
+        <token postag_regexp='yes' postag="NC.+|AQ.+">
+          <exception postag_regexp='yes' postag='V.+|RG'/>
+        </token>
+        <example>Deixo um agradecimento especial aos poucos amigos que tenho.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->	  
+
       <pattern>
         <marker>
           <token>aos</token>
@@ -47014,6 +47026,7 @@ O namorado dela era um ladrão.
       <suggestion>lentamente</suggestion>
       <example correction="gradualmente|lentamente">O Rui começa da base indo <marker>aos poucos</marker> aumentando a dificuldade.</example>
     </rule>
+
 
     <rule id='SEM_DAR_NAS_VISTAS' name="discretamente">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
