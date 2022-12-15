@@ -8306,15 +8306,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="MI_TILDE" name="mi/mí">
                 <antipattern>
                     <token>mi</token>
-                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
-                    <token postag="A.*|V.P.*|N.*" postag_regexp="yes"/>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"><exception postag="PI.*" postag_regexp="yes" inflected="yes" regexp="yes">algo|todo</exception></token>
+                    <token postag="A.*|V.P.*|N.*" postag_regexp="yes"><exception regexp="yes">sol[ao]|solit[oa]|mism[oa]|todo|toda|algo|mejor|peor|mejores|peores</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>mi</token>
+                    <token postag="N.*|A.*|V.P.*|UNKNOWN|DN.*|_GN_.S" postag_regexp="yes"><exception regexp="yes">sol[ao]|solit[oa]|mism[oa]|todo|toda|algo|mejor|peor|mejores|peores</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>mi</token>
+                    <token regexp="yes">mejor|peor</token>
+                    <token postag="[NA].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>mi</token>
+                    <token>mismo</token>
+                    <token postag="_GN_MS"/>
+                </antipattern>
+                <antipattern>
+                    <token>mi</token>
+                    <token>misma</token>
+                    <token postag="_GN_FS"/>
                 </antipattern>
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception>con</exception></token>
                     <marker>
                         <token>mi</token>
                     </marker>
-                    <token><exception postag="N.*|A.*|V.P.*|UNKNOWN|DN.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es pronombre, se escribe con tilde.</message>
                 <suggestion>mí</suggestion>
@@ -8327,6 +8345,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mí">Me puede servir a <marker>mi</marker> u a otro.</example>
                 <example correction="Mí">FRENTE A <marker>MI</marker> Y EN FAMILIA.</example>
                 <example correction="mí">Para <marker>mi</marker> eras el mejor.</example>
+                <example correction="mí">Los saca y los extiende ante <marker>mi</marker> sobre la mesa.</example>
+                <example correction="mí">En <marker>mi</marker> todo te parece pasado de moda.</example>
+                <example correction="mí">A <marker>mi</marker> mismo me parece bien.</example>
+                <example correction="mí">Son para <marker>mi</marker> algo muy importante.</example>
+                <example correction="mí">Son para <marker>mi</marker> mejor.</example>
+                <example correction="mí">No sería para <marker>mi</marker> mejor?</example>
                 <example>Me voy a mi casa.</example>
                 <example>Mi gran amigo Pedro.</example>
                 <example>a mi mejor amiga</example>
@@ -8341,6 +8365,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Con mi 1,80 m.</example>
                 <example>lo que hago en mi día a día</example>
                 <example>El campo a través es una carrera de fondo.</example>
+                <example>en mi ya mencionada colección de autógrafos</example>
+                <example>No sería para mi mejor amigo.</example>
+                <!-- TODO
+                    Para mi Hitler y Stalin son lo mismo.
+                ¡A mi Gorbachov me enamoró desde el primer momento!
+                se volvió hacia mi hecho una furia
+                para mi son fenómenos extraños
+                No despertaba en mi amor, ni odio, ni temor.
+                su éxito, para mi insospechado.
+                algo para mi incomprensible,
+                el amigo que tenía ante mi era la persona más importante-->
             </rule>
         </rulegroup>
         <rulegroup id="MI_SIN_TILDE" name="mí > mi">

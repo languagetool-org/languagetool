@@ -4577,6 +4577,20 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="D_DI_N" name=" Det + Det + Noun/Pronoun">
+        <pattern>
+            <unify>
+                <feature id="numero"/>
+                <feature id="genero"/>
+                <marker>
+                    <token postag="D[AIP].*" postag_regexp="yes"/>
+                    <token postag="DI.*" postag_regexp="yes" inflected="yes">poco</token>
+                    <token postag="N.*|A.*|V.P.*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <!-- D_R_N : Det + Adverbio + Nombre-->
     <!--<rule id="D_R_N" name="Det + Adv +Nom">
         <pattern>
@@ -5005,6 +5019,10 @@ Copyright (C) 2011 Juan Martorell
         <example type="untouched">Es cierto que otros sectores han crecido mucho.</example>
     </rule>
     <rule id="POS_N" name="possessive + noun: mi contra">
+        <antipattern>
+            <token regexp="yes">sobre|ante</token>
+            <token postag="DA.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="genero"/>
@@ -5280,6 +5298,10 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.*"/>
     </rule>
     <rulegroup id="Det_Noun" name="det + nombre">
+        <antipattern>
+            <token>mi</token>
+            <token>todo</token>
+        </antipattern>
         <antipattern>
             <token>qué</token>
             <token postag="V.I.*" postag_regexp="yes"/>
