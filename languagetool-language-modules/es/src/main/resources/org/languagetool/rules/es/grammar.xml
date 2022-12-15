@@ -23598,8 +23598,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CONFUSIONS" name="Confusiones">
         <rulegroup id="ES_SPLIT_WORDS" name="palabras mal partidas">
             <antipattern>
-                <token>me</token>
-                <token>dí</token>
+                <token regexp="yes">me|que</token>
+                <token regexp="yes">dí|dá|dáis</token>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token>camara</token>
+            </antipattern>
+            <antipattern>
+                <token>se</token>
+                <token>rió</token>
+            </antipattern>
+            <antipattern>
+                <token>y</token>
+                <token>aqui</token>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token regexp="yes">dra|mia|tiera</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{L}+</token>
+                <token spacebefore="no">-</token>
             </antipattern>
             <rule default="temp_off">
                 <pattern>
@@ -23609,6 +23629,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.es.SpanishSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
                 <message>¿Quería decir <suggestion>\1\2</suggestion>?</message>
                 <example correction="consejos">Los <marker>con sejos</marker> que le da.</example>
+                <example>Bueno, es fruta en lata.</example>
             </rule>
             <rule>
                 <pattern>
