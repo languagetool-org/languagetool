@@ -4624,6 +4624,16 @@
     <rulegroup id='T-V_DISTINCTION' name='Tratamento formal: Tu,Você; Vós,Vocês' default='on' tags="picky">
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
       <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
+
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='RM' postag_regexp='no'/>
+        <token postag='VMSP2S0' postag_regexp='no'/>
+        <example>Tudo depende de fatores historicamente contingentes.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <antipattern>
         <token regexp='yes' skip='-1'>["«„“][-‒–—―]?</token>
         <token regexp='yes'>["'»”]</token>
