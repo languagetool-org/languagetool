@@ -5359,6 +5359,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes">
                 <exception postag="RB"/>
+                <exception regexp="yes">trading|training|meeting</exception>
                 <exception regexp="yes">being|one</exception>
                 <exception regexp="yes">animal|woman|head|business|work</exception>
             </token>
@@ -8095,6 +8096,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <exception>need</exception>
             </token>
             <token postag="VB" chunk="E-NP-singular" />
+        </antipattern>
+        <antipattern><!-- incorrect chunking -->
+            <token chunk_re="E-NP.*" postag="NN.*" postag_regexp="yes" />
+            <token postag="MD">
+                <exception>need</exception>
+            </token>
+            <token postag="VB" chunk="E-NP-singular" />
+            <token postag="RB" chunk="B-ADVP" />
+            <token postag="IN" chunk="B-PP" />
         </antipattern>
         <antipattern><!-- incorrect chunking -->
             <token chunk_re="E-NP.*" postag="P?DT" postag_regexp="yes" />
