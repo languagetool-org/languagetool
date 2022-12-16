@@ -8302,15 +8302,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="MI_TILDE" name="mi/mí">
+            <antipattern>
+                <token>mi</token>
+                <token postag="_QM_OPEN" min="0"/>
+                <token>yo</token>
+                <example>de mi “yo” original</example>
+                <!-- si no se hubiera apartado de mi yo ya te hubiera matado -->
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>mi</token>
-                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"><exception postag="PI.*" postag_regexp="yes" inflected="yes" regexp="yes">algo|todo</exception></token>
-                    <token postag="A.*|V.P.*|N.*" postag_regexp="yes"><exception regexp="yes">sol[ao]|solit[oa]|mism[oa]|todo|toda|algo|mejor|peor|mejores|peores|toca</exception></token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"><exception postag="PI.*" postag_regexp="yes" inflected="yes" regexp="yes">algo|todo|nada</exception></token>
+                    <token postag="A.*|V.P.*|N.*" postag_regexp="yes"><exception regexp="yes">sol[ao]|solit[oa]|mism[oa]|todo|toda|algo|mejor|peor|mejores|peores|toca|sentado</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
                     <token>mi</token>
-                    <token postag="N.*|A.*|V.P.*|UNKNOWN|DN.*" postag_regexp="yes"><exception regexp="yes">sol[ao]|solit[oa]|mism[oa]|todo|toda|algo|mejor|peor|mejores|peores|toca</exception></token>
+                    <token postag="_QM_OPEN" min="0"/>
+                    <token postag="N.*|A.*|V.P.*|UNKNOWN" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/><exception regexp="yes">sol[ao]|solit[oa]|mism[oa]|todo|toda|algo|mejor|peor|mejores|peores|toca|sentado|mil</exception></token>
+                    <example>Uno de ellos reconoce a mi «guía»</example>
+                    <example>en mi “segunda vida”</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">de|sobre<exception scope="previous">lejos</exception></token>
+                    <!-- |a -->
+                    <token>mi</token>
+                    <!-- infinitive can be ambiguous -->
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <example>treinta años de mi peregrinar.</example>
                 </antipattern>
                 <antipattern>
                     <token>mi</token>
@@ -8320,12 +8338,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>mi</token>
                     <token>mismo</token>
-                    <token postag="_GN_MS"/>
+                    <token postag="_GN_MS"><exception postag="D.*|NP.*" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
                     <token>mi</token>
                     <token>misma</token>
-                    <token postag="_GN_FS"/>
+                    <token postag="_GN_FS"><exception postag="D.*|NP.*" postag_regexp="yes"/></token>
                 </antipattern>
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception>con</exception></token>
@@ -8352,6 +8370,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mí">No sería para <marker>mi</marker> mejor?</example>
                 <example correction="mí">A <marker>mi</marker> la comida me gusta salada.</example>
                 <example correction="mí">Por lo que a <marker>mi</marker> toca, señores, se acabó.</example>
+                <example correction="mí">Aparta de <marker>mi</marker> este cáliz.</example>
+                <example correction="mí">no se me haga a <marker>mi</marker> hablar del tiempo</example>
+                <example correction="mí">¿Acaso no he notado alguna vez en <marker>mi</marker> misma esa inclinación</example>
+                <example correction="mí">Se ha apartado de <marker>mi</marker> tres veces.</example>
+                <example correction="mí">No hay nada en <marker>mi</marker> nada culpable.</example>
+                <example correction="mí">Y a <marker>mi</marker> solo mil.</example>
+                <example correction="mí">Y a <marker>mi</marker> mil.</example>
+                <example correction="mí">lejos de <marker>mi</marker> pecar contra el Señor</example>
                 <example>Me voy a mi casa.</example>
                 <example>Mi gran amigo Pedro.</example>
                 <example>a mi mejor amiga</example>
@@ -8368,11 +8394,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El campo a través es una carrera de fondo.</example>
                 <example>en mi ya mencionada colección de autógrafos</example>
                 <example>No sería para mi mejor amigo.</example>
-                <!-- ambiguous: No despertaba en mi amor, ni odio, ni temor. -->
+                <example>El cumplimiento de mi deber como ciudadano.</example>
+                <!-- ambiguous: No despertaba en mi amor, ni odio, ni temor.
+                supuso para mi Brasil,
+                aleja de mi vanidad y mentira,
+                será para mi motivo de honra-->
             </rule>
             <rule>
+                <antipattern>
+                    <token>mi</token>
+                    <token postag_regexp="yes" postag="NC.*"/>
+                </antipattern>
                 <pattern>
-                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception>con</exception></token>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token regexp="yes">a|para</token>
                     <marker>
                         <token>mi</token>
                     </marker>
@@ -8382,24 +8417,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>mí</suggestion>
                 <example correction="mí">Para <marker>mi</marker> Hitler y Stalin son lo mismo.</example>
                 <example correction="mí">¡A <marker>mi</marker> Gorbachov me enamoró desde el primer momento!</example>
+                <example>LOS RESULTADOS DE MI CHARLA.</example>
+                <example>Los oficiales de mi Estado Mayor comían mejor que combatían.</example>
             </rule>
             <rule>
                 <antipattern>
                     <token>mi</token>
+                    <token regexp="yes" min="0">más|menos</token>
                     <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
                     <token postag="N.*|AQ.*|V.P." postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token>para</token>
+                    <token regexp="yes">para|ante</token>
                     <marker>
                         <token>mi</token>
                     </marker>
+                    <token regexp="yes" min="0">más|menos</token>
                     <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es pronombre, se escribe con tilde.</message>
                 <suggestion>mí</suggestion>
                 <example correction="mí">Algo para <marker>mi</marker> incomprensible.</example>
-                <example correction="mí">Su éxito fue para <marker>mi</marker> insospechado</example>
+                <example correction="mí">Su éxito fue para <marker>mi</marker> insospechado.</example>
+                <example correction="mí">El rasgo para <marker>mi</marker> más característico era el contraste.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8413,7 +8453,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es pronombre, se escribe con tilde.</message>
                 <suggestion>mí</suggestion>
                 <example correction="mí">Para <marker>mi</marker> son fenómenos extraños.</example>
-                <example correction="mí">el amigo que tenía ante <marker>mi</marker> era la persona más importante.</example>
+                <example correction="mí">El amigo que tenía ante <marker>mi</marker> era la persona más importante.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>mi</token>
+                    <token postag="NC.*|AQ.*|V.P." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>ante</token>
+                    <marker>
+                        <token>mi</token>
+                    </marker>
+                </pattern>
+                <message>Si es pronombre, se escribe con tilde.</message>
+                <suggestion>mí</suggestion>
+                <example correction="mí">Se presentó ante <marker>mi</marker> Moisés.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8428,6 +8483,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es pronombre, se escribe con tilde.</message>
                 <suggestion>mí</suggestion>
                 <example correction="mí">Se volvió hacia <marker>mi</marker> hecho una furia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception>con</exception></token>
+                    <marker>
+                        <token>mi</token>
+                    </marker>
+                    <token postag="V.P..S." postag_regexp="yes"/>
+                    <token>por</token>
+                </pattern>
+                <message>Si es pronombre, se escribe con tilde.</message>
+                <suggestion>mí</suggestion>
+                <example correction="mí">Se volvió hacia <marker>mi</marker> enfadado por los comentarios.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception>con</exception></token>
+                    <marker>
+                        <token>mi</token>
+                    </marker>
+                    <token postag="RG_before" min="0"/>
+                    <token postag="N..P.*|A...P.|V.P..P." postag_regexp="yes"/>
+                </pattern>
+                <message>Si es pronombre, se escribe con tilde. O bien hay un error de concordancia.</message>
+                <suggestion>mí</suggestion>
+                <suggestion>mis</suggestion>
+                <example correction="mí|mis">Despertaban en <marker>mi</marker> temores por lo que pudiera pasar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="4">ser</token>
+                    <token>para</token>
+                    <marker>
+                        <token>mi</token>
+                    </marker>
+                    <token>motivo</token>
+                </pattern>
+                <message>Si es pronombre, se escribe con tilde.</message>
+                <suggestion>mí</suggestion>
+                <example correction="mí">Fue para <marker>mi</marker> motivo de orgullo.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MI_SIN_TILDE" name="mí > mi">

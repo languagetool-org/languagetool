@@ -1628,6 +1628,15 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="N.*"/>
         </rule>
     </rulegroup>
+    <rule id="este_no_nombre" name="este (no nombre)">
+        <pattern>
+            <marker>
+                <token postag_regexp="yes" postag="DD0MS0">este</token>
+            </marker>
+            <token postag="NCMS000"/>
+        </pattern>
+        <disambig action="remove" postag="NCMS000"/>
+    </rule>
     <rule id="LEE_NOUN" name="lee + nombre">
         <pattern>
             <token>lee</token>
@@ -2578,6 +2587,13 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="VMSF2S0"/>
     </rule>
     <rulegroup id="DEBER" name="deber (verb)">
+        <rule>
+            <pattern>
+                <token postag="DP.*" postag_regexp="yes"/>
+                <token postag="NCMS000">deber</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
         <rule>
             <pattern>
                 <marker>
@@ -5020,8 +5036,8 @@ Copyright (C) 2011 Juan Martorell
     </rule>
     <rule id="POS_N" name="possessive + noun: mi contra">
         <antipattern>
-            <token regexp="yes">sobre|ante</token>
-            <token postag="DA.*" postag_regexp="yes"/>
+            <token regexp="yes">sobre|ante|contra</token>
+            <token postag="DA.*|UNKNOWN|NP.*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
             <unify>
