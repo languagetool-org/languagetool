@@ -1628,6 +1628,15 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="N.*"/>
         </rule>
     </rulegroup>
+    <rule id="este_no_nombre" name="este (no nombre)">
+        <pattern>
+            <marker>
+                <token postag_regexp="yes" postag="DD0MS0">este</token>
+            </marker>
+            <token postag="NCMS000"/>
+        </pattern>
+        <disambig action="remove" postag="NCMS000"/>
+    </rule>
     <rule id="LEE_NOUN" name="lee + nombre">
         <pattern>
             <token>lee</token>
@@ -2578,6 +2587,13 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="VMSF2S0"/>
     </rule>
     <rulegroup id="DEBER" name="deber (verb)">
+        <rule>
+            <pattern>
+                <token postag="DP.*" postag_regexp="yes"/>
+                <token postag="NCMS000">deber</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
         <rule>
             <pattern>
                 <marker>
@@ -4577,6 +4593,20 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="D_DI_N" name=" Det + Det + Noun/Pronoun">
+        <pattern>
+            <unify>
+                <feature id="numero"/>
+                <feature id="genero"/>
+                <marker>
+                    <token postag="D[AIP].*" postag_regexp="yes"/>
+                    <token postag="DI.*" postag_regexp="yes" inflected="yes">poco</token>
+                    <token postag="N.*|A.*|V.P.*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <!-- D_R_N : Det + Adverbio + Nombre-->
     <!--<rule id="D_R_N" name="Det + Adv +Nom">
         <pattern>
@@ -5005,6 +5035,10 @@ Copyright (C) 2011 Juan Martorell
         <example type="untouched">Es cierto que otros sectores han crecido mucho.</example>
     </rule>
     <rule id="POS_N" name="possessive + noun: mi contra">
+        <antipattern>
+            <token regexp="yes">sobre|ante|contra</token>
+            <token postag="DA.*|UNKNOWN|NP.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="genero"/>
@@ -5280,6 +5314,10 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.*"/>
     </rule>
     <rulegroup id="Det_Noun" name="det + nombre">
+        <antipattern>
+            <token>mi</token>
+            <token>todo</token>
+        </antipattern>
         <antipattern>
             <token>qué</token>
             <token postag="V.I.*" postag_regexp="yes"/>
@@ -5717,7 +5755,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <and>
                         <token postag="A.*" postag_regexp="yes" regexp="yes">lata|vivas?|custodias?|sanas?|aceptas?|acepto|infectas?|faltas?|falto|precisas?|preciso|tardo|tardas?|cortas?|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*|RG_before" postag_regexp="yes"/></token>
-                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                        <token postag="[AN].*" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
             </pattern>

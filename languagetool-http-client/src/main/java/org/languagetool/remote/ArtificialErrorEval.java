@@ -117,11 +117,11 @@ public class ArtificialErrorEval {
       }
       userName = prop.getProperty("userName", "");
       apiKey = prop.getProperty("apiKey", "");
-      String inputFolder = prop.getProperty("inputFolder", "");
-      String outputFolder = prop.getProperty("outputFolder", inputFolder);
+      String inputFolder = prop.getProperty("inputFolder", "").trim();
+      String outputFolder = prop.getProperty("outputFolder", inputFolder).trim();
       // Only one file
       //String analyzeOneFile = prop.getProperty("analyzeOneFile");
-      String inputFilename = prop.getProperty("inputFile", "");
+      String inputFilename = prop.getProperty("inputFile", "").trim();
       if (!inputFilename.isEmpty()) {
         runEvaluationOnFile(prop.getProperty("languageCode"), inputFilename, outputFolder);
       }

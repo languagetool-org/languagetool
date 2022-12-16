@@ -4242,6 +4242,18 @@ O namorado dela era um ladrão.
       <!--            General number concordance errors            -->
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='DA0.S.+|SPS00:DA0.S.+' postag_regexp='yes'/>
+        <token postag='DI0.S.+' postag_regexp='yes'/>
+        <token postag='AQ..P.+|NC.P.+|[DP][ADIPR]..P.+|SPS00:[DP][ADIPR]..P.+' postag_regexp='yes'/>
+        <example>Ambos darmos 100% e não um dar 100% e o outro 20%.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <!-- MARCOAGPINTO 2022-05-07 (1-JAN-2022+) *START* -->
       <!--
@@ -8289,6 +8301,19 @@ O namorado dela era um ladrão.
         <example>Estes nós representam partes de mapas.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2022-11-14 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='DA.+' postag_regexp='yes'/>
+        <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+        <token postag='CC|_PUNCT' postag_regexp='yes'/>
+        <token postag='DA.+' postag_regexp='yes'/>
+        <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+        <token postag='VMIP.P.+' postag_regexp='yes'/>
+        <example>Onde a educação, o cuidado, a gentileza, o respeito estão completamente em desuso.</example>
+        <example>Amarrações: as amarrações e os nós vão vir com tudo!</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <!-- MARCOAGPINTO 2020-02-16 *START* -->
       <!-- "Variamos os argumentos caso estes representem resultados fracos." -->
@@ -15587,24 +15612,7 @@ O namorado dela era um ladrão.
       <message>Substitua por <suggestion>que</suggestion>.</message>
       <example correction="que">Vamos ambicionar <marker>a que</marker> seja uma vitória.</example>
     </rule>
-	
-    <!-- AO MESMO TEMPO em simultâneo -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-22 (21-OCT-2020+)     -->
-    <rule id='AO_MESMO_TEMPO-EM_SIMULTANEO' name="Em simultâneo">
-      <pattern>
-        <token negate_pos="yes" postag='SENT_START'/>
-        <marker>
-          <token>ao</token>
-          <token>mesmo</token>
-          <token>tempo</token>
-        </marker>
-        <token negate="yes">que</token>
-      </pattern>
-      <message>Substitua por <suggestion>em simultâneo</suggestion>.</message>
-      <suggestion>simultaneamente</suggestion>
-      <example correction="em simultâneo|simultaneamente">Tudo aconteceu <marker>ao mesmo tempo</marker>.</example>
-    </rule>
-	
+
     <!-- 	AS COISAS NÃO VÃO VERBO_INF nada vai Verb_info -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-02 (21-OCT-2020+)     -->
     <rule id='AS_COISAS_NÃO_VÃO_VERBO_INF' name="Nada vai + verb_inf">
@@ -38111,7 +38119,9 @@ O namorado dela era um ladrão.
       <rule id='PARONYM_DEDICA_407' name='Parónimo: dedica'>
         <pattern>
           <token regexp='yes'>&art_detecao_paronimos;
-            <exception regexp='yes'>os?</exception></token>
+            <exception regexp='yes'>os?</exception>
+            <exception regexp='yes'>as?</exception> <!-- MARCOAGPINTO - 2022-12-15 - "E as dedica à pessoa certa." -->
+          </token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
           <token regexp='yes'>dedicas?</token>
         </pattern>
@@ -46993,6 +47003,18 @@ O namorado dela era um ladrão.
 
     <rule id='IR_AOS_POUCOS_BOCADOS_BOCADINHOS' name="gradualmente">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-10 (Enhanced) (25-JUN-2021+)      -->
+
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token>aos</token>
+        <token regexp="yes">(?:pouc|bocad)(?:os|inhos)</token>
+        <token postag_regexp='yes' postag="NC.+|AQ.+">
+          <exception postag_regexp='yes' postag='V.+|RG'/>
+        </token>
+        <example>Deixo um agradecimento especial aos poucos amigos que tenho.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->	  
+
       <pattern>
         <marker>
           <token>aos</token>
@@ -47004,6 +47026,7 @@ O namorado dela era um ladrão.
       <suggestion>lentamente</suggestion>
       <example correction="gradualmente|lentamente">O Rui começa da base indo <marker>aos poucos</marker> aumentando a dificuldade.</example>
     </rule>
+
 
     <rule id='SEM_DAR_NAS_VISTAS' name="discretamente">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
@@ -49678,6 +49701,18 @@ O namorado dela era um ladrão.
           <token postag='VMN0000'/>
           <example>uma realidade construída pelo homem que tem a ver com a interação das pessoas.</example>
       </antipattern>
+
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+          <token>que</token>
+          <token regexp="yes">t[eê]m</token>
+          <token/>
+          <token>com</token>
+          <example>A preocupação e dedicação que têm um com o outro.</example>
+          <example>No caso do Pasep, os servidores públicos que tem registro com número final dentre 0 e 4 também recebem este ano.</example>
+          <example>Amo viajar, então você vai ver algumas postagens de lugares por onde andei, usualmente lugares que tem relação com filmes ou livros ou os dois.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <pattern>
         <token negate="yes" inflected='yes'>ser</token>
