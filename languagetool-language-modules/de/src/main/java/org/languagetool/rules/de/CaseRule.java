@@ -106,6 +106,12 @@ public class CaseRule extends Rule {
     "Verantwortlicher",
     "Verantwortliche",
     "Verantwortlichen",
+    "Beschuldigte",
+    "Beschuldigten",
+    "Beklagte",
+    "Beklagten",
+    "Befragte",
+    "Befragten",
     "Hingerichtete",
     "Lehrende",
     "Lehrender",
@@ -116,11 +122,16 @@ public class CaseRule extends Rule {
     "Apart", // eng
     "Universal", // eng
     "Multinational", // eng
+    "Additional", // eng
     "Smart", // eng
+    "Adverse", // eng
     "Different", // eng
     "Light", // eng
     "Legal", // eng
     "Computational", // eng
+    "Holder", // eng
+    "Just", // eng
+    "Fundamental", // eng
     "Quick", // eng
     "Infernal", // eng
     "Fit", // eng
