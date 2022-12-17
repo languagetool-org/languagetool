@@ -48892,7 +48892,7 @@ O namorado dela era um ladrão.
 
     <!-- QUE JULGÁVAMOS SER MAIOR que julgávamos maior -->
     <rule id='QUE_VERBO_SER_ADJ_QUE_VERBO_ADJ' name="Simplificar: Que + Verbo + ser + Adj (remover 'ser')">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-22/29 (25-JUL-2022+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-22/29 + 2022-12-17 (25-JUL-2022+) -->
       <!--
       Você já tentou fazer algo que parecia ser impossível? → Você já tentou fazer algo que parecia impossível?
       Alguns cientistas que parecem ser muito inteligentes são pessoas normais. → Alguns cientistas que parecem muito inteligentes são pessoas normais.
@@ -48902,7 +48902,9 @@ O namorado dela era um ladrão.
         <token>que</token>
         <marker>
           <or>
-            <token postag='VMII.+' postag_regexp='yes'/>
+            <token postag='VMII.+' postag_regexp='yes'>
+              <exception regexp='no' inflected='yes'>poder</exception> <!-- Add more verbs here when found -->
+            </token>
             <token regexp='no' inflected='yes'>parecer</token> <!-- Add more verbs here when found -->
           </or>
           <token>ser</token>
@@ -48914,6 +48916,7 @@ O namorado dela era um ladrão.
       <example correction="julgávamos maior">Aquilo que <marker>julgávamos ser maior</marker> que nós próprios na realidade não o era.</example>
       <example correction="parecem muito">Alguns cientistas que <marker>parecem ser muito</marker> inteligentes são pessoas normais.</example>
       <example>Você já tentou fazer algo que parecia impossível?</example>
+      <example>Ela cursava com um quadro respiratório que podia ser fatal.</example>
     </rule>
 
 
