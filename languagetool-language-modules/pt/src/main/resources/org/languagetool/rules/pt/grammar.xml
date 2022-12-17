@@ -14783,6 +14783,22 @@ O namorado dela era um ladrão.
     <rulegroup id='SENTENCE_FRAGMENT' name="Fragmentos de frases" default="on">
       <!--    Localized from English grammar.xml by Tiago F. Santos, 2016-11-29      -->
       <url>http://viva-read.com/article/tipos-de-fragmentos-de-frases</url>
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2022-12-17 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token>mesmo</token>
+        <token postag='RG|RM' postag_regexp='yes'/>
+        <token postag='AQ.+' postag_regexp='yes'/>
+        <example>Mesmo muito antigo.</example>
+        <example>Mesmo pouco antigo.</example>
+        <example>Mesmo ligeiramente antigo.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-17 (Checked/Enhanced) (25-JUL-2022+) *END* -->  
+
       <rule id='SENTENCE_FRAGMENT_ONE_WORD' name="Fragmentos de frases: Conjunções e advérbios" default="off">
         <!-- XXX Activate later after the remaining rules have proper regression testing -->
         <antipattern>
