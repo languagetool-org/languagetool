@@ -204,6 +204,19 @@ public class CaseRuleTest {
     assertGood("Teil 1: Der unaufhaltsame Aufstieg Bonapartes");
     assertGood("Der Absatz bestimmt, in welchem Maße diese Daten Dritten zugänglich gemacht werden.");
 
+    assertGood("Ich musste das Video mehrmals stoppen, um mir über das Gesagte Gedanken zu machen.");
+    assertGood("Während Besagtes Probleme verursachte.");
+    assertGood("Während der Befragte Geschichten erzählte.");
+    assertGood("Während ein Befragter Geschichten erzählte.");
+    assertGood("Während die Befragte Geld verdiente.");
+    assertBad("Während Gefragte Menschen antworteten.");
+    assertBad("Und das Neue Haus.");
+    assertBad("Und das Gesagte Wort.");
+    assertBad("Und die Gesagten Wörter.");
+    assertBad("Und meine Erzählte Geschichte.");
+    assertBad("Und diese Erzählten Geschichten.");
+    assertBad("Und eine Neue Zeit.");
+
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
     assertGood("▶ Dies ist ein Test");

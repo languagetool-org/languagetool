@@ -1429,6 +1429,46 @@ class CaseRuleAntiPatterns {
       posRegex("VER:INF.*")
     ),
     Arrays.asList(
+      // Über das Gesagte Gedanken machen
+      csRegex("das|dieses|[dmsk]ein"),
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*NEU.*|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+e").build(),
+      posRegex("SUB.*PLU.*")
+    ),
+    Arrays.asList(
+      // Während der Befragte Geschichten erzählte
+      csRegex("der|dieser|[msdk]ein"),
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+e").build(),
+      posRegex("SUB.*PLU.*")
+    ),
+    Arrays.asList(
+      // Während ein Befragter Geschichten erzählte
+      csRegex("[msdk]?ein"),
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+er").build(),
+      posRegex("SUB.*PLU.*")
+    ),
+    Arrays.asList(
+      // Während die Befragte Geschichten erzählte
+      csRegex("die|diese|[msdk]?eine"),
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+e").build(),
+      posRegex("SUB.*SIN.*(MAS|NEU)")
+    ),
+    Arrays.asList(
+      // Während die Befragte Geld verdiente
+      csRegex("die|diese|[msdk]eine"),
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+e").build(),
+      posRegex("SUB.*SIN.*(MAS|NEU)")
+    ),
+    Arrays.asList(
+      // Mit Gesagtem Geschichten schreiben
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+em").build(),
+      posRegex("SUB.*SIN.*FEM|SUB.*PLU.*")
+    ),
+    Arrays.asList(
+      // Während Besagtes Probleme verursacht
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+es").build(),
+      posRegex("SUB.*SIN.*(FEM|MAS)|SUB.*PLU.*")
+    ),
+    Arrays.asList(
       // Hashtags
       token("#"),
       new PatternTokenBuilder().tokenRegex("[A-Z].*").setIsWhiteSpaceBefore(false).build()
