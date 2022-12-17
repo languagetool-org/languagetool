@@ -8424,6 +8424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mí">¡A <marker>mi</marker> Gorbachov me enamoró desde el primer momento!</example>
                 <example>LOS RESULTADOS DE MI CHARLA.</example>
                 <example>Los oficiales de mi Estado Mayor comían mejor que combatían.</example>
+                <example type="triggers_error" reason="ambiguous">A mi Jackie no se le puede comprar.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -8445,6 +8446,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mí">Algo para <marker>mi</marker> incomprensible.</example>
                 <example correction="mí">Su éxito fue para <marker>mi</marker> insospechado.</example>
                 <example correction="mí">El rasgo para <marker>mi</marker> más característico era el contraste.</example>
+                <example>Esto terminará mal para Colombia, para mi gran pesar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23808,7 +23810,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\p{L}+</token>
                 <token spacebefore="no">-</token>
             </antipattern>
-            <rule default="temp_off">
+            <antipattern>
+                <token>la</token>
+                <token regexp="yes">.</token>
+            </antipattern>
+            <rule>
                 <pattern>
                     <token regexp="yes">\p{L}+</token>
                     <token postag="UNKNOWN" regexp="yes">\p{L}+</token>
