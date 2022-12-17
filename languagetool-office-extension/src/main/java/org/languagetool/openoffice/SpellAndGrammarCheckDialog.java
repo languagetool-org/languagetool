@@ -79,6 +79,7 @@ import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.gui.Configuration;
 import org.languagetool.gui.Tools;
 import org.languagetool.openoffice.DocumentCache.TextParagraph;
+import org.languagetool.openoffice.OfficeDrawTools.UndoMarkupContainer;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.RemoteCheck;
 import org.languagetool.rules.Rule;
@@ -862,6 +863,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final static int dialogWidth = 640;
     private final static int dialogHeight = 525;
 
+    private UndoMarkupContainer undoMarkup;
+
     private Color defaultForeground;
 
     private final JDialog dialog;
@@ -1315,6 +1318,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
                   if (debugMode) {
                     MessageHandler.printToLogFile("CheckDialog: LtCheckDialog: Window Focus lost: Event = " + e.paramString());
                   }
+                  removeMarkups();
                   setAtWorkButtonState(atWork);
                   dialog.setEnabled(true);
                   focusLost = true;
@@ -1768,6 +1772,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: start getNextError");
         }
+        removeMarkups();
         CheckError checkError = getNextError(startAtBegin);
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: Error is " + (checkError == null ? "Null" : "NOT Null"));
@@ -2071,7 +2076,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
                 + nextError.error.nErrorStart + "): " + (nStart - pLength + nextError.error.nErrorStart));
             MessageHandler.printToLogFile("CheckDialog: getNextError: x: " + x + "; y: " + y);
           }
-          setFlatViewCursor(nextError.error.nErrorStart, y, viewCursor);
+          setFlatViewCursor(nextError.error.nErrorStart, y, nextError.error, viewCursor);
           lastX = nextError.error.nErrorStart;
           lastY = y;
           if (debugMode) {
@@ -2100,7 +2105,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
               wrongWord = docCache.getFlatParagraph(y).substring(nextError.error.nErrorStart, 
                   nextError.error.nErrorStart + nextError.error.nErrorLength);
             }
-            setFlatViewCursor(nextError.error.nErrorStart, y, viewCursor);
+            setFlatViewCursor(nextError.error.nErrorStart, y, nextError.error, viewCursor);
             if (debugMode) {
               MessageHandler.printToLogFile("CheckDialog: getNextError: y: " + y + "lastPara: " + lastPara 
                   + ", ErrorStart: " + nextError.error.nErrorStart + ", ErrorLength: " + nextError.error.nErrorLength);
@@ -2189,6 +2194,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * closes the dialog
      */
     public void closeDialog() {
+      removeMarkups();
       dialog.setVisible(false);
       if (debugMode) {
         MessageHandler.printToLogFile("CheckDialog: closeDialog: Close Spell And Grammar Check Dialog");
@@ -2729,7 +2735,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           MessageHandler.showMessage("Undo '" + action + "' not supported");
         }
         undoList.remove(nLastUndo);
-        setFlatViewCursor(xUndo, yUndo, viewCursor);
+        setFlatViewCursor(xUndo, yUndo, null, viewCursor);
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: Undo: yUndo = " + yUndo + ", xUndo = " + xUndo 
               + ", lastPara = " + lastPara);
@@ -2740,8 +2746,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
         closeDialog();
       }
     }
-    
-    void setFlatViewCursor(int x, int y, ViewCursorTools viewCursor) throws Throwable {
+
+    void setFlatViewCursor(int x, int y, SingleProofreadingError error, ViewCursorTools viewCursor) throws Throwable {
       this.x = x;
       this.y = y;
       if (docType == DocumentType.WRITER) {
@@ -2759,8 +2765,22 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
           dialog.toFront();
         }
+        if (error != null) {
+          if (!error.aRuleIdentifier.equals(spellRuleId)) {
+//            OfficeDrawTools.removeMarkup(undoMarkup, currentDocument.getXComponent());
+            undoMarkup = new UndoMarkupContainer();
+            OfficeDrawTools.setMarkup(y, error, undoMarkup, currentDocument.getXComponent());
+          }
+        }
       } else {
         OfficeSpreadsheetTools.setCurrentSheet(y, currentDocument.getXComponent());
+      }
+    }
+
+    void removeMarkups() {
+      if (docType == DocumentType.IMPRESS && undoMarkup != null) {
+        OfficeDrawTools.removeMarkup(undoMarkup, currentDocument.getXComponent());
+        undoMarkup = null;
       }
     }
     

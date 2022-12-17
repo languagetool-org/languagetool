@@ -18,11 +18,14 @@
  */
 package org.languagetool.openoffice;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.star.awt.FontUnderline;
 import com.sun.star.awt.Point;
 import com.sun.star.awt.Size;
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
@@ -41,6 +44,7 @@ import com.sun.star.lang.Locale;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
+import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.presentation.XHandoutMasterSupplier;
 import com.sun.star.presentation.XPresentationPage;
 import com.sun.star.text.XText;
@@ -53,6 +57,8 @@ import com.sun.star.uno.UnoRuntime;
  * @author Fred Kruse
  */
 public class OfficeDrawTools {
+  
+  private static boolean debugMode = false;
 
   /** 
    * get the page count for standard pages
@@ -579,6 +585,178 @@ public class OfficeDrawTools {
     return null;
   }
   
+  /**
+   * mark up the errors in a paragraph
+   */
+  private static void markupOneParagraph(int nParaBeginn, SingleProofreadingError error, 
+      UndoMarkupContainer undoMarkUp, XTextCursor xTextCursor) throws Throwable {
+    xTextCursor.gotoStart(false);
+    xTextCursor.goRight((short)nParaBeginn, false);
+    if (error != null) {
+      xTextCursor.goRight((short)(error.nErrorStart), false);
+      undoMarkUp.nStart = error.nErrorStart;
+      undoMarkUp.underline = new UndoMarkupContainer.Underline[error.nErrorLength];
+      for (int i = 0; i < error.nErrorLength; i++) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("OfficeDrawTools: markupOneParagraph: i: " + i);
+        }
+        xTextCursor.goRight((short)1, true);
+        XPropertySet xPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
+        Object o = xPropertySet.getPropertyValue("CharUnderline");
+        short font;
+        boolean hasColor;
+        int color;
+        if (o != null) {
+          font = (short) o;
+          o = xPropertySet.getPropertyValue("CharUnderlineHasColor");
+          if (o != null) {
+            hasColor = (boolean) o;
+            o = xPropertySet.getPropertyValue("CharUnderlineColor");
+            if (o != null) {
+              color = (int) o;
+            } else {
+              color = (int) 0;
+            }
+          } else {
+            hasColor = (boolean) false;
+            color = (int) 0;
+          }
+        } else {
+          font = (short) 0;
+          hasColor = (boolean) false;
+          color = (int) 0;
+        }
+        undoMarkUp.underline[i] = new UndoMarkupContainer.Underline (font, color, hasColor);
+        xPropertySet.setPropertyValue("CharUnderline", FontUnderline.WAVE);
+        PropertyValue[] properties = error.aProperties;
+        color = -1;
+        for (PropertyValue property : properties) {
+          if ("LineColor".equals(property.Name)) {
+            color = (int) property.Value;
+          }
+        }
+        if (color < 0) {
+          color = Color.blue.getRGB() & 0xFFFFFF;
+        }
+        xPropertySet.setPropertyValue("CharUnderlineColor", color);
+        xPropertySet.setPropertyValue("CharUnderlineHasColor", true);
+        xTextCursor.goLeft((short)1, false);
+        xTextCursor.goRight((short)1, false);
+      }
+    } else {
+      xTextCursor.goRight((short)(undoMarkUp.nStart), false);
+      for (int i = 0; i < undoMarkUp.underline.length; i++) {
+        xTextCursor.goRight((short)1, true);
+        XPropertySet xPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xTextCursor);
+        xPropertySet.setPropertyValue("CharUnderlineColor", undoMarkUp.underline[i].color);
+        xPropertySet.setPropertyValue("CharUnderlineHasColor", undoMarkUp.underline[i].hasColor);
+        xPropertySet.setPropertyValue("CharUnderline", undoMarkUp.underline[i].font);
+        xTextCursor.goLeft((short)1, false);
+        xTextCursor.goRight((short)1, false);
+      }
+    }
+  }
+
+  /**
+   * remove the last mark up
+   */
+  public static void removeMarkup(UndoMarkupContainer undoMarkup, XComponent xComponent) {
+    if (undoMarkup != null) {
+      setMarkup(undoMarkup.nPara, null, undoMarkup, xComponent);
+    }
+  }
+
+  /**
+   * mark up an error in a paragraph /remove last mark up if error == null
+   */
+  public static void setMarkup(int nPara, SingleProofreadingError error, UndoMarkupContainer undoMarkup, XComponent xComponent) {
+    if (undoMarkup == null) {
+      MessageHandler.printToLogFile("OfficeDrawTools: markupParagraph: UndoMarkupContainer is null: return");
+      return;
+    }
+    try {
+      int nParaCount = 0;
+      int pageCount = OfficeDrawTools.getDrawPageCount(xComponent);
+      if (error == null) {
+        nPara = undoMarkup.nPara;
+      }
+      for (int i = 0; i < pageCount; i++) {
+        XDrawPage xDrawPage = null;
+        for (int n = 0; n < 2; n++) {
+          if (n == 0) {
+            xDrawPage = OfficeDrawTools.getDrawPageByIndex(xComponent, i);
+          } else {
+            xDrawPage = getNotesPage(xDrawPage);
+          }
+          XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
+          int nShapes = xShapes.getCount();
+          for(int j = 0; j < nShapes; j++) {
+            Object oShape = xShapes.getByIndex(j);
+            XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+            if (xShape != null) {
+              XText xText = UnoRuntime.queryInterface(XText.class, xShape);
+              if (xText != null) {
+                XTextCursor xTextCursor = xText.createTextCursor();
+                String sText = xText.getString();
+                if (nParaCount == nPara) {
+                  if (debugMode) {
+                    MessageHandler.printToLogFile("OfficeDrawTools: markupParagraphs: sText: " + sText);
+                    if (error != null) {
+                      MessageHandler.printToLogFile("OfficeDrawTools: markupParagraphs: error Beginn: " + error.nErrorStart
+                          + ", error Length: " + error.nErrorLength);
+                    }
+                  }
+                  if (error != null) {
+                    undoMarkup.nPara = nPara;
+                  }
+                  markupOneParagraph(0, error, undoMarkup, xTextCursor);
+                  return;
+                }
+                int lastParaEnd = 0;
+                if (debugMode && nPara < 12) {
+                  MessageHandler.printToLogFile("OfficeDrawTools: markupParagraphs: sText: " + sText);
+                }
+                for (int k = 0; k < sText.length(); k++) {
+                  if (sText.charAt(k) == OfficeTools.SINGLE_END_OF_PARAGRAPH.charAt(0)) {
+                    nParaCount++;
+                    if (debugMode && nPara < 12) {
+                      MessageHandler.printToLogFile("OfficeDrawTools: markupParagraphs: nPara: " + nPara + ", nParaCount: " + nParaCount);
+                    }
+                    lastParaEnd = k;
+                    if (nParaCount == nPara) {
+                      if (debugMode) {
+                        MessageHandler.printToLogFile("OfficeDrawTools: markupParagraphs: sText: " + sText);
+                        if (error != null) {
+                          MessageHandler.printToLogFile("OfficeDrawTools: markupParagraphs: error Beginn: " + error.nErrorStart
+                            + ", error Length: " + error.nErrorLength);
+                        }
+                      }
+                      if (error != null) {
+                        undoMarkup.nPara = nPara;
+                      }
+                      markupOneParagraph(k + 1, error, undoMarkup, xTextCursor);
+                      return;
+                    }
+                  }
+                }
+                if (lastParaEnd < sText.length() - 1) {
+                  nParaCount++;
+                }
+                if (debugMode && nPara < 12) {
+                  MessageHandler.printToLogFile("OfficeDrawTools: markupParagraphs: nPara: " + nPara + ", nParaCount: " + nParaCount);
+                }
+              }
+            } else {
+              MessageHandler.printToLogFile("OfficeDrawTools: markupParagraph: xShape " + j + " is null");
+            }
+          }
+        }
+      }
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
+    }
+  }
+
   public static class ParagraphContainer {
     public List<String> paragraphs;
     public List<Locale> locales;
@@ -588,6 +766,33 @@ public class OfficeDrawTools {
       this.paragraphs = paragraphs;
       this.locales = locales;
       this.pageBegins = pageBegins;
+    }
+  }
+
+  public static class UndoMarkupContainer {
+    int nPara;
+    int nStart;
+    Underline underline[];
+    
+    UndoMarkupContainer () {
+    }
+    
+    UndoMarkupContainer (int nPara, int nStart, Underline[] underline) {
+      this.nPara = nPara;
+      this.nStart = nStart;
+      this.underline = underline;
+    }
+    
+    public static class Underline {
+      short font;
+      int color;
+      boolean hasColor;
+      
+      Underline(short font, int color, boolean hasColor){
+        this.font = font;
+        this.color = color;
+        this.hasColor = hasColor;
+      }
     }
   }
   
