@@ -55,7 +55,6 @@ public class ArabicMasdarToVerbFilterTest {
   }
 
   private void assertSuggestion(String word, String expectedSuggestion, boolean debug) throws IOException {
-
     String word1 = "يقوم";
     String word2 = "بال" + word;
     Map<String, String> args = new HashMap<>();
@@ -64,19 +63,9 @@ public class ArabicMasdarToVerbFilterTest {
     List<AnalyzedTokenReadings> patternTokens = tagger.tag(asList(word1, word2));
     AnalyzedTokenReadings[] patternTokensArray = patternTokens.stream().toArray(AnalyzedTokenReadings[]::new);
     RuleMatch ruleMatch = filter.acceptRuleMatch(match, args, -1, patternTokensArray);
-    if (!debug) {
-      assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
-      assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
-    } else { //  debug is true
-      String suggestion = "";
-      if (!ruleMatch.getSuggestedReplacements().isEmpty()) {
-        suggestion = ruleMatch.getSuggestedReplacements().toString();
-      }
-      // show only no suggestion cases
-      if (!suggestion.startsWith("[ي")) {
-        System.out.println("مثال: " + word1 + " " + word2 + " مقترح:" + suggestion);
-      }
-    }
+
+    assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
+    assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
   }
 
 

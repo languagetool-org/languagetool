@@ -62,7 +62,7 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     try {
       adjTokenIndex = Integer.valueOf(arguments.get("adj_pos")) - 1;
     } catch (NumberFormatException e) {
-      throw new RuntimeException("Error parsing adj_pos from : " + arguments.get("adj_pos"));
+      throw new RuntimeException("Error parsing adj_pos from : " + arguments.get("adj_pos"), e);
     }
 
     // filter tokens which have a lemma of adjective

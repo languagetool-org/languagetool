@@ -18,6 +18,9 @@
  */
 package org.languagetool.tagging.ar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,6 +78,8 @@ public class ArabicTagManager {
   private static final int PARTICLE_FLAG_POS_PRONOUN = 10;
 
   private final HashMap<String, Integer> mapFlagPos = new HashMap<>();
+
+  private static final Logger logger = LoggerFactory.getLogger(ArabicTagManager.class);
 
   public ArabicTagManager() {
     loadHashmap();
@@ -600,8 +605,7 @@ public class ArabicTagManager {
       tmp.setCharAt(getFlagPos(postag, flagType), flag);
     } catch (StringIndexOutOfBoundsException e) {
       int pos = getFlagPos(postag, flagType);
-      // debug only
-      System.out.println("ArabicTagmanager:Exception: pos flag" + Integer.toString(pos) + "flagtype:" + flagType + " postag:" + tmp + " len:" + Integer.toString(tmp.length()));
+      logger.debug("ArabicTagmanager:Exception: pos flag" + Integer.toString(pos) + "flagtype:" + flagType + " postag:" + tmp + " len:" + tmp.length());
     }
     return tmp.toString();
 
@@ -684,13 +688,15 @@ public class ArabicTagManager {
       newposTag = setFlag(newposTag, "CONJ", '-');
       newposTag = setFlag(newposTag, "JAR", '-');
       // if the word is a definated word, set the definition flag
-      if (isDefinite(postag))
+      if (isDefinite(postag)) {
         newposTag = setFlag(newposTag, "PRONOUN", '-');
+      }
     } else if (isStopWord(postag)) {
       newposTag = setFlag(newposTag, "CONJ", '-');
       newposTag = setFlag(newposTag, "JAR", '-');
-    } else
+    } else {
       return postag;
+    }
     return newposTag;
 
   }

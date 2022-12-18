@@ -190,11 +190,11 @@ public class NumberPhraseFilter extends RuleFilter {
         String postag = tk.getPOSTag();
         if (tagmanager.isNoun(postag) && !tagmanager.isDefinite(postag) && !tagmanager.hasPronoun(postag)) {
           // add inflection flag
-          if (inflection == "jar") {
+          if (inflection.equals("jar")) {
             postag = tagmanager.setMajrour(postag);
-          } else if (inflection == "raf3") {
+          } else if (inflection.equals("raf3")) {
             postag = tagmanager.setMarfou3(postag);
-          } else if (inflection == "nasb") {
+          } else if (inflection.equals("nasb")) {
             postag = tagmanager.setMansoub(postag);
           } else {
             postag = tagmanager.setMarfou3(postag);
@@ -241,7 +241,6 @@ public class NumberPhraseFilter extends RuleFilter {
         if (args.get("previousPos") != null)
           previousWordPos = Integer.valueOf(args.get("previousPos")) - 1;
       } catch (NumberFormatException e) {
-        e.printStackTrace();
         previousWordPos = -1;
       }
     return previousWordPos;
@@ -257,7 +256,6 @@ public class NumberPhraseFilter extends RuleFilter {
         nextPos = size + nextPos;
       }
     } catch (NumberFormatException e) {
-      e.printStackTrace();
       nextPos = 0;
     }
     return nextPos;
