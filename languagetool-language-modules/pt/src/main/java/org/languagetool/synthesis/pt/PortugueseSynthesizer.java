@@ -31,8 +31,13 @@ public class PortugueseSynthesizer extends BaseSynthesizer {
   private static final String TAGS_FILE_NAME = "/pt/portuguese_tags.txt";
   private static final String SOR_FILE_NAME = "/pt/pt.sor";
 
+  public static final PortugueseSynthesizer INSTANCE = new PortugueseSynthesizer();
+
   public PortugueseSynthesizer(Language lang) {
-    super(SOR_FILE_NAME, RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+    this();
+  }
+  private PortugueseSynthesizer() {
+    super(SOR_FILE_NAME, RESOURCE_FILENAME, TAGS_FILE_NAME, "pt");
   }
 
 }

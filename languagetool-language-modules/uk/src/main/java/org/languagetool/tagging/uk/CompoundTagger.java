@@ -888,6 +888,36 @@ class CompoundTagger {
       }
       else {
         if( NOUN_PREFIX_NUMBER.matcher(leftWord).matches() ) {
+
+          // вбивство 15-ти селян
+          if( "ти".equals(rightWord) 
+              && Pattern.compile(".*([0569]|1[0-9])").matcher(leftWord).matches() ) {
+            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_rod:bad", leftWord));
+            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_dav:bad", leftWord));
+            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_mis:bad", leftWord));
+            return newAnalyzedTokens;
+          }
+          // на 20-ці
+          else if( "ці".equals(rightWord) 
+              && Pattern.compile(".*([0569]|1[0-9])").matcher(leftWord).matches() ) {
+            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:f:v_dav:bad", leftWord));
+            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:f:v_mis:bad", leftWord));
+            return newAnalyzedTokens;
+          }
+          // 100-мм гаубиці
+          else if( "мм".equals(rightWord) ) {
+            for(String gender: PosTagHelper.BASE_GENDERS ) {
+              for(String vidm: PosTagHelper.VIDMINKY_MAP.keySet()) {
+                if( vidm.equals("v_kly") )
+                  continue;
+
+                String posTag = IPOSTag.adj.getText() + ":" + gender + ":" + vidm;
+                newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
+              }
+            }
+            return newAnalyzedTokens;
+          }
+
           // 100-річчя
           
           String tryPrefix = getTryPrefix(rightWord);
@@ -906,26 +936,6 @@ class CompoundTagger {
             }
 
             return newAnalyzedTokens;
-          }
-          // 100-мм гаубиці
-          else if( "мм".equals(rightWord) ) {
-            for(String gender: PosTagHelper.BASE_GENDERS ) {
-              for(String vidm: PosTagHelper.VIDMINKY_MAP.keySet()) {
-                if( vidm.equals("v_kly") )
-                  continue;
-
-                String posTag = IPOSTag.adj.getText() + ":" + gender + ":" + vidm;
-                newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
-              }
-            }
-            return newAnalyzedTokens;
-          }
-          // вбивство 15-ти селян
-          else if( "ти".equals(rightWord) 
-              && Pattern.compile(".*([0569]|1[0-9])").matcher(leftWord).matches() ) {
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_rod:bad", leftWord));
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_dav:bad", leftWord));
-            newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_mis:bad", leftWord));
           }
         }
 

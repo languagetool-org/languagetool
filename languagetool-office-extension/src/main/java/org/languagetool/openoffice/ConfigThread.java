@@ -18,11 +18,11 @@
  */
 package org.languagetool.openoffice;
 
-import java.awt.Frame;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
@@ -52,7 +52,8 @@ class ConfigThread extends Thread {
     this.config = config;
     this.lt = lt;
     this.documents = documents;
-    cfgDialog = new ConfigurationDialog(null, true, OfficeTools.getLtImage(), config);
+    String title = JLanguageTool.getMessageBundle().getString("guiConfigWindowTitle") + " (LT " + OfficeTools.getLtInformation() + ")";
+    cfgDialog = new ConfigurationDialog(null, true, OfficeTools.getLtImage(), title, config);
   }
 
   @Override

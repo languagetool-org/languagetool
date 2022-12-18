@@ -1548,6 +1548,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="унікального|єдиний у своєму роді"><marker>унікального у своєму роді</marker>.</example>
       </rule>
 
+<!--
       <rule>
         <pattern>
           <marker>
@@ -1559,6 +1560,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion>проміжок часу</suggestion>
         <example correction="період|проміжок часу"><marker>період часу</marker>.</example>
       </rule>
+-->
 
       <rule>
         <pattern>
@@ -1639,7 +1641,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="підстрибнув"><marker>підстрибнув угору</marker>.</example>
       </rule>
 
-      <rule>
+      <rule default="off">
         <pattern>
           <marker>
             <token inflected="yes" regexp="yes">повертатися|повернутися|повертаючись|повернувшись|повертавшись</token>
@@ -1668,26 +1670,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token inflected="yes">виборний</token>
-            <token inflected="yes">кампанія</token>
+            <token inflected="yes" regexp="yes">кампанія|бюлетень|голос|закон|право|дільниця|комісія|агітація|система|збори</token>
           </marker>
         </pattern>
-        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>виборча кампанія</suggestion>?</message>
-        <short>Правильно «виборча кампанія»</short>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" regexp_match="иборн(.*)" regexp_replace="иборч$1"/> \2</suggestion>?</message>
         <example correction="Виборча кампанія"><marker>Виборна кампанія</marker> пройшла успішно.</example>
-        <example>Виборча кампанія пройшла успішно.</example>
       </rule>
 
       <rule>
         <pattern>
           <marker>
             <token inflected="yes">виборчий</token>
-            <token inflected="yes">посада</token>
+            <token inflected="yes" regexp="yes">посада|орган|служба|особа|представник</token>
           </marker>
         </pattern>
-        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>виборна посада</suggestion>?</message>
-        <short>Правильно «виборна посада»</short>
+        <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion><match no="1" regexp_match="иборч(.*)" regexp_replace="иборн$1"/> \2</suggestion>?</message>
         <example correction="Виборна посада"><marker>Виборча посада</marker> визначається голосуванням.</example>
-        <example>Виборна посада визначається голосуванням.</example>
       </rule>
     </rulegroup>
 
@@ -2258,7 +2256,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <marker>
               <token inflected="yes">військовий</token>
             </marker>
-            <token inflected="yes" regexp="yes">репортаж|комунізм|час|перемога|стан|злочин</token>
+            <token inflected="yes" regexp="yes">репортаж|комунізм|час|перемога|стан|злочин|кореспондент</token>
           </unify>
         </pattern>
         <message>Правильно: <suggestion><match no="1" postag="adj.*">воєнний</match></suggestion></message>
@@ -2605,7 +2603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
-            <token regexp="yes" inflected="yes">вирішувати|вирішити</token>
+            <token regexp="yes" inflected="yes">вирішувати|вирішити|вирішуючи|вирішивши</token>
             <token postag_regexp="yes" postag="(adj|numr):.:v_zna.*" min="0" max="2"/>
             <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">проблема|питання|задача</token>
           </marker>
@@ -2624,6 +2622,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Краще: <suggestion>розв'язання \2 \3</suggestion></message>
         <example correction="розв'язання цієї проблеми">а <marker>вирішення цієї проблеми</marker> непросте...</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="pidnimaty_pytannya" name="Піднімати і порушувати питання">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">підняти|підійняти|підіймати|підійма(ючи|вши)|піднімавши</token>
+            <token postag_regexp="yes" postag="(adj|numr):.:v_zna.*" min="0" max="2"/>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">питання</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>порушувати \2 \3</suggestion></message>
+        <suggestion>підносити \2 \3</suggestion>
+        <example correction="порушувати це питання|підносити це питання">він <marker>підняв це питання</marker> одразу.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">підняття|підіймання</token>
+            <token postag_regexp="yes" postag="(adj|numr):.:v_rod.*" min="0" max="2"/>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">питання</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>порушення \2 \3</suggestion></message>
+        <suggestion>піднесення \2 \3</suggestion>
+        <example correction="порушення цього питання|піднесення цього питання">і <marker>підняття цього питання</marker>...</example>
       </rule>
     </rulegroup>
 

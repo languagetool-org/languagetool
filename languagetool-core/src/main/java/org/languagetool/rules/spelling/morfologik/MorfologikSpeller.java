@@ -33,12 +33,14 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Morfologik-based spell checker.
  */
 public class MorfologikSpeller {
-
+  
   // Speed up the server use case, where rules get initialized for every call.
   // See https://github.com/morfologik/morfologik-stemming/issues/69 for confirmation that
   // Dictionary is thread-safe:

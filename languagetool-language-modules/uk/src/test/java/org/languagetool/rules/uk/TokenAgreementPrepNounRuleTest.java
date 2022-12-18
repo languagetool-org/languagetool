@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -42,8 +43,8 @@ public class TokenAgreementPrepNounRuleTest {
 
   @Before
   public void setUp() throws IOException {
-    rule = new TokenAgreementPrepNounRule(TestTools.getMessages("uk"));
     lt = new JLanguageTool(new Ukrainian());
+    rule = new TokenAgreementPrepNounRule(TestTools.getMessages("uk"), lt.getLanguage());
   }
   
   @Test
@@ -157,8 +158,6 @@ public class TokenAgreementPrepNounRuleTest {
 
     assertEmptyMatch("На сьогодні рослинна їжа");
     
-    
-    
     assertEquals(1, ruleMatch("в п'ятьом людям").length);
     assertEquals(1, ruleMatch("в понад п'ятьом людям").length);
 
@@ -246,6 +245,13 @@ public class TokenAgreementPrepNounRuleTest {
 
 //    matches = ruleMatch("На фото: З Голлівуду Яринка Шуст привезла дві золоті медалі");
 //    assertEquals(1, matches.length);
+  }
+
+  @Ignore
+  @Test
+  public void testRulePronPosNew() throws IOException {
+    //TODO:
+    assertEmptyMatch("від його покровителів");
   }
 
   @Test

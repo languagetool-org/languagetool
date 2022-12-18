@@ -117,8 +117,9 @@ public final class PatternTestTools {
           // <token postag="..."><exception scope="next">foo</exception</token>
           
           // We now allow scope="next" without skip="..."
-          if (exception.hasNextException())
+          if (exception.hasNextException()) {
             continue;
+          }
 
 //          if (exception.hasNextException() && pToken.getSkipNext() == 0) {
 //            warn("The " + lang + " rule: "
@@ -324,6 +325,10 @@ public final class PatternTestTools {
           Language lang,
           String ruleId,
           int tokenIndex) {
+
+    if (isRegularExpression && (stringValue.startsWith("|") || stringValue.endsWith("|")) && !stringValue.endsWith("\\|")) {
+      fail("Regex of " + ruleId + " starts or ends with '|', which is probably invalid: " + stringValue);
+    }
 
     // Check that the string value does not contain token separator.
     if (!isPos && !isRegularExpression && stringValue.length() > 1) {

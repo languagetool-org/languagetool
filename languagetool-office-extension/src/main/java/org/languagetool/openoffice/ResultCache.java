@@ -40,7 +40,7 @@ import com.sun.star.linguistic2.SingleProofreadingError;
 class ResultCache implements Serializable {
 
   private static final long serialVersionUID = 2L;
-  private Map<Integer, CacheEntry> entries;
+  private Map<Integer, SerialCacheEntry> entries;
   
   private ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
   
@@ -55,10 +55,10 @@ class ResultCache implements Serializable {
   /**
    * Get cache entry map
    */
-  private Map<Integer, CacheEntry> getMap() {
+  private Map<Integer, SerialCacheEntry> getMap() {
     rwLock.readLock().lock();
     try {
-      return new HashMap<Integer, CacheEntry>(entries);
+      return new HashMap<Integer, SerialCacheEntry>(entries);
     } finally {
       rwLock.readLock().unlock();
     }
@@ -110,22 +110,20 @@ class ResultCache implements Serializable {
    * Remove all cache entries between firstPara (included) and lastPara (excluded)
    * shift all numberOfParagraph by 'shift'
    */
-  void removeAndShift(int firstParagraph, int lastParagraph, int shift) {
+  void removeAndShift(int firstParagraph, int lastParagraph, int oldSize, int newSize) {
+    int shift = newSize - oldSize;
     if (lastParagraph < firstParagraph || shift == 0) {
       return;
     }
     rwLock.writeLock().lock();
     try {
-      for (int i = firstParagraph; i < lastParagraph - shift - 1; i++) {
-        entries.remove(i);
-      }
-      Map<Integer, CacheEntry> tmpEntries = entries;
+      Map<Integer, SerialCacheEntry> tmpEntries = entries;
       entries = new HashMap<>();
-      if (shift > 0) {
+      if (shift < 0) {
         for (int i : tmpEntries.keySet()) {
-          if (i >= firstParagraph) {
+          if (i >= firstParagraph - shift) {
             entries.put(i + shift, tmpEntries.get(i));
-          } else {
+          } else if (i < firstParagraph){
             entries.put(i, tmpEntries.get(i));
           } 
         }
@@ -149,7 +147,7 @@ class ResultCache implements Serializable {
   void put(int numberOfParagraph, List<Integer> nextSentencePositions, SingleProofreadingError[] errorArray) {
     rwLock.writeLock().lock();
     try {
-      entries.put(numberOfParagraph, new CacheEntry(nextSentencePositions, errorArray));
+      entries.put(numberOfParagraph, new SerialCacheEntry(nextSentencePositions, errorArray));
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -161,7 +159,7 @@ class ResultCache implements Serializable {
   void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
     rwLock.writeLock().lock();
     try {
-      entries.put(numberOfParagraph, new CacheEntry(null, errorArray));
+      entries.put(numberOfParagraph, new SerialCacheEntry(null, errorArray));
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -173,7 +171,7 @@ class ResultCache implements Serializable {
   void add(int numberOfParagraph, SingleProofreadingError[] errorArray) {
     rwLock.writeLock().lock();
     try {
-      CacheEntry cacheEntry = entries.get(numberOfParagraph);
+      SerialCacheEntry cacheEntry = entries.get(numberOfParagraph);
       cacheEntry.addErrorArray(errorArray);
       entries.put(numberOfParagraph, cacheEntry);
     } finally {
@@ -187,7 +185,7 @@ class ResultCache implements Serializable {
   void removeAll() {
     rwLock.writeLock().lock();
     try {
-    entries.clear();
+      entries.clear();
     } finally {
       rwLock.writeLock().unlock();
     }
@@ -199,7 +197,20 @@ class ResultCache implements Serializable {
   CacheEntry getCacheEntry(int numberOfParagraph) {
     rwLock.readLock().lock();
     try {
-    return entries.get(numberOfParagraph);
+      SerialCacheEntry entry = entries.get(numberOfParagraph);
+      return entry == null ? null : new CacheEntry(entry);
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * get cache entry of paragraph
+   */
+  SerialCacheEntry getSerialCacheEntry(int numberOfParagraph) {
+    rwLock.readLock().lock();
+    try {
+      return entries.get(numberOfParagraph);
     } finally {
       rwLock.readLock().unlock();
     }
@@ -211,7 +222,7 @@ class ResultCache implements Serializable {
   SingleProofreadingError[] getMatches(int numberOfParagraph) {
     rwLock.readLock().lock();
     try {
-      CacheEntry entry = getCacheEntry(numberOfParagraph);
+      SerialCacheEntry entry = entries.get(numberOfParagraph);
       if (entry == null) {
         return null;
       }
@@ -227,7 +238,7 @@ class ResultCache implements Serializable {
   int getStartSentencePosition(int numberOfParagraph, int sentencePosition) {
     rwLock.readLock().lock();
     try {
-      CacheEntry entry = entries.get(numberOfParagraph);
+      SerialCacheEntry entry = entries.get(numberOfParagraph);
       if (entry == null) {
         return 0;
       }
@@ -254,7 +265,7 @@ class ResultCache implements Serializable {
   int getNextSentencePosition(int numberOfParagraph, int sentencePosition) {
     rwLock.readLock().lock();
     try {
-      CacheEntry entry = entries.get(numberOfParagraph);
+      SerialCacheEntry entry = entries.get(numberOfParagraph);
       if (entry == null) {
         return 0;
       }
@@ -280,7 +291,7 @@ class ResultCache implements Serializable {
                                         int startOfSentencePosition, int endOfSentencePosition) {
     rwLock.readLock().lock();
     try {
-      CacheEntry entry = entries.get(numberOfParagraph);
+      SerialCacheEntry entry = entries.get(numberOfParagraph);
       if (entry == null) {
         return null;
       }
@@ -300,7 +311,7 @@ class ResultCache implements Serializable {
    * Compares to Entries
    * true if the both entries are identically
    */
-  static boolean areDifferentEntries(CacheEntry newEntries, CacheEntry oldEntries) {
+  static boolean areDifferentEntries(SerialCacheEntry newEntries, SerialCacheEntry oldEntries) {
     if (newEntries == null || oldEntries == null) {
       return true;
     }
@@ -333,14 +344,14 @@ class ResultCache implements Serializable {
     rwLock.readLock().lock();
     try {
       List<Integer> differentParas = new ArrayList<>();
-      CacheEntry oEntry;
-      CacheEntry nEntry;
+      SerialCacheEntry oEntry;
+      SerialCacheEntry nEntry;
       boolean isDifferent = true;
       Set<Integer> entrySet = new HashSet<>(entries.keySet());
       for (int nPara : entrySet) {
         if (oldCache != null) {
           nEntry = entries.get(nPara);
-          oEntry = oldCache.getCacheEntry(nPara);
+          oEntry = oldCache.entries.get(nPara);
           isDifferent = areDifferentEntries(nEntry, oEntry);
         }
         if (isDifferent) {
@@ -350,6 +361,42 @@ class ResultCache implements Serializable {
       return differentParas;
     } finally {
       rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * Remove a special Proofreading error from cache
+   * Returns all changed paragraphs as list
+   */
+  List<Integer> removeRuleError(String ruleId) {
+    rwLock.writeLock().lock();
+    try {
+      List<Integer> changed = new ArrayList<>();
+      Set<Integer> keySet = entries.keySet();
+      for (int n : keySet) {
+        SerialCacheEntry entry = entries.get(n);
+        SingleProofreadingError[] eArray = entry.getErrorArray();
+        int nErr = 0;
+        for (SingleProofreadingError sError : eArray) {
+          if (sError.aRuleIdentifier.equals(ruleId)) {
+            nErr++;
+          }
+        }
+        if (nErr > 0) {
+          changed.add(n);
+          SingleProofreadingError[] newArray = new SingleProofreadingError[eArray.length - nErr];
+          for (int i = 0, j = 0; i < eArray.length && j < newArray.length; i++) {
+            if (!eArray[i].aRuleIdentifier.equals(ruleId)) {
+              newArray[j] = eArray[i];
+              j++;
+            }
+          }
+          entries.put(n, new SerialCacheEntry(entry.nextSentencePositions, newArray));
+        }
+      }
+      return changed;
+    } finally {
+      rwLock.writeLock().unlock();
     }
   }
 
@@ -401,7 +448,7 @@ class ResultCache implements Serializable {
   SingleProofreadingError getErrorAtPosition(int numPara, int numChar) {
     rwLock.readLock().lock();
     try {
-      CacheEntry entry = entries.get(numPara);
+      SerialCacheEntry entry = entries.get(numPara);
       if (entry == null) {
         return null;
       }
@@ -423,12 +470,37 @@ class ResultCache implements Serializable {
   /**
    * Class of serializable cache entries
    */
-  public class CacheEntry implements Serializable {
+  public static class CacheEntry {
+    SingleProofreadingError[] errorArray;
+    List<Integer> nextSentencePositions = null;
+
+    CacheEntry(SerialCacheEntry entry) {
+      if (entry.nextSentencePositions != null) {
+        this.nextSentencePositions = new ArrayList<Integer>(entry.nextSentencePositions);
+      }
+      this.errorArray = new SingleProofreadingError[entry.errorArray.length];
+      for (int i = 0; i < entry.errorArray.length; i++) {
+        this.errorArray[i] = entry.errorArray[i].toSingleProofreadingError();
+      }
+    }
+
+    /**
+     * Get an SingleProofreadingError array for one entry
+     */
+    SingleProofreadingError[] getErrorArray() {
+      return errorArray;
+    }
+  }
+    
+  /**
+   * Class of serializable cache entries
+   */
+  private class SerialCacheEntry implements Serializable {
     private static final long serialVersionUID = 2L;
     SerialProofreadingError[] errorArray;
     List<Integer> nextSentencePositions = null;
 
-    CacheEntry(List<Integer> nextSentencePositions, SingleProofreadingError[] sErrorArray) {
+    SerialCacheEntry(List<Integer> nextSentencePositions, SingleProofreadingError[] sErrorArray) {
       if (nextSentencePositions != null) {
         this.nextSentencePositions = new ArrayList<Integer>(nextSentencePositions);
       }
@@ -438,7 +510,7 @@ class ResultCache implements Serializable {
       }
     }
     
-    CacheEntry(CacheEntry entry) {
+    SerialCacheEntry(SerialCacheEntry entry) {
       if (entry.nextSentencePositions != null) {
         this.nextSentencePositions = new ArrayList<Integer>(entry.nextSentencePositions);
       }
@@ -479,7 +551,7 @@ class ResultCache implements Serializable {
   /**
    * Class of serializable proofreading errors
    */
-  class SerialProofreadingError implements Serializable {
+  private class SerialProofreadingError implements Serializable {
 
     private static final long serialVersionUID = 1L;
     int nErrorStart;
@@ -547,7 +619,7 @@ class ResultCache implements Serializable {
   /**
    * Class of serializable property values
    */
-  class SerialPropertyValue implements Serializable {
+  private class SerialPropertyValue implements Serializable {
 
     private static final long serialVersionUID = 1L;
     String name;

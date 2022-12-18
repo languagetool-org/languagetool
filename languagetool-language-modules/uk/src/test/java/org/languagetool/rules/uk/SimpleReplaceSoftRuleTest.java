@@ -57,12 +57,6 @@ public class SimpleReplaceSoftRuleTest {
     assertEquals(Arrays.asList("рятування", "рятунок", "порятунок", "визволення"), matches[0].getSuggestedReplacements());
     assertTrue(matches[0].getMessage().contains(": релігія"));
 
-    //refl
-    matches = rule.match(lt.getAnalyzedSentence("відображаються"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("показуватися", "зображатися", "відбиватися"), matches[0].getSuggestedReplacements());
-    assertTrue("No context: " + matches[0].getMessage(), matches[0].getMessage().contains(": математика"));
-
     // test ignoreTagged
 //    matches = rule.match(lt.getAnalyzedSentence("щедрота"));
 //    assertEquals(1, matches.length);

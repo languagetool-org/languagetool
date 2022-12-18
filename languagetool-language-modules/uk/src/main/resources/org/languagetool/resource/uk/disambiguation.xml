@@ -578,31 +578,31 @@
   </rule>
 
 
-  <rule name="Тим - сполучник 1" id="tym_conj_1">
+  <rule name="Тим - сполучник 1" id="tym_pron_1">
     <pattern>
       <marker>
         <token>тим</token>
       </marker>
       <token postag_regexp="yes" postag="adv:compc.*"/>
     </pattern>
-    <disambig action="filter" postag="conj:subord"/>
+    <disambig action="filter" postag="noun:inanim:n:v_oru.*"/>
     <example type="ambiguous"
-        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,тим/conj:subord,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
-        outputform="тим[тим/conj:subord]">І <marker>тим</marker> більше.</example>
+        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
+        outputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem]">І <marker>тим</marker> більше.</example>
     <example type="untouched">тим вечором</example>
   </rule>
 
   <rule name="Тим - іменник с.р. 1" id="tym_noun_n_1">
     <pattern>
       <token>разом</token>
-      <token regexp="yes">з|із|зі</token>
+      <token regexp="yes">з|із</token>
       <marker>
         <token>тим</token>
       </marker>
     </pattern>
     <disambig action="filter" postag="noun:inanim:n:v_oru.*"/>
     <example type="ambiguous"
-        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,тим/conj:subord,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
+        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
         outputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem]">Разом з <marker>тим</marker> університетам цього не дозволяють.</example>
     <example type="untouched">тим вечором</example>
   </rule>
@@ -621,7 +621,7 @@
     </pattern>
     <disambig action="filter" postag="adj:m:v_oru.*"/>
     <example type="ambiguous"
-        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,тим/conj:subord,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
+        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
         outputform="тим[той/adj:m:v_oru:&amp;pron:dem]">А <marker>тим</marker> часом.</example>
     <example type="untouched">тим більше</example>
     <example type="untouched">тим сонцем</example>
@@ -1971,7 +1971,7 @@
     </pattern>
     <disambig action="filter" postag="noun:inanim:m:.*:prop.*"/>
     <example type="ambiguous"
-        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav:coll,трускавка/noun:inanim:f:v_mis:coll]"
+        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav,трускавка/noun:inanim:f:v_mis]"
         outputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo]">В <marker>Трускавці</marker>.</example>
     <example type="untouched">Трускавці треба тепло.</example>
   </rule>
@@ -2017,7 +2017,7 @@
     </pattern>
     <disambig action="filter" postag="noun:inanim:m:v_...:prop:geo"/>
     <example type="ambiguous"
-        inputform="Йорк[Йорк/noun:inanim:m:v_naz:prop:geo,Йорк/noun:inanim:m:v_zna:prop:geo,йорк/noun:anim:m:v_naz:coll]"
+        inputform="Йорк[Йорк/noun:inanim:m:v_naz:prop:geo,Йорк/noun:inanim:m:v_zna:prop:geo,йорк/noun:anim:m:v_naz]"
         outputform="Йорк[Йорк/noun:inanim:m:v_naz:prop:geo,Йорк/noun:inanim:m:v_zna:prop:geo]"
             >в <marker>Йорк</marker>.</example>
     <example type="untouched">прибіг йорк</example>
@@ -2239,7 +2239,7 @@
     </pattern>
     <disambig action="filter" postag="noun:.*prop.*"/>
     <example type="ambiguous"
-        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav:coll,трускавка/noun:inanim:f:v_mis:coll]"
+        inputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo,трускавка/noun:inanim:f:v_dav,трускавка/noun:inanim:f:v_mis]"
         outputform="Трускавці[Трускавець/noun:inanim:m:v_mis:prop:geo]">В <marker>Трускавці</marker>.</example>
     <example type="ambiguous"
         inputform="Грушівкою[Грушівка/noun:inanim:f:v_oru:prop:geo,грушівка/noun:inanim:f:v_oru]"
@@ -2985,7 +2985,7 @@
     </pattern>
     <disambig action="filter" postag="intj"/>
     <example type="ambiguous"
-        inputform="але[але/conj:coord,але/intj,але/part:rare]"
+        inputform="але[але/conj:coord,але/intj,але/part]"
         outputform="але[але/intj]"
         >Ото <marker>але</marker>!</example>
     <example type="untouched">Степанко ходив у ліщину по горішки, але хтось уже обібрав кущі.</example>
@@ -3370,6 +3370,55 @@
     <example type="untouched">тис, бук, ялиця</example>
   </rule>
 -->
+
+  <rule name="Іменник «тис.» - тисячоліття" id="NOUN_VERB_TYS_DOT_ERA_1">
+    <pattern>
+      <marker>
+        <token>тис.</token>
+      </marker>
+      <token min="0">до</token>
+      <token>н.</token>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.*"/>
+    <example type="ambiguous"
+        inputform="тис.[тис./noun:inanim:n:v_dav:nv:abbr,тис./noun:inanim:n:v_naz:nv:abbr,тис./noun:inanim:n:v_oru:nv:abbr,тис./noun:inanim:n:v_rod:nv:abbr,тис./noun:inanim:n:v_zna:nv:abbr,тис./noun:inanim:p:v_dav:nv:abbr,тис./noun:inanim:p:v_naz:nv:abbr,тис./noun:inanim:p:v_oru:nv:abbr,тис./noun:inanim:p:v_rod:nv:abbr,тис./noun:inanim:p:v_zna:nv:abbr,тис./numr:f:v_dav:nv:abbr,тис./numr:f:v_naz:nv:abbr,тис./numr:f:v_oru:nv:abbr,тис./numr:f:v_rod:nv:abbr,тис./numr:f:v_zna:nv:abbr,тис./numr:p:v_dav:nv:abbr,тис./numr:p:v_naz:nv:abbr,тис./numr:p:v_oru:nv:abbr,тис./numr:p:v_rod:nv:abbr,тис./numr:p:v_zna:nv:abbr]"
+        outputform="тис.[тис./noun:inanim:n:v_dav:nv:abbr,тис./noun:inanim:n:v_naz:nv:abbr,тис./noun:inanim:n:v_oru:nv:abbr,тис./noun:inanim:n:v_rod:nv:abbr,тис./noun:inanim:n:v_zna:nv:abbr,тис./noun:inanim:p:v_dav:nv:abbr,тис./noun:inanim:p:v_naz:nv:abbr,тис./noun:inanim:p:v_oru:nv:abbr,тис./noun:inanim:p:v_rod:nv:abbr,тис./noun:inanim:p:v_zna:nv:abbr]"
+        >аж до 2 <marker>тис.</marker> до н.е.
+    </example>
+    <example type="untouched">50 тис. грн кожному</example>
+  </rule>
+
+  <rule name="Іменник «тис.» - тисячоліття" id="NOUN_VERB_TYS_DOT_ERA_2">
+    <pattern>
+      <token regexp="yes">[IІVX]+</token>
+      <marker>
+        <token>тис.</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:.*"/>
+    <example type="ambiguous"
+        inputform="тис.[тис./noun:inanim:n:v_dav:nv:abbr,тис./noun:inanim:n:v_naz:nv:abbr,тис./noun:inanim:n:v_oru:nv:abbr,тис./noun:inanim:n:v_rod:nv:abbr,тис./noun:inanim:n:v_zna:nv:abbr,тис./noun:inanim:p:v_dav:nv:abbr,тис./noun:inanim:p:v_naz:nv:abbr,тис./noun:inanim:p:v_oru:nv:abbr,тис./noun:inanim:p:v_rod:nv:abbr,тис./noun:inanim:p:v_zna:nv:abbr,тис./numr:f:v_dav:nv:abbr,тис./numr:f:v_naz:nv:abbr,тис./numr:f:v_oru:nv:abbr,тис./numr:f:v_rod:nv:abbr,тис./numr:f:v_zna:nv:abbr,тис./numr:p:v_dav:nv:abbr,тис./numr:p:v_naz:nv:abbr,тис./numr:p:v_oru:nv:abbr,тис./numr:p:v_rod:nv:abbr,тис./numr:p:v_zna:nv:abbr]"
+        outputform="тис.[тис./noun:inanim:n:v_dav:nv:abbr,тис./noun:inanim:n:v_naz:nv:abbr,тис./noun:inanim:n:v_oru:nv:abbr,тис./noun:inanim:n:v_rod:nv:abbr,тис./noun:inanim:n:v_zna:nv:abbr,тис./noun:inanim:p:v_dav:nv:abbr,тис./noun:inanim:p:v_naz:nv:abbr,тис./noun:inanim:p:v_oru:nv:abbr,тис./noun:inanim:p:v_rod:nv:abbr,тис./noun:inanim:p:v_zna:nv:abbr]"
+        >аж до II <marker>тис.</marker>,
+    </example>
+    <example type="untouched">50 тис. грн кожному</example>
+  </rule>
+
+  <rule name="Іменник «тис.» - тисячоліття" id="NOUN_VERB_TYS_DOT_NUMR">
+    <pattern>
+      <marker>
+        <token>тис.</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="numr.*"/>
+    <example type="ambiguous"
+        inputform="тис.[тис./noun:inanim:n:v_dav:nv:abbr,тис./noun:inanim:n:v_naz:nv:abbr,тис./noun:inanim:n:v_oru:nv:abbr,тис./noun:inanim:n:v_rod:nv:abbr,тис./noun:inanim:n:v_zna:nv:abbr,тис./noun:inanim:p:v_dav:nv:abbr,тис./noun:inanim:p:v_naz:nv:abbr,тис./noun:inanim:p:v_oru:nv:abbr,тис./noun:inanim:p:v_rod:nv:abbr,тис./noun:inanim:p:v_zna:nv:abbr,тис./numr:f:v_dav:nv:abbr,тис./numr:f:v_naz:nv:abbr,тис./numr:f:v_oru:nv:abbr,тис./numr:f:v_rod:nv:abbr,тис./numr:f:v_zna:nv:abbr,тис./numr:p:v_dav:nv:abbr,тис./numr:p:v_naz:nv:abbr,тис./numr:p:v_oru:nv:abbr,тис./numr:p:v_rod:nv:abbr,тис./numr:p:v_zna:nv:abbr]"
+        outputform="тис.[тис./numr:f:v_dav:nv:abbr,тис./numr:f:v_naz:nv:abbr,тис./numr:f:v_oru:nv:abbr,тис./numr:f:v_rod:nv:abbr,тис./numr:f:v_zna:nv:abbr,тис./numr:p:v_dav:nv:abbr,тис./numr:p:v_naz:nv:abbr,тис./numr:p:v_oru:nv:abbr,тис./numr:p:v_rod:nv:abbr,тис./numr:p:v_zna:nv:abbr]"
+        >аж до 2 <marker>тис.</marker>,
+    </example>
+  </rule>
+
+
   <rule name="Іменник «чаю»" id="NOUN_VERB_CHAYU">
     <pattern>
       <marker>
@@ -3442,10 +3491,13 @@
     <pattern>
       <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">геолог.*|порода|родовище</exception></token>
       <marker>
-        <token skip="-1" inflected="yes">світа
+        <and>
+        <token skip="-1" inflected="yes" postag_regexp="yes">світа
           <exception scope="previous" regexp="yes">.*[цс]ьк(а|ої|ій|ою)</exception>
           <exception scope="next" inflected="yes" regexp="yes">геолог.*|порода|родовище</exception>
         </token>
+        <token inflected="yes">світ</token>
+        </and>
         <token postag="SENT_END"><exception scope="current" inflected="yes" regexp="yes">геолог.*|порода|родовище</exception></token>
       </marker>
     </pattern>
@@ -3457,6 +3509,7 @@
     <example type="untouched">Картамиська світа</example>
     <example type="untouched">геологічна щільна світа</example>
     <example type="untouched">Світа Ратаві — іракський нафтовий горизонт — на нафтових родовищах «Ратаві» в Іраку.</example>
+    <example type="untouched">10 світі.</example>
     <!--
     <example type="untouched">світа в геології</example>
     -->
@@ -3842,7 +3895,7 @@
   <rule name="Права - іменник" id="prava_noun">
     <antipattern>
       <token>права</token>
-      <token postag_regexp="yes" postag="noun.*?:f:v_(naz|kly).*"/>
+      <token postag_regexp="yes" postag="(noun|adj).*?:f:v_(naz|kly).*"/>
     </antipattern>
     <antipattern>
       <token regexp="yes">опозиційна|радикальна|крайня</token>
@@ -3879,6 +3932,7 @@
     <example type="untouched">права та ліва частини</example>
     <example type="untouched">вона була стовідсотково права</example>
     <example type="untouched">права була моя бабуся</example>
+    <example type="untouched">запалала права задня</example>
   </rule>
 
   <rule name="Місяць дати" id="date_month">
@@ -4098,7 +4152,7 @@
     </pattern>
     <disambig action="remove"><wd lemma="плат"/></disambig>
     <example type="ambiguous"
-        inputform="плат[плат/noun:inanim:m:v_naz,плат/noun:inanim:m:v_zna,плата/noun:inanim:p:v_rod]"
+        inputform="плат[плат/noun:inanim:m:v_naz:arch,плат/noun:inanim:m:v_zna:arch,плата/noun:inanim:p:v_rod]"
         outputform="плат[плата/noun:inanim:p:v_rod]">заробітних <marker>плат</marker>.</example>
     <example type="untouched">широкий плат</example>
   </rule>
@@ -4114,7 +4168,7 @@
     </pattern>
     <disambig action="filter" postag="noun:inanim:p:v_rod.*"/>
     <example type="ambiguous"
-        inputform="плат[плат/noun:inanim:m:v_naz,плат/noun:inanim:m:v_zna,плата/noun:inanim:p:v_rod]"
+        inputform="плат[плат/noun:inanim:m:v_naz:arch,плат/noun:inanim:m:v_zna:arch,плата/noun:inanim:p:v_rod]"
         outputform="плат[плата/noun:inanim:p:v_rod]">різних <marker>плат</marker>.</example>
     <example type="untouched">широкий плат</example>
   </rule>
@@ -4130,7 +4184,7 @@
     </pattern>
     <disambig action="filter" postag="adj.*" />
     <example type="ambiguous"
-        inputform="злісного[злісний/adj:m:v_rod:compb,злісний/adj:m:v_zna:ranim:compb,злісний/adj:n:v_rod:compb,злісний/noun:anim:m:v_rod,злісний/noun:anim:m:v_zna]"
+        inputform="злісного[злісний/adj:m:v_rod:compb,злісний/adj:m:v_zna:ranim:compb,злісний/adj:n:v_rod:compb,злісний/noun:anim:m:v_rod:arch,злісний/noun:anim:m:v_zna:arch]"
         outputform="злісного[злісний/adj:m:v_rod:compb,злісний/adj:m:v_zna:ranim:compb,злісний/adj:n:v_rod:compb]">І <marker>злісного</marker> мотиву.</example>
     <example type="untouched">злісна</example>
   </rule>
@@ -4146,7 +4200,7 @@
     </pattern>
     <disambig action="filter" postag="adj.*" />
     <example type="ambiguous"
-        inputform="квартального[квартальний/adj:m:v_rod,квартальний/adj:m:v_zna:ranim,квартальний/adj:n:v_rod,квартальний/noun:anim:m:v_rod,квартальний/noun:anim:m:v_zna]"
+        inputform="квартального[квартальний/adj:m:v_rod,квартальний/adj:m:v_zna:ranim,квартальний/adj:n:v_rod,квартальний/noun:anim:m:v_rod:arch,квартальний/noun:anim:m:v_zna:arch]"
         outputform="квартального[квартальний/adj:m:v_rod,квартальний/adj:m:v_zna:ranim,квартальний/adj:n:v_rod]">І <marker>квартального</marker> звіту.</example>
     <example type="untouched">ква</example>
   </rule>
@@ -4221,7 +4275,7 @@
     </pattern>
     <disambig action="filter" postag="adj.*" />
     <example type="ambiguous"
-        inputform="лісного[лісний/adj:m:v_rod,лісний/adj:m:v_zna:ranim,лісний/adj:n:v_rod,лісний/noun:anim:m:v_rod,лісний/noun:anim:m:v_zna]"
+        inputform="лісного[лісний/adj:m:v_rod,лісний/adj:m:v_zna:ranim,лісний/adj:n:v_rod,лісний/noun:anim:m:v_rod:arch,лісний/noun:anim:m:v_zna:arch]"
         outputform="лісного[лісний/adj:m:v_rod,лісний/adj:m:v_zna:ranim,лісний/adj:n:v_rod]">І <marker>лісного</marker> масиву.</example>
     <example type="untouched">ква</example>
   </rule>
@@ -4577,10 +4631,10 @@
        -->
       </token>
     </pattern>
-    <disambig action="filter" postag="adj.*"/>
+    <disambig action="filter" postag="(adj|noun).*arch.*"/>
     <example type="ambiguous"
-      inputform="сім[сей/adj:m:v_mis:&amp;pron:dem:arch,сей/adj:n:v_mis:&amp;pron:dem:arch,сім/numr:p:v_naz,сім/numr:p:v_zna]"
-      outputform="сім[сей/adj:m:v_mis:&amp;pron:dem:arch,сей/adj:n:v_mis:&amp;pron:dem:arch]">на <marker>сім</marker> світі
+      inputform="сім[се/noun:inanim:n:v_mis:&amp;pron:dem:arch,сей/adj:m:v_mis:&amp;pron:dem:arch,сей/adj:n:v_mis:&amp;pron:dem:arch,сім/numr:p:v_naz,сім/numr:p:v_zna]"
+      outputform="сім[се/noun:inanim:n:v_mis:&amp;pron:dem:arch,сей/adj:m:v_mis:&amp;pron:dem:arch,сей/adj:n:v_mis:&amp;pron:dem:arch]">на <marker>сім</marker> світі
     </example>
     <example type="untouched">на сім відсотків</example>
     <example type="untouched">на сім кіно</example>
@@ -4595,7 +4649,7 @@
     </pattern>
     <disambig action="filter" postag="numr.*"/>
     <example type="ambiguous"
-      inputform="сім[сей/adj:m:v_mis:&amp;pron:dem:arch,сей/adj:n:v_mis:&amp;pron:dem:arch,сім/numr:p:v_naz,сім/numr:p:v_zna]"
+      inputform="сім[се/noun:inanim:n:v_mis:&amp;pron:dem:arch,сей/adj:m:v_mis:&amp;pron:dem:arch,сей/adj:n:v_mis:&amp;pron:dem:arch,сім/numr:p:v_naz,сім/numr:p:v_zna]"
       outputform="сім[сім/numr:p:v_naz,сім/numr:p:v_zna]">на <marker>сім</marker> відсотків.
     </example>
   </rule>
@@ -4615,6 +4669,42 @@
     <example type="untouched">на п'яту вечора</example>
   </rule>
 
+  <rule name="стало - дієслово" id="stalo_verb1">
+    <pattern>
+      <marker>
+        <token>стало</token>
+      </marker>
+      <token min="0">б</token>
+      <token postag_regexp="yes" postag=".*v_oru.*|adv:comp[cs].*"/>
+    </pattern>
+    <disambig action="filter" postag="verb.*"/>
+    <example type="ambiguous"
+      inputform="стало[стало/adv,стати/verb:perf:past:n]"
+      outputform="стало[стати/verb:perf:past:n]">воно <marker>стало</marker> моїм талісманом.
+    </example>
+    <example type="ambiguous"
+      inputform="стало[стало/adv,стати/verb:perf:past:n]"
+      outputform="стало[стати/verb:perf:past:n]">їй <marker>стало</marker> легше.
+    </example>
+    <example type="untouched">і буду тут стало проживати</example>
+    <example type="untouched">і буду стало тут проживати</example>
+  </rule>
+
+  <rule name="стало - дієслово" id="stalo_verb2">
+    <pattern>
+      <marker>
+        <token>стало</token>
+      </marker>
+      <token min="0">б</token>
+      <token regexp="yes">.+[нт]{2}я</token>
+    </pattern>
+    <disambig action="filter" postag="verb.*"/>
+    <example type="ambiguous"
+      inputform="стало[стало/adv,стати/verb:perf:past:n]"
+      outputform="стало[стати/verb:perf:past:n]">тоді <marker>стало</marker> прийняття закону.
+    </example>
+    <example type="untouched">і буду стало тут проживати</example>
+  </rule>
 
   <!-- TODO: other просто, but it does not buy much - still have adv and part -->
 

@@ -19,16 +19,11 @@
 
 package org.languagetool.openoffice;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
@@ -127,7 +122,7 @@ public class AnalyzedParagraphsCache {
     }
   }
   
-  class JAnalyzedSentence {
+  private class JAnalyzedSentence {
     private List<JAnalyzedTokenReadings> tokens = new ArrayList<JAnalyzedTokenReadings>();
     
     JAnalyzedSentence(AnalyzedSentence sentences) {
@@ -149,7 +144,7 @@ public class AnalyzedParagraphsCache {
     
   }
   
-  class JAnalyzedTokenReadings {
+  private class JAnalyzedTokenReadings {
     private List<JAnalyzedToken> tokenReadings = new ArrayList<JAnalyzedToken>();
     private String token;
     private int startPos;
@@ -176,7 +171,7 @@ public class AnalyzedParagraphsCache {
     
   }
   
-  class JAnalyzedToken {
+  private class JAnalyzedToken {
     private String posTag;
     private String lemma;
     private boolean hasNoTag = false;

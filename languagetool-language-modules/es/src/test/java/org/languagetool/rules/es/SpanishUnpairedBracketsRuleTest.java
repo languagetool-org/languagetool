@@ -22,6 +22,8 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Spanish;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -51,10 +53,29 @@ public class SpanishUnpairedBracketsRuleTest {
     // incorrect sentences:
     assertMatches("Soy un hombre muy honrado).", 1);
     assertMatches("Soy un hombre (muy honrado.", 1);
+    assertMatches("Eso es “importante y qué pasa. ", 1);
+    assertMatches("Eso es \"importante y qué. ", 1);
+    assertMatches("Eso es (imposible. ", 1);
+    assertMatches("Eso es (imposible.\n\n", 1);
+    assertMatches("Eso es) imposible. ", 1);
+    assertMatches("Eso es imposible).\t\n ", 1);
+    assertMatches("Eso es «importante, ¿ah que sí?", 1);
+    
+    assertCorrectText("\n\n" + "a) New York\n" + "b) Boston\n");
+    assertCorrectText("\n\n" + "1.) New York\n" + "2.) Boston\n");
+    assertCorrectText("\n\n" + "XII.) New York\n" + "XIII.) Boston\n");
+    assertCorrectText("\n\n" + "A) New York\n" + "B) Boston\n" + "C) Foo\n");
+    
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
     final RuleMatch[] matches = rule.match(Collections.singletonList(lt.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
+  }
+  
+  private void assertCorrectText(String sentences) throws IOException {
+    AnnotatedText aText = new AnnotatedTextBuilder().addText(sentences).build();
+    RuleMatch[] matches = rule.match(lt.analyzeText(sentences), aText);
+    assertEquals(0, matches.length);
   }
 }

@@ -30,8 +30,8 @@ import org.languagetool.tagging.ca.CatalanTagger;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
-  private static final String DICT_FILENAME = "/ca/ca-ES.dict";
-  private static MorfologikSpeller speller;  
+  protected static final String DICT_FILENAME = "/ca/ca-ES.dict";
+  protected static MorfologikSpeller speller;  
 
   public FindSuggestionsFilter() throws IOException {
     // lazy init

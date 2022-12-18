@@ -267,7 +267,7 @@ class AgreementRuleAntiPatterns1 {
     ),
     asList(
       tokenRegex("der|die|das"),   // "Der solchen Einsätzen gegenüber kritische Müller ..."
-      tokenRegex("solche[mn]|diese[mn]"),
+      tokenRegex("solche[mn]|(eben)?diese[mn]"),
       posRegex("SUB:.*"),
       token("gegenüber"),
       posRegex("ADJ:.*"),
@@ -294,7 +294,7 @@ class AgreementRuleAntiPatterns1 {
     asList(
       tokenRegex("der|die|das"),   // "die [daraus] jedem zukommende Freiheit", "im Lichte der diesem zukommenden Repräsentationsaufgabe"
       new PatternTokenBuilder().posRegex("ADV:.*").min(0).build(),
-      tokenRegex("jedem|diesem"),
+      tokenRegex("jedem|(eben)?diesem"),
       posRegex("PA1:.*"),
       posRegex("SUB:.*")
     ),
@@ -326,7 +326,7 @@ class AgreementRuleAntiPatterns1 {
     asList(
       // "Das verlangt reifliche Überlegung.", "Die abnehmend aufwendige Gestaltung der Portale...",
       // "Eine ausreichend genaue Bestimmung"
-      tokenRegex("diese|der|die|das|ein|eine|dem|den|eine[ernm]|anderen?"),
+      tokenRegex("(eben)?diese|der|die|das|ein|eine|dem|den|eine[ernm]|anderen?"),
       posRegex("PA[12]:.*VER|ADV:TMP"),
       posRegex("ADJ:.*"),
       posRegex("SUB:.*")
@@ -541,15 +541,22 @@ class AgreementRuleAntiPatterns1 {
       posRegex("ADJ.*KOM.*")
     ),
     asList(
-      token("diese"),  // "...damit diese ausreichend Sauerstoff geben."
+      tokenRegex("(eben)?diese"),  // "...damit diese ausreichend Sauerstoff geben."
       tokenRegex("genug|genügend|viel|hinreichend|ausreichend"),
       posRegex("SUB:NOM:SIN:.*"),
       posRegex("VER:.*")
     ),
     asList(
+      tokenRegex("(eben)?diese[nmr]|andere[nm]"),  // "...um einer anderen genügend Platz zu schaffen"
+      tokenRegex("genug|genügend|viel|hinreichend|ausreichend"),
+      posRegex("SUB:NOM:SIN:.*"),
+      token("zu"),
+      posRegex("VER:.*")
+    ),
+    asList(
       posRegex("VER:MOD:.*"),  // "Sollten zu diesem weitere Informationen benötigt werden, ..."
       token("zu"),
-      regex("diese[mnr]"),
+      regex("(eben)?diese[mnr]"),
       new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
       posRegex("SUB:NOM:PLU:.*"),
       posRegex("PA2:.*")
@@ -677,7 +684,7 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     asList(  // "... kein anderer Unrecht hat."
-      regex("diese[rs]?|keine?"),
+      regex("(eben)?diese[rs]?|keine?"),
       regex("anderer?"),
       posRegex("SUB:.*")
     ),
@@ -739,6 +746,85 @@ class AgreementRuleAntiPatterns1 {
       token("eine"),
       new PatternTokenBuilder().posRegex("ADJ:.*FEM.*").min(0).build(),
       posRegex("SUB:.*:FEM.*")
+    ),
+    asList(
+      // "Wir zeigen die Gründe auf, wieso noch nicht jeder solche Anschlüsse hat."
+      regex("jede[rsm]?"),
+      regex("(eben)?solche[rsm]?"),
+      posRegex("SUB.*PLU.*")
+    ),
+    asList(
+      regex("als|um"),
+      regex("(eben)?solche")
+    ),
+    asList(
+      // "Solch frivolen Gedanken wollen wir gar nicht erst nachgehen."
+      regex("(eben)?solch"),
+      csRegex("[a-zäöüß]+en?"),
+      posRegex("SUB.*PLU.*")
+    ),
+    asList(
+      // "Solch frivolen ungewohnten Gedanken wollen wir gar nicht erst nachgehen."
+      regex("(eben)?solch"),
+      csRegex("[a-zäöüß]+en?"),
+      csRegex("[a-zäöüß]+en?"),
+      posRegex("SUB.*PLU.*")
+    ),
+    asList(
+      // "Er erwartete solch aggressives Verhalten."
+      regex("(eben)?solch"),
+      csRegex("[a-zäöüß]+e[nms]"),
+      posRegex("SUB.*SIN.*NEU.*")
+    ),
+    asList(
+      // "Er erwartete solch aggressives ungewohntes Verhalten."
+      regex("(eben)?solch"),
+      csRegex("[a-zäöüß]+e[nms]"),
+      csRegex("[a-zäöüß]+e[nms]"),
+      posRegex("SUB.*SIN.*NEU.*")
+    ),
+    asList(
+      // "Ein solch schöner Tisch."
+      regex("(eben)?solch"),
+      csRegex("[a-zäöüß]+e[nmr]"),
+      posRegex("SUB.*SIN.*MAS.*")
+    ),
+    asList(
+      // "Ein solch schöner neuer Tisch."
+      regex("(eben)?solch"),
+      csRegex("[a-zäöüß]+e[nmr]"),
+      csRegex("[a-zäöüß]+e[nmr]"),
+      posRegex("SUB.*SIN.*MAS.*")
+    ),
+    asList(
+      // "Eine solch schöne Frau."
+      regex("(eben)?solch"),
+      csRegex("[a-zäöüß]+e[rn]?"),
+      posRegex("SUB.*SIN.*FEM.*")
+    ),
+    asList(
+      // "Eine solch schöne hübsche Frau."
+      regex("(eben)?solch"),
+      csRegex("[a-zäöüß]+e[rn]?"),
+      csRegex("[a-zäöüß]+e[rn]?"),
+      posRegex("SUB.*SIN.*FEM.*")
+    ),
+    asList(  
+      // "Wenn ein Tiger einen Menschen tötet, ist das Grausamkeit."
+      token(","),
+      new PatternTokenBuilder().tokenRegex("dann|so").min(0).build(),
+      csRegex("ist|wäre?"),
+      csRegex("das(jenige)?|(der|die)jenige"),
+      posRegex("SUB:NOM.*")
+    ),
+    asList(  
+      // "Sind im Molekül mehrere Aminogruppen vertreten, so bestimmt dasjenige Kohlenstoff"
+      new PatternTokenBuilder().tokenRegex("wenn|falls|sobald").matchInflectedForms().setSkip(-1).build(),
+      token(","),
+      new PatternTokenBuilder().tokenRegex("dann|so").min(0).build(),
+      token("bestimmt"),
+      csRegex("das(jenige)?"),
+      posRegex("SUB:NOM.*")
     )
   );
 

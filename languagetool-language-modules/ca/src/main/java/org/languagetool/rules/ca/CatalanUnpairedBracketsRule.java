@@ -46,10 +46,10 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     super(messages, CA_START_SYMBOLS, CA_END_SYMBOLS);
   }
 
-  @Override
-  public String getId() {
-    return "CA_UNPAIRED_BRACKETS";
-  }
+//  @Override
+//  public String getId() {
+//    return "CA_UNPAIRED_BRACKETS";
+//  }
 
   @Override
   protected boolean isNoException(final String tokenStr,

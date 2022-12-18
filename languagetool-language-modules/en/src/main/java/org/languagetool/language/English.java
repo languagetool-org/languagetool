@@ -30,8 +30,6 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
 import org.languagetool.rules.en.LongSentenceRule;
-import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
@@ -131,7 +129,7 @@ public class English extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new EnglishSynthesizer(this);
+    return EnglishSynthesizer.INSTANCE;
   }
 
   @Override
@@ -148,11 +146,6 @@ public class English extends Language implements AutoCloseable {
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
-  }
-
-  @Override
-  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
-    return new Word2VecModel(indexDir + File.separator + getShortCode());
   }
 
   @Override
@@ -254,11 +247,6 @@ public class English extends Language implements AutoCloseable {
       "nl".equals(motherTongue.getShortCode()));
   }
 
-  @Override
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
-  }
-
   /** @since 5.1 */
   @Override
   public String getOpeningDoubleQuote() {
@@ -317,11 +305,16 @@ public class English extends Language implements AutoCloseable {
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "READ_ONLY_ACCESS_HYPHEN":   return 2;   // higher priority than agreement rules
       case "PRP_ABLE_TO":               return 1;   // higher prio than AI_HYDRA_LEO_CP_YOU.*
+      case "WEE_WE":                    return 1;   // higher prio than INTERJECTIONS_PUNCTUATION
       case "FOR_THE_MOST_PART2":        return 1;   // higher prio than FOR_THE_MOST_PART
       case "FACE_TO_FACE_HYPHEN":       return 1;   // higher prio than THIS_NNS
       case "RUN_ON":                    return 1;   // higher prio than TOO_LONG_SENTENCE
       case "ON_THE_LOOK_OUT":           return 1;   // higher prio than VERB_NOUN_CONFUSION
       case "APOSTROPHE_IN_DAYS":        return 1;   // higher prio than A_NNS
+      case "SAFE_GUARD_COMPOUND":       return 1;   // higher prio than some agreement rules
+      case "EVEN_HANDED_HYPHEN":        return 1;   // higher prio than some agreement rules
+      case "GET_TOGETHER_HYPHEN":       return 1;   // higher prio than some agreement rules
+      case "GOT_HERE":                  return 1;   // higher prio than GET_VBN and HEAR_HERE
       case "PICTURE_PERFECT_HYPHEN":    return 1;   // higher prio than some agreement rules
       case "SEEM_SEEN":    return 1;   // higher prio than some agreement rules (e.g. PRP_HAVE_VB)
       case "SAVE_SAFE":                 return 1;   // higher prio than agreement rules
@@ -394,7 +387,8 @@ public class English extends Language implements AutoCloseable {
       case "A_SNICKERS":                return 1;   // higher prio than A_NNS
       case "ROUND_A_BOUT":              return 1;   // higher prio than A_NNS
       case "A_NNS_BEST_NN":             return 1;   // higher prio than A_NNS
-      case "A_BACHELORS_IN":            return 1;   // higher prio than A_NNS
+      case "BACHELORS":                 return 1;   // higher prio than A_NNS
+      case "WERE_WEAR":                 return 1;   // higher prio than agreement rules
       case "NEITHER_NOR":               return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
       case "FOR_AWHILE":                return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
       case "A_BUT":                     return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
@@ -409,6 +403,7 @@ public class English extends Language implements AutoCloseable {
       case "IT_SEAMS":                  return 1;   // higher prio than THIS_NNS_VB
       case "NO_WHERE":                  return 1;   // higher prio than NOW
       case "APOSTROPHE_VS_QUOTE":       return 1;   // higher prio than EN_QUOTES
+      case "ALL_OF_SUDDEN":             return 1;   // higher prio than ALL_MOST_SOME_OF_NOUN
       case "COMMA_PERIOD":              return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
       case "HERE_HEAR":                 return 1;   // higher prio than ENGLISH_WORD_REPEAT_RULE
       case "MISSING_POSS_APOS":         return 1;   // higher prio than SINGULAR_NOUN_VERB_AGREEMENT
@@ -441,7 +436,6 @@ public class English extends Language implements AutoCloseable {
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
       case "ULTRA_HYPHEN":              return 1;   // prefer over EN_COMPOUND_ADJECTIVE_INTERNAL
       case "THINK_BELIEVE_THAT":        return 1;
-      case "IF_DT_NN_VBZ":              return -1;  // prefer IF_PLEASE_COMMA
       case "MD_VBD":                    return -1;  // prefer LOWERCASE_MONTHS
       case "PRP_PRP":                   return -1;  // prefer other rules that give a suggestion
       case "IS_LIKELY_TO_BE":           return -1;  // give IS_RB_BE precedence (more suggestions)
@@ -574,11 +568,12 @@ public class English extends Language implements AutoCloseable {
       case "BE_WITH_WRONG_VERB_FORM":   return -11;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
+      case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
-      case "POSSESSIVE_APOSTROPHE":     return -20;  // prefer AI_HYDRA_LEO_APOSTROPHE_S_XS
+      case "POSSESSIVE_APOSTROPHE":     return -10;  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
       case "CONFUSION_RULE":            return -20;
       case "PRP_VB_IMPROVE":            return -24;  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion

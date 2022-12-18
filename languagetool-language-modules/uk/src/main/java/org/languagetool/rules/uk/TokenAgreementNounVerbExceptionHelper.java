@@ -841,7 +841,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
   }
   
 
-  private static boolean hasMascFemLemma(List<AnalyzedToken> nounTokenReadings) {
+  static boolean hasMascFemLemma(List<AnalyzedToken> nounTokenReadings) {
     String token = nounTokenReadings.get(0).getToken();
     if( token.endsWith("олог") || token.endsWith("знавець") )
       return true;

@@ -133,7 +133,8 @@ public class HunspellRule extends SpellingCheckRule {
           "support",
           "update",
           "reliable",
-          "system"
+          "system",
+          "an"
   );
   
   public static Queue<String> getActiveChecks() {
@@ -514,7 +515,6 @@ public class HunspellRule extends SpellingCheckRule {
     return suggestions;
   }
 
-
   protected String[] tokenizeText(String sentence) {
     return nonWordPattern.split(sentence);
   }
@@ -590,7 +590,7 @@ public class HunspellRule extends SpellingCheckRule {
       hunspell = Hunspell.getDictionary(Paths.get(shortDicPath + ".dic"), affPath);
     }
     if (affPath != null) {
-      try(Scanner sc = new Scanner(affPath)){
+      try (Scanner sc = new Scanner(affPath)) {
         while (sc.hasNextLine()) {
           String line = sc.nextLine();
           if (line.startsWith("WORDCHARS ")) {
@@ -601,7 +601,6 @@ public class HunspellRule extends SpellingCheckRule {
           }
         }
       }
-      
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
   }

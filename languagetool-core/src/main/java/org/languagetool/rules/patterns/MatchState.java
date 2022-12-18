@@ -173,7 +173,7 @@ public class MatchState {
       anTkRead.setChunkTags(formattedToken.getChunkTags());
     }
     if (formattedToken.isImmunized()) {
-      anTkRead.immunize();
+      anTkRead.immunize(formattedToken.getImmunizationSourceLine());
     }
     return anTkRead;
   }

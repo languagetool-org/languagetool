@@ -45,7 +45,7 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC]S.");
   private static final Pattern VERB = Pattern.compile("V.+");
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
+  private static final List<String> ALLUPPERCASE_EXCEPTIONS = Arrays.asList("ARNAU", "CRISTIAN", "TOMÀS");
   private String variant;
     
   public CatalanTagger(Language language) {
@@ -79,13 +79,13 @@ public class CatalanTagger extends BaseTagger {
           originalWord = originalWord.replace("’", "'");
         }
       }
-      String noramlizedWord = StringTools.normalizeNFC(originalWord);
+      String normalizedWord = StringTools.normalizeNFC(originalWord);
       final List<AnalyzedToken> l = new ArrayList<>();
-      final String lowerWord = noramlizedWord.toLowerCase(locale);
-      final boolean isLowercase = noramlizedWord.equals(lowerWord);
-      final boolean isMixedCase = StringTools.isMixedCase(noramlizedWord);
-      final boolean isAllUpper = StringTools.isAllUppercase(noramlizedWord);
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(noramlizedWord));
+      final String lowerWord = normalizedWord.toLowerCase(locale);
+      final boolean isLowercase = normalizedWord.equals(lowerWord);
+      final boolean isMixedCase = StringTools.isMixedCase(normalizedWord);
+      final boolean isAllUpper = StringTools.isAllUppercase(normalizedWord);
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(normalizedWord));
       
       // normal case:
       addTokens(taggerTokens, l);
@@ -97,7 +97,7 @@ public class CatalanTagger extends BaseTagger {
       }
       
       //tag all-uppercase proper nouns (ex. FRANÇA)
-      if (l.isEmpty() && isAllUpper) {
+      if ((l.isEmpty() || ALLUPPERCASE_EXCEPTIONS.contains(normalizedWord)) && isAllUpper) {
         final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
         List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(firstUpper));
         addTokens(firstupperTaggerTokens, l);

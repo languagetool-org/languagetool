@@ -61,7 +61,7 @@ public class WordTokenizer implements Tokenizer {
       + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
       + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
       + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-      + "¦‖∣|,.;()[]{}=*#∗+×·÷<>!?:~/\\\"'«»„”“‘’`´‛′›‹…¿¡‼⁇⁈⁉™®\u203d"
+      + "¦‖∣|,.;()[]{}=*#∗+×·÷<>!?:~/\\\"'«»„”“‘’`´‛′›‹…¿¡‼⁇⁈⁉™®\u203d\u00B6\uFFEB\u2E2E"
       + "\u2012\u2013\u2014\u2015" // dashes
       + "\u2500\u3161\u2713" // other dashes
       + "\u25CF\u25CB\u25C6\u27A2\u25A0\u25A1\u2605\u274F\u2794\u21B5\u2756\u25AA\u2751\u2022" // bullet points

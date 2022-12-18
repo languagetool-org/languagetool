@@ -88,7 +88,7 @@ public class Spanish extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new SpanishSynthesizer(this);
+    return SpanishSynthesizer.INSTANCE;
   }
 
   @Override
@@ -202,14 +202,17 @@ public class Spanish extends Language implements AutoCloseable {
     switch (id) {
       case "ES_COMPOUNDS": return 50;
       case "CONFUSIONS2": return 50; // greater than CONFUSIONS
+      case "RARE_WORDS": return 50;
       case "LOS_MAPUCHE": return 50;
       case "TE_TILDE": return 50;
       case "PLURAL_SEPARADO": return 50;
+      case "PERSONAJES_FAMOSOS": return 50;
       case "INCORRECT_EXPRESSIONS": return 40;
       case "MISSPELLING": return 40;  
       case "CONFUSIONS": return 40;
       case "NO_SEPARADO": return 40;
       case "PARTICIPIO_MS": return 40;
+      case "VERBO_MODAL_INFINITIVO": return 40; // greater than DIACRITICS
       case "EL_NO_TILDE": return 40; // greater than SE_CREO
       case "SE_CREO": return 35; // greater than DIACRITICS --> or less than DIACRITICS_VERB_N_ADJ ????
       case "DIACRITICS": return 30;
@@ -233,10 +236,11 @@ public class Spanish extends Language implements AutoCloseable {
       case "VALLA_VAYA": return 10;
       case "SI_AFIRMACION": return 10; // less than DIACRITICS
       case "TE_TILDE2": return 10; // less than PRONOMBRE_SIN_VERBO
-      case "SINGLE_CHARACTER": return 5;
       case "SEPARADO": return 1;
+      case "ES_SPLIT_WORDS": return -10; 
       case "E_EL": return -10;
       case "EL_TILDE": return -10;
+      case "SINGLE_CHARACTER": return -15; // less than ES_SPLIT_WORDS
       case "TOO_LONG_PARAGRAPH": return -15;
       case "PREP_VERB": return -20;
       case "SUBJUNTIVO_FUTURO": return -30;
@@ -271,19 +275,10 @@ public class Spanish extends Language implements AutoCloseable {
   private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(l)\\b");
   
   @Override
-  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-    List<RuleMatch> newRuleMatches = new ArrayList<>();
-    for (RuleMatch rm : ruleMatches) {
-      List<String> replacements = rm.getSuggestedReplacements();
-      List<String> newReplacements = new ArrayList<>();
-      for (String s : replacements) {
-        Matcher m = ES_CONTRACTIONS.matcher(s);
-        s= m.replaceAll("$1$2");
-        newReplacements.add(s);
-      }
-      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
-      newRuleMatches.add(newMatch);
-    }
-    return newRuleMatches;
+  public String adaptSuggestion(String replacement) {
+    Matcher m = ES_CONTRACTIONS.matcher(replacement);
+    String newReplacement = m.replaceAll("$1$2");
+    return newReplacement;
   }
+  
 }

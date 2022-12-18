@@ -148,6 +148,34 @@ public class GermanSpellerRuleTest {
             is("[Fehler, fehla, xxx]"));
     assertThat(rule.sortSuggestionByQuality("mülleimer", Arrays.asList("Mülheimer", "-mülheimer", "Melkeimer", "Mühlheimer", "Mülleimer")).toString(),
             is("[Mülleimer, Mülheimer, -mülheimer, Melkeimer, Mühlheimer]"));
+    
+    // filtering out undesired inflected forms
+    assertThat(
+        rule.sortSuggestionByQuality("glückklich",
+            Arrays.asList("glücklich", "glückliche", "glücklichen", "glücklicher", "glückliches")).toString(),
+        is("[glücklich]"));
+    assertThat(
+        rule.sortSuggestionByQuality("Fußbaall", Arrays.asList("Fußball", "Fußballs", "Ausball", "Fußball", "Fußbälle"))
+            .toString(),
+        is("[Fußball, Ausball]"));
+    assertThat(
+        rule.sortSuggestionByQuality("glücklichr",
+            Arrays.asList("glücklich", "glückliche", "glücklicher", "glücklichen", "glückliches")).toString(),
+        is("[glücklich, glückliche, glücklicher, glücklichen, glückliches]"));
+  }
+  
+  @Test
+  public void testFilteringOutSuggestions() throws Exception {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+    assertThat(rule.match(lt.getAnalyzedSentence("glückklich"))[0].getSuggestedReplacements().toString(),
+        is("[glücklich, glücklichst]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("erleddigt"))[0].getSuggestedReplacements().toString(),
+        is("[erledigt, erledige, erledigst]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("glücklichhe"))[0].getSuggestedReplacements().toString(),
+        is("[glückliche, glücklichst]"));
+    assertThat(rule.match(lt.getAnalyzedSentence("glückklicher"))[0].getSuggestedReplacements().toString(),
+        is("[glücklicher, glücklichst]"));
   }
 
   @Test
@@ -173,6 +201,7 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.isProhibited("Feuerwerksartigel")); // entry with ".*" at line start in prohibited.txt
     assertTrue(rule.isProhibited("Feuerwerksartigeln")); // entry with ".*" at line start in prohibited.txt
     assertTrue(rule.isProhibited("Feuerwerksartigels")); // entry with ".*" at line start in prohibited.txt
+    assertTrue(rule.isProhibited("To-go")); // entry with ".*" at line start in prohibited.txt
   }
 
   @Test
@@ -601,10 +630,21 @@ public class GermanSpellerRuleTest {
     assertCorrect("Fusselmappsen", ruleCH, lt);
     assertCorrect("Coronapatienten", rule, lt);
     assertCorrect("Coronapatienten.", rule, lt);
+
+    assertCorrect("Universitätsmitarbeitende", rule, lt);
+    assertCorrect("Universitätsmitarbeitenden", rule, lt);
+    assertIncorrect("Xyzmitarbeitende", rule, lt);
+    assertIncorrect("Xyzmitarbeitenden", rule, lt);
+    assertIncorrect("Universitetsmitarbeitende", rule, lt);
+    assertIncorrect("Universitetsmitarbeitenden", rule, lt);
   }
 
   private void assertCorrect(String word, MyGermanSpellerRule rule, JLanguageTool lt) throws IOException {
     assertThat(rule.match(lt.getAnalyzedSentence(word)).length, is(0));
+  }
+
+  private void assertIncorrect(String word, MyGermanSpellerRule rule, JLanguageTool lt) throws IOException {
+    assertThat(rule.match(lt.getAnalyzedSentence(word)).length, is(1));
   }
 
   private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
@@ -716,12 +756,13 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Wichtelmännchen-Au-pair")).length);  // from spelling.txt formed hyphenated compound
 
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Fermi-Dirac-Statistik")).length);  // from spelling.txt formed hyphenated compound
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("To-go-Becher")).length);  // from spelling.txt formed hyphenated compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Au-pair-Wichtelmännchen")).length);  // from spelling.txt formed hyphenated compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Secondhandware")).length);  // from spelling.txt formed compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Feynmandiagramme")).length);  // from spelling.txt formed compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Helizitätsoperator")).length);  // from spelling.txt formed compound
 //    assertEquals(0, rule.match(lt.getAnalyzedSentence("Wodkaherstellung")).length);  // from spelling.txt formed compound
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("Latte-macchiato-Glas")).length);  // formelery from spelling.txt formed compound
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Latte-macchiato-Glas")).length);  // formerly from spelling.txt formed compound
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Werkverträgler-Glas")).length);  // from spelling.txt formed compound
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Werkverträglerglas")).length);  // from spelling.txt formed compound
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Werkverträglerdu")).length);  // from spelling.txt formed "compound" with last part too short
@@ -759,10 +800,10 @@ public class GermanSpellerRuleTest {
   @Test
   public void testGetSuggestionsFromSpellingTxt() throws Exception {
     MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertThat(ruleGermany.getSuggestions("Ligafußboll").toString(), is("[Ligafußball, Ligafußballs]"));  // from spelling.txt
+    assertThat(ruleGermany.getSuggestions("Ligafußboll").toString(), is("[Ligafußball]"));  // from spelling.txt, removed: Ligafußballs
     assertThat(ruleGermany.getSuggestions("free-and-open-source").toString(), is("[]"));  // to prevent OutOfMemoryErrors: do not create hyphenated compounds consisting of >3 parts
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
-    assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
+    assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball]")); // removed: Ligafussballs
     assertThat(ruleSwiss.getSuggestions("konfliktbereid").toString(), is("[konfliktbereit, konfliktbereite]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereitel").toString(),
                is("[konfliktbereite, konfliktbereiten, konfliktbereitem, konfliktbereiter, konfliktbereites, konfliktbereit]"));

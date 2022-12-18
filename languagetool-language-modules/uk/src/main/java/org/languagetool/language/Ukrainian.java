@@ -97,7 +97,7 @@ public class Ukrainian extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new UkrainianSynthesizer(this);
+    return UkrainianSynthesizer.INSTANCE;
   }
 
   @Override
@@ -162,10 +162,11 @@ public class Ukrainian extends Language {
 
         new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
 
+        new TokenAgreementVerbNounRule(messages),
         new TokenAgreementNounVerbRule(messages),
-        new TokenAgreementAdjNounRule(messages),
-        new TokenAgreementPrepNounRule(messages),
-        new TokenAgreementNumrNounRule(messages),
+        new TokenAgreementAdjNounRule(messages, this),
+        new TokenAgreementPrepNounRule(messages, this),
+        new TokenAgreementNumrNounRule(messages, this),
 
         new MixedAlphabetsRule(messages),
 

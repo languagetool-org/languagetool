@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.ApiCleanupNeeded;
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleMatcher;
 import org.languagetool.tools.StringTools;
@@ -124,6 +126,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this(rule, sentence, fromPos, toPos, fromPos, toPos, message, shortMessage, false, null);
     setSuggestedReplacements(suggestions);
   }
+
   /**
    * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
    */
@@ -373,7 +376,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   public void addSuggestedReplacements(List<String> replacements) {
-    Objects.requireNonNull(replacements, "replacements may be empty but not null");
+    Objects.requireNonNull(replacements, "replacements may be empty but not null");    
     Supplier<List<SuggestedReplacement>> prev = suggestedReplacements;
     setLazySuggestedReplacements(() ->
       Lists.newArrayList(Iterables.concat(prev.get(), Iterables.transform(replacements, SuggestedReplacement::new))));
@@ -397,7 +400,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
     suggestionsComputed = true;
     suggestedReplacements = Suppliers.ofInstance(
-      replacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
+        replacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
     );
   }
 

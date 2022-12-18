@@ -48,7 +48,7 @@ public class AnalyzedSentenceTest {
     AnalyzedSentence copySentence = sentence.copy(sentence);
     assertEquals(sentence, copySentence);
     //now change the first sentence
-    words[1].immunize(); // this would not work if we stored a copy, which we probably should
+    words[1].immunize(999); // this would not work if we stored a copy, which we probably should
     assertEquals("<S> word[lemma/POS{!}].[./INTERP,</S>]", sentence.toString());
     assertNotEquals(sentence, copySentence);
   }

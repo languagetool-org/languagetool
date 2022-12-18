@@ -107,12 +107,6 @@ class Pipeline extends JLanguageTool {
   }
 
   @Override
-  public void activateWord2VecModelRules(File indexDir) throws IOException {
-    preventModificationAfterSetup();
-    super.activateWord2VecModelRules(indexDir);
-  }
-
-  @Override
   public void activateRemoteRules(File configFile) throws IOException {
     preventModificationAfterSetup();
     super.activateRemoteRules(configFile);

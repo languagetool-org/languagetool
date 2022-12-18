@@ -60,8 +60,9 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
       + "arse|arme|arte|arlos|arles|arlas|arnos|aros";
   private static final Pattern desinencies_1conj_0 = Pattern.compile("(.+?)(" + endings + ")");
   private static final Pattern desinencies_1conj_1 = Pattern.compile("(.+)(" + endings + ")");
-  private SpanishTagger tagger;
-  private SpanishSynthesizer synth;
+
+  private final SpanishTagger tagger;
+  private final SpanishSynthesizer synth;
 
   public SimpleReplaceVerbsRule(final ResourceBundle messages, Language language) {
     super(messages);

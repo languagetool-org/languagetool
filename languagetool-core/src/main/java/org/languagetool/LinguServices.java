@@ -21,6 +21,8 @@ package org.languagetool;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.languagetool.rules.Rule;
+
 /**
  * Dummy class for UserConfig
  * has to be overridden by concrete linguistic service e.g. by LO extension
@@ -49,6 +51,12 @@ public class LinguServices {
    */
   public int getNumberOfSyllables(String word, Language lang) {
     return 0;
+  }
+  
+  /**
+   * Set a thesaurus relevant rule
+   */
+  public void setThesaurusRelevantRule (Rule rule) {
   }
   
 }

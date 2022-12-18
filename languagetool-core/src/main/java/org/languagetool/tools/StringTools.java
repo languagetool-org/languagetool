@@ -499,6 +499,28 @@ public final class StringTools {
   public static String normalizeNFC(String str) {
     return Normalizer.normalize(str, Normalizer.Form.NFC);
   }
+  
+  /**
+   * Apply to inputString the casing of modelString
+   * @param inputString, modelString 
+   * @return string
+   */
+  public static String preserveCase(String inputString, String modelString) {
+    if (modelString.isEmpty()) {
+      return inputString; 
+    }
+    if (isAllUppercase(modelString)) {
+      return inputString.toUpperCase(); 
+    }
+    if (isCapitalizedWord(modelString)) {
+      return uppercaseFirstChar(inputString.toLowerCase()); 
+    }
+//    if (!isNotAllLowercase(modelString)) {
+//      return inputString.toLowerCase();
+//    }
+    return inputString;
+    
+  }
 
   @Nullable
   public static String asString(CharSequence s) {
@@ -527,7 +549,7 @@ public final class StringTools {
    * Loads file, ignoring comments (lines starting with {@code #}).
    * @param path path in resource dir
    * @since 4.6
-   * @deprecated use DataBroker#getFromResourceDirAsLines(java.lang.String) instead
+   * @deprecated use DataBroker#getFromResourceDirAsLines(java.lang.String) instead (NOTE: it won't handle comments)
    */
   public static List<String> loadLines(String path) {
     InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.languagetool.Language;
 import org.languagetool.LinguServices;
+import org.languagetool.rules.Rule;
 
 import com.sun.star.beans.Property;
 import com.sun.star.beans.PropertyValue;
@@ -37,7 +38,6 @@ import com.sun.star.linguistic2.XHyphenator;
 import com.sun.star.linguistic2.XLinguServiceManager;
 import com.sun.star.linguistic2.XMeaning;
 import com.sun.star.linguistic2.XPossibleHyphens;
-import com.sun.star.linguistic2.XSearchableDictionaryList;
 import com.sun.star.linguistic2.XSpellAlternatives;
 import com.sun.star.linguistic2.XSpellChecker;
 import com.sun.star.linguistic2.XThesaurus;
@@ -57,6 +57,7 @@ public class LinguisticServices extends LinguServices {
   private XSpellChecker spellChecker = null;
   private XHyphenator hyphenator = null;
   private Map<String, List<String>> synonymsCache;
+  private List<String> thesaurusRelevantRules = null;
   private boolean noSynonymsAsSuggestions = false;
 
   public LinguisticServices(XComponentContext xContext) {
@@ -434,4 +435,29 @@ public class LinguisticServices extends LinguServices {
     return true;
   }
 
+  /**
+   * Set a thesaurus relevant rule
+   */
+  @Override
+  public void setThesaurusRelevantRule (Rule rule) {
+    if (thesaurusRelevantRules == null) {
+      thesaurusRelevantRules = new ArrayList<String>();
+    }
+    String ruleId = rule.getId();
+    if (!thesaurusRelevantRules.contains(ruleId)) {
+      thesaurusRelevantRules.add(ruleId);
+//      MessageHandler.printToLogFile("LinguisticServices: setThesaurusRelevantRule: Add ruleId:" + ruleId);
+    }
+  }
+
+  /**
+   * Test if rule is thesaurus relevant 
+   * (match should give suggestions from thesaurus)
+   */
+  public boolean isThesaurusRelevantRule (String ruleId) {
+//    for (String id : thesaurusRelevantRules) {
+//      MessageHandler.printToLogFile("LinguisticServices: isThesaurusRelevantRule: contains rule:" + id);
+//    }
+    return !noSynonymsAsSuggestions && thesaurusRelevantRules != null && thesaurusRelevantRules.contains(ruleId);
+  }
 }

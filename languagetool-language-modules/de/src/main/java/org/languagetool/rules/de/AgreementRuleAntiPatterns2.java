@@ -224,7 +224,7 @@ class AgreementRuleAntiPatterns2 {
       csToken("Lauer")
     ),
     asList(
-      token("dieser"),
+      tokenRegex("(eben)?dieser"),
       csToken("eine"),
       pos("SUB:NOM:SIN:MAS")
     ),
@@ -269,7 +269,7 @@ class AgreementRuleAntiPatterns2 {
       new PatternTokenBuilder().tokenRegex("haben|tun").matchInflectedForms().build()
     ),
     asList(
-      csToken("dieser"),
+      tokenRegex("(eben)?dieser"),
       csToken("einen"),
       pos("SUB:DAT:SIN:FEM")
     ),
@@ -328,6 +328,11 @@ class AgreementRuleAntiPatterns2 {
     asList(
       csToken("Total"),
       tokenRegex("Tankstellen?")
+    ),
+    asList(
+      posRegex("ART:.*"),
+      csToken("Bund"),
+      csToken("Naturschutz")
     ),
     asList(
       csToken("Real"),
@@ -469,7 +474,7 @@ class AgreementRuleAntiPatterns2 {
       tokenRegex("Suite[sn]?")
     ),
     asList( // Deine Abt.
-      tokenRegex("die|eine|unsere|meine|ihre|eure|diese|seine|deine"),
+      tokenRegex("die|eine|unsere|meine|ihre|eure|(eben)?diese|seine|deine"),
       csToken("Abt"),
       token("."),
       tokenRegex(".+")
@@ -591,36 +596,36 @@ class AgreementRuleAntiPatterns2 {
     ),
     asList(
       new PatternTokenBuilder().csToken("meinen").matchInflectedForms().setSkip(3).build(),
-      csRegex("das|dies(es)?"),
+      csRegex("das|(eben)?dies(es)?"),
       new PatternTokenBuilder().token("wirklich").min(0).build(),
       token("Ernst")
     ),
     asList(
       new PatternTokenBuilder().csToken("nehmen").matchInflectedForms().setSkip(3).build(),
-      csRegex("das|dies(es)?"),
+      csRegex("das|(eben)?dies(es)?"),
       new PatternTokenBuilder().token("wirklich").min(0).build(),
       token("Ernst")
     ),
     asList(
       // ... dann spart das Zeit und Geld.
       new PatternTokenBuilder().csToken("sparen").matchInflectedForms().setSkip(3).build(),
-      csRegex("das|dies|dieses"),
+      csRegex("das|(eben)?dies(es)?"),
       token("Zeit"),
       token("und"),
       csRegex("Geld|Nerven")
     ),
     asList(
-      csRegex("das|es|dies"),
+      csRegex("das|es|(eben)?dies"),
       csRegex("bedeutete?"),
       csRegex("Krieg|Ärger")
     ),
     asList(
       // In der aktuellen Niedrigzinsphase bedeutet das sehr geringe Zinsen, die aber deutlich ansteigen können.
       csRegex("bedeutete?"),
-      csRegex("das|dies")
+      csRegex("das|(eben)?dies")
     ),
     asList(
-      csRegex("das|es|dies"),
+      csRegex("das|es|(eben)?dies"),
       csRegex("weite"),
       token("Teile")
     ),

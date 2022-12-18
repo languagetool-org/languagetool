@@ -26,7 +26,6 @@ import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.patterns.Unifier;
@@ -247,34 +246,6 @@ public abstract class Language {
   }
 
   /**
-   * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
-   * @return a {@link Word2VecModel} or {@code null} if this language doesn't support one
-   * @since 4.0
-   */
-  @Nullable
-  public Word2VecModel getWord2VecModel(File indexDir) throws IOException {
-    return null;
-  }
-
-  /**
-   * Get a list of rules that require a {@link Word2VecModel}. Returns an empty list for
-   * languages that don't have such rules.
-   * @since 4.0
-   */
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    return Collections.emptyList();
-  }
-
-  /**
-   * Get a list of rules that load trained neural networks. Returns an empty list for
-   * languages that don't have such rules.
-   * @since 4.4
-   */
-  public List<Rule> getRelevantNeuralNetworkModels(ResourceBundle messages, File modelDir) {
-    return Collections.emptyList();
-  }
-
-  /**
    * Get the rules classes that should run for texts in this language.
    * @since 4.6
    */
@@ -355,6 +326,10 @@ public abstract class Language {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
             + "/" + getShortCode() + "/" + JLanguageTool.PATTERN_FILE);
+    if (dataBroker.ruleFileExists(getShortCode() + "/" + JLanguageTool.CUSTOM_PATTERN_FILE)) {
+      String customFile = dataBroker.getRulesDir() + "/" + getShortCode() + "/" + JLanguageTool.CUSTOM_PATTERN_FILE;
+      ruleFiles.add(customFile);
+    }
     if (getShortCodeWithCountryAndVariant().length() > 2) {
       String fileName = getShortCode() + "/"
               + getShortCodeWithCountryAndVariant()
@@ -474,7 +449,6 @@ public abstract class Language {
     if (wordTokenizer == null) {
       wordTokenizer = createDefaultWordTokenizer();
     }
-
     return wordTokenizer;
   }
 
@@ -920,7 +894,7 @@ public abstract class Language {
     return getShortCodeWithCountryAndVariant().hashCode();
   }
   
-  /*
+  /**
    * @since 5.1 
    * Some rules contain the field min_matches to check repeated patterns 
    */
@@ -928,9 +902,20 @@ public abstract class Language {
     return false;
   }
   
-  /** @since 5.6 */
+  /** 
+   * @since 5.6 
+   * Adjust suggestions depending on the enabled rules
+   */
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
 	  return ruleMatches;
+  }
+  
+  /**
+   * @since 6.0 
+   * Adjust suggestion 
+   */
+  public String adaptSuggestion(String s) {
+    return s;
   }
   
 }

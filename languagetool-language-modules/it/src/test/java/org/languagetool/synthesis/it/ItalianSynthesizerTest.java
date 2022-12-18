@@ -20,8 +20,6 @@ package org.languagetool.synthesis.it;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.Italian;
-import org.languagetool.synthesis.it.ItalianSynthesizer;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,7 +30,7 @@ public class ItalianSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
-    ItalianSynthesizer synth = new ItalianSynthesizer(new Italian());
+    ItalianSynthesizer synth = ItalianSynthesizer.INSTANCE;
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
     
     assertEquals("[richiedi]", Arrays.toString(synth.synthesize(dummyToken("richiedere"), "VER:impr+pres+2+s")));

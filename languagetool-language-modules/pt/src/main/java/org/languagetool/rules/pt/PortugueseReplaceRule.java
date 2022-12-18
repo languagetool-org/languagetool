@@ -19,12 +19,10 @@
 package org.languagetool.rules.pt;
 
 import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Example;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -54,6 +52,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
+    useSubRuleSpecificIds();
     /*addExamplePair(Example.wrong("<marker>device</marker>"),
                    Example.fixed("<marker>dispositivo</marker>"));*/
   }

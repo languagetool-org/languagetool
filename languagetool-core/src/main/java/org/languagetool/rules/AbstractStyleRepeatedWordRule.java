@@ -56,6 +56,9 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     this.lang = lang;
     if (userConfig != null) {
       linguServices = userConfig.getLinguServices();
+      if (linguServices != null) {
+        linguServices.setThesaurusRelevantRule(this);
+      }
       int confDistance = userConfig.getConfigValueByID(getId());
       if (confDistance >= 0) {
         this.maxDistanceOfSentences = confDistance;
@@ -189,6 +192,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   /**
    * get synonyms for a word
    */
+/* TODO: Remove after tests
   public List<String> getSynonymsForWord(String word) {
     List<String> synonyms = new ArrayList<String>();
     List<String> rawSynonyms = linguServices.getSynonyms(word, lang);
@@ -200,10 +204,11 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     }
     return synonyms;
   }
-
+*/
   /**
    * get synonyms for a repeated word
    */
+/* TODO: Remove after tests
   public List<String> getSynonyms(AnalyzedTokenReadings token) {
     List<String> synonyms = new ArrayList<String>();
     if(linguServices == null || token == null) {
@@ -226,7 +231,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     }
     return synonyms;
   }
-
+*/
   /* 
    *  true if token is found in sentence
    */
@@ -313,10 +318,12 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
               int startPos = pos + token.getStartPos();
               int endPos = pos + token.getEndPos();
               RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg);
+/* TODO: Remove after tests
               List<String> suggestions = getSynonyms(token);
               if(!suggestions.isEmpty()) {
                 ruleMatch.setSuggestedReplacements(suggestions);
               }
+*/
               URL url = setURL(token);
               if(url != null) {
                 ruleMatch.setUrl(url);

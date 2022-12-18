@@ -23,8 +23,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.pt.*;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
@@ -98,7 +96,7 @@ public class Portuguese extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new PortugueseSynthesizer(this);
+    return PortugueseSynthesizer.INSTANCE;
   }
 
   @Override
@@ -137,7 +135,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseFillerWordsRule(messages, this, userConfig),
             new PortugueseRedundancyRule(messages),
             new PortugueseWordinessRule(messages),
-            new PortugueseWeaselWordsRule(messages),
+            //new PortugueseWeaselWordsRule(messages),
             new PortugueseWikipediaRule(messages),
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
@@ -169,18 +167,6 @@ public class Portuguese extends Language implements AutoCloseable {
     return Arrays.asList(
             new PortugueseConfusionProbabilityRule(messages, languageModel, this)
     );
-  }
-
-  /** @since 4.0 */
-  @Override
-  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
-    return new Word2VecModel(indexDir + File.separator + getShortCode());
-  }
-
-  /** @since 4.0 */
-  @Override
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
   }
 
   /** @since 3.6 */
@@ -256,6 +242,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "HUNSPELL_RULE":             return -50;
       case "CRASE_CONFUSION":           return -55;
       case "GENERAL_VERB_AGREEMENT_ERRORS":           return -55;
+      case "GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS":           return -56;
       case "FINAL_STOPS":               return -75;
       case "EU_NÓS_REMOVAL":            return -90;
       case "T-V_DISTINCTION":           return -100;

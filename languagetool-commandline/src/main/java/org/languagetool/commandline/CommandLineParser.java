@@ -103,12 +103,6 @@ class CommandLineParser {
       } else if (args[i].equals("--languagemodel")) {
         checkArguments("--languagemodel", i, args);
         options.setLanguageModel(new File(args[++i]));
-      } else if (args[i].equals("--word2vecmodel")) {
-        checkArguments("--word2vecmodel", i, args);
-        options.setWord2VecModel(new File(args[++i]));
-      } else if (args[i].equals("--neuralnetworkmodel")) {
-        checkArguments("--neuralnetworkmodel", i, args);
-        options.setNeuralNetworkModel(new File(args[++i]));
       } else if (args[i].equals("--fasttextmodel")) {
         checkArguments("--fasttextmodel", i, args);
         options.setFasttextModel(new File(args[++i]));
@@ -151,27 +145,16 @@ class CommandLineParser {
         if (options.isListUnknown()) {
           throw new IllegalArgumentException("You cannot list unknown words in JSON output format");
         }
-      } else if (args[i].equals("--api")) {
-        options.setXmlFormat();
-        if (options.isApplySuggestions()) {
-          throw new IllegalArgumentException("XML API format makes no sense for automatic application of suggestions");
-        }
       } else if (args[i].equals("-a") || args[i].equals("--apply")) {
         options.setApplySuggestions(true);
         if (options.isTaggerOnly()) {
           throw new IllegalArgumentException("You cannot apply suggestions when tagging only");
-        }
-        if (options.isXmlFormat()) {
-          throw new IllegalArgumentException("XML API format makes no sense for automatic application of suggestions");
         }
         if (options.isJsonFormat()) {
           throw new IllegalArgumentException("JSON output format makes no sense for automatic application of suggestions");
         }
       } else if (args[i].equals("-p") || args[i].equals("--profile")) {
         options.setProfile(true);
-        if (options.isXmlFormat()) {
-          throw new IllegalArgumentException("XML API format makes no sense for profiling");
-        }
         if (options.isJsonFormat()) {
           throw new IllegalArgumentException("JSON output format makes no sense for profiling");
         }
@@ -218,7 +201,6 @@ class CommandLineParser {
             + "  -u, --list-unknown       also print a summary of words from the input that LanguageTool doesn't know\n"
             + "  -b2, --bitext            check bilingual texts with a tab-separated input file,\n"
             + "                           see http://languagetool.wikidot.com/checking-translations-bilingual-texts\n"
-            + "  --api                    [deprecated] print results as XML - please use --json or the JSON API in server mode instead\n"
             + "  --json                   print results as JSON (see https://languagetool.org/http-api/#!/default/post_check)\n"
             + "  -p, --profile            print performance measurements\n"
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
@@ -234,9 +216,6 @@ class CommandLineParser {
             + "                           '1grams'...'3grams' sub directories with Lucene indexes with\n"
             + "                           ngram occurrence counts; activates the confusion rule if supported;\n"
             + "                           see https://dev.languagetool.org/finding-errors-using-n-gram-data\n"
-            + "  --word2vecmodel DIR      [deprecated] a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
-            + "                           final_embeddings.txt and dictionary.txt; activates neural network based rules\n"
-            + "  --neuralnetworkmodel DIR [deprecated] a base directory for various saved neural network models\n"
             + "  --fasttextmodel FILE     fasttext language detection model (optional), see https://fasttext.cc/docs/en/language-identification.html\n"
             + "  --fasttextbinary FILE    fasttext executable (optional), see https://fasttext.cc/docs/en/support.html\n"
             + "  --xmlfilter              [deprecated] remove XML/HTML elements from input before checking\n"

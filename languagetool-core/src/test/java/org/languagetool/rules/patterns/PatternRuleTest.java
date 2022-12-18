@@ -149,7 +149,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
    */
   protected void runGrammarRulesFromXmlTest() throws IOException {
     for (Language lang : Languages.get()) {
-        runGrammarRuleForLanguage(lang);
+      runGrammarRuleForLanguage(lang);
     }
     if (Languages.get().isEmpty()) {
       System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");
@@ -193,6 +193,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     validateRuleIds(lang, allRulesLt);
     validateSentenceStartNotInMarker(allRulesLt);
     validateUnifyIgnoreAtTheStartOfUnify(allRulesLt);
+    //validateRegexpInSynthesisMatches(allRulesLt);
+    validateParenthesisInSynthesisMatches(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
     testRegexSyntax(lang, rules);
     testMessages(lang, rules);
@@ -320,6 +322,95 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
   
+  protected void validateParenthesisInSynthesisMatches(JLanguageTool lt) {
+    System.out.println("Check parenthesis and back references in synthesis matches...");
+    List<Rule> rules = lt.getAllRules();
+    for (Rule rule : rules) {
+      if (rule instanceof AbstractPatternRule) {
+        AbstractPatternRule apRule = (AbstractPatternRule) rule;
+        List<Match> suggestionMatches = new ArrayList<>();
+        if (apRule.getSuggestionMatches() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatches());
+        }
+        if (apRule.getSuggestionMatchesOutMsg() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatchesOutMsg());
+        }
+        for (Match suggestionMatch : suggestionMatches) {
+          if (suggestionMatch.getPosTag() != null && suggestionMatch.getPosTagReplace() != null) {
+            long openingNum = suggestionMatch.getPosTag().chars().filter(ch -> ch == '(').count();
+            int maxBackReference = getMaxBackReferenceNo(suggestionMatch.getPosTagReplace());
+            if (openingNum < maxBackReference) {
+              String failure = "Back reference number (" + maxBackReference
+                  + ") is greater than existing number of parenthesis.";
+              addError((AbstractPatternRule) rule, failure);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private int getMaxBackReferenceNo(String message) {
+    // back references are no greater than 9, i.e. $10 means $1
+    Pattern pattern = Pattern.compile("\\$[0-9]");
+    Matcher matcher = pattern.matcher(message);
+    int maxNo = -1;
+    while (matcher.find()) {
+      int no = Integer.parseInt(matcher.group().replace("$", ""));
+      if (no > maxNo) {
+        maxNo = no;
+      }
+    }
+    return maxNo;
+  }
+
+  protected void validateRegexpInSynthesisMatches(JLanguageTool lt) {
+    System.out.println("Check that synthesis matches with POS tag regexp have POS tag regexp in the pattern...");
+    List<Rule> rules = lt.getAllRules();
+    for (Rule rule : rules) {
+      if (rule instanceof AbstractPatternRule) {
+        AbstractPatternRule apRule = (AbstractPatternRule) rule;
+        List<PatternToken> patternTokens = apRule.getPatternTokens();
+        List<Match> suggestionMatches = new ArrayList<>();
+        if (apRule.getSuggestionMatches() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatches());
+        }
+        if (apRule.getSuggestionMatchesOutMsg() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatchesOutMsg());
+        }
+        List<Integer> matchNos = getMatchNos(
+            ((AbstractPatternRule) rule).getMessage() + ((AbstractPatternRule) rule).getSuggestionsOutMsg());
+        int i = 0;
+        for (Match suggestionMatch : suggestionMatches) {
+          if (suggestionMatch.isPostagRegexp()) {
+            int no = matchNos.get(i);
+            if (patternTokens != null && no > patternTokens.size()) {
+              System.err.println("Warning: Rule " + rule.getFullId() + " refers to token \\" + (no) + " but has only "
+                  + patternTokens.size() + " tokens.");
+            } else {
+              // !patternTokens.get(no - 1).isPOStagRegularExpression() &&
+              if (patternTokens.get(no - 1).getPOStag() == null) {
+                System.err.println("Warning: Rule " + rule.getFullId() + " refers to token \\" + (no)
+                    + " with a postag regular expression, but the token in the pattern has no postag.");
+              }
+            }
+          }
+          i++;
+        }
+      }
+    }
+  }
+
+  private List<Integer> getMatchNos(String message) {
+    Pattern pattern = Pattern.compile("\\\\[0-9]+");
+    Matcher matcher = pattern.matcher(message);
+    List<Integer> noList = new ArrayList<>();
+    while (matcher.find()) {
+      noList.add(Integer.parseInt(matcher.group().replace("\\", "")));
+    }
+    return noList;
+  }
+  
   private static void disableSpellingRules(JLanguageTool lt) {
     List<Rule> allRules = lt.getAllRules();
     for (Rule rule : allRules) {
@@ -371,9 +462,20 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (msg.toLowerCase().contains("tbd")) {
         fail("Unfinished message (contains 'tbd') of rule " + rule.getFullId() + ": '" + msg + "'");
       }
-      //if (msg.matches(".*[^\"'>)?!.]$")) {
-      //  System.err.println("Warning: Message of " + rule.getFullId() + " doesn't end in [.!?]: " + msg);
-      //}
+      if (lang.getShortCode().matches("de|en|fr|es|nl")) {  // not yet 'pt' due to many matches there
+        if (!msg.trim().equals(rule.getMessage())) {
+          System.err.println("*** WARNING: Message of rule " + rule.getFullId() + " starts or ends with spaces: '" + rule.getMessage() + "'");
+        }
+      }
+      if (lang.getShortCode().equals("de") && !msg.equals("Failing for testing purposes")) {
+        if (msg.trim().endsWith("!")) {
+          fail("Message ends in '!' for rule " + rule.getFullId() + ": '" + msg + "'");
+        }
+        if (!msg.trim().matches(".*[.?)'\"]$")) {
+          fail("Message doesn't end with [.?)'\"] for rule " + rule.getFullId() + ": '" + msg + "'");
+          //System.out.println("Message doesn't end with [.?)'\"] for rule " + rule.getFullId() + ": '" + msg + "'");
+        }
+      }
     }
   }
   

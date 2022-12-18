@@ -188,7 +188,7 @@ public class UkrainianHybridDisambiguationTest {
   public void testDisambiguatorForInanimVKly() throws IOException {
 
     TestTools.myAssert("Поломане крило",
-      "/[null]SENT_START Поломане/[поломаний]adj:n:v_kly:&adjp:pasv:perf:coll|Поломане/[поломаний]adj:n:v_naz:&adjp:pasv:perf:coll|Поломане/[поломаний]adj:n:v_zna:&adjp:pasv:perf:coll"
+      "/[null]SENT_START Поломане/[поломаний]adj:n:v_kly:&adjp:pasv:perf|Поломане/[поломаний]adj:n:v_naz:&adjp:pasv:perf|Поломане/[поломаний]adj:n:v_zna:&adjp:pasv:perf"
       + "  /[null]null крило/[крило]noun:inanim:n:v_naz|крило/[крило]noun:inanim:n:v_zna|крило/[крити]verb:imperf:past:n",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
@@ -620,7 +620,7 @@ public class UkrainianHybridDisambiguationTest {
     TestTools.myAssert("два Володьки", 
         "/[null]SENT_START "
         + "два/[два]numr:p:v_naz|два/[два]numr:p:v_zna  "
-        + "/[null]null Володьки/[Володька]noun:anim:p:v_naz:prop:fname:coll",
+        + "/[null]null Володьки/[Володька]noun:anim:p:v_naz:prop:fname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("два Бойка", 

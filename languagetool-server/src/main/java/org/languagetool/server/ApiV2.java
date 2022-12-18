@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.util.*;
@@ -459,13 +458,25 @@ class ApiV2 {
     try (JsonGenerator g = factory.createGenerator(sw)) {
       g.writeStartArray();
       List<Language> languages = new ArrayList<>(Languages.get());
-      languages.sort(Comparator.comparing(Language::getName));
+      Set<String> longCodes = new HashSet<>();
       for (Language lang : languages) {
         g.writeStartObject();
         g.writeStringField("name", lang.getName());
         g.writeStringField("code", lang.getShortCode());
         g.writeStringField("longCode", lang.getShortCodeWithCountryAndVariant());
+        longCodes.add(lang.getShortCodeWithCountryAndVariant());
         g.writeEndObject();
+      }
+      // add mappings like "fr-FR -> fr" because LibreOffice 7.4 needs them:
+      Map<String, Language> codeMap = Languages.getLongCodeToLangMapping();
+      for (Map.Entry<String, Language> entry : codeMap.entrySet()) {
+        if (!longCodes.contains(entry.getKey())) {
+          g.writeStartObject();
+          g.writeStringField("name", entry.getValue().getName());
+          g.writeStringField("code", entry.getValue().getShortCode());
+          g.writeStringField("longCode", entry.getKey());
+          g.writeEndObject();
+        }
       }
       g.writeEndArray();
     }
@@ -501,9 +512,6 @@ class ApiV2 {
     JLanguageTool lt = new JLanguageTool(lang);
     if (textChecker.config.languageModelDir != null) {
       lt.activateLanguageModelRules(textChecker.config.languageModelDir);
-    }
-    if (textChecker.config.word2vecModelDir != null) {
-      lt.activateWord2VecModelRules(textChecker.config.word2vecModelDir);
     }
     List<Rule> rules = lt.getAllRules();
     rules = rules.stream().filter(rule -> !Premium.get().isPremiumRule(rule)).collect(Collectors.toList());

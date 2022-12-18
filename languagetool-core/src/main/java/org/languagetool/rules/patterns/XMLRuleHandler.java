@@ -192,6 +192,8 @@ public class XMLRuleHandler extends DefaultHandler {
   protected List<Match> suggestionMatches = new ArrayList<>();
   protected List<Match> suggestionMatchesOutMsg = new ArrayList<>();
   protected Locator pLocator;
+  protected int xmlLineNumber = -1;
+  protected int xmlLineNumberAntiPattern = -1;
 
   protected int startPositionCorrection;
   protected int endPositionCorrection;

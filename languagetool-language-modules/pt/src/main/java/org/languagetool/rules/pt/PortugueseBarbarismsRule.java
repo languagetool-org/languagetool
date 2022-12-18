@@ -56,6 +56,7 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
     this.path = Objects.requireNonNull(path);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
+    useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>curriculum vitae</marker>"),
                    Example.fixed("<marker>currículo</marker>"));
   }

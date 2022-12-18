@@ -99,6 +99,11 @@ public class UpperCaseNgramRule extends Rule {
       csRegex("[A-Z].+")
     ),
     Arrays.asList(
+      csRegex("[A-Z].+"),
+      tokenRegex("[’']"),
+      csRegex("s")
+    ),
+    Arrays.asList(
       pos("SENT_START"), // Two-word phrases with "?" or "!": "What Happened?", "Catch Up!" (can be headlines)
       tokenRegex("[A-Z].+"),
       tokenRegex("[A-Z].+"),

@@ -73,7 +73,7 @@ public class Galician extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new GalicianSynthesizer(this);
+    return GalicianSynthesizer.INSTANCE;
   }
 
   @Override

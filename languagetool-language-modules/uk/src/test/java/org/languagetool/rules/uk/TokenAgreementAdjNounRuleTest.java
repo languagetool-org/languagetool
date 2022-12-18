@@ -44,8 +44,8 @@ public class TokenAgreementAdjNounRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    rule = new TokenAgreementAdjNounRule(TestTools.getMessages("uk"));
     lt = new JLanguageTool(new Ukrainian());
+    rule = new TokenAgreementAdjNounRule(TestTools.getMessages("uk"), lt.getLanguage());
 //    TokenInflectionAgreementRule.DEBUG = true;
   }
 
@@ -345,7 +345,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("два високих депутат")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("дві високих дівчині")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("83,7 квадратних кілометра")).length);
-
+    
     // дріб
     assertEmptyMatch("дві мільярдних метра");
     assertEmptyMatch("п’ять шостих населення");

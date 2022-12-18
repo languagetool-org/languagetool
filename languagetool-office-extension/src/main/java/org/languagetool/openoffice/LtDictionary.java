@@ -53,6 +53,7 @@ import com.sun.star.uno.XComponentContext;
  */
 public class LtDictionary {
   
+  private final static String INTERNAL_DICT_PREFIX = "__LT_";
   private final static String[] ADD_ALL = { "e", "er", "es", "en", "em" };
   private final static int MAX_DICTIONARY_SIZE = 30000;
   private final static int NUM_PATHS = 7;
@@ -78,9 +79,12 @@ public class LtDictionary {
     if (listIgnoredWords == null) {
       XDictionary[] dictionaryList = searchableDictionaryList.getDictionaries();
       listIgnoredWords = dictionaryList[dictionaryList.length - 1];
+      if (debugMode) {
+        MessageHandler.printToLogFile("dictionary for ignored words found: " + listIgnoredWords.getName());
+      }
     }
     String shortCode = OfficeTools.localeToString(locale);
-    String dictionaryNamePrefix = "__LT_" + shortCode + "_internal";
+    String dictionaryNamePrefix = INTERNAL_DICT_PREFIX + shortCode + "_internal";
     String dictionaryName = dictionaryNamePrefix + "1.dic";
 //    String dictionaryName = "LT_Spelling_" + shortCode + ".dic";
 //    MessageHandler.printToLogFile("dictionary name: " + dictionaryName);
@@ -154,8 +158,8 @@ public class LtDictionary {
   /**
    * get the list of words out of spelling.txt files defined by LT
    */
-  private List<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
-    List<String> words = new ArrayList<>();
+  private Set<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
+    Set<String> words = new HashSet<>();
     String path;
     for (int i = 0; i < NUM_PATHS; i++) {
       path = getSpellingFilePath(locale, i);
@@ -169,20 +173,14 @@ public class LtDictionary {
               lineWords = lineWords[0].trim().split("/");
               lineWords[0] = lineWords[0].replaceAll("_","");
               if (!lineWords[0].isEmpty()) {
-//                if (!words.contains(lineWords[0]) && !linguServices.isCorrectSpell(lineWords[0], locale)) {
-                if (!words.contains(lineWords[0])) {
-                  words.add(lineWords[0]);
-                }
+                words.add(lineWords[0]);
                 if (lineWords.length > 1) {
                   lineWords[1] = lineWords[1].trim();
                   for (int n = 0; n < lineWords[1].length(); n++) {
                     if (lineWords[1].charAt(n) == 'A') {
                       for (String add : ADD_ALL) {
                         String word = lineWords[0] + add;
-//                        if (!words.contains(word) && !linguServices.isCorrectSpell(word, locale)) {
-                        if (!words.contains(word)) {
-                          words.add(word);
-                        }
+                        words.add(word);
                       }
                     } else {
                       String word = lineWords[0];
@@ -195,10 +193,7 @@ public class LtDictionary {
                       } else if (lineWords[1].charAt(n) == 'F') {
                         word += "in";
                       }
-//                      if (!words.contains(word) && !linguServices.isCorrectSpell(word, locale)) {
-                      if (!words.contains(word)) {
-                        words.add(word);
-                      }
+                      words.add(word);
                     }
                   }
                 }
@@ -260,7 +255,7 @@ public class LtDictionary {
       } else {
         MessageHandler.printToLogFile("getLTDictionaryFile: LT dictionary file doesn't exist: start to create");
       }
-      List<String> words = getManualWordList(locale, linguServices);
+      Set<String> words = getManualWordList(locale, linguServices);
       try (OutputStream stream = new FileOutputStream(path);
           OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
           BufferedWriter br = new BufferedWriter(writer)
@@ -359,12 +354,15 @@ public class LtDictionary {
     XDictionary[] dictionaryList = searchableDictionaryList.getDictionaries();
     if (listIgnoredWords == null) {
       listIgnoredWords = dictionaryList[dictionaryList.length - 1];
+      if (debugMode) {
+        MessageHandler.printToLogFile("dictionary for ignored words found: " + listIgnoredWords.getName());
+      }
     }
     List<String> userDictionaries = new ArrayList<String>();
     for (XDictionary dictionary : dictionaryList) {
       if (dictionary.isActive()) {
         String name = dictionary.getName();
-        if (!name.startsWith("__LT_") && !name.equals(listIgnoredWords.getName())) {
+        if (!name.startsWith(INTERNAL_DICT_PREFIX) && !name.equals(listIgnoredWords.getName())) {
           userDictionaries.add(new String(name));
         }
       }

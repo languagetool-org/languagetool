@@ -30,6 +30,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
 
 import com.sun.star.awt.XMenuBar;
 import com.sun.star.awt.XPopupMenu;
@@ -94,6 +95,7 @@ class OfficeTools {
   public static final int NUMBER_TEXTLEVEL_CACHE = 4;     // Number of caches for matches of text level rules
   public static final String MULTILINGUAL_LABEL = "99-";  // Label added in front of variant to indicate a multilingual paragraph (returned is the main language)
   public static final int CHECK_MULTIPLIKATOR = 40;       //  Number of minimum checks for a first check run
+  public static final int CHECK_SHAPES_TIME = 1000;       //  time interval to run check for changes in text inside of shapes
   public static int TIME_TOLERANCE = 100;                 //  Minimal milliseconds to show message in TM debug mode
   
   public static int DEBUG_MODE_SD = 0;            //  Set Debug Mode for SingleDocument
@@ -538,6 +540,17 @@ class OfficeTools {
   public static String getJavaInformation () {
     return "Java-Version: " + System.getProperty("java.version") + ", max. Heap-Space: " + ((int) (getMaxHeapSpace()/1048576)) +
         " MB, LT Heap Space Limit: " + ((int) (getHeapLimit(getMaxHeapSpace())/1048576)) + " MB";
+  }
+
+  /**
+   * Get information about LanguageTool
+   */
+  public static String getLtInformation () {
+    String txt = JLanguageTool.VERSION;
+    if (JLanguageTool.VERSION.contains("SNAPSHOT")) {
+      txt += " - " + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID;
+    }
+    return txt;
   }
 
   /**

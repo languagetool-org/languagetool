@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.LinguServices;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractStatisticStyleRule;
 
@@ -66,11 +67,25 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   
   public GermanFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages, lang, userConfig, DEFAULT_MIN_PERCENT);
+    if (userConfig != null) {
+      LinguServices linguServices = userConfig.getLinguServices();
+      if (linguServices != null) {
+        linguServices.setThesaurusRelevantRule(this);
+      }
+    }
   }
 
   private static boolean isException(AnalyzedTokenReadings[] tokens, int num) {
     if (num == 1 || ",".equals(tokens[num - 1].getToken())) {
       return true;
+    }
+    if ("allein".equals(tokens[num].getToken())) {
+      for(int i = 1; i < tokens.length; i++) {
+        if (tokens[i].hasLemma("sein")) {
+          return true;
+        }
+      }
+      return false;
     }
     if ("recht".equals(tokens[num].getToken())) {
       for(int i = 1; i < tokens.length; i++) {
@@ -127,7 +142,7 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
   @Override
   protected boolean sentenceConditionFulfilled(AnalyzedTokenReadings[] tokens, int nToken) {
     if ((nToken > 1 && fillerWords.contains(tokens[nToken - 1].getToken()) && !isException(tokens, nToken - 1)) || 
-        (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && !isException(tokens, nToken))) {
+        (nToken < tokens.length - 1 && fillerWords.contains(tokens[nToken + 1].getToken()) && !isException(tokens, nToken + 1))) {
       sentenceMessage = DEFAULT_SENTENCE_MSG1;
       return true;
     }

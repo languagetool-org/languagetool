@@ -204,6 +204,31 @@ public class MorfologikFrenchSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("BretagneItinéraire"));
     assertEquals(1, matches.length);
     assertEquals("Bretagne Itinéraire", matches[0].getSuggestedReplacements().get(0));
+    
+    
+    matches = rule.match(lt.getAnalyzedSentence("123heures"));
+    assertEquals(1, matches.length);
+    assertEquals("123 heures", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("\u23F0heures"));
+    assertEquals(1, matches.length);
+    assertEquals("[⏰ heures]", matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("\u23F0heuras"));
+    assertEquals(1, matches.length);
+    assertEquals("[⏰ heures, ⏰ heurts, ⏰ heurs, ⏰ hourras, ⏰ beurras, ⏰ heurtas, ⏰ hueras, ⏰ leurras, ⏰ heu ras, ⏰ heur as]", matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("©heures"));
+    assertEquals(1, matches.length);
+    assertEquals("[© heures]", matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("►heures"));
+    assertEquals(1, matches.length);
+    assertEquals("[► heures]", matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("◦heures"));
+    assertEquals(1, matches.length);
+    assertEquals("[◦ heures]", matches[0].getSuggestedReplacements().toString());
 
   }
   

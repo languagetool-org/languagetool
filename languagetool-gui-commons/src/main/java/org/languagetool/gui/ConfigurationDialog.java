@@ -67,6 +67,7 @@ public class ConfigurationDialog implements ActionListener {
   private final Frame owner;
   private final boolean insideOffice;
   private final Image ltImage;
+  private String dialogTitle;
   private boolean configChanged = false;
   private boolean profileChanged = true;
   private boolean restartShow = false;
@@ -86,15 +87,16 @@ public class ConfigurationDialog implements ActionListener {
   private Rule rule;
 
   public ConfigurationDialog(Frame owner, boolean insideOffice, Configuration config) {
-    this(owner, insideOffice, null, config);
+    this(owner, insideOffice, null, null, config);
   }
 
-  public ConfigurationDialog(Frame owner, boolean insideOffice, Image ltImage, Configuration config) {
+  public ConfigurationDialog(Frame owner, boolean insideOffice, Image ltImage, String title, Configuration config) {
     this.owner = owner;
     this.insideOffice = insideOffice;
     this.original = config;
     this.config = original.copy(original);
     this.ltImage = ltImage;
+    dialogTitle = title;
     messages = JLanguageTool.getMessageBundle();
   }
 
@@ -190,7 +192,10 @@ public class ConfigurationDialog implements ActionListener {
     }
     restartShow = false;
     dialog = new JDialog(owner, true);
-    dialog.setTitle(messages.getString("guiConfigWindowTitle"));
+    if (dialogTitle == null) {
+      dialogTitle = messages.getString("guiConfigWindowTitle");
+    }
+    dialog.setTitle(dialogTitle);
     if (ltImage != null) {
       ((Frame) dialog.getOwner()).setIconImage(ltImage);
     }
@@ -333,9 +338,6 @@ public class ConfigurationDialog implements ActionListener {
       cons.gridy++;
       cons.anchor = GridBagConstraints.WEST;
       jPane.add(getMotherTonguePanel(cons), cons);
-      cons.gridx = 0;
-      cons.gridy++;
-      jPane.add(getNgramAndWord2VecPanel(), cons);
     }
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
@@ -1065,7 +1067,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(saveCacheBox, cons);
-    
+
     cons.gridy++;
     portPanel.add(getNgramAndWord2VecPanel(), cons);
   }
@@ -1481,7 +1483,7 @@ public class ConfigurationDialog implements ActionListener {
     motherTonguePanel.add(motherTongueBox, cons);
     return motherTonguePanel;
   }
-  
+
   private JPanel getNgramAndWord2VecPanel() {
     JPanel panel = new JPanel();
     panel.setLayout(new GridBagLayout());
@@ -1494,7 +1496,6 @@ public class ConfigurationDialog implements ActionListener {
     cons1.weightx = 0.0f;
     addNgramPanel(cons1, panel);
     cons1.gridy++;
-    addWord2VecPanel(cons1, panel);
     return panel;
   }
 
@@ -1528,38 +1529,6 @@ public class ConfigurationDialog implements ActionListener {
     panel.add(ngramDirButton, cons);
     JButton helpButton = new JButton(messages.getString("guiNgramHelp"));
     helpButton.addActionListener(e -> Tools.openURL("https://dev.languagetool.org/finding-errors-using-n-gram-data"));
-    cons.gridx++;
-    panel.add(helpButton, cons);
-  }
-
-  private void addWord2VecPanel(GridBagConstraints cons, JPanel panel) {
-    cons.gridx = 0;
-    panel.add(new JLabel((messages.getString("guiWord2VecDir")) + "  "), cons);
-    File dir = config.getWord2VecDirectory();
-    int maxDirDisplayLength = 45;
-    String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength) : messages.getString("guiWord2VecDirSelect");
-    JButton word2vecDirButton = new JButton(buttonText);
-    word2vecDirButton.addActionListener(e -> {
-      File newDir = Tools.openDirectoryDialog(owner, dir);
-      if (newDir != null) {
-        try {
-          config.setWord2VecDirectory(newDir);
-          word2vecDirButton.setText(StringUtils.abbreviate(newDir.getAbsolutePath(), maxDirDisplayLength));
-        } catch (Exception ex) {
-          Tools.showErrorMessage(ex);
-        }
-      } else {
-        // not the best UI, but this way user can turn off word2vec feature without another checkbox
-        config.setWord2VecDirectory(null);
-        word2vecDirButton.setText(StringUtils.abbreviate(messages.getString("guiWord2VecDirSelect"), maxDirDisplayLength));
-      }
-    });
-    cons.gridx++;
-    panel.add(word2vecDirButton, cons);
-    JButton helpButton = new JButton(messages.getString("guiWord2VecHelp"));
-    helpButton.addActionListener(e -> {
-      Tools.openURL("https://github.com/gulp21/languagetool-neural-network");
-    });
     cons.gridx++;
     panel.add(helpButton, cons);
   }
@@ -1840,11 +1809,48 @@ public class ConfigurationDialog implements ActionListener {
       changeButton.add(new JButton(messages.getString("guiUColorChange")));
       changeButton.get(nCat).addActionListener(e -> {
         Color oldColor = uLabel.getForeground();
-        Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
+        if(insideOffice) {
+          dialog.setAlwaysOnTop(false);
+        }
+        
+        JColorChooser colorChooser = new JColorChooser(oldColor);
+        ActionListener okActionListener = new ActionListener() {
+          public void actionPerformed(ActionEvent actionEvent) {
+            Color newColor = colorChooser.getColor();
+            if(newColor != null && newColor != oldColor) {
+              uLabel.setForeground(newColor);
+              config.setUnderlineColor(cLabel, newColor);
+            }
+            if(insideOffice) {
+              dialog.setAlwaysOnTop(true);
+            }
+          }
+        };
+        // For cancel selection, change button background to red
+        ActionListener cancelActionListener = new ActionListener() {
+          public void actionPerformed(ActionEvent actionEvent) {
+            if(insideOffice) {
+              dialog.setAlwaysOnTop(true);
+            }
+          }
+        };
+        JDialog colorDialog = JColorChooser.createDialog(dialog, messages.getString("guiUColorDialogHeader"), true,
+            colorChooser, okActionListener, cancelActionListener);
+        if(insideOffice) {
+          colorDialog.setAlwaysOnTop(true);
+        }
+        colorDialog.toFront();
+        colorDialog.setVisible(true);
+/*
+        Color newColor = JColorChooser.showDialog(null, messages.getString("guiUColorDialogHeader"), oldColor);
         if(newColor != null && newColor != oldColor) {
           uLabel.setForeground(newColor);
           config.setUnderlineColor(cLabel, newColor);
         }
+        if(insideOffice) {
+          dialog.setAlwaysOnTop(true);
+        }
+*/
       });
       cons.gridx++;
       panel.add(changeButton.get(nCat), cons);
@@ -1923,6 +1929,42 @@ public class ConfigurationDialog implements ActionListener {
     JButton changeButton = new JButton(messages.getString("guiUColorChange"));
     changeButton.addActionListener(e -> {
       Color oldColor = underlineLabel.getForeground();
+      if(insideOffice) {
+        dialog.setAlwaysOnTop(false);
+      }
+      JColorChooser colorChooser = new JColorChooser(oldColor);
+      ActionListener okActionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent actionEvent) {
+          Color newColor = colorChooser.getColor();
+          if(newColor != null && newColor != oldColor) {
+            underlineLabel.setForeground(newColor);
+            if (rule == null) {
+              config.setUnderlineColor(category, newColor);
+            } else {
+              config.setUnderlineRuleColor(rule.getId(), newColor);
+            }
+          }
+          if(insideOffice) {
+            dialog.setAlwaysOnTop(true);
+          }
+        }
+      };
+      // For cancel selection, change button background to red
+      ActionListener cancelActionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent actionEvent) {
+          if(insideOffice) {
+            dialog.setAlwaysOnTop(true);
+          }
+        }
+      };
+      JDialog colorDialog = JColorChooser.createDialog(dialog, messages.getString("guiUColorDialogHeader"), true,
+          colorChooser, okActionListener, cancelActionListener);
+      if(insideOffice) {
+        colorDialog.setAlwaysOnTop(true);
+      }
+      colorDialog.toFront();
+      colorDialog.setVisible(true);
+/*      
       Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
       if(newColor != null && newColor != oldColor) {
         underlineLabel.setForeground(newColor);
@@ -1932,6 +1974,10 @@ public class ConfigurationDialog implements ActionListener {
           config.setUnderlineRuleColor(rule.getId(), newColor);
         }
       }
+      if(insideOffice) {
+        dialog.setAlwaysOnTop(true);
+      }
+*/
     });
     cons1.gridx++;
     colorPanel.add(changeButton);

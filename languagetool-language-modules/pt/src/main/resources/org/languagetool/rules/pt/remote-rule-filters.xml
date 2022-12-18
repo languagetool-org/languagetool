@@ -46,6 +46,13 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="False alarms in missing comma rule">
         <rule>
             <pattern>
+                <token>de</token>
+                <token regexp="yes">\d+%</token>
+            </pattern>
+            <example correction="">Aumento <marker>de 285%</marker> no número de pessoas</example>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">\d+</token>
                 <token regexp="yes">\d+</token>
                 <token regexp="yes">\d+</token>
@@ -53,14 +60,6 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </pattern>
             <example correction="">ex: <marker>01 22 34.</marker></example>
         </rule>
-        <rule>
-        <pattern>
-            <token postag="NC.+" postag_regexp="yes"/>
-            <token postag="AQ.+" postag_regexp="yes"/>
-            <token regexp="yes">,|e</token>
-        </pattern>
-        <example correction="">É composta por <marker>calça legging,</marker> entre outras.</example>
-    </rule>
         <rule>
             <pattern>
                     <token regexp="yes">\d+</token>
@@ -96,8 +95,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <token>,</token>
                 <token postag="N.+" postag_regexp="yes"/>
                 <token regexp="yes">e|,</token>
+                <token postag="N.+" postag_regexp="yes"/>
             </pattern>
-            <example correction="">Muitas <marker>pessoas pesquisadores, cientistas e</marker> astrônomos não comparecem a esses eventos.</example>
+            <example correction="">Muitas <marker>pessoas pesquisadores, cientistas e astrônomos</marker> não comparecem a esses eventos.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.+" postag_regexp="yes"/>
+                <token postag="AQ.+" postag_regexp="yes"/>
+                <token regexp="yes">e|,</token>
+                <token postag="N.+" postag_regexp="yes"/>
+            </pattern>
+            <example correction="">Temos <marker>bens imóveis e monumentos</marker>.</example>
         </rule>
         <rule>
             <pattern>
@@ -110,17 +119,11 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rule>
         <rule>
             <pattern>
-                <token>de</token>
-                <token postag="NCMP000"/>
+                <token regexp='yes'>\d+\%</token>
+                <token postag="SPS.+" postag_regexp="yes"/>
             </pattern>
-            <example correction="">Houve um crescimento <marker>de 40%</marker> nos acessos.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="V.+" postag_regexp="yes"/>
-                <token postag="NCMP000"/>
-            </pattern>
-            <example correction="">A vitória <marker>rendeu 40%</marker> de lucro.</example>
+            <example correction="">Houve um crescimento de <marker>40% nos</marker> acessos.</example>
+            <example correction="">A vitória rendeu <marker>40% de</marker> lucro.</example>
         </rule>
     </rulegroup>
     </category>

@@ -36,6 +36,32 @@ import java.util.Set;
 public class MainTest {
 
   @Test
+  public void testIsEqualText() {
+    String textPara = "This is a test with one footnote1.";
+    String flatPara = "This is a test with one footnote​.";
+    int[] footnotes = { 32 };
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    textPara = "This is a test with one footnote12, existing of two digits";
+    flatPara = "This is a test with one footnote​, existing of two digits";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    textPara = "This is a test with one footnoteXIV, existing of Roman numerals.";
+    flatPara = "This is a test with one footnote​, existing of Roman numerals.";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    textPara = "This is a test with one footnote1. And a Zero Space at the end of the second sentence.";
+    flatPara = "This is a test with one footnote​. And a Zero Space at the end of the second sentence​.";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    textPara = "This is a test with two footnotes14. Here is the secondXIII.";
+    flatPara = "This is a test with two footnotes​. Here is the second​.";
+    footnotes = new int[2];
+    footnotes[0] = 33;
+    footnotes[1] = 54;
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    textPara = "This is a test with two footnotes14. Here is the secondXIII.";
+    flatPara = "This is a test with two footnotes​. Here is no second.";
+    assertTrue(!DocumentCache.isEqualText(flatPara, textPara, footnotes));
+  }
+
+  @Test
 //  @Ignore("see https://github.com/languagetool-org/languagetool/issues/4064")
   public void testDoProofreading() {
     Main prog = new Main(null);

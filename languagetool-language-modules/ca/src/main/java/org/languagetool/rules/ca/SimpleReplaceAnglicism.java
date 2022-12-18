@@ -50,6 +50,7 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     //super.setTags(Arrays.asList(Tag.picky));
+    super.useSubRuleSpecificIds();
   }
 
   @Override
@@ -65,11 +66,6 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
   @Override
   public String getShort() {
     return "Anglicisme innecessari";
-  }
-
-  @Override
-  public boolean isCaseSensitive() {
-    return false;
   }
 
   @Override

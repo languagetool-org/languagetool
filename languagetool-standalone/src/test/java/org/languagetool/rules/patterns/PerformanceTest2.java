@@ -58,7 +58,6 @@ final class PerformanceTest2 {
       //String ngramPath = "/home/dnaber/data/google-ngram-index";
       //lt.activateLanguageModelRules(new File(ngramPath));
       //SuggestionsOrdererConfig.setNgramsPath(ngramPath);
-      //lt.activateWord2VecModelRules(new File("/home/dnaber/lt/word2vec"));
       List<RuleMatch> matches = lt.check(subText);
       //System.out.println(matches);
       long runTime = System.currentTimeMillis() - startTime;

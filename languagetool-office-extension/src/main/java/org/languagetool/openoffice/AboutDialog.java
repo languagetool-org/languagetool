@@ -20,21 +20,29 @@ package org.languagetool.openoffice;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -157,16 +165,110 @@ public class AboutDialog {
   
       JScrollPane scrollPane = new JScrollPane(maintainersPane);
       scrollPane.setBorder(BorderFactory.createEmptyBorder());
+      
+      JButton copyToClipboard = new JButton(messages.getString("loCopyToClipBoardDesc"));
+      copyToClipboard.addActionListener(e -> {
+/*
+        String str = "LanguageTool " + messages.getString("loAboutLtDesc") + "\n";
+        str += "\nCopyright (C) 2005-2022 the LanguageTool community and Daniel Naber.\n"
+            + "This software is licensed under the GNU Lesser General Public License.\n"
+            + "https://www.languagetool.org\n";
+*/
+        String str = String.format("\nLanguageTool %s (%s, %s)\n"
+            + "OS: %s %s (%s)\n"
+            + "%s %s%s (%s), %s\n"
+            + "Java version: %s (%s)\n"
+            + "Java max/total/free memory: %sMB, %sMB, %sMB\n",
+             JLanguageTool.VERSION,
+             JLanguageTool.BUILD_DATE,
+             JLanguageTool.GIT_SHORT_ID,
+             System.getProperty("os.name"),
+             System.getProperty("os.version"),
+             System.getProperty("os.arch"),
+             officeInfo.ooName,
+             officeInfo.ooVersion,
+             officeInfo.ooExtension,
+             officeInfo.ooVendor,
+             officeInfo.ooLocale,
+             System.getProperty("java.version"),
+             System.getProperty("java.vm.vendor"),
+             Runtime.getRuntime().maxMemory()/1024/1024,
+             Runtime.getRuntime().totalMemory()/1024/1024,
+             Runtime.getRuntime().freeMemory()/1024/1024);
+/*
+        str += String.format("\nMaintainer of the office extension: %s\n"
+            + "\nMaintainers or former maintainers of the language modules -\n"
+            + "(*) means language is unmaintained in LanguageTool:\n\n",
+            OfficeTools.EXTENSION_MAINTAINER);
+        str += getMaintainersAsText();
+*/
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Clipboard clipboard = toolkit.getSystemClipboard();
+        StringSelection strSel = new StringSelection(str);
+        clipboard.setContents(strSel, null);
+        close();
+      });
+
+      JButton OpenLogFilePath = new JButton(messages.getString("loOpenLogFolderDesc"));
+      OpenLogFilePath.addActionListener(e -> {
+        File logDir = OfficeTools.getLOConfigDir();
+        close();
+        try {
+          Desktop.getDesktop().open(logDir);
+        } catch (IOException e1) {
+          MessageHandler.showError(e1);
+        }
+      });
+      
+      JButton close = new JButton(messages.getString("guiOOoCloseButton"));
+      close.addActionListener(e -> {
+        close();
+      });
+
+      JPanel versionButtonPanel = new JPanel();
+      versionButtonPanel.setLayout(new GridBagLayout());
+      GridBagConstraints cons = new GridBagConstraints();
+      cons.insets = new Insets(6, 0, 0, 15);
+      cons.gridx = 0;
+      cons.gridy = 0;
+      cons.anchor = GridBagConstraints.WEST;
+      cons.fill = GridBagConstraints.NONE;
+      cons.weightx = 1.0f;
+      cons.weighty = 1.0f;
+      JLabel versionLabel = new JLabel(messages.getString("loVersionInformation") + ": ");
+      Font f = versionLabel.getFont();
+      versionLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+      versionButtonPanel.add(versionLabel, cons);
+      cons.gridx++;
+      versionButtonPanel.add(copyToClipboard, cons);
+      cons.anchor = GridBagConstraints.EAST;
+      cons.gridx++;
+      versionButtonPanel.add(OpenLogFilePath, cons);
+      
+      JPanel closeButtonPanel = new JPanel();
+      closeButtonPanel.setLayout(new GridBagLayout());
+      cons = new GridBagConstraints();
+      cons.insets = new Insets(6, 12, 0, 15);
+      cons.gridx = 0;
+      cons.gridy = 0;
+      cons.anchor = GridBagConstraints.EAST;
+      cons.fill = GridBagConstraints.NONE;
+      cons.weightx = 1.0f;
+      cons.weighty = 1.0f;
+      closeButtonPanel.add(close, cons);
+      
       JPanel panel = new JPanel();
       panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
       panel.add(headerPanel);
       panel.add(licensePane);
+      panel.add(versionButtonPanel);
       panel.add(techPane);
       panel.add(aboutPane);
       panel.add(scrollPane);
+      panel.add(closeButtonPanel);
       Container contentPane = dialog.getContentPane();
       contentPane.setLayout(new GridBagLayout());
-      GridBagConstraints cons = new GridBagConstraints();
+      cons = new GridBagConstraints();
       cons.insets = new Insets(8, 8, 8, 8);
       cons.gridx = 0;
       cons.gridy = 0;
@@ -175,10 +277,13 @@ public class AboutDialog {
       cons.fill = GridBagConstraints.BOTH;
       cons.anchor = GridBagConstraints.NORTHWEST;
       contentPane.add(panel, cons);
-//      dialog.add(panel);
       dialog.pack();
+      Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+      Dimension frameSize = dialog.getSize();
+      dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
+          screenSize.height / 2 - frameSize.height / 2);
+      dialog.setLocationByPlatform(true);
       dialog.setAutoRequestFocus(true);
-//      MessageHandler.printToLogFile("set dialog visible");
       dialog.setVisible(true);
       dialog.setAlwaysOnTop(true);
       dialog.toFront();
@@ -224,6 +329,41 @@ public class AboutDialog {
       str.append("</td></tr>");
     }
     str.append("</table>");
+    return str.toString();
+  }
+  
+  private String getMaintainersAsText() {
+    TreeMap<String, Language> list = new TreeMap<>();
+    for (Language lang : Languages.get()) {
+      if (!lang.isVariant()) {
+        if (lang.getMaintainers() != null) {
+          list.put(messages.getString(lang.getShortCode()), lang);
+        }
+      }
+    }
+    StringBuilder str = new StringBuilder();
+    for (Map.Entry<String, Language> entry : list.entrySet()) {
+      str.append(entry.getKey());
+      if (entry.getValue().getMaintainedState() == LanguageMaintainedState.LookingForNewMaintainer) {
+        str.append("(*)");
+      }
+      str.append(": ");
+      int i = 0;
+      Contributor[] maintainers = list.get(entry.getKey()).getMaintainers();
+      if (maintainers != null) {
+        for (Contributor contributor : maintainers) {
+          if (i > 0) {
+            str.append(", ");
+//            if (i % 3 == 0) {
+//              str.append("\n");
+//            }
+          }
+          str.append(contributor.getName());
+          i++;
+        }
+      }
+      str.append("\n");
+    }
     return str.toString();
   }
   

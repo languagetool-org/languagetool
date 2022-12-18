@@ -46,14 +46,10 @@ public class SimpleReplaceRuleTest {
 
   @Test
   public void testRule() throws IOException {
-   
-
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("sanitización"));
     assertEquals(1, matches.length);
     assertEquals("desinfección", matches[0].getSuggestedReplacements().get(0));
-    
-    
   }
 
 }

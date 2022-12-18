@@ -32,6 +32,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
     <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sept?|o[ck]t|nov|dec">
     <!ENTITY timeOfDayToday "vanmorgen|vanmiddag|vanavond|vannacht">
     <!ENTITY timeOfDayGeneral "morgen|middag|avond|nacht">
+    <!ENTITY twentyfourHours "[0-2]?[0-9]:[0-5][0-9]">
 
     <!ENTITY linuxDistros "Arch|CentOS|Debian|Fedora|Gentoo|Knoppix|Mint|(open)?SUSE|RHEL|Slackware|Slax">
 
@@ -169,6 +170,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">De belangrijkste stappen zijn: <marker>buitenmuur</marker> isoleren en binnenmuur drogen.</example>
             </rule>
+            <!-- Subset of general rule for numbers with whitespace
             <rule>
                 <pattern>
                     <marker>
@@ -179,6 +181,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">De oppervlakte bedroeg in <marker>2004</marker> 17160 km².</example>
             </rule>
+            -->
             <rule>
                 <pattern>
                     <marker>
@@ -205,13 +208,41 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <pattern>
                     <token regexp="yes">\p{Ps}|\.|,|:</token>
                     <marker>
-                        <token postag_regexp="yes" postag="ENM:LOC:PTS"/>
+                        <token postag="ENM:LOC:PTS"/>
                     </marker>
                     <token regexp="yes">[1-2]?[0-9]{3}</token>
                     <token regexp="yes">\p{Pe}|\.|,</token>
                 </pattern>
                 <example correction="">Between Otherness and Authenticity (<marker>Aldershot</marker> 2007) 109-133, [over de herdenkingscultuur na Fortuyns dood].</example>
                 <example correction="">Door Thijs de Gooijer, Uitgeverij René de Milliano, <marker>Alkmaar</marker> 2005. ISBN 90-72810-50-3.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9]{4}</token>
+                    </marker>
+                    <token regexp="yes">[A-Z]{2}</token>
+                </pattern>
+                <example correction="">De verantwoordelijke voor de gegevensverwerking is Molenaar Solutions, Schakel 4, <marker>3645</marker> SJ Vinkeveen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[1-2]?[0-9]{3}</token>
+                    <token regexp="yes">&twentyfourHours;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&twentyfourHours;</token>
+                    <token regexp="yes" min="0">[0-2]?[0-9]</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes" min="0">[1-2]?[0-9]{3}</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9]+</token>
+                    </marker>
+                    <token regexp="yes">[0-9]+</token>
+                </pattern>
+                <example correction="">Wij zijn telefonisch bereikbaar via <marker>648</marker> 8666 of per mail.</example>
             </rule>
         </rulegroup>
     </category>

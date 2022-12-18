@@ -82,6 +82,12 @@ public class OldSpellingRule extends Rule {
         // prevent substring matches, e.g. "Foto" for "Photons"
         ignore = true;
       }
+      if (hit.begin-5 >= 0) {
+        String before = text.substring(hit.begin-5, hit.begin-1);
+        if (before.equals("Herr") || before.equals("Frau")) {
+          ignore = true;
+        }
+      }
       if (!ignore) {
         RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end,
           "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.", "Alte Rechtschreibung");

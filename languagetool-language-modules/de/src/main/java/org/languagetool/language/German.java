@@ -28,8 +28,6 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.rules.de.*;
-import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
@@ -53,8 +51,6 @@ import java.util.*;
 public class German extends Language implements AutoCloseable {
 
   private LanguageModel languageModel;
-  private List<Rule> nnRules;
-  private Word2VecModel word2VecModel;
 
   /**
    * @deprecated use {@link GermanyGerman}, {@link AustrianGerman}, or {@link SwissGerman} instead -
@@ -213,15 +209,6 @@ public class German extends Language implements AutoCloseable {
     return languageModel;
   }
 
-  /** @since 4.0 */
-  @Override
-  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
-    if (word2VecModel == null) {
-      word2VecModel = new Word2VecModel(indexDir + File.separator + getShortCode());
-    }
-    return word2VecModel;
-  }
-
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
@@ -235,15 +222,6 @@ public class German extends Language implements AutoCloseable {
   @Override
   public Tokenizer createDefaultWordTokenizer() {
     return new GermanWordTokenizer();
-  }
-
-  /** @since 4.0 */
-  @Override
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    if (nnRules == null) {
-      nnRules = NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
-    }
-    return nnRules;
   }
 
   /**
@@ -317,6 +295,8 @@ public class German extends Language implements AutoCloseable {
       case "VONSTATTEN_GEHEN" : return 2;   // prefer over EINE_ORIGINAL_RECHNUNG
       case "VERWECHSLUNG_MIR_DIR_MIR_DIE": return 1; // prefer over MIR_DIR
       case "ERNEUERBARE_ENERGIEN": return 1; // prefer over VEREINBAREN
+      case "DRIVE_IN": return 1; // prefer over agreement rules
+      case "AN_STATT": return 1; // prefer over agreement rules
       case "VOR_BEI": return 1; // prefer over BEI_BEHALTEN
       case "ALLES_GUTE": return 1; // prefer over premium rules
       case "NEUN_NEUEN": return 1; // prefer over VIELZAHL_PLUS_SINGULAR
@@ -332,12 +312,14 @@ public class German extends Language implements AutoCloseable {
       case "IMPFLICHT" : return 1;   // prefer over agreement rules DE_AGREEMENT
       case "NULL_KOMMA_NICHTS" : return 1;   // prefer over agreement rules
       case "ZWEI_AN_HALB" : return 1;   // prefer over agreement rules
+      case "BLUETOOTH_LAUTSPRECHER" : return 1;   // prefer over agreement rules
       case "KOENNT_ICH" : return 1;   // prefer over DE_VERBAGREEMENT
       case "WIR_HABE" : return 1;   // prefer over DE_VERBAGREEMENT
       case "ICH_KOENNT" : return 1;   // prefer over DE_VERBAGREEMENT
       case "HAT_DU" : return 1;   // prefer over agreement rules
       case "HAST_DICH" : return 1;   // prefer over agreement rules
       case "GRUNDE" : return 1;   // prefer over agreement rules
+      case "EIN_FACH" : return 1;   // prefer over agreement rules
       case "WOGEN_SUBST" : return 1;   // prefer over agreement rules
       case "SO_WIES_IST" : return 1;   // prefer over agreement rules
       case "SICH_SICHT" : return 1;   // prefer over agreement rules
@@ -353,6 +335,7 @@ public class German extends Language implements AutoCloseable {
       case "ANFUEHRUNGSZEICHEN_DE_AT": return 1; // higher prio than UNPAIRED_BRACKETS
       case "ANFUEHRUNGSZEICHEN_CH_FR": return 1; // higher prio than UNPAIRED_BRACKETS
       case "EMAIL": return 1;  // better suggestion than SIMPLE_AGREEMENT_*
+      case "IM_STICH_LASSEN": return 1;  // higher prio than agreement rules
       case "ZULANGE": return 1;  // better suggestion than SAGT_RUFT
       case "ROCK_N_ROLL": return 1;  // better error than DE_CASE
       case "JOE_BIDEN": return 1;  // better error than DE_CASE
@@ -360,6 +343,7 @@ public class German extends Language implements AutoCloseable {
       case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
       case "ANS_OHNE_APOSTROPH": return 1;
       case "DIESEN_JAHRES": return 1;
+      case "TAG_EIN_TAG_AUS": return 1; // prefer over agreement rules
       case "WERT_SEIN": return 1; // prefer over DE_AGREEMENT
       case "EBEN_FALLS": return 1;
       case "IN_UND_AUSWENDIG": return 1; // prefer over DE_CASE
@@ -397,6 +381,7 @@ public class German extends Language implements AutoCloseable {
       case "OK": return 1; // higher prio than KOMMA_NACH_PARTIKEL_SENT_START[3]
       case "EINE_ORIGINAL_RECHNUNG": return 1; // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
       case "VALENZ_TEST": return 1; // see if this generates more corpus matches
+      case "WAEHRUNGSANGABEN_CHF": return 1; // higher prio than WAEHRUNGSANGABEN_KOMMA
       // default is 0
       case "FALSCHES_ANFUEHRUNGSZEICHEN": return -1; // less prio than most grammar rules but higher prio than UNPAIRED_BRACKETS
       case "VER_KOMMA_PRO_RIN": return -1; // prefer WENN_WEN
@@ -421,10 +406,10 @@ public class German extends Language implements AutoCloseable {
       case "VERSEHENTLICHERWEISE": return -1; // higher prio than spell checker
       case "VERMOD_SKIP_VER_PKT": return -1; // less prio than casing rules
       case "EINZELBUCHSTABE_PREMIUM": return -1;  // lower prio than "A_LA_CARTE"
+      case "KATARI": return -2; // higher prio than spell checker
       case "SCHOENE_WETTER": return -2; // prefer more specific rules that offer a suggestion (e.g. DE_AGREEMENT)
       case "MEIN_KLEIN_HAUS": return -2; // prefer more specific rules that offer a suggestion (e.g. DIES_BEZÜGLICH)
       case "UNPAIRED_BRACKETS": return -2;
-      case "ICH_GEHE_DU_BLEIBST": return -2; // prefer ICH_GLAUBE_FUER_EUCH
       case "ICH_GLAUBE_FUER_EUCH": return -2; // prefer agreement rules
       case "OBJECT_AGREEMENT": return -2; // less prio than DE_AGREEMENT
       case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
@@ -438,6 +423,7 @@ public class German extends Language implements AutoCloseable {
       case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // overwrite spell checker
       case "ZAHL_IM_WORT": return -2; //should not override rules like H2O
       case "ICH_LIEBS": return -2;  // higher prio than spell checker
+      case "ICH_GEHE_DU_BLEIBST": return -3; // prefer ICH_GLAUBE_FUER_EUCH
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
@@ -463,6 +449,7 @@ public class German extends Language implements AutoCloseable {
       case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "KOMMA_VOR_RELATIVSATZ": return -10;
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -12;
+      case "VON_LEBENSLAEUFE": return -12; // less prio than AI
       case "ZUSAMMENGESETZTE_VERBEN": return -12; // less prio than most more specific rules and AI
       case "PRP_VER_PRGK": return -13; // lower prio than ZUSAMMENGESETZTE_VERBEN
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -13; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI) but higher prio than style
@@ -493,6 +480,7 @@ public class German extends Language implements AutoCloseable {
       case "DOPPELUNG_GLEICHES_VERB": return -55; // prefer comma rules
       case "FEHLENDES_NOMEN": return -60; // lower prio than most rules
       case "REPETITIONS_STYLE": return -60;
+      case "MAN_SIEHT_SEHR_SCHOEN": return -14; // prefer over SEHR_SCHOEN
       // Category ids - make sure style issues don't hide overlapping "real" errors:
       case "COLLOQUIALISMS": return -15;
       case "STYLE": return -15;

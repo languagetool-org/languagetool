@@ -7,6 +7,14 @@ orbs:
   shallow-checkout: expo/shallow-checkout@1.0.2
 workflows:
   version: 2
+  security-scan-workflow:
+    # run when triggered by scheduled
+    when:
+      and:
+        - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+        - equal: [ "RunSecurityScan", << pipeline.schedule.name >> ]
+    jobs:
+      - security-scan
   scheduled-workflow:
     # run when triggered by scheduled 
     when:
@@ -35,12 +43,26 @@ workflows:
     jobs:
       - test-and-deploy-partial          
 jobs:
-  test-and-deploy-full:
+  security-scan:
     resource_class: medium
     executor:
       name: docker-openjdk11
     environment:
-      MAVEN_OPTS: -Xmx3200m
+      MAVEN_OPTS: -Xmx3500m
+    steps:
+      - custom-checkout
+      - run:
+          name: Scan dependencies
+          command: |
+            cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml clean dependency-check:aggregate
+      - store_artifacts:
+          path: $CIRCLE_WORKING_DIRECTORY/target/dependency-check-report.html
+  test-and-deploy-full:
+    resource_class: medium+
+    executor:
+      name: docker-openjdk11
+    environment:
+      MAVEN_OPTS: -Xmx3500m
     steps:
       - custom-checkout
       - install-project
@@ -58,11 +80,11 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
   test-and-deploy-partial:
-    resource_class: medium
+    resource_class: medium+
     executor: 
       name: docker-openjdk11
     environment: 
-      MAVEN_OPTS: -Xmx3200m
+      MAVEN_OPTS: -Xmx3500m
     steps:
       - custom-checkout
       - get-diffs

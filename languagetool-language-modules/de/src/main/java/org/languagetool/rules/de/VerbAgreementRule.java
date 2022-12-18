@@ -374,9 +374,14 @@ public class VerbAgreementRule extends TextLevelRule {
       token("werde")
     ),
     asList(
-      pos("VER:IMP:SIN:SFT"),  // "Kümmere du dich mal nicht darum!"
+      posRegex("VER:IMP:SIN:.*"),  // "Kümmere du dich mal nicht darum!"
       token("du"),
-      tokenRegex("dich|dein|deine[srnm]?")
+      tokenRegex("dich|dein|deine[srnm]?|mal")
+    ),
+    asList(
+      posRegex("VER:IMP:SIN:.*"),  // "Nee, geh du!"
+      token("du"),
+      token("!")
     ),
     asList(
       token("sei"),

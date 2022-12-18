@@ -42,14 +42,16 @@ import static org.languagetool.JLanguageTool.getDataBroker;
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. 
  * <p>Unlike AbstractSimpleReplaceRule, it supports phrases (Ex: "aqua forte" -&gt; "acvaforte").
- *
  * Note: Merge this into {@link AbstractSimpleReplaceRule}
  *
  * @author Ionuț Păduraru
  */
 public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
+  public enum CaseSensitivy {CS, CI, CSExceptAtSentenceStart}
+
   private final Language language;
+
   protected boolean subRuleSpecificIds;
   
   public abstract List<String> getFileNames();
@@ -58,18 +60,21 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   @Override
   public abstract String getDescription();
   public abstract String getShort();
+
   /**
    * @return A string where {@code $match} will be replaced with the matching word
    * and {@code $suggestions} will be replaced with the alternatives. This is the string
    * shown to the user.
    */
   public abstract String getMessage();
+
   /**
    * @return the word used to separate multiple suggestions; used only before last suggestion, the rest are comma-separated.  
    */
   public String getSuggestionsSeparator() {
     return ", ";
   }
+
   /**
    * locale used on case-conversion
    */
@@ -103,11 +108,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     subRuleSpecificIds = true;
   }
   
-  /**
-   * use case-sensitive matching.
-   */
-  public boolean isCaseSensitive() {
-    return false;
+  public CaseSensitivy getCaseSensitivy() {
+    return CaseSensitivy.CI;
   }
 
   /**
@@ -115,7 +117,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    */
   public List<Map<String, SuggestionWithMessage>> getWrongWords(boolean checkingCase) {
     try {
-      return cache.get(new PathsAndLanguage(getFileNames(), language, isCaseSensitive(), checkingCase));
+      boolean caseSen = getCaseSensitivy() == CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart;
+      return cache.get(new PathsAndLanguage(getFileNames(), language, caseSen, checkingCase));
     } catch (ExecutionException e) {
       throw new RuntimeException(e);
     }
@@ -240,9 +243,15 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       for (int j = 0; j < len; j++) { // longest words first
         String crt = variants.get(j);
         int crtWordCount = len - j;
-        SuggestionWithMessage crtMatch = isCaseSensitive() ?
-          wrongWords.get(crtWordCount - 1).get(crt) :
-          wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
+        SuggestionWithMessage crtMatch;
+        if (getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart && i - crtWordCount == 0) {  // at sentence start, words can be uppercase
+          crtMatch = wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
+        } else {
+          boolean caseSen = getCaseSensitivy() == CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart;
+          crtMatch = caseSen ?
+            wrongWords.get(crtWordCount - 1).get(crt) :
+            wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
+        }
         if (crtMatch != null) {
           List<String> replacements = Arrays.asList(crtMatch.getSuggestion().split("\\|"));
           String msgSuggestions = "";
@@ -263,7 +272,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           if (subRuleSpecificIds) {
             ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + crt));
           }
-          if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
+          if ((getCaseSensitivy() != CaseSensitivy.CS || getCaseSensitivy() == CaseSensitivy.CSExceptAtSentenceStart)
+               && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {
               replacements.set(k, StringTools.uppercaseFirstChar(replacements.get(k)));
             }

@@ -67,12 +67,6 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
     return false;
   }
 
-
-  @Override
-  public boolean isCaseSensitive() {
-    return false;
-  }
-
   /**
    * @return A string where {@code $match} will be replaced with the matching word
    * and {@code $suggestions} will be replaced with the alternatives. This is the string

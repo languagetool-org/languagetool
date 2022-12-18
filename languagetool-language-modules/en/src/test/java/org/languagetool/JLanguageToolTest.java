@@ -131,6 +131,16 @@ public class JLanguageToolTest {
       } else {
         assertNoError("I've go to go.", lt);
       }
+            
+      // Passive voice: repetitions
+      // the first match is at a long distance
+      assertNoError(
+          "The territory of Metropolitan France was settled by Celtic tribes known as Gauls. France reached its political and military zenith in the early 19th century under Napoleon Bonaparte, subjugating much of continental Europe and establishing the First French Empire. The French Revolutionary and Napoleonic Wars shaped the course of European and world history. The collapse of the empire initiated a period of relative decline, in which France endured a tumultuous succession of governments until the founding of the French Third Republic during the Franco-Prussian War in 1870. Subsequent decades saw a period of optimism, cultural and scientific flourishing, as well as economic prosperity known as the Belle Époque. France was one of the major participants of World War I, from which it emerged victorious at great human and economic cost. It was among the Allied powers of World War II, but was soon occupied by the Axis in 1940. France was plunged into a series of dynastic conflicts involving England. The second half of the 16th century was dominated by religious civil wars. The short-lived Fourth Republic was established and later dissolved during the Algerian War. The current Fifth Republic was formed in 1958 by Charles de Gaulle.",
+          lt);
+      // 4 previous matches within 80 tokens
+      assertOneError(
+          "The territory of Metropolitan France was settled by Celtic tribes known as Gauls. France was plunged into a series of dynastic conflicts involving England. The second half of the 16th century was dominated by religious civil wars. The short-lived Fourth Republic was established and later dissolved during the Algerian War. The current Fifth Republic was formed in 1958 by Charles de Gaulle. ",
+          lt);
     }
   }
 

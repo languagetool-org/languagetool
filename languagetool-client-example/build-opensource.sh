@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION=5.8
+VERSION=5.9
 
 rm -r target/new.jar
 rm -r target/temp

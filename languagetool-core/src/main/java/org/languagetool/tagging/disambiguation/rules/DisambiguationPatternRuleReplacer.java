@@ -239,7 +239,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       break;
     case IMMUNIZE:
       for (int i = 0; i < matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {
-        whTokens[sentence.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize();
+        whTokens[sentence.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize(rule.getXmlLineNumber());
       }
       break;
     case IGNORE_SPELLING:

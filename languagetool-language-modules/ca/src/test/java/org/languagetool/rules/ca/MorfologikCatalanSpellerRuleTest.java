@@ -41,6 +41,10 @@ public class MorfologikCatalanSpellerRuleTest {
 
         RuleMatch[] matches;
         JLanguageTool lt = new JLanguageTool(new Catalan());
+        
+        matches = rule.match(lt.getAnalyzedSentence("Tornaràn"));
+        assertEquals(1, matches.length);
+        assertEquals("Tornaran", matches[0].getSuggestedReplacements().get(0));
 
         // prefixes and suffixes.
         assertEquals(0, rule.match(lt.getAnalyzedSentence("S'autodefineixin com a populars.")).length);
@@ -410,8 +414,8 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(lt.getAnalyzedSentence("lah"));
         assertEquals("la", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("dela"));
-        assertEquals("Dela", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("de la", matches[0].getSuggestedReplacements().get(1));
+        //assertEquals("Dela", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("de la", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("sha"));
         assertEquals("s'ha", matches[0].getSuggestedReplacements().get(0));
         assertEquals("xe", matches[0].getSuggestedReplacements().get(1));
@@ -489,7 +493,19 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("m'entretinc", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(lt.getAnalyzedSentence("m9entretinc"));
         assertEquals("m'entretinc", matches[0].getSuggestedReplacements().get(0));
-        
+        matches = rule.match(lt.getAnalyzedSentence("lajuntamnet"));
+        assertEquals("[l'ajuntament, ajuntament, rejuntament]", matches[0].getSuggestedReplacements().toString());
+        matches = rule.match(lt.getAnalyzedSentence("lajuntament"));
+        assertEquals("[la juntament, l'ajuntament, ajuntament, rejuntament]", matches[0].getSuggestedReplacements().toString());
+        matches = rule.match(lt.getAnalyzedSentence("lajust"));
+        assertEquals("[la just, l'ajust, ajust]", matches[0].getSuggestedReplacements().toString());
+
+        matches = rule.match(lt.getAnalyzedSentence("©L'Institut"));
+        assertEquals("[© L'Institut]", matches[0].getSuggestedReplacements().toString());
+        matches = rule.match(lt.getAnalyzedSentence("18l'Institut"));
+        assertEquals("[18 l'Institut]", matches[0].getSuggestedReplacements().toString());
+
+
         
         //Ela geminada 
         matches = rule.match(lt.getAnalyzedSentence("La sol•licitud"));
@@ -601,12 +617,42 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("En 1993", matches[0].getSuggestedReplacements().get(0));
         
+        matches = rule.match(lt.getAnalyzedSentence("✅Compto amb el títol"));
+        assertEquals(1, matches.length);
+        assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
+        
+        matches = rule.match(lt.getAnalyzedSentence("✅Conpto amb el títol"));
+        assertEquals(1, matches.length);
+        assertEquals("✅ Compto", matches[0].getSuggestedReplacements().get(0));
+        
+        matches = rule.match(lt.getAnalyzedSentence("·Compto amb el títol"));
+        assertEquals(1, matches.length);
+        assertEquals("[· Compto]", matches[0].getSuggestedReplacements().toString());
+        
+        matches = rule.match(lt.getAnalyzedSentence("105.3FM"));
+        assertEquals(1, matches.length);
+        assertEquals("[105.3 FM]", matches[0].getSuggestedReplacements().toString());
+        
+        //invisible characters at start
+        matches = rule.match(lt.getAnalyzedSentence("\u0003consagrada al turisme"));
+        assertEquals(1, matches.length);
+        assertEquals("[Consagrada]", matches[0].getSuggestedReplacements().toString());
+        
+        matches = rule.match(lt.getAnalyzedSentence("Volen \u0018Modificar la situació."));
+        assertEquals(1, matches.length);
+        assertEquals("[modificar]", matches[0].getSuggestedReplacements().toString());
+        
         // camel case
         matches = rule.match(lt.getAnalyzedSentence("polÃtiques"));
         assertEquals(1, matches.length);
         assertEquals(3, matches[0].getSuggestedReplacements().size());
         assertEquals("polítiques", matches[0].getSuggestedReplacements().get(0));
 
+        
+        // global spelling
+        matches = rule.match(lt.getAnalyzedSentence("FT"));
+        assertEquals(0, matches.length);
+        
         // combining characters
         matches = rule.match(lt.getAnalyzedSentence("dema\u0300"));
         assertEquals(0, matches.length);
@@ -624,5 +670,11 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals(0, matches[0].getFromPos());
         assertEquals(10, matches[0].getToPos());
+        
+        // do not suggest forms of "sentar, enterar".
+        matches = rule.match(lt.getAnalyzedSentence("sentences"));
+        assertEquals(1, matches.length);
+        assertEquals("[sentències, sentencies, sentenciés, senten ces]", matches[0].getSuggestedReplacements().toString());
+        
     }
 }

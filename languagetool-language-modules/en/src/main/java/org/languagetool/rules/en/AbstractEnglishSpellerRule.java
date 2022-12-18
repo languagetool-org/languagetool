@@ -417,6 +417,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("infra ") &&
                    !k.getReplacement().toLowerCase().startsWith("hypo ") &&
                    !k.getReplacement().toLowerCase().startsWith("syn ") &&
+                   !k.getReplacement().toLowerCase().startsWith("adv ") &&
                    !k.getReplacement().toLowerCase().startsWith("lo ") &&
                    !k.getReplacement().toLowerCase().startsWith("ed ") &&
                    !k.getReplacement().toLowerCase().startsWith("ac ") &&
@@ -432,6 +433,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("tar ") &&
                    !k.getReplacement().toLowerCase().startsWith("f ") &&
                    !k.getReplacement().toLowerCase().startsWith("k ") &&
+                   !k.getReplacement().toLowerCase().startsWith("l ") &&
                    !k.getReplacement().toLowerCase().startsWith("e ") &&
                    !k.getReplacement().toLowerCase().startsWith("c ") &&
                    !k.getReplacement().toLowerCase().startsWith("p ") &&
@@ -482,6 +484,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" ge") &&
                    !k.getReplacement().endsWith(" ab") &&
                    !k.getReplacement().endsWith(" tar") &&
+                   !k.getReplacement().endsWith(" adv") &&
                    !k.getReplacement().endsWith(" re") &&
                    !k.getReplacement().endsWith(" e") &&
                    !k.getReplacement().endsWith(" c") &&
@@ -489,6 +492,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().endsWith(" h") &&
                    !k.getReplacement().endsWith(" s") &&
                    !k.getReplacement().endsWith(" r") &&
+                   !k.getReplacement().endsWith(" l") &&
                    !k.getReplacement().endsWith(" um") &&
                    !k.getReplacement().endsWith(" er") &&
                    !k.getReplacement().endsWith(" es") &&
@@ -1199,6 +1203,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Wheater", Arrays.asList("Weather"));
     s.put("defi", Arrays.asList("defibrillator", "DeFi"));
     s.put("Defi", Arrays.asList("Defibrillator", "DeFi"));
+    s.put("topup", Arrays.asList("top-up"));
+    s.put("topups", Arrays.asList("top-ups"));
+    s.put("nacked", Arrays.asList("backed", "naked"));
+    s.put("no-profit", Arrays.asList("non-profit"));
+    s.put("No-profit", Arrays.asList("Non-profit"));
 
     return s;
   }

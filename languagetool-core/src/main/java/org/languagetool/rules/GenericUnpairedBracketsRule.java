@@ -207,7 +207,8 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private boolean endsLikeRealSentence(String s) {
+  private boolean endsLikeRealSentence(String r) {
+    String s = r.trim();
     return s.endsWith(".") || s.endsWith("?") || s.endsWith("!");
   }
 
@@ -233,16 +234,22 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       boolean isSpecialCase = getSpecialCase(tokens, i, j);
       boolean noException = isNoException(token, tokens, i, j,
               precededByWhitespace, isSpecialCase, symbolStack);
-
+      
       if (noException && precededByWhitespace && token.equals(startSymbols.get(j))) {
         symbolStack.push(new SymbolLocator(new Symbol(startSymbols.get(j), Symbol.Type.Opening), i, startPos, sentence, sentenceIdx));
         return true;
       } else if (noException && (isSpecialCase || tokens[i].isSentenceEnd())
               && token.equals(endSymbols.get(j))) {
-        if (i > 1 && endSymbols.get(j).equals(")")
+        if ((i > 2 && endSymbols.get(j).equals(")")
+                && (tokens[i - 3].hasPosTag("SENT_START") || tokens[i - 2].isWhitespaceBefore())
+                && tokens[i - 1].getToken().equals(".")
+                && (numerals.matcher(tokens[i - 2].getToken()).matches()
+                && !(!symbolStack.empty()
+                && "(".equals(symbolStack.peek().getSymbol().symbol))))
+        || (i > 1 && endSymbols.get(j).equals(")")
                 && (numerals.matcher(tokens[i - 1].getToken()).matches()
                 && !(!symbolStack.empty()
-                && "(".equals(symbolStack.peek().getSymbol().symbol)))) {
+                && "(".equals(symbolStack.peek().getSymbol().symbol))))) {
         } else {
           if (symbolStack.empty()) {
             symbolStack.push(new SymbolLocator(new Symbol(endSymbols.get(j), Symbol.Type.Closing), i, startPos, sentence, sentenceIdx));

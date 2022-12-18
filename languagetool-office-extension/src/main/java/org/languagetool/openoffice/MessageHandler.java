@@ -21,7 +21,12 @@ package org.languagetool.openoffice;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import javax.swing.JDialog;
@@ -55,19 +60,22 @@ class MessageHandler {
    * Initialize log-file
    */
   private static void initLogFile(XComponentContext xContext) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath(xContext)))) {
+    try (OutputStream stream = new FileOutputStream(OfficeTools.getLogFilePath(xContext));
+        OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
+        BufferedWriter br = new BufferedWriter(writer)
+        ) {
       Date date = new Date();
       OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
-      bw.write("LT office integration log from " + date + logLineBreak + logLineBreak);
-      bw.write("LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " 
+      writer.write("LT office integration log from " + date + logLineBreak + logLineBreak);
+      writer.write("LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " 
           + JLanguageTool.GIT_SHORT_ID + ")" + logLineBreak);
-      bw.write("OS: " + System.getProperty("os.name") + " " 
+      writer.write("OS: " + System.getProperty("os.name") + " " 
           + System.getProperty("os.version") + " on " + System.getProperty("os.arch") + logLineBreak);
       if (officeInfo != null) { 
-        bw.write(officeInfo.ooName + " " + officeInfo.ooVersion + officeInfo.ooExtension
+        writer.write(officeInfo.ooName + " " + officeInfo.ooVersion + officeInfo.ooExtension
             + " (" + officeInfo.ooVendor +"), " + officeInfo.ooLocale + logLineBreak);
       }
-      bw.write(OfficeTools.getJavaInformation() + logLineBreak + logLineBreak);
+      writer.write(OfficeTools.getJavaInformation() + logLineBreak + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
@@ -105,8 +113,11 @@ class MessageHandler {
    * Write to log-file
    */
   static void printToLogFile(String str) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath(), true))) {
-      bw.write(str + logLineBreak);
+    try (OutputStream stream = new FileOutputStream(OfficeTools.getLogFilePath(), true);
+        OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
+        BufferedWriter br = new BufferedWriter(writer)
+        ) {
+      writer.write(str + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }

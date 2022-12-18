@@ -32,6 +32,7 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
 import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -114,7 +115,7 @@ public class Catalan extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new CatalanSynthesizer(this);
+    return CatalanSynthesizer.INSTANCE;
   }
 
   @Override
@@ -182,12 +183,12 @@ public class Catalan extends Language {
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
+      case "CONFUSIONS2": return 80;
       case "CA_SIMPLE_REPLACE_MULTIWORDS": return 70;
       case "CA_SIMPLE_REPLACE_BALEARIC": return 60;
       case "CA_COMPOUNDS": return 50;
       case "INCORRECT_EXPRESSIONS": return 50;
       case "PERSONATGES_FAMOSOS": return 50;
-      case "CONFUSIONS2": return 50;
       case "OFERTAR_OFERIR": return 50; // greater than PRONOMS_FEBLES_SOLTS2
       case "DESDE_UN": return 40;
       case "MOTS_NO_SEPARATS": return 40;
@@ -202,7 +203,9 @@ public class Catalan extends Language {
       case "CA_SIMPLE_REPLACE": return 30; // greater than CA_SIMPLE_REPLACE_VERBS
       case "CA_SIMPLE_REPLACE_VERBS": return 28; // greater than PRONOMS_FEBLES_SOLTS2
       case "REEMPRENDRE": return 28; // equal to CA_SIMPLE_REPLACE_VERBS
-      case "INCORRECT_WORDS_IN_CONTEXT": return 25; // similar to but lower than CONFUSIONS
+      case "INCORRECT_WORDS_IN_CONTEXT": return 28; // similar to but lower than CONFUSIONS, greater than ES_KNOWN
+      case "ES_UNKNOWN": return 25; 
+      case "HAVER_SENSE_HAC": return 25; // greater than CONFUSIONS_ACCENT avia
       case "PRONOMS_FEBLES_SOLTS2": return 25;  // greater than PRONOMS_FEBLES_SOLTS and ES
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
@@ -214,15 +217,20 @@ public class Catalan extends Language {
       case "HAVER_PARTICIPI_HAVER_IMPERSONAL": return 15; // greater than ACCENTUATION_CHECK
       case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
+      case "ELA_GEMINADA": return 10; // greater than agreement rules
       case "ACCENTUATION_CHECK": return 10;
       case "CONCORDANCES_NUMERALS": return 10;
-      case "HAVER_SENSE_HAC": return 10;
       case "CAP_ELS_CAP_ALS": return 10; // greater than DET_GN
       case "CASING": return 10; // greater than CONCORDANCES_DET_NOM
+      case "DOS_ARTICLES": return 10; // greater than apostrophation rules
       case "MOTS_GUIONET": return 10; // greater than CONCORDANCES_DET_NOM
+      case "ZERO_O": return 10; //greater than SPELLING
+      case "URL": return 10; //greater than SPELLING
       case "CONCORDANCES_DET_NOM": return 5;
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
+      case "SPELLING": return 5;
       case "VENIR_NO_REFLEXIU": return 5;
+      case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
@@ -232,6 +240,7 @@ public class Catalan extends Language {
       case "AGREEMENT_POSTPONED_ADJ": return -15;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "ESPAIS_QUE_FALTEN_PUNTUACIO": return -20;
+      case "VERBS_NOMSPROPIS": return -20;
       case "REPETITIONS_STYLE": return -50;
       case "MUNDAR": return -50;
       case "NOMBRES_ROMANS": return -90;
@@ -240,6 +249,7 @@ public class Catalan extends Language {
       case "PHRASE_REPETITION": return -150;
       case "SUBSTANTIUS_JUNTS": return -150;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
+      case "PUNT_FINAL": return -200;
       case "UPPERCASE_SENTENCE_START": return -500;
       case "MAJUSCULA_IMPROBABLE": return -500;
       case "ELA_GEMINADA_WIKI": return -200;
@@ -256,10 +266,7 @@ public class Catalan extends Language {
       return new MorfologikCatalanSpellerRule(messages, this, null, Collections.emptyList());
   }
   
-  
   private static final Pattern CA_OLD_DIACRITICS = Pattern.compile(".*\\b(dóna|vénen|véns|fóra)\\b.*",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
-  private static final Pattern CA_APOSTROPHES = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
   
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
@@ -271,12 +278,9 @@ public class Catalan extends Language {
         if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
           s = s.replace("'", "’");
         }
-        Matcher m1 = CA_CONTRACTIONS.matcher(s);
-        s = m1.replaceAll("$1$2");
-        Matcher m2 = CA_APOSTROPHES.matcher(s);
-        s = m2.replaceAll("$1");
-        Matcher m3 = CA_OLD_DIACRITICS.matcher(s);
-        if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m3.matches()) {
+        //s = adaptContractionsApostrophes(s);
+        Matcher m5 = CA_OLD_DIACRITICS.matcher(s);
+        if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
           // skip this suggestion with traditional diacritics
         } else {
           newReplacements.add(s);
@@ -287,4 +291,40 @@ public class Catalan extends Language {
     }
     return newRuleMatches;
   }
+  
+  private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
+  private static final Pattern CA_APOSTROPHES1 = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
+  // exceptions: l'FBI, l'statu quo
+  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+  // exceptions: el iogurt, la essa
+  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtsldn])e? (h?[aeiouàèéíòóú])",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeoàúèéí][^ ])",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES5 = Pattern.compile("\\b([mts]e) (['’])",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
+  @Override
+  public String adaptSuggestion(String s) {
+    // Exceptions: Digues-me alguna cosa, urbi et orbi, Guns N' Roses
+    boolean capitalized = StringTools.isCapitalizedWord(s);
+    Matcher m = CA_CONTRACTIONS.matcher(s);
+    s = m.replaceAll("$1$2");
+    Matcher m1 = CA_APOSTROPHES1.matcher(s);
+    s = m1.replaceAll("$1");
+    Matcher m2 = CA_APOSTROPHES2.matcher(s);
+    s = m2.replaceAll("e$1 $2");
+    Matcher m3 = CA_APOSTROPHES3.matcher(s);
+    s = m3.replaceAll("$1'$2");
+    Matcher m4 = CA_APOSTROPHES4.matcher(s);
+    s = m4.replaceAll("$1'$2");
+    Matcher m5 = CA_APOSTROPHES5.matcher(s);
+    s = m5.replaceAll("$1$2");
+    if (capitalized) {
+      s = StringTools.uppercaseFirstChar(s);
+    }
+    return s;
+  }
+  
+  
 }

@@ -35,6 +35,63 @@
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typografie">
+        <rulegroup id="WAEHRUNGSANGABEN_CHF" name="Währungsangaben in CHF mit Punkt statt Komma, z. B. '45,00 CHF (45.00 CHF)'">
+            <url>https://www.rotstift-ag.ch/rechtschreibregeln/W/waehrungen.html</url>
+            <rule><!--1-->
+                <pattern>
+                    <token regexp="yes">[0-9].*|–</token>
+                    <token>,</token>
+                    <token regexp="yes">[0-9]{2}|–</token>
+                    <token regexp="yes">CHF|s?Fr\.?|Franken?|Schweizerfranken?|Schwiizerfranken?|Rappen?|Rp\.?|JPY|Yen|¥</token>
+                </pattern>
+                <message>Währungsangaben in Schweizer Franken (und Yen) werden mit einem Punkt statt Komma geschrieben.</message>
+                <suggestion>\1.\3 \4</suggestion>
+                <example correction="45.00 CHF">Sie erhalten das Produkt für einen Aufpreis von <marker>45,00 CHF</marker>.</example>
+                <example correction="–.50 CHF">Sie erhalten das Produkt für einen Aufpreis von <marker>–,50 CHF</marker>.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token regexp="yes">CHF|s?Fr\.?|Franken?|Schweizerfranken?|Schwiizerfranken?|Rappen?|Rp\.?|JPY|Yen|¥</token>
+                    <token regexp="yes">[0-9].*|–</token>
+                    <token>,</token>
+                    <token regexp="yes">[0-9]{2}|–</token>
+                </pattern>
+                <message>Währungsangaben in Schweizer Franken (und Yen) werden mit einem Punkt statt Komma geschrieben.</message>
+                <suggestion>\1 \2.\4</suggestion>
+                <example correction="CHF 45.00">Sie erhalten das Produkt für einen Aufpreis von <marker>CHF 45,00</marker>.</example>
+                <example correction="Yen –.50">Sie erhalten das Produkt für einen Aufpreis von <marker>Yen –,50</marker>.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token min="0" regexp="yes">Schweizer|Japanische[rn]?</token>
+                    <token regexp="yes">Franken?|Fr\.?|CHF|Yen|¥</token>
+                    <marker>
+                        <token regexp="yes">[0-9].*|–</token>
+                        <token>,</token>
+                        <token regexp="yes">[0-9]{2}|–</token>
+                    </marker>
+                </pattern>
+                <message>Währungsangaben in Schweizer Franken (und Yen) werden mit einem Punkt statt Komma geschrieben.</message>
+                <suggestion>\3.\5</suggestion>
+                <example correction="45.00">Sie erhalten das Produkt für einen Aufpreis von Schweizer Franken <marker>45,00</marker>.</example>
+                <example correction="–.50">Sie erhalten das Produkt für einen Aufpreis von Japanischen Yen <marker>–,50</marker>.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9].*|–</token>
+                        <token>,</token>
+                        <token regexp="yes">[0-9]{2}|–</token>
+                    </marker>
+                    <token min="0" regexp="yes">Schweizer|Japanische[rn]?</token>
+                    <token regexp="yes">Franken?|Fr\.?|CHF|Yen|¥</token>
+                </pattern>
+                <message>Währungsangaben in Schweizer Franken (und Yen) werden mit einem Punkt statt Komma geschrieben.</message>
+                <suggestion>\1.\3</suggestion>
+                <example correction="45.00">Sie erhalten das Produkt für einen Aufpreis von <marker>45,00</marker> Schweizer Franken.</example>
+                <example correction="–.50">Sie erhalten das Produkt für einen Aufpreis von <marker>–,50</marker> Japanischen Yen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN_CH" name="Typografische Anführungszeichen" tags="picky">
             <url>https://de.wikipedia.org/wiki/Anf%C3%BChrungszeichen</url>
             <short>Typografische Anführungszeichen</short>
@@ -286,6 +343,37 @@
                 <suggestion>»</suggestion>
                 <suggestion>“</suggestion>
                 <example correction="»|“">Er sagte "Tschüssi<marker>"</marker>.</example>
+            </rule>
+            <rule><!-- [15] -->
+                <antipattern>
+                    <token regexp="yes">\d+[½¼¾]?</token>
+                    <token spacebefore="no">"</token>
+                    <token regexp="yes" spacebefore="no">-.*(Töner|Laufwerk|Felge|Granat(en)?werfer|Diskette|rad|platte|vinyl|Rohr|fernseher|Bildschirm).*</token>
+                    <example>16"-Stahlfelgen mit Radzierblenden</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+[½¼¾]?</token>
+                    <token spacebefore="no">"</token>
+                    <token regexp="yes" spacebefore="no" case_sensitive="yes">-.*(EP|TV).*</token>
+                    <example>(12"-Split-EP mit Lynrd's Innards und Slingshot Episode)</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token />
+                    <token spacebefore="no">"</token>
+                    <token regexp="yes" spacebefore="no">-.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">.*[a-z0-9äöüß].*</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">-[a-zäöüß].*</token>
+                </pattern>
+                <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>»</suggestion>
+                <suggestion>“</suggestion>
+                <example correction="»|“">Er klickte den "Gefällt mir<marker>"</marker>-Button.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ANFUEHRUNGSZEICHEN_CH_FR" name="»wörtliche Rede« («wörtliche Rede»)" default="temp_off">

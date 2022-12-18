@@ -56,7 +56,8 @@ public final class MorfologikRussianYOSpellerRule extends MorfologikSpellerRule 
   private final static Set <String> lcDoNotSuggestWords = new HashSet <> (Arrays.asList(
     // words with 'NOSUGGEST' flag:
     "блоггер",
-    "елка"      
+    "елка",
+    "дрочим","орочем"      
  ));
 
   public MorfologikRussianYOSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {

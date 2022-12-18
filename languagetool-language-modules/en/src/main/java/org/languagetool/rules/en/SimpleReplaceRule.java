@@ -34,6 +34,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public SimpleReplaceRule(ResourceBundle messages, Language language) {
     super(messages, language);
+    useSubRuleSpecificIds();
   }
 
   @Override
@@ -66,11 +67,6 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
     return ", ";
   }
 
-  @Override
-  public boolean isCaseSensitive() {
-    return false;
-  }
-  
   @Override
   public Locale getLocale() {
     return EN_LOCALE;

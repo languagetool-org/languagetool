@@ -70,6 +70,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
  
   //do not use very frequent words in split word suggestions ex. to *thow ≠ tot how 
   static final int MAX_FREQUENCY_FOR_SPLITTING = 21; //0..21
+  
+  private final Pattern pStartsWithNumbersBullets = Pattern.compile("^(\\d[\\.,\\d]*|\\P{L}+)(.*)$");
+  private final Pattern pStartsWithNumbersBulletsExceptions = Pattern.compile("^([\\p{C}\\-\\$%&]+)(.*)$");
+
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -139,27 +143,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       int startPos = token.getStartPos();
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
       String word = token.getAnalyzedToken(0).getToken();
-      
-      /*String normalizedWord = StringTools.normalizeNFKC(word);
-      if (word.length() > 1 && !word.equals(normalizedWord) && !normalizedWord.contains(" ")
-          && isMisspelled(speller1, word)) {
-        if (!isMisspelled(speller1, normalizedWord)) {
-          // The normalized word is a good suggestion
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
-              messages.getString("spelling"), messages.getString("desc_spelling_short"));
-          ruleMatch.addSuggestedReplacement(normalizedWord);
-          ruleMatches.add(ruleMatch);
-        } else {
-          // Try to find suggestions from the normalized word.
-          List<String> suggestions = speller1.getSuggestions(normalizedWord);
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
-              messages.getString("spelling"), messages.getString("desc_spelling_short"));
-          ruleMatch.addSuggestedReplacements(suggestions);
-          ruleMatches.add(ruleMatch);
-        }
-        // Keep it simple. Don't do translations, split words, etc.
-        continue;
-      }*/   
       
       int newRuleIdx = ruleMatches.size();
       Pattern pattern = tokenizingPattern();
@@ -443,6 +426,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
  
     int translationSuggestionCount = 0;
     boolean preventFurtherSuggestions = false;
+    
     Translator translator = getTranslator(globalConfig);
     if (translator != null && ruleMatch == null && motherTongue != null &&
         language.getShortCode().equals("en") && motherTongue.getShortCode().equals("de")) {
@@ -490,6 +474,27 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(), messages.getString("spelling"),
               messages.getString("desc_spelling_short"));
     }
+    
+    //word starting with numbers or bullets    
+    String cleanWord = word;
+    String firstPart = "";
+    String secondPart = "";
+    Matcher mStartsWithNumbersBullets = pStartsWithNumbersBullets.matcher(word);
+    if (mStartsWithNumbersBullets.matches()) {
+      Matcher mStartsWithNumbersBulletsExceptions = pStartsWithNumbersBulletsExceptions.matcher(word);
+      if (!mStartsWithNumbersBulletsExceptions.matches()) {
+        firstPart = mStartsWithNumbersBullets.group(1);
+        secondPart = mStartsWithNumbersBullets.group(2);
+        if ((!isMisspelled(speller1, secondPart) || isIgnoredNoCase(secondPart)) && !isProhibited(secondPart)) {
+          ruleMatch.addSuggestedReplacement(firstPart + " " + secondPart);
+          preventFurtherSuggestions = true;
+        } else {
+          beforeSuggestionStr = firstPart + " ";
+          cleanWord = secondPart;
+        }  
+      }
+    }
+    
     boolean fullResults = SuggestionsChanges.getInstance() != null &&
       SuggestionsChanges.getInstance().getCurrentExperiment() != null &&
       (boolean) SuggestionsChanges.getInstance().getCurrentExperiment()
@@ -505,7 +510,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
 
       if (!preventFurtherSuggestions) {
-        ruleMatch.setLazySuggestedReplacements(appendLazySuggestions(word, beforeSuggestionStr, afterSuggestionStr,
+        ruleMatch.setLazySuggestedReplacements(appendLazySuggestions(cleanWord, beforeSuggestionStr, afterSuggestionStr,
           fullResults, ruleMatch.getSuggestedReplacementObjects()));
       }
     } else {

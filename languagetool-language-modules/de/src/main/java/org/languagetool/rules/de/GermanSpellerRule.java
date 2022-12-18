@@ -61,8 +61,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final int MAX_EDIT_DISTANCE = 2;
 
   private static final String adjSuffix = "(basiert|konform|widrig|fähig|haltig|bedingt|gerecht|würdig|relevant|" +
-    "übergreifend|tauglich|artig|bezogen|orientiert|berechtigt|fremd|liebend|bildend|hemmend|abhängig|zentriert|" +
-    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlicher|gemäß|neutral|seitig)";
+    "übergreifend|tauglich|untauglich|artig|bezogen|orientiert|berechtigt|fremd|liebend|bildend|hemmend|abhängig|zentriert|" +
+    "förmig|mäßig|pflichtig|ähnlich|spezifisch|verträglich|technisch|typisch|frei|arm|freundlicher|feindlich|gemäß|neutral|seitig|begeistert|geeignet|ungeeignet)";
   private static final Pattern missingAdjPattern =
     Pattern.compile("[a-zöäüß]{3,25}" + adjSuffix + "(er|es|en|em|e)?");
 
@@ -268,6 +268,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Bole", "Bowle");
     put("letzens", "letztens");
     put("Pakur", w -> Arrays.asList("Parcours", "Parkuhr"));
+    put("Dez", w -> Arrays.asList("Dez.", "Der"));
     put("Erstsemesterin", w -> Arrays.asList("Erstsemester", "Erstsemesters", "Erstsemesterstudentin"));
     put("Erstsemesterinnen", w -> Arrays.asList("Erstsemesterstudentinnen", "Erstsemester", "Erstsemestern"));
     put("kreativlos(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("kreativ", "fantasie"), w.replaceFirst("kreativ", "einfalls"), w.replaceFirst("kreativlos", "unkreativ"), w.replaceFirst("kreativlos", "uninspiriert")));
@@ -304,6 +305,36 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("befehlte", "befahl");
     put("befehlten", "befahlen");
     put("angelügt", "angelogen");
+    put("Bitet", "Bittet");
+    put("dagen", "sagen");
+    put("ändenr", "ändern");
+    put("übetragen", "übertragen");
+    put("Ihrn", "Ihren");
+    put("Emal", "E-Mail");
+    put("Emai", "E-Mail");
+    put("schuen", "schauen");
+    put("Hasue", "Haus");
+    put("leier", "leider");
+    put("Meschen", "Menschen");
+    put("unsen", "unseren");
+    put("biiten", "bitten");
+    put("geläscht", "gelöscht");
+    put("Kundein", "Kundin");
+    put("amch", "mach");
+    put("amche", "mache");
+    put("forfahren", "fortfahren");
+    put("verate", "verrate");
+    put("interen", "interne");
+    put("Budge", "Budget");
+    put("weiso", "wieso");
+    put("Parter", "Partner");
+    put("wiet", w -> Arrays.asList("weit", "wie"));
+    put("beid", w -> Arrays.asList("beide", "seid", "beim", "bei"));
+    put("Theam", w -> Arrays.asList("Thema", "Team"));
+    put("ind", w -> Arrays.asList("und", "ins", "in", "sind"));
+    put("us", w -> Arrays.asList("US", "aus"));
+    put("soch", w -> Arrays.asList("doch", "sich", "noch"));
+    put("Abe", w -> Arrays.asList("Aber", "Ab", "ABE", "Aue"));
     put("lügte", "log");
     put("lügten", "logen");
     put("bratete", "briet");
@@ -565,6 +596,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("palletten?", w -> Arrays.asList(w.replaceFirst("pall", "Pal"), w.replaceFirst("pa", "Pai")));
     put("[pP]allete", "Palette");
     put("Geräuch", w -> Arrays.asList("Geräusch", "Gesträuch"));
+    put("Eon", w -> Arrays.asList("Ein", "E.ON", "Von"));
     put("[sS]chull?igung", "Entschuldigung");
     put("Geerte", "geehrte");
     put("versichen", "versichern");
@@ -873,6 +905,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kovult", "Konvolut");
     putRepl("blog(t?en?|t(es?t)?)$", "g", "gg");
     put("Zombiefizierungen", "Zombifizierungen");
+    put("Tret", w -> Arrays.asList("Tritt", "Trete", "Trat"));
     put("Hühne", w -> Arrays.asList("Bühne", "Hüne", "Hühner"));
     put("Hühnen", w -> Arrays.asList("Bühnen", "Hünen", "Hühnern"));
     put("tiptop", "tiptopp");
@@ -1081,6 +1114,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("erzeiht", w -> Arrays.asList("erzieht", "verzeiht"));
     put("schalfen", w -> Arrays.asList("schlafen", "schaffen", "scharfen"));
     put("Anfage", w -> Arrays.asList("Anfrage", "Anlage"));
+    put("gehör", w -> Arrays.asList("gehört", "Gehör", "gehöre"));
+    put("Sep", w -> Arrays.asList("Sepp", "September", "Separator", "Sei"));
     put("Formulares", "Formulars");
     put("Danl", "Dank");
     put("umbennen", "umbenennen");
@@ -1177,6 +1212,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("mak", w -> Arrays.asList("mag", "mak", "lag"));
     put("daum", w -> Arrays.asList("da um", "darum", "kaum", "Raum"));
     put("gechickt", w -> Arrays.asList("geschickt", "gecheckt"));
+    put("gibs", w -> Arrays.asList("gib es", "gibst"));
+    put("Gibs", w -> Arrays.asList("Gib es", "Gibst", "Gips"));
     put("Wiso", "Wieso");
     put("gebs", "gebe es");
     put("angefordet", "angefordert");
@@ -1413,6 +1450,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[Üü]bergrifflich(e[mnrs]?)?", "lich", "ig");
     put("löchen", w -> Arrays.asList("löschen", "löchern", "Köchen"));
     put("wergen",  w -> Arrays.asList("werfen", "werben", "werten"));
+    put("Wasn",  w -> Arrays.asList("Was denn", "Was ein", "Was"));
   }
 
   @Override
@@ -1638,10 +1676,24 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches("[\\wöäüÖÄÜß]+- [\\wöäüÖÄÜß]+")   // e.g. "Pseudo- Rebellentum"
         && !s.matches("[A-ZÄÖÜ][a-zäöüß]+-[a-zäöüß]+-[a-zäöüß]+")   // e.g. "Kapuze-over-teil"
         && !s.matches("[A-ZÄÖÜ][a-zäöüß]+- [a-zäöüßA-ZÄÖÜ\\-]+")   // e.g. "Tuchs-N-Harmonie"
+        && !s.matches("[A-ZÄÖÜa-zäöüß\\-]+ [a-zäöüßA-ZÄÖÜ]-[a-zäöüßA-ZÄÖÜ\\-]+")   // e.g. "Linke d-In-Artikel"
+        && !s.matches("[A-ZÄÖÜa-zäöüß\\-]+ [a-zäöüß\\-]+-[A-ZÄÖÜ][a-zäöüß\\-]+")   // e.g. "Sachsen hausend-Süd"
         && !s.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
         && !s.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" de")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" en")   // https://github.com/languagetool-org/languagetool/issues/4042
+        && !s.endsWith(" Artigen")
+        && !s.endsWith(" Artige")
+        && !s.endsWith(" artigen")
+        && !s.endsWith(" artiges")
+        && !s.endsWith(" artiger")
+        && !s.endsWith(" artige")
+        && !s.endsWith(" artig")
+        && !s.endsWith(" förmig")
+        && !s.endsWith(" förmige")
+        && !s.endsWith(" förmigen")
+        && !s.endsWith(" förmiger")
+        && !s.endsWith(" förmiges")
         && !s.matches("[A-ZÖÄÜa-zöäüß] .+") // z.B. nicht "I Tand" für "IT and Services"
         && !s.matches(".+ [a-zöäüßA-ZÖÄÜ]");  // z.B. nicht "rauchen e" für "rauche ne" vorschlagen
   }
@@ -1706,10 +1758,41 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
+    // filter some undesired inflected forms
+    List<String> filteredSuggestions = new ArrayList<>();
+    List<AnalyzedTokenReadings> readingsList = new ArrayList<>();
+    try {
+      readingsList = getTagger().tag(suggestions);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    String lemmaToFilter = "";
+    String formToAccept = "";
+    for (AnalyzedTokenReadings readings : readingsList) {
+      if (readings.hasAnyPartialPosTag("ADJ") || readings.hasAnyPartialPosTag("SUB")
+          || readings.hasAnyPartialPosTag("PA1:") || readings.hasAnyPartialPosTag("PA2:")) {
+        if (readings.getToken().endsWith(misspelling.substring(misspelling.length() - 2))) {
+          formToAccept = readings.getToken();
+          lemmaToFilter = readings.getAnalyzedToken(0).getLemma();
+          break;
+        }
+      }
+    }
+    if (!lemmaToFilter.isEmpty() && !formToAccept.isEmpty() && misspelling.length() > 1) {
+      for (int i = 0; i < suggestions.size(); i++) {
+        if (suggestions.get(i).equals(formToAccept) || !readingsList.get(i).hasAnyLemma(lemmaToFilter)) {
+          if (!filteredSuggestions.contains(suggestions.get(i))) {
+            filteredSuggestions.add(suggestions.get(i));
+          }
+        }
+      }
+    } else {
+      filteredSuggestions.addAll(suggestions);
+    }
+    // end of filtering
     List<String> result = new ArrayList<>();
     List<String> topSuggestions = new ArrayList<>(); // candidates from suggestions that get boosted to the top
-
-    for (String suggestion : suggestions) {
+    for (String suggestion : filteredSuggestions) {
       if (misspelling.equalsIgnoreCase(suggestion)) { // this should be preferred - only case differs
         topSuggestions.add(suggestion);
       } else if (suggestion.contains(" ")) { // this should be preferred - prefer e.g. "vor allem":
@@ -1734,7 +1817,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     result.addAll(0, topSuggestions);
-
     return result;
   }
 
@@ -1885,6 +1967,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
                    firstPart.matches(".{3,25}(tum|ing|ling|heit|keit|schaft|ung|ion|tät|at|um)s")) {
           //System.out.println("will not accept: " + word);
         }
+      }
+    }
+    if (word.endsWith("mitarbeitende") || word.endsWith("mitarbeitenden")) {
+      if (hunspell.spell(word.replaceFirst("mitarbeitenden?", "mitarbeiter"))) {
+        return true;
       }
     }
     if ((idx+1 < words.size() && (word.endsWith(".mp") || word.endsWith(".woff")) && words.get(idx+1).equals("")) ||
@@ -2471,6 +2558,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return topMatch(word.replaceFirst("brilliant", "brillant"));
     }
     switch (word) {
+      case "wohlwissend": return topMatch("wohl wissend");
       case "Visas": return topMatch("Visa", "Plural von 'Visum'");
       case "Reiszwecke": return topMatch("Reißzwecke", "kurzer Nagel mit flachem Kopf");
       case "Reiszwecken": return topMatch("Reißzwecken", "kurzer Nagel mit flachem Kopf");
@@ -2498,6 +2586,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "wüßte": return topMatch("wüsste");
       case "wüßten": return topMatch("wüssten");
       case "bescheid": return topMatch("Bescheid");
+      case "Facetime": return topMatch("FaceTime");
+      case "Facetimes": return topMatch("FaceTimes");
       case "ausversehen": return topMatch("aus Versehen");
       case "Stückweit": return topMatch("Stück weit");
       case "Uranium": return topMatch("Uran");
@@ -2670,6 +2760,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "raufhaute": return topMatch("draufhaute");
       case "raufhauten": return topMatch("draufhauten");
       case "wohlmöglich": return topMatch("womöglich");
+      case "geschalten": return topMatch("geschaltet");
+      case "hiess": return topMatch("hieß");
       case "Click": return topMatch("Klick");
       case "Clicks": return topMatch("Klicks");
       case "jenachdem": return topMatch("je nachdem");
@@ -2705,6 +2797,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "desöfteren": return topMatch("des Öfteren");
       case "desweiteren": return topMatch("des Weiteren");
       case "weitesgehend": return topMatch("weitestgehend");
+      case "Tschibo": return topMatch("Tchibo");
+      case "Tschibos": return topMatch("Tchibos");
       case "Tiktok": return topMatch("TikTok");
       case "Tiktoks": return topMatch("TikToks");
       case "sodaß": return topMatch("sodass");
@@ -2761,8 +2855,74 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "gehhrte": return topMatch("geehrte");
       case "gehhrten": return topMatch("geehrten");
       case "gehhrtes": return topMatch("geehrtes");
+      case "Iphone": return topMatch("iPhone");
+      case "Iphones": return topMatch("iPhones");
+      case "iphone": return topMatch("iPhone");
+      case "iphones": return topMatch("iPhones");
+      case "Ipad": return topMatch("iPad");
+      case "Ipads": return topMatch("iPads");
+      case "ipad": return topMatch("iPad");
+      case "ipads": return topMatch("iPads");
+      case "Adverben": return topMatch("Adverbien");
+      case "letzlich": return topMatch("letztlich");
+      case "Letzlich": return topMatch("Letztlich");
+      case "gefühlsdusselig": return topMatch("gefühlsduselig");
+      case "gefühlsdusselige": return topMatch("gefühlsduselige");
+      case "gefühlsdusseliger": return topMatch("gefühlsduseliger");
+      case "gefühlsdusseliges": return topMatch("gefühlsduseliges");
+      case "gefühlsdusseligen": return topMatch("gefühlsduseligen");
+      case "gegebenfalls": return topMatch("gegebenenfalls");
+      case "Gegebenfalls": return topMatch("Gegebenenfalls");
       case "zugebenermaßen": return topMatch("zugegebenermaßen");
       case "beispielweise": return topMatch("beispielsweise");
+      case "pdf": return topMatch("PDF");
+      case "Pdf": return topMatch("PDF");
+      case "pdfs": return topMatch("PDFs");
+      case "Pdfs": return topMatch("PDFs");
+      case "gekriecht": return topMatch("gekrochen");
+      case "einzigst": return topMatch("einzig");
+      case "Einzigst": return topMatch("Einzig");
+      case "Eifelturm": return topMatch("Eiffelturm");
+      case "Eifelturms": return topMatch("Eiffelturms");
+      case "Jojo-Effekt": return topMatch("Jo-Jo-Effekt");
+      case "Jojo-Effekts": return topMatch("Jo-Jo-Effekts");
+      case "Enschuldigen": return topMatch("Entschuldigen");
+      case "Anschrifft": return topMatch("Anschrift");
+      case "vertrauenserweckend": return topMatch("vertrauenerweckend");
+      case "homepage": return topMatch("Homepage");
+      case "interesse": return topMatch("Interesse");
+      case "moglich": return topMatch("möglich");
+      case "zusammenfässt": return topMatch("zusammenfasst");
+      case "grossartig": return topMatch("großartig");
+      case "grosszügig": return topMatch("großzügig");
+      case "moeglich": return topMatch("möglich");
+      case "naturlich": return topMatch("natürlich");
+      case "natuerlich": return topMatch("natürlich");
+      case "unregelmässig": return topMatch("unregelmäßig");
+      case "unregelmässige": return topMatch("unregelmäßige");
+      case "unaktiv": return topMatch("inaktiv");
+      case "unaktive": return topMatch("inaktive");
+      case "unaktiver": return topMatch("inaktiver");
+      case "unaktives": return topMatch("inaktives");
+      case "unaktiven": return topMatch("inaktiven");
+      case "uneffektiv": return topMatch("ineffektiv");
+      case "uneffezient": return topMatch("ineffizient");
+      case "rechtstaatlich": return topMatch("rechtsstaatlich");
+      case "verhältnismässig": return topMatch("verhältnismäßig");
+      case "unverhältnismässig": return topMatch("unverhältnismäßig");
+      case "Hauptstrasse": return topMatch("Hauptstraße");
+      case "Gespraech": return topMatch("Gespräch");
+      case "Gespraechs": return topMatch("Gesprächs");
+      case "Aussenbereich": return topMatch("Außenbereich");
+      case "Aussenbereichs": return topMatch("Außenbereichs");
+      case "Portrait": return topMatch("Porträt");
+      case "Portraits": return topMatch("Porträts");
+      case "weinachten": return topMatch("Weihnachten");
+      case "Weinachten": return topMatch("Weihnachten");
+      case "unterstüzt": return topMatch("unterstützt");
+      case "untersützt": return topMatch("unterstützt");
+      case "sontag": return topMatch("Sonntag");
+      case "Typescript": return topMatch("TypeScript");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
     return Collections.emptyList();

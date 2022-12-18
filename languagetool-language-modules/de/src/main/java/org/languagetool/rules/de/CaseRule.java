@@ -92,6 +92,12 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Feierwütiger",
+    "Feierwütige",
+    "Feierwütigen",
+    "Dritten",
+    "Konsumierende",
+    "Konsumierenden",
     "Verliebter",
     "Verliebte",
     "Beängstigendes",
@@ -100,6 +106,12 @@ public class CaseRule extends Rule {
     "Verantwortlicher",
     "Verantwortliche",
     "Verantwortlichen",
+    "Beschuldigte",
+    "Beschuldigten",
+    "Beklagte",
+    "Beklagten",
+    "Befragte",
+    "Befragten",
     "Hingerichtete",
     "Lehrende",
     "Lehrender",
@@ -108,10 +120,20 @@ public class CaseRule extends Rule {
     "Packet", // misspelling of "Paket" (caught by spell checker)
     "Adult", // eng
     "Apart", // eng
+    "Universal", // eng
+    "Multinational", // eng
+    "Additional", // eng
     "Smart", // eng
+    "Adverse", // eng
     "Different", // eng
     "Light", // eng
     "Legal", // eng
+    "Computational", // eng
+    "Holder", // eng
+    "Just", // eng
+    "Fundamental", // eng
+    "Quick", // eng
+    "Infernal", // eng
     "Fit", // eng
     "Fair", // eng
     "Viral", // eng
