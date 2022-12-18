@@ -777,6 +777,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
+    <rule id="men_guard" name="me'n guard">
+        <pattern>
+            <token regexp="yes">deu|déu</token>
+            <token regexp="yes" min="1" max="2">me|em|te|et|el|la|vos|us|els|les|en|'n</token>
+            <marker>
+                <token regexp="yes">guard</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="guardar" pos="VMSP1S00"/>
+        </disambig>
+    </rule>
     <rule id="de_A" name="de A">
         <antipattern>
             <token>a</token>
@@ -1525,7 +1537,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule id="gracies_a" name="gràcies a (locució preposicional)">
             <antipattern>
-                <token postag="D.*" postag_regexp="yes"><exception inflected="yes">tot</exception></token>
+                <token postag="D.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">tot|deu</exception></token>
                 <token>gràcies</token>
                 <token>a</token>
             </antipattern>
