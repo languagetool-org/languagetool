@@ -52379,16 +52379,20 @@ O namorado dela era um ladrão.
       <example><marker>Fi-las</marker> há minutos.</example>
     </rule>
 
+
     <rule id='OLD_SPELLING_U' name="Acordo Ortográfico de 45: ü (uso de trema)" type="misspelling">
       <!-- Created by Tiago F. Santos, 2017-05-15 -->
       <pattern>
         <token regexp="yes">.*ü.*
-          <exception regexp="yes">Atatürk|Hübner|hübneriano|Müller|mülleriano|ü|über.*|Württemberg|Zürich|Führer.*|Düsseldorf|München|Für</exception></token>
+          <exception regexp="yes">Atatürk|Hübner|hübneriano|Müller|mülleriano|ü|über.*|Württemberg|Zürich|Führer.*|Düsseldorf|München|Für</exception>
+          <exception postag_regexp='yes' postag='NP.+'/> <!-- MARCOAGPINTO - 2022-12-18 - For names such as Günther-->
+        </token>
       </pattern>
       <message>O trema deixou de ser utilizado em português com o Acordo de 1945.</message>
       <suggestion><match no='1' regexp_match='ü' regexp_replace='u'/></suggestion>
       <example correction="inconsequente">Foi uma brincadeira <marker>inconseqüente</marker>.</example>
     </rule>
+
 
     <rulegroup id='IRREGULAR_FEMININE_FORMS' name='Femininos irregulares'>
       <!-- Created by Tiago F. Santos, 2019-03-23 -->
