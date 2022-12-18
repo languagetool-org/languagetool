@@ -48,9 +48,6 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     put("رشيد", "أرشد");
     put("طويل", "أطول");
     put("بديع", "أبدع");
-    //
-    // TODO: add more Masdar verb
-    //put("", "");
   }};
 
 
@@ -95,7 +92,7 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     return newMatch;
   }
 
-  /* prepare suggesiyton for a list of comparative */
+  /* prepare suggestion for a list of comparative */
   protected static List<String> prepareSuggestions(List<String> compList, String noun) {
     List<String> sugList = new ArrayList<>();
     for (String comp : compList) {
@@ -132,10 +129,6 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
 
     List<String> sugList = new ArrayList<>();
     StringBuilder suggestion = new StringBuilder();
-    String newNoun = noun;
-    // first form of exclamation ما أجمل
-//    suggestion.append("ما");
-//    suggestion.append(" ");
     suggestion.append(comp);
     if (noun == null || noun.isEmpty()) {
     } else if (isPronoun(noun)) {
@@ -159,15 +152,14 @@ public class AdjectiveToExclamationFilter extends RuleFilter {
     if (word == null) {
       return false;
     }
-    return (word.equals("هو")
+    return word.equals("هو")
       || word.equals("هي")
       || word.equals("هم")
       || word.equals("هما")
-      || word.equals("أنا")
-    );
+      || word.equals("أنا");
   }
 
-  /* get correspondant attched to unattached pronoun */
+  /* get corresponding attached to unattached pronoun */
   private static String getAttachedPronoun(String word) {
     if (word == null) {
       return "";

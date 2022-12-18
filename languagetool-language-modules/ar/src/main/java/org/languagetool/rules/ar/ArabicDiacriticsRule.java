@@ -50,7 +50,7 @@ public class ArabicDiacriticsRule extends AbstractSimpleReplaceRule2 {
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>تجربة</marker>"),
-      Example.fixed("<marker>تجرِِبة</marker>"));
+                   Example.fixed("<marker>تجرِِبة</marker>"));
   }
 
   @Override

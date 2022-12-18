@@ -55,7 +55,7 @@ public class ArabicInflectedOneWordReplaceRule extends AbstractSimpleReplaceRule
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Inconsistency);
     addExamplePair(Example.wrong("أجريت <marker>أبحاثا</marker> في المخبر"),
-      Example.fixed("أجريت <marker>بحوثا</marker> في المخبر."));
+                   Example.fixed("أجريت <marker>بحوثا</marker> في المخبر."));
 
     // get wrong words from resource file
     wrongWords = getWrongWords(false);
@@ -175,8 +175,6 @@ public class ArabicInflectedOneWordReplaceRule extends AbstractSimpleReplaceRule
 
   /* generate a new form according to a specific postag,*/
   private List<String> inflectSuggestedWords(String targetLemma, AnalyzedToken sourcetoken) {
-    // FIXME : generate multiple cases
-
     return synthesizer.inflectLemmaLike(targetLemma, sourcetoken);
   }
 }

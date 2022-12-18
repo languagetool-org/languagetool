@@ -37,7 +37,7 @@ public class ArabicWrongWordInContextRule extends WrongWordInContextRule {
   public ArabicWrongWordInContextRule(ResourceBundle messages) {
     super(messages);
     addExamplePair(Example.wrong("من سوء <marker>الضن</marker> بالله ترك الأمر بالمعروف."),
-      Example.fixed("من سوء <marker>الظن</marker> بالله ترك الأمر بالمعروف."));
+                   Example.fixed("من سوء <marker>الظن</marker> بالله ترك الأمر بالمعروف."));
   }
 
   @Override

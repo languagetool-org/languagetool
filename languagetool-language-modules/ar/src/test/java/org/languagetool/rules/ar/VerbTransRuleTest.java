@@ -166,7 +166,6 @@ public class VerbTransRuleTest {
   private String generateNewForm(String word, String posTag, char flag) {
     // generate new from word form
     String newposTag = tagmanager.setFlag(posTag, "PRONOUN", flag);
-    // FIXME: remove the specific flag for option D
     if (flag != '-') {
       newposTag = tagmanager.setFlag(newposTag, "OPTION", 'D');
     }

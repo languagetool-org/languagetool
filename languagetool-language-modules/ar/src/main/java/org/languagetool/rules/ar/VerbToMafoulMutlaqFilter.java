@@ -60,10 +60,6 @@ public class VerbToMafoulMutlaqFilter extends RuleFilter {
     // regular ones:
     // non tri letters verb
     put("أَجَابَ", "إجابة");
-
-    //
-    // TODO: add more Masdar verb
-    //put("", "");
   }};
 
   @Nullable

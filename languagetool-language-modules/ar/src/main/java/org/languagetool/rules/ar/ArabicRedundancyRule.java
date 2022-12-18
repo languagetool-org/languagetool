@@ -52,7 +52,7 @@ public class ArabicRedundancyRule extends AbstractSimpleReplaceRule2 {
     setLocQualityIssueType(ITSIssueType.Style);
     //setDefaultOff();
     addExamplePair(Example.wrong("<marker>سوف لن</marker>"),
-      Example.fixed("<marker>لن</marker>"));
+                   Example.fixed("<marker>لن</marker>"));
   }
 
   @Override

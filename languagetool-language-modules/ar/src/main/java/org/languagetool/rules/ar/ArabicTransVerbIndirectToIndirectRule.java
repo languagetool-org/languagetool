@@ -55,9 +55,9 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
 
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Inconsistency);
-    //FIXME: choose another example
+
     addExamplePair(Example.wrong("الولد <marker>يتردد على</marker> المعهد."),
-      Example.fixed("الولد <marker>يتردد إلى</marker> المعهد."));
+                   Example.fixed("الولد <marker>يتردد إلى</marker> المعهد."));
 
     // get wrong words from resource file
     wrongWords = getWrongWords(false);
@@ -194,7 +194,7 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
         for (AnalyzedToken prepTok : prepTokenList) {
           String prepLemma = prepTok.getLemma();
           String prepPostag = prepTok.getPOSTag();
-          // FIXME: add isBreak to tagmannager
+          // We might need to add isBreak to tagmannager
 
           if (prepPostag != null && tagmanager.isStopWord(prepPostag) && !tagmanager.isBreak(prepPostag)) {
             // the candidate string is composed of verb + preposition
@@ -299,7 +299,6 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
         newWord = synthesizer.setEnclitic(suggPrepToken, suffix);
       } else {     //2- الحالي حرف منفصل والتصحيح حرف متصل
         newWord = suggPrepLemma + suffix;
-        //FIXME : add the Attached jar preposition to next word
       }
 
     }
@@ -318,8 +317,6 @@ public class ArabicTransVerbIndirectToIndirectRule extends AbstractSimpleReplace
     }
 
     return newWord;
-    // FIXME: to remove
-
   }
 
   /* Lookup for next token matched */

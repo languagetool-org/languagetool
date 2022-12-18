@@ -52,7 +52,7 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("The train arrived <marker>a hour</marker> ago."),
-      Example.fixed("The train arrived <marker>an hour</marker> ago."));
+                   Example.fixed("The train arrived <marker>an hour</marker> ago."));
 
     // get wrong words from resource file
     wrongWords = getWrongWords(false);
@@ -119,8 +119,8 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
         // we give the correct new form
         if (isAttachedVerbTransitive && !isRightPreposition) {
           String verb = getCorrectVerbForm(tokens[prevTokenIndex]);
+
           // generate suggestion according to suggested prepositions
-          // FIXME: test all suggestions
           String newPreposition = prepositions.get(0);
           String preposition = getCorrectPrepositionForm(newPreposition, prevToken);
 
@@ -193,7 +193,6 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
   }
 
   private static boolean isRightPreposition(AnalyzedTokenReadings nextToken, List<String> prepositionList) {
-    //FIXME: test if the next token  is the suitable preposition for the previous token as verbtoken
     String nextTokenStr = nextToken.getReadings().get(0).getLemma();
     return prepositionList.contains(nextTokenStr);
   }
@@ -210,7 +209,6 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
   private String generateNewForm(String word, String posTag, char flag) {
     // generate new from word form
     String newposTag = tagmanager.setFlag(posTag, "PRONOUN", flag);
-    // FIXME: remove the specific flag for option D
     if (flag != '-')
       newposTag = tagmanager.setFlag(newposTag, "OPTION", 'D');
     // generate the new preposition according to modified postag
@@ -232,7 +230,6 @@ public class ArabicTransVerbRule extends AbstractSimpleReplaceRule2 {
 
   /* generate a new form according to a specific postag, this form is Attached*/
   private String generateAttachedNewForm(String prepositionLemma, AnalyzedTokenReadings prevtoken) {
-    // FIXME ; generate multiple cases
     String postag = "PR-;---;---";
     String prevPosTag = prevtoken.getReadings().get(0).getPOSTag();
     char flag = tagmanager.getFlag(prevPosTag, "PRONOUN");

@@ -46,7 +46,7 @@ public class ArabicWordCoherencyRule extends AbstractWordCoherencyRule {
   public ArabicWordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
     addExamplePair(Example.wrong("وزارة الشؤون الخارجية تهتم  بكل <marker>شئون</marker> العالم."),
-      Example.fixed("وزارة الشؤون الخارجية تهتم  بكل <marker>شؤون</marker> العالم."));
+                   Example.fixed("وزارة الشؤون الخارجية تهتم  بكل <marker>شؤون</marker> العالم."));
   }
 
   @Override

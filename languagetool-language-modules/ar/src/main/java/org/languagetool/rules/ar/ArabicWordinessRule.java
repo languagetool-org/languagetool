@@ -59,7 +59,7 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>هناك خطأ في العبارة</marker>"),
-      Example.fixed("<marker>في العبارة خطأ</marker>"));
+                   Example.fixed("<marker>في العبارة خطأ</marker>"));
   }
 
   @Override
@@ -113,9 +113,6 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
       put("رشيد", "أرشد");
       put("طويل", "أطول");
       put("بديع", "أبدع");
-      //
-      // TODO: add more Masdar verb
-      //put("", "");
     }};
 
 
@@ -344,7 +341,6 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
   static class DateFilterHelper {
 
     protected Calendar getCalendar() {
-      // TODO : check this value
       return Calendar.getInstance(Locale.forLanguageTag("ar"));
     }
 
@@ -495,17 +491,6 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
       add("قَامَ");
     }};
 
-    private final Map<String, String> masdar2verb = new HashMap<String, String>() {{
-      // tri letters verb:
-      put("عمل", "عَمِلَ");
-      put("إعمال", "أَعْمَلَ");
-      put("تعميل", "عَمَّلَ");
-      put("ضرب", "ضَرَبَ");
-      put("أكل", "أَكَلَ");
-      put("إجابة", "أَجَابَ");
-      // TODO: add more Masdar verb
-    }};
-
 
     @Nullable
     @Override
@@ -545,10 +530,10 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
 
             List<String> verbLemmaList = masdar2verbList.get(lemma);
             if (verbLemmaList != null) {
-              // if verb, inflect verd according to auxialiary verb inlfection
+              // if verb, inflect verb according to auxiliary verb inflection
               for (String vrbLem : verbLemmaList) {
-                List<String> inflectedverbList = synthesizer.inflectLemmaLike(vrbLem, auxVerbToken);
-                verbList.addAll(inflectedverbList);
+                List<String> inflectedVerbList = synthesizer.inflectLemmaLike(vrbLem, auxVerbToken);
+                verbList.addAll(inflectedVerbList);
               }
             }
           }
@@ -826,7 +811,6 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
     private final ArabicTagger tagger = new ArabicTagger();
     private static final String FILE_NAME = "/ar/arabic_verb_masdar.txt";
 
-    //TODO : use constructor to load the file
     private final Map<String, List<String>> verb2masdarList = loadFromPath(FILE_NAME);
     private final ArabicSynthesizer synthesizer = new ArabicSynthesizer(new Arabic());
 

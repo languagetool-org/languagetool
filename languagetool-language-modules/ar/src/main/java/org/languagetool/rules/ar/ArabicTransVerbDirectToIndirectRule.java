@@ -33,8 +33,6 @@ import java.util.*;
 import static java.lang.Math.min;
 
 /**
- * TODO : Sohaib - check the duplicated code
- *
  * @since 5.8
  */
 public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRule2 {
@@ -60,7 +58,7 @@ public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRu
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Inconsistency);
     addExamplePair(Example.wrong("قال <marker>كشفت</marker> الأمر الخفي."),
-      Example.fixed("قال <marker>كشفت عن</marker> الأمر الخفي."));
+                   Example.fixed("قال <marker>كشفت عن</marker> الأمر الخفي."));
 
     // get wrong words from resource file
     wrongWords = getWrongWords(false);
@@ -209,7 +207,7 @@ public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRu
   }
 
   private static boolean isRightPreposition(AnalyzedToken nextToken, List<String> prepositionList) {
-    //FIXME: test if the next token  is the suitable preposition for the previous token as verbtoken
+    // We might have to test here if the next token  is the suitable preposition for the previous token as verb-token
     String nextTokenStr = nextToken.getLemma();
     return prepositionList.contains(nextTokenStr);
   }
@@ -257,11 +255,10 @@ public class ArabicTransVerbDirectToIndirectRule extends AbstractSimpleReplaceRu
 
   /* generate a new form according to a specific postag, this form is Attached*/
   private String inflectSuggestedPreposition(String prepositionLemma, AnalyzedToken prevtoken) {
-    // FIXME ; generate multiple cases
 
     String postag2 = "PRD;---;---";
     String suffix = tagger.getEnclitic(prevtoken);
-    //FiXME: unify tag of preposition
+
     if (suffix.isEmpty()) {
       postag2 = "PR-;---;---";
     }

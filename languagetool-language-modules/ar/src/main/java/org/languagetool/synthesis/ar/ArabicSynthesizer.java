@@ -203,13 +203,11 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     String stem = "";
     if (newwordList.length != 0) {
       stem = newwordList[0];
-      //FIXME: make a general solution
       if (tagmanager.isStopWord(newposTag) && flag == 'H') {
         stem = stem.replaceAll("ه$", "");
       }
     } else {
       // no word generated
-      //FIXME: handle stopwords generation
       stem = "(" + word + ")";
     }
     String newWord = procletic + stem + suffix;
@@ -348,8 +346,8 @@ public class ArabicSynthesizer extends BaseSynthesizer {
       if (tagmanager.hasPronoun(newposTag)) {
         stem = stem.replaceAll("ه$", "");
       }
-    } else {// no word generated
-      //FIXME: handle stopwords generation
+    } else {
+      // no word generated
       stem = "(" + word + ")";
     }
     String newWord = prefix + stem + enclitic;
@@ -358,7 +356,6 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
   /* generate a new form according to a specific postag, this form is Attached*/
   public List<String> inflectLemmaLike(String targetLemma, AnalyzedToken sourcetoken) {
-    // FIXME : generate multiple cases
     // make a token with the lemma
     AnalyzedTokenReadings tokenReadList = tagger.tag(targetLemma);
     List<String> wordlist = new ArrayList<String>();
@@ -368,7 +365,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
       return wordlist;
     }
     String sourcePostag = sourcetoken.getPOSTag();
-    // get affxies
+    // get affixes
     String prefix = tagger.getProclitic(sourcetoken);
     String suffix = tagger.getEnclitic(sourcetoken);
 

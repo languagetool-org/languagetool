@@ -34,7 +34,6 @@ import static org.languagetool.tools.StringTools.isEmpty;
  * opening parenthesis followed by whitespace.
  *
  * @since 5.8
- * TODO : Sohaib - remove duplicated code, may be extend the English one
  */
 /* need better messages */
 public class ArabicPunctuationWhitespaceRule extends Rule {

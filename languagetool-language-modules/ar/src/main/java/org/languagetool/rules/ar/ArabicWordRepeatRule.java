@@ -33,7 +33,7 @@ public class ArabicWordRepeatRule extends WordRepeatRule {
   public ArabicWordRepeatRule(ResourceBundle messages) {
     super(messages, new Arabic());
     addExamplePair(Example.wrong("هذا <marker>فقط فقط</marker> مثال."),
-      Example.fixed("هذا <marker>فقط</marker> مثال."));
+                   Example.fixed("هذا <marker>فقط</marker> مثال."));
   }
 
   @Override

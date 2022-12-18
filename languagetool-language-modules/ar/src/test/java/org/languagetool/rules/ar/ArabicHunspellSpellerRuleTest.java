@@ -43,7 +43,6 @@ public class ArabicHunspellSpellerRuleTest {
 
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("السلام عليييكم."));
     assertThat(matches.length, is(1));
-    //TODO fix flaky test
 
     matches = rule.match(lt.getAnalyzedSentence("هذه العباره فيها أغلاط."));
     assertThat(matches.length, is(1));

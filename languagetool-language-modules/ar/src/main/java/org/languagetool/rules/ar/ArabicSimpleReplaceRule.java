@@ -39,7 +39,7 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
     super(messages, new Arabic());
     super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
     addExamplePair(Example.wrong("<marker>الى</marker>"),
-      Example.fixed("<marker>إلى</marker>"));
+                   Example.fixed("<marker>إلى</marker>"));
   }
 
   @Override

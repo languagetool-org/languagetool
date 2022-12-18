@@ -55,9 +55,9 @@ public class ArabicTransVerbIndirectToDirectRule extends AbstractSimpleReplaceRu
 
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Inconsistency);
-    //FIXME: choose another example
+
     addExamplePair(Example.wrong("قال <marker>كشفت</marker> الأمر الخفي."),
-      Example.fixed("قال <marker>كشفت عن</marker> الأمر الخفي."));
+                   Example.fixed("قال <marker>كشفت عن</marker> الأمر الخفي."));
 
     // get wrong words from resource file
     wrongWords = getWrongWords(false);

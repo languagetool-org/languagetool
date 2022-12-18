@@ -54,14 +54,9 @@ public class MasdarToVerbFilter extends RuleFilter {
     put("تعميل", "عَمَّلَ");
     put("ضرب", "ضَرَبَ");
     put("أكل", "أَكَلَ");
-//    put("سؤال","سَأَلَ");
-// regular ones:
-// non tri letters verb
+    // regular ones:
+    // non tri letters verb
     put("إجابة", "أَجَابَ");
-
-    //
-    // TODO: add more Masdar verb
-    //put("", "");
   }};
 
 

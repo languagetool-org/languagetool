@@ -162,7 +162,7 @@ public class ArabicTagManager {
         break;
       case "S":
         // َAdd S flag
-        // if postag contains a future tag, TODO with regex
+        // if postag contains a future tag, use regex
         if (isFutureTense(postag)) {
           postag = setFlag(postag, "ISTIQBAL", 'S');
         } else
@@ -392,9 +392,7 @@ public class ArabicTagManager {
     char flag = getFlag(postag, "CONJ");
     return (isNoun(postag) && (flag != '-'))
       || (isVerb(postag) && (flag != '-'))
-      || ((isStopWord(postag) && (flag != 'W'))
-      //FIXME: for stopwrod after normalizing postag
-    );
+      || (isStopWord(postag) && (flag != 'W'));
   }
 
   /**
@@ -510,7 +508,6 @@ public class ArabicTagManager {
     } else if (isVerb(postag)) {
       key = "VERB_FLAG_POS_" + flagType;
     }
-    // TODO : find a better way to convert key to pos
     if (key.equals("NOUN_TAG_LENGTH")) {
       pos = NOUN_TAG_LENGTH;
     } else if (key.equals("NOUN_FLAG_POS_WORDTYPE")) {

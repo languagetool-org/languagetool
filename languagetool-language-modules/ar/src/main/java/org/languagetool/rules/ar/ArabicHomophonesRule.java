@@ -48,7 +48,7 @@ public class ArabicHomophonesRule extends AbstractSimpleReplaceRule2 {
     super(messages, new Arabic());
     super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
     addExamplePair(Example.wrong("<marker>ضن</marker>"),
-      Example.fixed("<marker>ظن</marker>"));
+                   Example.fixed("<marker>ظن</marker>"));
   }
 
 
