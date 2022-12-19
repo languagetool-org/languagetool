@@ -7261,6 +7261,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB" skip="-1" />
             <token>?</token>
         </antipattern>
+        <antipattern>
+            <token inflected="yes" regexp="yes">do|will|can|should</token>
+            <token postag="PRP" />
+            <token postag="VB" chunk_re=".-VP" />
+        </antipattern>
         <pattern>
             <token postag="PRP">
                 <exception postag="RB|PRP\$" postag_regexp="yes"/>
@@ -9841,6 +9846,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNS" />
             <token postag="DT" />
         </antipattern>
+        <antipattern>
+            <token postag="DT|PRP\$" postag_regexp="yes" />
+            <token postag="CD" />
+            <token postag="NNS" chunk_re="E-NP.*" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -9848,7 +9858,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                         <exception scope="previous" regexp="yes">is|was</exception>
                         <exception postag_regexp="yes" postag="NNPS?"/>
                         </token>
-                    <token postag="VBZ"/>
+                    <token postag="VBZ" />
                 </and>
             </marker>
             <token postag="DT"><exception>that</exception></token>
@@ -9858,6 +9868,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">This is work.</example>
         <example type="untouched">On a number of occasions the thing happens..</example>
         <example type="untouched">It has an advantage compared to objects that make something.</example>
+        <example type="untouched">A letter outlining the changes (and reference that it is for just these two invoices an amendment) should be sufficient.</example>
         <example type="untouched">For more than one year there was <marker>updates</marker> every day.</example><!-- Refer to grammar THERE_WAS_MANY. -->
         <example type="untouched">... and there was <marker>weeds</marker> all round the grave.</example>
         <example type="untouched">Is <marker>marks</marker> all over the window your idea of cleaning?</example>
