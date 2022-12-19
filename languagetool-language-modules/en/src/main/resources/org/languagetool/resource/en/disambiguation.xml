@@ -16532,4 +16532,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="remove" postag="NNP" />
         </rule>
     </rulegroup>
+
+    <rule id="CAN_I_ESCAPE" name="can I escape (VB)">
+        <pattern>
+            <token postag="W.*|PCT|SENT_START|CC" postag_regexp="yes" />
+            <token regexp="yes" inflected="yes">can|do|will|should|may</token>
+            <token min="0">n't</token>
+            <token postag="PRP_S.*|NNPS?" postag_regexp="yes" />
+            <and>
+                <token postag="VB" chunk_re=".-VP" />
+                <token postag="VBP" />
+            </and>
+        </pattern>
+        <disambig action="filter" postag="VB" />
+    </rule>
 </rules>
