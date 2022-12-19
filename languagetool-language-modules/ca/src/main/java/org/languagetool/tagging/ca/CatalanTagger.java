@@ -157,13 +157,15 @@ public class CatalanTagger extends BaseTagger {
     if (matcher.matches()) {
       final String possibleVerb = StringTools.normalizeNFC(matcher.group(2).toLowerCase());
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
-      for (AnalyzedToken taggerToken : taggerTokens ) {
-        final String posTag = taggerToken.getPOSTag();
-        if (posTag != null) {
-          final Matcher m = VERB.matcher(posTag);
-          if (m.matches()) {
-            String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
-            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        if (!taggerToken.getLemma().equals("nòmer")) {
+          final String posTag = taggerToken.getPOSTag();
+          if (posTag != null) {
+            final Matcher m = VERB.matcher(posTag);
+            if (m.matches()) {
+              String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+              additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+            }
           }
         }
       }
