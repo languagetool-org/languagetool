@@ -11862,7 +11862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>si</token>
                 </antipattern>
                 <antipattern>
-                    <token>no</token>
+                    <token regexp="yes">no|que</token>
                     <token>si</token>
                 </antipattern>
                 <pattern>
@@ -11887,6 +11887,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Veamos si podemos evitarlo.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token>por</token>
+                    <token regexp="yes">otra|otro</token>
+                    <token regexp="yes">parte|lado</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" regexp="yes">\p{P}</token>
@@ -12017,10 +12024,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             pero si hay vida y aún es posible escucharla,-->
                 <antipattern>
                     <token>pero</token>
-                    <token skip="20">si<exception scope="next" postag_regexp="yes" postag="CS|PR.*"/></token>
+                    <token skip="20">si</token>
                     <token skip="-1" postag="V.[IS].*" postag_regexp="yes"><exception scope="next" postag_regexp="yes" postag="CS|PR.*"/></token>
-                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                    <token postag="V.[ISM].*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>pero</token>
+                    <token skip="20">si<exception scope="next" postag_regexp="yes" postag="CS|PR.*"/></token>
+                    <token skip="-1" postag="V.[IS].*" postag_regexp="yes"/>
+                    <token postag="V.[ISM].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>¡</token>
+                    <token>pero</token>
+                    <token>si</token>
+                </antipattern>
+               <!-- <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>pero</token>
+                    <token>si</token>
+                </antipattern>-->
                 <pattern>
                     <token>pero</token>
                     <marker>
@@ -12033,8 +12056,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sí">Pero <marker>si</marker> hay casos reales.</example>
                 <example correction="sí">No tengo dinero que darle, no, pero <marker>si</marker> puedo dirigirle unas palabras.</example>
                 <example correction="sí">No suele verse a ancianos, pero <marker>si</marker> a jóvenes que ríen.</example>
-                <example correction="sí">No suele verse a ancianos, pero <marker>si</marker> a jóvenes que ríen, se besan.</example>
+                <!--<example correction="sí">No suele verse a ancianos, pero <marker>si</marker> a jóvenes que ríen y se besan.</example>-->
                 <example>Pero si hay casos reales, lo analizaremos.</example>
+                <example>Pero si de repente un día quieres llamarme papá, hazlo.</example>
+                <example>Pero si explicas que alguien ha muerto, te lo entregan de inmediato.</example>
+                <example>¡Pero si fueron ellos los que se independizaron!</example>
             </rule>
         </rulegroup>
         <rulegroup id="PASO" name="paso/pasó">
