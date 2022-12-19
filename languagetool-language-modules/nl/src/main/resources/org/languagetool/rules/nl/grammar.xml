@@ -431,7 +431,7 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="DE_HERE" name="Heer/Here" default="temp_off">
+        <rulegroup id="DE_HERE" name="Heer/Here" >
             <!-- R. Baars, november 2022 -->
             <rule>
                 <pattern>
@@ -445,7 +445,7 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="WORDT_JE" name="Wordt/word" default="temp_off">
+        <rulegroup id="WORDT_JE" name="Wordt/word" >
             <!-- R. Baars, november 2022 -->
             <rule>
                 <antipattern>
@@ -485,7 +485,7 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="DD" name="Dd/d.d." default="temp_off">
+        <rulegroup id="DD" name="Dd/d.d." >
             <!-- R. Baars, november 2022 -->
             <rule>
                 <antipattern>
@@ -3250,7 +3250,7 @@ regexp case-insensitive maken: (?i)
                 <example correction="dicht">Het woord <marker>digt</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SCHUT" name="Schut/scvhud-schudt" default="temp_off">
+        <rulegroup id="SCHUT" name="Schut/scvhud-schudt" >
             <rule>
                 <antipattern>
                     <token>voor</token>
@@ -10807,7 +10807,7 @@ onwaarschijnlijk
                 <example correction="doe-het-zelfzaak">Ik mag de <marker>doe het zelfzaak</marker> niet meer in.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="STAND_IN" name="Stand in/stand-in" default="temp_off">
+        <rulegroup id="STAND_IN" name="Stand in/stand-in">
             <rule>
                 <antipattern>
                     <token>stand</token>
@@ -11318,7 +11318,7 @@ onwaarschijnlijk
                 <antipattern><token>de</token><token>mini</token><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/></antipattern>
                 <pattern>
                     <token regexp="yes" >mini|ultra|giga|mega|tera|nano|micro|macro</token>
-                    <token postag_regexp="yes" postag="ZNW.*|BNW.*"><exception>kan</exception></token>
+                    <token postag_regexp="yes" postag="ZNW.*|BNW.*"><exception regexp="yes">kan|HD</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
                 <!-- <filter class="org.languagetool.rules.nl.CompoundFilter" args="words:\1|\2"/> -->
@@ -13229,7 +13229,7 @@ onwaarschijnlijk
                 <example correction="zgn.">Door juist inzaaien van deze <marker>zgn</marker> vette kruidachtigen weer een kans om te bloeien en zich te vermeerderen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AFKO_PUNT2" name="m.a.w → m.a.w." default="temp_off">
+        <rulegroup id="AFKO_PUNT2" name="m.a.w → m.a.w." >
             <!-- R. Baars december 2022 -->
             <rule>
                 <pattern>
@@ -13261,6 +13261,7 @@ onwaarschijnlijk
         </rulegroup>
         <rulegroup id="T" name="t → het">
             <rule>
+                <antipattern><token>delta</token><token>t</token></antipattern>
                 <antipattern><token spacebefore="yes">t</token><token spacebefore="no">.</token></antipattern>
                 <antipattern><token>.</token><token spacebefore="no">t</token></antipattern>
                 <pattern>
@@ -13870,7 +13871,7 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
 
-        <rulegroup id="DIT_VERANDERD" name="Dit veranderd/verandert" default="temp_off">
+        <rulegroup id="DIT_VERANDERD" name="Dit veranderd/verandert" >
             <!-- R. Baars, november 2022 -->
             <rule>
                 <antipattern>
@@ -13908,7 +13909,7 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
 
-        <rulegroup id="EEN_VERSTOORT" name="Een verstoort/verstoord" default="temp_off">
+        <rulegroup id="EEN_VERSTOORT" name="Een verstoort/verstoord" >
             <!-- R. Baars, november 2022 -->
             <rule>
                 <antipattern><token>de</token><token>een</token></antipattern>
@@ -19239,6 +19240,8 @@ steenwijk;Steenwijk
         -->
         <rulegroup id="KOMMA_MAAR" name=", maar">
             <rule>
+                <antipattern><token>altijd</token><token>maar</token></antipattern>
+                <antipattern><token postag="SENT_START"/><token/><token>maar</token></antipattern>
                 <antipattern><token>waar</token><token>u</token><token>maar</token><token>wilt</token></antipattern>
                 <antipattern><token>Ik</token><token>moet</token><token>me</token><token>hier</token><token>maar</token><token>gewoon</token></antipattern>
                 <antipattern><token>kom</token><token regexp="yes">er|hier|daar|d’r</token><token>maar</token><token regexp="yes">’s|eens</token><token postag="VRZ"/></antipattern>
@@ -20776,6 +20779,7 @@ steenwijk;Steenwijk
         <rulegroup id="KOMMA_ONTBR" name="Komma vergeten?" >
             <!-- 2014-08-20 TaalTik -->
             <rule>
+                <antipattern><token>bekijk</token><token>welk</token></antipattern>
                 <antipattern><token regexp="yes">de|g?een|het</token><token postag="ZNW.*" postag_regexp="yes"/></antipattern>
                 <antipattern><token inflected="yes" regexp="yes">worden|zijn</token><token postag="WKW:TGW:3EP"/></antipattern>
                 <antipattern><token>is</token><token>denk</token><token>ik</token></antipattern>
@@ -20788,7 +20792,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token><exception postag="SENT_START"/></token>
                     <marker>
-                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM:.*"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder|genoeg|nadien|hitte|eenendertig|jouw</exception></token>
+                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM:.*"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder|genoeg|nadien|hitte|eenendertig|jouw|contact</exception></token>
                         <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV|ENM.*"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast|indien|genoeg|nadien|jou|vierde</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
                     </marker>
                 </pattern>
@@ -21581,6 +21585,7 @@ steenwijk;Steenwijk
 
         <rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" > <!-- TODO:  Later tag as learner rule -->
             <rule>
+                <antipattern><token>Ancien</token><token>régime</token></antipattern>
                 <antipattern>
                     <token>nummer</token>
                     <token regexp="yes">[0-9]+</token>
@@ -37528,7 +37533,7 @@ steenwijk;Steenwijk
                 <example correction="">En <marker>nooit geen</marker> vakantie.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IETS_DAT" name="Iets dat → iets wat">
+        <rulegroup id="IETS_DAT" name="Iets dat → iets wat" tags="picky">
             <rule>
                 <pattern>
                     <token>iets</token>
@@ -38078,6 +38083,11 @@ steenwijk;Steenwijk
                 <antipattern>
                     <token/>
                     <token>plaats</token>
+                    <token>des</token>
+                    <token>onheils</token>
+                </antipattern>
+                <antipattern>
+                    <token>dag</token>
                     <token>des</token>
                     <token>onheils</token>
                 </antipattern>
@@ -44733,7 +44743,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
-        <rulegroup id="VERHUISD_HIJ" name="Verhuisd/verhuist" default="temp_off">
+        <rulegroup id="VERHUISD_HIJ" name="Verhuisd/verhuist" >
             <!-- R. Baars november 2022           -->
             <rule>
                 <antipattern><token>hij</token><token>die</token></antipattern>
@@ -44847,7 +44857,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
-        <rulegroup id="COPY_PASTE" name="copy/paste => copy-paste" default="temp_off">
+        <rulegroup id="COPY_PASTE" name="copy/paste => copy-paste" >
             <!-- R. Baars november 2022 -->
             <rule>
                 <pattern>
@@ -44860,7 +44870,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
-        <rulegroup id="COPY" name="copy/kopie of kopij" default="temp_off">
+        <rulegroup id="COPY" name="copy/kopie of kopij" >
             <!-- R. Baars november 2022 -->
             <rule>
                 <antipattern>
@@ -44916,7 +44926,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
-        <rulegroup id="ZIJN_HAAR" name="zijn/haar" tags="picky" default="temp_off">
+        <rulegroup id="ZIJN_HAAR" name="zijn/haar" tags="picky" >
             <!-- R. Baars november 2022 -->
             <rule>
                 <pattern>
@@ -45294,7 +45304,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
-        <rulegroup id="KRUID_VERSCHIETEN" name="kruid/kruit" default="temp_off">
+        <rulegroup id="KRUID_VERSCHIETEN" name="kruid/kruit" >
             <!-- R. Baars december 2022 -->
             <rule>
                 <pattern>
@@ -45422,7 +45432,7 @@ steenwijk;Steenwijk
                 <example correction="zo dadelijk">Ik haat fouten, <marker>zodadelijk</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VD" name="vd/v.d." default="temp_off" tags="picky" >
+        <rulegroup id="VD" name="vd/v.d." tags="picky" >
             <rule>
                 <pattern>
                     <marker>
@@ -45433,7 +45443,7 @@ steenwijk;Steenwijk
                 <example correction="v.d.|van de">Hij komt <marker>vd</marker> bank.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DA_Q_S" name="da's/dat is" default="temp_off" tags="picky" >
+        <rulegroup id="DA_Q_S" name="da's/dat is" tags="picky" >
             <rule>
                 <pattern>
                     <marker>
@@ -45444,7 +45454,7 @@ steenwijk;Steenwijk
                 <example correction="Dat is"><marker>Da's</marker> niet best.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AFKO_VOLUIT" name="Afkortingen voluit" default="temp_off" tags="picky" >
+        <rulegroup id="AFKO_VOLUIT" name="Afkortingen voluit" tags="picky" >
             <rule>
                 <pattern>
                     <marker>
@@ -45480,7 +45490,7 @@ steenwijk;Steenwijk
                 <example correction="voorbeeld|bijvoorbeeld">Het is <marker>vb.</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="AFKO_ONJUIST" name="Afkorting onjuist" default="temp_off" tags="picky" >
+        <rulegroup id="AFKO_ONJUIST" name="Afkorting onjuist" tags="picky" >
             <rule>
                 <pattern>
                     <marker>
@@ -45505,7 +45515,7 @@ steenwijk;Steenwijk
                 <example correction="seconde|seconden|s">Het duurt 15 <marker>sec</marker> lang.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AFKO_PUNTEN" name="Afkortingen zonder punt" tags="picky" default="temp_off">
+        <rulegroup id="AFKO_PUNTEN" name="Afkortingen zonder punt" tags="picky" >
             <rule>
                 <pattern>
                     <marker>
