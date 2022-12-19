@@ -51,12 +51,11 @@ public class GRPCServer extends ProcessingServerImplBase
       io.grpc.stub.StreamObserver<org.languagetool.rules.ml.MLServerProto.AnalyzeResponse> responseObserver) {
     try {
       log.info("Handling analyze request");
-      // TODO: enable this again when fixed
-      // PipelineSettings settings = buildSettings(request.getOptions());
-      // Pipeline pipeline = pool.getPipeline(settings);
-      // List<AnalyzedSentence> sentences = pipeline.analyzeText(request.getText());
+       PipelineSettings settings = buildSettings(request.getOptions());
+       Pipeline pipeline = pool.getPipeline(settings);
+       List<AnalyzedSentence> sentences = pipeline.analyzeText(request.getText());
       AnalyzeResponse response = AnalyzeResponse.newBuilder()
-        // .addAllSentences(sentences.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
+         .addAllSentences(sentences.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList()))
         .build();
       responseObserver.onNext(response);
       responseObserver.onCompleted();
