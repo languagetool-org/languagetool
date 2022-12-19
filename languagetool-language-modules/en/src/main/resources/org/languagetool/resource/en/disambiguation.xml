@@ -4104,6 +4104,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBP"/>
             <token>?</token>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">what|which|how|when|where|who</token>
+            <token postag="RB" min="0" />
+            <token postag="MD|VB[DZ]" postag_regexp="yes" chunk_re=".-VP" />
+            <token regexp="yes">that|this</token>
+            <token postag="VB" />
+            <token postag="SENT_END" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|much</exception></token>
             <marker>
@@ -4118,6 +4126,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/JJR,well/RBR]" outputform="better[better/NN]">... at the casino yesterday. But, who was the <marker>better</marker>?</example>
       <example type="untouched">[No full stop at the end of the sentence] … to gain a much better understanding</example>
       <example type="untouched">... compared with last year, this year's crops are much better.</example>
+      <example type="untouched">... compared with last year, this year's crops are much better.</example>
+      <example type="untouched">What does that mean?</example>
       <example type="untouched">... on the way to the Enron Broadband/BMC agreement since we last spoke.</example>
       <example type="untouched">Will doing that help?</example><!-- #3310 help/E-NP-singular -->
       <example type="untouched">... but might using this work?</example><!-- #3310 -->
