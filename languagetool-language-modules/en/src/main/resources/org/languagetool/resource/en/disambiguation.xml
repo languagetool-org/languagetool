@@ -16534,6 +16534,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rulegroup>
 
     <rule id="CAN_I_ESCAPE" name="can I escape (VB)">
+        <antipattern><!-- Didn't you team check the results? -->
+            <token postag="PRP_S.*|NNPS?" postag_regexp="yes" />
+            <token chunk="B-VP" />
+            <token chunk="I-VP" />
+        </antipattern>
+        <antipattern><!-- Didn't you team check the results? -->
+            <token postag="PRP_S.*|NNPS?" postag_regexp="yes" />
+            <token chunk="B-VP" />
+            <token postag="VB" />
+        </antipattern>
         <pattern>
             <token postag="W.*|PCT|SENT_START|CC" postag_regexp="yes" />
             <token regexp="yes" inflected="yes">can|do|will|should|may</token>
@@ -16541,7 +16551,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="PRP_S.*|NNPS?" postag_regexp="yes" />
             <marker>
                 <and>
-                    <token postag="VB" chunk_re=".-VP" />
+                    <token postag="VB" chunk_re=".-VP">
+                        <exception>please</exception>
+                    </token>
                     <token postag="VBP" />
                 </and>
             </marker>
