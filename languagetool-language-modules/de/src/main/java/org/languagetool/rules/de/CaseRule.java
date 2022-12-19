@@ -131,6 +131,7 @@ public class CaseRule extends Rule {
     "Computational", // eng
     "Holder", // eng
     "Just", // eng
+    "Lost", // eng
     "Fundamental", // eng
     "Quick", // eng
     "Infernal", // eng
