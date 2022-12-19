@@ -471,6 +471,7 @@ public class German extends Language implements AutoCloseable {
       case "SIE_WOLLTEN_SIND": return -52;
       case "ART_ADJ_SOL": return -52; // prefer comma rules
       case "WURDEN_WORDEN_1": return -52; // prefer comma rules
+      case "WAR_WAHR": return -52; // higher prio than KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -53;
       case "VERB_IST": return -53; // less prio than comma rules and spell checker
       case "WAR_WERDEN": return -53; // less prio than comma rules
