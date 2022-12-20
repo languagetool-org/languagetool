@@ -20494,19 +20494,19 @@ O namorado dela era um ladrão.
       -->
       <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
 
-      <!-- MARCOAGPINTO 2022-11-14 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-      <!-- It has zero hits in 600 000 sentences, it just removes one false positive in my thesis -->
+      <!-- MARCOAGPINTO 2022-11-14 + 2022-12-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <!-- It has zero hits in 600 000 sentences, it just removes two false positives in my thesis -->
       <antipattern>
         <token regexp='no'>por</token>
         <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
         <token postag='AQ.+|NC.+' postag_regexp='yes'/>
-        <token/> <!-- It was using the SPS00 below, but even with any token it gives zero results in 600 000 sentences -->
-<!--        <token postag='SPS00' postag_regexp='no'/> -->
+		<token min="0" max="1" postag='SPS00' postag_regexp='no'/>
         <token postag='AQ.+|NC.+' postag_regexp='yes'/>
-        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.+|CC' postag_regexp='yes'/>
         <example>Esta é a equação indicada por as variações de valores resultarem bem.</example>
+		<example>Usámos truques por as equações básicas e os parâmetros associados serem fracos.</example>
       </antipattern>
-      <!-- MARCOAGPINTO 2022-11-14 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+      <!-- MARCOAGPINTO 2022-11-14 + 2022-12-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <antipattern>
         <token case_sensitive="yes" regexp='yes'>[ao]s?</token>
