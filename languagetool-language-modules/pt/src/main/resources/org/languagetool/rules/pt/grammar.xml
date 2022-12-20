@@ -3697,12 +3697,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>É uma luta inglória, porque mesmo que traga benefícios para a população, não gere custos ao Executivo.</example>
     </rule>
 
+
     <!-- APARECE NO ECRÃ UM NÚMERO aparece um número no ecrã -->
     <rulegroup id='COLOCACAO_ADVERBIOS_LUGAR' name="Colocação de advérbios no lugar">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-13 + 2022-08-15 (17-MAR-2021+)      -->
-	  <!-- RULE NEEDS TO BE REWRITTEN FOR MORE RECENT TOKEN USAGE -->
+      <!-- RULE NEEDS TO BE REWRITTEN FOR MORE RECENT TOKEN USAGE -->
       <!-- Jaume suggested creating three rules since there was a bug with max="3" -->
-	
+
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2022-12-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='SPS00|SPS00:DD.+|SPS00:PP.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='DI.+|Z0.+' postag_regexp='yes'/>
+        <example>A Ana faz deste lugar um verdadeiro sanatório.</example>
+        <example>Felizmente temos uma arma anti míssil poderozissíma que fará desta bomba um estouro não maior que de um traque.</example>
+        <example>Pessoal, eu me juntarei e faremos desse evento um sucesso.</example>
+        <example>Eu sabia que os animais sofrem a "morte" dos seus, mas não sabia que eles se lembravam deles passados alguns dias.</example>
+        <example>Ele cresceu pra ser um engenheiro.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->  
+
       <!-- Token 1/3 -->
       <rule>
         <!--
@@ -3713,7 +3732,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <marker>
             <token postag='SPS00.+' postag_regexp='yes'>
               <exception regexp='yes'>às?|aos?|d[ao]s?|pel[ao]s?</exception>
-			  <exception scope="previous" postag_regexp='yes' postag='VMP00.+'/>
+              <exception scope="previous" postag_regexp='yes' postag='VMP00.+'/>
 <!-- Added exception above to fix issues:
 ONLY WORKS ON 1/3
 2022-08-15:
@@ -3801,6 +3820,7 @@ O namorado dela era um ladrão.
       </rule>
 
     </rulegroup>
+
 
     <!-- PORQUE É por ser -->
     <rule id='PORQUE_É_POR_SER' name="Porque é → Por ser" type="style">
