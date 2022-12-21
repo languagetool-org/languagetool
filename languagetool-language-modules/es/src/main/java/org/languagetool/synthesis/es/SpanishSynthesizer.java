@@ -56,12 +56,7 @@ public class SpanishSynthesizer extends BaseSynthesizer {
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     if (posTag.startsWith(SPELLNUMBER_TAG)) {
-      String[] tag = posTag.split(":");
-      String strToSpell = token.getToken();
-      if (tag.length > 1 && tag[1].equals("feminine")) {
-        strToSpell = "feminine " + strToSpell;
-      }
-      return new String[] { getSpelledNumber(strToSpell) };
+      return super.synthesize(token, posTag);
     }
     String lemma = token.getLemma();
     String toAddAfter = "";

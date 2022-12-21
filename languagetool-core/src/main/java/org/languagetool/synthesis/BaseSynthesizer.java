@@ -42,7 +42,8 @@ import java.util.regex.PatternSyntaxException;
 public class BaseSynthesizer implements Synthesizer {
 
   public final String SPELLNUMBER_TAG = "_spell_number_";
-  public final String SPELLNUMBER_FEMININE_TAG = "_spell_number_feminine_";
+  public final String SPELLNUMBER_FEMININE_TAG = "_spell_number_:feminine";
+  public final String SPELLNUMBER_ROMAN_TAG = "_spell_number_:Roman";
 
   protected volatile List<String> possibleTags;
 
@@ -236,6 +237,9 @@ public class BaseSynthesizer implements Synthesizer {
     }
     if (posTag.equals(SPELLNUMBER_FEMININE_TAG)) {
       return new String[] {getSpelledNumber("feminine " + token.getToken())};
+    }
+    if (posTag.equals(SPELLNUMBER_ROMAN_TAG)) {
+      return new String[] {getRomanNumber(token.getToken())};
     }
     List<String> wordForms = lookup(token.getLemma(), posTag);
     return removeExceptions(wordForms.toArray(new String[0]));
