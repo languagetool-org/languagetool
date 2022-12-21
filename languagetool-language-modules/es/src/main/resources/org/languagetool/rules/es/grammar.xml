@@ -12025,6 +12025,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SI_AFIRMACION2" name="si -> sí (afirmación)">
             <rule default="temp_off">
+                <antipattern>
+                    <token>pero</token>
+                    <token skip="-1">si</token>
+                    <token postag="V.[IS].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>pero</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">Pero <marker>si</marker> un recambio.</example>
+                <!--<example correction="sí">No suele verse a ancianos, pero <marker>si</marker> a jóvenes que ríen y se besan.</example>-->
+                <example>Pero si hay casos reales, lo analizaremos.</example>
+                <example>Pero si de repente un día quieres llamarme papá, hazlo.</example>
+                <example>Pero si explicas que alguien ha muerto, te lo entregan de inmediato.</example>
+                <example>¡Pero si fueron ellos los que se independizaron!</example>
+            </rule>
+            <rule default="temp_off">
                 <!-- ambiguous
             pero si hay vida y aún es posible escucharla,-->
                 <antipattern>
@@ -12044,11 +12065,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>pero</token>
                     <token>si</token>
                 </antipattern>
-               <!-- <antipattern>
+                <antipattern>
                     <token postag="SENT_START"/>
                     <token>pero</token>
                     <token>si</token>
-                </antipattern>-->
+                </antipattern>
                 <pattern>
                     <token>pero</token>
                     <marker>
@@ -12057,8 +12078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Como adverbio de afirmación, se escribe con tilde.</message>
                 <suggestion>sí</suggestion>
-                <example correction="sí">Pero <marker>si</marker> un recambio.</example>
-                <example correction="sí">Pero <marker>si</marker> hay casos reales.</example>
+                <example correction="sí">No tengo casos reales, pero <marker>si</marker> hay casos artificiales.</example>
                 <example correction="sí">No tengo dinero que darle, no, pero <marker>si</marker> puedo dirigirle unas palabras.</example>
                 <example correction="sí">No suele verse a ancianos, pero <marker>si</marker> a jóvenes que ríen.</example>
                 <!--<example correction="sí">No suele verse a ancianos, pero <marker>si</marker> a jóvenes que ríen y se besan.</example>-->
