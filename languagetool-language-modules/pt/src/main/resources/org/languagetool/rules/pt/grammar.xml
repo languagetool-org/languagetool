@@ -30,6 +30,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 <!DOCTYPE rules [
     <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|env|eps|exe|flv|gif|htm|html|ibooks|ico|ics|ini|indd|jar|java|jnl|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|odf|odp|ods|odt|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|rtf|scss|sh|shtml|sql|stl|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z|xsd">
     <!ENTITY aspas "(«“‘’”»)">
+    <!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
+    <!ENTITY nnbsp "&#x202F;"> <!-- narrow no-break space -->
     <!ENTITY meses_ano_abrev "(?:[Aa]br|[Aa]go|[Dd]ez|[Ff]ev|[Jj]an|[Jj]ul|[Jj]un|mai|mar|[Nn]ov|[Oo]ut|[Ss]et)">
     <!ENTITY meses_ano "(?:[Aa]bril|[Aa]gosto|[Dd]ezembro|[Ff]evereiro|[Jj]aneiro|[Jj]ulho|[Jj]unho|[Mm]aio|[Mm]arço|[Nn]ovembro|[Oo]utubro|[Ss]etembro)">
     <!ENTITY dias_semana_abrev "(?:[Ss]ex|[Ss]eg|[Ss]áb|[Dd]om|[Qq]ui|[Tt]er)">
@@ -15102,6 +15104,15 @@ O namorado dela era um ladrão.
 
 
   <category id='CASING' name='Capitalização' type='grammar'>
+
+  <rule id="ESPACO_DUPLO" name="Espaço duplo">
+            <regexp type="exact" mark="1">[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]([&nbsp; ]{2})[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]</regexp>
+            <!-- TODO: add "nnbsp" -->
+            <message>Há um espaço duplo.</message>
+            <suggestion> </suggestion>
+            <example correction=" ">Esta é uma<marker>  </marker>frase com dois espaços.</example>
+            <example correction=" ">Esta é uma frase,<marker>  </marker>como pode ver, que tem dois espaços.</example>
+        </rule>
 
     <rule id="UPPERCASE_AFTER_COMMA" name="Maiúsculas depois de uma vírgula" default='on'>
       <!-- Based on English forum rule https://forum.languagetool.org/t/case-sensitive-postag-check/3567/2,
