@@ -676,5 +676,9 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("[sentències, sentencies, sentenciés, senten ces]", matches[0].getSuggestedReplacements().toString());
         
+        matches = rule.match(lt.getAnalyzedSentence("autonoma"));
+        assertEquals(1, matches.length);
+        assertEquals("autònoma", matches[0].getSuggestedReplacements().get(0));
+
     }
 }

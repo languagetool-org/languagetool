@@ -4104,6 +4104,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBP"/>
             <token>?</token>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">what|which|how|when|where|who</token>
+            <token postag="RB" min="0" />
+            <token postag="MD|VB[DZ]" postag_regexp="yes" chunk_re=".-VP" />
+            <token regexp="yes">that|this</token>
+            <token postag="VB" />
+            <token postag="SENT_END" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|much</exception></token>
             <marker>
@@ -4118,6 +4126,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/JJR,well/RBR]" outputform="better[better/NN]">... at the casino yesterday. But, who was the <marker>better</marker>?</example>
       <example type="untouched">[No full stop at the end of the sentence] … to gain a much better understanding</example>
       <example type="untouched">... compared with last year, this year's crops are much better.</example>
+      <example type="untouched">... compared with last year, this year's crops are much better.</example>
+      <example type="untouched">What does that mean?</example>
       <example type="untouched">... on the way to the Enron Broadband/BMC agreement since we last spoke.</example>
       <example type="untouched">Will doing that help?</example><!-- #3310 help/E-NP-singular -->
       <example type="untouched">... but might using this work?</example><!-- #3310 -->
@@ -7261,6 +7271,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB" skip="-1" />
             <token>?</token>
         </antipattern>
+        <antipattern>
+            <token inflected="yes" regexp="yes">do|will|can|should</token>
+            <token postag="PRP" />
+            <token postag="VB" chunk_re=".-VP" />
+        </antipattern>
         <pattern>
             <token postag="PRP">
                 <exception postag="RB|PRP\$" postag_regexp="yes"/>
@@ -9841,6 +9856,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNS" />
             <token postag="DT" />
         </antipattern>
+        <antipattern>
+            <token postag="DT|PRP\$" postag_regexp="yes" />
+            <token postag="CD" />
+            <token postag="NNS" chunk_re="E-NP.*" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -9848,7 +9868,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                         <exception scope="previous" regexp="yes">is|was</exception>
                         <exception postag_regexp="yes" postag="NNPS?"/>
                         </token>
-                    <token postag="VBZ"/>
+                    <token postag="VBZ" />
                 </and>
             </marker>
             <token postag="DT"><exception>that</exception></token>
@@ -9858,6 +9878,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">This is work.</example>
         <example type="untouched">On a number of occasions the thing happens..</example>
         <example type="untouched">It has an advantage compared to objects that make something.</example>
+        <example type="untouched">A letter outlining the changes (and reference that it is for just these two invoices an amendment) should be sufficient.</example>
         <example type="untouched">For more than one year there was <marker>updates</marker> every day.</example><!-- Refer to grammar THERE_WAS_MANY. -->
         <example type="untouched">... and there was <marker>weeds</marker> all round the grave.</example>
         <example type="untouched">Is <marker>marks</marker> all over the window your idea of cleaning?</example>
@@ -16511,4 +16532,32 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="remove" postag="NNP" />
         </rule>
     </rulegroup>
+
+    <rule id="CAN_I_ESCAPE" name="can I escape (VB)">
+        <antipattern><!-- Didn't you team check the results? -->
+            <token postag="PRP_S.*|NNPS?" postag_regexp="yes" />
+            <token chunk="B-VP" />
+            <token chunk="I-VP" />
+        </antipattern>
+        <antipattern><!-- Didn't you team check the results? -->
+            <token postag="PRP_S.*|NNPS?" postag_regexp="yes" />
+            <token chunk="B-VP" />
+            <token postag="VB" />
+        </antipattern>
+        <pattern>
+            <token postag="W.*|PCT|SENT_START|CC" postag_regexp="yes" />
+            <token regexp="yes" inflected="yes">can|do|will|should|may</token>
+            <token min="0">n't</token>
+            <token postag="PRP_S.*|NNPS?" postag_regexp="yes" />
+            <marker>
+                <and>
+                    <token postag="VB" chunk_re=".-VP">
+                        <exception>please</exception>
+                    </token>
+                    <token postag="VBP" />
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="VB" />
+    </rule>
 </rules>

@@ -2558,6 +2558,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return topMatch(word.replaceFirst("brilliant", "brillant"));
     }
     switch (word) {
+      case "offensichtlicherweise": return topMatch("offensichtlich");
+      case "Offensichtlicherweise": return topMatch("Offensichtlich");
       case "wohlwissend": return topMatch("wohl wissend");
       case "Visas": return topMatch("Visa", "Plural von 'Visum'");
       case "Reiszwecke": return topMatch("Reißzwecke", "kurzer Nagel mit flachem Kopf");

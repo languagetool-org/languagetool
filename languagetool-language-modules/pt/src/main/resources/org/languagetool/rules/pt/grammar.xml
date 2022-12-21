@@ -3697,12 +3697,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>É uma luta inglória, porque mesmo que traga benefícios para a população, não gere custos ao Executivo.</example>
     </rule>
 
+
     <!-- APARECE NO ECRÃ UM NÚMERO aparece um número no ecrã -->
     <rulegroup id='COLOCACAO_ADVERBIOS_LUGAR' name="Colocação de advérbios no lugar">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-13 + 2022-08-15 (17-MAR-2021+)      -->
-	  <!-- RULE NEEDS TO BE REWRITTEN FOR MORE RECENT TOKEN USAGE -->
+      <!-- RULE NEEDS TO BE REWRITTEN FOR MORE RECENT TOKEN USAGE -->
       <!-- Jaume suggested creating three rules since there was a bug with max="3" -->
-	
+
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2022-12-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='SPS00|SPS00:DD.+|SPS00:PP.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='DI.+|Z0.+' postag_regexp='yes'/>
+        <example>A Ana faz deste lugar um verdadeiro sanatório.</example>
+        <example>Felizmente temos uma arma anti míssil poderozissíma que fará desta bomba um estouro não maior que de um traque.</example>
+        <example>Pessoal, eu me juntarei e faremos desse evento um sucesso.</example>
+        <example>Eu sabia que os animais sofrem a "morte" dos seus, mas não sabia que eles se lembravam deles passados alguns dias.</example>
+        <example>Ele cresceu pra ser um engenheiro.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->  
+
       <!-- Token 1/3 -->
       <rule>
         <!--
@@ -3713,7 +3732,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <marker>
             <token postag='SPS00.+' postag_regexp='yes'>
               <exception regexp='yes'>às?|aos?|d[ao]s?|pel[ao]s?</exception>
-			  <exception scope="previous" postag_regexp='yes' postag='VMP00.+'/>
+              <exception scope="previous" postag_regexp='yes' postag='VMP00.+'/>
 <!-- Added exception above to fix issues:
 ONLY WORKS ON 1/3
 2022-08-15:
@@ -3801,6 +3820,7 @@ O namorado dela era um ladrão.
       </rule>
 
     </rulegroup>
+
 
     <!-- PORQUE É por ser -->
     <rule id='PORQUE_É_POR_SER' name="Porque é → Por ser" type="style">
@@ -20474,19 +20494,19 @@ O namorado dela era um ladrão.
       -->
       <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
 
-      <!-- MARCOAGPINTO 2022-11-14 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-      <!-- It has zero hits in 600 000 sentences, it just removes one false positive in my thesis -->
+      <!-- MARCOAGPINTO 2022-11-14 + 2022-12-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <!-- It has zero hits in 600 000 sentences, it just removes two false positives in my thesis -->
       <antipattern>
         <token regexp='no'>por</token>
         <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
         <token postag='AQ.+|NC.+' postag_regexp='yes'/>
-        <token/> <!-- It was using the SPS00 below, but even with any token it gives zero results in 600 000 sentences -->
-<!--        <token postag='SPS00' postag_regexp='no'/> -->
+        <token min="0" max="1" postag='SPS00' postag_regexp='no'/>
         <token postag='AQ.+|NC.+' postag_regexp='yes'/>
-        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.+|CC' postag_regexp='yes'/>
         <example>Esta é a equação indicada por as variações de valores resultarem bem.</example>
+        <example>Usámos truques por as equações básicas e os parâmetros associados serem fracos.</example>
       </antipattern>
-      <!-- MARCOAGPINTO 2022-11-14 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+      <!-- MARCOAGPINTO 2022-11-14 + 2022-12-20 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <antipattern>
         <token case_sensitive="yes" regexp='yes'>[ao]s?</token>
