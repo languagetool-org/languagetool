@@ -218,8 +218,10 @@ public class CaseRuleTest {
     assertGood("Muss nicht der Einzelne Einschränkungen der Freiheit hinnehmen, wenn die Sicherheit der Menschen und des Staates mehr gefährdet sind?");
     assertGood("Wie reißt ein Einzelner Millionen aus ihren Sitzen?");
     assertGood("Der Aphorismus will nicht Dumme gescheit, sondern Gescheite nachdenklich machen.");
+    assertGood("Während des Hochwassers den Eingeschlossenen Wasser und Nahrung bringen");
     assertGood("Aus dem Stein der Weisen macht ein Dummer Schotter.");
     assertGood("Auf dem Weg zu ihnen begegnet der Halbwüchsige Revolverhelden und Indianern.");
+    assertBad("Während des Hochwassers den Eingeschlossenen Menschen Nahrung bringen");
     assertBad("Während Gefragte Menschen antworteten.");
     // assertBad("Ich werde die Blaue Akte brauchen.");
     assertBad("Ich brauche eine Gratis App die Ohne WLAN.");
