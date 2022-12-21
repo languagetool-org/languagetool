@@ -304,6 +304,7 @@ public class English extends Language implements AutoCloseable {
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
       case "READ_ONLY_ACCESS_HYPHEN":   return 2;   // higher priority than agreement rules
+      case "ACCESS_EXCESS":             return 1;   // higher prio than A_UNCOUNTABLE
       case "PRP_ABLE_TO":               return 1;   // higher prio than AI_HYDRA_LEO_CP_YOU.*
       case "WEE_WE":                    return 1;   // higher prio than INTERJECTIONS_PUNCTUATION
       case "FOR_THE_MOST_PART2":        return 1;   // higher prio than FOR_THE_MOST_PART
