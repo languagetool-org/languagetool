@@ -11921,7 +11921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="sí">Pues <marker>si</marker>, pero le gusta mucho.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>si</token>
@@ -11932,7 +11932,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="sí">¡Pues <marker>si</marker>!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">\p{P}</token>
                     <marker>
@@ -11944,7 +11944,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="sí">¿Ah, <marker>si</marker>?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>eso</token>
                     <marker>
@@ -11956,7 +11956,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="sí">Ayudado, eso <marker>si</marker>, por varios amigos.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="[DP]D.*" postag_regexp="yes"/>
                     <marker>
@@ -11968,7 +11968,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="sí">Pero este <marker>si</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="PD.*" postag_regexp="yes"/>
                     <marker>
@@ -11980,8 +11980,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="sí">Aquello <marker>si</marker> era felicidad.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- can it be conditional? -->
+                <antipattern>
+                    <token>si</token>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no"></token>
+                </antipattern>
                 <pattern>
                     <token>,</token>
                     <marker>
@@ -11993,7 +11998,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="sí">Pasó esto, <marker>si</marker>, ¿y ahora qué hacemos?.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>si</token>
@@ -12005,7 +12010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="sí">Que <marker>si</marker>, que no está bien.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="_QM_OPEN"/>
                     <marker>
