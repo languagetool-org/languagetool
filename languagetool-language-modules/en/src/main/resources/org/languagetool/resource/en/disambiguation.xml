@@ -6002,6 +6002,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token chunk_re=".-VP" postag="VBP" />
                 <token>'s</token>
             </antipattern>
+            <antipattern><!-- What does that mean? -->
+                <token regexp="yes">what|which|how|when|where|who</token>
+                <token postag="RB" min="0" />
+                <token postag="MD|VB[DZ]" postag_regexp="yes" chunk_re=".-VP" />
+                <token regexp="yes">that|this</token>
+                <token postag="VB" />
+                <token postag="SENT_END" />
+            </antipattern>
             <pattern>
                 <token postag="DT|PRP\$" postag_regexp="yes">
                     <exception regexp="yes">th[eo]se|all|no|much</exception>
@@ -6027,6 +6035,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">At the end of the party, they were both drunk.</example>
             <example type="untouched">My clothes were dirty, but at the end of the wash, they were all cleaner.</example>
             <example type="untouched">Adverb. We must do this now.</example>
+            <example type="untouched">What does that mean?</example>
             <example type="untouched">Grammar error. I think its great.</example>
             <example type="untouched">Adjective. The <marker>basic</marker> installed software is not sufficient. We need the enhanced software.</example>
             <example type="untouched">Instead, we should either say:</example><!-- #2503 -->
@@ -16548,7 +16557,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="W.*|PCT|SENT_START|CC" postag_regexp="yes" />
             <token regexp="yes" inflected="yes">can|do|will|should|may</token>
             <token min="0">n't</token>
-            <token postag="PRP_S.*|NNPS?" postag_regexp="yes" />
+            <token postag="PRP_S.*|NNPS?" postag_regexp="yes" chunk_re="B-NP.*" min="0" />
+            <token postag="PRP.*|NN.*" postag_regexp="yes" chunk_re="E-NP.*" />
             <marker>
                 <and>
                     <token postag="VB" chunk_re=".-VP">
@@ -16560,4 +16570,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="filter" postag="VB" />
     </rule>
+
+
 </rules>
