@@ -18,6 +18,9 @@
   * added words and POS data
   * fixed tons of false positives
 
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.9)
 
 ...
 
