@@ -34285,6 +34285,29 @@ steenwijk;Steenwijk
                 <example correction="word|wordt">Ik <marker>wort</marker> gek.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="HEBT_ZONDER_U_JE" name="Hebt zonder u/ge/je" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token skip="-1" regexp="yes">u|ge|gij</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes">je|jij</token>
+                    <token>hebt</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">hebt</token>
+                    </marker>
+                </pattern>
+                <message>Omdat er 'hebt' staat, moet ergens in de zin ook je, jij, ge, gij of u staan.</message>
+                <example type="incorrect">Dan <marker>hebt</marker> je het fout.</example>
+                <example type="incorrect">Dan <marker>hebt</marker> hij het fout.</example>
+                <example>Dan <marker>hebt</marker> u het goed.</example>
+                <example>Je <marker>hebt</marker> het goed.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WORD_ZONDER_IK" name="word zonder ik">
             <antipattern>
                 <!-- voorkom Engels -->
