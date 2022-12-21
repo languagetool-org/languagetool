@@ -91,6 +91,9 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       if (tag.length > 1 && tag[1].equals("feminine")) {
         strToSpell = "feminine " + strToSpell;
       }
+      if (tag.length > 1 && tag[1].equals("Roman")) {
+        return new String[] {this.getRomanNumber(strToSpell) };
+      }
       return new String[] { getSpelledNumber(strToSpell) };
     }
     String lemma = token.getLemma();

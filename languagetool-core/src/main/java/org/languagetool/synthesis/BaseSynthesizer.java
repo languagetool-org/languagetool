@@ -54,6 +54,7 @@ public class BaseSynthesizer implements Synthesizer {
   private final ManualSynthesizer removalSynthesizer2;
   private final String sorosFileName;
   private final Soros numberSpeller;
+  private final Soros romanNumberer;
   
   private volatile Dictionary dictionary;
 
@@ -77,6 +78,7 @@ public class BaseSynthesizer implements Synthesizer {
     this.stemmer = createStemmer();
     this.sorosFileName = sorosFileName;
     this.numberSpeller = createNumberSpeller(langShortCode);
+    this.romanNumberer = createRomanNumberer();
     try {
       String path = "/" + langShortCode + "/added.txt";
       if (JLanguageTool.getDataBroker().resourceExists(path)) {
@@ -162,6 +164,24 @@ public class BaseSynthesizer implements Synthesizer {
         sb.append('\n');
       }
       s = new Soros(new String(sb), langcode);
+    } catch (Exception e) {
+      return null;
+    }
+    return s;
+  }
+  
+  private Soros createRomanNumberer() {
+    Soros s;
+    try {
+      URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("Roman.sor");
+      BufferedReader f = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
+      StringBuilder sb = new StringBuilder();
+      String line;
+      while ((line = f.readLine()) != null) {
+        sb.append(line);
+        sb.append('\n');
+      }
+      s = new Soros(new String(sb), "Roman");
     } catch (Exception e) {
       return null;
     }
@@ -292,6 +312,13 @@ public class BaseSynthesizer implements Synthesizer {
   public String getSpelledNumber(String arabicNumeral) {
     if (numberSpeller != null) {
       return numberSpeller.run(arabicNumeral);
+    }
+    return arabicNumeral;
+  }
+  
+  public String getRomanNumber(String arabicNumeral) {
+    if (romanNumberer != null) {
+      return romanNumberer.run(arabicNumeral);
     }
     return arabicNumeral;
   }
