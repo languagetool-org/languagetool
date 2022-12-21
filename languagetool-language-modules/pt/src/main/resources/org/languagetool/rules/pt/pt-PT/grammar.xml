@@ -4621,9 +4621,13 @@
 
 
     <!-- TODO Add antipattern for dash and quotations -->
-    <rulegroup id='T-V_DISTINCTION' name='Tratamento formal: Tu,Você; Vós,Vocês' default='on' tags="picky">
+    <rulegroup id='T-V_DISTINCTION' name='Tratamento formal: Tu,Você; Vós,Vocês' default='on' > <!-- tags="picky"> -->
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
       <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
+
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
 
       <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
@@ -4633,6 +4637,19 @@
         <example>Tudo depende de fatores historicamente contingentes.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-12-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='SENT_START|DI.+|Z0.+' postag_regexp='yes'/> <!-- Add more as they appear, a full check with a blank token only generated the three results below. -->
+        <token>comes</token>
+        <token>e</token>
+        <token>bebes</token>
+        <token postag='VMI[MS]3.+|_PUNCT' postag_regexp='yes'/>
+        <example>Comes e bebes foram servidas no casamento em tal abundância que a noiva e o noivo começaram a se questionar se de...</example>
+        <example>Comes e bebes foram servidos no casamento em tal abundância que a noiva e o noivo começaram a se questionar se nã...</example>
+        <example>Vou abrir um comes e bebes.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-12-21 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <antipattern>
         <token regexp='yes' skip='-1'>["«„“][-‒–—―]?</token>
