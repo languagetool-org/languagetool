@@ -19,6 +19,7 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.AnalyzedTokenReadings;
@@ -31,8 +32,11 @@ import org.languagetool.tagging.ca.CatalanTagger;
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   protected static final String DICT_FILENAME = "/ca/ca-ES.dict";
-  protected static MorfologikSpeller speller;  
-
+  protected static MorfologikSpeller speller;
+  /* lemma exceptions */
+  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar"};
+  public static final String[] LemmasToAllow =  new String[] {"enter", "sentir"};
+  
   public FindSuggestionsFilter() throws IOException {
     // lazy init
     if (speller == null) {
@@ -51,5 +55,10 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   protected List<String> getSpellingSuggestions(AnalyzedTokenReadings atr) throws IOException {
     return speller.findSimilarWords(atr.getToken());
   }
+
+  @Override
+  protected boolean isSuggestionException(AnalyzedTokenReadings analyzedSuggestion) {
+    return analyzedSuggestion.hasAnyLemma(LemmasToIgnore) && !analyzedSuggestion.hasAnyLemma(LemmasToAllow);
+  };
 
 }

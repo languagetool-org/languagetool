@@ -118,6 +118,9 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
             // TODO: do not tag capitalized words with tags for lower case
             List<AnalyzedTokenReadings> analyzedSuggestions = getTagger().tag(Collections.singletonList(cleanSuggestion(suggestion)));
             for (AnalyzedTokenReadings analyzedSuggestion : analyzedSuggestions) {
+              if (isSuggestionException(analyzedSuggestion)) {
+                continue;
+              }
               if (replacements.size() >= 2 * MAX_SUGGESTIONS) {
                 break;
               }
@@ -236,6 +239,10 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     }
     return ruleMatch;
   }
+
+  protected boolean isSuggestionException(AnalyzedTokenReadings analyzedSuggestion) {
+    return false;
+  };
 
   private boolean equalWithoutDiacritics(String s, String t) {
     return StringTools.removeDiacritics(s).equalsIgnoreCase(StringTools.removeDiacritics(t));
