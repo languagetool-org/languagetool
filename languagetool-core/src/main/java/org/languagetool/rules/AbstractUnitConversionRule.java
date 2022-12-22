@@ -192,7 +192,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
    */
   protected void addUnit(String pattern, Unit base, String symbol, double factor, boolean metric) {
     Unit unit = base.multiply(factor);
-    unitPatterns.put(Pattern.compile("\\b" + NUMBER_REGEX + "\\s{0," + WHITESPACE_LIMIT + "}" + pattern + "\\b"), unit);
+    unitPatterns.put(Pattern.compile("\\b" + NUMBER_REGEX + "[\\s\u00A0]{0," + WHITESPACE_LIMIT + "}" + pattern + "\\b"), unit);
     unitSymbols.putIfAbsent(unit, new ArrayList<>());
     unitSymbols.get(unit).add(symbol);
     if (metric && !metricUnits.contains(unit)) {

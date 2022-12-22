@@ -55,6 +55,9 @@ public class UnitConversionRuleTest {
     helper.assertMatches("I am 6 feet tall.", 1, "1.83 m", rule, lt);
     helper.assertMatches("I am 6 feet (2.02 m) tall.", 1, "1.83 m", rule, lt);
     helper.assertMatches("I am 6 feet (1.82 m) tall.", 0, null, rule, lt);
+    helper.assertMatches("Heat up to 18\u00A0°C (64.4 °F).", 0, null, rule, lt);
+    helper.assertMatches("Heat up to 18\u00A0°C (64.4\u00A0°F).", 0, null, rule, lt);
+    helper.assertMatches("Heat up to 18 °C (64.4\u00A0°F).", 0, null, rule, lt);
     helper.assertMatches("The path is 100 miles long.", 1, "160.93 km", rule, lt);
     helper.assertMatches("The path is 100 miles (160.93 km) long.", 0, null, rule, lt);
     helper.assertMatches("The shipment weighs 10,000.75 pounds.", 1, "4.54 t", rule, lt);
