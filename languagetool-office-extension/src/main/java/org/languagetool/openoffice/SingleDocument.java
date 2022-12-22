@@ -245,6 +245,8 @@ class SingleDocument {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage,
           docLanguage, ignoredMatches, numParasToCheck, true, isMouseRequest, false);
       paRes.aErrors = singleCheck.checkParaRules(paraText, locale, footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false);
+      docCursor = null;
+      viewCursor = null;
       return paRes;
     }
     if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
@@ -271,6 +273,8 @@ class SingleDocument {
       docLanguage = lt.getLanguage();
     }
     if (disposed) {
+      docCursor = null;
+      viewCursor = null;
       return paRes;
     }
 //    if (docType == DocumentType.WRITER && ltMenus == null) {
@@ -323,6 +327,8 @@ class SingleDocument {
       boolean textIsChanged = requestAnalysis.textIsChanged();
       
       if (disposed) {
+        docCursor = null;
+        viewCursor = null;
         return paRes;
       }
       if (debugModeTm) {
@@ -355,6 +361,8 @@ class SingleDocument {
     if (docType == DocumentType.WRITER && ltMenus == null && paraText.length() > 0) {
       ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
     }
+    docCursor = null;
+    viewCursor = null;
     return paRes;
   }
   
@@ -497,6 +505,9 @@ class SingleDocument {
    *  Get flat paragraph tools of the document
    */
   FlatParagraphTools getFlatParagraphTools () {
+    if (flatPara == null) {
+      setFlatParagraphTools();
+    }
     return flatPara;
   }
   

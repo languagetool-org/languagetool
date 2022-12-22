@@ -86,6 +86,7 @@ public class MultiDocumentsHandler {
   private boolean docReset = false;
 
   private static boolean debugMode = false;   //  should be false except for testing
+  private static boolean debugModeTm = false;   //  should be false except for testing
   
   private SwJLanguageTool lt = null;
   private Language docLanguage = null;
@@ -677,7 +678,7 @@ public class MultiDocumentsHandler {
   private void setConfigValues(Configuration config, SwJLanguageTool lt) {
     this.config = config;
     this.lt = lt;
-    if (textLevelQueue != null && (heapLimitReached || config.getNumParasToCheck() == 0)) {
+    if (textLevelQueue != null && (heapLimitReached || config.getNumParasToCheck() == 0 || !config.useTextLevelQueue())) {
       textLevelQueue.setStop();
       textLevelQueue = null;
     }
@@ -844,6 +845,15 @@ public class MultiDocumentsHandler {
     SwJLanguageTool lt = null;
     try {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, true);
+      if (this.lt == null) {
+        OfficeTools.setLogLevel(config.getlogLevel());
+        debugMode = OfficeTools.DEBUG_MODE_MD;
+        debugModeTm = OfficeTools.DEBUG_MODE_TM;
+      }
+      long startTime = 0;
+      if (debugModeTm) {
+        startTime = System.currentTimeMillis();
+      }
       noBackgroundCheck = config.noBackgroundCheck();
       if (linguServices == null) {
         linguServices = new LinguisticServices(xContext);
@@ -853,10 +863,6 @@ public class MultiDocumentsHandler {
         }
       }
       linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions() || testMode);
-      if (this.lt == null) {
-        OfficeTools.setLogLevel(config.getlogLevel());
-        debugMode = OfficeTools.DEBUG_MODE_MD;
-      }
       if (currentLanguage == null) {
         fixedLanguage = config.getDefaultLanguage();
         if (fixedLanguage != null) {
@@ -891,6 +897,12 @@ public class MultiDocumentsHandler {
         }
       }
       recheck = false;
+      if (debugModeTm) {
+        long runTime = System.currentTimeMillis() - startTime;
+        if (runTime > OfficeTools.TIME_TOLERANCE) {
+          MessageHandler.printToLogFile("Time to init Language Tool: " + runTime);
+        }
+      }
       return lt;
     } catch (Throwable t) {
       MessageHandler.showError(t);
@@ -902,6 +914,10 @@ public class MultiDocumentsHandler {
    * Enable or disable rules as given by configuration file
    */
   void initCheck(SwJLanguageTool lt) {
+    long startTime = 0;
+    if (debugModeTm) {
+      startTime = System.currentTimeMillis();
+    }
     Set<String> disabledRuleIds = config.getDisabledRuleIds();
     if (disabledRuleIds != null) {
       // copy as the config thread may access this as well
@@ -933,12 +949,22 @@ public class MultiDocumentsHandler {
       }
     }
     handleLtDictionary();
+    if (debugModeTm) {
+      long runTime = System.currentTimeMillis() - startTime;
+      if (runTime > OfficeTools.TIME_TOLERANCE) {
+        MessageHandler.printToLogFile("Time to init Check: " + runTime);
+      }
+    }
   }
   
   /**
    * Initialize single documents, prepare text level rules and start queue
    */
   void initDocuments(boolean resetCache) {
+    long startTime = 0;
+    if (debugModeTm) {
+      startTime = System.currentTimeMillis();
+    }
     setConfigValues(config, lt);
     String langCode = lt.getLanguage().getShortCodeWithCountryAndVariant();
     sortedTextRules = new SortedTextRules(lt, config, getDisabledRules(langCode));
@@ -951,6 +977,12 @@ public class MultiDocumentsHandler {
     }
     if (resetCache) {
       resetResultCaches();
+    }
+    if (debugModeTm) {
+      long runTime = System.currentTimeMillis() - startTime;
+      if (runTime > OfficeTools.TIME_TOLERANCE) {
+        MessageHandler.printToLogFile("Time to init Documents: " + runTime);
+      }
     }
   }
   
@@ -1425,6 +1457,10 @@ public class MultiDocumentsHandler {
    */
   public void trigger(String sEvent) {
     try {
+      long startTime = 0;
+      if (debugModeTm) {
+        startTime = System.currentTimeMillis();
+      }
       if (!testDocLanguage(true)) {
         MessageHandler.printToLogFile("Test for document language failed: Can't trigger event: " + sEvent);
         return;
@@ -1522,6 +1558,12 @@ public class MultiDocumentsHandler {
         }
       } else {
         MessageHandler.printToLogFile("MultiDocumentsHandler: trigger: Sorry, don't know what to do, sEvent = " + sEvent);
+      }
+      if (debugModeTm) {
+        long runTime = System.currentTimeMillis() - startTime;
+        if (runTime > OfficeTools.TIME_TOLERANCE) {
+          MessageHandler.printToLogFile("Time to run trigger: " + runTime);
+        }
       }
     } catch (Throwable e) {
       MessageHandler.showError(e);

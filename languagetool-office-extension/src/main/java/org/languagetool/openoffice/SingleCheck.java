@@ -182,7 +182,7 @@ class SingleCheck {
         boolean checkOnlyParagraph, boolean override, boolean isIntern, boolean hasFootnotes) {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
-//    DocumentCursorTools docCursor = this.docCursor;
+    DocumentCursorTools docCursor = this.docCursor;
     if (isDisposed() || docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
       MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: return: isDisposed = " + isDisposed() + ", nFPara = " + nFPara 
           + ", docCache(Size) = " + (docCache == null ? "null" : docCache.size()) );

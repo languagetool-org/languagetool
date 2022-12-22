@@ -564,9 +564,9 @@ public class LanguageToolMenus {
               xContextMenu.insertByIndex(nId, xNewMenuEntry);
               if (debugModeTm) {
                 long runTime = System.currentTimeMillis() - startTime;
-//                if (runTime > OfficeTools.TIME_TOLERANCE) {
+                if (runTime > OfficeTools.TIME_TOLERANCE) {
                   MessageHandler.printToLogFile("Time to generate context menu (grammar error): " + runTime);
-//                }
+                }
               }
               isRunning = false;
               return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
@@ -605,9 +605,9 @@ public class LanguageToolMenus {
         xContextMenu.insertByIndex(nId, xNewMenuEntry);
         if (debugModeTm) {
           long runTime = System.currentTimeMillis() - startTime;
-//          if (runTime > OfficeTools.TIME_TOLERANCE) {
+          if (runTime > OfficeTools.TIME_TOLERANCE) {
             MessageHandler.printToLogFile("Time to generate context menu (no grammar error): " + runTime);
-//          }
+          }
         }
         isRunning = false;
         return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
