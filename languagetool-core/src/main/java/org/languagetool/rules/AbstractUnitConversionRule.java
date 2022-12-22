@@ -88,7 +88,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
   // for patterns that require a custom number parsing function
   protected Map<Pattern, Map.Entry<Unit, Function<MatchResult, Double>>> specialPatterns = new HashMap<>();
-  protected Map<Unit, List<String>>  unitSymbols = new HashMap<>();
+  protected Map<Unit, List<String>> unitSymbols = new HashMap<>();
   // for recognizing conversions made by this rule or the user
   protected List<Pattern> convertedPatterns = new ArrayList<>();
   // units to use for conversions
@@ -269,9 +269,8 @@ public abstract class AbstractUnitConversionRule extends Rule {
     addUnit("l", LITRE, "l", 1, true);
     addUnit("ml", LITRE, "ml", 1e-3, true);
 
-
-    addUnit( "°F", FAHRENHEIT, "°F", 1, false);
-    addUnit( "°C", CELSIUS, "°C", 1, true);
+    addUnit("°F", FAHRENHEIT, "°F", 1, false);
+    addUnit("°C", CELSIUS, "°C", 1, true);
 
     convertedPatterns.add(Pattern.compile("\\s*\\((?:ca. )?" + NUMBER_REGEX + "\\s*([^)]+)\\s*\\)"));
 
@@ -412,11 +411,8 @@ public abstract class AbstractUnitConversionRule extends Rule {
     if (!hyphenInNumber) {
       return false;
     }
-
     String textBefore = sentence.getText().substring(0, matcher.start());
-    boolean endsWithNumberRangePart = numberRangePart.matcher(textBefore).find();
-
-    return endsWithNumberRangePart;
+    return numberRangePart.matcher(textBefore).find();
   }
 
   private void tryConversion(AnalyzedSentence sentence, List<RuleMatch> matches, Pattern unitPattern, Double customValue, Unit customUnit, Matcher unitMatcher, List<Map.Entry<Integer, Integer>> ignoreRanges) {

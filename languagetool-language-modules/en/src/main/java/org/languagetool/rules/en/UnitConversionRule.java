@@ -37,7 +37,6 @@ import static tech.units.indriya.unit.Units.*;
  */
 public class UnitConversionRule extends AbstractUnitConversionRule {
 
-
   protected NumberFormat format;
 
   public UnitConversionRule(ResourceBundle messages) {
