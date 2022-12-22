@@ -2924,6 +2924,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "unterstüzt": return topMatch("unterstützt");
       case "untersützt": return topMatch("unterstützt");
       case "sontag": return topMatch("Sonntag");
+      case "nirgendswo": return topMatch("nirgendwo");
+      case "Nirgendswo": return topMatch("Nirgendwo");
       case "Typescript": return topMatch("TypeScript");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
