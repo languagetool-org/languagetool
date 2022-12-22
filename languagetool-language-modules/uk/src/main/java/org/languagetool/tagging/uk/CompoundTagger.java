@@ -359,14 +359,6 @@ class CompoundTagger {
       
     }
 
-    // Ш-подібний
-    if( leftWord.length() == 1
-        && Character.isUpperCase(leftWord.charAt(0))
-        && LemmaHelper.hasLemma(rightAnalyzedTokens, Arrays.asList("подібний")) ) {
-
-      return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, IPOSTag.adj.getText(), null, Pattern.compile(":comp."));
-    }
-
     if( leftWord.equalsIgnoreCase("по") ) {
       if( rightWord.endsWith("ому") ) {
         return poAdvMatch(word, rightAnalyzedTokens, ADJ_TAG_FOR_PO_ADV_MIS);
@@ -417,18 +409,25 @@ class CompoundTagger {
         && ! (PosTagHelper.hasPosTagStart(leftAnalyzedTokens, "numr") && PosTagHelper.hasPosTagStart(rightAnalyzedTokens, "numr")) )
       return null;
 
+    List<AnalyzedToken> adjCompounds = new ArrayList<>();
+    if( leftWord.matches("[А-ЯІЇЄҐa-zA-Zα-ωΑ-Ω]|[a-zA-Z-]+") ) {
+        if( PosTagHelper.hasPosTag(rightAnalyzedTokens, Pattern.compile("adj(?!.*(pron|bad|slang|arch)).*")) ) {
+          adjCompounds = generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, IPOSTag.adj.getText(), null, Pattern.compile(":comp."));
+        }
+    }
 
     // майстер-класу
     
     if( dashPrefixMatch 
         && ! ( leftWord.equalsIgnoreCase("міді") && LemmaHelper.hasLemma(rightAnalyzedTokens, Arrays.asList("бронза"))) ) {
+
       List<AnalyzedToken> newTokens = new ArrayList<>();
-      if( leftWord.length() == 1 && leftWord.matches("[a-zA-Zα-ωΑ-Ω]") ) {
-        List<AnalyzedToken> newTokensAdj = getNvPrefixLatWithAdjMatch(word, rightAnalyzedTokens, leftWord);
-        if( newTokensAdj != null ) {
-          newTokens.addAll(newTokensAdj);
-        }
-      }
+//      if( leftWord.length() == 1 && leftWord.matches("[a-zA-Zα-ωΑ-Ω]") ) {
+//        List<AnalyzedToken> newTokensAdj = getNvPrefixLatWithAdjMatch(word, rightAnalyzedTokens, leftWord);
+//        if( newTokensAdj != null ) {
+//          newTokens.addAll(newTokensAdj);
+//        }
+//      }
       
       String extraTag = "";
       if( dashPrefixes.containsKey( leftWord ) ) {
@@ -449,10 +448,17 @@ class CompoundTagger {
       if( leftWord.equalsIgnoreCase("топ") && PosTagHelper.hasPosTagPart(rightAnalyzedTokens, "numr:") ) {
         return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, "numr:", ":bad", null);
       }
+
+      if( newTokens.isEmpty() ) {
+        newTokens.addAll(adjCompounds);
+      }
       
       return newTokens;
     }
 
+    if( adjCompounds.size() > 0 )
+      return adjCompounds;
+    
     // пів-України
 
     if( Character.isUpperCase(rightWord.charAt(0)) ) {

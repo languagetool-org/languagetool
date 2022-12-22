@@ -126,7 +126,7 @@ public class UkrainianTaggerTest {
         +" -- до/[до]noun:inanim:n:v_dav:nv|до/[до]noun:inanim:n:v_kly:nv|до/[до]noun:inanim:n:v_mis:nv|до/[до]noun:inanim:n:v_naz:nv|до/[до]noun:inanim:n:v_oru:nv"
         +"|до/[до]noun:inanim:n:v_rod:nv|до/[до]noun:inanim:n:v_zna:nv|до/[до]noun:inanim:p:v_dav:nv|до/[до]noun:inanim:p:v_kly:nv|до/[до]noun:inanim:p:v_mis:nv"
         +"|до/[до]noun:inanim:p:v_naz:nv|до/[до]noun:inanim:p:v_oru:nv|до/[до]noun:inanim:p:v_rod:nv|до/[до]noun:inanim:p:v_zna:nv|до/[до]prep"
-        +" -- н./[н.]adj:f:v_dav:nv:abbr|н./[н.]adj:f:v_mis:nv:abbr|н./[н.]adj:f:v_naz:nv:abbr|н./[н.]adj:f:v_oru:nv:abbr|н./[н.]adj:f:v_rod:nv:abbr|н./[н.]adj:f:v_zna:nv:abbr|н./[н.]noun:inanim:n:v_rod:abbr"
+        +" -- н./[н.]adj:f:v_dav:nv:abbr|н./[н.]adj:f:v_mis:nv:abbr|н./[н.]adj:f:v_naz:nv:abbr|н./[н.]adj:f:v_oru:nv:abbr|н./[н.]adj:f:v_rod:nv:abbr|н./[н.]adj:f:v_zna:nv:abbr|н./[н.]noun:inanim:n:v_rod:nv:abbr"
         +" -- е./[е.]noun:inanim:f:v_dav:nv:abbr|е./[е.]noun:inanim:f:v_mis:nv:abbr|е./[е.]noun:inanim:f:v_naz:nv:abbr|е./[е.]noun:inanim:f:v_oru:nv:abbr|е./[е.]noun:inanim:f:v_rod:nv:abbr"
         +"|е./[е.]noun:inanim:f:v_zna:nv:abbr|е./[е.]noun:inanim:p:v_dav:nv:abbr|е./[е.]noun:inanim:p:v_mis:nv:abbr|е./[е.]noun:inanim:p:v_naz:nv:abbr|е./[е.]noun:inanim:p:v_oru:nv:abbr"
         +"|е./[е.]noun:inanim:p:v_rod:nv:abbr|е./[е.]noun:inanim:p:v_zna:nv:abbr",
@@ -139,7 +139,7 @@ public class UkrainianTaggerTest {
          tokenizer, tagger);
 
     TestTools.myAssert("Валерій (міліціонер-пародист. – Авт.) стане пародистом.",
-        "Валерій/[Валерій]noun:anim:m:v_naz:prop:fname -- міліціонер-пародист/[міліціонер-пародист]noun:anim:m:v_naz -- Авт./[авт.]noun:anim:m:v_naz:abbr"
+        "Валерій/[Валерій]noun:anim:m:v_naz:prop:fname -- міліціонер-пародист/[міліціонер-пародист]noun:anim:m:v_naz -- Авт./[авт.]noun:anim:m:v_naz:nv:abbr"
  //       "Валерій/[Валерій]noun:anim:m:v_naz:prop:fname -- міліціонер-пародист/[міліціонер-пародист]noun:anim:m:v_naz -- Авт./[null]null"
       + " -- стане/[стан]noun:inanim:m:v_kly:xp1|стане/[стан]noun:inanim:m:v_kly:xp2|стане/[станути]verb:perf:futr:s:3|стане/[стати]verb:perf:futr:s:3 -- пародистом/[пародист]noun:anim:m:v_oru",
          tokenizer, tagger);
@@ -299,21 +299,25 @@ public class UkrainianTaggerTest {
   }
 
   @Test
-  public void testDynamicTaggingXShaped() throws IOException {
-    TestTools.myAssert("Ш-подібному", "Ш-подібному/[Ш-подібний]adj:m:v_dav|Ш-подібному/[Ш-подібний]adj:m:v_mis|Ш-подібному/[Ш-подібний]adj:n:v_dav|Ш-подібному/[Ш-подібний]adj:n:v_mis", tokenizer, tagger);
-    TestTools.myAssert("S-подібної", "S-подібної/[S-подібний]adj:f:v_rod", tokenizer, tagger);
-  }
-
-  @Test
   public void testDynamicTaggingVmisny() throws IOException {
     TestTools.myAssert("Са-вмісні", "Са-вмісні/[Са-вмісний]adj:p:v_naz|Са-вмісні/[Са-вмісний]adj:p:v_zna:rinanim", tokenizer, tagger);
     TestTools.myAssert("карбонат-вмісні", "карбонат-вмісні/[карбонат-вмісний]adj:p:v_naz|карбонат-вмісні/[карбонат-вмісний]adj:p:v_zna:rinanim", tokenizer, tagger);
   }
 
   @Test
+  public void testDynamicTaggingXShaped() throws IOException {
+    TestTools.myAssert("Ш-подібному", "Ш-подібному/[Ш-подібний]adj:m:v_dav|Ш-подібному/[Ш-подібний]adj:m:v_mis|Ш-подібному/[Ш-подібний]adj:n:v_dav|Ш-подібному/[Ш-подібний]adj:n:v_mis", tokenizer, tagger);
+    TestTools.myAssert("S-подібної", "S-подібної/[S-подібний]adj:f:v_rod", tokenizer, tagger);
+    TestTools.myAssert("PR-складову", "PR-складову/[PR-складова]noun:inanim:f:v_zna", tokenizer, tagger);
+    TestTools.myAssert("VIP-батьків", "VIP-батьків/[VIP-батьки]noun:anim:p:v_rod:ns|VIP-батьків/[VIP-батьки]noun:anim:p:v_zna:ns|VIP-батьків/[VIP-батько]noun:anim:p:v_rod|VIP-батьків/[VIP-батько]noun:anim:p:v_zna", tokenizer, tagger);
+    TestTools.myAssert("COVID-вакцинованих", "COVID-вакцинованих/[COVID-вакцинований]adj:p:v_mis:&adjp:pasv:imperf|COVID-вакцинованих/[COVID-вакцинований]adj:p:v_mis:&adjp:pasv:perf|COVID-вакцинованих/[COVID-вакцинований]adj:p:v_rod:&adjp:pasv:imperf|COVID-вакцинованих/[COVID-вакцинований]adj:p:v_rod:&adjp:pasv:perf|COVID-вакцинованих/[COVID-вакцинований]adj:p:v_zna:ranim:&adjp:pasv:imperf|COVID-вакцинованих/[COVID-вакцинований]adj:p:v_zna:ranim:&adjp:pasv:perf", tokenizer, tagger);
+  }
+
+  @Test
   public void testDynamicTaggingPrefixes() throws IOException {
     TestTools.myAssert("VIP–будинок", "VIP-будинок/[VIP-будинок]noun:inanim:m:v_naz|VIP-будинок/[VIP-будинок]noun:inanim:m:v_zna|VIP–будинок/[null]null", tokenizer, tagger);
     TestTools.myAssert("PR-департаменту", "PR-департаменту/[PR-департамент]noun:inanim:m:v_dav|PR-департаменту/[PR-департамент]noun:inanim:m:v_mis|PR-департаменту/[PR-департамент]noun:inanim:m:v_rod", tokenizer, tagger);
+    TestTools.myAssert("RPM-пакунок", "RPM-пакунок/[RPM-пакунок]noun:inanim:m:v_naz|RPM-пакунок/[RPM-пакунок]noun:inanim:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("3D-друк", "3D-друк/[3D-друк]noun:inanim:m:v_naz|3D-друк/[3D-друк]noun:inanim:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("n-векторний", "n-векторний/[n-векторний]adj:m:v_naz|n-векторний/[n-векторний]adj:m:v_zna:rinanim", tokenizer, tagger);
     TestTools.myAssert("α-векторний", "α-векторний/[α-векторний]adj:m:v_naz|α-векторний/[α-векторний]adj:m:v_zna:rinanim", tokenizer, tagger);
@@ -411,6 +415,7 @@ public class UkrainianTaggerTest {
 
     //TODO: :p:ns -> lemma with :p
 //    TestTools.myAssert("батьки-шляхтичі", "батьки-шляхтичі", tokenizer, tagger);
+//    TestTools.myAssert("народом-дивотворцем", "", tokenizer, tagger);
 
     // TODO: unanim
     TestTools.myAssert("ворог-стафілокок", "ворог-стафілокок/[null]null", tokenizer, tagger);
@@ -425,8 +430,6 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Москви-ріки", "Москви-ріки/[Москва-ріка]noun:inanim:f:v_rod:prop:geo|Москви-ріки/[москва-ріка]noun:inanim:f:v_rod:prop:geo:alt", tokenizer, tagger);
 
     TestTools.myAssert("Дівчинка-першокласниця", "Дівчинка-першокласниця/[дівчинка-першокласниця]noun:anim:f:v_naz", tokenizer, tagger);
-
-    TestTools.myAssert("RPM-пакунок", "RPM-пакунок/[RPM-пакунок]noun:inanim:m:v_naz|RPM-пакунок/[RPM-пакунок]noun:inanim:m:v_zna", tokenizer, tagger);
 
     TestTools.myAssert("ненависть-шоу", "ненависть-шоу/[ненависть-шоу]noun:inanim:f:v_naz|ненависть-шоу/[ненависть-шоу]noun:inanim:f:v_zna", tokenizer, tagger);
 
