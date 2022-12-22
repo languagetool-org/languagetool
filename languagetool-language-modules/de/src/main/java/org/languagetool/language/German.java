@@ -421,6 +421,7 @@ public class German extends Language implements AutoCloseable {
       case "AERZTEN_INNEN": return -2;  // overwrite speller ("Ärzte/-innen")
       case "ANGLIZISMEN" : return -2;   // overwrite spell checker
       case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // overwrite spell checker
+      case "MEINSTE" : return -2;   // overwrite spell checker
       case "ZAHL_IM_WORT": return -2; //should not override rules like H2O
       case "ICH_LIEBS": return -2;  // higher prio than spell checker
       case "ICH_GEHE_DU_BLEIBST": return -3; // prefer ICH_GLAUBE_FUER_EUCH

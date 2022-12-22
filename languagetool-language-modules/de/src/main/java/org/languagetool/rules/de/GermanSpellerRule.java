@@ -1214,6 +1214,20 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("gechickt", w -> Arrays.asList("geschickt", "gecheckt"));
     put("gibs", w -> Arrays.asList("gib es", "gibst"));
     put("Gibs", w -> Arrays.asList("Gib es", "Gibst", "Gips"));
+    put("Gutan", w -> Arrays.asList("Gut an", "Guten", "Sudan"));
+    put("vol", w -> Arrays.asList("von", "vom", "voll", "vor"));
+    put("einzulogen", w -> Arrays.asList("einzuloggen", "einzulegen"));
+    put("Liben", w -> Arrays.asList("Lieben", "Leben", "Libyen", "Ligen"));
+    put("bruchen", w -> Arrays.asList("brauchen", "brachen", "brechen"));
+    put("gerner", w -> Arrays.asList("gern", "gern er", "ferner"));
+    put("krige", w -> Arrays.asList("kriege", "krieg"));
+    put("Geschnek", w -> Arrays.asList("Geschenk", "Geschmack"));
+    put("meinste", w -> Arrays.asList("meiste", "feinste", "meinte", "meinst du"));
+    put("Meinste", w -> Arrays.asList("Meiste", "Feinste", "Meinte", "Meinst du"));
+    put("Telefones", w -> Arrays.asList("Telefons", "Telefone"));
+    put("wusten", w -> Arrays.asList("wussten", "wüsten"));
+    put("geschlaffen", w -> Arrays.asList("geschlafen", "geschaffen", "geschliffen"));
+    put("Gedaken", "Gedanken");
     put("Wiso", "Wieso");
     put("gebs", "gebe es");
     put("angefordet", "angefordert");
@@ -2925,8 +2939,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "untersützt": return topMatch("unterstützt");
       case "sontag": return topMatch("Sonntag");
       case "nirgendswo": return topMatch("nirgendwo");
+      case "durchfuehren": return topMatch("durchführen");
+      case "durchgefuehrt": return topMatch("durchgeführt");
+      case "erhälst": return topMatch("erhältst");
+      case "erhählst": return topMatch("erhältst");
       case "Nirgendswo": return topMatch("Nirgendwo");
       case "Typescript": return topMatch("TypeScript");
+      case "mitinbegriffen": return topMatch("mit inbegriffen");
+      case "Außerden": return topMatch("Außerdem");
+      case "außerden": return topMatch("außerdem");
+      case "Optin": return topMatch("Opt-in");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
     return Collections.emptyList();
