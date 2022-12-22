@@ -43,7 +43,11 @@ public class UkrainianWordTokenizer implements Tokenizer {
             + ",.;!?\u2014:()\\[\\]{}<>/|\\\\…°$€₴=№§¿¡]" 
             + "|%(?![-\u2013][а-яіїєґ])" // allow 5%-й
             + "|(?<!\uE109)[\"«»„”“]"                       // quotes have special cases
-            + "|(?<=[а-яіїєґА-ЯІЇЄҐ])[\u00B9\u00B2\u2070-\u2079]"  // superscript for regular words only // 
+            + "|(?<=[а-яіїєґА-ЯІЇЄҐ])[\u00B9\u00B2\u2070-\u2079]"  // superscript for regular words only //
+          // preserve * inside words (sometimes used instead of apostrophe or to mask profane words)
+          // but split if it's the beginning or end of the word (often used for mark-up and footnotes)
+            + "|(?<![а-яіїєґА-ЯІЇЄҐa-zA-Z])[_*]+"
+            + "|[_*]+(?![а-яіїєґА-ЯІЇЄҐa-zA-Z0-9])"
             + "|[\u2000-\u200F"
             + "\u201A\u2020-\u202F\u2030\u2031\u2033-\u206F"
             + "\u2400-\u27FF"    // Control Pictures
@@ -157,7 +161,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й|і) (інш?|под)|атм|відс|гр|коп|обл|р|рр|РР|руб|ст|стст|стол|стор|чол|шт))\\.(?!\uE120)");
   private static final Pattern ABBR_DOT_I_T_P_PATTERN = Pattern.compile("([ій][\\h\\v]+т\\.)([\\h\\v]*(д|п|ін)\\.)");
   private static final Pattern ABBR_DOT_I_T_CH_PATTERN = Pattern.compile("([ву][\\h\\v]+т\\.)([\\h\\v]*ч\\.)");
-  private static final Pattern ABBR_DOT_T_ZV_PATTERN = Pattern.compile("([\\h\\v]+т\\.)([\\h\\v]*зв\\.)");
+  private static final Pattern ABBR_DOT_T_ZV_PATTERN = Pattern.compile("([\\h\\v\\(]+т\\.)([\\h\\v]*зв\\.)");
 
   private static final Pattern ABBR_AT_THE_END = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301])(тис|губ|[А-ЯІЇЄҐ])\\.[\\h\\v]*$");
 
@@ -361,13 +365,6 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = ABBR_DOT_NON_ENDING_PATTERN.matcher(text).replaceAll("$1.\uE120\uE110");
       text = ABBR_DOT_NON_ENDING_PATTERN_2.matcher(text).replaceAll("$1\uE120\uE110$2");
       text = INVALID_MLN_DOT_PATTERN.matcher(text).replaceAll("$1.\uE120\uE110$2");
-    }
-
-    // preserve * inside words (sometimes used instead of apostrophe or to mask profane words)
-    // but split if it's the beginning or end of the word (often used for mark-up and footnotes)
-    if( text.contains("*") ) {
-      text = text.replaceAll("((?:^|[^а-яіїєґА-ЯІЇЄҐ])\\*+)([а-яіїєґА-ЯІЇЄҐ])", "$1" + BREAKING_PLACEHOLDER + "$2");
-      text = text.replaceAll("([а-яіїєґА-ЯІЇЄҐ])(\\*+(?:[^а-яіїєґА-ЯІЇЄҐ]|$))", "$1" + BREAKING_PLACEHOLDER + "$2");
     }
 
     text = ABBR_DOT_ENDING_PATTERN.matcher(text).replaceAll("$1.\uE120\uE110");
