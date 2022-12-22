@@ -437,6 +437,7 @@ public class English extends Language implements AutoCloseable {
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
       case "ULTRA_HYPHEN":              return 1;   // prefer over EN_COMPOUND_ADJECTIVE_INTERNAL
       case "THINK_BELIEVE_THAT":        return 1;
+      case "HAS_TO_APPROVED_BY":        return 1;   // prefer over TO_NON_BASE
       case "MD_VBD":                    return -1;  // prefer LOWERCASE_MONTHS
       case "PRP_PRP":                   return -1;  // prefer other rules that give a suggestion
       case "IS_LIKELY_TO_BE":           return -1;  // give IS_RB_BE precedence (more suggestions)
@@ -470,7 +471,6 @@ public class English extends Language implements AutoCloseable {
       case "ADVERB_WORD_ORDER":         return -1;  // less prio than PRP_PAST_PART //
       case "HAVE_VB_DT":                return -1;
       case "MD_PRP":                    return -1;  // prefer ME_BE
-      case "HAVE_TO_NOTVB":             return -1;
       case "IT_IS_2":                   return -1;  // needs higher prio than BEEN_PART_AGREEMENT
       case "A_RB_NN":                   return -1;  // prefer other more specific rules (e.g. QUIET_QUITE, A_QUITE_WHILE)
       case "DT_RB_IN":                  return -1;  // prefer other more specific rules
@@ -573,6 +573,7 @@ public class English extends Language implements AutoCloseable {
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
+      case "HAVE_TO_NOTVB":             return -15; // prefer AI and comma rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
       case "POSSESSIVE_APOSTROPHE":     return -10;  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
       case "CONFUSION_RULE":            return -20;
