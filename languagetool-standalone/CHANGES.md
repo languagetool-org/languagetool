@@ -22,6 +22,11 @@
   * added and improved rules
   * updated dictionary (spanish-pos-dict-1.9)
 
+#### Ukrainian
+  * new words in the POS dictionary
+  * improved tokenization, tagging, and disambiguation
+  * new rules
+
 ...
 
 #### HTTP API / LT server
