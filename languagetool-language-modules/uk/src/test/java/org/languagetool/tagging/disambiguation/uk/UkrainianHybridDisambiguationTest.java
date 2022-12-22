@@ -193,7 +193,7 @@ public class UkrainianHybridDisambiguationTest {
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("більше того,",
-        "/[null]SENT_START більше/[більше]adv:compc|більше/[більший]adj:n:v_kly:compc|більше/[більший]adj:n:v_naz:compc|більше/[більший]adj:n:v_zna:compc"
+        "/[null]SENT_START більше/[більше]adv:compc:&predic|більше/[більший]adj:n:v_kly:compc|більше/[більший]adj:n:v_naz:compc|більше/[більший]adj:n:v_zna:compc"
         + "  /[null]null того/[те]noun:inanim:n:v_rod:&pron:dem|того/[той]adj:m:v_rod:&pron:dem|того/[той]adj:m:v_zna:ranim:&pron:dem|того/[той]adj:n:v_rod:&pron:dem"
         + " ,/[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);

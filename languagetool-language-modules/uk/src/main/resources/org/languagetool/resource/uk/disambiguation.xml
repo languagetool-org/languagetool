@@ -587,7 +587,7 @@
     </pattern>
     <disambig action="filter" postag="noun:inanim:n:v_oru.*"/>
     <example type="ambiguous"
-        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
+        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,тим/conj:subord,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
         outputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem]">І <marker>тим</marker> більше.</example>
     <example type="untouched">тим вечором</example>
   </rule>
@@ -602,7 +602,7 @@
     </pattern>
     <disambig action="filter" postag="noun:inanim:n:v_oru.*"/>
     <example type="ambiguous"
-        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
+        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,тим/conj:subord,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
         outputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem]">Разом з <marker>тим</marker> університетам цього не дозволяють.</example>
     <example type="untouched">тим вечором</example>
   </rule>
@@ -621,7 +621,7 @@
     </pattern>
     <disambig action="filter" postag="adj:m:v_oru.*"/>
     <example type="ambiguous"
-        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
+        inputform="тим[те/noun:inanim:n:v_oru:&amp;pron:dem,тим/conj:subord,той/adj:m:v_oru:&amp;pron:dem,той/adj:n:v_oru:&amp;pron:dem,той/adj:p:v_dav:&amp;pron:dem]"
         outputform="тим[той/adj:m:v_oru:&amp;pron:dem]">А <marker>тим</marker> часом.</example>
     <example type="untouched">тим більше</example>
     <example type="untouched">тим сонцем</example>
@@ -823,6 +823,27 @@
     <example type="untouched">чи не проти я</example>
     <example type="untouched">але проти Кримський кабмін</example>
     <example type="untouched">проголосували проти та одна утрималася</example>
+  </rule>
+
+  <rule name="Шляхом - noun" id="shlyahom_noun">
+    <antipattern>
+      <token regexp="yes">шляхом|кінець</token>
+      <token postag_regexp="yes" postag=".*v_rod.*" />
+    </antipattern>
+    <pattern>
+      <marker>
+        <token regexp="yes">шляхом|кінець</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*"/>
+    <example type="ambiguous"
+        inputform="шляхом[шлях/noun:inanim:m:v_oru,шляхом/prep]"
+        outputform="шляхом[шлях/noun:inanim:m:v_oru]">йти <marker>шляхом</marker>.</example>
+    <example type="ambiguous"
+        inputform="кінець[кінець/noun:inanim:m:v_naz,кінець/noun:inanim:m:v_zna,кінець/prep:arch]"
+        outputform="кінець[кінець/noun:inanim:m:v_naz,кінець/noun:inanim:m:v_zna]">прийшов <marker>кінець</marker>.</example>
+    <example type="untouched">переконати шляхом примусу.</example>
+    <example type="untouched">сів кінець столу.</example>
   </rule>
 
 <!--  moved to the POSTag dict + rule
@@ -2288,6 +2309,7 @@
   </rule>
 
   <!-- тимчасовий манівець для невідомих власних імен після прийменника, що збігаються з дієсловом -->
+<!--
   <rule name="Слова після прийменника з великої літери в середині речення - це іменники" id="DIS_PREP_PROPER_NOUN_INSIDE_SENTENCE">
     <pattern case_sensitive="yes">
       <token postag_regexp="yes" postag="prep.*"/>
@@ -2303,7 +2325,9 @@
         outputform="Чули[чути/noun:unknown]">Приїхали до <marker>Чули</marker>.</example>
     <example type="untouched">Вони все чули.</example>
     <example type="untouched">Чули її добре.</example>
+    <example type="untouched">навколо Мерзли лапки</example>
   </rule>
+-->
 
   <rule name="Велика літера всередині речення" id="CAPITAL_LETTER_INSIDE_SENTENCE">
     <!-- поки лише для слова, що створює проблему -->
