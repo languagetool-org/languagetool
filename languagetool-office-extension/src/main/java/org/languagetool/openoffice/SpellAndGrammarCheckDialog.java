@@ -581,6 +581,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
         aError.nErrorStart = match.getFromPos();
         aError.nErrorLength = match.getToPos() - match.getFromPos();
         aError.aRuleIdentifier = spellRuleId;
+        PropertyValue[] propertyValues = new PropertyValue[1];
+        int ucolor = Color.RED.getRGB() & 0xFFFFFF;
+        propertyValues[0] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
+        aError.aProperties = propertyValues;
         errorArray.add(new CheckError(locale, aError));
         if (match.getSuggestedReplacements() != null) {
           aError.aSuggestions = match.getSuggestedReplacements().toArray(new String[match.getSuggestedReplacements().size()]);
@@ -721,6 +725,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
                   aError.nErrorStart = nStart;
                   aError.nErrorLength = nEnd - nStart;
                   aError.aRuleIdentifier = spellRuleId;
+                  PropertyValue[] propertyValues = new PropertyValue[1];
+                  int ucolor = Color.RED.getRGB() & 0xFFFFFF;
+                  propertyValues[0] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
+                  aError.aProperties = propertyValues;
                   errorArray.add(new CheckError(locale, aError));
                   String[] alternatives = linguServices.getSpellAlternatives(token.getToken(), locale);
                   if (alternatives != null) {
@@ -857,7 +865,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
   public class LtCheckDialog implements ActionListener {
     private final static String ACORR_PREFIX = "acor_";
     private final static String ACORR_SUFFIX = ".dat";
-    private final static int maxUndos = 20;
+    private final static int maxUndos = 50;
     private final static int toolTipWidth = 300;
     
     private final static int dialogWidth = 640;
@@ -2484,32 +2492,33 @@ public class SpellAndGrammarCheckDialog extends Thread {
         throw new IOException("Failed to create directory " + destDirPath);
       }
       byte[] buffer = new byte[1024];
-      ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFilePath));
-      ZipEntry zipEntry = zis.getNextEntry();
-      while (zipEntry != null) {
-        File newFile = new File(destDir, zipEntry.getName());
-        if (zipEntry.isDirectory()) {
-          if (!newFile.isDirectory() && !newFile.mkdirs()) {
-            throw new IOException("Failed to create directory " + newFile);
+      try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFilePath))) {
+        ZipEntry zipEntry = zis.getNextEntry();
+        while (zipEntry != null) {
+          File newFile = new File(destDir, zipEntry.getName());
+          if (zipEntry.isDirectory()) {
+            if (!newFile.isDirectory() && !newFile.mkdirs()) {
+              throw new IOException("Failed to create directory " + newFile);
+            }
+          } else {
+            // fix for Windows-created archives
+            File parent = newFile.getParentFile();
+            if (!parent.isDirectory() && !parent.mkdirs()) {
+              throw new IOException("Failed to create directory " + parent);
+            }
+            // write file content
+            FileOutputStream fos = new FileOutputStream(newFile);
+            int len;
+            while ((len = zis.read(buffer)) > 0) {
+              fos.write(buffer, 0, len);
+            }
+            fos.close();
           }
-        } else {
-          // fix for Windows-created archives
-          File parent = newFile.getParentFile();
-          if (!parent.isDirectory() && !parent.mkdirs()) {
-            throw new IOException("Failed to create directory " + parent);
-          }
-          // write file content
-          FileOutputStream fos = new FileOutputStream(newFile);
-          int len;
-          while ((len = zis.read(buffer)) > 0) {
-            fos.write(buffer, 0, len);
-          }
-          fos.close();
+          zipEntry = zis.getNextEntry();
         }
-        zipEntry = zis.getNextEntry();
+        zis.closeEntry();
+        zis.close();
       }
-      zis.closeEntry();
-      zis.close();
     }
     
     private void addWordPairToCorFile(String dirPath, String word, String replace) throws Throwable {
@@ -2647,6 +2656,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         return;
       }
       try {
+        removeMarkups();
         int nLastUndo = undoList.size() - 1;
         UndoContainer lastUndo = undoList.get(nLastUndo);
         String action = lastUndo.action;
@@ -2766,11 +2776,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
           dialog.toFront();
         }
         if (error != null) {
-          if (!error.aRuleIdentifier.equals(spellRuleId)) {
+//          if (!error.aRuleIdentifier.equals(spellRuleId)) {
 //            OfficeDrawTools.removeMarkup(undoMarkup, currentDocument.getXComponent());
             undoMarkup = new UndoMarkupContainer();
             OfficeDrawTools.setMarkup(y, error, undoMarkup, currentDocument.getXComponent());
-          }
+//          }
         }
       } else {
         OfficeSpreadsheetTools.setCurrentSheet(y, currentDocument.getXComponent());
