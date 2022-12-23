@@ -59,8 +59,8 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
     addUnit("yards?", YARD, "yards", 1, false);
     addUnit("inch(es)?", INCH, "inches", 1, false);
 
-    addUnit( "(?:degrees?)? Fahrenheit", FAHRENHEIT, "degree Fahrenheit", 1, false);
-    addUnit( "(?:degrees?)? Celsius", CELSIUS, "degree Celsius", 1, true);
+    addUnit("(?:degrees?)? Fahrenheit", FAHRENHEIT, "degree Fahrenheit", 1, false);
+    addUnit("(?:degrees?)? Celsius", CELSIUS, "degree Celsius", 1, true);
   }
 
   @Override
