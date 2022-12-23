@@ -55,6 +55,7 @@ public class UnitConversionRuleTest {
     assertMatches("Ich bin 6 Fuß groß.", 1, "1,83 Meter", rule, lt);
     assertMatches("Ich bin 6 Fuß (2,02 m) groß.", 1, "1,83 Meter", rule, lt);
     assertMatches("Ich bin 6 Fuß (1,82 m) groß.", 0, null, rule, lt);
+    assertMatches("Der Kostenvoranschlag hatte eine Höhe von 1.800 Pfund Sterling.", 0, null, rule, lt);
     assertMatches("Der Weg ist 100 Meilen lang.", 1, "160,93 Kilometer", rule, lt);
     assertMatches("Der Weg ist 10 km (20 Meilen) lang.", 1, "6,21", rule, lt);
     assertMatches("Der Weg ist 10 km (6,21 Meilen) lang.", 0, null, rule, lt);
