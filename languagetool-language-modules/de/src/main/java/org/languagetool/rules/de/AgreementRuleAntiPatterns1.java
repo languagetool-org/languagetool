@@ -825,6 +825,11 @@ class AgreementRuleAntiPatterns1 {
       token("bestimmt"),
       csRegex("das(jenige)?"),
       posRegex("SUB:NOM.*")
+    ),
+    asList(  
+      regex("des|der|den|dem|die"),
+      csToken("Kommando"),
+      csRegex("Spezialkräften?")
     )
   );
 

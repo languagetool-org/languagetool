@@ -2946,7 +2946,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Nirgendswo": return topMatch("Nirgendwo");
       case "Typescript": return topMatch("TypeScript");
       case "mitinbegriffen": return topMatch("mit inbegriffen");
+      case "miteinbegriffen": return topMatch("mit einbegriffen");
       case "Außerden": return topMatch("Außerdem");
+      case "ausserhalb": return topMatch("außerhalb");
+      case "Ausserhalb": return topMatch("Außerhalb");
+      case "Gluckwunsch": return topMatch("Glückwunsch");
+      case "Gluckwunsche": return topMatch("Glückwünsche");
+      case "Glückwunsche": return topMatch("Glückwünsche");
       case "außerden": return topMatch("außerdem");
       case "Optin": return topMatch("Opt-in");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
