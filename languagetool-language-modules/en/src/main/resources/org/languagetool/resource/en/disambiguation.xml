@@ -16571,5 +16571,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filter" postag="VB" />
     </rule>
 
-
+    <rule id="HERE_NO_NNP" name="'Here' no proper noun">
+        <pattern>
+            <token postag="SENT_START" />
+            <marker>
+                <token case_sensitive="yes" regexp="yes">Here|None</token>
+            </marker>
+            <token chunk_re=".-VP" />
+        </pattern>
+        <disambig action="remove" postag="NNP" />
+    </rule>
 </rules>
