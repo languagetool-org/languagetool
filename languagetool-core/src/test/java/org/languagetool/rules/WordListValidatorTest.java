@@ -149,6 +149,7 @@ public class WordListValidatorTest {
           "Tuğrul",
           "Kīlauea",
           "Terzić",
+          "Jūjutsu/S",
           "Ñuñoa",
           "Stevanović",
           "Børge",
