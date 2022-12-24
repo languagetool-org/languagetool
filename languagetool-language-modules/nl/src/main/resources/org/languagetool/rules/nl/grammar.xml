@@ -34285,7 +34285,7 @@ steenwijk;Steenwijk
                 <example correction="word|wordt">Ik <marker>wort</marker> gek.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HEBT_ZONDER_U_JE" name="Hebt zonder u/ge/je" default="temp_off">
+        <rulegroup id="HEBT_ZONDER_U_JE" name="Hebt zonder u/ge/je">
             <rule>
                 <antipattern>
                     <token postag="SENT_START" skip="-1"/>
@@ -38767,6 +38767,21 @@ steenwijk;Steenwijk
                 <example correction="rampzalig|funest">Kinderen, stress, werk en een druk sociaal leven kunnen <marker>nefast</marker> zijn voor het seksleven.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="KOMMA_VIND_IK" name=", vind ik." default="temp_off">
+            <!-- bron: Onze Taal via Woordpost 2014-08-27 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token><exception>,</exception></token>
+                        <token>vind</token>
+                        <token>ik</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Er werd een komma verwacht: <suggestion>\1, \2 \3</suggestion>.</message>
+                <example correction="wel, vind ik">Het gaat <marker>wel vind ik</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KOMMA_HOOR" name=", hoor.">
             <!-- bron: Onze Taal via Woordpost 2014-08-27 -->
             <rule>
@@ -38782,7 +38797,7 @@ steenwijk;Steenwijk
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>Er werd een komma verwacht: <suggestion>\3, \4</suggestion>. Overigens vrij informeel taalgebruik.</message>
+                <message>Er werd een komma verwacht: <suggestion>\3, \4</suggestion>. Het is overigens vrij informeel taalgebruik.</message>
                 <example correction="u, hoor">Dank <marker>u hoor</marker>.</example>
                 <example correction="ja, hoor">En <marker>ja hoor</marker>!</example>
                 <example correction="ook, hoor">Ik <marker>ook hoor</marker>.</example>
