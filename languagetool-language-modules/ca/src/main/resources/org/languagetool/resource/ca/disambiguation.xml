@@ -3343,6 +3343,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="no_se_quin" name="no sé quin">
         <rule>
             <pattern>
+                <!--<token postag="SPS00|LOC_PREP" postag_regexp="yes"/>-->
+                <token>no</token>
+                <token min="0" regexp="yes">se|es</token>
+                <marker>
+                    <token inflected="yes">saber</token>
+                </marker>
+                <token postag="RG|LOC_ADV|SPS00" postag_regexp="yes" min="0" max="4"/>
+                <token regexp="yes" inflected="yes">què|qui|quin|quan|quant|on|com</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_loc_nosequi"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token>no</token>
                 <marker>
                     <token skip="1">sé</token>
@@ -3360,7 +3375,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token>a</token>
                 <token>saber</token>
-                <token regexp="yes">qui|quin|quins|quina|quines|on|com|què|quan</token>
+                <token regexp="yes">qui|quin|quins|quina|quines|on|com|què|quan|quant|quants|quanta|quantes</token>
             </pattern>
             <disambig action="add">
                 <wd pos="_loc_nosequi"/>
@@ -4286,6 +4301,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </disambig>
     </rule>
     <rulegroup id="noms_aposicio" name="noms en aposició">
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">estètica|personatge|còmic|llibre|pel·lícula|dibuixant|publicació</token>
+                <marker>
+                    <token>manga</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
         <rule>
             <pattern>
                 <token regexp="yes" inflected="yes">cotxe|vehicle|moto|furgoneta|furgona</token>
@@ -9748,6 +9772,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="SPS00"/>
     </rule>
+    <rule id="segons_CS" name="segons (conjunció)">
+        <!-- potser contraproduent si hi ha un error nom/verb -->
+        <pattern>
+            <marker>
+                <token postag="CS">segons</token>
+            </marker>
+            <token postag="&pronom_feble;|RN" min="0" max="3" postag_regexp="yes"/>
+            <token postag="V.[SI].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="CS"/>
+    </rule>
     <rule id="fons" name="fons (singular o plural)">
         <pattern>
             <marker>
@@ -13259,7 +13294,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+|acord</exception></token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="V.[^MNPG].*|_GV_|_perfet|_obligacio"/>
+            <disambig action="filter" postag="V.[^MNPG].*|_GV_|_perfet|_obligacio|_loc_nosequi"/>
         </rule>
         <rule>
             <pattern>
