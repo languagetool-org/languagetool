@@ -9204,6 +9204,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="pobre_adj" name="pobre adjectiu">
+        <pattern>
+            <token postag="A.*" postag_regexp="yes" inflected="yes">pobre</token>
+            <token postag="N.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="alt_baix" name="alt/baix adjectius davant de nom">
         <antipattern>
             <token postag="&pronom_feble;" postag_regexp="yes"/>
@@ -9214,7 +9221,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <feature id="nombre"/>
                 <feature id="genere"/>
                 <marker>
-                    <token postag="AQ.*" postag_regexp="yes" regexp="yes" inflected="yes">alt|baix|doble|principal|gran</token>
+                    <token postag="AQ.*" postag_regexp="yes" regexp="yes" inflected="yes">alt|baix|doble|principal|gran|pobre</token>
                 </marker>
                 <token postag="N.*" postag_regexp="yes"/>
             </unify>
