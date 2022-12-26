@@ -102,6 +102,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter.addException("Manipulationstricks", asList("Manipulations", "tricks"));
     wordSplitter.addException("Erziehungstrick", asList("Erziehungs", "trick"));
     wordSplitter.addException("Erziehungstricks", asList("Erziehungs", "tricks"));
+    wordSplitter.addException("Messetage", asList("Messe", "tage"));
+    wordSplitter.addException("Messetagen", asList("Messe", "tagen"));
     wordSplitter.addException("karamelligen", asList("karamelligen"));  // != Karamel+Ligen
     wordSplitter.addException("Häkelnadel", asList("Häkel", "nadel"));
     wordSplitter.addException("Häkelnadeln", asList("Häkel", "nadeln"));
