@@ -873,7 +873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- ELE/ELA/NELE/NELA PRÓPRIO PRÓPRIA concordância de género -->
-    <rulegroup id='GENDER_ELE_ELA_NELE_NELA_PRÓPRIO_PRÓPRIA' name="Concordância de género: El(ae)(s)/nel(ae)(s)/ness(ae)(s)">
+    <rulegroup id='GENDER_ELE_ELA_NELE_NELA_PRÓPRIO_PRÓPRIA' name="Concordância: El(ae)(s)/nel(ae)(s)/ness(ae)(s)">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-09 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
       Elas próprios fizeram a comida. → Elas próprias fizeram a comida.
@@ -942,7 +942,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- ESTE/ESTA concordância de género -->
-    <rulegroup id='GENDER_ESTE_ESTA' name="Concordância de género: Este(s)/esta(s)">
+    <rulegroup id='GENDER_ESTE_ESTA' name="Concordância: Este(s)/esta(s)">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-27 + 2022-04-19 (1-JAN-2022+)      -->
       <!--
       HITS IN 600000 SENTENCES:18
@@ -1043,7 +1043,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- ISSO/ISTO/AQUILO ADJ FEMININO isso/isto/aquilo adj masculino -->
-    <rulegroup id='GENDER_ISSO_ISTO_AQUILO_VERBO_ADJFEMININO' name="Concordância de género: Isso/isto/aquilo + Verbo + Adjetivo" default='temp_off'>
+    <rulegroup id='GENDER_ISSO_ISTO_AQUILO_VERBO_ADJFEMININO' name="Concordância: Isso/isto/aquilo + Verbo + Adjetivo" default='temp_off'>
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-05 (1-JAN-2022+)      -->
       <!--
       Isto é muito engraçada. → Isto é muito engraçado.
@@ -1094,7 +1094,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!--          Tiago F. Santos Rules Start         ****START**** -->
     <!-- ********************************************************** -->
-    <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância de género: Geral">
+    <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
       <!--            General gender concordance errors            -->
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
@@ -2988,7 +2988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!-- 	CUJA(S) FILHA(S) CUJO(S) FILHOS(S) -->
     <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-01/02 (25-JUN-2021+)      -->
-    <rulegroup id='CUJA_CUJO_MASCULINO_FEMININO' name="Cuj(ao)(s) + Nome: Concordância de género" type="style">
+    <rulegroup id='CUJA_CUJO_MASCULINO_FEMININO' name="Cuj(ao)(s) + Nome: Concordância" type="style">
       <!--
       A mãe cuja filho fez anos. → A mãe cujo filho fez anos.
       O pai cujo filha fez anos. → O pai cuja filha fez anos.
@@ -3028,7 +3028,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!-- Specific gender concordance errors - A > Masculine Noun -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
-    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordância de género: A + Masculino">
+    <rule default='off' id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A' name="Concordância: A + Masculino">
       <pattern>
         <token>a</token>
         <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
@@ -3048,7 +3048,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>A vaca está no pasto.</example>
     </rule>
 
-    <rulegroup default='on' id='A_WORD' name="Concordância de género e número: A + palavra">
+    <rulegroup default='on' id='A_WORD' name="Concordância: A + palavra">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
       <antipattern>
           <token regexp='yes'>a</token>
@@ -3302,7 +3302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <rulegroup id='SER_ADJECTIVE_AGREEMENT' name="Erro de concordância: SER + adjetivo + nome">
       <!--      Created by Tiago F. Santos, 2017-09-06      -->
-      <short>Erro de concordância de género</short>
+      <short>Erro de concordância</short>
       <rule>
         <pattern>
           <token inflected="yes">ser</token>
@@ -3314,7 +3314,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception postag_regexp="yes" postag="(?:A..|[PN].)[CM]S.+"/><exception>vez</exception></token>
           <!-- TODO: other exceptions, time expressions-->
         </pattern>
-        <message>Erro de concordância de género.</message>
+        <message>Erro de concordância.</message>
         <suggestion>\1 <match no='2' postag='(A..|N.|Z.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <example correction="É necessária uma festa"><marker>É necessário uma festa</marker>.</example>
         <example correction="É necessária uma grande festa"><marker>É necessário uma grande festa</marker>.</example>
@@ -3330,7 +3330,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag="N.MS.+" postag_regexp='yes'>
             <exception postag_regexp="yes" postag="(?:A..|[PN].)[CF]S.+"/></token>
         </pattern>
-        <message>Erro de concordância de género.</message>
+        <message>Erro de concordância.</message>
         <suggestion>\1 <match no='2' postag='(A..|N.|Z.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <example correction="É necessário um acordo"><marker>É necessária um acordo</marker>.</example>
         <example correction="É necessário um grande acordo"><marker>É necessária um grande acordo</marker>.</example>
@@ -3345,7 +3345,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag="N.FP.+" postag_regexp='yes'>
             <exception postag_regexp="yes" postag="(?:A..|[PN].)[CM]P.+"/></token>
         </pattern>
-        <message>Erro de concordância de género.</message>
+        <message>Erro de concordância.</message>
         <suggestion>\1 <match no='2' postag='(A..|N.|Z.)MP(.+)' postag_replace='$1FP$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <example correction="São necessárias umas festas"><marker>São necessários umas festas</marker>.</example>
         <example correction="São necessárias umas grandes festas"><marker>São necessários umas grandes festas</marker>.</example>
@@ -3360,7 +3360,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag="N.MP.+" postag_regexp='yes'>
             <exception postag_regexp="yes" postag="(?:A..|[PN].)[CF]P.+"/></token>
         </pattern>
-        <message>Erro de concordância de género.</message>
+        <message>Erro de concordância.</message>
         <suggestion>\1 <match no='2' postag='(A..|N.|Z.)FP(.+)' postag_replace='$1MP$2' postag_regexp='yes'/> \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
         <example correction="São necessários uns acordos"><marker>São necessárias uns acordos</marker>.</example>
         <example correction="São necessários uns grandes acordos"><marker>São necessárias uns grandes acordos</marker>.</example>
@@ -3519,14 +3519,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>O último período da Pré-Historia demarca o conjunto de transformações que dão início às primeiras civilizações.</example>
     </rule>
 
-    <rulegroup id='A_APRENDIZ' name="Concordância de género: Variação de Género (p.ex. juiz/juíza)">
+    <rulegroup id='A_APRENDIZ' name="Concordância: Variação (p.ex. juiz/juíza)">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <rule>
         <pattern>
           <token postag_regexp='yes' postag='D..F.+'/>
           <token regexp='yes'>andaluz|aprendiz|petiz</token>
         </pattern>
-        <message>Esta palavra varia entre géneros. Substitua por <suggestion>a \2a</suggestion>.</message>
+        <message>Esta palavra é variável. Substitua por <suggestion>a \2a</suggestion>.</message>
         <example correction="a aprendiza">Vamos ver <marker>a aprendiz</marker>.</example>
       </rule>
       <rule>
@@ -3534,7 +3534,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag_regexp='yes' postag='D..F.+'/>
           <token>juiz</token>
         </pattern>
-        <message>Esta palavra varia entre géneros. Substitua por <suggestion>a juíza</suggestion>.</message>
+        <message>Esta palavra é variável. Substitua por <suggestion>a juíza</suggestion>.</message>
         <example correction="a juíza">Vamos ver <marker>a juiz</marker>.</example>
         <example>…chegou a juiz por ter mandado prender…</example>
       </rule>
@@ -4183,7 +4183,7 @@ O namorado dela era um ladrão.
 
     <!-- Specific gender concordance errors - O > Feminine Noun  -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
-    <rulegroup id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordância de género: O + Feminino">
+    <rulegroup id='ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O' name="Concordância: O + Feminino">
 
       <!-- MARCOAGPINTO 2022-08-10 (25-JUL-2022+) *START* -->
       <!-- This antipattern was placed in more parts since other gender rules use it too. -->
@@ -7986,7 +7986,7 @@ O namorado dela era um ladrão.
 	  
     </rulegroup>
 
-    <rulegroup id='GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS' name="Concordância nominal: Gênero e número" default='temp_off'>
+    <rulegroup id='GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS' name="Concordância nominal" default='temp_off'>
         <rule>
             <antipattern>
               <token regexp='yes'>\p{L}*-\p{L}*</token>
@@ -8030,7 +8030,7 @@ O namorado dela era um ladrão.
                     <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)M.+|(?:N.|A..).S.+|V..P2.+'/></token>
               </marker>
             </pattern>
-            <message>Possível erro de concordância de gênero ou número.</message>
+            <message>Possível erro de concordância.</message>
             <suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
             <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
             <suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
@@ -8054,7 +8054,7 @@ O namorado dela era um ladrão.
                     <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)M.+|(?:N.|A..).P.+|V..P3.+'/></token>
               </marker>
             </pattern>
-            <message>Possível erro de concordância de gênero ou número.</message>
+            <message>Possível erro de concordância.</message>
             <suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
             <suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)MP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
 			<suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
@@ -8137,7 +8137,7 @@ O namorado dela era um ladrão.
                     <exception postag_regexp='yes' postag='Z.+|SPS.+|D.+|R.+|P.+|(?:N.|A..)[CF].+|(?:N.|A..).[PN].+|V..P1.+|V...3.+|VM[NG].+'/></token>
               </marker>
             </pattern>
-            <message>Possível erro de concordância de gênero ou número.</message>
+            <message>Possível erro de concordância.</message>
             <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)MS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
             <suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)FP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
 			<suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/><match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)MS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
@@ -8204,7 +8204,7 @@ O namorado dela era um ladrão.
                     <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)F.+|(?:N.|A..).S.+|V.+'/></token>
               </marker>
            </pattern>
-           <message>Possível erro de concordância de gênero ou número.</message>
+           <message>Possível erro de concordância.</message>
            <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)MP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
            <suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='5' include_skipped='all'/></suggestion>
            <suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)FS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
@@ -16640,7 +16640,7 @@ O namorado dela era um ladrão.
         </marker>
         <token regexp="yes">herpes|mármore|cônjuge|espécime|bracelete</token>
       </pattern>
-      <message>Erro de género. Usar: <suggestion>o</suggestion>.</message>
+      <message>Erro de concordância. Usar: <suggestion>o</suggestion>.</message>
       <example correction="o">Temos de curar <marker>a</marker> herpes.</example>
     </rule>
 
@@ -31243,7 +31243,7 @@ O namorado dela era um ladrão.
           <token regexp='yes'>d[oa]</token>
           <token>Janeiro</token>
         </pattern>
-        <message>Se for um erro ortográfico, substitua por <suggestion>\1 de \3</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 <match no='2' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/> janeiro</suggestion></message>
+        <message>Se for um erro ortográfico, substitua por <suggestion>\1 de \3</suggestion>. Se for um erro de concordância, substitua por <suggestion>\1 <match no='2' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/> janeiro</suggestion></message>
         <example correction="Rio de Janeiro|Rio do janeiro">Fui ao <marker>Rio da Janeiro</marker>.</example>
     </rule>
    </rulegroup>
@@ -31255,7 +31255,7 @@ O namorado dela era um ladrão.
           <token postag='N.F.+|A..F|D..F.+|SPS00:D..F.+' postag_regexp='yes'/>
           <token regexp='yes' case_sensitive='yes'>mares?</token>
         </pattern>
-        <message>Se for um erro ortográfico, substitua por <suggestion>\1 <match no='2' regexp_match="e" regexp_replace='é' postag_regexp="yes"/></suggestion>. Se for um erro de gênero, substitua por <suggestion><match no='1' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/> \2</suggestion></message>
+        <message>Se for um erro ortográfico, substitua por <suggestion>\1 <match no='2' regexp_match="e" regexp_replace='é' postag_regexp="yes"/></suggestion>. Se for um erro de concordância, substitua por <suggestion><match no='1' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/> \2</suggestion></message>
         <example correction="das marés|dos mares">A resposta <marker>das mares</marker> foi imediata.</example>
     </rule>
     <rule default='on'>
@@ -31263,7 +31263,7 @@ O namorado dela era um ladrão.
           <token>esta</token>
           <token postag='A..M.+|D..M.+' postag_regexp='yes'/>
         </pattern>
-        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 <match no='2' postag="(A..|D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion></message>
+        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de concordância, substitua por <suggestion>\1 <match no='2' postag="(A..|D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion></message>
         <example correction="está confuso|esta confusa">Isso <marker>esta confuso</marker>.</example>
     </rule>
     <rule default='on'>
@@ -31291,7 +31291,7 @@ O namorado dela era um ladrão.
           <token regexp='yes'>\p{Ll}*</token>
         </and>
         </pattern>
-        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de gênero, substitua por <suggestion suppress_misspelled="yes">\1 <match no='2' postag="(N.|A..|D..|SPS00:D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion>, <suggestion><match no='1' regexp_match="a" regexp_replace='o' postag_regexp="yes"/> \2</suggestion> ou <suggestion suppress_misspelled="yes"><match no='1' regexp_match="a" regexp_replace='os' postag_regexp="yes"/> <match no='2' postag="(N.|A..|D..|SPS00:D..)MS(..+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>.</message>
+        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de concordância, substitua por <suggestion suppress_misspelled="yes">\1 <match no='2' postag="(N.|A..|D..|SPS00:D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion>, <suggestion><match no='1' regexp_match="a" regexp_replace='o' postag_regexp="yes"/> \2</suggestion> ou <suggestion suppress_misspelled="yes"><match no='1' regexp_match="a" regexp_replace='os' postag_regexp="yes"/> <match no='2' postag="(N.|A..|D..|SPS00:D..)MS(..+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>.</message>
         <suggestion>\1 <match no='2' case_conversion='startupper'/></suggestion>
         <example correction="dá branco|da branca|do branco|dos brancos|da Branco">Isso me <marker>da branco</marker> total.</example>
     </rule>
@@ -31301,7 +31301,7 @@ O namorado dela era um ladrão.
           <token postag='RG' min='0'/>
           <token postag='N.F.+|A..F.+' postag_regexp='yes'/>
         </pattern>
-        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='ã' postag_regexp="yes"/> \2 \3</suggestion>. Se for um erro de gênero, substitua por <suggestion>\1 \2 <match no='3' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/></suggestion></message>
+        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='ã' postag_regexp="yes"/> \2 \3</suggestion>. Se for um erro de concordância, substitua por <suggestion>\1 \2 <match no='3' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/></suggestion></message>
         <example correction="tão aterrorizada|tao aterrorizado">Fiquei <marker>tao aterrorizada</marker>.</example>
     </rule>
     <rule default='on'>
@@ -46193,7 +46193,7 @@ O namorado dela era um ladrão.
             <exception>senão</exception></token>
           <token><match no='0' postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
         </pattern>
-        <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion>\3</suggestion>.</message>
+        <message>Possível redundância. Se não pretende realçar diferenças, é suficiente utilizar <suggestion>\3</suggestion>.</message>
         <example correction="amigos">Chegamos <marker>amigas e amigos</marker></example>
         <example>Defenderemos os nossos companheiros.</example>
       </rule>
@@ -46204,7 +46204,7 @@ O namorado dela era um ladrão.
             <exception>sino</exception></token>
           <token><match no='0' postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
         </pattern>
-        <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion>\1</suggestion>.</message>
+        <message>Possível redundância. Se não pretende realçar diferenças, é suficiente utilizar <suggestion>\1</suggestion>.</message>
         <example correction="amigos">Chegados <marker>amigos e amigas</marker></example>
         <example>Defenderemos os nossos companheiros.</example>
       </rule>
@@ -46219,7 +46219,7 @@ O namorado dela era um ladrão.
             <exception postag="N.+" postag_regexp="yes"/></token>
           <token><match no='1' postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
         </pattern>
-        <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion><match include_skipped="following" no="4"/> <match no='5'/></suggestion>.</message>
+        <message>Possível redundância. Se não pretende realçar diferenças, é suficiente utilizar <suggestion><match include_skipped="following" no="4"/> <match no='5'/></suggestion>.</message>
         <!--<example correction="os rapazes">Olha como se divertem <marker>as raparigas e os rapazes</marker></example>-->
         <example correction="os amigos">Olha como se divertem <marker>as amigas e os amigos</marker></example>
       </rule>
@@ -46234,7 +46234,7 @@ O namorado dela era um ladrão.
             <exception postag="N.+" postag_regexp="yes"/></token>
           <token><match no='1' postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
         </pattern>
-        <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion><match include_skipped="following" no="1"/> <match no='2'/></suggestion>.</message>
+        <message>Possível redundância. Se não pretende realçar diferenças, é suficiente utilizar <suggestion><match include_skipped="following" no="1"/> <match no='2'/></suggestion>.</message>
         <example correction="os jogadores">Devemos de ajudar <marker>os jogadores e as jogadoras</marker></example>
       </rule>
     </rulegroup>
@@ -46249,7 +46249,7 @@ O namorado dela era um ladrão.
         <token regexp='yes' min='0'>[ao]s?</token>
         <token regexp='yes'>(?:home(?:m|ns)|mulher(?:es)?)</token>
       </pattern>
-      <message>Possível redundância. Se não pretende realçar a diferença de género, é suficiente utilizar <suggestion><match no='1' regexp_match='[Oo]' regexp_replace='a' include_skipped='all'/> pessoa<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
+      <message>Possível redundância. Se não pretende realçar diferenças, é suficiente utilizar <suggestion><match no='1' regexp_match='[Oo]' regexp_replace='a' include_skipped='all'/> pessoa<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
       <example correction="Pessoas"><marker>Homens e mulheres</marker> saíram à rua.</example>
       <example correction="As pessoas"><marker>Os homens e mulheres</marker> saíram à rua.</example>
     </rule>
