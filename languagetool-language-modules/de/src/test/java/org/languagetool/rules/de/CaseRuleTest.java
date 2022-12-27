@@ -213,6 +213,7 @@ public class CaseRuleTest {
     assertGood("Während die Besagte Geld verdiente.");
     assertGood("Die Nacht, die Liebe, dazu der Wein — zu nichts Gutem Ratgeber sein.");
     assertGood("Warum tun die Menschen Böses?");
+    assertGood("Und das Vergangene Revue passieren lassen");
     assertGood("Für die Betreute Kontoauszüge holen.");
     assertGood("Meld dich, wenn du Großes vorhast.");
     assertGood("Muss nicht der Einzelne Einschränkungen der Freiheit hinnehmen, wenn die Sicherheit der Menschen und des Staates mehr gefährdet sind?");
