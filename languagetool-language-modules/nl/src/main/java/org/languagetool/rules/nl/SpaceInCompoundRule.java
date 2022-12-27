@@ -98,6 +98,14 @@ public class SpaceInCompoundRule extends Rule {
     List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = trie.parseText(text);
     for (AhoCorasickDoubleArrayTrie.Hit<String> hit : hits) {
       String covered = text.substring(hit.begin, hit.end);
+      if (hit.begin > 0 && !isBoundary(text.substring(hit.begin-1, hit.begin))) {
+        // prevent substring matches
+        continue;
+      }
+      if (hit.end < text.length() && !isBoundary(text.substring(hit.end, hit.end+1))) {
+        // prevent substring matches
+        continue;
+      }
       String coveredNoSpaces = Tools.glueParts(covered.split(" "));
       String message = normalizedCompound2message.get(coveredNoSpaces);
       if (message != null) {
@@ -107,5 +115,9 @@ public class SpaceInCompoundRule extends Rule {
       }
     }
     return toRuleMatchArray(matches);
+  }
+
+  private boolean isBoundary(String s) {
+    return !s.matches("[a-zA-Z]");
   }
 }
