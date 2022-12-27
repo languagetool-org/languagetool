@@ -556,7 +556,10 @@ regexp case-insensitive maken: (?i)
     </category>
     -->
     <category id="PICKY" name="Regels die meer voor een pietje-precies zijn." >
-        <!-- TODO: design more sophisticated rule to suggest written out number replacement -->
+        <!-- TODO: design more sophisticated rule to suggest written out number replacement
+        Ruud: there is code in 'numbertotext' (C) that can be used for Dutch.
+        Dutch system is much like German system by the way.
+        -->
         <rulegroup id="GETALLEN_UITSCHRIJVEN" name="Getallen onder 20 en ronde getallen uitschrijven" tags="picky">
             <rule>
                 <antipattern>
@@ -635,7 +638,7 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <!-- number range -->
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
-                    <token>van</token>
+                    <token regexp="yes">van|op</token>
                     <token>de</token>
                     <token spacebefore="yes" regexp="yes">[0-9]+</token>
                     <example>Het loopt van 5 tot en met 6.</example>
@@ -11141,7 +11144,7 @@ onwaarschijnlijk
             <rule>
                 <pattern>
                     <token>te</token>
-                    <token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk|fiets|keer</exception></token>
+                    <token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk|fiets|keer|gemeente</exception></token>
                 </pattern>
                 <message>Voor een zelfstandig naamwoord hoort 'de'.</message>
                 <suggestion>de \2</suggestion>
@@ -13679,7 +13682,7 @@ onwaarschijnlijk
                 <example correction="jaren 60">Indertijd in de <marker>jaren '60</marker> was het knippen en plakken met de bandopnemer.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="GROTERE_ALS" name="grotere als">
+        <rulegroup id="GROTERE_ALS" name="grotere als" tags="picky">
             <rule>
                 <antipattern><token>als</token><token regexp="yes">je|hij|zij|men|u|jij|we|ze|er</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
                 <antipattern><token regexp="yes">eerder|lekker|ouders|later|vroeger|meer|minder</token><token>als</token></antipattern>
@@ -17766,7 +17769,8 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="KERSTMAN" name="een kerstman, de Kerstman" type="misspelling">
             <rule>
-                <antipattern><token>Mijn</token><token>god</token><token>,</token></antipattern>
+                <antipattern><token>god</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
+                <antipattern><token>mijn</token><token>god</token><token>,</token></antipattern>
                 <antipattern><token regexp="yes" skip="2">o|oh</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
                 <antipattern><token regexp="yes" skip="2">een|geen</token><token regexp="yes">god|sinterklaas|kerstman</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1">goden</token><token skip="-1" postag="SENT_END"/></antipattern>
@@ -21689,18 +21693,14 @@ steenwijk;Steenwijk
                     <marker>
                         <token regexp="yes">het|dit</token>
                         <token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro|moet</exception><exception postag_regexp="yes" postag=".*ONV"/></token>
-                        <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond</exception><exception postag="WKW:TGW:INF"/></token>
+                        <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond|waarom</exception><exception postag="WKW:TGW:INF"/></token>
                     </marker>
                 </pattern>
-                <!-- Temporarily disabled to test user adoption with changed suggestions:
-                <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
-                -->
                 <message>\2 is een 'de'-woord, maar \3 een 'het'-woord. U kunt het best de onderdelen aaneenschrijven als het een begrip is of gewoon het lidwoord veranderen.</message>
                 <suggestion>\1 \2\3</suggestion>
                 <suggestion>\1 \2-\3</suggestion>
                 <suggestion>de \2 \3</suggestion>
-                <suggestion>deze \2 \3</suggestion>
-                <example correction="het bepalingengedoe|het bepalingen-gedoe|de bepalingen gedoe|deze bepalingen gedoe">Ik zie <marker>het bepalingen gedoe</marker>.</example>
+                <example correction="het bepalingengedoe|het bepalingen-gedoe|de bepalingen gedoe">Ik zie <marker>het bepalingen gedoe</marker>.</example>
                 <example>Ik zong door en het leek net of het niet ging.</example>
                 <example>In dit geval had het KNVB gelijk met zijn beslissing.</example>
                 <example>Ik heb het tijd gegeven.</example>
@@ -34387,7 +34387,7 @@ steenwijk;Steenwijk
             <antipattern>
                 <!-- ik staat in de zin -->
                 <token postag="SENT_START" skip="-1"/>
-                <token skip="-1" regexp="yes">'k|ik(zelf)?</token>
+                <token skip="-1" regexp="yes">'k|ik|ikzelf</token>
                 <token postag="SENT_END"/>
             </antipattern>
             <antipattern>
@@ -34408,7 +34408,7 @@ steenwijk;Steenwijk
                     <marker>
                         <token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception><exception>ben</exception></token>
                     </marker>
-                    <token negate="yes" regexp="yes">je|jij</token>
+                    <token negate="yes" regexp="yes">je|jij|jezelf</token>
                 </pattern>
                 <message>De vorm van het werkwoord is verkeerd, er ontbreekt een leesteken, of er staat een spatie te veel.</message>
                 <suggestion><match no="1" postag="WKW:TGW:3EP"/></suggestion>
@@ -44516,10 +44516,7 @@ steenwijk;Steenwijk
                         <token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"><exception postag="WKW:TGW:INF"/></token>
                     </marker>
                 </pattern>
-                <!-- Temporarily disabled to test user adoption with changed suggestions:
-                <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\2 word2:\3"/>
-                -->
-                <message>Als hier geen verwisseling van 'de' en 'het' bestaat, is het waarschijnlijk een spatiefout.</message>
+                <message>Als hier geen verwisseling van 'de' en 'het' is gebeurd, is het waarschijnlijk een spatiefout.</message>
                 <suggestion>de \2\3</suggestion>
                 <suggestion>het \2 \3</suggestion>
                 <short>de vs. het of spatiefout</short>
@@ -45051,6 +45048,7 @@ steenwijk;Steenwijk
                 <antipattern><token>fout</token><token>leek</token></antipattern>
                 <antipattern><token>geseculariseerd</token><token>Vlaanderen</token></antipattern>
                 <antipattern><token>medisch</token><token>attest</token></antipattern>
+                <antipattern><token>financieel</token><token>planner</token></antipattern>
                 <antipattern><token>vol</token><token>bewondering</token></antipattern>
                 <antipattern>
                     <token>een</token>
@@ -45070,11 +45068,14 @@ steenwijk;Steenwijk
                     <token postag_regexp="yes" postag="ZNW.*DE_"/>
                     <token postag_regexp="yes" postag=".*HET"/>
                 </antipattern>
+                <antipattern>
+                    <token>casual</token>
+                </antipattern>
                 <pattern>
                     <token>een</token>
                     <marker>
                         <token postag_regexp="yes" postag="BNW:STL:ONV|WKW:ODW:ONV|WKW:VTD:ONV"><exception postag_regexp="yes" postag=".*VRB"/><exception regexp="yes">dier|heel|herstart|laag|naar|paar|stuk|super|totaal|tweedehands|veel|week|content|veeg</exception><exception case_sensitive="yes" regexp="yes">Trouw|Bol</exception></token>
-                        <token postag_regexp="yes" postag="ZNW.*DE_"><exception postag_regexp="yes" postag=".*HET|ZNW:EKV|GET.*MRV|.*VRB|WKW.*INF"/><exception regexp="yes">moet|won|plaats|waar|was|stuk|staat|waard|kan|wil|ander|.*(man|geleerde|agent|adviseur|aanklager|arts|ballerina|begeleider|architect|tennisser|enaar|reiziger|politicus|marxist|fiolosoof|meester|vader|ieur|teur|aander|politica|collega|moslima|Ajacied|trice|gedetineerde|gedeputeerde|dominee|leerlinge|soapie|hippie|kampioene|goeroe|kandidate|atlete|docente|presidente|dissidente|studente|agente|patiënte|echtgenote|journaliste|detective|filosoof|strateeg|leerling|koning|oloog|coach|nazi|kok|kardinaal|generaal|crimineel|kolonel|consul|econoom|kampioen|christen|koningin|spion|worstelaar|gijzelaar|minnaar|winnaar|leraar|hebber|leider|strijder|velder|voerder|Feyenoorder|speurder|bestuurder|stadhouder|manager|aanhanger|zanger|officier|priester|maker|onist|olist|vorst|ambassadeur|staatsburger|organist|icus|aris|ontwerper|geneesheer|astronoom|dichter|gitarist|jurist|schrijver|schilder|persoon|kunstschilder|advocaat|componist|student|militair|keizer|wetgever|voorstander|verdediger|toneelschrijver|secretaris|politiek|pleitbezorger|pianist|organisator|koloniaal|heerser|eraar|zwemster|zangeres|werkster|waarnemer|voorloper|baller|violist|vibrafonist|vegetariër|tennisster|presentator|tegenstander|superieur|spreker|speelster|specialist|solist|soldaat|schrijfster|romancier|rechter|publicist|psychiater|proteïne|propagandist|programmeur|producent|literatuur|lesgever|ograaf|moordenaar|katholiek|isotoop|intellectueel|industrieel|hervormer|held|handwerker|goochelaar|fan|tator|commandant|dictator|despoot|democraat|criticus|conservatief|communist|chemicus|chansonnier|burger|artiest|antisemiet|elaar|adeldom|bezoeker|blogger|vlogger|minister|misdadiger|kandidaat|alchemist|onderwijzer|stilist|chirurg)</exception></token>
+                        <token postag_regexp="yes" postag="ZNW.*DE_"><exception postag_regexp="yes" postag=".*HET|ZNW:EKV|GET.*MRV|.*VRB|WKW.*INF|ENM:LOC.*"/><exception regexp="yes">moet|won|plaats|waar|was|stuk|staat|waard|kan|wil|ander|.*(man|geleerde|agent|adviseur|aanklager|arts|ballerina|begeleider|architect|tennisser|enaar|reiziger|politicus|marxist|fiolosoof|meester|vader|ieur|teur|aander|politica|collega|moslima|Ajacied|trice|gedetineerde|gedeputeerde|dominee|leerlinge|soapie|hippie|kampioene|goeroe|kandidate|atlete|docente|presidente|dissidente|studente|agente|patiënte|echtgenote|journaliste|detective|filosoof|strateeg|leerling|koning|oloog|coach|nazi|kok|kardinaal|generaal|crimineel|kolonel|consul|econoom|kampioen|christen|koningin|spion|worstelaar|gijzelaar|minnaar|winnaar|leraar|hebber|leider|strijder|velder|voerder|Feyenoorder|speurder|bestuurder|stadhouder|manager|aanhanger|zanger|officier|priester|maker|onist|olist|vorst|ambassadeur|staatsburger|organist|icus|aris|ontwerper|geneesheer|astronoom|dichter|gitarist|jurist|schrijver|schilder|persoon|kunstschilder|advocaat|componist|student|militair|keizer|wetgever|voorstander|verdediger|toneelschrijver|secretaris|politiek|pleitbezorger|pianist|organisator|koloniaal|heerser|eraar|zwemster|zangeres|werkster|waarnemer|voorloper|baller|violist|vibrafonist|vegetariër|tennisster|presentator|tegenstander|superieur|spreker|speelster|specialist|solist|soldaat|schrijfster|romancier|rechter|publicist|psychiater|proteïne|propagandist|programmeur|producent|literatuur|lesgever|ograaf|moordenaar|katholiek|isotoop|intellectueel|industrieel|hervormer|held|handwerker|goochelaar|fan|tator|commandant|dictator|despoot|democraat|criticus|conservatief|communist|chemicus|chansonnier|burger|artiest|antisemiet|elaar|adeldom|bezoeker|blogger|vlogger|minister|misdadiger|kandidaat|alchemist|onderwijzer|stilist|chirurg)</exception></token>
                     </marker>
                 </pattern>
                 <message>\3 is een de-woord. Daar hoort meestal de verbogen vorm van '\2' voor, maar er zijn (veel) uitzonderingen. Zo kan iemand een groot kampioen zijn. Met name als het om een 'rol' of 'functie' gaat. Het kan ook zijn dat u onterecht een spatie hebt gezet tussen 2 woorden die 1 begrip zijn (spatiefout).</message>
@@ -45506,7 +45507,19 @@ steenwijk;Steenwijk
                 <example correction="Dat is"><marker>Da's</marker> niet best.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AFKO_VOLUIT" name="Afkortingen voluit" tags="picky" >
+         <rulegroup id="NB_2" name="NB/Nota bene" default="temp_off">
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">[0-9]{4}</exception></token><!-- postcode -->
+                    <marker>
+                        <token>NB</token>
+                    </marker>
+                </pattern>
+                <message>Nota bene wordt afgekort als <suggestion>N.B.</suggestion></message>
+                <example correction="N.B.">Het aantal is <marker>NB</marker> verkeerd.</example>
+            </rule>
+        </rulegroup>
+       <rulegroup id="AFKO_VOLUIT" name="Afkortingen voluit" tags="picky" >
             <rule>
                 <pattern>
                     <marker>
