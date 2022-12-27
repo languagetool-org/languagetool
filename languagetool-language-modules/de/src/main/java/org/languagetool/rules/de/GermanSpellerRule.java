@@ -2950,6 +2950,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Außerden": return topMatch("Außerdem");
       case "ausserhalb": return topMatch("außerhalb");
       case "Ausserhalb": return topMatch("Außerhalb");
+      case "aussergewöhnlichen": return topMatch("außergewöhnlichen");
+      case "aussergewöhnliche": return topMatch("außergewöhnliche");
+      case "aussergewöhnlicher": return topMatch("außergewöhnlicher");
+      case "aussergewöhnliches": return topMatch("außergewöhnliches");
+      case "aussergewöhnlich": return topMatch("außergewöhnlich");
       case "Gluckwunsch": return topMatch("Glückwunsch");
       case "Gluckwunsche": return topMatch("Glückwünsche");
       case "Glückwunsche": return topMatch("Glückwünsche");
