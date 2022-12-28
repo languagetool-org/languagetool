@@ -1227,6 +1227,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Telefones", w -> Arrays.asList("Telefons", "Telefone"));
     put("wusten", w -> Arrays.asList("wussten", "wüsten"));
     put("geschlaffen", w -> Arrays.asList("geschlafen", "geschaffen", "geschliffen"));
+    put("Feb", w -> Arrays.asList("Feb.", "Web", "Pep", "Geb", "Gäb"));
     put("Gedaken", "Gedanken");
     put("Wiso", "Wieso");
     put("gebs", "gebe es");
@@ -2632,12 +2633,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Baby-Phone": return topMatch("Babyfon");
       case "gescheint": return topMatch("geschienen");
       case "staubgesaugt": return topMatch("gestaubsaugt");
+      case "geupdated": return topMatch("upgedatet");
+      case "geupdatet": return topMatch("upgedatet");
+      case "gedownloaded": return topMatch("downgeloadet");
       case "gedownloadet": return topMatch("downgeloadet");
       case "gedownloadete": return topMatch("downgeloadete");
       case "gedownloadeter": return topMatch("downgeloadeter");
       case "gedownloadetes": return topMatch("downgeloadetes");
       case "gedownloadeten": return topMatch("downgeloadeten");
       case "gedownloadetem": return topMatch("downgeloadetem");
+      case "geuploaded": return topMatch("upgeloadet");
       case "geuploadet": return topMatch("upgeloadet");
       case "geuploadete": return topMatch("upgeloadete");
       case "geuploadeter": return topMatch("upgeloadeter");
@@ -2777,6 +2782,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "raufhauten": return topMatch("draufhauten");
       case "wohlmöglich": return topMatch("womöglich");
       case "geschalten": return topMatch("geschaltet");
+      case "angeschalten": return topMatch("angeschaltet");
+      case "abgeschalten": return topMatch("abgeschaltet");
       case "hiess": return topMatch("hieß");
       case "Click": return topMatch("Klick");
       case "Clicks": return topMatch("Klicks");
@@ -2947,6 +2954,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Typescript": return topMatch("TypeScript");
       case "mitinbegriffen": return topMatch("mit inbegriffen");
       case "miteinbegriffen": return topMatch("mit einbegriffen");
+      case "unterjährlich": return topMatch("unterjährig");
       case "Außerden": return topMatch("Außerdem");
       case "ausserhalb": return topMatch("außerhalb");
       case "Ausserhalb": return topMatch("Außerhalb");
