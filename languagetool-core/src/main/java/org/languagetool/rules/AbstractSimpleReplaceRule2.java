@@ -26,6 +26,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -263,12 +264,16 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           String msg = getMessage().replaceFirst("\\$match", crt).replaceFirst("\\$suggestions", msgSuggestions);
           if (crtMatch.getMessage() != null) {
-            msg = crtMatch.getMessage();
+            if (!crtMatch.getMessage().startsWith("http://") && !crtMatch.getMessage().startsWith("https://")) {
+              msg = crtMatch.getMessage();
+            }
           }
           int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
           int endPos = prevTokensList.get(len - 1).getEndPos();
-          RuleMatch ruleMatch;
-          ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
+          if (crtMatch.getMessage() != null && (crtMatch.getMessage().startsWith("http://") || crtMatch.getMessage().startsWith("https://"))) {
+            ruleMatch.setUrl(Tools.getUrl(crtMatch.getMessage()));
+          }
           if (subRuleSpecificIds) {
             ruleMatch.setSpecificRuleId(StringTools.toId(getId() + "_" + crt));
           }
