@@ -28,7 +28,6 @@ import org.languagetool.rules.AbstractCheckCaseRule;
 
 public class CheckCaseRule  extends AbstractCheckCaseRule {
 
-  
   private static final String FILE_NAME = "/ca/check_case.txt";
   private static final Locale CA_LOCALE = new Locale("ca");
   
