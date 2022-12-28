@@ -216,6 +216,9 @@ public class CaseRuleTest {
     assertGood("Und das Vergangene Revue passieren lassen");
     assertGood("Seither ist das Französische Amtssprache in Frankreich.");
     assertGood("Für die Betreute Kontoauszüge holen.");
+    assertGood("Das verstehen Deutsche halt nicht.");
+    assertGood("12:00 - 13:00 Gemeinsames Mittagessen");
+    assertGood("12:00 Gemeinsames Mittagessen");
     assertGood("Meld dich, wenn du Großes vorhast.");
     assertGood("Muss nicht der Einzelne Einschränkungen der Freiheit hinnehmen, wenn die Sicherheit der Menschen und des Staates mehr gefährdet sind?");
     assertGood("Wie reißt ein Einzelner Millionen aus ihren Sitzen?");

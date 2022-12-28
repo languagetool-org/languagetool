@@ -1167,6 +1167,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Ihen", w -> Arrays.asList("Ihren", "Ihnen", "Ihn", "Iren"));
     put("Iher", w -> Arrays.asList("Ihre", "Ihr"));
     put("neunen", w -> Arrays.asList("neuen", "neunten"));
+    put("tole", w -> Arrays.asList("tolle", "tote"));
+    put("tolen", w -> Arrays.asList("tollen", "toten"));
     put("wiel", w -> Arrays.asList("weil", "wie", "viel"));
     put("brauchts", w -> Arrays.asList("braucht es", "brauchst", "braucht"));
     put("schöen", w -> Arrays.asList("schönen", "schön"));
@@ -2955,6 +2957,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "mitinbegriffen": return topMatch("mit inbegriffen");
       case "miteinbegriffen": return topMatch("mit einbegriffen");
       case "unterjährlich": return topMatch("unterjährig");
+      case "mehrjährlich": return topMatch("mehrjährig");
+      case "mehrjährliche": return topMatch("mehrjährige");
+      case "mehrjährlichen": return topMatch("mehrjährigen");
+      case "mehrjährlicher": return topMatch("mehrjähriger");
+      case "mehrjährliches": return topMatch("mehrjähriges");
       case "Außerden": return topMatch("Außerdem");
       case "ausserhalb": return topMatch("außerhalb");
       case "Ausserhalb": return topMatch("Außerhalb");
