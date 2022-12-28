@@ -692,6 +692,7 @@ public class AgreementRuleTest {
     assertBad("..., das heißt solche natürliche Personen, welche unsere Leistungen in Anspruch nehmen, ...");
     assertBad("Der Erwerb solcher kultureller Güter ist natürlich stark an das ökonomische Kapital gebunden.");
     assertGood("Umso dankbarer bin ich für Brüder, die klare Kante in theologischer Hinsicht zeigen und nachvollziehbar die Bibel auch in solch schwierigen unpopulären Themen auslegen.");
+    assertBad("Wir haben das Abo beendet und des Betrag erstattet.");
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

@@ -639,7 +639,7 @@ class AgreementRuleAntiPatterns2 {
       posRegex("VER.*[123].*"),
       tokenRegex("und|oder|aber"),
       new PatternTokenBuilder().posRegex("PRP.*").min(0).build(),
-      posRegex("ART:DEF.*")
+      tokenRegex("der|die|das|dem|den")  // nicht 'des' weil sonst nicht gefunden: "Wir haben das Abo beendet und des Betrag erstattet."
     ),
     asList( // weil man oft bei **anderen schreckliches Essen** vorgesetzt bekommt
       tokenRegex("bei|zum"),
