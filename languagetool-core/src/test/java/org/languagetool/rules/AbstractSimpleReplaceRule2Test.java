@@ -97,5 +97,8 @@ public class AbstractSimpleReplaceRule2Test {
     MyCaseInsensitiveRule(ResourceBundle messages, Language language) {
       super(messages, language);
     }
+    public CaseSensitivy getCaseSensitivy() {
+      return CaseSensitivy.CI;
+    }
   }
 }
