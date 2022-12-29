@@ -1,14 +1,24 @@
 # LanguageTool Change Log
 
-## 6.0-SNAPSHOT (release planned for 2022-12-29)
+## 6.0 (released 2022-12-29)
 
 #### Catalan
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.21)
 
+#### Dutch
+  * improved rules
+
 #### English
   * added and improved rules
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2022.12.01, v.3.1.5)
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
 
 #### Polish
   * improved rules
@@ -27,8 +37,6 @@
   * improved tokenization, tagging, and disambiguation
   * new rules
 
-...
-
 #### HTTP API / LT server
   * The `/languages` endpoint now lists language codes like `fr-FR` and `es-ES` for languages
     that actually don't have a variant (e.g. there is no `fr-CA`). These codes can also be used
@@ -46,7 +54,8 @@
     `grammar.xml`. It can contain custom rules that you want to use now and with future
     versions of LanguageTool, without modifying existing files. The `grammar_custom.xml`
     needs to use the same XML syntax as `grammar.xml` and it must not introduce rule IDs
-    that are in use by other rules already.
+    that are in use by other rules in other files already.
+
 
 ## 5.9 (2022-09-28)
 
