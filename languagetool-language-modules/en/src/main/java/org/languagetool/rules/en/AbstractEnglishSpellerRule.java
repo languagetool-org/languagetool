@@ -69,6 +69,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     "coon asses",
     "cunt",
     "double check",
+    "fine tune",
+    "fine tuned",
+    "fine tuning",
+    "with holdings",
     "hard coded",
     "hands free",
     "in flight",
@@ -994,8 +998,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("ure", Arrays.asList("your", "you are"));
     s.put("Ure", Arrays.asList("Your", "You are"));
     s.put("mins", Arrays.asList("minutes", "min"));
-    s.put("geo", Arrays.asList("geography"));
-    s.put("Geo", Arrays.asList("Geography"));
+    s.put("geo", Arrays.asList("geography", "geographic"));
+    s.put("Geo", Arrays.asList("Geography", "Geographic"));
     s.put("addon", Arrays.asList("add-on"));
     s.put("addons", Arrays.asList("add-ons"));
     s.put("afterparty", Arrays.asList("after-party"));
