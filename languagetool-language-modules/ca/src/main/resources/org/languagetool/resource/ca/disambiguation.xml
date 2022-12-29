@@ -139,6 +139,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">[“‘«]</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_QM_OPEN"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token regexp="yes" spacebefore="no">['"’”»]<exception postag="_QM_OPEN"/></token>
                 </marker>
@@ -905,7 +916,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd pos="RG_anteposat"/>
         </disambig>
     </rule>
-    <rule id="PROMPTE" name="prompte (adv>">
+    <rule id="PROMPTE" name="prompte (adv)">
         <pattern>
             <token>tan</token>
             <marker>
@@ -7029,7 +7040,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                         </and>
                     </marker>
                 </unify>
-                <token min="0">no</token>
+                <token min="0" postag="RN|RG" postag_regexp="yes"/>
                 <token postag="V.[SIP].*|AQ.*|&pronom_feble;" postag_regexp="yes"><exception>objecte</exception></token>
             </pattern>
             <disambig action="remove" postag="V.[SIM].*|RG|DI.*|SPS00|PI.*"/>
@@ -9207,7 +9218,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="pobre_adj" name="pobre adjectiu">
         <pattern>
             <token postag="A.*" postag_regexp="yes" inflected="yes">pobre</token>
-            <token postag="N.*" postag_regexp="yes"></token>
+            <token postag="N.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -10988,7 +10999,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <unify>
                     <feature id="genere"/>
                     <feature id="nombre"/>
-                    <token postag="NC.*|_GN_.*" postag_regexp="yes"><exception postag="CC|RG" postag_regexp="yes"/></token>
+                    <token postag="NC.*|_GN_.*|DA.*" postag_regexp="yes"><exception postag="CC|RG" postag_regexp="yes"/></token>
                     <token postag="RG_anteposat"/>
                     <marker>
                         <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
