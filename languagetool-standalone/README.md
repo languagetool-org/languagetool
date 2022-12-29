@@ -1,10 +1,10 @@
 # LanguageTool
 
-**A proof-reading tool for English, Spanish, German,
+**A proofreading tool for English, Spanish, German,
 French, Portuguese, Dutch, Ukrainian
 and [more languages](https://dev.languagetool.org/languages)**
 
-Version 6.0 (released 2022-12-29)  
+Version 6.1-SNAPSHOT (release planned for 2023-03-28)  
 Copyright (C) 2005-2022 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://languagetool.org
 
