@@ -2974,6 +2974,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Gluckwunsche": return topMatch("Glückwünsche");
       case "Glückwunsche": return topMatch("Glückwünsche");
       case "außerden": return topMatch("außerdem");
+      case "gleichermassen": return topMatch("gleichermaßen");
+      case "massgeblich": return topMatch("maßgeblich");
+      case "Mahnungswesen": return topMatch("Mahnwesen");
+      case "Mahnungswesens": return topMatch("Mahnwesens");
       case "Optin": return topMatch("Opt-in");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
     }
