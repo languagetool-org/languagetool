@@ -11985,7 +11985,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>si</token>
                     <token spacebefore="no">-</token>
-                    <token spacebefore="no"></token>
+                    <token spacebefore="no"/>
                 </antipattern>
                 <pattern>
                     <token>,</token>
@@ -14919,6 +14919,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Llegaron a casa deshechos por el dolor.</example>
             </rule>
         </rulegroup>
+        <rule id="AY_HAY" name="ay/hay" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">ay|ai<exception case_sensitive="yes">AI</exception></token>
+                </marker>
+                <token postag="[PDNA].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Si es del verbo 'haber', se escribe <suggestion>hay</suggestion>.</message>
+            <example correction="hay">Aquí <marker>ay</marker> muchas faltas.</example>
+        </rule>
         <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
             <rule>
                 <pattern>
@@ -30014,7 +30024,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="”|»">("gran calidad<marker>"</marker>).</example>
                 <example>¿“Gran calidad”?</example>
             </rule>
-           <!-- <rule>
+            <!-- <rule>
                 <!-\- cath all-\->
                 <pattern>
                     <token>"</token>
