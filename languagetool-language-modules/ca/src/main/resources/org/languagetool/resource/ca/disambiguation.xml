@@ -6790,7 +6790,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token inflected="yes" skip="6">haver<exception scope="next" postag="V.N.*|VA.*|V.[IS].*" postag_regexp="yes"/><exception postag="_perfet"/></token>
                     <!--<exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|CC|complement" postag_regexp="yes" negate_pos="yes"/> -->
                 </marker>
-                <token regexp="yes">de|d'</token>
+                <token regexp="yes">de|d'<exception scope="previous" postag="N.*|_GN_.*" postag_regexp="yes"/></token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add">
@@ -6803,7 +6803,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token inflected="yes">haver</token>
                 </marker>
                 <token skip="3">hagut<exception scope="next" postag="V.N.*|VA.*|V.[IS].*" postag_regexp="yes"/></token>
-                <token regexp="yes">de|d'</token>
+                <token regexp="yes">de|d'<exception scope="previous" postag="N.*|_GN_.*" postag_regexp="yes"/></token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add">
@@ -17425,6 +17425,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token postag="V.[SI].3S.." postag_regexp="yes" inflected="yes">pujar</token>
                 <token inflected="yes" regexp="yes">per|a|en</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_es_personal_sg"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">es</token>
+                </marker>
+                <token postag="V.[SI].3S.." postag_regexp="yes" inflected="yes">anar</token>
+                <token min="0">tot</token>
+                <token>a</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add">
                 <wd pos="_es_personal_sg"/>
