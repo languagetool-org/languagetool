@@ -141,11 +141,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     {
       String line;
       while ((line = br.readLine()) != null) {
-        String[] origLineParts = line.split("=");
-        if (origLineParts.length == 2 && origLineParts[0].trim().equals(origLineParts[1].trim())) {
-          throw new IOException("Format error in file " +  getDataBroker().getFromRulesDirAsUrl(filename)
-            + ". Found same word on left and right side of '='. Line: " + line);
-        }
+        validateLine(filename, line);
         line = line.trim();
         if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
           continue;
@@ -164,15 +160,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         }
         String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
         for (String wrongForm : wrongForms) {
-          int wordCount = 0;
-          List<String> tokens = lang.getWordTokenizer().tokenize(wrongForm);
-          for (String token : tokens) {
-            if (!StringTools.isWhitespace(token)) {
-              wordCount++;
-            }
-          }
-          // grow if necessary
-          for (int i = list.size(); i < wordCount; i++) {
+          int wordCount = getWordCount(lang, wrongForm);
+          for (int i = list.size(); i < wordCount; i++) {  // grow if necessary
             list.add(new HashMap<>());
           }
           SuggestionWithMessage sugg;
@@ -195,6 +184,25 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       result.add(Collections.unmodifiableMap(map));
     }
     return Collections.unmodifiableList(result);
+  }
+
+  private static void validateLine(String filename, String line) throws IOException {
+    String[] origLineParts = line.split("=");
+    if (origLineParts.length == 2 && origLineParts[0].trim().equals(origLineParts[1].trim())) {
+      throw new IOException("Format error in file " +  getDataBroker().getFromRulesDirAsUrl(filename)
+        + ". Found same word on left and right side of '='. Line: " + line);
+    }
+  }
+
+  private static int getWordCount(Language lang, String wrongForm) {
+    int wordCount = 0;
+    List<String> tokens = lang.getWordTokenizer().tokenize(wrongForm);
+    for (String token : tokens) {
+      if (!StringTools.isWhitespace(token)) {
+        wordCount++;
+      }
+    }
+    return wordCount;
   }
 
   protected void addToQueue(AnalyzedTokenReadings token,
