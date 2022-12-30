@@ -21443,18 +21443,25 @@ O namorado dela era um ladrão.
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/ainda-a-virgula-em-quer-quer/25734</url>
       <short>Separe com vírgulas</short>
       <rule>
+        <antipattern>
+          <token>qual</token>
+          <token inflected='yes'>ser</token>
+          <token>qual</token>
+          <example>Não sei qual seria qual.</example>
+        </antipattern>
         <pattern>
           <token regexp="yes">ora|nem|qu(?:al|er)|seja|tal(?:vez)?</token><!-- XXX já| -->
           <token skip='-1'>
             <exception regexp='yes'>[»“”\(\)\"]|&separadores_de_oracoes;</exception>
             <exception scope='next' regexp='yes'>[»“”\(\)\"]|&separadores_de_oracoes;</exception></token>
           <token><match no='0'/>
-          <exception scope='previous' postag_regexp='yes' postag='C.+'/></token>
+          <exception scope='previous' postag_regexp='yes' postag='C.+|SPS.+'/></token>
         </pattern>
         <message>Conjunções alternativas ou disjuntivas devem ser separadas por vírgulas.</message>
         <suggestion>\1 <match no='2' include_skipped='all'/>, \3</suggestion>
         <example correction="Quer diga que sim, quer"><marker>Quer diga que sim quer</marker> diga que não, está bem feito.</example>
         <example>"Ou sim, ou sopas?"</example>
+         <example>Seja qual for o motivo pelo qual é celebrado, o Natal significa família.</example>
         <example>O pior já passou — o furacão já passou a tempestade tropical.</example>
         <example>A polícia marítima já teve conhecimento da situação e já identificou o…</example>
       </rule>
