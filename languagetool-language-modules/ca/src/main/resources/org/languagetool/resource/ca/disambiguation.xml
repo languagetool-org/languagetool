@@ -6773,6 +6773,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="V.*"/>
         </rule>
     </rulegroup>
+    <rule id="PAS_RN" name="pas (adverbi)">
+        <pattern>
+            <token>no</token>
+            <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="3"/>
+            <token postag_regexp="yes" postag="V.[IS].*"/>
+            <marker>
+                <token postag="RN">pas</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="RN"/>
+    </rule>
     <rulegroup id="haver_de_infinitiu" name="haver de + infinitiu">
         <rule>
             <pattern>
@@ -10959,6 +10970,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="R.*"/>
+    </rule>
+    <rule id="amic_nom0" name="amic nom davant d'adjectiu">
+        <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">amic</token>
+                    <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
     <rule id="prep_mesmenys_nom" name="preposició + més/menys + nom">
         <antipattern>
