@@ -94,7 +94,8 @@ public class GermanFillerWordsRule extends AbstractStatisticStyleRule {
         }
       }
     }
-    if (("so".equals(tokens[num].getToken()) || "besonders".equals(tokens[num].getToken())) && tokens[num + 1].hasPosTagStartingWith("ADJ")) {
+    if (num < tokens.length - 1 && ("so".equals(tokens[num].getToken()) || "besonders".equals(tokens[num].getToken())) 
+        && tokens[num + 1].hasPosTagStartingWith("ADJ")) {
       return true;
     }
     if(tokens[num].hasPosTagStartingWith("ADJ") && "so".equals(tokens[num - 1].getToken())) {
