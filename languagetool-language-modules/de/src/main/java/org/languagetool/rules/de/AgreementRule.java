@@ -224,6 +224,7 @@ public class AgreementRule extends Rule {
     "Wüstenrot", // Name
     "Rückgrad", // found by speller
     "Rückgrads", // found by speller
+    "Anteilname", // found by speller
     "Aalen", // Plural form of "Aal" but also large city in Germany
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)

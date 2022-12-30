@@ -1706,6 +1706,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.endsWith(" artiger")
         && !s.endsWith(" artige")
         && !s.endsWith(" artig")
+        && !s.endsWith("-gen")
+        && !s.endsWith("-ehe")
+        && !s.endsWith(" gen")
+        && !s.endsWith(" ehe")
         && !s.endsWith(" förmig")
         && !s.endsWith(" förmige")
         && !s.endsWith(" förmigen")
@@ -2976,6 +2980,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "außerden": return topMatch("außerdem");
       case "gleichermassen": return topMatch("gleichermaßen");
       case "massgeblich": return topMatch("maßgeblich");
+      case "tschuldige": return topMatch("entschuldige");
+      case "Tschuldigung": return topMatch("Entschuldigung");
+      case "Anteilname": return topMatch("Anteilnahme");
       case "Mahnungswesen": return topMatch("Mahnwesen");
       case "Mahnungswesens": return topMatch("Mahnwesens");
       case "Optin": return topMatch("Opt-in");
