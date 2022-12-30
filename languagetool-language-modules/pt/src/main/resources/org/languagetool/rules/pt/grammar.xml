@@ -13490,6 +13490,39 @@ O namorado dela era um ladrão.
         <example>Para mim, estudar é um sacrifício.</example>
         <example>Está comigo há cinco anos.</example>
       </rule>
+      <rule default='temp_off'>
+        <pattern>
+          <token>mim</token>
+          <token postag='VMN0000'/>
+          <token postag='VMN0000'/>
+        </pattern>
+        <message>Pronomes oblíquos tónicos não devem ser utilizados como sujeito.</message>
+        <suggestion>\1, \2 \3</suggestion>
+        <suggestion>eu \2 \3</suggestion>
+        <example correction='mim, querer fazer|eu querer fazer'>Para <marker>mim querer fazer</marker> isso, é porque precisaa.</example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+          <token>ti</token>
+          <token postag='VMN0000'/>
+          <token postag='VMN0000'/>
+        </pattern>
+        <message>Pronomes oblíquos tónicos não devem ser utilizados como sujeito.</message>
+        <suggestion>\1, \2 \3</suggestion>
+        <suggestion>tu \2 \3</suggestion>
+        <example correction='ti, querer fazer|tu querer fazer'>Para <marker>ti querer fazer</marker> isso, é porque precisaa.</example>
+      </rule>
+      <rule default='temp_off'>
+        <pattern>
+          <token>si</token>
+          <token postag='VMN0000'/>
+          <token postag='VMN0000'/>
+        </pattern>
+        <message>Pronomes oblíquos tónicos não devem ser utilizados como sujeito.</message>
+        <suggestion>\1, \2 \3</suggestion>
+        <suggestion>se \2 \3</suggestion>
+        <example correction='si, querer fazer|se querer fazer'>Para <marker>si querer fazer</marker> isso, é porque precisaa.</example>
+      </rule>
       <rule>
         <pattern>
           <token regexp='yes'>ti|contigo</token>
