@@ -14927,16 +14927,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Llegaron a casa deshechos por el dolor.</example>
             </rule>
         </rulegroup>
-        <rule id="AY_HAY" name="ay/hay" default="temp_off">
-            <pattern>
-                <marker>
-                    <token regexp="yes">ay|ai<exception case_sensitive="yes">AI</exception></token>
-                </marker>
-                <token postag="[PDNA].*" postag_regexp="yes"/>
-            </pattern>
-            <message>Si es del verbo 'haber', se escribe <suggestion>hay</suggestion>.</message>
-            <example correction="hay">Aquí <marker>ay</marker> muchas faltas.</example>
-        </rule>
+        <rulegroup id="AY_HAY" name="ay/hay">
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <marker>
+                        <token regexp="yes">ay|ai<exception case_sensitive="yes">AI</exception></token>
+                    </marker>
+                </pattern>
+                <message>Si es del verbo 'haber', se escribe <suggestion>hay</suggestion>.</message>
+                <example correction="hay">Aquí no <marker>ay</marker> nada que hacer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ay|ai<exception case_sensitive="yes">AI</exception></token>
+                    </marker>
+                    <token>que</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del verbo 'haber', se escribe <suggestion>hay</suggestion>.</message>
+                <example correction="hay">Aquí <marker>ay</marker> que esforzarse mucho.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ay|ai<exception case_sensitive="yes">AI</exception></token>
+                    </marker>
+                    <token postag="[PDNA].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del verbo 'haber', se escribe <suggestion>hay</suggestion>.</message>
+                <example correction="hay">Aquí <marker>ay</marker> muchas faltas.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
             <rule>
                 <pattern>
