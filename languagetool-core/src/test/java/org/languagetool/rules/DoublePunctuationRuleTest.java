@@ -43,6 +43,8 @@ public class DoublePunctuationRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("This is a test sentence... More stuff....")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("This is a test sentence..... More stuff....")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("This, is, a test sentence.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("The path is ../data/vtest.avi")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("The path is ..\\data\\vtest.avi")).length);
 
     // errors:
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("This,, is a test sentence."));
