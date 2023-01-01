@@ -17436,7 +17436,7 @@ steenwijk;Steenwijk
             <antipattern><token postag="SENT_START"/><token/></antipattern><!-- other conversion at sentence start -->
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC</token>
+                    <token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC|BSO</token>
                 </pattern>
                 <message>Dit woord hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
                 <example correction="btw">Ik boek de <marker>BTW</marker>.</example>
@@ -17445,6 +17445,7 @@ steenwijk;Steenwijk
                 <example correction="cv">En dan hun <marker>CV</marker>.</example>
                 <example correction="tv">Dagen lang op <marker>TV</marker>.</example>
                 <example correction="btw">Kan dit aan 6% <marker>BTW</marker>?</example>
+                <example correction="bso">De kinderen gaan naar de <marker>BSO</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -17531,6 +17532,13 @@ steenwijk;Steenwijk
                 <example correction="ic-trein">Vanaf 14 december rijdt er opnieuw een <marker>IC-trein</marker> tussen Brussel en Amsterdam, en dit a rato van 16 treinen per dag.</example>
                 <example correction="ic-kappen">Door losse, geïsoleerde <marker>IC-kappen</marker> is het mogelijk dicht opeen liggende draden te controleren en te voldoen aan GS38.</example>
                 <example correction="ic-patronen">Lithografie of het ‘printen’ van <marker>IC-patronen</marker> op siliciumschijfjes (wafers) is één van de meest cruciale processen bij de fabricage van chips.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">BSO-.*</token>
+                </pattern>
+                <message>BSO hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
+                <example correction="bso-aaanbod">Ik doe het <marker>BSO-aanbod</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HOOFDLETTERS_OVERBODIG_B" name="Woorden die ook klein geschreven mogen worden." type="misspelling" tags="picky">
