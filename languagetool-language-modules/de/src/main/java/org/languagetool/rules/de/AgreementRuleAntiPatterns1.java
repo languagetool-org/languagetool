@@ -39,6 +39,13 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:.*")
     ),
     asList(
+      token("wegen"),   //  "...und hatte wegen des vielen Trinkens Kopfschmerzen." (#4695)
+      token("des"),
+      token("vielen"),
+      posRegex("SUB:GEN:SIN:.*"),
+      posRegex("SUB:GEN:.*")
+    ),
+    asList(
       tokenRegex("des"),   // "Chef des renommierten Institute for Fiscal Studies (IFS)"
       new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
       token("Institute"),
