@@ -2280,6 +2280,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
     </rulegroup>
 
+    <rulegroup id="na_vylit_vs_navylit" name="На виліт і навиліт">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">пройти|проходити|проби(ва)?ти|проши(ва)?ти|подати|подача|куля|поранення</token>
+          <token postag_regexp="yes" postag="noun.*v_zna.*" min="0"/>
+          <marker>
+            <token>на</token>
+            <token>виліт</token>
+          </marker>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion>навиліт</suggestion>?</message>
+        <example correction="навиліт">куля пройшла <marker>на виліт</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">матч|гра|кандидат|претендент|квиток|дозвіл|обмеження|черга</token>
+          <marker>
+            <token>навиліт</token>
+          </marker>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion>на виліт</suggestion>?</message>
+        <example correction="на виліт">той матч <marker>навиліт</marker>.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="na_golovy" name="На голову - вщент">
       <rule>
         <pattern>
