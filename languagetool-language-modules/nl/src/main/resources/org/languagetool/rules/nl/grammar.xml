@@ -10707,6 +10707,19 @@ onwaarschijnlijk
                 <example correction="verdeel-en-heersstrategie">Hij hanteert een <marker>verdeel en heers strategie</marker> tegen hen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="X_ACHTIG" name="Iets achtig/ietsachtig" default="temp_off">
+            <!-- TODO prio checken t.o.v. spelling -->
+            <rule>
+                <pattern>
+                    <token/>
+                    <token regexp="yes">achtig(e|er|ere|st|ste)?</token>
+                </pattern>
+                <filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
+                <message>Omdat -achtig een achtervoegsel is, hoort dit aan elkaar.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="vergeetachtig">Hij is wel wat <marker>vergeet achtig</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WIL_DE_GAAN" name="wil de /wilde">
             <rule>
                 <pattern>
@@ -17538,7 +17551,7 @@ steenwijk;Steenwijk
                     <token case_sensitive="yes" regexp="yes">BSO-.*</token>
                 </pattern>
                 <message>BSO hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion>.</message>
-                <example correction="bso-aaanbod">Ik doe het <marker>BSO-aanbod</marker>.</example>
+                <example correction="bso-aanbod">Ik doe het <marker>BSO-aanbod</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HOOFDLETTERS_OVERBODIG_B" name="Woorden die ook klein geschreven mogen worden." type="misspelling" tags="picky">
