@@ -1230,6 +1230,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("wusten", w -> Arrays.asList("wussten", "wüsten"));
     put("geschlaffen", w -> Arrays.asList("geschlafen", "geschaffen", "geschliffen"));
     put("Feb", w -> Arrays.asList("Feb.", "Web", "Pep", "Geb", "Gäb"));
+    put("Mogen", w -> Arrays.asList("Mögen", "Morgen", "Zogen"));
     put("Gedaken", "Gedanken");
     put("Wiso", "Wieso");
     put("gebs", "gebe es");
@@ -1707,9 +1708,31 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.endsWith(" artige")
         && !s.endsWith(" artig")
         && !s.endsWith("-gen")
+        && !s.endsWith("-tun")
+        && !s.endsWith("-ehre")
+        && !s.endsWith("-ehren")
+        && !s.endsWith("-gären")
+        && !s.endsWith("-igel")
+        && !s.endsWith("-gut")
+        && !s.endsWith("-igeln")
+        && !s.endsWith("-nein")
+        && !s.endsWith("-krähe")
+        && !s.endsWith("-krähen")
+        && !s.endsWith("-zeche")
+        && !s.endsWith("-zechen")
+        && !s.endsWith("-mähen")
+        && !s.endsWith("-mähe")
         && !s.endsWith("-ehe")
+        && !s.endsWith("-ehen")
+        && !s.endsWith("-ende")
+        && !s.endsWith("-enden")
+        && !s.endsWith("-enge")
+        && !s.endsWith("-engen")
         && !s.endsWith(" gen")
         && !s.endsWith(" ehe")
+        && !s.endsWith(" ende")
+        && !s.endsWith(" enden")
+        && !s.endsWith(" enge")
         && !s.endsWith(" förmig")
         && !s.endsWith(" förmige")
         && !s.endsWith(" förmigen")
@@ -2951,6 +2974,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "unterstüzt": return topMatch("unterstützt");
       case "untersützt": return topMatch("unterstützt");
       case "sontag": return topMatch("Sonntag");
+      case "nichtsagend": return topMatch("nichtssagend");
+      case "nichtsagende": return topMatch("nichtssagende");
+      case "nichtsagender": return topMatch("nichtssagender");
+      case "nichtsagendes": return topMatch("nichtssagendes");
+      case "nichtsagenden": return topMatch("nichtssagenden");
+      case "nichtsagendem": return topMatch("nichtssagendem");
       case "nirgendswo": return topMatch("nirgendwo");
       case "durchfuehren": return topMatch("durchführen");
       case "durchgefuehrt": return topMatch("durchgeführt");
@@ -2966,6 +2995,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "mehrjährlichen": return topMatch("mehrjährigen");
       case "mehrjährlicher": return topMatch("mehrjähriger");
       case "mehrjährliches": return topMatch("mehrjähriges");
+      case "Sylvester": return topMatch("Silvester");
       case "Außerden": return topMatch("Außerdem");
       case "ausserhalb": return topMatch("außerhalb");
       case "Ausserhalb": return topMatch("Außerhalb");
