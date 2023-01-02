@@ -454,14 +454,14 @@ public class German extends Language implements AutoCloseable {
       case "PRP_VER_PRGK": return -13; // lower prio than ZUSAMMENGESETZTE_VERBEN
       case "COMMA_IN_FRONT_RELATIVE_CLAUSE": return -13; // prefer other rules (KONJUNKTION_DASS_DAS, ALL_DAS_WAS_KOMMA, AI) but higher prio than style
       case "SAGT_RUFT": return -13; // prefer case rules, DE_VERBAGREEMENT, AI and speller
-      case "GERMAN_WORD_REPEAT_RULE": return -14; // prefer SAGT_RUFT
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -14; // lower prio than SAGT_SAGT, but higher than GERMAN_WORD_REPEAT_RULE
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
       case "DATIV_NACH_PRP": return -14; // spelling and AI rules
       case "SENT_START_SIN_PLU": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "SENT_START_PLU_SIN": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "VER_INFNOMEN": return -14;  // prefer spelling and AI rules
-      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2": return -15; // lower prio than SAGT_SAGT and GERMAN_WORD_REPEAT_RULE
+      case "GERMAN_WORD_REPEAT_RULE": return -15; // lower prio than SAGT_RUFT and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
       case "TOO_LONG_PARAGRAPH": return -15;
       case "ALL_UPPERCASE": return -15;
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_DE_HYDRA_LEO
