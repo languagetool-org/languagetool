@@ -20,6 +20,7 @@ package org.languagetool.rules.patterns;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.languagetool.Languages;
+import org.languagetool.ResourceBundleTools;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.xml.sax.Attributes;
@@ -132,6 +133,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         isPremiumFile = attrs.getValue(PREMIUM) != null && YES.equals(attrs.getValue(PREMIUM)); //check if all rules should be premium by default in this file
         idPrefix = attrs.getValue("idprefix");
         language = Languages.getLanguageForShortCode(languageStr);
+        messages = ResourceBundleTools.getMessageBundle(language);
         break;
       case "regexp":
         inRegex = true;
@@ -666,6 +668,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
       shortMessage = this.shortMessage.toString();
     } else if (shortMessageForRuleGroup != null && shortMessageForRuleGroup.length() > 0) {
       shortMessage = this.shortMessageForRuleGroup.toString();
+    }
+    if (minPrevMatches > 0 && shortMessage.isEmpty() && messages != null) {
+      // it's a word repetition rule
+      shortMessage = messages.getString("desc_repetition_short");
     }
     if (numElement >= elemList.size()) {
       AbstractPatternRule rule;

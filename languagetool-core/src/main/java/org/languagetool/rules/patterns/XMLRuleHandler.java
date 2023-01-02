@@ -22,6 +22,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
+import org.languagetool.ResourceBundleTools;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.ErrorTriggeringExample;
@@ -102,6 +103,7 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected List<AbstractPatternRule> rules = new ArrayList<>();
   protected Language language;
+  protected ResourceBundle messages;
 
   protected StringBuilder correctExample = new StringBuilder();
   protected StringBuilder antiPatternExample = new StringBuilder();
