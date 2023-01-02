@@ -24273,11 +24273,22 @@ O namorado dela era um ladrão.
     <rulegroup id='DOUBLE_PUNCTUATION' name="Pontuação duplicada">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-17 -->
       <antipattern><!-- indexes -->
+        <token regexp='yes'>&tracos_de_separacao;</token>
+        <token regexp='yes'>&tracos_de_separacao;</token>
+        <token regexp='yes'>&tracos_de_separacao;</token>
+      </antipattern>
+      <antipattern><!-- indexes -->
         <token>.</token>
         <token>.</token>
         <token>.</token>
         <token>.</token>
         <token>.</token>
+      </antipattern>
+      <antipattern>
+        <token>…</token>
+        <token postag='_PUNCT'>
+          <exception regexp='yes'>[,.]</exception></token>
+        <example>O que quer dizer…?</example>
       </antipattern>
       <rule>
         <pattern>
