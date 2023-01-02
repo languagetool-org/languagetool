@@ -4243,7 +4243,6 @@
         <example correction="Telefonei-lhes"><marker>Telefonei para elas</marker>.</example>
       </rule>
 
-
     </rulegroup>
 
 
@@ -4301,49 +4300,65 @@
 
 
     <!-- CHAMAR/DENOMINAR DE chamar/denominar -->
-    <rulegroup id='VERBO_PRONOMINAL_DE' name="V. Pronominal + de → V. Pronominal" type="style">
-      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-07-10 (Checked/Enhanced) (5-JUN-2022+)      -->
+    <rulegroup id='VERBO_PRONOMINAL_DE_V2' name="V. Pronominal + de → V. Pronominal" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-02 (25-JUL-2022+) -->
       <!--
       Temos uma teoria denominada de matemática. → Temos uma teoria denominada matemática.
       A teoria, denominaram-lha de matemática. → A teoria, denominaram-lha matemática.
       -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-regencia-dos-verbos-chamar-e-denominar-ii/34550</url>
+
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <antipattern>
+        <token regexp='yes' inflected='yes'>alterar|banir|bloquear|efetuar|enviar|fazer|modificar|pedir|querer|realizar|receber|requerer|ser|solicitar</token>
+        <token min="0" max="1" postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
+        <token regexp='yes'>chamad[ao]s?|chamares</token>
+        <token>de</token>
+        <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
+        <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
+        <example>Recebi uma chamada de vídeo.</example>
+        <example>Recebi uma chamada de áudio.</example>
+        <example>Recebi a chamada de telefone.</example>
+        <example>É possível fazer chamadas de vídeo no WhatsApp.</example>
+        <example>Simão recebe chamada de Augusto para ir a um jantar mais logo.</example>
+        <example>Tom recebeu uma chamada de Mary.</example>
+        <example>APIs também estão disponíveis para permitir que aplicativos no modo de núcleo filtrem e modifiquem chamadas de registro feitas por outros aplicativos.</example>
+        <example>Meu primo recebeu o chamado de Deus e se tornou padre.</example>
+        <example>Meu primo recebeu o chamado de Deus e virou padre.</example>
+        <example>Queremos os chamares de Marco.</example>
+        <example>Em alguns casos, as sequências com termos positivos são chamadas de sequências positivas.</example>
+        <example>Atualmente, são chamados de “gigantes” os indivíduos que apresentam o dobro do tamanho da média para aquele gênero.</example>
+        <example>Fiz uma chamada de atenção ao Pedro</example>
+      </antipattern>
+ 
+      <antipattern>
+        <token regexp='yes' inflected='yes'>alterar|banir|bloquear|chamar|efetuar|enviar|fazer|modificar|pedir|querer|realizar|receber|requerer|ser|solicitar</token>
+        <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token min="0" max="1" regexp='yes'>&pronomes_obliquos;</token>
+        <token>de</token>
+        <token regexp='yes'>áudio|regresso|retorno|telefone|vídeo|volta</token>
+        <example>Ele foi chamado de volta, em meio à sua viagem.</example>
+        <example>Chamaram-no de volta, em meio à sua viagem.</example>
+        <example>O médico o chamou de volta.</example>
+        <example>Certifique-se de me chamar de volta.</example>
+        <example>Depois da pandemia de COVID-19, as chamadas de vídeo se tornaram fundamentais no espaço de trabalho.</example>
+      </antipattern>
+ 
       <rule>
-
-        <antipattern>
-          <token min="1" max="2" postag='[DP][ADIPR].MP.+|SPS00:[DP][ADIPR].MP.+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
-          <token postag='VMSF2S0' postag_regexp='no'/>
-          <token>de</token>
-          <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
-          <example>Queremos os chamares de Marco.</example>
-        </antipattern>
-
-        <antipattern>
-          <token regexp='yes' inflected='yes'>alterar|banir|bloquear|enviar|modificar|receber</token>
-          <token min="0" max="1" postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
-          <token inflected='yes'>chamar</token>
-          <token>de</token>
-          <example>Simão recebe chamada de Augusto para ir a um jantar mais logo.</example>
-          <example>APIs também estão disponíveis para permitir que aplicativos no modo de núcleo filtrem e modifiquem chamadas de registro feitas por outros aplicativos.</example>
-          <example>Meu primo recebeu o chamado de Deus e virou padre.</example>
-          <example>Tom recebeu uma chamada de Mary.</example>
-        </antipattern>
-
         <pattern>
           <marker>
             <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
             <token>de</token>
           </marker>
           <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'>
-            <exception regexp='yes'>regresso|retorno|volta</exception>
-          </token>
+          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
         </pattern>
         <message>Este verbo é pronominal, a redação correta é sem a preposição 'de'.</message>
         <suggestion>\1</suggestion>
         <example correction="denominada">Temos uma teoria <marker>denominada de</marker> matemática.</example>
-        <example>Ele foi chamado de volta, em meio à sua viagem.</example>
       </rule>
 
       <rule>
@@ -4351,19 +4366,17 @@
           <marker>
             <token regexp='yes' inflected='yes'>&verbos_pronominais;</token>
             <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-            <token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+            <token regexp='yes' spacebefore='no'>&pronomes_obliquos;</token>
             <token>de</token>
           </marker>
           <token min="0" max="1" postag='_QUOT' postag_regexp='no'/>
-          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'>
-            <exception regexp='yes'>regresso|retorno|volta</exception>
-          </token>
+          <token postag='NP.+|AQ.+|NC.+|UNKNOWN' postag_regexp='yes'/>
         </pattern>
         <message>Este verbo é pronominal, a redação correta é sem a preposição 'de'.</message>
         <suggestion>\1\2\3</suggestion>
         <example correction="denominaram-lha">A teoria, <marker>denominaram-lha de</marker> matemática.</example>
-        <example>Chamaram-no de volta, em meio à sua viagem.</example>
       </rule>
+
     </rulegroup>
 
 
