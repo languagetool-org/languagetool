@@ -65,6 +65,8 @@ public class WordRepeatRule extends Rule {
       return true;   // e.g. https://en.wikipedia.org/wiki/Nwe_Nwe_Aung
     } else if (wordRepetitionOf("Pago", tokens, position)) {
       return true;   // "Pago Pago"
+    } else if (wordRepetitionOf("Cao", tokens, position)) {
+      return true;   // https://en.wikipedia.org/wiki/Cao_Cao
     }
     return false;
   }
