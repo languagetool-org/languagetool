@@ -41,6 +41,10 @@ class CaseRuleAntiPatterns {
       regex("Blomens?")
     ),
     Arrays.asList(
+      new PatternTokenBuilder().token("sprechen").matchInflectedForms().build(),
+      csRegex(LanguageNames.getAsRegex())
+    ),
+    Arrays.asList(
       tokenRegex("international"),
       tokenRegex("GmbH|gGmbH|AG|gAG|InvAG|OHG|KG|UG|eG|GbR")
     ),

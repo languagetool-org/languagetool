@@ -203,6 +203,7 @@ public class CaseRuleTest {
     assertGood("Wir sollten das mal labeln.");
     assertGood("Teil 1: Der unaufhaltsame Aufstieg Bonapartes");
     assertGood("Der Absatz bestimmt, in welchem Maße diese Daten Dritten zugänglich gemacht werden.");
+    assertGood("Der TN spricht Russisch - Muttersprache");
 
     assertGood("Ich musste das Video mehrmals stoppen, um mir über das Gesagte Gedanken zu machen.");
     assertGood("Während Besagtes Probleme verursachte.");

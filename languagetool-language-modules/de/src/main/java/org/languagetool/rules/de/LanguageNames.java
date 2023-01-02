@@ -114,4 +114,8 @@ public class LanguageNames {
   public static Set<String> get() {
     return languages;
   }
+
+  public static String getAsRegex() {
+    return String.join("|", languages);
+  }
 }
