@@ -70,9 +70,6 @@ public class LanguageSpecificTest {
     System.out.println("Testing messages for line breaks...");
     JLanguageTool lt = new JLanguageTool(lang);
     for (Rule rule : lt.getAllRules()) {
-      if (lang.getShortCode().equals("en") && rule.getId().startsWith("EUPUB_")) {  // ignore, turned off anyway
-        continue;
-      }
       if (rule instanceof AbstractPatternRule) {
         AbstractPatternRule pRule = (AbstractPatternRule) rule;
         String message = pRule.getMessage();
