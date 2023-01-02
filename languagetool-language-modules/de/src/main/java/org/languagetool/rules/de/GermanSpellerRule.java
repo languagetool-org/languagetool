@@ -2209,6 +2209,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return singletonList("Maßnahmen");
     } else if (word.equals("nanten")) {
       return singletonList("nannten");
+    } else if (word.equals("diees")) {
+      return Arrays.asList("dieses", "dies");
+    } else if (word.equals("Diees")) {
+      return Arrays.asList("Dieses", "Dies");
     } else if (word.endsWith("ies")) {
       if (word.equals("Lobbies")) {
         return singletonList("Lobbys");
