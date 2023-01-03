@@ -175,6 +175,13 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Europa-Agricola.es es una página web dedicada a los anuncios")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("LANGUAGETOOL.ORG")).length);
     
+    matches = rule.match(lt.getAnalyzedSentence("Martin Scorsese"));
+    assertEquals(0, matches.length);
+    
+    matches = rule.match(lt.getAnalyzedSentence("Martin"));
+    assertEquals(1, matches.length);
+    assertEquals("[Martín]", matches[0].getSuggestedReplacements().toString());
+    
     
   }
 
