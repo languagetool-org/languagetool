@@ -834,6 +834,12 @@ class AgreementRuleAntiPatterns1 {
       posRegex("SUB:NOM.*")
     ),
     asList(  
+      // "das Bände spricht"
+      token("das"),
+      token("Bände"),
+      csRegex("spricht|sprach|sprechen")
+    ),
+    asList(  
       regex("des|der|den|dem|die"),
       csToken("Kommando"),
       csRegex("Spezialkräften?")

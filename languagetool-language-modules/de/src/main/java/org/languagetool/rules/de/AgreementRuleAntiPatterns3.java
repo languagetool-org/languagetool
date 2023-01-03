@@ -394,7 +394,7 @@ class AgreementRuleAntiPatterns3 {
       token("der")
     ),
     asList(
-      token("mehrere"), // "mehrere Verwundete" http://forum.languagetool.org/t/de-false-positives-and-false-false/1516
+      tokenRegex("mehrere|etliche"), // "mehrere Verwundete" http://forum.languagetool.org/t/de-false-positives-and-false-false/1516
       pos("SUB:NOM:SIN:FEM:ADJ")
     ),
     asList(

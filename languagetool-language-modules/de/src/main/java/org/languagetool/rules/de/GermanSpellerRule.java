@@ -1697,6 +1697,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches("[A-ZÄÖÜa-zäöüß\\-]+ [a-zäöüßA-ZÄÖÜ]-[a-zäöüßA-ZÄÖÜ\\-]+")   // e.g. "Linke d-In-Artikel"
         && !s.matches("[A-ZÄÖÜa-zäöüß\\-]+ [a-zäöüß\\-]+-[A-ZÄÖÜ][a-zäöüß\\-]+")   // e.g. "Sachsen hausend-Süd"
         && !s.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
+        && !s.matches("[a-zäöüß]{2,20}-[A-Zäöüß]{2,20}")   // e.g. "testen-Gut"
+        && !s.matches(".+-(gen|tun|ehren?|gären?|igeln?|nein|ja|d?rum|erben?|ecken?|hat|gab|g[ia]lt|heim|heimen?|[mksdw]?ein|[mksdw]?einen?|erden?|ändern?|ernten?|bänden?|ästen?|arten?|kanten?|eichen?|unken?|wunden?|kunden?|runden?|regeln?|kegeln?|krähen?|zechen?|mähen?|ehren?|ehen?|enden?|engen?|gut|guten?|ziel|zielen?|spiel|spielen?|ätzen?|riegeln?|segeln?|engt?|engen?|angeln?|kochen?|[lk]ehren?|festen?|essen?|steuern?|ekeln?|irren?|cum|de|da|du|raus|rein|dort|knien?|hin|nun|zu[rm]?)")   // e.g. "Babysöckchen" -> "Babys-kochen"
         && !s.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" de")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" en")   // https://github.com/languagetool-org/languagetool/issues/4042
@@ -1707,27 +1709,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.endsWith(" artiger")
         && !s.endsWith(" artige")
         && !s.endsWith(" artig")
-        && !s.endsWith("-gen")
-        && !s.endsWith("-tun")
-        && !s.endsWith("-ehre")
-        && !s.endsWith("-ehren")
-        && !s.endsWith("-gären")
-        && !s.endsWith("-igel")
-        && !s.endsWith("-gut")
-        && !s.endsWith("-igeln")
-        && !s.endsWith("-nein")
-        && !s.endsWith("-krähe")
-        && !s.endsWith("-krähen")
-        && !s.endsWith("-zeche")
-        && !s.endsWith("-zechen")
-        && !s.endsWith("-mähen")
-        && !s.endsWith("-mähe")
-        && !s.endsWith("-ehe")
-        && !s.endsWith("-ehen")
-        && !s.endsWith("-ende")
-        && !s.endsWith("-enden")
-        && !s.endsWith("-enge")
-        && !s.endsWith("-engen")
         && !s.endsWith(" gen")
         && !s.endsWith(" ehe")
         && !s.endsWith(" ende")
@@ -2999,6 +2980,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "mehrjährlichen": return topMatch("mehrjährigen");
       case "mehrjährlicher": return topMatch("mehrjähriger");
       case "mehrjährliches": return topMatch("mehrjähriges");
+      case "genausogut": return topMatch("genauso gut");
       case "Sylvester": return topMatch("Silvester");
       case "Außerden": return topMatch("Außerdem");
       case "ausserhalb": return topMatch("außerhalb");

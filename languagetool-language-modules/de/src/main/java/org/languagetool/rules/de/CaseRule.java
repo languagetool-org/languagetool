@@ -98,6 +98,8 @@ public class CaseRule extends Rule {
     "Feierwütige",
     "Feierwütigen",
     "Dritten",
+    "Tatverdächtige",
+    "Tatverdächtigen",
     "Konsumierende",
     "Konsumierenden",
     "Verliebter",
