@@ -27928,13 +27928,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">buenos|buenas|felices|buen|buena</token>
                     <token regexp="yes">días|tardes|noches|fiestas|día|tarde|noche|mañana</token>
                     <marker>
-                        <token postag="[ANV].*|_possible_NP" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/><exception inflected="yes">tener</exception></token>
+                        <or>
+                            <token postag="[ANV].*|_possible_NP" postag_regexp="yes"><exception postag="_PUNCT.*|SPS00|C.*" postag_regexp="yes"/><exception inflected="yes">tener</exception></token>
+                            <token postag="UNKNOWN" regexp="yes">\p{Lu}\p{Ll}+</token>
+                        </or>
                     </marker>
                 </pattern>
                 <message>En este contexto es necesaria una coma después de "<match no="4" case_conversion="alllower"/> \5" (ej. "<match no="4" case_conversion="startupper"/> \5, Ana").</message>
                 <suggestion>, \6</suggestion>
                 <example correction=", amigo">¡Buenos días<marker> amigo</marker> .</example>
                 <example correction=", estimados">Muy buen día<marker> estimados</marker>.</example>
+                <example correction=", Georg">Buen día<marker> Georg</marker>.</example>
                 <example>¡Buenas tardes a todos!</example>
                 <example>Buenos días tenga usted.</example>
                 <example>Buenas noches y adiós.</example>
