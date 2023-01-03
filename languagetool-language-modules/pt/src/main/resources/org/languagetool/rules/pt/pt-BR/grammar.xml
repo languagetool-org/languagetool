@@ -1830,6 +1830,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Termo depreciativo</short>
         <example correction="que sacanagem"><marker>que mancada</marker> fizeram com ela.</example>
       </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token>inveja</token>
+          <token>branca</token>
+        </pattern>
+        <message>Esta expressão é racista. Pondere dizer <suggestion>\1 inofensiva</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="inveja inofensiva">Isso é <marker>inveja branca</marker>.</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token>mercado</token>
+          <token>negro</token>
+        </pattern>
+        <message>Esta expressão é racista. Pondere dizer <suggestion>\1 clandestino</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="mercado clandestino">Comprou no <marker>mercado negro</marker>.</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token>humor</token>
+          <token>negro</token>
+        </pattern>
+        <message>Esta expressão é racista. Pondere dizer <suggestion>\1 ácido</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="humor ácido">Tem um <marker>humor negro</marker>.</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token regexp="yes">índi[ao]s?</token>
+        </pattern>
+        <message>Este termo é depreciativo. Considere utilizar <suggestion>indígena</suggestion> ou <suggestion>indígenas</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="indígena|indígenas">São <marker>índios</marker>.</example>
+      </rule>
+      <rule default="temp_off">
+        <pattern>
+          <token inflected="yes">fazer</token>
+        <token postag_regexp="yes" postag="P[ID].+|D.+|N.+" min="0" max="3"/>
+         <marker>
+          <token>nas</token>
+          <token>coxas</token>
+         </marker>
+        </pattern>
+        <message>Esta expressão é racista e remete à escravização no Brasil, quando as telhas das casas eram feitas nas coxas de pessoas escravizadas. Pondere dizer <suggestion>de forma mal feita</suggestion>.</message>
+        <short>Termo depreciativo</short>
+        <example correction="de forma mal feita">Ele fez tudo aquilo <marker>nas coxas</marker>.</example>
+      </rule>
     </rulegroup>
 
   </category>
