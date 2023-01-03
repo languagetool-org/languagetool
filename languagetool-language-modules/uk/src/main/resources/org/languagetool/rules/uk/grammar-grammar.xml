@@ -2306,6 +2306,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="pyvyd_vs_pryvid" name="Привід та привид">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">механічний|електричний|формальний|зайвий|да(ва)?ти|шукати|мати</token>
+          <marker>
+            <token>привид</token>
+          </marker>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion>привід</suggestion>?</message>
+        <example correction="привід">механічний <marker>привид</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>привид</token>
+          </marker>
+          <token regexp="yes">для|до</token>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion>привід</suggestion>?</message>
+        <example correction="привід">шукав <marker>привид</marker> для.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="na_golovy" name="На голову - вщент">
       <rule>
         <pattern>

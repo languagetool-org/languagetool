@@ -7244,6 +7244,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="типово"><marker>за промовчанням</marker></example>
     </rule>
 
+    <rulegroup id="prystupyty_do_roboty" name="Приступити і стати до роботи">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">приступ[иа]ти</token>
+          </marker>
+          <token>до</token>
+          <token regexp="yes">роботи|робіт</token>
+        </pattern>
+        <message>Краще: <suggestion>стати</suggestion></message>
+        <suggestion>ставати</suggestion>
+        <suggestion>братися</suggestion>
+        <suggestion>узятися</suggestion>
+        <example correction="стати|ставати|братися|узятися"><marker>приступив</marker> до роботи.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">приступ[иа]ти</token>
+          <token>до</token>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_rod(?!.*pron).*">
+            <exception regexp="yes">роботи|робіт</exception>
+            <exception regexp="yes">дверей|вікна|стол[ау]|тину|страви?</exception>
+            <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*</exception>
+          </token>
+        </pattern>
+        <message>На позначення початку процесу краще сказати: <suggestion>розпочинати <match no="3" postag_regexp="yes" postag="(noun:inanim:.):v_rod(.*)" postag_replace="$1:v_zna$2" /></suggestion></message>
+        <suggestion>починати <match no="3" postag_regexp="yes" postag="(noun:inanim:.):v_rod(.*)" postag_replace="$1:v_zna$2"/></suggestion>
+        <suggestion>братися \2 \3</suggestion>
+        <suggestion>узятися \2 \3</suggestion>
+        <!--
+        <suggestion>заходитися коло \3</suggestion>
+        -->
+        <example correction="розпочинати розгляд|починати розгляд|братися до розгляду|узятися до розгляду"><marker>приступив до розгляду</marker></example>
+        <example correction="розпочинати розгортання|починати розгортання|братися до розгортання|узятися до розгортання"><marker>приступило до розгортання</marker></example>
+        <example>приступили до того</example>
+        <example>приступили до дверей</example>
+        <example>приступив до Єремії</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="nakladenyi_platizh" name="Накладений платіж і післяплата">
       <rule>
         <pattern>
