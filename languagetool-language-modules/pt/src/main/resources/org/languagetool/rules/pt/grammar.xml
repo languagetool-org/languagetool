@@ -4,10 +4,10 @@
 <!--
 Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
 
-Copyright © 2012-2022 Marco A.G.Pinto (www.marcoagpinto.com)
-Copyright © 2016-2022 Tiago F. Santos (tiagofsantos81@sapo.pt)
-Copyright © 2022 Ricardo Joseh Lima
-Copyright © 2022 Susana Boatto
+Copyright © 2012-2023 Marco A.G.Pinto (www.marcoagpinto.com)
+Copyright © 2016-2023 Tiago F. Santos (tiagofsantos81@sapo.pt)
+Copyright © 2023 Ricardo Joseh Lima
+Copyright © 2023 Susana Boatto
 
 Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Christopher Blum,
 Udo Mai and Yakov Reztsov who mentored the project.
@@ -18890,6 +18890,32 @@ O namorado dela era um ladrão.
       <example correction="conforme">A soma total dá 10,<marker>como é</marker> visto na figura seguinte.</example>
       <example correction="conforme">A soma total dá 20,<marker>como é</marker> observável na figura a seguir.</example>
       <example correction="conforme">A soma total dá 20,<marker>como é</marker> observável abaixo.</example>
+    </rule>
+
+
+    <!-- DE AGORA atual/atuais -->
+    <rule id='DE_AGORA_ATUAL_ATUAIS' name="Simplificar: De agora → Atual/atuais" type='style'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-03 (25-JUL-2022+) -->
+      <!--
+      Qual o preço de agora? → Qual o preço atual?
+      Aconteceu nos tempos de agora. → Aconteceu nos tempos atuais.
+      -->
+      <pattern>
+        <token postag='NC.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='V.+'/>
+        </token>
+        <marker>
+          <token>de</token>
+          <token>agora</token>
+        </marker>
+        <token><exception postag_regexp='no' postag='SPS00'/></token>
+      </pattern>
+      <message>É mais correto empregar o termo 'atual'.</message>
+      <suggestion><match no='1' postag='NC.(.)000' postag_replace='AQ0C$10'>atual</match></suggestion>
+      <example correction="atual">Qual o preço <marker>de agora</marker>?</example>
+      <example correction="atuais">Aconteceu nos tempos <marker>de agora</marker>.</example>
+      <example>Tente ser mais pontual de agora em diante.</example>
+      <example>Quero que você me trate um pouco melhor de agora em diante.</example>
     </rule>
 
 
