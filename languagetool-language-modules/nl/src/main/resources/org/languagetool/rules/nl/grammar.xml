@@ -175,11 +175,11 @@ regexp case-insensitive maken: (?i)
     </category>
     -->
     <category id="MOM__GRAMMAR__CONSTITUENT_AGREEMENT__NOUN_PHRASE" name="noun phrase agreement">
-        <rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" >
+        <rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="temp_off">
             <rule>
                 <antipattern>
                     <token>het</token>
-                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|ENM.*|BNW.*"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|ENM.*|BNW.*|WKW:TGW:3EP|BYW"/>
                 </antipattern>
                 <antipattern>
                     <token>het</token>
@@ -209,7 +209,7 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <token>het</token>
                     <token postag_regexp="yes" postag="BNW.*"/>
-                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|WKW:INF:ZNW:HET"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|WKW:INF:ZNW:HET|UNKNWON|WKW:TGW:INF"/>
                 </antipattern>
                 <pattern>
                     <token>het</token>
@@ -222,6 +222,11 @@ regexp case-insensitive maken: (?i)
                 <example>Ik vond het huizen onder de brug heel erg.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>het</token>
+                    <token/>
+                    <token postag_regexp="yes" postag="WKW:TGW:INF|WKW:(TGW|VLT):3EP"/>
+                </antipattern>
                 <antipattern>
                     <token>het</token>
                     <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|BYW:JES|ENM.*"/>
