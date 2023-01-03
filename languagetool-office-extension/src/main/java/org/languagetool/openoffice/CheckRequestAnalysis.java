@@ -921,6 +921,7 @@ class CheckRequestAnalysis {
               + "old: " + docCache.getFlatParagraph(nPara) + OfficeTools.LOG_LINE_BREAK 
               + "new: " + chPara + OfficeTools.LOG_LINE_BREAK);
     }
+    boolean checkOnlyPara = (docCache.getFlatParagraph(nPara).isEmpty() ? false : true);
     docCache.setFlatParagraph(nPara, chPara, locale);
     docCache.setFlatParagraphFootnotes(nPara, footnotePos);
     docCache.setFlatParagraphDeletedCharacters(nPara, deletedChars);
@@ -929,7 +930,7 @@ class CheckRequestAnalysis {
       for (int i = 0; i < minToCheckPara.size(); i++) {
         paragraphsCache.get(i).remove(nPara);
         if (minToCheckPara.get(i) > 0) {
-          singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, true, numLastFlPara < 0 ? false : true);
+          singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, checkOnlyPara, numLastFlPara < 0 ? false : true);
         }
       }
     } else {
