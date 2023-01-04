@@ -1839,7 +1839,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Termo depreciativo</short>
         <example correction="inveja inofensiva">Isso é <marker>inveja branca</marker>.</example>
       </rule>
-      <rule default="temp_off">
+      <rule>
         <pattern>
           <token>mercado</token>
           <token>negro</token>
@@ -1848,7 +1848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Termo depreciativo</short>
         <example correction="mercado clandestino">Comprou no <marker>mercado negro</marker>.</example>
       </rule>
-      <rule default="temp_off">
+      <rule>
         <pattern>
           <token>humor</token>
           <token>negro</token>
@@ -1858,14 +1858,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="humor ácido">Tem um <marker>humor negro</marker>.</example>
       </rule>
       <rule default="temp_off">
-        <pattern>
+        <pattern case_sensitive="yes">
+          <token negate="yes">-</token>
+         <marker>
           <token regexp="yes">índi[ao]s?</token>
+         </marker>
         </pattern>
-        <message>Este termo é depreciativo. Considere utilizar <suggestion>indígena</suggestion> ou <suggestion>indígenas</suggestion>.</message>
+        <message>Este termo é depreciativo. Considere utilizar <suggestion>indígena</suggestion> ou <suggestion>indígenas</suggestion>. Se quis dizer o país, escreva com letra maiúscula: <suggestion>Índia</suggestion></message>
         <short>Termo depreciativo</short>
-        <example correction="indígena|indígenas">São <marker>índios</marker>.</example>
+        <example correction="indígena|indígenas|Índia">São <marker>índios</marker>.</example>
       </rule>
-      <rule default="temp_off">
+      <rule>
         <pattern>
           <token inflected="yes">fazer</token>
         <token postag_regexp="yes" postag="P[ID].+|D.+|N.+" min="0" max="3"/>
