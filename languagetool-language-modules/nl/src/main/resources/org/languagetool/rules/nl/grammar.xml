@@ -445,6 +445,23 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
+        <rulegroup id="EN-" name="En- / en -" default="temp_off">
+            <!-- R. Baars, januari 2023 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                        <token>en-</token>
+                        <token/>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast iets anders. De - staat voor dat wat weggelaten wordt.</message>
+                <suggestion>\1- en \3</suggestion>
+                <suggestion>\1 en -\3</suggestion>
+                <example correction="wandel- en fietsmaatje|wandel en -fietsmaatje">Het is mijn <marker>wandel en- fietsmaatje</marker>.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="DE_HERE" name="Heer/Here" >
             <!-- R. Baars, november 2022 -->
             <rule>
