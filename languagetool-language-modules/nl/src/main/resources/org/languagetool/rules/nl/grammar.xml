@@ -178,12 +178,21 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="temp_off">
             <rule>
                 <antipattern>
+                    <!-- name of multiuple parts -->
                     <token>het</token>
-                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|ENM.*|BNW.*|WKW:TGW:3EP|BYW"/>
+                    <token regexp="yes">[A-Z].*</token>
+                    <token regexp="yes">[A-Z].*</token>
+                    <token regexp="yes">[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <!-- het ... is -->
+                    <token>het</token>
+                    <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+                    <token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
                 </antipattern>
                 <antipattern>
                     <token>het</token>
-                    <token regexp="yes">was|een|moet|kan</token>
+                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|ENM.*|BNW.*|WKW:TGW:3EP|BYW|WKW:VLT:1EP|GET.*"/>
                 </antipattern>
                 <antipattern>
                     <token>het</token>
