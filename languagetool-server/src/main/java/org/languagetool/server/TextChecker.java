@@ -539,6 +539,15 @@ abstract class TextChecker {
     // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
     res.forEach(checkResults -> checkResults.getRuleMatches().forEach(RuleMatch::discardLazySuggestedReplacements));
 
+    if (params.get("enableMultiChecks") != null && params.get("enableMultiChecks").equals("true")) {
+      res.forEach(checkResults -> {
+      checkResults.getIgnoredRanges().forEach(range -> {
+        String sentence = aText.toString().substring(range.getFromPos(), range.getToPos());
+        System.out.println("Recheck sentence: " + sentence);
+      });
+    });
+    }
+    
     setHeaders(httpExchange);
 
     List<RuleMatch> hiddenMatches = new ArrayList<>();

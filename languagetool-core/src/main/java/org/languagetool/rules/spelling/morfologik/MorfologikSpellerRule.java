@@ -33,6 +33,7 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.spelling.ForeignLanguageChecker;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.translation.TranslationEntry;
@@ -130,8 +131,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     if (initSpellers()) return toRuleMatchArray(ruleMatches);
     int idx = -1;
-    long sentLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1;  // -1 for the SENT_START token
     boolean isFirstWord = true;
+    boolean otherLangDetected = false;
+    ForeignLanguageChecker foreignLanguageChecker = new ForeignLanguageChecker(language, sentence);
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
       if (canBeIgnored(tokens, idx, token)) {
@@ -201,11 +203,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (idx > 0 && isFirstWord && !StringTools.isPunctuationMark(token.getToken())) {
         isFirstWord = false;
       }
-      
-      if (sentLength >= 3) {
-        float errRatio = (float)ruleMatches.size() / sentLength;
-        if (errRatio >= 0.5) {
-          ruleMatches.get(0).setErrorLimitLang(NoopLanguage.SHORT_CODE);
+      if (!otherLangDetected) {
+        String langCode = foreignLanguageChecker.check(ruleMatches.size());
+        if (langCode != null) {
+          ruleMatches.get(0).setErrorLimitLang(langCode);
+          otherLangDetected = true;
         }
       }
     }

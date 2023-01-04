@@ -35,14 +35,13 @@ import java.util.stream.Stream;
 
 public final class MultiLanguageTextCheckEval {
   private static Random randomGen = new Random();
-  ;
   private static int minMainLanguageSentences = 50;
   private static int maxOtherLanguageSentences = 15;
   private static int maxOtherLanguageSentencesAtOnce = 4;
   private static String mainLanguages = "de";
   private static String otherLanguage = "en";
   private static boolean useLangDetectionService = false;
-  private static int rounds = 100;
+  private static int rounds = 50;
   private static List<DetectionResults> roundResults = new ArrayList<>();
   private static boolean spamToMe = false;
   private static Set<String> allWrongRanges = new HashSet<>();
