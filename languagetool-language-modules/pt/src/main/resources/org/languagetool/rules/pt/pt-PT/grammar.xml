@@ -6527,6 +6527,26 @@
 
   <category id="STYLE" name="Style" type="style">
 
+    <rule id='CONCLUIR_UM_CURSO' name="Acabar/terminar um curso → Concluir">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-03 (25-JUL-2022+) -->
+      <!--
+      Vou acabar o meu doutoramento. → Vou concluir o meu doutoramento.
+      Ele terminou um mestrado em gestão. → Ele concluiu um mestrado em gestão.
+      -->
+      <pattern>
+        <marker>
+          <token regexp="yes" inflected='yes'>acabar|terminar</token>
+        </marker>
+        <token postag='DA.+|DI.+|SPS00:DA.+|SPS00:DI.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
+        <token regexp="yes">bacharelados?|bacharelatos?|cursos?|doutorados?|doutoramentos?|especialização|especializações|faculdades?|graduação|graduações|licenciaturas?|mestrados?|PhDs?|pós-graduação|pós-graduações|universidades?</token>
+      </pattern>
+      <message>Relativamente a cursos, é mais correto empregar o verbo 'concluir'.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concluir</match></suggestion>
+      <example correction="concluir">Vou <marker>acabar</marker> o meu doutoramento.</example>
+      <example correction="concluiu">Ele <marker>terminou</marker> um mestrado em gestão.</example>
+    </rule>
+
     <!-- À PROCURA DE a procurar -->
     <rule id='À_VERBO_DE' name="À + Verbo + De → A + Verbo Infinitivo" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-11/12/15 (25-JUN-2021+)      -->
