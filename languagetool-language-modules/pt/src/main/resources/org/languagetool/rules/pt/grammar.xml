@@ -43629,7 +43629,7 @@ O namorado dela era um ladrão.
       <rule>
         <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>(?:I[CP]|U|PS)2</exception></token>
+            <exception regexp='yes'>(?:I[CP]|U|PS)2|B*|PH2</exception></token>
         </pattern>
         <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
@@ -43668,7 +43668,8 @@ O namorado dela era um ladrão.
       </rule>
       <rule>
         <pattern case_sensitive='yes'>
-          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?</token>
+          <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?3((?:&tabela_periodica;)+)?
+          <exception regexp='yes'>(?:\d+)?NOV*</exception></token>
         </pattern>
         <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)3(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3₃$6'/></suggestion>
