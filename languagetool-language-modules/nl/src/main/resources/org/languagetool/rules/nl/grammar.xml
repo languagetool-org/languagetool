@@ -10827,6 +10827,32 @@ onwaarschijnlijk
                 <suggestion>\1-\2-\3</suggestion>
                 <example correction="doe-het-zelfzaak">Ik mag de <marker>doe het zelfzaak</marker> niet meer in.</example>
             </rule>
+            <rule>
+                <!-- R. Baars, januari 2023 -->
+                <pattern>
+                    <marker>
+                        <token>doe-het-zelf</token>
+                        <token postag_regexp="yes" postag="ZNW.*"/>
+                    </marker>
+                </pattern>
+                <message>De correcte spelling is: <suggestion>\1\2</suggestion>.</message>
+                <url>https://woordenlijst.org/#/?q=doe-het-zelfzaak</url>
+                <example correction="doe-het-zelfzaak">Het is een <marker>doe-het-zelf zaak</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WIN_WIN_SITUATIE" name="doe het zelf zaak/doe-het-zelf-zaak">
+            <rule>
+                <!-- R. Baars, januari 2023 -->
+                <pattern>
+                    <marker>
+                        <token>win-win</token>
+                        <token postag_regexp="yes" postag="ZNW.*"/>
+                    </marker>
+                </pattern>
+                <message>De correcte spelling is: <suggestion>\1\2</suggestion>.</message>
+                <url>https://woordenlijst.org/#/?q=win-winlening</url>
+                <example correction="win-winsituatie">Het is een <marker>win-win situatie</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="STAND_IN" name="Stand in/stand-in">
             <rule>
@@ -12514,6 +12540,20 @@ onwaarschijnlijk
                 <short>06-~</short>
                 <example correction="06-nummertje">Zij heeft een <marker>06 nummertje</marker>.</example>
                 <example>We kunnen je pas na <marker>06 juni</marker> weer bezoeken.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="_24_UURS_DING" name="24-uurs ding" default="temp_off" type="misspelling">
+            <!-- R. Baars, januari 2023 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9]+-uurs</token>
+                        <token/>
+                    </marker>
+                </pattern>
+                <message>De correcte spelling is: <suggestion><match no="1" regexp_match="-" regexp_replace=" "/>\2</suggestion>.</message>
+                <url>https://woordenlijst.org/#/?q=24</url>
+                <example correction="24 uursdienst">Het is een <marker>24-uurs dienst</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TE_VEEL" name="Te veel → teveel">
