@@ -44761,6 +44761,11 @@ steenwijk;Steenwijk
         </rulegroup>
 
         <rulegroup id="EEN_VAN_DE_MAN" name="is een van de bekendste man/mannen">
+            <antipattern>
+                <token postag_regexp="yes" postag=".*VRB"/>
+                <token postag_regexp="yes" postag=".*VRB"/>
+                <token postag_regexp="yes" postag=".*MRV.*"/>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token postag_regexp="yes" postag="ZNW:EKV.*"><exception postag_regexp="yes" postag=".*MRV.*|.*VRB"/></token>
@@ -44779,6 +44784,7 @@ steenwijk;Steenwijk
                 <message>'Een van de' duidt meestal op een meervoud.</message>
                 <suggestion><match no="5" postag="ZNW:MRV:DE_"/></suggestion>
                 <example correction="geleerden">Hij is een van de <marker>geleerde</marker> van deze tijd.</example>
+                <example>Hij is een van de geleerde mannen van deze tijd.</example>
             </rule>
             <rule>
                 <pattern>
@@ -44794,6 +44800,7 @@ steenwijk;Steenwijk
                 <message>'Een van de' duidt meestal op een meervoud.</message>
                 <suggestion><match no="6" postag="ZNW:MRV:DE_"/></suggestion>
                 <example correction="geleerden">Hij is een van de grootste <marker>geleerde</marker> van deze tijd.</example>
+                <example>Ze is een van de invloedrijkste Amerikaanse artiesten aller tijden.</example>
             </rule>
         </rulegroup>
 
