@@ -11076,7 +11076,7 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
-    <rulegroup id="FUTURE_PAST_CONFUSION" name="Confusão de sufixos: 3P - ouviram (passado) /ouvirão (futuro)">
+    <rulegroup id="FUTURE_PAST_CONFUSION" name="Confusão de sufixos: 3P - ouviram (passado) /ouvirão (futuro)" default='temp_off'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-08-11 -->
       <!--short>Tempo verbal incorreto.</short-->
       <rule>
@@ -43566,90 +43566,6 @@ O namorado dela era um ladrão.
       <example>…com uma pedra…—, acho que…</example>
     </rule>
 
-    <rulegroup id='HYPOTHESIS_TYPOGRAPHY' name='Tipografia de Hipóteses'>
-      <!-- Created by Tiago F. Santos, 2017-09-01 -->
-      <rule>
-        <pattern case_sensitive='yes'>
-          <token>H0</token>
-        </pattern>
-        <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>H₀</suggestion>
-        <example correction='H₀'><marker>H0</marker>: Não existem efeitos significativos.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive='yes'>
-          <token>H1</token>
-        </pattern>
-        <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>H₁</suggestion>
-        <example correction='H₁'><marker>H1</marker>: Existem efeitos significativos com o composto A.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive='yes'>
-          <token>H2</token>
-        </pattern>
-        <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>H₂</suggestion>
-        <example correction='H₂'><marker>H2</marker>: Existem efeitos significativos com o composto B.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive='yes'>
-          <token>H3</token>
-        </pattern>
-        <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>H₃</suggestion>
-        <example correction='H₃'><marker>H3</marker>: Existem efeitos significativos com os compostos A e B combinados.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive='yes'>
-          <token>H4</token>
-        </pattern>
-        <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>H₄</suggestion>
-        <example correction='H₄'><marker>H4</marker>: Existem efeitos significativos na ausência do composto C.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive='yes'>
-          <token>H5</token>
-        </pattern>
-        <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>H₅</suggestion>
-        <example correction='H₅'><marker>H5</marker>: Existem efeitos significativos do composto C.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive='yes'>
-          <token>H6</token>
-        </pattern>
-        <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>H₆</suggestion>
-        <example correction='H₆'><marker>H6</marker>: Existem efeitos significativos do composto D.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive='yes'>
-          <token>H7</token>
-        </pattern>
-        <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>H₇</suggestion>
-        <example correction='H₇'><marker>H7</marker>: Existem efeitos significativos do composto E.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive='yes'>
-          <token>H8</token>
-        </pattern>
-        <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>H₈</suggestion>
-        <example correction='H₈'><marker>H8</marker>: Existem efeitos significativos do composto F.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive='yes'>
-          <token>H9</token>
-        </pattern>
-        <message>Prefira o símbolo tipográfico.</message>
-        <suggestion>H₉</suggestion>
-        <example correction='H₉'><marker>H9</marker>: Existem efeitos significativos do composto G.</example>
-      </rule>
-    </rulegroup>
-
     <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
       <!-- Created by Tiago F. Santos, 2017-02-12 -->
 
@@ -44965,20 +44881,6 @@ O namorado dela era um ladrão.
       <suggestion><match no='1' postag='(...).(.+)' postag_regexp='yes' postag_replace='$1F$2'/> apresentação</suggestion>
       <example correction="uma apresentação de slides|uma apresentação">Tenho que fazer <marker>um PowerPoint</marker>.</example>
     </rule>
-    <rule id='SPREADSHEET' name="Nome de Produto: Excel → Folha de Cálculo">
-      <!--    Created by Tiago F. Santos, 2017-10-10     -->
-      <pattern>
-        <token postag_regexp="yes" postag='D.+'/>
-        <token regexp="yes" min='0'>folhas?</token>
-        <token min='0'>de</token>
-        <token regexp="yes">exce(l|is)</token>
-      </pattern>
-      <message>Excel é um programa específico. Se pretende generalizar, utilize:</message>
-      <suggestion><match no='1' postag='(...).(.+)' postag_regexp='yes' postag_replace='$1F$2'/> <match no='1' postag='....(.).' postag_regexp='yes' postag_replace='NCF$1(000)'>folha</match> de cálculo</suggestion>
-      <example correction="uma folha de cálculo">Tenho que fazer <marker>um Excel</marker>.</example>
-      <example correction="outras folhas de cálculo">Isso está explicado nos <marker>outras folhas de Excel</marker>.</example>
-    </rule>
-	
 	
   </category>
 
