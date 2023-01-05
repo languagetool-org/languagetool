@@ -11213,12 +11213,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule default="on" id="PREP_C_and_Noun" name="Предлог «с» и существительное">
             <pattern case_sensitive="no">
                 <!--  PREP  с -> NN:.*:R or  NN:.*:T   -->
-                <token regexp="yes">с|со</token>
+                <token regexp="yes">с|со<exception regexp="yes" scope="previous">величиной|размером|объёмом|объемом|длиной|высотой|шириной</exception></token>   <!-- величиной с дом -->
                 <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception regexp="yes">[а-я]*у|[!.?]</exception><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:T|UNKNOWN" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «\1» предполагает употребление существительного в родительном или творительном падеже.</message>
             <short>Требуется родительный или творительный падеж</short>
             <example>Егерь пошёл в лес с рысью.</example>
+            <example>Внезапно за песчаным холмом показался камень величиной с дом.</example>
             <example>В конце концов они встретились с глазу на глаз.</example>
             <example>М.: Прогресс, 1987. — 560 с.</example>
             <example correction="">Егерь пошёл в лес <marker>с рысь</marker>.</example>
