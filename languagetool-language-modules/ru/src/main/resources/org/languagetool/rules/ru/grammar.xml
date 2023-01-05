@@ -467,10 +467,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 	<rule id="TYPO_BOLE" name="typo_bole">
             <pattern>
-                <token>боле</token>
+                <token regexp="yes">боле|мене</token>
                 <token postag="ADJ:Posit:.*:.*" postag_regexp="yes"></token>
             </pattern>
-            <message>Опечатка? Исправление: <suggestion>более \2</suggestion></message>
+            <message>Опечатка? Исправление: <suggestion>\1е \2</suggestion></message>
             <short>Опечатка?</short>
             <example correction="более высокие"><marker>боле высокие</marker> результаты</example>
             <example>более высокие результаты</example>
