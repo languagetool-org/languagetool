@@ -6572,6 +6572,19 @@
 
   <category id="STYLE" name="Style" type="style">
 
+    <rule id='ALUGAR_CASA' name="arrendar casa">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+        <token inflected='yes'>alugar</token>
+        <token  min="0" regexp="yes">as?|umas?|os?|um|uns</token>
+        <token regexp="yes">casas?|apartamentos?|habitaç(?:ão|ões)|imóv(?:el|eis)</token>
+      </pattern>
+      <message>Se não pretende realçar o tipo de imóvel, considere <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match></suggestion>.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match> \2 \3</suggestion>
+      <example correction="arrendar|arrendar uma casa">Vou <marker>alugar uma casa</marker> em Lisboa.</example>
+      <example correction="Arrendei|Arrendei um apartamento"><marker>Aluguei um apartamento</marker> em Lisboa.</example>
+    </rule>
+
     <rule id='CONCLUIR_UM_CURSO' name="Acabar/terminar um curso → Concluir">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-03 (25-JUL-2022+) -->
       <!--
