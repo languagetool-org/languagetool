@@ -45337,6 +45337,17 @@ O namorado dela era um ladrão.
         <token>/</token>
         <token regexp="yes">\d\d\d\d</token>
       </antipattern>
+      <antipattern>
+          <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
+          <token>,</token>
+          <token regexp="yes">\d\d?</token>
+          <token min='0'>de</token>
+          <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
+          <token min='0' regexp='yes'>de|,</token>
+          <token regexp='yes'>[12][0-9][0-9][0-9]
+            <exception>2023</exception></token>
+          <example> domingo, 11 de maio de 2014</example>
+      </antipattern>
       <rule>
         <pattern>
           <!-- "Segunda, 7 Outubro" -->
