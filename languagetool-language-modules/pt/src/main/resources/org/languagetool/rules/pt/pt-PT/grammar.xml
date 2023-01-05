@@ -737,6 +737,7 @@
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-05 (25-JUL-2022+) -->
       <!--
       Estava a fazer exercício e só/somente/apenas/unicamente depois é que li o texto dela. → Estava a fazer exercício e só/somente/apenas/unicamente depois li o texto dela.
+	  Estava a fazer exercício e só/somente/apenas/unicamente depois é que eu li o texto dela. → Estava a fazer exercício e só/somente/apenas/unicamente depois eu li o texto dela.
       -->
       <pattern>
         <token postag='RM|RG' postag_regexp='yes'/>
@@ -744,12 +745,14 @@
           <token>depois</token>
           <token>é</token>
           <token>que</token>
-          <token postag='V.+' postag_regexp='yes'/>
         </marker>
+		<token min="0" max="1" postag='PP.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
-      <suggestion>\2 \5</suggestion>
-      <example correction="depois li">Estava a fazer exercício e só <marker>depois é que li</marker> o texto dela.</example>
+      <suggestion>\2</suggestion>
+      <example correction="depois">Estava a fazer exercício e só <marker>depois é que</marker> li o texto dela.</example>
+	  <example correction="depois">Estava a fazer exercício e só <marker>depois é que</marker> eu li o texto dela.</example>
     </rule>
 
 
