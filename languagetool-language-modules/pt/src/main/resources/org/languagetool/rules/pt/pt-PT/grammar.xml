@@ -732,6 +732,27 @@
     </rule>
 
 
+    <!-- DEPOIS É QUE LI depois li -->
+    <rule id='DEPOIS_É_QUE_VERBO_DEPOIS_VERBO_PT_PT' name="Simplificar: Depois é que + Verbo → Depois + Verbo">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-05 (25-JUL-2022+) -->
+      <!--
+      Estava a fazer exercício e só/somente/apenas/unicamente depois é que li o texto dela. → Estava a fazer exercício e só/somente/apenas/unicamente depois li o texto dela.
+      -->
+      <pattern>
+        <token postag='RM|RG' postag_regexp='yes'/>
+        <marker>
+          <token>depois</token>
+          <token>é</token>
+          <token>que</token>
+          <token postag='V.+' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\2 \5</suggestion>
+      <example correction="depois li">Estava a fazer exercício e só <marker>depois é que li</marker> o texto dela.</example>
+    </rule>
+
+
     <!-- DO QUE AQUELE QUE àquele que -->
     <rulegroup id='DO_QUE_AQUELE_QUE_ÀQUELE_QUE_PT_PT' name="Simplificar: do que aquel[ae](s) que → àquel[ae](s) que">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-01 (25-JUL-2022+) -->
