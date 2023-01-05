@@ -60,6 +60,7 @@ else
   if grep -q -e "languagetool-language-modules/es/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/es/ $PROJECTS"; fi
   if grep -q -e "languagetool-language-modules/fr/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/fr/ $PROJECTS"; fi
   if grep -q -e "languagetool-language-modules/nl/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/nl/ $PROJECTS"; fi
+  if grep -q -e "languagetool-language-modules/pt/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-language-modules/pt/ $PROJECTS"; fi
   if grep -q -e "languagetool-server/.*" /home/circleci/git_diffs.txt; then PROJECTS="languagetool-server/ $PROJECTS"; fi
 fi
 if [ -z "$PROJECTS" ]; then
