@@ -58,6 +58,7 @@ public class GermanCompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Die Bürger konnten ca. 900 Meter Kabel in Eigenregie verlegen.");
     check(0, "Aus dem Tank zapften die Diebe rund 250 Liter Diesel ab.");
     check(0, "Aus dem Tank zapften die Diebe 250 Liter Diesel ab.");
+    check(0, "Lohnt sich die Werbung vom ausgegebenen Euro aus gedacht?");
     // incorrect sentences:
     check(1, "System Administrator", "Systemadministrator");
     check(1, "System-Administrator");

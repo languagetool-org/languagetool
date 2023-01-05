@@ -26,6 +26,7 @@ import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.CompoundRuleData;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 import java.io.IOException;
@@ -50,6 +51,11 @@ public class GermanCompoundRule extends AbstractCompoundRule {
       tokenRegex("an|um"),
       token("die"),
       tokenRegex("\\d+")
+    ),
+    Arrays.asList(  // "Lohnt sich die Werbung vom ausgegebenen Euro aus gedacht?"
+      new PatternTokenBuilder().tokenRegex("von|vom").setSkip(5).build(),
+      token("aus"),
+      token("gedacht")
     ),
     Arrays.asList(  // "Die Bürger konnten an die 900 Meter Kabel in Eigenregie verlegen."
       tokenRegex("rund|etwa|zirka|cirka|ungefähr|annähernd|grob|wohl|gegen|schätzungsweise"),
