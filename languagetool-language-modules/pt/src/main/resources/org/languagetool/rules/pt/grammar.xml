@@ -45666,15 +45666,21 @@ O namorado dela era um ladrão.
       <!-- Localized from Polish grammar.xml, by Tiago F. Santos, 18-01-2017  -->
       <short>Intervalo de data inválido</short>
       <rule>
+        <antipattern>
+          <token regexp='yes'>19{2}</token>
+          <token regexp="yes">[–\-]</token>
+          <token regexp="yes">0{1}</token>
+          <example>1999-00</example>
+        </antipattern>
         <pattern>
           <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
           <marker>
             <token regexp="yes">\d{4}</token>
-            <token regexp="yes">[–\-\/]</token>
+            <token regexp="yes">[–\-]</token>
             <token regexp="yes">\d{2}</token>
           </marker>
           <token>
-            <exception regexp='yes'>de|&meses_ano;</exception></token>
+            <exception regexp='yes'>de|&meses_ano;|&unidades_de_medida;|&unidades_de_medida_por_extenso;</exception></token>
         </pattern>
         <filter class="org.languagetool.rules.ShortenedYearRangeChecker" args="x:\2 y:\4"/>
         <message>A data inicial (\2) é posterior à segunda data (\4). Se se referir a um século, não deve representar o período desta forma.</message>
@@ -45702,12 +45708,12 @@ O namorado dela era um ladrão.
         <pattern>
           <token regexp="yes" inflected="yes" skip='1'>de|em|entre|ano|época|período|semestre</token>
           <marker>
-            <token regexp="yes">\d{3,4}</token>
-            <token regexp="yes">[–\-/]</token>
-            <token regexp="yes">\d{3,4}</token>
+            <token regexp="yes">\d{4}</token>
+            <token regexp="yes">[–\-]</token>
+            <token regexp="yes">\d{4}</token>
           </marker>
           <token>
-            <exception regexp='yes'>AC|\d+</exception></token>
+            <exception regexp='yes'>AC|\d+|&unidades_de_medida;|&unidades_de_medida_por_extenso;</exception></token>
         </pattern>
         <filter class="org.languagetool.rules.DateRangeChecker" args="x:\2 y:\4"/>
         <message>O ano inicial (\2) é posterior ao ano final (\4).</message>
@@ -45722,10 +45728,10 @@ O namorado dela era um ladrão.
         <pattern>
           <marker>
             <token regexp="yes">\d{3,4}</token>
-            <token regexp="yes">[–\-/]</token>
+            <token regexp="yes">[–\-]</token>
             <token regexp="yes">\d{3,4}</token>
           </marker>
-          <token regexp='yes'>[ad]</token>
+          <token>a</token>
           <token>.</token>
           <token>c</token>
           <token>.</token>
