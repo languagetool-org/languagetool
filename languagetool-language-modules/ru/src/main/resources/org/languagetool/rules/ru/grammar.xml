@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Russian grammar and typo rules for LanguageTool.
 See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-Copyright © 2008-2022 Yakov Reztsov
+Copyright © 2008-2023 Yakov Reztsov
 https://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -465,6 +465,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="На прошлые"><marker>На пошлые</marker> каникулы мы ездили в горы.</example>
           </rule>                
         </rulegroup>
+	<rule id="TYPO_BOLE" name="typo_bole">
+            <pattern>
+                <token>боле</token>
+                <token postag="ADJ:Posit:.*:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Опечатка? Исправление: <suggestion>более \2</suggestion></message>
+            <short>Опечатка?</short>
+            <example correction="более высокие"><marker>боле высокие</marker> результаты</example>
+            <example>более высокие результаты</example>
+        </rule>
 	<rulegroup id="na_poverku" name="Логические ошибки: «на поверку» или «на проверку»">
             <rule> 
                 <pattern>
