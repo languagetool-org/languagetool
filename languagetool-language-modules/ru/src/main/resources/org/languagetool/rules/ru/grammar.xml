@@ -12819,6 +12819,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="Defis_to" name="Дефисное правописание: «-то», «-либо»">  
             <rule>   
+                <antipattern>
+                    <marker>
+                        <token>что</token>   
+                        <token>то</token>                       
+                    </marker>
+                        <token>,</token>   
+                        <token>что</token>   
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes" >&defis_libo;|то</token>           
@@ -12830,6 +12838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Слова с «-то» пишем через дефис</short>
                 <example correction="кто-то|кто, то">Здесь есть <marker>кто то</marker>?</example>
                 <example>Здесь есть кто-то?</example>
+                <example>Просто понял, что то, что происходит, им необходимо.</example>
             </rule>
             <rule>   
                 <pattern>
