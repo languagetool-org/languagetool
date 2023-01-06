@@ -385,12 +385,17 @@ abstract class TextChecker {
     Language lang = detLang.getGivenLanguage();
 
     List<Rule> userRules = getUserRules(limits, lang, dictGroups);
+    boolean isMultiLangEnabled = false;
+    if (params.get("enableMultiLanguageChecks") != null && params.get("enableMultiLanguageChecks").equals("true")) {
+      isMultiLangEnabled = true;
+    }
+    
     UserConfig userConfig =
       new UserConfig(dictWords, userRules,
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules);
+                     !limits.hasPremium() && enableHiddenRules, isMultiLangEnabled);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
@@ -539,11 +544,12 @@ abstract class TextChecker {
     // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
     res.forEach(checkResults -> checkResults.getRuleMatches().forEach(RuleMatch::discardLazySuggestedReplacements));
 
-    if (params.get("enableMultiChecks") != null && params.get("enableMultiChecks").equals("true")) {
+    if (isMultiLangEnabled) {
       res.forEach(checkResults -> {
       checkResults.getIgnoredRanges().forEach(range -> {
         String sentence = aText.toString().substring(range.getFromPos(), range.getToPos());
-        System.out.println("Recheck sentence: " + sentence);
+        //System.out.println("Recheck sentence from pos data: " + sentence);
+        //System.out.println("Recheck sentence from analyzedSentence: " + range.getAnalyzedSentence().getText());
       });
     });
     }

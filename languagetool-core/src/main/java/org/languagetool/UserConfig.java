@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import lombok.Getter;
 import org.languagetool.rules.Rule;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -58,6 +59,8 @@ public class UserConfig {
   // provided to rules only for A/B tests
   private final Long textSessionId;
   private final String abTest;
+  @Getter
+  private final boolean isMultiLangEnabled;
 
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
@@ -83,7 +86,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices) {
     this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
-      false, null, null, false);
+      false, null, null, false, false);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords,
@@ -92,7 +95,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName,
                     Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
-                    @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches) {
+                    @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches, boolean isMultiLangEnabled) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     this.userSpecificRules = Objects.requireNonNull(userSpecificRules);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
@@ -108,6 +111,7 @@ public class UserConfig {
     this.textSessionId = textSessionId;
     this.hidePremiumMatches = hidePremiumMatches;
     this.acceptedPhrases = buildAcceptedPhrases();
+    this.isMultiLangEnabled = isMultiLangEnabled;
   }
 
   @NotNull

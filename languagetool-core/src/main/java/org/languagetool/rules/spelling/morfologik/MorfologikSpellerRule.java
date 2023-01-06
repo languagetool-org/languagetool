@@ -133,7 +133,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     int idx = -1;
     boolean isFirstWord = true;
     boolean otherLangDetected = false;
-    ForeignLanguageChecker foreignLanguageChecker = new ForeignLanguageChecker(language, sentence);
+    ForeignLanguageChecker foreignLanguageChecker = null;
+    if (userConfig != null && userConfig.isMultiLangEnabled()) {
+      foreignLanguageChecker = new ForeignLanguageChecker(language, sentence);
+    }
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
       if (canBeIgnored(tokens, idx, token)) {
@@ -203,7 +206,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (idx > 0 && isFirstWord && !StringTools.isPunctuationMark(token.getToken())) {
         isFirstWord = false;
       }
-      if (!otherLangDetected) {
+      if (foreignLanguageChecker != null && !otherLangDetected) {
         String langCode = foreignLanguageChecker.check(ruleMatches.size());
         if (langCode != null) {
           ruleMatches.get(0).setErrorLimitLang(langCode);

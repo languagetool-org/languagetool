@@ -18,6 +18,8 @@
  */
 package org.languagetool;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
 /**
@@ -29,11 +31,14 @@ public class Range {
   private final int fromPos;
   private final int toPos;
   private final String lang;
+  @Getter
+  private final AnalyzedSentence analyzedSentence;
 
-  Range(int fromPos, int toPos, String lang) {
+  Range(int fromPos, int toPos, String lang, AnalyzedSentence analyzedSentence) {
     this.fromPos = fromPos;
     this.toPos = toPos;
     this.lang = Objects.requireNonNull(lang);
+    this.analyzedSentence = analyzedSentence;
   }
 
   public int getFromPos() {
