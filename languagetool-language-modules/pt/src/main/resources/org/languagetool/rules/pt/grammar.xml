@@ -43636,7 +43636,7 @@ O namorado dela era um ladrão.
     </rule>
 
     <rulegroup id='CHEMICAL_FORMULAS_TYPOGRAPHY' name='Fórmulas químicas'>
-      <!-- Created by Tiago F. Santos, 2017-02-12 -->
+      <!-- Created b8y Tiago F. Santos, 2017-02-12 -->
 
       <!-- MARCOAGPINTO 2022-05-30 + 2022-10-02 (Checked/Enhanced) (24-MAY-2022+) *START* -->
       <!--
@@ -43672,18 +43672,20 @@ O namorado dela era um ladrão.
       <rule>
         <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>(?:I[CP]|U|PS)2|B*|PH2</exception></token>
+            <exception regexp='yes'>(?:I[CP]|U|PS|B|V|F|S)2|PH2|B2B|S2S</exception></token>
         </pattern>
         <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
         <example correction='O₂'><marker>O2</marker></example>
         <example correction='4H₂O'><marker>4H2O</marker></example>
         <example>U2</example>
+        <example>B2</example>
+        <example>B2B</example>
       </rule>
       <rule>
         <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>(?:I[CP]|PS)3</exception></token>
+            <exception regexp='yes'>(?:I[CP]|U|PS|B|V|F|S|P)3|W3C|CSS3|3V3</exception></token>
         </pattern>
         <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3'/></suggestion>
@@ -43693,7 +43695,7 @@ O namorado dela era um ladrão.
       <rule>
         <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+4((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>(?:I[CP]|PS)4</exception></token>
+            <exception regexp='yes'>(?:I[CP]|U|PS|B|V|F|S|P)4|IPV4</exception></token>
         </pattern>
         <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)4(((&tabela_periodica;)+)?)' regexp_replace='$1₄$3'/></suggestion>
@@ -43761,7 +43763,7 @@ O namorado dela era um ladrão.
       <rule>
         <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+7((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>I[CP]7</exception>
+            <exception regexp='yes'>I[CP]7|CR7|F7</exception>
             <exception>V7</exception></token>
         </pattern>
         <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
@@ -43771,7 +43773,7 @@ O namorado dela era um ladrão.
       <rule>
         <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+8((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>I[CP]8</exception>
+            <exception regexp='yes'>I[CP]8|PHP8|F8</exception>
             <exception>V8</exception></token>
         </pattern>
         <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
@@ -43781,7 +43783,7 @@ O namorado dela era um ladrão.
       <rule>
         <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+9((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>I[CP]9</exception>
+            <exception regexp='yes'>I[CP]9|F9</exception>
             <exception>V9</exception></token>
         </pattern>
         <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
