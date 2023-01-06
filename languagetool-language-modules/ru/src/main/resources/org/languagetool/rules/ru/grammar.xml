@@ -4258,13 +4258,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>Может</token>
                         <token>быть</token>
-                        <token negate="yes" regexp="yes">&pnct;</token>
+                        <token><exception regexp="yes">&pnct;</exception><exception postag="PT_Short:.*|ADJ:.*:.*" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://new.gramota.ru/spravka/punctum?id=58_417&amp;layout=item</url>
                 <short>Пропущена запятая</short>
                 <example>Может быть, я выйду на прогулку.</example>
+                <example>Может быть применён такой способ.</example>
                 <example correction="Может быть, я"><marker>Может быть я</marker> выйду на прогулку.</example>
             </rule>  
             <!--  "Прежде всего" не всегда будет вводным словосочетанием  http://new.gramota.ru/spravka/punctum?layout=item&id=58_627 -->
