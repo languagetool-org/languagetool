@@ -178,6 +178,12 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="temp_off">
             <rule>
                 <antipattern>
+                    <!-- is het angst -->
+                    <token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+                    <token>het</token>
+                    <token postag="ZNW:EKV:DE_"/>
+                </antipattern>
+                <antipattern>
                     <!-- name of multiuple parts -->
                     <token>het</token>
                     <token regexp="yes">[A-Z].*</token>
@@ -197,7 +203,7 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <token>het</token>
                     <token/>
-                    <token postag_regexp="yes" postag="ZNW.*HET|ZNW:EKV|WKW:INF:ZNW:HET"/>
+                    <token postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|ENM.*|BNW.*|UNKNOWN|WKW:INF:ZNW:HET"/>
                 </antipattern>
                 <pattern>
                     <token>het</token>
@@ -222,7 +228,7 @@ regexp case-insensitive maken: (?i)
                 </antipattern>
                 <pattern>
                     <token>het</token>
-                    <token postag="ZNW:MRV:DE_"><exception postag_regexp="yes" postag=".*INF.*"/></token>
+                    <token postag="ZNW:MRV:DE_"><exception postag_regexp="yes" postag=".*INF.*|ZNW:EKV.*"/></token>
                 </pattern>
                 <message>\1 is hier niet het juiste lidwoord omdat \2 in het meervoud staat.</message>
                 <suggestion>de \2</suggestion>
@@ -6250,7 +6256,7 @@ regexp case-insensitive maken: (?i)
 
         <rulegroup id="FIS_VIS" name="waarschuwing bij gebruik fis i.p.v. vis">
             <rule>
-                <pattern><token>fis</token></pattern>
+                <pattern><token case_sensitive="yes" regexp="yes">[fF]is</token></pattern>
                 <message>Bedoelt u misschien <suggestion>vis</suggestion>? Of het moet toch om muziek gaan.</message>
                 <example correction="vis">Het woord <marker>fis</marker> kan een vergissing zijn.</example>
             </rule>

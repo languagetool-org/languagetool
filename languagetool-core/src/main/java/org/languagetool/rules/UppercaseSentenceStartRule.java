@@ -44,6 +44,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„«»‘’“”\\n]"); //only ending quote is necessary?
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
+          "n", // n/a
           "x86",
           "ⓒ",
           "ø", // used as bullet point

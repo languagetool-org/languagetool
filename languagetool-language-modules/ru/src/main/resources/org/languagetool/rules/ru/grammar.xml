@@ -8482,7 +8482,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>  
-                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н](&pril_end;)<exception  postag="ADJ:Comp" /><exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception></token>  <!-- <exception>женат</exception> --> 
+                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н](&pril_end;)<exception  postag="ADJ:Comp" /><exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception><exception>зеленой</exception></token>  <!-- <exception>женат</exception> --> 
                     </marker>
                     <token  postag="PREP" skip="1" ></token>  
                         <token postag="NN:.*:.*:.*:P" postag_regexp="yes"></token>
@@ -8493,6 +8493,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Стеклянный, оловянный и деревянный – это исключения из правила.</example>
                 <example>Вводится единый для всех ведомств госбюджет, с едиными остатками.</example>
                 <example>Пётр I приказал заменить их чулки с зелёных на красные.</example>
+                <example>Это сделано с целью получения «самой зеленой в мире» электроэнергии.</example>
                 <example>Он женат на стюардессе.</example>
                 <example>Раньше в этом регионе.</example>
                 <example>Вы больше не одиноки в комнате.</example>
@@ -9261,7 +9262,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>встречу</token>
                     </marker>
                     <or>
-                        <token postag_regexp="yes" postag=".*.:.*:.*:D"></token>
+                        <token postag_regexp="yes" postag=".*.:.*:.*:D"><exception postag_regexp="yes" postag=".*.:MPR:.*:D"></exception></token>
                         <token>друг</token>
                     </or>
                 </pattern>
@@ -9269,6 +9270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Пишется слитно</short>
                 <example correction="навстречу">Я иду <marker>на встречу</marker> движению.</example>
                 <example>Я иду навстречу движению.</example>
+                <example>Иван отменил решение пойти на встречу одному.</example>
                 <example correction="навстречу">Они шли <marker>на встречу</marker> друг другу.</example>
             </rule>        
         </rulegroup>
@@ -11213,12 +11215,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule default="on" id="PREP_C_and_Noun" name="Предлог «с» и существительное">
             <pattern case_sensitive="no">
                 <!--  PREP  с -> NN:.*:R or  NN:.*:T   -->
-                <token regexp="yes">с|со</token>
+                <token regexp="yes">с|со<exception regexp="yes" scope="previous">величиной|размером|объёмом|объемом|длиной|высотой|шириной</exception></token>   <!-- величиной с дом -->
                 <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception regexp="yes">[а-я]*у|[!.?]</exception><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:T|UNKNOWN" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «\1» предполагает употребление существительного в родительном или творительном падеже.</message>
             <short>Требуется родительный или творительный падеж</short>
             <example>Егерь пошёл в лес с рысью.</example>
+            <example>Внезапно за песчаным холмом показался камень величиной с дом.</example>
             <example>В конце концов они встретились с глазу на глаз.</example>
             <example>М.: Прогресс, 1987. — 560 с.</example>
             <example correction="">Егерь пошёл в лес <marker>с рысь</marker>.</example>
@@ -12816,6 +12819,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="Defis_to" name="Дефисное правописание: «-то», «-либо»">  
             <rule>   
+                <antipattern>
+                    <marker>
+                        <token>что</token>   
+                        <token>то</token>                       
+                    </marker>
+                        <token>,</token>   
+                        <token>что</token>   
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes" >&defis_libo;|то</token>           
@@ -12827,6 +12838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Слова с «-то» пишем через дефис</short>
                 <example correction="кто-то|кто, то">Здесь есть <marker>кто то</marker>?</example>
                 <example>Здесь есть кто-то?</example>
+                <example>Просто понял, что то, что происходит, им необходимо.</example>
             </rule>
             <rule>   
                 <pattern>

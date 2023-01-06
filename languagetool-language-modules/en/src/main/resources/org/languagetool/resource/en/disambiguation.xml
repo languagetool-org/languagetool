@@ -5365,6 +5365,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NN.*" postag_regexp="yes" chunk_re="I-NP.*" />
             <token postag="VB" postag_regexp="yes" />
         </antipattern>
+        <antipattern><!-- How does centralized solar work? -->
+            <token postag="W.*|SENT_START|PCT" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token regexp="yes" inflected="yes">do|will|can|should</token>
+            <token min="0">n't</token>
+            <token chunk_re="B-NP.*" />
+            <token chunk_re="I-NP.*" min="0" />
+            <token chunk_re="[EI]-NP.*" />
+            <token postag="VB" />
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes">
@@ -5389,6 +5399,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filter" postag="NN.*"/>
         <example type="untouched">His friend is now in England.</example>
         <example type="untouched">The first few are:</example>
+        <example type="untouched">How does centralized solar work?</example>
         <example type="untouched">The animal pass it on to</example>
         <example type="untouched">... and all being <marker>hit</marker>, along with the ...</example>
         <example type="untouched">His party <marker>may</marker> have brought the disease with them from Egypt.</example>
@@ -16582,5 +16593,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk_re=".-VP" />
         </pattern>
         <disambig action="remove" postag="NNP" />
+    </rule>
+
+    <rule id="A_NO_DT" name="'a' no 'DT' in 'n/a'">
+        <pattern>
+            <token>n</token>
+            <token>/</token>
+            <marker>
+                <token>a</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="DT" />
     </rule>
 </rules>

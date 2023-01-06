@@ -15739,19 +15739,6 @@ O namorado dela era um ladrão.
       <example correction="antemão">Não é possível dizer de <marker>ante mão</marker>.</example>
     </rule>
 
-    <rule id='ALUGAR_CASA' name="arrendar casa">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-        <token inflected='yes'>alugar</token>
-        <token  min="0" regexp="yes">as?|umas?|os?|um|uns</token>
-        <token regexp="yes">casas?|apartamentos?|habitaç(?:ão|ões)|imóv(?:el|eis)</token>
-      </pattern>
-      <message>Se não pretende realçar o tipo de imóvel, considere <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match></suggestion>.</message>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match> \2 \3</suggestion>
-      <example correction="arrendar|arrendar uma casa">Vou <marker>alugar uma casa</marker> em Lisboa.</example>
-      <example correction="Arrendei|Arrendei um apartamento"><marker>Aluguei um apartamento</marker> em Lisboa.</example>
-    </rule>
-
     <rule id='AMBICIONAR_A_QUE_SEJA' name="ambicionar que seja">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -19762,6 +19749,29 @@ O namorado dela era um ladrão.
       </rule>      
 
     </rulegroup>
+
+
+    <!-- TER FORMA DE ter como -->
+    <rule id='TER_FORMA_DE_TER_COMO' name="Simplificar: Ter forma de → Ter como" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-06 (25-JUL-2022+) -->
+      <!--
+      Após 8 meses de baixa não tinha forma de os contactar. → Após 8 meses de baixa não tinha como os contactar.
+      Após acabar o curso já tinha forma de os contactar. → Após acabar o curso já tinha como os contactar.
+      -->
+      <pattern>
+        <token inflected='yes'>ter</token>
+        <marker>
+          <token>forma</token>
+          <token>de</token>
+        </marker>
+        <token><exception postag_regexp='yes' postag='NC.+|AQ.+|DI.+|Z0.+'/></token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>como</suggestion>
+      <example correction="como">Após 8 meses de baixa não tinha <marker>forma de</marker> os contactar.</example>
+      <example correction="como">Após acabar o curso já tinha <marker>forma de</marker> os contactar.</example>
+      <example>Esta pedra tem forma de um animal.</example>
+    </rule>
 
 
     <!-- TORNANDO POSSÍVEL permitindo -->
@@ -45062,8 +45072,8 @@ O namorado dela era um ladrão.
       </antipattern>
       <rule> <!-- Visitávamos 7 Outubro 2020 -->
         <pattern>
-          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1">
-            <exception scope='next' regexp="yes">a(?:ntes|té)</exception>
+          <token postag="V.(?:P.|.[IM]).+" postag_regexp="yes" skip="-1">
+            <exception scope='next' regexp="yes">a(?:ntes|té)|,</exception>
             <exception scope='next' postag="V..F.+" postag_regexp="yes"/></token>
           <marker> &date_dmy; </marker>
         </pattern>
@@ -45350,6 +45360,17 @@ O namorado dela era um ladrão.
         <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
         <token>/</token>
         <token regexp="yes">\d\d\d\d</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
+          <token>,</token>
+          <token regexp="yes">\d\d?</token>
+          <token min='0'>de</token>
+          <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
+          <token min='0' regexp='yes'>de|,</token>
+          <token regexp='yes'>[12][0-9][0-9][0-9]
+            <exception>2023</exception></token>
+          <example> domingo, 11 de maio de 2014</example>
       </antipattern>
       <rule>
         <pattern>
