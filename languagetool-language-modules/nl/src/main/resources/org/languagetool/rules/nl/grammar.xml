@@ -415,8 +415,8 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
 
         <rulegroup id="BE" name="be kan van alles zijn…">
-            <antipattern><token postag="UNKOWN"/><token>be</token></antipattern> <!-- Engels -->
-            <antipattern><token>be</token><token postag="UNKOWN"/></antipattern> <!-- Engels -->
+            <antipattern><token postag="UNKNOWN"/><token>be</token></antipattern> <!-- Engels -->
+            <antipattern><token>be</token><token postag="UNKNOWN"/></antipattern> <!-- Engels -->
             <antipattern><token>.</token><token spacebefore="no">be</token></antipattern>
             <antipattern><token>to</token><token>be</token></antipattern>
             <antipattern><token>(</token><token>be</token><token>)</token></antipattern>
@@ -12554,6 +12554,7 @@ onwaarschijnlijk
         </rulegroup>
         <rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig" type="misspelling">
             <!-- 2014-08-20 TaalTik -->
+            <antipattern><token regexp="yes">[0-9]+</token><token>km</token></antipattern>
             <antipattern><token>.</token><token spacebefore="no">06</token></antipattern>
             <antipattern><token>#</token><token spacebefore="no" /></antipattern>
             <antipattern><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/><token>de</token><token postag_regexp="yes" postag="ZNW.*DE_"/><token postag="ZNW.*HET" postag_regexp="yes"/><token postag="VRZ"/></antipattern>
@@ -14736,8 +14737,8 @@ onwaarschijnlijk
         </rulegroup>
         <rulegroup id="AN" name="an/An" type="misspelling">
             <rule>
-                <antipattern><token postag="UNKOWN"/><token>an</token></antipattern> <!-- Engels -->
-                <antipattern><token>an</token><token postag="UNKOWN"/></antipattern> <!-- Engels -->
+                <antipattern><token postag="UNKNOWN"/><token>an</token></antipattern> <!-- Engels -->
+                <antipattern><token>an</token><token postag="UNKNOWN"/></antipattern> <!-- Engels -->
                 <antipattern><token>an</token><token>sich</token></antipattern>
                 <antipattern><token>zin</token><token>an</token></antipattern><!-- detected elsewhere -->
                 <pattern>
@@ -27626,7 +27627,7 @@ steenwijk;Steenwijk
         </rule>
         </rulegroup>
         -->
-        <rulegroup id="IMMERS" name="immers">
+        <rulegroup id="IMMERS" name="immers" tags="picky">
             <rule>
                 <pattern>
                     <token>immers</token>
@@ -31092,7 +31093,7 @@ steenwijk;Steenwijk
                 <example correction="vermindering|korting">Tegen die <marker>reductie</marker> van de tijd wil de tentoonstelling Ökonomien der Zeit ingaan.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REEDS" name="reeds">
+        <rulegroup id="REEDS" name="reeds" tags="picky">
             <rule>
                 <pattern>
                     <token>reeds</token>
@@ -32057,7 +32058,7 @@ steenwijk;Steenwijk
                 <example correction="">Daar ben ik me <marker>ten volle bewust</marker> van.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TENZIJ" name="tenzij">
+        <rulegroup id="TENZIJ" name="tenzij" tags="picky">
             <rule>
                 <pattern>
                     <token>tenzij</token>
@@ -32834,7 +32835,7 @@ steenwijk;Steenwijk
                 <example correction="Omdat"><marker>Vanwege het feit dat</marker> de tekst op de schijf maar kort is, is het moeilijk statistische methodes te gebruiken bij het ontcijferen ervan.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VEELAL" name="veelal">
+        <rulegroup id="VEELAL" name="veelal" tags="picky" >
             <rule>
                 <pattern>
                     <token>veelal</token>
@@ -33156,7 +33157,7 @@ steenwijk;Steenwijk
                 <example correction="beschikbaar">Alles is <marker>voorhanden</marker> in de hoeve, wat wel superhandig is met zo'n grote bende.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VOORHEEN" name="voorheen">
+        <rulegroup id="VOORHEEN" name="voorheen" tags="picky">
             <rule>
                 <pattern>
                     <token>voorheen</token>
@@ -33575,6 +33576,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="WIJZE" name="wijze" tags="picky">
             <rule>
+                <antipattern><token>de</token><token  case_sensitive="yes">Wijze</token></antipattern>
                 <antipattern><token>de</token><token>wijze</token><token postag_regexp="yes" postag=".*MRV.*|ENM:PER.*"/></antipattern>
                 <antipattern><token>bij</token><token>wijze</token><token>van</token></antipattern><!-- heeft eigen regel -->
                 <antipattern><token regexp="yes">een|de|het|geen</token><token>wijze</token><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
@@ -38210,10 +38212,9 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="DES" name="Waarschuwen voor 'des' buiten staande uitdrukkingen">
             <rule>
-                <antipattern><token postag="UNKNWON"/><token>des</token></antipattern>
-                <antipattern><token>des</token><token postag="UNKNWON"/></antipattern>
+                <antipattern><token postag="UNKNOWN"/><token>des</token><token postag="UNKNOWN"/></antipattern>
                 <antipattern><token>procureur</token><token>des</token><token>Konings</token></antipattern>
-                <antipattern><token postag="UNKOWN"/><token>des</token><token postag="UNKOWN"/></antipattern> <!-- Frans -->
+                <antipattern><token postag="UNKNOWN"/><token>des</token><token postag="UNKNOWN"/></antipattern> <!-- Frans -->
                 <antipattern>
                     <token>Promenade</token>
                     <token>des</token>
@@ -38318,8 +38319,6 @@ steenwijk;Steenwijk
                 <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
                 <short>staande uitdrukking</short>
                 <example correction="Van de"><marker>Des</marker> Yanks eigen.</example>
-                <example correction="van de">De tol <marker>des</marker> bloeds.</example>
-                <example correction="van de">Elk jaar is het weer feest in het zuiden <marker>des</marker> lands.</example>
             </rule>
         </rulegroup>
 
@@ -41719,6 +41718,8 @@ steenwijk;Steenwijk
     <category id="REPETITIONS" name="Herhaling van woorden of woordgroepen." >
         <rulegroup id="DUBBEL_WOORD" name="Dubbel woord">
             <rule>
+                <antipattern><token regexp="yes">alaaf|bison|jullie</token></antipattern>
+                <antipattern><token postag="UNKNOWN"/></antipattern><!-- diverse planten- en dierensoorten -->
                 <antipattern>
                     <token>de</token>
                     <token>Sing</token>
