@@ -45,6 +45,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Set<String> EXCEPTIONS = new HashSet<>(Arrays.asList(
           "n", // n/a
+          "w", // w/o
           "x86",
           "ⓒ",
           "ø", // used as bullet point

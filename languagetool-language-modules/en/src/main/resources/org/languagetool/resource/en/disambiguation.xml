@@ -5637,6 +5637,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="NNP?S" postag_regexp="yes" />
             <token postag="JJ" />
         </antipattern>
+        <antipattern><!-- incorrect chunking "How does centralized solar work?"" -->
+            <token postag="SENT_START|PCT|CC|W.*" postag_regexp="yes">
+                <exception>that</exception>
+            </token>
+            <token regexp="yes" inflected="yes">will|do|can|should|might|may</token>
+            <token chunk="B-NP-singular" />
+            <token chunk="I-NP-singular" min="0" />
+            <token chunk="E-NP-singular" postag="VB" />
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -5657,6 +5666,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">These real English are nice.</example>
         <example type="untouched">You are just being stupid.</example>
         <example type="untouched">(2004) Nicaragua: Those Passed By.</example>
+        <example type="untouched">How does centralized solar work?</example>
         <example type="untouched">Over two years later all six were producing clotting factor.</example>
         <example type="untouched">Adverb. The dog was still barking <marker>outside</marker>.</example>
         <example type="untouched">Adjective. ...there won't be a single building left standing.</example>
@@ -16604,5 +16614,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
         </pattern>
         <disambig action="remove" postag="DT" />
+    </rule>
+
+    <rule id="MARCHING_NO_VBG" name="'marching' no VBG">
+        <pattern>
+            <marker>
+                <token>marching</token>
+            </marker>
+            <token regexp="yes">bands?</token>
+        </pattern>
+        <disambig action="remove" postag="VBG" />
     </rule>
 </rules>
