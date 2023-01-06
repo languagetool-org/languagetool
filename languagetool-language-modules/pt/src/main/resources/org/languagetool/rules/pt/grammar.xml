@@ -18287,6 +18287,40 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- A NÍVEL PROFISSIONAL profissionalmente -->
+    <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-06 (25-JUL-2022+) -->
+    <!--
+    É útil a nível profissional. → É útil profissionalmente.
+    -->
+    <rule id='A_NÍVEL_ADJC_NCC_ADVÉRBIO' name="Simplificar: A nível NC/Adj → Advérbio">
+
+      <antipattern>
+        <token postag='SPS00' postag_regexp='no'/>
+        <token min="0" max="3" postag='NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
+        <token>a</token>
+        <token>nível</token>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='CS' postag_regexp='no'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='SPS00' postag_regexp='no'/>
+        <example>O Poliempreende é uma rede de empreendedorismo a nível nacional que surgiu em 2003, como iniciativa do IP de Castelo Branco, alargando-se em 2006 a outras institui...</example>
+      </antipattern>
+
+      <pattern>
+        <token postag='SENT_START|V.+|CS|PP.+|SPS00|DI.+|DA.+|_PUNCT' postag_regexp='yes'/>
+        <token min="0" max="3" postag='NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
+        <marker>
+          <token>a</token>
+          <token>nível</token>
+          <token postag='NCCS000|AQ0CS0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*</exception></token>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\5mente</suggestion>
+      <example correction="profissionalmente">É útil <marker>a nível profissional</marker>.</example>
+    </rule>
+
+
     <rule id='DE_DÊ' name="Confusão: de/dê">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
