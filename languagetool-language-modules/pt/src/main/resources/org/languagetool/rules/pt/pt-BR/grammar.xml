@@ -1092,7 +1092,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction='jan'>1 <marker>Jan</marker> 2002 - As moedas e notas físicas de euro entraram em circulação, tornando-se a moeda de uso corrente entre os membros originais.</example>
     </rule>
 
-    <rulegroup id='AO90_WEEKDAYS_CASING_PT_BR' type='grammar' name='AO90: Capitalização dos Dias da Semana' default="temp_off"><!-- TODO Converter mensagens para pt-BR -->
+    <rulegroup id='AO90_WEEKDAYS_CASING_PT_BR' type='grammar' name='AO90: Capitalização dos Dias da Semana'><!-- TODO Converter mensagens para pt-BR -->
       <!-- Created by  Tiago F. Santos , Portuguese rule, 2017-01-26 -->
       <rule>
         <antipattern>
@@ -1119,9 +1119,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>Ter</token>
           <token postag='DI.+|VMP00.+|NC.+|AQ.+|RG' postag_regexp='yes'/>
         </antipattern>
+        <antipattern>
+          <token>Dom</token>
+          <token postag='SPS.+' postag_regexp='yes'/>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes'>Sábado|Domingo|Segunda|Terça|Quarta|Quinta|Sexta</token>
+          <token min='0' postag='SPS.+' postag_regexp='yes'/>
+          <token regexp="yes">\p{Lu}.*</token>
+          <example>logo após o "Domingo Espetacular"</example>
+          <example>acontece no Domingo de Ramos</example>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">\p{Lu}.*</token>
+          <token min='0' postag='SPS.+' postag_regexp='yes'/>
+          <token regexp='yes'>Sábado|Domingo|Segunda|Terça|Quarta|Quinta|Sexta</token>
+          <example>Agenda de Domingo</example>
+        </antipattern>
         <!-- MARCOAGPINTO 2022-05-17 (15-MAY-2022+) *END* -->
         <pattern case_sensitive='yes'>
-          <token><exception postag_regexp='yes' postag='SENT_START|NP.+'/></token>
+          <token>
+            <exception postag_regexp='yes' postag='SENT_START|NP.+|_QUOT'/>
+            <exception>:</exception>
+          </token>
           <marker>
             <token regexp='yes'>Sábados?|Domingo|(Seg|Ter|Qua|Qui|Sex|S[aá]b|Dom)</token>
           </marker>

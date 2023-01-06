@@ -4229,7 +4229,7 @@ O namorado dela era um ladrão.
       <example correction='A cadela|O Cadela'><marker>O cadela</marker> está no pasto.</example>
       <example>A cadela está no pasto.</example>
     </rule>
-    <rule default='temp_off'>
+    <rule>
       <antipattern>
         <token postag='_PUNCT'/>
         <token spacebefore='no'>o</token>
@@ -10274,6 +10274,12 @@ O namorado dela era um ladrão.
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-12 (21-OCT-2020+)     -->
       <!--      Improved by Susana Boatto, 2022-10-18     -->
       <rule default='temp_off'>
+        <antipattern>
+          <token inflected="yes">ser</token>
+          <token skip='-1'>eu</token>
+          <token postag="VMN.+" postag_regexp="yes"/>
+          <example>O importante é eu me sentir bem</example>
+        </antipattern>
         <pattern>
         <and>
           <token inflected="yes">ser</token>
@@ -10283,11 +10289,17 @@ O namorado dela era um ladrão.
           <token>eu</token>
         </pattern>
         <message>&MSG_ECV;</message>
-        <suggestion><match no='1' postag='(VMI.)3(S.+)' postag_replace='$1\1$2' postag_regexp='yes'/></suggestion>
+        <suggestion><match no='1' postag='(VMI.)3(S.+)' postag_replace='$1\1$2' postag_regexp='yes'/> \2</suggestion>
         <suggestion>\1, \2</suggestion>
-        <example correction='fui|foi, eu'>Quem deu a cara <marker>foi eu</marker>.</example>
+        <example correction='fui eu|foi, eu'>Quem deu a cara <marker>foi eu</marker>.</example>
       </rule>
       <rule default='temp_off'>
+        <antipattern>
+          <token inflected="yes">ser</token>
+          <token skip='-1'>nós</token>
+          <token postag="VMN.+" postag_regexp="yes"/>
+          <example>O importante é nós nos sentirmos bem</example>
+        </antipattern>
         <pattern>
           <token negate_pos='yes' postag='SPS.+' postag_regexp='yes'/>
           <marker>
@@ -10303,6 +10315,12 @@ O namorado dela era um ladrão.
         <example correction='fomos'>Quem deu a cara <marker>foi</marker> nós.</example>
       </rule>
       <rule default='temp_off'>
+        <antipattern>
+          <token inflected="yes">ser</token>
+          <token skip='-1'>vós</token>
+          <token postag="VMN.+" postag_regexp="yes"/>
+          <example>O importante é vos vos sentires bem</example>
+        </antipattern>
         <pattern>
           <marker>
         <and>
@@ -10317,6 +10335,12 @@ O namorado dela era um ladrão.
         <example correction='fostes'>Quem deu a cara <marker>foi</marker> vós.</example>
       </rule>
       <rule default='temp_off'>
+        <antipattern>
+          <token inflected="yes">ser</token>
+          <token skip='-1'>vocês</token>
+          <token postag="VMN.+" postag_regexp="yes"/>
+          <example>O importante é vocês se sentirem bem</example>
+        </antipattern>
         <pattern>
           <marker>
         <and>
@@ -10356,7 +10380,7 @@ O namorado dela era um ladrão.
         <example correction="Precisa"><marker>Precisam</marker>-se de trabalhadores.</example>
         <example correction="Trata"><marker>Tratam</marker>-se de pessoas estudiosas.</example>
       </rule>
-      <rule default='temp_off'>
+      <rule>
         <antipattern>
           <token inflected='yes'>jogar</token>
           <token>fora</token>
@@ -10400,7 +10424,7 @@ O namorado dela era um ladrão.
     </rule>
 
     <!-- CUJO NOME/ADJETIVO/NUMERAL -->
-    <rulegroup id='CUJO_LIGACAO_NOME_ADJETIVO_NUMERAL' name="'Cujo' estar ligado a Nome/Adj/Numeral" type="style" default="temp_off">
+    <rulegroup id='CUJO_LIGACAO_NOME_ADJETIVO_NUMERAL' name="'Cujo' estar ligado a Nome/Adj/Numeral" type="style">
       <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-04/5 + 2022-06-08 (25-JUN-2021+)      -->
       <!--
       Ela é a mãe cujo o filho é professor. → Ela é a mãe cujo filho é professor.
@@ -10482,7 +10506,8 @@ O namorado dela era um ladrão.
       </pattern>
       <message>O pronome relativo 'cujo' tem de estar ligado a um nome, adjetivo ou numeral.</message>
       <suggestion>\2 \3</suggestion>
-      <example correction='os quais'>Os filhos <marker>cujo os quais</marker> não são professores.</example>
+      <suggestion>que</suggestion>
+      <example correction='os quais|que'>Os filhos <marker>cujo os quais</marker> não são professores.</example>
     </rule>
   </rulegroup>
 
@@ -13550,7 +13575,7 @@ O namorado dela era um ladrão.
         <example>Para mim, estudar é um sacrifício.</example>
         <example>Está comigo há cinco anos.</example>
       </rule>
-      <rule default='temp_off'>
+      <rule>
         <pattern>
           <token>mim</token>
           <token postag='VMN0000'/>
@@ -13561,7 +13586,7 @@ O namorado dela era um ladrão.
         <suggestion>eu \2 \3</suggestion>
         <example correction='mim, querer fazer|eu querer fazer'>Para <marker>mim querer fazer</marker> isso, é porque precisaa.</example>
       </rule>
-      <rule default='temp_off'>
+      <rule>
         <pattern>
           <token>ti</token>
           <token postag='VMN0000'/>
@@ -13572,7 +13597,7 @@ O namorado dela era um ladrão.
         <suggestion>tu \2 \3</suggestion>
         <example correction='ti, querer fazer|tu querer fazer'>Para <marker>ti querer fazer</marker> isso, é porque precisaa.</example>
       </rule>
-      <rule default='temp_off'>
+      <rule>
         <pattern>
           <token>si</token>
           <token postag='VMN0000'/>
@@ -43925,7 +43950,7 @@ O namorado dela era um ladrão.
         <suggestion>”</suggestion>
         <example correction="”">Disse que “sim<marker>“</marker>.</example>
       </rule>
-      <rule default='temp_off'>
+      <rule>
         <pattern>
           <marker>
             <token spacebefore='yes'>’</token>
@@ -43936,7 +43961,7 @@ O namorado dela era um ladrão.
         <suggestion>‘</suggestion>
         <example correction="‘">Disse que <marker>’</marker>sim‘.</example>
       </rule>
-      <rule default='temp_off'>
+      <rule>
         <pattern>
           <marker>
             <token spacebefore='yes'>”</token>
