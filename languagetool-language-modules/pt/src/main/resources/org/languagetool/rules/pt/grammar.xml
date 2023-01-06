@@ -24354,7 +24354,7 @@ O namorado dela era um ladrão.
       <example>Ali é o posto da GNR.</example>
     </rule>
 
-    <rulegroup id='DOUBLE_PUNCTUATION' name="Pontuação duplicada">
+    <rulegroup id='DOUBLE_PUNCTUATION_XML' name="Pontuação duplicada">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-17 -->
       <antipattern><!-- indexes -->
         <token regexp='yes'>&tracos_de_separacao;</token>
@@ -24374,7 +24374,7 @@ O namorado dela era um ladrão.
           <exception regexp='yes'>[,.]</exception></token>
         <example>O que quer dizer…?</example>
       </antipattern>
-      <rule>
+      <rule><!--#1-->
         <pattern>
           <token>.</token>
           <token>.</token>
@@ -24385,7 +24385,7 @@ O namorado dela era um ladrão.
         <suggestion>…</suggestion>
         <example correction='…'>A situação financeira era estável<marker>....</marker></example>
       </rule>
-      <rule>
+      <rule default="off"><!--#2 replaced by DoublePunctuationRule.java-->
         <antipattern><!-- dealt by ellipsis typography rule -->
           <token>.</token>
           <token>.</token>
@@ -24407,7 +24407,7 @@ O namorado dela era um ladrão.
         <example>A situação financeira era estável<marker>...</marker></example>
         <example>… o intervalo entre 27 d.C. e 29 d.C.. Por isso, se Jesus tinha …</example>
       </rule>
-      <rule>
+      <rule><!--#3-->
         <antipattern>
           <token regexp='yes'>&hifen;</token>
           <token regexp='yes'>&hifen;</token>
@@ -24418,22 +24418,22 @@ O namorado dela era um ladrão.
           <token regexp='yes'>&hifen;</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">[,;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
+          <token regexp="yes">[;:()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
           <token><match no='0'/></token>
         </pattern>
         <message>Pontuação duplicada</message>
         <suggestion>\1</suggestion>
-        <example correction=','>A situação financeira era estável<marker>,,</marker>e a fazenda garantia um bom rendimento.</example>
+        <example correction=';'>A situação financeira era estável<marker>;;</marker>a fazenda garantia um bom rendimento.</example>
         <example>------------</example>
       </rule>
-      <rule>
-        <antipattern><!-- dealt by rule #2 -->
+      <rule><!--#4-->
+        <antipattern><!-- dealt by DoublePunctuationRule.java -->
           <token>.</token>
           <token>.</token>
         </antipattern>
-        <antipattern>
-          <token>!</token>
-          <token regexp='yes'>\?</token>
+        <antipattern><!-- dealt by DoublePunctuationRule.java -->
+          <token>,</token>
+          <token>,</token>
         </antipattern>
         <antipattern>
           <token>.</token>
@@ -24443,19 +24443,11 @@ O namorado dela era um ladrão.
         <antipattern><!-- sentence ends in an abreviation -->
           <token regexp='yes'>\p{L}|&abreviaturas;</token> <!-- MARCOAGPINTO 2021-01-15 (1-JAN-2021+) Removed "etc" from here since I added it to an entity at start -->
           <token spacebefore='no'>.</token>
+          <token regexp="yes">[,;:]</token>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *START* -->
-        <!--
-        O quê?!
-        -->
-        <antipattern>
-          <token spacebefore='no' regexp='yes'>[?]</token>
-          <token spacebefore='no' regexp='yes'>[!]</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-12-11 (21-OCT-2020+) *END* -->
         <pattern>
-          <token regexp="yes">[.,;:!?…]</token>
-          <token regexp="yes">[.,;:!?…]</token>
+          <token regexp="yes">[.,;:]</token>
+          <token regexp="yes">[.,;:]</token>
         </pattern>
         <message>Pontuação duplicada</message>
         <suggestion>\1</suggestion>
@@ -24466,7 +24458,7 @@ O namorado dela era um ladrão.
         <example>Ex.: Sua Excelência saíu à rua</example>
         <example>O quê<marker>?!</marker></example>
       </rule>
-      <rule>
+      <rule><!--#5-->
         <antipattern>
           <token regexp='yes' skip='-1'>\d+|&operadores_matematicos;</token>
           <token min='2'>-</token>
@@ -24497,6 +24489,17 @@ O namorado dela era um ladrão.
         <suggestion>\1</suggestion>
         <suggestion>—</suggestion>
         <example correction='-|—'>A situação financeira era estável<marker>--</marker>e a fazenda garantia um bom rendimento.</example>
+      </rule>
+      <rule tags="picky"><!--#6-->
+        <pattern>
+          <token regexp="yes">[!?]</token>
+          <token regexp="yes">[!?]</token>
+        </pattern>
+        <message>Pontuação duplicada</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\2</suggestion>
+        <example correction='!'><marker>!!</marker></example>
+        <example>------------</example>
       </rule>
     </rulegroup>
 
@@ -44191,6 +44194,12 @@ O namorado dela era um ladrão.
         <token>.</token>
         <token>.</token>
       </antipattern>
+      <antipattern>
+        <token>…</token>
+        <token>.</token>
+        <token>.</token>
+        <token>.</token>
+      </antipattern>
       <pattern>
         <token>.</token>
         <token>.</token>
@@ -44352,6 +44361,11 @@ O namorado dela era um ladrão.
         <example>Cole aqui o seu texto<marker>...</marker></example>
       </rule>
       <rule>
+        <antipattern>
+        <token>…</token>
+        <token>.</token>
+        <token>.</token>
+        </antipattern>
         <pattern>
           <marker>
             <token regexp='yes'>…
