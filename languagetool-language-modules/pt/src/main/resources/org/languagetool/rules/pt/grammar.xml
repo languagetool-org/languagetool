@@ -19751,6 +19751,29 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- TER FORMA DE ter como -->
+    <rule id='TER_FORMA_DE_TER_COMO' name="Simplificar: Ter forma de → Ter como" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-06 (25-JUL-2022+) -->
+      <!--
+      Após 8 meses de baixa não tinha forma de os contactar. → Após 8 meses de baixa não tinha como os contactar.
+      Após acabar o curso já tinha forma de os contactar. → Após acabar o curso já tinha como os contactar.
+      -->
+      <pattern>
+        <token inflected='yes'>ter</token>
+        <marker>
+          <token>forma</token>
+          <token>de</token>
+        </marker>
+        <token><exception postag_regexp='yes' postag='NC.+|AQ.+|DI.+|Z0.+'/></token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>como</suggestion>
+      <example correction="como">Após 8 meses de baixa não tinha <marker>forma de</marker> os contactar.</example>
+      <example correction="como">Após acabar o curso já tinha <marker>forma de</marker> os contactar.</example>
+      <example>Esta pedra tem forma de um animal.</example>
+    </rule>
+
+
     <!-- TORNANDO POSSÍVEL permitindo -->
     <rule id='TORNAR_POSSÍVEL_PERMITIR_POSSIBILITAR' name="Simplificar: Tornar possível → permitir/possibilitar" type="style">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-03 (25-JUL-2022+) -->
