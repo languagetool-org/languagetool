@@ -1689,7 +1689,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches(".+[*_:]innen")
         && !s.contains("--")
         && !s.endsWith("roulett")
-        && !s.matches(".+\\szigste[srnm]") // do not suggest "ein zigste" for "einzigste"
+        && !s.matches(".+\\szigste[srnm]?") // do not suggest "ein zigste" for "einzigste"
         && !s.matches("[\\wöäüÖÄÜß]+ [a-zöäüß]-[\\wöäüÖÄÜß]+")   // e.g. "Mediation s-Background"
         && !s.matches("[\\wöäüÖÄÜß]+- [\\wöäüÖÄÜß]+")   // e.g. "Pseudo- Rebellentum"
         && !s.matches("[A-ZÄÖÜ][a-zäöüß]+-[a-zäöüß]+-[a-zäöüß]+")   // e.g. "Kapuze-over-teil"
@@ -1697,9 +1697,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         && !s.matches("[A-ZÄÖÜa-zäöüß\\-]+ [a-zäöüßA-ZÄÖÜ]-[a-zäöüßA-ZÄÖÜ\\-]+")   // e.g. "Linke d-In-Artikel"
         && !s.matches("[A-ZÄÖÜa-zäöüß\\-]+ [a-zäöüß\\-]+-[A-ZÄÖÜ][a-zäöüß\\-]+")   // e.g. "Sachsen hausend-Süd"
         && !s.matches("[\\wöäüÖÄÜß]+ -[\\wöäüÖÄÜß]+")   // e.g. "ALT -TARIF"
-        && !s.matches("[A-ZÄÖÜ][a-zäöüß]{2,20}-[a-zöüß]{2,20}-")   // prevent Xx-zzz-
-        && !s.matches("[a-zäöüß]{3,20}-[A-ZÄÖÜ][a-zäöüß]{2,20}")   // prevent "testen-Gut"
-        && !s.matches("[a-zäöüß]{3,20}-[A-ZÄÖÜ]{2,20}")   // prevent "testen-URL"
+        && !s.matches("[A-ZÄÖÜ][a-zäöüß]{2,20}-[a-zäöüß]{2,20}-")   // prevent Xx-zzz-
+        && !s.matches("[a-zäöüß]{3,20}-[A-ZÄÖÜ][a-zäöüß\\-]{2,20}")   // prevent "testen-Gut"
+        && !s.matches("[a-zäöüß]{3,20}-[A-ZÄÖÜ\\-]{2,20}")   // prevent "testen-URL"
         && !s.matches(".+-(gen|tu[etn]|ehren?|[fv]iele?n?|gären?|igeln?|nein|ja|d?rum|erben?|ecken?|vo[rnm]|hat|gaben|gabs?|gibt|km|geben?|nu[nr]|gay|kalt(en?)?|la[gd]|la[gd]en?|man|stur|rängen?|nässen?|angle|angeln?|angst|sturen|oft|wo|wann|was|wer|mengen?|spie(ß|ss)en?|adeln?|näht?en?|ob|beiden?|gärten|zweiten?|hütt?en?|kehrt?en?|h?orten?|messen?|tr[ea]u|trüb|trüben?|senden?|gr[uo]b|feinden?|wie|käsen?|ih[rmn]|grau|trug|trugen|weil|dass|sein?|zucken?|kanten?|s?ich|getan|hält|bald|ärgern?|fächern?|warten?|leid|weit|weiten?|weiden?|ruf|rufen?|min|im|bin|zicken?|kacken?|jo|siegeln?|[ao]ha|ganz|zäh|jäh|gehen?|ga[br]|kam|sah|[sr]itzen|kann|mit|ohne|ist|so|war|da[rh]in|über|unter|doof|bis|sie|er|aalen?|[lb]aden?|raten?|die|mit|bis|d[ea]s|eifern?|ackern?|z[iu]cken?|j[oe]|jäh|haha|gerät|[wrbfk]etten?|tja|je|kau|nach|haben?|hab|gaga|kicken?|kick|heil|heilen?|altern?|wänden?|wert|werben?|zoom|genug|gehen?|ums?|und|oder|[sn]ah|ha|de[mnsr]|sü(ß|ss)|ringen?|dingen?|seil|au[fs]|gurten?|munden?|eigen|wenden?|regen?|b?rechen?|legen?|fächern?|leger|g[ia]lt|heim|heimen?|[mksdw]?ein|[mksdw]?einen?|erden?|ändern?|ernten?|bänden?|ästen?|arten?|kanten?|eichen?|unken?|wunden?|kunden?|runden?|regeln?|kegeln?|krähen?|zechen?|mähen?|ehren?|ehen?|enden?|engen?|gut|guten?|ziel|zielen?|spiel|spielen?|ätzen?|riegeln?|segeln?|engt?|engen?|angeln?|kochen?|[lk]ehren?|festen?|essen?|steuern?|ekeln?|irren?|cum|de|da|du|raus|rein|dort|knien?|hin|zu[rm]?|ritten?|riss|rissen?|rast|rasseln?|hieb|wässern?|putz|hängen?|zinken?|a[bnm]|bisher|schöne?|solo|haken?|dr[üu]ck(en?|tot)?|huren?|pries|hupen?|hüllen?|lang|joa|sei[dt]|weist|üben?|ufern?|iss|steck(en?)?|fort|mal|aal|darf|halt(en?)?|eifern?|van|keck|guck(en?|t)?|ganze?|acht|auch|solo|[zs]og|lagern?|baggern?|au|haut?|als|uns|bei[m]?|[dm]ir|dich|uni|ergo|eich(en?)?|spick(en?)?|e[rs]|spielt?|we[hg]|wart|wi[rl]d|neue[rns]?|mithin|tags?|eine[snmr]?|wiesen?|rei[sz]en?|wei[sh]en?|siegen?|sagen?|mischen?|lachen?|sitzen?|tagen?|all(en?)?|zahlen?|rügen?|ruhen?|bar|hüben?|hick|arm|armen?|plan(en?)?|[fpl]assen?|per|reg|rinnen?|bringen?|öl(en?)?|alt(en?)?|elf(en?)?|kp|ward|apart|wer[dkt](en?)?|weis|sind|mm|wand|wir|licht(en)?|lügen?|loch(en?)?|übel|peu|tischen?|fein(e[rns]?)?|a(ß|ss)|mol|neu(en?)?|[dm]ich|rang|obe[nr]|übe[nl]?|maxi?|hart(en?)?|hexen?|ab|zück(en?)?|zurück|köpf(en?)?|band(en?)?|schafft?en?|schalt?en?|giften?|sieben?|seil(en?)?|wehen?|sehen?|s[it]?eht?|stocken?|red|rät|ma(ß|ss)|schämen?|innen?|karren?|wer[tf]en?|werft|loch(en?)?|logen?|gossen?|steil(en?)?|fr?isch(en?)?|dann|zelt(en?)?|luv|kauf(en?)?|lasch(en?)?|bei(ß|ss)(en?)?)")   // e.g. "Babysöckchen" -> "Babys-kochen"
         && !s.endsWith("-s")   // https://github.com/languagetool-org/languagetool/issues/4042
         && !s.endsWith(" de")   // https://github.com/languagetool-org/languagetool/issues/4042
@@ -2998,6 +2998,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "ertragsreiche": return topMatch("ertragreiche");
       case "ertragsreiches": return topMatch("ertragreiches");
       case "ertragsreichen": return topMatch("ertragreichen");
+      case "einzigste": return topMatch("einzige");
+      case "einzigstes": return topMatch("einziges");
+      case "einzigster": return topMatch("einziger");
+      case "einzigsten": return topMatch("einzigen");
+      case "einzigstem": return topMatch("einzigem");
       case "Youngstar": return topMatch("Youngster");
       case "Youngstars": return topMatch("Youngsters");
       case "aussergewöhnlichen": return topMatch("außergewöhnlichen");
