@@ -16625,4 +16625,36 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="remove" postag="VBG" />
     </rule>
+
+    <rulegroup id="ONLY_JUST_RB" name="'just' and 'only' only RB">
+        <rule>
+            <pattern>
+                <marker>
+                    <token chunk_re=".-ADVP" regexp="yes">only|just</token>
+                </marker>
+                <token chunk_re=".-VP" postag="VB.*|MD" postag_regexp="yes" />
+            </pattern>
+            <disambig action="filter" postag="RB" />
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="PRP_S.*|NN.*" postag_regexp="yes" chunk_re="E-NP.*" />
+                <marker>
+                    <token chunk_re=".-ADVP" regexp="yes">almost|now|soon|sure|likely|kindly|then|ever</token>
+                </marker>
+                <token chunk_re=".-VP" postag="VB.*|MD" postag_regexp="yes" />
+            </pattern>
+            <disambig action="filter" postag="RB" />
+        </rule>
+        <rule>
+            <pattern>
+                <token chunk_re=".-VP" regexp="yes" inflected="yes">will|can|do|should|might|may|must|have|be</token>
+                <marker>
+                    <token chunk_re=".-VP" regexp="yes">almost|now|soon|sure|likely|kindly|then|ever</token>
+                </marker>
+                <token chunk_re=".-VP" postag="VB.*" postag_regexp="yes" />
+            </pattern>
+            <disambig action="filter" postag="RB" />
+        </rule>
+    </rulegroup>
 </rules>
