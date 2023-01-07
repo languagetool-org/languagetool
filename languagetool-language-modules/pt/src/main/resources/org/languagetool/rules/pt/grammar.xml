@@ -18439,14 +18439,31 @@ O namorado dela era um ladrão.
       </antipattern>
 
       <antipattern>
-        <token postag='DA.+|SPS00:DA.+|DI.+|SPS00:DI.+' postag_regexp='yes'/>
+        <token postag='DA.+|SPS00:DA.+|DI.+|SPS00:DI.+|RG' postag_regexp='yes'/>
+        <token min="0" max="1" postag='V.+' postag_regexp='yes'/>
         <token min="1" max="2" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
         <token>que</token>
         <token inflected='yes'>ser</token>
         <token regexp="yes">[ao]s?</token>
         <token min="1" max="2" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
-        <token postag='SPS00' postag_regexp='no'/>
+        <token postag='SPS00|DA.+|SPS00:DA.+|CC' postag_regexp='yes'/>
+        <token><exception postag='RN' postag_regexp='no'/></token>
         <example>Com esta compensação ao Real Madrid assumida pelo embuste que foi a venda de Garay, fica claro que a melhor opção teria sido manter Garay até ao final do contrato e de...</example>
+        <example>Estes militares também utilizam agentes que são os polícias do exército.</example>
+        <example>Estes militares também utilizam agentes que são os polícias e os carros-patrulha.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='SENT_START' postag_regexp='no'/>
+        <token postag='DA.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+        <token>que</token>
+        <token inflected='yes'>ser</token>
+        <token regexp="yes">[ao]s?</token>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
+        <token postag='SPS00:DA.+' postag_regexp='yes'/>
+        <example>O Vasco, que foi o segundo carioca no ranking, teve 25,4 pontos, ou seja, praticamente nove a menos que o rival rubro-</example>
       </antipattern>
 
       <pattern>
