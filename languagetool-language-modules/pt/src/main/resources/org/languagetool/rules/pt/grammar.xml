@@ -18349,6 +18349,133 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- QUE FOI O CRIADOR o criador -->
+    <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-07 (25-JUL-2022+) -->
+    <!--
+    Temos Marco que foi o fundador da teoria. → Temos Marco o fundador da teoria.
+    Temos Marco, que é o fundador da teoria. → Temos Marco, o fundador da teoria.
+    -->
+    <rule id='QUE_VERBO_SER_A_AS_O_OS_A_AS_O_OS' name="Simplificar: Que + V. Ser + a(s)/o(s) → a(s)/o(s)">
+
+      <antipattern>
+        <token postag='CC|V.+|RG|DI.+' postag_regexp='yes'>
+          <exception postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </token>
+        <token min="0" max="1" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
+        <token postag='DA.+|SPS00|SPS00:DA.+|DI.+|SPS00:DI.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token inflected='yes'>ser</token>
+        <token regexp="yes">[ao]s?</token>
+        <example>Para o mal que é a morte não há medicamentos nos hortos.</example>
+        <example>Muito de nós vínhamos tentando denunciar a fraude que foram as “jornadas de 2013”, mas com a repercussão muito limitada.</example>
+        <example>Adormecer na desculpa que é a Sportv que marca os horários e nada se pode fazer é para o lado que eles dormem melhor.</example>
+        <example>Ontem o Bruno me ligou informando não ter a condição de troca sem custo pois chegaram à conclusão que é a peça q está com problema.</example>
+        <example>Tente plantar um grão de trigo sem os conhecimentos que lhe foram legados pelos homens que foram os primeiros a plantar trigo.</example>
+        <example>...iberativos, inclusive com instrumento econômico para a promoção do uso racional e eficiente da água que é a cobrança pelo seu uso.</example>
+        <example>O rabecã é um instrumento de corda que é o maior membro entre os membros da familia de violas e tem a tonalidade mais grave.</example>
+        <example>Temos de aceitar o mal, mas não deixá-lo solto a ponto de sufocar as outras componentes da psique que são o bem.</example>
+        <example>...e sistemático de monges tibetanos pela China (talvez pelo fato da China ter regime de partido único que é o sonho do PT?)</example>
+        <example>A Idade Média é a época do particularismo, do direito à diferença, ao contrário do mundo moderno que é a época da padronização, da uniformização.</example>
+        <example>- Guarde a Nota Fiscal que é a garantia de seu produto.</example>
+        <example>Temos um patrocinador que é a Ortopé e estamos buscando outros para não torrarmos nosso patrimônio.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='RN|SPS00|PP.+|SPS00:PP.+|Z0.+|DI.+|SPS00:DI.+|NC.+|AQ.+|NP.+|DA.+|SPS00:DA.+|RM|UNKNOWN' postag_regexp='yes'>
+          <exception postag='V.+' postag_regexp='yes'/>
+        </token>
+        <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+        <token postag='SPS00|CC|V.+|RG|DI.+|SPS00:DI.+|DA.+|SPS00:DA.+|DD.+|SPS00:DD.+|PD.+|SPS00:PD.+|DP.+|SPS00:DP.+' postag_regexp='yes'>
+          <exception postag='NC.+|AQ.+' postag_regexp='yes'/>
+        </token>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token inflected='yes'>ser</token>
+        <token regexp="yes">[ao]s?</token>
+        <example>Dá para saber o nome de todo mundo, de tão pequenina que é a cidade.</example>
+        <example>Você tem certeza que foi o Tom quem você viu fazendo isso?</example>
+        <example>Terminei "Atrás do espelho" tremendo de ansiedade para ler logo o terceiro, de tão incrível que é a continuação!</example>
+        <example>...mum ver pessoas compartilhando momentos de sua vida em vídeos usando o stories de outra rede social que é o Instagram.</example>
+        <example>Não é óbvio que foi o Tom quem fez isso?</example>
+        <example>O órgão já se definiu por um dos temas que é o que avalia se a Unicamp vai aderir no Vestibular ao sistema do Sisu – sistema de seleção unificado ...</example>
+        <example>...e aos padrões étnicos, às franjas e às aplicações de missangas e medalhas e muito menos aos pompons que são o elemento que enriquece as sandálias este verão.</example>
+        <example>Por isso, enviou o seu bem mais precioso que foi o seu filho Jesus, como demonstração perfeita deste amor.</example>
+        <example>Desta forma, aponta-se a primeira parte da matéria controvérsia que é o dano extrapatrimonial com a Reforma Trabalhista.</example>
+        <example>...o longo do tempo em que vamos conhecendo novas amizades, novos personagens dessa fábula maravilhosa que é o casamento.</example>
+        <example>Isso é ser cristão.Muitas pessoas se apegam a detalhes e esquecem o mais importante que é o amor.</example>
+        <example>O Sampaio tem problemas e não contará com o seu principal jogador que é o atacante Robert.</example>
+        <example>Mas tenho m segurado, pois já passei por coisa pior junto com a minha irmã que foi a minha doadora.</example>
+        <example>Vivemos com esses Elementos neste corpo e também com o quinto elemento que é a força da Deusa e do Deus dentro de nossa mente.</example>
+        <example>Mas, com um trabalho diário e contínuo podemos abraçar, definitivamente, a mudança cultural que é a base de qualquer transformação digital.</example>
+        <example>...deuses tão poderosos quanto temperamentais e viaje pelos nove reinos de Yggdrasil, a árvore gigante que é o centro de toda a existência.</example>
+        <example>... ambos os eventos, talvez fosse mais coerente parar com sua defesa eloquente da ditadura de opinião que é a religião, em muitas de suas formas.</example>
+        <example>...II, porém isso so dever ser feito quando temos o objetivo de resgastar os irmãos para verdade plena que é a Igreja fundada por NSJC através de Pedro (primeiro papa), se não o ecumenismos é morto sem vida!</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='Z0.+|DI.+|SPS00:DI.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+        <token>que</token>
+        <token inflected='yes'>ser</token>
+        <token regexp="yes">[ao]s?</token>
+        <example>...e, porque é muito difícil haver unanimidade, mas estava à espera que houvesse uma grande aceitação, que foi o que aconteceu”, afirmou aos jornalistas, no parlamento, no final da eleição.</example>
+        <example>Isso não é uma boa ideia, que foi o pior conselho.</example>
+        <example>...ogramas sencientes dentro da Matrix (e as máquinas no mundo real), o Merovingian é um determinista, que é a base para a sua dissertação sobre causalidade ser a natureza do universo.</example>
+        <example>... poupar a humanidade e não colocar uma foto minha com a máscara no rosto… :laugh: Deixo 20 minutos, que é o que sugere a embalagem.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='RG' postag_regexp='no'/>
+        <token postag='DP.+|SPS00:DP.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+        <token>que</token>
+        <token inflected='yes'>ser</token>
+        <token regexp="yes">[ao]s?</token>
+        <example>...site que constarão as suas principais informações da sua empresa, bem como sua informação principal que são os seus dados de contato.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='DA.+|SPS00:DA.+|DI.+|SPS00:DI.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token inflected='yes'>ser</token>
+        <token regexp="yes">[ao]s?</token>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'/>
+        <token postag='SPS00' postag_regexp='no'/>
+        <example>Com esta compensação ao Real Madrid assumida pelo embuste que foi a venda de Garay, fica claro que a melhor opção teria sido manter Garay até ao final do contrato e de...</example>
+      </antipattern>
+
+      <pattern>
+        <token postag='NC.+|AQ.+|NP.+|AO.+' postag_regexp='yes'>
+          <exception scope="previous" postag='DD.+|SPS00:DD.+' postag_regexp='yes'/>
+          <exception postag='V.+|DI.+|Z0.+|SPS00:DI.+' postag_regexp='yes'/>
+        </token>
+        <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+        <marker>
+          <token>que</token>
+          <and>
+            <token inflected='yes'>ser</token>
+            <token regexp="yes">é|foi|são|foram</token>
+          </and>
+          <token regexp="yes">[ao]s?</token>
+        </marker>
+        <token><exception postag='PP.+|DD.+|SPS00:PP.+|SPS00:DD.+' postag_regexp='yes'/></token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\5</suggestion>
+      <example correction="o">Temos Marco <marker>que foi o</marker> fundador da teoria.</example>
+      <example correction="o">Temos Marco, <marker>que é o</marker> fundador da teoria.</example>
+      <example>Essa Ferramenta que é o Esquema Elétrico, Manual de Serviço, Diagrama Elétrico é indispensável para esses Reparos.</example>
+      <example>Se recuse a participar desse teatro que são as eleições.</example>
+      <example>É difícil falar dessa realidade que é o amor principalmente quando queremos vivê-la.</example>
+      <example>“Tenho certeza que foi a mesma quadrilha.</example>
+    </rule>
+
+
     <rule id='TEM_TÊM' name="Confusão: tem/têm">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
