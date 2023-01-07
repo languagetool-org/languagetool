@@ -35895,8 +35895,9 @@ steenwijk;Steenwijk
                         <token postag="WKW:.*:INF.*" postag_regexp="yes"><exception postag="ZNW:MRV:DE_"/></token>
                     </marker>
                 </pattern>
-                <message>Juist is <suggestion>Zij \3</suggestion> of <suggestion>Ze \3</suggestion>.</message>
+                <message>Als 'hun' hier het onderwerp is, is juist :<suggestion>Zij \3</suggestion> of <suggestion>Ze \3</suggestion>.</message>
                 <example correction="Zij houden|Ze houden"><marker>Hun houden</marker> van een thuis.</example>
+                <!-- <example>Hun streven naar de afschaffing koppelden ze aan hun terugkeer naar Afrika.</exammple> -->
             </rule>
         </rulegroup>
         <!--
@@ -45419,13 +45420,14 @@ steenwijk;Steenwijk
                 </marker>
                 <token>de</token>
                 <token min="0" max="2" postag_regexp="yes" postag="BNW.*"/>
-                <token postag_regexp="yes" postag=".*MRV.*"/>
+                <token postag_regexp="yes" postag=".*MRV.*"><exception regexp="yes">[0-9]</exception></token>
                 <token postag_regexp="yes" postag="BNW:STL:ONV|BYW"/>
                 &PUNT;
             </pattern>
             <message>Dit is vast de verkeerde vorm van het werkwoord.</message>
             <suggestion><match no="3" postag_regexp="yes" postag="WKW:(TGW|VLT):INF"/></suggestion>
             <example correction="passen|passten|pasten">Gelukkig <marker>paste</marker> de fietsen erin.</example>
+            <example>Hierbij verdween de 9 weer.</example>
         </rule>
 
         <rulegroup id="PART_SENTENCE_001" name="verkeerde werkwoordvorm" >
