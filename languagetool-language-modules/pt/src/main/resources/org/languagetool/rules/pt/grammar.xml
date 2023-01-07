@@ -10273,10 +10273,10 @@ O namorado dela era um ladrão.
       <!-- 	VERBO_SER + EU fui eu -->
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-12 (21-OCT-2020+)     -->
       <!--      Improved by Susana Boatto, 2022-10-18     -->
-      <rule default='temp_off'>
+      <rule>
         <antipattern>
           <token inflected="yes">ser</token>
-          <token skip='-1'>eu</token>
+          <token skip='2'>eu</token>
           <token postag="VMN.+" postag_regexp="yes"/>
           <example>O importante é eu me sentir bem</example>
         </antipattern>
@@ -25325,7 +25325,7 @@ O namorado dela era um ladrão.
     <rule id='CONJUNCTION_REPETITION' name="Repetição de conjunções" default='on'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
       <pattern>
-        <token regexp="yes" skip='3'>ademais|além|conforme|contudo|demais|embora|entanto|entretanto|logo|mas|obstante|porém|portanto|seja|senão|também|todavia
+        <token regexp="yes" skip='3'>ademais|além|conforme|contudo|demais|embora|entanto|entretanto|logo|mas|obstante|porém|portanto|senão|também|todavia
           <exception scope='next' postag_regexp='yes' postag="_PUNCT|''"/></token>
         <marker>
           <token><match no='0'/></token>
@@ -52804,7 +52804,7 @@ O namorado dela era um ladrão.
         <url>https://pt.wiktionary.com/wiki/czarina</url>
         <example correction='czarina|czar'><marker>czara</marker></example>
       </rule>
-      <rule>
+      <rule default='off'>
         <pattern>
           <token regexp='yes'>ducas?</token>
         </pattern>
@@ -52813,7 +52813,7 @@ O namorado dela era um ladrão.
         <url>https://pt.wiktionary.com/wiki/duquesa</url>
         <example correction='duquesa|duque'><marker>duca</marker></example>
       </rule>
-      <rule>
+      <rule default='off'>
         <pattern>
           <token regexp='yes'>duquas?</token>
         </pattern>
@@ -52860,7 +52860,7 @@ O namorado dela era um ladrão.
       </rule>
       <rule>
         <pattern>
-          <token regexp='yes'>le(ã|ona)s?</token>
+          <token regexp='yes'>le(ã)s?</token>
         </pattern>
         <message>O feminino de leão é <suggestion>leoa<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>.</message>
         <suggestion>leão<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
