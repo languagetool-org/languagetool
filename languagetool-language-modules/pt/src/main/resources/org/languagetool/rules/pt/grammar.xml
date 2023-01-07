@@ -18288,37 +18288,93 @@ O namorado dela era um ladrão.
 
 
     <!-- A NÍVEL PROFISSIONAL profissionalmente -->
-    <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-06 (25-JUL-2022+) -->
+    <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-06 + 2023-01-07 (25-JUL-2022+) -->
     <!--
     É útil a nível profissional. → É útil profissionalmente.
+    É útil a nível civil. → É útil civilmente.
+    É útil a nível civil e militar. → É útil civil e militarmente.
+    É útil a nível civil, policial e militar. → É útil civil, policial e militarmente.
     -->
-    <rule id='A_NÍVEL_ADJC_NCC_ADVÉRBIO' name="Simplificar: A nível NC/Adj → Advérbio">
+    <rulegroup id='A_NÍVEL_ADJC_NCC_ADVÉRBIO' name="Simplificar: A nível NC/Adj → Advérbio">
 
-      <antipattern>
-        <token postag='SPS00' postag_regexp='no'/>
-        <token min="0" max="3" postag='NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
-        <token>a</token>
-        <token>nível</token>
-        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-        <token postag='CS' postag_regexp='no'/>
-        <token postag='V.+' postag_regexp='yes'/>
-        <token postag='SPS00' postag_regexp='no'/>
-        <example>O Poliempreende é uma rede de empreendedorismo a nível nacional que surgiu em 2003, como iniciativa do IP de Castelo Branco, alargando-se em 2006 a outras institui...</example>
-      </antipattern>
+      <!-- É útil a nível civil. → É útil civilmente. -->
+      <rule>
+        <antipattern>
+          <token postag='SPS00' postag_regexp='no'/>
+          <token min="0" max="3" postag='NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
+          <token>a</token>
+          <token>nível</token>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='CS' postag_regexp='no'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS00' postag_regexp='no'/>
+          <example>O Poliempreende é uma rede de empreendedorismo a nível nacional que surgiu em 2003, como iniciativa do IP de Castelo Branco, alargando-se em 2006 a outras institui...</example>
+        </antipattern>
 
-      <pattern>
-        <token postag='SENT_START|V.+|CS|PP.+|SPS00|DI.+|DA.+|_PUNCT' postag_regexp='yes'/>
-        <token min="0" max="3" postag='NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
-        <marker>
+        <antipattern>
+          <token postag='SENT_START|V.+|CS|PP.+|SPS00|DI.+|DA.+|_PUNCT' postag_regexp='yes'/>
+          <token min="0" max="3" postag='NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
           <token>a</token>
           <token>nível</token>
           <token postag='NCCS000|AQ0CS0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*</exception></token>
-        </marker>
-      </pattern>
-      <message>Esta perífrase poderá ser simplificada.</message>
-      <suggestion>\5mente</suggestion>
-      <example correction="profissionalmente">É útil <marker>a nível profissional</marker>.</example>
-    </rule>
+          <token postag='_PUNCT_COMMA|CC' postag_regexp='yes'/>
+          <token postag='NCCS000|AQ0CS0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*</exception></token>
+          <example>É útil a nível civil e militar.</example>
+        </antipattern>
+
+        <pattern>
+          <token postag='SENT_START|V.+|CS|PP.+|SPS00|DI.+|DA.+|_PUNCT' postag_regexp='yes'/>
+          <token min="0" max="3" postag='NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
+          <marker>
+            <token>a</token>
+            <token>nível</token>
+            <token postag='NCCS000|AQ0CS0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*</exception></token>
+          </marker>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\5mente</suggestion>
+        <example correction="profissionalmente">É útil <marker>a nível profissional</marker>.</example>
+      </rule>
+
+      <!-- É útil a nível civil e militar. → É útil civil e militarmente. -->
+      <rule>
+        <pattern>
+          <token postag='SENT_START|V.+|CS|PP.+|SPS00|DI.+|DA.+|_PUNCT' postag_regexp='yes'/>
+          <token min="0" max="3" postag='NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
+          <marker>
+            <token>a</token>
+            <token>nível</token>
+            <token postag='NCCS000|AQ0CS0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*</exception></token>
+            <token postag='CC' postag_regexp='no'/>
+            <token postag='NCCS000|AQ0CS0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*</exception></token>
+          </marker>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\5 \6 \7mente</suggestion>
+        <example correction="civil e militarmente">É útil <marker>a nível civil e militar</marker>.</example>
+      </rule>
+
+      <!-- É útil a nível civil, policial e militar. → É útil civil, policial e militarmente. -->
+      <rule>
+        <pattern>
+          <token postag='SENT_START|V.+|CS|PP.+|SPS00|DI.+|DA.+|_PUNCT' postag_regexp='yes'/>
+          <token min="0" max="3" postag='NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
+          <marker>
+            <token>a</token>
+            <token>nível</token>
+            <token postag='NCCS000|AQ0CS0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*</exception></token>
+            <token postag='_PUNCT_COMMA' postag_regexp='no'/>
+            <token postag='NCCS000|AQ0CS0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*</exception></token>
+            <token postag='CC' postag_regexp='no'/>
+            <token postag='NCCS000|AQ0CS0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*</exception></token>
+          </marker>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\5\6 \7 \8 \9mente</suggestion>
+        <example correction="civil, policial e militarmente">É útil <marker>a nível civil, policial e militar</marker>.</example>
+      </rule>
+
+    </rulegroup>
 
 
     <rule id='DE_DÊ' name="Confusão: de/dê">
