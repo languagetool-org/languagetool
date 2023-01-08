@@ -38217,8 +38217,6 @@ steenwijk;Steenwijk
         <rulegroup id="DES" name="Waarschuwen voor 'des' buiten staande uitdrukkingen">
             <rule>
                 <antipattern><token>Hotel</token><token>Des</token><token>Indes</token></antipattern>
-                <antipattern><token postag="UNKNOWN"/><token postag="UNKNOWN"/><token>des</token></antipattern> <!-- Frans -->
-                <antipattern><token>des</token><token postag="UNKNOWN"/><token postag="UNKNOWN"/></antipattern> <!-- Frans -->
                 <antipattern><token>procureur</token><token>des</token><token>Konings</token></antipattern>
                 <antipattern>
                     <token>Promenade</token>
@@ -38318,7 +38316,7 @@ steenwijk;Steenwijk
                     <marker>
                         <token>des</token>
                     </marker>
-                    <token/>
+                    <token regexp="yes">.*s</token>
                 </pattern>
                 <message>In moderne teksten past geen 'des' buiten staande uitdrukkingen. Moderniseer met <suggestion>van de</suggestion>, of corrigeer de staande uitdrukking.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
