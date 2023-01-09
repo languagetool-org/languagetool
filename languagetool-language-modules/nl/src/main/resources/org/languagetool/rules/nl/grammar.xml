@@ -23360,25 +23360,6 @@ steenwijk;Steenwijk
                 <example correction="voldoende">Bovendien is het <marker>genoegzaam</marker> bekend dat er onder de bevolking nog talloze illegale wapens voorhanden zijn.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HEDEN" name="Heden → vandaag, nu">
-            <rule>
-                <!-- 2014-09-08 TaalTik
-                nieuw
-                -->
-                <pattern>
-                    <token>heden</token>
-                </pattern>
-                <message>Als u dit ouderwets woord niet voor het stilistisch effect heeft gekozen, gebruik liever <suggestion>vandaag</suggestion>, <suggestion>nu</suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
-                <example correction="vandaag|nu">Tot op <marker>heden</marker>.</example>
-                <example correction="Vandaag|Nu"><marker>Heden</marker> verspillen we.</example>
-                <example correction="vandaag|nu">Tot <marker>heden</marker> zijn de daders nog niet bekend.</example>
-                <example correction="vandaag|nu">En tot op <marker>heden</marker> heb ik daar geen spijt van."</example>
-                <example correction="vandaag|nu">Leven in een eeuwig <marker>heden</marker> zonder doel.</example>
-                <example correction="vandaag|nu">Maar dat is enkel in het <marker>heden</marker>.</example>
-                <example correction="vandaag|nu">Dat was voor het <marker>heden</marker> een scherp verwijt.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="AANDACHTIG" name="aandachtig" tags="picky">
             <rule>
                 <antipattern><token>aandachtig</token><token inflected="yes">zijn</token></antipattern>
@@ -27312,6 +27293,25 @@ steenwijk;Steenwijk
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="vandaag|vandaag de dag|tegenwoordig">Stel u dat <marker>heden ten dage</marker> eens voor.</example>
                 <example correction="Vandaag|Vandaag de dag|Tegenwoordig"><marker>Heden ten dage</marker> is hier een restaurant gevestigd.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HEDEN" name="Heden → vandaag, nu">
+            <rule>
+                <!-- 2014-09-08 TaalTik
+                nieuw
+                -->
+                <pattern>
+                    <token>heden</token>
+                </pattern>
+                <message>Als u dit ouderwets woord niet voor het stilistisch effect heeft gekozen, gebruik liever <suggestion>vandaag</suggestion>, <suggestion>nu</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
+                <example correction="vandaag|nu">Tot op <marker>heden</marker>.</example>
+                <example correction="Vandaag|Nu"><marker>Heden</marker> verspillen we.</example>
+                <example correction="vandaag|nu">Tot <marker>heden</marker> zijn de daders nog niet bekend.</example>
+                <example correction="vandaag|nu">En tot op <marker>heden</marker> heb ik daar geen spijt van."</example>
+                <example correction="vandaag|nu">Leven in een eeuwig <marker>heden</marker> zonder doel.</example>
+                <example correction="vandaag|nu">Maar dat is enkel in het <marker>heden</marker>.</example>
+                <example correction="vandaag|nu">Dat was voor het <marker>heden</marker> een scherp verwijt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HERORIËNTATIE" name="heroriëntatie" tags="picky">
@@ -35085,7 +35085,7 @@ steenwijk;Steenwijk
 
         <rule id="MITS_TENZIJ" name="verwarring mits en tenzij">
             <pattern>
-                <token regexp="yes">mits|tenzij</token>
+                <token case_sensitive="yes" regexp="yes">[Mm]its|[Tt]enzij</token>
             </pattern>
             <message>'Mits' (als maar) en 'tenzij' (als maar niet) worden vaak door schrijvers en lezers verward. Vermijd deze woorden als het kan.</message>
             <url>https://taaladvies.net/taal/advies/vraag/555</url>
@@ -38217,6 +38217,7 @@ steenwijk;Steenwijk
             <rule>
                 <antipattern><token>Hotel</token><token>Des</token><token>Indes</token></antipattern>
                 <antipattern><token>procureur</token><token>des</token><token>Konings</token></antipattern>
+                <antipattern><token>des</token><token postag="UNKNOWN"><exception regexp="yes">A|B</exception></token></antipattern>
                 <antipattern>
                     <token>Promenade</token>
                     <token>des</token>
