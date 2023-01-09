@@ -10270,7 +10270,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>este</token>
                 </antipattern>
                 <pattern>
-                    <token postag="PR.*" postag_regexp="yes" skip="6"/>
+                    <or>
+                        <token postag="PR.*" postag_regexp="yes" skip="6"/>
+                        <token regexp="yes" skip="6">quizás?|vez</token>
+                    </or>
                     <marker>
                         <token>este</token>
                     </marker>
@@ -10280,6 +10283,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
                 <example correction="esté">cuando <marker>este</marker> cantando.</example>
                 <example correction="esté">En donde se <marker>este</marker> realizando el contrato</example>
+                <example correction="esté">Tal vez <marker>este</marker> exagerando.</example>
                 <example>¿Quién tan rico en un reino, como este siendo peregrino?</example>
             </rule>
             <rule>
