@@ -422,7 +422,7 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <pattern>
                     <marker>
-                       <token>be</token>
+                       <token case_sensitive="yes">be</token>
                    </marker>
                    <token/>
                 </pattern>
@@ -7690,6 +7690,7 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="TIC_TIK" name="waarschuwing bij gebruik tik i.p.v. tic ">
             <rule>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token inflected="yes" skip="-1">incasseren</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token case_sensitive="yes">Tik</token></antipattern>
                 <antipattern><token>Tik</token><token min="0" max="1">,</token><token>tik</token></antipattern>
                 <antipattern><token>tik</token><token>op</token></antipattern>
                 <antipattern><token regexp="yes">een|flinke</token><token>tik</token><token regexp="yes">op|tegen</token></antipattern>
@@ -11305,7 +11306,7 @@ onwaarschijnlijk
                 <pattern>
                     <token regexp="yes">de|een|geen|deze|menige?|elke?|iedere?|sommige?</token>
                     <marker>
-                        <token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">^[a-z].*<exception regexp="yes">weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel|eer|mag</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV|ZNW.*"></exception></token>
+                        <token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">^[a-z].*<exception regexp="yes">naast|jou|weer|geval|haar|jouw|acht|kan|moet|wil|uit|vier|was|wel|eer|mag</exception><exception postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV|ZNW.*"></exception></token>
                         <token postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="BNW.*|BYW.*|WKW:TGW:INF.*|WKW:VTD.*|WKW:VLT.*|GET.*|ENM:LOC.*"/><exception regexp="yes">bent|zult|zo|kan|moet|wil|was|over|staat|weer|tegen|niets|at|kost|haar|zit</exception></token>
                     </marker>
                     <token postag_regexp="yes" postag="WKW.*|VRZ.*|SENT_END"/>
@@ -13477,6 +13478,7 @@ onwaarschijnlijk
                 <antipattern><token>zij</token><token>aan</token><token>zij</token></antipattern>
                 <antipattern><token>Wat</token><token>er</token><token>ook</token><token>van</token><token>zij</token></antipattern>
                 <antipattern><token>wij</token><token>tegen</token><token>zij</token></antipattern>
+                <antipattern><token>van</token><token>ik</token><token postag="WKW:TGW:1EP"/></antipattern>
                 <pattern>
                     <token postag="VRZ"><exception regexp="yes">behalve|tot|naar|voor|sinds|vóór|gezien</exception></token>
                     <token postag_regexp="yes" postag="VNW:PER.*ACT"><exception postag_regexp="yes" postag="VNW:PER.*PSF"/><exception case_sensitive="yes">IE</exception></token>
@@ -15444,6 +15446,7 @@ onwaarschijnlijk
                 <short>Plaatsnaam verkeerd</short>
                 <example correction="De Weere">Ik zie <marker>de weere</marker>.</example>
             </rule>
+            <!-- too much falses
             <rule>
                 <antipattern ><token>de</token><token>wijk</token><token case_sensitive="yes" regexp="yes">[A-ZÉ][a-z].*</token></antipattern>
                 <antipattern case_sensitive="yes"><token>De</token><token>Wijk</token></antipattern>
@@ -15452,7 +15455,7 @@ onwaarschijnlijk
                 <short>Plaatsnaam verkeerd</short>
                 <example correction="De Wijk">Ik zie <marker>de wijk</marker>.</example>
             </rule>
-
+            -->
             <rule>
                 <!-- uitzondering: aan de wilgen hangen -->
                 <antipattern case_sensitive="yes"><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token inflected="yes" regexp="yes">hangen|sloot|rivier|plant|knotten</token></antipattern>
@@ -19216,7 +19219,7 @@ steenwijk;Steenwijk
                 <antipattern>
                     <token regexp="yes" case_sensitive="yes">.*[a-z]</token>
                     <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes" case_sensitive="yes">pdf|io|storage|java|core|audio</token>
+                    <token spacebefore="no" regexp="yes" case_sensitive="yes">pdf|io|storage|java|core|audio|net</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">.</token>
@@ -21586,8 +21589,8 @@ steenwijk;Steenwijk
                 <antipattern><token>gedaagden</token><token>sub</token></antipattern>
                 <antipattern><token>geïnteresseerden</token><token regexp="yes">informatie|kennis</token></antipattern>
                 <pattern>
-                    <token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF|ZNW:MRV:DE_|BNW:STF|BNW.*VRB" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden|gesloten|.*fijn</exception></token>
-                    <token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">kan|bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen|zo|moet|stond|hen|&weekdays;|Grand</exception></token>
+                    <token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="WKW:TGW:INF.*|WKW:VLT:INF|ZNW:MRV:DE_|BNW:STF|BNW.*VRB" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden|gesloten|.*fijn</exception></token>
+                    <token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">meer|kan|bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen|zo|moet|stond|hen|&weekdays;|Grand</exception></token>
                 </pattern>
                 <message>Er staat misschien een n te veel: <suggestion><match no="1" regexp_match="n$" regexp_replace=""/> \2</suggestion>.</message>
                 <example correction="gestoorde man">Ik zie de <marker>gestoorden man</marker> lopen.</example>
@@ -34605,7 +34608,7 @@ steenwijk;Steenwijk
                 <antipattern><token>art</token><token spacebefore="no">.</token></antipattern>
                 <antipattern><token>de</token><token>was</token></antipattern>
                 <antipattern><token>zijn</token><token postag_regexp="yes" postag="ZNW.*|BNW.*"/></antipattern>
-                <antipattern><token postag="WKW:VTD:ONV"/><token>zijn</token></antipattern>
+                <antipattern><token postag="WKW:VTD:ONV"/><token case_sensitive="yes" regexp="yes">is|was|heb|had|heeft|wordt|word|werd|worden|werden|waren|zijn</token></antipattern>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">is|was|heb|had|heeft|wordt|word|werd|worden|werden|waren|zijn</token>
