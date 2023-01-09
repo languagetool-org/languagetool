@@ -593,6 +593,29 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" />
+                    <token regexp="yes">@.*[a-z0-9].*</token>
+                    <token regexp="yes" spacebefore="no">[_.]</token>
+                    <marker>
+                        <token regexp="yes" spacebefore="no">.*[a-z0-9].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">@fidor_<marker>hilft</marker> man kann sich bei euch nicht mehr einloggen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" />
+                    <token regexp="yes">@.*[a-z0-9].*</token>
+                    <token regexp="yes" spacebefore="no">[_.]</token>
+                    <token regexp="yes" spacebefore="no">.*[a-z0-9].*</token>
+                    <marker>
+                        <token regexp="yes">der|die|das|wie|wo|wann|wer|was|wieso|warum|wo(zu|mit|hin)</token>
+                    </marker>
+                </pattern>
+                <example correction="">@fidor_hilft <marker>der</marker> Log-in ist kaputt.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="SENT_START"/>
                     <marker>
                         <token postag="ADV:(MOD|TMP)" postag_regexp="yes"/>
