@@ -474,8 +474,7 @@ abstract class TextChecker {
         try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))) {
           log.debug("Starting text check on {} chars; params: {}", length, qParams);
           long time = System.currentTimeMillis();
-          List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, params, qParams, userConfig, detLang, preferredLangs,
-            preferredVariants, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
+          List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, params, qParams, userConfig, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
           log.debug("Finished text check in {}ms. Starting suggestion generation.", System.currentTimeMillis() - time);
           time = System.currentTimeMillis();
           // generate suggestions, otherwise this is not part of the timeout logic and not properly measured in the metrics
@@ -544,16 +543,6 @@ abstract class TextChecker {
     // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
     res.forEach(checkResults -> checkResults.getRuleMatches().forEach(RuleMatch::discardLazySuggestedReplacements));
 
-    if (isMultiLangEnabled) {
-      res.forEach(checkResults -> {
-      checkResults.getIgnoredRanges().forEach(range -> {
-        String sentence = aText.toString().substring(range.getFromPos(), range.getToPos());
-        //System.out.println("Recheck sentence from pos data: " + sentence);
-        //System.out.println("Recheck sentence from analyzedSentence: " + range.getAnalyzedSentence().getText());
-      });
-    });
-    }
-    
     setHeaders(httpExchange);
 
     List<RuleMatch> hiddenMatches = new ArrayList<>();
@@ -586,6 +575,53 @@ abstract class TextChecker {
       }
       hiddenMatches.addAll(ResultExtender.getAsHiddenMatches(allMatches, premiumMatches));
     }
+
+    //### Start multiLangPart
+    if (isMultiLangEnabled) {
+      long startTimeRecheck = System.currentTimeMillis();
+      Map<String, List<Range>> rangesOrderedByLanguage = new HashMap<>();
+      res.forEach(checkResults -> {
+        checkResults.getIgnoredRanges().forEach(range -> {
+          List<Range> sentenceRanges = rangesOrderedByLanguage.getOrDefault(range.getLang(), new ArrayList<>());
+          sentenceRanges.add(range);
+          rangesOrderedByLanguage.put(range.getLang(), sentenceRanges);
+        });
+      });
+      rangesOrderedByLanguage.forEach((shortLangCode, ranges) -> {
+        Language rangeLanguage = Languages.getLanguageForShortCode(shortLangCode);
+        StringBuilder languageTextBuilder = new StringBuilder();
+        ranges.forEach(range -> {
+          String text = range.getAnalyzedSentence().getText().trim() + " ";
+          languageTextBuilder.append(text);
+        });
+        AnnotatedText finalTextToCheckAgain = new AnnotatedTextBuilder().addText(languageTextBuilder.toString().trim()).build();
+        try {
+          getResults(
+                  finalTextToCheckAgain,
+                  httpExchange,
+                  errorRequestLimiter,
+                  remoteAddress,
+                  finalTextToCheckAgain.getPlainText().length(),
+                  qParams,
+                  rangeLanguage,
+                  detLang, //form original text
+                  motherTongue,
+                  params,
+                  userConfig,
+                  limits,
+                  timeStart,
+                  2, //needed?
+                  mode,
+                  requestId
+          );
+        } catch (Exception ex) {
+          log.error(ex.getMessage());
+        }
+      });
+      long endTimeRecheck = System.currentTimeMillis();
+      System.out.println("Time needed for recheck other languages: " + (endTimeRecheck - startTimeRecheck) / 1000f);
+    }
+    //### End multiLangPart
 
     int compactMode = Integer.parseInt(params.getOrDefault("c", "0"));
     String response = getResponse(aText, lang, detLang, motherTongue, res, hiddenMatches, incompleteResultReason, compactMode,
@@ -685,6 +721,135 @@ abstract class TextChecker {
     }
 
   }
+  
+  private void getResults(
+          AnnotatedText aText,
+          HttpExchange httpExchange,
+          ErrorRequestLimiter errorRequestLimiter,
+          String remoteAddress,
+          int length,
+          QueryParams qParams,
+          Language lang,
+          DetectedLanguage detLang,
+          Language motherTongue,
+          Map<String, String> params,
+          UserConfig userConfig,
+          UserLimits limits,
+          long timeStart,
+          int count,
+          JLanguageTool.Mode mode,
+          String requestId
+  ) throws Exception {
+    List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
+    Future<List<CheckResults>> future;
+    try {
+      future = executorService.submit(() -> {
+        try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))) {
+          log.debug("Starting text check on {} chars; params: {}", length, qParams);
+          long time = System.currentTimeMillis();
+          //detLang can be null as it is unused
+          List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, params, qParams, userConfig, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
+          log.debug("Finished text check in {}ms. Starting suggestion generation.", System.currentTimeMillis() - time);
+          time = System.currentTimeMillis();
+          // generate suggestions, otherwise this is not part of the timeout logic and not properly measured in the metrics
+          results.stream().flatMap(r -> r.getRuleMatches().stream()).forEach(RuleMatch::computeLazySuggestedReplacements);
+          log.debug("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
+          return results;
+        }
+      });
+    } catch (RejectedExecutionException e) {
+      throw new UnavailableException("Server overloaded, please try again later", e);
+    }
+    String incompleteResultReason = null;
+    List<CheckResults> res;
+    try {
+      if (limits.getMaxCheckTimeMillis() < 0) {
+        res = future.get();
+      } else {
+        res = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
+      }
+    } catch (ExecutionException e) {
+      future.cancel(true);
+      if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.TOO_MANY_ERRORS);
+      }
+      if (qParams.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+        log.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
+          "Detected language: " + detLang + ", " + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,
+          params, System.currentTimeMillis()-timeStart, reqCounter));
+        res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+        incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
+      } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
+        throw (OutOfMemoryError)e.getCause();
+      } else {
+        throw new RuntimeException(ServerTools.cleanUserTextFromMessage(e.getMessage(), params) + ", detected: " + detLang, e);
+      }
+    } catch (TimeoutException e) {
+      boolean cancelled = future.cancel(true);
+      Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
+      String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
+      if (errorRequestLimiter != null) {
+        errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders(), params);
+      }
+      String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
+                       " milliseconds (cancelled: " + cancelled +
+                       ", lang: " + lang.getShortCodeWithCountryAndVariant() +
+                       ", detected: " + detLang +
+                       ", #" + count +
+                       ", " + length + " characters of text" +
+                       ", mode: " + mode.toString().toLowerCase() +
+                       ", h: " + reqCounter.getHandleCount() +
+                       ", r: " + reqCounter.getRequestCount() +
+                       ", requestId: " + requestId +
+                       ", system load: " + loadInfo + ")";
+      if (qParams.allowIncompleteResults) {
+        log.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
+        res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+        incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " +
+                String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
+      } else {
+        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);
+        throw new RuntimeException(message, e);
+      }
+    }
+
+    // no lazy computation at later points (outside of timeout enforcement)
+    // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
+    res.forEach(checkResults -> checkResults.getRuleMatches().forEach(RuleMatch::discardLazySuggestedReplacements));
+    
+    setHeaders(httpExchange);
+
+    List<RuleMatch> hiddenMatches = new ArrayList<>();
+    boolean temporaryPremiumDisabledRuleMatch = false;
+    Set<String> temporaryPremiumDisabledRuleMatchedIds = new HashSet<>();
+    // filter computed premium matches, convert to hidden matches - no separate hidden matches server needed
+    if (!qParams.premium && qParams.enableHiddenRules) {
+      List<RuleMatch> allMatches = new ArrayList<>(); // for filtering out overlapping matches, collect across CheckResults
+      List<RuleMatch> premiumMatches = new ArrayList<>();
+      for (CheckResults result : res) {
+        List<RuleMatch> filteredMatches = new ArrayList<>();
+        for (RuleMatch match : result.getRuleMatches()) {
+          if (Premium.get().isPremiumRule(match.getRule()) && !Premium.isTempNotPremium(match.getRule())) {
+            premiumMatches.add(match);
+          } else if (userConfig.getAbTest() != null && userConfig.getAbTest().equals("ALLOW_PREMIUM_IN_BASIC") && Premium.get().isPremiumRule(match.getRule()) && Premium.isTempNotPremium(match.getRule())) {
+            System.out.println("Rule: " + match.getRule().getId() + " is premium but temporary available in basic");
+            filteredMatches.add(match);
+            allMatches.add(match);
+            temporaryPremiumDisabledRuleMatch = true;
+            temporaryPremiumDisabledRuleMatchedIds.add(match.getRule().getId());
+          } else {
+            // filter out premium matches
+            filteredMatches.add(match);
+            // keep track for filtering out overlapping matches
+            allMatches.add(match);
+          }
+          // need to replace list, can't iterate and remove since some rules may return unmodifiable lists
+          result.setRuleMatches(filteredMatches);
+        }
+      }
+      hiddenMatches.addAll(ResultExtender.getAsHiddenMatches(allMatches, premiumMatches));
+    }
+  }
 
   @NotNull
   private Map<String, Integer> getRuleMatchCount(List<CheckResults> res) {
@@ -735,8 +900,8 @@ abstract class TextChecker {
   private List<CheckResults> getRuleMatches(AnnotatedText aText, Language lang,
                                          Language motherTongue, Map<String, String> parameters,
                                          QueryParams params, UserConfig userConfig,
-                                         DetectedLanguage detLang,
-                                         List<String> preferredLangs, List<String> preferredVariants,
+                                         /*DetectedLanguage detLang,
+                                         List<String> preferredLangs, List<String> preferredVariants,*/
                                          RuleMatchListener listener) throws Exception {
     if (cache != null && cache.requestCount() > 0 && cache.requestCount() % CACHE_STATS_PRINT == 0) {
       String sentenceHitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.getSentenceCache().stats().hitRate() * 100.0f);
@@ -762,34 +927,35 @@ abstract class TextChecker {
     } else {
       List<CheckResults> res = new ArrayList<>();
 
-      if (preferredLangs.size() < 2 || parameters.get("multilingual") == null || parameters.get("multilingual").equals("false")) {
+      if (/*preferredLangs.size() < 2 ||*/ parameters.get("multilingual") == null || parameters.get("multilingual").equals("false")) {
         res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
-      } else {
-        // support for multilingual texts:
-        try {
-          Language mainLang = getLanguageVariantForCode(detLang.getDetectedLanguage().getShortCode(), preferredVariants);
-          List<Language> secondLangs = new ArrayList<>();
-          for (String preferredLangCode : preferredLangs) {
-            if (!preferredLangCode.equals(mainLang.getShortCode())) {
-              secondLangs.add(getLanguageVariantForCode(preferredLangCode, preferredVariants));
-              break;
-            }
-          }
-          LanguageAnnotator annotator = new LanguageAnnotator();
-          List<FragmentWithLanguage> fragments = annotator.detectLanguages(aText.getPlainText(), mainLang, secondLangs);
-          List<Language> langs = new ArrayList<>();
-          langs.add(mainLang);
-          langs.addAll(secondLangs);
-          Map<Language, AnnotatedTextBuilder> lang2builder = getBuilderMap(fragments, new HashSet<>(langs));
-          for (Map.Entry<Language, AnnotatedTextBuilder> entry : lang2builder.entrySet()) {
-            res.addAll(getPipelineResults(entry.getValue().build(), entry.getKey(), motherTongue, params, userConfig, listener));
-          }
-        } catch (Exception e) {
-          log.error("Problem with multilingual mode (preferredLangs=" + preferredLangs+ ", preferredVariants=" + preferredVariants + "), " +
-            "falling back to single language.", e);
-          res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
-        }
-      }
+      } 
+//      else {
+//        // support for multilingual texts:
+//        try {
+//          Language mainLang = getLanguageVariantForCode(detLang.getDetectedLanguage().getShortCode(), preferredVariants);
+//          List<Language> secondLangs = new ArrayList<>();
+//          for (String preferredLangCode : preferredLangs) {
+//            if (!preferredLangCode.equals(mainLang.getShortCode())) {
+//              secondLangs.add(getLanguageVariantForCode(preferredLangCode, preferredVariants));
+//              break;
+//            }
+//          }
+//          LanguageAnnotator annotator = new LanguageAnnotator();
+//          List<FragmentWithLanguage> fragments = annotator.detectLanguages(aText.getPlainText(), mainLang, secondLangs);
+//          List<Language> langs = new ArrayList<>();
+//          langs.add(mainLang);
+//          langs.addAll(secondLangs);
+//          Map<Language, AnnotatedTextBuilder> lang2builder = getBuilderMap(fragments, new HashSet<>(langs));
+//          for (Map.Entry<Language, AnnotatedTextBuilder> entry : lang2builder.entrySet()) {
+//            res.addAll(getPipelineResults(entry.getValue().build(), entry.getKey(), motherTongue, params, userConfig, listener));
+//          }
+//        } catch (Exception e) {
+//          log.error("Problem with multilingual mode (preferredLangs=" + preferredLangs+ ", preferredVariants=" + preferredVariants + "), " +
+//            "falling back to single language.", e);
+//          res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
+//        }
+//      }
       return res;
     }
   }
