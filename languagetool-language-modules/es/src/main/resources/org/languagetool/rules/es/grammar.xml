@@ -10498,9 +10498,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dé">Quieren que de una vez por todas <marker>de</marker> voz a los marginados.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes" skip="2">más|menos|mejor|peor</token>
+                    <token regexp="yes">que|de</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="-1">preferir</token>
+                    <token>que</token>
+                    <token>de</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token postag="N.*|_GN_.*" postag_regexp="yes" max="4"/>
+                    <token>que</token>
+                    <token>de</token>
+                    <example>Depende mucho más de la forma en que nos enfrentemos a los sucesos de la vida que de la naturaleza de dichos sucesos.</example>
+                    <example>Es más propio de un vodevil que de la realidad.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">mientras|cosa</token>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">después|cualquiera</token>
+                    <token>de</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">alguno|mucho</token>
+                    <token>de</token>
+                </antipattern>
                 <pattern>
                     <token>que</token>
-                    <token min="0" max="6" postag="RG|LOC_ADV|RN|PP1CSN00|PP3[MF]S000|PI.*" postag_regexp="yes"/>
+                    <token min="0" max="6" postag="RG|LOC_ADV|RN|PP1CSN00|PP3[MF]S000|PI..S..." postag_regexp="yes"/>
                     <marker>
                         <token>de<exception postag="RG|LOC_ADV" postag_regexp="yes"/></token>
                     </marker>
@@ -10517,6 +10546,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Antes muerto que de ese hombre, ¿te enteras?</example>
                 <example>¿Alguna posibilidad de que uno de los sospechosos le apuñalara?</example>
                 <example>Pero ya ve, pensé, que por lo menos de esta manera yo puedo estar ahí cuando él salga.</example>
+                <example>Más grande que cualquiera de las de Egipto.</example>
+                <example>Estoy más que harto de su imprudencia.</example>
+                <example>Peferiría ser culpable de un acto inmoral que de un acto cruel.</example>
+                <example>Puede correr más rápido que nadie de su clase.</example>
+                <example>Era frustrante tener éxito mientras que muchos de mis amigos no.</example>
+                <example>Cuando sea, con tal que después de las seis.</example>
+                <example>Ella habla inglés mejor que cualquiera de sus compañeros de clase.</example>
+                <example>Son más amigos de los protones que de los neutrones.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10624,7 +10661,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule default="temp_off">
                 <antipattern>
                     <token>de</token>
-                    <token></token>
+                    <token/>
                     <token min="0">,</token>
                     <token regexp="yes">que|aunque</token>
                     <token>no</token>
@@ -15148,7 +15185,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">ay|ai<exception case_sensitive="yes">AI</exception></token>
                     </marker>
-                    <token postag="[PDNA].*" postag_regexp="yes"/>
+                    <token postag="[PDNA].*" postag_regexp="yes"><exception>como</exception></token>
                 </pattern>
                 <message>Si es del verbo 'haber', se escribe <suggestion>hay</suggestion>.</message>
                 <example correction="hay">Aquí <marker>ay</marker> muchas faltas.</example>
