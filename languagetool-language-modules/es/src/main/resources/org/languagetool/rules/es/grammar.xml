@@ -10611,15 +10611,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>de</token>
                     </marker>
-                    <token postag_regexp="yes" postag="[DAN].*|V.P*"/>
+                    <token postag_regexp="yes" postag="[DAN].*|V.P*" skip="-1"><exception scope="next" postag="V.[MIS].*" postag_regexp="yes"/></token>
+                    <token postag="SENT_END"/>
                 </pattern>
                 <message>Si es del v. 'dar', se escribe con tilde.</message>
                 <suggestion>dé</suggestion>
                 <example correction="dé">Para que lo proteja y <marker>de</marker> prosperidad al pueblo.</example>
                 <example correction="dé">Para que lo proteja a él y <marker>de</marker> prosperidad al pueblo.</example>
+                <example>El usuario será responsable de las informaciones falsas o inexactas que proporcione y de los perjuicios que ello cause al titular de esta web o a terceros.</example>
                 <!-- Aunque la higuera no eche yemas ni la viña de sus frutos, -->
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token>de</token>
+                    <token></token>
+                    <token min="0">,</token>
+                    <token regexp="yes">que|aunque</token>
+                    <token>no</token>
+                    <token>de</token>
+                    <example>de indignación que no de resignación</example>
+                    <example>va destinada a la creación de puestos de ocupación, que no de trabajo</example>
+                </antipattern>
+                <antipattern>
+                    <token>(</token>
+                    <token regexp="yes">que|aunque</token>
+                    <token>no</token>
+                    <token>de</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token regexp="yes">forma|manera</token>
+                    <example>Participó en la revolución aunque no de forma activa.</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">que|aunque|quien|cuando</token>
                     <token regexp="yes">no|nunca|tampoco</token>
