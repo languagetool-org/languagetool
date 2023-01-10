@@ -18701,6 +18701,22 @@ steenwijk;Steenwijk
         </rulegroup>
     </category>
     <category id="COLLOQUIALISMS" name="Informeel" type="style" tags="professional clarity">
+        <rulegroup id="VAN_DE_ZOTTE" name="Van de zotte" default="temp_off">
+            <!-- R. Baars, januari 2023 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>van</token>
+                        <token>de</token>
+                        <token postag="BNW:STL:VRB"/>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[.!?]</token>
+                </pattern>
+                <message>Dit is spreektaal, zoals Klukkluk die gebruikte in 'Pipo de Clown'. Dus niet zo geschikt voor zakelijk verkeer.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="BNW:STL:ONV"/></suggestion>
+                <example correction="gek">Dat is toch helemaal <marker>van de gekke</marker>?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EN_ZO" name="Enzo / en zo/ en zo meer">
             <rule>
                 <pattern>
