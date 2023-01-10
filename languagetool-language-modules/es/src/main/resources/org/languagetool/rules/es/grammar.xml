@@ -10505,13 +10505,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>de<exception postag="RG|LOC_ADV" postag_regexp="yes"/></token>
                     </marker>
                     <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="V.[MIS].*" postag_regexp="yes"/></token>
+                    <token postag="SENT_END"/>
                 </pattern>
                 <message>Si es del v. 'dar', se escribe con tilde.</message>
                 <suggestion>dé</suggestion>
                 <example correction="dé">No hay nadie que no <marker>de</marker> su asentimiento.</example>
                 <example correction="dé">Es importante que ahora él <marker>de</marker> este paso.</example>
                 <example correction="dé">Que alguien <marker>de</marker> por fin la orden.</example>
+                <example>Cierto, pero es que de esta forma se consigue algo delicioso.</example>
+                <example>Antes muerto que de ese hombre, ¿te enteras?</example>
+                <example>¿Alguna posibilidad de que uno de los sospechosos le apuñalara?</example>
+                <example>Pero ya ve, pensé, que por lo menos de esta manera yo puedo estar ahí cuando él salga.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10554,15 +10559,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
-                    <token regexp="yes" skip="3">que|cual|cuales|cuando|quien<exception scope="next" postag="V.[IS].*" postag_regexp="yes"/></token>
+                    <token regexp="yes">que|cual|cuales|cuando|quien</token>
                     <marker>
                         <token>de</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">golpe|golpecito|luz|muerte|vítor|grito|alarido</token>
+                    <token regexp="yes">golpes|golpecitos|luz|muerte|vítor|gritos|alaridos</token>
                 </pattern>
                 <message>Si es del v. 'dar', se escribe con tilde.</message>
                 <suggestion>dé</suggestion>
                 <example correction="dé">Espero que <marker>de</marker> golpecitos.</example>
+                <example>Tenemos que viajar más rápido que un rayo de luz. </example>
+                <example>Yo pensaba que la pena de muerte debía ser abolida.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10577,6 +10584,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dé">Lo que cada uno <marker>de</marker> al sacerdote.</example>
             </rule>
             <rule default="temp_off">
+                <antipattern>
+                    <token>así</token>
+                    <token>que</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">que|cual</token>
                     <token min="0" max="6" postag="DI.*|_GN_.*|RG|LOC_ADV|RN|PP1CSN00|PP3[MF]S000|PI.*" postag_regexp="yes"/>
@@ -10590,13 +10601,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>dé</suggestion>
                 <example correction="dé">que todo el pueblo <marker>de</marker> un gran alarido.</example>
                 <example correction="dé">Una apelación para que Dios mismo <marker>de</marker> una respuesta</example>
-                <!-- FIXME <example>así que las probabilidades de una respuesta positiva son alentadoramente altas</example>-->
+                <example>así que las probabilidades de una respuesta positiva son alentadoramente altas</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
                     <token regexp="yes" skip="2">que|cual|aunque</token>
                     <token postag="VMSP3S0" skip="2"><exception scope="next" postag_regexp="yes" postag="V.[SMI].*"/></token>
-                    <token postag="CC"/>
+                    <token postag="CC">y</token>
                     <marker>
                         <token>de</token>
                     </marker>
