@@ -4121,6 +4121,65 @@
       <!--
       Telefonei para si. → Telefonei-lhe.
       -->
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='DA.+|DP.+|DI.+|PP.+' postag_regexp='yes'>
+          <exception scope="previous" postag_regexp='no' postag='RG'/>
+        </token>
+        <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token>para</token>
+        <token regexp='yes'>mim|tu|ti|si|vocês?|nós|vós|el[ae]s?</token>
+        <token postag='_PUNCT|CC' postag_regexp='yes'/>
+        <example>O cartão Auchan fica para mim?</example>
+        <example>O Tom não gosta do jeito que a Mary olha para ele.</example>
+        <example>O Tomás olha para mim.</example>
+        <example>O Tomás olha para ele.</example>
+        <example>O Tomás olha para nós.</example>
+        <example>O Tomás olha para vós.</example>
+        <example>O próximo é para você.</example>
+        <example>Tom pediu para que a Mary trabalhasse para ele.</example>
+        <example>Um única lei e um só direito haja para vós e para o estrangeiro que habite convosco.</example>
+        <example>A Sra. Harshwhinny diz que a coisa mais importante é mostrar o que a cidade significa para eles e então ela deixa a sala.</example>
+        <example>Um única lei e um só direito haja para vós e para o estrangeiro que habite convosco.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='DA.+|DP.+|DI.+|PP.+' postag_regexp='yes'>
+          <exception scope="previous" postag_regexp='yes' postag='RG|VMM03.+|VMSP3.+'/>
+        </token>
+        <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='SPS00' postag_regexp='no'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token>para</token>
+        <token regexp='yes'>mim|tu|ti|si|vocês?|nós|vós|el[ae]s?</token>
+        <token postag='_PUNCT|CC' postag_regexp='yes'/>
+        <example>Eu ainda amo a sua maneira de sorrir para mim.</example>
+        <example>A pergunta era impossível de responder para nós.</example>
+        <example>...Gogh foi acusado de se forçar para cima dela, com o padre do vilarejo proibindo seus paroquianos de posarem para ele.</example>
+        <example>Tom está pagando uma rodada de bebidas para nós.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='VMN0000|VMG0000' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token>para</token>
+        <token regexp='yes'>mim|tu|ti|si|vocês?|nós|vós|el[ae]s?</token>
+        <example>...Pode ser que esteje faltando caprichar mais nesse ponto (detalhe super importante) talvez vai fazer diferença para você assim como fez pra mim.</example>
+        <example>Se de fato descendo será para mim uma alegria inenarrável.</example>
+        <example>Você pode tomar notas para mim enquanto o professor fala?</example>
+        <example>Queria poder ter falado para ela o que sinto.</example>
+        <example>Eu queria ter dito para ela o que aconteceu.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <!--
       O que você disse não faz absolutamente nenhum sentido para mim.
