@@ -451,7 +451,7 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="EN-" name="En- / en -" default="temp_off">
+        <rulegroup id="EN-" name="En- / en -" >
             <!-- R. Baars, januari 2023 -->
             <rule>
                 <pattern>
@@ -45672,14 +45672,20 @@ steenwijk;Steenwijk
         </rulegroup>
          <rulegroup id="AMPERSAND" name="&amp;/en" default="temp_off" tags="picky">
             <rule>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <token spacebefore="yes">&amp;</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token spacebefore="yes">&amp;</token>
                     </marker>
                     <token spacebefore="yes"/>
                 </pattern>
-                <message>De ampersand (&amp;) staat niet zo fraai in lopende tekst, gebruik liever <suggestion>en</suggestion></message>
+                <message>De ampersand (&amp;) staat niet zo fraai in lopende tekst (buiten eigennamen), gebruik liever <suggestion>en</suggestion></message>
                 <example correction="en">Het voorstel gaat naar burgemeester <marker>&amp;</marker> wethouders.</example>
+                <example>Ik heb een hekel aan Ben &amp; Jerry's</example>
             </rule>
         </rulegroup>
        <rulegroup id="AFKO_VOLUIT" name="Afkortingen voluit" tags="picky" >
