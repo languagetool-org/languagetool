@@ -756,6 +756,19 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction=""><marker>Hey</marker> Lennart, wie gehts?</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="2">ebenso|gleichermaßen|genauso</token>
+                    <marker>
+                        <token skip="5">
+                            wie
+                            <exception scope="next" postag="VER.*" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                    <token postag="SENT_END" />
+                </pattern>
+                <example correction="">Dabei werden äußere Merkmale ebenso erwähnt <marker>wie</marker> (innere) Charaktereigenschaften.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>
