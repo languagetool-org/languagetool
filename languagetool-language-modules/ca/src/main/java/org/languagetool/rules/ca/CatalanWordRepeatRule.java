@@ -18,10 +18,12 @@
  */
 package org.languagetool.rules.ca;
 
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.Tag;
 import org.languagetool.rules.WordRepeatRule;
 
 /**
@@ -31,6 +33,7 @@ public class CatalanWordRepeatRule extends WordRepeatRule {
 
   public CatalanWordRepeatRule(final ResourceBundle messages, final Language language) {
     super(messages, language);
+    super.setTags(Arrays.asList(Tag.picky));
   }
 
   @Override
