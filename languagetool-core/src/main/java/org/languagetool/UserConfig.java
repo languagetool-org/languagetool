@@ -59,8 +59,7 @@ public class UserConfig {
   // provided to rules only for A/B tests
   private final Long textSessionId;
   private final String abTest;
-  @Getter
-  private final boolean isMultiLangEnabled;
+  private final List<String> preferredLanguages;
 
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
@@ -86,7 +85,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices) {
     this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
-      false, null, null, false, false);
+      false, null, null, false, null);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords,
@@ -95,7 +94,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName,
                     Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
-                    @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches, boolean isMultiLangEnabled) {
+                    @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches, List<String> preferredLanguages) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     this.userSpecificRules = Objects.requireNonNull(userSpecificRules);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
@@ -111,7 +110,7 @@ public class UserConfig {
     this.textSessionId = textSessionId;
     this.hidePremiumMatches = hidePremiumMatches;
     this.acceptedPhrases = buildAcceptedPhrases();
-    this.isMultiLangEnabled = isMultiLangEnabled;
+    this.preferredLanguages = preferredLanguages;
   }
 
   @NotNull
@@ -266,5 +265,10 @@ public class UserConfig {
   /** @since 5.5 */
   public boolean getHidePremiumMatches() {
     return hidePremiumMatches;
+  }
+
+  @Nullable
+  public List<String> getPreferredLanguages() {
+    return preferredLanguages;
   }
 }

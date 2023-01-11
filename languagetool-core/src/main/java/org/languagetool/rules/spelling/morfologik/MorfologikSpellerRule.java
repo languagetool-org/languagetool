@@ -134,8 +134,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     boolean isFirstWord = true;
     boolean otherLangDetected = false;
     ForeignLanguageChecker foreignLanguageChecker = null;
-    if (userConfig != null && userConfig.isMultiLangEnabled()) {
-      foreignLanguageChecker = new ForeignLanguageChecker(language, sentence);
+    if (userConfig != null && userConfig.getPreferredLanguages() != null && userConfig.getPreferredLanguages().size() > 0) {
+      foreignLanguageChecker = new ForeignLanguageChecker(language, sentence, userConfig.getPreferredLanguages());
     }
     for (AnalyzedTokenReadings token : tokens) {
       idx++;

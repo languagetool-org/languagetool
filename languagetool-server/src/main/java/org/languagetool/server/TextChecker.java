@@ -386,6 +386,7 @@ abstract class TextChecker {
 
     List<Rule> userRules = getUserRules(limits, lang, dictGroups);
     boolean isMultiLangEnabled = false;
+    //only enable this feature with parameter
     if (params.get("enableMultiLanguageChecks") != null && params.get("enableMultiLanguageChecks").equals("true")) {
       isMultiLangEnabled = true;
     }
@@ -395,7 +396,7 @@ abstract class TextChecker {
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, isMultiLangEnabled);
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
@@ -577,6 +578,7 @@ abstract class TextChecker {
     }
 
     //### Start multiLangPart
+    //TODO: implement recheck of ignoreRanges
     if (isMultiLangEnabled) {
       long startTimeRecheck = System.currentTimeMillis();
       Map<String, List<Range>> rangesOrderedByLanguage = new HashMap<>();
@@ -595,31 +597,9 @@ abstract class TextChecker {
           languageTextBuilder.append(text);
         });
         AnnotatedText finalTextToCheckAgain = new AnnotatedTextBuilder().addText(languageTextBuilder.toString().trim()).build();
-        try {
-          getResults(
-                  finalTextToCheckAgain,
-                  httpExchange,
-                  errorRequestLimiter,
-                  remoteAddress,
-                  finalTextToCheckAgain.getPlainText().length(),
-                  qParams,
-                  rangeLanguage,
-                  detLang, //form original text
-                  motherTongue,
-                  params,
-                  userConfig,
-                  limits,
-                  timeStart,
-                  2, //needed?
-                  mode,
-                  requestId
-          );
-        } catch (Exception ex) {
-          log.error(ex.getMessage());
-        }
       });
       long endTimeRecheck = System.currentTimeMillis();
-      System.out.println("Time needed for recheck other languages: " + (endTimeRecheck - startTimeRecheck) / 1000f);
+      log.trace("Time needed for recheck other languages: {}", (endTimeRecheck - startTimeRecheck) / 1000f);
     }
     //### End multiLangPart
 
@@ -720,135 +700,6 @@ abstract class TextChecker {
 
     }
 
-  }
-  
-  private void getResults(
-          AnnotatedText aText,
-          HttpExchange httpExchange,
-          ErrorRequestLimiter errorRequestLimiter,
-          String remoteAddress,
-          int length,
-          QueryParams qParams,
-          Language lang,
-          DetectedLanguage detLang,
-          Language motherTongue,
-          Map<String, String> params,
-          UserConfig userConfig,
-          UserLimits limits,
-          long timeStart,
-          int count,
-          JLanguageTool.Mode mode,
-          String requestId
-  ) throws Exception {
-    List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
-    Future<List<CheckResults>> future;
-    try {
-      future = executorService.submit(() -> {
-        try (MDC.MDCCloseable c = MDC.putCloseable("rID", LanguageToolHttpHandler.getRequestId(httpExchange))) {
-          log.debug("Starting text check on {} chars; params: {}", length, qParams);
-          long time = System.currentTimeMillis();
-          //detLang can be null as it is unused
-          List<CheckResults> results = getRuleMatches(aText, lang, motherTongue, params, qParams, userConfig, f -> ruleMatchesSoFar.add(new CheckResults(Collections.singletonList(f), Collections.emptyList())));
-          log.debug("Finished text check in {}ms. Starting suggestion generation.", System.currentTimeMillis() - time);
-          time = System.currentTimeMillis();
-          // generate suggestions, otherwise this is not part of the timeout logic and not properly measured in the metrics
-          results.stream().flatMap(r -> r.getRuleMatches().stream()).forEach(RuleMatch::computeLazySuggestedReplacements);
-          log.debug("Finished suggestion generation in {}ms, returning results.", System.currentTimeMillis() - time);
-          return results;
-        }
-      });
-    } catch (RejectedExecutionException e) {
-      throw new UnavailableException("Server overloaded, please try again later", e);
-    }
-    String incompleteResultReason = null;
-    List<CheckResults> res;
-    try {
-      if (limits.getMaxCheckTimeMillis() < 0) {
-        res = future.get();
-      } else {
-        res = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
-      }
-    } catch (ExecutionException e) {
-      future.cancel(true);
-      if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.TOO_MANY_ERRORS);
-      }
-      if (qParams.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-        log.warn(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. " +
-          "Detected language: " + detLang + ", " + ServerTools.getLoggingInfo(remoteAddress, null, -1, httpExchange,
-          params, System.currentTimeMillis()-timeStart, reqCounter));
-        res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-        incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
-      } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
-        throw (OutOfMemoryError)e.getCause();
-      } else {
-        throw new RuntimeException(ServerTools.cleanUserTextFromMessage(e.getMessage(), params) + ", detected: " + detLang, e);
-      }
-    } catch (TimeoutException e) {
-      boolean cancelled = future.cancel(true);
-      Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
-      String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
-      if (errorRequestLimiter != null) {
-        errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders(), params);
-      }
-      String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
-                       " milliseconds (cancelled: " + cancelled +
-                       ", lang: " + lang.getShortCodeWithCountryAndVariant() +
-                       ", detected: " + detLang +
-                       ", #" + count +
-                       ", " + length + " characters of text" +
-                       ", mode: " + mode.toString().toLowerCase() +
-                       ", h: " + reqCounter.getHandleCount() +
-                       ", r: " + reqCounter.getRequestCount() +
-                       ", requestId: " + requestId +
-                       ", system load: " + loadInfo + ")";
-      if (qParams.allowIncompleteResults) {
-        log.info(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
-        res = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-        incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " +
-                String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
-      } else {
-        ServerMetricsCollector.getInstance().logRequestError(ServerMetricsCollector.RequestErrorType.MAX_CHECK_TIME);
-        throw new RuntimeException(message, e);
-      }
-    }
-
-    // no lazy computation at later points (outside of timeout enforcement)
-    // e.g. ruleMatchesSoFar can have matches without computeLazySuggestedReplacements called yet
-    res.forEach(checkResults -> checkResults.getRuleMatches().forEach(RuleMatch::discardLazySuggestedReplacements));
-    
-    setHeaders(httpExchange);
-
-    List<RuleMatch> hiddenMatches = new ArrayList<>();
-    boolean temporaryPremiumDisabledRuleMatch = false;
-    Set<String> temporaryPremiumDisabledRuleMatchedIds = new HashSet<>();
-    // filter computed premium matches, convert to hidden matches - no separate hidden matches server needed
-    if (!qParams.premium && qParams.enableHiddenRules) {
-      List<RuleMatch> allMatches = new ArrayList<>(); // for filtering out overlapping matches, collect across CheckResults
-      List<RuleMatch> premiumMatches = new ArrayList<>();
-      for (CheckResults result : res) {
-        List<RuleMatch> filteredMatches = new ArrayList<>();
-        for (RuleMatch match : result.getRuleMatches()) {
-          if (Premium.get().isPremiumRule(match.getRule()) && !Premium.isTempNotPremium(match.getRule())) {
-            premiumMatches.add(match);
-          } else if (userConfig.getAbTest() != null && userConfig.getAbTest().equals("ALLOW_PREMIUM_IN_BASIC") && Premium.get().isPremiumRule(match.getRule()) && Premium.isTempNotPremium(match.getRule())) {
-            System.out.println("Rule: " + match.getRule().getId() + " is premium but temporary available in basic");
-            filteredMatches.add(match);
-            allMatches.add(match);
-            temporaryPremiumDisabledRuleMatch = true;
-            temporaryPremiumDisabledRuleMatchedIds.add(match.getRule().getId());
-          } else {
-            // filter out premium matches
-            filteredMatches.add(match);
-            // keep track for filtering out overlapping matches
-            allMatches.add(match);
-          }
-          // need to replace list, can't iterate and remove since some rules may return unmodifiable lists
-          result.setRuleMatches(filteredMatches);
-        }
-      }
-      hiddenMatches.addAll(ResultExtender.getAsHiddenMatches(allMatches, premiumMatches));
-    }
   }
 
   @NotNull

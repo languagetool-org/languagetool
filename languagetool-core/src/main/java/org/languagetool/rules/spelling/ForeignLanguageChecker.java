@@ -27,37 +27,44 @@ import org.languagetool.language.identifier.LanguageIdentifier;
 import org.languagetool.language.identifier.LanguageIdentifierService;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
 
 @Slf4j
 public class ForeignLanguageChecker {
+
+  private static final float ERROR_THRESHOLD = 0.45f;
+  private static final int MIN_SENTENCE_THRESHOLD = 3;
+
   private final Language language;
   private final AnalyzedSentence sentence;
   private final long sentenceLength;
+  private final List<String> preferredLanguages;
 
-  public ForeignLanguageChecker(Language language, AnalyzedSentence sentence) {
+  public ForeignLanguageChecker(Language language, AnalyzedSentence sentence, List<String> preferredLanguages) {
     this.language = language;
     this.sentence = sentence;
     this.sentenceLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1;  // -1 for the SENT_START token
+    this.preferredLanguages = Collections.unmodifiableList(preferredLanguages);
   }
 
   public String check(int matchesSoFar) throws IOException {
     long timeStart = System.currentTimeMillis();
     float errorRatio = (float) matchesSoFar / this.sentenceLength;
-    if (this.sentenceLength >= 3 || errorRatio >= 0.45) {
+    if (this.sentenceLength >= MIN_SENTENCE_THRESHOLD || errorRatio >= ERROR_THRESHOLD) {
       LanguageIdentifier langIdent = LanguageIdentifierService.INSTANCE.getInitialized();
       if (langIdent != null) {
         Language detectLanguage = langIdent.detectLanguage(sentence.getText());
-        if (detectLanguage != null && !detectLanguage.getShortCode().equals(this.language.getShortCode())) {
+        //for now, we just use the result if also in preferredLanguages to prevent false positive
+        if (detectLanguage != null && !detectLanguage.getShortCode().equals(this.language.getShortCode()) && preferredLanguages.contains(detectLanguage.getShortCode())) {
           long timeEnd = System.currentTimeMillis();
-          log.debug("Time to find the correct language of the sentence: {} seconds", (timeEnd - timeStart) / 1000f);
-          log.debug("Found {} sentence in {} text: {}", detectLanguage.getShortCode(), this.language.getShortCode(), sentence.getText());
+          log.trace("Time to find the correct language of the sentence: {} seconds", (timeEnd - timeStart) / 1000f);
+          log.trace("Found '{}' sentence in '{}' text: '{}'", detectLanguage.getShortCode(), this.language.getShortCode(), sentence.getText());
           return detectLanguage.getShortCode();
         }
       }
     }
     long timeEnd = System.currentTimeMillis();
-    log.debug("Time without find a other language in sentence {} seconds", (timeEnd - timeStart) / 1000f);
+    log.trace("Time without find a other language in sentence {} seconds", (timeEnd - timeStart) / 1000f);
     return null;
   }
 }

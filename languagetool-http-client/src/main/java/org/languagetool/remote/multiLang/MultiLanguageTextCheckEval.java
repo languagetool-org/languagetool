@@ -33,13 +33,13 @@ import java.util.stream.Stream;
 
 public final class MultiLanguageTextCheckEval {
   private static Random randomGen = new Random();
-  private static int minMainLanguageSentences = 50;
+  private static int minMainLanguageSentences = 100;
   private static int maxOtherLanguageSentences = 15;
   private static int maxOtherLanguageSentencesAtOnce = 4;
   private static String mainLanguages = "de";
   private static String otherLanguage = "en";
   private static boolean useLangDetectionService = false;
-  private static int rounds = 200;
+  private static int rounds = 100;
   private static List<DetectionResults> roundResults = new ArrayList<>();
   private static boolean spamToMe = false;
   private static Set<String> allWrongRanges = new HashSet<>();
@@ -204,7 +204,10 @@ public final class MultiLanguageTextCheckEval {
     long startTime = System.currentTimeMillis();
     RemoteResult results = null;
     try {
-      results = remoteLanguageTool.check(mlc.getText(), language, Collections.singletonMap("enableMultiLanguageChecks", "true"));
+      Map<String, String> params = new HashMap<>();
+      params.put("enableMultiLanguageChecks", "true");
+      params.put("preferredLanguages", "de,en");
+      results = remoteLanguageTool.check(mlc.getText(), language, params);
     } catch (RuntimeException ex) {
       if (spamToMe) {
         System.out.println("too many errors");
@@ -216,7 +219,9 @@ public final class MultiLanguageTextCheckEval {
     //2nd check without multilanguage
     long startTimeRound2 = System.currentTimeMillis();
     try {
-      remoteLanguageTool.check(mlc.getText(), language, Collections.singletonMap("enableMultiLanguageChecks", "false"));
+      Map<String, String> params = new HashMap<>();
+      params.put("enableMultiLanguageChecks", "false");
+      remoteLanguageTool.check(mlc.getText(), language, params);
     } catch (RuntimeException ex) {
       if (spamToMe) {
         System.out.println("too many errors");
