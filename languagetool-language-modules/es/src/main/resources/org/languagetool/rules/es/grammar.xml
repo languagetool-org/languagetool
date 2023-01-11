@@ -5177,6 +5177,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="pagó">Uber <marker>pago</marker> a reputados economistas.</example>
                 <example>Acabo de encontrar por casualidad el anuncio.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>creo</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token postag="V.I[IS].*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <and>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*|_possible_NP" postag_regexp="yes"/></token>
+                            <token inflected="yes" regexp="yes">.+ar<exception inflected="yes" regexp="yes">.+ir</exception></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Parece más probable que el verbo esté en pasado, escrito con tilde.</message>
+                <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0" case_conversion="alllower"/></suggestion>
+                <example correction="contestó">La tristeza se reflejaba en su cara, y con un hilo de voz <marker>contesto</marker>.</example>
+                <example correction="abrazó">Se alejaba de la puerta, cuando le <marker>abrazo</marker>.</example>
+                <example>Acabo de encontrar por casualidad el anuncio.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>creo</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <and>
+                            <token skip="-1" postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*|_possible_NP" postag_regexp="yes"/></token>
+                            <token inflected="yes" regexp="yes">.+ar<exception inflected="yes" regexp="yes">.+ir</exception></token>
+                        </and>
+                    </marker>
+                    <token postag="V.I[IS].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Parece más probable que el verbo esté en pasado, escrito con tilde.</message>
+                <suggestion><match no="1" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0" case_conversion="alllower"/></suggestion>
+                <example correction="contestó">No <marker>contesto</marker> mientras la tristeza se reflejaba en su cara.</example>
+                <example correction="abrazó">Cuando le <marker>abrazo</marker> se sintió mejor.</example>
+                <example>Acabo de encontrar por casualidad el anuncio.</example>
+            </rule>
         </rulegroup>
         <rule id="PROMEDIO" name="promedio/promedió">
             <pattern>
