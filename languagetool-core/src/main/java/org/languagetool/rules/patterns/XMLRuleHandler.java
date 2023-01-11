@@ -150,9 +150,9 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean regExpression;
   protected boolean tokenNegated;
   protected boolean tokenInflected;
-  protected boolean isPremiumFile;
-  protected boolean isPremiumCategory;
-  protected boolean isPremiumRuleGroup;
+  protected String premiumRuleGroupAttribute;
+  protected String premiumCategoryAttribute;
+  protected String premiumFileAttribute;
   protected boolean isPremiumRule;
 
   protected boolean tokenLevelCaseSensitive;

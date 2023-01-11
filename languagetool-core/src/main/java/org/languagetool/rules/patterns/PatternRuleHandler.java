@@ -114,7 +114,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     switch (qName) {
       case "category":
         String catName = attrs.getValue(NAME);
-        isPremiumCategory = attrs.getValue(PREMIUM) != null && YES.equals(attrs.getValue(PREMIUM));
+        premiumCategoryAttribute = attrs.getValue(PREMIUM); //check if all rules should be premium by default in this category
         String catId = attrs.getValue(ID);
         Category.Location location = YES.equals(attrs.getValue(EXTERNAL)) ?
           Category.Location.EXTERNAL : Category.Location.INTERNAL;
@@ -130,7 +130,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case "rules":
         String languageStr = attrs.getValue("lang");
-        isPremiumFile = attrs.getValue(PREMIUM) != null && YES.equals(attrs.getValue(PREMIUM)); //check if all rules should be premium by default in this file
+        premiumFileAttribute = attrs.getValue(PREMIUM); //check if all rules should be premium by default in this file
         idPrefix = attrs.getValue("idprefix");
         language = Languages.getLanguageForShortCode(languageStr);
         messages = ResourceBundleTools.getMessageBundle(language);
@@ -173,14 +173,32 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         String premiumRule = attrs.getValue(PREMIUM);
         //check if this rule is premium
-        if (premiumRule != null) { //if flag is set on rule it overrides everything before
-          isPremiumRule = YES.equals(attrs.getValue(PREMIUM));
-        } else if (isPremiumRuleGroup){
-          isPremiumRule = true;
-        } else if (isPremiumCategory) {
-          isPremiumRule = true;
+        if (premiumRule != null) {
+          if (YES.equals(premiumRule)) {
+            isPremiumRule = true;
+          } else if (NO.equals(premiumRule)) {
+            isPremiumRule = false;
+          }
+        } else if (premiumRuleGroupAttribute != null){
+          if (YES.equals(premiumRuleGroupAttribute)) {
+            isPremiumRule = true;
+          } else if (NO.equals(premiumRuleGroupAttribute)) {
+            isPremiumRule = false;
+          }
+        } else if (premiumCategoryAttribute != null) {
+          if (YES.equals(premiumCategoryAttribute)) {
+            isPremiumRule = true;
+          } else if (NO.equals(premiumCategoryAttribute)) {
+            isPremiumRule = false;
+          }
+        } else if (premiumFileAttribute != null){
+          if (YES.equals(premiumFileAttribute)) {
+            isPremiumRule = true;
+          } else if (NO.equals(premiumFileAttribute)) {
+            isPremiumRule = false;
+          }
         } else {
-          isPremiumRule = isPremiumFile;
+          isPremiumRule = false;
         }
         if (inRuleGroup) {
           subId++;
@@ -339,7 +357,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case RULEGROUP:
         ruleGroupId = attrs.getValue(ID);
-        isPremiumRuleGroup = attrs.getValue(PREMIUM) != null && YES.equals(attrs.getValue(PREMIUM));
+        premiumRuleGroupAttribute = attrs.getValue(PREMIUM);
         ruleGroupDescription = attrs.getValue(NAME);
         ruleGroupDefaultOff = OFF.equals(attrs.getValue(DEFAULT));
         ruleGroupDefaultTempOff = TEMP_OFF.equals(attrs.getValue(DEFAULT));

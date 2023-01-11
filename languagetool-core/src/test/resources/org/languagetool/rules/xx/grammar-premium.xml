@@ -1,0 +1,131 @@
+<?xml-stylesheet type="text/xsl" href="../print.xsl"
+        title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css"
+        title="Easy editing stylesheet" ?>
+<!--
+  ~ LanguageTool, a natural language style checker 
+  ~ Copyright (c) 2023.  Stefan Viol (https://stevio.de)
+  ~  
+  ~  This library is free software; you can redistribute it and/or
+  ~  modify it under the terms of the GNU Lesser General Public
+  ~  License as published by the Free Software Foundation; either
+  ~  version 2.1 of the License, or (at your option) any later version.
+  ~  
+  ~  This library is distributed in the hope that it will be useful,
+  ~  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~  Lesser General Public License for more details.
+  ~  
+  ~  You should have received a copy of the GNU Lesser General Public
+  ~  License along with this library; if not, write to the Free Software
+  ~  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+  ~  USA
+  -->
+
+<!-- 
+    Tag:
+    F = file
+    C = category
+    RG = ruleGroup
+    R = rule
+    Status:
+    -NP = nonPremium
+    -p = premium
+    ID template category tag F-NP_C-NP (File-Status_Category-Status)
+    ID template rulegroup tag F-NP_C-NP_RG-NP (File-Status_Category-Status_RuleGroup-Status)
+    ID template rule F-NP_C-NP_RG-NP_R-NP (File-Status_Category-Status_RuleGroup-Status_Rule-Status)
+-->
+<rules premium="yes" lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../main/resources/org/languagetool/rules/rules.xsd">
+    <category id="F-P_C-P" name="F-P_C-P">
+        <rulegroup id="F-P_C-P_RG-P" name="F-P_C-P_RG-P">
+            <rule id="F-P_C-P_RG-P_R-P">
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg1</message>
+                <example correction="">
+                    <marker>fake1</marker>
+                </example>
+                <example>fake2</example>
+            </rule>
+            <rule id="F-P_C-P_RG-P_R-NP" premium="no">
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg3</message>
+                <example correction="">
+                    <marker>fake1</marker>
+                </example>
+                <example>fake2</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="F-P_C-P_RG-NP" name="F-P_C-P_RG-NP" premium="no">
+            <rule id="F-P_C-P_RG-NP_R-P" premium="yes">
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg1</message>
+                <example correction="">
+                    <marker>fake1</marker>
+                </example>
+                <example>fake2</example>
+            </rule>
+            <rule id="F-P_C-P_RG-NP_R-NP">
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg3</message>
+                <example correction="">
+                    <marker>fake1</marker>
+                </example>
+                <example>fake2</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="F-P_C-NP" name="F-P_C-NP" premium="no">
+        <rulegroup id="F-P_C-NP_RG-P" name="F-P_C-NP_RG-P" premium="yes">
+            <rule id="F-P_C-NP_RG-P_R-NP" premium="no">
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg1</message>
+                <example correction="">
+                    <marker>fake1</marker>
+                </example>
+                <example>fake2</example>
+            </rule>
+            <rule id="F-P_C-NP_RG-P_R-P">
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg3</message>
+                <example correction="">
+                    <marker>fake1</marker>
+                </example>
+                <example>fake2</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="F-P_C-NP_RG-NP" name="F-P_C-NP_RG-NP">
+            <rule id="F-P_C-NP_RG-NP_R-NP">
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg1</message>
+                <example correction="">
+                    <marker>fake1</marker>
+                </example>
+                <example>fake2</example>
+            </rule>
+            <rule id="F-P_C-NP_RG-NP_R-P" premium="yes">
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg3</message>
+                <example correction="">
+                    <marker>fake1</marker>
+                </example>
+                <example>fake2</example>
+            </rule>
+        </rulegroup>
+    </category>
+</rules>
