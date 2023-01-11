@@ -6992,6 +6992,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Espero que no te moleste que me haya pasado.</example>
                 <example>La manera en que afronte este lastre del pasado.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="V.I[IS].*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <and>
+                            <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|V.I.*|V.N.*" postag_regexp="yes"/><exception scope="previous">se</exception></token>
+                            <token postag="VMSP[13]S0" postag_regexp="yes" regexp="yes" case_sensitive="yes">\p{Ll}.*e<exception postag="_possible_NP"/><exception regexp="yes">.+[ui]e.+e</exception></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Parece más probable un verbo en pasado, escrito con tilde.</message>
+                <suggestion><match no="2" postag="VMSP[13]S0" postag_regexp="yes" postag_replace="VMIS1S0"/></suggestion>
+                <example correction="pagué">Llamé al camarero, <marker>pague</marker> mi cuenta.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <and>
+                            <token skip="-1" inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|V.I.*|V.N.*" postag_regexp="yes"/><exception scope="previous">se</exception></token>
+                            <token postag="VMSP[13]S0" postag_regexp="yes" regexp="yes" case_sensitive="yes">.*e<exception postag="_possible_NP"/><exception regexp="yes">.+[ui]e.+e</exception></token>
+                        </and>
+                    </marker>
+                    <token postag="V.I[IS].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Parece más probable un verbo en pasado, escrito con tilde.</message>
+                <suggestion><match no="1" postag="VMSP[13]S0" postag_regexp="yes" postag_replace="VMIS1S0"/></suggestion>
+                <example correction="Llamé"><marker>Llame</marker> al camarero, pagué mi cuenta.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DIACRITICS_OTHERS" name="otros casos de falta de tilde" default="on">
             <rule>
