@@ -19,6 +19,7 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Tag;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
@@ -52,6 +53,7 @@ private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
   public CatalanRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new Catalan());
     antiPatterns = cacheAntiPatterns(new Catalan(), ANTI_PATTERNS);
+    super.setTags(Arrays.asList(Tag.picky));
     // super.setDefaultTempOff();
   }
 
