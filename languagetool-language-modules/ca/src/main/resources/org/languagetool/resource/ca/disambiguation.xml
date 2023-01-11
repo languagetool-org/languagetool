@@ -960,6 +960,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token regexp="yes" spacebefore="yes">ls?</token>
+            </pattern>
+            <disambig action="remove" postag="DA0M.0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">ls?</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="DA0M.0"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token regexp="yes">a|de|pe|ca</token>
                 <marker>
                     <token spacebefore="no">ls</token>
