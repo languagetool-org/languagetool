@@ -45670,6 +45670,18 @@ steenwijk;Steenwijk
                 <example correction="N.B.">Het aantal is <marker>NB</marker> verkeerd.</example>
             </rule>
         </rulegroup>
+         <rulegroup id="AMPERSAND" name="&amp;/en" default="temp_off" tags="picky">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes">&amp;</token>
+                    </marker>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>De ampersand (&amp;) staat niet zo fraai in lopende tekst, gebruik liever <suggestion>en</suggestion></message>
+                <example correction="en">Het voorstel gaat naar burgemeester <marker>&amp;</marker> wethouders.</example>
+            </rule>
+        </rulegroup>
        <rulegroup id="AFKO_VOLUIT" name="Afkortingen voluit" tags="picky" >
             <rule>
                 <pattern>
