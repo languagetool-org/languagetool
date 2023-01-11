@@ -1250,6 +1250,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="NCF.*"/>
         </rule>
     </rulegroup>
+    <rule id="A_BAIX" name="a baix">
+        <pattern>
+            <token>a</token>
+            <token>baix</token>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="a baix" pos="LOC_ADV"/>
+            <wd lemma="a baix" pos="LOC_ADV"/>
+        </disambig>
+    </rule>
+    <rule id="A_DALT" name="a dalt">
+        <pattern>
+            <token>a</token>
+            <token>dalt</token>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="a dalt" pos="LOC_ADV"/>
+            <wd lemma="a dalt" pos="LOC_ADV"/>
+        </disambig>
+    </rule>
     <rulegroup id="ALTRA_VEGADA" name="altra vegada (loc. adverbial)">
         <rule>
             <pattern>
@@ -6236,6 +6256,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>a</token>
                 <marker>
                     <token inflected="yes" regexp="yes">terme|consulta</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">estar|posar</token>
+                <token>d'</token>
+                <marker>
+                    <token>acord</token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -13747,7 +13779,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="no_GV" name="neteja GV">
         <rule>
             <pattern>
-                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta|alta</exception></token>
+                <token postag="_GV_"><exception postag="P[P0].*|V.*" postag_regexp="yes"/><exception regexp="yes">acord|banda|part|llum|dubte|qüestió|pràctica|valor|marxa|escena|servei|servici|contacte|baixa|falta|terme|origen|camí|corrent|relleu|compte|consulta|alta</exception></token>
             </pattern>
             <disambig action="remove">
                 <wd pos="_GV_"/>
