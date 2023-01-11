@@ -16626,6 +16626,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="remove" postag="VBG" />
     </rule>
 
+    <rule id="BUG_NO_VB" name="'bug' no VB">
+        <pattern>
+            <marker>
+                <token>bug</token>
+            </marker>
+            <token regexp="yes">fix(es)?|reports?</token>
+        </pattern>
+        <disambig action="filter" postag="NN.*" />
+    </rule>
+
     <rulegroup id="ONLY_JUST_RB" name="'just' and 'only' only RB">
         <rule>
             <pattern>
