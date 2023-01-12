@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
+import org.languagetool.openoffice.OfficeTools.DocumentType;
 
 import com.sun.star.awt.MenuEvent;
 import com.sun.star.awt.MenuItemStyle;
@@ -37,6 +38,7 @@ import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XIndexContainer;
 import com.sun.star.frame.XController;
+import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
@@ -84,8 +86,10 @@ public class LanguageToolMenus {
     this.xContext = xContext;
     this.xComponent = xComponent;
     setConfigValues(config);
-    ltHeadMenu = new LTHeadMenu(xComponent);
-    ltContextMenu = new ContextMenuInterceptor(xContext);
+    if (document.getDocumentType() == DocumentType.WRITER) {
+      ltHeadMenu = new LTHeadMenu(xComponent);
+    }
+    ltContextMenu = new ContextMenuInterceptor(xComponent);
     if (debugMode) {
       MessageHandler.printToLogFile("LanguageToolMenus initialised");
     }
@@ -395,11 +399,13 @@ public class LanguageToolMenus {
     private final static String LT_REMOTE_HINT = "service:org.languagetool.openoffice.Main?remoteHint";   
     private final static String LT_RENEW_MARKUPS = "service:org.languagetool.openoffice.Main?renewMarkups";
     private final static String LT_ADD_TO_DICTIONARY = "service:org.languagetool.openoffice.Main?addToDictionary_";
+    private final static String LT_CHECKDIALOG = "service:org.languagetool.openoffice.Main?checkDialog";
 
     public ContextMenuInterceptor() {}
     
-    public ContextMenuInterceptor(XComponentContext xContext) {
+    public ContextMenuInterceptor(XComponent xComponent) {
       try {
+/*        
         XTextDocument xTextDocument = OfficeTools.getCurrentDocument(xContext);
         if (xTextDocument == null) {
           MessageHandler.printToLogFile("LanguageToolMenus: ContextMenuInterceptor: xTextDocument == null");
@@ -407,6 +413,13 @@ public class LanguageToolMenus {
         }
         xTextDocument.getCurrentController();
         XController xController = xTextDocument.getCurrentController();
+*/
+        XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
+        if (xModel == null) {
+          MessageHandler.printToLogFile("LanguageToolMenus: ContextMenuInterceptor: XModel not found!");
+          return;
+        }
+        XController xController = xModel.getCurrentController();
         if (xController == null) {
           MessageHandler.printToLogFile("LanguageToolMenus: ContextMenuInterceptor: xController == null");
           return;
@@ -446,6 +459,24 @@ public class LanguageToolMenus {
           MessageHandler.printToLogFile("Generate context menu started");
         }
         XIndexContainer xContextMenu = aEvent.ActionTriggerContainer;
+        
+        if (document.getDocumentType() == DocumentType.IMPRESS) {
+          XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
+          XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
+              xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+          xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuGrammarCheck"));
+          xNewMenuEntry.setPropertyValue("CommandURL", LT_CHECKDIALOG);
+          xContextMenu.insertByIndex(0, xNewMenuEntry);
+
+          XPropertySet xSeparator = UnoRuntime.queryInterface(XPropertySet.class,
+              xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerSeparator"));
+          xSeparator.setPropertyValue("SeparatorType", ActionTriggerSeparatorType.LINE);
+          xContextMenu.insertByIndex(1, xSeparator);
+          isRunning = false;
+          return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
+        }
+        
+        
         int count = xContextMenu.getCount();
         
         if (debugMode) {

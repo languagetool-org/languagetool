@@ -48,8 +48,15 @@ import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.tools.Tools;
 
+import com.sun.star.awt.MouseButton;
+import com.sun.star.awt.MouseEvent;
+import com.sun.star.awt.XMouseClickHandler;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.document.DocumentEvent;
+import com.sun.star.document.XDocumentEventBroadcaster;
+import com.sun.star.document.XDocumentEventListener;
+import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.Locale;
@@ -82,7 +89,6 @@ public class MultiDocumentsHandler {
   private static final int HEAP_CHECK_INTERVAL = 500;
 
   private final List<XLinguServiceEventListener> xEventListeners;
-
   private boolean docReset = false;
 
   private static boolean debugMode = false;   //  should be false except for testing
@@ -145,6 +151,8 @@ public class MultiDocumentsHandler {
     disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
     dictionary = new LtDictionary();
+    LtHelper ltHelper = new LtHelper();
+    ltHelper.start();
   }
   
   /**
@@ -273,6 +281,9 @@ public class MultiDocumentsHandler {
           } catch (Throwable t) {
             MessageHandler.printToLogFile("MultiDocumentsHandler: getCurrentDocument: Error: Document (ID: " + docID + ") has no XComponent -> Internal space will not be deleted when document disposes");
             xComponent = null;
+          }
+          if (config == null) {
+            config = getConfiguration();
           }
           SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this);
           documents.add(newDocument);
@@ -1921,16 +1932,23 @@ public class MultiDocumentsHandler {
 
   }
 
-  /** class to start a separate thread to switch grammar check to LT
-   * Experimental currently not used 
+  /** class to start a separate thread to check for Impress documents
    */
-  @SuppressWarnings("unused")
   private class LtHelper extends Thread {
     @Override
     public void run() {
       try {
-        Thread.sleep(3000);
-        testDocLanguage(false);
+        SingleDocument currentDocument = null;
+        while (currentDocument == null) {
+          Thread.sleep(1000);
+          currentDocument = getCurrentDocument();
+          if (currentDocument != null && currentDocument.getDocumentType() == DocumentType.IMPRESS) {
+            lt = initLanguageTool(true);
+            initCheck(lt);
+            initDocuments(false);
+//            runShapeCheck(true, 8);
+          }
+        }
       } catch (Throwable e) {
         MessageHandler.showError(e);
       }

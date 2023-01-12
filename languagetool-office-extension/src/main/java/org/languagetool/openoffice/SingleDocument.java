@@ -108,6 +108,7 @@ class SingleDocument {
   private boolean hasSortedTextId = true;            //  true: Node Index is supported by LO
   private boolean isLastIntern = false;           //  true: last check was intern
   private boolean isRightButtonPressed = false;   //  true: right mouse Button was pressed
+  private boolean isOnUnload = false;             //  Document will be closed
   private String lastSinglePara = null;           //  stores the last paragraph which is checked as single paragraph
   private Language docLanguage;                   //  docLanguage (usually the Language of the first paragraph)
   private final Language fixedLanguage;           //  fixed language (by configuration); if null: use language of document (given by LO/OO)
@@ -151,6 +152,9 @@ class SingleDocument {
     }
     if (xComponent != null) {
       setFlatParagraphTools();
+    }
+    if (docType == DocumentType.IMPRESS && ltMenus == null) {
+      ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
     }
   }
   
@@ -277,9 +281,6 @@ class SingleDocument {
       viewCursor = null;
       return paRes;
     }
-//    if (docType == DocumentType.WRITER && ltMenus == null) {
-//      ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
-//    }
     try {
       if (docReset) {
         numLastVCPara = 0;
@@ -358,7 +359,7 @@ class SingleDocument {
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    if (docType == DocumentType.WRITER && ltMenus == null && paraText.length() > 0) {
+    if (ltMenus == null && docType == DocumentType.WRITER && paraText.length() > 0) {
       ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
     }
     docCursor = null;
@@ -1254,7 +1255,12 @@ class SingleDocument {
 
     @Override
     public void documentEventOccured(DocumentEvent event) {
-      if (event.EventName.equals("OnSave") && config.saveLoCache()) {
+      MessageHandler.printToLogFile("SingleDocument: documentEventOccured: event: " + event.EventName);
+      if(event.EventName.equals("OnUnload")) {
+        isOnUnload = true;
+      } else if(event.EventName.equals("OnUnfocus") && !isOnUnload) {
+        mDocHandler.getCurrentDocument();
+      } else if(event.EventName.equals("OnSave") && config.saveLoCache()) {
         writeCaches();
       } else if(event.EventName.equals("OnSaveAsDone") && config.saveLoCache()) {
         writeCaches();
