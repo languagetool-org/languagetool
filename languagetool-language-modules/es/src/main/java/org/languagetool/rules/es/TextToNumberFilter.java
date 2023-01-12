@@ -18,18 +18,9 @@
  */
 package org.languagetool.rules.es;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import org.languagetool.rules.AbstractTextToNumberFilter;
 
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.RuleFilter;
-
-public class TextToNumberFilter extends RuleFilter {
-
-  private static Map<String, Float> numbers = new HashMap<String, Float>();
-  private static Map<String, Float> multipliers = new HashMap<String, Float>();
+public class TextToNumberFilter extends AbstractTextToNumberFilter {
 
   static {
     numbers.put("cero", (float) 0);
@@ -97,75 +88,6 @@ public class TextToNumberFilter extends RuleFilter {
     multipliers.put("billones", (float) 10E12);
     multipliers.put("trillón", (float) 10E18);
     multipliers.put("trillones", (float) 10E18);
-  }
-
-  @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {
-
-    int posWord = 0;
-    float total = 0;
-    float current = 0;
-    float totalDecimal = 0;
-    float currentDecimal = 0;
-    int addedZeros = 0;
-    boolean percentage = false;
-    boolean decimal = false;
-    while (posWord < patternTokens.length && patternTokens[posWord].getEndPos() <= match.getToPos()) {
-      // inside <marker>
-      if (patternTokens[posWord].getStartPos() >= match.getFromPos()
-          && patternTokens[posWord].getEndPos() <= match.getToPos()) {
-        String form = patternTokens[posWord].getToken().toLowerCase();
-        if (posWord > 0 && form.equals("ciento") && patternTokens[posWord - 1].getToken().toLowerCase().equals("por")) {
-          percentage = true;
-          break;
-        }
-        if (form.equals("coma")) {
-          decimal = true;
-          posWord++;
-          continue;
-        }
-        if (!decimal) {
-          if (numbers.containsKey(form)) {
-            current += numbers.get(form);
-          } else if (multipliers.containsKey(form)) {
-            if (current == 0) {// mil
-              current = 1;
-            }
-            total += current * multipliers.get(form);
-            current = 0;
-          }
-        } else {
-          if (numbers.containsKey(form)) {
-            int zerosToAdd = format((numbers.get(form)), false).length();
-            currentDecimal += numbers.get(form) / Math.pow(10, addedZeros + zerosToAdd);
-            addedZeros++;
-          } /* else: multipliers after the decimal comma are not expected */
-        }
-      }
-      posWord++;
-    }
-    total += current;
-    totalDecimal += currentDecimal;
-    total = total + totalDecimal /* / (Float.toString(totalDecimal).length() + addedZeros) */;
-    RuleMatch ruleMatch = match;
-    String sugg = format(total, percentage);
-
-    ruleMatch.addSuggestedReplacement(sugg);
-    return ruleMatch;
-  }
-
-  private static String format(float d, boolean percentage) {
-    String result;
-    if (d == (long) d) {
-      result = String.format("%d", (long) d);
-    } else {
-      result = String.format("%s", d);
-    }
-    if (percentage) {
-      result = result + "\u202F%"; // narrow non-breaking space + percentage
-    }
-    return result;
   }
 
 }
