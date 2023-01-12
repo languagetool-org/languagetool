@@ -25,7 +25,7 @@ import java.util.Map;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
 
-public class AbstractTextToNumberFilter extends RuleFilter {
+public abstract class AbstractTextToNumberFilter extends RuleFilter {
 
   protected static Map<String, Float> numbers = new HashMap<String, Float>();
   protected static Map<String, Float> multipliers = new HashMap<String, Float>();
@@ -48,11 +48,11 @@ public class AbstractTextToNumberFilter extends RuleFilter {
       if (patternTokens[posWord].getStartPos() >= match.getFromPos()
           && patternTokens[posWord].getEndPos() <= match.getToPos()) {
         String form = patternTokens[posWord].getToken().toLowerCase();
-        if (posWord > 0 && form.equals("ciento") && patternTokens[posWord - 1].getToken().toLowerCase().equals("por")) {
+        if (posWord > 0 && isPercentage(patternTokens, posWord)) {
           percentage = true;
           break;
         }
-        if (form.equals("coma")) {
+        if (isComma(form)) {
           decimal = true;
           posWord++;
           continue;
@@ -99,5 +99,9 @@ public class AbstractTextToNumberFilter extends RuleFilter {
     }
     return result;
   }
+  
+  abstract protected boolean isComma(String s);
+  
+  abstract protected boolean isPercentage(AnalyzedTokenReadings[] patternTokens, int i);
 
 }

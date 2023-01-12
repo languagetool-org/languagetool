@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.es;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.AbstractTextToNumberFilter;
 
 public class TextToNumberFilter extends AbstractTextToNumberFilter {
@@ -88,6 +89,16 @@ public class TextToNumberFilter extends AbstractTextToNumberFilter {
     multipliers.put("billones", (float) 10E12);
     multipliers.put("trillón", (float) 10E18);
     multipliers.put("trillones", (float) 10E18);
+  }
+  
+  @Override
+  protected boolean isComma(String s) {
+    return s.equalsIgnoreCase("comma") || s.equalsIgnoreCase("coma");
+  }
+  
+  @Override
+  protected boolean isPercentage(AnalyzedTokenReadings[] patternTokens, int i) {
+    return patternTokens[i].getToken().equals("ciento") && patternTokens[i - 1].getToken().toLowerCase().equals("por");
   }
 
 }
