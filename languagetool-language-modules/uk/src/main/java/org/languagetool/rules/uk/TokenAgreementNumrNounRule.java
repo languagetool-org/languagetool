@@ -63,7 +63,7 @@ public class TokenAgreementNumrNounRule extends Rule {
   private static final Pattern _2_5 = Pattern.compile(".*(?<!1)[234],5");
   private static final Pattern _5_5 = Pattern.compile("([0-9]+[–-])?([0-9\\h]*[05-9]|[0-9\\h]*1[1-4]),5");
   private static final Pattern _FRA = Pattern.compile(".*,[1-9]+");
-  private static final Pattern _2_4 = Pattern.compile("([0-9]+[–-])?[^,]*(?<!1)[234]");
+  private static final Pattern _2to4 = Pattern.compile("([0-9]+[–-])?[^,]*(?<!1)[234]");
   private static final Pattern _5to9 = Pattern.compile("[0-9\\h]*([5-90]|1[2-4])");
   private static final Pattern _5to9_ALPHA = Pattern.compile("(.+-)?(п.ять|шість|сім|вісім|(три)?дев.ять|.*дцять|сорок|.*десять?|дев.яносто|сто|двісті|триста|чотириста|півтораста|.+сот)|(де)?кілька|кількох|аніскільки");
   private static final Pattern NOUN_FORCE_PATTERN = Pattern.compile("чоловік|солдат|тон|(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)");
@@ -214,7 +214,7 @@ public class TokenAgreementNumrNounRule extends Rule {
       }
 
       if( i < tokens.length - 1
-          && (_2_4.matcher(state.numrAnalyzedTokenReadings.getCleanToken().toLowerCase()).matches()
+          && (_2to4.matcher(state.numrAnalyzedTokenReadings.getCleanToken().toLowerCase()).matches()
             || DVA_3_4_PATTERN.matcher(state.numrAnalyzedTokenReadings.getCleanToken().toLowerCase()).matches()) 
           && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("adj:p:v_(rod|naz).*"))
           && PosTagHelper.hasPosTagAndToken(tokens[i+1], Pattern.compile(".*:m:v_rod.*"), Pattern.compile(".*[ая]")) ) {
@@ -335,7 +335,7 @@ public class TokenAgreementNumrNounRule extends Rule {
           masterInflections.add(new Inflection("f", "v_rod", null));
           masterInflections.add(new Inflection("n", "v_rod", null));
         }
-        else if( _2_4.matcher(numrCleanToken).matches()
+        else if( _2to4.matcher(numrCleanToken).matches()
             // limited scope: otherwise too many positives
             && PosTagHelper.hasPosTagAndToken(tokens[i], Pattern.compile(".*:m:v_rod.*"), Pattern.compile(".*[ая]")) ) {
 //            || PosTagHelper.hasPosTagAndToken(tokens[i], Pattern.compile(".*:p:v_naz.*"), Pattern.compile(".*[и]"))) ) {
@@ -396,6 +396,12 @@ public class TokenAgreementNumrNounRule extends Rule {
             masterInflections.removeAll(pVnazZna);
             masterInflections.add(new Inflection("p", "v_naz", null));
             if( PosTagHelper.hasPosTag(nounTokenReadings, Pattern.compile("(noun:inanim:p:v_zna).*")) ) {
+              masterInflections.add(new Inflection("p", "v_zna", null));
+            }
+            // три цікавих міста, but not два додаткових років
+            else if( i < tokens.length - 1
+                && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("(adj:p:v_zna).*"))
+                && PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("(noun:inanim:p:v_zna).*")) ) {
               masterInflections.add(new Inflection("p", "v_zna", null));
             }
             

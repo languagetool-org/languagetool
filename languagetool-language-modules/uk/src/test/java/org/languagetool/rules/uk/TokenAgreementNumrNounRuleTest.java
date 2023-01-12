@@ -354,6 +354,7 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
   
   @Test
   public void testRuleDisambigVZna() throws IOException {
+    assertHasError("два додаткових років");
     
     ArrayList<AnalyzedTokenReadings> readings = new ArrayList<>();
     
@@ -362,6 +363,17 @@ public class TokenAgreementNumrNounRuleTest extends AbstractRuleTest {
     readings.add(new AnalyzedTokenReadings(new AnalyzedToken("села", "noun:inanim:p:v_zna", "село"), 0));
     
     AnalyzedSentence sent = new AnalyzedSentence(readings.toArray(new AnalyzedTokenReadings[0]));
+
+    assertEquals(0, rule.match(sent).length);
+
+    readings.clear();
+    
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, ""), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("три", "numr:p:v_zna", "три"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("основні", "adj:p:v_zna:rinanim:compb", "основний"), 0));
+    readings.add(new AnalyzedTokenReadings(new AnalyzedToken("села", "noun:inanim:p:v_zna", "село"), 0));
+    
+    sent = new AnalyzedSentence(readings.toArray(new AnalyzedTokenReadings[0]));
 
     assertEquals(0, rule.match(sent).length);
   }
