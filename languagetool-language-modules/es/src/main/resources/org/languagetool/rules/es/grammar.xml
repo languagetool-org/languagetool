@@ -30923,7 +30923,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <!-- "Lunes, 7 de octubre de 2014" -->
-                    <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
+                    <marker>
+                        <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
+                    </marker>
                     <token min="0">,</token>
                     <token regexp="yes">\d\d?</token>
                     <token min="0">de</token>
@@ -30932,12 +30934,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
-                <message>Esta fecha no es un {day} sino un {realDay}.</message>
-                <example correction=""><marker>Lunes, 7 de octubre de 2014</marker></example>
-                <example correction=""><marker>Lunes 7 de octubre de 2014</marker></example>
+                <message>Esta fecha no es un {day} sino un <suggestion>{realDay}</suggestion>.</message>
+                <example correction="martes"><marker>Lunes</marker>, 7 de octubre de 2014</example>
+                <example correction="martes"><marker>Lunes</marker> 7 de octubre de 2014</example>
                 <example><marker>Martes, 7 de octubre de 2014</marker></example>
-                <example correction=""><marker>Lunes, 7 de octubre del 2014</marker></example>
-                <example correction=""><marker>Lunes 7 de octubre del 2014</marker></example>
+                <example correction="martes"><marker>Lunes</marker>, 7 de octubre del 2014</example>
+                <example correction="martes"><marker>Lunes</marker> 7 de octubre del 2014</example>
                 <example><marker>Martes, 7 d'octubre del 2014</marker></example>
                 <example><marker>Washington DC, 7 de octubre del 2014</marker></example>
             </rule>
@@ -30953,16 +30955,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <!-- "Lunes, 7 de octubre " -->
-                    <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
+                    <marker>
+                        <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
+                    </marker>
                     <token min="0">,</token>
                     <token regexp="yes">\d\d?</token>
                     <token min="0" regexp="yes">de|del</token>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
-                <message>Si se refiere al año actual ({currentYear}), esta fecha no es un {day} sino un {realDay}.</message>
-                <example correction=""><marker>Lunes 7 de octubre</marker></example>
-                <example correction=""><marker>Lunes, 7 de octubre</marker></example>
+                <message>Si se refiere al año actual ({currentYear}), esta fecha no es un {day} sino un <suggestion>{realDay}</suggestion>.</message>
+                <example correction="martes"><marker>Lunes</marker> 7 de octubre</example>
+                <example correction="martes"><marker>Lunes</marker>, 7 de octubre</example>
                 <example><marker>Martes, 7 de octubre</marker></example>
                 <example><marker>Washington DC, 7 de octubre</marker></example>
                 <example>Lunes 27 de noviembre de 1922</example>
@@ -30975,22 +30979,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- "Lunes, 7 oct 2014" -->
             <rule>
                 <pattern>
-                    <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
+                    <marker>
+                        <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
+                    </marker>
                     <token min="0">,</token>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
-                <message>Esta fecha no es un <match no="1" case_conversion="alllower"/> sino un {realDay}.</message>
-                <example correction=""><marker>Lunes, 7 oct 2014</marker></example>
-                <example correction=""><marker>Lu 7 oct 2014</marker></example>
+                <message>Esta fecha no es un <match no="1" case_conversion="alllower"/> sino un <suggestion>{realDay}</suggestion>.</message>
+                <example correction="martes"><marker>Lunes</marker>, 7 oct 2014</example>
+                <example correction="martes"><marker>Lu</marker> 7 oct 2014</example>
                 <example><marker>Martes, 7 oct 2014</marker></example>
             </rule>
             <!-- "Lunes, 7 /7/2014" -->
             <rule>
                 <pattern>
-                    <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
+                    <marker>
+                        <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
+                    </marker>
                     <token min="0">,</token>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">[/\-]</token>
@@ -30999,9 +31007,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
-                <message>Esta fecha no es un <match no="1" case_conversion="alllower"/> sino un {realDay}.</message>
-                <example correction=""><marker>Lunes, 7-10-2014</marker></example>
-                <example correction=""><marker>Lu 7/10/2014</marker></example>
+                <message>Esta fecha no es un <match no="1" case_conversion="alllower"/> sino un <suggestion>{realDay}</suggestion>.</message>
+                <example correction="martes"><marker>Lunes</marker>, 7-10-2014</example>
+                <example correction="martes"><marker>Lu</marker> 7/10/2014</example>
                 <example><marker>Martes, 7-10-2014</marker></example>
             </rule>
         </rulegroup>
