@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 -->
 
 <!DOCTYPE rules [
-    <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|env|eps|exe|flv|gif|htm|html|ibooks|ico|ics|ini|indd|jar|java|jnl|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|odf|odp|ods|odt|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|rtf|scss|sh|shtml|sql|stl|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z|xsd">
+    <!ENTITY filename_extensions "txt|jpg|png|pdf|doc|docx|xls|xlsx|ppt|pptx|mp3|mp4|avi|mkv|rar|zip|exe|html|css|js|dwg|dxf|eps|mdb|accdb|md|csv|tsv|odt|odp|ods|odg|odf|wpd|rtf|xcf|raw|svg|mov|flac|ogg|aac|wma|m4a|ape|wav|wmv|m4v|swf|ico|eml|ics|vcf|7z|iso|torrent|ttf|psd|ai|bmp|gif|jpeg|webp|tiff|webm|3gp|m3u8|pls|m3u|asf|mid|midi|ac3|aiff|alac|mpeg|asp|aspx|bak|bat|cab|cfg|cgi|com|dat|db|dbf|dll|env|flv|htm|ibooks|ini|indd|jar|java|jnl|jsp|lnk|mpa|mpg|php|pl|pps|ps|py|rss|scss|sh|shtml|sql|stl|sys|tar|tif|tmp|ts|xhtml|xml|xsl|yaml|yml|zipx|xsd">
     <!ENTITY aspas "(«“‘’”»)">
     <!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
     <!ENTITY nnbsp "&#x202F;"> <!-- narrow no-break space -->
@@ -24671,7 +24671,13 @@ O namorado dela era um ladrão.
           <exception regexp='yes'>[,.]</exception></token>
         <example>O que quer dizer…?</example>
       </antipattern>
-      <rule><!--#1-->
+      <rule default="temp_off"><!--#1-->
+        <antipattern>
+          <token regexp='yes'>\p{L}|&abreviaturas;</token>
+          <token spacebefore='no'>.</token>
+          <token>.</token>
+          <example>Tenha um bom dia, Srta. ...ele foi a caminho de se rebaixar numa…</example>
+        </antipattern>
         <pattern>
           <token>.</token>
           <token>.</token>
@@ -24723,7 +24729,7 @@ O namorado dela era um ladrão.
         <example correction=';'>A situação financeira era estável<marker>;;</marker>a fazenda garantia um bom rendimento.</example>
         <example>------------</example>
       </rule>
-      <rule><!--#4-->
+      <rule default="temp_off"><!--#4-->
         <antipattern><!-- dealt by DoublePunctuationRule.java -->
           <token>.</token>
           <token>.</token>
@@ -24742,6 +24748,14 @@ O namorado dela era um ladrão.
           <token spacebefore='no'>.</token>
           <token regexp="yes">[,;:]</token>
         </antipattern>
+        <antipattern>
+          <token>.</token>
+          <token regexp="yes" spacebefore="no">&filename_extensions;</token>
+        </antipattern>
+        <antipattern>
+          <token>.</token>
+          <token postag="Z0CN0" />
+        </antipattern>
         <pattern>
           <token regexp="yes">[.,;:]</token>
           <token regexp="yes">[.,;:]</token>
@@ -24754,6 +24768,8 @@ O namorado dela era um ladrão.
         <example>CUNNINGHAM, Philip A.; STARR, Arthur F.; Sharing Shalom: A Process for Local Interfaith Di…</example>
         <example>Ex.: Sua Excelência saíu à rua</example>
         <example>O quê<marker>?!</marker></example>
+        <example>…incluindo .wmv, .avi, .mov, .mpeg, .mp4</example>
+        <example>.16, .20 e .24%</example>
       </rule>
       <rule><!--#5-->
         <antipattern>
@@ -24787,7 +24803,12 @@ O namorado dela era um ladrão.
         <suggestion>—</suggestion>
         <example correction='-|—'>A situação financeira era estável<marker>--</marker>e a fazenda garantia um bom rendimento.</example>
       </rule>
-      <rule tags="picky"><!--#6-->
+      <rule tags="picky" default="temp_off"><!--#6-->
+        <antipattern>
+          <token regexp="yes">[!?]</token>
+          <token regexp="yes">[!?]</token>
+          <token regexp="yes">[!?]</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">[!?]</token>
           <token regexp="yes">[!?]</token>
@@ -24796,7 +24817,7 @@ O namorado dela era um ladrão.
         <suggestion>\1</suggestion>
         <suggestion>\2</suggestion>
         <example correction='!'><marker>!!</marker></example>
-        <example>------------</example>
+        <example>!!!</example>
       </rule>
     </rulegroup>
 
