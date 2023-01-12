@@ -428,6 +428,7 @@ public class UkrainianTaggerTest {
 //    TestTools.myAssert("кальфа-ефенді", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
 
     TestTools.myAssert("Москви-ріки", "Москви-ріки/[Москва-ріка]noun:inanim:f:v_rod:prop:geo|Москви-ріки/[москва-ріка]noun:inanim:f:v_rod:prop:geo:alt", tokenizer, tagger);
+    TestTools.myAssert("Кочубієва-Одеси", "Кочубієва-Одеси/[Кочубіїв-Одеса]noun:inanim:m:v_rod:prop:geo", tokenizer, tagger);
 
     TestTools.myAssert("Дівчинка-першокласниця", "Дівчинка-першокласниця/[дівчинка-першокласниця]noun:anim:f:v_naz", tokenizer, tagger);
 
@@ -448,6 +449,7 @@ public class UkrainianTaggerTest {
     assertNotTagged("рибо-полювання");
     assertNotTagged("вовіки-вічні");
     assertNotTagged("юре-юре");
+    assertNotTagged("Гірник-спорт");
   }
 
   @Test
