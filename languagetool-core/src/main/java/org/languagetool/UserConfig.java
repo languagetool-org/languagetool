@@ -60,6 +60,7 @@ public class UserConfig {
   private final Long textSessionId;
   private final String abTest;
   private final List<String> preferredLanguages;
+  private final List<String> noopsLanguages;
 
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
@@ -85,7 +86,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices) {
     this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
-      false, null, null, false, null);
+      false, null, null, false, null, null);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords,
@@ -94,7 +95,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName,
                     Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
-                    @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches, List<String> preferredLanguages) {
+                    @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches, List<String> preferredLanguages, List<String> noopsLanguages) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     this.userSpecificRules = Objects.requireNonNull(userSpecificRules);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
@@ -110,7 +111,8 @@ public class UserConfig {
     this.textSessionId = textSessionId;
     this.hidePremiumMatches = hidePremiumMatches;
     this.acceptedPhrases = buildAcceptedPhrases();
-    this.preferredLanguages = preferredLanguages;
+    this.preferredLanguages = preferredLanguages != null ? preferredLanguages : Collections.emptyList();
+    this.noopsLanguages = noopsLanguages != null ? noopsLanguages : Collections.emptyList();
   }
 
   @NotNull
@@ -232,6 +234,8 @@ public class UserConfig {
       .append(abTest)
       .append(filterDictionaryMatches)
       .append(hidePremiumMatches)
+      .append(preferredLanguages)
+      .append(noopsLanguages)
       .toHashCode();
   }
 
@@ -267,8 +271,13 @@ public class UserConfig {
     return hidePremiumMatches;
   }
 
-  @Nullable
+  @NotNull
   public List<String> getPreferredLanguages() {
     return preferredLanguages;
+  }
+  
+  @NotNull
+  public List<String> getNoopsLanguages() {
+    return noopsLanguages;
   }
 }

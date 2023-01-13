@@ -221,6 +221,7 @@ public final class MultiLanguageTextCheckEval {
     try {
       Map<String, String> params = new HashMap<>();
       params.put("enableMultiLanguageChecks", "false");
+      params.put("preferredLanguages", "de");
       remoteLanguageTool.check(mlc.getText(), language, params);
     } catch (RuntimeException ex) {
       if (spamToMe) {
