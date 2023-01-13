@@ -132,6 +132,8 @@ public class SentenceSourceChecker {
             .desc("URL of a named entity recognition service").build());
     options.addOption(Option.builder().longOpt("skip-exceptions")
             .desc("Whether internal Java exceptions should only be printed instead of stopping this script").build());
+    options.addOption(Option.builder("v").longOpt("verbose")
+            .desc("More verbose output on STDOUT, like the line number of the rule in the grammar.xml").build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
@@ -231,7 +233,7 @@ public class SentenceSourceChecker {
       } else if (propFile != null) {
         resultHandler = new DatabaseHandler(propFile, maxSentences, maxErrors);
       } else {
-        resultHandler = new StdoutHandler(maxSentences, maxErrors, contextSize);
+        resultHandler = new StdoutHandler(maxSentences, maxErrors, contextSize, options.hasOption("verbose"));
       }
       MixingSentenceSource mixingSource = MixingSentenceSource.create(Arrays.asList(fileNames), lang, filter);
       while (mixingSource.hasNext()) {
