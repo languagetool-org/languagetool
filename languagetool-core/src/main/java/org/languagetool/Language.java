@@ -73,6 +73,8 @@ public abstract class Language {
   private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
+  private static final Map<Class<Language>, JLanguageTool> languagetoolInstances = new ConcurrentHashMap<>();
+
   private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
   private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();
 
@@ -513,6 +515,18 @@ public abstract class Language {
    */
   public void setPostDisambiguationChunker(Chunker chunker) {
     postDisambiguationChunker = chunker;
+  }
+
+  /**
+   * Create a shared instance of JLanguageTool to use in rules for further processing
+   * Instances are shared by Language
+   * @since 6.1
+   * @return a shared JLanguageTool instance for this language
+   */
+  public JLanguageTool createDefaultJLanguageTool() {
+      Language self = this;
+      Class clazz = this.getClass();
+      return languagetoolInstances.computeIfAbsent(clazz, _class -> new JLanguageTool(self));
   }
 
   /**

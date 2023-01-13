@@ -81,4 +81,19 @@ public class LanguageTest {
     assertFalse(new English().equalsConsiderVariantsIfSpecified(new German()));
   }
 
+  @Test
+  public void testCreateDefaultJLanguageTool() {
+    Language german = new German();
+    Language germanyGerman = new GermanyGerman();
+    JLanguageTool ltGerman = german.createDefaultJLanguageTool();
+    JLanguageTool ltGerman2 = german.createDefaultJLanguageTool();
+    JLanguageTool ltGermanyGerman = germanyGerman.createDefaultJLanguageTool();
+    JLanguageTool ltEnglish = new English().createDefaultJLanguageTool();
+    assertFalse(ltGermanyGerman == ltGerman);
+    assertTrue(ltGerman2 == ltGerman);
+    assertEquals(ltGerman.getLanguage(), german);
+    assertEquals(ltGermanyGerman.getLanguage(), germanyGerman);
+    assertEquals(ltEnglish.getLanguage(), new English());
+  }
+
 }
