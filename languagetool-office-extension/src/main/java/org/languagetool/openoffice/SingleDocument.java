@@ -569,7 +569,7 @@ class SingleDocument {
    * read caches from file
    */
   void readCaches() {
-    if (numParasToCheck != 0) {
+    if (numParasToCheck != 0 && docType == DocumentType.WRITER) {
       cacheIO = new CacheIO(xComponent);
       boolean cacheExist = cacheIO.readAllCaches(config, mDocHandler);
       if (cacheExist) {
@@ -590,7 +590,7 @@ class SingleDocument {
    * write caches to file
    */
   void writeCaches() {
-    if (numParasToCheck != 0 && !config.noBackgroundCheck()) {
+    if (numParasToCheck != 0 && !config.noBackgroundCheck() && docType == DocumentType.WRITER) {
       DocumentCache docCache = new DocumentCache(this.docCache);
       List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
       for (int i = 0; i < this.paragraphsCache.size(); i++) {
@@ -1255,7 +1255,6 @@ class SingleDocument {
 
     @Override
     public void documentEventOccured(DocumentEvent event) {
-      MessageHandler.printToLogFile("SingleDocument: documentEventOccured: event: " + event.EventName);
       if(event.EventName.equals("OnUnload")) {
         isOnUnload = true;
       } else if(event.EventName.equals("OnUnfocus") && !isOnUnload) {

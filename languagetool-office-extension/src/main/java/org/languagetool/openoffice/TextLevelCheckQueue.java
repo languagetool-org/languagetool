@@ -540,7 +540,7 @@ public class TextLevelCheckQueue {
       if (lt != null) {
         multiDocHandler.initCheck(lt);
         String langCode = OfficeTools.localeToString(multiDocHandler.getLocale());
-        sortedTextRules = new SortedTextRules(lt, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules(langCode));
+        sortedTextRules = new SortedTextRules(lt, multiDocHandler.getConfiguration(), multiDocHandler.getDisabledRules(langCode), false);
       }
     }
     

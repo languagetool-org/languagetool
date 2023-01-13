@@ -107,6 +107,19 @@ public class SwJLanguageTool {
   }
 
   /**
+   * Get all active rules
+   */
+  public List<Rule> getAllActiveRules() {
+    if (isRemote) {
+      return rlt.getAllActiveRules();
+    } else if (isMultiThread) {
+        return mlt.getAllActiveRules(); 
+    } else {
+      return lt.getAllActiveRules(); 
+    }
+  }
+
+  /**
    * Get all active office rules
    */
   public List<Rule> getAllActiveOfficeRules() {

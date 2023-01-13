@@ -241,6 +241,19 @@ class LORemoteLanguageTool {
   }
 
   /**
+   * get all active rules
+   */
+  public List<Rule> getAllActiveRules() {
+    List<Rule> rulesActive = new ArrayList<>();
+    for (Rule rule : allRules) {
+      if (!ignoreRule(rule)) {
+        rulesActive.add(rule);
+      }
+    }    
+    return rulesActive;
+  }
+  
+  /**
    * get all active office rules
    */
   public List<Rule> getAllActiveOfficeRules() {

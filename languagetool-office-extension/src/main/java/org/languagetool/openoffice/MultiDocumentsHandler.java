@@ -48,15 +48,8 @@ import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.tools.Tools;
 
-import com.sun.star.awt.MouseButton;
-import com.sun.star.awt.MouseEvent;
-import com.sun.star.awt.XMouseClickHandler;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
-import com.sun.star.document.DocumentEvent;
-import com.sun.star.document.XDocumentEventBroadcaster;
-import com.sun.star.document.XDocumentEventListener;
-import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.Locale;
@@ -132,7 +125,8 @@ public class MultiDocumentsHandler {
   private ShapeChangeCheck shapeChangeCheck = null;   // Thread for test changes in shape texts
   
   private boolean useOrginalCheckDialog = false;    // use original spell and grammar dialog (LT check dialog does not work for OO)
-  private boolean isNotTextDodument = false;
+  private boolean checkImpressDocument = false;     //  the document to check is Impress
+  private boolean isNotTextDocument = false;
   private int heapCheckInterval = HEAP_CHECK_INTERVAL;
   private boolean testMode = false;
   private boolean javaLookAndFeelIsSet = false;
@@ -205,8 +199,9 @@ public class MultiDocumentsHandler {
         langForShortName = getLanguage(locale);
         isSameLanguage = langForShortName.equals(docLanguage) && lt != null;
       }
-      if (!isSameLanguage || recheck) {
-        boolean initDocs = (lt == null || recheck);
+      if (!isSameLanguage || recheck || checkImpressDocument) {
+        boolean initDocs = (lt == null || recheck || checkImpressDocument);
+        checkImpressDocument = false;
         if (!isSameLanguage) {
           docLanguage = langForShortName;
           this.locale = locale;
@@ -259,7 +254,7 @@ public class MultiDocumentsHandler {
    */
   public SingleDocument getCurrentDocument() {
     XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
-    isNotTextDodument = false;
+    isNotTextDocument = false;
     if (xComponent != null) {
       for (SingleDocument document : documents) {
         if (xComponent.equals(document.getXComponent())) {
@@ -271,6 +266,7 @@ public class MultiDocumentsHandler {
         String prefix = null;
         if (OfficeDrawTools.isImpressDocument(xComponent)) {
           prefix = "I";
+          checkImpressDocument = true;
         } else if (OfficeSpreadsheetTools.isSpreadsheetDocument(xComponent)) {
           prefix = "C";
         }
@@ -291,7 +287,7 @@ public class MultiDocumentsHandler {
           return newDocument;
         }
         MessageHandler.printToLogFile("MultiDocumentsHandler: getCurrentDocument: Is document, but not a text document!");
-        isNotTextDodument = true;
+        isNotTextDocument = true;
       }
     }
     return null;
@@ -325,7 +321,21 @@ public class MultiDocumentsHandler {
    * return true, if a document was found but is not a text document
    */
   boolean isNotTextDocument() {
-    return isNotTextDodument;
+    return isNotTextDocument;
+  }
+  
+  /**
+   * return true, if the document to check is an Impress document
+   */
+  boolean isCheckImpressDocument() {
+    return checkImpressDocument;
+  }
+  
+  /**
+   * set the checkImpressDocument flag
+   */
+  void setCheckImpressDocument(boolean checkImpressDocument) {
+    this.checkImpressDocument = checkImpressDocument;
   }
   
   /**
@@ -610,6 +620,12 @@ public class MultiDocumentsHandler {
     XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
     if (xComponent == null) {
       return null;
+    }
+    //  Test for Impress or Calc document
+    if (OfficeDrawTools.isImpressDocument(xComponent)) {
+      return OfficeDrawTools.getDocumentLocale(xComponent);
+    } else if (OfficeSpreadsheetTools.isSpreadsheetDocument(xComponent)) {
+      return OfficeSpreadsheetTools.getDocumentLocale(xComponent);
     }
     Locale charLocale;
     XPropertySet xCursorProps;
@@ -898,7 +914,8 @@ public class MultiDocumentsHandler {
           }
         }
       }
-      for (Rule rule : lt.getAllActiveOfficeRules()) {
+      List<Rule> allRules = checkImpressDocument ? lt.getAllActiveRules() : lt.getAllActiveOfficeRules();
+      for (Rule rule : allRules) {
         if (rule.isDictionaryBasedSpellingRule()) {
           lt.disableRule(rule.getId());
           if (rule.useInOffice()) {
@@ -978,7 +995,7 @@ public class MultiDocumentsHandler {
     }
     setConfigValues(config, lt);
     String langCode = lt.getLanguage().getShortCodeWithCountryAndVariant();
-    sortedTextRules = new SortedTextRules(lt, config, getDisabledRules(langCode));
+    sortedTextRules = new SortedTextRules(lt, config, getDisabledRules(langCode), checkImpressDocument);
     if (useQueue && !noBackgroundCheck) {
       if (textLevelQueue == null) {
         textLevelQueue = new TextLevelCheckQueue(this);
@@ -1259,7 +1276,7 @@ public class MultiDocumentsHandler {
    */
   public void resetSortedTextRules() {
     String langCode = lt.getLanguage().getShortCodeWithCountryAndVariant();
-    sortedTextRules = new SortedTextRules(lt, config, getDisabledRules(langCode));
+    sortedTextRules = new SortedTextRules(lt, config, getDisabledRules(langCode), checkImpressDocument);
   }
 
   /**
@@ -1615,6 +1632,7 @@ public class MultiDocumentsHandler {
       DocumentType docType;
       if (OfficeDrawTools.isImpressDocument(xComponent)) {
         docType = DocumentType.IMPRESS;
+        checkImpressDocument = true;
       } else if (OfficeSpreadsheetTools.isSpreadsheetDocument(xComponent)) {
         docType = DocumentType.CALC;
       } else {
@@ -1943,10 +1961,14 @@ public class MultiDocumentsHandler {
           Thread.sleep(1000);
           currentDocument = getCurrentDocument();
           if (currentDocument != null && currentDocument.getDocumentType() == DocumentType.IMPRESS) {
+            checkImpressDocument = true;
+            locale = OfficeDrawTools.getDocumentLocale(currentDocument.getXComponent());
+            MessageHandler.printToLogFile("MultiDocumentsHandler: LtHelper: local: " + OfficeTools.localeToString(locale));
+            langForShortName = getLanguage(locale);
+            docLanguage = langForShortName;
             lt = initLanguageTool(true);
             initCheck(lt);
             initDocuments(false);
-//            runShapeCheck(true, 8);
           }
         }
       } catch (Throwable e) {

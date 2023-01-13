@@ -189,6 +189,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
    * Initialize LanguageTool to run in LT check dialog and next error function
    */
   private void setLangTool(MultiDocumentsHandler documents, Language language) {
+    documents.setCheckImpressDocument(true);
     lt = documents.initLanguageTool(language, false);
     documents.initCheck(lt);
     if (debugMode) {
@@ -368,7 +369,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       if (spellChecker == null) {
         spellChecker = new ExtensionSpellChecker();
       }
-      if (lt == null) {
+      if (lt == null || !documents.isCheckImpressDocument()) {
         setLangTool(documents, lastLanguage);
       }
       XComponent xComponent = document.getXComponent();
@@ -616,7 +617,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     paRes.aProperties = propertyValues;
     paRes.aErrors = null;
     Language langForShortName = documents.getLanguage(locale);
-    if (doInit || !langForShortName.equals(lastLanguage)) {
+    if (doInit || !langForShortName.equals(lastLanguage) || !documents.isCheckImpressDocument()) {
       lastLanguage = langForShortName;
       setLangTool(documents, lastLanguage);
       document.removeResultCache(nFPara);
@@ -1601,7 +1602,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             if (spellChecker == null) {
               spellChecker = new ExtensionSpellChecker();
             }
-            if (lt == null) {
+            if (lt == null || !documents.isCheckImpressDocument()) {
               setLangTool(documents, lastLanguage);
             }
             setUserDictionaries();

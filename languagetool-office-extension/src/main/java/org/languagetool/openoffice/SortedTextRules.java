@@ -39,7 +39,7 @@ class SortedTextRules {
   List<Integer> minToCheckParagraph;
   List<List<String>> textLevelRules;
 
-  SortedTextRules (SwJLanguageTool lt, Configuration config, Set<String> disabledRulesUI) {
+  SortedTextRules (SwJLanguageTool lt, Configuration config, Set<String> disabledRulesUI, boolean checkImpressDocument) {
     minToCheckParagraph = new ArrayList<>(OfficeTools.NUMBER_TEXTLEVEL_CACHE);
     textLevelRules = new ArrayList<>(OfficeTools.NUMBER_TEXTLEVEL_CACHE);
     minToCheckParagraph.add(0,0);
@@ -50,7 +50,7 @@ class SortedTextRules {
       textLevelRules.add(i, new ArrayList<>());
       debugMode = OfficeTools.DEBUG_MODE_SR;
     }
-    List<Rule> rules = lt.getAllActiveOfficeRules();
+    List<Rule> rules = checkImpressDocument ? lt.getAllActiveRules() : lt.getAllActiveOfficeRules();
     int numParasToCheck = config.getNumParasToCheck();
     for (Rule rule : rules) {
       if (rule instanceof TextLevelRule && !lt.getDisabledRules().contains(rule.getId()) 
