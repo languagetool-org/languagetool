@@ -71,7 +71,7 @@ public class ManualTagger implements WordTagger {
       List<TaggedWord> value = entry.getValue();
       if (value.size() > MAX_LENGTH) {
         throw new UnsupportedOperationException(
-          "Too many lemmas (" + value.size() + " for " + entry.getKey() + "), the storage needs adjusting");
+          "Too many lemmas (" + value.size() + " > " + MAX_LENGTH + " for " + entry.getKey() + "), the storage needs adjusting");
       }
       map.put(entry.getKey(), ((index / ENTRY_SIZE) << OFFSET_SHIFT) | value.size());
       for (TaggedWord tw : value) {
