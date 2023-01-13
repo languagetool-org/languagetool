@@ -24675,7 +24675,7 @@ O namorado dela era um ladrão.
         <antipattern>
           <token regexp='yes'>\p{L}|&abreviaturas;</token>
           <token spacebefore='no'>.</token>
-          <token>.</token>
+          <token spacebefore="yes">.</token>
           <example>Tenha um bom dia, Srta. ...ele foi a caminho de se rebaixar numa…</example>
         </antipattern>
         <pattern>
@@ -24729,7 +24729,7 @@ O namorado dela era um ladrão.
         <example correction=';'>A situação financeira era estável<marker>;;</marker>a fazenda garantia um bom rendimento.</example>
         <example>------------</example>
       </rule>
-      <rule default="temp_off"><!--#4-->
+      <rule><!--#4-->
         <antipattern><!-- dealt by DoublePunctuationRule.java -->
           <token>.</token>
           <token>.</token>
@@ -24803,7 +24803,7 @@ O namorado dela era um ladrão.
         <suggestion>—</suggestion>
         <example correction='-|—'>A situação financeira era estável<marker>--</marker>e a fazenda garantia um bom rendimento.</example>
       </rule>
-      <rule tags="picky" default="temp_off"><!--#6-->
+      <rule tags="picky"><!--#6-->
         <antipattern>
           <token regexp="yes">[!?]</token>
           <token regexp="yes">[!?]</token>
@@ -44506,7 +44506,7 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
-    <rule id='ELLIPSIS' name="Reticências inteligentes (…)" tags="picky">
+    <rule id='ELLIPSIS' name="Reticências inteligentes (…)" tags="picky" default="temp_off">
       <antipattern>
         <token>.</token>
         <token>.</token>
@@ -44520,6 +44520,10 @@ O namorado dela era um ladrão.
         <token>.</token>
         <token>.</token>
       </antipattern>
+      <antipattern>
+        <token regexp='yes'>\p{L}|&abreviaturas;</token>
+        <token spacebefore='no'>.</token>
+      </antipattern>
       <pattern>
         <token>.</token>
         <token>.</token>
@@ -44530,6 +44534,7 @@ O namorado dela era um ladrão.
       <example>Isto é importante – tanto quanto sei.</example>
       <example correction="…">Isto é importante<marker>...</marker> tanto quanto sei.</example>
       <example>1. Introdução .................................... 3</example>
+      <example correction="…">Tenha um bom dia, Srta. <marker>...</marker>ele foi a caminho de se rebaixar numa…</example>
     </rule>
 
     <rulegroup id='TIME_FORMAT' name="Tipografia de horas: 22.30 h -> 22:30h">
