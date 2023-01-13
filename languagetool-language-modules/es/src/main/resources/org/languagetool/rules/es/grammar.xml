@@ -7874,47 +7874,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Serían"><marker>Serian</marker> los más apropiados.</example>
         </rule>
         <rulegroup id="SERIA" name="seria/sería">
+            <!-- en el umbral, seria, con la mirada en el suelo -->
             <antipattern>
                 <token inflected="yes" regexp="yes">poner|ser|estar|parecer|volver</token>
                 <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="3"/>
                 <token regexp="yes">serias?</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">otra|persona|gente|cosa</token>
+                <token postag="RG" max="2"/>
+                <token>seria</token>
+                <example>también tiene otra profundamente seria.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">poco|muy|más|menos</token>
+                <!-- |más|menos -->
+                <token>seria</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">tan|demasiado</token>
+                <token>seria</token>
+                <token regexp="yes">como|para</token>
+                <example>una actitud tan seria como la del padre</example>
+            </antipattern>
             <rule>
                 <antipattern>
-                    <token>poco</token>
+                    <token postag="_GN_FS"/>
+                    <token postag="RG"><exception inflected="yes" regexp="yes">todo|solo</exception></token>
                     <token>seria</token>
+                    <example>Una niña muy seria.</example>
                 </antipattern>
-                <pattern>
-                    <marker>
-                        <token>seria<exception postag="_GN_FS"/></token>
-                    </marker>
-                    <token postag="[AD].*|V.P.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
-                <suggestion>sería</suggestion>
-                <example correction="sería">Y <marker>seria</marker> bueno que pasara.</example>
-                <example correction="sería">Y <marker>seria</marker> lo mejor.</example>
-                <example>Es una persona seria la que buscamos.</example>
-                <example>Se puso seria otra vez.</example>
-                <example>Estaba seria a menudo.</example>
-                <example>Estaba seria frecuentemente.</example>
-                <example>con una poco seria tercera persona omnisciente</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>serias<exception postag="_GN_FP"/></token>
-                    </marker>
-                    <token postag="[AD].*|V.P.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
-                <suggestion>serías</suggestion>
-                <example correction="serías">Y <marker>serias</marker> bueno.</example>
-                <example correction="serías">Y <marker>serias</marker> el mejor.</example>
-                <example>Son personas serias las que vienen aquí.</example>
-                <example>Se pusieron serias otra vez.</example>
-            </rule>
-            <rule>
+                <antipattern>
+                    <token postag="_GN_FS"/>
+                    <token>de</token>
+                    <token postag="NC.*|_GN_.*" postag_regexp="yes" min="1" max="3"/>
+                    <token postag="RG" min="0"/>
+                    <token>seria</token>
+                    <example>Una historia de amor seria.</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="AQ0[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                    <token postag="CC|_PUNCT_CONT" postag_regexp="yes"/>
+                    <token>seria</token>
+                    <token><exception postag_regexp="yes" postag="AQ.*|V.P.*"/></token>
+                </antipattern>
+                <antipattern>
+                    <token>seria</token>
+                    <token postag="CC|_PUNCT_CONT" postag_regexp="yes"/>
+                    <token postag="AQ0[FC][SN].|V.P..SF" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>ya</token>
+                    <token>seria</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </antipattern>
                 <antipattern>
                     <token>seria</token>
                     <token postag="RG|LOC_ADV" postag_regexp="yes" max="3"/>
@@ -7924,69 +7937,71 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                     <token postag="RG|LOC_ADV" postag_regexp="yes" max="3"/>
-                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                     <token>seria</token>
                 </antipattern>
                 <pattern>
                     <marker>
                         <token>seria<exception postag="_GN_FS"/></token>
                     </marker>
-                    <token postag="RG|LOC_ADV" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
                 <suggestion>sería</suggestion>
-                <example correction="sería">Creo que <marker>seria</marker> mejor utilizar otra cosa.</example>
-                <example>Una institución lingüística seria jamás censuraría</example>
-                <example>Ella se puso más seria todavía.</example>
+                <example correction="sería">Yo no <marker>seria</marker> ni siquiera un traidor.</example>
+                <example correction="sería">Con mi hija todoa <marker>seria</marker> más difícil.</example>
+                <example correction="sería">—hoy no conocemos cuál <marker>seria</marker>—</example>
+                <example>Me había convertido en una niña seria.</example>
+                <example>Yo fui una niña muy seria siempre.</example>
+                <example>No he vuelto a vivir una historia de amor seria desde entonces.</example>
+                <example>Son la única objeción seria a la tesis del eterno retorno.</example>
+                <example>Causó una seria molestia al hijo</example>
+                <example>No logré adoptar una actitud tan seria como la del padre.</example>
+                <example>El rostro de quien lee un periódico tiene una expresión seria, que unas veces se endurece hasta resultar sombría y otras se disuelve en una sonrisa.</example>
+                <example>Comía las chucherías con la actitud seria y rígida con que se comen sus buenos bocadillos.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token>serias<exception postag="_GN_FP"/></token>
+                        <token>seria<exception scope="previous" postag_regexp="yes" postag="D.*"/></token>
                     </marker>
-                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="1" max="3"/>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <token postag="N.*|UNKNOWN|CS|PR.*|LOC_.*|PX.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
-                <suggestion>serías</suggestion>
-                <example correction="Serías">¿<marker>Serias</marker> tan amable de recordarme qué pasó?</example>
-                <example>Son personas serias las que vienen aquí.</example>
-                <example>Se pusieron serias otra vez.</example>
+                <suggestion>sería</suggestion>
+                <example correction="sería">Seguramente, <marker>seria</marker> ingeniero.</example>
+                <example>constituyen una seria amenaza</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>seria</token>
                     </marker>
-                    <token regexp="yes">v[áa]lid[ao]s?</token>
+                    <token min="0">mucho</token>
+                    <token regexp="yes">más|menos|mayor|menor|para|como|yo</token>
                 </pattern>
-                <message>Si es del v. 'ser', se escribe con tilde.</message>
+                <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
                 <suggestion>sería</suggestion>
-                <example correction="sería">Esta razón <marker>seria</marker> valida.</example>
+                <example correction="sería">En la prisión <marker>seria</marker> mucho más dura.</example>
+                <example correction="sería">qué miserable <marker>seria</marker> yo</example>
             </rule>
             <rule>
                 <antipattern>
                     <token>una</token>
-                    <token>persona</token>
+                    <token regexp="yes">persona|niña|mujer|muchacha</token>
                     <token>seria</token>
                 </antipattern>
                 <antipattern>
-                    <token>poco</token>
-                    <token>seria</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="V.[IS].*" postag_regexp="yes" skip="2"/>
+                    <token postag="V.[IS].*" postag_regexp="yes" skip="2"><exception scope="next" postag="P[TR].*" postag_regexp="yes"/><exception scope="next" regexp="yes">&dashes;</exception></token>
                     <token postag="_GN_FS">seria</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="_GN_FS" skip="2">seria</token>
+                    <token postag="_GN_FS" skip="2">seria<exception scope="next" postag="P[TR].*" postag_regexp="yes"/><exception scope="next" regexp="yes">&dashes;</exception></token>
                     <token postag="V.[IS].*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
                         <token>seria</token>
                     </marker>
-                    <token postag="A.*|V.P.*|D.*|RG" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*|D.*|RG|V.[GN].*|_QM_OPEN" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde.</message>
                 <suggestion>sería</suggestion>
@@ -7994,6 +8009,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sería">Una sola persona <marker>seria</marker> mejor.</example>
                 <example correction="sería">Una sola persona <marker>seria</marker> lo mejor.</example>
                 <example correction="sería">Una persona española <marker>seria</marker> hispana.</example>
+                <example correction="sería">intentan esclarecer cuál <marker>seria</marker> el centro</example>
+                <example>Me había convertido en una niña seria, demasiado madura para mi edad.</example>
                 <example>Es una persona seria la que buscamos.</example>
                 <example>Es una persona seria lo que buscamos.</example>
                 <example>Se puso seria otra vez.</example>
@@ -8002,40 +8019,88 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>con una poco seria tercera persona omnisciente</example>
                 <example>Tuvimos una charla seria el uno con el otro.</example>
                 <example>Una institución lingüística seria jamás censuraría una traducción.</example>
+                <example>con mirada seria, penetrante</example>
+                <example>Ustedes no quieren que yo sea obscura, seria, huraña</example>
+                <example>creo que se trata de una cosa seria.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>seria</token>
                     </marker>
-                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token>de</token>
+                    <token min="0">unos</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde.</message>
                 <suggestion>sería</suggestion>
-                <example correction="sería">Una opción muy interesante <marker>seria</marker> ver qué pasa con esto.</example>
-            </rule>
-            <rule default="off">
-                <pattern>
-                    <marker>
-                        <token>seria<exception postag="_GN_FS"/></token>
-                    </marker>
-                    <token regexp="yes">de|del</token>
-                </pattern>
-                <message>Si es del v. 'ser', se escribe con tilde.</message>
-                <suggestion>sería</suggestion>
-                <example correction="sería">Debido al gran interes de este tema <marker>seria</marker> de gran utilidad.</example>
-                <example>Una evaluación seria de todo el proceso.</example>
+                <example correction="sería">La altura <marker>seria</marker> de unos cuatro metros.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>una</token>
+                    <token regexp="yes">persona|niña|mujer|muchacha</token>
+                    <token>seria</token>
+                </antipattern>
+                <antipattern>
+                    <token>ya</token>
+                    <token>seria</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token>seria<exception postag="_GN_FS"/></token>
+                        <token>seria</token>
                     </marker>
-                    <token>en</token>
+                    <or>
+                        <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                        <token>:</token>
+                    </or>
                 </pattern>
                 <message>Si es del v. 'ser', se escribe con tilde.</message>
                 <suggestion>sería</suggestion>
-                <example correction="sería">El próximo pago <marker>seria</marker> en agosto.</example>
+                <example correction="sería">Esta observación <marker>seria</marker> correcta.</example>
+                <example correction="sería">Aunque recobrara la alegría <marker>seria</marker> efímera.</example>
+                <example correction="sería">Su tuma <marker>seria</marker> profanada.</example>
+                <example correction="sería">Otra posible traducción <marker>seria</marker>:</example>
+                <example>Me había convertido en una niña seria, demasiado madura para mi edad.</example>
+                <example>Es una persona seria la que buscamos.</example>
+                <example>Es una persona seria lo que buscamos.</example>
+                <example>Se puso seria otra vez.</example>
+                <example>Estaba seria a menudo.</example>
+                <example>Estaba seria frecuentemente.</example>
+                <example>con una poco seria tercera persona omnisciente</example>
+                <example>Tuvimos una charla seria el uno con el otro.</example>
+                <example>Una institución lingüística seria jamás censuraría una traducción.</example>
+                <example>con mirada seria, penetrante</example>
+                <example>Ustedes no quieren que yo sea obscura, seria, huraña</example>
+                <example>creo que se trata de una cosa seria.</example>
+                <example>Entonces dijo, ya seria:</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[SI].*" postag_regexp="yes" skip="-1"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token>una</token>
+                    <token regexp="yes">persona|niña|mujer|muchacha</token>
+                    <token>seria</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>seria</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'ser', se escribe con tilde.</message>
+                <suggestion>sería</suggestion>
+                <example correction="sería">La cena <marker>seria</marker> a última hora.</example>
+                <example correction="sería">La sencillez de nuestra vida cotidiana <marker>seria</marker>, a ojos del ángel, lo más «extraordinario».</example>
+                <example>Es una persona seria.</example>
+                <example>Una persona seria.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PARIS" name="Paris/París" default="on">
@@ -15717,7 +15782,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes">poder<exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <and>
-                            <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|ser|haber|afuera</exception></token>
+                            <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|ser|haber|afuera</exception><exception>seria</exception></token>
                             <!-- no: comparte/compartir -->
                             <token inflected="yes" regexp="yes">.*[ae]r</token>
                         </and>
@@ -15735,7 +15800,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">poder|deber|gustar|desear|querer<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
                         <and>
-                            <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|ser|haber|afuera</exception></token>
+                            <token postag="V.IP.*" postag_regexp="yes" regexp="yes">.+[ae]<exception postag="[DP].*|V.S.*|LOC_ADV|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|ser|haber|afuera</exception><exception>seria</exception></token>
                             <!-- no: comparte/compartir -->
                             <token inflected="yes" regexp="yes">.*[ae]r</token>
                         </and>
