@@ -11301,8 +11301,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="hacía">No <marker>hacia</marker> más que moverse.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>hacia</token>
+                    <token inflected="yes">el</token>
+                    <token inflected="yes" regexp="yes">año|puera</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="10">hacia</token>
+                    <token>que</token>
+                    <token>hacia</token>
+                </antipattern>
                 <pattern>
-                    <token>lo</token>
+                    <!--<token>lo</token>-->
                     <token>que</token>
                     <marker>
                         <token>hacia</token>
