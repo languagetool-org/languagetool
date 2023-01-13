@@ -6,10 +6,8 @@ import org.languagetool.rules.AbstractSuppressIfAnyRuleMatchesFilter;
 
 public class SuppressIfAnyRuleMatchesFilter extends AbstractSuppressIfAnyRuleMatchesFilter {
 
-  private static final JLanguageTool lt = new JLanguageTool(new Catalan());
-
   @Override
-  protected JLanguageTool getLT() {
-    return lt;
+  protected JLanguageTool getJLanguageTool() {
+    return new Catalan().createDefaultJLanguageTool();
   }
 }

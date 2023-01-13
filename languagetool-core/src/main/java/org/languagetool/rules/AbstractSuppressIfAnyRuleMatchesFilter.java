@@ -28,15 +28,12 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.rules.patterns.RuleFilter;
 
 public abstract class AbstractSuppressIfAnyRuleMatchesFilter extends RuleFilter {
-
-  private JLanguageTool lt;
   
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
-   
     List<String> ruleIDs = Arrays.asList(getRequired("ruleIDs", arguments).split(","));
-    lt = getLT();
+    JLanguageTool lt = getJLanguageTool();
     for (Rule r : lt.getAllRules()) {
       if (ruleIDs.contains(r.getId())) {
         lt.enableRule(r.getId());
@@ -58,6 +55,6 @@ public abstract class AbstractSuppressIfAnyRuleMatchesFilter extends RuleFilter 
     return match;    
   }
   
-  protected abstract JLanguageTool getLT();
+  protected abstract JLanguageTool getJLanguageTool();
 
 }
