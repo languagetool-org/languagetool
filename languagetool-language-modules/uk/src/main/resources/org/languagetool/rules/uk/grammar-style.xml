@@ -2358,20 +2358,132 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rule id="knyzhnyi_knyzhkovyi" name="Книжний і книжковий">
-      <pattern>
-        <unify>
-          <feature id="gender"/>
-          <feature id="case"/>
+    <rulegroup id="knyzhnyi_knyzhkovyi" name="Книжний і книжковий">
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <marker>
+              <token inflected="yes">книжний</token>
+            </marker>
+            <token inflected="yes" regexp="yes">справа|ринок|крам|товар|торгівля|крамниця|кіоск|коректа|новина|полиця|база</token>
+          </unify>
+        </pattern>
+        <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">книжковий</match></suggestion></message>
+        <example correction="книжкової">до <marker>книжної</marker> полиці.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <marker>
+              <token inflected="yes">книжковий</token>
+            </marker>
+            <token inflected="yes" regexp="yes">мова|стиль|лексика</token>
+          </unify>
+        </pattern>
+        <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">книжний</match></suggestion></message>
+        <example correction="книжної"><marker>книжкової</marker> мови.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="palne_vs_palyvo" name="Пальне і паливо">
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token inflected="yes" regexp="yes">(високо|низько)?якісний|дизельний|заправляти(ся)?</token>
+            <marker>
+              <token inflected="yes" postag_regexp="yes" postag="noun.*">паливо</token>
+            </marker>
+          </unify>
+        </pattern>
+        <message>Для двигунів краще: <suggestion><match no="2" postag_regexp="yes" postag="(noun:inanim:n.*)" postag_replace="$1">пальне</match></suggestion></message>
+        <example correction="пального">до високоякісного <marker>палива</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token inflected="yes" regexp="yes">природний|ракетний</token>
+            <marker>
+              <token inflected="yes" postag_regexp="yes" postag="noun.*">пальне</token>
+            </marker>
+          </unify>
+        </pattern>
+        <message>Для двигунів краще: <suggestion><match no="2" postag_regexp="yes" postag="noun.*" postag_replace="$0">паливо</match></suggestion></message>
+        <example correction="палива">до природного <marker>пального</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="uyava_vs_uyavlennya" name="Уява і уявлення">
+      <rule>
+        <pattern>
+          <token>жодної</token>
           <marker>
-            <token inflected="yes">книжний</token>
+            <token>уяви</token>
           </marker>
-          <token inflected="yes" regexp="yes">справа|ринок|крам|товар|торгівля|крамниця|кіоск|коректа|новина|полиця|база</token>
-        </unify>
-      </pattern>
-      <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="adj.*">книжковий</match></suggestion></message>
-      <example correction="книжкової">до <marker>книжної</marker> полиці.</example>
-    </rule>
+        </pattern>
+        <message>У значенні «розуміння», «знання» краще: <suggestion><match no="2" postag_regexp="yes" postag="(noun:inanim):f(.*)" postag_replace="$1:n$2">уявлення</match></suggestion></message>
+        <suggestion><match no="2" postag_regexp="yes" postag="(noun:inanim):f(.*)" postag_replace="$1:n$2">розуміння</match></suggestion>
+        <suggestion><match no="2" postag_regexp="yes" postag="(noun:inanim):f(.*)" postag_replace="$1:f$2">гадка</match></suggestion>
+        <example correction="уявлення|розуміння|гадки">не мала жодної <marker>уяви</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">туманний|чіткий|певний</token>
+          <marker>
+            <token inflected="yes">уява</token>
+          </marker>
+        </pattern>
+        <message>У значенні «розуміння», «знання» краще: <suggestion><match no="2" postag_regexp="yes" postag="(noun:inanim):f(.*)" postag_replace="$1:n$2">уявлення</match></suggestion></message>
+        <suggestion><match no="2" postag_regexp="yes" postag="(noun:inanim):f(.*)" postag_replace="$1:n$2">розуміння</match></suggestion>
+        <example correction="уявлення|розуміння">мала туманну <marker>уяву</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">складати|скласти</token>
+          <marker>
+            <token>уяву</token>
+          </marker>
+        </pattern>
+        <message>У значенні «розуміння», «знання» краще: <suggestion><match no="2" postag_regexp="yes" postag="(noun:inanim):f(.*)" postag_replace="$1:n$2">уявлення</match></suggestion></message>
+        <example correction="уявлення">склала <marker>уяву</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">уяв[уи]</token>
+          </marker>
+          <token min="0">не</token>
+          <token inflected="yes">мати</token>
+        </pattern>
+        <message>У значенні «розуміння», «знання» краще: <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim):f(.*)" postag_replace="$1:n$2">уявлення</match></suggestion></message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim):f(.*)" postag_replace="$1:f$2">гадка</match></suggestion>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim):f(.*)" postag_replace="$1:f$2">тяма</match></suggestion>
+        <example correction="уявлення|гадки|тями">він <marker>уяви</marker> не мав.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">уява</token>
+          </marker>
+          <token>про</token>
+        </pattern>
+        <message>У значенні «розуміння», «знання» краще: <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim):f(.*)" postag_replace="$1:n$2">уявлення</match></suggestion></message>
+        <example correction="уявлення">мав <marker>уяву</marker> про це.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="PERESLIDUVATY_METU" name="Переслідувати мету">
       <pattern>
