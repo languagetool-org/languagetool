@@ -62,8 +62,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
     @Override
     public String getMessage() {
-      return String.format("Test failure for rule %s in file %s: %s",
-        rule.getFullId(), rule.getSourceFile(), message);
+      return String.format("Test failure for rule %s in file %s (line %d): %s",
+        rule.getFullId(), rule.getSourceFile(), rule.getXmlLineNumber(), message);
     }
 
   }

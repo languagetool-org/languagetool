@@ -42,12 +42,12 @@ public abstract class AbstractSuppressIfAnyRuleMatchesFilter extends RuleFilter 
       }
     }
     String sentence = match.getSentence().getText();
-    
     for (String replacement : match.getSuggestedReplacements()) {
       String newSentece = sentence.substring(0,match.getFromPos()) + replacement + sentence.substring(match.getToPos(), sentence.length());
       List<RuleMatch> matches = lt.check(newSentece);
       for (RuleMatch m : matches) {
-        if (m.getToPos() >= match.getFromPos() && m.getToPos() <= match.getToPos()) {
+        if ((m.getToPos() >= match.getFromPos() && m.getToPos() <= match.getToPos())
+            || (match.getToPos() >= m.getFromPos() && match.getToPos() <= m.getToPos())) {
           return null;
         }
       }
