@@ -1020,8 +1020,9 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                     <token postag="VB(P|Z)?" postag_regexp="yes" chunk="B-VP" />
                 </pattern>
-                <example correction="">Some words are spelled or pronounced similarly <marker>but</marker> have two different meanings.</example>
-                <example correction="">In other words, the letters aren’t pronounced individually <marker>but</marker> are pronounced as a whole.</example>
+                <suggestion>, but</suggestion>
+                <example correction=", but">Some words are spelled or pronounced similarly<marker> but</marker> have two different meanings.</example>
+                <example correction=", but">In other words, the letters aren’t pronounced individually<marker> but</marker> are pronounced as a whole.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1033,7 +1034,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="RB" min="0" />
                     <token postag="VB[GN]" postag_regexp="yes" chunk_re=".-VP" />
                 </pattern>
-                <example correction="">Fuel prices have hit record highs this year <marker>but</marker> are anticipated to start failing in 2024/25.</example>
+                <suggestion>, but</suggestion>
+                <example correction=", but">Fuel prices have hit record highs this year<marker>, but</marker> are anticipated to start failing in 2024/25.</example>
             </rule>
             <rule>
                 <!-- #1 Single non-alphanumeric characters. -->
