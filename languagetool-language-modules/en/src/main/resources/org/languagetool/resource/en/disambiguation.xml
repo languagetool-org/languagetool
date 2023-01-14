@@ -16627,6 +16627,24 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule id="BUG_NO_VB" name="'bug' no VB">
+        <antipattern>
+            <token postag="MD" />
+            <token postag="RB" min="0" />
+            <token>bug</token>
+            <token regexp="yes">fix|report</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">I|we|you|they</token>
+            <token postag="RB" min="0" />
+            <token>bug</token>
+            <token regexp="yes">fix|report</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">s?he|it</token>
+            <token postag="RB" min="0" />
+            <token>bug</token>
+            <token regexp="yes">fixes|reports</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token>bug</token>
