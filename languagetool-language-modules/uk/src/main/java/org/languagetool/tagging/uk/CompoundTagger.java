@@ -284,7 +284,7 @@ class CompoundTagger {
     
     // Пенсильванія-авеню
 
-    if( Character.isUpperCase(leftWord.charAt(0)) && LemmaHelper.CITY_AVENU.contains(rightWord) ) {
+    if( Character.isUpperCase(leftWord.charAt(0)) && LemmaHelper.CITY_AVENU.contains(rightWord.toLowerCase()) ) {
       String addPos = rightWord.equals("штрассе") ? ":alt" : "";
       return PosTagHelper.generateTokensForNv(word, "f", ":prop" + addPos);
     }
@@ -1032,7 +1032,7 @@ class CompoundTagger {
           // skip Гірник geo for Гірник-спорт
           if( leftPosTag.contains(":geo") 
               && ! rightPosTag.contains(":geo")
-              && ! rightAnalyzedToken.getLemma().matches("(?iu)ріка|гора|місто|град|поле|море|сіті|штрасс?е|стр[иі]т|авеню|парк") )
+              && ! rightAnalyzedToken.getLemma().matches("(?iu)ріка|гора|місто|град|поле|море|парк") )
             continue;
         }
 
