@@ -6,8 +6,8 @@ Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for Lang
 
 Copyright © 2012-2023 Marco A.G.Pinto (www.marcoagpinto.com)
 Copyright © 2016-2023 Tiago F. Santos (tiagofsantos81@sapo.pt)
-Copyright © 2023 Ricardo Joseh Lima
-Copyright © 2023 Susana Boatto
+Copyright © 2022-2023 Ricardo Joseh Lima
+Copyright © 2022-2023 Susana Boatto
 
 Thanks to Juan Martorell, Daniel Naber, Jaume Ortolà, Christopher Blum,
 Udo Mai and Yakov Reztsov who mentored the project.
@@ -13555,36 +13555,9 @@ O namorado dela era um ladrão.
       <example>Não tem opção que não a de ficar calado.</example>
     </rule>
 
-    <rulegroup id='OBLIQUOUS_PRONOUN_VERB' name='Pronome Oblíquo + VERBO'>
+
+    <rulegroup id='OBLIQUOUS_PRONOUN_VERB' name='Pronome Oblíquo + VERBO' default='off'>
       <!--      Created by Tiago F. Santos, Portuguese rule, 2017-01-24      -->
-      <!--
-           MARCOAGPINTO started adding antipatterns at the top to affect all subrules - 2022-09-25
-      -->
-
-      <!-- MARCOAGPINTO 2022-09-25 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-      <antipattern>
-        <token postag='CC' postag_regexp='no'>
-          <exception scope='previous' postag_regexp='yes' postag='VMIS.+'/>
-        </token>
-        <token regexp='yes'>mim|comigo</token>
-        <token postag='V.+' postag_regexp='yes'>
-          <exception scope='next' postag_regexp='yes' postag='V.+|CS'/>
-        </token>
-        <example>E comigo concordam grande parte dos que conhecem a revista la na França.</example>
-        <example>Para mim parece ser interessante.</example>
-        <example>Para mim chegavam duzentos.</example>
-        <example>Para mim foi e ainda é penoso fazer comida paquistanesa.</example>
-        <example>Isto para mim é importante.</example>
-      </antipattern>
-
-      <antipattern>
-        <token postag='CC' postag_regexp='no'/>
-        <token regexp='yes'>mim|comigo</token>
-        <token postag='VMG0000' postag_regexp='no'/>
-        <example>Meu avô meneou para mim dizendo sim.</example>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-09-25 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
       <rule>
         <pattern>
           <token regexp='yes'>mim|comigo</token>
@@ -13652,16 +13625,6 @@ O namorado dela era um ladrão.
           <token>por</token>
           <token>si</token>
         </antipattern>
-        <!-- MARCOAGPINTO 2021-10-04 (25-JUN-2021+) *START* -->
-        <!--
-        Temos desequilíbrios sucessivos que por si devem-se à ganância e ao medo.
-        -->
-        <antipattern>
-          <token postag='CS'/>
-          <token>por</token>
-          <token>si</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-10-04 (25-JUN-2021+) *END* -->
         <pattern>
           <token>si</token> <!-- XXX consigo removed. consigo->conseguir -->
           <token postag_regexp='yes' postag='V.+'>
@@ -13674,7 +13637,6 @@ O namorado dela era um ladrão.
         <example correction='si, pode|você pode'>Confesso, quem fala de <marker>si pode</marker> ter dificuldade em acompanhar.</example>
         <!--example correction='consigo, pode|você pode'>Confesso, quem fala <marker>consigo pode</marker> ter dificuldade em acompanhar.</example-->
         <example>Para si, estudar é um sacrifício.</example>
-        <example>Temos desequilíbrios sucessivos que por si devem-se à ganância e ao medo.</example>
       </rule>
       <rule>
         <pattern>
@@ -13703,6 +13665,7 @@ O namorado dela era um ladrão.
         <example>Fui claro convosco, estudar é um sacrifício.</example>
       </rule>
     </rulegroup>
+
 
     <rule id='FORMAL_PRA_PARA' name="Expressões 'para'">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
