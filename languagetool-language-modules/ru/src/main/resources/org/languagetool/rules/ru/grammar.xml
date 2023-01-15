@@ -9243,15 +9243,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- невзирая на, несмотря на -->
                 <pattern case_sensitive="no">
-                    <token>не<exception scope="previous" regexp="yes">,|даже|совсем|полностью</exception></token>
+                    <token>не</token> <!-- <exception scope="previous" regexp="yes">,|даже|совсем|полностью</exception> -->
                     <token regexp="yes">взирая|смотря</token>
-                    <token>на</token>
+                    <token>на<exception scope="next" postag_regexp="yes" postag="NN:Anim:.*"></exception></token> <!-- TODO: need improve --> 
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2 \3</suggestion>.</message>
                 <short>Пишется слитно</short>
                 <example correction="несмотря на">Премия в этом году состоялась <marker>не смотря на</marker> кризис.</example>
                 <example correction="невзирая на">Премия в этом году состоялась <marker>не взирая на</marker> кризис.</example>
-                <example>Максим говорил, не смотря на девушку, сидевшую напротив.</example>
+                <example>Максим говорил, не смотря на девушку, сидевшую напротив.</example> <!-- TODO: need improve --> 
             </rule>
            
             <rule>
