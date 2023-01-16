@@ -883,14 +883,21 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       // Straßenname: "Am hohen Hain 6"
-      csRegex("[IA]m"),
+      csToken("Am"),
       new PatternTokenBuilder().posRegex("ADJ:.+").csTokenRegex("[a-zäöü].+n").build(),
       csRegex("[A-ZÄÜÖ].*"),
       csRegex("\\d{1,3}[a-hA-H]?")
     ),
     Arrays.asList(
+      // Straßenname: "Im hohen Hain 6e"
+      csToken("Im"),
+      new PatternTokenBuilder().posRegex("ADJ:.+").csTokenRegex("[a-zäöü].+n").build(),
+      csRegex("[A-ZÄÜÖ].*"),
+      csRegex("\\d{1,3}[a-hA-H]|\\d")
+    ),
+    Arrays.asList(
       // Straßenname: "Am Wasserturm 6"
-      csRegex("[IA]m"),
+      csToken("Am"),
       posRegex("(EIG|SUB|UNKNOWN).*"),
       csRegex("\\d+[a-hA-H]?")
     ),

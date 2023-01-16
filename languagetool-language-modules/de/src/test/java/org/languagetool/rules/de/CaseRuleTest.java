@@ -362,6 +362,9 @@ public class CaseRuleTest {
     //assertBad("Die ausgewählten werden gut betreut.");
     assertBad("Die Ausgewählten Leute werden gut betreut.");
 
+    assertBad("Er war dort Im März 2000.");
+    assertBad("Er war dort Im Jahr 96.");
+
     // used to trigger error because of wrong POS tagging:
     assertGood("Die Schlinge zieht sich zu.");
     assertGood("Die Schlingen ziehen sich zu.");
