@@ -20627,49 +20627,49 @@ O namorado dela era um ladrão.
       <example correction="visando conseguir">Ele assinou um documento <marker>visando a conseguir</marker> dividendos.</example>
     </rule>
 
-    <rulegroup id='VISTO_DADO_QUE' name="Visto/dado [não] VERBO-INFINITIVO">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-03-01   -->
+
+    <!-- VISTO QUE QUERIA visto querer -->
+    <rulegroup id='VISTO_DADO_QUE' name="Simplificar: Visto/dado que → visto/dado V.Inf.">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-16 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Tomei essa opção visto que não queria errar. → Tomei essa opção visto não querer errar.
+      Tomámos essa opção visto que não queríamos errar. → Tomámos essa opção visto não querermos errar.
+      -->
       <rule>
         <pattern>
-          <token regexp='yes'>visto|dado</token>
-          <token>que</token>
-          <token>não</token>
-          <token postag='VMII1S0'/>
+          <marker>
+            <token regexp='yes'>visto|dado</token>
+            <token>que</token>
+            <token>não</token>
+            <token postag='VMII1.+' postag_regexp='yes'/>
+          </marker>
         </pattern>
-        <message>Substitua por <suggestion>\1 não <match no='4' postag='VMN01S0' postag_replace='VMII1S0'/></suggestion>.</message>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\1 não <match no='4' postag='VMII1(.)0' postag_regexp="yes" postag_replace='VMN01$10'/></suggestion>
         <example correction="visto não querer">Tomei essa opção <marker>visto que não queria</marker> errar.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp='yes'>visto|dado</token>
-          <token>que</token>
-          <token postag='VMII1S0'/>
-        </pattern>
-        <message>Substitua por <suggestion>\1 <match no='3' postag='VMN01S0' postag_replace='VMII1S0'/></suggestion>.</message>
-        <example correction="visto querer">Tomei essa opção <marker>visto que queria</marker> acertar.</example>
-      </rule>
-      <!-- MARCOAGPINTO - Added plural - 2020-03-03 *** START *** -->
-      <rule>
-        <pattern>
-          <token regexp='yes'>visto|dado</token>
-          <token>que</token>
-          <token>não</token>
-          <token postag='VMII1P0'/>
-        </pattern>
-        <message>Substitua por <suggestion>\1 não <match no='4' postag='VMN01P0' postag_replace='VMII1P0'/></suggestion>.</message>
         <example correction="visto não querermos">Tomámos essa opção <marker>visto que não queríamos</marker> errar.</example>
       </rule>
+
+      <!--
+      Tomei essa opção visto que queria errar. → Tomei essa opção visto querer errar.
+      Tomámos essa opção visto que queríamos errar. → Tomámos essa opção visto querermos errar.
+      -->
       <rule>
         <pattern>
-          <token regexp='yes'>visto|dado</token>
-          <token>que</token>
-          <token postag='VMII1P0'/>
+          <marker>
+            <token regexp='yes'>visto|dado</token>
+            <token>que</token>
+            <token postag='VMII1.+' postag_regexp='yes'/>
+          </marker>
         </pattern>
-        <message>Substitua por <suggestion>\1 <match no='3' postag='VMN01P0' postag_replace='VMII1P0'/></suggestion>.</message>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\1 <match no='3' postag='VMII1(.)0' postag_regexp="yes" postag_replace='VMN01$10'/></suggestion>
+        <example correction="visto querer">Tomei essa opção <marker>visto que queria</marker> acertar.</example>
         <example correction="visto querermos">Tomámos essa opção <marker>visto que queríamos</marker> acertar.</example>
       </rule>
-      <!-- MARCOAGPINTO - Added plural - 2020-03-03 *** END *** -->
+
     </rulegroup>
+
 
     <rule id='VOAR_A_JATO' name="Voar de jato">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
