@@ -137,8 +137,8 @@ public class CommandLineOptions {
     return cleanOverlapping;
   }
 
-  public void setCleanOverlapping(boolean enableTempOff) {
-    this.cleanOverlapping = enableTempOff;
+  public void setCleanOverlapping(boolean cleanOverlapping) {
+    this.cleanOverlapping = cleanOverlapping;
   }
 
   public boolean isRecursive() {

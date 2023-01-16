@@ -53,7 +53,7 @@ class CommandLineParser {
         options.setEnableTempOff(true);
       } else if (args[i].equals("--clean-overlapping")) {
         options.setCleanOverlapping(true);
-      }else if (args[i].equals("--level")) {
+      } else if (args[i].equals("--level")) {
         String level = args[++i];
         try {
           options.setLevel(JLanguageTool.Level.valueOf(level));
