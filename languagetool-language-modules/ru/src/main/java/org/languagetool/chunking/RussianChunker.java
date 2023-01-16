@@ -39,13 +39,17 @@ import static org.languagetool.chunking.RussianChunker.PhraseType.*;
 @Experimental
 public class RussianChunker implements Chunker {
 
-  private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS", "MayMissingYO", "VP", "SBAR"));
+  private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS", "MayMissingYO", "VP", "SBAR", "PRT", "DPT"));
   private static final TokenExpressionFactory FACTORY = new TokenExpressionFactory(false);
-
+ 
   private static final Map<String,String> SYNTAX_EXPANSION = new HashMap<>();
   static {
     SYNTAX_EXPANSION.put("<NP>", "<chunk=B-NP> <chunk=I-NP>*");
     SYNTAX_EXPANSION.put("<VP>", "<chunk=B-VP> <chunk=I-VP>*");
+    SYNTAX_EXPANSION.put("<PRT>", "<chunk=B-PRT> <chunk=I-PRT>*");
+    SYNTAX_EXPANSION.put("<DPT>", "<chunk=B-DPT> <chunk=I-DPT>*");
+
+
   }
 
   enum PhraseType {
@@ -55,7 +59,9 @@ public class RussianChunker implements Chunker {
     PP,    // "prepositional phrase" and similar
     MayMissingYO,
     VP,     // verb phrase
-    SBAR
+    SBAR,
+    PRT,   // participle
+    DPT
   }
 
   /** @deprecated for internal use only */
@@ -107,7 +113,11 @@ public class RussianChunker implements Chunker {
       build("<posre='VB:.*:.*'>* " , VP),
       build("<если>", SBAR),  //
       build("<поэтому>", SBAR),  //
-      
+      //adverbial participle
+      build("<posre='DPT:.*:.*'> " , DPT),
+      //participle
+      build("<posre='PT:.*:.*'> " , PRT),
+      build("<posre='PT_Short:.*:.*'> " , PRT),
       //
       build("<тов>", NP)  // simulate OpenNLP?!
   );
@@ -229,6 +239,21 @@ public class RussianChunker implements Chunker {
       } else {
         newTag = new ChunkTag("I-VP");
       }
+    } else if (regex.phraseType == PRT) {
+      // we assign the same tags as the OpenNLP chunker
+      if (i == match.startIndex()) {
+        newTag = new ChunkTag("B-PRT");
+      } else {
+        newTag = new ChunkTag("I-PRT");
+      }
+    } else if (regex.phraseType == DPT) {
+      // we assign the same tags as the OpenNLP chunker
+      if (i == match.startIndex()) {
+        newTag = new ChunkTag("B-DPT");
+      } else {
+        newTag = new ChunkTag("I-DPT");
+      }
+
     }   else {
       newTag = new ChunkTag(regex.phraseType.name());
     }
