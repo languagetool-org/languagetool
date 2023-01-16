@@ -20574,6 +20574,26 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- FOI ÚTIL PARA serviu para -->
+    <rule id='VERBO_SER_ÚTIL_PARA_SERVIR_PARA' name="Simplificar: V.Ser útil para → V.Servir para" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-16 (25-JUL-2022+) -->
+      <!--
+      Esta equação foi útil para ajudar a população. → Esta equação serviu para ajudar a população.
+      -->
+      <pattern>
+        <marker>
+          <token inflected='yes'>ser</token>
+          <token>útil</token>
+        </marker>
+        <token>para</token>
+        <token postag='V.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>servir</match></suggestion>
+      <example correction="serviu">Esta equação <marker>foi útil</marker> para ajudar a população.</example>
+    </rule>
+
+
     <!-- VÍDEO CONFERÊNCIA videoconferência -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-24 (21-OCT-2020+)     -->
     <rulegroup id='VÍDEO_CONFERÊNCIA' name="Videoconferência">
