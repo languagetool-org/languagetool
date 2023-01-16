@@ -51,7 +51,9 @@ class CommandLineParser {
         options.setLineByLine(true);
       } else if (args[i].equals("--enable-temp-off")) {
         options.setEnableTempOff(true);
-      } else if (args[i].equals("--level")) {
+      } else if (args[i].equals("--clean-overlapping")) {
+        options.setCleanOverlapping(true);
+      }else if (args[i].equals("--level")) {
         String level = args[++i];
         try {
           options.setLevel(JLanguageTool.Level.valueOf(level));
@@ -221,6 +223,7 @@ class CommandLineParser {
             + "  --xmlfilter              [deprecated] remove XML/HTML elements from input before checking\n"
             + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)\n"
             + "  --enable-temp-off        enable all temp_off rules (for testing and development)\n"
+            + "  --clean-overlapping      clean overlapping matches (show only the highest priority match)\n"
             + "  --level level            enable the given level (currently only 'PICKY')"
     );
   }

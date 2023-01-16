@@ -60,6 +60,7 @@ public class CommandLineOptions {
   private boolean xmlFiltering = false;
   private boolean lineByLine = false;
   private boolean enableTempOff = false;
+  private boolean cleanOverlapping = false;
   private JLanguageTool.Level level = JLanguageTool.Level.DEFAULT;
   @Nullable
   private Language language = null;
@@ -127,6 +128,17 @@ public class CommandLineOptions {
 
   public void setEnableTempOff(boolean enableTempOff) {
     this.enableTempOff = enableTempOff;
+  }
+  
+  /**
+   * @since 6.1
+   */
+  public boolean isCleanOverlapping() {
+    return cleanOverlapping;
+  }
+
+  public void setCleanOverlapping(boolean enableTempOff) {
+    this.cleanOverlapping = enableTempOff;
   }
 
   public boolean isRecursive() {
