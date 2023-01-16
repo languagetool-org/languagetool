@@ -304,6 +304,8 @@ public class Catalan extends Language {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern CA_APOSTROPHES5 = Pattern.compile("\\b([mts]e) (['’])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES6 = Pattern.compile("\\bs'e(ns|ls)\\b",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   @Override
   public String adaptSuggestion(String s) {
@@ -321,6 +323,8 @@ public class Catalan extends Language {
     s = m4.replaceAll("$1'$2");
     Matcher m5 = CA_APOSTROPHES5.matcher(s);
     s = m5.replaceAll("$1$2");
+    Matcher m6 = CA_APOSTROPHES6.matcher(s);
+    s = m6.replaceAll("se'$1");
     if (capitalized) {
       s = StringTools.uppercaseFirstChar(s);
     }
