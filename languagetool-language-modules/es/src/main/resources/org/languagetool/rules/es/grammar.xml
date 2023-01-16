@@ -28933,6 +28933,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="3"><exception postag="SENT_END"/> </token>
                 <token postag="SENT_END"/>
             </antipattern>
+            <antipattern>
+                <!-- short sentences-->
+                <token postag="SENT_START"/>
+                <token regexp="yes" min="0" max="3">\p{P}</token>
+                <token regexp="yes">.*mente<exception>contrariamente</exception></token>
+                <token min="0" max="3"><exception>.</exception></token>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <token regexp="yes" min="0" max="3">\p{P}<exception>¿</exception></token>
@@ -28968,6 +28978,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Igualmente —dijo él.</example>
             <example>Probablemente el mejor del mundo.</example>
             <example>Probablemente es el mejor.</example>
+            <example>Simplemente empieza a escribir...</example>
         </rule>
         <rulegroup id="COMMA_MARCADOR_DISCURSIVO" name="coma después de marcador discursivo">
             <rule>
