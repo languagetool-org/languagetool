@@ -8013,6 +8013,12 @@ O namorado dela era um ladrão.
     <rulegroup id='GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS' name="Concordância nominal" default='temp_off'>
         <rule>
             <antipattern>
+              <token postag='SPS00'/>
+              <token postag='DI.+' postag_regexp='yes'/>
+              <token postag='VMP.+' postag_regexp='yes'/>
+              <example>no que concerne às últimas edições por este editadas</example>
+            </antipattern>
+            <antipattern>
               <token regexp='yes'>\p{L}*-\p{L}*</token>
               <example>Quem inventou o micro-ondas?</example>
             </antipattern>
@@ -8039,19 +8045,25 @@ O namorado dela era um ladrão.
                <token>semanas</token>
                <example>do titular semanas antes</example>
             </antipattern>
+            <antipattern>
+              <token>um</token>
+              <token>vezes</token>
+              <example>Certo como um vezes um é um.</example>
+            </antipattern>
             <pattern>
-                <token negate='yes' regexp='yes'>&hifen;</token>
+                <token negate='yes' regexp='yes'>&hifen;|cada</token>
               <marker>
                 <token postag='(?:D[DIP].|Z.|SPS00:D..)MS.+' postag_regexp='yes'>
-                    <exception postag='(?:[NZ].|A..)[CF][NS].+|(?:[NZ].|A..)MP.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+                    <exception postag='(?:[NZ].|A..)[CF][NS].+|(?:[NZ].|A..)MP.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+                    <exception regexp='yes'>mesmo|muito</exception></token>
                 <token min='0' regexp='yes'>&adverbios_de_intensidade;
                     <exception regexp='yes'>quanto|quão|tão</exception></token>
                 <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}+</exception>
+                    <exception regexp='yes'>\p{Lu}.*</exception>
                     <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
                 <token postag='(?:N.|A..)FP.+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}*|cais</exception>
-                    <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)M.+|(?:N.|A..).S.+|V..P2.+'/></token>
+                    <exception regexp='yes'>\p{Lu}.*|cais</exception>
+                    <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)M.+|Z.+|(?:N.|A..).S.+|V..P2.+|N.CP.+'/></token>
               </marker>
             </pattern>
             <message>Possível erro de concordância.</message>
@@ -8067,15 +8079,17 @@ O namorado dela era um ladrão.
                 <token negate='yes' regexp='yes'>&hifen;</token>
               <marker>
                 <token postag='(?:D[DIP].|Z.|SPS00:D..)MP.+' postag_regexp='yes'>
-                    <exception postag='(?:[NZ].|A..)[CF][NP].+|(?:[NZ].|A..)MS.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+                    <exception postag='(?:[NZ].|A..)[CF][NP].+|(?:[NZ].|A..)MS.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
+                    <exception regexp='yes'>muitos|todos</exception></token>
                 <token min='0' regexp='yes'>&adverbios_de_intensidade;
                     <exception regexp='yes'>quanto|quão|tão</exception></token>
                 <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}+</exception>
+                    <exception regexp='yes'>\p{Lu}.*</exception>
                     <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
                 <token postag='(?:N.|A..)FS.+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}*</exception>
-                    <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)M.+|(?:N.|A..).P.+|V..P3.+'/></token>
+                    <exception regexp='yes'>\p{Lu}.*</exception>
+                    <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)M.+|(?:N.|A..).P.+|V..P3.+'/>
+                    <exception>mataria</exception></token>
               </marker>
             </pattern>
             <message>Possível erro de concordância.</message>
@@ -8154,10 +8168,10 @@ O namorado dela era um ladrão.
                 <token min='0' regexp='yes'>&adverbios_de_intensidade;
                     <exception regexp='yes'>quanto|quão|tão</exception></token>
                 <token min='0' postag='(?:A..)[CM][SN].+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}+|bem</exception>
+                    <exception regexp='yes'>\p{Lu}.*|bem</exception>
                     <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
                 <token postag='(?:N.|A..)MS.+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}*</exception>
+                    <exception regexp='yes'>\p{Lu}.*|serão|vão</exception>
                     <exception postag_regexp='yes' postag='Z.+|SPS.+|D.+|R.+|P.+|(?:N.|A..)[CF].+|(?:N.|A..).[PN].+|V..P1.+|V...3.+|VM[NG].+'/></token>
               </marker>
             </pattern>
