@@ -20603,21 +20603,24 @@ O namorado dela era um ladrão.
 
     <!-- FOI ÚTIL PARA serviu para -->
     <rule id='VERBO_SER_ÚTIL_PARA_SERVIR_PARA' name="Simplificar: V.Ser útil para → V.Servir para" type="style">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-16 (25-JUL-2022+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-16 + 2023-01-17 (25-JUL-2022+) -->
       <!--
       Esta equação foi útil para ajudar a população. → Esta equação serviu para ajudar a população.
+      Esta equação foi útil NOMEADAMENTE para ajudar a população. → Esta equação serviu NOMEADAMENTE para ajudar a população.
       -->
       <pattern>
         <marker>
           <token inflected='yes'>ser</token>
           <token>útil</token>
         </marker>
+        <token min="0" max="1" postag='RM' postag_regexp='no'/>
         <token>para</token>
         <token postag='V.+' postag_regexp='yes'/>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>servir</match></suggestion>
       <example correction="serviu">Esta equação <marker>foi útil</marker> para ajudar a população.</example>
+      <example correction="serviu">Esta equação <marker>foi útil</marker> nomeadamente para ajudar a população.</example>
     </rule>
 
 
