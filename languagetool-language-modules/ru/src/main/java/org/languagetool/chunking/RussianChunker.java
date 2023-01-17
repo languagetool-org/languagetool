@@ -39,14 +39,14 @@ import static org.languagetool.chunking.RussianChunker.PhraseType.*;
 @Experimental
 public class RussianChunker implements Chunker {
 
-  private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS", "MayMissingYO", "VP", "SBAR", "PRT", "DPT"));
+  private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS", "MayMissingYO", "VP", "SBAR", "ADJP", "DPT"));
   private static final TokenExpressionFactory FACTORY = new TokenExpressionFactory(false);
  
   private static final Map<String,String> SYNTAX_EXPANSION = new HashMap<>();
   static {
     SYNTAX_EXPANSION.put("<NP>", "<chunk=B-NP> <chunk=I-NP>*");
     SYNTAX_EXPANSION.put("<VP>", "<chunk=B-VP> <chunk=I-VP>*");
-    SYNTAX_EXPANSION.put("<PRT>", "<chunk=B-PRT> <chunk=I-PRT>*");
+    SYNTAX_EXPANSION.put("<ADJP>", "<chunk=B-ADJP> <chunk=I-ADJP>*");
     SYNTAX_EXPANSION.put("<DPT>", "<chunk=B-DPT> <chunk=I-DPT>*");
 
 
@@ -60,8 +60,8 @@ public class RussianChunker implements Chunker {
     MayMissingYO,
     VP,     // verb phrase
     SBAR,
-    PRT,   // participle
-    DPT
+    ADJP,   // participle
+    DPT     // adverbial participle
   }
 
   /** @deprecated for internal use only */
@@ -95,7 +95,7 @@ public class RussianChunker implements Chunker {
    * Example to combine two conditions via logical AND:
    *    <pos=ADJ & chunk=B-NP>
    * Example: Quote a regular expression so OpenRegex doesn't get confused:
-   *    <posre='.*(NOM|AKK).*'>
+   *    <posre='.*(Nom|V).*'>
    *
    * See SYNTAX_EXPANSION for strings that get expanded before interpreted by OpenRegex.
    * The chunks are added to the existing chunks, unless the last argument of build() is
@@ -115,9 +115,16 @@ public class RussianChunker implements Chunker {
       build("<поэтому>", SBAR),  //
       //adverbial participle
       build("<posre='DPT:.*:.*'> " , DPT),
+      build("<posre='DPT:.*:.*'> <posre='NN:.*:.*:(R|D|T|P)' > " , DPT, true),
+      build("<posre='DPT:.*:.*'> <posre='PREP'> <posre='NN:.*:.*:(R|D|T|P)' > " , DPT, true),
       //participle
-      build("<posre='PT:.*:.*'> " , PRT),
-      build("<posre='PT_Short:.*:.*'> " , PRT),
+      build("<posre='PT:.*:.*'> " , ADJP),
+      build("<posre='PT:.*:.*'> <posre='NN:.*:.*:(R|D|T|P)' > " , ADJP, true),
+      build("<posre='PT:.*:.*'> <posre='PREP'> <posre='NN:.*:.*:(R|D|T|P)' > " , ADJP, true),
+      build("<posre='PT_Short:.*:.*'> " , ADJP),
+      build("<posre='PT_Short:.*:.*'> <posre='NN:.*:.*:(R|D|T|P)' > " , ADJP, true),
+      build("<posre='PT_Short:.*:.*'> <posre='PREP'> <posre='NN:.*:.*:(R|D|T|P)' > " , ADJP, true),
+
       //
       build("<тов>", NP)  // simulate OpenNLP?!
   );
@@ -239,15 +246,15 @@ public class RussianChunker implements Chunker {
       } else {
         newTag = new ChunkTag("I-VP");
       }
-    } else if (regex.phraseType == PRT) {
-      // we assign the same tags as the OpenNLP chunker
+    } else if (regex.phraseType == ADJP) {
+      // 
       if (i == match.startIndex()) {
-        newTag = new ChunkTag("B-PRT");
+        newTag = new ChunkTag("B-ADJP");
       } else {
-        newTag = new ChunkTag("I-PRT");
+        newTag = new ChunkTag("I-ADJP");
       }
     } else if (regex.phraseType == DPT) {
-      // we assign the same tags as the OpenNLP chunker
+      // 
       if (i == match.startIndex()) {
         newTag = new ChunkTag("B-DPT");
       } else {
