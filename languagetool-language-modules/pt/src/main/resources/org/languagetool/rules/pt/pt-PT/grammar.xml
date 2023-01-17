@@ -4115,25 +4115,60 @@
     </rulegroup>
 
 
-    <!-- 	TELEFONO PARA TI telefono-te -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-27/28 (25-JUN-2021+)      -->
+    <!-- TELEFONO PARA TI telefono-te -->
     <rulegroup id='VERBO_PARA_PRONOME_PESSOAL' name="Verbo + para + pronome pessoal → Verbo + -me/te/lhe/nos/vos/lhes" type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-17 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
       Telefonei para si. → Telefonei-lhe.
+
+      Notes from Marco A.G.Pinto:
+      This rule was very hard to code, and some antipatterns have hardcoded verbs/words since the rule produced tons of unfixable false positives.
+      <token regexp='yes'>mim|ti|si|vocês?|nós|vós|el[ae]s?</token>
+
+      On 2023-01-17 I came up with a better approach for a future rule rewriting: place in the patterns to only accept the valid verbs,
+      this way it will remove tons of antipatterns, placing the valid verbs in an entity to be easily improved and used.
       -->
       <!--
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
       -->
 
-      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
-        <token postag='DA.+|DP.+|DI.+|PP.+' postag_regexp='yes'>
-          <exception scope="previous" postag_regexp='no' postag='RG'/>
+        <token postag='DD.+|SPS00:DD.+|VMN0000|P[DI].+|SPS00:P[DI].+|PP3CN000|AO.+|VMIC.+|VMII.+|VMIM.+|VMIP.+|VMIS.+|VMM0.+|VMP00.+|VMSP.+|I|RN|RG|NC.+|AQ.+|NP.+|SPS00' postag_regexp='yes'>
+          <exception regexp='yes'>já|mais|sempre</exception>
         </token>
-        <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='VMIP.+|VMIS.+|VMM0.+|VMP00.+|VMSI.+|VMSP.+|DI.+|SPS00:DI.+|PI.+|SPS00:PI.+|RG|NC.+|AQ.+|RN|VMG0000|NP.+' postag_regexp='yes'>
+          <!-- Hardcoded: line below, verb forms to remove false positives, not the greatest way of doing it. -->
+          <exception regexp='yes'>acenando|contei|contou|escreva|escreve|escrevemos|escrevendo|escreveram|escreveu|escrevi|falar|meneou|mentem|menti|mentido|mentimos|mentindo|mentiu|ofereceu|olhes|pedimos|pergunta|piscando|rosnou|sorriu|telefonando|telefonou|trago|trouxe|trouxemos|valia</exception>
+        </token>
         <token>para</token>
-        <token regexp='yes'>mim|tu|ti|si|vocês?|nós|vós|el[ae]s?</token>
+        <token regexp='yes'>mim|ti|si|vocês?|nós|el[ae]s?
+          <exception scope="next" regexp='yes'>sobre</exception>
+          <exception scope="next" postag_regexp='yes' postag='RG|DI.+|SPS00:DI.+'/>
+        </token>
+        <example>Traga aquele livro para mim.</example>
+        <example>Isso não faz muito sentido para mim.</example>
+        <example>Isso é para ti, minha deusa.</example>
+        <example>Tom, tenho uma surpresa para ti.</example>
+        <example>Em questão de poucos minutos, um terrível acidente modifica todo o rumo da vida que ela havia planejado para si mesma.</example>
+        <example>Aquilo que não deseja para si, não o faça às outras pessoas.</example>
+        <example>Está tudo acabado para ela.</example>
+        <example>Ele enviou flores para ela, junto com um belo cartão.</example>
+        <example>A cadeira é demasiado baixa para ele.</example>
+        <example>Eles estão olhando para nós?</example>
+        <example>Ver um fusca de vidro blindado foi uma surpresa para nós.</example>
+        <example>Esta receita foi testada para vocês por uma das melhores equipes de gourmets da Romênia.</example>
+        <example>Por isso esse post foi feito para você!</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='DA.+|DP.+|DI.+|PP.+|SPS00|SPS00:DA.+|SPS00:DP.+|SPS00:DI.+|SPS00:PP.+|_PUNCT|CS' postag_regexp='yes'/> 
+        <token min="1" max="3" postag='NC.+|AQ.+|NP.+|PP.+|CS|RN' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'>
+          <!-- Hardcoded: line below, verb forms to remove false positives, not the greatest way of doing it. -->
+          <exception regexp='yes'>comprei|digo|emprestou|escreve|escreveram|escrever|escreveu|escrevi|escrevia|fez|fizeram|mente|menti|mentirei|mentiria|mentiu|minta|telefonou|ofereceu|trouxe</exception>
+        </token>
+        <token>para</token>
+        <token regexp='yes'>mim|ti|si|vocês?|nós|vós|el[ae]s?</token>
         <token postag='_PUNCT|CC' postag_regexp='yes'/>
         <example>O cartão Auchan fica para mim?</example>
         <example>O Tom não gosta do jeito que a Mary olha para ele.</example>
@@ -4146,48 +4181,58 @@
         <example>Um única lei e um só direito haja para vós e para o estrangeiro que habite convosco.</example>
         <example>A Sra. Harshwhinny diz que a coisa mais importante é mostrar o que a cidade significa para eles e então ela deixa a sala.</example>
         <example>Um única lei e um só direito haja para vós e para o estrangeiro que habite convosco.</example>
+        <example>Que trecho você quer que eu leia para você?</example>
+        <example>"Preciso que você abasteça para mim." "Claro, me dá o carro."</example>
+        <example>– Ao receber esse cumprimento era óbvio que nós dois nos ajoelharíamos para ela, porém rapidamente fomos ordenados para levantar-nos.</example>
+        <example>Se você tivesse uma bola de cristal o que perguntaria para ela?</example>
+        <example>Espero que Tom goste do bolo que fiz para ele.</example>
+        <example>Se Jesus Cristo estivesse na sua frente, o que você diria para ele?</example>
+        <example>A Mary não quer comer nada que eu cozinhe para ela.</example>
+        <example>O que você gostaria que eu fizesse para eles?</example>
       </antipattern>
-      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-      <antipattern>
-        <token postag='DA.+|DP.+|DI.+|PP.+' postag_regexp='yes'>
-          <exception scope="previous" postag_regexp='yes' postag='RG|VMM03.+|VMSP3.+'/>
-        </token>
-        <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token postag='SPS00' postag_regexp='no'/>
-        <token postag='V.+' postag_regexp='yes'/>
-        <token>para</token>
-        <token regexp='yes'>mim|tu|ti|si|vocês?|nós|vós|el[ae]s?</token>
-        <token postag='_PUNCT|CC' postag_regexp='yes'/>
-        <example>Eu ainda amo a sua maneira de sorrir para mim.</example>
-        <example>A pergunta era impossível de responder para nós.</example>
-        <example>...Gogh foi acusado de se forçar para cima dela, com o padre do vilarejo proibindo seus paroquianos de posarem para ele.</example>
-        <example>Tom está pagando uma rodada de bebidas para nós.</example>
-      </antipattern>
-      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
         <token postag='VMN0000|VMG0000' postag_regexp='yes'/>
-        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'>
+          <!-- Hardcoded: line below, verb forms to remove false positives, not the greatest way of doing it. -->
+          <exception regexp='yes'>mentido|telefonar</exception>
+        </token>
         <token>para</token>
-        <token regexp='yes'>mim|tu|ti|si|vocês?|nós|vós|el[ae]s?</token>
-        <example>...Pode ser que esteje faltando caprichar mais nesse ponto (detalhe super importante) talvez vai fazer diferença para você assim como fez pra mim.</example>
+        <token regexp='yes'>mim|vocês?|el[ae]s?</token>
         <example>Se de fato descendo será para mim uma alegria inenarrável.</example>
         <example>Você pode tomar notas para mim enquanto o professor fala?</example>
         <example>Queria poder ter falado para ela o que sinto.</example>
         <example>Eu queria ter dito para ela o que aconteceu.</example>
       </antipattern>
-      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
-        <token postag='RG|NC.+|AQ.+' postag_regexp='yes'>
-          <exception postag_regexp='yes' postag='VMIS1S0|VMIP3S0|VMM02S0'/>
+        <token postag='DA.+|DP.+|DI.+|PP.+|SPS00:DA.+|SPS00:DP.+|SPS00:DI.+|SPS00:PP.+' postag_regexp='yes'>
+          <exception scope="previous" postag_regexp='yes' postag='RG|VMM03.+|VMSP3.+'/>
+        </token>
+        <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='SPS00|PP3CN000|CC|CS|RG|I|RM|RN' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'>
+          <!-- Hardcoded: line below, verb forms to remove false positives, not the greatest way of doing it. -->
+          <exception regexp='yes'>comprei|contar|dei</exception>
         </token>
         <token>para</token>
-        <token regexp='yes'>mim|tu|ti|si|vocês?|nós|vós|el[ae]s?
+        <token regexp='yes'>mim|vocês?|nós|el[ae]s?</token>
+        <token postag='_PUNCT|CC' postag_regexp='yes'/>
+        <example>Eu ainda amo a sua maneira de sorrir para mim.</example>
+        <example>Parece que as portas do céu se abriram para mim.</example>
+        <example>A pergunta era impossível de responder para nós.</example>
+        <example>...Gogh foi acusado de se forçar para cima dela, com o padre do vilarejo proibindo seus paroquianos de posarem para ele.</example>
+        <example>Tom está pagando uma rodada de bebidas para nós.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='RG|NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception regexp='no'>são</exception>
+          <!-- Hardcoded: line below, verb forms to remove false positives, not the greatest way of doing it. -->
+          <exception regexp='no'>mostra</exception>
+        </token>
+        <token>para</token>
+        <token regexp='yes'>mim|ti|si|vocês?|nós|el[ae]s?
           <exception scope='next' regexp='yes'>[ao]s?|alguns|enquanto|hoje|uma?</exception>
         </token>
         <example>Eu digo isso sobre Joaçaba que com certeza vão liberar o sinal digital antes para ela do que para Videira (50.000)e Caçador (80.000).Obrigado!</example>
@@ -4210,171 +4255,186 @@
         <example>São para mim?</example>
         <example>Me dê a mão. Se você o fizer, eu vou comprar uma bebida para você mais tarde.</example>
       </antipattern>
-      <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
-      <!--
-      O que você disse não faz absolutamente nenhum sentido para mim.
-      Seu cachorro sempre late para mim.
-      Deixei minhas chaves sobre a mesa. Posso incomodá-lo a fim de que as traga para mim?
-      Parece que as portas do céu se abriram para mim.
-
-      Ela pediu para ele se sentar.
-      "Devo dizer para ele te ligar quando chegar?" "Sim, por favor"
-      Eu expliquei a regra para ele.
-      Você não disse nada para ele?
-      Estou pouco me lixando para ela.
-
-      Os últimos dias têm sido terrivelmente ocupado para nós.
-      Ele, às vezes, prepara o jantar para nós.
-
-      Está tudo acabado para você.
-      Esta receita foi testada para vocês por uma das melhores equipes de gourmets da Romênia.
-      -->
+      <!-- Special verbs at start of sentence: são, etc. -->
       <antipattern>
-        <token negate_pos="yes" postag='NP.+|SPS.+|SENT_START' postag_regexp='yes'>
-          <exception postag_regexp='yes' postag='PP.+'/>
-          <exception regexp='yes'>tarde|cedo|logo|próximo|perto|distante|afastado|longe</exception>
-        </token>
-        <token postag='V.+|AQ0.+|NC.+|PI.+|RN|I' postag_regexp='yes'/>
+        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token min="0" max="2" postag='RN|NP.+|NC.+|AQ.+|PP.+|DA.+|RG|CS' postag_regexp='yes'/>
+        <and>
+          <token postag='VMIF.+|VMII.+|VMIM.+|VMIP.+|VMIS.+|VMM0.+|VMN0000|VMP00.+|VMSP.+' postag_regexp='yes'/>
+          <token regexp='yes' inflected='yes'>abastecer|apresentar|arrumar|cantar|correr|cozinhar|cuidar|dar|descrever|dizer|escolher|fazer|fossar|funcionar|ir|jogar|ligar|listar|olhar|pedir|perfumar|piscar|pôr|ser|significar|sofrer|sorrir|ter|trabalhar|voltar</token>
+        </and>
         <token>para</token>
-        <token regexp='yes'>mim|ti|si|vocês?|el[ae]s?|nós|vós</token>
-        <token postag='PP.+|SPS00|_PUNCT|V.+' postag_regexp='yes'>
-          <exception regexp='yes'>[ao]s?|com|me|n[ao]s?|se|vocês?</exception>
-          <exception postag_regexp='yes' postag='CC|RG'/>
+        <token regexp='yes'>mim|ti|si|vocês?|nós|vós|el[ae]s?</token>
+        <token>
+          <exception postag_regexp='yes' postag='DI.+'/>
         </token>
+        <example>São para mim?</example>
+        <example>Foi para mim, uma experiência muito legal.</example>
+        <example>Deixa para mim.</example>
+        <example>Por favor, olhe para mim.</example>
+        <example>Ai, meu Deus! Tom olhou para mim!</example>
+        <example>Mas é para ti que hoje escrevo, meu príncipe.</example>
+        <example>Quem faz o mal, faz para si mesmo.</example>
+        <example>Ela sorriu para si mesma no espelho.</example>
+        <example>Eu trabalho para você.</example>
+        <example>Dá para você me dizer que dia é hoje?</example>
+        <example>Ele olhou para eles com um sorriso, que logo se converteu numa risada.</example>
+        <example>Ele piscou para ela.</example>
+      </antipattern>
+
+      <!-- Other verbs at start of sentence - WITHOUT WORD AFTER _PUNCT -->
+      <antipattern>
+        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token postag='VMM03S0|VMSP[13]S.+' postag_regexp='yes'>
+          <!-- Hardcoded: line below, verb forms to remove false positives, not the greatest way of doing it. -->
+          <exception regexp='yes'>conte|diga|escreve|dá|mande|telefone</exception>
+        </token>
+        <token>para</token>
+        <token regexp='yes'>mim|nós|el[ae]s?</token>
+        <token>
+          <exception postag_regexp='yes' postag='SPS00|DA.+|PP3CN000|DD.+|_PUNCT|CC'/>
+          <exception regexp='yes'>d[ao]s?|de|depois|por|um|uns|umas?</exception> <!-- It doesn't work using the postags, or the postags get too many wrong words -->
+        </token>
+        <example>Olhe para mim quando eu falar com você!</example>
+        <example>Olhe para mim quando eu falo com você, seu covarde!</example>
+        <example>Depois de ter encontrado seu número de telefone, ele ligou para ela.</example>
+        <example>Pedi para ele parar, ele continuou.</example>
+        <example>Sim, ligo para você às nove. Você vai estar?</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='VMIS3.+|VMIP.+|VMN03.+|VMN0000|VMG0000|VMIM3.+|NC.+|AQ.+|NP.+|RG' postag_regexp='yes'/>
+        <token min="1" max="2" postag='CS|SPS00|CC|I|RM|RN|DA.+|PD.+|PP.+' postag_regexp='yes'> <!-- RG removed "sempre" -->
+          <exception postag_regexp='yes' postag='V.+'/>
+        </token>
+        <token postag='VMIP.+|VMN03.+|VMN0000|VMG0000|VMIM.+|VMIS3.+' postag_regexp='yes'>
+          <!-- Hardcoded: line below, verb forms to remove false positives, not the greatest way of doing it. -->
+          <exception regexp='yes'>comprar|compra|compro|comprou|contar|conta|conto|contou|dar|dá|dou|deu|dizer|diz|digo|disse|emprestar|empresta|empresto|emprestou|escrever|escreve|escrevo|escreveu|falar|fala|falo|falou|fotografar|fotografa|fotografo|fotografou|mentir|mente|mentimos|minto|mentiu</exception>
+        </token>
+        <token>para</token>
+        <token regexp='yes'>mim|vocês?|nós|vós|el[ae]s?</token>
+        <token postag='_PUNCT|CC' postag_regexp='yes'/>
+        <example>Você acha que trabalha para mim?</example>
+        <example>Vocês acham que trabalham para mim?</example>
+        <example>...Porque é que não posso ficar sempre com eles, das nossas viagens, só penso neles, a sorrirem e a olharem para mim.</example>
+        <example>Bem...Agora estou a tentar ver o que resulta para mim.</example>
+      </antipattern>
+
+      <!-- Start of sentence with a token, followed by two verbs -->
+      <antipattern>
+        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token min="0" max="3" postag='PP.+|SPS00:PP.+|RG|RM|RN|NC.+|AQ.+|NP.+|DP.+|_QUOT|PI.+|CC|CS|DI.+' postag_regexp='yes'/>
+        <token postag='VMII.+|VMIP.+|VMIS.+|VMSP.+' postag_regexp='yes'/>
+        <token min="0" max="2" postag='SPS00|DA.+|CS|RN|RG' postag_regexp='yes'/> <!-- "de", "o", "mais", "que" and "não" -->
+        <token postag='VMN0000|VMG0000' postag_regexp='yes'>
+          <!-- Hardcoded: line below, verb forms to remove false positives, not the greatest way of doing it. -->
+          <exception regexp='yes'>apresentar|apresentando|contar|contando|dando|esclarecer|esclarecendo|escrever|escrevendo|explicar|explicando|falar|falando|mentir|mentindo|mostrar|mostrando|perguntar|perguntando|sugerir|sugerindo|telefonar|telefonando|transferir|transferindo</exception>
+        </token>
+        <token>para</token>
+        <token regexp='yes'>mim|ti|si|vocês?|nós|vós|el[ae]s?
+          <exception scope="next" postag_regexp='yes' postag='PI.+'/> <!-- "alguém", "Vou fazer para ele alguém que o ajude" - 2023-01-17 -->
+        </token>
+        <example>Ela ligou para ele assim que chegou em casa.</example>
+        <example>Vou ligar para você amanhã pela manhã.</example>
+        <example>Vou arranjar para mim tanto quanto puder.</example>
+        <example>Vou repetir para você não esquecer isso.</example>
+        <example>Meu pai costumava ler para mim antes de eu dormir.</example>
+        <example>Tom decidiu arranjar para ele uma vida melhor.</example>
+        <example>"Devo dizer para ele te ligar quando chegar?" "Sim, por favor"</example>
+        <example>Eu não quero mais trabalhar para você.</example>
+        <example>Ninguém pode exigir para si o respeito que não dedicam aos outros… Só acho.</example>
+        <example>Se você não quiser colocar protetor solar, isso é problema seu. Só não venha reclamar para mim quando você ficar com uma queimadura por causa do sol.</example>
+        <example>Aconselhamos a aprender a fundo as nove palavras aqui mostradas, porque delas se pode formar para si uma grande série de outros pronomes e advérbios.</example>
+        <example>É como se o que está para trás não importasse já, deixa lá, alguma coisa havia de haver para ti caramba, já chega de esperar.</example>
+        <example>Imaginar o paradigma necessário para programar uma máquina que não lembra do “pixel” que acabou de desenhar para mim seria muito difícil.</example>
+        <example>Esqueci de ligar para ele ontem.</example>
+        <example>Tom começou a trabalhar para nós na última segunda-feira.</example>
+        <example>...te ordem: Daqui em diante não mais fornecereis palha ao povo para fazer tijolos. Eles que tratem de ajuntar para si a palha.</example>
       </antipattern>
 
       <!-- EU -->
       <rule>
         <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
           <marker>
             <token postag='V.+' postag_regexp='yes'/>
             <token>para</token>
             <token>mim</token>
           </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
         </pattern>
         <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-me</suggestion>
+        <suggestion>\1-me</suggestion>
         <example correction="Telefona-me"><marker>Telefona para mim</marker>.</example>
-        <example>Olhe para mim quando eu falar com você!</example>
-
-        <example>O que você disse não faz absolutamente nenhum sentido para mim.</example>
-        <example>Seu cachorro sempre late para mim.</example>
-        <example>Deixei minhas chaves sobre a mesa. Posso incomodá-lo a fim de que as traga para mim?</example>
-        <example>Parece que as portas do céu se abriram para mim.</example>
       </rule>
 
       <!-- TU -->
       <rule>
         <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
           <marker>
             <token postag='V.+' postag_regexp='yes'/>
             <token>para</token>
             <token regexp='yes'>tu|ti|si|você</token>
           </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
         </pattern>
         <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-te</suggestion>
-        <suggestion>\2-lhe</suggestion>
+        <suggestion>\1-te</suggestion>
+        <suggestion>\1-lhe</suggestion>
         <example correction="Telefonei-te|Telefonei-lhe"><marker>Telefonei para ti</marker>.</example>
       </rule>
 
       <!-- ELE -->
       <rule>
         <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
           <marker>
             <token postag='V.+' postag_regexp='yes'/>
             <token>para</token>
             <token regexp='yes'>el[ae]</token>
           </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
         </pattern>
         <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-lhe</suggestion>
+        <suggestion>\1-lhe</suggestion>
         <example correction="Telefonei-lhe"><marker>Telefonei para ela</marker>.</example>
-        <example>Todos ficaram olhando para ela quando começou a gargalhar.</example>
-
-        <example>Ela pediu para ele se sentar.</example>
-        <example>"Devo dizer para ele te ligar quando chegar?" "Sim, por favor"</example>
-        <example>Eu expliquei a regra para ele.</example>
-        <example>Você não disse nada para ele?</example>
-        <example>Estou pouco me lixando para ela.</example>
       </rule>
 
       <!-- NÓS -->
       <rule>
         <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
           <marker>
             <token postag='V.+' postag_regexp='yes'/>
             <token>para</token>
             <token>nós</token>
           </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
         </pattern>
         <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-nos</suggestion>
+        <suggestion>\1-nos</suggestion>
         <example correction="Telefonaram-nos"><marker>Telefonaram para nós</marker>.</example>
-
-        <example>Os últimos dias têm sido terrivelmente ocupado para nós.</example>
-        <example>Ele, às vezes, prepara o jantar para nós.</example>
       </rule>
 
-      <!-- VÓS -->
+      <!-- VÓS/VOCÊS -->
       <rule>
         <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
           <marker>
             <token postag='V.+' postag_regexp='yes'/>
             <token>para</token>
             <token regexp='yes'>vocês|vós</token>
           </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
         </pattern>
         <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-vos</suggestion>
+        <suggestion>\1-vos</suggestion>
         <example correction="Telefonaram-vos"><marker>Telefonaram para vocês</marker>.</example>
-
-        <example>Está tudo acabado para você.</example>
-        <example>Esta receita foi testada para vocês por uma das melhores equipes de gourmets da Romênia.</example>
       </rule>
 
       <!-- ELES -->
       <rule>
         <pattern>
-          <token regexp='yes' negate="yes">[ao]s?|com|me|n[ao]s?|se</token>
           <marker>
             <token postag='V.+' postag_regexp='yes'/>
             <token>para</token>
             <token regexp='yes'>el[ae]s</token>
           </marker>
-          <and>
-          <token regexp='yes' negate="yes">lhe|me|mesmos?|se|quando</token>
-          <token negate_pos="yes" postag='V.+|AQ0.+|NC.+|RN' postag_regexp='yes'/>
-          </and>
         </pattern>
         <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>\2-lhes</suggestion>
+        <suggestion>\1-lhes</suggestion>
         <example correction="Telefonei-lhes"><marker>Telefonei para elas</marker>.</example>
       </rule>
 
