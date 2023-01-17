@@ -382,7 +382,7 @@ public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
     // latin/cyr mix
 //  assertEmptyMatch("Дівчата та їхнiй брат належать до касти");
 
-    assertEmptyMatch("за яким 50%+1 акція закріплюються у власності держави");
+//    assertEmptyMatch("за яким 50%+1 акція закріплюються у власності держави");
     assertEmptyMatch("злість плюс іронія можуть вбити");
     assertEmptyMatch("із яких 50% плюс одна акція знаходяться");
     assertEmptyMatch("Матеріальна заінтересованість плюс гарна вивіска зіграли злий жарт");

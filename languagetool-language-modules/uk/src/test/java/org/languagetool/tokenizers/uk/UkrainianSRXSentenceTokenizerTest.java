@@ -135,6 +135,12 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("нар. арт. ", "України");
     testSplit("біля нар. ", "У таких умовах");
   }
+  
+  @Test
+  public void testWebEntities() {
+    testSplit("Паляниця.Інфо");
+    testSplit("Жмеринка.City");
+  }
 
   @Test
   public void testTokenizeWithSplit() {

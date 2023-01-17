@@ -120,6 +120,10 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("3,5-5,6% 7° 7,4°С");
     assertEquals(Arrays.asList("3,5-5,6", "%", " ", "7", "°", " ", "7,4", "°", "С"), testList);
 
+    // still want together Т-80М, 9б, 3x6
+//    testList = w.tokenize("+400C");
+//    assertEquals(Arrays.asList("+", "400", "C"), testList);
+
     testList = w.tokenize("відбулася 17.8.1245");
     assertEquals(Arrays.asList("відбулася", " ", "17.8.1245"), testList);
   }
@@ -154,7 +158,10 @@ public class UkrainianWordTokenizerTest {
   @Test
   public void testPlus() {
     List<String> testList = w.tokenize("+20");
-    assertEquals(Arrays.asList("+20"), testList);
+    assertEquals(Arrays.asList("+", "20"), testList);
+
+    testList = w.tokenize("-20");
+    assertEquals(Arrays.asList("-", "20"), testList);
 
     testList = w.tokenize("прислівник+займенник");
     assertEquals(Arrays.asList("прислівник", "+", "займенник"), testList);
@@ -508,6 +515,10 @@ public class UkrainianWordTokenizerTest {
     
     testList = w.tokenize("біля нар. Сумно");
     assertEquals(Arrays.asList("біля", " ", "нар", ".", " ", "Сумно"), testList);
+    
+    testList = w.tokenize("- Вибори-2019");
+    assertEquals(Arrays.asList("-", " ", "Вибори-2019"), testList);
+    
 
     // not too frequent
 //    testList = w.tokenize("30.04.10р.");
@@ -625,6 +636,10 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("5%-го");
     assertEquals(Arrays.asList("5%-го"), testList);
+    
+    testList = w.tokenize("5′"); // U+2032
+    assertEquals(Arrays.asList("5", "′"), testList);
+    
   }
   
   @Test
@@ -658,5 +673,36 @@ public class UkrainianWordTokenizerTest {
     txt = "ОСОБА_5";
     testList = w.tokenize(txt);
     assertEquals(Arrays.asList(txt), testList);
+  }
+  
+  @Test
+  public void testTokenizeWebEntities() {
+    List<String> entities = Arrays.asList(
+        "Паляниця.Інфо",
+        "Житомир.info",
+        "Жмеринка.City",
+        "Ліга.Life",
+        "ЛІГА.net",
+        "Точка.net",
+        "Цензор.НЕТ",
+        "Гайдамака.UA",
+        "Тиждень.ua",
+        "Срана.юа",
+        "Рагу.лі",
+        "МК.ru",
+        "Лента.Ру",
+        "Слух.media",
+        "Олігарх.com",
+        "блогер.фм",
+        
+//        "Київ.proUA.com",
+        "ЗМІ.ck.ua",
+        "Закарпаття.depo.ua"
+        );
+    
+    for(String e: entities) {
+      List<String> testList = w.tokenize(e);
+      assertEquals(Arrays.asList(e), testList);
+    }
   }
 }

@@ -49,7 +49,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
             + "|(?<![а-яіїєґА-ЯІЇЄҐa-zA-Z])[_*]+"
             + "|[_*]+(?![а-яіїєґА-ЯІЇЄҐa-zA-Z0-9])"
             + "|[\u2000-\u200F"
-            + "\u201A\u2020-\u202F\u2030\u2031\u2033-\u206F"
+            + "\u201A\u2020-\u202F\u2030-\u206F"
             + "\u2400-\u27FF"    // Control Pictures
             + String.valueOf(Character.toChars(0x1F000)) + "-" + String.valueOf(Character.toChars(0x1FFFF))          // Emojis
             + "\uf000-\uffff" // private unicode area: U+E000..U+F8FF
@@ -188,7 +188,9 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   private static final Pattern NUMBER_MISSING_SPACE = Pattern.compile("((?:[\\h\\v\uE110]|^)[а-яїієґА-ЯІЇЄҐ'-]*[а-яїієґ']?[а-яїієґ])([0-9]+(?![а-яіїєґА-ЯІЇЄҐa-zA-Z»\"“]))");
 
-
+  private static final Pattern WEB_ENTITIES = Pattern.compile("([а-яіїєґ])\\.(НЕТ|net|Інфо|Info|City|Life|UA|юа|лі|media|com|фм|ru|Ру)\\b", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern WEB_ENTITIES2 = Pattern.compile("\\.([a-z_-]+)\\.(ua)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  
   public UkrainianWordTokenizer() {
   }
 
@@ -367,6 +369,11 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = INVALID_MLN_DOT_PATTERN.matcher(text).replaceAll("$1.\uE120\uE110$2");
     }
 
+    if( dotInsideSentence ) {
+      text = WEB_ENTITIES.matcher(text).replaceAll("$1.\uE120$2");
+      text = WEB_ENTITIES2.matcher(text).replaceAll(".\uE120$1.\uE120$2");
+    }
+
     text = ABBR_DOT_ENDING_PATTERN.matcher(text).replaceAll("$1.\uE120\uE110");
 
     // 2 000 000
@@ -416,7 +423,12 @@ public class UkrainianWordTokenizer implements Tokenizer {
     }
 
     if( text.contains("+") ) {
-      text = text.replaceAll("\\+(?=[а-яіїєґА-ЯІЇЄҐ])", BREAKING_PLACEHOLDER + "+" + BREAKING_PLACEHOLDER);
+      text = text.replaceAll("\\+(?=[а-яіїєґА-ЯІЇЄҐ0-9])", BREAKING_PLACEHOLDER + "+" + BREAKING_PLACEHOLDER);
+    }
+    
+    // -20C
+    if( text.length() > 1 && text.contains("-") ) {
+      text = text.replaceAll("(?<=(^|[\\h\\v]))-(?=[0-9])", "-" + BREAKING_PLACEHOLDER);
     }
     
     text = NUMBER_MISSING_SPACE.matcher(text).replaceAll("$1" + BREAKING_PLACEHOLDER + "$2");
