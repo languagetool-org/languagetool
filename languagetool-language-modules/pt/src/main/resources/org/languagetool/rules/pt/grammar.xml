@@ -20697,58 +20697,6 @@ O namorado dela era um ladrão.
       <example correction="de">Eles vão voar <marker>a</marker> jato.</example>
     </rule>
 
-
-    <!-- É DE VOCÊS é vossa -->
-    <rulegroup id='DE_VOCÊS_VOSSA_VOSSAS_VOSSO_VOSSOS' name="Simplificar: de você(s) → vossa(s)/vosso(s)/sua(s)/seu(s)">
-      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-16 (Checked/Enhanced) (25-JUL-2022+) -->
-      <!--
-      A sorte é de você. → A sorte é sua.
-      As casas são de você. → As casas são suas.
-      O cão é de você. → O cão é seu.
-      Os cães são de você. → Os cães são seus.
-      -->
-      <rule>
-        <pattern>
-          <token postag='NC[FM].+' postag_regexp='yes'/>
-          <token inflected='yes'>ser</token>
-          <marker>
-            <token>de</token>
-            <token>você</token>
-          </marker>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion><match no='1' postag='NC(..).+' postag_replace='DP3$1S'>seu</match></suggestion>
-        <example correction="sua">A sorte é <marker>de você</marker>.</example>
-        <example correction="suas">As casas são <marker>de você</marker>.</example>
-        <example correction="seu">O cão é <marker>de você</marker>.</example>
-        <example correction="seus">Os cães são <marker>de você</marker>.</example>
-      </rule>
-
-      <!--
-      A sorte é de vocês. → A sorte é vossa.
-      As casas são de vocês. → As casas são vossas.
-      O cão é de vocês. → O cão é vosso.
-      Os cães são de vocês. → Os cães são vossos.
-      -->
-      <rule>
-        <pattern>
-          <token postag='NC[FM].+' postag_regexp='yes'/>
-          <token inflected='yes'>ser</token>
-          <marker>
-            <token>de</token>
-            <token>vocês</token>
-          </marker>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion><match no='1' postag='NC(..).+' postag_replace='DP2$1P'>vosso</match></suggestion>
-        <example correction="vossa">A sorte é <marker>de vocês</marker>.</example>
-        <example correction="vossas">As casas são <marker>de vocês</marker>.</example>
-        <example correction="vosso">O cão é <marker>de vocês</marker>.</example>
-        <example correction="vossos">Os cães são <marker>de vocês</marker>.</example>
-      </rule>
-    </rulegroup>
-
-
     <!-- RULES TU/TI -> EU/MIM *START* -->
     <!-- ***************************** -->
     <rulegroup id='TU_TI_EU_MIM' name='Uso de pronomes oblíquos (eu, mim; tu, ti)'>
