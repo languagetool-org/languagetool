@@ -130,7 +130,8 @@ public class RussianChunker implements Chunker {
   private static final List<RegularExpressionWithPhraseType> REGEXES2 = Arrays.asList(
       // ===== plural and singular noun phrases, based on OpenNLP chunker output ===============
       // "Маша и Миша":
-      build("<posre=NN:Name:.*> <и> <posre=NN:Name:.*>", NPP, true)
+      build("<posre=NN:Name:.*> <и> <posre=NN:Name:.*>", NPP, true),
+      build("<posre=NN:Name:.*> <или> <posre=NN:Name:.*>", NPP, true)
   );
 
   private static RegularExpressionWithPhraseType build(String expr, PhraseType phraseType) {
