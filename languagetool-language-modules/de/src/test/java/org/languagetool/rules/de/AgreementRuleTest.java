@@ -236,6 +236,7 @@ public class AgreementRuleTest {
     assertGood("Können Sie das auch nächsten Monat erledigen?");
     assertGood("War das Absicht?");
     assertGood("Alles Große und Edle ist einfacher Art.");
+    assertGood("Dieser vereint Sprachprüfung, Thesaurus und Umformuliertool in einem.");
 
     assertGood("Das Dach meines Autos.");
     assertGood("Das Dach meiner Autos.");
