@@ -20966,21 +20966,29 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
+
     <!-- ULTRAPASSAR superar/vencer	-->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-11 (2-JUL-2020+)     -->
-    <rule id='ULTRAPASSAR' name="Superar/Vencer">
+    <rule id='ULTRAPASSAR_SUPERAR_VENCER' name="Ultrapassar → superar/vencer">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      A Ana vai ultrapassar a prova. → A Ana vai superar a prova.
+      A Ana vai ultrapassar a prova. → A Ana vai vencer a prova.
+      -->
       <pattern>
         <marker>
           <token inflected='yes'>ultrapassar</token>
         </marker>
-        <token regexp="yes">as?|umas?|os?|um|uns|das?|dos?|de</token>
-        <token regexp="yes">provas?|desafios?</token>
+        <token postag='D[AI].+|SPS00:D[AI].+|SPS00' postag_regexp='yes'/>
+        <token min="0" max="1" postag='DP.+' postag_regexp='yes'/> <!-- seu(s)/sua(s) -->
+        <token regexp="yes">provas?|desafios?|obstáculos?|dificuldades?</token>
       </pattern>
-      <message>Substitua por</message>
+      <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>superar</match></suggestion>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>vencer</match></suggestion>
       <example correction="superar|vencer">A Ana vai <marker>ultrapassar</marker> a prova.</example>
+      <example correction="superar|vencer">Se não conseguir <marker>ultrapassar</marker> o obstáculo, não tem problema, pode desviar e ir para o próximo.</example>
     </rule>
+
 
     <rulegroup type='grammar' id='CONTRACOES_OBRIGATORIAS' name="Contrações obrigatórias">
       <!--     Created by Tiago F. Santos, on 2016-10-31   -->
