@@ -7572,4 +7572,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="ADV.*|KON.*"/>
     </rule>
+
+    <rule id="SMART_SPEAKER" name="'Smart' kein Adjektiv">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Smart</token>
+            </marker>
+            <token regexp="yes">Speaker[sn]?|Homes?|For.*|Citys?|Roadster[sn]?|Meter[sn]?</token>
+        </pattern>
+        <disambig action="remove" postag="ADJ.*"/>
+    </rule>
 </rules>
