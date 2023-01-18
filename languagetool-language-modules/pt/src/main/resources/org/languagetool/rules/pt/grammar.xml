@@ -20638,7 +20638,7 @@ O namorado dela era um ladrão.
       <rule>
         <pattern>
           <token regexp='yes'>conferências?</token>
-          <token regexp='yes'>de|com|por</token>
+          <token regexp='yes'>de|com|por|via</token>
           <token>vídeo</token>
         </pattern>
         <message>Substitua por <suggestion>video\1</suggestion>.</message>
@@ -20646,15 +20646,22 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
-    <rule id='VISANDO_A_CONSEGUIR' name="Visando conseguir">
-      <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+
+    <rule id='VISANDO_A_EM_CONSEGUIR' name="Visando a/em conseguir -> Visando conseguir">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Ele assinou um documento visando a conseguir dividendos. → Ele assinou um documento visando conseguir dividendos.
+      Ele assinou um documento visando em conseguir dividendos. → Ele assinou um documento visando conseguir dividendos.
+      -->
       <pattern>
         <token inflected='yes'>visar</token>
-        <token>a</token>
+        <token regexp='yes'>a|em</token>
         <token inflected='yes'>conseguir</token>
       </pattern>
-      <message>Substitua por <suggestion>\1 \3</suggestion>.</message>
+      <message>Neste caso deverá omitir a preposição 'a'/'em'.</message>
+      <suggestion>\1 \3</suggestion>
       <example correction="visando conseguir">Ele assinou um documento <marker>visando a conseguir</marker> dividendos.</example>
+      <example correction="visando conseguir">Ele assinou um documento <marker>visando em conseguir</marker> dividendos.</example>
     </rule>
 
 
