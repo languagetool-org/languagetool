@@ -6621,6 +6621,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token inflected="yes" postag="V...3...." postag_regexp="yes">haver</token>
+                <token>més</token>
+                <token>que</token>
+                <marker>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_perfet" lemma="haver"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token inflected="yes" skip="6" postag="V.*" postag_regexp="yes">haver<exception scope="next" postag="V.G.*|VA[^P].*" postag_regexp="yes"/><exception scope="next" inflected="yes">molt</exception></token>
                 </marker>
@@ -18064,6 +18077,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="allowed_repetitions" name="repeticions permeses">
         <!-- girar el cap cap a l’altra persona -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">\p{P}\p{P}+</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
         <rule>
             <pattern>
                 <marker>
