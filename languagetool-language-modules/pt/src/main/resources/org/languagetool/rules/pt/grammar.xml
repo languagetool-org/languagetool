@@ -18702,19 +18702,27 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rule id='TRABALHO_PAGO' name="trabalho remunerado">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <!-- TRABALHO MAL PAGO trabalho mal remunerado -->
+    <rule id='TRABALHO_PAGO_REMUNERADO' name="Trabalho 'pago'/'remunerado'">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      O Rui faz trabalho não pago de noite. → O Rui faz trabalho não remunerado de noite.
+      O Rui faz trabalhos não pagos de noite. → O Rui faz trabalhos não remunerados de noite.
+      -->
       <pattern>
-        <token inflected='yes' regexp="yes">ser|fazer|ter</token>
-        <token min="0">um</token>
-        <token>trabalho</token>
-        <token min="0" regexp="yes">não|mal</token>
+        <token inflected='yes' regexp="yes">ser|fazer|ter|conseguir</token>
+        <token min="0" max="1" regexp="yes">um|uns</token>
+        <token regexp="yes">trabalhos?</token>
+        <token min="0" max="1" postag='RG|RM' postag_regexp='yes'/>
+        <token min="0" max="1" regexp="yes">não|mal|bem</token>
         <marker>
-          <token>pago</token>
+          <token regexp="yes">pagos?</token>
         </marker>
       </pattern>
-      <message>Substitua por <suggestion>remunerado</suggestion>.</message>
+      <message>É mais correto empregar o termo 'remunerado'.</message>
+      <suggestion><match no='6' postag='VMP00(.)M' postag_replace='VMP00$1M'>remunerar</match></suggestion>
       <example correction="remunerado">O Rui faz trabalho não <marker>pago</marker> de noite.</example>
+      <example correction="remunerados">O Rui faz trabalhos não <marker>pagos</marker> de noite.</example>
     </rule>
 
 
