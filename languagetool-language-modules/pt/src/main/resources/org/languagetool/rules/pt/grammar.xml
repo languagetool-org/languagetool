@@ -18178,20 +18178,28 @@ O namorado dela era um ladrão.
       <message>Substitua por <suggestion>rio-me</suggestion>.</message>
       <example correction="rio-me">Eu <marker>riu-me</marker> das tuas piadas.</example>
     </rule>
-	
-    <!-- SÃO/É PARA SER/SEREM PARTPASSADO são para Infinitivo -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-15 (2-JUL-2020+)     -->
-    <rule id='SAO-E_PARA_SER-SEREM_PARTPASSADO' name="São/É + para + Verbo Infinitivo" type="style">
+
+
+    <!-- SÃO PARA SEREM USADOS são para usar -->
+    <rule id='SER_PARA_SER_SEREM_PARTPASSADO_SER_PARA_VINFINITIVO' name="Simplificar: V.Ser + para + V.Ser + V.Part.Pass → V.Ser + para + V.Inf" type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Os anéis são para serem usados de manhã. → Os anéis são para usar de manhã.
+      -->
       <pattern>
-        <token inflected='yes'>ser</token>
-        <token>para</token>
-        <token inflected='yes'>ser</token>
-        <token postag='VMP00[SP][FM]' postag_regexp='yes'/>
+        <marker>
+          <token inflected='yes'>ser</token>
+          <token>para</token>
+          <token inflected='yes'>ser</token>
+          <token postag='VMP00.+' postag_regexp='yes'/>
+        </marker>
+        <token><exception postag_regexp='no' postag='CC'/></token>
       </pattern>
-      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-      <suggestion>\1 \2 <match no='4' postag='VMP00[SP][FM]' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\1 \2 <match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
       <example correction="são para usar">Os anéis <marker>são para serem usados</marker> de manhã.</example>
     </rule>
+
 
     <!-- SE CASO caso -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-20 (2-JUL-2020+)     -->
