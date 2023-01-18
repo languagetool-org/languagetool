@@ -20893,20 +20893,24 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rule id='TRADUZIR_EM' name="Traduzir para">
-      <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+    <rule id='TRADUZIR_EM_PARA' name="Confusão: Traduzir em/para">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Temos de traduzir em inglês. → Temos de traduzir para inglês.
+      -->
       <pattern>
+        <token inflected='yes'>traduzir</token>
         <marker>
-          <token inflected='yes'>traduzir</token>
           <token>em</token>
         </marker>
-        <or>
-        <token postag="AQ0MS0"/>
-        <token>Latim</token>
-        </or>
+        <and>
+          <token postag='AQ0MS0|NCMS000' postag_regexp='yes'/>
+          <token regexp="yes">&languages;</token>
+        </and>
       </pattern>
-      <message>Substitua por <suggestion>\1 para</suggestion>.</message>
-      <example correction="traduzir para">Temos de <marker>traduzir em</marker> Inglês.</example>
+      <message>Possível confusão de termos.</message>
+      <suggestion>para</suggestion>
+      <example correction="para">Temos de traduzir <marker>em</marker> inglês.</example>
     </rule>
 
 
