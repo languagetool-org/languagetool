@@ -18237,22 +18237,27 @@ O namorado dela era um ladrão.
       <example correction="para">O martelo serviu <marker>a</marker> fazer o banco.</example>
     </rule>
 
-    <!-- SER + QUEM + VERB_ESSE + WORD era quem chegasse primeiro -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-29 (21-OCT-2020+)     -->
-    <rule id='SER_QUEM_VERB-ESSE_WORD' name="Ser + quem + Verbo -esse + Palavra > Verbo Ser + Verbo -esse_inf + Palavra" type="style">
+
+    <!-- ERA QUEM CHEGASSE PRIMEIRO era chegar primeiro -->
+    <rule id='SER_QUEM_VERB-ESSE_WORD' name="Simplificar: V.Ser + quem + V.-asse → V.Ser + V.Inf." type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      A vitória na guerra era quem chegasse primeiro à bandeira inimiga. → A vitória na guerra era chegar primeiro à bandeira inimiga.
+      -->
       <pattern>
-        <token/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
         <marker>
           <token inflected='yes'>ser</token>
           <token>quem</token>
-          <token postag='VMSI[13][SP]0' postag_regexp='yes'/>
+          <token postag='VMSI.+|VMN0000' postag_regexp='yes'/>
         </marker>
-        <token negate="yes" regexp='yes'>[\.,!\?]</token>
+        <token><exception postag_regexp='no' postag='_PUNCT'/></token>
       </pattern>
-      <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-      <suggestion>\2 <match no='4' postag='VMSI[13][SP]0' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\2 <match no='4' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
       <example correction="era chegar">A vitória na guerra <marker>era quem chegasse</marker> primeiro à bandeira inimiga.</example>
     </rule>
+
 
     <rule id='SOBRE_MESA' name="Sobremesa">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
