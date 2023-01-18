@@ -19323,40 +19323,36 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
-    <!-- 	É + QUE + A(S)/O(S) + NC + É/SÃO é a(s)/o(s) NOME ser(em) -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-20 (25-JUN-2021+)      -->
-    <rulegroup id='É_QUE_AS-OS_NC_É-SÃO' name="É que a(s)/o(s) Nome_Comum é/são → É a(s)/o(s) Nome_Comum ser(em)" type="style">
+    <!-- É QUE OS TERRORISTAS SÃO VIOLENTOS é os terroristas serem violentos -->
+    <rule id='É_QUE_AS-OS_NC_É-SÃO' name="É que (a/o)(s) Nome_Comum é/são → É (a/o)(s) Nome_Comum ser(em)" type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
       A definição genérica é que o terrorismo é violento. → A definição genérica é o terrorismo ser violento.
-      -->
-      <rule>
-        <pattern>
-          <token>é</token>
-          <token>que</token>
-          <token postag='DA.+' postag_regexp='yes'/>
-          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-          <token>é</token>
-        </pattern>
-        <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-        <suggestion>\1 \3 \4 ser</suggestion>
-        <example correction="é o terrorismo ser">A definição genérica <marker>é que o terrorismo é</marker> violento.</example>
-      </rule>
-      <!--
+      A definição genérica é que o terrorismo é muito violento. → A definição genérica é o terrorismo ser muito violento.
       A definição genérica é que os terroristas são violentos. → A definição genérica é os terroristas serem violentos.
+      A definição genérica é que os terroristas são muito violentos. → A definição genérica é os terroristas serem muito violentos.
       -->
-      <rule>
-        <pattern>
+      <pattern>
+        <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='RG'/>
+        </token>
+        <marker>
           <token>é</token>
           <token>que</token>
-          <token postag='DA.+' postag_regexp='yes'/>
+          <token postag='DA.+|DI.+' postag_regexp='yes'/>
           <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-          <token>são</token>
-        </pattern>
-        <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-        <suggestion>\1 \3 \4 serem</suggestion>
-        <example correction="é os terroristas serem">A definição genérica <marker>é que os terroristas são</marker> violentos.</example>
-      </rule>
-    </rulegroup>
+          <token regexp='yes'>é|são</token>
+        </marker>
+        <token min="0" max="1" postag='RG|RM' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|VMP00.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\2 \4 \5 <match no='6' postag='VMIP3(.)0' postag_replace='VMN03$10'>ser</match></suggestion>
+      <example correction="é o terrorismo ser">A definição genérica <marker>é que o terrorismo é</marker> violento.</example>
+      <example correction="é o terrorismo ser">A definição genérica <marker>é que o terrorismo é</marker> muito violento.</example>
+      <example correction="é os terroristas serem">A definição genérica <marker>é que os terroristas são</marker> violentos.</example>
+      <example correction="é os terroristas serem">A definição genérica <marker>é que os terroristas são</marker> muito violentos.</example>
+    </rule>
 
 
     <!-- PRONTO A ENTREGAR E QUE MAIS NADA ERA NECESSÁRIO Pronto a entregar e nada mais era necessário -->
