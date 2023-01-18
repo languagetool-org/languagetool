@@ -556,32 +556,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example correction="mas">Os resultados mostraram progresso, <marker>mais</marker> não o suficiente.</example>
     </rule>
 
-    <rulegroup id='DES_DOS' name="Erro de digitação" default='temp_off'>
+    <rule id='DES_DOS' name="Erro de digitação" default='temp_off'>
       <!--      Created by Susana Boatto, Portuguese rule 2023-01-18 (1-JAN-2022+)      -->
       <!--
       Vou à ópera des dos 10 anos. → Vou à ópera desde os 10 anos.
       -->
-     <rule>
       <pattern>
         <token regexp='yes'>d[eê]s</token>
-        <token regexp='yes'>d[oa]s?</token>
+        <token regexp='yes'>d[oa]s?|des[st][ea]s?|daquel[ea]s?</token>
       </pattern>
       <message>Encontrado possível erro de digitação</message>
       <suggestion>desde <match no='2' regexp_match='d(.+)' regexp_replace='$1'/></suggestion>
       <example correction="desde os">Vou ao teatro <marker>des dos</marker> 10 anos.</example>
       <example correction="desde a">Isso acontece <marker>des da</marker> época em que fumava.</example>
-     </rule>
-     <rule>
-      <pattern>
-        <token regexp='yes'>d[eê]s</token>
-        <token regexp='yes'>des[st][ea]s?|daquel[ea]s?</token>
-      </pattern>
-      <message>Encontrado possível erro de digitação</message>
-      <suggestion>desde <match no='2' regexp_match='d(.+)' regexp_replace='$1'/></suggestion>
       <example correction="desde aquela">Vou ao teatro <marker>des daquela</marker> época.</example>
       <example correction="desde essa">Isso acontece <marker>des dessa</marker> época.</example>
-     </rule>
-    </rulegroup>
+    </rule>
 
     <!-- ESCREVE-LO escrevê-lo -->
     <rule id='ACENTUAÇÃO_VOGAL_ÊNCLISE' name="Acentuação vogal ênclise">
