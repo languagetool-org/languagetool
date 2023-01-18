@@ -18138,35 +18138,29 @@ O namorado dela era um ladrão.
       <example correction="recomendável">É <marker>recomendável de</marker> fazer um backup mensal.</example>
     </rule>
 
-    <!-- REFORMAR PARA SEMPRE reformar de vez	-->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-12 (2-JUL-2020+)     -->
-    <rulegroup id='REFORMAR_PARA_SEMPRE_DE_VEZ' name="Reformar de vez">
-      <rule>
-        <pattern>
-          <token inflected='yes'>reformar</token>
-          <marker>
-            <token>para</token>
-            <token>sempre</token>
-          </marker>
-        </pattern>
-        <message>Substitua por <suggestion>de vez</suggestion>.</message>
-        <example correction="de vez">Vou-me reformar <marker>para sempre</marker>.</example>
-      </rule>
 
-      <rule>
-        <pattern>
-          <token inflected='yes'>reformar</token>
-          <token spacebefore='no' regexp='yes'>&hifen;</token>
-          <token regexp='yes' spacebefore='no'>se|me</token>
-          <marker>
-            <token>para</token>
-            <token>sempre</token>
-          </marker>
-        </pattern>
-        <message>Substitua por <suggestion>de vez</suggestion>.</message>
-        <example correction="de vez">A Ana vai reformar-se <marker>para sempre</marker>.</example>
-      </rule>
-    </rulegroup>
+    <!-- REFORMAR PARA SEMPRE reformar de vez	-->
+    <rule id='REFORMAR_PARA_SEMPRE_DE_VEZ' name="Reformar 'para sempre'/'de vez'">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Vou-me reformar para sempre. → Vou-me reformar de vez.
+      A Ana vai reformar-se para sempre. → A Ana vai reformar-se de vez.
+      -->
+      <pattern>
+        <token inflected='yes'>reformar</token>
+        <token min="0" max="1" regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token min="0" max="1" regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</token>
+        <marker>
+          <token>para</token>
+          <token>sempre</token>
+        </marker>
+      </pattern>
+      <message>É mais correto empregar o termo 'de vez'.</message>
+      <suggestion>de vez</suggestion>
+      <example correction="de vez">Vou-me reformar <marker>para sempre</marker>.</example>
+      <example correction="de vez">A Ana vai reformar-se <marker>para sempre</marker>.</example>
+    </rule>
+
 
     <!-- RIU-ME rio-me -->
     <rule id='RIU-ME' name="Confusão: rio-me">
