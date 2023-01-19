@@ -32,7 +32,7 @@ import java.util.Arrays;
 class CommandLineParser {
 
   CommandLineOptions parseOptions(String[] args) {
-    if (args.length < 1 || args.length > 12) {
+    if (args.length < 1 || args.length > 14) {
       throw new WrongParameterNumberException();
     }
     CommandLineOptions options = new CommandLineOptions();
