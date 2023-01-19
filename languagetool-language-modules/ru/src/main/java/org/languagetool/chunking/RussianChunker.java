@@ -232,20 +232,27 @@ public class RussianChunker implements Chunker {
   private ChunkTag getChunkTag(RegularExpressionWithPhraseType regex, Match<ChunkTaggedToken> match, int i) {
     ChunkTag newTag;
     if (regex.phraseType == NP) {
-      // we assign the same tags as the OpenNLP chunker
+      // we assign the same tags as the OpenNLP chunker, noun
       if (i == match.startIndex()) {
         newTag = new ChunkTag("B-NP");
       } else {
         newTag = new ChunkTag("I-NP");
       }
+    } else if (regex.phraseType == NPP) {
+      // we assign the same tags as the OpenNLP chunker, plural noun
+      if (i == match.startIndex()) {
+        newTag = new ChunkTag("B-NP-plural");
+      } else {
+        newTag = new ChunkTag("I-NP-plural");
+      }
     } else if (regex.phraseType == VP) {
-      // we assign the same tags as the OpenNLP chunker
+      // we assign the same tags as the OpenNLP chunker, verb
       if (i == match.startIndex()) {
         newTag = new ChunkTag("B-VP");
       } else {
         newTag = new ChunkTag("I-VP");
       }
-    } else if (regex.phraseType == ADJP) {
+    } else if (regex.phraseType == ADJP) { 
       // 
       if (i == match.startIndex()) {
         newTag = new ChunkTag("B-ADJP");
