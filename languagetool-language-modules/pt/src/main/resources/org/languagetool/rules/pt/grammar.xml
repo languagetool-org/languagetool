@@ -32221,11 +32221,25 @@ O namorado dela era um ladrão.
         <example>Não sei te dizer como se pronuncia a palavra.</example>
         <example>Como se pronuncia a palavra "centimes"?</example>
       </rule>
-      <rule default='temp_off'>
+      <rule>
+        <antipattern>
+          <token postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+          <token>á</token>
+          <example>S-A-N-T-U-Á-R-I-O</example>
+          <example>G. López • M.Á.</example>
+          <example>Espera-lo-á</example>
+        </antipattern>
+        <antipattern>
+          <token>á</token>
+          <token postag='_PUNCT|_QUOT' postag_regexp='yes'/>
+          <example>S-A-N-T-U-Á-R-I-O</example>
+          <example>G. López • M.Á.</example>
+          <example>Sobreviventes das ondas gigantes que atingiram a Á...</example>
+        </antipattern>
         <pattern>
           <token>á</token>
         </pattern>
-        <message>Verifique se não quis escrever <suggestion>à</suggestion> ou <suggestion>a</suggestion></message>
+        <message>Verifique se não quis escrever <suggestion>à</suggestion> ou <suggestion>a</suggestion>.</message>
         <example correction='à|a'>Fui <marker>á</marker> feira ontem.</example>
       </rule>
 
