@@ -6717,6 +6717,34 @@
       <message>Substitua por <suggestion>muito pêlo \3</suggestion>.</message>
       <example correction="muito pêlo é">Para quem tem animais com <marker>muito pelo é</marker> bom.</example>
     </rule>
+
+    <rule id='TIVER_ESTIVER' name='Confusão: tiver/estiver'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Quando tiver a ver TV. → Quando estiver a ver TV.
+      -->
+      <pattern>
+        <token postag='CS|RG' postag_regexp='yes'/>
+        <!-- <token regexp='yes'>caso|embora|quando|que|se</token> -->
+        <marker>
+          <and>
+            <token regexp='no' inflected='yes'>ter</token>
+            <token regexp='yes'>tiver|tiveres|tiverem|tivermos|tiveram</token>
+          </and>
+        </marker>
+        <token regexp='no'>a</token>
+        <token postag='VMN0000' postag_regexp='no'/>
+        <token negate="yes">com</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
+      <example correction="estiver">Quando <marker>tiver</marker> a ver TV.</example>
+      <example correction="estiveres">Quando <marker>tiveres</marker> a ver TV.</example>
+      <example correction="estiverem">Quando <marker>tiverem</marker> a ver TV.</example>
+      <example correction="estivermos">Quando <marker>tivermos</marker> a ver TV.</example>
+      <example correction="estiveram">Quando <marker>tiveram</marker> a ver TV.</example>
+      <example>Quando tiver a ver com isso.</example>
+    </rule>
   </category>
 
 
