@@ -8030,10 +8030,16 @@ O namorado dela era um ladrão.
     </rulegroup>
 
     <rulegroup id='GENERAL_GENDER_NUMBER_AGREEMENT_ERRORS' name="Concordância nominal">
+           <antipattern>
+              <token postag='Z.+' postag_regexp='yes'/>
+              <token regexp='yes'>vírgula|vezes|mais|menos</token>
+              <token postag='Z.+' postag_regexp='yes'/>
+              <example>O resultado foi dois vírgula dois</example>
+            </antipattern>
         <rule>
             <antipattern>
               <token postag='SPS00'/>
-              <token postag='DI.+' postag_regexp='yes'/>
+              <token postag='D[ID].+' postag_regexp='yes'/>
               <token postag='VMP.+' postag_regexp='yes'/>
               <example>no que concerne às últimas edições por este editadas</example>
             </antipattern>
@@ -8081,7 +8087,7 @@ O namorado dela era um ladrão.
                     <exception regexp='yes'>\p{Lu}.*</exception>
                     <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
                 <token postag='(?:N.|A..)FP.+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}.*|cais</exception>
+                    <exception regexp='yes'>\p{Lu}.*|cais|\d+:\d+|amazonas</exception>
                     <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)M.+|Z.+|(?:N.|A..).S.+|V..P2.+|N.CP.+'/></token>
               </marker>
             </pattern>
@@ -8092,8 +8098,16 @@ O namorado dela era um ladrão.
             <suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)MS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
             <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
             <example correction='Umas canecas|Um caneco|Uma caneca|Uns canecos|Um, canecas'><marker>Um canecas</marker> são pesadas.</example>
+            <example>Fomos ao 9:30 Club</example>
         </rule>
         <rule>
+            <antipattern>
+              <token regexp='yes'>\p{L}.*</token>
+              <token>-</token>
+              <token regexp='yes'>\p{L}.*</token>
+              <example>já trabalhou em dois longa-metragens</example>
+              <example>A distribuição dos mesa-tenistas nas chaves de simples foi feita com base no ranking mundial</example>
+            </antipattern>
             <pattern>
                 <token negate='yes' regexp='yes'>&hifen;</token>
               <marker>
@@ -8106,7 +8120,7 @@ O namorado dela era um ladrão.
                     <exception regexp='yes'>\p{Lu}.*</exception>
                     <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
                 <token postag='(?:N.|A..)FS.+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}.*</exception>
+                    <exception regexp='yes'>\p{Lu}.*|\d+:\d+|mata|van</exception>
                     <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)M.+|(?:N.|A..).P.+|V..P3.+'/>
                     <exception>mataria</exception></token>
               </marker>
@@ -8118,6 +8132,7 @@ O namorado dela era um ladrão.
             <suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)MP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
             <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
             <example correction='Umas canecas|Uma caneca|Uns canecos|Um caneco|Uns, caneca'><marker>Uns caneca</marker> são pesadas.</example>
+            <example>derrotou Ramirez por Finalização (triângulo) aos 1:24 do primeiro round.</example>
         </rule>
         <rule>
             <antipattern>
