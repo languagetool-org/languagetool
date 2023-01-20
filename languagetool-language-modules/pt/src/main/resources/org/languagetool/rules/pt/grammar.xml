@@ -19608,23 +19608,37 @@ O namorado dela era um ladrão.
 
 
     <!-- O QUE ESTÁ ESTIPULADO o estipulado -->
-    <rule id='O_QUE_ESTAR_PARTICIPIOPASSADO' name="Simplificar: O que está + V. Part. Passado → o + V. Part. Passado" type="style">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-04/5 (25-JUL-2022+) -->
+    <rule id='O_QUE_ESTAR_SER_PARTICIPIOPASSADO' name="Simplificar: O que V.Estar/Ser + V.Part.Pass. → o + V.Part.Pass." type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-04/5 + 2023-01-19/20 (25-JUL-2022+) -->
       <!--
       Agimos perante o que está estipulado no manual de utilizador. → Agimos perante o estipulado no manual de utilizador.
+      Para a polícia agir conforme o que foi definido. → Para a polícia agir conforme o definido.
+      Para a polícia agir como o que foi definido. → Para a polícia agir como o definido.
       -->
       <pattern>
-        <token postag='SPS00' postag_regexp='no'/>
+        <or>
+          <token><exception scope='previous' postag_regexp='yes' postag='V.+|RG'/></token>
+          <token postag='SPS00' postag_regexp='no'/>
+        </or>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <token postag='SPS00|NC.+|AQ.+' postag_regexp='yes'>
+          <exception scope='previous' postag_regexp='yes' postag='SPS00:DA.+|NC.+|AQ.+|NP.+|CS'/>
+          <exception postag_regexp='no' postag='VMN0000'/>
+        </token>
         <marker>
-          <token postag='DA.+' postag_regexp='yes'/>
+          <token regexp='yes'>os?</token>
           <token>que</token>
-          <token regexp='yes'>está|estão</token>
-          <token postag='VMP00.+' postag_regexp='yes'/>
+          <token regexp='yes'>está|estava|estão|foi|fora|foram|é|era|são</token>
+          <token postag='VMP00.+' postag_regexp='yes'>
+            <exception scope="next" postag_regexp='yes' postag='DA.+|SPS00|V.+|CC|CS'/>
+          </token>
         </marker>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
-      <suggestion>\2 \5</suggestion>
+      <suggestion>\4 \7</suggestion>
       <example correction="o estipulado">Agimos perante <marker>o que está estipulado</marker> no manual de utilizador.</example>
+      <example correction="o definido">Para a polícia agir conforme <marker>o que foi definido</marker>.</example>
+      <example correction="o definido">Para a polícia agir como <marker>o que foi definido</marker>.</example>
     </rule>
 
 
