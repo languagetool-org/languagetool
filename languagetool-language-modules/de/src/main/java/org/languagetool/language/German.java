@@ -447,6 +447,7 @@ public class German extends Language implements AutoCloseable {
       case "PUNCTUATION_PARAGRAPH_END": return -4;  // don't hide spelling mistakes
       case "TEST_F_ANSTATT_PH": return -4;  // don't hide spelling mistakes
       case "DAS_WETTER_IST": return -5; // lower prio than spell checker
+      case "VEREIZ_VERINF_PKT": return -5; // lower prio than spell checker
       case "WER_STARK_SCHWITZ": return -5; // lower prio than spell checker
       case "VERBEN_PRAEFIX_AUS": return -5; // lower prio than spell checker
       case "ANFUEHRUNG_VERSCHACHTELT": return -5;  // lower prio than speller and FALSCHES_ANFUEHRUNGSZEICHEN
