@@ -9892,6 +9892,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="CD" />
             <token postag="NNS" chunk_re="E-NP.*" />
         </antipattern>
+        <antipattern>
+            <token postag="DT|PRP\$" postag_regexp="yes" />
+            <token chunk_re="E-NP.*" postag="NN|NN:UN?" postag_regexp="yes" />
+            <token postag="NNS" />
+            <token postag="DT" />
+            <token chunk_re=".-NP.*" postag="NN(:UN?)?" postag_regexp="yes" />
+            <token chunk_re="E-NP.*" min="0" />
+            <token postag="RB" min="0" />
+            <token postag="MD|VB.*" postag_regexp="yes" chunk_re=".-VP" />
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -9944,6 +9954,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The careless technicians were testing samples the night that the explosion occurred.</example><!-- #3346 -->
         <example type="untouched">I had classes the week my cat died.</example><!-- #3346 -->
         <example type="untouched">She has tests a month from now.</example><!-- #3346 -->
+        <example type="untouched">It appears that this special character confuses the language detection because without these HTML tags the language is correctly identified.</example>
         <example type="untouched">Between these two classes a struggle must go on until...</example><!-- Premium #1795 -->
         <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
     </rule>
@@ -16689,10 +16700,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rulegroup id="NUMBER_ONLY_NN" name="'a number' only tagged as noun">
         <rule>
             <pattern>
-                <token postag="DT|PRP\$" postag_regexp="yes" chunk_re="B-NP-singular" />
-                <token postag="JJ.*" postag_regexp="yes" chunk_re="I-NP-singular" min="0" />
+                <token postag="DT|PRP\$" postag_regexp="yes" chunk="B-NP-singular" />
+                <token postag="JJ.*" postag_regexp="yes" chunk="I-NP-singular" min="0" />
                 <marker>
-                    <token chunk_re="E-NP-singular">number</token>
+                    <token chunk="E-NP-singular">number</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="NN.*" />
