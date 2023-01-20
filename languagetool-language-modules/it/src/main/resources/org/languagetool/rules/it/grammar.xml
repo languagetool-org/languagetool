@@ -1793,6 +1793,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              Casi in cui il correttore ortografico non interviene
              perché entrambi i lemmi esistono in italiano.
         -->
+        <rule id="GIRONI_GIORNI" name="7 gironi -> 7 giorni">
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token>gironi</token>
+                </marker>
+            </pattern>
+            <message>Forse volevi dire <suggestion>giorni</suggestion>?</message>
+            <example correction="giorni">7 <marker>gironi</marker> dopo.</example>
+        </rule>
         <rulegroup name="scambio di 'ala' ed 'alla'" id="ER_02_001">
             <rule>
                 <!-- "ala" + sostantivo -->
