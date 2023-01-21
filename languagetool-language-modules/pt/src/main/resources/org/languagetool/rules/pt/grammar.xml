@@ -49644,6 +49644,31 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- E QUE e -->
+    <rule id='SIMPLIFICAR_E_QUE_E' name="Simplificar: E que → e" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-21 (25-JUL-2022+) -->
+      <!--
+      É necessário saber que os terroristas são perigosos e que ninguém está seguro. → É necessário saber que os terroristas são perigosos e ninguém está seguro.
+      -->
+      <pattern>
+        <token postag='V.+|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+|DD.+|SPS00:DD.+|_PUNCT' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='VMN0000'/>
+        </token>
+        <token min="1" max="2" postag='AQ.+|NC.+' postag_regexp='yes'/>
+        <marker>
+          <token>e</token>
+          <token>que</token>
+        </marker>
+        <token postag='PI.+|SPS00:PI.+|DI.+|SPS00:DI.+|DA.+|SPS00:DA.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='xVMIS.+|xVMSI.+'/>
+        </token>
+      </pattern>
+      <message>Pode omitir o pronome ‘que’ para tornar o texto mais fluido.</message>
+      <suggestion>e</suggestion>
+      <example correction="e">É necessário saber que os terroristas são perigosos <marker>e que</marker> ninguém está seguro.</example>
+    </rule>
+
+
     <!-- USAR EXPRESSÕES MAIS SIMPLES SUGERINDO VERBOS NO INFINITIVO -->
     <rulegroup id='SIMPLIFICAR_CONVERTER_PARA_VERBO_INFINITIVO' name="Simplificar: Usar a versão com infinitivo da subordinada" type="style">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-04 (1-JAN-2022+)      -->
