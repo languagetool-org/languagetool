@@ -29711,6 +29711,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="CONFUSED_WORDS" name="Błędy frazeologiczne" type="style">
+            <rule id="OBNOSI_SIE_Z_ZAMIAREM_NOSI_SIE_Z_ZAMIAREM" name="„obnosić się z zamiarem” (nosić się z zamiarem)">
+                <pattern>
+                    <marker>
+                        <token inflected='yes' skip='3'>obnosić<exception inflected='yes' scope='next'>nosić</exception></token>
+                    </marker>
+                    <token>z</token>
+                    <token regexp='yes'>zamiarem|planami|godnością|myślą|zakupem|pomysłem</token>
+                </pattern>
+                <message>Błąd frazeologiczny. Powinno być: <suggestion><match no="1" regexp_match="(?iu)ob" regexp_replace=""/></suggestion>.</message>
+                <url>https://wsjp.pl/haslo/podglad/18502/nosic-sie</url>
+                <short>Błąd frazeologiczny</short>
+                <example correction='Noszę'><marker>Obnoszę</marker> się bowiem z zamiarem zakupu za około 2-3 miesiące swojego już czwartego auta.</example>
+                <example>Noszę się bowiem z zamiarem zakupu za około 2-3 miesiące swojego już czwartego auta.</example>
+            </rule>
 		  <rule id="w_woli_scislosci" name="„w woli ścisłości (gwoli ścisłości)">
             <pattern>
               <token>w</token>
