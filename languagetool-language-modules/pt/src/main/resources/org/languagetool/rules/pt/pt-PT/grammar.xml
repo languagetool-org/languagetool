@@ -4923,6 +4923,23 @@
       </antipattern>
       <!-- MARCOAGPINTO 2022-12-22 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+      <!-- MARCOAGPINTO 2023-01-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token regexp='yes' spacebefore='no'>me|lhes?|nos</token>
+        <token postag='DA.+|SPS00:DA.+|DI.+|SPS00:DI.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='DA.+|DI.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|_PUNCT' postag_regexp='yes'/>
+        <example>Ao pensar em AI, vem-nos à mente os robôs.</example>
+        <example>Corre-me nas veias uma energia positiva.</example>
+        <example>Embrulha-me o estômago o cheiro dos cosméticos.</example>
+        <example>Falta-me a expressão certa.</example>
+        <example>Vivo sempre no presente. O futuro, não o conheço. O passado, já o não tenho. Pesa-me um como a possibilidade de tudo, o outro como a realidade de nada.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-01-21 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <antipattern>
         <token regexp='yes' skip='-1'>["«„“][-‒–—―]?</token>
         <token regexp='yes'>["'»”]</token>
@@ -5301,15 +5318,6 @@
           <token postag="V...2.+" postag_regexp='yes'/>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token regexp='yes'>me|nos</token>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-06-07 *END* -->
-        <!-- MARCOAGPINTO 2020-06-07 *START* -->
-        <!-- "Cabe-lhe assinar e mandar publicar os decretos da Assembleia e do Governo Regional." -->
-        <antipattern>
-          <token postag="V...3.+" postag_regexp='yes'/>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>lhe|lhes</token>
-          <token postag="VMN0000" postag_regexp='no'/>
         </antipattern>
         <!-- MARCOAGPINTO 2020-06-07 *END* -->
         <!-- MARCOAGPINTO 2020-10-23 (21-OCT-2020+) *START* -->
