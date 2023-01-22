@@ -5342,7 +5342,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <short>Błędny zapis daty</short>
                         <example correction="40. XIX w.">Na początku lat <marker>1840.</marker> ulica Zachodnia została połączona na północy z ulicą Stodolnianą na Starym Mieście.</example>
                         <example correction="90. XX w.">Wspominam piękne lata <marker>1990.</marker></example>
-                        <example correction="70. XVIII w.">W latach <marker>1770.</marker> Smith osiedlił sie w miejscowości wypoczynkowej Bath.</example>
+                        <example correction="70. XVIII w.">W latach <marker>1770.</marker> Smith osiedlił się w miejscowości wypoczynkowej Bath.</example>
                         <example correction="60. XVII w.">Szampan jest więc szybko butelkowany od lat <marker>1660.</marker></example>
                         <example correction="60. XVI w.">Szampan jest więc szybko butelkowany od lat <marker>1560.</marker></example>
                         <example correction="60. XV w.">Szampan jest więc szybko butelkowany od lat <marker>1460.</marker></example>
@@ -6774,7 +6774,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Jednym z najbardziej kontrowersyjnych i delikatnych problemów przestrzegania zasady aut dedere aut iudicare jest pytanie o stosunek obu członów alternatywy do siebie.</example>
 								<example>Na szczeblu wojewódzkim, powiatowym i gminnym również jest mnóstwo przykładów wykorzystywania przez polityków i urzędników swoich pozycji do celów całkowicie prywatnych.</example>
 								<example>Drugim było oddanie czci zmarłemu.</example>
-								<example>Gdy dobra rzadkie — a takim nadal  jest  mieszkanie  —  rozdziela urzędnik, to rodzi się korupcja.</example>
+								<example>Gdy dobra rzadkie — a takim nadal jest mieszkanie — rozdziela urzędnik, to rodzi się korupcja.</example>
 								<example>Jednym bowiem z celów strategicznych każdego państwa jest utrzymanie własnego przemysłu zbrojeniowego.</example>
 								<example>Nie wszystkim podobała się ta inicjatywa i słychać było zdanie, że tego dnia w finale ze Sionem wygrałby każdy, choć Sion startował trzeci raz.</example>
 								<example>Obok chirurga pozwanym w sprawie jest towarzystwo ubezpieczeniowe, w którym lekarz był ubezpieczony.</example>
@@ -8993,7 +8993,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         </unify>
         </antipattern>
-        <antipattern> <!-- adj:sup z  zmiana liczby rzeczownika głównego -->
+        <antipattern> <!-- adj:sup ze zmiana liczby rzeczownika głównego -->
         <unify><feature id="gender"/><feature id="number"/>
         <token postag="adj.*:sup" postag_regexp="yes"/>
         <unify-ignore>
@@ -15936,6 +15936,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category id="REDUNDANCY" name="Pleonazmy" type="style">
+            <rule id="NALOGOWY_ALKOHOLIK_ALKOHOLIK" name="„nałogowy alkoholik” (alkoholik)">
+                <pattern>
+                    <unify>
+                        <feature id="case"></feature>
+                        <feature id="gender"/>
+                        <feature id="number"/>
+                    <token inflected='yes'>nałogowy</token>
+                    <token inflected='yes' regexp='yes'>alkoholik|narkoman|alkolizm|alkoholiczka|ćpun|pracoholik|pracoholiczka|morfinista|zakupoholik|zakupoholiczka|seksoholik|seksoholiczka</token>
+                    </unify>
+                </pattern>
+                <message>Pleonazm. Powinno być: <suggestion><match no="2"/></suggestion>.</message>
+                <url>https://prostypolski.pl/o-okresie-czasu/</url>
+                <short>Pleonazm</short>
+                <example correction='alkoholik'>To był <marker>nałogowy alkoholik</marker>.</example>
+                <example>To był alkoholik.</example>
+            </rule>
 		<rulegroup id="adaptacja_i_przystosowanie" name="„adaptacja i przystosowanie” (adaptacja)">
       <rule>
       <pattern>
@@ -25186,7 +25202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <example correction="zmianom">Jestem przeciwna <marker>zmianą</marker> emerytalnym.</example>
     <example>Była atrakcyjną dla płci przeciwnej kobietą.</example>
     <example>Zderzyła się czołowo z jadącą w kierunku przeciwnym ciężarówką.</example>
-    <example>Posługują sie w krajach im przeciwnych metodą marketingu…</example>
+    <example>Posługują się w krajach im przeciwnych metodą marketingu…</example>
     <example>Teorie są tylko nieodpowiedzialną i Bogu przeciwną herezją.</example>
     </rule>
     <rule id="o_k" name="„o k. (ok.)">
