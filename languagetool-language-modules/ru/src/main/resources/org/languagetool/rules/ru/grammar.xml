@@ -7215,6 +7215,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token></token>
                     </antipattern>
                     <antipattern>
+                        <token regexp="yes">все|всё</token>
+                        <token postag="ADJ:.*" postag_regexp="yes"></token>
+                        <token postag="NN:.*" postag_regexp="yes"></token>
+                    </antipattern>
+                    <antipattern>
                         <token skip="-1">как</token>
                         <token skip="-1">так</token>
                         <token postag="ADJ:.*" postag_regexp="yes"></token>
@@ -7255,6 +7260,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Грамматическая ошибка в согласовании числа</short>
                     <example>Крепкие столы.</example>
                     <example>Серый зол.</example>
+                    <example>Всё необходимое накопитель получает от шины USB.</example>
                     <example>Эти добрые полчаса.</example>
                     <example>Контактный тел.</example>
                     <example>Суеверие — это религия слабых духом.</example>
@@ -7301,6 +7307,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token></token>
                     </antipattern>
                     <antipattern>
+                        <token regexp="yes">все|всё</token>
+                        <token postag="ADJ:.*" postag_regexp="yes"></token>
+                        <token postag="NN:.*" postag_regexp="yes"></token>
+                    </antipattern>
+                    <antipattern>
                         <marker>
                             <token postag="ADJ:.*" postag_regexp="yes"></token>
                             <token postag="NN:.*" postag_regexp="yes"></token>
@@ -7337,6 +7348,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <message>Прилагательное не согласуется с существительным по роду.</message>
                     <example>Крепкие столы.</example>
                     <example>Серый дарит.</example>
+                    <example>Всё необходимое накопитель получает от шины USB.</example>
                     <example>Контактный тел.</example>
                     <example>Эти добрые полчаса.</example>
                     <example>Суеверие — это религия слабых духом.</example>
@@ -7391,7 +7403,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="ADJ:.*:.*:T" postag_regexp='yes'><exception postag="ADJ:.*:.*:T" postag_regexp='yes' negate_pos='yes'/></token>
                         <token postag="NN:.*:.*:.*:Nom" postag_regexp='yes' />
                     </antipattern>
-		        
+		    <antipattern>
+                        <token regexp="yes">все|всё</token>
+                        <token postag="ADJ:.*" postag_regexp="yes"></token>
+                        <token postag="NN:.*" postag_regexp="yes"></token>
+                    </antipattern>       
                     <antipattern>
                         <token postag="ADJ:.*:.*:P" postag_regexp='yes'></token>
                         <token postag="NN:.*:.*:.*:2P|NN:.*:.*:.*:2R" postag_regexp='yes' />   <!-- второй предложный (местный) (в неоплатном долгу)-->
@@ -7443,6 +7459,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Временными правительства называли журналисты.</example>
                     <example>Эти добрые полчаса.</example>
                     <example>Контактный тел.</example>
+                    <example>Всё необходимое накопитель получает от шины USB.</example>
                     <example>Она позволяет сильным страны сей ситуативно решать.</example>
                     <example>Временной заплату считали недолго.</example>
                     <example>У них выше вероятность инфаркта, чем у довольных партнером.</example>
@@ -7907,7 +7924,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                
                 <pattern>
-                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="PNN:.*" /><exception scope="next">с</exception></token>
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="PNN:.*" /><exception scope="next" regexp="yes">с|процентов|процента|[%]</exception></token>
                     <marker>
                     <unify negate="yes">
                         <feature id="number"/>          
@@ -7930,6 +7947,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Коты грелись на солнышке.</example>
                 <example>Блюдо готовилось на сковородке.</example>
                 <!-- <example>около 75% объёма поставляемой воды приходится на компанию X.</example> -->
+                <example>Семьдесят пять процентов российского продовольствия доставляется в Москву из регионов ЦФО.</example>
                 <example>Сыр и сливочное масло делаются из молока.</example>
                 <example>Учащиеся всё время сидели неподвижно.</example>
                 <example>С каждого дерева упало по груше.</example>
