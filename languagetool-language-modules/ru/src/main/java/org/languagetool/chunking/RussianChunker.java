@@ -110,13 +110,13 @@ public class RussianChunker implements Chunker {
       // И.И. Иванов
       build("<regexCS=[А-ЯЁ]> <.> <regexCS=[А-ЯЁ]> <.> <posre='NN:Fam:.*'> ", NP, true),
       // verb+verb
-      build("<posre='VB:.*:.*'>* " , VP),
+      build("<posre='VB:.*:.*' & !posre='NN:.*'>* " , VP),
       build("<если>", SBAR),  //
       build("<поэтому>", SBAR),  //
       //adverbial participle
-      build("<posre='DPT:.*:.*'> " , DPT),
-      build("<posre='DPT:.*:.*'> <posre='NN:.*:.*:(R|D|T|P)' > " , DPT, true),
-      build("<posre='DPT:.*:.*'> <posre='PREP'> <posre='NN:.*:.*:(R|D|T|P)' > " , DPT, true),
+      build("<posre='DPT:.*:.*' & !pos='PREP'> " , DPT),
+      build("<posre='DPT:.*:.*' & !pos='PREP'> <posre='NN:.*:.*:(R|D|T|P)' > " , DPT, true),
+      build("<posre='DPT:.*:.*' & !pos='PREP'> <posre='PREP'> <posre='NN:.*:.*:(R|D|T|P)' > " , DPT, true),
       //participle
       build("<posre='PT:.*:.*'> " , ADJP),
       build("<posre='PT:.*:.*'> <posre='NN:.*:.*:(R|D|T|P)' > " , ADJP, true),
