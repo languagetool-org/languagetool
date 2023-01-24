@@ -15243,6 +15243,37 @@ O namorado dela era um ladrão.
 
     <rule id="POSSIVELMENTE_CONJUNTIVO" name="Sintaxe: Possivelmente + conjuntivo">
       <!--    Localized from Catalan grammar.xml by Tiago F. Santos, 2017-11-29      -->
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2023-01-24 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token regexp="yes">p(?:ossivelmente|rovavelmente)|quiçá</token>
+        <token min="0" max="1" postag='RN|RG' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='PP.+' postag_regexp='yes'/> <!-- "O Tom provavelmente não vai nos ajudar hoje." -->
+        <token postag='VMN0000' postag_regexp='no'/>
+        <token postag='VMN0000|SPS00|SPS00:.+|RG|CC' postag_regexp='yes'/>
+        <example>Provavelmente não vou conseguir entrar na coisa.</example>
+        <example>O Sami provavelmente nunca ouviu falar deste país.</example>
+        <example>...on Batista - SC e região está à busca de tratamento especializado para vencer a dependência química provavelmente já ouviu falar sobre a ibogaína,</example>
+        <example>O Tom provavelmente não vai nos ajudar hoje.</example>
+        <example>Se você é um usuário de lentes de contato provavelmente já ouviu falar ou conhece nossa loja, atualmente a maior ótica online especializada em lentes de contato.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-01-24 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2023-01-24 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token inflected='yes'>ser</token>
+        <token regexp="yes">p(?:ossivelmente|rovavelmente)|quiçá</token>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <example>É provavelmente alarme falso.</example>
+        <example>Não se preocupe. É provavelmente alarme falso.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-01-24 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <antipattern>
         <token inflected='yes'>ir</token>
         <token min='0' postag_regexp='yes' postag='R.+'/>
