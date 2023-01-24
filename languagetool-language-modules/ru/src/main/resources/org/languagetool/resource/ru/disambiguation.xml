@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Russian Disambiguation Rules for LanguageTool (www.languagetool.org)
-Copyright (C) 2009-2022 Yakov Reztsov
+Copyright (C) 2009-2023 Yakov Reztsov
 -->
 <rules lang="ru"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -138,6 +138,20 @@ Copyright (C) 2009-2022 Yakov Reztsov
             <!-- после отпуска -->
 
             <token  postag="PREP"></token>  <!-- после -->
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:.*:V" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
+    </rule>
+    <rule name="NOUN_V6" id="NOUN_V6">
+        <pattern>	 
+            <!-- на этот вопрос -->
+            <token>на</token>  
+            <token regexp="yes">этот|тот|эту|ту|эти|те|это|то</token>  
             <marker>
                 <and>
                     <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
@@ -897,5 +911,5 @@ Copyright (C) 2009-2022 Yakov Reztsov
             <disambig action="ignore_spelling"></disambig>
         </rule>
     </rulegroup>
-           
+       
 </rules>
