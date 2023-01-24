@@ -6431,6 +6431,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="PORTAR_PRESSA" name="portar pressa">
+        <pattern>
+            <marker>
+                <token inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes">donar|portar</token>
+                <token postag="NCFS000">pressa</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="DONAR" name="donar">
         <pattern>
             <marker>
@@ -9045,6 +9054,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rule id="nomverb_verb0" name="verb/no_verb + verb">
         <!-- Quan no hi era respiràvem més a gust. -->
+        <antipattern>
+            <token>va</token>
+            <token postag="VMIS3S00"/>
+        </antipattern>
         <pattern>
             <token><exception postag="&pronom_feble;|RN" postag_regexp="yes"/></token>
             <marker>
@@ -10622,6 +10635,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="V.P.*|AQ.*"/>
     </rule>
     <rulegroup id="NAA" name="Nom + Adj + Adj">
+        <antipattern>
+            <token>va</token>
+            <token postag="VMIS3S00"/>
+        </antipattern>
         <rule>
             <pattern>
                 <unify>
@@ -11743,6 +11760,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="V.*"/>
     </rule>
     <rule id="nomverb_verb" name="nom/verb + verb">
+        <antipattern>
+            <token>va</token>
+            <token postag="VMIS3S00"/>
+        </antipattern>
         <pattern>
             <token><exception postag="&pronom_feble;|RN" postag_regexp="yes"/></token>
             <marker>
