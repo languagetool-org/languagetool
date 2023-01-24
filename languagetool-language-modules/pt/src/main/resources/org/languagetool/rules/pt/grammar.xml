@@ -49337,6 +49337,27 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- PARA AJUDAR A MELHORAR para melhorar -->
+    <rule id='TESE_PHD_PARA_AJUDAR_A_VINFINITIVO_PARA_VINFINITIVO' name="[PhD Tese]: Para Ajudar a + V.Inf. → Para V.Inf." type='style'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-24 (25-JUL-2022+) -->
+      <!--
+      Estas regras servem para ajudar a melhorar a gramática. → Estas regras servem para melhorar a gramática.
+      -->
+      <pattern>
+        <marker>
+          <token>para</token>
+          <token inflected='yes'>ajudar</token>
+          <token>a</token>
+          <token postag='VMN0000' postag_regexp='no'/>
+        </marker>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:V(......)* postagReplace:V[\b1]*"/>
+      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+      <suggestion>\1 {suggestion}</suggestion>
+      <example correction="para melhorar">Estas regras servem <marker>para ajudar a melhorar</marker> a gramática.</example>
+    </rule>
+
+
     <!-- POR ISSO aí/assim/daí/isso -->
     <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="Simplificar: por isso → aí/assim/daí/isso">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
