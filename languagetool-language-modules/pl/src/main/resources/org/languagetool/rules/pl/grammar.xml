@@ -19171,6 +19171,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+            <rulegroup id="POLNA_DRUZKA_POLNA_DROZKA" name="„Polna drużka” (polna dróżka)">
+                <rule>
+                <pattern>
+                    <token regexp='yes'>wzdłuż|obok|nieopodal</token>
+                    <marker>
+                        <token>drużki</token>
+                    </marker>
+                </pattern>
+                <message>Błąd ortograficzny. Powinno być: <suggestion><match no="2" regexp_match="(?iu)u" regexp_replace="ó"/></suggestion>.</message>
+                <short>Błąd ortograficzny</short>
+                <example correction='dróżki'>Szliśmy wzdłuż <marker>drużki</marker>.</example>
+                <example>Szliśmy wzdłuż dróżki.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <unify><feature id="number"/><feature id="gender"/><feature id="case"/>
+                        <token inflected='yes' regexp='yes'>kalwaryjski|wydeptać|kamienisty|asfaltowy|różańcowy|wąziutki|błotnisty|szutrowy|osiedlowy|brukować|biegnąć|piaszczysty|spacerowy|żwirowy|maryjny|wić|uczęszczać|zaróść|wiodący|utwardzić|grzbietowy|parkowy|dojazdowy|wyboisty|gliniasty|wybrukować|wyasfaltować|wyłożyć|stromy|niepozorny|wysypać|piąć|usypać|ubić|wieść|niewyraźny|rowerowy|zaczynać|dziurawy|wytyczyć|podrzędny|calowy|przecinać|dźwiękowy|wiejski|trawiasty|jednokierunkowy|gruntowy|poróść|odchodzić|namalować|górski|prowadzić|ciągnąć|ślepy|urokliwy|oświetlić|malowniczy|ogrodowy|piaskowy|cmentarny|oznakować|poboczny|podmiejski|zapomnieć|kamienny|wąski|polny|leśny|boczny|kręty</token>
+                        <marker>
+                            <token inflected='yes'>drużka</token>
+                        </marker>
+                        </unify>
+                    </pattern>
+                    <message>Błąd ortograficzny. Powinno być: <suggestion><match no="2" regexp_match="(?iu)u" regexp_replace="ó"/></suggestion>.</message>
+                    <short>Błąd ortograficzny</short>
+                    <example correction='dróżki'>Szliśmy wzdłuż błotnistej <marker>drużki</marker>.</example>
+                    <example>Szliśmy wzdłuż błotnistej dróżki.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <unify><feature id="number"/><feature id="gender"/><feature id="case"/>
+                            <marker>
+                                <token inflected='yes'>drużka</token>
+                            </marker>
+                            <token inflected='yes' regexp='yes'>kalwaryjski|wydeptać|kamienisty|asfaltowy|różańcowy|wąziutki|błotnisty|szutrowy|osiedlowy|brukować|biegnąć|piaszczysty|spacerowy|żwirowy|maryjny|wić|uczęszczać|zaróść|wiodący|utwardzić|grzbietowy|parkowy|dojazdowy|wyboisty|gliniasty|wybrukować|wyasfaltować|wyłożyć|stromy|niepozorny|wysypać|piąć|usypać|ubić|wieść|niewyraźny|rowerowy|zaczynać|dziurawy|wytyczyć|podrzędny|calowy|przecinać|dźwiękowy|wiejski|trawiasty|jednokierunkowy|gruntowy|poróść|odchodzić|namalować|górski|prowadzić|ciągnąć|ślepy|urokliwy|oświetlić|malowniczy|ogrodowy|piaskowy|cmentarny|oznakować|poboczny|podmiejski|zapomnieć|kamienny|wąski|polny|leśny|boczny|kręty</token>
+                        </unify>
+                    </pattern>
+                    <message>Błąd ortograficzny. Powinno być: <suggestion><match no="1" regexp_match="(?iu)u" regexp_replace="ó"/></suggestion>.</message>
+                    <short>Błąd ortograficzny</short>
+                    <example correction='Dróżki'>Szliśmy wzdłuż <marker>Drużki</marker> Różańcowej.</example>
+                    <example>Szliśmy wzdłuż Dróżki Różańcowej.</example>
+                </rule>
+            </rulegroup>
     <rule id="KRASNY_STAW" name="„Krasny Staw” (Krasnystaw)">
       <antipattern>
       <marker>
