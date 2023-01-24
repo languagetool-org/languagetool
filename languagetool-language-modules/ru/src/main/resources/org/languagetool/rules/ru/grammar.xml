@@ -7400,6 +7400,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
                 <rule  id="Unify_Adj_NN_case">
                     <antipattern>
+                        <token postag="ADJ:.*:.*:.*" postag_regexp='yes' chunk ="I-ADJP"></token>
+                        <token postag="NN:.*:.*:.*:.*" postag_regexp='yes' chunk="O" />  <!-- Test for Russian chunker -->
+                    </antipattern>    
+                    <antipattern>
                         <token postag="ADJ:.*:.*:T" postag_regexp='yes'><exception postag="ADJ:.*:.*:T" postag_regexp='yes' negate_pos='yes'/></token>
                         <token postag="NN:.*:.*:.*:Nom" postag_regexp='yes' />
                     </antipattern>
@@ -7459,6 +7463,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Временными правительства называли журналисты.</example>
                     <example>Эти добрые полчаса.</example>
                     <example>Контактный тел.</example>
+                    <example>Подошел казавшийся смуглым человек.</example><!-- Test for Russian chunker -->
                     <example>Всё необходимое накопитель получает от шины USB.</example>
                     <example>Она позволяет сильным страны сей ситуативно решать.</example>
                     <example>Временной заплату считали недолго.</example>
