@@ -6985,6 +6985,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category id="SYNTAX" name="Błędy składniowe" type="grammar">
+            <rule id="TRZEBA_POTRZEBA_TRZEBA" name="„Trzeba potrzeba” (Trzeba)">
+                <pattern>
+                    <token skip='4'>trzeba<exception postag='comp|interp' postag_regexp='yes' scope='next'></exception></token>
+                    <token>potrzeba</token>
+                </pattern>
+                <message>Prawdopodobny błąd składniowy lub brak przecinka w tym fragmencie tekstu: <match no="1"/> <match no="2" include_skipped="all" />.</message>
+                <short>Błąd składniowy</short>
+                <example correction=''><marker>Trzeba więc potrzeba</marker> 4 lat.</example>
+                <example>Trzeba więc 4 lat.</example>
+            </rule>
 		<rulegroup id="ZE_INF_IMPT" name="Błędna forma czasownika w zdaniu podrzędnym z „że”">
         <rule>
         <antipattern>
