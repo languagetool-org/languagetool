@@ -1458,6 +1458,132 @@
     </pattern>
     <disambig action="filterall"></disambig>
   </rule>
+  
+  <rulegroup id="VERBOS_COMPOSTOS" name="Verbos compostos">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
+    <rule>
+      <pattern>
+        <token inflected='yes'>levar</token>
+        <token>a</token>
+        <marker>
+          <token>cabo</token>
+        </marker>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected='yes'>levar</token>
+        </marker>
+        <token>a</token>
+        <token>cabo</token>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
+  </rulegroup>
+  
+  <rule id="DEVE_SER" name="Deve + Infinitivo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
+    <pattern>
+      <marker>
+        <token inflected='yes'>dever</token>
+      </marker>
+      <token postag="VMN0000"/>
+    </pattern>
+    <disambig action="filter" postag="V.+"/>
+  </rule>
+  
+  <rulegroup id="PERIFRASES" name="Perífrases de infinitivo">
+    <rule>
+      <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-04  	-->
+      <pattern>
+        <token inflected='yes'>ir</token>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <token postag="VMN0000"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="VMN0000"/>
+    </rule>
+    <!-- 		l18n from Galician disambiguation.xml by Tiago F. Santos		-->
+    <rule>
+      <pattern>
+        <token inflected="yes" regexp="yes">haver|ter</token>
+        <token>que</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes" regexp="yes">estar|andar|levar|continuar|seguir|ser|colocar|começar|pegar|vir|chegar|voltar|tornar|romper|pôr</token>
+        <token>a</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes" regexp="yes">dever|haver|deixar|parar|acabar|rematar|terminar|vir|ter</token>
+        <token>de</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">acabar</token>
+        <token>por</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">estar</token>
+        <token>para</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">dar</token>
+        <token>em</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes" regexp="yes">querer|ir|dever|haver|poder|voltar|adoptar|adotar|acostumar</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="DET_VERBONOME" name="Det + Ver/Nom">
     <!-- Created by Tiago F. Santos, Portuguese rule  	-->
@@ -2299,132 +2425,6 @@
     </pattern>
     <disambig action="add"><wd pos="_QUOT"/></disambig>
   </rule>
-
-  <rulegroup id="VERBOS_COMPOSTOS" name="Verbos compostos">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
-    <rule>
-      <pattern>
-          <token inflected='yes'>levar</token>
-          <token>a</token>
-        <marker>
-          <token>cabo</token>
-        </marker>
-      </pattern>
-      <disambig action="replace" postag="RG"/>
-    </rule>
-    <rule>
-      <pattern>
-        <marker>
-          <token inflected='yes'>levar</token>
-        </marker>
-          <token>a</token>
-          <token>cabo</token>
-      </pattern>
-      <disambig action="filter" postag="V.+"/>
-    </rule>
-  </rulegroup>
-
-    <rule id="DEVE_SER" name="Deve + Infinitivo">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
-      <pattern>
-        <marker>
-          <token inflected='yes'>dever</token>
-        </marker>
-          <token postag="VMN0000"/>
-      </pattern>
-      <disambig action="filter" postag="V.+"/>
-    </rule>
-
-  <rulegroup id="PERIFRASES" name="Perífrases de infinitivo">
-    <rule>
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-04  	-->
-      <pattern>
-          <token inflected='yes'>ir</token>
-          <token regexp='yes'>tod[ao]s</token>
-        <marker>
-          <token postag="VMN0000"/>
-        </marker>
-      </pattern>
-      <disambig action="filter" postag="VMN0000"/>
-    </rule>
-    <!-- 		l18n from Galician disambiguation.xml by Tiago F. Santos		-->
-    <rule>
-      <pattern>
-          <token inflected="yes" regexp="yes">haver|ter</token>
-          <token>que</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes" regexp="yes">estar|andar|levar|continuar|seguir|ser|colocar|começar|pegar|vir|chegar|voltar|tornar|romper|pôr</token>
-          <token>a</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes" regexp="yes">dever|haver|deixar|parar|acabar|rematar|terminar|vir|ter</token>
-          <token>de</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes">acabar</token>
-          <token>por</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes">estar</token>
-          <token>para</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes">dar</token>
-          <token>em</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes" regexp="yes">querer|ir|dever|haver|poder|voltar|adoptar|adotar|acostumar</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-  </rulegroup>
 
     <rule id="VOGAIS" name="[^o|letra] e[subst|conj] (e[subst])">
     <!-- 		l18n from Galician disambiguation.xml by Tiago F. Santos		-->
