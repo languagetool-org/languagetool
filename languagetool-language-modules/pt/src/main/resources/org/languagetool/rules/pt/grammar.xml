@@ -17714,11 +17714,20 @@ O namorado dela era um ladrão.
 	
     <!-- NÃO MILITARES civis -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-18 (2-JUL-2020+)     -->
-    <rulegroup id='NAO_MILITARES' name="Civil/Civis">
+    <rulegroup id='NAO_MILITARES' name="Civil/Civis" tags='picky'>
       <rule>
-        <pattern>
+        <antipattern>
+          <token>,</token>
           <token>não</token>
           <token>militar</token>
+          <example>É de responsabilidade civil, e não militar</example>
+        </antipattern>
+        <pattern>
+           <token postag='N.+|AQ.+' postag_regexp='yes'/>
+         <marker>
+          <token>não</token>
+          <token>militar</token>
+         </marker>
         </pattern>
         <message>Veja se pretende referir uma organização/empresa civil.</message>
         <suggestion>civil</suggestion>
@@ -17726,8 +17735,11 @@ O namorado dela era um ladrão.
       </rule>
       <rule>
         <pattern>
+           <token postag='N.+|AQ.+' postag_regexp='yes'/>
+         <marker>
           <token>não</token>
           <token>militares</token>
+         </marker>
         </pattern>
         <message>Veja se pretende referir uma organização/empresa civil.</message>
         <suggestion>civis</suggestion>
