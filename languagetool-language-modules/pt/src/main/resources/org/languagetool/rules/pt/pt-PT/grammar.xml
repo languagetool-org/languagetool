@@ -167,6 +167,7 @@
       <example>manifesta apoio a aprendiz</example>
     </rule>
 
+
     <rulegroup id="ARTICLES_PRECEDING_LOCATIONS" name="[pt-PT]: Nomes geográficos que requerem artigo">
       <!-- Based on Catalan grammar.xml by Tiago F. Santos,  2017-09-05      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/toponimos-com-ou-sem-artigo/24569</url>
@@ -423,6 +424,26 @@
         <example correction="Salvador"><marker>El Salvador</marker>.</example>
       </rule>
     </rulegroup>
+
+
+    <!-- HABILITAÇÕES LITERÁRIAS habilitações académicas -->
+    <rule id='HABILITAÇÕES_LITERÁRIAS_ACADÉMICAS' name="[pt-PT]: Habilitações literárias → habilitações académicas" type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-25 (25-JUL-2022+) -->
+      <!--
+      Quais são as suas habilitações literárias? → Quais são as suas habilitações académicas?
+      -->
+      <pattern>
+        <token case_sensitive="no">Habilitações</token>
+        <marker>
+          <token case_sensitive="no">Literárias</token>
+        </marker>
+      </pattern>
+      <message>É mais corrente empregar o termo 'académicas'.</message>
+      <suggestion>académicas</suggestion>
+      <example correction="académicas">Quais são as suas habilitações <marker>literárias</marker>?</example>
+    </rule>
+
+
     <!-- ME DISSE Disse-me / ME DISSERAM Disseram-me / TE PODERIA Poder-te-ia / NOS PODERIAM Poder-nos-iam -->
     <rulegroup id='PROCLISE_COMECO_FRASE' name="[pt-PT]: Próclise começo frase">
       <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-25 + 2021-12-02 (25-JUN-2021+)      -->
