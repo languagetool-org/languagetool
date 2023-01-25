@@ -53921,6 +53921,39 @@ O namorado dela era um ladrão.
 
     <rule id="AU" name="Erro ortográfico: au/Au [unidade astronómica/ouro]">
       <!-- Localized from English grammar by Tiago F. Santos, 12-08-2019 -->
+      <antipattern>
+        <token postag="_QUOT|_PUNCT" postag_regexp='yes'/>
+        <token spacebefore='no'>au</token>
+        <example>jusqu'au premier novembre</example>
+      </antipattern>
+      <antipattern>
+        <token postag="_PUNCT"/>
+        <token>au</token>
+        <token postag="_PUNCT"/>
+        <example>O ditongo [au].</example>
+      </antipattern>
+      <antipattern>
+        <token postag="_QUOT" skip='-1'/>
+        <token skip='-1'>au</token>
+        <token postag="_QUOT"/>
+        <example> famosa "mise au tombeau" para a igreja</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>\p{Lu}.*</token>
+        <token>au</token>
+        <token regexp='yes'>\p{Lu}.*</token>
+        <example>A atual Pont au Change foi construída a partir de 1858.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes' skip="-1">&palavras_estrangeiras;</token>
+        <token>au</token>
+        <example>Le pain au chocolat.</example>
+      </antipattern>
+      <antipattern>
+        <token skip="-1">au</token>
+        <token regexp='yes'>&palavras_estrangeiras;</token>
+        <example>à chaque instant, au lycée, dans le métro</example>
+      </antipattern>
       <pattern case_sensitive="yes">
         <token>au
           <exception scope="next" regexp="yes">beurre|courant|contraire|fait|fond|gratin|jus|naturel|revoir</exception><!-- French terms that are used in English -->
