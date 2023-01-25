@@ -45889,10 +45889,12 @@ O namorado dela era um ladrão.
         <marker>
           <token regexp="yes">2[02]\d\d\d</token>
         </marker>
+          <token negate="yes" regexp="yes">&unidades_de_medida;|&unidades_de_medida_por_extenso;|&tracos_de_separacao;</token>
       </pattern>
       <message>Será que quis dizer <suggestion><match no='2' regexp_match="200(..)" regexp_replace="20$1"/></suggestion>?</message>
-      <example correction="2014">É o ano <marker>20014</marker>.</example>
-      <example correction="2014">És do ano <marker>20014</marker>.</example>
+      <suggestion><match no='2' regexp_match="(200.)." regexp_replace="$1"/></suggestion>
+      <example correction="2014|2001">É o ano <marker>20014</marker>.</example>
+      <example correction="2014|2001">És do ano <marker>20014</marker>.</example>
       <example>É de 2015.</example>
     </rule>
 
