@@ -3539,26 +3539,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>O último período da Pré-Historia demarca o conjunto de transformações que dão início às primeiras civilizações.</example>
     </rule>
 
-    <rulegroup id='A_APRENDIZ' name="Concordância: Variação (p.ex. juiz/juíza)">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag='D..F.+'/>
-          <token regexp='yes'>andaluz|aprendiz|petiz</token>
-        </pattern>
-        <message>Esta palavra é variável. Substitua por <suggestion>a \2a</suggestion>.</message>
-        <example correction="a aprendiza">Vamos ver <marker>a aprendiz</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag='D..F.+'/>
-          <token>juiz</token>
-        </pattern>
-        <message>Esta palavra é variável. Substitua por <suggestion>a juíza</suggestion>.</message>
-        <example correction="a juíza">Vamos ver <marker>a juiz</marker>.</example>
-        <example>…chegou a juiz por ter mandado prender…</example>
-      </rule>
-    </rulegroup>
 
     <!-- Specific gender concordance errors - A/AO > Ponto de    -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
@@ -53099,6 +53079,25 @@ O namorado dela era um ladrão.
       <example correction="inconsequente">Foi uma brincadeira <marker>inconseqüente</marker>.</example>
     </rule>
 
+      <rule id='REGULAR_FEMININE_FORMS' name="Concordância: Variação (p.ex. juiz/juíza)">
+        <pattern>
+          <or>
+          <token inflected='yes'>chegar</token>
+          <token negate_pos="yes" postag="VMP.+|N.+|AQ.+" postag_regexp="yes"/>
+          </or>
+          <token negate_pos="yes" postag="RG" min="0" skip="-1"/>
+         <marker>
+          <token postag_regexp='yes' postag='D..F.+'/>
+          <token case_sensitive="yes">juiz</token>
+         </marker>
+        </pattern>
+        <message>Esta palavra é variável. Substitua por <suggestion>\3 juíza</suggestion>.</message>
+        <suggestion><match no='3' postag_regexp='yes' postag='(D..)F(.+)' postag_replace='$1M$2'/> juiz</suggestion>
+        <suggestion>ao juiz</suggestion>
+        <example correction="a juíza|o juiz|ao juiz">Vamos ver <marker>a juiz</marker>.</example>
+        <example>…chegou a juiz por ter mandado prender…</example>
+        <example>manifesta apoio a juiz</example>
+      </rule>
 
     <rulegroup id='IRREGULAR_FEMININE_FORMS' name='Femininos irregulares'>
       <!-- Created by Tiago F. Santos, 2019-03-23 -->

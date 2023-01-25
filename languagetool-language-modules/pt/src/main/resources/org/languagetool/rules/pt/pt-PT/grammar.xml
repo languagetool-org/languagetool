@@ -149,6 +149,24 @@
 
 
   <category id="EUROPEAN_PORTUGUESE" name="Português de Portugal">
+
+    <rule id='A_APRENDIZ' name="Concordância: Variação (p.ex. juiz/juíza)">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+        <token negate_pos="yes" postag="VMP.+|N.+|AQ.+" postag_regexp="yes"/>
+        <token negate_pos="yes" postag="RG" min="0" skip="-1"/>
+       <marker>
+        <token postag_regexp='yes' postag='D..F.+'/>
+        <token regexp='yes'>andaluz|aprendiz|petiz</token>
+       </marker>
+      </pattern>
+      <message>Esta palavra é variável. Substitua por <suggestion>\3 \4a</suggestion>.</message>
+      <suggestion><match no='3' postag_regexp='yes' postag='(D..)F(.+)' postag_replace='$1M$2'/> \4</suggestion>
+      <suggestion>ao \4</suggestion>
+      <example correction="a aprendiza|o aprendiz|ao aprendiz">Vamos ver <marker>a aprendiz</marker>.</example>
+      <example>manifesta apoio a aprendiz</example>
+    </rule>
+
     <rulegroup id="ARTICLES_PRECEDING_LOCATIONS" name="Nomes geográficos que requerem artigo">
       <!-- Based on Catalan grammar.xml by Tiago F. Santos,  2017-09-05      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/toponimos-com-ou-sem-artigo/24569</url>
