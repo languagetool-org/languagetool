@@ -1967,6 +1967,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
     </rulegroup>
     <rulegroup id="SUB_PRT_VERB" name="Entferne Präteritum von Substantiv">
+        <!-- TODO: großgeschriebenes Imperativ (z.B. "Quell") und Konjunktiv -->
         <rule>
             <pattern case_sensitive="yes">
                 <token><exception postag="SENT_START"/><exception regexp="yes">[:;]</exception></token>
@@ -2125,10 +2126,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Be- und ..." id="BE_HYPHEN">
         <pattern case_sensitive="yes">
             <marker>
-                <token>Be-</token>
+                <token regexp="yes">[Bb]e-</token>
             </marker>
             <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
-            <token regexp="yes">Ent.+</token>
+            <token regexp="yes">[Ee]nt.+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -7181,9 +7182,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token regexp="yes">ich|bitte|dann|daher|deswegen</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
                 <marker>
                     <!-- verben, die großgeschrieben auch ein Substantiv sein könnten oder mit anderen Wörtern verwechselt werden könnten -->
-                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör|grab|cancel|ras</token>
+                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör|grab|cancel|ras|hinweis</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
