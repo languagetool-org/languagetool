@@ -16,16 +16,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ca;
+package org.languagetool.rules.es;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.Catalan;
+import org.languagetool.language.Spanish;
 import org.languagetool.rules.AbstractSuppressIfAnyRuleMatchesFilter;
 
 public class SuppressIfAnyRuleMatchesFilter extends AbstractSuppressIfAnyRuleMatchesFilter {
 
   @Override
   protected JLanguageTool getJLanguageTool() {
-    return new Catalan().createDefaultJLanguageTool();
+    return new Spanish().createDefaultJLanguageTool();
   }
 }
