@@ -442,7 +442,8 @@ public class SubjectVerbAgreementRuleTest {
         "Julia sagte, dass Vater und Mutter zu Hause sind.",
         "Damit müssen sie zurechtkommen, wenn Kinder zu Hause sind.",
         "Auch Studien zu Zink sind vielversprechend.",
-        "Die Züge vor Ort sind nicht klimatisiert."
+        "Die Züge vor Ort sind nicht klimatisiert.",
+        "Ich verspreche dir, dass wir ein tolles Team sind."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
