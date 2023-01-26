@@ -14072,6 +14072,23 @@ O namorado dela era um ladrão.
 
     <rulegroup id='IR_CONTRACTION_NOUN' name="Ir + na/no + nome">
       <!--      Created by Marco A.G.Pinto, 2017-07-XX      -->
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2023-01-26 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='VMN0000' postag_regexp='no'/>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token regexp='yes' spacebefore='no'>&pronomes_obliquos_sem_a_as_o_os;</token>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token regexp='no' inflected="yes" spacebefore='no'>ir</token>
+        <token regexp='yes'>n[ao]s?</token>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>        
+        <example>O peão focar-se-ia no semáforo da estrada.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-01-26 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <antipattern>
         <token skip='3'>ainda</token>
         <token inflected='yes'>ir
