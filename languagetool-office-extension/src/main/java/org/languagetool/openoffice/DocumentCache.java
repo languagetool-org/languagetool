@@ -1360,7 +1360,8 @@ public class DocumentCache implements Serializable {
   public String getTextParagraph(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      return textParagraph.type == CURSOR_TYPE_UNKNOWN ? null : paragraphs.get(toParaMapping.get(textParagraph.type).get(textParagraph.number));
+      return textParagraph.type == CURSOR_TYPE_UNKNOWN ? null : 
+        textParagraph.number < 0 ? new String("") : paragraphs.get(toParaMapping.get(textParagraph.type).get(textParagraph.number));
     } finally {
       rwLock.readLock().unlock();
     }
@@ -1385,7 +1386,7 @@ public class DocumentCache implements Serializable {
   public Locale getTextParagraphLocale(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      return textParagraph.type == CURSOR_TYPE_UNKNOWN ? 
+      return textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0 ? 
         null : locales.get(toParaMapping.get(textParagraph.type).get(textParagraph.number)).toLocaleWithoutLabel();
     } finally {
       rwLock.readLock().unlock();
@@ -1398,8 +1399,8 @@ public class DocumentCache implements Serializable {
   public List<Integer> getTextParagraphDeletedCharacters(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      return textParagraph.type == CURSOR_TYPE_UNKNOWN ?
-        null : deletedCharacters.get(toParaMapping.get(textParagraph.type).get(textParagraph.number));
+      return textParagraph.type == CURSOR_TYPE_UNKNOWN ? null : 
+        textParagraph.number < 0 ? new ArrayList<Integer> () : deletedCharacters.get(toParaMapping.get(textParagraph.type).get(textParagraph.number));
     } finally {
       rwLock.readLock().unlock();
     }
@@ -1411,7 +1412,7 @@ public class DocumentCache implements Serializable {
   public int[] getTextParagraphFootnotes(TextParagraph textParagraph) {
     rwLock.readLock().lock();
     try {
-      return textParagraph.type == CURSOR_TYPE_UNKNOWN ? 
+      return textParagraph.type == CURSOR_TYPE_UNKNOWN || textParagraph.number < 0 ? 
         new int[0] : footnotes.get(toParaMapping.get(textParagraph.type).get(textParagraph.number));
     } finally {
       rwLock.readLock().unlock();
@@ -1424,7 +1425,7 @@ public class DocumentCache implements Serializable {
   public void setTextParagraphFootnotes(TextParagraph textParagraph, int[] footnotePos) {
     rwLock.writeLock().lock();
     try {
-      if (textParagraph.type != CURSOR_TYPE_UNKNOWN) {
+      if (textParagraph.type != CURSOR_TYPE_UNKNOWN && textParagraph.number >= 0) {
         footnotes.set(toParaMapping.get(textParagraph.type).get(textParagraph.number), footnotePos);
       }
     } finally {
