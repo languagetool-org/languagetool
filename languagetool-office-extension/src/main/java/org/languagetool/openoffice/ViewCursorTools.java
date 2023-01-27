@@ -64,14 +64,12 @@ public class ViewCursorTools {
 
   ViewCursorTools(XComponent xComponent) {
     this.xComponent = xComponent;
-//    xDesktop = OfficeTools.getDesktop(xContext);
   }
 
   /**
    * document is disposed: set all class variables to null
    */
   public void setDisposed() {
-//    xDesktop = null;
     xComponent = null;
   }
 
@@ -147,23 +145,6 @@ public class ViewCursorTools {
           }
         }
       }
-/*        Commented out because shapes seams the more general concept to be      
-      //  Test if cursor position is in frame
-      XTextFramesSupplier xTextFrameSupplier = UnoRuntime.queryInterface(XTextFramesSupplier.class, curDoc);
-      XNameAccess xNamedFrames = xTextFrameSupplier.getTextFrames();
-      if (xNamedFrames != null) {
-        for (String name : xNamedFrames.getElementNames()) {
-          Object o = xNamedFrames.getByName(name);
-          if (o != null) {
-            XText xFrameText = UnoRuntime.queryInterface(XText.class,  o);
-            if (xFrameText != null && xViewCursorText.equals(xFrameText)) {
-              XTextRange range = getEnd ? vCursor.getEnd() : vCursor.getStart();
-              return range == null ? null : xFrameText.createTextCursorByRange(range);
-            }
-          }
-        }
-      }
-*/
       //  Test if cursor position is in shape
       XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
       if (xDrawPageSupplier != null) {
@@ -346,7 +327,6 @@ public class ViewCursorTools {
   /**
    * Return a List of all Page Styles
    */
-  
   private List<XPropertySet> getPagePropertySets() {
     try {
       List<XPropertySet> propertySets = new ArrayList<XPropertySet>();
@@ -440,35 +420,6 @@ public class ViewCursorTools {
           }
         }
       }
-/*        Commented out because shapes seams the more general concept to be      
-      //  Test if cursor position is in frame
-      XTextFramesSupplier xTextFrameSupplier = UnoRuntime.queryInterface(XTextFramesSupplier.class, curDoc);
-      XNameAccess xNamedFrames = xTextFrameSupplier == null ? null : xTextFrameSupplier.getTextFrames();
-      if (xNamedFrames != null) {
-        int nLastPara = 0;
-        String[] frameNames = xNamedFrames.getElementNames();
-        for (int i = frameNames.length - 1; i >= 0; i--) {
-          XText xFrameText = UnoRuntime.queryInterface(XText.class,  xNamedFrames.getByName(frameNames[i]));
-          if (xFrameText != null) {
-            if (xViewCursorText.equals(xFrameText)) {
-              XTextCursor xTextCursor = xFrameText.createTextCursorByRange(vCursor.getStart());
-              XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-              int pos = 0;
-              while (xParagraphCursor.gotoPreviousParagraph(false)) pos++;
-              return new TextParagraph(DocumentCache.CURSOR_TYPE_FRAME, pos + nLastPara);
-            } else {
-              XTextCursor xTextCursor = xFrameText.createTextCursor();
-              XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-              xParagraphCursor.gotoStart(false);
-              nLastPara++;
-              while (xParagraphCursor.gotoNextParagraph(false)){
-                nLastPara++;
-              }
-            }
-          }
-        }
-      }
-*/
       //  Test if cursor position is in shape
       XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
       if (xDrawPageSupplier != null) {
@@ -607,108 +558,6 @@ public class ViewCursorTools {
     return new TextParagraph(DocumentCache.CURSOR_TYPE_UNKNOWN, -1);
   }
   
-  /** 
-   * Returns a Paragraph cursor from ViewCursor supports text frame, footnotes, etc.
-   * Returns null if method fails
-   *//*
-  XParagraphCursor getFullParagraphCursorFromViewCursor() {
-    try {
-      XTextViewCursor vCursor = getViewCursor();
-      if (vCursor == null) {
-        return null;
-      }
-      XText xViewCursorText = vCursor.getText();
-      if (xViewCursorText == null) {
-        return null;
-      }
-      XTextDocument curDoc = getTextDocument();
-      if (curDoc == null) {
-        return null;
-      }
-      //  Test if cursor position is in document text
-      XText xText = curDoc.getText();
-      if (xViewCursorText.equals(xText)) {
-        XTextCursor xTextCursor = xText.createTextCursorByRange(vCursor.getStart());
-        if (xTextCursor == null) {
-          return null;
-        }
-        return UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-      }
-      //  Test if cursor position is in table
-      XTextTablesSupplier xTableSupplier = UnoRuntime.queryInterface(XTextTablesSupplier.class, curDoc);
-      XIndexAccess xTables = UnoRuntime.queryInterface(XIndexAccess.class, xTableSupplier.getTextTables());
-      if (xTables != null) {
-        for (int i = 0; i < xTables.getCount(); i++) {
-          XTextTable xTable = UnoRuntime.queryInterface(XTextTable.class, xTables.getByIndex(i));
-          for (String cellName : xTable.getCellNames()) {
-            XText xTableText = UnoRuntime.queryInterface(XText.class, xTable.getCellByName(cellName) );
-            if (xViewCursorText.equals(xTableText)) {
-              XTextCursor xTextCursor = xTableText.createTextCursorByRange(vCursor.getStart());
-              return UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-            }
-          }
-        }
-      }
-      //  Test if cursor position is at footnote
-      XFootnotesSupplier xFootnoteSupplier = UnoRuntime.queryInterface(XFootnotesSupplier.class, curDoc );
-      XIndexAccess xFootnotes = UnoRuntime.queryInterface(XIndexAccess.class, xFootnoteSupplier.getFootnotes());
-      if (xFootnotes != null) {
-        for (int i = 0; i < xFootnotes.getCount(); i++) {
-          XFootnote XFootnote = UnoRuntime.queryInterface(XFootnote.class, xFootnotes.getByIndex(i));
-          XText xFootnoteText = UnoRuntime.queryInterface(XText.class, XFootnote);
-          if (xViewCursorText.equals(xFootnoteText)) {
-            XTextCursor xTextCursor = xFootnoteText.createTextCursorByRange(vCursor.getStart());
-            return UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-          }
-        }
-      }
-      //  Test if cursor position is at endnote
-      XEndnotesSupplier xEndnotesSupplier = UnoRuntime.queryInterface(XEndnotesSupplier.class, curDoc );
-      XIndexAccess xEndnotes = UnoRuntime.queryInterface(XIndexAccess.class, xEndnotesSupplier.getEndnotes());
-      if (xEndnotes != null) {
-        for (int i = 0; i < xEndnotes.getCount(); i++) {
-          XFootnote xEndnote = UnoRuntime.queryInterface(XFootnote.class, xEndnotes.getByIndex(i));
-          XText xEndnoteText = UnoRuntime.queryInterface(XText.class, xEndnote);
-          if (xViewCursorText.equals(xEndnoteText)) {
-            XTextCursor xTextCursor = xEndnoteText.createTextCursorByRange(vCursor.getStart());
-            return UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-          }
-        }
-      }
-      //  Test if cursor position is at Header/Footer
-      List<XPropertySet> xPagePropertySets = getPagePropertySets();
-      for (XPropertySet xPagePropertySet : xPagePropertySets) {
-        if (xPagePropertySet != null) {
-          boolean firstIsShared = OfficeTools.getBooleanValue(xPagePropertySet.getPropertyValue("FirstIsShared"));
-          boolean headerIsOn = OfficeTools.getBooleanValue(xPagePropertySet.getPropertyValue("HeaderIsOn"));
-          boolean headerIsShared = OfficeTools.getBooleanValue(xPagePropertySet.getPropertyValue("HeaderIsShared"));
-          boolean footerIsOn = OfficeTools.getBooleanValue(xPagePropertySet.getPropertyValue("FooterIsOn"));
-          boolean footerIsShared = OfficeTools.getBooleanValue(xPagePropertySet.getPropertyValue("FooterIsShared"));
-          for (int i = 0; i < DocumentCursorTools.HeaderFooterTypes.length; i++) {
-            if ((headerIsOn && ((i == 0 && headerIsShared) 
-                || ((i == 1 || i == 2) && !headerIsShared)
-                || (i == 3 && !firstIsShared)))
-                || (footerIsOn && ((i == 4 && footerIsShared) 
-                    || ((i == 5 || i == 6) && !footerIsShared)
-                    || (i == 7 && !firstIsShared)))) {
-              XText xHeaderText = UnoRuntime.queryInterface(XText.class, xPagePropertySet.getPropertyValue(DocumentCursorTools.HeaderFooterTypes[i]));
-              if (xHeaderText != null && !xHeaderText.getString().isEmpty()) {
-                if (xViewCursorText.equals(xHeaderText)) {
-                  XTextCursor xTextCursor = xHeaderText.createTextCursorByRange(vCursor.getStart());
-                  return UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-                }
-              }
-            }
-          }
-        }
-      }
-    } catch (Throwable t) {
-    // Note: exception is thrown if graphic element is selected
-    //       return: null
-    }
-    return null;
-  }
-*/  
   /** 
    * Returns character number in paragraph
    * Returns a negative value if it fails
@@ -961,40 +810,7 @@ public class ViewCursorTools {
   }
   
   /** 
-   * Set the cursor to a paragraph of frame
-   */
-/*        Commented out because shapes seams the more general concept to be      
-  public void setViewCursorToParagraphOfFrame(int xChar, int numPara) {
-    isBusy++;
-    try {
-      XTextViewCursor vCursor = getViewCursor();
-      if (vCursor != null) {
-        XTextDocument curDoc = getTextDocument();
-        if (curDoc == null) {
-          return;
-        }
-        XTextFramesSupplier xTextFrameSupplier = UnoRuntime.queryInterface(XTextFramesSupplier.class, curDoc);
-        XNameAccess xNamedFrames = xTextFrameSupplier.getTextFrames();
-        int nLastPara = 0;
-        String[] frameNames = xNamedFrames.getElementNames();
-        for (int i = frameNames.length - 1; i >= 0; i--) {
-          XText xFrameText = UnoRuntime.queryInterface(XText.class,  xNamedFrames.getByName(frameNames[i]));
-          nLastPara = setViewCursorToParaIfFits(xChar, numPara, nLastPara, xFrameText, vCursor);
-          if (nLastPara == numPara) {
-            return;
-          }
-          nLastPara++;
-        }
-      }
-    } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
-    } finally {
-      isBusy--;
-    }
-  }
-*/  
-  /** 
-   * Set the cursor to a paragraph of frame
+   * Set the cursor to a paragraph of shape
    */
   public void setViewCursorToParagraphOfShape(int xChar, int numPara) {
     isBusy++;
@@ -1076,8 +892,6 @@ public class ViewCursorTools {
         setDocumentTextViewCursor(xChar, yPara.number);
       } else if (yPara.type == DocumentCache.CURSOR_TYPE_TABLE) {
         setViewCursorToParagraphOfTable(xChar, yPara.number);
-//      } else if (yPara.type == DocumentCache.CURSOR_TYPE_FRAME) {
-//        setViewCursorToParagraphOfFrame(xChar, yPara.number);
       } else if (yPara.type == DocumentCache.CURSOR_TYPE_SHAPE) {
         setViewCursorToParagraphOfShape(xChar, yPara.number);
       } else if (yPara.type == DocumentCache.CURSOR_TYPE_FOOTNOTE) {

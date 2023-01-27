@@ -67,7 +67,6 @@ public class LinguisticServices extends LinguServices {
       spellChecker = getSpellChecker(mxLinguSvcMgr);
       hyphenator = getHyphenator(mxLinguSvcMgr);
       synonymsCache = new HashMap<>();
-//      printLinguProperties(xContext);
     }
   }
 
@@ -446,7 +445,6 @@ public class LinguisticServices extends LinguServices {
     String ruleId = rule.getId();
     if (!thesaurusRelevantRules.contains(ruleId)) {
       thesaurusRelevantRules.add(ruleId);
-//      MessageHandler.printToLogFile("LinguisticServices: setThesaurusRelevantRule: Add ruleId:" + ruleId);
     }
   }
 
@@ -455,9 +453,6 @@ public class LinguisticServices extends LinguServices {
    * (match should give suggestions from thesaurus)
    */
   public boolean isThesaurusRelevantRule (String ruleId) {
-//    for (String id : thesaurusRelevantRules) {
-//      MessageHandler.printToLogFile("LinguisticServices: isThesaurusRelevantRule: contains rule:" + id);
-//    }
     return !noSynonymsAsSuggestions && thesaurusRelevantRules != null && thesaurusRelevantRules.contains(ruleId);
   }
 }

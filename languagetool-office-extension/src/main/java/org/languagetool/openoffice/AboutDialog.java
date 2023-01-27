@@ -168,12 +168,6 @@ public class AboutDialog {
       
       JButton copyToClipboard = new JButton(messages.getString("loCopyToClipBoardDesc"));
       copyToClipboard.addActionListener(e -> {
-/*
-        String str = "LanguageTool " + messages.getString("loAboutLtDesc") + "\n";
-        str += "\nCopyright (C) 2005-2022 the LanguageTool community and Daniel Naber.\n"
-            + "This software is licensed under the GNU Lesser General Public License.\n"
-            + "https://www.languagetool.org\n";
-*/
         String str = String.format("\nLanguageTool %s (%s, %s)\n"
             + "OS: %s %s (%s)\n"
             + "%s %s%s (%s), %s\n"
@@ -195,13 +189,6 @@ public class AboutDialog {
              Runtime.getRuntime().maxMemory()/1024/1024,
              Runtime.getRuntime().totalMemory()/1024/1024,
              Runtime.getRuntime().freeMemory()/1024/1024);
-/*
-        str += String.format("\nMaintainer of the office extension: %s\n"
-            + "\nMaintainers or former maintainers of the language modules -\n"
-            + "(*) means language is unmaintained in LanguageTool:\n\n",
-            OfficeTools.EXTENSION_MAINTAINER);
-        str += getMaintainersAsText();
-*/
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Clipboard clipboard = toolkit.getSystemClipboard();
         StringSelection strSel = new StringSelection(str);
@@ -354,9 +341,6 @@ public class AboutDialog {
         for (Contributor contributor : maintainers) {
           if (i > 0) {
             str.append(", ");
-//            if (i % 3 == 0) {
-//              str.append("\n");
-//            }
           }
           str.append(contributor.getName());
           i++;

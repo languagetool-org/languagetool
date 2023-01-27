@@ -450,7 +450,6 @@ public class OfficeDrawTools {
           }
           XShapes xShapes = OfficeDrawTools.getShapes(xDrawPage);
           int nShapes = xShapes.getCount();
-//          MessageHandler.printToLogFile("OfficeDrawTools: setCurrentPage: Page: " + i + ", n: " +n + ", nParaCount: " + nParaCount);
           for(int j = 0; j < nShapes; j++) {
             Object oShape = xShapes.getByIndex(j);
             XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);

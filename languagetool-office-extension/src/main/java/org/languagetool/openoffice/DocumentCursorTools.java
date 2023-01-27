@@ -46,6 +46,7 @@ import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextFramesSupplier;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextTable;
@@ -283,7 +284,6 @@ class DocumentCursorTools {
         }
       }
       allParas.add(xPCursor.getString());
-//      MessageHandler.printToLogFile("DocumentCursor: getAllTextParagraphs: Para(" + paraNum + ") added");
       deletedCharacters.add(getDeletedCharacters(xPCursor));
       TextType textType = getTextType();
       if (textType == TextType.HEADING) {
@@ -299,9 +299,7 @@ class DocumentCursorTools {
         xPCursor.gotoStartOfParagraph(false);
         xPCursor.gotoEndOfParagraph(true);
         allParas.add(xPCursor.getString());
-//        MessageHandler.printToLogFile("DocumentCursor: getAllTextParagraphs: Para(" + (paraNum + 1) + ") added");
         deletedCharacters.add(getDeletedCharacters(xPCursor));
-//        MessageHandler.printToLogFile("DocumentCursor: getAllTextParagraphs: deletedCharacters(" + (paraNum + 1) + ") added");
         paraNum++;
         textType = getTextType();
         if (textType == TextType.HEADING) {
@@ -313,7 +311,6 @@ class DocumentCursorTools {
         if (sortedTextIds != null) {
           sortedTextIds.add(getSortedTextId(xPCursor));
         }
-//        MessageHandler.printToLogFile("DocumentCursor: getAllTextParagraphs: headingNumbers(" + (paraNum) + ") added");
       }
       return new DocumentText(allParas, headingNumbers, automaticTextParagraphs, sortedTextIds, deletedCharacters);
     } catch (Throwable t) {
@@ -368,7 +365,7 @@ class DocumentCursorTools {
   /**
    * Print properties to log file for the actual position of cursor
    */
-  private void printProperties() {
+  void printProperties() {
     if (xPCursor == null) {
       MessageHandler.printToLogFile("DocumentCursorTools: Properties: ParagraphCursor == null");
       return;
@@ -379,7 +376,6 @@ class DocumentCursorTools {
       MessageHandler.printToLogFile("DocumentCursorTools: Properties: Name: " + property.Name + ", Type: " + property.Type);
     }
     try {
-//      MessageHandler.printToLogFile("DocumentCursorTools: Properties: ParaStyleName: " + xParagraphPropertySet.getPropertyValue("ParaStyleName"));
       MessageHandler.printToLogFile("DocumentCursorTools: Properties: SortedTextId: " + xParagraphPropertySet.getPropertyValue("SortedTextId") + "\n");
     } catch (Throwable e) {
       MessageHandler.printException(e);
@@ -415,7 +411,6 @@ class DocumentCursorTools {
       XPropertySet xParagraphPropertySet = UnoRuntime.queryInterface(XPropertySet.class, xPCursor.getStart());
       return xParagraphPropertySet.getPropertyValue("SortedTextId") != null;
     } catch (Throwable e) {
-//      MessageHandler.printException(e);
     }
     return false;
   }
@@ -430,21 +425,15 @@ class DocumentCursorTools {
       return sortedTextIds;
     }
     try {
-      try {
-        if (sortedTextIds == null && (hasSortedTextId || !isCheckedSortedTextId)) {
-          isCheckedSortedTextId = true;
-          if (hasSortedTextId || supportOfSortedTextId(xParagraphCursor)) {
-            hasSortedTextId = true;
-            sortedTextIds = new ArrayList<Integer>();
-          }
+      if (sortedTextIds == null && (hasSortedTextId || !isCheckedSortedTextId)) {
+        isCheckedSortedTextId = true;
+        if (hasSortedTextId || supportOfSortedTextId(xParagraphCursor)) {
+          hasSortedTextId = true;
+          sortedTextIds = new ArrayList<Integer>();
         }
-      } catch (Exception e) {
-        // TODO Automatisch generierter Erfassungsblock
-        e.printStackTrace();
       }
     } catch (Exception e) {
-      // TODO Automatisch generierter Erfassungsblock
-      e.printStackTrace();
+      MessageHandler.printException(e);
     }
     xParagraphCursor.gotoStart(false);
     do {
@@ -475,14 +464,15 @@ class DocumentCursorTools {
   
   /** 
    * Returns all paragraphs of all text frames of a document
+   * NOTE: Is currently not used 
    */
-/*        Commented out because shapes seams the more general concept to be      
   public DocumentText getTextOfAllFrames() {
     isBusy++;
     try {
       List<String> sText = new ArrayList<String>();
       List<Integer> headingNumbers = new ArrayList<Integer>();
       List<List<Integer>> deletedCharacters = new ArrayList<List<Integer>>();
+      List<Integer> sortedTextIds = null;
       XTextFramesSupplier xTextFrameSupplier = UnoRuntime.queryInterface(XTextFramesSupplier.class, curDoc);
       XNameAccess xNamedFrames = xTextFrameSupplier.getTextFrames();
       for (String name : xNamedFrames.getElementNames()) {
@@ -490,7 +480,7 @@ class DocumentCursorTools {
         List<List<Integer>> delCharacters = new ArrayList<List<Integer>>();
         Object o = xNamedFrames.getByName(name);
         XText xFrameText = UnoRuntime.queryInterface(XText.class,  o);
-        addAllParagraphsOfText(xFrameText, sTxt, delCharacters);
+        addAllParagraphsOfText(xFrameText, sTxt, delCharacters, sortedTextIds);
         for (int i = 0; i < headingNumbers.size(); i++) {
           headingNumbers.set(i, headingNumbers.get(i) + sTxt.size());
         }
@@ -498,7 +488,7 @@ class DocumentCursorTools {
         sText.addAll(0, sTxt);
         deletedCharacters.addAll(0, delCharacters);
       }
-      return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), deletedCharacters);
+      return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), sortedTextIds, deletedCharacters);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed
@@ -506,11 +496,11 @@ class DocumentCursorTools {
       isBusy--;
     }
   }
-*/  
+
   /** 
    * Returns the number of all paragraphs of all text frames of a document
+   * NOTE: Is currently not used 
    */
-/*        Commented out because shapes seams the more general concept to be      
   public int getNumberOfAllFrames() {
     isBusy++;
     try {
@@ -532,7 +522,7 @@ class DocumentCursorTools {
       isBusy--;
     }
   }
-*/  
+
   /** 
    * Returns all paragraphs of all text shapes of a document
    */

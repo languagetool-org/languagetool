@@ -393,10 +393,6 @@ public class MultiDocumentsHandler {
       cfgDialog.close();
       cfgDialog = null;
     }
-//    if (aboutDialog != null) {
-//      aboutDialog.close();
-//      aboutDialog = null;
-//    }
   }
   
   /**
@@ -1088,7 +1084,6 @@ public class MultiDocumentsHandler {
    *  return true if toggle was done 
    */
   public boolean toggleNoBackgroundCheck() throws IOException {
-//    MessageHandler.printToLogFile("MultiDocumentsHandler: setNoBackgroundCheck: noCheck = " + noCheck + ", noBackgroundCheck = " + noBackgroundCheck);
     if (docLanguage == null) {
       docLanguage = getLanguage();
     }
@@ -1695,7 +1690,6 @@ public class MultiDocumentsHandler {
         lt = initLanguageTool(true);
         initCheck(lt);
         initDocuments(true);
-//        setJavaLookAndFeel();
         return true;
       } else {
         resetCheck();
@@ -1865,7 +1859,6 @@ public class MultiDocumentsHandler {
    */
   public void runShapeCheck (boolean hasShapes, int where) {
     try {
-//      MessageHandler.printToLogFile("MultiDocumentsHandler: runShapeCheck: hasShapes: " + hasShapes + " from " + where);
       if (hasShapes && (shapeChangeCheck == null || !shapeChangeCheck.isRunning())) {
         MessageHandler.printToLogFile("MultiDocumentsHandler: runShapeCheck: start");
         shapeChangeCheck = new ShapeChangeCheck();

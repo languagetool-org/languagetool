@@ -40,8 +40,6 @@ public class TextLevelCheckQueue {
   public static final int STOP_FLAG = 2;
   public static final int DISPOSE_FLAG = 3;
 
-  private static final int MAX_WAIT = 5000;
-  
   private static final int HEAP_CHECK_INTERVAL = 50;
 
   private List<QueueEntry> textRuleQueue = Collections.synchronizedList(new ArrayList<QueueEntry>());  //  Queue to check text rules in a separate thread
@@ -198,7 +196,6 @@ public class TextLevelCheckQueue {
       }
       textRuleQueue.add(queueEntry);
     }
-//    doReset();
     wakeupQueue();
   }
   
@@ -225,24 +222,6 @@ public class TextLevelCheckQueue {
     }
   }
   
-  /**
-   * Set interrupt and wait till finish last check
-   */
-  private void waitForInterrupt() {
-    interruptCheck = true;
-    MessageHandler.printToLogFile("TextLevelCheckQueue: waitForInterrupt: Interrupt initiated");
-    wakeupQueue();
-    int n = 0;
-    while (interruptCheck && n < MAX_WAIT) {
-      try {
-        Thread.sleep(1);
-        n++;
-      } catch (InterruptedException e) {
-        MessageHandler.showError(e);
-      }
-    }
-  }
-
   /**
    *  get the document by ID
    */
@@ -308,42 +287,10 @@ public class TextLevelCheckQueue {
   }
   
   /**
-   * reset LanguageToo; do an new initialization
-   */
-  private void doReset() {
-    textRuleQueue.clear();
-    queueIterator.initLangtool(null);
-  }
-  
-  /**
    *  get an entry for the next unchecked paragraphs
    */
   QueueEntry getNextQueueEntry(TextParagraph nPara, String docId) {
     List<SingleDocument> documents = multiDocHandler.getDocuments();
-/*
-    if (!DocumentCursorTools.isBusy() && !ViewCursorTools.isBusy() && !FlatParagraphTools.isBusy()) {
-      XComponent xComponent = OfficeTools.getCurrentComponent(multiDocHandler.getContext());
-      ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
-      TextParagraph cursorPara = viewCursor.getViewCursorParagraph();
-      if (cursorPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
-        if (lastCursorPara < 0 || cursorPara.number != lastCursorPara || lastCursorComponent == null || !lastCursorComponent.equals(xComponent)) {
-          lastCursorComponent = xComponent;
-          lastCursorPara = cursorPara.number;
-          for (int n = 0; n < documents.size(); n++) {
-            if (xComponent.equals(documents.get(n).getXComponent())) {
-              docId = documents.get(n).getDocID();
-              break;
-            }
-          }
-          nPara = cursorPara;
-          if (debugMode) {
-            MessageHandler.printToLogFile("TextLevelCheckQueue: getNextQueueEntry: Next Paragraph set to View Cursor: Type = " + nPara.type 
-                + ", number = " + nPara.number + ", docId = " + docId);
-          }
-        }
-      }
-    }
-*/
     int nDoc = 0;
     for (int n = 0; n < documents.size(); n++) {
       if ((docId == null || docId.equals(documents.get(n).getDocID())) && !documents.get(n).isDisposed() && documents.get(n).getDocumentType() == DocumentType.WRITER) {
