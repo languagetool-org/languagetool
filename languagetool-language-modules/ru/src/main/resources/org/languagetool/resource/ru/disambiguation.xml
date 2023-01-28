@@ -165,7 +165,7 @@ Copyright (C) 2009-2023 Yakov Reztsov
     <!--
     <rule name="NOUN_V5" id="NOUN_V5">
         <pattern>	 
-            <token skip="1">где</token>  
+            <token skip="1">где </token>  
             <marker>
                 <and>
                     <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
@@ -671,7 +671,16 @@ Copyright (C) 2009-2023 Yakov Reztsov
             </marker>
             <token>.</token> 
         </pattern>
-         <disambig action="add" ><wd pos="ABR"></wd></disambig>
+        <disambig action="add" ><wd pos="ABR"></wd></disambig>
+    </rule>
+    <rule name="ABR_without_dot" id="ABR_without_dot">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">т|тел|Тел</token>
+            </marker>
+            <token>:</token> 
+        </pattern>
+        <disambig action="add" ><wd pos="ABR"></wd></disambig>
     </rule>
      <!-- double -->
     <rule id="NumD_D_tag" name="NumD_D tag">
