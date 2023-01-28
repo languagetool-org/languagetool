@@ -6452,9 +6452,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          </rule>
          <rule>
             <pattern>
-                <token negate_pos="yes"  postag='NumC:.*' postag_regexp='yes'></token>
+                <token negate_pos="yes"  postag='NumC:.*' postag_regexp='yes'><exception regexp="yes">без|к|из</exception></token>
                 <marker>
-                <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:Nom'></exception><exception regexp='yes'>одиножды|дважды|трижды|четырежды|пятью|шестью|семью|восемью|девятью</exception></token>
+                <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:Nom'></exception><exception regexp='yes'>двоих|одиножды|дважды|трижды|четырежды|пятью|шестью|семью|восемью|девятью|десятью</exception></token>
                 <token skip="1" postag='NumC:Nom'><exception  scope="next" postag_regexp="yes" postag='NumC:.*'></exception></token>
                 </marker>
             </pattern>
@@ -6462,7 +6462,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='двадцать пять'>Способ номер <marker>двадцатью пять</marker>.</example>
+            <example correction='двадцать пять'>Способ номер <marker>двадцати пять</marker>.</example>
             <example>Способ номер двадцать пять.</example>
+            <example>Школа начинается без двадцати девять.</example> <!-- test -->
          </rule>
        <!-- Склонение количественных числительных (Р) --> 
          <rule>
