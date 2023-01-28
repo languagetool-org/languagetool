@@ -17394,6 +17394,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='ułatwić'>Nasza aplikacja ma <marker>uczynić  łatwiejszym</marker> organizację czasu, bez rozbudowanych ponad miarę opcji.</example>
                 <example>Nasza aplikacja ma ułatwić organizację czasu, bez rozbudowanych ponad miarę opcji.</example>
             </rule>
+            <rule id="UCZYNIC_SZCZESLIWYM_USZCZESLIWIC" name="„Uczynić szczęśliwym” (uszczęśliwić)">
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>uczynić</token>
+                        <token regexp='yes'>szczęśliw(ym|ą)</token>
+                    </marker>
+                    <token><exception regexp='yes'>(subst|ger):sg:inst.*</exception></token>
+                </pattern>
+                <message>Rozwlekły styl. Lepiej: <suggestion><match no="1" regexp_match="czyn" regexp_replace="szczęśliw"/></suggestion>.</message>
+                <short>Rozwlekłość</short>
+                <example correction='uszczęśliwiło'>Ale jakże mnie to <marker>uczyniło szczęśliwym</marker>!</example>
+                <example>Ale jakże mnie to uszczęśliwiło!</example>
+            </rule>
             <rulegroup id="ZBEDNY_MIESIAC" name="Zbędna nazwa miesiąca w zakresie dat">
             <rule>
             <pattern>
