@@ -471,6 +471,7 @@ public class German extends Language implements AutoCloseable {
       case "GERMAN_WORD_REPEAT_RULE": return -15; // lower prio than SAGT_RUFT and KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ_2
       case "TOO_LONG_PARAGRAPH": return -15;
       case "ALL_UPPERCASE": return -15;
+      case "NUR_LEDIGLICH": return -16; // lower prio than GERMAN_WORD_REPEAT_RULE
       case "COMMA_BEHIND_RELATIVE_CLAUSE": return -52; // less prio than AI_DE_HYDRA_LEO
       case "DOPPELUNG_MODALVERB": return -52; // prefer comma rules (DOPPELUNG_MODALVERB, AI)
       case "VER_DOPPELUNG": return -52; // prefer comma rules (including AI)
