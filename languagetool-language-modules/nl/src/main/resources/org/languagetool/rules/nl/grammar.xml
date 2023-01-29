@@ -13340,6 +13340,20 @@ onwaarschijnlijk
                 <example correction="o.a.">Het is <marker>o.a</marker> een misser.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AFKO_PUNT3" name="he. jij/ hè, jij" defaulkt="temp_off">
+            <!-- R. Baars december 2022 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" postag="UNKNOWN">[a-z]{2,4}</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                    <token spacebefore="yes" regexp="yes">[a-z].*</token>
+                </pattern>
+                <message>Dit zou een onofficiële afkorting kunnen zijn, maar ook een punt die per ongeluk daar staat in plaats van een komma. Of er is een hoofdletter vergeten.</message>
+                <example type = "incorrect">Het is fout <marker>qc.</marker> een misser.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NL_PUNT" name="nl. → namelijk">
             <antipattern><token>.</token><token spacebefore="no">nl</token></antipattern> <!-- tegen html-klets -->
             <rule>
