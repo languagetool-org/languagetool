@@ -12110,7 +12110,7 @@ O namorado dela era um ladrão.
 
     <!-- TER TANTO COMO ter tanto quanto -->
     <rule id='COMO_QUANTO' name="Confusão: como/quanto">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-28 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-28 (25-JUL-2022+) -->
       <!--
       Quem me dera ter tanta Coca-Cola como juízo. → Quem me dera ter tanta Coca-Cola quanto juízo.
       -->
@@ -12130,6 +12130,32 @@ O namorado dela era um ladrão.
       <message>Possível confusão de termos.</message>
       <suggestion>quanto</suggestion>
       <example correction="quanto">Quem me dera ter tanta Coca-Cola <marker>como</marker> juízo.</example>
+    </rule>
+
+
+    <!-- SER TANTO RICO COMO ser tão rico como -->
+    <rule id='TANTO_TÃO' name="Confusão: tanto/tão">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-29 (25-JUL-2022+) -->
+      <!--
+      Quero ser tanto rico como ele é. → Quero ser tão rico como ele é.
+      Quero ser tanto rico como a Ana. → Quero ser tão rico como a Ana.
+      -->
+      <pattern>
+        <token inflected='yes'>ser</token>
+        <marker>
+          <token regexp='yes'>tant[ao]</token>  
+        </marker>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception regexp='no'>como</exception>
+        </token>
+        <token regexp='no'>como</token>
+        <token min="0" max="1" postag='DA.+|DI.+|SPS00' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+|PP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>tão</suggestion>
+      <example correction="tão">Quero ser <marker>tanto</marker> rico como ele é.</example>
+      <example correction="tão">Quero ser <marker>tanto</marker> rico como a Ana.</example>
     </rule>
 
 
