@@ -4,10 +4,9 @@
 <formathandle type="start" include="no"></formathandle>
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
-<okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes"></okpsrx:options>
-<okpsrx:sample language="pl" useMappedRules="yes">Als een hoogleraar met emeritaat ('pensioen') is, mag hij de functieaanduiding prof. blijven gebruiken, maar hij heeft tevens het recht gekregen om het bijvoeglijk naamwoord emeritus (Latijn voor 'uitgediend') aan zijn functietitel toe te voegen: em. prof. dr.
-Tussen de twee wereldoorlogen vestigde prof. ir. Messerschmitt zich in Augsburg waar hij met behulp van een oudere, rijke vriendin (met wie hij later trouwde) zijn eerste vliegtuigen bouwde, het waren passagierstoestellen.
-250 p. n.e.</okpsrx:sample>
+<okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
+<okpsrx:sample language="nl" useMappedRules="yes">J.H. Speenhoff en Nap de la Mar. Overigens werd er in die tijd de meeste muziek op 78 toeren grammofoonplaten opgenomen. Maar in Mar. staat geschreven
+</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1571,6 +1570,10 @@ Tussen de twee wereldoorlogen vestigde prof. ir. Messerschmitt zich in Augsburg 
 <beforebreak>\b(enz|etc|zat|ambt|al|ver|art|wed|lab|bv|Bros)\.\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
+<rule break="yes">
+<beforebreak>\s(la|do|del)\sMar\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b(Ge?n|Ex|Le?v|Nu?m|D(eu)?t|Jo?z|Ri|R[ei]cht|Sa?m|Ko?n|Kr[on]{0,2}|Neh?|Est?|Jb|Ps|Spr?|Pr[ed]{0,2}|H(oog)?l|Je?s|Je?r|Kl(aagl)?|Ez(ech)?|Da?n|Ho?s|Jl|Am|Ob|Mc|Mi[ch]{0,2}|Nah?|Hk|Hab|Zf|[SZ]ef|Ha?g|Zc|Zach|Ma?l|Ma?t|Mk|Mar|Lk|Jh|H(an)?d|Ro?m|Kor|Ga?l|Ef|Fp|Fil|Ko|[CK]ol|Th|Th?e[s]{1,2}|Tm|Ti?t|Fm|Fil(em)?|Hb|Hebr?|Jk|Ja[ck]|Pe?tr?|Joh|Jud|Op(enb)?|Wijsh|Tob|Sir|Bar|Makk)\.\s</beforebreak>
 <afterbreak></afterbreak>
@@ -1580,7 +1583,11 @@ Tussen de twee wereldoorlogen vestigde prof. ir. Messerschmitt zich in Augsburg 
 <afterbreak>\p{Lu}</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b([Mm]ej|[Mm]evr|[Mm]rs|[Mm]s|[Mm]gr|[Mm]w|Ndl|Ned|Nl|No|Prof|[Ss]ecr|Chr|Jac|[Ww]ed)\.\s</beforebreak>
+<beforebreak>\b(Stb)\.\s</beforebreak>
+<afterbreak>[0-9]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b([Mm]ej|[Mm]evr|[Mm]rs|[Mm]s|[Mm]gr|[Mm]w|Ndl|Ned|Nl|No|Prof|[Ss]ecr|Chr|Jac|[Ww]ed|Zr)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1731,6 +1738,10 @@ Tussen de twee wereldoorlogen vestigde prof. ir. Messerschmitt zich in Augsburg 
 <rule break="no">
 <beforebreak>Warner Bros\.</beforebreak>
 <afterbreak>[a-z]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s'[2-9][.]\s</beforebreak>
+<afterbreak></afterbreak>
 </rule>
 <rule break="yes">
 <beforebreak>[.!?…][’'"\u00BB\u2019\u201D\u203A\u00AB\p{Pe}\u0002¹²³]*\s</beforebreak>
