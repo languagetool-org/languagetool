@@ -909,6 +909,20 @@ Copyright (C) 2009-2023 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="VB:.*:.*:.*:.*"></disambig>
     </rule>
+    <rule name="ADJ_Fam" id="ADJ_Fam">
+        <pattern>		   
+            <!-- Мария Готова или Мария готова пойти. -->
+            <!-- TO DO: make inverse rule   -->
+            <token postag="NN:Name:.*:.*:.*" postag_regexp="yes"></token>
+            <marker>
+                <and>
+                    <token postag="NN:Fam:.*:.*:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[А-ЯЁ][а-яё]*</token>
+                    <token postag="VB:.*:.*:.*:.*|ADJ:.*:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[А-ЯЁ][а-яё]*</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VB:.*:.*:.*:.*|ADJ:.*:.*"></disambig>
+    </rule>
      
   <rulegroup id="po-ADJ" name="po-ADJ">  <!-- по-мышиному -->
         <rule>
