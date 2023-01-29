@@ -28,31 +28,27 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.rules.patterns.RuleFilter;
 
 public abstract class AbstractSuppressIfAnyRuleMatchesFilter extends RuleFilter {
-  
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     List<String> ruleIDs = Arrays.asList(getRequired("ruleIDs", arguments).split(","));
     JLanguageTool lt = getJLanguageTool();
-    for (Rule r : lt.getAllRules()) {
-      if (ruleIDs.contains(r.getId())) {
-        lt.enableRule(r.getId());
-      } else {
-        lt.disableRule(r.getId());
-      }
-    }
     String sentence = match.getSentence().getText();
     for (String replacement : match.getSuggestedReplacements()) {
-      String newSentence = sentence.substring(0, match.getFromPos()) + replacement + sentence.substring(match.getToPos());
+      String newSentence = sentence.substring(0, match.getFromPos()) + replacement
+          + sentence.substring(match.getToPos());
       List<RuleMatch> matches = lt.check(newSentence);
       for (RuleMatch m : matches) {
-        if ((m.getToPos() >= match.getFromPos() && m.getToPos() <= match.getToPos())
-            || (match.getToPos() >= m.getFromPos() && match.getToPos() <= m.getToPos())) {
-          return null;
+        if (ruleIDs.contains(m.getRule().getId())) {
+          if ((m.getToPos() >= match.getFromPos() && m.getToPos() <= match.getToPos())
+              || (match.getToPos() >= m.getFromPos() && match.getToPos() <= m.getToPos())) {
+            return null;
+          }
         }
       }
     }
-    return match;    
+    return match;
   }
   
   protected abstract JLanguageTool getJLanguageTool();
