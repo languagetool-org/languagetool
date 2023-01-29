@@ -6830,6 +6830,11 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rulegroup id="possible_np" name="posible nombre propio">
         <rule>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token min="1" max="4" regexp="yes">\p{P}</token>
+                <token/>
+            </antipattern>
             <pattern>
                 <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception><exception regexp="yes">[¿¡"'«»‘“:]</exception></token>
                 <marker>
