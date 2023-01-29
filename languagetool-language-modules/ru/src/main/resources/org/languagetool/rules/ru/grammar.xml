@@ -3772,7 +3772,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="GDE_COMMA" name="Запятая перед союзом «где»">
             <pattern>
                 <marker>
-                    <token negate="yes">,<exception postag="SENT_START"/><exception postag="PARTICLE"/><exception regexp="yes">["«(-—–]</exception></token>
+                    <token negate="yes">,<exception postag="SENT_START"/>
+                        <exception postag="PARTICLE"/>
+                        <exception regexp="yes">["«(-—–]</exception>
+                        <exception>но</exception>
+                    </token>
                     <token case_sensitive="yes" skip="1">где</token>
                 </marker>
                 <or>
@@ -3785,6 +3789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="изображений, где">Одно из тех <marker>изображений где</marker> глаза специально нарисованы.</example>
             <example>Одно из тех изображений, где глаза специально нарисованы.</example>
             <example>Где это?</example>
+            <example>Но где снега былых времён?</example>
             <example>А где мой чай?</example>
         </rule>
         <rulegroup id="da_and_da" name="Пунктуация при союзах: «да» + «да»">
