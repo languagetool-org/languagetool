@@ -12007,11 +12007,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rule  id="Tak_kak_to" name="Устойчивое выражение: «Так как ..., то»">  
-             <pattern>             
+        <rule  id="Tak_kak_to" name="Устойчивое выражение: «Так как ..., то»" tags="picky">  
+            <pattern>             
                  <marker>
                      <token>так</token>
-                     <token skip="-1"><exception regexp="yes" >как|если|[,;:«]|же|и|или|называем.*|просто|например|опасно</exception><exception postag="PREP|VB:.*" postag_regexp="yes" /></token>
+                     <token skip="-1"><exception regexp="yes" >как|если|[,;:«]|же|и|или|называем.*|просто|например|опасно</exception><exception postag="PREP|VB:.*" postag_regexp="yes" /><exception>не</exception></token>
                  </marker>
                      <token>,</token>
                      <token>то</token>
@@ -12020,6 +12020,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              <short>Устойчивое выражение</short>
              <example>Так как отражение от такой границы практически отсутствует, то распределение поля перед ней с хорошей степенью точности совпадает со случаем "открытых" граничных условий, который тождественен бесконечной среде.</example>
              <example>Если это так опасно, то требуется осторожность.</example>
+             <example>А если ты так не думаешь, то нет.</example>
              <example correction="Так как отражение"><marker>Так отражение</marker> от такой границы практически отсутствует, то  распределение поля перед ней с хорошей степенью точности совпадает со случаем "открытых" граничных условий, который тождественен бесконечной среде.</example>
         </rule>          
         
