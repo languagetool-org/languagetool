@@ -4,6 +4,11 @@
 
 ...
 
+#### Russian
+  * added and improved rules
+  * improved disambiguation
+  * added words and POS data
+
 
 ## 6.0 (released 2022-12-29)
 
