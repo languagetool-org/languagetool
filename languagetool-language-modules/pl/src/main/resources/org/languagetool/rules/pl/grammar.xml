@@ -8507,7 +8507,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes" regexp="yes">(?:nie)?(?:znany|obojętny|przeciwny|potrzebny|równy|wdzięczny|wierny|obcy|drogi|zbędny|rad|wstrętny|straszny|życzliwy)|(?:winny|wiadomy|właściwy|bliski|podległy|podszyć|wydawać)</token>
         </antipattern>
         <antipattern> <!-- rzeczowniki wymagające dopełniacza -->
-          <token inflected="yes" regexp="yes">grupa|pozycja|strata|funkcja|towarzystwo|wrażenie|miano|nazwa|treść|obraz|typ|rodzaj|brak|większość|pół|grono|mnóstwo|masa|lista|poziom|postać|powód|przyczyna|skutek|szereg|para|połowa|rola|tłum|liczba|tysiąc|milion|kolejka</token>
+          <token inflected="yes" regexp="yes">grupa|pozycja|strata|fala|funkcja|towarzystwo|wrażenie|miano|nazwa|treść|obraz|typ|rodzaj|brak|większość|pół|grono|mnóstwo|masa|lista|poziom|postać|powód|przyczyna|skutek|szereg|para|połowa|rola|tłum|liczba|tysiąc|milion|kolejka</token>
           <token postag="(adj|ppas|pact|subst).*gen.*" postag_regexp="yes"/>        
         </antipattern>
         <antipattern> <!-- przymiotniki wymagające „w” + locativus -->
@@ -8718,8 +8718,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Odpłacił napastnikowi świetną satyrą w drugiej części swego Don Kichota.</example>
       <example>Ciało się wasze potężniejszym czyni.</example>
       <example>Buchnął gwar potężny, podobny do huku bijących o skały, rozszalałych fal morskich.</example>
-		</rule>
-		  <rulegroup id="DWA_LUB_WIECEJ" name="„dwa lub więcej” (co najmniej dwa)">
+      <example>To była druga fala odwiedzających.</example>
+      </rule>
+
+      <rulegroup id="DWA_LUB_WIECEJ" name="„dwa lub więcej” (co najmniej dwa)">
       <rule>
         <pattern>
           <token postag="prep:gen.*|&lt;/PREP:GEN&gt;" postag_regexp="yes"></token>
@@ -17372,14 +17374,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token inflected='yes'>uczynić</token>
-                        <token regexp='yes'>możliw(ym|ą)</token>
+                        <token regexp='yes'>(nie)?możliw(ym|ą)</token>
                     </marker>
                     <token><exception regexp='yes'>(subst|ger):sg:inst.*</exception></token>
                 </pattern>
-                <message>Rozwlekły styl. Lepiej: <suggestion><match no="1" regexp_match="czyn" regexp_replace="możliw"/></suggestion>.</message>
+                <message>Rozwlekły styl. Lepiej: <suggestion>u<match no="2" regexp_match="^(nie)?.*$" regexp_replace="$1"></match><match no="1" regexp_match="uczyn" regexp_replace="możliw"/></suggestion>.</message>
                 <short>Rozwlekłość</short>
-                <example correction='umożliwiło'>Uwolnienie mas od pracy, spowodowane poszerzeniem sfery czasu wolnego, <marker>uczyniło  możliwym</marker> ich udział w kulturze.</example>
-                <example>Uwolnienie mas od pracy, spowodowane poszerzeniem sfery czasu wolnego, umożliwiło  ich udział w kulturze.</example>
+                <example correction='umożliwiło'>Uwolnienie mas od pracy, spowodowane poszerzeniem sfery czasu wolnego, <marker>uczyniło możliwym</marker> ich udział w kulturze.</example>
+                <example>Uwolnienie mas od pracy, spowodowane poszerzeniem sfery czasu wolnego, umożliwiło ich udział w kulturze.</example>
+                <example correction="uniemożliwi">Na komputerze w domu powinniśmy mieć natomiast zainstalowany skuteczny program antywirusowy, który <marker>uczyni niemożliwym</marker> zainstalowanie na naszym komputerze programów szpiegowskich.</example>
             </rule>
             <rule id="UCZYNIC_LATWIEJSZYM_ULATWIC" name="„Uczynić łatwiejszym” (ułatwić)">
                 <pattern>
@@ -17407,6 +17410,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='uszczęśliwiło'>Ale jakże mnie to <marker>uczyniło szczęśliwym</marker>!</example>
                 <example>Ale jakże mnie to uszczęśliwiło!</example>
             </rule>
+            <rule id="UCZYNIC_SPOJNYM_USPOJNIC" name="„Uczynić spójnym” (uspójnić)">
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>uczynić</token>
+                        <token regexp='yes'>spójn(ym|ą)</token>
+                    </marker>
+                    <token><exception regexp='yes'>(subst|ger):sg:inst.*</exception></token>
+                </pattern>
+                <message>Rozwlekły styl. Lepiej: <suggestion><match no="1" regexp_match="czy" regexp_replace="spój"/></suggestion>.</message>
+                <short>Rozwlekłość</short>
+                <example correction='uspójnić'>Jakie teksty Pisma Świętego trzeba ocenzurować, by tę koncepcję <marker>uczynić spójną</marker>?</example>
+                <example>Jakie teksty Pisma Świętego trzeba ocenzurować, by tę koncepcję uspójnić?</example>
+            </rule>
+            <rule id="POMIMO_TEGO_ZE_MIMO_ZE" name="„Pomimo tego, że” (Mimo że)" tags="picky">
+            <pattern>
+                <marker>
+                    <token>pomimo</token>
+                    <token skip='1'>tego<exception regexp='yes' negate='yes' scope='next'>,|że|iż</exception></token>
+                    <token regexp='yes'>że|iż</token>
+                </marker>
+            </pattern>
+            <message>Rozwlekły styl. Lepiej: <suggestion>mimo że</suggestion>.</message>
+            <short>Rozwlekłość</short>
+            <example correction='mimo że'>Nasze Dwa Serca są złączone , <marker>pomimo tego, że</marker> świat argumentuje i zaprzecza tej Prawdzie.</example>
+            <example correction='mimo że'>Nasze Dwa Serca są złączone , <marker>pomimo tego że</marker> świat argumentuje i zaprzecza tej Prawdzie.</example>
+            <example>Nasze Dwa Serca są złączone, mimo że świat argumentuje i zaprzecza tej Prawdzie.</example>
+        </rule>
             <rulegroup id="ZBEDNY_MIESIAC" name="Zbędna nazwa miesiąca w zakresie dat">
             <rule>
             <pattern>
