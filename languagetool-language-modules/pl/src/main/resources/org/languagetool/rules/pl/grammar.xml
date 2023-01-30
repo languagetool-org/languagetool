@@ -19245,6 +19245,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+            <rule id="LEPIEJ_NISZ_LEPIEJ_NIZ" name="„Lepiej nisz” (Lepiej niż)">
+                <antipattern>
+                    <token postag="adj:pl:gen:.*f.*" postag_regexp="yes"/>
+                    <token>nisz</token>
+                </antipattern>
+                <pattern>
+                    <token postag='ad[vj].*:com.*' postag_regexp='yes'></token>
+                    <marker>
+                        <token>nisz</token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobnie błąd ortograficzny. Powinno być: <suggestion>niż</suggestion>.</message>
+                <short>Błąd ortograficzny</short>
+                <example correction='niż'>Usterka polega na tym, że tylne głośniki grają dużo ciszej <marker>nisz</marker> przednie.</example>
+                <example>Usterka polega na tym, że tylne głośniki grają dużo ciszej niż przednie.</example>
+                <example>Nie powinniśmy się godzić na spychanie bardów do coraz ciaśniejszych nisz...</example>
+            </rule>
             <rulegroup id="POLNA_DRUZKA_POLNA_DROZKA" name="„Polna drużka” (polna dróżka)">
                 <rule>
                 <pattern>
@@ -23978,6 +23995,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
     <category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
+        <rulegroup id="ZMIANIE_PODLEJA_ZMIANIE_PODLEGAJA" name="„Zmianie podleją” (Zmianie podlegają)">
+        <rule>
+            <pattern>
+                <token postag='(subst|ger|adj|ppron3).*dat.*' postag_regexp='yes'>
+                    <exception postag=".*inst.*" postag_regexp="yes"/>
+                </token>
+                <marker>
+                    <token>podleją</token>
+                </marker>
+            </pattern>
+            <message>Prawdopodobnie literówka. Powinno być: <suggestion>podlegają</suggestion>.</message>
+            <short>Literówka</short>
+            <example correction='podlegają'>Zmianie <marker>podleją</marker> zadania związane ze sprawdzaniem stanu technicznego pojazdu, ruszaniem z miejsca i jazdą pasem ruchu do przodu i tyłu.</example>
+            <example>Zmianie podlegają zadania związane ze sprawdzaniem stanu technicznego pojazdu, ruszaniem z miejsca i jazdą pasem ruchu do przodu i tyłu.</example>
+            <example correction='podlegają'>Temu <marker>podleją</marker> też obecnie istniejące regulacje.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>podleją</token>
+                </marker>
+                <token postag='(subst|ger|adj|ppron3).*dat.*' postag_regexp='yes'>
+                    <exception postag=".*inst.*" postag_regexp="yes"/>
+                </token>
+            </pattern>
+            <message>Prawdopodobnie literówka. Powinno być: <suggestion>podlegają</suggestion>.</message>
+            <short>Literówka</short>
+            <example correction='podlegają'>Zadania <marker>podleją</marker> zmianie.</example>
+            <example>Zadania podlegają zmianie.</example>
+        </rule>
+        </rulegroup>
     <rule id="TA_POPRAWKA_TA" name="Powtórzenie przymiotnika wokół rzeczownika">
     <antipattern>
     <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
