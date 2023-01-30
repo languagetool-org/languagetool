@@ -4303,9 +4303,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="espes" name="espès (no participi)">
         <pattern>
-            <token postag="A.*" postag_regexp="yes" regexp="yes">espès|espés<exception scope="previous" inflected="yes">haver</exception></token>
+            <token postag="A.*|N.*" postag_regexp="yes" regexp="yes">espès|espés|costats?<exception scope="previous" inflected="yes">haver</exception></token>
         </pattern>
-        <disambig action="filter" postag="A.*"/>
+        <disambig action="remove" postag="V.P.*"/>
     </rule>
     <rulegroup id="telegraphic_writing" name="escriptura telegràfica">
         <rule>
@@ -4919,7 +4919,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">factor|efecte|convidat|convidada|invitat|invitada|festa|celebració|atac|membre|regal|element|retorn|tornada|regrés|viatge</token>
+                <token inflected="yes" regexp="yes">factor|efecte|convidat|convidada|invitat|invitada|festa|celebració|atac|membre|regal|element|retorn|tornada|regrés|viatge|examen</token>
                 <marker>
                     <token>sorpresa</token>
                 </marker>
@@ -14449,7 +14449,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <!--  paraules que habitualment no són participi si no han concordat (darrere de "de"?: base de dades, sistema de partits -->
             <pattern>
                 <and>
-                    <token postag="V.P.*" postag_regexp="yes" regexp="yes">vista|partida|dada|dades|partits?|estats?|beguda|begudes<exception postag="_GN_.*|_GV_" postag_regexp="yes"/><exception scope="previous" regexp="yes">e|as|em|eu|an</exception></token>
+                    <token postag="V.P.*" postag_regexp="yes" regexp="yes">costats?|vista|partida|dada|dades|partits?|estats?|beguda|begudes<exception postag="_GN_.*|_GV_" postag_regexp="yes"/><exception scope="previous" regexp="yes">e|as|em|eu|an</exception></token>
                     <token postag="N.*" postag_regexp="yes"/>
                 </and>
             </pattern>
