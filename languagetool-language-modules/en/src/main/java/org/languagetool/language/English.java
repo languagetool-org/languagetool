@@ -626,7 +626,7 @@ public class English extends Language implements AutoCloseable {
       }
       return -11;
     }
-    if (id.startsWith("AI_EN_G_")) { // prefer more specific rules (also speller)
+    if (id.startsWith("AI_EN_LECTOR")) { // prefer more specific rules (also speller)
       return -21;
     }
     if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {
