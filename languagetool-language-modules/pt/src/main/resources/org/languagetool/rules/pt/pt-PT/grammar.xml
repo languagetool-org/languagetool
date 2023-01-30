@@ -3766,6 +3766,11 @@
         </antipattern>
         <!-- MARCOAGPINTO 2022-12-04 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+        <antipattern>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token regexp="yes">a|o|as|os|se|nos|nas|mas</token>
+          <example>Certamente o capacete lhe salvou a vida.</example>
+        </antipattern>        
         <!-- MARCOAGPINTO 2022-12-30 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <antipattern>
           <token postag='DA.+' postag_regexp='yes'>
@@ -3776,12 +3781,11 @@
             <exception regexp='no'>se</exception>
           </token>
           <token postag='V.+' postag_regexp='yes'/>
-          <token postag='SPS00' postag_regexp='no'/>
+          <token postag='SPS00' postag_regexp='no'></token>
           <example>Não vou chorar mais pelo que o ano me trouxe de menos bom.</example>
           <example>Obrigado por me explicar finalmente por que as pessoas me tomam por um idiota.</example>
           <example>Que o Universo lhe envolva em plena felicidade e perfeita harmonia!</example>
           <example>Quanto é que o político te pagou para que o retratassem no teu muro?</example>
-          <example>Certamente o capacete lhe salvou a vida.</example>
           <example>Jamais passou pela minha cabeça machucá-lo, mas as circunstâncias me levaram a fazê-lo.</example>
           <example>Eu tenho medo de não fazer as pessoas me entenderem em inglês.</example>
           <example>Nós simplesmente não podemos ignorar o que o Tom nos disse para fazer.</example>
@@ -3985,7 +3989,7 @@
               <exception postag='VMSI.+|VMM0.+|NC.+|AQ0.+' postag_regexp='yes'/>
             </token>
           </marker>
-          <token negate_pos="yes" postag_regexp='yes' postag='SPS00..'/>
+          <token><exception postag_regexp="yes" postag="SPS00.."/><exception regexp="yes">a|o|as|os|se|nos|nas|mas</exception></token>
           <!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas,mas. They produce too many
           false positives (Determinants & Contractions)  -->
         </pattern>
