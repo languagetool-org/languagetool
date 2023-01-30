@@ -121,6 +121,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     if (i > 0 && tokens[i-1].getToken().matches("https?://.+") && tokens[i-1].getToken().contains("(")) {
       return false;
     }
+    
     if (i >= 2) {
       String prevPrevToken = tokens[i - 2].getToken();
       String prevToken = tokens[i - 1].getToken();
@@ -132,6 +133,11 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       if (prevPrevToken.equals(";") && prevToken.equals("-") && (tokenStr.equals(")") || tokenStr.equals("("))) {
         return false;
       }
+      // Smiley ")))"  TODO: need more testing 
+      if (prevPrevToken.equals(")") && prevToken.equals(")") && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
+       
     }
     if (i >= 1) {
       String prevToken = tokens[i - 1].getToken();
