@@ -162,7 +162,6 @@ class SingleCheck {
       if (docCursor == null && !isDisposed()) {
         docCursor = new DocumentCursorTools(xComponent);
       }
-//      if (!isIntern && ((isDialogRequest && !textIsChanged) || (useQueue && !isDialogRequest))) {
       if (!isIntern && isDialogRequest && !textIsChanged) {
         List<Integer> changedParas = new ArrayList<Integer>();
         changedParas.add(paraNum);
@@ -276,7 +275,6 @@ class SingleCheck {
               if (toPos > 0) {
                 errorList.add(correctRuleMatchWithFootnotes(
                     createOOoError(myRuleMatch, -textPos, footnotePos),
-//                    createOOoError(myRuleMatch, -textPos, toPos, isIntern ? ' ' : docCache.getTextParagraph(textPara).charAt(toPos-1)),
                       footnotePos, docCache.getTextParagraphDeletedCharacters(textPara)));
               }
             }
@@ -570,11 +568,6 @@ class SingleCheck {
       // return Cache result if available / for right mouse click or Dialog only use cache
       boolean isTextParagraph = nFPara >= 0 && docCache != null && docCache.getNumberOfTextParagraph(nFPara).type != DocumentCache.CURSOR_TYPE_UNKNOWN;
       if (nFPara >= 0 && (pErrors != null || isMouseRequest || (useQueue && !isDialogRequest && parasToCheck != 0))) {
-/*
-        if (useQueue && pErrors == null && parasToCheck > 0 && isTextParagraph && !textIsChanged && mDocHandler.getTextLevelCheckQueue().isWaiting()) {
-          mDocHandler.getTextLevelCheckQueue().wakeupQueue(singleDocument.getDocID());
-        }
-*/
         if (useQueue && pErrors == null && parasToCheck != 0 && isTextParagraph) {
           singleDocument.addQueueEntry(nFPara, cacheNum, parasToCheck, singleDocument.getDocID(), textIsChanged, textIsChanged);
         }
@@ -616,7 +609,6 @@ class SingleCheck {
             }
             errorList.add(correctRuleMatchWithFootnotes(
                 createOOoError(myRuleMatch, 0, footnotePos), footnotePos, deletedChars));
-//                createOOoError(myRuleMatch, 0, toPos, isIntern ? ' ' : paraText.charAt(toPos-1)), footnotePos, deletedChars));
           }
           if (!errorList.isEmpty()) {
             if (debugMode > 1) {

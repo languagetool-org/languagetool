@@ -236,14 +236,6 @@ class OfficeTools {
    * Get the menu bar of LO/OO
    * Returns null if it fails
    */
-/*  static XMenuBar getMenuBar(XComponentContext xContext) {
-    try {
-      XDesktop desktop = OfficeTools.getDesktop(xContext);
-      if (desktop == null) {
-        return null;
-      }
-      XFrame frame = desktop.getCurrentFrame();
-*/
   static XMenuBar getMenuBar(XComponent xComponent) {
     try {
       XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
@@ -620,9 +612,6 @@ class OfficeTools {
       
       XNameAccess xName1 = UnoRuntime.queryInterface(XNameAccess.class, oConfigAccess1);
       
-//      for (String name : xName.getElementNames()) {
-//        MessageHandler.printToLogFile("config Element: " + name + " = " + xName.getByName(name));
-//      }
       return (new OfficeProductInfo(xName.getByName("ooName"), xName.getByName("ooSetupVersion"), 
           xName.getByName("ooSetupExtension"), xName.getByName("ooVendor"), xName1.getByName("ooLocale"), System.getProperty("os.arch")));
       

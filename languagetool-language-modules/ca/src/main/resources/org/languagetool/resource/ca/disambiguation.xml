@@ -1223,7 +1223,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <and>
                 <token postag="N.*" postag_regexp="yes" regexp="yes">fot|fots|bon|creix|ros|se|es|de|i|o|a|he|ha|hem|més|en|per|ni|no|menys|fas|com</token>
-                <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
+                <token postag="N.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
             </and>
         </pattern>
         <disambig action="remove" postag="N.*"/>
@@ -2939,7 +2939,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
-                        <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                        <token postag="V.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -2963,7 +2963,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
-                        <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                        <token postag="V.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -5943,7 +5943,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <and>
                 <token postag="V.*" postag_regexp="yes" inflected="yes">rossar</token>
-                <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                <token postag="V.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
             </and>
         </pattern>
         <disambig action="remove" postag="V.*"/>
@@ -6836,7 +6836,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="V.*" postag_regexp="yes" regexp="yes">davall|només|noms?<exception postag="_GV_"/></token>
-                        <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                        <token postag="V.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -6851,7 +6851,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="V.*" postag_regexp="yes">projecte<exception postag="_GV_"/></token>
-                        <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                        <token postag="V.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -7597,7 +7597,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="V.*" postag_regexp="yes" regexp="yes">sols?</token>
-                    <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="V.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -8059,7 +8059,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="V.*" postag_regexp="yes" regexp="yes">cables?|embalatges?|alcohol|cilindre|cilindres|missa|coma|comes|meta|metes|menta|humana|humanes|escàs|poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només|noms?<exception postag="_GV_"/></token>
-                    <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="V.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -8071,7 +8071,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="V.*" postag_regexp="yes" regexp="yes">fem|sabeu</token>
-                    <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="V.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -11048,7 +11048,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="RG.*" postag_regexp="yes">que</token>
-                        <token postag="RG.*" postag_regexp="yes" negate_pos="yes"/>
+                        <token postag="RG.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -11867,7 +11867,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token inflected="yes" regexp="yes">pe|posterior|estaria|truca|espera<exception postag="_GN_F.*" postag_regexp="yes"/></token>
-                    <token postag="NCF.*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="NCF.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -11954,7 +11954,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="A.*" postag_regexp="yes" regexp="yes">som|tens<exception postag="_GN.*" postag_regexp="yes"/></token>
-                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                        <token postag="A.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -12564,7 +12564,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <and>
                     <token postag="N.*" postag_regexp="yes">tot</token>
-                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="N.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </pattern>
             <disambig action="filter" postag="[^N].*"/>
@@ -12756,7 +12756,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">ocupa|ocupes|surts?|sobre|caus?|resulta|manca|sabeu<exception postag="_GN.*" postag_regexp="yes"/></token>
-                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="N.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -12839,7 +12839,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">quina|quines|trobar|pega|mostra|mostres|conserva|conserves|donant|racista|racistes<exception postag="_GN.*" postag_regexp="yes"/></token>
-                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="N.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
         </pattern>
@@ -14565,7 +14565,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="A.*" postag_regexp="yes" regexp="yes">dura|acceptes|manca|vius?|accepta|palesa|manifesta|ultra|vers|lluny|presta|som|sabeu|seré|fer|afecta|alterna|ciutadà|ciutadans|ciutadana|ciutadanes|jugadors?|jugadora|jugadores|cantants?<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                        <token postag="A.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -14590,7 +14590,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <and>
                         <!--dret-->
                         <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">titular|redactor|directiu|carreter|mural|promotor|director|estranger|missatger|motiu|part|restaurant|parella<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                        <token postag="A.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -14601,7 +14601,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token regexp="yes">recull|tria|caça|expressa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*" postag_regexp="yes"/></token>
-                        <token postag="A.*" postag_regexp="yes" negate_pos="yes"/>
+                        <token postag="A.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
                     </and>
                 </marker>
                 <token postag="[ND].*|RG" postag_regexp="yes"/>

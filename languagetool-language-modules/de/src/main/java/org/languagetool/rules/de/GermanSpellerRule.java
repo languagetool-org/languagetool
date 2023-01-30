@@ -3025,6 +3025,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Anteilname": return topMatch("Anteilnahme");
       case "Mahnungswesen": return topMatch("Mahnwesen");
       case "Mahnungswesens": return topMatch("Mahnwesens");
+      case "Geruchsinn": return topMatch("Geruchssinn");
+      case "Geruchsinns": return topMatch("Geruchssinns");
       case "Optin": return topMatch("Opt-in");
       case "Stk": return topMatch("Stk.");
       case "T-shirt": return topMatch("T-Shirt");

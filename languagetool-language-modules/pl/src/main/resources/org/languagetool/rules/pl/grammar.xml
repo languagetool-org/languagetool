@@ -17368,6 +17368,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <example>Najwięcej aborcji wykonano w roku 1962 – 272 000.</example>
                 </rule>
             </rulegroup>
+            <rule id="UCZYNIC_MOZLIWYM_UMOZLIWIC" name="„Uczynić możliwym” (umożliwić)">
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>uczynić</token>
+                        <token regexp='yes'>możliw(ym|ą)</token>
+                    </marker>
+                    <token><exception regexp='yes'>(subst|ger):sg:inst.*</exception></token>
+                </pattern>
+                <message>Rozwlekły styl. Lepiej: <suggestion><match no="1" regexp_match="czyn" regexp_replace="możliw"/></suggestion>.</message>
+                <short>Rozwlekłość</short>
+                <example correction='umożliwiło'>Uwolnienie mas od pracy, spowodowane poszerzeniem sfery czasu wolnego, <marker>uczyniło  możliwym</marker> ich udział w kulturze.</example>
+                <example>Uwolnienie mas od pracy, spowodowane poszerzeniem sfery czasu wolnego, umożliwiło  ich udział w kulturze.</example>
+            </rule>
+            <rule id="UCZYNIC_LATWIEJSZYM_ULATWIC" name="„Uczynić łatwiejszym” (ułatwić)">
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>uczynić</token>
+                        <token regexp='yes'>łatwiejsz(ym|ą)</token>
+                    </marker>
+                    <token><exception regexp='yes'>(subst|ger):sg:inst.*</exception></token>
+                </pattern>
+                <message>Rozwlekły styl. Lepiej: <suggestion><match no="1" regexp_match="czyn" regexp_replace="łatw"/></suggestion>.</message>
+                <short>Rozwlekłość</short>
+                <example correction='ułatwić'>Nasza aplikacja ma <marker>uczynić  łatwiejszym</marker> organizację czasu, bez rozbudowanych ponad miarę opcji.</example>
+                <example>Nasza aplikacja ma ułatwić organizację czasu, bez rozbudowanych ponad miarę opcji.</example>
+            </rule>
+            <rule id="UCZYNIC_SZCZESLIWYM_USZCZESLIWIC" name="„Uczynić szczęśliwym” (uszczęśliwić)">
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>uczynić</token>
+                        <token regexp='yes'>szczęśliw(ym|ą)</token>
+                    </marker>
+                    <token><exception regexp='yes'>(subst|ger):sg:inst.*</exception></token>
+                </pattern>
+                <message>Rozwlekły styl. Lepiej: <suggestion><match no="1" regexp_match="czyn" regexp_replace="szczęśliw"/></suggestion>.</message>
+                <short>Rozwlekłość</short>
+                <example correction='uszczęśliwiło'>Ale jakże mnie to <marker>uczyniło szczęśliwym</marker>!</example>
+                <example>Ale jakże mnie to uszczęśliwiło!</example>
+            </rule>
             <rulegroup id="ZBEDNY_MIESIAC" name="Zbędna nazwa miesiąca w zakresie dat">
             <rule>
             <pattern>

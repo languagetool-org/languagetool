@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 -->
 
 <!DOCTYPE rules [
-    <!ENTITY filename_extensions "txt|jpg|png|pdf|doc|docx|xls|xlsx|ppt|pptx|mp3|mp4|avi|mkv|rar|zip|exe|html|css|js|dwg|dxf|eps|mdb|accdb|md|csv|tsv|odt|odp|ods|odg|odf|wpd|rtf|xcf|raw|svg|mov|flac|ogg|aac|wma|m4a|ape|wav|wmv|m4v|swf|ico|eml|ics|vcf|7z|iso|torrent|ttf|psd|ai|bmp|gif|jpeg|webp|tiff|webm|3gp|m3u8|pls|m3u|asf|mid|midi|ac3|aiff|alac|mpeg|asp|aspx|bak|bat|cab|cfg|cgi|com|dat|db|dbf|dll|env|flv|htm|ibooks|ini|indd|jar|java|jnl|jsp|lnk|mpa|mpg|php|pl|pps|ps|py|rss|scss|sh|shtml|sql|stl|sys|tar|tif|tmp|ts|xhtml|xml|xsl|yaml|yml|zipx|xsd">
+    <!ENTITY filename_extensions "3gp|7z|aac|ac3|accdb|ai|aiff|alac|ape|asf|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|dwg|dxf|eml|env|eps|exe|flac|flv|gif|htm|html|ibooks|ico|ics|indd|ini|iso|jar|java|jnl|jpeg|jpg|js|jsp|lnk|m3u|m3u8|m4a|m4v|md|mdb|mid|midi|mkv|mov|mp3|mp4|mpa|mpeg|mpg|odf|odg|odp|ods|odt|ogg|pdf|php|pl|pls|png|pps|ppt|pptx|ps|psd|py|rar|raw|rss|rtf|scss|sh|shtml|sql|stl|svg|swf|sys|tar|tif|tiff|tmp|torrent|ts|tsv|ttf|txt|vcf|wav|webm|webp|wma|wmv|wpd|xcf|xhtml|xls|xlsx|xml|xsd|xsl|yaml|yml|zip|zipx">
     <!ENTITY aspas "(«“‘’”»)">
     <!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
     <!ENTITY nnbsp "&#x202F;"> <!-- narrow no-break space -->
@@ -111,6 +111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY verbos_pronominais "apelidar|chamar|denominar">
     <!ENTITY verbos_nao_impessoais "acabar|bastar|chegar|entrar|existir|faltar|ficar|restar|sair|sobrar">
     <!ENTITY verbos_transitivos_indiretos "necessitar|saber|acreditar|obedecer|precisar|gostar|conversar|duvidar|responder|concordar|lembrar|simpatizar|ingressar|comparecer|suceder">
+    <!ENTITY verbos_que_infinitivo "dizer|observar|perceber|considerar|parecer|concluir|deduzir|responder|informar|constatar|argumentar|decidir|afirmar|contar|relatar|simular|fingir|revelar|admitir|pensar|declarar|alegar">
 
     <!ENTITY adj_nomes_paronimos_a "(?:(?:p(?:á(?:(?:gin|sco|ri)a|(?:bul|li)o|ti(?:na|o))|r(?:(?:e(?:sság|fác)|ontuár)io|átic[ao])|lá(?:ci(?:d[ao]|to)|gio)|ará(?:grafo|lise)|erdulári[ao]|sicanálise|osfácio)|á(?:(?:t(?:rop|ic)|f(?:ric|i)|bson)[ao]|r(?:i(?:c[ao]|a)|bitr[ao]|vore)|c(?:(?:er|id)[ao]|aro)|(?:s(?:cu|i)|[vx]il)a|g(?:raf[ao]|ua)|(?:lvidr|dit)o|pod[aeo])|c(?:á(?:(?:l(?:cul|am)|dmi)o|r(?:(?:cer|i)e|dia)|(?:ps|b)ula)|o(?:nt(?:rári[ao]|ágio)|missári[ao])|a(?:tál(?:ise|ogo)|ntárid[ae]))|a(?:n(?:iversário|álise)|má(?:si[ao]|lgama)|(?:lgáli|záfam)a|(?:pan|d)ágio|cárid[ao])|g(?:á(?:(?:strul|bi|zu)a|lic[ao]|rrulo)|(?:r(?:amátic|ávid)|inástic)[ao]|ládio)|s(?:(?:e(?:cretári|lvátic)|u(?:bsecret|m)ári)[ao]|á(?:(?:tur|bi)a|culo)|alário)|l(?:á(?:(?:ce|za)r[ao]|(?:gr|st)ima|pid[ae]|tego)|arápi[ao])|e(?:(?:pigramátic|mpresári)[ao]|(?:ficá|nxár)cia|stá[dg]io)|r(?:á(?:b(?:i(?:d[ao]|a)|ano|ula)|dio|fia)|essábio|ipária)|má(?:(?:scar|cul|fi)a|g(?:ic[ao]|oa)|t(?:ico|ria))|v(?:á(?:lid[ao]|ria)|oluntári[ao]|iático)|h(?:emodiálise|ilári[ao]|á[bl]ito)|d(?:i(?:cionário|álise)|ádiva)|t(?:ráf(?:eg[ao]|ico)|ábula)|in(?:flacionária|ventário)|bá(?:scul[ao]|lsamo|tega)|f(?:áb(?:ric|ul)|aláci)a|jáculo))s?">
     <!ENTITY adj_nomes_paronimos_a_2 "(?:mágic[ao])s?">
@@ -12106,6 +12107,58 @@ O namorado dela era um ladrão.
       <example correction="a próxima">Mas gostava de poder ir... fica para <marker>aproxima</marker>.</example>
     </rule>
 
+
+    <!-- TER TANTO COMO ter tanto quanto -->
+    <rule id='COMO_QUANTO' name="Confusão: como/quanto">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-28 (25-JUL-2022+) -->
+      <!--
+      Quem me dera ter tanta Coca-Cola como juízo. → Quem me dera ter tanta Coca-Cola quanto juízo.
+      -->
+      <pattern>
+        <token inflected='yes'>ter</token>
+        <token regexp='yes'>tant[ao]</token>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception regexp='no'>como</exception>
+        </token>
+        <marker>
+          <token regexp='no'>como</token>
+        </marker>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='PP.+'/>
+        </token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>quanto</suggestion>
+      <example correction="quanto">Quem me dera ter tanta Coca-Cola <marker>como</marker> juízo.</example>
+    </rule>
+
+
+    <!-- SER TANTO RICO COMO ser tão rico como -->
+    <rule id='TANTO_TÃO' name="Confusão: tanto/tão">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-29 (25-JUL-2022+) -->
+      <!--
+      Quero ser tanto rico como ele é. → Quero ser tão rico como ele é.
+      Quero ser tanto rico como a Ana. → Quero ser tão rico como a Ana.
+      -->
+      <pattern>
+        <token inflected='yes'>ser</token>
+        <marker>
+          <token regexp='yes'>tant[ao]</token>  
+        </marker>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception regexp='no'>como</exception>
+        </token>
+        <token regexp='no'>como</token>
+        <token min="0" max="1" postag='DA.+|DI.+|SPS00' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+|PP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>tão</suggestion>
+      <example correction="tão">Quero ser <marker>tanto</marker> rico como ele é.</example>
+      <example correction="tão">Quero ser <marker>tanto</marker> rico como a Ana.</example>
+    </rule>
+
+
     <rulegroup id='POR_QUE_PORQUE' name="Confusão: 'Por que', 'Por quê', Porquê e 'Porque'" default='on'>
       <!--    Created by Tiago F. Santos, 2017-02-27     -->
       <short>Possível confusão de termos</short>
@@ -15284,6 +15337,16 @@ O namorado dela era um ladrão.
         <example>Não se preocupe. É provavelmente alarme falso.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2023-01-24 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2023-01-28 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token regexp="yes">p(?:ossivelmente|rovavelmente)|quiçá</token>
+        <token min="0" max="1" postag='RN' postag_regexp='no'/>
+        <token postag='VMIF3.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <example>Em relação aos dias 14 e 15, provavelmente não haverá AULA de fato, com certeza vc vai conhecer suas turmas, ai vc terá o final de semana pra se planejar.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-01-28 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <antipattern>
         <token inflected='yes'>ir</token>
@@ -25445,7 +25508,7 @@ O namorado dela era um ladrão.
         </antipattern>
         <antipattern>
           <token regexp='yes' case_sensitive='yes'>Nossa|NOSSA</token>
-          <token regexp='yes' case_sensitive='yes'>>Senhora|SENHORA</token>
+          <token regexp='yes' case_sensitive='yes'>Senhora|SENHORA</token>
           <token postag='V...3S.+' postag_regexp='yes'/>
           <example>Nossa Senhora pede paz.</example>
         </antipattern>
@@ -48362,14 +48425,19 @@ O namorado dela era um ladrão.
           <token postag='VMP.+' postag_regexp='yes'/>
           <example>Achei que tínhamos ido bem.</example>
         </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>nunca|não</token>
+          <token>que</token>
+          <token postag='VMII[13]S0' postag_regexp='yes'/>
+          <example>Você nunca me disse que era um farmacêutico.</example>
+        </antipattern>
         <pattern>
-          <token postag='V.+' postag_regexp='yes'>
-            <exception regexp='yes'>é|será|ser</exception>
-            <exception inflected='yes' regexp='yes'>saber|achar</exception></token>
+          <token inflected='yes' regexp='yes'>&verbos_que_infinitivo;
+            <exception postag='VMN0000|VMM.+|VMP.+' postag_regexp="yes"/></token>
           <marker>
             <token>que</token>
             <token postag='VMII[13]S0' postag_regexp='yes'>
-              <exception inflected='yes'>ir</exception></token>
+              <exception inflected='yes' regexp='yes'>ir|costumar</exception></token>
           </marker>
         </pattern>
         <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
@@ -49406,35 +49474,6 @@ O namorado dela era um ladrão.
     <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="Simplificar: por isso → aí/assim/daí/isso">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
       <!--
-      Queria por isso ter informado a chefe. → Queria daí ter informado a chefe.
-      Deveria por isso eu ter informado a chefe. → Deveria aí eu ter informado a chefe.
-      Lamento por isso ter acontecido. → Lamento isso ter acontecido.
-      Lamento muito por isso ter acontecido. → Lamento muito isso ter acontecido.
-      -->
-
-      <!--
-      Queria por isso ter informado a chefe. → Queria daí ter informado a chefe.
-      Deveria por isso eu ter informado a chefe. → Deveria aí eu ter informado a chefe.
-      -->
-      <rule>
-        <pattern>
-          <token negate_pos="yes" postag='VMIP.+|NC.+|AQ.+|DI.+|PI.+|RG' postag_regexp='yes'/>
-          <marker>
-            <token>por</token>
-            <token>isso</token>
-          </marker>
-          <token min="0" max="1" negate_pos="yes" postag='V.+' postag_regexp='yes'/>
-          <token postag='VMN0000|VMN03.+|VMIS2.+' postag_regexp='yes'/>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>aí</suggestion>
-        <suggestion>assim</suggestion>
-        <suggestion>daí</suggestion>
-        <example correction="aí|assim|daí">Queria <marker>por isso</marker> ter informado a chefe.</example>
-        <example>Quero assim saber a verdade.</example>
-      </rule>
-	  
-      <!--
       Lamento por isso ter acontecido. → Lamento isso ter acontecido.
       Lamento muito por isso ter acontecido. → Lamento muito isso ter acontecido.
       -->
@@ -50014,6 +50053,18 @@ O namorado dela era um ladrão.
         <example>Você sabe muito bem o que é uma dupla transgressão.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2023-01-24 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2023-01-27 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='VMI[SF].+' postag_regexp='yes'/>
+        <token>o</token>
+        <token>que</token>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        <token postag='D[AI].+|SPS00:D[AI].+' postag_regexp='yes'/>
+        <example>Na figura acima mostramos o que aparece na janela principal da app.</example>
+        <example>Não tomarei o que é dos outros, mas tampouco abrirei mão do que é meu.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-01-27 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <!--
       A César o que é de César.

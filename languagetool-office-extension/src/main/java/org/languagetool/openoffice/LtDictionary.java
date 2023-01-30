@@ -86,8 +86,6 @@ public class LtDictionary {
     String shortCode = OfficeTools.localeToString(locale);
     String dictionaryNamePrefix = INTERNAL_DICT_PREFIX + shortCode + "_internal";
     String dictionaryName = dictionaryNamePrefix + "1.dic";
-//    String dictionaryName = "LT_Spelling_" + shortCode + ".dic";
-//    MessageHandler.printToLogFile("dictionary name: " + dictionaryName);
     if (!dictionaryList.contains(dictionaryName) && searchableDictionaryList.getDictionaryByName(dictionaryName) == null) {
       dictionaryList.add(dictionaryName);
       String ltDictionaryPath = getLTDictionaryFile(locale, linguServices);
@@ -133,7 +131,6 @@ public class LtDictionary {
         return true;
       }
     }
-//    MessageHandler.printToLogFile("dictionary name " + dictionaryName + " is in list");
     return false;
   }
   

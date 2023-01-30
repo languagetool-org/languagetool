@@ -700,7 +700,7 @@ regexp case-insensitive maken: (?i)
                     <!-- before units of measurement -->
                     <token regexp="yes">[0-9]+|\p{L}|\p{InLetterlike_Symbols}|\p{Pe}</token>
                     <token regexp="yes">\p{Sm}|[\-\–\/x,.]</token>
-                    <token regexp="yes">[0-9]+(&measurementUnitsAll;|[%\-\–\/x])?</token>
+                    <token regexp="yes" case_sensitive="yes">[0-9]+(&measurementUnitsAll;|[%\-\–\/x])?</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
@@ -13340,6 +13340,20 @@ onwaarschijnlijk
                 <example correction="o.a.">Het is <marker>o.a</marker> een misser.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AFKO_PUNT3" name="he. jij/ hè, jij" default="temp_off">
+            <!-- R. Baars december 2022 -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes" postag="UNKNOWN">[a-z]{2,4}</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                    <token spacebefore="yes" case_sensitive="yes" regexp="yes">[a-z].*</token>
+                </pattern>
+                <message>Dit zou een onofficiële afkorting kunnen zijn, maar ook een punt die per ongeluk daar staat in plaats van een komma. Of er is een hoofdletter vergeten.</message>
+                <example type = "incorrect">Het is fout <marker>qc.</marker> een misser.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NL_PUNT" name="nl. → namelijk">
             <antipattern><token>.</token><token spacebefore="no">nl</token></antipattern> <!-- tegen html-klets -->
             <rule>
@@ -21720,6 +21734,12 @@ steenwijk;Steenwijk
         <rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" > <!-- TODO:  Later tag as learner rule -->
             <rule>
                 <antipattern><token>Ancien</token><token>régime</token></antipattern>
+                <antipattern>
+                    <!-- dit kost extra tijd -->
+                    <token postag="WKW:TGW:1EP"/>
+                    <token postag="BNW:STL:ONV"/>
+                    <token postag="ZNW:EKV:DE_"/>
+                </antipattern>
                 <antipattern>
                     <token>nummer</token>
                     <token regexp="yes">[0-9]+</token>
@@ -45187,6 +45207,7 @@ steenwijk;Steenwijk
             <rule>
                 <antipattern><token regexp="yes">voormmalig|psychologisch|functioneel|commercieel|administratief|financieel-administratief|logistiek|ontwerpend</token><token regexp="yes">beheerder|medewerker|onderzoeker|consulent</token></antipattern>
                 <antipattern><token>een</token><token>ander</token></antipattern>
+                <antipattern><token>een</token><token>bol</token></antipattern>
                 <antipattern><token>verdeeld</token><token>Europa</token></antipattern>
                 <antipattern><token>blind</token><token>date</token></antipattern>
                 <antipattern><token>long</token><token>shot</token></antipattern>

@@ -84,7 +84,6 @@ public class AnalyzedParagraphsCache {
       }
       doc.put("locale", locale);
       doc.put("paragraphs", jParagraphs);
-//      MessageHandler.printToLogFile(doc.toString());
       writeIntoFile();
     } catch (IOException e) {
       MessageHandler.printException(e);
@@ -108,7 +107,6 @@ public class AnalyzedParagraphsCache {
       }
       GZIPOutputStream fileOut = new GZIPOutputStream(new FileOutputStream(tmpCacheFile.getAbsolutePath()));
       OutputStreamWriter out = new OutputStreamWriter(fileOut, StandardCharsets.UTF_8);
-//      BufferedWriter bw = new BufferedWriter(out);
       out.write(doc.toString());
       out.close();
       fileOut.close();
@@ -138,7 +136,6 @@ public class AnalyzedParagraphsCache {
         jSentences.add(token.getJSON());
       }
       obj.put("aS", jSentences);
-//      MessageHandler.printToLogFile(obj.toString());
       return obj.toString();
     }
     

@@ -245,7 +245,6 @@ class SingleDocument {
         && (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy() || docCache.isResetRunning())) {
       //  NOTE: LO blocks the read of information by document or view cursor tools till a PROOFINFO_GET_PROOFRESULT request is done
       //        This causes a hanging of LO when the request isn't answered immediately by a 0 matches result
-//      MessageHandler.printToLogFile("SingleDocument: getCheckResults: docCache Reset is running: return 0 errors");
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage,
           docLanguage, ignoredMatches, numParasToCheck, true, isMouseRequest, false);
       paRes.aErrors = singleCheck.checkParaRules(paraText, locale, footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false);
@@ -742,11 +741,6 @@ class SingleDocument {
    */
   public QueueEntry getQueueEntryForChangedParagraph() {
     if (!disposed && docCache != null && flatPara != null && !changedParas.isEmpty()) {
-/*  TODO: Remove after Tests
-      CheckRequestAnalysis requestAnalysis = new CheckRequestAnalysis(numLastVCPara, numLastFlPara,
-          OfficeTools.PROOFINFO_GET_PROOFRESULT, numParasToCheck, this, paragraphsCache, viewCursor);
-      int nPara = requestAnalysis.changesInDocumentCache();
-*/
       Set<Integer> nParas = new HashSet<Integer>(changedParas.keySet());
       for (int nPara : nParas) {
         String sPara = flatPara.getFlatParagraphAt(nPara).getText();
@@ -769,14 +763,12 @@ class SingleDocument {
   
   public void addShapeQueueEntries() {
     int shapeTextSize = docCache.textSize(DocumentCache.CURSOR_TYPE_SHAPE) + docCache.textSize(DocumentCache.CURSOR_TYPE_TABLE);
-//    MessageHandler.printToLogFile("SingleDocument: addShapeQueueEntries: shapeTextSize = " + shapeTextSize);
     if (shapeTextSize > 0) {
       if (flatPara == null) {
         setFlatParagraphTools();
       }
       List<Integer> changedParas = docCache.getChangedUnsupportedParagraphs(flatPara, paragraphsCache.get(0));
       if (changedParas != null) { 
-//      MessageHandler.printToLogFile("SingleDocument: addShapeQueueEntries: changedParas.size = " + changedParas.size());
         for (int i = 0; i < changedParas.size(); i++) {
           for (int nCache = 0; nCache < paragraphsCache.size(); nCache++) {
             int nCheck = mDocHandler.getNumMinToCheckParas().get(nCache);
@@ -825,12 +817,6 @@ class SingleDocument {
     List<Integer> changedParas = new ArrayList<Integer>();
     changedParas.add(y);
     remarkChangedParagraphs(changedParas, false);
-/*
-    for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
-      paragraphsCache.get(i).remove(y);
-    }
-    addQueueEntry(y, 0, 0, docID, true, true);
-*/
   }
 
   /**
@@ -1213,11 +1199,6 @@ class SingleDocument {
       } else {
         MessageHandler.printToLogFile("SingleDocument: setDokumentListener: Could not add document event listener!");
       }
-//      XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-//      if (curDoc == null) {
-//        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XTextDocument not found!");
-//        return;
-//      }
       XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
       if (xModel == null) {
         MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XModel not found!");

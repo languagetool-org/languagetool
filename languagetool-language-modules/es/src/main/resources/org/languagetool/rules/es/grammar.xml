@@ -11311,6 +11311,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                     <token>hacia</token>
                 </antipattern>
+                <antipattern>
+                    <token>hacia</token>
+                    <token inflected="yes" regexp="yes">un|el</token>
+                    <token regexp="yes">[\d+\.]</token>
+                    <example>Hacia el 1.550 a.C.</example>
+                    <example>Hacia el 1550 a.C.</example>
+                </antipattern>
                 <pattern>
                     <!--<token>lo</token>-->
                     <token>que</token>
@@ -15066,17 +15073,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Como presidente de la AN.</example>
             </rule>
             <rule id="E_PARTICIPIO" name="e/he + participio">
+                <antipattern>
+                    <!--Excluímos las palabras que empiezan por «i», ya que «e» puede actuar como conjunción-->
+                    <token postag="NC[MC][SN].*|A..[MC][SN].|V.P..SM" postag_regexp="yes"/>
+                    <token>e</token>
+                    <token regexp="yes">h?[ií].*<exception regexp="yes">ido|intentado</exception></token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>e</token>
                     </marker>
-                    <!--Excluímos las palabras que empiezan por «i», ya que «e» puede actuar como conjunción-->
-                    <token postag="V.P00SM" postag_regexp="yes"><exception regexp="yes">^h?[ií].* </exception></token>
+                    <token postag="V.P00SM" postag_regexp="yes"/>
                 </pattern>
                 <message>El verbo 'haber' se escribe con hache.</message>
                 <suggestion>he</suggestion>
                 <example correction="he">Siempre <marker>e</marker> comido bien.</example>
+                <example correction="he">Siempre <marker>e</marker> ido al cine.</example>
                 <example>Nos llevamos como anfitrión <marker>e</marker> invitado.</example>
+                <example correction="He"><marker>E</marker> invitado a un amigo.</example>
             </rule>
             <rule id="PRON_HABER_PARTICIPIO" name="pronombre + haber + participio">
                 <pattern>
@@ -15320,20 +15334,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">ay|ai<exception case_sensitive="yes">AI</exception></token>
                     </marker>
                     <token>que</token>
+                    <token min="0" postag="_QM_OPEN"/>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es del verbo 'haber', se escribe <suggestion>hay</suggestion>.</message>
                 <example correction="hay">Aquí <marker>ay</marker> que esforzarse mucho.</example>
-            </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <marker>
-                        <token regexp="yes">ay|ai<exception case_sensitive="yes">AI</exception></token>
-                    </marker>
-                    <token postag="[PDNA].*" postag_regexp="yes"><exception>como</exception></token>
-                </pattern>
-                <message>Si es del verbo 'haber', se escribe <suggestion>hay</suggestion>.</message>
-                <example correction="hay">Aquí <marker>ay</marker> muchas faltas.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">

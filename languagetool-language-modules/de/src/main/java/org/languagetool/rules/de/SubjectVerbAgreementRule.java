@@ -401,6 +401,23 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
       posRegex("SUB.*GEN.*PLU.*"),
       posRegex("VER.*PLU.*")
+    ),
+    Arrays.asList(
+      // Ich verspreche dir, dass wir ein tolles Team sind.
+      tokenRegex("wir|sie|die|alle|diese|einige|manche|viele|sonstige"),
+      posRegex("ART.*|PRO:(POS|DEM|IND).*"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB.*SIN.*"),
+      posRegex("VER.*PLU.*")
+    ),
+    Arrays.asList(
+      // Ich verspreche dir, dass wir ein wirklich tolles Team sind.
+      tokenRegex("wir|sie|die|alle|diese|einige|manche|viele|sonstige"),
+      posRegex("ART.*|PRO:(POS|DEM|IND).*"),
+      posRegex("(ADJ|PA[12]).*|ADV.*"),
+      posRegex("(ADJ|PA[12]).*"),
+      posRegex("SUB.*SIN.*"),
+      posRegex("VER.*PLU.*")
     )
   );
 

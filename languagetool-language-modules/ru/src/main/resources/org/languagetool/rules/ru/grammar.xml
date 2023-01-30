@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY dual "урока|брата|сына|cапога|курса|помощника|фактора|языка|парня|закона|сестры|жены|угла|дня|вопроса|звезды|телефона|любовника|зуба|переводчика|господина|типа|участка|фильма|яблока|вида|прогноза|вектора|села|представителя|вдоха|человека|корабля|спутника|пчелы|шара|билета|ответа|брака|канала|лицея|соседа|ресторана|скворечника|часа|вкуса|кабеля|вулкана|хребта|гиганта|варианта|пресса|обеда|рода|стула|взноса|слезы|приступа|отца|экзамена|стекла|игрока|писаки|военных|этапа|причины|коллеги|вагин|героя|друга|вождя|паек|телеканала|коридора|терминала|Венеры|маршрута|храма|юл|олушей|бедра|дубов|художника|полка|лозунга|законопроекта|органа|блока|заказника|банка|изолятора|департамента|говора|района|порта|символа|брокера|парка|стола|магазина"> <!-- два,двое,пара -->
 <!ENTITY prep_v "институте|кино|Крым|Крыму|мастерской|спортзале|театре|техникуме|университете|цехе|цирке|школе|экспедицию"> <!-- words that require 'в' instead of 'на' as a preposition -->
 <!ENTITY prep_na "балет|заводе|Кавказ|концерт|фабрике|факультете"> <!-- words that require 'на' instead of 'в' as a preposition  на почте, в почте #3026   -->
-<!ENTITY profession "аналитик|адвокат|аудитор|агроном|аукционист|бармен|бухгалтер|врач|ветеринар|графист|директор|дипломат|диспетчер|дизайнер|доктор|доцент|документовед|журналист|жокей|инженер|инструктор|ихтиолог|кадровик|кинолог|кассир|кандидат|корректор|критик|лаборант|лингвист|лифтёр|лифтер|музыкант|машинист|механик|менеджер|оператор|пекарь|переводчик|писатель|почтальон|преподаватель|профессор|программист|промоутер|психолог|практик|редактор|садовник|сторож|сметчик|спасатель|татуировщик|теоретик|тренер|физик|химик|художник|экспедитор|экономист|электроник"> <!-- TODO add words Masc/Fem -->
+<!ENTITY profession "администратор|аналитик|адвокат|археолог|аудитор|агроном|аукционист|бармен|бухгалтер|врач|ветеринар|графист|дерматолог|директор|дипломат|диспетчер|дизайнер|доктор|доцент|документовед|журналист|жокей|инженер|инструктор|ихтиолог|кадровик|кинолог|кассир|кандидат|корректор|критик|лаборант|лингвист|лифтёр|лифтер|музыкант|машинист|механик|менеджер|министр|оператор|пекарь|переводчик|писатель|почтальон|преподаватель|президент|премьер-министр|профессор|программист|промоутер|психолог|практик|продавец|прокурор|редактор|репетитор|садовник|сторож|сметчик|спасатель|татуировщик|теоретик|тренер|физик|химик|художник|экспедитор|экономист|электроник|эксперт"> <!-- TODO add words Masc/Fem -->
 <!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! Only for exceptions!!!-->
 <!ENTITY missing_yo "слез|жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
 <!ENTITY double_num "два|две|три|четыре|2|3|4">
@@ -2526,12 +2526,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="VB:.*" postag_regexp="yes"></token>
                     <token>,</token>
-                    <token postag="DPT:.*" postag_regexp="yes"></token>
+                    <token postag="DPT:.*" postag_regexp="yes"><exception postag="DPT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
                     <token>.</token>
                 </pattern>
                 <message>Запятая не нужна, одиночное деепричастие в конце предложения выступает в роли наречия: <suggestion>\1 \3\4</suggestion>.</message>
                 <url>http://new.gramota.ru/spravka/rules/151-zap-19-32</url>
                 <short>Запятая не нужна</short>
+                <example>Куртка, которая там висит, моя.</example>
                 <example correction="шёл улыбаясь.">Он <marker>шёл, улыбаясь.</marker></example>
             </rule>
         </rulegroup>
@@ -3133,7 +3134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_START"></token>
                 <token skip="-1">Если</token>
                 <marker>                     
-                    <token skip="1">то<exception scope="previous" postag="CONJ" ></exception><exception scope="next" >,</exception><exception scope="previous" regexp="yes">&defis_libo;|–|-|—|,|на</exception><exception scope="previous">бы</exception></token>
+                    <token skip="1">то<exception scope="previous" postag="CONJ" ></exception><exception scope="next" regexp="yes">,|же</exception><exception scope="previous" regexp="yes">&defis_libo;|–|-|—|,|на|в|бы</exception></token>
                 </marker>
                 <token />          
             </pattern>
@@ -3143,6 +3144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Если постучится кто то дверь не открывай, а зови на помощь. (Некорректный пример)</example> <!-- incorrect example, but it must detect with another rule -->
             <example>Если передумаешь - не тяни, а то я могу всё распродать</example>
             <example>Если уж на то пошло.</example>
+            <example>Если вы то же самое проделаете с коробкой.</example>
 	    <example>Если разговор слышал Матвей, то зачем ему сообщать об этом вам ― под каким бы то ни было соусом.</example>
             <example correction=", то| – то">Если ты позвонил<marker> то</marker> говори.</example>
         </rule>
@@ -3316,7 +3318,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="POZHALUJSTA" name="«Пожалуйста» выделяется запятыми">
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">&pnct;|всегда|здравствуйте|здрасьте|подскажите|скажите<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|всегда|здравствуйте|здрасьте|подскажите|скажите|большое|да|ну|и<exception postag="SENT_START"></exception></token>
                     <token>пожалуйста</token>
                     <token regexp="yes">&pnct;</token>
                 </pattern>
@@ -3330,7 +3332,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token negate="yes" regexp="yes">&pnct;|всегда|здравствуйте|здрасьте|подскажите|скажите<exception postag="SENT_START"></exception></token>
+                        <token negate="yes" regexp="yes">&pnct;|всегда|здравствуйте|здрасьте|подскажите|скажите|большое|да|ну|и<exception postag="SENT_START"></exception></token>
                         <token>пожалуйста</token>
                     </marker>
                     <token negate="yes" regexp="yes">&pnct;</token>
@@ -3770,7 +3772,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="GDE_COMMA" name="Запятая перед союзом «где»">
             <pattern>
                 <marker>
-                    <token negate="yes">,<exception postag="SENT_START"/><exception postag="PARTICLE"/><exception regexp="yes">["«(-—–]</exception></token>
+                    <token negate="yes">,<exception postag="SENT_START"/>
+                        <exception postag="PARTICLE"/>
+                        <exception regexp="yes">["«(-—–]</exception>
+                        <exception>но</exception>
+                    </token>
                     <token case_sensitive="yes" skip="1">где</token>
                 </marker>
                 <or>
@@ -3783,6 +3789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="изображений, где">Одно из тех <marker>изображений где</marker> глаза специально нарисованы.</example>
             <example>Одно из тех изображений, где глаза специально нарисованы.</example>
             <example>Где это?</example>
+            <example>Но где снега былых времён?</example>
             <example>А где мой чай?</example>
         </rule>
         <rulegroup id="da_and_da" name="Пунктуация при союзах: «да» + «да»">
@@ -6273,12 +6280,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[\p{Digit}]<exception scope= "previous">,</exception></token>
-                    <token regexp="yes">й|го|му|о|я|е|ми|х</token>
+                    <token regexp="yes">й|го|му|о|я|е|ми|х<exception scope= "next" regexp="yes">[\p{Digit}]</exception></token>
                 </pattern>
                 <message>Пропущен дефис. Должно быть: <suggestion>\1-\2</suggestion></message>
                 <url>https://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D1%80%D1%8F%D0%B4%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5</url>
                 <short>Пропущен дефис</short>
                 <example>План должен быть выполнен к 6-му сентября.</example>
+                <example>Чемпионка мира в эстафете 4 х 7,5 км.</example>
                 <example correction="6-му">План должен быть выполнен к <marker>6 му</marker> сентября.</example>
             </rule>
         </rulegroup>
@@ -6450,9 +6458,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          </rule>
          <rule>
             <pattern>
-                <token negate_pos="yes"  postag='NumC:.*' postag_regexp='yes'></token>
+                <token negate_pos="yes"  postag='NumC:.*' postag_regexp='yes'><exception regexp="yes">без|к|из</exception></token>
                 <marker>
-                <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:Nom'></exception><exception regexp='yes'>одиножды|дважды|трижды|четырежды|пятью|шестью|семью|восемью|девятью</exception></token>
+                <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:Nom'></exception><exception regexp='yes'>двоих|одиножды|дважды|трижды|четырежды|пятью|шестью|семью|восемью|девятью|десятью</exception></token>
                 <token skip="1" postag='NumC:Nom'><exception  scope="next" postag_regexp="yes" postag='NumC:.*'></exception></token>
                 </marker>
             </pattern>
@@ -6460,7 +6468,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова</short>
             <example correction='двадцать пять'>Способ номер <marker>двадцатью пять</marker>.</example>
+            <example correction='двадцать пять'>Способ номер <marker>двадцати пять</marker>.</example>
             <example>Способ номер двадцать пять.</example>
+            <example>Школа начинается без двадцати девять.</example> <!-- test -->
          </rule>
        <!-- Склонение количественных числительных (Р) --> 
          <rule>
@@ -9124,12 +9134,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>на</token>
                     <token regexp="yes" >счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
                     </marker>
-                    <token><exception  postag="PREP"></exception><exception postag_regexp="yes" postag="VB:.*"></exception><exception>,</exception><exception  regexp="yes" inflected="yes">поставщик|заказчик|контрагент|покупатель|продавец|исполнитель|кредитор|заёмщик|заемщика|организация|денежный|([0-9]*)</exception></token>
+                    <token><exception  postag="PREP"></exception><exception postag_regexp="yes" postag="VB:.*"></exception><exception>,</exception><exception  regexp="yes" inflected="yes">банк|поставщик|заказчик|контрагент|покупатель|продавец|исполнитель|кредитор|заёмщик|заемщика|организация|денежный|([0-9]*)</exception></token>
                     <token><exception  regexp="yes" >([0-9]*)[0-9.]</exception></token> 
                 </pattern>
                 <message>Слово пишется слитно, так как выступает в роли наречия: <suggestion>\1\2</suggestion>.</message>
                 <short>Пишется слитно</short>
                 <example>Деньги переведены <marker>на счёт</marker> в банке.</example>
+                <example>Деньги переводятся <marker>на счёт</marker> банка до 3 рабочих дней.</example>
                 <example>Деньги переведены <marker>на счёт</marker> 00000000000000.</example>
                 <example>Деньги переведены <marker>на счёт</marker> Visa 11111111111111.</example>
                 <example>Деньги переведены <marker>на счёт</marker> поставщика.</example>
@@ -11522,7 +11533,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NN:.*:.*:.*:R" postag_regexp="yes">
                     <exception postag="NN:.*:.*:.*:T" postag_regexp="yes"></exception>
                     <exception postag="NN:(Name|Fam|Patr):.*:.*:.*" postag_regexp="yes"></exception>
-                    <exception inflected="yes" regexp="yes">символ|команда|компания|инструкция</exception>
+                    <exception inflected="yes" regexp="yes">символ|команда|компания|инструкция|импульс|партнёр|трейдер|партнер|напряжение|сигнал|директор</exception>
                 </token>
             </pattern>
             <message suppress_misspelled="yes">Существительное «\1» предполагает употребление зависимого слова в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion></message>
@@ -11878,7 +11889,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>         
             <pattern>
                 <marker>
-                  <token postag="PREP"><exception postag="PREP|ABR:.*" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception regexp="yes">минус|изо|насчёт|насчет|ради|перед</exception><exception scope="previous" postag="PREP"></exception></token>  <!--   <exception postag="SENT_START" negate_pos="yes" case_sensitive="yes" regexp="yes">[АБГ-ЖИ-НПРСТФ-Я].*</exception>  -->
+                  <token postag="PREP"><exception postag="PREP|ABR:.*" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">К|По|У|ДО|ОБ|ПРО|ПО|СО</exception><exception regexp="yes">минус|изо|насчёт|насчет|ради|перед</exception><exception scope="previous" postag="PREP"></exception></token>  <!--   <exception postag="SENT_START" negate_pos="yes" case_sensitive="yes" regexp="yes">[АБГ-ЖИ-НПРСТФ-Я].*</exception>  -->
                   <token postag="PREP"><exception postag="PREP|ABR:.*" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">[А-Я].*</exception><exception case_sensitive="yes" regexp="yes">ПО|свыше</exception><exception regexp="yes">минус|изо|без|перед</exception></token>
                 </marker>
                 <token negate="yes" regexp="yes">;|:|[\p{Punct}]</token>
@@ -11893,6 +11904,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Слияние Бухарского и Хивинского ханств произошло военным путём в 1876 году.</example>
             <example>Возвышенность простирается с Ю на С от старой дороги.</example>
             <example>Она преподаёт изо в школе.</example>
+            <example>Оля принимала участие в разработке ПО с открытым кодом.</example>
             <example>Кот крался по над стенкой. (Некорректный пример)</example> <!-- Incorrect example, but another rule "PO_NAD" must detect it. -->
             <example>Разбил в аварии перед у машины</example>
             <example>К ИЗО ученик подготовился.</example>
@@ -11995,11 +12007,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rule  id="Tak_kak_to" name="Устойчивое выражение: «Так как ..., то»">  
-             <pattern>             
+        <rule  id="Tak_kak_to" name="Устойчивое выражение: «Так как ..., то»" tags="picky">  
+            <pattern>             
                  <marker>
                      <token>так</token>
-                     <token skip="-1"><exception regexp="yes" >как|если|[,;:«]|же|и|или|называем.*|просто|например|опасно</exception><exception postag="PREP|VB:.*" postag_regexp="yes" /></token>
+                     <token skip="-1"><exception regexp="yes" >как|если|[,;:«]|же|и|или|называем.*|просто|например|опасно</exception><exception postag="PREP|VB:.*" postag_regexp="yes" /><exception>не</exception></token>
                  </marker>
                      <token>,</token>
                      <token>то</token>
@@ -12008,6 +12020,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              <short>Устойчивое выражение</short>
              <example>Так как отражение от такой границы практически отсутствует, то распределение поля перед ней с хорошей степенью точности совпадает со случаем "открытых" граничных условий, который тождественен бесконечной среде.</example>
              <example>Если это так опасно, то требуется осторожность.</example>
+             <example>А если ты так не думаешь, то нет.</example>
              <example correction="Так как отражение"><marker>Так отражение</marker> от такой границы практически отсутствует, то  распределение поля перед ней с хорошей степенью точности совпадает со случаем "открытых" граничных условий, который тождественен бесконечной среде.</example>
         </rule>          
         

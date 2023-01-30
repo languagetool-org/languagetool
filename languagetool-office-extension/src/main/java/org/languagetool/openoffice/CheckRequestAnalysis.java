@@ -222,131 +222,6 @@ class CheckRequestAnalysis {
     }
   }
   
-  /**
-   * correct the changes of document cache
-   * add incorrect paragraphs to check queue
-   * returns the first incorrectFlat paragraph number
-   * returns -1 if there is no change in document cache
-   *//*
-   *  TODO: Remove after Tests
-  int changesInDocumentCache () {
-    //  Return -1, if there is no initialized docCache
-    if (docCache.isEmpty() || isDisposed()) {
-      return -1;
-    }
-    DocumentCache oldDocCache = new DocumentCache(docCache);
-    //  Return -1, if there is no initialized docCache
-    if (isDisposed()) {
-      return -1;
-    }
-    setFlatParagraphTools(xComponent);
-    int nFirstPara = -1;
-    if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xComponent);
-    }
-    docCache.refresh(docCursor, flatPara, docLanguage != null ? LinguisticServices.getLocale(docLanguage) : null, xComponent, 2);
-    if (docCache.isEmpty()) {
-      return -1;
-    }
-    if (!isDisposed() && docCache.size() != oldDocCache.size()) {
-      int from = 0;
-      int to = 1;
-      // to prevent spontaneous recheck of nearly the whole text
-      // the change of text contents has to be checked first
-      // ignore headers and footers and the change of function inside of them
-      while (from < docCache.size() && from < oldDocCache.size() 
-          && (docCache.getNumberOfTextParagraph(from).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
-          || docCache.getFlatParagraph(from).equals(oldDocCache.getFlatParagraph(from)))) {
-        from++;
-      }
-      boolean isTextChange = from < docCache.size() && from < oldDocCache.size();
-      if (isTextChange) {
-        // if change in text is found check the number of text paragraphs which have changed
-        while (to <= docCache.size() && to <= oldDocCache.size()
-            && (docCache.getNumberOfTextParagraph(docCache.size() - to).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
-            || docCache.getFlatParagraph(docCache.size() - to).equals(
-                    oldDocCache.getFlatParagraph(oldDocCache.size() - to)))) {
-          to++;
-        }
-        to = docCache.size() - to;
-        if (to < 0) {
-          to = 0;
-        }
-      } else {
-        // if no change in text is found check the number of flat paragraphs which have changed
-        from = 0;
-        while (from < docCache.size() && from < oldDocCache.size()
-            && (docCache.getNumberOfTextParagraph(from).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
-            || docCache.getFlatParagraph(from).equals(oldDocCache.getFlatParagraph(from)))) {
-          from++;
-        }
-        while (to <= docCache.size() && to <= oldDocCache.size()
-            && (docCache.getNumberOfTextParagraph(docCache.size() - to).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
-            || docCache.getFlatParagraph(docCache.size() - to).equals(
-                    oldDocCache.getFlatParagraph(oldDocCache.size() - to)))) {
-          to++;
-        }
-        to = docCache.size() - to;
-      }
-      changeFrom = from - numParasToChange;
-      changeTo = to + numParasToChange + 1;
-      singleDocument.removeAndShiftIgnoredMatch(from, to, oldDocCache.size(), docCache.size());
-      if (debugMode > 0) {
-        MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: Changed paragraphs: from:" + from + ", to: " + to);
-      }
-      for (ResultCache cache : paragraphsCache) {
-        cache.removeAndShift(from, to, docCache.size() - oldDocCache.size());
-      }
-      if (!isDisposed() && useQueue && isTextChange) {
-        if (debugMode > 0) {
-          MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: Number of Paragraphs has changed: new: " + docCache.size() 
-          + ",  old: " + oldDocCache.size()+ ", docID: " + docID);
-          if (to - from > 1) {
-            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: Number of Paragraphs has changed: Difference from " + from + " to " + to);
-            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: Old Cache size: " + oldDocCache.size());
-            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: new docCache(from): '" + docCache.getFlatParagraph(from) + "'");
-            if (from < oldDocCache.size()) {
-              MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: old docCache(from): '" + oldDocCache.getFlatParagraph(from) + "'");
-            }
-            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: new docCache(to): '" + docCache.getFlatParagraph(to) + "'");
-            if (to < oldDocCache.size()) {
-              MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: old docCache(to): '" + oldDocCache.getFlatParagraph(to) + "'");
-            }
-          }
-        }
-        for (int i = 0; i < minToCheckPara.size(); i++) {
-          if (minToCheckPara.get(i) != 0 || nFirstPara >= 0) {
-            for (int n = from; n <= to; n++) {
-              singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, false, true);
-            }
-          } else {
-            nFirstPara = from;
-          }
-        }
-      }
-      if (debugMode > 0) {
-        MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: Cache size changed: from = " + from + "; to = " + to + "; docID: " + docID);
-      }
-    } else if (isDisposed() && useQueue){
-      for (int n = 0; n < docCache.size(); n++) {
-        int type = docCache.getNumberOfTextParagraph(n).type;
-        if (type != DocumentCache.CURSOR_TYPE_UNKNOWN && !docCache.getFlatParagraph(n).equals(oldDocCache.getFlatParagraph(n))) {
-          for (int i = 0; i < minToCheckPara.size(); i++) {
-            if (minToCheckPara.get(i) != 0 || nFirstPara >= 0) {
-              singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, false, true);
-            } else {
-              nFirstPara = n;
-            }
-          }
-          if (debugMode > 0) {
-            MessageHandler.printToLogFile("CheckRequestAnalysis: changesInDocumentCache: FlatParagraph(" + n + ") has changed; docID: " + docID);
-          }
-        }
-      }
-    }
-    return nFirstPara;
-  }
-*/  
   /** 
    * Get new initialized flat paragraph tools
    */
@@ -854,7 +729,6 @@ class CheckRequestAnalysis {
     if (debugModeTm) {
       startTime1 = System.currentTimeMillis();
     }
-//    boolean noChange = docCache.isEqualCacheSize(docCursor);
     int nFParas = flatPara.getNumberOfAllFlatPara();
     if (debugModeTm) {
       long runTime = System.currentTimeMillis() - startTime1;
@@ -863,7 +737,6 @@ class CheckRequestAnalysis {
       }
     }
     if (nFParas == docCache.size()) {
-//    if (noChange) {
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
         if (runTime > OfficeTools.TIME_TOLERANCE) {

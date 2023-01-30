@@ -72,7 +72,6 @@ public class LanguageToolMenus {
   private XComponent xComponent;
   private SingleDocument document;
   private Configuration config;
-//  private boolean switchOff;
   private boolean isRemote;
   @SuppressWarnings("unused")
   private LTHeadMenu ltHeadMenu;
@@ -97,7 +96,6 @@ public class LanguageToolMenus {
   
   void setConfigValues(Configuration config) {
     this.config = config;
-//    switchOff = config.noBackgroundCheck();
     isRemote = config.doRemoteCheck();
   }
   
@@ -178,13 +176,6 @@ public class LanguageToolMenus {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: switchOffId not found");
         return;
       }
-//      if (MESSAGES.getString("loMenuSwitchedOff").equals(ltMenu.getItemText(switchOffId))) {
-//        MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: LT menu already installed");
-//        return;
-//      } else {
-//        ltMenu.removeItem(switchOffPos, (short) 1);
-//        ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuSwitchedOff"), MenuItemStyle.CHECKABLE, switchOffPos);
-//      }
       ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuEnableBackgroundCheck"), (short)0, switchOffPos);
       ltMenu.setCommand(switchOffId, LT_TOGGLE_BACKGROUND_CHECK_COMMAND);
       toolsMenu.addMenuListener(this);
@@ -209,10 +200,8 @@ public class LanguageToolMenus {
     private void setLtMenu() {
       if (document.getMultiDocumentsHandler().isBackgroundCheckOff()) {
         ltMenu.setItemText(switchOffId, MESSAGES.getString("loMenuEnableBackgroundCheck"));
-//        ltMenu.checkItem(switchOffId, true);
       } else {
         ltMenu.setItemText(switchOffId, MESSAGES.getString("loMenuDisableBackgroundCheck"));
-//        ltMenu.checkItem(switchOffId, false);
       }
       short profilesId = (short)(switchOffId + 10);
       short profilesPos = (short)(switchOffPos + 2);
@@ -351,9 +340,9 @@ public class LanguageToolMenus {
     @Override
     public void itemSelected(MenuEvent event) {
       try {
-//        if (debugMode) {
+        if (debugMode) {
           MessageHandler.printToLogFile("LanguageToolMenus: setActivateRuleMenu: event id: " + ((int)event.MenuId));
-//        }
+        }
         if (event.MenuId == switchOffId) {
           if (document.getMultiDocumentsHandler().toggleNoBackgroundCheck()) {
             document.getMultiDocumentsHandler().resetCheck(); 
@@ -405,15 +394,6 @@ public class LanguageToolMenus {
     
     public ContextMenuInterceptor(XComponent xComponent) {
       try {
-/*        
-        XTextDocument xTextDocument = OfficeTools.getCurrentDocument(xContext);
-        if (xTextDocument == null) {
-          MessageHandler.printToLogFile("LanguageToolMenus: ContextMenuInterceptor: xTextDocument == null");
-          return;
-        }
-        xTextDocument.getCurrentController();
-        XController xController = xTextDocument.getCurrentController();
-*/
         XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
         if (xModel == null) {
           MessageHandler.printToLogFile("LanguageToolMenus: ContextMenuInterceptor: XModel not found!");
@@ -511,7 +491,6 @@ public class LanguageToolMenus {
                     wrongWord= wrongWord.substring(0, wrongWord.length() - 1);
                   }
                   if (!wrongWord.isEmpty()) {
-                    MessageHandler.printToLogFile("wrong Word: " + wrongWord);
                     XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
                     XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
                         xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
