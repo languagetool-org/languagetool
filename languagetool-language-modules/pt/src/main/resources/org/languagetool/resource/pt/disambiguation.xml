@@ -1716,6 +1716,17 @@
       </pattern>
       <disambig action="remove" postag="S.+"/>
     </rule>
+    <rule>
+      <pattern>
+        <token postag="V.+" postag_regexp="yes" inflected="yes" regexp="yes">começar|levar|ir|chegar</token>
+        <token min="0" postag="R." postag_regexp="yes"/>
+        <marker>
+          <token>a</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="S.+"/>
+      <example type="untouched">...desde que foi inaugurada a República de Itália, em 1946,...</example>
+    </rule>
     <rule><!-- TODO too agressive. try disabling this rule in a day without many changes and see regression results -->
       <pattern>
           <token postag="V.+" postag_regexp="yes">
