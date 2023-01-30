@@ -2719,6 +2719,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <example>Pokład był zatłoczony ludźmi, śród których znajdowali się również Marcin i Agnieszka.</example>
                         </rule>
 				</rulegroup>
+            <rule id="PREP_KTORY_COMMA" name="„w którym, robimy” (w którym robimy)">
+                <antipattern>
+                    <marker>
+                        <token regexp="yes" inflected='yes'>który|jaki</token>
+                        <token skip="-1">,</token>
+                    </marker>
+                    <token>,</token>
+                    <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <unify><feature id="case"></feature>
+                    <token postag='prep.*' postag_regexp='yes'></token>
+                    <token regexp="yes" inflected='yes'>który|jaki</token>
+                    </unify>
+                    <token>,</token>
+                </pattern>
+                <message>Prawdopodobnie błąd interpunkcyjny. Powinno być: <suggestion><match no="1"/> <match no="2"/></suggestion>.</message>
+                <short>Błąd interpunkcyjny</short>
+                <example correction='w którym'>Kuchnia to pomieszczenie <marker>w którym,</marker> przygotowujemy i spożywamy posiłki.</example>
+                <example>Kuchnia to pomieszczenie, w którym przygotowujemy i spożywamy posiłki.</example>
+                <example>Kto wie, czy nie było to następstwo wieloletniej i bolesnej choroby nóg, na którą, zgodnie z relacją Galla Anonima, cierpiał władca.</example>
+            </rule>
                 <rule id="BRAK_PRZECINKA_PRZED_O_TYLE" name="Brak przecinka przed „o tyle”">
                     <pattern>
                         <token>o</token>
