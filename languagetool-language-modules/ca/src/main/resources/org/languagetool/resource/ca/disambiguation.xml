@@ -6,6 +6,7 @@ Catalan Disambiguation Rules for LanguageTool
 Copyright (C) 2012 Jaume Ortolà i Font
 -->
 <!DOCTYPE rules [
+    <!ENTITY formes_HAVER_sense_hac "a|as|avia|avies|auria|auries|e|aver|avien">
     <!ENTITY verbs_2ps "demanis|acceptes|confesses|creus|deus|dius|enges|eres|esperes|estaries|fots|menges|penses|portes|pots|prens|saps|sols|tens|traus|treus|trobes|vas|veus|vols">
     <!ENTITY exceptions_QUE_COMPARATIU "finalitat|pretensió|algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí|efecte">
     <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]">
@@ -4253,10 +4254,44 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="TRET_PARTICIPI" name="tret, salvat (participi, no preposició)">
+        <antipattern>
+            <token regexp="yes">com|per|fins|de|olor</token>
+            <token>a</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes" regexp="yes">convertir|canviar|degradar|sentenciar|accés|accedir|exposar|desafiar|arribar|pertànyer|correspondre|condemnar|jugar|tocar|condemnació|sonar|destinar|tendir|candidat|subjecte|aspirar|passar</token>
+            <token>a</token>
+        </antipattern>
+        <antipattern>
+            <token>a</token>
+            <token>tret</token>
+            <token>de</token>
+            <token regexp="yes">fona|pistola|escopeta|arc|ballesta|pedra</token>
+        </antipattern>
+        <antipattern>
+            <token>costat</token>
+            <token>i</token>
+            <token>costat</token>
+        </antipattern>
+        <antipattern>
+            <token><exception postag="&pronom_feble;" postag_regexp="yes"/></token>
+            <token>a</token>
+            <token>mort</token>
+        </antipattern>
+        <pattern>
+            <token regexp="yes">&formes_HAVER_sense_hac;</token>
+            <token min="0" regexp="yes">mig|pas|ben|ja</token>
+            <marker>
+                <token postag="V.P00SM." postag_regexp="yes"><exception>mes</exception></token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="V.P00SM."/>
+    </rule>
     <rulegroup id="mort" name="mort">
         <rule>
             <pattern>
-                <token regexp="yes">mort|morta|morts|mortes<exception scope="previous" inflected="yes">haver</exception></token>
+                <token postag="[AN].*" postag_regexp="yes" regexp="yes">mort|morta|morts|mortes<exception scope="previous" inflected="yes">haver</exception></token>
             </pattern>
             <disambig action="remove" postag="V.P.*"/>
         </rule>
@@ -17912,10 +17947,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="possible_nom_propi" name="possible nom propi">
         <rule>
-            <pattern>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception><exception regexp="yes">[¿¡"'«»‘“:]</exception></token>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token min="1" max="4" regexp="yes">\p{P}</token>
                 <marker>
-                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[¿¡"'«»‘“:—–\-]</token>
+                <marker>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -17923,11 +17976,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
         <rule>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token spacebefore="no">-</token>
+            </antipattern>
             <pattern>
-                <token><exception postag="SENT_START"/></token>
                 <token spacebefore="no">-</token>
                 <marker>
-                    <token spacebefore="no" postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSI].*|N.*|RG|DP.*|SPS00" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                    <token spacebefore="no" postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
                 </marker>
             </pattern>
             <disambig action="add">
