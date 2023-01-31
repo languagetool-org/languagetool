@@ -33460,12 +33460,22 @@ O namorado dela era um ladrão.
       <!--
       O que aconteceu para andares tanto carregado? → O que aconteceu para andares tão carregado?
       -->
+       <antipattern>
+        <token inflected='yes' regexp="yes">andar|estar|ficar|ser</token>
+        <marker>
+          <token>tanto</token>
+        </marker>
+        <token postag='VMP00.+' postag_regexp='yes' skip='-1'/>
+        <token>quanto</token>
+        <example>podiam ser tanto isoladas quanto agrupadas em pequenas aldeias</example>
+      </antipattern>
       <pattern>
         <token inflected='yes' regexp="yes">andar|estar|ficar|ser</token>
         <marker>
           <token>tanto</token>
         </marker>
-        <token postag='VMP00.+' postag_regexp='yes'/>
+        <token postag='VMP00.+' postag_regexp='yes'>
+          <exception inflected='yes'>comparado</exception></token>
       </pattern>
       <message>Possível confusão de termos.</message>
       <suggestion>tão</suggestion>
