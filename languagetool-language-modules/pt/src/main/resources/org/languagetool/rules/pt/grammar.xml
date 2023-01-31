@@ -5569,28 +5569,11 @@ O namorado dela era um ladrão.
           <token>busca</token>
           <token postag="N.*" postag_regexp="yes"/>
         </antipattern>
-        <antipattern>
-          <token postag='V....S.+|SENT_START|_PUNCT|PP.+|N.+' postag_regexp='yes'/>
-          <token>muito</token>
-          <token min='0' postag='(?:A..)C.+' postag_regexp='yes'/>
-          <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'/>
-          <token negate_pos="yes" postag="SENT_END|_PUNCT" postag_regexp='yes'/>
-          <example>saiu às ruas e massacrou muito partidários do Antigo Regime.</example>
-          <example>O Iluminismo produziu muito escritores, panfletos e editores.</example>
-        </antipattern>
-        <antipattern>
-          <token postag='SPS00:D.+' postag_regexp='yes'/>
-          <token>muito</token>
-          <token min='0' postag='(?:A..)C.+' postag_regexp='yes'/>
-          <token postag='(?:[NZ].|A..)[MC]P.+' postag_regexp='yes'/>
-          <token negate_pos="yes" postag='SPS00:D.+' postag_regexp='yes'/>
-          <example>dos muito pobres aos muito ricos.</example>
-        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[MC]S.+' postag_regexp='yes'>
-              <exception postag='(?:D[ADIP].|N.|A..|Z.)[MC][NP].+|C.+|SPS00|V.[MIN].+' postag_regexp='yes'/>
+              <exception postag='(?:D[ADIP].|N.|A..|Z.)[MC][NP].+|(C|R).+|SPS00|V.[MIN].+' postag_regexp='yes'/>
               <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
               <exception regexp="yes">comer|há|haver|são|ser(?:ão)?|vão|uso|n</exception>
               <exception regexp='yes'>.+[°′″]</exception></token>
