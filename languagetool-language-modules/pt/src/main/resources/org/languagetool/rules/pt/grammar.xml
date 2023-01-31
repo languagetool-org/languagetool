@@ -42420,10 +42420,20 @@ O namorado dela era um ladrão.
         <example correction="tão bem como">Joga <marker>tão vem como</marker> o pai.</example>
       </rule>
       <rule>
-        <pattern>
-          <token postag="V[SM][SMI].+" postag_regexp="yes">
-            <exception postag="V[SM][SMI].+" postag_regexp="yes" negate_pos="yes"/></token>
+        <antipattern>
+          <token negate_pos='yes' postag='SENT_START'/>
+          <token regexp='yes'>\p{Lu}.*</token>
           <token>vem</token>
+          <example>mas será que a Previ vem contabilizando o valor</example>
+        </antipattern>
+        <pattern>
+         <marker>
+          <token postag="V[SM][SMI].+" postag_regexp="yes">
+            <exception postag="V[SM][SMI].+" postag_regexp="yes" negate_pos="yes"/>
+            <exception postag='N.+' postag_regexp='yes'/></token>
+          <token>vem</token>
+         </marker>
+          <token negate='yes' regexp='yes'>d[oea]s?|,</token>
         </pattern>
         <message>A forma 'bem' é, provavelmente, um advérbio; portanto, deve escrever-se com 'b'.</message>
         <suggestion>\1 bem</suggestion>
