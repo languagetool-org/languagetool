@@ -857,6 +857,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Ok, dann 155 €, <marker>ergo</marker> 12 * 155 = 1860</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">mega</token>
+                    </marker>
+                    <token postag="ADJ.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">Das sieht ja <marker>mega</marker> interessant aus.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_NOUN_SPACE" name="">
             <rule>
