@@ -6837,10 +6837,19 @@ Copyright (C) 2011 Juan Martorell
             <antipattern>
                 <token postag="SENT_START"/>
                 <token min="1" max="4" regexp="yes">\p{P}</token>
+                <marker>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|SP:DA|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[¿¡"'«»‘“:—–\-]</token>
                 <token/>
             </antipattern>
             <pattern>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception><exception regexp="yes">[¿¡"'«»‘“:]</exception></token>
                 <marker>
                     <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|SP:DA|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
                 </marker>
@@ -6850,8 +6859,11 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
         <rule>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token spacebefore="no">-</token>
+            </antipattern>
             <pattern>
-                <token><exception postag="SENT_START"/></token>
                 <token spacebefore="no">-</token>
                 <marker>
                     <token spacebefore="no" postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSI].*|N.*|RG|DP.*|SPS00|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
