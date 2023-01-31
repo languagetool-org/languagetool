@@ -134,9 +134,9 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
         return false;
       }
       // Smiley ")))"  TODO: need more testing 
-      if (prevPrevToken.equals(")") && prevToken.equals(")") && (tokenStr.equals(")") || tokenStr.equals("("))) {
-        return false;
-      }
+      // if (prevPrevToken.equals(")") && prevToken.equals(")") && (tokenStr.equals(")") || tokenStr.equals("("))) {
+      // return false;
+      // }
        
     }
     if (i >= 1) {
