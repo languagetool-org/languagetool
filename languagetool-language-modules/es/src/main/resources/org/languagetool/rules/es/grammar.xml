@@ -5177,6 +5177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="pagó">Uber <marker>pago</marker> a reputados economistas.</example>
                 <example>Acabo de encontrar por casualidad el anuncio.</example>
             </rule>
+            <!-- SE_CREO_TEMP_OFF -->
             <rule default="temp_off">
                 <antipattern>
                     <token>creo</token>
@@ -5202,10 +5203,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>creo</token>
                     <token>que</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">yo|hoy</token>
+                    <token min="0" max="3" postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes"/>
+                    <token postag="VMIP1S0"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <and>
-                            <token skip="-1" postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*|_possible_NP" postag_regexp="yes"/></token>
+                            <token skip="-1" postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*|_possible_NP" postag_regexp="yes"/><exception scope="next" regexp="yes">[!?!\.:]</exception></token>
                             <token inflected="yes" regexp="yes">.+ar<exception inflected="yes" regexp="yes">.+ir</exception></token>
                         </and>
                     </marker>
