@@ -2186,6 +2186,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       String word = "";
       String replace = "";
       String orgText;
+      removeMarkups();
       if (debugMode) {
         MessageHandler.printToLogFile("CheckDialog: changeText entered - docType: " + docType);
       }
@@ -2276,6 +2277,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      */
     private void changeAll() throws Throwable {
       if (suggestions.getComponentCount() > 0) {
+        removeMarkups();
         String orgText = sentenceIncludeError.getText();
         String word = orgText.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
         String replace = suggestions.getSelectedValue();
