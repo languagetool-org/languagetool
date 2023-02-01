@@ -6,7 +6,8 @@ Catalan Disambiguation Rules for LanguageTool
 Copyright (C) 2012 Jaume Ortolà i Font
 -->
 <!DOCTYPE rules [
-    <!ENTITY formes_HAVER_sense_hac "a|as|avia|avies|auria|auries|e|aver|avien">
+    <!ENTITY particula_entre_auxiliar_participi "mig|pas|ben|ja|almenys|també|encara">
+    <!ENTITY formes_HAVER_sense_hac "a|as|avia|avies|auria|auries|e|em|aver|avien">
     <!ENTITY verbs_2ps "demanis|acceptes|confesses|creus|deus|dius|enges|eres|esperes|estaries|fots|menges|penses|portes|pots|prens|saps|sols|tens|traus|treus|trobes|vas|veus|vols">
     <!ENTITY exceptions_QUE_COMPARATIU "finalitat|pretensió|algun|objectiu|vocació|missió|sortida|eixida|alternativa|recurs|remei|solució|opció|camí|efecte">
     <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]">
@@ -4281,12 +4282,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </antipattern>
         <pattern>
             <token regexp="yes">&formes_HAVER_sense_hac;</token>
-            <token min="0" regexp="yes">mig|pas|ben|ja</token>
+            <token min="0" regexp="yes">&particula_entre_auxiliar_participi;</token>
             <marker>
-                <token postag="V.P00SM." postag_regexp="yes"><exception>mes</exception></token>
+                <token postag="V.P00S.." postag_regexp="yes"><exception>mes</exception></token>
             </marker>
         </pattern>
-        <disambig action="filter" postag="V.P00SM."/>
+        <disambig action="filter" postag="V.P00S.."/>
     </rule>
     <rulegroup id="mort" name="mort">
         <rule>
