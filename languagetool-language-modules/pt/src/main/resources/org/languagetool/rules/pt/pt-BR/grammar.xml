@@ -1475,13 +1475,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>é a Judie Dench</example>
         </antipattern>
         <pattern>
+         <marker>
           <token inflected="yes">judiar
             <exception regexp="yes">judi[oa]s?</exception>
           </token>
+        </marker>
+          <token negate="yes" regexp="yes">d[oae]s?|del[ea]s?</token>
         </pattern>
         <message>Este termo é antissemita ou de outra forma depreciativo; pondere alterar para <suggestion><match no='1' postag='V.+' postag_regexp='yes'>maltratar</match></suggestion>.</message>
         <short>Termo depreciativo</short>
         <example correction="maltratando">Você está me <marker>judiando</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+            <token inflected="yes">judiar
+              <exception regexp="yes">judi[oa]s?</exception>
+            </token>
+          <token regexp="yes">d[oa]s?</token>
+        </pattern>
+        <message>Este termo é antissemita ou de outra forma depreciativo; considere as sugestões.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>maltratar</match> <match no='2' regexp_match='d(.+)' regexp_replace='$1'/></suggestion>
+        <short>Termo depreciativo</short>
+        <example correction="maltratando a">Você está <marker>judiando da</marker> menina.</example>
+        <example correction="maltratando o">Você está <marker>judiando do</marker> menino.</example>
+        <example correction="maltratando as">Você está <marker>judiando das</marker> meninas.</example>
+        <example correction="maltratando os">Você está <marker>judiando dos</marker> meninos.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">judiar
+            <exception regexp="yes">judi[oa]s?</exception>
+          </token>
+          <token>de</token>
+        </pattern>
+        <message>Este termo é antissemita ou de outra forma depreciativo; considere as sugestões.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>maltratar</match> a</suggestion>
+        <short>Termo depreciativo</short>
+        <example correction="maltratando a">Você está <marker>judiando de</marker> mim.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">judiar
+            <exception regexp="yes">judi[oa]s?</exception>
+          </token>
+          <token regexp="yes">deles?</token>
+        </pattern>
+        <message>Este termo é antissemita ou de outra forma depreciativo; considere as sugestões.</message>
+        <suggestion><match no='2' regexp_match='dele(.)' regexp_replace='o$1'/> <match no='1' postag='V.+' postag_regexp='yes'>maltratar</match></suggestion>
+        <short>Termo depreciativo</short>
+        <example correction="os maltratando">Você está <marker>judiando deles</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">judiar
+            <exception regexp="yes">judi[oa]s?</exception>
+          </token>
+          <token regexp="yes">delas?</token>
+        </pattern>
+        <message>Este termo é antissemita ou de outra forma depreciativo; considere as sugestões.</message>
+        <suggestion><match no='2' regexp_match='dela(.)' regexp_replace='a$1'/> <match no='1' postag='V.+' postag_regexp='yes'>maltratar</match></suggestion>
+        <short>Termo depreciativo</short>
+        <example correction="as maltratando">Você está <marker>judiando delas</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -1714,11 +1768,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>mulato</token>
         </pattern>
-        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negro</suggestion>, <suggestion>preto</suggestion> ou <suggestion>negro de pele clara</suggestion>.</message>
-        <suggestion>preto de pele clara</suggestion>
-        <suggestion>miscigenado</suggestion>
+        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>pardo</suggestion>, <suggestion>preto</suggestion> ou <suggestion>negro</suggestion>.</message>
         <short>Termo depreciativo</short>
-        <example correction="negro|preto|negro de pele clara|preto de pele clara|miscigenado">Ele é <marker>mulato</marker>.</example>
+        <example correction="pardo|preto|negro">Ele é <marker>mulato</marker>.</example>
       </rule>
       <rule>
         <antipattern>
@@ -1734,11 +1786,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>mulatos</token>
         </pattern>
-        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negros</suggestion>, <suggestion>pretos</suggestion> ou <suggestion>negros de pele clara</suggestion>.</message>
-        <suggestion>pretos de pele clara</suggestion>
-        <suggestion>miscigenados</suggestion>
+        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>pardos</suggestion>, <suggestion>pretos</suggestion> ou <suggestion>negros</suggestion>.</message>
         <short>Termo depreciativo</short>
-        <example correction="negros|pretos|negros de pele clara|pretos de pele clara|miscigenados">Eles são <marker>mulatos</marker>.</example>
+        <example correction="pardos|pretos|negros">Eles são <marker>mulatos</marker>.</example>
       </rule>
       <rule>
         <antipattern>
@@ -1754,11 +1804,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>mulata</token>
         </pattern>
-        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negra</suggestion>, <suggestion>preta</suggestion> ou <suggestion>negra de pele clara</suggestion>.</message>
-        <suggestion>preta de pele clara</suggestion>
-        <suggestion>miscigenada</suggestion>
+        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>parda</suggestion>, <suggestion>preta</suggestion> ou <suggestion>negra</suggestion>.</message>
         <short>Termo depreciativo</short>
-        <example correction="negra|preta|negra de pele clara|preta de pele clara|miscigenada">Ela é <marker>mulata</marker>.</example>
+        <example correction="parda|preta|negra">Ela é <marker>mulata</marker>.</example>
       </rule>
       <rule>
         <antipattern>
@@ -1774,11 +1822,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>mulatas</token>
         </pattern>
-        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>negras</suggestion>, <suggestion>pretas</suggestion> ou <suggestion>negras de pele clara</suggestion>.</message>
-        <suggestion>pretas de pele clara</suggestion>
-        <suggestion>miscigenadas</suggestion>
+        <message>Este termo é racista e remete ao animal mula. Pondere dizer <suggestion>pardas</suggestion>, <suggestion>pretas</suggestion> ou <suggestion>negras</suggestion>.</message>
         <short>Termo depreciativo</short>
-        <example correction="negras|pretas|negras de pele clara|pretas de pele clara|miscigenadas">Elas são <marker>mulatas</marker>.</example>
+        <example correction="pardas|pretas|negras">Elas são <marker>mulatas</marker>.</example>
       </rule>
       <rule>
         <pattern>
