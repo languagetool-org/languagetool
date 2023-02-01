@@ -3152,10 +3152,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>De homem reprimido a anão de jardim.</example>
         </antipattern>
         <antipattern>
-          <token inflected='yes' skip='-1' regexp='yes'>passar|promover|converter|candidatar|concorrer|levar</token>
+          <token inflected='yes' skip='-1' regexp='yes'>passar|promover|converter|candidatar|concorrer|levar|eleição|mandar|enviar</token>
           <token>a</token>
           <token postag='(?:[NZ].|A..)MS.+' postag_regexp='yes'/>
-          <example>Passou de mestre a desembargador.</example>
+          <example>Em 1803 passou a deputado.</example>
+        </antipattern>
+        <antipattern>
+          <token inflected='yes' skip='-1' regexp='yes'>passar|promover|converter|candidatar|concorrer|levar|eleição|mandar|enviar</token>
+          <token>a</token>
+          <token postag='(?:[NZ].|A..)MS.+' postag_regexp='yes' skip='-1'/>
+          <token>a</token>
+          <token postag='(?:[NZ].|A..)MS.+' postag_regexp='yes'/>
+          <example>Em 1803 passou a deputado da Casa do Infantado e em 1805 a desembargador do Paço.</example>
+          <example>Em 1803 passou a deputado.</example>
         </antipattern>
         <antipattern>
           <token>a</token>
@@ -3165,7 +3174,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         </antipattern>
         <antipattern>
           <token>a</token>
-          <token regexp='yes'>critério|serviço|teor|cargo</token>
+          <token regexp='yes'>critério|serviço|teor|cargo|respeito</token>
           <token regexp='yes'>d[eao]s?</token>
           <example>Fica decidido a critério do painel.</example>
         </antipattern>
@@ -3174,6 +3183,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>boy</token>
           <token>band</token>
           <example>A boy band.</example>
+        </antipattern>
+        <antipattern>
+          <token>a</token>
+          <token>lugar</token>
+          <token regexp='yes'>nenhum|algum</token>
+          <example>A lugar nenhum.</example>
         </antipattern>
         <antipattern>
           <token>a</token>
