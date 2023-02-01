@@ -6838,20 +6838,24 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="SENT_START"/>
                 <token min="1" max="4" regexp="yes">\p{P}</token>
                 <marker>
-                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|SP:DA|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|SP:DA|I" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <token postag="SENT_START"/>
-                <token/>
+                <marker>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|SP:DA|I" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                </marker>
             </antipattern>
             <antipattern>
                 <token regexp="yes">[¿¡"'«»‘“:—–\-]</token>
-                <token/>
+                <marker>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|SP:DA|I" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
+                </marker>
             </antipattern>
             <pattern>
                 <marker>
-                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|SP:DA|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|SP:DA|I" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}*</token>
                 </marker>
             </pattern>
             <disambig action="add">

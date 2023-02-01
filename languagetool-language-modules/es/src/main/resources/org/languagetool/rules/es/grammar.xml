@@ -5313,6 +5313,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="_possible_NP|LOC_ADV" postag_regexp="yes">se</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>SE</token>
+                <token><exception regexp="yes">\p{Lu}\p{Lu}\p{Lu}*</exception></token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>se<exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -5471,6 +5475,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>se</token>
                     <token>de</token>
                     <token>cuenta</token>
+                </antipattern>
+                <antipattern>
+                    <token>se</token>
+                    <token spacebefore="no">-</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -8281,6 +8289,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/>
                     <!-- _PUNCT_CONT-->
                     <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|UNKNOWN|_abrev_biblia|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/>
+                    <token regexp="yes">\p{Lu}.*</token>
                 </antipattern>
                 <antipattern>
                     <token>el</token>
