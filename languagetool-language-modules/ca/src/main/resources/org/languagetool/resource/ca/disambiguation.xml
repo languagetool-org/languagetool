@@ -4257,11 +4257,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="TRET_PARTICIPI" name="tret, salvat (participi, no preposició)">
         <antipattern>
+            <token regexp="yes">de|una|lletra|la</token>
+            <token>e</token>
+        </antipattern>
+        <antipattern>
+            <token>e</token>
+            <token regexp="yes">oberta|tancada|llarga|breu|després</token>
+        </antipattern>
+        <antipattern>
             <token regexp="yes">com|per|fins|de|olor</token>
             <token>a</token>
         </antipattern>
         <antipattern>
-            <token inflected="yes" regexp="yes">convertir|canviar|degradar|sentenciar|accés|accedir|exposar|desafiar|arribar|pertànyer|correspondre|condemnar|jugar|tocar|condemnació|sonar|destinar|tendir|candidat|subjecte|aspirar|passar</token>
+            <token inflected="yes" regexp="yes">atribuir|convertir|canviar|degradar|sentenciar|accés|accedir|exposar|desafiar|arribar|pertànyer|correspondre|condemnar|jugar|tocar|condemnació|sonar|destinar|tendir|candidat|subjecte|aspirar|passar|corresponent|elevar|candidat|candidatura|sorprendre</token>
+            <token postag="&pronom_feble;|AQ.*|V.P.*" postag_regexp="yes" min="0"/>
             <token>a</token>
         </antipattern>
         <antipattern>
@@ -4276,15 +4285,60 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>costat</token>
         </antipattern>
         <antipattern>
-            <token><exception postag="&pronom_feble;" postag_regexp="yes"/></token>
+            <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes"/></token>
             <token>a</token>
             <token>mort</token>
+        </antipattern>
+        <antipattern>
+            <token>em<exception scope="previous" regexp="yes">t'|l'|li|ens|us|vos|els|les</exception></token>
+            <token postag="V.[SI].*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token>a</token>
+            <token regexp="yes">puntada|puntades|proposta|propostes|mes|demés|tos</token>
+        </antipattern>
+        <antipattern>
+            <token>fet</token>
+            <token>i</token>
+            <token min="0">a</token>
+            <token>amagar</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">jugar</token>
+            <token>a</token>
+            <token>fet</token>
+        </antipattern>
+        <antipattern>
+            <token>a</token>
+            <token>partit</token>
+            <token regexp="yes">únic|doble</token>
+        </antipattern>
+        <antipattern>
+            <token postag_regexp="yes" postag="V.*"/>
+            <token postag="&pronom_feble;|R.*" postag_regexp="yes" min="0" max="2"/>
+            <token>a</token>
+            <token regexp="yes">mort|cobert</token>
+        </antipattern>
+        <antipattern>
+            <token postag_regexp="yes" postag="V.*" inflected="yes">posar</token>
+            <token postag="&pronom_feble;|R.*" postag_regexp="yes" min="0" max="2"/>
+            <token>a</token>
+            <token regexp="yes">tret</token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes" regexp="yes">adjudicar|adjudicació|assignar|assignació|nomenament|nomenar</token>
+            <token>a</token>
+            <token>dit</token>
+        </antipattern>
+        <antipattern>
+            <token>estat</token>
+            <token regexp="yes">líquid|sòlid|gasós</token>
         </antipattern>
         <pattern>
             <token regexp="yes">&formes_HAVER_sense_hac;</token>
             <token min="0" regexp="yes">&particula_entre_auxiliar_participi;</token>
             <marker>
-                <token postag="V.P.*" postag_regexp="yes"><exception>mes</exception></token>
+                <token postag="V.P.*" postag_regexp="yes"/>
             </marker>
         </pattern>
         <disambig action="filter" postag="V.P.*"/>
@@ -17985,6 +18039,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token spacebefore="no">-</token>
                 <marker>
                     <token spacebefore="no" postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_possible_nompropi"/>
+            </disambig>
+        </rule>
+        <rule>
+            <!-- TODO: why do we need this rule? -->
+            <pattern>
+                <token regexp="yes">[ld]'</token>
+                <marker>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|I" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
                 </marker>
             </pattern>
             <disambig action="add">

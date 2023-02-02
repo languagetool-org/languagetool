@@ -91,7 +91,7 @@ public class CatalanDisambiguationRuleTest {
     TestTools
     .myAssert(
         "L'Aquila",
-        "/[null]SENT_START L'/[L'Aquila]NPFSG00 Aquila/[L'Aquila]NPFSG00",
+        "/[null]SENT_START L'/[L'Aquila]NPFSG00 Aquila/[Aquila]_possible_nompropi|Aquila/[L'Aquila]NPFSG00",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools
         .myAssert(
