@@ -43,7 +43,6 @@ import com.sun.star.lang.EventObject;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiServiceFactory;
-import com.sun.star.text.XTextDocument;
 import com.sun.star.ui.ActionTriggerSeparatorType;
 import com.sun.star.ui.ContextMenuExecuteEvent;
 import com.sun.star.ui.ContextMenuInterceptorAction;
@@ -73,7 +72,6 @@ public class LanguageToolMenus {
   private SingleDocument document;
   private Configuration config;
   private boolean isRemote;
-  @SuppressWarnings("unused")
   private LTHeadMenu ltHeadMenu;
   @SuppressWarnings("unused")
   private ContextMenuInterceptor ltContextMenu;
@@ -125,7 +123,6 @@ public class LanguageToolMenus {
     short ltId = 0;
     short switchOffId = 0;
     short switchOffPos = 0;
-    short nProfiles = 0;
     private XPopupMenu toolsMenu = null;
     private XPopupMenu xProfileMenu = null;
     private XPopupMenu xActivateRuleMenu = null;

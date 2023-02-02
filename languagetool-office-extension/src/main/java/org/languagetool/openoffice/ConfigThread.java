@@ -61,6 +61,9 @@ class ConfigThread extends Thread {
     if(!documents.javaVersionOkay()) {
       return;
     }
+    if (!documents.isJavaLookAndFeelSet()) {
+      documents.setJavaLookAndFeel();
+    }
     documents.setConfigurationDialog(cfgDialog);
     try {
       List<Rule> allRules = lt.getAllRules();

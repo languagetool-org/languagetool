@@ -1496,6 +1496,9 @@ public class MultiDocumentsHandler {
           aboutDialog.close();
           aboutDialog = null;
         }
+        if (!isJavaLookAndFeelSet()) {
+          setJavaLookAndFeel();
+        }
         AboutDialogThread aboutThread = new AboutDialogThread(messages, xContext);
         aboutThread.start();
       } else if ("toggleNoBackgroundCheck".equals(sEvent)) {
