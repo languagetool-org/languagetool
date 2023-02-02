@@ -1444,6 +1444,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("aufm", w -> Arrays.asList("auf dem", "auf einem", "auf"));
     put("Ausm", w -> Arrays.asList("Aus dem", "Aus einem", "Aus"));
     put("ausm", w -> Arrays.asList("aus dem", "aus einem", "aus"));
+    put("best", w -> Arrays.asList("beste", "bester", "Best"));
     put("Bs", "Bis");
     put("Biß", "Biss");
     put("bs", "bis");
