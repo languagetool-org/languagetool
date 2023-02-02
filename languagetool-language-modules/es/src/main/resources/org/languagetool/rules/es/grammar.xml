@@ -5087,6 +5087,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="determinó">Nos lo <marker>determino</marker></example>
                 <example correction="determinó">Nos <marker>determino</marker> el resultado.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="SE_CREO2" name="confusión: se creo/creó">
             <rule>
                 <antipattern>
                     <token>creo</token>
@@ -10110,6 +10112,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="irá">Se <marker>ira</marker> a casa pronto.</example>
                 <example correction="irá">Sabe cómo <marker>ira</marker> armado.</example>
                 <example>Conseguirán aplacar la ira del pueblo.</example>
+                <example>El IRA está en el hipódromo.</example>
+                <example>Sigo pensando que no fue el IRA.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18299,6 +18303,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="DN..P.*" postag_regexp="yes"/>
                     <token postag="V.[IS]..P." postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">\p{Lu}+</token>
+                </antipattern>
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception regexp="yes">0*1</exception></token>
                     <marker>
@@ -21195,6 +21203,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_ADJ_NOUN" name="Concordancias adjetivo y nombre">
+            <antipattern>
+                <token regexp="yes">\d+″</token>
+            </antipattern>
             <antipattern>
                 <token regexp="yes">pp?</token>
                 <token>.</token>
@@ -26800,6 +26811,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Créeme, esa excusa no te la van a creer.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token case_sensitive="yes">ME</token>
+                    <token regexp="yes">\p{P}</token>
+                </antipattern>
                 <pattern>
                     <token>me<exception postag="[NA].*|_possible_NP|LOC_ADV" postag_regexp="yes"/></token>
                     <token/>
