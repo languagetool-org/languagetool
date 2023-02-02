@@ -49453,7 +49453,7 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
     <!-- FICOU DEMONSTRADO QUE demonstrámos que -->
-    <rule id='TESE_PHD_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[PhD Tese]: Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" tags="picky">
+    <rule id='TESE_PHD_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[PhD Tese] Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" tags="picky">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-13/14 (1-JAN-2022+)      -->
       <!--
       Ficou demonstrado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Demonstrámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
@@ -49493,7 +49493,7 @@ O namorado dela era um ladrão.
 
 
     <!-- PARA AJUDAR A MELHORAR para melhorar -->
-    <rule id='TESE_PHD_PARA_AJUDAR_A_VINFINITIVO_PARA_VINFINITIVO' name="[PhD Tese]: Para Ajudar a + V.Inf. → Para V.Inf." type='style'>
+    <rule id='TESE_PHD_PARA_AJUDAR_A_VINFINITIVO_PARA_VINFINITIVO' name="[PhD Tese] Para Ajudar a + V.Inf. → Para V.Inf." type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-24 (25-JUL-2022+) -->
       <!--
       Estas regras servem para ajudar a melhorar a gramática. → Estas regras servem para melhorar a gramática.
@@ -52157,7 +52157,7 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
-    <rule id='PHD_POSSA_POSSAM_PÔR' name="[PhD Tese]: Evitar expressões do tipo 'possa(m) pôr’ → 'ponha(m)'" tags="picky">
+    <rule id='PHD_POSSA_POSSAM_PÔR' name="[PhD Tese] Evitar expressões do tipo 'possa(m) pôr’ → 'ponha(m)'" tags="picky">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima and Susana Boatto suggestions, Portuguese rule 2022-11-30 (25-JUL-2022+) -->
       <!--
       Para impedir que o radical possa pôr em perigo o ocidente. → Para impedir que o radical ponha em perigo o ocidente.
@@ -52197,7 +52197,7 @@ O namorado dela era um ladrão.
 
 
     <!-- PROCURA PROVAR prova provará -->
-    <rulegroup id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="[PhD Tese]: Evitar expressões do tipo 'procura provar'" tags="picky" default='on'>
+    <rulegroup id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="[PhD Tese] Evitar expressões do tipo 'procura provar'" tags="picky" default='on'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 + 2021-02-25 + 2021-03-02 + 2021-03-07 + 2022-03-02 (1-JAN-2021+)      -->
       <!--
       A nossa tese procura provar a métrica. → A nossa tese provará a métrica.
@@ -52672,7 +52672,7 @@ O namorado dela era um ladrão.
 
 
     <!-- CAMINHAR CAMINHOS percorrer/trilhar caminhos -->
-    <rule id='CAMINHAR_CAMINHOS' name="Erro de tradução: 'percorrer/trilhar caminhos'">
+    <rule id='CAMINHAR_CAMINHOS' name="[Erro tradução] 'caminhar' caminhos → 'percorrer/trilhar'">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
       <pattern>
         <marker>
@@ -52687,7 +52687,34 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rulegroup id='ENG_ELETRICO' name="Erro de tradução: 'engenheiro elétrico'">
+    <!-- TEMAS NÃO COBERTOS PELO ARTIGO temas não abrangidos pelo artigo -->
+    <rule id='ERRO_TRADUÇÃO_COBRIR_ABRANGER' name="[Erro tradução] cobrir → abranger">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-02 (25-JUL-2022+) -->
+      <!--
+      Em relação a temas não cobertos por este documento. → Em relação a temas não abrangidos por este documento.
+      Temos assuntos cobertos pelo documento. → Temos assuntos abrangidos pelo documento.
+      Este tema não é coberto por este documento. → Este tema não é abrangido por este documento.
+      Este tema está coberto por este documento. → Este tema está abrangido por este documento. 
+      -->
+      <pattern>
+        <token regexp='yes' inflected='yes'>alinha|artigo|assunto|matéria|ponto|problema|problemática|questão|tema|temática|termo|tópico</token>
+        <token min="0" max="1" postag="RN" postag_regexp="no"/> <!-- "não" -->
+        <token min="0" max="1" regexp='yes' inflected='yes'>ser|estar</token>
+        <marker>
+          <token inflected='yes'>cobrir</token>
+        </marker>
+        <token postag="SPS00|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+" postag_regexp="yes"/>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>abranger</match></suggestion>
+      <example correction="abrangidos">Em relação a temas não <marker>cobertos</marker> por este documento.</example>
+      <example correction="abrangidos">Temos assuntos <marker>cobertos</marker> pelo documento.</example>
+      <example correction="abrangido">Este tema não é <marker>coberto</marker> por este documento.</example>
+      <example correction="abrangido">Este tema está <marker>coberto</marker> por este documento.</example>
+    </rule>
+
+
+    <rulegroup id='ENG_ELETRICO' name="[Erro tradução] engenheiro 'elétrico' → 'eletrotécnico'">
       <!-- Created by Tiago F. Santos, 2017-05-19 -->
       <short>Erro de tradução</short>
       <rule>
@@ -52715,9 +52742,9 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
-    <!-- 	FURTO/ROUBO DE IDENTIDADE usurpação de identidade -->
+    <!-- FURTO/ROUBO DE IDENTIDADE usurpação de identidade -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
-    <rule id='FURTO_ROUBO_IDENTIDADE' name="Erro de tradução: 'usurpação de identidade'">
+    <rule id='FURTO_ROUBO_IDENTIDADE' name="[Erro tradução] 'furto' de identidade → 'usurpação'">
       <pattern>
         <marker>
           <token skip="3" inflected='yes' regexp='yes'>furtar|roubar</token>
@@ -52731,7 +52758,7 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rule id='LOWER_QUOTES' name="Símbolo não utilizado em português: „">
+    <rule id='LOWER_QUOTES' name="[Erro tradução] Símbolo não utilizado em português: „">
       <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-22      -->
       <pattern>
         <token>„</token>
@@ -52743,7 +52770,7 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rule id='OPENING_INTERROGATION' name="Sinal de interrogação inicial" default="on">
+    <rule id='OPENING_INTERROGATION' name="[Erro tradução] Sinal de interrogação inicial" default="on">
       <!-- Localized from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <!-- MARCOAGPINTO 2022-01-05 (Checked/Enhanced) (1-JAN-2022+) *START* -->
       <!--
@@ -52767,7 +52794,7 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rule id='OPENING_EXCLAMATION' name="Sinal de exclamação inicial" default="on">
+    <rule id='OPENING_EXCLAMATION' name="[Erro tradução] Sinal de exclamação inicial" default="on">
       <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
       <!-- MARCOAGPINTO 2022-01-05 (Checked/Enhanced) (1-JAN-2022+) *START* -->
       <!--
@@ -52792,7 +52819,7 @@ O namorado dela era um ladrão.
 
 
     <!-- PEQUENO INTESTINO intestino delgado -->
-    <rulegroup id='PEQUENO_INTESTINO' name="Erro de tradução: 'intestino delgado'">
+    <rulegroup id='PEQUENO_INTESTINO' name="[Erro tradução] 'pequeno intestino' → 'intestino delgado'">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
       <rule>
         <pattern>
@@ -52822,7 +52849,7 @@ O namorado dela era um ladrão.
 
 
     <!-- TRAZEDOR(ES) DA JUSTIÇA justiceiro(s) -->
-    <rule id='TRAZEDORES_DA_JUSTIÇA' name="Erro de tradução: 'justiceir[ao](s)'">
+    <rule id='TRAZEDORES_DA_JUSTIÇA' name="[Erro tradução] 'trazedor de justiça' → 'justiceiro'">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
 
       <pattern>
@@ -52838,7 +52865,7 @@ O namorado dela era um ladrão.
 
 
     <!-- UM TAMANHO DÁ/SERVE PARA TODOS tamanho único -->
-    <rule id='UM_TAMANHO_SERVE_DÁ_PARA_TODOS' name="Erro de tradução: 'tamanho único'">
+    <rule id='UM_TAMANHO_SERVE_DÁ_PARA_TODOS' name="[Erro tradução] 'um tamanho dá para todos' → 'tamanho único'">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
       <pattern>
         <token>um</token>
