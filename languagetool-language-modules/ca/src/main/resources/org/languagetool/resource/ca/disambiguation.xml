@@ -1588,6 +1588,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <wd lemma="de moda" pos="LOC_ADJ"/>
             </disambig>
         </rule>
+        <rule id="de_mentida" name="de mentida (locució adj.)">
+            <pattern>
+                <marker>
+                    <token>de</token>
+                    <token>mentida</token>
+                </marker>
+                <token><exception postag="A..[FC][SN].|V.P..SF." postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd lemma="de mentida" pos="LOC_ADJ"/>
+                <wd lemma="de mentida" pos="LOC_ADJ"/>
+            </disambig>
+        </rule>
         <rule id="gracies_a" name="gràcies a (locució preposicional)">
             <antipattern>
                 <token postag="D.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">tot|deu</exception></token>
@@ -12002,7 +12015,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token><exception regexp="yes">no|que|ja|perquè|encara|com</exception><exception postag="&pronom_feble;" postag_regexp="yes"/><exception postag="PI.*" postag_regexp="yes" inflected="yes">altre</exception></token>
             <marker>
                 <and>
-                    <token postag="AQ.*" postag_regexp="yes"><exception regexp="yes">sabeu|tornés|bufa|som|molesta|viu|accepta|acceptes?|va|expressa</exception></token>
+                    <token postag="AQ.*" postag_regexp="yes"><exception regexp="yes">sabeu|tornés|bufa|som|molesta|viu|accepta|acceptes?|va|expressa|baixa</exception></token>
                     <!--tens|plana. Exception: rates -->
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </and>
