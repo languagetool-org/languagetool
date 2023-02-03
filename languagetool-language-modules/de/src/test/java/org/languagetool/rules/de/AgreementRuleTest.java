@@ -319,6 +319,7 @@ public class AgreementRuleTest {
     assertGood("Spielst du vielleicht auf das Bordell neben unserm Hotel an?");
     assertGood("Spielst du vielleicht auf das Bordell neben unsrem Hotel an?");
     assertGood("Dieses ungeahnt prophetische Wort");
+    assertGood("Das bestätigte Regierungssprecher Steffen Hebestreit am Freitag");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
