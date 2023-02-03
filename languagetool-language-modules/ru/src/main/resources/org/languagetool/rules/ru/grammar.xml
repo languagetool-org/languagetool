@@ -11386,6 +11386,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>Об работка</marker>.</example>
             <example>Собака ударилась об косяк двери.</example>
         </rule>
+        <rule default="temp_off" id="PREP_Bl_and_Noun" name="Предлог «благодаря» и существительное">            
+            <pattern case_sensitive="no">
+                <!--  PREP  благодаря -> NN:.*:D  see Prep_Soglasno -->
+                <token>благодаря</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*D" postag_regexp="yes" /><exception postag="NN:.*:.*:Z" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Предлог «благодаря» предполагает употребление существительного в дательном падеже.</message>
+            <short>Требуется дательный падеж</short>
+            <example>Благодаря поездке по Золотому кольцу мы узнали гораздо мы узнали много нового.</example>
+            <example correction=""><marker>Благодаря поездка</marker> по Золотому кольцу мы узнали много нового.</example>
+        </rule>
         <rule default="on" id="PREP_O_and_Noun" name="Предлог «о» и существительное">
             <!--     <antipattern case_sensitive="no">
                 <token postag="SENT_START"></token>
