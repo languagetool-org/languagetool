@@ -6863,6 +6863,30 @@
   <category id="STYLE" name="[pt-PT] Estilo" type="style">
 
 
+    <!-- CHEGAR AO FIM findar/terminar -->
+    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="[pt-PT] Chegar ao fim → findar/terminar/acabar" type="style">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-07-03 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <!--
+      Outro ano que chega ao fim. → Outro ano que finda/termina.
+      Outro ano a chegar ao fim. → Outro ano a findar/terminar.
+      -->
+      <pattern>
+        <token/>
+        <token regexp='yes'>a|que</token>
+        <token min="0" max="1"><exception regexp='no' inflected='yes'>chegar</exception></token>
+        <marker>
+          <token inflected='yes'>chegar</token>
+          <token>ao</token>
+          <token>fim</token>
+        </marker>
+      </pattern>
+      <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
+      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
+      <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
+    </rule>
+
 
     <!-- VERB + A + ELE(S)/ELA(S) verb + lhe -->
     <rulegroup id='SIMPLIFICAR_PP_OBJ_IND_V2' name="[pt-PT][Simplificar] Pronome pessoal no dativo" type='style'>
@@ -6985,7 +7009,7 @@
 
 
     <!-- POR ISSO aí/assim/daí/isso -->
-    <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO_PT' name="[pt-PT] Simplificar: por isso → aí/assim/daí/isso">
+    <rulegroup id='SIMPLIFICAR_POR_ISSO_AÍ_ASSIM_DAÍ_ISSO_PT' name="[pt-PT][Simplificar] por isso → aí/assim/daí/isso" type='style'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
       <!--
       Queria por isso ter informado a chefe. → Queria daí ter informado a chefe.
@@ -7032,8 +7056,9 @@
       </rule>
     </rulegroup>
 
+
     <!-- É DE VOCÊS é vossa -->
-    <rulegroup id='DE_VOCÊS_VOSSA_VOSSAS_VOSSO_VOSSOS' name="[pt-PT] Simplificar: de você(s) → vossa(s)/vosso(s)/sua(s)/seu(s)">
+    <rulegroup id='SIMPLIFICAR_DE_VOCÊS_VOSSA_VOSSAS_VOSSO_VOSSOS' name="[pt-PT][Simplificar] de você(s) → vossa(s)/vosso(s)/sua(s)/seu(s)" type='style'>
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-16 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
       A sorte é de você. → A sorte é sua.
@@ -7082,7 +7107,8 @@
       </rule>
     </rulegroup>
 
-    <rule id='ALUGAR_CASA' name="[pt-PT] arrendar casa">
+
+    <rule id='ALUGAR_CASA' name="[pt-PT] 'alugar' casa → 'arrendar'" type='style'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
         <token inflected='yes'>alugar</token>
@@ -7095,7 +7121,8 @@
       <example correction="Arrendei|Arrendei um apartamento"><marker>Aluguei um apartamento</marker> em Lisboa.</example>
     </rule>
 
-    <rule id='CONCLUIR_UM_CURSO' name="[pt-PT] Acabar/terminar um curso → Concluir">
+
+    <rule id='CONCLUIR_UM_CURSO' name="[pt-PT] 'acabar/terminar' um curso → 'concluir'" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-03 (25-JUL-2022+) -->
       <!--
       Vou acabar o meu doutoramento. → Vou concluir o meu doutoramento.
@@ -7115,8 +7142,9 @@
       <example correction="concluiu">Ele <marker>terminou</marker> um mestrado em gestão.</example>
     </rule>
 
+
     <!-- À PROCURA DE a procurar -->
-    <rule id='À_VERBO_DE' name="[pt-PT] À + Verbo + De → A + Verbo Infinitivo" type="style">
+    <rule id='SIMPLIFICAR_À_VERBO_DE' name="[pt-PT][Simplificar] À + Verbo + De → A + Verbo Infinitivo" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-11-11/12/15 (25-JUN-2021+)      -->
       <!--
       O Rui anda à procura de material científico. → O Rui anda a procurar material científico.
@@ -7214,8 +7242,9 @@
       <example>Com um PIB per capita aproximado em 7.300 dólares americanos, o país pertence à faixa de renda média-baixa.</example>
     </rule>
 
+
     <!-- O QUE ME FOI DITO FOI foi-me dito -->
-    <rulegroup id='REPETICAO_AUXILIAR_VERBO' name="[pt-PT] Simplificar: Eliminação da redundância de auxiliar" type='style'>
+    <rulegroup id='SIMPLIFICAR_REPETICAO_AUXILIAR_VERBO' name="[pt-PT][Simplificar] Eliminação da redundância de auxiliar" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-14 (25-JUL-2022+) -->
       <!--
       Após eu insistir muito, o que me foi dito foi para aguardar. → Após eu insistir muito, foi-me dito para aguardar.
@@ -7267,7 +7296,7 @@
 
 
     <!-- É IGUAL iguala -->
-    <rulegroup id='SER_IGUAL_IGUALAR' name="[pt-PT] Simplificar: Ser igual a → igualar" type='style'>
+    <rulegroup id='SIMPLIFICAR_SER_IGUAL_IGUALAR' name="[pt-PT][Simplificar] Ser igual a → igualar" type='style'>
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-10-15 (25-JUL-2022+) -->
       <!--
       A soma tem de ser igual a zero. → A soma tem de igualar zero.
@@ -7419,7 +7448,7 @@
 
 
     <!-- E EST(A/E)(S) que -->
-    <rulegroup id='E_ESTAS_ESTES_QUE_PT_PT' name="[pt-PT] Simplificar: E est(a/e)(s) → que" type='style'>
+    <rulegroup id='SIMPLIFICAR_E_ESTAS_ESTES_QUE_PT_PT' name="[pt-PT][Simplificar] E est(a/e)(s) → que" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-12 (25-JUL-2022+) -->
       <!--
       A equação é fulcral no nosso estudo e este suporta diversas variáveis. → A equação é fulcral no nosso estudo que suporta diversas variáveis.
@@ -7496,7 +7525,7 @@
 
 
     <!-- QUE ATUA/ATUAM a atuar -->
-    <rule id='QUE_VERBO_A_VERBOINFINITIVO' name="[pt-PT] Simplificar: Que + V. → A + V. Infinitivo" type="style">
+    <rule id='SIMPLIFICAR_QUE_VERBO_A_VERBOINFINITIVO' name="[pt-PT][Simplificar] Que + V. → A + V. Infinitivo" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
       <!--
       Isto resume todas as forças que atuam sobre o objeto. → Isto resume todas as forças a atuar sobre o objeto.
@@ -7523,7 +7552,7 @@
     </rule>
 
 
-    <rulegroup id='A_XXX_DE_VOCÊS' name="[pt-PT] Simplificar: A XXX de vocês → a vossa XXX">
+    <rulegroup id='SIMPLIFICAR_A_XXX_DE_VOCÊS' name="[pt-PT][Simplificar] A XXX de vocês → a vossa XXX">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-10 (Checked/Enhanced) (25-JUL-2022+) -->
       <rule>
        <pattern>
@@ -7660,31 +7689,6 @@
     </rule>
 
 
-    <!-- CHEGAR AO FIM findar/terminar -->
-    <rule id='CHEGAR_AO_FIM_FINDAR_TERMINAR' name="[pt-PT] Chegar ao fim → findar/terminar/acabar" type="style">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-07-03 (Checked/Enhanced) (5-JUN-2022+)      -->
-      <!--
-      Outro ano que chega ao fim. → Outro ano que finda/termina.
-      Outro ano a chegar ao fim. → Outro ano a findar/terminar.
-      -->
-      <pattern>
-        <token/>
-        <token regexp='yes'>a|que</token>
-        <token min="0" max="1"><exception regexp='no' inflected='yes'>chegar</exception></token>
-        <marker>
-          <token inflected='yes'>chegar</token>
-          <token>ao</token>
-          <token>fim</token>
-        </marker>
-      </pattern>
-      <message>Enriqueça a linguagem para causar mais impacto ao leitor.</message>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>findar</match></suggestion>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
-      <suggestion><match no='4' postag='V.+' postag_regexp='yes'>acabar</match></suggestion>
-      <example correction="finda|termina|acaba">Outro ano que <marker>chega ao fim</marker>.</example>
-    </rule>
-
-
     <rulegroup id='ORDINAL_ABREVIATION' name="[pt-PT] Abreviatura de ordinais: 1º → 1.º">
       <!--  Created by Tiago F. Santos, 20-07-2017 -->
       <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/idioma/ainda-sobre-a-abreviatura-do-numeral-ordinal-com-ou-sem-o-sobrescrito-sublinhado/2680</url>
@@ -7769,7 +7773,7 @@
 
 
     <!-- TAMBÉM VERBO NOME_COMUM também o é -->
-    <rule id='TAMBÉM_O_VERBO_PT_PT' name="[pt-PT] Evitar redundância de adjetivos">
+    <rule id='SIMPLIFICAR_TAMBÉM_O_VERBO_PT_PT' name="[pt-PT][Simplificar] Evitar redundância de adjetivos">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, fully revised by Susana Boatto, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
       <!--
       Eu fiz a formação MULTIBANCO que é obrigatória; esta também é obrigatória? → Eu fiz a formação MULTIBANCO que é obrigatória; esta também o é?
@@ -7800,7 +7804,7 @@
 
 
     <!-- ESTIMAÇÃO MÁXIMA SEMELHANÇA estimação máxima verosimilhança -->
-    <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="[pt-PT][Erro tradução] estimação máxima 'verossimilhança'(BR)/'verosimilhança'(PT)">
+    <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="[pt-PT][Erro tradução] estimação máxima 'semelhança' → 'verosimilhança'(PT)">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 + 2023-01-05 (Checked/Enhanced) (1-JAN-2022+)      -->
       <!--
       IN pt_PT: verosimilhança
