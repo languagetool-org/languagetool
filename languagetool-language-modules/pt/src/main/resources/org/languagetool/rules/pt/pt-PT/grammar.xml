@@ -771,27 +771,6 @@
     </rule>
 
 
-    <!-- ESTIMAÇÃO MÁXIMA SEMELHANÇA estimação máxima verosimilhança -->
-    <rule id='ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="[pt-PT] Erro de tradução: 'estimação máxima verosimilhança(PT)/verossimilhança(BR)'">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 + 2023-01-05 (Checked/Enhanced) (1-JAN-2022+)      -->
-      <!--
-      IN pt_PT: verosimilhança
-      IN pt_BR: verossimilhança
-      -->
-      <pattern>
-        <token regexp="yes">estimativas?|estimação|estimações|estimador|estimadores</token>
-        <token regexp="yes">d[ae]|pela|por</token>
-        <token>máxima</token>
-        <marker>
-          <token>semelhança</token>
-        </marker>
-      </pattern>
-      <message>Expressão não pode ser traduzida literalmente.</message>
-      <suggestion>verosimilhança</suggestion>
-      <example correction='verosimilhança'>A estimativa de máxima <marker>semelhança</marker> é usada em Estatística.</example>
-    </rule>
-
-
     <!-- DEPOIS É QUE LI depois li -->
     <rule id='DEPOIS_É_QUE_VERBO_DEPOIS_VERBO_PT_PT' name="[pt-PT] Simplificar: Depois é que + Verbo → Depois + Verbo">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-05 (25-JUL-2022+) -->
@@ -5024,7 +5003,7 @@
 
 
     <!-- TERMOS DEPRECIATIVOS -->
-    <rule id='DEPRECIATIVO' name="[pt-PT] Termos depreciativos" type="style">
+    <rule id='FORMAL_DEPRECIATIVO' name="[pt-PT][Formal] Termos depreciativos">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-04-18/19 + 2022-08-17 (1-JAN-2022+)      -->
       <!--
       Vou à loja do monhé. → Vou à loja do indiano.
@@ -5040,8 +5019,65 @@
     </rule>
 
 
+    <rulegroup id='FORMAL_MONTES_DE' name="[pt-PT][Formal] montes de → inúmeros">
+      <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
+      <rule>
+        <pattern>
+          <token postag_regexp='yes' postag="V.+"/>
+          <marker>
+            <token>montes</token>
+            <token>de</token>
+          </marker>
+          <token postag_regexp='yes' postag="N.MS.+"/>
+        </pattern>
+        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imenso</suggestion>
+        <example correction="imenso">Perdi <marker>montes de</marker> tempo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag_regexp='yes' postag="V.+"/>
+          <marker>
+            <token>montes</token>
+            <token>de</token>
+          </marker>
+          <token postag_regexp='yes' postag="N.MP.+"/>
+        </pattern>
+        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensos</suggestion>
+        <example correction="imensos">Perdi <marker>montes de</marker> contactos.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag_regexp='yes' postag="V.+"/>
+          <marker>
+            <token>montes</token>
+            <token>de</token>
+          </marker>
+          <token postag_regexp='yes' postag="N.FS.+"/>
+        </pattern>
+        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensa</suggestion>
+        <example correction="imensa">Perdi <marker>montes de</marker> gordura.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag_regexp='yes' postag="V.+"/>
+          <marker>
+            <token>montes</token>
+            <token>de</token>
+          </marker>
+          <token postag_regexp='yes' postag="N.FP.+"/>
+        </pattern>
+        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensas</suggestion>
+        <example correction="imensas">Perdi <marker>montes de</marker> horas.</example>
+      </rule>
+    </rulegroup>
+
+
     <!-- TODO Add antipattern for dash and quotations -->
-    <rulegroup id='T-V_DISTINCTION' name='[pt-PT] Tratamento formal: Tu,Você; Vós,Vocês' default='on' tags="picky">
+    <rulegroup id='FORMAL_T-V_DISTINCTION' name='[pt-PT][Formal] Tratamento formal: Tu,Você; Vós,Vocês' default='on' tags="picky">
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
       <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
 
@@ -5711,127 +5747,8 @@
       </rule>-->
     </rulegroup>
 
-    <!-- VERB + A + ELE(S)/ELA(S) verb + lhe -->
-    <rulegroup id='PP_OBJ_IND_V2' name="[pt-PT] Pronome pessoal no dativo">
-      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-09-16/20 (Checked/Enhanced) (25-JUL-2022+) -->
-      <!--
-      O Rui pediu a ele. → O Rui pediu-lhe.
-      O Rui pediu a eles. → O Rui pediu-lhes.
 
-      Tinha pedido a ele. → Tinha lhe pedido.
-      Tinha pedido a eles. → Tinha lhes pedido.
-
-      O Rui não pediu a ele. → O Rui não lhe pediu.
-      O Rui não pediu a eles. → O Rui não lhes pediu.
-
-      Não tinha pedido a ele. → Não lhe tinha pedido.
-      Não tinha pedido a eles. → Não lhes tinha pedido.
-      -->
-      <antipattern>
-        <token regexp='yes'>[ao]s?</token>
-        <token postag='V.+' postag_regexp='yes'>
-          <exception postag_regexp='no' postag='VMN0000'/>
-        </token>
-        <token>a</token>
-        <token regexp='yes'>el[ae]s?</token>
-        <example>Ele me deu dinheiro, mas eu imediatamente o devolvi a ele.</example>
-        <example>Você não o emprestou a ele.</example>
-        <example>Eu o disse a ele com boa intenção.</example>
-        <example>Não os dê a ela.</example>
-        <example>Eu a dei a ela.</example>
-        <example>Eu a dei a ele.</example>
-      </antipattern>
-
-      <!-- Without RN ("não") -->
-      <rule>
-        <pattern>
-          <token postag='V.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='AQ.+|NC.+|VMP00.+'/>
-            <exception scope='previous' regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</exception>
-            <exception scope='previous' postag_regexp='yes' postag='CS|RN'/> <!-- Added RN - 2022-09-20 -->
-            <exception regexp='no' inflected="yes">assistir</exception>
-          </token>
-          <token>a</token>
-          <token regexp='yes'>el[ae]s?
-            <exception scope='next' regexp='yes'>mesm[ao]s?|própri[ao]s?</exception>
-            <exception scope='next' postag_regexp='no' postag='SPS00'/>
-          </token>
-        </pattern>
-        <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
-        <suggestion>\1-<match no='3' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match></suggestion>
-        <example correction="pediu-lhe">O Rui <marker>pediu a ele</marker> para comprar o livro.</example>
-        <example correction="pediu-lhes">O Rui <marker>pediu a eles</marker> para comprarem o livro.</example>
-        <example>Eu dei muito trabalho a ele.</example>
-        <example>Eu expliquei a regra a ele.</example>
-        <example>Queria dar aulas a ela de graça, mas entendo o que é orgulho.</example>
-        <example>Ela assistia a ele nadando.</example>
-        <example>Nós assistimos a ele e rimos muito.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag='VMP00.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='AQ.+|NC.+'/>
-            <exception scope='previous' regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</exception>
-            <exception scope='previous' postag_regexp='yes' postag='CS|RN'/> <!-- Added RN - 2022-09-20 -->
-            <exception regexp='no' inflected="yes">assistir</exception>
-          </token>
-          <token>a</token>
-          <token regexp='yes'>el[ae]s?
-            <exception scope='next' regexp='yes'>mesm[ao]s?|própri[ao]s?</exception>
-            <exception scope='next' postag_regexp='no' postag='SPS00'/>
-          </token>
-        </pattern>
-        <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
-        <suggestion><match no='3' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match> \1</suggestion>
-        <example correction="lhe pedido">O Rui tinha <marker>pedido a ele</marker> para comprar o livro.</example>
-        <example correction="lhes pedido">O Rui tinha <marker>pedido a eles</marker> para comprarem o livro.</example>
-      </rule>
-
-      <!-- With RN ("não") -->
-      <rule>
-        <pattern>
-          <token postag='RN' postag_regexp='no'/>
-          <token postag='V.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='AQ.+|NC.+|VMP00.+'/>
-            <exception scope='previous' regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</exception>
-            <exception regexp='no' inflected="yes">assistir</exception>
-          </token>
-          <token>a</token>
-          <token regexp='yes'>el[ae]s?
-            <exception scope='next' regexp='yes'>mesm[ao]s?|própri[ao]s?</exception>
-            <exception scope='next' postag_regexp='no' postag='SPS00'/>
-          </token>
-        </pattern>
-        <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
-        <suggestion>\1 <match no='4' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match> \2</suggestion>
-        <example correction="não lhe pediu">O Rui <marker>não pediu a ele</marker> para comprar o livro.</example>
-        <example correction="não lhes pediu">O Rui <marker>não pediu a eles</marker> para comprarem o livro.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag='RN' postag_regexp='no'/>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='VMP00.+' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='AQ.+|NC.+'/>
-            <exception scope='previous' regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</exception>
-            <exception regexp='no' inflected="yes">assistir</exception>
-          </token>
-          <token>a</token>
-          <token regexp='yes'>el[ae]s?
-            <exception scope='next' regexp='yes'>mesm[ao]s?|própri[ao]s?</exception>
-            <exception scope='next' postag_regexp='no' postag='SPS00'/>
-          </token>
-        </pattern>
-        <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
-        <suggestion>\1 <match no='5' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match> \2 \3</suggestion>
-        <example correction="não lhe tinha pedido">O Rui <marker>não tinha pedido a ele</marker> para comprar o livro.</example>
-        <example correction="não lhes tinha pedido">O Rui <marker>não tinha pedido a eles</marker> para comprarem o livro.</example>
-      </rule>
-
-    </rulegroup>
-
-
-    <rulegroup id='T-V_DISTINCTION_ALL' name='[pt-PT] Tratamento formal: Todas as formas na segunda pessoa, sem salvaguardas' default='off'>
+    <rulegroup id='FORMAL_T-V_DISTINCTION_ALL' name='[pt-PT][Formal] Tratamento formal: Todas as formas na segunda pessoa, sem salvaguardas' default='off'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
       <!-- MARCOAGPINTO inserted global antipatterns for all subrules on top -->
 
@@ -5963,7 +5880,7 @@
 
 
     <!-- COM A GENTE connosco/conosco -->
-    <rule id='FORMAL_COM_A_GENTE_CONNOSCO_CONOSCO_PT_PT' name="[pt-PT] Com a gente → Connosco">
+    <rule id='FORMAL_COM_A_GENTE_CONNOSCO_CONOSCO_PT_PT' name="[pt-PT][Formal] com a gente → Connosco">
       <!--      Created by Tiago Santos and localised by Marco A.G.Pinto, Portuguese rule 2021-06-03 (17-MAR-2021+)      -->
       <!--
       Tu vens com a gente? → Tu vens connosco?
@@ -5981,7 +5898,7 @@
     </rule>
 
 
-    <rule id='FORMAL_COM_NÓS_PT_PT' name="[pt-PT] Expressões 'com nós'">
+    <rule id='FORMAL_COM_NÓS_PT_PT' name="[pt-PT][Formal] Expressões 'com nós'">
       <!--    Created by Tiago F. Santos, Portuguese rule, 2016-12-28      -->
 
       <!-- MARCOAGPINTO 2022-07-12 (Checked/Enhanced) (5-JUN-2022+) *START* -->
@@ -6018,7 +5935,7 @@
   <category id="AO90_RULES" name="[pt-PT] Regras do Acordo Ortográfico de 90 (pós-AO90)" type="misspelling" default='on'>
 
 
-    <rulegroup id="AO90_AVÉ_MARIA" name="[pt-PT] AO90: avé/ave Maria">
+    <rulegroup id="AO90_AVÉ_MARIA" name="[pt-PT][AO90] avé/ave Maria">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-08-13 (Checked/Enhanced) (25-JUL-2022+) -->
       <rule>        
         <pattern>
@@ -6047,7 +5964,7 @@
     </rulegroup>
 
 
-    <rule id="AO90_TONIC_SYLLABLES" name="[pt-PT] AO90: Terminações sem acento">
+    <rule id="AO90_TONIC_SYLLABLES" name="[pt-PT][AO90] Terminações sem acento">
       <pattern>
         <token regexp='yes'>.+((?:óid[oae]|óic[oa]|ói[ao])s?)$
           <exception postag_regexp='yes' postag='NP.+'/></token>
@@ -6063,7 +5980,7 @@
     </rule>
 
 
-    <rulegroup id='AO90_COMPOUNDS_GENERIC_PREFIX' name='[pt-PT] AO90: Hifenizador de palavras'>
+    <rulegroup id='AO90_COMPOUNDS_GENERIC_PREFIX' name='[pt-PT][AO90] Hifenizador de palavras'>
       <!--            COMPOSTAS DO NOVO ACORDO ORTOGRÁFICO	       -->
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-02 -->
       <!--	<url>http://www.portaldalinguaportuguesa.org/INDEX.PHP?action=vop&page=crit1</url>
@@ -6475,7 +6392,7 @@
     </rulegroup>
 
 
-    <rulegroup id='AO90_ACCENTUATED_PREFIXES' name='[pt-PT] AO90: Prefixos acentuados'>
+    <rulegroup id='AO90_ACCENTUATED_PREFIXES' name='[pt-PT][AO90] Prefixos acentuados'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-08-15 -->
       <rule>
         <pattern>
@@ -6516,7 +6433,7 @@
     </rulegroup>
 
 
-    <rule id='AO90_HIPHEN_REMOVALS' name='[pt-PT] AO90: Palavras que deixam de ser hifenizadas'>
+    <rule id='AO90_HIPHEN_REMOVALS' name='[pt-PT][AO90] Palavras que deixam de ser hifenizadas'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-19 -->
       <regexp>(?:c(?:a(?:b(?:e(?:ça(?:-(?:de-(?:c(?:a(?:r(?:neiro|taz)|valo|sal)|obra)|a(?:(?:lho-choch|sn)o|bóbora|velã)|(?:t(?:remoç|urc)|burr|vent)o|p(?:o(?:nte|rco)|rego|au)|m(?:edusa|otim)|s(?:ecção|érie)|lista)|no-ar)|s-(?:de-(?:c(?:a(?:r(?:neiro|taz)|sal)|obra)|s(?:(?:anto-antóni|ecçã)o|érie)|a(?:lho-chocho|bóbora|velã)|(?:t(?:remoç|urc)|vent)o|p(?:onte|rego|au)|m(?:edusa|otim)|lista)|no-ar))|lo(?:s-d(?:e-(?:raposa|anjo)|as-feiticeiras)|-d(?:as-feiticeiras|e-anjo)))|os?-de-(?:esquad|guer)ra)|(?:p(?:it(?:ão-de-(?:(?:mar-e-guer|bandei)r|(?:corve|fraga)t)|ões-de-(?:(?:mar-e-guer|bandei)r|fragat))|a-de-chuv)|chorros?-da-arei|gas?-na-saquinh)a|ixa(?:-d(?:e-(?:r(?:essonância|ufo)|(?:pirolit|ócul)os|música|ar)|os-pirolitos)|s-de-(?:(?:pirolit|ócul)os|música|rufo|ar))|r(?:a(?:s-de-(?:nó-cego|pau)|-de-(?:nó-cego|pau))|t(?:(?:ões|ão)-de-visita|as?-de-prego)|ne-de-so(?:is|l)|reiras?-de-tiro)|mi(?:sa(?:-d(?:e-(?:(?:onze-vara|vénu)s|forças?)|o-pano)|s-de-(?:(?:onze-var|forç)a|vénu)s)|nhos?-de-ferro)|v(?:alo(?:-d(?:e-(?:batalh|fris)a|o-cão)|s-d(?:e-batalha|o-cão))|eiras?-da-noite)|s(?:ca(?:s-de-(?:carvalho|noz)|-de-(?:carvalho|noz))|acos?-de-couro)|n(?:a(?:(?:is|l)-d[ae]-arei|-de-roc)a|to(?:-d[eo]|s-de)-cisne)|tingas?-de-bode)|o(?:r(?:es-de-(?:(?:tijol|vinh)o|laranja)|-de-(?:(?:tijol|vinh)o|laranja)|po-a-corpo)|nto(?:s-d(?:a-carochinha|o-vigário)|-d(?:a-carochinha|o-vigário))|va(?:-do-ladr(?:ões|ão)|s-do-ladrão)|m(?:idas?-de-urso|es?-e-dorme)|letes?-de-forças)|h(?:a(?:péu(?:-de-(?:so(?:is|l)|chuva)|s-de-(?:chuva|sol))|lotinhas-do-gerês)|uvas?-de-ouro|efe-de-fila)|(?:ent(?:áureas?-menor-perfolhad|ro-de-mes)|éus?-da-boc)a|â(?:nhamos?-de-manila|maras?-de-ar)|u(?:rral-de-trapiche|s?-de-judas)|ravagem-do-centeio)|p(?:a(?:i(?:-d(?:e-(?:(?:velhac|menin|tod)os|santo)|os-meninos)|s-d(?:e-(?:velhacos|santo)|os-meninos))|u(?:-(?:d(?:e-(?:(?:cabe|fi)leira|sabão)|o-ar)|a-pique)|s-(?:de-sabão|a-pique))|po(?:-de-(?:anjo|peru|rola)|s-de-(?:anjo|peru))|l(?:pos-de-aranha|ha-de-abade)|ssarinho-a-olhar|z(?:es)?-de-alma|r-ou-pernão)|e(?:d(?:r(?:a(?:-d(?:e-(?:(?:a(?:mol|fi)|cev)ar|(?:sang|toq)ue|águia|raio)|a(?:s-amazonas|-lua)|o-(?:so(?:is|l)|ar))|s-d(?:e-(?:(?:a(?:mol|fi)|cev)ar|águia|toque|raio)|o-(?:sol|ar)|a-lua))|inha-na-boca)|aços?-de-asno)|rna(?:-de-(?:serra|pau)|s-de-pau)|ito-de-(?:canga|morte)|les?-de-vinho)|é(?:-de-(?:c(?:a(?:n(?:(?:tig)?a|deeiro)|valo|bra)|humbo)|a(?:l(?:feres|tar)|tleta|migo)|(?:galinh|danç)a|(?:molequ|lebr)e|(?:ven|pa)to|b(?:anco|oi))|s-de-(?:(?:galinh|atlet)a|c(?:humbo|abra)|lebre|vento|boi))|ã(?:o-(?:d(?:e-(?:(?:passarinh|gal)o|aç(?:ú|u)car|l(?:eite|ó))|o-chile)|por-Deus)|es-d(?:e-(?:(?:passarinh|gal)o|l(?:eite|ó)|açucar)|o-chile))|i(?:n(?:go(?:-de-tocha|s-de-ovos)|ho-de-flandres)|(?:(?:ões|ão)-das-nica|anos?-dos-preto)s|olho-de-cobra)|o(?:r(?:ta(?:-(?:a-port|da-ru)|s-a-port)a|es-do-sol)|mo(?:-de-ad(?:ões|ão)|s-de-adão)|ntas?-de-lança)|r(?:e(?:ss(?:ões|ão)-de-ar|tos?-e-branco)|ontos?-a-(?:vesti|come)r|íncipe-de-gales)|ó(?:-de-(?:(?:sapat|talc)o|chipre|arroz|goa)|s-de-(?:chipre|arroz|goa))|ôr(?:-do-so(?:is|l)|s-do-sol))|b(?:i(?:c(?:h(?:o(?:s-d(?:o-(?:burac|ouvid|mat)o|e-sete-cabeças)|-d(?:o-(?:burac|ouvid|mat)o|e-sete-cabeças))|a(?:s-de-(?:sete-cabeças|rabear)|-de-(?:sete-cabeças|rabear)))|o(?:-de-(?:p(?:a(?:pagai|t)o|omba)|g(?:avião|ás)|mocho|obra)|s-de-(?:p(?:a(?:pagai|t)o|omba)|g(?:avião|ás)|obra)))|lhete(?:s-de-(?:identidade|visita)|-de-(?:identidade|visita))|fe-de-caneca)|o(?:ca(?:-de-(?:f(?:avas|ogo)|si(?:no|ri)|incêndio)|s-de-(?:(?:incêndi|fog|lob)o|si(?:no|ri)))|(?:t(?:(?:ões|ão)-de-our|as?-de-elástic)|(?:ns|m)-de-bic)o|la(?:s-(?:ao-cesto|de-neve)|-(?:ao-cesto|de-neve))|a-vai-ela)|a(?:r(?:riga(?:s-de-(?:freira|bicho)|-de-(?:freira|bicho))|ba-de-baleia|ca-de-ouro)|ba(?:-de-(?:camelo|moça)|s-de-camelo)|l(?:ões|ão)-de-ensaio|irros?-de-lata)|ra(?:ço(?:-de-(?:preguiça|armas|ferro)|s-de-(?:preguiça|ferro))|vos?-de-mundão|nco-de-baleia)|(?:ênç(?:ões|ão)-de-deu|uchas?-dos-caçadore)s|e(?:xigas?-de-lobo|ijos?-de-moça)|álsamo-do-canadá)|f(?:o(?:go(?:-d(?:e-(?:sant(?:o-ant(?:ões|ão)|elmo)|(?:bengal|vist)a|artifício)|o-ar)|s-d(?:e-(?:(?:sant(?:o-antã|elm)|artifíci)o|(?:bengal|vist)a)|o-ar))|cinho(?:s-de-(?:(?:burr|porc)o|tenca)|-de-(?:(?:burr|porc)o|tenca))|ra(?:s-d(?:e-jogo|a-lei)|-d(?:e-jogo|a-lei))|lh(?:a-de-flandres|os-de-sinhá))|a(?:to(?:-de-(?:(?:saia-e-cas|mac)ac|trein|banh)|s-de-(?:macac|trein|banh))o|c(?:es?-a-face|a-de-mato)|rinhas?-de-pau|zs?-de-conta)|i(?:(?:lho-d(?:e-parid|a-terr)|sca(?:is|l)-de-linh|(?:ns|m)-de-seman)a|o(?:s-de-(?:prumo|ovos)|-de-prumo))|e(?:bre-d(?:os-(?:três-dia|feno)s|e-malta)|rro-de-(?:engomar|romã)|zes-de-ouro)|r(?:adinho-d[ae]-mão-furada|entes?-a-frente|utos-do-mar)|u(?:mos?-da-terra|la-de-gabu)|lor-de-enxofre)|m(?:a(?:r(?:i(?:a-da(?:s-pernas-compridas|-fonte)|do-de-bolas)|c(?:o-de-colónia|a-de-judas)|mita-de-gigante)|nga-de-(?:alpaca|eixo)|çã-de-ad(?:ões|ão)|tutas?-e-meia)|e(?:s(?:tre(?:-de-(?:cerimóni|arm|obr)|s-de-(?:cerimóni|obr))as|(?:inha|as?)-de-cabeceira)|nina-d(?:e-cinco-olhos|o-olho)|adinha-de-ouro|ias?-de-leite)|ã(?:e(?:-d(?:e-(?:aluguer|santo)|a-lua)|s-d(?:e-santo|a-lua))|o(?:-de-(?:(?:barc|obr)a|judas)|s-de-obra))|o(?:scas-de-mil(?:ões|ão)|ços?-de-forcado|ntes?-de-vénus|rtes?-em-pé)|ulhers?-a-dias)|a(?:z(?:u(?:is-d(?:a-prússia|e-metileno)|l-d(?:a-prússia|e-metileno))|eite(?:s-de-(?:cheiro|pau)|-de-(?:cheiro|pau)))|l(?:godão-(?:d(?:as-(?:laranj|oliv)eiras|e-vidro)|em-rama)|m(?:écega-do-brasi[ls]|as?-do-padeiro)|finetes?-de-ama)|r(?:co(?:-d(?:a-(?:alianç|chuv)a|e-deus)|s-da-(?:alianç|chuv)a)|r(?:uda-dos-muros|oz-de-cuxá))|judante(?:s-de-(?:ordens|campo)|-de-(?:ordens|campo))|n(?:gus?-de-caroço|jos?-da-guarda)|m(?:igos?-da-onça|a-de-leite)|çúcar-de-madeira|chas?-de-armas|utos?-de-fé)|t(?:e(?:rra(?:-(?:de-(?:s(?:evilh|ien)a|ninguém)|a-terra)|s-a-terra)|sta(?:s-de-(?:ferro|ponte)|-de-(?:ferro|ponte)))|i(?:nta(?:s-d(?:os-pobres|a-china)|-d(?:os-pobres|a-china))|r(?:as?-que-ti|o-de-guer)ra)|o(?:r(?:rão-de-alicante|nas?-e-torna)|ucinhos?-do-céu|pas?-a-tudo)|r(?:o(?:(?:uxas?|ixa)-de-ovos|mba-de-boi)|intas?-e-um)|êtes?-à-tête|énis-de-mesa)|r(?:abo(?:s-de-(?:(?:a(?:ndorinh|rrai)|sai)a|(?:cav|g)alo|leque|tatu)|-de-(?:(?:a(?:ndorinh|rrai)|sai)a|(?:cav|g)alo|leque|tatu))|e(?:lógio(?:s-d(?:a-morte|e-ponto)|-d(?:a-morte|e-ponto))|sina-de-jalapa)|o(?:sa-d(?:e-o[iu]ro|os-ventos)|upa-de-franceses)|és-do-ch(?:ões|ão))|s(?:a(?:l-de-(?:s(?:eldlitz|aturno)|(?:júpit|glaub)er|azedas|epsom|vichy)|c(?:a-de-carv(?:ões|ão)|o-de-areia)|ída-de-(?:banho|praia)|is-de-azedas)|o(?:p(?:inha-de-massa|a-de-urso)|l-(?:de-gata|e-dó))|ul-rio-grandense)|v(?:i(?:n(?:ho(?:-de-(?:c(?:heiro|aju)|maçãs?|palma)|s-de-(?:cheiro|maçãs))|t(?:e-e-(?:quatro-horas|um)|ém-de-santo-antónio))|ola-d(?:e-a(?:rame|mor)|a-terra)|dro-de-cheiro)|erbos?-de-encher|olta-no-meio)|l(?:i(?:xa(?:s-de-(?:lei|pau)|-de-(?:lei|pau))|mpas?-pára-brisas|nha-de-água)|íngua(?:-de-(?:(?:vead|gat)o|trapos|sogra)|s-de-gato)|ua(?:-de-me(?:is|l)|s-de-mel)|eite-de-ca(?:is|l))|o(?:lho(?:-de-(?:mosquito|sogra|tigre|boi)|s-de-boi)|co(?:-do-coraç(?:ões|ão)|s-do-coração)|ficia(?:is|l)-às-ordens|itavos-de-fina(?:is|l)|relhas-de-abade)|g(?:(?:aitas?-de-(?:beiço|fole)|rosso-de-nápole|ás-dos-pântano|essos?-de-pari)s|u(?:inchos?-da-tainha|arda-de-corpo))|á(?:gua(?:s-de-(?:(?:forç|mes)a|végeto|lume)|-de-(?:(?:forç|mes)a|végeto|lume))|rvores?-da-vida)|d(?:ente(?:s-de-(?:serra|lobo)|-de-coelho)|(?:anças?-de-são-vit|oenças?-do-son)o|ia-a-dia)|zé(?:s-(?:d(?:os-anzóis|a-véstia)|faz-formas)|-(?:d(?:os-anzóis|a-véstia)|faz-formas))|n(?:(?:egros?-de-fum|ós?-de-adã)o|ortes?-rio-grandense|ão-sei-quês?|ariz-de-cera)|j(?:uiz(?:s-de-(?:campo|linha)|-de-(?:campo|linha))|ardi(?:ns|m)-de-infância)|qu(?:arto(?:s-de-fina(?:is|l)|-de-fina(?:is|l))|eijinho-do-céu)|u(?:(?:nhas?-de-fom|p-to-dat)e|mbigo-de-freira)|e(?:aus?-de-toilette|spuma-do-mar)|hás?-de-haver|és-não-és)</regexp>
       <message>Esta palavra já não é hifenizada.</message>
@@ -6527,7 +6444,7 @@
     </rule>
 
 
-    <rule id='AO90_MONTHS_CASING' type='grammar' name='[pt-PT] AO90: Capitalização de Meses e Estações do Ano'>
+    <rule id='AO90_MONTHS_CASING' type='grammar' name='[pt-PT][AO90] Capitalização de Meses e Estações do Ano'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-25 -->
       <antipattern>
         <token>Rio</token>
@@ -6571,7 +6488,7 @@
     </rule>
 
 
-    <rulegroup id='AO90_WEEKDAYS_CASING_PT_PT' type='grammar' name='[pt-PT] AO90: Capitalização dos Dias da Semana'>
+    <rulegroup id='AO90_WEEKDAYS_CASING_PT_PT' type='grammar' name='[pt-PT][AO90] Capitalização dos Dias da Semana'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
 
       <rule>
@@ -6652,7 +6569,7 @@
     </rulegroup>
 
 
-    <rule id='AO90_CARDINAL_POINTS_CASING' type='grammar' name='[pt-PT] AO90: Capitalização de Pontos Cardeais'>
+    <rule id='AO90_CARDINAL_POINTS_CASING' type='grammar' name='[pt-PT][AO90] Capitalização de Pontos Cardeais'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
       <antipattern case_sensitive='yes'>
         <token>Médio</token>
@@ -6711,7 +6628,7 @@
     </rule>
 
 
-    <rulegroup id='AO90_BEM_FEITO' name='[pt-PT] AO90: Bem-feito/Bem feito!'>
+    <rulegroup id='AO90_BEM_FEITO' name='[pt-PT][AO90] Bem-feito/Bem feito!'>
       <rule>
         <antipattern>
           <token postag='SENT_START'/>
@@ -6744,7 +6661,7 @@
     </rulegroup>
 
 
-    <rulegroup id='AO90_HAVER_DE' name='[pt-PT] AO90: Haver + de'>
+    <rulegroup id='AO90_HAVER_DE' name='[pt-PT][AO90] Haver + de'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-07 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/sobre-supressao-do-hifen-na-forma-verbal-ha-de-depois-do-novo-acordo/29531</url>
       <rule>
@@ -6797,7 +6714,7 @@
     </rulegroup>
 
 
-    <rule id="AO90_POLO_CAPITALIZATION" name="[pt-PT] AO90: Polo Norte/Sul">
+    <rule id="AO90_POLO_CAPITALIZATION" name="[pt-PT][AO90] Polo Norte/Sul">
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-08-08 -->
       <antipattern case_sensitive='yes'>
         <token regexp='yes'>P[oó]lo</token>
@@ -6818,9 +6735,9 @@
   </category>
 
 
-  <category id="AO45_RULES" name="[pt-PT] Regras do Acordo Ortográfico de 45 (pré-AO90)" type="misspelling" default='off'>
+  <category id="AO45_RULES" name="[pt-PT][AO45] Regras do Acordo Ortográfico de 45 (pré-AO90)" type="misspelling" default='off'>
 
-    <rule id='AO45_MONTHS_CASING' type='grammar' name='[pt-PT] AO45: Capitalização de Meses e Estações do Ano'>
+    <rule id='AO45_MONTHS_CASING' type='grammar' name='[pt-PT][AO45] Capitalização de Meses e Estações do Ano'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
       <pattern case_sensitive='yes'>
         <token regexp='yes'>(?:&meses_ano;)s?|(?:&meses_ano_abrev;)|invernos?|primaveras?|ver(?:ão|ões)|estios?|outonos?
@@ -6836,7 +6753,7 @@
     </rule>
 
 
-    <rulegroup id='AO45_WEEKDAYS_CASING' type='grammar' name='[pt-PT] AO45: Capitalização dos Dias da Semana'>
+    <rulegroup id='AO45_WEEKDAYS_CASING' type='grammar' name='[pt-PT][AO45] Capitalização dos Dias da Semana'>
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-01-26 -->
       <rule>
         <pattern case_sensitive='yes'>
@@ -6862,7 +6779,7 @@
     </rulegroup>
 
 
-    <rulegroup id='AO45_CARDINAL_POINTS_CASING' type='grammar' name='[pt-PT] AO45: Capitalização de Pontos Cardeais'>
+    <rulegroup id='AO45_CARDINAL_POINTS_CASING' type='grammar' name='[pt-PT][AO45] Capitalização de Pontos Cardeais'>
       <rule>
         <pattern case_sensitive='yes'>
           <marker>
@@ -6902,7 +6819,7 @@
     </rulegroup>
 
 
-    <rule id="AO45_MUITO_PELO_É" name="[pt-PT] AO45: Confusão: pelo/pêlo">
+    <rule id="AO45_MUITO_PELO_É" name="[pt-PT][AO45] Confusão: pelo/pêlo">
       <!-- Created by Marco A.G. Pinto   -->
       <pattern>
         <token>muito</token>
@@ -6945,62 +6862,127 @@
 
   <category id="STYLE" name="[pt-PT] Estilo" type="style">
 
-    <rulegroup id='MONTES_DE' name="[pt-PT] Montes de'">
-      <short>Linguagem informal</short>
-      <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
+
+
+    <!-- VERB + A + ELE(S)/ELA(S) verb + lhe -->
+    <rulegroup id='SIMPLIFICAR_PP_OBJ_IND_V2' name="[pt-PT][Simplificar] Pronome pessoal no dativo" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-09-16/20 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      O Rui pediu a ele. → O Rui pediu-lhe.
+      O Rui pediu a eles. → O Rui pediu-lhes.
+
+      Tinha pedido a ele. → Tinha lhe pedido.
+      Tinha pedido a eles. → Tinha lhes pedido.
+
+      O Rui não pediu a ele. → O Rui não lhe pediu.
+      O Rui não pediu a eles. → O Rui não lhes pediu.
+
+      Não tinha pedido a ele. → Não lhe tinha pedido.
+      Não tinha pedido a eles. → Não lhes tinha pedido.
+      -->
+      <antipattern>
+        <token regexp='yes'>[ao]s?</token>
+        <token postag='V.+' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='VMN0000'/>
+        </token>
+        <token>a</token>
+        <token regexp='yes'>el[ae]s?</token>
+        <example>Ele me deu dinheiro, mas eu imediatamente o devolvi a ele.</example>
+        <example>Você não o emprestou a ele.</example>
+        <example>Eu o disse a ele com boa intenção.</example>
+        <example>Não os dê a ela.</example>
+        <example>Eu a dei a ela.</example>
+        <example>Eu a dei a ele.</example>
+      </antipattern>
+
+      <!-- Without RN ("não") -->
       <rule>
         <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.MS.+"/>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AQ.+|NC.+|VMP00.+'/>
+            <exception scope='previous' regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</exception>
+            <exception scope='previous' postag_regexp='yes' postag='CS|RN'/> <!-- Added RN - 2022-09-20 -->
+            <exception regexp='no' inflected="yes">assistir</exception>
+          </token>
+          <token>a</token>
+          <token regexp='yes'>el[ae]s?
+            <exception scope='next' regexp='yes'>mesm[ao]s?|própri[ao]s?</exception>
+            <exception scope='next' postag_regexp='no' postag='SPS00'/>
+          </token>
         </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imenso</suggestion>
-        <example correction="imenso">Perdi <marker>montes de</marker> tempo.</example>
+        <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
+        <suggestion>\1-<match no='3' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match></suggestion>
+        <example correction="pediu-lhe">O Rui <marker>pediu a ele</marker> para comprar o livro.</example>
+        <example correction="pediu-lhes">O Rui <marker>pediu a eles</marker> para comprarem o livro.</example>
+        <example>Eu dei muito trabalho a ele.</example>
+        <example>Eu expliquei a regra a ele.</example>
+        <example>Queria dar aulas a ela de graça, mas entendo o que é orgulho.</example>
+        <example>Ela assistia a ele nadando.</example>
+        <example>Nós assistimos a ele e rimos muito.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.MP.+"/>
+          <token postag='VMP00.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AQ.+|NC.+'/>
+            <exception scope='previous' regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</exception>
+            <exception scope='previous' postag_regexp='yes' postag='CS|RN'/> <!-- Added RN - 2022-09-20 -->
+            <exception regexp='no' inflected="yes">assistir</exception>
+          </token>
+          <token>a</token>
+          <token regexp='yes'>el[ae]s?
+            <exception scope='next' regexp='yes'>mesm[ao]s?|própri[ao]s?</exception>
+            <exception scope='next' postag_regexp='no' postag='SPS00'/>
+          </token>
         </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imensos</suggestion>
-        <example correction="imensos">Perdi <marker>montes de</marker> contactos.</example>
+        <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
+        <suggestion><match no='3' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match> \1</suggestion>
+        <example correction="lhe pedido">O Rui tinha <marker>pedido a ele</marker> para comprar o livro.</example>
+        <example correction="lhes pedido">O Rui tinha <marker>pedido a eles</marker> para comprarem o livro.</example>
+      </rule>
+
+      <!-- With RN ("não") -->
+      <rule>
+        <pattern>
+          <token postag='RN' postag_regexp='no'/>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AQ.+|NC.+|VMP00.+'/>
+            <exception scope='previous' regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</exception>
+            <exception regexp='no' inflected="yes">assistir</exception>
+          </token>
+          <token>a</token>
+          <token regexp='yes'>el[ae]s?
+            <exception scope='next' regexp='yes'>mesm[ao]s?|própri[ao]s?</exception>
+            <exception scope='next' postag_regexp='no' postag='SPS00'/>
+          </token>
+        </pattern>
+        <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
+        <suggestion>\1 <match no='4' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match> \2</suggestion>
+        <example correction="não lhe pediu">O Rui <marker>não pediu a ele</marker> para comprar o livro.</example>
+        <example correction="não lhes pediu">O Rui <marker>não pediu a eles</marker> para comprarem o livro.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.FS.+"/>
+          <token postag='RN' postag_regexp='no'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='VMP00.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AQ.+|NC.+'/>
+            <exception scope='previous' regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</exception>
+            <exception regexp='no' inflected="yes">assistir</exception>
+          </token>
+          <token>a</token>
+          <token regexp='yes'>el[ae]s?
+            <exception scope='next' regexp='yes'>mesm[ao]s?|própri[ao]s?</exception>
+            <exception scope='next' postag_regexp='no' postag='SPS00'/>
+          </token>
         </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imensa</suggestion>
-        <example correction="imensa">Perdi <marker>montes de</marker> gordura.</example>
+        <message>Na linguagem formal, é preferível usar o pronome pessoal no dativo.</message>
+        <suggestion>\1 <match no='5' postag='PP3.(.)000' postag_replace='PP3C$1D00'>lhe</match> \2 \3</suggestion>
+        <example correction="não lhe tinha pedido">O Rui <marker>não tinha pedido a ele</marker> para comprar o livro.</example>
+        <example correction="não lhes tinha pedido">O Rui <marker>não tinha pedido a eles</marker> para comprarem o livro.</example>
       </rule>
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.FP.+"/>
-        </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imensas</suggestion>
-        <example correction="imensas">Perdi <marker>montes de</marker> horas.</example>
-      </rule>
+
     </rulegroup>
+
 
     <!-- POR ISSO aí/assim/daí/isso -->
     <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO_PT' name="[pt-PT] Simplificar: por isso → aí/assim/daí/isso">
@@ -7808,6 +7790,33 @@
       <message>Evite a redundância para melhorar a clareza da perífrase.</message>
       <suggestion>\6 também o \8</suggestion>
       <example correction="esta também o é">Eu fiz a formação MULTIBANCO que é obrigatória; <marker>esta também é obrigatória</marker>?</example>
+    </rule>
+
+
+  </category>
+
+
+  <category id='TRANSLATION_ERRORS_PT_PT' name="[pt-PT] Erros de Tradução" type="mistranslation">
+
+
+    <!-- ESTIMAÇÃO MÁXIMA SEMELHANÇA estimação máxima verosimilhança -->
+    <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="[pt-PT][Erro tradução] estimação máxima 'verossimilhança'(BR)/'verosimilhança'(PT)">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 + 2023-01-05 (Checked/Enhanced) (1-JAN-2022+)      -->
+      <!--
+      IN pt_PT: verosimilhança
+      IN pt_BR: verossimilhança
+      -->
+      <pattern>
+        <token regexp="yes">estimativas?|estimação|estimações|estimador|estimadores</token>
+        <token regexp="yes">d[ae]|pela|por</token>
+        <token>máxima</token>
+        <marker>
+          <token>semelhança</token>
+        </marker>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+      <suggestion>verosimilhança</suggestion>
+      <example correction='verosimilhança'>A estimativa de máxima <marker>semelhança</marker> é usada em Estatística.</example>
     </rule>
 
 
