@@ -7772,6 +7772,8 @@
         <message>A abreviatura deste ordinal é: <suggestion>\1</suggestion>.</message>
         <example correction="12o">O premiado é o <marker>12o.</marker> da lista.</example>
       </rule>
+
+
     </rulegroup>
 
 
@@ -7808,17 +7810,17 @@
 
     <!-- ESTIMAÇÃO MÁXIMA SEMELHANÇA estimação máxima verosimilhança -->
     <rule id='ERRO_TRADUÇÃO_ESTIMAÇÃO_MÁXIMA_SEMELHANÇA_PT_PT' name="[pt-PT][Erro tradução] estimação máxima 'semelhança' → 'verosimilhança'(PT)">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 + 2023-01-05 (Checked/Enhanced) (1-JAN-2022+)      -->
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-03 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
       IN pt_PT: verosimilhança
       IN pt_BR: verossimilhança
       -->
       <pattern>
-        <token regexp="yes">estimativas?|estimação|estimações|estimador|estimadores</token>
+        <token regexp="yes">estimativas?|estimaç(ão|ões)|estimador(es)?</token>
         <token regexp="yes">d[ae]|pela|por</token>
         <token>máxima</token>
         <marker>
-          <token>semelhança</token>
+          <token regexp="yes">semelhança|equivalência</token>
         </marker>
       </pattern>
       <message>Expressão não pode ser traduzida literalmente.</message>
