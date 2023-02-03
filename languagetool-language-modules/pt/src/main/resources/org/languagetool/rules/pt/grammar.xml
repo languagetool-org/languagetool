@@ -52672,7 +52672,7 @@ O namorado dela era um ladrão.
 
 
     <!-- CAMINHAR CAMINHOS percorrer/trilhar caminhos -->
-    <rule id='CAMINHAR_CAMINHOS' name="[Erro tradução] 'caminhar' caminhos → 'percorrer/trilhar'">
+    <rule id='ERRO_TRADUÇÃO_CAMINHAR_CAMINHOS' name="[Erro tradução] 'caminhar' caminhos → 'percorrer/trilhar'">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
       <pattern>
         <marker>
@@ -52714,7 +52714,7 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rulegroup id='ENG_ELETRICO' name="[Erro tradução] engenheiro 'elétrico' → 'eletrotécnico'">
+    <rulegroup id='ERRO_TRADUÇÃO_ENG_ELETRICO' name="[Erro tradução] engenheiro 'elétrico' → 'eletrotécnico'">
       <!-- Created by Tiago F. Santos, 2017-05-19 -->
       <short>Erro de tradução</short>
       <rule>
@@ -52744,7 +52744,7 @@ O namorado dela era um ladrão.
 
     <!-- FURTO/ROUBO DE IDENTIDADE usurpação de identidade -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
-    <rule id='FURTO_ROUBO_IDENTIDADE' name="[Erro tradução] 'furto' de identidade → 'usurpação'">
+    <rule id='ERRO_TRADUÇÃO_FURTO_ROUBO_IDENTIDADE' name="[Erro tradução] 'furto' de identidade → 'usurpação'">
       <pattern>
         <marker>
           <token skip="3" inflected='yes' regexp='yes'>furtar|roubar</token>
@@ -52758,68 +52758,8 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rule id='LOWER_QUOTES' name="[Erro tradução] Símbolo não utilizado em português: „">
-      <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-22      -->
-      <pattern>
-        <token>„</token>
-      </pattern>
-      <message>O símbolo de aspas baixas não é utilizado em português.</message>
-      <suggestion>“</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Aspas</url>
-      <example correction="“">A palavra <marker>„</marker>desenvovedor” vem do inglês e traduz-se em programador.</example>
-    </rule>
-
-
-    <rule id='OPENING_INTERROGATION' name="[Erro tradução] Sinal de interrogação inicial" default="on">
-      <!-- Localized from Catalan, by Tiago F. Santos, 2017-02-27 -->
-      <!-- MARCOAGPINTO 2022-01-05 (Checked/Enhanced) (1-JAN-2022+) *START* -->
-      <!--
-      THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
-      #¿$?%!¡
-      -->
-      <antipattern>
-        <token regexp='yes'>[¿]</token>
-        <token regexp='yes' spacebefore='no'>[$]</token>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-01-05 (Checked/Enhanced) (1-JAN-2022+) *END* -->
-      <pattern>
-        <token>¿</token>
-        <token/>
-      </pattern>
-      <message>O português não utiliza o sinal de interrogação inicial.</message>
-      <suggestion>\2</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Ponto_de_interroga%C3%A7%C3%A3o</url>
-      <example correction="Como"><marker>¿Como</marker> estás?</example>
-      <example>Estás bem?</example>
-    </rule>
-
-
-    <rule id='OPENING_EXCLAMATION' name="[Erro tradução] Sinal de exclamação inicial" default="on">
-      <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
-      <!-- MARCOAGPINTO 2022-01-05 (Checked/Enhanced) (1-JAN-2022+) *START* -->
-      <!--
-      THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
-      #¿$?%!¡
-      -->
-      <antipattern>
-        <token regexp='yes'>[!]</token>
-        <token regexp='yes' spacebefore='no'>[¡]</token>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-01-05 (Checked/Enhanced) (1-JAN-2022+) *END* -->
-      <pattern>
-        <token>¡</token>
-        <token/>
-      </pattern>
-      <message>O português não utiliza o sinal de exclamação inicial.</message>
-      <suggestion>\2</suggestion>
-      <url>https://pt.wikipedia.org/wiki/Pontos_de_interroga%C3%A7%C3%A3o_e_de_exclama%C3%A7%C3%A3o_invertidos</url>
-      <example correction="Muito"><marker>¡Muito</marker> bem!</example>
-      <example>Mesmo bom!</example>
-    </rule>
-
-
     <!-- PEQUENO INTESTINO intestino delgado -->
-    <rulegroup id='PEQUENO_INTESTINO' name="[Erro tradução] 'pequeno intestino' → 'intestino delgado'">
+    <rulegroup id='ERRO_TRADUÇÃO_PEQUENO_INTESTINO' name="[Erro tradução] 'pequeno intestino' → 'intestino delgado'">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
       <rule>
         <pattern>
@@ -52849,9 +52789,8 @@ O namorado dela era um ladrão.
 
 
     <!-- TRAZEDOR(ES) DA JUSTIÇA justiceiro(s) -->
-    <rule id='TRAZEDORES_DA_JUSTIÇA' name="[Erro tradução] 'trazedor de justiça' → 'justiceiro'">
+    <rule id='ERRO_TRADUÇÃO_TRAZEDORES_DA_JUSTIÇA' name="[Erro tradução] 'trazedor de justiça' → 'justiceiro'">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
-
       <pattern>
         <token regexp="yes">trazedora?|trazedor[ae]s</token>
         <token regexp="yes">d[ae]</token>
@@ -52865,7 +52804,7 @@ O namorado dela era um ladrão.
 
 
     <!-- UM TAMANHO DÁ/SERVE PARA TODOS tamanho único -->
-    <rule id='UM_TAMANHO_SERVE_DÁ_PARA_TODOS' name="[Erro tradução] 'um tamanho dá para todos' → 'tamanho único'">
+    <rule id='ERRO_TRADUÇÃO_UM_TAMANHO_SERVE_DÁ_PARA_TODOS' name="[Erro tradução] 'um tamanho dá para todos' → 'tamanho único'">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
       <pattern>
         <token>um</token>
@@ -52877,6 +52816,66 @@ O namorado dela era um ladrão.
       <message>Expressão não pode ser traduzida literalmente.</message>
       <suggestion>tamanho único</suggestion>
       <example correction="tamanho único">As meias são <marker>um tamanho serve para todos</marker>.</example>
+    </rule>
+
+
+    <rule id='ERRO_TRADUÇÃO_LOWER_QUOTES' name="[Erro tradução] Símbolo não utilizado em português: „">
+      <!--  Localized from Catalan grammar.xml, by Tiago F. Santos, 2017-02-22      -->
+      <pattern>
+        <token>„</token>
+      </pattern>
+      <message>O símbolo de aspas baixas não é utilizado em português.</message>
+      <suggestion>“</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Aspas</url>
+      <example correction="“">A palavra <marker>„</marker>desenvovedor” vem do inglês e traduz-se em programador.</example>
+    </rule>
+
+
+    <rule id='ERRO_TRADUÇÃO_OPENING_INTERROGATION' name="[Erro tradução] Sinal de interrogação inicial" default="on">
+      <!-- Localized from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <!-- MARCOAGPINTO 2022-01-05 (Checked/Enhanced) (1-JAN-2022+) *START* -->
+      <!--
+      THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
+      #¿$?%!¡
+      -->
+      <antipattern>
+        <token regexp='yes'>[¿]</token>
+        <token regexp='yes' spacebefore='no'>[$]</token>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-01-05 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+      <pattern>
+        <token>¿</token>
+        <token/>
+      </pattern>
+      <message>O português não utiliza o sinal de interrogação inicial.</message>
+      <suggestion>\2</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Ponto_de_interroga%C3%A7%C3%A3o</url>
+      <example correction="Como"><marker>¿Como</marker> estás?</example>
+      <example>Estás bem?</example>
+    </rule>
+
+
+    <rule id='ERRO_TRADUÇÃO_OPENING_EXCLAMATION' name="[Erro tradução] Sinal de exclamação inicial" default="on">
+      <!-- Localized and improved from Catalan, by Tiago F. Santos, 2017-02-27 -->
+      <!-- MARCOAGPINTO 2022-01-05 (Checked/Enhanced) (1-JAN-2022+) *START* -->
+      <!--
+      THIS ANTIPATTERN IS TO AVOID FLAGGING THE REPLACEMENT TEXT FOR OBSCENE WORDS.
+      #¿$?%!¡
+      -->
+      <antipattern>
+        <token regexp='yes'>[!]</token>
+        <token regexp='yes' spacebefore='no'>[¡]</token>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-01-05 (Checked/Enhanced) (1-JAN-2022+) *END* -->
+      <pattern>
+        <token>¡</token>
+        <token/>
+      </pattern>
+      <message>O português não utiliza o sinal de exclamação inicial.</message>
+      <suggestion>\2</suggestion>
+      <url>https://pt.wikipedia.org/wiki/Pontos_de_interroga%C3%A7%C3%A3o_e_de_exclama%C3%A7%C3%A3o_invertidos</url>
+      <example correction="Muito"><marker>¡Muito</marker> bem!</example>
+      <example>Mesmo bom!</example>
     </rule>
 
 
