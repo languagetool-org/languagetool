@@ -4777,7 +4777,7 @@
   <category id="CONTRACTIONS_PT_PT" name="[pt-PT] Contrações">
 
 
-    <rulegroup type='grammar' id="CONTRAÇÕES_2" name="[pt-PT] Contrações" default='on'>
+    <rulegroup type='grammar' id="CONTRAÇÕES_2_PT_PT" name="[pt-PT] Contrações" default='on'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
       <!-- XXX Default off to avoid alarm fatigue. Reactivate when there is a color code/custom highlight system working on LibreOffice -->
       <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
@@ -4800,8 +4800,7 @@
         <token>de</token>
       </antipattern>
 
-
-      <rule id='CONTRAÇÃO_DOUTREM' name='[pt-PT] De + outro/outrem' default='off'>
+      <rule id='CONTRAÇÃO_DOUTREM_PT_PT' name='[pt-PT][Contração] De outro/outrem → doutro/doutrem' default='off'>
         <pattern>
           <token>de</token>
           <token case_sensitive="yes" regexp='yes'>outrem|outr[ao]s?</token>
@@ -4814,8 +4813,7 @@
         <example correction='doutras'><marker>de outras</marker>.</example>
       </rule>
 
-
-      <rule id='CONTRAÇÃO_DUM2' name='[pt-PT] De + um/uns' default='off'>
+      <rule id='CONTRAÇÃO_DUM2_PT_PT' name='[pt-PT][Contração] De um(a)(s)/uns → dum(a)(s)/duns' default='off'>
         <pattern>
           <marker>
             <token>de</token>
@@ -4831,15 +4829,21 @@
         <example correction='duns'><marker>de uns</marker> rios.</example>
       </rule>
 
-      <rule id='CONTRAÇÃO_EM_UM' name='[pt-PT] Em + um(a) → num(a)' default='on'>
-        <!-- MARCOAGPINTO 2020-10-06 (2-JUL-2020+) *START* -->
-        <!-- "Isto aconteceu em um ano apenas." -->
+      <rule id='CONTRAÇÃO_EM_UM_NUM_PT_PT' name='[pt-PT][Contração] Em um(a) → num(a)' default='on'>
+        <!-- MARCOAGPINTO 2023-02-03 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <antipattern>
           <token regexp="no">em</token>
-          <token regexp="no">um</token>
-          <token regexp="yes">segundo|minuto|dia|mês|ano</token>
+          <token regexp="yes">uma?s?|uns</token>
+          <token regexp='yes'>&expressoes_de_tempo_simples;</token>	  
+          <example>Isto aconteceu em um ano apenas.</example>
+          <example>Quantos dias há em uma semana? - Em uma semana há sete dias.</example>
+          <example>Estou de saída, mas volto em uma hora.</example>
+          <example>Ela será capaz de nadar em uma semana.</example>
+          <example>A avião pousará em uma hora.</example>
+          <example>Em uns segundos, sua foto estará pronta.</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-10-06 (2-JUL-2020+) *END* -->
+        <!-- MARCOAGPINTO 2023-02-03 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
         <pattern>
           <marker>
             <token>em</token>
