@@ -11408,6 +11408,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Возле дома был большой сквер.</example>
             <example correction="Возле стадиона"><marker>Возле стадион</marker> был большой сквер.</example>
         </rule>
+        <rule default="on" id="PREP_vokrug_and_Noun" name="Предлог «вокруг» и существительное" tags="picky" >            
+            <pattern case_sensitive="no">
+                <!--  PREP  вокруг -> NN:.*:R   -->
+                <token>вокруг</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:(Z|Nom|V)" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Предлог «вокруг» предполагает употребление существительного в родительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion></message>
+            <short>Требуется родительный падеж</short>
+            <example>Вокруг дома был большой сквер.</example>
+            <example>Заставил построить вокруг стену.</example>
+            <example correction="Вокруг стадиона"><marker>Вокруг стадионом</marker> был большой сквер.</example>
+        </rule>
         <rule default="on" id="PREP_O_and_Noun" name="Предлог «о» и существительное">
             <!--     <antipattern case_sensitive="no">
                 <token postag="SENT_START"></token>
