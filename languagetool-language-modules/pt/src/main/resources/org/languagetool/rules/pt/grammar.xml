@@ -19545,6 +19545,33 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- MAS NÃO TERÁ UTILIDADE mas sem utilidade -->
+    <rule id='MAS_EMBORA_CONTUDO_SEM' name="Simplificar: Expressões do tipo: 'não ter utilidade' → 'sem utilidade'" type='style'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 (25-JUL-2022+) -->
+      <!--
+      Concluirei o doutoramento, embora não terá utilidade profissional. → Concluirei o doutoramento, embora sem utilidade profissional.
+      Concluirei o doutoramento, embora não terá grande utilidade profissional. → Concluirei o doutoramento, embora sem grande utilidade profissional.
+      Concluirei o doutoramento, embora não terá grande utilidade profissional. → Concluirei o doutoramento, embora sem nenhuma utilidade profissional.
+      -->
+      <pattern>
+        <token regexp='yes'>mas|embora|contudo</token>
+        <marker>
+          <token>não</token>
+          <token regexp='yes'>tenha|tenham|tem|têm|terá|terão</token>
+        </marker>
+        <token min="0" max="1" postag='AQ.+|DI.+' postag_regexp='yes'>
+          <exception regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|interesse|precisão|uso|utilidade|utilização</exception>
+        </token>
+        <token regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|interesse|precisão|uso|utilidade|utilização</token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>sem</suggestion>
+      <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> utilidade profissional.</example>
+      <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> grande utilidade profissional.</example>
+      <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> nenhuma utilidade profissional.</example>
+    </rule>
+
+
     <!-- MAS SIM QUE ERA DEVIDO mas era devido -->
     <rulegroup id='MAS_QUE_ERA_VERBOPARTPASSADO_MAS_VERBOPARTPASSADO' name="Simplificar: mas/e + que + V. Ser + V. Part. Passado → mas/e + V. Ser + V. Part. Passado" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-20 (25-JUL-2022+) -->
