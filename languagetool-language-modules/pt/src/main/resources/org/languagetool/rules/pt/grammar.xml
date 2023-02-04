@@ -12168,75 +12168,6 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
-    <!-- APROXIMA a próxima -->
-    <rule id='APROXIMA_A_PRÓXIMA' name="Confusão: Aproxima/A próxima">
-      <!--      Created by Marco A.G.Pinto, Portuguese 2021-10-05 (25-JUN-2021+)      -->
-      <!--
-      Mas gostava de poder ir... fica para aproxima.
-      -->
-      <pattern>
-        <token postag='V.+' postag_regexp='yes'/>
-        <token>para</token>
-        <marker>
-          <token>aproxima</token>
-        </marker>
-      </pattern>
-      <message>Confusão de palavras.</message>
-      <suggestion>a próxima</suggestion>
-      <example correction="a próxima">Mas gostava de poder ir... fica para <marker>aproxima</marker>.</example>
-    </rule>
-
-
-    <!-- TER TANTO COMO ter tanto quanto -->
-    <rule id='COMO_QUANTO' name="Confusão: como/quanto">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-28 (25-JUL-2022+) -->
-      <!--
-      Quem me dera ter tanta Coca-Cola como juízo. → Quem me dera ter tanta Coca-Cola quanto juízo.
-      -->
-      <pattern>
-        <token inflected='yes'>ter</token>
-        <token regexp='yes'>tant[ao]</token>
-        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
-          <exception regexp='no'>como</exception>
-        </token>
-        <marker>
-          <token regexp='no'>como</token>
-        </marker>
-        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
-          <exception postag_regexp='yes' postag='PP.+'/>
-        </token>
-      </pattern>
-      <message>Possível confusão de termos.</message>
-      <suggestion>quanto</suggestion>
-      <example correction="quanto">Quem me dera ter tanta Coca-Cola <marker>como</marker> juízo.</example>
-    </rule>
-
-
-    <!-- SER TANTO RICO COMO ser tão rico como -->
-    <rule id='TANTO_TÃO' name="Confusão: tanto/tão">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-29 (25-JUL-2022+) -->
-      <!--
-      Quero ser tanto rico como ele é. → Quero ser tão rico como ele é.
-      Quero ser tanto rico como a Ana. → Quero ser tão rico como a Ana.
-      -->
-      <pattern>
-        <token inflected='yes'>ser</token>
-        <marker>
-          <token regexp='yes'>tant[ao]</token>  
-        </marker>
-        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
-          <exception regexp='no'>como</exception>
-        </token>
-        <token regexp='no'>como</token>
-        <token min="0" max="1" postag='DA.+|DI.+|SPS00' postag_regexp='yes'/>
-        <token postag='NC.+|AQ.+|NP.+|PP.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Possível confusão de termos.</message>
-      <suggestion>tão</suggestion>
-      <example correction="tão">Quero ser <marker>tanto</marker> rico como ele é.</example>
-      <example correction="tão">Quero ser <marker>tanto</marker> rico como a Ana.</example>
-    </rule>
-
 
     <rulegroup id='POR_QUE_PORQUE' name="Confusão: 'Por que', 'Por quê', Porquê e 'Porque'" default='on'>
       <!--    Created by Tiago F. Santos, 2017-02-27     -->
@@ -12856,144 +12787,6 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
-
-    <!-- COM MAIS REALIDADE com mais realismo -->
-    <rule id='REALIDADE_REALISMO' name="Confusão: Realidade/realismo">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-31 + 2022-11-01 (25-JUL-2022+) -->
-      <!--
-      A equação dá mais realidade aos modelos. → A equação dá mais realismo aos modelos.
-      Isto permite modelar com enorme realidade. → Isto permite modelar com enorme realismo.
-      A equação para mais realidade é esta. → A equação para mais realismo é esta.
-      A equação para maior realidade é esta. → A equação para maior realismo é esta.
-
-      Added in V2 commit:
-      As equações aumentam o grau de realidade dos modelos. → As equações aumentam o grau de realismo dos modelos.
-      Há diferentes graus de realidade nos modelos. → Há diferentes graus de realismo nos modelos.
-      -->
-
-      <!-- Fix for V2 commit, antipatterns as it would generate tons of false positives. -->
-      <antipattern>
-        <token postag_regexp='yes' postag='V.+'/>
-        <token min="0" max="1" postag_regexp='no' postag='SPS00'/>
-        <token>realidade</token>
-        <example>Neblina turva e brilhante os veus que encobrem a realidade.</example>
-        <example>Eu não sei por que, mas por alguma razão ele se recusa a enxergar a realidade e a tirar conclusões lógicas.</example>
-        <example>É triste mas é a realidade.</example>
-      </antipattern>
-
-      <antipattern>
-        <token postag_regexp='no' postag='SPS00'/>
-        <token>realidade</token>
-        <token postag_regexp='yes' postag='V.+|NC.+|AQ.+'/>
-        <example>Recentemente, lançou a campanha “Menos Preconceito, Mais Índio” e o primeiro documentário em realidade virtual numa aldeia indígena: “Fogo na Floresta”.</example>
-        <example>Com 17 unidades, atualmente, a franquia levará para a feira óculos de realidade aumentada para que a pessoa se sinta dentro de um Bar do Urso já existente.</example>
-        <example>...de Realidade Estruturada, Melhor Direção de Reality Show e Melhor Edição de Imagem para Programa de Realidade Estruturada ou Competição.</example>
-      </antipattern>
-
-      <antipattern>
-        <token regexp='yes'>a|em</token>
-        <token>realidade</token>
-        <example>Olhe uma parte do filme Garota Infernal, vocês vão ver como é quase igual a realidade com a cena do filme.</example>
-        <example>Aceitamos facilmente a realidade, talvez porque intuímos que nada é real.</example>
-        <example>Aquela era a realidade.</example>
-        <example>Inspire-se e transforme seu sonho em realidade conosco.</example>
-      </antipattern>
-
-      <!-- Antipattern to fix the three sentences that Ricardo Joseh Lima said to be valid in pt-BR. -->
-      <antipattern>
-        <token postag_regexp='yes' postag='DI.+'/>
-        <token postag_regexp='yes' postag='NC.+|AQ.+|UNKNOWN'/> <!-- "UNKNOWN" because "choquezinho" doesn't have a POS -->
-        <token>de</token>
-        <token>realidade</token>
-        <example>Todos com muitas frases feitas na cabeça e nenhum senso de realidade.</example>
-        <example>...italismo FDP foi o maior feito do Lula não escreveria tanas críticas , precisa de um choquezinho de realidade das favelas!</example>
-        <example>Desejo lhe um choque de realidade.</example>
-      </antipattern>
-
-      <pattern>
-        <token postag_regexp='yes' postag='V.+|SPS00'/>
-        <token min="0" max="1" postag_regexp='yes' postag='AQ.+|RG'>
-          <exception postag_regexp='no' postag='CS'/> <!-- Remove "como" -->
-        </token>
-        <marker>
-          <token>realidade</token>
-        </marker>
-      </pattern>
-      <message>Possível confusão de termos.</message>
-      <suggestion>realismo</suggestion>
-      <example correction="realismo">A equação dá mais <marker>realidade</marker> aos modelos.</example>
-      <example correction="realismo">Isto permite modelar com enorme <marker>realidade</marker>.</example>
-      <example correction="realismo">A equação para mais <marker>realidade</marker> é esta.</example>
-      <example correction="realismo">A equação para maior <marker>realidade</marker> é esta.</example>
-      <example correction="realismo">As equações aumentam o grau de <marker>realidade</marker> dos modelos.</example>
-      <example correction="realismo">Há diferentes graus de <marker>realidade</marker> nos modelos.</example>
-    </rule>
-
-
-    <!-- TIVE DE FÉRIAS estive de férias -->
-    <rule id='TIVE_ESTIVE' name="Confusão: Ter/estar">
-      <!--      Created by Marco A.G.Pinto, Portuguese 2021-10-11 (25-JUN-2021+)      -->
-      <!--
-      Em janeiro tive de férias. → Em janeiro estive de férias.
-      -->
-      <pattern>
-        <marker>
-          <token inflected='yes'>ter</token>
-        </marker>
-        <token>de</token>
-        <token regexp='yes'>baixa|férias|folga|licença</token>
-        <token postag_regexp='yes' postag='SPS.+|_PUNCT'/>
-      </pattern>
-      <message>Confusão de palavras.</message>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
-      <example correction="estive">Em janeiro <marker>tive</marker> de férias.</example>
-    </rule>
-
-    <rule id='NADA_HAVER' name="Confusão: 'haver' com 'a ver'">
-      <!--    Created by Tiago F. Santos, 2017-03-12     -->
-      <pattern>
-        <token regexp='yes' inflected='yes'>ter|ficar|nada|tudo|muito</token>
-        <token>haver</token>
-      </pattern>
-      <message>Confusão de palavras.</message>
-      <suggestion>\1 a ver</suggestion>
-      <example correction='tem a ver'>Não <marker>tem haver</marker> com isso.</example>
-      <example correction='nada a ver'>Não tem <marker>nada haver</marker> com isso.</example>
-    </rule>
-
-    <rule id='NADA_DEMAIS' name="Confusão: 'nada de mais'">
-      <!--    Created by Tiago F. Santos, 2019-03-11     -->
-      <pattern>
-        <token>nada</token>
-        <token>demais</token>
-      </pattern>
-      <message>Expressão errada.</message>
-      <suggestion>\1 de mais</suggestion>
-      <example correction='nada de mais'>Não foi <marker>nada demais</marker>.</example>
-    </rule>
-
-    <rule id='TER_CHEGO' name="Confusão: TER + Chego">
-      <!--    Created by Tiago F. Santos, 2017-02-27     -->
-      <pattern>
-        <token inflected='yes'>ter</token>
-        <token>chego</token>
-      </pattern>
-      <message>Confusão de palavras</message>
-      <suggestion>\1 chegado</suggestion>
-      <example correction="tinha chegado">Ele ainda não <marker>tinha chego</marker> a casa, quando se lembrou do aniversiário.</example>
-    </rule>
-
-
-    <rule id='A_FORA' name="Confusão: A + fora">
-      <!--    Created by Tiago F. Santos, 2017-04-19     -->
-      <pattern>
-        <token>a</token>
-        <token regexp='yes'>foras?</token>
-      </pattern>
-      <message>Confusão de palavras</message>
-      <suggestion>a\2</suggestion>
-      <example correction="afora">Pegou na mochila e foi pela estrada <marker>a fora</marker>.</example>
-    </rule>
 
     <rulegroup id='DEQUEISMO_QUEISMO' name="Queísmos e dequeismos" type="grammar">
       <!-- DEQUEISMO_QUEISMO rules from Spanish grammar.xml  - START-->
@@ -18796,26 +18589,6 @@ O namorado dela era um ladrão.
       <example>Se recuse a participar desse teatro que são as eleições.</example>
       <example>É difícil falar dessa realidade que é o amor principalmente quando queremos vivê-la.</example>
       <example>“Tenho certeza que foi a mesma quadrilha.</example>
-    </rule>
-
-
-    <rule id='TEM_TÊM' name="Confusão: tem/têm">
-      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
-      <!--
-      Uns tem sorte no jogo. → Uns têm sorte no jogo.
-      Uns não tem sorte no jogo. → Uns não têm sorte no jogo.
-      -->
-      <pattern>
-        <token postag='PI0.P.+' postag_regexp='yes'/>
-        <token min="0" max="1" postag='RN' postag_regexp='no'/>
-        <marker>
-          <token>tem</token>
-        </marker>
-      </pattern>
-      <message>Possível confusão de termos.</message>
-      <suggestion>têm</suggestion>
-      <example correction="têm">Uns <marker>tem</marker> sorte no jogo.</example>
-      <example correction="têm">Uns não <marker>tem</marker> sorte no jogo.</example>
     </rule>
 
 
@@ -32028,7 +31801,165 @@ O namorado dela era um ladrão.
 
   <category id='CONFUSED_WORDS' name="Confusão de Palavras">
 
-    <rulegroup id="CONFUSAO_RJ" name="Confusão de de e da">
+
+    <!-- PELA ESTRADA A FORA pela estrada fora -->
+    <rule id='CONFUSÃO_A_FORA' name="Confusão: 'a fora'/'afora'">
+      <!--    Created by Tiago F. Santos, 2017-04-19     -->
+      <pattern>
+        <token>a</token>
+        <token regexp='yes'>foras?</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>a\2</suggestion>
+      <example correction="afora">Pegou na mochila e foi pela estrada <marker>a fora</marker>.</example>
+    </rule>
+
+
+    <!-- APROXIMA a próxima -->
+    <rule id='CONFUSÃO_APROXIMA_A_PRÓXIMA' name="Confusão: 'aproxima'/'a próxima'">
+      <!--      Created by Marco A.G.Pinto, Portuguese 2021-10-05 (25-JUN-2021+)      -->
+      <!--
+      Mas gostava de poder ir... fica para aproxima.
+      -->
+      <pattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token>para</token>
+        <marker>
+          <token>aproxima</token>
+        </marker>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>a próxima</suggestion>
+      <example correction="a próxima">Mas gostava de poder ir... fica para <marker>aproxima</marker>.</example>
+    </rule>
+
+
+    <!-- TER TANTO COMO ter tanto quanto -->
+    <rule id='CONFUSÃO_COMO_QUANTO' name="Confusão: como/quanto">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-28 (25-JUL-2022+) -->
+      <!--
+      Quem me dera ter tanta Coca-Cola como juízo. → Quem me dera ter tanta Coca-Cola quanto juízo.
+      -->
+      <pattern>
+        <token inflected='yes'>ter</token>
+        <token regexp='yes'>tant[ao]</token>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception regexp='no'>como</exception>
+        </token>
+        <marker>
+          <token regexp='no'>como</token>
+        </marker>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='PP.+'/>
+        </token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>quanto</suggestion>
+      <example correction="quanto">Quem me dera ter tanta Coca-Cola <marker>como</marker> juízo.</example>
+    </rule>
+
+
+    <!-- NADA DEMAIS nada de mais -->
+    <rule id='CONFUSÃO_NADA_DEMAIS' name="Confusão: 'nada demais'/'nada de mais'">
+      <!--    Created by Tiago F. Santos, 2019-03-11     -->
+      <pattern>
+        <token>nada</token>
+        <token>demais</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>\1 de mais</suggestion>
+      <example correction='nada de mais'>Não foi <marker>nada demais</marker>.</example>
+    </rule>
+
+
+    <!-- NADA HAVER nada a ver -->
+    <rule id='CONFUSÃO_NADA_HAVER' name="Confusão: 'haver'/'a ver'">
+      <!--    Created by Tiago F. Santos, 2017-03-12     -->
+      <pattern>
+        <token regexp='yes' inflected='yes'>ter|ficar|nada|tudo|muito</token>
+        <token>haver</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>\1 a ver</suggestion>
+      <example correction='tem a ver'>Não <marker>tem haver</marker> com isso.</example>
+      <example correction='nada a ver'>Não tem <marker>nada haver</marker> com isso.</example>
+    </rule>
+
+
+    <!-- COM MAIS REALIDADE com mais realismo -->
+    <rule id='CONFUSÃO_REALIDADE_REALISMO' name="Confusão: realidade/realismo">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-31 + 2022-11-01 (25-JUL-2022+) -->
+      <!--
+      A equação dá mais realidade aos modelos. → A equação dá mais realismo aos modelos.
+      Isto permite modelar com enorme realidade. → Isto permite modelar com enorme realismo.
+      A equação para mais realidade é esta. → A equação para mais realismo é esta.
+      A equação para maior realidade é esta. → A equação para maior realismo é esta.
+
+      Added in V2 commit:
+      As equações aumentam o grau de realidade dos modelos. → As equações aumentam o grau de realismo dos modelos.
+      Há diferentes graus de realidade nos modelos. → Há diferentes graus de realismo nos modelos.
+      -->
+
+      <!-- Fix for V2 commit, antipatterns as it would generate tons of false positives. -->
+      <antipattern>
+        <token postag_regexp='yes' postag='V.+'/>
+        <token min="0" max="1" postag_regexp='no' postag='SPS00'/>
+        <token>realidade</token>
+        <example>Neblina turva e brilhante os veus que encobrem a realidade.</example>
+        <example>Eu não sei por que, mas por alguma razão ele se recusa a enxergar a realidade e a tirar conclusões lógicas.</example>
+        <example>É triste mas é a realidade.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag_regexp='no' postag='SPS00'/>
+        <token>realidade</token>
+        <token postag_regexp='yes' postag='V.+|NC.+|AQ.+'/>
+        <example>Recentemente, lançou a campanha “Menos Preconceito, Mais Índio” e o primeiro documentário em realidade virtual numa aldeia indígena: “Fogo na Floresta”.</example>
+        <example>Com 17 unidades, atualmente, a franquia levará para a feira óculos de realidade aumentada para que a pessoa se sinta dentro de um Bar do Urso já existente.</example>
+        <example>...de Realidade Estruturada, Melhor Direção de Reality Show e Melhor Edição de Imagem para Programa de Realidade Estruturada ou Competição.</example>
+      </antipattern>
+
+      <antipattern>
+        <token regexp='yes'>a|em</token>
+        <token>realidade</token>
+        <example>Olhe uma parte do filme Garota Infernal, vocês vão ver como é quase igual a realidade com a cena do filme.</example>
+        <example>Aceitamos facilmente a realidade, talvez porque intuímos que nada é real.</example>
+        <example>Aquela era a realidade.</example>
+        <example>Inspire-se e transforme seu sonho em realidade conosco.</example>
+      </antipattern>
+
+      <!-- Antipattern to fix the three sentences that Ricardo Joseh Lima said to be valid in pt-BR. -->
+      <antipattern>
+        <token postag_regexp='yes' postag='DI.+'/>
+        <token postag_regexp='yes' postag='NC.+|AQ.+|UNKNOWN'/> <!-- "UNKNOWN" because "choquezinho" doesn't have a POS -->
+        <token>de</token>
+        <token>realidade</token>
+        <example>Todos com muitas frases feitas na cabeça e nenhum senso de realidade.</example>
+        <example>...italismo FDP foi o maior feito do Lula não escreveria tanas críticas , precisa de um choquezinho de realidade das favelas!</example>
+        <example>Desejo lhe um choque de realidade.</example>
+      </antipattern>
+
+      <pattern>
+        <token postag_regexp='yes' postag='V.+|SPS00'/>
+        <token min="0" max="1" postag_regexp='yes' postag='AQ.+|RG'>
+          <exception postag_regexp='no' postag='CS'/> <!-- Remove "como" -->
+        </token>
+        <marker>
+          <token>realidade</token>
+        </marker>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>realismo</suggestion>
+      <example correction="realismo">A equação dá mais <marker>realidade</marker> aos modelos.</example>
+      <example correction="realismo">Isto permite modelar com enorme <marker>realidade</marker>.</example>
+      <example correction="realismo">A equação para mais <marker>realidade</marker> é esta.</example>
+      <example correction="realismo">A equação para maior <marker>realidade</marker> é esta.</example>
+      <example correction="realismo">As equações aumentam o grau de <marker>realidade</marker> dos modelos.</example>
+      <example correction="realismo">Há diferentes graus de <marker>realidade</marker> nos modelos.</example>
+    </rule>
+
+
+    <rulegroup id="CONFUSÃO_RJ" name="Confusão de de e da">
      <rule>
         <pattern case_sensitive='yes'>
           <token>Rio</token>
@@ -32039,6 +31970,86 @@ O namorado dela era um ladrão.
         <example correction="Rio de Janeiro|Rio do janeiro">Fui ao <marker>Rio da Janeiro</marker>.</example>
     </rule>
    </rulegroup>
+
+
+    <!-- SER TANTO RICO COMO ser tão rico como -->
+    <rule id='CONFUSÃO_TANTO_TÃO' name="Confusão: tanto/tão">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-29 (25-JUL-2022+) -->
+      <!--
+      Quero ser tanto rico como ele é. → Quero ser tão rico como ele é.
+      Quero ser tanto rico como a Ana. → Quero ser tão rico como a Ana.
+      -->
+      <pattern>
+        <token inflected='yes'>ser</token>
+        <marker>
+          <token regexp='yes'>tant[ao]</token>  
+        </marker>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception regexp='no'>como</exception>
+        </token>
+        <token regexp='no'>como</token>
+        <token min="0" max="1" postag='DA.+|DI.+|SPS00' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+|PP.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>tão</suggestion>
+      <example correction="tão">Quero ser <marker>tanto</marker> rico como ele é.</example>
+      <example correction="tão">Quero ser <marker>tanto</marker> rico como a Ana.</example>
+    </rule>
+
+
+    <!-- UNS TEM SORTE uns têm sorte -->
+    <rule id='CONFUSÃO_TEM_TÊM' name="Confusão: tem/têm">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-22 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Uns tem sorte no jogo. → Uns têm sorte no jogo.
+      Uns não tem sorte no jogo. → Uns não têm sorte no jogo.
+      -->
+      <pattern>
+        <token postag='PI0.P.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='RN' postag_regexp='no'/>
+        <marker>
+          <token>tem</token>
+        </marker>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>têm</suggestion>
+      <example correction="têm">Uns <marker>tem</marker> sorte no jogo.</example>
+      <example correction="têm">Uns não <marker>tem</marker> sorte no jogo.</example>
+    </rule>
+
+
+    <rule id='CONFUSÃO_TER_CHEGO' name="Confusão: TER + 'chego' → 'chegado'">
+      <!--    Created by Tiago F. Santos, 2017-02-27     -->
+      <pattern>
+        <token inflected='yes'>ter</token>
+        <token>chego</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion>\1 chegado</suggestion>
+      <example correction="tinha chegado">Ele ainda não <marker>tinha chego</marker> a casa, quando se lembrou do aniversiário.</example>
+    </rule>
+
+
+    <!-- TIVE DE FÉRIAS estive de férias -->
+    <rule id='CONFUSÃO_TIVE_ESTIVE' name="Confusão: Ter/estar">
+      <!--      Created by Marco A.G.Pinto, Portuguese 2021-10-11 (25-JUN-2021+)      -->
+      <!--
+      Em janeiro tive de férias. → Em janeiro estive de férias.
+      -->
+      <pattern>
+        <marker>
+          <token inflected='yes'>ter</token>
+        </marker>
+        <token>de</token>
+        <token regexp='yes'>baixa|férias|folga|licença</token>
+        <token postag_regexp='yes' postag='SPS.+|_PUNCT'/>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
+      <example correction="estive">Em janeiro <marker>tive</marker> de férias.</example>
+    </rule>
+
 
     <rulegroup id="DIACRITICS" name="Confusão com diacríticos">
       <!--      Created by Jaume Ortolà, Portuguese rule 2021-01-08      -->
@@ -33543,7 +33554,7 @@ O namorado dela era um ladrão.
 
 
     <!-- TANTO tão -->
-    <rule id='CONFUSÃO_TANTO_TÃO' name="Confusão: tanto/tão" type="style">
+    <rule id='CONFUSÃO_TANTO_TÃO_' name="Confusão: tanto/tão" type="style">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-05-04 (1-JAN-2022+)      -->
       <!--
       O que aconteceu para andares tanto carregado? → O que aconteceu para andares tão carregado?
