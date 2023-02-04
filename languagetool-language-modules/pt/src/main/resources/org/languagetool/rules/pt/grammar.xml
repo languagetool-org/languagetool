@@ -49052,6 +49052,54 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- FAZER CONJECTURAS conjecturar -->
+    <rule id='FAZER_VERBO_VERBO_INFINITIVO' name="Simplificar: V.Fazer + V. → V.Inf." type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 (25-JUL-2022+) -->
+      <!--
+      Fazer somas é o melhor que há. → Somar é o melhor que há.
+      Mas fazer somas sobre algo é medir uma probabilidade. → Mas somar sobre algo é medir uma probabilidade.
+      Assim fazer somas é o melhor. → Assim somar é o melhor.
+      -->
+
+      <antipattern>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='SPS00' postag_regexp='no'/>
+        <token>fazer</token>
+        <token postag='VMIP2S0' postag_regexp='no'/>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        <example>...is estratégicos para a retirada dos produtos pelos próprios clientes quanto a de uso de drones para fazer entregas estão sendo avaliadas pela Diálogo Logística para serem implantadas no país.</example>
+      </antipattern>
+
+      <pattern>
+        <marker>
+          <token>fazer</token>
+          <token postag='VMIP2S0' postag_regexp='no'>
+            <exception regexp='yes' inflected='yes'>amostrar|asneirar|bonecar|comprar|contar|curvar|dobrar|maravilhar|oferendar|provar|receitar|reformar|rimar|roupar|trançar|trilhar</exception> <!-- Add here exception verbs as they are found -->
+            <exception postag_regexp='yes' postag='RG|RN|CC|CS|SPS00|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+|PP.+|SPS00:PP.+|DP.+|SPS00:DP.+|AP.+|SPS00:AP.+'/>
+          </token>
+        </marker>
+        <token>
+          <exception postag_regexp='yes' postag='VMP00.+|NC.+|AQ.+|AP.+|DP.+'/>
+          <exception regexp='yes'>aos?</exception>
+        </token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='2' postag='V.+' postag_regexp="yes" postag_replace='VMN0000'/></suggestion>
+      <example correction="Somar"><marker>Fazer somas</marker> é o melhor que há.</example>
+      <example correction="somar">Mas <marker>fazer somas</marker> sobre algo é medir uma probabilidade.</example>
+      <example correction="somar">Assim <marker>fazer somas</marker> é o melhor.</example>
+      <example>Quero ir fazer compras.</example>
+      <example>Eu preferiria não ir fazer compras sozinho.</example>
+      <example>Já dizia o outro: é uma questão de fazer contas.</example>
+      <example>Ele não é inteligente o bastante para fazer contas de cabeça.</example>
+      <example>Aqui você pode fazer suas denuncias, reclamações, sugestões e elogios.</example>
+      <example>..., baseadas no fato de que não vamos viver pra dieta (embora seja necessária certa dedicação), vamos fazer juntas nossa dietinha?</example>
+      <example>Foi permitido fazer perguntas ao final da reunião.</example>
+      <example>Xangô quis saber o que poderia fazer para ver sua filha só mais uma vez, e Orunmilá lhe disse para fazer oferendas ao orixá Iku (Oniborun), o guardião da entrada do mundo dos mortos.</example>
+      <example>Fazer dobras em.</example>
+    </rule>
+
+
     <!-- DO INIMIGO/ADVERSÁRIO/ALIADO/OPONENTE inimiga/adversário/aliada/oponente -->
     <rule id='INIMIGO_ADVERSÁRIO_ALIADO_OPONENTE' name="Simplificar: D[ao](s) + inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s) → inimig[ao](s)/adversári[ao](s)/aliad[ao](s)/oponente(s)" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-18 + 2022-02-12/14 (Checked/Enhanced) (1-JAN-2022+)      -->
