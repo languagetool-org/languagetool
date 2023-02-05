@@ -67,7 +67,9 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
     super(messages);
     addExamplePair(Example.wrong("Всё смешалось в <marker>доме доме</marker> Облонских."),
                    Example.fixed("Всё смешалось в <marker>доме</marker> Облонских."));
+    setDefaultTempOff();
   }
+
 
   @Override
   public final String getId() {
