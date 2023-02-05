@@ -113,6 +113,13 @@ public class RussianChunker implements Chunker {
       build("<posre='VB:.*:.*' & !posre='NN:.*'>* " , VP),
       build("<если>", SBAR),  //
       build("<поэтому>", SBAR),  //
+      // noun phrase 
+      build("<posre='ADJ:Posit:.*:.*'> <posre='NN:(Anim|Inanim):.*' & !posre='NN:(Anim|Inanim):.*:(R|D|T|P)'> " , NP, true),
+     
+      build("<posre='ADJ:Posit:.*:.*'> <posre='NN:(Anim|Inanim):.*' & !posre='NN:(Anim|Inanim):.*:(R|D|T|P)'> <posre='NN:(Anim|Inanim):.*'> " , NP, true),
+      // adj -> participle phrase
+      build("<posre='ADJ:Posit:.*:.*'> <posre='NN:(Anim|Inanim):.*' & !posre='NN:(Anim|Inanim):.*:(Nom|V)'> <posre='NN:(Anim|Inanim):.*:(Nom|V)' & !posre='NN:(Anim|Inanim):.*:(R|D|T|P)'> " , ADJP, true),
+      
       //adverbial participle
       build("<posre='DPT:.*:.*' & !pos='PREP'> " , DPT),
       build("<posre='DPT:.*:.*' & !pos='PREP'> <posre='NN:.*:.*:(R|D|T|P)' > " , DPT, true),
@@ -122,6 +129,7 @@ public class RussianChunker implements Chunker {
       build("<posre='PT:.*:.*'> <posre='NN:.*:.*:(R|D|T|P)' > " , ADJP, true),
       build("<posre='PT:.*:.*'> <posre='PREP'> <posre='NN:.*:.*:(R|D|T|P|V)' > " , ADJP, true),
       build("<posre='PT:.*:.*'> <posre='PREP'> <posre='ADJ:.*:.*:(R|D|T|P|V)' > <posre='NN:.*:.*:(R|D|T|P|V)' > " , ADJP, true),
+      build("<posre='PT:.*:.*'> <posre='NN:(Anim|Inanim):.*' & !posre='NN:(Anim|Inanim):.*:(Nom|V)'> <posre='NN:(Anim|Inanim):.*:(Nom|V)' & !posre='NN:(Anim|Inanim):.*:(R|D|T|P)'> " , ADJP, true),      
       //
        build("<posre='PT:.*:.*'> <posre='ADJ:.*:.*' > " , ADJP, false),
       //
