@@ -10918,6 +10918,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         
         </rulegroup>
+        <rule default="on" id="ADV_Navstrechu_and_Noun" name="«Навстечу» и существительное">
+            <pattern case_sensitive="yes">
+                <!--              ADV навстречу -> NN:.*:D   -->
+                <token regexp="yes">навстречу</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:(D|Nom|V)" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
+                </token>
+            </pattern>
+            <message suppress_misspelled="yes">«Навстречу» предполагает употребление существительного в дательном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion></message>
+            <short>Требуется дательный падеж</short>
+            <example>Он шёл навстечу движению.</example>
+            <example>Василиск отправил навстречу войско своего племянника Армата.</example>
+            <example correction="навстречу движению|навстречу движенью">Он подошёл <marker>навстречу движением</marker>.</example>
+        </rule>
         <rule default="on" id="PREP_K_and_Noun" name="Предлог «к» и существительное">
             <pattern case_sensitive="yes">
                 <!--              PREP к, ко -> NN:.*:D   -->
