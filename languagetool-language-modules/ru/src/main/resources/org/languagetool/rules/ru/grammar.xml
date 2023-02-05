@@ -11979,7 +11979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="kak_bi" name="Слова-паразиты: «как бы»" default="on"  tags="picky">
             <rule> 
                 <pattern>
-                    <token>как<exception scope="previous" regexp="yes">,|и|то</exception></token>                  
+                    <token case_sensitive="yes">как<exception scope="previous" regexp="yes">,|и|то</exception><exception scope="previous"  postag="SENT_START" /></token>                  
                     <token>бы</token>
                     <token><exception postag_regexp="yes" postag="PNN:.*" /></token>
                 </pattern>
@@ -11987,6 +11987,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Слова-паразиты</short>
                 <example correction="нравится">Он тебе <marker>как бы нравится</marker>?</example>
                 <example>Как бы Вы его описали?</example>
+                <example>Как бы не так!</example>
             </rule>
         </rulegroup>
 
