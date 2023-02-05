@@ -13787,18 +13787,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>    
 
         <rulegroup id="Nepraviln_pristavki" name="Неправильное использование предлогов">
-
-            <rule>   
+            <rule>
                 <pattern>
                         <token inflected="yes">заскочить</token>
-                        <token>на</token>
+                        <token>на<exception scope="next" regexp="yes">почту|минутку|минуту|секунду|работу</exception></token>
                 </pattern>
                 <message>Неправильное использование предлогов. Вы имели в виду <suggestion>вскочить на</suggestion>?</message>
                 <short>Правильно «вскочить на»</short>
                 <example correction="вскочить на">Он собрался <marker>заскочить на</marker> стул.</example>
+                <example>Я заскочу на почту.</example>
                 <example>Он собрался вскочить на стул.</example>
-            </rule>   
-        </rulegroup>         
+            </rule>
+        </rulegroup>
          
         <rulegroup id="Lishnij_sojuz" name="Лишний союз">
             <rule>   
