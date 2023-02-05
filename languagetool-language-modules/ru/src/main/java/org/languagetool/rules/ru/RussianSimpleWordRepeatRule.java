@@ -50,6 +50,12 @@ public class RussianSimpleWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("по", tokens, position)) {
       return true;   
     }
+    if (tokens[position - 1].getToken().equals("ПО") && tokens[position].getToken().equals("по")) {
+        return true;   // "ПО по"
+    }
+    if (tokens[position - 1].getToken().equals("по") && tokens[position].getToken().equals("ПО")) {
+        return true;   // "по ПО"
+    }
     if (wordRepetitionOf("что", tokens, position)) {
       return true;   
     }
