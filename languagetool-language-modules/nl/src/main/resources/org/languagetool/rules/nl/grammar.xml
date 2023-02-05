@@ -19065,6 +19065,15 @@ steenwijk;Steenwijk
                 <example correction=" ">Deze zin bevat een dubbele<marker>  </marker>spatie (al valt die wellicht niet op).</example>
             </rule>
         </rulegroup>
+        <rulegroup id="EINDE_KOMMA" name="Einde met (punt)komma" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_END" regexp="yes">[,;]</token>
+                </pattern>
+                <message>Een zin eindigt meestal niet op een komma of puntkomma. Hebt u per ongeluk een regelovergang gezet of een verkeerd teken gebruikt?</message>
+                <example type="incorrect">Deze zin eindigt met een puntkomma<marker>;</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SPATIES_OM_KOPPEL" name="spaties om -">
             <rule>
                 <antipattern><token>-</token><token>-</token></antipattern>
