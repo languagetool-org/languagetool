@@ -143,7 +143,7 @@ public class Russian extends Language implements AutoCloseable {
                     Example.wrong("Закончилось лето. <marker>дети</marker> снова сели за школьные парты."),
                     Example.fixed("Закончилось лето. <marker>Дети</marker> снова сели за школьные парты.")),
             new MorfologikRussianSpellerRule(messages, this, userConfig, altLanguages),
-            new WordRepeatRule(messages, this),
+        //  new WordRepeatRule(messages, this), // move to RussianSimpleWordRepeatRule
             new MultipleWhitespaceRule(messages, this),
 	    new SentenceWhitespaceRule(messages),
             new WhiteSpaceBeforeParagraphEnd(messages, this),  
@@ -164,6 +164,7 @@ public class Russian extends Language implements AutoCloseable {
             new RussianUnpairedBracketsRule(messages, this),
             new RussianCompoundRule(messages, this, userConfig),
             new RussianSimpleReplaceRule(messages),
+            new RussianSimpleWordRepeatRule(messages, this),
             new RussianWordCoherencyRule(messages),
             new RussianWordRepeatRule(messages),
             new RussianWordRootRepeatRule(messages),
