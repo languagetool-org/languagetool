@@ -2731,6 +2731,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="В случае рассмотрения резонансных структур это приводит"><marker>В случае рассмотрения резонансных структур, это приводит</marker> к существенным ошибкам в вычислении поля на границе раздела между слоями.</example>
             <example>В случае рассмотрения резонансных структур это приводит к существенным ошибкам в вычислении поля на границе раздела между слоями.</example>
         </rule>
+        <rulegroup default="temp_off" id="Verb_PT_short_Unification" name="Согласование глагола с кратким причастием" >
+            <rule>    
+                <pattern case_sensitive="yes">
+                    <unify negate="yes">
+                        <feature id="gender"/>
+                        <marker> 
+                            <token postag="VB:Past:.*" postag_regexp="yes"  inflected="yes" regexp="yes">быть|стать|являться</token>
+                            <token postag="PT_Short:Past:.*:.*:.*:.*" postag_regexp="yes"></token>   
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>Глагол не согласуется с кратким причастием</message>
+                <short>Не согласуются по роду</short>
+                <example>Шкатулка была открыта.</example>
+                <example>Шкатулки были открыты.</example>
+                <example correction="">Шкатулки <marker>были открыта</marker>.</example>
+                <example correction="">Шкатулка <marker>была открыт</marker>.</example>
+            </rule>
+            <rule>    
+                <pattern case_sensitive="yes">
+                    <unify negate="yes">
+                        <feature id="gender"/>
+                        <marker>
+                            <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"><exception postag="NN:.*:.*:.*:.*" postag_regexp="yes" negate_pos="yes" /></token> 
+                            <token postag="VB:Past:.*" postag_regexp="yes"  inflected="yes" regexp="yes">быть|стать|являться</token>
+                            <token postag="PT_Short:Past:.*:.*:.*:.*" postag_regexp="yes"></token>   
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>Фраза не согласуется по роду</message>
+                <short>Не согласуются по роду</short>
+                <example>Шкатулка была открыта.</example>
+                <example>Шкатулки были открыты.</example>
+                <example correction=""><marker>Шкатулки были открыта</marker>.</example>
+                <example correction=""><marker>Шкатулка была открыт</marker>.</example>
+            </rule>
+        </rulegroup>
+     
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
              <rule>    
                 <pattern case_sensitive="yes">
