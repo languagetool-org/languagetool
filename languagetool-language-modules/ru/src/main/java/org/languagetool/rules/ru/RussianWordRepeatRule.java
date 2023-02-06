@@ -49,12 +49,16 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
     tempSet.add("друг");
     tempSet.add("час");
     tempSet.add("секунда");
+    tempSet.add("ПАО");
+    tempSet.add("ООО");
+    tempSet.add("табл");
+    tempSet.add("рис");
     EXC_WORDS = Collections.unmodifiableSet(tempSet);
   }
   /**
    * Excluded part of speech classes.
    */
-  private static final Pattern EXC_POS = Pattern.compile("INTERJECTION|PRDC|PREP|CONJ|PARTICLE|NumC:.*|Num:.*"); 
+  private static final Pattern EXC_POS = Pattern.compile("INTERJECTION|PRDC|PREP|CONJ|PARTICLE|ABR|NumC:.*|Num:.*"); 
 
   /**
    * Excluded non-words (special symbols, Roman numerals etc.) (remove from exclude PNN:.*)
@@ -67,7 +71,7 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
     super(messages);
     addExamplePair(Example.wrong("Всё смешалось в <marker>доме доме</marker> Облонских."),
                    Example.fixed("Всё смешалось в <marker>доме</marker> Облонских."));
-    setDefaultTempOff();
+//  setDefaultTempOff();
   }
 
 
