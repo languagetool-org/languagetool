@@ -48850,25 +48850,6 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <!-- CERTA exata -->
-    <rule id='CERTO_EXATO' name="Certo → Exato" type="style" default="off">
-      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-13/15/18 (1-JAN-2022+)      -->
-      <!--
-      Quero a percentagem certa na tabela. → Quero a percentagem exata na tabela.
-      -->
-      <pattern>
-        <token regexp='yes'>[ao]s?</token>
-        <token inflected='yes' regexp='yes'>ciência|compreensão|contagem|correspondência|espaço|formulação|localização|medida|percentagem|quantia|quantidade|quantitativa|soma|subtração|valor</token>
-        <marker>
-          <token regexp='yes'>cert[ao]s?</token>
-        </marker>
-      </pattern>
-      <message>Se for um texto científico, pondere empregar o termo 'exato'.</message>
-      <example>Quero a percentagem <marker>exata</marker> na tabela.</example>
-      <example type='incorrect'>Quero a percentagem <marker>certa</marker> na tabela.</example>
-    </rule>
-
-
     <!-- COMO É O CASO DO NOSSO como é o nosso -->
     <rule id='COMO_SER_O_CASO_DO' name="Simplificar: Como é/são o caso do → Como o">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-02 (25-JUL-2022+) -->
@@ -48888,26 +48869,6 @@ O namorado dela era um ladrão.
       <message>Esta perífrase poderá ser simplificada.</message>
       <suggestion>\1 <match no='5' postag='SPS00:DA0(..)0' postag_replace='DA0$10'>o</match> \6</suggestion>
       <example correction="como a nossa">Temos novidades matemáticas <marker>como é o caso da nossa</marker> equação.</example>
-    </rule>
-
-
-    <!-- CONTRÁRIO oposto -->
-    <rule id='CONTRÁRIO_OPOSTO' name="Contrário → Oposto" type="style">
-      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-18 (5-JUN-2022+)      -->
-      <!--
-      A Ana percebeu exatamente o contrário! → A Ana percebeu exatamente o oposto!
-      -->
-      <pattern>
-        <token postag='V.+' postag_regexp='yes'/>
-        <token min="0" max="1" postag='RM'/>
-        <token postag='[DP][ADIP]0MS0|SPS00:[DP][ADIP]0MS0' postag_regexp='yes'/>
-        <marker>
-          <token>contrário</token>
-        </marker>
-      </pattern>
-      <message>Se for um texto científico, pondere melhorar a linguagem.</message>
-      <suggestion>oposto</suggestion>
-      <example correction="oposto">A Ana percebeu exatamente o <marker>contrário</marker>.</example>
     </rule>
 
 
@@ -48955,28 +48916,8 @@ O namorado dela era um ladrão.
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arriscar</match></suggestion>
         <example correction="arriscar">O Rui vai <marker>correr o risco</marker> para tentar vencer.</example>
       </rule>
-	
+
     </rulegroup>
-
-
-    <!-- CORRIGIR ERROS/FALHAS corrigir imprecisões -->
-    <rule id='CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="Corrigir erros/falhas → Corrigir imprecisões" type="style">
-      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-03 (1-JAN-2022+)      -->
-      <!--
-      Vou corrigir pequenos erros no texto. → Vou corrigir pequenas imprecisões no texto.
-      Vou corrigir alguns erros no texto. → Vou corrigir algumas imprecisões no texto.
-      -->
-      <pattern>
-        <token inflected='yes'>corrigir</token>
-        <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;|algum|inúmero|pequeno</token>
-        <marker>
-          <token regexp='yes'>erros|falhas</token>
-        </marker>
-      </pattern>
-      <message>Se for um texto científico, pondere empregar o termo 'imprecisão'.</message>
-      <example>Vou corrigir algumas <marker>imprecisões</marker> no texto.</example>
-      <example type='incorrect'>Vou corrigir algumas <marker>falhas</marker> no texto.</example>
-    </rule>
 
 
     <!-- PARA SABER QUAL A para delinear/determinar a -->
@@ -49206,58 +49147,6 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <!-- PARA CONCLUIR em suma -->
-    <rulegroup id='PARA_CONCLUIR_EM_SUMA' name="Para concluir/resumidamente → em suma" type="style" tags='picky'>
-      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-13/19 (5-JUN-2022+)      -->
-      <!--
-      E, para concluir: os valores batem bem. → E, em suma: os valores batem bem.
-      E, resumidamente: os valores batem bem. → E, em suma: os valores batem bem.
-      -->
-      <rule>
-        <pattern>
-          <or>
-          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
-          <token regexp='yes'>e|ou</token>
-          </or>
-          <marker>
-            <token>para</token>
-            <token inflected='yes'>concluir</token>
-          </marker>
-          <token regexp='yes'>[:,]</token>
-        </pattern>
-        <message>Se for um texto científico, pondere melhorar a linguagem.</message>
-        <suggestion>em suma</suggestion>
-        <example correction="em suma">E, <marker>para concluir</marker>: os valores batem bem.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token>resumidamente</token>
-          </marker>
-          <token regexp='yes'>[:,]</token>
-        </pattern>
-        <message>Se for um texto científico, pondere melhorar a linguagem.</message>
-        <suggestion>em suma</suggestion>
-        <example correction="em suma">E, <marker>resumidamente</marker>: os valores batem bem.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp='yes'>em|como</token>
-            <token>conclusão</token>
-          </marker>
-          <token regexp='yes'>[:,]</token>
-        </pattern>
-        <message>Se for um texto científico, pondere melhorar a linguagem.</message>
-        <suggestion>em suma</suggestion>
-        <example correction="em suma">E, <marker>em conclusão</marker>: os valores batem bem.</example>
-      </rule>
-
-    </rulegroup>
-
-
     <!-- PARA TER ACONTECIDO para acontecer -->
     <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='Simplificar: Para/Por + Ter + Particípio passado → Ter baseado particípio passado'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-01 (Checked/Enhanced) (25-JUL-2022+) -->
@@ -49299,30 +49188,6 @@ O namorado dela era um ladrão.
         <example>Isso por <marker>estar</marker> a ler o artigo.</example>
       </rule>
     </rulegroup>
-
-
-    <!-- PENSAR EM ponderar -->
-    <rule id='PENSAR_EM_PONDERAR' name="Pensar em → ponderar" type="style" tags="picky">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-30 (25-JUL-2022+) -->
-      <!--
-      Estou a pensar em comprar o PC da televisão. → Estou a ponderar comprar o PC da televisão.
-      -->
-      <pattern>
-        <or>
-          <token/>
-          <token postag='SENT_START' postag_regexp='no'/>
-        </or>
-        <marker>
-          <token inflected='yes'>pensar</token>
-          <token>em</token>
-        </marker>
-        <token postag='V.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Num contexto formal/académico/científico, é preferível escrever 'ponderar'.</message>
-      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ponderar</match></suggestion>
-      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>considerar</match></suggestion>
-      <example correction="ponderar|considerar">Estou a <marker>pensar em</marker> comprar o PC da televisão.</example>
-    </rule>
 
 
     <!-- PERDER A VIDA A morrer/falecer/perecer -->
@@ -49575,65 +49440,6 @@ O namorado dela era um ladrão.
         <example correction="próximo natal">A licença acaba na noite do <marker>natal que vem</marker>.</example>
       </rule>
     </rulegroup>
-    <!-- FICOU DEMONSTRADO QUE demonstrámos que -->
-    <rule id='TESE_PHD_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[PhD Tese] Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" tags="picky">
-      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-13/14 (1-JAN-2022+)      -->
-      <!--
-      Ficou demonstrado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Demonstrámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
-      Fica demonstrado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Demonstrámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
-      Ficou provado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Provámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
-      Fica provado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Provámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
-
-      demonstramos
-      VMIP1P0
-
-      demonstrámos
-      VMIS1P0
-
-      demonstro
-      VMIP1S0
-
-      demonstrei
-      VMIS1S0
-      -->
-      <pattern>
-        <marker>
-          <and>
-          <token inflected='yes'>ficar</token>
-          <token postag='VMI[SP]3S0' postag_regexp='yes'/>
-          </and>
-          <token postag='VMP00S.+' postag_regexp='yes'/>
-        </marker>
-        <token>que</token>
-      </pattern>
-      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-      <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
-      <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
-      <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
-      <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1S0'/></suggestion>
-      <example correction="Demonstramos|Demonstro|Demonstrei"><marker>Ficou demonstrado</marker> que alterações nas baixas em combate degradaram a capacidade ofensiva.</example>
-    </rule>
-
-
-    <!-- PARA AJUDAR A MELHORAR para melhorar -->
-    <rule id='TESE_PHD_PARA_AJUDAR_A_VINFINITIVO_PARA_VINFINITIVO' name="[PhD Tese] Para Ajudar a + V.Inf. → Para V.Inf." type='style'>
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-24 (25-JUL-2022+) -->
-      <!--
-      Estas regras servem para ajudar a melhorar a gramática. → Estas regras servem para melhorar a gramática.
-      -->
-      <pattern>
-        <marker>
-          <token>para</token>
-          <token inflected='yes'>ajudar</token>
-          <token>a</token>
-          <token postag='VMN0000' postag_regexp='no'/>
-        </marker>
-      </pattern>
-      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:V(......)* postagReplace:V[\b1]*"/>
-      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-      <suggestion>\1 {suggestion}</suggestion>
-      <example correction="para melhorar">Estas regras servem <marker>para ajudar a melhorar</marker> a gramática.</example>
-    </rule>
 
 
     <!-- POR ISSO aí/assim/daí/isso -->
@@ -50840,81 +50646,6 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
-    <!-- TER NOME ter designação -->
-    <rulegroup id='TER_NOME_DESIGNAÇÃO' name="Ter Nome → Ter Designação">
-      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-05/10 (25-JUL-2022+)      -->
-      <!--
-      O projeto tem este nome por ser impressionante. → O projeto tem esta designação por ser impressionante.
-      (It may require the user to make small gender changes in the end of the sentence)
-      (Basically, it checks for "nome" and, next to it, "por/para/de")
-      -->
-
-      <rule>
-        <!--
-        A equação tem o nome DE técnica quantitativa. → A equação é designada POR técnica quantitativa.
-        As equações têm o nome DE técnica quantitativa. → As equações são designadas POR técnica quantitativa.
-        O projeto tem o nome DE técnica quantitativa. → O projeto é designado POR técnica quantitativa.
-        Os projetos têm o nome DE técnica quantitativa. → Os projetos são designados POR técnica quantitativa.
-        -->
-        <pattern>
-          <token postag='NC[FM].+' postag_regexp='yes'/>
-          <marker>
-            <token regexp="yes">t[eê]m</token>
-            <token>o</token>
-            <token>nome</token>
-            <token postag='CC|SPS00' postag_regexp='yes'/>
-          </marker>
-        </pattern>
-        <message>Se for um texto académico/científico, pondere empregar o termo 'designar'.</message>
-        <suggestion><match no='2' postag='VMIP3(.)0' postag_replace='VMIP3$10'>ser</match> <match no='1' postag='NC(.)(.)000' postag_replace='VMP00$2$1'>designar</match> por</suggestion>
-        <example correction="é designada por">A equação <marker>tem o nome de</marker> técnica quantitativa.</example>
-        <example correction="são designadas por">As equações <marker>têm o nome de</marker> técnica quantitativa.</example>
-        <example correction="é designado por">O projeto <marker>tem o nome de</marker> técnica quantitativa.</example>
-        <example correction="são designados por">Os projetos <marker>têm o nome de</marker> técnica quantitativa.</example>
-      </rule>
-
-      <rule>
-        <!--
-        O projeto tem este nome por ser impressionante. → O projeto tem esta designação por ser impressionante.
-        Os projetos têm este nome por ser impressionante. → Os projetos têm esta designação por ser impressionante.
-        -->
-        <pattern> 
-          <token regexp="yes">t[eê]m</token>
-          <marker>
-            <token>este</token>
-            <token>nome</token>
-            <token postag='CC|SPS00' postag_regexp='yes'/>
-          </marker>
-        </pattern>
-        <message>Se for um texto académico/científico, pondere empregar o termo 'designar'.</message>
-        <suggestion>esta designação por</suggestion>
-        <example correction="esta designação por">O projeto tem <marker>este nome por</marker> ser impressionante.</example>
-      </rule>
-
-      <rule>
-        <!--
-        O projeto é assim chamado por ser impressionante. → O projeto é assim designado por ser impressionante.
-        Os projetos são assim chamados por serem impressionantes. → Os projetos são assim designados por serem impressionantes.
-        A equação é assim chamada por ser brilhante. → A equação é assim designada por ser brilhante.
-        As equações são assim chamadas por serem brilhantes. → As equações são assim designadas por serem brilhantes.
-        -->
-        <pattern> 
-          <token regexp="yes">é|são</token>
-          <token postag='RG' postag_regexp='no'/>
-          <marker>
-            <token regexp="yes">chamad[ao]s?</token>
-            <token postag='CC|SPS00' postag_regexp='yes'/>
-          </marker>          
-        </pattern>
-        <message>Se for um texto académico/científico, pondere empregar o termo 'designar'.</message>
-        <suggestion><match no='3' postag='V.+' postag_regexp='yes'>designar</match> por</suggestion>
-        <example correction="designado por">O projeto é assim <marker>chamado por</marker> ser impressionante.</example>
-        <example correction="designada por">A equação é assim <marker>chamada por</marker> ser brilhante.</example>
-      </rule>
-
-    </rulegroup>
-
-
     <!-- VÁRIAS VEZES vári[ao]s -->
     <rule id='VÁRIAS_VEZES_VÁRIAS' name="Simplificar: Várias vezes → Vári[ao]s" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-23 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -51443,766 +51174,6 @@ O namorado dela era um ladrão.
       <example>A dada altura, elas sofrem uma metamorfose e transformam-se em adultos.</example>
     </rule>
 
-    <!-- PRECISÃO CIENTÍFICA rigor científico -->
-    <rule id='PRECISAO_RIGOR_CIENTIFICO' name="Precisão/rigor científico" type="style" tags="picky">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-22 (25-JUN-2021+)      -->
-      <!--
-      Isto deve ser feito com precisão científica. → Isto deve ser feito com rigor científico.
-      -->
-      <pattern>
-        <token/>
-        <marker>
-          <token regexp="yes">precisão|detalhe</token>
-          <token regexp="yes">científic[ao]s?</token>
-        </marker>
-      </pattern>
-      <message>Num contexto formal ou académico, é preferível escrever 'rigor científico'.</message>
-      <suggestion>rigor científico</suggestion>
-      <example correction="rigor científico">Isto deve ser feito com <marker>precisão científica</marker>.</example>
-    </rule>
-
-    <!-- USAR empregar -->
-    <rulegroup id='EMPREGAR_TERMO' name="usar → empregar" type="style" tags="picky">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-31 (Enhanced) (17-MAR-2021+) *START* -->
-      <rule>
-        <pattern>
-          <marker>
-            <token inflected='yes'>usar</token>
-          </marker>
-          <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
-          <token regexp="yes">termos?</token>
-        </pattern>
-        <message>Num contexto formal ou académico, é preferível escrever 'empregar um termo'.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
-        <example correction="empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
-        <example correction="empregamos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token inflected='yes'>usar</token>
-            <token regexp='yes' spacebefore='no'>&hifen;</token>
-            <token spacebefore='no'>se</token>
-          </marker>
-          <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
-          <token regexp="yes">termos?</token>
-        </pattern>
-        <message>Num contexto formal ou académico, é preferível escrever 'empregar um termo'.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match>-se</suggestion>
-        <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> o termo “terrorismo”.</example>
-        <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> termos caros.</example>
-      </rule>
-    </rulegroup>
-
-
-    <!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
-    <rulegroup id='FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29/30 + 2021-07-02 + 2021-10-31 (25-JUN-2021+)      -->
-      <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
-      -->
-
-      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes'>usos?</token>
-        <token/>
-        <example>Fazemos uso de cookies e conteúdo ativo (Java, ActiveX, WebBugs, etc.).</example>
-        <example>É necessário fazer uso das tecnologias.</example>
-        <example>Fazem uso dos mecanismos de mercado como franquias, cartões de crédito, bancos, etc.</example>
-        <example>Nesses seis meses, felizmente, nem por uma vez necessitamos de fazer uso do seguro de saúde.</example>
-        <example>Para isso, fazia uso da política doméstica e dos costumes da sociedade.</example>
-        <example>Farei uso dessas informações ainda junto aos meus alunos de Historia da Unirio.</example>
-        <example>Faz uso de dados, traz desdobramentos e projeções de cenário, assim como contextos passados.</example>
-        <example>Mantenha seu médico informado ao fazer uso deste produto.</example>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token>pouco</token>
-        <token>caso</token>
-        <example>Ele fez pouco caso do assunto.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token>as</token>
-        <token>honras</token>
-        <example>Faça as honras.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token>o</token>
-        <token>mesmo</token>
-        <example>Arthur fez o mesmo.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token min='0' postag='D.+|SPS.+' postag_regexp='yes'/>
-        <token regexp='yes'>caretas?|amizades?|reverências?|gracinhas?|força</token>
-        <example>Bia fez uma careta.</example>
-        <example>A união faz a força.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes'>suas?</token>
-        <token regexp='yes'>apostas?</token>
-        <example>Façam suas apostas!</example>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes'>\p{L}+</token>
-        <token min='0' regexp='yes' spacebefore='no'>-</token>
-        <token spacebefore='no' inflected='yes'>fazer</token>
-        <example>Ligue o Wi-Fi, por favor!</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes' min='0'>[«»“”"'‘’]</token>
-        <token regexp='yes'>miau|auau</token>
-        <token regexp='yes' min='0'>[«»“”"'‘’]</token>
-        <example>O gato faz "miau".</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token>as</token>
-        <token>pazes</token>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes' skip='-1'>fazer</token>
-        <token regexp='yes'>bicos?|biquinhos?|hora</token>
-        <example>Ela faz um pequeno bico</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes'>sozinh[oa]s?</token>
-      </antipattern>
-      <antipattern>
-        <token>como</token>
-        <token postag='V.+' postag_regexp='yes' min='0'/>
-        <token inflected='yes'>fazer</token>
-        <token>para</token>
-        <example>Como podemos fazer pra efetuar isso?</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token>sexo</token>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>vir</token>
-        <token inflected='yes'>fazer</token>
-        <example>O que veio fazer aqui?</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>já</token>
-        <token inflected='yes'>fazer</token>
-        <example>Já faz anos que aconteceu.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>ser</token>
-        <token>isso</token>
-        <token>que</token>
-        <token inflected='yes'>fazer</token>
-        <example>Foi exatamente isso que fiz.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-        <example>Desta vez ele fê-lo mesmo.</example>
-      </antipattern>
-      <antipattern>
-        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
-        <token>feito</token>
-        <token postag='DI.+' postag_regexp='yes' min='0'/>
-        <token postag='NC.+' postag_regexp='yes'/>
-        <example>Ficou parado feito uma estátua.</example>
-      </antipattern>
-      <antipattern>
-        <token>como</token>
-        <token inflected='yes'>fazer</token>
-        <token>para</token>
-        <example>Não sei mais como faço para acreditarem em mim.</example>
-        <example>Como faço para acreditarem em mim?</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token postag='DI.+' postag_regexp='yes' min='0'/>
-        <token regexp='yes'>&expressoes_de_tempo;</token>
-        <example>Já aconteceu faz algumas semanas.</example>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes'>mão|mãos|pé|pés</token>
-        <token regexp='yes'>feitas?</token>
-        <example>Estava com as mãos feitas.</example>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes'>perguntas?|vítimas?|estágios?|carinhos?|faculdades?|comentários?|exercícios?|pedidos?|sopas?|chás?|receitas?|almoços?|melhor|panquecas?|jantare?s?|lanches?|escolhas?|café|ceia|bolos?|farinha|pão|pães|contas?|promessas?|alusão|alusões|denúncias?|viagem|viagens|esportes?|especialização|companhia|referências?|resumos?|downloads?|inscrição|inscrições|cursos?|apdaptação|adaptações|sorte|[i][n]justiça|descanso|visitas?|especializações|lembretes?|reflexão|reflexões|caras?|dietas?|sucesso|dinheiro|sinal|jus|sinais|merdas?|cafuné|diferença|ginásticas?|caridades?|mal|menção|menções|bem|turismo|pose|silêncio|efeito|questão|fogueiras?|ciúmes?</token>
-        <token skip='-1'>que</token>
-        <token inflected='yes'>fazer</token>
-        <example>Não confie nas promessas que ele fez a você.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token postag='DA.+' postag_regexp='yes' min='0'/>
-        <token postag='D.+|RG' postag_regexp='yes' min='0'/>
-        <token postag='N.+|AQ.+' postag_regexp='yes' min='0'/>
-        <token regexp='yes'>exercícios?|promessas?|barulhos?|comentários?|mão|mãos|pé|pés|questões|necessário|história|perguntas?|vítimas?|faculdade|pedidos?|alusão|alusões|denúncias?|viagem|viagens|esportes?|especialização|companhia|referências?|resumos?|downloads?|inscrição|inscrições|cursos?|apdaptação|adaptações|sorte|[i][n]justiça|descanso|visitas?|especializações|lembretes?|reflexão|reflexões|caras?|dietas?|sucesso|carinho|estágio|dinheiro|sinal|jus|sinais|merdas?|cafuné|diferença|ginásticas?|caridades?|mal|menção|menções|bem|turismo|pose|silêncio|efeito|questão|fogueiras?|ciúmes?</token>
-        <example>Tenho dificuldade em fazer exercícios.</example>
-        <example>O filme faz sucesso entre os jovens.</example>
-        <example>Espere o medicamento fazer efeito.</example>
-        <example>Isso me fez mal.</example>
-        <example>Tentei fazer uma fogueira.</example>
-        <example>Tentei fazer alguma questão.</example>
-        <example>Eles fizeram algumas fogueiras.</example>
-        <example>Isso pode realmente fazer a maior diferença!</example>
-        <example>Fui à manicure fazer as mãos.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token postag='DA.+' postag_regexp='yes' min='0'/>
-        <token postag='D.+|RG' postag_regexp='yes' min='0'/>
-        <token postag='N.+|AQ.+' postag_regexp='yes'/>
-        <token postag='VMN.+|AQ.+' postag_regexp='yes'/>
-        <example>O choque fez minha raiva ir embora.</example>
-        <example>Só queria fazer meu pai feliz.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes' min='0'>&pronomes_retos;</token>
-        <token regexp='yes' min='0'>&pronomes_obliquos;</token>
-        <token postag='VMN.+' postag_regexp='yes'/>
-        <example>Ele gritou, fazendo eu me lembrar do passado.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token>o</token>
-        <token regexp='yes'>que|quê</token>
-        <token postag='SENT_END'/>
-        <example>Não consegui, mas fazer o quê?</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes' skip='-1'>fazer<exception postag='>PUNCT' postag_regexp='yes' scope='next'/></token>
-        <token postag='VMN.+|VMS.+' postag_regexp='yes'/>
-        <example>Continuaram fazendo as meninas brincarem.</example>
-        <example>Ele fez com que ficasse animada.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token>com</token>
-        <token postag='DI.+|DA.+' postag_regexp='yes'/>
-        <token postag='N.+|AQ.+' postag_regexp='yes'/>
-        <example>Você viu o que conseguiram fazer com o lugar?</example>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes'>que|assim</token>
-        <token inflected='yes'>fazer</token>
-        <token postag='D.+' postag_regexp='yes'/>
-        <token postag='N.+|AQ.+' postag_regexp='yes'/>
-        <example>A companhia que faz o lugar.</example>
-        <example>Assim fazem os bons moços.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token postag='DI.+|SPS00' postag_regexp='yes'/>
-        <token>festa</token>
-        <example>Fazia tanta festa, lambia até minha testa.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes'>is[st]o|aquilo|algo</token>
-        <token>por</token>
-        <token regexp='yes'>&pronomes_tonicos;</token>
-        <example>Será que ele faria isso por mim?</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes' skip='-1'>fazer</token>
-        <token>ao</token>
-        <token>mesmo</token>
-        <token>tempo</token>
-        <example>Você quer fazer tudo ao mesmo tempo!</example>
-        <example>Não tente fazer duas coisas ao mesmo tempo!</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token min='0'>algo</token>
-        <token>da</token>
-        <token postag='DP.+' postag_regexp='yes' min='0'/>
-        <token>vida</token>
-        <example>Tento fazer algo da vida da minha filha.</example>
-        <example>Não sei o que fazer da vida.</example>
-        <example>Você não sabe o que fazer da sua vida?</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token>alguma</token>
-        <token>coisa</token>
-        <token skip='-1'>da</token>
-        <token postag='DP.+' postag_regexp='yes' min='0'/>
-        <token>vida</token>
-        <example>Tento fazer alguma coisa da minha vida.</example>
-        <example>Não sei o que fazer da vida.</example>
-      </antipattern>
-      <antipattern>
-        <token>tanto</token>
-        <token inflected='yes'>fazer</token>
-        <example>Tanto faz, é a mesma coisa.</example>
-      </antipattern>
-      <antipattern>
-        <token regexp='yes'>&pronomes_obliquos;</token>
-        <token inflected='yes'>fazer</token>
-        <example>Te farei feliz, não importa o quanto tente.</example>
-        <example>Não se preocupe, te farei relevante.</example>
-        <example>E ele me fez o questionamento a seguir.</example>
-        <example>As análises do produto se fazem necessárias.</example>
-        <example>Isso é o melhor a se fazer na vida.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token spacebefore='no' min='0'>-</token>
-        <token postag='DA.+' postag_regexp='yes' min='0'/>
-        <token postag='PP+|D.+' postag_regexp='yes'/>
-        <token postag='N.+' postag_regexp='yes' min='0'/>
-        <token postag='AQ+' postag_regexp='yes'/>
-        <example>Sei que fiz você feliz.</example>
-        <example>Sei que fiz a minha família feliz.</example>
-        <!--<example>Só queria fazer-lhe feliz.</example>-->
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token spacebefore='no' min='0'>-</token>
-        <token postag='RG' min='0'/>
-        <token postag='PP+' postag_regexp='yes'/>
-        <token postag='VMN+' postag_regexp='yes'/>
-        <example>Farei você pagar por isso.</example>
-        <example>Farei-lhe pagar por isso.</example>
-        <example>Anotei tudo, fazendo assim você tomar cuidado.</example>
-        <!--<example>Farei você se arrepender por isso.</example>-->
-      </antipattern>
-      <antipattern>
-        <token case_sensitive='yes'>FI</token>
-        <example>O FI possui um limite de aplicação.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes' skip='-1'>fazer</token>
-        <token postag='PP+|N+' postag_regexp='yes'/>
-        <token inflected='yes'>fazer</token>
-        <example>Farei a minha irmã fazê-lo.</example>
-        <!--<example>Farei você fazê-lo.</example>-->
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes'>&pronomes_contracao;</token>
-        <example>Fiz daquilo o meu lema.</example>
-        <example>Meu objetivo é fazer dos mares o meu lar.</example>
-        <example>Faça da enxada a sua espada.</example>
-      </antipattern>
-      <antipattern>
-        <token>já</token>
-        <token inflected='yes'>ter</token>
-        <token skip='-1'>feito</token>
-        <token>antes</token>
-        <example>Você já tinha feito isso antes?</example>
-      </antipattern>
-      <antipattern>
-        <token postag='V.+' postag_regexp='yes' skip='-1'/>
-        <token>o</token>
-        <token>que</token>
-        <token postag='DA.+' postag_regexp='yes' min='0'/>
-        <token postag='D.+|RG' postag_regexp='yes' min='0'/>
-        <token regexp='yes' min='0'>&vocativos;|&pronomes_retos;</token>
-        <token postag='V.+' postag_regexp='yes' min='0'/>
-        <token inflected='yes'>fazer</token>
-        <example>Não sei mais o que fazer.</example>
-        <example>Eles querem descobrir o que eles podem fazer para melhorar.</example>
-        <example>Queria só entender o que a minha irmã pode fazer para mudar.</example>
-        <example>Ele não decide o que quer fazer com ele.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes'>as|a</token>
-        <token regexp='yes'>mala|malas</token>
-        <example>Já fiz as malas.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token skip='-1'></token>
-        <token regexp='yes'>sopas?|chás?|show|receitas?|vítimas?|almoços?|jantar|melhor|panquecas?|jantares|lanches?|escolhas?|café|ceias?|bolos?|farinha|pão|pães|ideia|sentido|contas?|errad[oa]|promessas?</token>
-        <example>Gostaria de fazer um almoço na terça.</example>
-        <example>Farei para ti o café da manhã.</example>
-        <example>Eles não fazem nenhuma ideia do que dizem.</example>
-        <example>Eles não fazem a menor ideia do que dizem.</example>
-        <example>Eles não fazem mais a menor ideia do que dizem.</example>
-        <example>Ela disse ter feito as contas.</example>
-        <example>Fiz muita coisa errada.</example>
-        <example>Isso não faz nenhum sentido.</example>
-      </antipattern>
-      <antipattern>
-          <token>como</token>
-          <token inflected='yes'>fazer</token>
-          <token postag='RG|SPS00|SPS00:D.+' postag_regexp='yes'/>
-          <example>Ela suspirou, como fazia quando estava triste.</example>
-      </antipattern>
-      <antipattern>
-          <token postag='D.+|SPS00:D.0M.+' postag_regexp='yes'/>
-          <token regexp='yes'>feitos?</token>
-          <example>Não pude acreditar naquele feito impossível.</example>
-      </antipattern>
-      <antipattern>
-        <token>Faria</token>
-        <token>Lima</token>
-        <example>Moro na Avenida Brigadeiro Faria Lima.</example>
-      </antipattern>
-      <antipattern>
-        <token>modo</token>
-        <token>de</token>
-        <token>fazer</token>
-        <example>Modo de fazer: Misture os ingredientes secos.</example>
-      </antipattern>
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes' min='0'>toda|muita|bastante|grande</token>
-        <token regexp='yes' min='0'>a</token>
-        <token min='0'>diferença</token>
-        <example>Prestar atenção faz toda diferença.</example>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *START* -->
-      <!--
-      Hoje faz 21 anos que entrei para a empresa.
-      Faz quatro anos que eu estudo francês.
-      Faz uma semana que a gente se encontrou.
-      Você não sabia que ele morreu faz dois anos?
-      Sempre faz um tempo tão horrível em abril?
-      Não falo com Tom já faz um tempo.
-      -->
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token postag='Z0.+' postag_regexp='yes'/>
-        <token regexp='yes'>&expressoes_de_tempo;</token>
-        <token postag='CS|RG|_PUNCT' postag_regexp='yes'/>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *END* -->
-
-      <!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *START* -->
-      <!--
-      HITS IN 600000 SENTENCES:
-      BEFORE:9643
-      AFTER:9087
-      -->
-
-      <!--
-      Faço parte do clube de natação.
-      Estou feliz em fazer parte desse projeto.
-      Segundo a TV, fará tempo bom hoje.
-      Eu tive de fazer hora extra ontem.
-      Faz um tempão que não a vejo.
-      Faz algumas horas que eu estou lendo isso.
-      Este celular é feito de papel eletrônico.
-      -->
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token min="0" max="1" negate="yes" regexp='yes'>horas?|papel|papéis|parte|pausas?|sentido|tempão|tempos?</token>
-        <token regexp='yes'>horas?|papel|papéis|parte|pausas?|sentido|tempão|tempos?</token>
-      </antipattern>
-
-      <!--
-      Eles sempre fazem piadas sobre o chefe.
-      E não esqueça de fazer seguro de viagem.
-      Tornou-se o primeiro coreano a entrar na parada, feito conquistado antes da sua primeira turnê mundial.
-      Fiz esse vestido sozinha.
-      Eu mesmo fiz esta comida.
-      Você está fazendo isso errado.
-      Está com um cheiro meio desagradável, mas tenho medo de mexer e fazer algo errado.
-      Sendo assim, vamos fazer algo divertido.
-      Esta resposta a fez ficar zangada.
-      -->
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token min="0" max="1" negate_pos="yes" postag='VMP.+' postag_regexp='yes'/>
-        <token postag='VMP.+' postag_regexp='yes'/>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *END* -->
-
-      <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *START* -->
-      <!--
-      HITS IN 600000 SENTENCES:
-      BEFORE:9087
-      AFTER:8627
-      -->
-      <!--
-      Fora da pista os dois fizeram crescer o incidente com entrevistas provocantes.
-      Faça vir o médico, porque estou doente.
-      O gelo fez cair as flores dos damasqueiros.
-      Selecione apenas itens com a mesma finalidade para fazer e finalizar o seu pedido.
-      Saiba como fazer para lavar o veículo corretamente e evitar danos ao seu veículo.
-      Os humanos não foram feitos para viver para sempre.
-      Como faço para atualizar meu cadastro?
-      Tenho de fazer o jantar hoje.
-      -->
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token min="0" max="1" negate_pos="yes" postag='VMN0000'/>
-        <token postag='VMN0000'/>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *END* -->
-
-      <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *START* -->
-      <!--
-      BASED ON THE ANTIPATTERNS FROM RULE ID: VER_OBSERVAR_CONSTATAR
-      HITS IN 600000 SENTENCES:
-      BEFORE:8627
-      AFTER:8477
-      -->
-      <!--
-      Estes sapatos são feitos na Itália.
-      Diga-me o que você fez em Tóquio.
-      Assim como inúmeros outros padres da Igreja e teólogos de então fizeram referência a José.
-      Faça a Dida feliz, vai?
-      Quer conhecer o mundo todo, mas se der para fazer escala em Paris, a cada voo, melhor ainda!
-      -->
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token min="0" max="1" negate="yes" regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
-        <token regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
-        <token postag='NP.+' postag_regexp='yes'/>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *END* -->
-
-      <!-- MARCOAGPINTO 2022-02-06 + 2022-04-06 (1-JAN-2022+) *START* -->
-      <!--
-      HITS IN 600000 SENTENCES:
-      BEFORE:8476
-      AFTER:8310
-      -->
-      <!--
-      Nós conseguimos fazê-lo entender.
-      Falei por muito tempo, e consegui fazê-la crer em mim.
-      Acima de tudo, ele respeitava-me e fazia-me sentir em paz comigo mesma e com a vida.
-      Fizeram-me ir lá sozinho.
-      -->
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
-        <token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
-        <token postag='VMN0000|VMIP1.+' postag_regexp='yes'>
-          <exception postag_regexp='yes' postag='AQ.+|RG|CS'/> <!-- Can't use NC.+ because it removes the verb "USO", "FEZ-SE USO DE" - 2022-04-06 -->
-        </token>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-02-06 + 2022-04-06 (1-JAN-2022+) *END* -->
-
-      <!--
-      Ele a fez sua esposa.
-      Ele me fez seu assistente.
-      Ele não pôde cumprir a promessa que fez ao pai dele.
-      Ele não fez nada errado.
-      Ele me fez esperar mais de uma hora.
-      O que eu faço é problema meu.
-      O que você faz é mais importante do que o que você diz.
-      -->
-      <antipattern>
-        <token postag='PD.+|PI.+|PP.+|RN|CS|V.+' postag_regexp='yes'/>
-        <token inflected='yes'>fazer</token>
-        <token postag='PP.+|DP.+|V.+' postag_regexp='yes'/>
-      </antipattern>
-      <!--
-      O que você fez neste verão?
-      -->
-      <antipattern>
-        <token postag='PD.+|PI.+|PP.+|RN|CS|V.+' postag_regexp='yes'/>
-        <token inflected='yes'>fazer</token>
-        <token postag='SPS.+' postag_regexp='yes'>
-          <exception postag='CC'/>
-        </token>
-        <token postag='PP.+|DP.*|V.+' postag_regexp='yes'/>
-      </antipattern>
-      <!--
-      Vamos fazer um teste de gravidez.
-      Kato fez muitas perguntas sobre os Estados Unidos para ele.
-      Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.
-      O presidente fez uma declaração sobre o assunto.
-      -->
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token/>
-        <token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
-        <token postag='SPS.+' postag_regexp='yes'/>
-      </antipattern>
-      <!--
-      Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.
-      Isto é fulcral para fazer face à escalada de violência.
-      A lei serve para fazer imperar os direitos sobre todas as pessoas.
-      Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.
-      Uma fagulha é suficiente para fazer explodir a pólvora.
-      -->
-      <antipattern>
-        <token postag='CC|SPS.+' postag_regexp='yes'/>
-        <token inflected='yes'>fazer</token>
-        <token postag='SP.+|V.+' postag_regexp='yes'>
-          <exception postag_regexp='yes' postag='AQ0.+|NC.+'/>
-        </token>
-        <token postag='NP.+|SPS.+|DA.+|DI.+' postag_regexp='yes'/>
-      </antipattern>
-      <!-- MARCOAGPINTO 2021-10-31 (25-JUN-2021+) *START* -->
-      <!--
-      Isso faz-lhe admirar?
-      Isso faz-se notar?
-      Ela fez-se passar por outra pessoa.
-      O telegrama foi um truque para fazê-la vir para casa.
-      Sim, senhor, falo o italiano o bastante para fazer-me compreender.
-      Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.
-      -->
-      <antipattern>
-        <token postag='PD.+|PP.+|CC|RG' postag_regexp='yes'>
-          <exception>se</exception>
-        </token>
-        <token inflected='yes'>fazer</token>
-        <token min="0" max="1" regexp='yes' spacebefore='no'>&hifen;</token>
-        <token min="0" max="1" postag='PP.+' postag_regexp='yes'/>
-        <token postag='V.+' postag_regexp='yes'>
-          <exception regexp='yes'>partes?</exception>
-          <exception postag_regexp='yes' postag='CS|SPS.+|NC.+|AQ0.+|VMG0000'/>
-        </token>
-      </antipattern>
-      <!-- MARCOAGPINTO 2021-10-31 (25-JUN-2021+) *END* -->
-
-      <!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *START* -->
-      <!--
-      Tom está sempre tentando fazer todo mundo pensar que ele é legal.
-      E faça quantas perguntas achar que deva!
-      E ainda aconteceu um incidente com o #49 da ARC Bratislava que fez o carro ser recolhido para os boxes.
-      A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!
-      O que faz uma piada ser uma piada?
-      -->
-      <antipattern>
-        <token inflected='yes'>fazer</token>
-        <token min="0" max="1" negate_pos="yes" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token postag='VMN0000'/>
-        <token negate="yes" regexp='yes'>[.,?!;]</token>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *END* -->
-
-      <rule>
-        <!--
-        Esta foi a pesquisa feita pela Ana. → Esta foi a pesquisa realizada pela Ana.
-        -->
-        <pattern>
-          <token/>
-          <marker>
-            <token inflected='yes'>fazer</token>
-          </marker>
-          <token negate="yes" regexp='yes'>aos?</token>
-          <token min="0" max="1" postag='SPS.+|DA.+|PD.+|PP.+' postag_regexp='yes'/>
-          <or>
-          <token postag='AQ0.+|NC.+|NP.+|V.+' postag_regexp='yes'/>
-          <token>mas</token>
-          </or>
-          <token negate_pos="yes" postag='V.+|DA.+' postag_regexp='yes'/>
-        </pattern>
-        <message>Num contexto formal ou académico, é preferível escrever 'efetuar', 'realizar', 'conduzir', 'concretizar' ou 'elaborar'.</message>
-        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
-        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
-        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
-        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>concretizar</match></suggestion>
-        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>elaborar</match></suggestion>
-        <example correction="efetuada|realizada|conduzida|concretizada|elaborada">Esta foi a pesquisa <marker>feita</marker> pela Ana.</example>
-        <example>A pergunta diplomática feita aos Estados Unidos.</example>
-	  
-        <example>Fiz ao médico algumas perguntas.</example>
-        <example>Novas descobertas foram feitas ao longo do tempo.</example>
-        <example>Ele a fez sua esposa.</example>
-        <example>Ele me fez seu assistente.</example>
-        <example>Ele não pôde cumprir a promessa que fez ao pai dele.</example>
-	  
-        <example>O que você fez neste verão?</example>
-	  
-        <example>Ele não fez nada errado.</example>
-        <example>Ele me fez esperar mais de uma hora.</example>
-        <example>O que eu faço é problema meu.</example>
-        <example>O que você faz é mais importante do que o que você diz.</example>
-	  
-        <example>Vamos fazer um teste de gravidez.</example>
-        <example>Kato fez muitas perguntas sobre os Estados Unidos para ele.</example>
-        <example>Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.</example>
-        <example>O presidente fez uma declaração sobre o assunto.</example>
-
-        <example>Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.</example>
-        <example>Isto é fulcral para fazer face à escalada de violência.</example>
-        <example>A lei serve para fazer imperar os direitos sobre todas as pessoas.</example>
-        <example>Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.</example>
-        <example>Uma fagulha é suficiente para fazer explodir a pólvora.</example>
-	  
-        <example>Isso faz-lhe admirar?</example>
-        <example>Isso faz-se notar?</example>
-        <example>Ela fez-se passar por outra pessoa.</example>
-        <example>O telegrama foi um truque para fazê-la vir para casa.</example>
-        <example>Sim, senhor, falo o italiano o bastante para fazer-me compreender.</example>
-        <example>Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.</example>
-
-        <example>Tom está sempre tentando fazer todo mundo pensar que ele é legal.</example>
-        <example>E faça quantas perguntas achar que deva!</example>
-        <example>E ainda aconteceu um incidente com o #49 da ARC Bratislava que fez o carro ser recolhido para os boxes.</example>
-        <example>A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!</example>
-        <example>O que faz uma piada ser uma piada?</example>
-      </rule>
-      <!--
-      Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
-      -->
-      <rule>
-        <pattern>
-          <marker>
-            <token inflected='yes'>fazer</token>
-          </marker>
-          <token negate="yes" regexp='yes'>aos?</token>
-          <token postag='AQ0.+|NC.+|NP.+|V.+' postag_regexp='yes'/>
-          <token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
-        </pattern>
-        <message>Num contexto formal, é preferível escrever 'efetuar', 'realizar', 'conduzir', 'concretizar' ou 'elaborar'.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concretizar</match></suggestion>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>elaborar</match></suggestion>
-        <example correction="efetuar|realizar|conduzir|concretizar|elaborar">Vou <marker>fazer</marker> uma pesquisa.</example>
-        <example>A pergunta diplomática feita aos Estados Unidos.</example>
-	  
-        <example>Fiz ao médico algumas perguntas.</example>
-        <example>Novas descobertas foram feitas ao longo do tempo.</example>
-        <example>Ele a fez sua esposa.</example>
-        <example>Ele me fez seu assistente.</example>
-        <example>Ele não pôde cumprir a promessa que fez ao pai dele.</example>
-	  
-        <example>O que você fez neste verão?</example>
-	  
-        <example>Ele não fez nada errado.</example>
-        <example>Ele me fez esperar mais de uma hora.</example>
-        <example>O que eu faço é problema meu.</example>
-        <example>O que você faz é mais importante do que o que você diz.</example>
-	  
-        <example>Vamos fazer um teste de gravidez.</example>
-        <example>Kato fez muitas perguntas sobre os Estados Unidos para ele.</example>
-        <example>Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.</example>
-        <example>O presidente fez uma declaração sobre o assunto.</example>
-
-        <example>Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.</example>
-        <example>Isto é fulcral para fazer face à escalada de violência.</example>
-        <example>A lei serve para fazer imperar os direitos sobre todas as pessoas.</example>
-        <example>Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.</example>
-        <example>Uma fagulha é suficiente para fazer explodir a pólvora.</example>
-	  
-        <example>Isso faz-lhe admirar?</example>
-        <example>Isso faz-se notar?</example>
-        <example>Ela fez-se passar por outra pessoa.</example>
-        <example>O telegrama foi um truque para fazê-la vir para casa.</example>
-        <example>Sim, senhor, falo o italiano o bastante para fazer-me compreender.</example>
-        <example>Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.</example>
-
-        <example>Tom está sempre tentando fazer todo mundo pensar que ele é legal.</example>
-        <example>E faça quantas perguntas achar que deva!</example>
-        <example>E ainda aconteceu um incidente com o #49 da ARC Bratislava que fez o carro ser recolhido para os boxes.</example>
-        <example>A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!</example>
-        <example>O que faz uma piada ser uma piada?</example>
-      </rule>
-    </rulegroup>
-
 
     <!-- LEVADA A CABO efetuada/realizada/conduzida/concretizada/elaborada -->
     <rule id='LEVAR_A_CABO' name="Levar a cabo → efetuar/realizar/conduzir/concretizar/elaborar">
@@ -52276,514 +51247,6 @@ O namorado dela era um ladrão.
         <suggestion>cuja \4 <match no='2' postag="VM[IS][IPFSCM]3S0" postag_regexp="yes">ser</match></suggestion>
         <example correction="cuja meta é">Assim surgiu o Estado Islâmico <marker>que tem como meta</marker> criar um califado mundial.</example>
         <example correction="cuja meta era">Assim surgiu o Estado Islâmico <marker>que tinha como meta</marker> criar um califado mundial.</example>
-      </rule>
-    </rulegroup>
-
-
-    <rule id='PHD_POSSA_POSSAM_PÔR' name="[PhD Tese] Evitar expressões do tipo 'possa(m) pôr’ → 'ponha(m)'" tags="picky">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima and Susana Boatto suggestions, Portuguese rule 2022-11-30 (25-JUL-2022+) -->
-      <!--
-      Para impedir que o radical possa pôr em perigo o ocidente. → Para impedir que o radical ponha em perigo o ocidente.
-      Para impedir que os radicais possam pôr em perigo o ocidente. → Para impedir que os radicais ponham em perigo o ocidente.
-
-      In this rule, the verbs with "xxx" in the exceptions means that I tried them, but the results weren't wrong or were acceptable.
-      -->
-      <antipattern>
-          <token skip='-1'>se</token>
-          <token postag='VMS.+' postag_regexp='yes'/>
-          <token postag='VMN0000'/>
-          <example>Como se nós pudéssemos viajar no tempo.</example>
-      </antipattern>
-      <pattern>
-        <token postag='NP.+|NC.+|AQ.+|CS|CC' postag_regexp='yes'/>
-        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-        <marker>
-         <and>
-          <token postag='VMS.+' postag_regexp='yes'> <!-- Replaced 'VMM03.+' to 'VMS.3.+' (subjunctive) suggested by SUSANA BOATTO -->
-            <exception regexp='yes' inflected='yes'>buscarxxx|deixar|entrar|evitar|fazerxxx|procurarxxx|pretender|querer|ser|tentar|tenter</exception>
-            <exception regexp='yes' inflected='yes'>podar|dever</exception> <!-- "I want to remove "podar" because that's the one which seems to be causing the problem." SUSANA BOATTO -->
-            <exception postag_regexp='yes' postag='NC.+|AQ.+|RG|VMN.+'/></token>
-          <token regexp='yes' inflected='yes'>&verbos_auxiliares_modais;|conseguir</token>
-         </and>
-          <token postag='VMN0000'>
-            <exception postag_regexp='yes' postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN'/> <!-- no hits, but just in case... -->
-          </token>
-        </marker>
-        <token regexp="yes">em|n[ao]s?|[ao]s?</token>
-      </pattern>
-      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:2 postagSelect:V.*"/>
-      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-      <suggestion>{suggestion}</suggestion>
-      <example correction="ponha">Para impedir que o radical <marker>possa pôr</marker> em perigo o ocidente.</example>
-      <example correction="ponham">Para impedir que os radicais <marker>possam pôr</marker> em perigo o ocidente.</example>
-    </rule>
-
-
-    <!-- PROCURA PROVAR prova provará -->
-    <rulegroup id='TESE_PHD_PROCURAR_PROVAR_PROVARA' name="[PhD Tese] Evitar expressões do tipo 'procura provar'" tags="picky" default='on'>
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 + 2021-02-25 + 2021-03-02 + 2021-03-07 + 2022-03-02 (1-JAN-2021+)      -->
-      <!--
-      A nossa tese procura provar a métrica. → A nossa tese provará a métrica.
-      Na nossa tese procuramos provar a métrica. → Na nossa tese provaremos a métrica.
-      Na nossa tese procuro provar a métrica. → Na nossa tese provarei a métrica.
-      -->
-
-      <!-- MARCOAGPINTO 2022-03-02 (1-JAN-2022+) *START* -->
-      <!--
-      Seus médicos disseram que ele iria ver, escutar e sentir gostos como antes.
-      Na linha inversa de quando atrasei o trabalho para, apesar de achar que a destituição não iria ganhar, ter feito questão de lá ir deixar o meu voto.
-      É importante eu olhar para um papel e não saber o que vai fazer, ter que inventar.
-      Vou dormir, tomei a medicação demasiado cedo.
-      Vamos dormir, tomámos a medicação demasiado cedo.
-      -->
-      <antipattern>
-          <token skip='-1' regexp='yes'>&tracos_de_separacao;</token>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000'/>
-          <example>— Como vou continuar trabalhando, não me importa.</example>
-          <example>— Agora, vamos comer — disse ele</example>
-      </antipattern>
-      <antipattern>
-          <token inflected="yes">ir</token>
-          <token skip='-1' postag='VMN0000'/>
-          <token regexp='yes'>&tracos_de_separacao;</token>
-          <example>Como vou continuar trabalhando, não me importa. — disse ele.</example>
-      </antipattern>
-      <antipattern>
-          <token skip='-1' postag='_QUOT'/>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000'/>
-          <example>"Como vou continuar trabalhando, não me importa", disse ele.</example>
-      </antipattern>
-      <antipattern>
-        <token postag='V.+' postag_regexp='yes'/>
-        <token postag='VMN0000'/>
-        <token>,</token>
-        <token postag='VMN0000|VMIS.+' postag_regexp='yes'>
-          <exception postag='RG'/>
-        </token>
-        <token negate="yes">de</token>
-        <token negate="yes">forma</token>
-        <token negate="yes">a</token>
-      </antipattern>
-      <!-- MARCOAGPINTO 2022-03-02 (1-JAN-2022+) *END* -->
-      <rule>
-        <pattern>
-          <and>
-          <token inflected="yes">pretender</token>
-          <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
-          </and>
-          <token postag='VMN0000'/>
-        </pattern>
-        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP)\b1."/>
-        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-        <suggestion>{suggestion}</suggestion>
-        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>cogitar</match> <match no='2'/></suggestion>
-        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>planejar</match> <match no='2'/></suggestion>
-        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>aspirar</match> <match no='2'/></suggestion>
-        <example correction="prova|cogita provar|planeja provar|aspira provar">A nossa tese <marker>pretende provar</marker> a métrica.</example>
-        <example correction="provamos|cogitamos provar|planejamos provar|aspiramos provar">Na nossa tese <marker>pretendemos provar</marker> a métrica.</example>
-        <example correction="provo|cogito provar|planejo provar|aspiro provar">Na nossa tese <marker>pretendo provar</marker> a métrica.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <and>
-          <token inflected="yes">pretender</token>
-          <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
-            <exception postag='VMIF1S0'/>
-          </token>
-          </and>
-          <token postag='VMN0000'>
-            <exception postag='VMIF1S0'/>
-          </token>
-        </pattern>
-        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
-        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-        <suggestion>{suggestion}</suggestion>
-        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>cogitar</match> <match no='2'/></suggestion>
-        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>planejar</match> <match no='2'/></suggestion>
-        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>aspirar</match> <match no='2'/></suggestion>
-        <example correction="provei|cogitei provar|planejei provar|aspirei provar">Na nossa tese <marker>pretendi provar</marker> a métrica.</example>
-        <example correction="resolveu|cogitou resolver|planejou resolver|aspirou resolver">como o <marker>pretendeu resolver</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <and>
-          <token regexp='yes' inflected="yes">procurar|buscar</token>
-          <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
-          </and>
-          <token postag='VMN0000'/>
-        </pattern>
-        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IF)\b1."/>
-        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-        <suggestion>{suggestion}</suggestion>
-        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>visar</match> <match no='2'/></suggestion>
-        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
-        <example correction="provará|visa provar|tem em vista provar">A nossa tese <marker>procura provar</marker> a métrica.</example>
-        <example correction="provaremos|visamos provar|tivemos em vista provar">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
-        <example correction="provarei|viso provar|tenho em vista provar">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
-      </rule>
-      <rule>
-      <antipattern>
-        <token postag='V.+' postag_regexp='yes'/>
-        <token postag='VMN0000'/>
-        <token>,</token>
-        <token postag='VMN0000|VMIS.+' postag_regexp='yes'>
-          <exception postag='RG'/>
-        </token>
-        <token negate="yes">de</token>
-        <token negate="yes">forma</token>
-        <token negate="yes">a</token>
-      </antipattern>
-      <antipattern>
-          <token>vai</token>
-          <token regexp='yes'>ver|saber</token>
-          <example>Vai saber o que ele fez!</example>
-          <example>Vai ver, ele está voltando!</example>
-          <example>Você vai ver o que é bom pra tosse!</example>
-      </antipattern>
-      <antipattern>
-          <token inflected='yes'>ir</token>
-          <token>acreditar</token>
-          <example>Você não vai acreditar no que ele disse.</example>
-      </antipattern>
-      <antipattern>
-          <token postag="SENT_START"/>
-          <token inflected='yes'>ir</token>
-          <token postag='VMN0000' skip='-1'/>
-          <token>?</token>
-          <example>Vamos caminhar?</example>
-      </antipattern>
-      <antipattern>
-          <token postag="SENT_START|_PUNCT" postag_regexp='yes'/>
-          <token inflected='yes'>ir</token>
-          <token postag='VMN0000' skip='-1'/>
-          <token>?</token>
-          <example>Vamos caminhar?</example>
-      </antipattern>
-      <antipattern>
-          <token inflected='yes'>ir</token>
-          <token>tomar</token>
-          <token>banho</token>
-          <example>Vá tomar banho!</example>
-      </antipattern>
-      <antipattern>
-          <token postag='RG|SENT_START|_PUNCT|VMM.+' postag_regexp='yes'/>
-          <token>vamos</token>
-          <token postag='VMN0000'/>
-          <example>Então vamos voltar para a sala.</example>
-          <example>Agora vamos voltar para a sala.</example>
-          <example>Vamos parar de fazer gracinha.</example>
-          <example>Por Deus, vamos tentar nos concentrar.</example>
-      </antipattern>
-      <antipattern>
-          <token>se</token>
-          <token inflected='yes'>ir</token>
-          <token postag='VMN0000'/>
-          <example>Mas se vou estudar lá, não quero me precipitar.</example>
-      </antipattern>
-      <antipattern>
-          <token>por</token>
-          <token>favor</token>
-          <token min='0'>,</token>
-          <token regexp='yes'>vai|vá</token>
-          <token postag='VMN0000'/>
-          <example>Por favor, vá para o quarto.</example>
-      </antipattern>
-        <pattern>
-          <and>
-          <token inflected="yes">ir<exception postag='VMIC.+' postag_regexp='yes'/></token>
-          <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
-          </and>
-          <token postag='VMN0000'>
-            <exception>ir</exception></token>
-        </pattern>
-        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP|IF)\b1."/>
-        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-        <suggestion>{suggestion}</suggestion>
-        <example correction="provará|prova">A nossa tese <marker>vai provar</marker> a métrica.</example>
-        <example correction="provaremos|provamos">Na nossa tese <marker>vamos provar</marker> a métrica.</example>
-        <example correction="provarei|provo">Na nossa tese <marker>vou provar</marker> a métrica.</example>      </rule>
-      <!--
-      A nossa tese procurou provar a métrica. → A nossa tese provou a métrica.
-      Na nossa tese procurámos provar a métrica. → Na nossa tese provámos a métrica.
-      Na nossa tese procurei provar a métrica. → Na nossa tese provei a métrica.
-      -->
-      <rule>
-        <antipattern>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000' skip='-1'/>
-          <token>?</token>
-          <example>Vamos abandonar o navio?</example>
-        </antipattern>
-        <pattern>
-          <token postag='RG|SENT_START|_PUNCT|VMM.+' postag_regexp='yes'/>
-         <marker>
-          <and>
-          <token inflected="yes">ir</token>
-          <token postag='VMM01P0'/>
-          </and>
-          <token postag='VMN0000'>
-            <exception>ir</exception></token>
-         </marker>
-        </pattern>
-        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-        <suggestion><match no='4' postag='VMSP1P0'/></suggestion>
-        <suggestion>proponho <match no='4' postag='VMSF1P0'/></suggestion>
-        <suggestion><match no='4' postag='VMIF1P0'/></suggestion>
-        <suggestion><match no='4' postag='VMIP1P0'/></suggestion>
-        <example correction="provemos|proponho provarmos|provaremos|provamos">Agora <marker>vamos provar</marker> a métrica.</example>
-        <example correction="Provemos|Proponho provarmos|Provaremos|Provamos"><marker>Vamos provar</marker> a métrica.</example>
-        <example correction="provemos|proponho provarmos|provaremos|provamos">Então, <marker>vamos provar</marker> a métrica.</example>
-      </rule>
-      <rule>
-
-        <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *START* -->
-        <!--
-        Uma das críticas a Ana foi escrever no seu livro de receitas o básico.
-        A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.
-        A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.
-        -->
-        <antipattern>
-          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-          <token postag='SPS.+' postag_regexp='yes'/>
-          <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='SPS.+|DI.+|V.+' postag_regexp='yes'/>
-        </antipattern>
-
-        <!--
-        DP.+ = NOSSO
-        A dificuldade no desenvolvimento do nosso modelo foi criar as ferramentas estatísticas.
-        O objetivo deste trabalho foi avaliar os efeitos da radiação gama na conservação da polpa de amora.
-        O objetivo deste trabalho foi revisar a literatura referente ao tema.
-        -->
-        <antipattern>
-          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-          <token min="0" max="1" postag='SPS00:DA.+' postag_regexp='yes'/>
-          <token postag='DP.+|SPS00:PD.+' postag_regexp='yes'/>
-          <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='SPS.+|DI.+|V.+|DA.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *END* -->
-
-        <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *START* -->
-        <!--
-        IT SEEMS I COULD ONLY TEST IT WITH THE VERB "TER", IT ONLY REMOVED ONE HIT IN 600 000 SENTENCES.
-        (dois empregos, tentei ter vida normal);
-        -->
-        <antipattern>
-          <token postag='VMIS1[SP]0' postag_regexp='yes'/>
-          <token inflected="yes">ter</token>
-          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *END* -->
-
-        <pattern>
-          <and>
-          <token regexp='yes' inflected="yes">buscar|procurar</token>
-          <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
-            <exception postag='VMIF1S0'/>
-          </token>
-          </and>
-          <token postag='VMN0000'>
-            <exception postag='VMIF1S0'/>
-          </token>
-        </pattern>
-        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
-        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-        <suggestion>{suggestion}</suggestion>
-        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>visar</match> <match no='2'/></suggestion>
-        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
-        <example correction="provou|visou provar|teve em vista provar">A nossa tese <marker>procurou provar</marker> a métrica.</example>
-        <example correction="provei|visei provar|tive em vista provar">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
-        <example correction="resolveu|visou resolver|teve em vista resolver">como o <marker>procurou resolver</marker></example>
-        <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
-        <example>A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.</example>
-        <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>
-      </rule>
-<!--
-      A nossa tese procurou provar a métrica. → A nossa tese provou a métrica.
-      Na nossa tese procurámos provar a métrica. → Na nossa tese provámos a métrica.
-      Na nossa tese procurei provar a métrica. → Na nossa tese provei a métrica.
-      -->
-      <rule>
-
-        <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *START* -->
-        <!--
-        Uma das críticas a Ana foi escrever no seu livro de receitas o básico.
-        A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.
-        A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.
-        -->
-        <antipattern>
-          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-          <token postag='SPS.+' postag_regexp='yes'/>
-          <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='SPS.+|DI.+|V.+' postag_regexp='yes'/>
-        </antipattern>
-
-        <!--
-        DP.+ = NOSSO
-        A dificuldade no desenvolvimento do nosso modelo foi criar as ferramentas estatísticas.
-        O objetivo deste trabalho foi avaliar os efeitos da radiação gama na conservação da polpa de amora.
-        O objetivo deste trabalho foi revisar a literatura referente ao tema.
-        -->
-        <antipattern>
-          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
-          <token min="0" max="1" postag='SPS00:DA.+' postag_regexp='yes'/>
-          <token postag='DP.+|SPS00:PD.+' postag_regexp='yes'/>
-          <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token postag='SPS.+|DI.+|V.+|DA.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *END* -->
-
-        <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *START* -->
-        <!--
-        IT SEEMS I COULD ONLY TEST IT WITH THE VERB "TER", IT ONLY REMOVED ONE HIT IN 600 000 SENTENCES.
-        (dois empregos, tentei ter vida normal);
-        -->
-        <antipattern>
-          <token postag='VMIS1[SP]0' postag_regexp='yes'/>
-          <token inflected="yes">ter</token>
-          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *END* -->
-        <antipattern>
-          <token postag='VMIS.+' postag_regexp='yes' skip='-1'/>
-          <token>foi</token>
-          <token postag='VMN0000'/>
-          <example>Tudo que fiz foi abrir a porta</example>
-          <example>Só o que consegui fazer na hora foi abrir a porta.</example>
-          <example>Só o que consegui fazer naquele momento foi abrir a porta.</example>
-        </antipattern>
-        <antipattern>
-          <token postag='AQ.+|NC.|RG' postag_regexp='yes'/>
-          <token regexp='yes' min='0'>&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</token>
-          <token regexp="yes">foi|foram</token>
-          <token postag='VMN0000'/>
-          <example>O primeiro passo foi acabar com a fome.</example>
-          <example>A medida principal foi acabar com a fome.</example>
-          <example>O mais urgente foi acabar com a fome.</example>
-          <example>As medidas principais foram acabar com a fome, diminuir o preconceito e reduzir o aquecimento global.</example>
-          <example>As principais medidas foram acabar com a fome, diminuir o preconceito e reduzir o aquecimento global.</example>
-          <example>O primeiro deles foi acabar com a fome.</example>
-        </antipattern>
-        <antipattern>
-          <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'/>
-          <token postag='NP.+|PP.+' postag_regexp='yes'/>
-          <token regexp="yes">foi|foram</token>
-          <token postag='VMN0000'/>
-          <example>Uma das primeiras decisões da Inglaterra foi reunir alguns guardas.</example>
-          <example>A coisa mais importante para Luana foi chegar no horário.</example>
-          <example>A coisa mais importante para ela foi chegar no horário.</example>
-        </antipattern>
-        <antipattern>
-          <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'/>
-          <token postag='NP.+' postag_regexp='yes'/>
-          <token regexp="yes">foi|foram</token>
-          <token postag='VMN0000'/>
-          <example>Uma das primeiras decisões da Inglaterra foi reunir alguns guardas.</example>
-          <example>A coisa mais importante para Luana foi chegar no horário.</example>
-        </antipattern>
-        <antipattern>
-          <token>quando</token>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000'/>
-          <example>Quando fui mostrar, já havia acabado.</example>
-        </antipattern>
-        <antipattern>
-          <token inflected="yes">ir</token>
-          <token skip='-1'>fazer</token>
-          <token>?</token>
-          <example>O que você foi fazer lá?</example>
-        </antipattern>
-        <antipattern>
-          <token inflected="yes">ir</token>
-          <token regexp='yes'>morar|parar|titular</token>
-          <example>Saiu de casa e foi morar com o namorado.</example>
-        </antipattern>
-        <antipattern>
-          <token postag='DA.+|SPS00' postag_regexp='yes'/>
-          <token postag='NC.+' postag_regexp='yes'/>
-          <token postag='RG' min='0'/>
-          <token postag='AQ.+' postag_regexp='yes' min='0'/>
-          <token>que</token>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000'/>
-          <example>Reconheço a importância que foi garantir seus direitos.</example>
-        </antipattern>
-        <antipattern>
-          <token regexp='yes' skip='-1'>solução|soluções|pecados?|erros?|missão|missões|significativ[oa]s?|relevantes?|diferenças?|tristezas?|felicidades?|alegrias?|tarefas?|principal|principais|utilidades?|discussão|discussões|sacadas?|propostas?|trabalho|motivos?|propósitos?|objetivos?|razão|razões|mudanças?|medidas?|explicação|explicações|estratégias?|salvação|salvações|desafios?|dilemas?|imprevistos?|importantes?</token>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000'/>
-          <example>A solução foi criar uma nova regra.</example>
-        </antipattern>
-        <antipattern>
-          <token postag='DA.+' postag_regexp='yes'/>
-          <token postag='AQ.+' postag_regexp='yes'/>
-          <token postag='SPS00:P.+|SPS00:D.+|SPS00' postag_regexp='yes' min='0'/>
-          <token postag='N.+' postag_regexp='yes' min='0'/>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000'/>
-          <example>O melhor foi ver o mar à noite.</example>
-          <example>O melhor de tudo foi ver o mar à noite.</example>
-          <example>O melhor das férias foi visitar o Rio.</example>
-        </antipattern>
-        <antipattern>
-          <token postag='VMP.+' postag_regexp='yes'/>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000'/>
-          <example>O mais aceito foi estruturar a pesquisa.</example>
-        </antipattern>
-        <antipattern>
-          <token>o</token>
-          <token>que</token>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000'/>
-          <example>O que fez foi criar uma nova regra.</example>
-        </antipattern>
-        <antipattern>
-          <token postag='AO.+' postag_regexp='yes' skip='-1'/>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000'/>
-          <example>A primeira foi mostrar o ocorrido.</example>
-        </antipattern>
-        <antipattern>
-          <token inflected="yes">ir</token>
-          <token postag='VMN0000'/>
-          <token spacebefore='no'>-</token>
-          <example>Foi encontrar-se com ele.</example>
-        </antipattern>
-        <pattern>
-          <and>
-          <token negate="yes">e</token>
-          <token inflected="yes">ir</token>
-          <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
-            <exception postag='VMIF1S0|AQ.+' postag_regexp='yes'/>
-          </token>
-          </and>
-          <token postag='VMN0000'>
-            <exception postag='VMIF1S0'/>
-            <exception regexp='yes'>ver|visitar|passear|viver|dormir|nadar|pescar|surfar|procurar|acampar|arrumar|averiguar|brincar|caminhar|comemorar|comentar|confirmar|vulgar</exception>
-          </token>
-        </pattern>
-        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
-        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-        <suggestion>{suggestion}</suggestion>
-        <example correction="provou">A nossa tese <marker>foi provar</marker> a métrica.</example>
-        <example correction="provei">Na nossa tese <marker>fui provar</marker> a métrica.</example>
-        <example correction="resolveu">como o <marker>foi resolver</marker></example>
-        <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
-        <example>A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.</example>
-        <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>
       </rule>
     </rulegroup>
 
@@ -57176,5 +55639,1553 @@ O namorado dela era um ladrão.
     </rulegroup>
 
   </category>
+
+
+  <category id='ACADEMIC_SCIENTIFIC' name="Regras académicas e científicas" type="other">
+
+
+    <!-- CERTA exata -->
+    <rule id='CIENTÍFICO_CERTO_EXATO' name="[Científico] Certo → Exato" type="style" default="off">
+      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-13/15/18 (1-JAN-2022+)      -->
+      <!--
+      Quero a percentagem certa na tabela. → Quero a percentagem exata na tabela.
+      -->
+      <pattern>
+        <token regexp='yes'>[ao]s?</token>
+        <token inflected='yes' regexp='yes'>ciência|compreensão|contagem|correspondência|espaço|formulação|localização|medida|percentagem|quantia|quantidade|quantitativa|soma|subtração|valor</token>
+        <marker>
+          <token regexp='yes'>cert[ao]s?</token>
+        </marker>
+      </pattern>
+      <message>Se for um texto científico, pondere empregar o termo 'exato'.</message>
+      <example>Quero a percentagem <marker>exata</marker> na tabela.</example>
+      <example type='incorrect'>Quero a percentagem <marker>certa</marker> na tabela.</example>
+    </rule>
+
+
+    <!-- CONTRÁRIO oposto -->
+    <rule id='CIENTÍFICO_CONTRÁRIO_OPOSTO' name="[Científico] Contrário → Oposto" type="style">
+      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-18 (5-JUN-2022+)      -->
+      <!--
+      A Ana percebeu exatamente o contrário! → A Ana percebeu exatamente o oposto!
+      -->
+      <pattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='RM'/>
+        <token postag='[DP][ADIP]0MS0|SPS00:[DP][ADIP]0MS0' postag_regexp='yes'/>
+        <marker>
+          <token>contrário</token>
+        </marker>
+      </pattern>
+      <message>Se for um texto científico, pondere melhorar a linguagem.</message>
+      <suggestion>oposto</suggestion>
+      <example correction="oposto">A Ana percebeu exatamente o <marker>contrário</marker>.</example>
+    </rule>
+
+
+    <!-- CORRIGIR ERROS/FALHAS corrigir imprecisões -->
+    <rule id='CIENTÍFICO_CORRIGIR_ERROS_FALHAS_IMPRECISÕES' name="[Científico] Corrigir 'erros/falhas' → 'imprecisões'" type="style">
+      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-02-03 (1-JAN-2022+)      -->
+      <!--
+      Vou corrigir pequenos erros no texto. → Vou corrigir pequenas imprecisões no texto.
+      Vou corrigir alguns erros no texto. → Vou corrigir algumas imprecisões no texto.
+      -->
+      <pattern>
+        <token inflected='yes'>corrigir</token>
+        <token regexp='yes' inflected='yes'>&adverbios_de_intensidade;|algum|inúmero|pequeno</token>
+        <marker>
+          <token regexp='yes'>erros|falhas</token>
+        </marker>
+      </pattern>
+      <message>Se for um texto científico, pondere empregar o termo 'imprecisão'.</message>
+      <example>Vou corrigir algumas <marker>imprecisões</marker> no texto.</example>
+      <example type='incorrect'>Vou corrigir algumas <marker>falhas</marker> no texto.</example>
+    </rule>
+
+
+    <!-- USAR empregar -->
+    <rulegroup id='CIENTÍFICO_EMPREGAR_TERMO' name="[Científico] usar → empregar" type="style" tags="picky">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-03-31 (Enhanced) (17-MAR-2021+) *START* -->
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected='yes'>usar</token>
+          </marker>
+          <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
+          <token regexp="yes">termos?</token>
+        </pattern>
+        <message>Num contexto formal ou académico, é preferível escrever 'empregar um termo'.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match></suggestion>
+        <example correction="empregamos">Na nossa investigação <marker>usamos</marker> o termo “terrorismo”.</example>
+        <example correction="empregamos">Na nossa investigação <marker>usamos</marker> termos caros.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected='yes'>usar</token>
+            <token regexp='yes' spacebefore='no'>&hifen;</token>
+            <token spacebefore='no'>se</token>
+          </marker>
+          <token min="0" max="1" negate="yes" regexp="yes">termos?</token>
+          <token regexp="yes">termos?</token>
+        </pattern>
+        <message>Num contexto formal ou académico, é preferível escrever 'empregar um termo'.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>empregar</match>-se</suggestion>
+        <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> o termo “terrorismo”.</example>
+        <example correction="emprega-se">Na nossa investigação <marker>usa-se</marker> termos caros.</example>
+      </rule>
+    </rulegroup>
+
+
+    <!-- FEITA efetuada/realizada/conduzida/concretizada/elaborada -->
+    <rulegroup id='CIENTÍFICO_FAZER_EFETUAR_REALIZAR_CONDUZIR_CONCRETIZAR_ELABORAR' name="[Científico] Fazer → efetuar/realizar/conduzir/concretizar/elaborar" default="on" type="style" tags="picky">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-29/30 + 2021-07-02 + 2021-10-31 (25-JUN-2021+)      -->
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes'>usos?</token>
+        <token/>
+        <example>Fazemos uso de cookies e conteúdo ativo (Java, ActiveX, WebBugs, etc.).</example>
+        <example>É necessário fazer uso das tecnologias.</example>
+        <example>Fazem uso dos mecanismos de mercado como franquias, cartões de crédito, bancos, etc.</example>
+        <example>Nesses seis meses, felizmente, nem por uma vez necessitamos de fazer uso do seguro de saúde.</example>
+        <example>Para isso, fazia uso da política doméstica e dos costumes da sociedade.</example>
+        <example>Farei uso dessas informações ainda junto aos meus alunos de Historia da Unirio.</example>
+        <example>Faz uso de dados, traz desdobramentos e projeções de cenário, assim como contextos passados.</example>
+        <example>Mantenha seu médico informado ao fazer uso deste produto.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-11-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>pouco</token>
+        <token>caso</token>
+        <example>Ele fez pouco caso do assunto.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>as</token>
+        <token>honras</token>
+        <example>Faça as honras.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>o</token>
+        <token>mesmo</token>
+        <example>Arthur fez o mesmo.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token min='0' postag='D.+|SPS.+' postag_regexp='yes'/>
+        <token regexp='yes'>caretas?|amizades?|reverências?|gracinhas?|força</token>
+        <example>Bia fez uma careta.</example>
+        <example>A união faz a força.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes'>suas?</token>
+        <token regexp='yes'>apostas?</token>
+        <example>Façam suas apostas!</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>\p{L}+</token>
+        <token min='0' regexp='yes' spacebefore='no'>-</token>
+        <token spacebefore='no' inflected='yes'>fazer</token>
+        <example>Ligue o Wi-Fi, por favor!</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes' min='0'>[«»“”"'‘’]</token>
+        <token regexp='yes'>miau|auau</token>
+        <token regexp='yes' min='0'>[«»“”"'‘’]</token>
+        <example>O gato faz "miau".</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>as</token>
+        <token>pazes</token>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes' skip='-1'>fazer</token>
+        <token regexp='yes'>bicos?|biquinhos?|hora</token>
+        <example>Ela faz um pequeno bico</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes'>sozinh[oa]s?</token>
+      </antipattern>
+      <antipattern>
+        <token>como</token>
+        <token postag='V.+' postag_regexp='yes' min='0'/>
+        <token inflected='yes'>fazer</token>
+        <token>para</token>
+        <example>Como podemos fazer pra efetuar isso?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>sexo</token>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>vir</token>
+        <token inflected='yes'>fazer</token>
+        <example>O que veio fazer aqui?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>já</token>
+        <token inflected='yes'>fazer</token>
+        <example>Já faz anos que aconteceu.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>ser</token>
+        <token>isso</token>
+        <token>que</token>
+        <token inflected='yes'>fazer</token>
+        <example>Foi exatamente isso que fiz.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <example>Desta vez ele fê-lo mesmo.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='AQ.+|VMP.+' postag_regexp='yes'/>
+        <token>feito</token>
+        <token postag='DI.+' postag_regexp='yes' min='0'/>
+        <token postag='NC.+' postag_regexp='yes'/>
+        <example>Ficou parado feito uma estátua.</example>
+      </antipattern>
+      <antipattern>
+        <token>como</token>
+        <token inflected='yes'>fazer</token>
+        <token>para</token>
+        <example>Não sei mais como faço para acreditarem em mim.</example>
+        <example>Como faço para acreditarem em mim?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='DI.+' postag_regexp='yes' min='0'/>
+        <token regexp='yes'>&expressoes_de_tempo;</token>
+        <example>Já aconteceu faz algumas semanas.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>mão|mãos|pé|pés</token>
+        <token regexp='yes'>feitas?</token>
+        <example>Estava com as mãos feitas.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>perguntas?|vítimas?|estágios?|carinhos?|faculdades?|comentários?|exercícios?|pedidos?|sopas?|chás?|receitas?|almoços?|melhor|panquecas?|jantare?s?|lanches?|escolhas?|café|ceia|bolos?|farinha|pão|pães|contas?|promessas?|alusão|alusões|denúncias?|viagem|viagens|esportes?|especialização|companhia|referências?|resumos?|downloads?|inscrição|inscrições|cursos?|apdaptação|adaptações|sorte|[i][n]justiça|descanso|visitas?|especializações|lembretes?|reflexão|reflexões|caras?|dietas?|sucesso|dinheiro|sinal|jus|sinais|merdas?|cafuné|diferença|ginásticas?|caridades?|mal|menção|menções|bem|turismo|pose|silêncio|efeito|questão|fogueiras?|ciúmes?</token>
+        <token skip='-1'>que</token>
+        <token inflected='yes'>fazer</token>
+        <example>Não confie nas promessas que ele fez a você.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='DA.+' postag_regexp='yes' min='0'/>
+        <token postag='D.+|RG' postag_regexp='yes' min='0'/>
+        <token postag='N.+|AQ.+' postag_regexp='yes' min='0'/>
+        <token regexp='yes'>exercícios?|promessas?|barulhos?|comentários?|mão|mãos|pé|pés|questões|necessário|história|perguntas?|vítimas?|faculdade|pedidos?|alusão|alusões|denúncias?|viagem|viagens|esportes?|especialização|companhia|referências?|resumos?|downloads?|inscrição|inscrições|cursos?|apdaptação|adaptações|sorte|[i][n]justiça|descanso|visitas?|especializações|lembretes?|reflexão|reflexões|caras?|dietas?|sucesso|carinho|estágio|dinheiro|sinal|jus|sinais|merdas?|cafuné|diferença|ginásticas?|caridades?|mal|menção|menções|bem|turismo|pose|silêncio|efeito|questão|fogueiras?|ciúmes?</token>
+        <example>Tenho dificuldade em fazer exercícios.</example>
+        <example>O filme faz sucesso entre os jovens.</example>
+        <example>Espere o medicamento fazer efeito.</example>
+        <example>Isso me fez mal.</example>
+        <example>Tentei fazer uma fogueira.</example>
+        <example>Tentei fazer alguma questão.</example>
+        <example>Eles fizeram algumas fogueiras.</example>
+        <example>Isso pode realmente fazer a maior diferença!</example>
+        <example>Fui à manicure fazer as mãos.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='DA.+' postag_regexp='yes' min='0'/>
+        <token postag='D.+|RG' postag_regexp='yes' min='0'/>
+        <token postag='N.+|AQ.+' postag_regexp='yes'/>
+        <token postag='VMN.+|AQ.+' postag_regexp='yes'/>
+        <example>O choque fez minha raiva ir embora.</example>
+        <example>Só queria fazer meu pai feliz.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes' min='0'>&pronomes_retos;</token>
+        <token regexp='yes' min='0'>&pronomes_obliquos;</token>
+        <token postag='VMN.+' postag_regexp='yes'/>
+        <example>Ele gritou, fazendo eu me lembrar do passado.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>o</token>
+        <token regexp='yes'>que|quê</token>
+        <token postag='SENT_END'/>
+        <example>Não consegui, mas fazer o quê?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes' skip='-1'>fazer<exception postag='>PUNCT' postag_regexp='yes' scope='next'/></token>
+        <token postag='VMN.+|VMS.+' postag_regexp='yes'/>
+        <example>Continuaram fazendo as meninas brincarem.</example>
+        <example>Ele fez com que ficasse animada.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>com</token>
+        <token postag='DI.+|DA.+' postag_regexp='yes'/>
+        <token postag='N.+|AQ.+' postag_regexp='yes'/>
+        <example>Você viu o que conseguiram fazer com o lugar?</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>que|assim</token>
+        <token inflected='yes'>fazer</token>
+        <token postag='D.+' postag_regexp='yes'/>
+        <token postag='N.+|AQ.+' postag_regexp='yes'/>
+        <example>A companhia que faz o lugar.</example>
+        <example>Assim fazem os bons moços.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='DI.+|SPS00' postag_regexp='yes'/>
+        <token>festa</token>
+        <example>Fazia tanta festa, lambia até minha testa.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes'>is[st]o|aquilo|algo</token>
+        <token>por</token>
+        <token regexp='yes'>&pronomes_tonicos;</token>
+        <example>Será que ele faria isso por mim?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes' skip='-1'>fazer</token>
+        <token>ao</token>
+        <token>mesmo</token>
+        <token>tempo</token>
+        <example>Você quer fazer tudo ao mesmo tempo!</example>
+        <example>Não tente fazer duas coisas ao mesmo tempo!</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token min='0'>algo</token>
+        <token>da</token>
+        <token postag='DP.+' postag_regexp='yes' min='0'/>
+        <token>vida</token>
+        <example>Tento fazer algo da vida da minha filha.</example>
+        <example>Não sei o que fazer da vida.</example>
+        <example>Você não sabe o que fazer da sua vida?</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token>alguma</token>
+        <token>coisa</token>
+        <token skip='-1'>da</token>
+        <token postag='DP.+' postag_regexp='yes' min='0'/>
+        <token>vida</token>
+        <example>Tento fazer alguma coisa da minha vida.</example>
+        <example>Não sei o que fazer da vida.</example>
+      </antipattern>
+      <antipattern>
+        <token>tanto</token>
+        <token inflected='yes'>fazer</token>
+        <example>Tanto faz, é a mesma coisa.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>&pronomes_obliquos;</token>
+        <token inflected='yes'>fazer</token>
+        <example>Te farei feliz, não importa o quanto tente.</example>
+        <example>Não se preocupe, te farei relevante.</example>
+        <example>E ele me fez o questionamento a seguir.</example>
+        <example>As análises do produto se fazem necessárias.</example>
+        <example>Isso é o melhor a se fazer na vida.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token spacebefore='no' min='0'>-</token>
+        <token postag='DA.+' postag_regexp='yes' min='0'/>
+        <token postag='PP+|D.+' postag_regexp='yes'/>
+        <token postag='N.+' postag_regexp='yes' min='0'/>
+        <token postag='AQ+' postag_regexp='yes'/>
+        <example>Sei que fiz você feliz.</example>
+        <example>Sei que fiz a minha família feliz.</example>
+        <!--<example>Só queria fazer-lhe feliz.</example>-->
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token spacebefore='no' min='0'>-</token>
+        <token postag='RG' min='0'/>
+        <token postag='PP+' postag_regexp='yes'/>
+        <token postag='VMN+' postag_regexp='yes'/>
+        <example>Farei você pagar por isso.</example>
+        <example>Farei-lhe pagar por isso.</example>
+        <example>Anotei tudo, fazendo assim você tomar cuidado.</example>
+        <!--<example>Farei você se arrepender por isso.</example>-->
+      </antipattern>
+      <antipattern>
+        <token case_sensitive='yes'>FI</token>
+        <example>O FI possui um limite de aplicação.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes' skip='-1'>fazer</token>
+        <token postag='PP+|N+' postag_regexp='yes'/>
+        <token inflected='yes'>fazer</token>
+        <example>Farei a minha irmã fazê-lo.</example>
+        <!--<example>Farei você fazê-lo.</example>-->
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes'>&pronomes_contracao;</token>
+        <example>Fiz daquilo o meu lema.</example>
+        <example>Meu objetivo é fazer dos mares o meu lar.</example>
+        <example>Faça da enxada a sua espada.</example>
+      </antipattern>
+      <antipattern>
+        <token>já</token>
+        <token inflected='yes'>ter</token>
+        <token skip='-1'>feito</token>
+        <token>antes</token>
+        <example>Você já tinha feito isso antes?</example>
+      </antipattern>
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes' skip='-1'/>
+        <token>o</token>
+        <token>que</token>
+        <token postag='DA.+' postag_regexp='yes' min='0'/>
+        <token postag='D.+|RG' postag_regexp='yes' min='0'/>
+        <token regexp='yes' min='0'>&vocativos;|&pronomes_retos;</token>
+        <token postag='V.+' postag_regexp='yes' min='0'/>
+        <token inflected='yes'>fazer</token>
+        <example>Não sei mais o que fazer.</example>
+        <example>Eles querem descobrir o que eles podem fazer para melhorar.</example>
+        <example>Queria só entender o que a minha irmã pode fazer para mudar.</example>
+        <example>Ele não decide o que quer fazer com ele.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes'>as|a</token>
+        <token regexp='yes'>mala|malas</token>
+        <example>Já fiz as malas.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token skip='-1'></token>
+        <token regexp='yes'>sopas?|chás?|show|receitas?|vítimas?|almoços?|jantar|melhor|panquecas?|jantares|lanches?|escolhas?|café|ceias?|bolos?|farinha|pão|pães|ideia|sentido|contas?|errad[oa]|promessas?</token>
+        <example>Gostaria de fazer um almoço na terça.</example>
+        <example>Farei para ti o café da manhã.</example>
+        <example>Eles não fazem nenhuma ideia do que dizem.</example>
+        <example>Eles não fazem a menor ideia do que dizem.</example>
+        <example>Eles não fazem mais a menor ideia do que dizem.</example>
+        <example>Ela disse ter feito as contas.</example>
+        <example>Fiz muita coisa errada.</example>
+        <example>Isso não faz nenhum sentido.</example>
+      </antipattern>
+      <antipattern>
+          <token>como</token>
+          <token inflected='yes'>fazer</token>
+          <token postag='RG|SPS00|SPS00:D.+' postag_regexp='yes'/>
+          <example>Ela suspirou, como fazia quando estava triste.</example>
+      </antipattern>
+      <antipattern>
+          <token postag='D.+|SPS00:D.0M.+' postag_regexp='yes'/>
+          <token regexp='yes'>feitos?</token>
+          <example>Não pude acreditar naquele feito impossível.</example>
+      </antipattern>
+      <antipattern>
+        <token>Faria</token>
+        <token>Lima</token>
+        <example>Moro na Avenida Brigadeiro Faria Lima.</example>
+      </antipattern>
+      <antipattern>
+        <token>modo</token>
+        <token>de</token>
+        <token>fazer</token>
+        <example>Modo de fazer: Misture os ingredientes secos.</example>
+      </antipattern>
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes' min='0'>toda|muita|bastante|grande</token>
+        <token regexp='yes' min='0'>a</token>
+        <token min='0'>diferença</token>
+        <example>Prestar atenção faz toda diferença.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *START* -->
+      <!--
+      Hoje faz 21 anos que entrei para a empresa.
+      Faz quatro anos que eu estudo francês.
+      Faz uma semana que a gente se encontrou.
+      Você não sabia que ele morreu faz dois anos?
+      Sempre faz um tempo tão horrível em abril?
+      Não falo com Tom já faz um tempo.
+      -->
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token postag='Z0.+' postag_regexp='yes'/>
+        <token regexp='yes'>&expressoes_de_tempo;</token>
+        <token postag='CS|RG|_PUNCT' postag_regexp='yes'/>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-01-16 (1-JAN-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *START* -->
+      <!--
+      HITS IN 600000 SENTENCES:
+      BEFORE:9643
+      AFTER:9087
+      -->
+
+      <!--
+      Faço parte do clube de natação.
+      Estou feliz em fazer parte desse projeto.
+      Segundo a TV, fará tempo bom hoje.
+      Eu tive de fazer hora extra ontem.
+      Faz um tempão que não a vejo.
+      Faz algumas horas que eu estou lendo isso.
+      Este celular é feito de papel eletrônico.
+      -->
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token min="0" max="1" negate="yes" regexp='yes'>horas?|papel|papéis|parte|pausas?|sentido|tempão|tempos?</token>
+        <token regexp='yes'>horas?|papel|papéis|parte|pausas?|sentido|tempão|tempos?</token>
+      </antipattern>
+
+      <!--
+      Eles sempre fazem piadas sobre o chefe.
+      E não esqueça de fazer seguro de viagem.
+      Tornou-se o primeiro coreano a entrar na parada, feito conquistado antes da sua primeira turnê mundial.
+      Fiz esse vestido sozinha.
+      Eu mesmo fiz esta comida.
+      Você está fazendo isso errado.
+      Está com um cheiro meio desagradável, mas tenho medo de mexer e fazer algo errado.
+      Sendo assim, vamos fazer algo divertido.
+      Esta resposta a fez ficar zangada.
+      -->
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token min="0" max="1" negate_pos="yes" postag='VMP.+' postag_regexp='yes'/>
+        <token postag='VMP.+' postag_regexp='yes'/>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-01-23 (1-JAN-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *START* -->
+      <!--
+      HITS IN 600000 SENTENCES:
+      BEFORE:9087
+      AFTER:8627
+      -->
+      <!--
+      Fora da pista os dois fizeram crescer o incidente com entrevistas provocantes.
+      Faça vir o médico, porque estou doente.
+      O gelo fez cair as flores dos damasqueiros.
+      Selecione apenas itens com a mesma finalidade para fazer e finalizar o seu pedido.
+      Saiba como fazer para lavar o veículo corretamente e evitar danos ao seu veículo.
+      Os humanos não foram feitos para viver para sempre.
+      Como faço para atualizar meu cadastro?
+      Tenho de fazer o jantar hoje.
+      -->
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token min="0" max="1" negate_pos="yes" postag='VMN0000'/>
+        <token postag='VMN0000'/>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-01-24 (1-JAN-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *START* -->
+      <!--
+      BASED ON THE ANTIPATTERNS FROM RULE ID: VER_OBSERVAR_CONSTATAR
+      HITS IN 600000 SENTENCES:
+      BEFORE:8627
+      AFTER:8477
+      -->
+      <!--
+      Estes sapatos são feitos na Itália.
+      Diga-me o que você fez em Tóquio.
+      Assim como inúmeros outros padres da Igreja e teólogos de então fizeram referência a José.
+      Faça a Dida feliz, vai?
+      Quer conhecer o mundo todo, mas se der para fazer escala em Paris, a cada voo, melhor ainda!
+      -->
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token min="0" max="1" negate="yes" regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
+        <token regexp='yes'>[ao]s?|de|d[ao]s?|n[ao]s?|em</token>
+        <token postag='NP.+' postag_regexp='yes'/>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-01-26 (1-JAN-2022+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-02-06 + 2022-04-06 (1-JAN-2022+) *START* -->
+      <!--
+      HITS IN 600000 SENTENCES:
+      BEFORE:8476
+      AFTER:8310
+      -->
+      <!--
+      Nós conseguimos fazê-lo entender.
+      Falei por muito tempo, e consegui fazê-la crer em mim.
+      Acima de tudo, ele respeitava-me e fazia-me sentir em paz comigo mesma e com a vida.
+      Fizeram-me ir lá sozinho.
+      -->
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+        <token regexp='yes' spacebefore='no'>[ao]s?|l[ao]s?|lh[aeo]s?|n[ao]s?|me|se|te|vos</token>
+        <token postag='VMN0000|VMIP1.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='AQ.+|RG|CS'/> <!-- Can't use NC.+ because it removes the verb "USO", "FEZ-SE USO DE" - 2022-04-06 -->
+        </token>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-02-06 + 2022-04-06 (1-JAN-2022+) *END* -->
+
+      <!--
+      Ele a fez sua esposa.
+      Ele me fez seu assistente.
+      Ele não pôde cumprir a promessa que fez ao pai dele.
+      Ele não fez nada errado.
+      Ele me fez esperar mais de uma hora.
+      O que eu faço é problema meu.
+      O que você faz é mais importante do que o que você diz.
+      -->
+      <antipattern>
+        <token postag='PD.+|PI.+|PP.+|RN|CS|V.+' postag_regexp='yes'/>
+        <token inflected='yes'>fazer</token>
+        <token postag='PP.+|DP.+|V.+' postag_regexp='yes'/>
+      </antipattern>
+      <!--
+      O que você fez neste verão?
+      -->
+      <antipattern>
+        <token postag='PD.+|PI.+|PP.+|RN|CS|V.+' postag_regexp='yes'/>
+        <token inflected='yes'>fazer</token>
+        <token postag='SPS.+' postag_regexp='yes'>
+          <exception postag='CC'/>
+        </token>
+        <token postag='PP.+|DP.*|V.+' postag_regexp='yes'/>
+      </antipattern>
+      <!--
+      Vamos fazer um teste de gravidez.
+      Kato fez muitas perguntas sobre os Estados Unidos para ele.
+      Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.
+      O presidente fez uma declaração sobre o assunto.
+      -->
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token/>
+        <token postag='AQ0.+|NC.+|NP.+' postag_regexp='yes'/>
+        <token postag='SPS.+' postag_regexp='yes'/>
+      </antipattern>
+      <!--
+      Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.
+      Isto é fulcral para fazer face à escalada de violência.
+      A lei serve para fazer imperar os direitos sobre todas as pessoas.
+      Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.
+      Uma fagulha é suficiente para fazer explodir a pólvora.
+      -->
+      <antipattern>
+        <token postag='CC|SPS.+' postag_regexp='yes'/>
+        <token inflected='yes'>fazer</token>
+        <token postag='SP.+|V.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='AQ0.+|NC.+'/>
+        </token>
+        <token postag='NP.+|SPS.+|DA.+|DI.+' postag_regexp='yes'/>
+      </antipattern>
+      <!-- MARCOAGPINTO 2021-10-31 (25-JUN-2021+) *START* -->
+      <!--
+      Isso faz-lhe admirar?
+      Isso faz-se notar?
+      Ela fez-se passar por outra pessoa.
+      O telegrama foi um truque para fazê-la vir para casa.
+      Sim, senhor, falo o italiano o bastante para fazer-me compreender.
+      Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.
+      -->
+      <antipattern>
+        <token postag='PD.+|PP.+|CC|RG' postag_regexp='yes'>
+          <exception>se</exception>
+        </token>
+        <token inflected='yes'>fazer</token>
+        <token min="0" max="1" regexp='yes' spacebefore='no'>&hifen;</token>
+        <token min="0" max="1" postag='PP.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'>
+          <exception regexp='yes'>partes?</exception>
+          <exception postag_regexp='yes' postag='CS|SPS.+|NC.+|AQ0.+|VMG0000'/>
+        </token>
+      </antipattern>
+      <!-- MARCOAGPINTO 2021-10-31 (25-JUN-2021+) *END* -->
+
+      <!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *START* -->
+      <!--
+      Tom está sempre tentando fazer todo mundo pensar que ele é legal.
+      E faça quantas perguntas achar que deva!
+      E ainda aconteceu um incidente com o #49 da ARC Bratislava que fez o carro ser recolhido para os boxes.
+      A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!
+      O que faz uma piada ser uma piada?
+      -->
+      <antipattern>
+        <token inflected='yes'>fazer</token>
+        <token min="0" max="1" negate_pos="yes" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='VMN0000'/>
+        <token negate="yes" regexp='yes'>[.,?!;]</token>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-04-20 (1-JAN-2022+) *END* -->
+
+      <rule>
+        <!--
+        Esta foi a pesquisa feita pela Ana. → Esta foi a pesquisa realizada pela Ana.
+        -->
+        <pattern>
+          <token/>
+          <marker>
+            <token inflected='yes'>fazer</token>
+          </marker>
+          <token negate="yes" regexp='yes'>aos?</token>
+          <token min="0" max="1" postag='SPS.+|DA.+|PD.+|PP.+' postag_regexp='yes'/>
+          <or>
+          <token postag='AQ0.+|NC.+|NP.+|V.+' postag_regexp='yes'/>
+          <token>mas</token>
+          </or>
+          <token negate_pos="yes" postag='V.+|DA.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Num contexto formal ou académico, é preferível escrever 'efetuar', 'realizar', 'conduzir', 'concretizar' ou 'elaborar'.</message>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>concretizar</match></suggestion>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>elaborar</match></suggestion>
+        <example correction="efetuada|realizada|conduzida|concretizada|elaborada">Esta foi a pesquisa <marker>feita</marker> pela Ana.</example>
+        <example>A pergunta diplomática feita aos Estados Unidos.</example>
+
+        <example>Fiz ao médico algumas perguntas.</example>
+        <example>Novas descobertas foram feitas ao longo do tempo.</example>
+        <example>Ele a fez sua esposa.</example>
+        <example>Ele me fez seu assistente.</example>
+        <example>Ele não pôde cumprir a promessa que fez ao pai dele.</example>
+
+        <example>O que você fez neste verão?</example>
+
+        <example>Ele não fez nada errado.</example>
+        <example>Ele me fez esperar mais de uma hora.</example>
+        <example>O que eu faço é problema meu.</example>
+        <example>O que você faz é mais importante do que o que você diz.</example>
+
+        <example>Vamos fazer um teste de gravidez.</example>
+        <example>Kato fez muitas perguntas sobre os Estados Unidos para ele.</example>
+        <example>Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.</example>
+        <example>O presidente fez uma declaração sobre o assunto.</example>
+
+        <example>Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.</example>
+        <example>Isto é fulcral para fazer face à escalada de violência.</example>
+        <example>A lei serve para fazer imperar os direitos sobre todas as pessoas.</example>
+        <example>Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.</example>
+        <example>Uma fagulha é suficiente para fazer explodir a pólvora.</example>
+
+        <example>Isso faz-lhe admirar?</example>
+        <example>Isso faz-se notar?</example>
+        <example>Ela fez-se passar por outra pessoa.</example>
+        <example>O telegrama foi um truque para fazê-la vir para casa.</example>
+        <example>Sim, senhor, falo o italiano o bastante para fazer-me compreender.</example>
+        <example>Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.</example>
+
+        <example>Tom está sempre tentando fazer todo mundo pensar que ele é legal.</example>
+        <example>E faça quantas perguntas achar que deva!</example>
+        <example>E ainda aconteceu um incidente com o #49 da ARC Bratislava que fez o carro ser recolhido para os boxes.</example>
+        <example>A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!</example>
+        <example>O que faz uma piada ser uma piada?</example>
+      </rule>
+      <!--
+      Vou fazer uma pesquisa. → Vou realizar uma pesquisa.
+      -->
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected='yes'>fazer</token>
+          </marker>
+          <token negate="yes" regexp='yes'>aos?</token>
+          <token postag='AQ0.+|NC.+|NP.+|V.+' postag_regexp='yes'/>
+          <token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Num contexto formal, é preferível escrever 'efetuar', 'realizar', 'conduzir', 'concretizar' ou 'elaborar'.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>efetuar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>realizar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conduzir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concretizar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>elaborar</match></suggestion>
+        <example correction="efetuar|realizar|conduzir|concretizar|elaborar">Vou <marker>fazer</marker> uma pesquisa.</example>
+        <example>A pergunta diplomática feita aos Estados Unidos.</example>
+
+        <example>Fiz ao médico algumas perguntas.</example>
+        <example>Novas descobertas foram feitas ao longo do tempo.</example>
+        <example>Ele a fez sua esposa.</example>
+        <example>Ele me fez seu assistente.</example>
+        <example>Ele não pôde cumprir a promessa que fez ao pai dele.</example>
+
+        <example>O que você fez neste verão?</example>
+
+        <example>Ele não fez nada errado.</example>
+        <example>Ele me fez esperar mais de uma hora.</example>
+        <example>O que eu faço é problema meu.</example>
+        <example>O que você faz é mais importante do que o que você diz.</example>
+
+        <example>Vamos fazer um teste de gravidez.</example>
+        <example>Kato fez muitas perguntas sobre os Estados Unidos para ele.</example>
+        <example>Eu gostaria de fazer um passeio nos lugares mais famosos de Londres amanhã.</example>
+        <example>O presidente fez uma declaração sobre o assunto.</example>
+
+        <example>Naquela ocasião, Napoleão III enviou um exército ao México e fez de Maximiliano imperador do México.</example>
+        <example>Isto é fulcral para fazer face à escalada de violência.</example>
+        <example>A lei serve para fazer imperar os direitos sobre todas as pessoas.</example>
+        <example>Na juventude, alterou alguns documentos, para fazer constar o ano de nascimento como 1883.</example>
+        <example>Uma fagulha é suficiente para fazer explodir a pólvora.</example>
+
+        <example>Isso faz-lhe admirar?</example>
+        <example>Isso faz-se notar?</example>
+        <example>Ela fez-se passar por outra pessoa.</example>
+        <example>O telegrama foi um truque para fazê-la vir para casa.</example>
+        <example>Sim, senhor, falo o italiano o bastante para fazer-me compreender.</example>
+        <example>Um acaso fez descobrir a cilada e Vasco da Gama pôde continuar.</example>
+
+        <example>Tom está sempre tentando fazer todo mundo pensar que ele é legal.</example>
+        <example>E faça quantas perguntas achar que deva!</example>
+        <example>E ainda aconteceu um incidente com o #49 da ARC Bratislava que fez o carro ser recolhido para os boxes.</example>
+        <example>A primeira delas é fazer a igreja saber que existem indígenas no nordeste que precisam de Jesus!</example>
+        <example>O que faz uma piada ser uma piada?</example>
+      </rule>
+    </rulegroup>
+
+
+    <!-- PARA CONCLUIR em suma -->
+    <rulegroup id='CIENTÍFICO_PARA_CONCLUIR_EM_SUMA' name="[Científico] Para concluir/resumidamente → em suma" type="style" tags='picky'>
+      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-13/19 (5-JUN-2022+)      -->
+      <!--
+      E, para concluir: os valores batem bem. → E, em suma: os valores batem bem.
+      E, resumidamente: os valores batem bem. → E, em suma: os valores batem bem.
+      -->
+      <rule>
+        <pattern>
+          <or>
+          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+          <token regexp='yes'>e|ou</token>
+          </or>
+          <marker>
+            <token>para</token>
+            <token inflected='yes'>concluir</token>
+          </marker>
+          <token regexp='yes'>[:,]</token>
+        </pattern>
+        <message>Se for um texto científico, pondere melhorar a linguagem.</message>
+        <suggestion>em suma</suggestion>
+        <example correction="em suma">E, <marker>para concluir</marker>: os valores batem bem.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>resumidamente</token>
+          </marker>
+          <token regexp='yes'>[:,]</token>
+        </pattern>
+        <message>Se for um texto científico, pondere melhorar a linguagem.</message>
+        <suggestion>em suma</suggestion>
+        <example correction="em suma">E, <marker>resumidamente</marker>: os valores batem bem.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp='yes'>em|como</token>
+            <token>conclusão</token>
+          </marker>
+          <token regexp='yes'>[:,]</token>
+        </pattern>
+        <message>Se for um texto científico, pondere melhorar a linguagem.</message>
+        <suggestion>em suma</suggestion>
+        <example correction="em suma">E, <marker>em conclusão</marker>: os valores batem bem.</example>
+      </rule>
+
+    </rulegroup>
+
+
+    <!-- PENSAR EM ponderar -->
+    <rule id='CIENTÍFICO_PENSAR_EM_PONDERAR' name="[Científico] Pensar em → ponderar" type="style" tags="picky">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-30 (25-JUL-2022+) -->
+      <!--
+      Estou a pensar em comprar o PC da televisão. → Estou a ponderar comprar o PC da televisão.
+      -->
+      <pattern>
+        <or>
+          <token/>
+          <token postag='SENT_START' postag_regexp='no'/>
+        </or>
+        <marker>
+          <token inflected='yes'>pensar</token>
+          <token>em</token>
+        </marker>
+        <token postag='V.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Num contexto formal/académico/científico, é preferível escrever 'ponderar'.</message>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ponderar</match></suggestion>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>considerar</match></suggestion>
+      <example correction="ponderar|considerar">Estou a <marker>pensar em</marker> comprar o PC da televisão.</example>
+    </rule>
+
+
+    <!-- PRECISÃO CIENTÍFICA rigor científico -->
+    <rule id='CIENTÍFICO_PRECISAO_RIGOR_CIENTIFICO' name="[Científico] Precisão/rigor científico" type="style" tags="picky">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-22 (25-JUN-2021+)      -->
+      <!--
+      Isto deve ser feito com precisão científica. → Isto deve ser feito com rigor científico.
+      -->
+      <pattern>
+        <token/>
+        <marker>
+          <token regexp="yes">precisão|detalhe</token>
+          <token regexp="yes">científic[ao]s?</token>
+        </marker>
+      </pattern>
+      <message>Num contexto formal ou académico, é preferível escrever 'rigor científico'.</message>
+      <suggestion>rigor científico</suggestion>
+      <example correction="rigor científico">Isto deve ser feito com <marker>precisão científica</marker>.</example>
+    </rule>
+
+
+    <!-- TER NOME ter designação -->
+    <rulegroup id='CIENTÍFICO_TER_NOME_DESIGNAÇÃO' name="[Científico] Ter 'nome' → 'designação'" type="style">
+      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-05/10 (25-JUL-2022+)      -->
+      <!--
+      O projeto tem este nome por ser impressionante. → O projeto tem esta designação por ser impressionante.
+      (It may require the user to make small gender changes in the end of the sentence)
+      (Basically, it checks for "nome" and, next to it, "por/para/de")
+      -->
+
+      <rule>
+        <!--
+        A equação tem o nome DE técnica quantitativa. → A equação é designada POR técnica quantitativa.
+        As equações têm o nome DE técnica quantitativa. → As equações são designadas POR técnica quantitativa.
+        O projeto tem o nome DE técnica quantitativa. → O projeto é designado POR técnica quantitativa.
+        Os projetos têm o nome DE técnica quantitativa. → Os projetos são designados POR técnica quantitativa.
+        -->
+        <pattern>
+          <token postag='NC[FM].+' postag_regexp='yes'/>
+          <marker>
+            <token regexp="yes">t[eê]m</token>
+            <token>o</token>
+            <token>nome</token>
+            <token postag='CC|SPS00' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Se for um texto académico/científico, pondere empregar o termo 'designar'.</message>
+        <suggestion><match no='2' postag='VMIP3(.)0' postag_replace='VMIP3$10'>ser</match> <match no='1' postag='NC(.)(.)000' postag_replace='VMP00$2$1'>designar</match> por</suggestion>
+        <example correction="é designada por">A equação <marker>tem o nome de</marker> técnica quantitativa.</example>
+        <example correction="são designadas por">As equações <marker>têm o nome de</marker> técnica quantitativa.</example>
+        <example correction="é designado por">O projeto <marker>tem o nome de</marker> técnica quantitativa.</example>
+        <example correction="são designados por">Os projetos <marker>têm o nome de</marker> técnica quantitativa.</example>
+      </rule>
+
+      <rule>
+        <!--
+        O projeto tem este nome por ser impressionante. → O projeto tem esta designação por ser impressionante.
+        Os projetos têm este nome por ser impressionante. → Os projetos têm esta designação por ser impressionante.
+        -->
+        <pattern> 
+          <token regexp="yes">t[eê]m</token>
+          <marker>
+            <token>este</token>
+            <token>nome</token>
+            <token postag='CC|SPS00' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Se for um texto académico/científico, pondere empregar o termo 'designar'.</message>
+        <suggestion>esta designação por</suggestion>
+        <example correction="esta designação por">O projeto tem <marker>este nome por</marker> ser impressionante.</example>
+      </rule>
+
+      <rule>
+        <!--
+        O projeto é assim chamado por ser impressionante. → O projeto é assim designado por ser impressionante.
+        Os projetos são assim chamados por serem impressionantes. → Os projetos são assim designados por serem impressionantes.
+        A equação é assim chamada por ser brilhante. → A equação é assim designada por ser brilhante.
+        As equações são assim chamadas por serem brilhantes. → As equações são assim designadas por serem brilhantes.
+        -->
+        <pattern> 
+          <token regexp="yes">é|são</token>
+          <token postag='RG' postag_regexp='no'/>
+          <marker>
+            <token regexp="yes">chamad[ao]s?</token>
+            <token postag='CC|SPS00' postag_regexp='yes'/>
+          </marker>          
+        </pattern>
+        <message>Se for um texto académico/científico, pondere empregar o termo 'designar'.</message>
+        <suggestion><match no='3' postag='V.+' postag_regexp='yes'>designar</match> por</suggestion>
+        <example correction="designado por">O projeto é assim <marker>chamado por</marker> ser impressionante.</example>
+        <example correction="designada por">A equação é assim <marker>chamada por</marker> ser brilhante.</example>
+      </rule>
+
+    </rulegroup>
+
+
+    <!-- FICOU DEMONSTRADO QUE demonstrámos que -->
+    <rule id='PHD_TESE_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[PhD Tese] Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" type='style' tags="picky">
+      <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-13/14 (1-JAN-2022+)      -->
+      <!--
+      Ficou demonstrado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Demonstrámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
+      Fica demonstrado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Demonstrámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
+      Ficou provado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Provámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
+      Fica provado que alterações nas baixas em combate degradaram a capacidade ofensiva. → Provámos que alterações nas baixas em combate degradaram a capacidade ofensiva.
+
+      demonstramos
+      VMIP1P0
+
+      demonstrámos
+      VMIS1P0
+
+      demonstro
+      VMIP1S0
+
+      demonstrei
+      VMIS1S0
+      -->
+      <pattern>
+        <marker>
+          <and>
+          <token inflected='yes'>ficar</token>
+          <token postag='VMI[SP]3S0' postag_regexp='yes'/>
+          </and>
+          <token postag='VMP00S.+' postag_regexp='yes'/>
+        </marker>
+        <token>que</token>
+      </pattern>
+      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+      <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1P0'/></suggestion>
+      <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1P0'/></suggestion>
+      <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIP1S0'/></suggestion>
+      <suggestion><match no='2' postag='VMP00S.+' postag_regexp="yes" postag_replace='VMIS1S0'/></suggestion>
+      <example correction="Demonstramos|Demonstro|Demonstrei"><marker>Ficou demonstrado</marker> que alterações nas baixas em combate degradaram a capacidade ofensiva.</example>
+    </rule>
+
+
+    <!-- PARA AJUDAR A MELHORAR para melhorar -->
+    <rule id='PHD_TESE_PARA_AJUDAR_A_VINFINITIVO_PARA_VINFINITIVO' name="[PhD Tese] Para Ajudar a + V.Inf. → Para V.Inf." type='style'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-24 (25-JUL-2022+) -->
+      <!--
+      Estas regras servem para ajudar a melhorar a gramática. → Estas regras servem para melhorar a gramática.
+      -->
+      <pattern>
+        <marker>
+          <token>para</token>
+          <token inflected='yes'>ajudar</token>
+          <token>a</token>
+          <token postag='VMN0000' postag_regexp='no'/>
+        </marker>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:V(......)* postagReplace:V[\b1]*"/>
+      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+      <suggestion>\1 {suggestion}</suggestion>
+      <example correction="para melhorar">Estas regras servem <marker>para ajudar a melhorar</marker> a gramática.</example>
+    </rule>
+
+
+    <rule id='PHD_TESE_POSSA_POSSAM_PÔR' name="[PhD Tese] Evitar expressões do tipo 'possa(m) pôr’ → 'ponha(m)'" type='style' tags="picky">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima and Susana Boatto suggestions, Portuguese rule 2022-11-30 (25-JUL-2022+) -->
+      <!--
+      Para impedir que o radical possa pôr em perigo o ocidente. → Para impedir que o radical ponha em perigo o ocidente.
+      Para impedir que os radicais possam pôr em perigo o ocidente. → Para impedir que os radicais ponham em perigo o ocidente.
+
+      In this rule, the verbs with "xxx" in the exceptions means that I tried them, but the results weren't wrong or were acceptable.
+      -->
+      <antipattern>
+          <token skip='-1'>se</token>
+          <token postag='VMS.+' postag_regexp='yes'/>
+          <token postag='VMN0000'/>
+          <example>Como se nós pudéssemos viajar no tempo.</example>
+      </antipattern>
+      <pattern>
+        <token postag='NP.+|NC.+|AQ.+|CS|CC' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <marker>
+         <and>
+          <token postag='VMS.+' postag_regexp='yes'> <!-- Replaced 'VMM03.+' to 'VMS.3.+' (subjunctive) suggested by SUSANA BOATTO -->
+            <exception regexp='yes' inflected='yes'>buscarxxx|deixar|entrar|evitar|fazerxxx|procurarxxx|pretender|querer|ser|tentar|tenter</exception>
+            <exception regexp='yes' inflected='yes'>podar|dever</exception> <!-- "I want to remove "podar" because that's the one which seems to be causing the problem." SUSANA BOATTO -->
+            <exception postag_regexp='yes' postag='NC.+|AQ.+|RG|VMN.+'/></token>
+          <token regexp='yes' inflected='yes'>&verbos_auxiliares_modais;|conseguir</token>
+         </and>
+          <token postag='VMN0000'>
+            <exception postag_regexp='yes' postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+|SPS00|CC|CS|RG|I|RM|RN'/> <!-- no hits, but just in case... -->
+          </token>
+        </marker>
+        <token regexp="yes">em|n[ao]s?|[ao]s?</token>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:2 postagSelect:V.*"/>
+      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+      <suggestion>{suggestion}</suggestion>
+      <example correction="ponha">Para impedir que o radical <marker>possa pôr</marker> em perigo o ocidente.</example>
+      <example correction="ponham">Para impedir que os radicais <marker>possam pôr</marker> em perigo o ocidente.</example>
+    </rule>
+
+
+    <!-- PROCURA PROVAR prova provará -->
+    <rulegroup id='PHD_TESE_PROCURAR_PROVAR_PROVARA' name="[PhD Tese] Evitar expressões do tipo 'procura provar'" type='style' tags="picky" default='on'>
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-02-12 + 2021-02-25 + 2021-03-02 + 2021-03-07 + 2022-03-02 (1-JAN-2021+)      -->
+      <!--
+      A nossa tese procura provar a métrica. → A nossa tese provará a métrica.
+      Na nossa tese procuramos provar a métrica. → Na nossa tese provaremos a métrica.
+      Na nossa tese procuro provar a métrica. → Na nossa tese provarei a métrica.
+      -->
+
+      <!-- MARCOAGPINTO 2022-03-02 (1-JAN-2022+) *START* -->
+      <!--
+      Seus médicos disseram que ele iria ver, escutar e sentir gostos como antes.
+      Na linha inversa de quando atrasei o trabalho para, apesar de achar que a destituição não iria ganhar, ter feito questão de lá ir deixar o meu voto.
+      É importante eu olhar para um papel e não saber o que vai fazer, ter que inventar.
+      Vou dormir, tomei a medicação demasiado cedo.
+      Vamos dormir, tomámos a medicação demasiado cedo.
+      -->
+      <antipattern>
+          <token skip='-1' regexp='yes'>&tracos_de_separacao;</token>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>— Como vou continuar trabalhando, não me importa.</example>
+          <example>— Agora, vamos comer — disse ele</example>
+      </antipattern>
+      <antipattern>
+          <token inflected="yes">ir</token>
+          <token skip='-1' postag='VMN0000'/>
+          <token regexp='yes'>&tracos_de_separacao;</token>
+          <example>Como vou continuar trabalhando, não me importa. — disse ele.</example>
+      </antipattern>
+      <antipattern>
+          <token skip='-1' postag='_QUOT'/>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>"Como vou continuar trabalhando, não me importa", disse ele.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='VMN0000'/>
+        <token>,</token>
+        <token postag='VMN0000|VMIS.+' postag_regexp='yes'>
+          <exception postag='RG'/>
+        </token>
+        <token negate="yes">de</token>
+        <token negate="yes">forma</token>
+        <token negate="yes">a</token>
+      </antipattern>
+      <!-- MARCOAGPINTO 2022-03-02 (1-JAN-2022+) *END* -->
+      <rule>
+        <pattern>
+          <and>
+          <token inflected="yes">pretender</token>
+          <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
+          </and>
+          <token postag='VMN0000'/>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP)\b1."/>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion>{suggestion}</suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>cogitar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>planejar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>aspirar</match> <match no='2'/></suggestion>
+        <example correction="prova|cogita provar|planeja provar|aspira provar">A nossa tese <marker>pretende provar</marker> a métrica.</example>
+        <example correction="provamos|cogitamos provar|planejamos provar|aspiramos provar">Na nossa tese <marker>pretendemos provar</marker> a métrica.</example>
+        <example correction="provo|cogito provar|planejo provar|aspiro provar">Na nossa tese <marker>pretendo provar</marker> a métrica.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <and>
+          <token inflected="yes">pretender</token>
+          <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
+            <exception postag='VMIF1S0'/>
+          </token>
+          </and>
+          <token postag='VMN0000'>
+            <exception postag='VMIF1S0'/>
+          </token>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion>{suggestion}</suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>cogitar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>planejar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>aspirar</match> <match no='2'/></suggestion>
+        <example correction="provei|cogitei provar|planejei provar|aspirei provar">Na nossa tese <marker>pretendi provar</marker> a métrica.</example>
+        <example correction="resolveu|cogitou resolver|planejou resolver|aspirou resolver">como o <marker>pretendeu resolver</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <and>
+          <token regexp='yes' inflected="yes">procurar|buscar</token>
+          <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
+          </and>
+          <token postag='VMN0000'/>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IF)\b1."/>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion>{suggestion}</suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>visar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
+        <example correction="provará|visa provar|tem em vista provar">A nossa tese <marker>procura provar</marker> a métrica.</example>
+        <example correction="provaremos|visamos provar|tivemos em vista provar">Na nossa tese <marker>procuramos provar</marker> a métrica.</example>
+        <example correction="provarei|viso provar|tenho em vista provar">Na nossa tese <marker>procuro provar</marker> a métrica.</example>
+      </rule>
+      <rule>
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='VMN0000'/>
+        <token>,</token>
+        <token postag='VMN0000|VMIS.+' postag_regexp='yes'>
+          <exception postag='RG'/>
+        </token>
+        <token negate="yes">de</token>
+        <token negate="yes">forma</token>
+        <token negate="yes">a</token>
+      </antipattern>
+      <antipattern>
+          <token>vai</token>
+          <token regexp='yes'>ver|saber</token>
+          <example>Vai saber o que ele fez!</example>
+          <example>Vai ver, ele está voltando!</example>
+          <example>Você vai ver o que é bom pra tosse!</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>ir</token>
+          <token>acreditar</token>
+          <example>Você não vai acreditar no que ele disse.</example>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token inflected='yes'>ir</token>
+          <token postag='VMN0000' skip='-1'/>
+          <token>?</token>
+          <example>Vamos caminhar?</example>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START|_PUNCT" postag_regexp='yes'/>
+          <token inflected='yes'>ir</token>
+          <token postag='VMN0000' skip='-1'/>
+          <token>?</token>
+          <example>Vamos caminhar?</example>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>ir</token>
+          <token>tomar</token>
+          <token>banho</token>
+          <example>Vá tomar banho!</example>
+      </antipattern>
+      <antipattern>
+          <token postag='RG|SENT_START|_PUNCT|VMM.+' postag_regexp='yes'/>
+          <token>vamos</token>
+          <token postag='VMN0000'/>
+          <example>Então vamos voltar para a sala.</example>
+          <example>Agora vamos voltar para a sala.</example>
+          <example>Vamos parar de fazer gracinha.</example>
+          <example>Por Deus, vamos tentar nos concentrar.</example>
+      </antipattern>
+      <antipattern>
+          <token>se</token>
+          <token inflected='yes'>ir</token>
+          <token postag='VMN0000'/>
+          <example>Mas se vou estudar lá, não quero me precipitar.</example>
+      </antipattern>
+      <antipattern>
+          <token>por</token>
+          <token>favor</token>
+          <token min='0'>,</token>
+          <token regexp='yes'>vai|vá</token>
+          <token postag='VMN0000'/>
+          <example>Por favor, vá para o quarto.</example>
+      </antipattern>
+        <pattern>
+          <and>
+          <token inflected="yes">ir<exception postag='VMIC.+' postag_regexp='yes'/></token>
+          <token postag='VMIF1[SP]0|VMIP[13]S0|VMM02S0|VMIP1P0' postag_regexp='yes'/>
+          </and>
+          <token postag='VMN0000'>
+            <exception>ir</exception></token>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(..).*  postagReplace:V\a1(IP|IF)\b1."/>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion>{suggestion}</suggestion>
+        <example correction="provará|prova">A nossa tese <marker>vai provar</marker> a métrica.</example>
+        <example correction="provaremos|provamos">Na nossa tese <marker>vamos provar</marker> a métrica.</example>
+        <example correction="provarei|provo">Na nossa tese <marker>vou provar</marker> a métrica.</example>      </rule>
+      <!--
+      A nossa tese procurou provar a métrica. → A nossa tese provou a métrica.
+      Na nossa tese procurámos provar a métrica. → Na nossa tese provámos a métrica.
+      Na nossa tese procurei provar a métrica. → Na nossa tese provei a métrica.
+      -->
+      <rule>
+        <antipattern>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000' skip='-1'/>
+          <token>?</token>
+          <example>Vamos abandonar o navio?</example>
+        </antipattern>
+        <pattern>
+          <token postag='RG|SENT_START|_PUNCT|VMM.+' postag_regexp='yes'/>
+         <marker>
+          <and>
+          <token inflected="yes">ir</token>
+          <token postag='VMM01P0'/>
+          </and>
+          <token postag='VMN0000'>
+            <exception>ir</exception></token>
+         </marker>
+        </pattern>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion><match no='4' postag='VMSP1P0'/></suggestion>
+        <suggestion>proponho <match no='4' postag='VMSF1P0'/></suggestion>
+        <suggestion><match no='4' postag='VMIF1P0'/></suggestion>
+        <suggestion><match no='4' postag='VMIP1P0'/></suggestion>
+        <example correction="provemos|proponho provarmos|provaremos|provamos">Agora <marker>vamos provar</marker> a métrica.</example>
+        <example correction="Provemos|Proponho provarmos|Provaremos|Provamos"><marker>Vamos provar</marker> a métrica.</example>
+        <example correction="provemos|proponho provarmos|provaremos|provamos">Então, <marker>vamos provar</marker> a métrica.</example>
+      </rule>
+      <rule>
+
+        <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *START* -->
+        <!--
+        Uma das críticas a Ana foi escrever no seu livro de receitas o básico.
+        A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.
+        A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.
+        -->
+        <antipattern>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS.+|DI.+|V.+' postag_regexp='yes'/>
+        </antipattern>
+
+        <!--
+        DP.+ = NOSSO
+        A dificuldade no desenvolvimento do nosso modelo foi criar as ferramentas estatísticas.
+        O objetivo deste trabalho foi avaliar os efeitos da radiação gama na conservação da polpa de amora.
+        O objetivo deste trabalho foi revisar a literatura referente ao tema.
+        -->
+        <antipattern>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='SPS00:DA.+' postag_regexp='yes'/>
+          <token postag='DP.+|SPS00:PD.+' postag_regexp='yes'/>
+          <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS.+|DI.+|V.+|DA.+' postag_regexp='yes'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *START* -->
+        <!--
+        IT SEEMS I COULD ONLY TEST IT WITH THE VERB "TER", IT ONLY REMOVED ONE HIT IN 600 000 SENTENCES.
+        (dois empregos, tentei ter vida normal);
+        -->
+        <antipattern>
+          <token postag='VMIS1[SP]0' postag_regexp='yes'/>
+          <token inflected="yes">ter</token>
+          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *END* -->
+
+        <pattern>
+          <and>
+          <token regexp='yes' inflected="yes">buscar|procurar</token>
+          <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
+            <exception postag='VMIF1S0'/>
+          </token>
+          </and>
+          <token postag='VMN0000'>
+            <exception postag='VMIF1S0'/>
+          </token>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion>{suggestion}</suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>visar</match> <match no='2'/></suggestion>
+        <suggestion><match no='1' postag="V.+" postag_regexp='yes'>ter</match> em vista <match no='2'/></suggestion>
+        <example correction="provou|visou provar|teve em vista provar">A nossa tese <marker>procurou provar</marker> a métrica.</example>
+        <example correction="provei|visei provar|tive em vista provar">Na nossa tese <marker>procurei provar</marker> a métrica.</example>
+        <example correction="resolveu|visou resolver|teve em vista resolver">como o <marker>procurou resolver</marker></example>
+        <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
+        <example>A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.</example>
+        <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>
+      </rule>
+<!--
+      A nossa tese procurou provar a métrica. → A nossa tese provou a métrica.
+      Na nossa tese procurámos provar a métrica. → Na nossa tese provámos a métrica.
+      Na nossa tese procurei provar a métrica. → Na nossa tese provei a métrica.
+      -->
+      <rule>
+
+        <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *START* -->
+        <!--
+        Uma das críticas a Ana foi escrever no seu livro de receitas o básico.
+        A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.
+        A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.
+        -->
+        <antipattern>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='SPS.+' postag_regexp='yes'/>
+          <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS.+|DI.+|V.+' postag_regexp='yes'/>
+        </antipattern>
+
+        <!--
+        DP.+ = NOSSO
+        A dificuldade no desenvolvimento do nosso modelo foi criar as ferramentas estatísticas.
+        O objetivo deste trabalho foi avaliar os efeitos da radiação gama na conservação da polpa de amora.
+        O objetivo deste trabalho foi revisar a literatura referente ao tema.
+        -->
+        <antipattern>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='SPS00:DA.+' postag_regexp='yes'/>
+          <token postag='DP.+|SPS00:PD.+' postag_regexp='yes'/>
+          <token min="1" max="3" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token postag='VMIS3S0|VMIS1[SP]0' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS.+|DI.+|V.+|DA.+' postag_regexp='yes'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2021-03-04 + 2021-06-10 (1-JAN-2021+) *END* -->
+
+        <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *START* -->
+        <!--
+        IT SEEMS I COULD ONLY TEST IT WITH THE VERB "TER", IT ONLY REMOVED ONE HIT IN 600 000 SENTENCES.
+        (dois empregos, tentei ter vida normal);
+        -->
+        <antipattern>
+          <token postag='VMIS1[SP]0' postag_regexp='yes'/>
+          <token inflected="yes">ter</token>
+          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        </antipattern>
+        <!-- MARCOAGPINTO 2022-06-23 QUICK FIX (1-JAN-2021+) *END* -->
+        <antipattern>
+          <token postag='VMIS.+' postag_regexp='yes' skip='-1'/>
+          <token>foi</token>
+          <token postag='VMN0000'/>
+          <example>Tudo que fiz foi abrir a porta</example>
+          <example>Só o que consegui fazer na hora foi abrir a porta.</example>
+          <example>Só o que consegui fazer naquele momento foi abrir a porta.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='AQ.+|NC.|RG' postag_regexp='yes'/>
+          <token regexp='yes' min='0'>&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</token>
+          <token regexp="yes">foi|foram</token>
+          <token postag='VMN0000'/>
+          <example>O primeiro passo foi acabar com a fome.</example>
+          <example>A medida principal foi acabar com a fome.</example>
+          <example>O mais urgente foi acabar com a fome.</example>
+          <example>As medidas principais foram acabar com a fome, diminuir o preconceito e reduzir o aquecimento global.</example>
+          <example>As principais medidas foram acabar com a fome, diminuir o preconceito e reduzir o aquecimento global.</example>
+          <example>O primeiro deles foi acabar com a fome.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'/>
+          <token postag='NP.+|PP.+' postag_regexp='yes'/>
+          <token regexp="yes">foi|foram</token>
+          <token postag='VMN0000'/>
+          <example>Uma das primeiras decisões da Inglaterra foi reunir alguns guardas.</example>
+          <example>A coisa mais importante para Luana foi chegar no horário.</example>
+          <example>A coisa mais importante para ela foi chegar no horário.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='SPS00|SPS00:DA0FS0' postag_regexp='yes'/>
+          <token postag='NP.+' postag_regexp='yes'/>
+          <token regexp="yes">foi|foram</token>
+          <token postag='VMN0000'/>
+          <example>Uma das primeiras decisões da Inglaterra foi reunir alguns guardas.</example>
+          <example>A coisa mais importante para Luana foi chegar no horário.</example>
+        </antipattern>
+        <antipattern>
+          <token>quando</token>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>Quando fui mostrar, já havia acabado.</example>
+        </antipattern>
+        <antipattern>
+          <token inflected="yes">ir</token>
+          <token skip='-1'>fazer</token>
+          <token>?</token>
+          <example>O que você foi fazer lá?</example>
+        </antipattern>
+        <antipattern>
+          <token inflected="yes">ir</token>
+          <token regexp='yes'>morar|parar|titular</token>
+          <example>Saiu de casa e foi morar com o namorado.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='DA.+|SPS00' postag_regexp='yes'/>
+          <token postag='NC.+' postag_regexp='yes'/>
+          <token postag='RG' min='0'/>
+          <token postag='AQ.+' postag_regexp='yes' min='0'/>
+          <token>que</token>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>Reconheço a importância que foi garantir seus direitos.</example>
+        </antipattern>
+        <antipattern>
+          <token regexp='yes' skip='-1'>solução|soluções|pecados?|erros?|missão|missões|significativ[oa]s?|relevantes?|diferenças?|tristezas?|felicidades?|alegrias?|tarefas?|principal|principais|utilidades?|discussão|discussões|sacadas?|propostas?|trabalho|motivos?|propósitos?|objetivos?|razão|razões|mudanças?|medidas?|explicação|explicações|estratégias?|salvação|salvações|desafios?|dilemas?|imprevistos?|importantes?</token>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>A solução foi criar uma nova regra.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='DA.+' postag_regexp='yes'/>
+          <token postag='AQ.+' postag_regexp='yes'/>
+          <token postag='SPS00:P.+|SPS00:D.+|SPS00' postag_regexp='yes' min='0'/>
+          <token postag='N.+' postag_regexp='yes' min='0'/>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>O melhor foi ver o mar à noite.</example>
+          <example>O melhor de tudo foi ver o mar à noite.</example>
+          <example>O melhor das férias foi visitar o Rio.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='VMP.+' postag_regexp='yes'/>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>O mais aceito foi estruturar a pesquisa.</example>
+        </antipattern>
+        <antipattern>
+          <token>o</token>
+          <token>que</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>O que fez foi criar uma nova regra.</example>
+        </antipattern>
+        <antipattern>
+          <token postag='AO.+' postag_regexp='yes' skip='-1'/>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <example>A primeira foi mostrar o ocorrido.</example>
+        </antipattern>
+        <antipattern>
+          <token inflected="yes">ir</token>
+          <token postag='VMN0000'/>
+          <token spacebefore='no'>-</token>
+          <example>Foi encontrar-se com ele.</example>
+        </antipattern>
+        <pattern>
+          <and>
+          <token negate="yes">e</token>
+          <token inflected="yes">ir</token>
+          <token postag='VMIS3S0|VMIS1[SP]0|VMIS1P0P' postag_regexp='yes'>
+            <exception postag='VMIF1S0|AQ.+' postag_regexp='yes'/>
+          </token>
+          </and>
+          <token postag='VMN0000'>
+            <exception postag='VMIF1S0'/>
+            <exception regexp='yes'>ver|visitar|passear|viver|dormir|nadar|pescar|surfar|procurar|acampar|arrumar|averiguar|brincar|caminhar|comemorar|comentar|confirmar|vulgar</exception>
+          </token>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:2 lemmaSelect:V(.)N.* postagFrom:1 postagSelect:V...(...*)  postagReplace:V\a1IS\b1"/>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion>{suggestion}</suggestion>
+        <example correction="provou">A nossa tese <marker>foi provar</marker> a métrica.</example>
+        <example correction="provei">Na nossa tese <marker>fui provar</marker> a métrica.</example>
+        <example correction="resolveu">como o <marker>foi resolver</marker></example>
+        <example>Uma das críticas a Ana <marker>foi escrever</marker> no seu livro de receitas o básico.</example>
+        <example>A primeira preocupação de Agripa foi conseguir um porto seguro para as suas naves.</example>
+        <example>A primeira função de Carvalho em Londres foi obter ajuda para as forças portuguesas na Índia.</example>
+      </rule>
+    </rulegroup>
+
+
+  </category>
+
 
 </rules>
