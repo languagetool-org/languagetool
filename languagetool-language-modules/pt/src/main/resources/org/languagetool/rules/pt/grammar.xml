@@ -19231,6 +19231,30 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- CONTINUA A SER TÃO continua tão -->
+    <rule id='CONTINUAR_A_SER' name="Simplificar: V.Continuar a ser tão/bastante → V.Continuar tão/bastante" type='style'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-06 (25-JUL-2022+) -->
+      <!--
+      O tema da pesquisa continua A SER tão atual. → O tema da pesquisa continua tão atual.
+      O tema da pesquisa continua A SER bastante atual. → O tema da pesquisa continua bastante atual.
+      -->
+      <pattern>
+        <marker>
+          <token inflected='yes'>continuar</token>
+          <token>a</token>
+          <token>ser</token>
+          <token postag='RG'> <!-- bastante|tão -->
+        </marker>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token><exception postag_regexp='yes' postag='V.+'/></token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\1 \4</suggestion>
+      <example correction="continua tão">O tema da pesquisa <marker>continua a ser tão</marker> atual.</example>
+      <example correction="continua bastante">O tema da pesquisa <marker>continua a ser bastante</marker> atual.</example>
+    </rule>
+
+
     <!-- DE AGORA atual/atuais -->
     <rule id='DE_AGORA_ATUAL_ATUAIS' name="Simplificar: De agora → Atual/atuais" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-03 (25-JUL-2022+) -->
