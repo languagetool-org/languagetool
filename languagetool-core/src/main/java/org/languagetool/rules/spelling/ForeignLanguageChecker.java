@@ -37,7 +37,8 @@ public class ForeignLanguageChecker {
 
   private static final float ERROR_THRESHOLD = 0.45f;
   private static final int MIN_SENTENCE_THRESHOLD = 3;
-  private static final float MIN_DETECTION_CONFIDENCE = 0.85f;
+  private static final float MIN_DETECTION_CONFIDENCE_FASTTEXT = 0.85f;
+  private static final float MIN_DETECTION_CONFIDENCE_NGRAM = 0.350f;
 
   private final Language language;
   private final AnalyzedSentence sentence;
@@ -60,7 +61,7 @@ public class ForeignLanguageChecker {
       log.trace("Do not start language detection as the user only has one preferred language.");
       return null;
     }
-    if (this.sentenceLength >= MIN_SENTENCE_THRESHOLD || errorRatio >= ERROR_THRESHOLD) {
+    if (this.sentenceLength >= MIN_SENTENCE_THRESHOLD && errorRatio >= ERROR_THRESHOLD) {
       LanguageIdentifier langIdent = LanguageIdentifierService.INSTANCE.getInitialized();
       if (langIdent != null) {
         DetectedLanguage langDetectResults = langIdent.detectLanguage(sentence.getText(), noopsLanguages, preferredLanguages);
@@ -77,7 +78,12 @@ public class ForeignLanguageChecker {
                     sentence.getText(),
                     langDetectResults.getDetectionConfidence(),
                     langDetectResults.getDetectionSource());
-            if (langDetectResults.getDetectionConfidence() > MIN_DETECTION_CONFIDENCE) {
+            float detectionConfidence = langDetectResults.getDetectionConfidence();
+            String detectionSource = langDetectResults.getDetectionSource();
+            System.out.println(this.sentence.getText() + ":" + detectionConfidence + " " + detectionSource);
+            if (detectionSource.contains("fasttext") && detectionConfidence >= MIN_DETECTION_CONFIDENCE_FASTTEXT) {
+              return detectedLanguage.getShortCode();
+            } else if (detectionSource.contains("ngram") && detectionConfidence >= MIN_DETECTION_CONFIDENCE_NGRAM) {
               return detectedLanguage.getShortCode();
             } else {
               log.trace("Drop langDetectResults as MIN_DETECTION_CONFIDENCE was not reached: {} for sentence: {}", langDetectResults.getDetectionConfidence(), sentence.getText());
