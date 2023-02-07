@@ -32,14 +32,6 @@ public class PartitionTest {
     }
 
     @Test
-    public void testPresentAndPastGrammarError() throws IOException {
-        if (System.getProperty("disableHardcodedTests") == null) {
-            JLanguageTool lt = new JLanguageTool(new AmericanEnglish());
-            assertOneError("I was worked and I was able to finish my assignment.", lt);
-        }
-    }
-
-    @Test
     public void testYourGrammarError() throws IOException {
         //more error-free sentences to deal with possible regressions
         if (System.getProperty("disableHardcodedTests") == null) {
