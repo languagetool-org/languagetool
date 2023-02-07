@@ -163,6 +163,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("-20");
     assertEquals(Arrays.asList("-", "20"), testList);
 
+    testList = w.tokenize("–20");
+    assertEquals(Arrays.asList("\u2013", "20"), testList);
+
     testList = w.tokenize("прислівник+займенник");
     assertEquals(Arrays.asList("прислівник", "+", "займенник"), testList);
 

@@ -427,8 +427,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
     }
     
     // -20C
-    if( text.length() > 1 && text.contains("-") ) {
-      text = text.replaceAll("(?<=(^|[\\h\\v]))-(?=[0-9])", "-" + BREAKING_PLACEHOLDER);
+    if( text.length() > 1 && (text.contains("-") || text.contains("\u2013")) ) {
+      text = text.replaceAll("(?<=(^|[\\h\\v]))([-\u2013])(?=[0-9])", "$2" + BREAKING_PLACEHOLDER);
     }
     
     text = NUMBER_MISSING_SPACE.matcher(text).replaceAll("$1" + BREAKING_PLACEHOLDER + "$2");
