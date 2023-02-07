@@ -75,7 +75,7 @@ public class PartitionTest {
     public void testMisspelledWordError() throws IOException {
       if (System.getProperty("disableHardcodedTests") == null) {
         JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
-        assertOneError("I can adjust my sails to always reach my desfewtination.", tool);
+        assertOneError("I need a cup of cooffee.", tool);
       }
     }
 
