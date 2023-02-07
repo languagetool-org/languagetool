@@ -449,6 +449,12 @@ public class LanguageToolMenus {
               xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerSeparator"));
           xSeparator.setPropertyValue("SeparatorType", ActionTriggerSeparatorType.LINE);
           xContextMenu.insertByIndex(1, xSeparator);
+          if (debugModeTm) {
+            long runTime = System.currentTimeMillis() - startTime;
+            if (runTime > OfficeTools.TIME_TOLERANCE) {
+              MessageHandler.printToLogFile("Time to generate context menu (Impress): " + runTime);
+            }
+          }
           isRunning = false;
           return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
         }

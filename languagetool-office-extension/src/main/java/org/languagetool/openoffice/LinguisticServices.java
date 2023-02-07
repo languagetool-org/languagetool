@@ -240,40 +240,30 @@ public class LinguisticServices extends LinguServices {
   }
   
   public List<String> getSynonyms(String word, Locale locale) {
-    if (noSynonymsAsSuggestions) {
-      return new ArrayList<>();
-    }
-    if (synonymsCache.containsKey(word)) {
-      return synonymsCache.get(word);
-    }
-    List<String> synonyms = new ArrayList<>();
     try {
-      if (thesaurus == null) {
-        MessageHandler.printToLogFile("LinguisticServices: getSynonyms: XThesaurus == null");
-        return synonyms;
+      if (noSynonymsAsSuggestions) {
+        return new ArrayList<>();
       }
-      if (locale == null) {
-        MessageHandler.printToLogFile("LinguisticServices: getSynonyms: Locale == null");
-        return synonyms;
+      if (synonymsCache.containsKey(word)) {
+        return synonymsCache.get(word);
       }
-      PropertyValue[] properties = new PropertyValue[0];
-      XMeaning[] meanings = thesaurus.queryMeanings(word, locale, properties);
-      for (XMeaning meaning : meanings) {
-        if (synonyms.size() >= OfficeTools.MAX_SUGGESTIONS) {
-          break;
+      // get synonyms in a acceptable time or return 0 synonyms
+      AddSynonymsToCache addSynonymsToCache = new AddSynonymsToCache(word, locale);
+      addSynonymsToCache.start();
+      int nRun = 0;
+      do {
+        Thread.sleep(10);
+        if (synonymsCache.containsKey(word)) {
+          return synonymsCache.get(word);
         }
-        String[] singleSynonyms = meaning.querySynonyms();
-        Collections.addAll(synonyms, singleSynonyms);
-      }
-      synonymsCache.put(word, synonyms);
-      return synonyms;
-    } catch (Throwable t) {
-      // If anything goes wrong, give the user a stack trace
-      MessageHandler.printException(t);
-      return synonyms;
+        nRun++;
+      } while (nRun < 50);
+    } catch (InterruptedException e) {
+      MessageHandler.printException(e);
     }
+    return new ArrayList<>();
   }
-
+  
   /**
    * Returns true if the spell check is positive
    */
@@ -455,4 +445,47 @@ public class LinguisticServices extends LinguServices {
   public boolean isThesaurusRelevantRule (String ruleId) {
     return !noSynonymsAsSuggestions && thesaurusRelevantRules != null && thesaurusRelevantRules.contains(ruleId);
   }
+  
+  /** class to start a separate thread to add Synonyms to cache
+   *  To get synonyms in a acceptable time or return null
+   */
+  private class AddSynonymsToCache extends Thread {
+    private String word;
+    private Locale locale;
+
+    private AddSynonymsToCache(String word, Locale locale) {
+      this.word = word;
+      this.locale = locale;
+    }
+    
+    @Override
+    public void run() {
+      List<String> synonyms = new ArrayList<>();
+      try {
+        if (thesaurus == null) {
+          MessageHandler.printToLogFile("LinguisticServices: getSynonyms: XThesaurus == null");
+          return;
+        }
+        if (locale == null) {
+          MessageHandler.printToLogFile("LinguisticServices: getSynonyms: Locale == null");
+          return;
+        }
+        PropertyValue[] properties = new PropertyValue[0];
+        XMeaning[] meanings = thesaurus.queryMeanings(word, locale, properties);
+        for (XMeaning meaning : meanings) {
+          if (synonyms.size() >= OfficeTools.MAX_SUGGESTIONS) {
+            break;
+          }
+          String[] singleSynonyms = meaning.querySynonyms();
+          Collections.addAll(synonyms, singleSynonyms);
+        }
+        synonymsCache.put(word, synonyms);
+      } catch (Throwable t) {
+        // If anything goes wrong, give the user a stack trace
+        MessageHandler.printException(t);
+      }
+    }
+
+  }
+
 }
