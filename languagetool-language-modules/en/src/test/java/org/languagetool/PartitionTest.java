@@ -55,7 +55,38 @@ public class PartitionTest {
             assertOneError("You're code was very neat and readable.", lt);
         }
     }
-    
+    @Test
+    public void testSpellingMistakes() throws IOException {
+      if (System.getProperty("disableHardcodedTests") == null) {
+        JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+        assertNoError("John lives in Australia.", tool);
+      }
+    }
+
+    @Test
+    public void testFirstWordCapitalizationError() throws IOException {
+      if (System.getProperty("disableHardcodedTests") == null) {
+        JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+        assertOneError("bagels are everything.", tool);
+      }
+    }
+
+    @Test
+    public void testMisspelledWordError() throws IOException {
+      if (System.getProperty("disableHardcodedTests") == null) {
+        JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+        assertOneError("I can adjust my sails to always reach my desfewtination.", tool);
+      }
+    }
+
+    @Test
+    public void testProperNounCapitalizationError() throws IOException {
+      if (System.getProperty("disableHardcodedTests") == null) {
+        JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+        assertOneError("I'm going out with kevin.", tool);
+      }
+    }
+
     private void assertNoError(String input, JLanguageTool lt) throws IOException {
         List<RuleMatch> matches = lt.check(input);
         assertEquals("Did not expect an error in test sentence: '" + input + "', but got: " + matches, 0, matches.size());
