@@ -56613,6 +56613,129 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- OS TERMOS TÉCNICOS a terminologia -->
+    <rulegroup id='CIENTÍFICO_TERMOS_TÉCNICOS_TERMINOLOGIA' name="[Científico] termos técnicos → terminologia" type='style'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-07 (25-JUL-2022+) -->
+      <!--
+      #1
+      Os termos técnicos são importantes. → A terminologia é importante.
+      Parte dos termos técnicos são importantes. → Parte da terminologia é importante.
+
+      #2
+      Os termos técnicos usados são importantes. → A terminologia usada é importante.
+      Parte dos termos técnicos usados são importantes. → Parte da terminologia usada é importante.
+
+      #3
+      Os termos técnicos no texto são importantes. → A terminologia no texto é importante.
+      Parte dos termos técnicos no texto são importantes. → Parte da terminologia no texto é importante.
+      Os termos técnicos do texto são importantes. → A terminologia do texto é importante.
+      Parte dos termos técnicos do texto são importantes. → Parte da terminologia do texto é importante.
+
+      #4
+      Os termos técnicos usados no texto são importantes. → A terminologia usada no texto é importante.
+      Parte dos termos técnicos usados no texto são importantes. → Parte da terminologia usada no texto é importante.
+      Os termos técnicos tirados do texto são importantes. → A terminologia tirada do texto é importante.
+      Parte dos termos técnicos tirados do texto são importantes. → Parte da terminologia tirada do texto é importante.
+
+      NOTE (2023-02-07):
+      With the current knowledge of MARCOAGPINTO, this is the best that can be done.
+      This rule involves the changing of gender and number in the tokens, a high difficulty rule.
+      Notice the 'SPS00:D[ADI].+' in #3 and #4 making possible "desse texto", "nesse texto", etc.
+      -->
+
+      <!-- #1 -->
+      <!-- Os termos técnicos são importantes. → A terminologia é importante. -->
+      <!-- Parte dos termos técnicos são importantes. → Parte da terminologia é importante. -->
+      <rule>
+        <pattern>
+          <marker>
+            <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
+            <token>termos</token>
+            <token>técnicos</token>
+            <token postag='VMIP3P.+' postag_regexp='yes'/>
+            <token postag='NC.+' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Se for um texto académico/científico, pondere empregar o termo 'terminologia'.</message>
+        <suggestion><match no='1' postag='(SPS00:)?DA.+' postag_regexp="yes" postag_replace='$1DA0FS0'/> terminologia <match no='4' postag='VMIP3P.+' postag_regexp="yes" postag_replace='VMIP3S0'/> <match no='5' postag='NC(.)(.)000' postag_regexp="yes" postag_replace='NC$1S000'/></suggestion>
+        <example correction="A terminologia é importante"><marker>Os termos técnicos são importantes</marker>.</example>
+        <example correction="da terminologia é importante">Parte <marker>dos termos técnicos são importantes</marker>.</example>
+      </rule>
+
+      <!-- #2 -->
+      <!-- Os termos técnicos usados são importantes. → A terminologia usada é importante. -->
+      <!-- Parte dos termos técnicos usados são importantes. → Parte da terminologia usada é importante. -->
+      <rule>
+        <pattern>
+          <marker>
+            <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
+            <token>termos</token>
+            <token>técnicos</token>
+            <token postag='VMP00PM' postag_regexp='no'/>
+            <token postag='VMIP3P.+' postag_regexp='yes'/>
+            <token postag='NC.+' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Se for um texto académico/científico, pondere empregar o termo 'terminologia'.</message>
+        <suggestion><match no='1' postag='(SPS00:)?DA.+' postag_regexp="yes" postag_replace='$1DA0FS0'/> terminologia <match no='4' postag='VMP00.+' postag_regexp="yes" postag_replace='VMP00SF'/> <match no='5' postag='VMIP3P.+' postag_regexp="yes" postag_replace='VMIP3S0'/> <match no='6' postag='NC(.)(.)000' postag_regexp="yes" postag_replace='NC$1S000'/></suggestion>
+        <example correction="A terminologia usada é importante"><marker>Os termos técnicos usados são importantes</marker>.</example>
+        <example correction="da terminologia usada é importante">Parte <marker>dos termos técnicos usados são importantes</marker>.</example>
+      </rule>
+
+      <!-- #3 -->
+      <!-- Os termos técnicos no texto são importantes. → A terminologia no texto é importante. -->
+      <!-- Parte dos termos técnicos no texto são importantes. → Parte da terminologia no texto é importante. -->
+      <!-- Os termos técnicos do texto são importantes. → A terminologia do texto é importante. -->
+      <!-- Parte dos termos técnicos do texto são importantes. → Parte da terminologia do texto é importante. -->
+      <rule>
+        <pattern>
+          <marker>
+            <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
+            <token>termos</token>
+            <token>técnicos</token>
+            <token postag='SPS00:D[ADI].+' postag_regexp='yes'/>
+            <token postag='NC.+' postag_regexp='yes'/>
+            <token postag='VMIP3P.+' postag_regexp='yes'/>
+            <token postag='NC.+' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Se for um texto académico/científico, pondere empregar o termo 'terminologia'.</message>
+        <suggestion><match no='1' postag='(SPS00:)?DA.+' postag_regexp="yes" postag_replace='$1DA0FS0'/> terminologia \4 \5 <match no='6' postag='VMIP3P.+' postag_regexp="yes" postag_replace='VMIP3S0'/> <match no='7' postag='NC(.)(.)000' postag_regexp="yes" postag_replace='NC$1S000'/></suggestion>
+        <example correction="A terminologia no texto é importante"><marker>Os termos técnicos no texto são importantes</marker>.</example>
+        <example correction="da terminologia no texto é importante">Parte <marker>dos termos técnicos no texto são importantes</marker>.</example>
+        <example correction="A terminologia do texto é importante"><marker>Os termos técnicos do texto são importantes</marker>.</example>
+        <example correction="da terminologia do texto é importante">Parte <marker>dos termos técnicos do texto são importantes</marker>.</example>
+      </rule>
+
+      <!-- #4 -->
+      <!-- Os termos técnicos usados no texto são importantes. → A terminologia usada no texto é importante. -->
+      <!-- Parte dos termos técnicos usados no texto são importantes. → Parte da terminologia usada no texto é importante. -->
+      <!-- Os termos técnicos tirados do texto são importantes. → A terminologia tirada do texto é importante. -->
+      <!-- Parte dos termos técnicos tirados do texto são importantes. → Parte da terminologia tirada do texto é importante. -->
+      <rule>
+        <pattern>
+          <marker>
+            <token postag='DA.+|SPS00:DA.+' postag_regexp='yes'/>
+            <token>termos</token>
+            <token>técnicos</token>
+            <token postag='VMP00PM' postag_regexp='no'/>
+            <token postag='SPS00:D[ADI].+' postag_regexp='yes'/>
+            <token postag='NC.+' postag_regexp='yes'/>
+            <token postag='VMIP3P.+' postag_regexp='yes'/>
+            <token postag='NC.+' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Se for um texto académico/científico, pondere empregar o termo 'terminologia'.</message>
+        <suggestion><match no='1' postag='(SPS00:)?DA.+' postag_regexp="yes" postag_replace='$1DA0FS0'/> terminologia <match no='4' postag='VMP00.+' postag_regexp="yes" postag_replace='VMP00SF'/> \5 \6 <match no='7' postag='VMIP3P.+' postag_regexp="yes" postag_replace='VMIP3S0'/> <match no='8' postag='NC(.)(.)000' postag_regexp="yes" postag_replace='NC$1S000'/></suggestion>
+        <example correction="A terminologia usada no texto é importante"><marker>Os termos técnicos usados no texto são importantes</marker>.</example>
+        <example correction="da terminologia usada no texto é importante">Parte <marker>dos termos técnicos usados no texto são importantes</marker>.</example>
+        <example correction="A terminologia tirada do texto é importante"><marker>Os termos técnicos tirados do texto são importantes</marker>.</example>
+        <example correction="da terminologia tirada do texto é importante">Parte <marker>dos termos técnicos tirados do texto são importantes</marker>.</example>
+      </rule>
+
+    </rulegroup>
+
+
     <!-- FICOU DEMONSTRADO QUE demonstrámos que -->
     <rule id='PHD_TESE_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[PhD Tese] Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" type='style' tags="picky">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-13/14 (1-JAN-2022+)      -->
