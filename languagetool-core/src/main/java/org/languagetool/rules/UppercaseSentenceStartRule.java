@@ -30,7 +30,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
-import org.languagetool.tools.Tools;
 
 /**
  * Checks that a sentence starts with an uppercase letter.
@@ -91,6 +90,10 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
     return messages.getString("desc_uppercase_sentence");
   }
 
+  protected boolean isException(AnalyzedTokenReadings[] tokens, int tokenIdx) {
+    return false;
+  }
+
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     String lastParagraphString = "";
@@ -122,6 +125,9 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
         thirdToken = firstDutchToken;
         matchTokenPos = 3;
       }
+
+      if( isException(tokens, matchTokenPos) )
+        return toRuleMatchArray(ruleMatches);
 
       String checkToken = firstToken;
       if (thirdToken != null) {
