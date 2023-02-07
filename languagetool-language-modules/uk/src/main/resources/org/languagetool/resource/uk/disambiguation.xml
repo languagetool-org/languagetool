@@ -3974,6 +3974,19 @@
     <example type="untouched">Тра 2 ведра взять.</example>
   </rule>
 
+  <rule name="Час через крапку" id="time_with_dot">
+    <pattern>
+      <token postag="time" regexp="yes">.*\.*
+        <exception scope="previous" postag_regexp="yes" postag="prep.*"/>
+      </token>
+    </pattern>
+    <disambig action="remove" postag="time"/>
+    <example type="ambiguous" 
+        inputform="1.14[1.14/time]" 
+        outputform="1.14[1.14]">Рис. <marker>1.14</marker>.</example>
+    <example type="untouched">о 1.15</example>
+  </rule>
+
   <rule name="Мету - іменник" id="metu_noun">
     <pattern>
       <token>мету

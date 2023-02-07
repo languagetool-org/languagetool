@@ -627,7 +627,7 @@ TODO:
       if( lnamePosTag == null || ! lnamePosTag.contains(LAST_NAME_TAG) )
         continue;
       
-      lnamePosTag = lnamePosTag.replaceAll(":(alt|ua_\\d{4}|xp\\d)", "");
+      lnamePosTag = lnamePosTag.replaceAll(":(alt|nv|ua_\\d{4}|xp\\d)", "");
 
       String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();
       AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":nv:abbr:prop:"+initialType), initialsToken);

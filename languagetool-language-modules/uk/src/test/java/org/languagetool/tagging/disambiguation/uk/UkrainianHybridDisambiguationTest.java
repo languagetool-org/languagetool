@@ -412,7 +412,14 @@ public class UkrainianHybridDisambiguationTest {
         + "  /[null]null"
         + " Гокінґ/[Гокінґ]noun:anim:m:v_naz:prop:lname:alt", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
-    
+
+    // nv:nv
+    TestTools.myAssert("А. Маслоу",
+        "/[null]SENT_START"
+          + " А./[А.]noun:anim:m:v_dav:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_naz:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_oru:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_rod:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_zna:nv:abbr:prop:fname"
+          + "  /[null]null Маслоу/[Маслоу]noun:anim:m:v_dav:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_naz:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_oru:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_rod:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_zna:nv:prop:lname",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
   }
 
   @Test
