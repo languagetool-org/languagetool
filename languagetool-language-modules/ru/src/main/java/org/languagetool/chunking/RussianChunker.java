@@ -126,12 +126,15 @@ public class RussianChunker implements Chunker {
       build("<posre='DPT:.*:.*' & !pos='PREP'> <posre='PREP'> <posre='NN:.*:.*:(R|D|T|P)' > " , DPT, true),
       //participle
       build("<posre='PT:.*:.*'> " , ADJP),
+
+      build("<posre='PT:.*:.*'> <pos='ADV' > " , ADJP, true),
+
       build("<posre='PT:.*:.*'> <posre='NN:.*:.*:(R|D|T|P)' > " , ADJP, true),
       build("<posre='PT:.*:.*'> <posre='PREP'> <posre='NN:.*:.*:(R|D|T|P|V)' > " , ADJP, true),
       build("<posre='PT:.*:.*'> <posre='PREP'> <posre='ADJ:.*:.*:(R|D|T|P|V)' > <posre='NN:.*:.*:(R|D|T|P|V)' > " , ADJP, true),
       build("<posre='PT:.*:.*'> <posre='NN:(Anim|Inanim):.*' & !posre='NN:(Anim|Inanim):.*:(Nom|V)'> <posre='NN:(Anim|Inanim):.*:(Nom|V)' & !posre='NN:(Anim|Inanim):.*:(R|D|T|P)'> " , ADJP, true),      
       //
-       build("<posre='PT:.*:.*'> <posre='ADJ:.*:.*' > " , ADJP, false),
+      build("<posre='PT:.*:.*'> <posre='ADJ:.*:.*' > " , ADJP, false),
       //
       build("<тов>", NP)  // simulate OpenNLP?!
   );
