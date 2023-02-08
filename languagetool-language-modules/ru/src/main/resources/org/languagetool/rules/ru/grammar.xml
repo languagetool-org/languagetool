@@ -2770,6 +2770,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
     -->
         </rulegroup>
+        <rulegroup default="temp_off" id="DPT_Unification" name="Деепричастия в одном предложении" >
+            <rule>    
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="aspect"/>
+                        <feature id="tense"/>
+                        <marker> 
+                            <token postag="DPT:.*" postag_regexp="yes" skip="5" ></token>
+                            <token postag="DPT:.*" postag_regexp="yes"></token>   
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>Деепричастия в одном предложении должны быть одинакового вида и стоять в одинаковом времени</message>
+                <short>Не согласуются по виду/времени</short>
+                <example>Проверяя тетради и выписывая оценки в журнал, учитель контролирует учеников.</example>
+                <example correction=""><marker>Проверив тетради и выписывая</marker> оценки в журнал, учитель контролирует учеников.</example>
+            </rule>
+         </rulegroup>
      
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
              <rule>    
