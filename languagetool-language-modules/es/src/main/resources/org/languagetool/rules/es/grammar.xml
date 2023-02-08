@@ -5690,9 +5690,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SABIA" name="sabia/sabía">
             <antipattern>
-                <token postag="RG.*|LOC_PREP" postag_regexp="yes"/>
+                <token postag="SP.*|LOC_PREP|RG.*" postag_regexp="yes"/>
                 <token min="0" regexp="yes">las?</token>
                 <token regexp="yes">sabias?</token>
+                <!-- correct: de savia -->
+                <example>Un árbol repleto de sabia.</example>
             </antipattern>
             <antipattern>
                 <token postag="V.[IS].*" postag_regexp="yes"/>
@@ -5754,7 +5756,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>como</token>
                 </antipattern>
                 <antipattern>
-                    <token>sabios</token>
+                    <token regexp="yes">sabios|vista|considerada</token>
                     <token>como</token>
                     <token>sabia</token>
                 </antipattern>
