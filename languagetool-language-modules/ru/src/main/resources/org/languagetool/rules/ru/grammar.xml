@@ -11199,6 +11199,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="при кафедре и профильном факультете">В университете лаборатории созданы <marker>при кафедре и профильном факультет</marker>.</example>
         </rule>
         <rule>
+            <antipattern>
+                <marker>
+                <token>при</token>
+                <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
+                <token skip="1">,<exception postag="CONJ|PREP|UNKNOWN" scope="next" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                    <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                </token>
+                </marker>
+                <token postag="UNKNOWN" ><exception regexp="yes">&pnct;</exception></token>
+            </antipattern>
             <pattern>
                 <!--              PREP при -> NN:.*:P   -->
                 <token>при</token>
@@ -11214,6 +11226,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>В университете лаборатории созданы при кафедре, факультете.</example>
             <example>С 5 апреля 1797 великие князья при крещении, а князья императорской крови при совершеннолетии получали льготы.</example>
             <example>В морской битве при Ладе, вследствие измены, эллины были разбиты.</example>
+            <example>Настройка проектов Pyramid при открытии, поддержка SQLAlchemy.</example>
             <example>Кодировка по умолчанию, используемая при чтении и записи файлов.</example>
             <example correction="при кафедре, факультете">В университете лаборатории созданы <marker>при кафедре, факультет</marker>.</example>
             <example correction="при кафедре, профильном факультете">В университете лаборатории созданы <marker>при кафедре, профильном факультет</marker>.</example>
