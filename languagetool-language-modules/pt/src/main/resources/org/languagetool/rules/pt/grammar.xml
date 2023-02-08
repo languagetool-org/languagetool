@@ -49722,10 +49722,24 @@ O namorado dela era um ladrão.
 
     <!-- E QUE e -->
     <rule id='SIMPLIFICAR_E_QUE_E' name="Simplificar: E que → e" type="style">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-21 (25-JUL-2022+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-21 + 2023-02-08 (25-JUL-2022+) -->
       <!--
       É necessário saber que os terroristas são perigosos e que ninguém está seguro. → É necessário saber que os terroristas são perigosos e ninguém está seguro.
       -->
+
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='AQ.+|NC.+' postag_regexp='yes'/>
+        <token>e</token>
+        <token>que</token>
+        <token postag='DA.+|DI.+' postag_regexp='yes'/>
+        <token min="1" max="3" postag='AQ.+|NC.+|DP.+' postag_regexp='yes'/>
+        <token postag='VMM0.+' postag_regexp='yes'/>
+        <token postag='AQ.+|NC.+' postag_regexp='yes'/>
+        <example>Eles requerem equipamento dispendioso e que os utilizadores tenham maiores conhecimentos do seu funcionamento.</example>
+        <example>Eles requerem equipamento dispendioso e que os seus utilizadores tenham maiores conhecimentos do seu funcionamento.</example>
+      </antipattern>
+
       <pattern>
         <token postag='V.+|DA.+|SPS00:DA.+|DI.+|SPS00:DI.+|DD.+|SPS00:DD.+|_PUNCT' postag_regexp='yes'>
           <exception postag_regexp='no' postag='VMN0000'/>
