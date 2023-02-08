@@ -794,7 +794,7 @@ public class ArtificialErrorEval {
       fromStart++;
     }
     int fromEnd = 0;
-    while (s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
+    while (fromEnd < l1 && fromEnd < l2 && s1.charAt(l1 - 1 - fromEnd) == s2.charAt(l2 - 1 - fromEnd)) {
       fromEnd++;
     }
     // corrections (e.g. stress vs stresses)
