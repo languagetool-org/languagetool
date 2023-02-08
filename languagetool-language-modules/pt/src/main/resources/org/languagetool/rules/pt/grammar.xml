@@ -56511,7 +56511,7 @@ O namorado dela era um ladrão.
 
     <!-- PENSAR EM ponderar -->
     <rule id='CIENTÍFICO_PENSAR_EM_PONDERAR' name="[Científico] Pensar em → ponderar" type="style" tags="picky">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-30 (25-JUL-2022+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-30 + 2022-02-08 (25-JUL-2022+) -->
       <!--
       Estou a pensar em comprar o PC da televisão. → Estou a ponderar comprar o PC da televisão.
       -->
@@ -56524,12 +56524,16 @@ O namorado dela era um ladrão.
           <token inflected='yes'>pensar</token>
           <token>em</token>
         </marker>
-        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'>
+          <exception regexp='yes' inflected='yes'>conseguir|imaginar</exception> <!-- Add exception verbs here - 2023-02-08+ -->
+        </token>
       </pattern>
       <message>Num contexto formal/académico/científico, é preferível escrever 'ponderar'.</message>
       <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ponderar</match></suggestion>
       <suggestion><match no='2' postag='V.+' postag_regexp='yes'>considerar</match></suggestion>
       <example correction="ponderar|considerar">Estou a <marker>pensar em</marker> comprar o PC da televisão.</example>
+      <example>Eu estava pensando em conseguir um cachorro.</example>
+      <example>Eu não posso nem pensar em imaginar pelo que o Tom passou.</example>
     </rule>
 
 
