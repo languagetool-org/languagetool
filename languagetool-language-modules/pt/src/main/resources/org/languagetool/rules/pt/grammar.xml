@@ -20519,11 +20519,29 @@ O namorado dela era um ladrão.
       <suggestion><match no='3' postag='V.+' postag_regexp="yes" postag_replace='VMN03[SP]0'/> \4</suggestion>
       <example correction="ir ver|irem ver">Falei com o Rui que me disse <marker>que ia ver</marker> o que se passava com o software.</example>
     </rule>
-	
-    <!-- 	VERBO_ESTAR + A + VERBO_INF verbo -->
+
+    <!-- VERBO_ESTAR + A + VERBO_INF verbo -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-11 (21-OCT-2020+)     -->
     <rulegroup id='VERBO_ESTAR_A_VERBO_INF' name="Verbo estar + a + Verbo_inf > Verbo" type="style">
-	
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2023-02-08 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token inflected='yes'>estar</token>
+        <token>a</token>
+        <token postag='VMN0000'/>
+        <token postag='VMP00.+' postag_regexp='yes'/>
+        <token><exception postag='(SPS00:)?DA.+|VMIP3S0|RG|RM|CC|NC.+|AQ.+' postag_regexp='yes'/></token>
+        <example>A promoção do New Moon está a ser definida.</example>
+        <example>Esta compra uns ténis sem se dar conta que está a ser persuadida.</example>
+        <example>O meu carro está a ser reparado.</example>
+        <example>Um projecto de 3 anos (começou com AVB) que nos deu 3 campeonatos e uma liga europa está a ser trucidado.</example>
+        <example>O aparecimento “espontâneo” de vida, por outro lado, está a ser estudado.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-02-08 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <!-- estou -->
       <rule>
         <pattern>
