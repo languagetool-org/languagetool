@@ -46,7 +46,17 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList(
       tokenRegex("international"),
-      tokenRegex("GmbH|gGmbH|AG|gAG|InvAG|OHG|KG|UG|eG|GbR")
+      csRegex("GmbH|gGmbH|AG|gAG|InvAG|OHG|KG|UG|eG|GbR")
+    ),
+    Arrays.asList(   // "die Spiegelblank GmbH"
+      tokenRegex("die|der"),
+      csRegex("[A-ZÄÜÖ].+"),
+      csRegex("GmbH|gGmbH|AG|gAG|InvAG|OHG|KG|UG|eG|GbR")
+    ),
+    Arrays.asList( // Autohaus Dornig GmbH
+      new PatternTokenBuilder().posRegex("EIG:.+|SUB:.+").csTokenRegex("[A-Z].+").build(),
+      csRegex("[A-ZÄÜÖ].+"),
+      csRegex("GmbH|gGmbH|AG|gAG|InvAG|OHG|KG|UG|eG|GbR")
     ),
     Arrays.asList(
       posRegex("ADJ:.*"),
@@ -848,11 +858,6 @@ class CaseRuleAntiPatterns {
     Arrays.asList( // Namen mit "Matt" (e.g. Matt Gaetz, Will Smith)
       csRegex("Matt|Will|Dick"),
       new PatternTokenBuilder().posRegex("EIG:.+|UNKNOWN").csTokenRegex("[A-Z].+").build()
-    ),
-    Arrays.asList( // Autohaus Dornig GmbH
-      new PatternTokenBuilder().posRegex("EIG:.+|SUB:.+").csTokenRegex("[A-Z].+").build(),
-      csRegex("[A-ZÄÜÖ].+"),
-      csRegex("Gmb[Hh]|AG|KG|UG")
     ),
     Arrays.asList( // Klicke auf Home > Mehr > Team
       csToken(">"),
