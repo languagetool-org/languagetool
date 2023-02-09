@@ -50482,7 +50482,7 @@ O namorado dela era um ladrão.
 
 
     <!-- ,POIS : -->
-    <rule id='SIMPLIFICAR_POIS_REMOVER' name="Simplificar: Remoção de “pois” com ela(s)/ele(s)" type="style">
+    <rule id='SIMPLIFICAR_POIS_REMOVER' name="Simplificar: Remoção de “pois” com ela(s)/ele(s)" type="style" tags="picky">
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-04/05/07 (1-JAN-2022+)      -->
       <!--
       Não tenho médica de família, pois ela está ausente até dezembro. → Não tenho médica de família: ela está ausente até dezembro.
@@ -50492,7 +50492,7 @@ O namorado dela era um ladrão.
           <exception postag_regexp='yes' postag='V.+'/>
         </token>
         <marker>
-          <token spacebefore='no' regexp='yes'>[,]</token>
+          <token spacebefore='no'>,</token>
           <token spacebefore='yes'>pois</token>
           <token regexp='yes'>el[ae]s?</token>
         </marker>
@@ -50501,8 +50501,7 @@ O namorado dela era um ladrão.
       <message>Esta perífrase poderá ser simplificada.</message>
       <suggestion>: \4</suggestion>
       <suggestion>; \4</suggestion>
-      <suggestion>— \4</suggestion>
-      <example correction=": ela|; ela|— ela">Não tenho médica de família<marker>, pois ela</marker> está ausente até dezembro.</example>
+      <example correction=": ela|; ela">Não tenho médica de família<marker>, pois ela</marker> está ausente até dezembro.</example>
     </rule>
 
 
