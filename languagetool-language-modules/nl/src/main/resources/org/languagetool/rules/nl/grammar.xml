@@ -485,6 +485,7 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="WORDT_JE" name="Wordt/word" >
             <!-- R. Baars, november 2022 -->
             <rule>
+                <antipattern><token>er</token><token>wordt</token></antipattern>
                 <antipattern>
                     <token>je</token>
                     <token postag_regexp="yes" postag="ZNW:EKV.*"/>
@@ -498,8 +499,8 @@ regexp case-insensitive maken: (?i)
                     <token>wordt</token>
                     <token>je</token>
                 </pattern>
-                <message>Als 'je' hier als 'jij' bedoeld is, dan is juist: <suggestion>word je</suggestion>. Als het als 'jou' of 'jouw' gelezen kan worden, dan is dit correct.</message>
-                <example correction="word je">Dan <marker>wordt je</marker> gepiepeld.</example>
+                <message>Als 'je' hier als 'jij' bedoeld is, dan is juist: <suggestion>word je</suggestion>, anders is dit correct, eventueel als <suggestion>wordt jou</suggestion>.</message>
+                <example correction="word je|wordt jou">Dan <marker>wordt je</marker> gepiepeld.</example>
             </rule>
         </rulegroup>
 
@@ -34478,6 +34479,8 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
         <rulegroup id="WORD_ZONDER_IK" name="word zonder ik">
+            <antipattern><token>spoken</token><token>word</token></antipattern>
+            <antipattern><token>word</token><token>document</token></antipattern>
             <antipattern>
                 <!-- voorkom Engels -->
                 <token postag="UNKNOWN"/>
@@ -42050,7 +42053,7 @@ steenwijk;Steenwijk
             <rule>
                 <antipattern><token spacebefore="yes" regexp="yes">[-—]</token><token skip="-1" spacebefore="yes"/><token spacebefore="yes" regexp="yes">[-—]</token><token spacebefore="yes"/></antipattern>
                 <pattern>
-                    <token><exception>zich</exception></token>
+                    <token postag_regexp="yes" postag="ZNW.*|WKW:TGW:1EP|UNKNOWN"></token>
                     <token spacebefore="yes" regexp="yes">[-—]</token>
                     <token spacebefore="yes" regexp="yes">en|of</token>
                     <token><exception>=</exception></token>
@@ -45287,7 +45290,7 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
                     <token regexp="yes">zeer|erg</token>
-                    <token postag="BNW:VGR:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW:STL.*"/></token>
+                    <token postag="BNW:VGR:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="BNW:STL.*|WKW:TGW:INF.*"/></token>
                 </pattern>
                 <message>Dit is nogal ongebruikelijk.</message>
                 <suggestion>\1 <match no="2" postag_regexp="yes" postag="(BNW:VGR:)(.*)" postag_replace="BNW:STL:$2"/></suggestion>
@@ -45353,7 +45356,7 @@ steenwijk;Steenwijk
                 &START;
                 <token postag_regexp="yes" postag="ENM.*"/>
                 <marker>
-                    <token postag_regexp="yes" postag="WKW:(VLT|TGW):INF"/>
+                    <token postag_regexp="yes" postag="WKW:(VLT|TGW):INF"><exception postag_regexp="yes" postag="ENM.*"/></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
