@@ -5041,6 +5041,66 @@ O namorado dela era um ladrão.
           <token postag='(?:N.|A..).S.+' postag_regexp='yes'/>
           <example>e os alfaiates Manuel Faustino dos Santos e João de Deus Nascimento</example>
         </antipattern>
+        <antipattern>
+          <token postag="SPS.+" postag_regexp="yes"/>
+           <token postag="NCFS.+" postag_regexp="yes"/>
+           <token postag="SPS.+" postag_regexp="yes"/>
+           <token postag="NCMP.+" postag_regexp="yes"/>
+          <token negate="yes">e</token>
+          <example>em casa de registros típico</example>
+        </antipattern>
+        <antipattern>
+           <token postag="NCMS.+" postag_regexp="yes"/>
+           <token postag="SPS.+" postag_regexp="yes" skip="-1"/>
+           <token postag="NCFS.+" postag_regexp="yes"/>
+           <token postag="SPS.+" postag_regexp="yes"/>
+           <token postag="NCMP.+" postag_regexp="yes"/>
+           <token postag="AQ0MS.+" postag_regexp="yes"/>
+           <example>andar da casa de registros típico</example>
+        </antipattern>
+        <antipattern>
+           <token postag="SPS.+" postag_regexp="yes"/>
+           <token postag="NCFS.+" postag_regexp="yes"/>
+           <token postag="SPS.+" postag_regexp="yes"/>
+           <token postag="NCMP.+" postag_regexp="yes"/>
+           <token postag="AQ0MS.+" postag_regexp="yes"/>
+           <token>e</token>
+           <token postag="N.+|A.+" postag_regexp="yes"/>
+           <example>resultante da fusão dos campeonatos alemão e francês</example>
+       </antipattern>
+       <antipattern>
+           <token postag="SPS.+" postag_regexp="yes"/>
+           <token postag="NCFS.+" postag_regexp="yes"/>
+           <token postag="SPS.+" postag_regexp="yes"/>
+           <token postag="NCMP.+" postag_regexp="yes"/>
+           <token postag="AQ0MS.+" postag_regexp="yes"/>
+           <token>,</token>
+           <token skip='-1' postag="N.+|A.+" postag_regexp="yes"/>
+           <token>e</token>
+           <token postag="N.+|A.+" postag_regexp="yes"/>
+           <example>para produção de queijos parmesão, provolone, colonial, mussarela e prato</example>
+       </antipattern>
+       <antipattern>
+           <token postag="SPS.+" postag_regexp="yes"/>
+           <token postag="NCFS.+" postag_regexp="yes"/>
+           <token postag="SPS.+" postag_regexp="yes"/>
+           <token postag="NCMP.+" postag_regexp="yes"/>
+           <token postag="AQ0MS.+" postag_regexp="yes"/>
+           <token regexp="yes" skip="-1">&separadores_de_oracoes;</token>
+           <token regexp="yes">&separadores_de_oracoes;</token>
+           <token>e</token>
+           <token postag="N.+|A.+" postag_regexp="yes"/>
+           <example>por parte dos governos norte-americano (em forma de encargos) e europeu</example>
+       </antipattern>
+       <antipattern>
+                    <token postag="NCMS.+" postag_regexp="yes"/>
+                    <token postag="SPS.+" postag_regexp="yes" skip="-1"/>
+                    <token postag="NCFS.+" postag_regexp="yes"/>
+                    <token postag="SPS.+" postag_regexp="yes"/>
+                    <token postag="NCMP.+" postag_regexp="yes"/>
+                    <token postag="AQ0MS.+" postag_regexp="yes"/>
+                    <example>andar da casa de registros típico</example>
+       </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
