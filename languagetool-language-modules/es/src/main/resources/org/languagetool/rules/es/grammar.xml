@@ -8810,6 +8810,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sé tú.</example>
                 <example>Como tú bien sabes, no es posible.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>tú</token>
+                    </marker>
+                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception regexp="yes">como|una|obra</exception><exception postag="V.[^M]..2S.|SP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mismo|solo|solito</exception></token>
+                </pattern>
+                <message>Si es un posesivo, se escribe sin tilde.</message>
+                <suggestion>tu</suggestion>
+                <example correction="Tu">¿<marker>Tú</marker> prima dónde está?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="TU_TILDE" name="tu / tú">
             <rule>
@@ -9023,7 +9034,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>esta</token>
                     </marker>
                     <token min="0" max="3" postag="_QM_OPEN|LOC_ADV|RG.*" postag_regexp="yes"><exception regexp="yes">mejor|peor|todo|toda|casi|usted|él|ella|bien|mal|en|entre|acá|aquí|ahí|allí|allá|el|la|lo|un|una|uno|junto|por|mi|tu|su|[vn]uestr[oa]|conmigo|contigo|esta|esa|aquella|este|ese|aquel|ésta|ésa|aquélla|éste|ése|aquél|esto|eso|aquello|algo|fuera|dentro|arriba|abajo|cerca|lejos|cerquísima|lejísimo|delante|detrás|encima|debajo|de|del|a|al|sin|sobre|con|bajo</exception></token>
-                    <token regexp="yes">mejor|peor|todo|toda|casi|usted|él|ella|bien|mal|superbién|supermal|en|entre|acá|aquí|ahí|allí|allá|el|la|lo|un|una|uno|junto|por|mi|tu|su|[vn]uestr[oa]|conmigo|contigo|esta|esa|aquella|este|ese|aquel|ésta|ésa|aquélla|éste|ése|aquél|esto|eso|aquello|algo</token>
+                    <token regexp="yes">mejor|peor|todo|toda|casi|usted|él|ella|bien|bién|mal|superbién|supermal|en|entre|acá|aquí|ahí|ahi|allí|allá|el|la|lo|un|una|uno|junto|por|mi|tu|su|[vn]uestr[oa]|conmigo|contigo|esta|esa|aquella|este|ese|aquel|ésta|ésa|aquélla|éste|ése|aquél|esto|eso|aquello|algo</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
@@ -9038,6 +9049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="está">¿Quién <marker>esta</marker> en esta habitación?</example>
                 <example correction="Está"><marker>Esta</marker> totalmente en contra de la explotación infantil.</example>
                 <example correction="está">Uno <marker>esta</marker> en Nueva York, pero los otros están en Londres.</example>
+                <example correction="está">¿Dónde <marker>esta</marker> ese gran padre ahora?</example>
                 <example>Sustituye a esta en la jerarquía.</example>
                 <example>aunque esta en realidad no lo sea</example>
                 <example>Tras esta en 1954</example>
@@ -9467,7 +9479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <token regexp="yes"
-                        >basada|muerta|casada|cubierta|cerrada|embarazada|llena|enamorada|sentada|asociada|protegida|dominada|afiliada|enferma|perdida|loca|ausente|clara|interesada|rota|dormida|implicada|pintada|rematada|obligada|acreditada|asentada|echada|asegurada|metida|pendiente|condenada|iluminada|herida|contenta|enterada|recogida|desesperada|inconsciente|feliz|puesta|encargada|montada|afectada|limpia|helada|poseída|divorciada|prometida|pegada|mojada|acostada|subordinada|rodada|confinada|detenida|ordenada|seca|desaparecida|sembrada|habilitada|licenciada|armada|recomendada|chiflada|invitada|borracha|orgullosa|empleada|aterrada|débil|internada|alfabetizada|vacante|sacada|acusada|verde|invertida|alerta|distraída|aliada|tirada|resentida|predestinada|defendida|arrepentida|jubilada|pasada|soltera|penada|ciega|graduada|prisionera|hinchada|cambiada|dispersa|retenida|suelta|gris|gorda|azul|histérica|desgarrada|guapa|picada|titulada|hambrienta|tibia|enrollada|soldada|vencida|avanzada|ida|encarnada|seguida|impedida|cuajada|necesitada|chalada|liberada|alzada|bordada|lanzada|desaconsejada|normal|cautiva|cogida|derivada|colada|lesionada|incapacitada|hueca|varada|convaleciente|sorda|agregada|reparada|negada|arrancada|descubierta|llevada|encorvada|serena|incomunicada|descalza|atracada|mandada|frita|peinada|disimulada|acampada|diplomada|procesada|demente|estirada|agarrada|blanca|entretenida|inválida|izada|calada|pelada|pirada|ahogada|copada|sonriente|pillada|iniciada|mutilada|majareta|moribunda|ebria|acelerada|helena|abrigada|lisa|exiliada|desamparada|refugiada|encalada|arqueada|imposibilitada|retrasada|paranoica|delegada|elegida|adoptada|dorada|ajada|coja|pedida|pasmada|lavada|disparada|trancada|paralítica|descuidada|entendida|arañada|endemoniada|accidentada|pringada|despatarrada|espantada|exaltada|maya|adjunta|cómoda|crecida|paralela|moderada|galardonada|denunciada|colegiada|tullida|acordada|lisiada|planchada|desbocada|librada|vertical|cristina|súper|patricia|rabiosa|ociosa|igualada|violada|mellada|arrimada|chunga|dopada|punteada|enviada|tísica|vigilante|volada|semi|destapada|confederada|tostada|horizontal|rastrillada|aguada|plana|degenerada|conjugada|alba|cesante|chocha|derecha|turbia|júnior|lacerada|conjurada|paulina|interna|encausada|dejada|amurada|lila|fallecida|obrada|escarmentada|beneficiada|arada|indefinida|maja|barata|segada|laureada|pulsada|abanderada|leprosa|votada|encharcada|emparedada|alienada|escamada|piripi|indiferente|parida|convicta|chupada|cebada|maldecida|inclusa|mona|macedonia|durmiente|ronca|calva|inconforme|hilada|desvalida|arriada|calatrava|encapuchada|consentida|despistada|refrenada|desaprovechada|finalista|chueca|encañada|excomulgada|realquilada|embolada|desnaturalizada|fucsia|testada|botada|indocumentada|recocida|carioca|asilada|herniada|vengadora|violeta|soltada|gaya|culpada|cuartelada|leída|pensionada|flagelada|siria|desposeída|libia|becada|líquida|desconfiada|lidia|oída|chequeada|cuadrada|pesimista|maníaca|tata|fumada|lela|sentimental|armenia|depresiva|amotinada|manca|rebotada</token>
+                        >ausente|basada|muerta|casada|cubierta|cerrada|embarazada|llena|enamorada|sentada|asociada|protegida|dominada|afiliada|enferma|perdida|loca|ausente|clara|interesada|rota|dormida|implicada|pintada|rematada|obligada|acreditada|asentada|echada|asegurada|metida|pendiente|condenada|iluminada|herida|contenta|enterada|recogida|desesperada|inconsciente|feliz|puesta|encargada|montada|afectada|limpia|helada|poseída|divorciada|prometida|pegada|mojada|acostada|subordinada|rodada|confinada|detenida|ordenada|seca|desaparecida|sembrada|habilitada|licenciada|armada|recomendada|chiflada|invitada|borracha|orgullosa|empleada|aterrada|débil|internada|alfabetizada|vacante|sacada|acusada|verde|invertida|alerta|distraída|aliada|tirada|resentida|predestinada|defendida|arrepentida|jubilada|pasada|soltera|penada|ciega|graduada|prisionera|hinchada|cambiada|dispersa|retenida|suelta|gris|gorda|azul|histérica|desgarrada|guapa|picada|titulada|hambrienta|tibia|enrollada|soldada|vencida|avanzada|ida|encarnada|seguida|impedida|cuajada|necesitada|chalada|liberada|alzada|bordada|lanzada|desaconsejada|normal|cautiva|cogida|derivada|colada|lesionada|incapacitada|hueca|varada|convaleciente|sorda|agregada|reparada|negada|arrancada|descubierta|llevada|encorvada|serena|incomunicada|descalza|atracada|mandada|frita|peinada|disimulada|acampada|diplomada|procesada|demente|estirada|agarrada|blanca|entretenida|inválida|izada|calada|pelada|pirada|ahogada|copada|sonriente|pillada|iniciada|mutilada|majareta|moribunda|ebria|acelerada|helena|abrigada|lisa|exiliada|desamparada|refugiada|encalada|arqueada|imposibilitada|retrasada|paranoica|delegada|elegida|adoptada|dorada|ajada|coja|pedida|pasmada|lavada|disparada|trancada|paralítica|descuidada|entendida|arañada|endemoniada|accidentada|pringada|despatarrada|espantada|exaltada|maya|adjunta|cómoda|crecida|paralela|moderada|galardonada|denunciada|colegiada|tullida|acordada|lisiada|planchada|desbocada|librada|vertical|cristina|súper|patricia|rabiosa|ociosa|igualada|violada|mellada|arrimada|chunga|dopada|punteada|enviada|tísica|vigilante|volada|semi|destapada|confederada|tostada|horizontal|rastrillada|aguada|plana|degenerada|conjugada|alba|cesante|chocha|derecha|turbia|júnior|lacerada|conjurada|paulina|interna|encausada|dejada|amurada|lila|fallecida|obrada|escarmentada|beneficiada|arada|indefinida|maja|barata|segada|laureada|pulsada|abanderada|leprosa|votada|encharcada|emparedada|alienada|escamada|piripi|indiferente|parida|convicta|chupada|cebada|maldecida|inclusa|mona|macedonia|durmiente|ronca|calva|inconforme|hilada|desvalida|arriada|calatrava|encapuchada|consentida|despistada|refrenada|desaprovechada|finalista|chueca|encañada|excomulgada|realquilada|embolada|desnaturalizada|fucsia|testada|botada|indocumentada|recocida|carioca|asilada|herniada|vengadora|violeta|soltada|gaya|culpada|cuartelada|leída|pensionada|flagelada|siria|desposeída|libia|becada|líquida|desconfiada|lidia|oída|chequeada|cuadrada|pesimista|maníaca|tata|fumada|lela|sentimental|armenia|depresiva|amotinada|manca|rebotada</token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
@@ -9736,7 +9748,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>-->
                 <antipattern>
                     <token skip="4">esta</token>
-                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception>mama</exception></token>
                 </antipattern>
                 <pattern>
                     <!-- |donde -->
@@ -9925,6 +9937,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
                 <example correction="está">Deja la habitación como <marker>esta</marker>.</example>
                 <example correction="está">Creo que es mejor que lo dejemos como <marker>esta</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token>lista</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del verbo 'estar', se escribe con tilde.</message>
+                <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
+                <example correction="Está">¿<marker>Esta</marker> lista la habitación?</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTAS_NO_TILDE" name="estás/estas">

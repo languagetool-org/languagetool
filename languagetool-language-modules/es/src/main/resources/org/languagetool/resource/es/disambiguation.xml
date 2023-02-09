@@ -4659,7 +4659,7 @@ Copyright (C) 2011 Juan Martorell
                         <feature id="numero"/>
                         <token postag="D.*" postag_regexp="yes"><exception>lo</exception></token>
                         <token postag="N.*" postag_regexp="yes"><exception>a</exception></token>
-                        <token postag="A.*" postag_regexp="yes"><exception regexp="yes">solo|auto|queda</exception></token>
+                        <token postag="A.*" postag_regexp="yes"><exception regexp="yes">solo|auto|queda|gran</exception></token>
                     </unify>
                 </marker>
             </pattern>
@@ -4672,7 +4672,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="D[^R].[MC][SN0].*" postag_regexp="yes"/>
                     <token postag="N.[MC][SN0].*" postag_regexp="yes"/>
-                    <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="V[MA]IP3S0.?" postag_regexp="yes"/><exception regexp="yes">solo|auto</exception></token>
+                    <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="V[MA]IP3S0.?" postag_regexp="yes"/><exception regexp="yes">solo|auto|gran</exception></token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -4686,7 +4686,7 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="D[^R].[FC][SN0].*" postag_regexp="yes"/>
                     <token postag="N.[FC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/><exception>a</exception></token>
-                    <token postag="A..[FC][SN0].*|V.P..SF|PX.[FC][SN0].*" postag_regexp="yes"><exception regexp="yes">afecta|queda</exception></token>
+                    <token postag="A..[FC][SN0].*|V.P..SF|PX.[FC][SN0].*" postag_regexp="yes"><exception regexp="yes">afecta|queda|gran</exception></token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -6030,6 +6030,11 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rule id="VerbAdjective" name="verb/adjective no agreement">
         <!-- too greedy?! -->
+        <antipattern>
+            <!-- error: tu -->
+            <token>tú</token>
+            <token postag="VMIP3S0"/>
+        </antipattern>
         <antipattern>
             <token postag="NC.*|CS|PR.*" postag_regexp="yes"/>
             <token>este</token>
