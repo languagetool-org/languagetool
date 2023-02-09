@@ -8570,6 +8570,27 @@ O namorado dela era um ladrão.
       </antipattern>
       <!-- MARCOAGPINTO 2023-02-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+      <!-- MARCOAGPINTO 2023-02-09 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <!-- "nós" generates false positives, and this antipattern fixes it. -->
+      <antipattern>
+        <token postag='SPS00|SPS00:SP' postag_regexp='yes'/>
+        <token>nós</token>
+        <token postag='VMI[CIP]3S0' postag_regexp='yes'/>
+        <example>E antes em nós semeia esta vileza.</example>
+        <example>A probabilidade de prosseguir trilhas entre nós é conseguida na função.</example>
+        <example>O sentimento de brasilidade entre nós era grande, não tenho dúvida alguma”, acrescenta.</example>
+        <example>Seu afeto por nós parece ser exagerado.</example>
+        <example>O objetivo para nós é garantir a integração dos jovens, tanto quanto possível, e estimular o trabalho deles na escola.</example>
+        <example>249 quer preconizar o que nos é próprio, que de nós provém.</example>
+        <example>Alguém dentre nós está enganado.</example>
+        <example>A única coisa que a porta estreita arranca de nós é aquela impiedade que nos envenena e destrói.</example>
+        <example>À medida que mergulhávamos, a pressão sobre nós aumentava.</example>
+        <example>Entre nós há uma grande afinidade de caráter.</example>
+        <example>Para nós nada é impossível.</example>
+        <example>Entre nós havia química.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-02-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <rule>
 
         <antipattern>
@@ -8762,15 +8783,6 @@ O namorado dela era um ladrão.
             <exception scope='next'>,</exception></token>
           <token postag='V.[CIS].3S0' postag_regexp='yes'/>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-10-21 (21-OCT-2020+) *START* -->
-        <!-- "E antes em nós semeia esta vileza." -->
-        <!-- "A probabilidade de prosseguir trilhas entre nós é conseguida na função." -->
-        <antipattern>
-          <token postag='SPS.+' postag_regexp='yes'/>
-          <token postag='PP.+|NC[CFM]P000|AQ0[CFM]P0' postag_regexp='yes'/>
-          <token postag='VMIP3S0|VMM02S0' postag_regexp='yes'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-10-21 (21-OCT-2020+) *END* -->
         <pattern>
          <marker>
           <token>nós</token>
