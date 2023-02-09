@@ -212,12 +212,10 @@ class DocumentCursorTools {
         return null;
       }
       while (xParaEnum.hasMoreElements()) {
-        XEnumeration xEnumTest = xParaEnumAccess.createEnumeration();
-        if (xEnumTest == null || !xEnumTest.equals(xParaEnum)) {
-          MessageHandler.printToLogFile("xEnumTest = " + (xEnumTest == null ? "null" : "not equal xParaEnum"));
-          break;
+        XEnumerationAccess xEnumAccess = null;
+        if (xParaEnum.hasMoreElements()) {
+          xEnumAccess = UnoRuntime.queryInterface(XEnumerationAccess.class, xParaEnum.nextElement());
         }
-        XEnumerationAccess xEnumAccess = UnoRuntime.queryInterface(XEnumerationAccess.class, xParaEnum.nextElement());
         if (xEnumAccess == null) {
           continue;
         }
