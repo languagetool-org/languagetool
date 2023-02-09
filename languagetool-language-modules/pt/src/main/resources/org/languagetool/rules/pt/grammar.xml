@@ -8559,6 +8559,17 @@ O namorado dela era um ladrão.
       </antipattern>
       <!-- MARCOAGPINTO 2023-02-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
+      <!-- MARCOAGPINTO 2023-02-09 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag_regexp="yes" postag="PP.+"/>
+        <token postag="VMIP1S0"/> <!-- Verb "pelo" -->
+        <token postag_regexp="yes" postag="AQ..S.+|NC.S.+"/>
+        <example>Você dirá uma palavra em segredo, ela pelo mundo todo irá.</example>
+        <example>Eu e você pelo mundo.</example>
+        <example>Você logo percebe o que é importante. A gentil ninfa me extasia, me arrebata. Escolho as rimas e lhe teço uma...</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-02-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
       <rule>
 
         <antipattern>
@@ -8721,19 +8732,6 @@ O namorado dela era um ladrão.
           <token regexp='yes' case_sensitive='yes'>e|ou</token>
           <token regexp="yes">el[ea]|você</token>
         </antipattern>
-        <!-- MARCOAGPINTO 2020-05-04 *START* -->
-        <!-- "Agradeço a você pelo empréstimo." -->
-        <!-- "Agradeço a vocês pelo empréstimo." -->
-        <!-- "Ela pelo mundo todo irá." -->
-        <!-- "Elas pelo mundo todo irão." -->
-        <!-- "Falei com ele pelo telefone." -->
-        <!-- "Falei com eles pelo telefone." -->
-        <antipattern>
-          <token  postag_regexp="yes" postag="PP3[FMC][SP]000"/>
-          <token  postag="VMIP1S0"/>
-          <token  postag="NCMS000"/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-05-04 *END* -->
         <!-- MARCOAGPINTO 2021-01-31 (1-JAN-2021+) *START* -->
         <!--
         Voltou com as ameijoas iguais e o cliente desistiu do artigo.
