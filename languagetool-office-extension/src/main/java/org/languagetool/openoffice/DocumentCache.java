@@ -229,6 +229,12 @@ public class DocumentCache implements Serializable {
         chapterBegins.add(documentText.headingNumbers);
         deletedChars.add(documentText.deletedCharacters);
       }
+      if (flatPara == null) {
+        flatPara = document.getFlatParagraphTools();
+      }
+      if (flatPara == null) {
+        return;
+      }
       paragraphContainer = flatPara.getAllFlatParagraphs(fixedLocale);
       if (paragraphContainer == null) {
         MessageHandler.printToLogFile(
