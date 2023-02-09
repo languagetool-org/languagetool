@@ -13986,6 +13986,11 @@ onwaarschijnlijk
             <!-- R. Baars, november 2022 -->
             <rule>
                 <antipattern>
+                    <token>het</token>
+                    <token postag="WKW:VTD:ONV"/>
+                    <token postag="WKW:TGW:INF"/>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">d[ia]t</token>
                     <token>afgewisseld</token>
                     <token>met</token>
@@ -38391,6 +38396,11 @@ steenwijk;Steenwijk
         <rulegroup id="DER" name="Waarschuwen voor 'der' buiten staande uitdrukkingen">
             <rule>
                 <antipattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <token>der</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                </antipattern>
+                <antipattern>
                     <!-- haal Duits weg -->
                     <token postag="UNKNOWN"/>
                     <token>der</token>
@@ -44531,7 +44541,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token regexp="yes">de|een|geen</token>
                     <marker>
-                        <token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag="ZNW.*"/></token>
+                        <token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag="ZNW.*"/><exception>naasten</exception></token>
                         <token>de</token>
                     </marker>
                     <token postag_regexp="yes" postag="ZNW.*"/>
