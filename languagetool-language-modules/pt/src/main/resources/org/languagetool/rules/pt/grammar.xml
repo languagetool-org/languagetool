@@ -8439,7 +8439,43 @@ O namorado dela era um ladrão.
            <example>As suas principais brincadeiras</example>
            <example>Acaba perdendo uma libertadores</example>
            <example>bem jovem para chegar à Homicídios.</example>
-        </rule>
+    </rule>
+    <rule default='temp_off'>
+        <pattern>
+          <token postag='DA.MS.+' postag_regexp='yes'/>
+          <token postag='DP.FP.+' postag_regexp='yes'/>
+        </pattern>
+           <message>Possível erro de concordância.</message>
+           <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)MS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> \2</suggestion>
+           <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+           <suggestion suppress_misspelled="yes">\1 <match no='2' postag="(DP.)FP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+           <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)MS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+           <example correction='As minhas|A minha|O meu|Os meus'><marker>O minhas</marker> caneca é preta.</example>
+    </rule>
+    <rule default='temp_off'>
+        <pattern>
+          <token postag='DA.MP.+' postag_regexp='yes'/>
+          <token postag='DP.FS.+' postag_regexp='yes'/>
+        </pattern>
+           <message>Possível erro de concordância.</message>
+           <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)MP(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+           <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)MP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> \2</suggestion>
+           <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)MP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+           <suggestion suppress_misspelled="yes">\1 <match no='2' postag="(DP.)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+           <example correction='As minhas|A minha|O meu|Os meus'><marker>Os minha</marker> caneca é preta.</example>
+    </rule>
+    <rule default='temp_off'>
+        <pattern>
+          <token postag='DA.FP.+' postag_regexp='yes'/>
+          <token postag='DP.MS.+' postag_regexp='yes'/>
+        </pattern>
+           <message>Possível erro de concordância.</message>
+           <suggestion suppress_misspelled="yes">\1 <match no='2' postag="(DP.)MS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
+           <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)FP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='2' postag="(DP.)MS(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+           <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)FP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> \2</suggestion>
+           <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='2' postag="(DP.)MS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+           <example correction='As minhas|A minha|O meu|Os meus'><marker>As meu</marker> caneca é preta.</example>
+    </rule>
     </rulegroup>
 
     <rulegroup id='GENERAL_VERB_AGREEMENT_ERRORS' name="Concordância Verbal: Geral">
