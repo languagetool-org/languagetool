@@ -590,9 +590,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           origBadSentence.indexOf("</marker>"));
       if (marker.startsWith(", ") && origBadExample.getCorrections().stream()
           .anyMatch(k -> !k.startsWith(" ") && !k.startsWith(",") && !k.startsWith("?") && !k.startsWith(".")
-              && !k.startsWith(":") && !k.startsWith(";") && !k.startsWith("…"))) {
+              && !k.startsWith(":") && !k.startsWith(";") && !k.startsWith("…") && !k.startsWith("-") && !k.startsWith("–"))) {
         System.err.println("*** WARNING: " + lang.getName() + " rule " + rule.getFullId() + " removes ', ' but "
-            + "doesn't have a space, comma, colon, semicolon, or dot at the start of the suggestion: " + origBadSentence
+            + "doesn't have a space, comma, colon, semicolon, hyphen or dot at the start of the suggestion: " + origBadSentence
             + " => " + origBadExample.getCorrections());
       }
 
