@@ -3035,6 +3035,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "T-shirts": return topMatch("T-Shirts");
       case "t-shirts": return topMatch("T-Shirts");
       case "umgangsprachlich": return topMatch("umgangssprachlich");
+      case "E-Mai": return topMatch("E-Mail");
+      case "E-Mais": return topMatch("E-Mails");
     }
     return Collections.emptyList();
   }
