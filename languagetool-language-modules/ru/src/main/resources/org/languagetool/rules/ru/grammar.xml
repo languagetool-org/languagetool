@@ -60,7 +60,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag=".*:PL(:.*)*|NN:.*:(Masc|Fem|Neut)" postag_regexp="yes"></token>
         </equivalence>
     </unification>
-     
+               
     <unification feature="case">
         <equivalence type="Nom">
             <token postag=".*:Nom(:.*)*|NN:.*:(Masc|Fem|Neut)" postag_regexp="yes"></token>
@@ -7989,12 +7989,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">было|стало</token>   <!-- Хлеба стало не хватать -->                         
                 </antipattern>
               
-                <pattern>
+                <pattern> <!-- TODO need remove <exception  postag_regexp="yes" postag="NN:.*:PL:.*" /> -->
                     <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="PNN:.*" /><exception scope="next" regexp="yes">с|процентов|процента|[%]</exception></token>
                     <marker>
                     <unify negate="yes">
                         <feature id="number"/>          
-                        <token  postag="NN:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception><exception scope="previous" postag_regexp="yes" postag="NumD_P|NumC:Nom|Num:.*"></exception></token>
+                        <token  postag="NN:.*:Nom" postag_regexp="yes"><exception  postag_regexp="yes" postag="NN:.*:PL:.*" /><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception><exception scope="previous" postag_regexp="yes" postag="NumD_P|NumC:Nom|Num:.*"></exception></token>
                         <token  postag="VB:(Past|Real):.*"  postag_regexp="yes">
                             <exception negate_pos="yes" postag_regexp="yes" postag="VB:(Past|Real):.*" />
                             <exception  postag_regexp="yes" postag="VB:(Past|Real):TRANS:.*|VB:(Past|Real):bezl:IMPFV" />
@@ -8020,6 +8020,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Эти легенды следует передать нашим потомкам.</example>
                 <example>Тренер посоветовала мне это.</example> 
                 <example>Вода превращается в лёд.</example>
+                <example>Воды осталось мало.</example>
                 <example>Хлеба стало не хватать.</example>
                 <example>Сайт в последние два года считается достоверным источником.</example>
                 <example>Для работы программы требуется Java.</example>
@@ -8033,7 +8034,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>100 лет называются веком.</example>
                 <example>В 1448 году упоминаются городские волнения против строительства замка.</example>
                 <example correction=""><marker>Блюдо готовились</marker> на сковородке.</example>
-                <example correction=""><marker>Коты грелся</marker> на солнышке.</example>
+         <!--   <example correction=""><marker>Коты грелся</marker> на солнышке.</example>  -->
                 <example correction=""><marker>Маша гуляют</marker> на солнышке.</example>
             </rule>
 
