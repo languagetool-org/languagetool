@@ -3616,6 +3616,15 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <and>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">varios?</token>
+                    <token postag="N.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes"/>
+                </and>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <and>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">no|eres|lo|los|de|restante|restantes|ves|ve</token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
