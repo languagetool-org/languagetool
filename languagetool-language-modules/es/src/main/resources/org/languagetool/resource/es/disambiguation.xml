@@ -716,6 +716,15 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
+                    <token postag="RG">nada</token>
+                </marker>
+                <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
                     <token>nada</token>
                 </marker>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
@@ -1586,6 +1595,30 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
             </pattern>
             <disambig action="remove" postag="V.*"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="GRAVE" name="grave (adj/verb)">
+        <rule>
+            <pattern>
+                <token postag="N..P.*" postag_regexp="yes"/>
+                <token>de</token>
+                <token postag_regexp="yes" postag="[NA].*" min="1" max="2"><exception>graves</exception></token>
+                <marker>
+                    <token postag="AQ0CP0">graves</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0CP0"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N..S.*" postag_regexp="yes"/>
+                <token>de</token>
+                <token postag_regexp="yes" postag="[NA].*" min="1" max="2"><exception>grave</exception></token>
+                <marker>
+                    <token postag="AQ0CS0">grave</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="AQ0CS0"/>
         </rule>
     </rulegroup>
     <rulegroup id="VINO" name="vino (noun/verb)">
