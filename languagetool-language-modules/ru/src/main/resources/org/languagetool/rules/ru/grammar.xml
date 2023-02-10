@@ -10432,7 +10432,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
                  <marker>
-                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception></token>
+                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="PREP" skip="-1"></token>    
                 <token regexp="yes">[.;,!?]</token>
@@ -10441,7 +10441,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  <token postag="SENT_START" skip="-1" />
                  <token  skip="-1" regexp="yes" >было|стало|можно|сложно|важно|нужно|трудно|надо|нелегко|легко|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено</token>
                  <marker>
-                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception></token>
+                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="PREP" skip="-1"></token>    
                 <token regexp="yes">[.;,!?]</token>
@@ -10450,7 +10450,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  <token postag="SENT_START" skip="-1" />
                  <token regexp="yes" skip="-1">&verb;</token>
                  <marker>
-                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception></token>
+                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="PREP" skip="-1"></token>    
                 <token regexp="yes">[.;,!?]</token>
@@ -10461,7 +10461,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  <token postag="ADV" negate_pos="yes" skip="-1" ></token>
                  <marker>
                     <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/>
-                        <exception postag_regexp="yes" scope="next" postag="VB:.*"></exception>
                         <exception postag_regexp="yes" scope="previous" postag="VB:.*|NN:.*:Nom|PNN:.*:Nom:.*" />
                         <exception regexp="yes" scope="previous" >было|стало|можно|сложно|важно|нужно|трудно|надо|нелегко|легко|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено</exception> <!-- check word, maybe set POStag? -->
                     </token>
@@ -10483,12 +10482,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <marker>
                     <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/>
-                        <exception postag_regexp="yes" scope="next" postag="VB:.*|DPT:.*"></exception>
+                        <exception regexp="yes" scope="previous" >—|-|–</exception>
                         <exception postag_regexp="yes" scope="previous" postag="VB:.*|NN:.*:Nom|PNN:.*:Nom:.*|DPT:.*|PT_Short:.*|PT:.*|SENT_START|PNN:.*:D:.*" />
                         <exception regexp="yes" scope="previous" >было|стало|можно|сложно|нужно|трудно|надо|нелегко|легко|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено|приятно|рад</exception> <!-- check word, maybe set POStag? -->
                     </token>
                 </marker>
-                <token postag="PREP"  skip="-1"></token>    
+                <token postag="PREP"  skip="-1"><exception regexp="yes" scope="next" >—|-|–</exception><exception postag_regexp="yes" scope="next" postag="VB:.*|DPT:.*"></exception></token>    
                 <token regexp="yes">[.;,!?]</token>
             </pattern>
             <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
