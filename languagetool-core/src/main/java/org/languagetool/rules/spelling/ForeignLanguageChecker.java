@@ -61,6 +61,9 @@ public class ForeignLanguageChecker {
       log.trace("Do not start language detection as the user only has one preferred language.");
       return null;
     }
+    
+    
+    
     if (this.sentenceLength >= MIN_SENTENCE_THRESHOLD && errorRatio >= ERROR_THRESHOLD) {
       LanguageIdentifier langIdent = LanguageIdentifierService.INSTANCE.getInitialized();
       if (langIdent != null) {
@@ -80,7 +83,6 @@ public class ForeignLanguageChecker {
                     langDetectResults.getDetectionSource());
             float detectionConfidence = langDetectResults.getDetectionConfidence();
             String detectionSource = langDetectResults.getDetectionSource();
-            System.out.println(this.sentence.getText() + ":" + detectionConfidence + " " + detectionSource);
             if (detectionSource.contains("fasttext") && detectionConfidence >= MIN_DETECTION_CONFIDENCE_FASTTEXT) {
               return detectedLanguage.getShortCode();
             } else if (detectionSource.contains("ngram") && detectionConfidence >= MIN_DETECTION_CONFIDENCE_NGRAM) {
