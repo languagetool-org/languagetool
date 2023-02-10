@@ -8773,7 +8773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tu">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
                 <example correction="tu">Aprobará <marker>tú</marker> envío de dinero.</example>
                 <example correction="tu">Cuando revisé <marker>tú</marker> caso, no encontré nada relevante.</example>
-                <example>Tú vienes</example>
+                <example>Tú vienes.</example>
                 <example>¿De qué silencio eres tú silencio?</example>
             </rule>-->
             <rule>
@@ -8810,16 +8810,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sé tú.</example>
                 <example>Como tú bien sabes, no es posible.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <token>tú</token>
+                    <token postag="V.M.2S." postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>tú</token>
                     </marker>
-                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception regexp="yes">como|una|obra</exception><exception postag="V.[^M]..2S.|SP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mismo|solo|solito</exception></token>
+                    <token postag="NC.S000|A...S." postag_regexp="yes"><exception regexp="yes">como|una|obra|sal</exception><exception postag="V.[^M].2S.|SP.*|_possible_NP" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mismo|solo|solito</exception></token>
                 </pattern>
                 <message>Si es un posesivo, se escribe sin tilde.</message>
                 <suggestion>tu</suggestion>
                 <example correction="Tu">¿<marker>Tú</marker> prima dónde está?</example>
+                <example correction="tu">Se ajustan a <marker>tú</marker> pie como un calcetín.</example>
+                <example correction="tu">Aprobará <marker>tú</marker> envío de dinero.</example>
+                <example correction="tu">Cuando revisé <marker>tú</marker> caso, no encontré nada relevante.</example>
+                <example>Tú vienes.</example>
+                <example>¿De qué silencio eres tú silencio?</example>
+                <example>Tú sal por este camino.</example>
+                <example>Iré a verla, tú reserva nuestras habitaciones.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TU_TILDE" name="tu / tú">
