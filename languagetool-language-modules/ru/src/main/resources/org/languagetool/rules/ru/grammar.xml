@@ -2536,6 +2536,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="шёл улыбаясь.">Он <marker>шёл, улыбаясь.</marker></example>
             </rule>
         </rulegroup>
+        
+        <rule default="temp_off"  id="Punct_PT_oborot" name="Запятые при причастном обороте">
+            <pattern>
+                <token postag="NN:.*:Nom" postag_regexp="yes"></token>
+                <token postag="PT:.*" postag_regexp="yes" chunk="B-ADJP"></token>
+                <token chunk="I-ADJP"><exception>,</exception></token>
+                <token min="1" max="4" chunk="I-ADJP"><exception>,</exception></token>
+                <token postag="VB:.*" postag_regexp="yes" chunk="B-VP"></token>
+            </pattern>
+        <message>Пропущены запятые при причастном обороте</message>
+        <short>Причастный оборот</short>
+        <example correction=""><marker>Картинка висящая на белой стене упала</marker>.</example>
+        <example>Картинка, висящая на белой стене, упала.</example>
+        </rule>
+        
         <!-- issue #1119  -->
         <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые между глаголами"  default="temp_off" >
             <antipattern>
