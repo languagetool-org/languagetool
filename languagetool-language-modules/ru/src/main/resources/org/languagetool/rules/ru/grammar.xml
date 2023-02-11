@@ -6210,6 +6210,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY" name="Типографика">     
         
+        <rulegroup id="TYPOGRAF_SYMBOL" name="Знаки №, §, %, °, — при двух и более числах" default="temp_off">
+          <rule>
+            <pattern>
+                <token regexp="yes">[0-9][0-9].*</token>
+                <token>%</token>
+                <token>и</token>
+                <token regexp="yes">[0-9][0-9].*</token>
+                <token>%</token>
+            </pattern>
+            <message>Знаки набирают только перед рядом чисел или после него, без постановки у каждого числа в числовом ряду: <suggestion>\1 \3 \4 \5</suggestion></message>
+            <short>Неверный набор значений</short>
+            <example correction="60 и 70 %"><marker>60 % и 70 %</marker></example>
+            <example>60 и 70 %</example>
+          </rule>
+        </rulegroup>
+
         <rulegroup default="on" id="DOUBL_KAVITCHKI" name="Двойные кавычки">
             <rule>
                <pattern>
