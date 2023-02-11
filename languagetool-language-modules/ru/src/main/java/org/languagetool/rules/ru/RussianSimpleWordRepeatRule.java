@@ -42,13 +42,13 @@ public class RussianSimpleWordRepeatRule extends WordRepeatRule {
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
     if (wordRepetitionOf("-", tokens, position)) {
-      return true;   
+      return true;
     }
     if (wordRepetitionOf("и", tokens, position)) {
-      return true;   
+      return true;
     }
     if (wordRepetitionOf("по", tokens, position)) {
-      return true;   
+      return true;
     }
     if (tokens[position - 1].getToken().equals("ПО") && tokens[position].getToken().equals("по")) {
         return true;   // "ПО по"
@@ -57,10 +57,14 @@ public class RussianSimpleWordRepeatRule extends WordRepeatRule {
         return true;   // "по ПО"
     }
     if (wordRepetitionOf("что", tokens, position)) {
-      return true;   
+      return true;
     }
 
-    
+    if (tokens[position].getToken().matches("[a-zA-Zа-яёА-ЯЁ]") && position > 1 && tokens[position - 1].getToken().matches("[a-zA-Zа-яёА-ЯЁ]") ) {
+      // spelling with spaces in between: "L L"
+      return true;
+    }
+
     return super.ignore(tokens, position);
   }
 
