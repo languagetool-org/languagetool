@@ -6210,20 +6210,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY" name="Типографика">     
         
-        <rulegroup id="TYPOGRAF_SYMBOL" name="Знаки №, §, %, °, — при двух и более числах" default="temp_off">
+        <rulegroup id="TYPOGRAF_SYMBOL" name="Знаки «№, §, %, °» при двух и более числах" default="temp_off">
           <rule>
             <pattern>
                 <token regexp="yes">[0-9][0-9].*</token>
                 <token>%</token>
-                <token>и</token>
+                <token regexp="yes">и|до</token>
                 <token regexp="yes">[0-9][0-9].*</token>
                 <token>%</token>
             </pattern>
             <message>Знаки набирают только перед рядом чисел или после него, без постановки у каждого числа в числовом ряду: <suggestion>\1 \3 \4 \5</suggestion></message>
+            <url>https://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%9E%D1%82%D0%B1%D0%B8%D0%B2%D0%BA%D0%B0_%D0%B7%D0%BD%D0%B0%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%BD%D1%82%D0%B0_%D0%BE%D1%82_%D0%BF%D1%80%D0%B5%D0%B4%D1%88%D0%B5%D1%81%D1%82%D0%B2%D1%83%D1%8E%D1%89%D0%B5%D0%B9_%D1%86%D0%B8%D1%84%D1%80%D1%8B</url>
             <short>Неверный набор значений</short>
             <example correction="60 и 70 %"><marker>60 % и 70 %</marker></example>
             <example>60 и 70 %</example>
           </rule>
+          <rule>
+            <pattern>
+                <token regexp="yes">[0-9][0-9].*</token>
+                <token>°</token>
+                <token>,</token>
+                <token regexp="yes">[0-9][0-9].*</token>
+                <token>°</token>
+            </pattern>
+            <message>Знаки набирают только перед рядом чисел или после него, без постановки у каждого числа в числовом ряду: <suggestion>\1\3 \4\5</suggestion></message>
+            <url>https://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%9E%D1%82%D0%B1%D0%B8%D0%B2%D0%BA%D0%B0_%D0%B7%D0%BD%D0%B0%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%BD%D1%82%D0%B0_%D0%BE%D1%82_%D0%BF%D1%80%D0%B5%D0%B4%D1%88%D0%B5%D1%81%D1%82%D0%B2%D1%83%D1%8E%D1%89%D0%B5%D0%B9_%D1%86%D0%B8%D1%84%D1%80%D1%8B</url>
+            <short>Неверный набор значений</short> 
+            <example correction="60, 70°"><marker>60 °, 70 °</marker></example>
+            <example>60, 70°</example>
+          </rule>
+          <rule>
+            <pattern>
+                <token>§</token>
+                <token regexp="yes">[0-9].*</token>
+                <token regexp="yes">и|до</token>
+                <token>§</token>
+                <token regexp="yes">[0-9].*</token>
+            </pattern>
+            <message>Знаки набирают только перед рядом чисел или после него, без постановки у каждого числа в числовом ряду: <suggestion>\1 \2 \3 \5</suggestion></message>
+            <url>https://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%9E%D1%82%D0%B1%D0%B8%D0%B2%D0%BA%D0%B0_%D0%B7%D0%BD%D0%B0%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%BD%D1%82%D0%B0_%D0%BE%D1%82_%D0%BF%D1%80%D0%B5%D0%B4%D1%88%D0%B5%D1%81%D1%82%D0%B2%D1%83%D1%8E%D1%89%D0%B5%D0%B9_%D1%86%D0%B8%D1%84%D1%80%D1%8B</url>
+            <short>Неверный набор значений</short>
+            <example correction="§ 5 и 6"><marker>§ 5 и § 6</marker></example>
+            <example>§ 5 и 6</example>
+          </rule>
+          <rule>
+            <pattern>
+                <token>№</token>
+                <token regexp="yes">[0-9].*</token>
+                <token regexp="yes">и|до</token>
+                <token>№</token>
+                <token regexp="yes">[0-9].*</token>
+            </pattern>
+            <message>Знаки набирают только перед рядом чисел или после него, без постановки у каждого числа в числовом ряду: <suggestion>\1 \2 \3 \5</suggestion></message>
+            <url>https://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%9E%D1%82%D0%B1%D0%B8%D0%B2%D0%BA%D0%B0_%D0%B7%D0%BD%D0%B0%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%BD%D1%82%D0%B0_%D0%BE%D1%82_%D0%BF%D1%80%D0%B5%D0%B4%D1%88%D0%B5%D1%81%D1%82%D0%B2%D1%83%D1%8E%D1%89%D0%B5%D0%B9_%D1%86%D0%B8%D1%84%D1%80%D1%8B</url>
+            <short>Неверный набор значений</short>
+            <example correction="№ 5 и 6"><marker>№ 5 и № 6</marker></example>
+            <example>№ 5 и 6</example>
+          </rule>
+          <rule>
+            <pattern>
+                <token>№</token>
+                <token regexp="yes">[0-9].*</token>
+                <token>,</token>
+                <token>№</token>
+                <token regexp="yes">[0-9].*</token>
+            </pattern>
+            <message>Знаки набирают только перед рядом чисел или после него, без постановки у каждого числа в числовом ряду: <suggestion>\1 \2\3 \5</suggestion></message>
+            <url>https://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%9E%D1%82%D0%B1%D0%B8%D0%B2%D0%BA%D0%B0_%D0%B7%D0%BD%D0%B0%D0%BA%D0%B0_%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D0%BD%D1%82%D0%B0_%D0%BE%D1%82_%D0%BF%D1%80%D0%B5%D0%B4%D1%88%D0%B5%D1%81%D1%82%D0%B2%D1%83%D1%8E%D1%89%D0%B5%D0%B9_%D1%86%D0%B8%D1%84%D1%80%D1%8B</url>
+            <short>Неверный набор значений</short>
+            <example correction="№ 5, 6"><marker>№ 5, № 6</marker></example>
+            <example>№ 5, 6</example>
+          </rule>
+
         </rulegroup>
 
         <rulegroup default="on" id="DOUBL_KAVITCHKI" name="Двойные кавычки">
@@ -12588,14 +12646,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[1-9]+</token>
                     <token spacebefore="no" regexp="yes">,</token>
                     <token spacebefore="no" regexp="yes">[0-9]+</token>
-                    <token postag="NN:.*:PL:R" postag_regexp="yes">
-                        <exception negate_pos="yes" postag="NN:.*:PL:R" postag_regexp="yes"></exception>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                        <exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception>
+                        <exception postag="NN:.*:Sin:R" postag_regexp="yes"></exception>
                         <exception>лет</exception>
                     </token>
                 </pattern>
-                <message>Существительное с дробным числительным должно употребляться в единственном числе (например 35,5 процента), а не во множественном (35,5 процентов): <suggestion><match no="1"></match><match no="2"></match><match no="3"></match> <match no="4" postag="NN:(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match></suggestion></message>
+                <message>Существительное с дробным числительным должно употребляться в единственном числе родительного падежа (например 35,5 процента), а не во множественном (35,5 процентов): <suggestion><match no="1"></match><match no="2"></match><match no="3"></match> <match no="4" postag="NN:(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match></suggestion></message>
                 <url>https://ru.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
-                <short>Требуется единственное число</short>
+                <short>Требуется ед. число р.п.</short>
                 <example>35,5 процента.</example>
                 <example correction="35,5 процента"><marker>35,5 процентов</marker>.</example>
             </rule> 
