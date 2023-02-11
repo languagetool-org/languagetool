@@ -686,6 +686,12 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="replace" postag="RG"/>
         </rule>
     </rulegroup>
+    <rule id="DEMASIADO" name="demasiado">
+        <pattern>
+            <token postag="RG">demasiado</token>
+        </pattern>
+        <disambig action="remove" postag="VMP00SM"/>
+    </rule>
     <rule id="TAL" name="qué tal">
         <pattern>
             <token>qué</token>
@@ -710,6 +716,15 @@ Copyright (C) 2011 Juan Martorell
                     <token>nada</token>
                 </marker>
                 <token regexp="yes">más|menos|ni</token>
+            </pattern>
+            <disambig action="filter" postag="PI0CS000"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">haber</token>
+                <marker>
+                    <token postag="PI0CS000">nada</token>
+                </marker>
             </pattern>
             <disambig action="filter" postag="PI0CS000"/>
         </rule>
