@@ -2770,15 +2770,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
     -->
         </rulegroup>
-        <rulegroup default="temp_off" id="DPT_Unification" name="Деепричастия в одном предложении" >
+        <rulegroup default="on" id="DPT_Unification" name="Деепричастия в одном предложении" tags="picky">
             <rule>    
                 <pattern>
                     <unify negate="yes">
                         <feature id="aspect"/>
                         <feature id="tense"/>
                         <marker> 
-                            <token postag="DPT:.*" postag_regexp="yes" skip="5" ><exception postag="DPT:.*" postag_regexp="yes" negate_pos="yes"  /></token>
-                            <token postag="DPT:.*" postag_regexp="yes"><exception postag="DPT:.*" postag_regexp="yes" negate_pos="yes"  /></token>   
+                            <token postag="DPT:.*" postag_regexp="yes" skip="3" >
+                                <exception postag="DPT:.*" postag_regexp="yes" negate_pos="yes"  /><exception scope="next" regexp="yes">["'«»:;]</exception></token>
+                            <token postag="DPT:.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[а-яё][а-яё]*<exception postag="DPT:.*" postag_regexp="yes" negate_pos="yes"  /></token>   
                         </marker>
                     </unify>
                 </pattern>
