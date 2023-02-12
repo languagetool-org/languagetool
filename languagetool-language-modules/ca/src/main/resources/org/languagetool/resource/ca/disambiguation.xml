@@ -760,6 +760,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace" postag="AO0MS0"/>
         </rule>
     </rulegroup>
+    <rule id="segon_ordinal" name="segon (ordinal) amb error de gènere">
+        <pattern>
+            <marker>
+                <token postag="AO0MS0">segon</token>
+            </marker>
+            <!-- anàlisi, síndrome...  -->
+            <token postag="NCFS000"/>
+        </pattern>
+        <disambig action="filter" postag="AO0MS0"/>
+    </rule>
     <rule id="dos_o_mes" name="dos o més">
         <pattern>
             <marker>
