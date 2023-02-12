@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <!ENTITY dias_semana_abrev "(?:[Ss]ex|[Ss]eg|[Ss]áb|[Dd]om|[Qq]ui|[Tt]er)">
     <!ENTITY dias_semana "(?:[Dd]omingo|[Qq]uarta(-feira)?|[Qq]uinta(-feira)?|[Ss]ábado|[Ss]egunda(-feira)?|[Ss]exta(-feira)?|[Tt]erça(-feira)?|(seg|ter|qua|qui|sex)-feira)">
     <!ENTITY partes_do_dia "madrugada|manhã|matina|noite|tarde">
-    <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes|manhãs?|tardes?|noites?">
+    <!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|amanhãs?|datas?|eras?|horários?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes|manhãs?|tardes?|noites?">
 	<!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
 
 	<!ENTITY titulos_militares "Almirante|Comandante|Marechal|General|Tenente|Vice-Almirante|Major|Brigadeiro|Contra-Almirante|Capitão|Tenente-Coronel|Coronel|Primeiro-Tenente|Segundo-Tenente|Terceiro-Tenente|Guarda-Marinha|Aspirante|Suboficial|Subtenente|Primeiro-Sargento|Segundo-Sargento|Terceiro-Sargento|Sargento|Cabo|Marinheiro|Soldado">
@@ -10823,19 +10823,95 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
-    <!-- EM QUE [AO]? onde [ao]s? -->
-    <rule id='EM_QUE_O_OS_A_AS_ONDE' name="Em que a(s)/o(s) → Onde a(s)/o(s)" type="style" tags="picky">
-      <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-11-18 (25-JUN-2021+)      -->
+
+    <!-- EM QUE onde -->
+    <rule id='EM_QUE_O_OS_A_AS_ONDE' name="Em que → Onde" type="style" tags="picky">
+      <!-- Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2023-02-11/12 (Checked/Enhanced) (25-JUL-2022+) -->
       <!--
       Esta é a cidade em que o evento acontece. → Esta é a cidade onde o evento acontece.
+
+      Note: This rule isn't 100% accurate because it depends on context, which can't be entirely coded in rules.
       -->
-      <pattern>
-        <and>
-        <token negate="yes" regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</token>
-        <token negate_pos="yes" postag='Z0.+' postag_regexp='yes'/>
-        </and>
+
+      <antipattern>
+        <token regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</token>
+        <token min="0" max="1" postag_regexp='yes' postag='(SPS00:)?D[AI].+'/>
+        <token min="0" max="2" postag_regexp='yes' postag='NC.+|AQ.+|RG|V.+|CS|CC'/>
         <token min="0" max="1" postag='_QUOT'/>
-        <token min="0" max="1" regexp='yes'>[,]</token>
+        <token min="0" max="1" postag='_PUNCT'/>
+        <token>em</token>
+        <token>que</token>
+        <example>Às vezes, ela estava simplesmente tomando café, mas eu via, naquele segundo distraído em que o olhar se perdia no armário do outro lado da cozinha.</example>
+        <example>Assim como será altamente democrático ter campanhas em que o abuso do poder econômico, bem como o uso de máquinas públicas, sindicais e empresariais sejam lim...</example>
+        <example>...pa existe um trecho de Friedrich Nietzsche (filósofo alemão) de 1871 que fala sobre a época moderna em que as pessoas perceberão que Deus não existe, que nada poderá salvá-las, e será uma época de grande te...</example>
+        <example>A empresa de trabalho temporário é responsável pelo contrato, mas e no dia a dia, em que o funcionário está alocado na empresa contratante como que fica?</example>
+        <example>...perior só será permitida após a permanência do Sócio Torcedor por no mínimo 6 (seis) meses no plano em que o Sócio Torcedor migrou.</example>
+        <example>Adolescência é o período da vida em que o desenvolvimento da criança a converte num adulto.</example>
+        <example>Na atual era, em que as pessoas recorrem para a web para saber como tratar de uma gripe ou até como trocar a resistência...</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag_regexp='yes' postag='RG|V.+'> <!-- RG="na medida em que" -->
+          <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+        </token>
+        <token min="0" max="1" postag='_QUOT'/>
+        <token min="0" max="1" postag='_PUNCT'/>
+        <token>em</token>
+        <token>que</token>
+        <example>Tratando-se de garantia simples ou impropria, em que a falta da denunciação da lide não envolve perda do direito de regresso, sendo a ação julgada impro...</example>
+        <example>Trata-se de uma narrativa poética, teatralizada, em que as personagens rurais, confrontadas com o mundo exterior, dão testemunho da sua intimidade, dos seu...</example>
+        <example>Ela se comprometeu em que a sessão de grupo para ser aberto com qualquer criança sobre as suas origens, mas ela investiu uma ...</example>
+        <example>No entanto, os reembolsos mensais de juros e prestações são também um compromisso a prazo, em que os pagamentos mensais devem ser garantidos mesmo em caso de acidente, doença ou desemprego.</example>
+        <example>A interpretação que se está dando é que, na medida em que o parágrafo único do art.</example>
+      </antipattern>
+
+      <antipattern>
+        <token regexp='yes'>atividade|caso|circunstância|condição|consciência|consultivo|contexto|desordem|distúrbio|episódio|fase|forma|grau|hipótese|língua|lista|literário|livro|medida|modelo|modo|movimento|numeração|ocorrência|participativo|pessoa|processo|sentido|situação|solução|título</token> <!-- exactly the same exceptions from the pattern below. -->
+        <token min="0" max="1" postag_regexp='yes' postag='(SPS00:)?D[AI].+'/>
+        <token min="1" max="2" postag_regexp='yes' postag='NC.+|AQ.+|RG|V.+|CS|CC'/>
+        <token min="0" max="1" postag='_QUOT'/>
+        <token min="0" max="1" postag='_PUNCT'/>
+        <token>em</token>
+        <token>que</token>
+        <example>Aí ele chega à adolescência, fase da vida em que a gente se junta, faz grupos, turminhas, e em vez de se juntar a um grupo de estudantes atletas com...</example>
+        <example>Trata-se de uma situação conjuntural em que os “de cima” – a burguesia e os seus representantes – já não conseguem governar como sempre governa...</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag_regexp='yes' postag='SENT_START|_PUNCT'/> 
+        <token>em</token>
+        <token>que</token>
+        <token postag_regexp='yes' postag='DA.+'/> 
+        <token postag_regexp='yes' postag='(SPS00:)?DP.+|NC.+|AQ.+|NP.+'/>
+        <token min="0" max="1" postag_regexp='yes' postag='NC.+|AQ.+|NP.+'/>
+        <token min="1" max="2" postag_regexp='yes' postag='_PUNCT|V.+|SPS00:D[AI].+'>
+          <exception regexp='yes'>com|nos|seja</exception>
+          <exception scope='next' regexp='yes'>com|nos|seja</exception>
+        </token>
+        <example>Algo que Steiner chama de obra “dialógica”, em que as pessoas reagem diferentemente aos estímulos e sentem-se parte do ambiente.</example>
+        <example>Mas mesmo construtoras das faixas 1,5 e 2, em que o subsídio é menor, relatam atrasos e temem impactos financeiros.</example>
+        <example>O primeiro: o “espírito do tempo” que estamos vivenciando, um mundo plural, em que a morte do passado nos revela que tradição não dá mais liga e o individualismo é o senhor da razão....</example>
+        <example>Aprender a enxergar uma teologia da história, em que a história dos impérios, das guerras, das conquistas humanas, é a mesma história das misérias e vir...</example>
+        <example>Em alguns modelos, em que a roda é de alumínio, somente essa peça custa R$ 1.000,00.</example>
+        <example>Portanto, estamos já em um segundo tempo adiantado do "jogo" (em que a preservação do meio ambiente vai perdendo).</example>
+        <example>Um estresse físico ou psicológico causa uma série de respostas fisiológicas, em que a principal é a liberação de cortisol pelas glândulas adrenais.</example>
+        <example>Em que o autor estava pensando enquanto escrevia este livro?</example>
+        <example>A vida é uma lousa, em que o destino, para escrever um novo caso, precisa apagar o caso escrito.</example>
+        <example>Em que o Tom trabalha?</example>
+        <example>Isso forçou dois jogos de desempate, em que o Palmeiras venceu as duas partidas.</example>
+        <example>Em que a sua opinião difere da dele?</example>
+        <example>Em que o seu pai trabalha?</example>
+        <example>Ele foi influenciado pela definição de estilo de Blanc, em que a verdadeira pintura requer ótimo uso de cor, perspectiva e pincelada.</example>
+      </antipattern>
+
+      <pattern>
+        <token>
+          <exception postag_regexp='yes' postag='Z0.+'/>
+          <exception regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</exception>
+          <exception regexp='yes' inflected='yes'>atividade|caso|circunstância|condição|consciência|consultivo|contexto|desordem|distúrbio|episódio|fase|forma|grau|hipótese|língua|lista|literário|livro|medida|modelo|modo|movimento|numeração|ocorrência|participativo|pessoa|processo|sentido|situação|solução|título</exception> <!-- Add exceptions - 2023-02-11 -->
+        </token>
+        <token min="0" max="1" postag='_QUOT'/>
+        <token min="0" max="1" postag='_PUNCT'/>
         <marker>
           <token>em</token>
           <token>que</token>
@@ -10859,7 +10935,41 @@ O namorado dela era um ladrão.
       <example>Quase morri de susto no instante em que o vi.</example>
       <example>A idade em que os heróis viveram na mitologia grega é conhecida como Era (ou Idade) Heróica.</example>
       <example>É um remanescente histórico da era em que as garrafas eram feitas artesanalmente, sopradas através de um cano.</example>
+      <example>A situação em que o senhor se encontra é parecida com a minha.</example>
+      <example>O sigilo sacramental diz respeito a tudo o que o penitente acusou, mesmo no caso em que o confessor não conceda a absolvição.</example>
+      <example>Este surgiu lá na Europa por miados de 1300 e não passava de um movimento literário em que os autores para ter "inspiração" para fazer suas obras comiam ovo, pão com mortadela e mais umas ou...</example>
+      <example>Estes conteúdos são chamados de “nutrição” e precisam estar alinhados com a fase em que o cliente se encontra dentro da jornada.</example>
+      <example>Além disso saiba que, das 00h às 4h é o horário em que a medula óssea está produzindo sangue.</example>
+      <example>Sistema de numeração em que a base é doze.</example>
+      <example>À medida em que o grotesco desfile passava, todos saíam de suas casas, hipnotizados.</example>
+      <example>Cagar em dodote de adulto podia ser uma das soluções em que a CMP podia apostar, em lugar da caras sentinas públicas ou casas de banho em casa de cada um.</example>
+      <example>Ele se encaixa perfeitamente bem ao modo em que as 5,8” são utilizáveis com apenas uma das mãos.</example>
+      <example>Se o carro estiver em uma condição em que o motor elétrico for mais eficiente, apenas esse sistema será utilizado.</example>
+      <example>O teatro é a atividade em que o homem reflexiona sobre si mesmo.</example>
+      <example>Incêndio da Trafaria, um triste episódio em que a aldeia da Trafaria foi propositada e completamente incendiada, com o propósito de capturar refrac...</example>
+      <example>... fazer em 1875 com que fosse transferido para Paris, onde ficou ressentido por questões como o grau em que a firma mercantilizava arte, sendo demitido um ano depois.</example>
+      <example>Existe sempre um amanhã em que a vida nos dá outra oportunidade para fazermos bem as coisas,... mas, pensando que hoje é tudo o qu...</example>
+      <example>É melhor traduzir um diálogo que uma frase independente, porque o diálogo define o contexto em que as palavras ali são usadas.</example>
+      <example>O campeonato se chamou Copa Rio, título em que a FIFA oficializou em 2014 como o Primeiro campeonato Mundial Interclubes da história do futebol.</example>
+      <example>Como juiz tive oportunidade de atuar num processo em que o autor narrava um ato ilícito (decorrente de acidente automobilístico) em relação à SLU (autarquia...</example>
+      <example>Uma hipótese é a de que só tenham sentenças revistas os processos em que o réu reivindicou ainda na primeira instância o direito a apresentar as alegações finais após os de...</example>
+      <example>[199] A 2 de Janeiro de 2011, foi revelada uma lista em que o projecto era a décima quinta música mais descarregada de sempre no país.</example>
+      <example>Hipótese em que os embargantes foram denunciados pela prática dos delitos descritos nos artigos 1º, IV, e 2º, II, d...</example>
+      <example>E a familiaridade do pensamento com tais pares constituintes abre o caminho para pensar modelos em que o modelo constituinte é uma combinação dos três pares constituintes.</example>
+      <example>Do mesmo modo, informar a circunstância em que a criança mais sente dor pode contribuir para o diagnóstico: observe se ela grita ou chora ao troca...</example>
+      <example>na praia é inspirado neste livro em que o Papa Francisco dá uma entrevista e declara: “Deus é jovem.” Como falamos muito de santidade e juv...</example>
+      <example>...ta: a do arquiteto Roberto Andrés, professor da UFMG, que criticou de forma muito criativa, a forma em que as cidades pensam em suas malhas viárias, usando BH como exemplo.</example>
+      <example>A desordem em que a Europa acaba de mergulhar é momento propício para reflexão.</example>
+      <example>Ele é o consultivo em que o rei mais confia.</example>
+      <example>Infelizmente, existe um distúrbio em que as plaquetas de sangue são muito mais baixas do que o normal.</example>
+      <example>A amizade é uma língua em que o surdo pode ouvir e o cego pode ler.</example>
+      <example>...erir que a África pré-colonial pode não ter sido um mundo sem fronteiras, pelo menos não no sentido em que as temos definido; as fronteiras existentes sempre foram porosas e permeáveis.</example>
+      <example>Festas de família, aniversário, happy-hour com os amigos e outras ocorrências em que o apelo da comida seja muito excessivo costumam ser evitados.</example>
+      <example>Nenhum estudioso foi capaz de identificar a língua em que o texto foi escrito.</example>
+      <example>...tidos em cada experimento está inseparavelmente vinculada às condições e ao contexto de consciência em que a experimentação se realiza, ou seja, a totalidade da nossa natureza.</example>
+      <example>Tom é a única pessoa em que a Mary realmente confia.</example>
     </rule>
+
 
     <!-- MOSTRAM mostra -->
     <rulegroup id='CONCORDANCIA_COM_NUCLEO_DO_SUJEITO_V2' name='Concordância com núcleo do sujeito'>
