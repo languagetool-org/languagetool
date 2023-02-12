@@ -1011,19 +1011,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='_PUNCT|CS' postag_regexp='yes'/>
       </antipattern>
 
-        <!-- MARCOAGPINTO 2022-10-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+        <!-- MARCOAGPINTO 2022-10-13 + 2023-02-12 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <!-- It has zero hits in 600 000 sentences, it just removes one false positive in my thesis -->
         <antipattern>
-          <token postag='SENT_START' postag_regexp='no'/>
+          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
           <token postag='VMG0000' postag_regexp='no'/>
           <token regexp='yes'>est[ae]s?</token>
           <token postag='AQ.+|NC.+' postag_regexp='yes'/>
           <token postag='_PUNCT' postag_regexp='no'>
             <exception scope="next" postag_regexp='yes' postag='AQ.+|NC.+'/>
           </token>
-          <example>Sendo estes digitais, não há interferências.</example>
+          <example>E, sendo estes digitais, não há interferências.</example>
         </antipattern>
-        <!-- MARCOAGPINTO 2022-10-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+        <!-- MARCOAGPINTO 2022-10-13 + 2023-02-12 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <rule>
         <pattern>
