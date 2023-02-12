@@ -8512,6 +8512,22 @@ O namorado dela era um ladrão.
             <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
             <example correction='As minhas canecas|A minha caneca|O meu caneco|Os meus canecos'><marker>O minhas caneca</marker> é preta.</example>
     </rule>
+        <rule default='temp_off'>
+        <pattern>
+            <token postag='(?:D[ADIP].|SPS00:D..).+' postag_regexp='yes'>
+              <exception postag='DA0FS0|(D..|SPS00:D..)FP.+' postag_regexp='yes'/></token>
+            <token postag='D[IP].FP.+' postag_regexp='yes'/>
+            <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+            <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
+            <token postag='(?:N.|A..)FP.+' postag_regexp='yes'/>
+        </pattern>
+            <message>Possível erro de concordância.</message>
+            <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
+            <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+            <example correction='As minhas canecas|A minha caneca|O meu caneco|Os meus canecos'><marker>O minhas canecas</marker> é preta.</example>
+    </rule>
 
     <rule default='temp_off'>
         <pattern>
@@ -8575,6 +8591,22 @@ O namorado dela era um ladrão.
             <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
             <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
             <example correction='As minhas canecas|A minha caneca|O meu caneco|Os meus canecos'><marker>Os minha caneca</marker> é preta.</example>
+    </rule>
+            <rule default='temp_off'>
+        <pattern>
+            <token postag='(?:D[ADIP].|SPS00:D..).+' postag_regexp='yes'>
+              <exception postag='(?:D[ADIP].|SPS00:D..)FS.+' postag_regexp='yes'/></token>
+            <token postag='D[IP].FS.+' postag_regexp='yes'/>
+            <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+            <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
+            <token postag='(?:N.|A..)FP.+' postag_regexp='yes'/>
+        </pattern>
+            <message>Possível erro de concordância.</message>
+            <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FS(.+)" postag_replace='$1FP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>
+            <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1FS$2' postag_regexp="yes"/> \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no='1' postag="(DA.)..(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='2' postag="(DP.)FS(.+)" postag_replace='$1MP$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)FP(.+)" postag_replace='$1MP$2' postag_regexp="yes"/></suggestion>
+            <example correction='As minhas canecas|A minha caneca|O meu caneco|Os meus canecos'><marker>Os minha canecas</marker> é preta.</example>
     </rule>
 <rule default='temp_off'>
     <pattern>
