@@ -32643,6 +32643,28 @@ O namorado dela era um ladrão.
 
     <rulegroup id="DIACRITICS" name="Confusão com diacríticos">
       <!--      Created by Jaume Ortolà, Portuguese rule 2021-01-08      -->
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
+
+      <!-- MARCOAGPINTO 2023-02-13 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='VMIP3.+' postag_regexp='yes'>
+          <exception scope="previous" postag_regexp='yes' postag='V.+|SPS00:D[AI].+|DP.+'/> <!-- "mas" -->
+        </token>
+        <token postag='SPS00|DA.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='Z0.+|NC.+|NP.+|AQ.+' postag_regexp='yes'/>
+        <token postag='SPS00|DA.+' postag_regexp='yes'/>
+        <token min="1" max="2"  postag='Z0.+|NC.+|NP.+|AQ.+' postag_regexp='yes'/>
+        <example>...maneira de conscientizar politicamente a comunidade”, afirma a moradora Patrícia Andrade que também integra a equipe de organização.</example>
+        <example>Integra a equipa de coordenação nacional do projeto financiado pela Comissão Europeia "Protecting Visctims´...</example>
+        <example>Isso varia de pessoa pra pessoa?</example>
+        <example>Mas o problema do Rio é mais complexo e evidencia a crise de um modelo de governabilidade.</example>
+        <example>VARIA DE REGIÃO PARA REGIÃO: TIPO DE VEGETAÇÃO, SOLO, VOLUME D'ÁGUA, CLIMA, INCLINAÇÃO, ETC.</example>
+        <example>A porcentagem de proteína no WPC varia de 30% a 90%.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-02-13 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
      <rule default='on'>
         <pattern>
           <token postag='N.F.+|A..F|D..F.+|SPS00:D..F.+' postag_regexp='yes'/>
