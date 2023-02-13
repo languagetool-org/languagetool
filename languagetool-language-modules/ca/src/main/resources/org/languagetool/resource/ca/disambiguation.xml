@@ -3189,14 +3189,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">ésser|esser</token>
                 </marker>
-                <token regexp="yes">humà|viu|vivent</token>
+                <token regexp="yes" inflected="yes">humà|viu|vivent|suprem</token>
             </pattern>
             <disambig action="filter" postag="N.*"/>
         </rule>
         <rule>
+            <!-- incloent-hi errors de concordança -->
             <pattern>
                 <marker>
-                    <token postag="D..MS." postag_regexp="yes"><exception>en</exception></token>
+                    <token postag="D.*" postag_regexp="yes"><exception>en</exception></token>
                     <token postag="NCMS000" regexp="yes">ésser|esser</token>
                 </marker>
             </pattern>
