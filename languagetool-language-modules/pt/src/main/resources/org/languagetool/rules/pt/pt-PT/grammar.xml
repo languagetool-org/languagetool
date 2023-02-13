@@ -4953,47 +4953,6 @@
   <category id='REGIONALISMS_PT_PT' name='[pt-PT] Regionalismos'>
 
 
-    <rulegroup default='on' id="EQUIPES" name="[pt-PT] Confusão: Equipes/Equipas">
-      <!-- Created by Marco A.G.Pinto , Portuguese rule -->
-      <rule>
-        <pattern>
-          <token regexp="yes">(?:d|n|outr|pel)?[ao]s?|(?:alg|d|n)?(?:um(a|as)?|uns)|em|(?:sua|[nv]ossa|tua)s?</token>
-          <marker>
-            <token regexp='yes'>equipes?</token>
-          </marker>
-        </pattern>
-        <message>Grafia do Brasil. Substitua por <suggestion><match no='2' regexp_match='ipe' regexp_replace='ipa'/></suggestion>.</message>
-        <example correction="equipa">A nossa <marker>equipe</marker> é a melhor.</example>
-        <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
-      </rule>
-    </rulegroup>
-
-
-    <!-- O/DE/DO/SOB CONTROLE o/de/do controlo -->
-    <!-- Created by Marco A.G.Pinto , Portuguese rule -->
-    <rulegroup default='on' id="CONTROLO_CONTROLE" name="[pt-PT] Confusão Controle/Controlo">
-      <rule>
-        <pattern>
-          <token regexp="yes">(?:d|n|outr|pel)?os?|de|(?:alg|d|n)?(?:um|uns)|em</token>
-          <marker>
-            <token>controle</token>
-          </marker>
-          <token regexp="yes">das?|dos?|de</token>
-        </pattern>
-        <message>Grafia do Brasil. Substitua por <suggestion>controlo</suggestion>.</message>
-        <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>sob</token>
-          <token>controle</token>
-        </pattern>
-        <message>Grafia do Brasil. Substitua por <suggestion>sob controlo</suggestion>.</message>
-        <example correction="sob controlo">Está tudo <marker>sob controle</marker>.</example>
-      </rule>
-    </rulegroup>
-
-
     <rulegroup id="BRASILEIRISMOS" name="[pt-PT] Brasileirismos">
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Gram.C3.A1tica</url>
@@ -5006,12 +4965,48 @@
         <example correction='aterrar'>O avião vai <marker>aterrizar</marker> dentro de momentos.</example><!-- TODO Add aterrisar POSs to tagger -->
       </rule>
 
+      <rule id='BRASILEIRISMO_CONTROLO_CONTROLE' name='[pt-PT][Brasileirismo] controle → controlo'>
+      <!-- Created by Marco A.G.Pinto , Portuguese rule -->
+        <pattern>
+          <token regexp="yes">(?:d|n|outr|pel)?os?|de|(?:alg|d|n)?(?:um|uns)|em</token>
+          <marker>
+            <token>controle</token>
+          </marker>
+          <token regexp="yes">das?|dos?|de</token>
+        </pattern>
+        <message>Grafia do Brasil. Substitua por <suggestion>controlo</suggestion>.</message>
+        <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
+      </rule>
+
+      <rule id='BRASILEIRISMO_CONTROLO_CONTROLE_SOB' name="[pt-PT][Brasileirismo] 'sob controle' → 'sob controlo'">
+      <!-- Created by Marco A.G.Pinto , Portuguese rule -->
+        <pattern>
+          <token>sob</token>
+          <token>controle</token>
+        </pattern>
+        <message>Grafia do Brasil. Substitua por <suggestion>sob controlo</suggestion>.</message>
+        <example correction="sob controlo">Está tudo <marker>sob controle</marker>.</example>
+      </rule>
+
       <rule id='BRASILEIRISMO_DECOLAR' name='[pt-PT][Brasileirismo] decolar → descolar'>
         <pattern>
           <token regexp='yes'>decol.+</token>
         </pattern>
         <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='decol(.+)' regexp_replace='descol$1'/></suggestion>.</message>
         <example correction='descolar'>O avião vai <marker>decolar</marker> dentro de momentos.</example><!-- TODO Add decolar POSs to tagger -->
+      </rule>
+
+      <rule id="BRASILEIRISMO_EQUIPES" name="[pt-PT][Brasileirismo] equipes → equipas">
+      <!-- Created by Marco A.G.Pinto , Portuguese rule -->
+        <pattern>
+          <token regexp="yes">(?:d|n|outr|pel)?[ao]s?|(?:alg|d|n)?(?:um(a|as)?|uns)|em|(?:sua|[nv]ossa|tua)s?</token>
+          <marker>
+            <token regexp='yes'>equipes?</token>
+          </marker>
+        </pattern>
+        <message>Grafia do Brasil. Substitua por <suggestion><match no='2' regexp_match='ipe' regexp_replace='ipa'/></suggestion>.</message>
+        <example correction="equipa">A nossa <marker>equipe</marker> é a melhor.</example>
+        <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
       </rule>
 
       <rule id='BRASILEIRISMO_EXPERIMENTO' name='[pt-PT][Brasileirismo] experimento → experiência'>
