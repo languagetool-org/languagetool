@@ -47019,35 +47019,6 @@ O namorado dela era um ladrão.
       </rule>
     </rulegroup>
 
-    <rulegroup id="PORTUGUESE_ADDRESSES" name="Formato de endereços em Portugal">
-      <!--  Localized from French, by Tiago F. Santos, 2017-10-01      -->
-      <rule>
-        <regexp type="exact" mark="1">\b(?:Rua|R\.|Arruamento|Avenida|Av\.|Praça|Pr\.|Cruzamento|Caminho|Via|Estrada|Piso)[  ][^,\n]+\s*[,\n]\s*(\p{Lu}[^,%\d\n]+[  ]\d{4}(?:\-\d{3})?)\s*[,\n]\s*(?:PORTUGAL|PORTOGALLO|PORTOGALIA)\b</regexp>
-        <message>Se é um código postal português, o código postal deve estar antes do nome da localidade.</message>
-        <example type="incorrect">Rua da Igreja 5, <marker>PORTO 2920</marker>, PORTUGAL</example>
-        <example>Rua da Igreja 5, <marker>2920 PORTO</marker>, PORTUGAL</example>
-        <example type="incorrect">Rua da Igreja 5, <marker>PORTO 2920-292</marker>, PORTUGAL</example>
-        <example>Rua da Igreja 5, <marker>2920-292 PORTO</marker>, PORTUGAL</example>
-      </rule>
-      <rule>
-        <!-- When country is not specified, we can still guess that the address
-        is in Portugal for some biggest well known cities.
-        for the biggest cities per departement -->
-        <regexp>\b(?:(?:&localidades_postais;) \d{4})\b</regexp>
-        <message>Se é um código postal português, deve ser escrito antes da localidade postal</message>
-        <example type="incorrect">5 Rua da Igreja, <marker>Porto 2920</marker>.</example>
-        <example>5 Rua da Igreja, 2920 Porto.</example>
-      </rule>
-      <rule>
-        <regexp type='exact'>\b(?:\d[  \.·,-]\d\d\d (?:&localidades_postais;))\b</regexp>
-        <message>Se é um código postal, deve ser escrito sem separadores.</message>
-        <example type="incorrect">Rua da Igreja, <marker>2 200 Porto</marker>.</example>
-        <example type="incorrect">Rua da Igreja, <marker>2 200 Porto</marker>.</example>
-        <example type="incorrect">Rua da Igreja, <marker>2,200 Porto</marker>.</example>
-        <example type="incorrect">Rua da Igreja, <marker>2.200 Porto</marker>.</example>
-        <example type="incorrect">Rua da Igreja, <marker>2·200 Porto</marker>.</example>
-      </rule>
-    </rulegroup>
 
 
   </category>
