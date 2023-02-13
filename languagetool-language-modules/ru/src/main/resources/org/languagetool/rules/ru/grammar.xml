@@ -2537,16 +2537,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup default="temp_off"  id="Punct_PT_oborot" name="Запятые при причастном обороте">
+        <rulegroup  id="Punct_PT_oborot" name="Запятые при причастном обороте" tags="picky"> <!-- TODO: remove picky    -->
         <rule>
             <!-- Причастный оборот всегда выделяется запятыми, если располагается после определяемого слова. --> 
             <pattern> 
-                 <marker>
-                   <token postag="NN:.*:Nom" postag_regexp="yes"></token>
-                   <token postag="PT:.*" postag_regexp="yes" chunk="B-ADJP"><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
-                   <token chunk="I-ADJP"><exception>,</exception><exception postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
-                   <token min="1" max="4" chunk="I-ADJP"><exception>,</exception><exception postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
-                </marker>
+                    <marker>
+                        <token postag="NN:.*:Nom" postag_regexp="yes"></token>
+                        <token postag="PT:.*" postag_regexp="yes" chunk="B-ADJP"><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>                 
+                        <token chunk="I-ADJP"><exception>,</exception><exception postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
+                        <token min="1" max="4" chunk="I-ADJP"><exception>,</exception><exception postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
+                    </marker>
                 <or>
                     <token postag="VB:.*" postag_regexp="yes" chunk="B-VP"></token>
                     <token chunk="B-VP">не</token>
@@ -2556,6 +2556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Причастный оборот</short>
         <example correction="Картинка, висящая на белой стене,"><marker>Картинка висящая на белой стене</marker> упала.</example>
         <example correction="Дети, гуляющие во дворе,"><marker>Дети гуляющие во дворе</marker> не спешили идти домой.</example>
+  <!--  <example>Посетитель описанных выше сервисов мог заметить.</example> -->
   <!--  <example>Посетители описанных выше сервисов могли заметить.</example> TODO: опр. слово "сервисов", а не "посетители", поэтому запятые не нужны!!! -->
         <example>Картинка, висящая на белой стене, упала.</example>
         </rule>
@@ -6216,7 +6217,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY" name="Типографика">     
         
-        <rulegroup id="TYPOGRAF_SYMBOL" name="Знаки «№, §, %, °» при двух и более числах" default="temp_off">
+        <rulegroup id="TYPOGRAF_SYMBOL" name="Знаки «№, §, %, °» при двух и более числах" >
           <rule>
             <pattern>
                 <token regexp="yes">[0-9][0-9].*</token>
