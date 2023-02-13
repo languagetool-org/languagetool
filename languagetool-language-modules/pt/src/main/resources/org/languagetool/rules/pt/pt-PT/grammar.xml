@@ -4997,8 +4997,36 @@
     <rulegroup id="BRASILEIRISMOS" name="[pt-PT] Brasileirismos">
       <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Gram.C3.A1tica</url>
-      <short>Brasileirismo</short>
-      <rule id='BRASILEIRISMO_10_PRIVADA' name='[pt-PT] Brasileirismo: privada sanitária, vaso sanitário'>
+
+      <rule id='BRASILEIRISMO_ATERRISAR' name='[pt-PT][Brasileirismo] aterrisar → aterrar'>
+        <pattern>
+          <token regexp='yes'>aterri(?:z|ss?).+</token>
+        </pattern>
+        <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='aterri(z|ss?)(.+)' regexp_replace='aterr$2'/></suggestion>.</message>
+        <example correction='aterrar'>O avião vai <marker>aterrizar</marker> dentro de momentos.</example><!-- TODO Add aterrisar POSs to tagger -->
+      </rule>
+
+      <rule id='BRASILEIRISMO_DECOLAR' name='[pt-PT][Brasileirismo] decolar → descolar'>
+        <pattern>
+          <token regexp='yes'>decol.+</token>
+        </pattern>
+        <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='decol(.+)' regexp_replace='descol$1'/></suggestion>.</message>
+        <example correction='descolar'>O avião vai <marker>decolar</marker> dentro de momentos.</example><!-- TODO Add decolar POSs to tagger -->
+      </rule>
+
+      <rule id='BRASILEIRISMO_EXPERIMENTO' name='[pt-PT][Brasileirismo] experimento → experiência'>
+        <pattern>
+          <token postag="[AD]..M[SP].+" postag_regexp='yes'/>
+          <marker>
+            <token regexp='yes'>experimentos?</token>
+          </marker>
+        </pattern>
+        <message>Esta é uma expressão de Português do Brasil para <suggestion><match no='2' postag='NCM(.)000' postag_replace='NCF$1000'>experiência</match></suggestion>.</message>
+        <example correction='experiência'>Vai começar o <marker>experimento</marker>.</example>
+        <example correction='experiências'>Vão começar os <marker>experimentos</marker>.</example>
+      </rule>
+
+      <rule id='BRASILEIRISMO_PRIVADA' name="[pt-PT][Brasileirismo] 'privada sanitária', 'vaso sanitário' → retrete">
         <pattern>
           <token regexp='yes'>privada|vaso</token>
           <token regexp='yes'>sanitári[ao]</token>
@@ -5008,29 +5036,24 @@
         <example correction='retrete'><marker>vaso sanitário</marker>.</example>
       </rule>
 
-      <rule id='BRASILEIRISMO_16_ATERRISAR' name='[pt-PT] Brasileirismo: aterrisar'>
+      <rule id='BRASILEIRISMO_REVISAR' name='[pt-PT][Brasileirismo] revisar → rever'>
         <pattern>
-          <token regexp='yes'>aterri(?:z|ss?).+</token>
+          <token inflected='yes'>revisar</token>
         </pattern>
-        <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='aterri(z|ss?)(.+)' regexp_replace='aterr$2'/></suggestion>.</message>
-        <example correction='aterrar'>O avião vai <marker>aterrizar</marker> dentro de momentos.</example><!-- TODO Add aterrisar POSs to tagger -->
+        <message>Esta é uma expressão de Português do Brasil para <suggestion><match no='1' postag='V.+' postag_regexp='yes'>rever</match></suggestion>.</message>
+        <example correction='Reviste'><marker>Revisaste</marker> o texto antes de enviar.</example>
       </rule>
-      <rule id='BRASILEIRISMO_17_DECOLAR' name='[pt-PT] Brasileirismo: decolar'>
+
+      <rule id="BRASILEIRISMO_SOBRADO" name="[pt-PT][Brasileirismo] sobrado → vivenda">
         <pattern>
-          <token regexp='yes'>decol.+</token>
+          <token case_sensitive='yes'>sobrado
+            <exception postag_regexp='yes' postag='V.[^P].+'/></token>
         </pattern>
-        <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='decol(.+)' regexp_replace='descol$1'/></suggestion>.</message>
-        <example correction='descolar'>O avião vai <marker>decolar</marker> dentro de momentos.</example><!-- TODO Add decolar POSs to tagger -->
+        <message>Expressão de Português do Brasil. Substitua por <suggestion>vivenda</suggestion>.</message>
+        <example correction="vivenda">O <marker>sobrado</marker> do António está à venda.</example>
       </rule>
-      <rule id='BRASILEIRISMO_17_XINGAR' name='[pt-PT] Brasileirismo: xingar'>
-        <pattern case_sensitive='yes'>
-          <token regexp='yes'>xing.+</token>
-        </pattern>
-        <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='xing(.+)' regexp_replace='goz$1'/></suggestion>.</message>
-        <example correction='gozou'>Ela o <marker>xingou</marker> por não cortar o gramado.</example><!-- TODO Add xingar POSs to tagger -->
-        <example>os rios Juruá, Purus, Madeira, Tapajós e Xingu.</example>
-      </rule>
-      <rule id='BRASILEIRISMO_19_TIMES' name='[pt-PT] Brasileirismo: time - equipa'>
+
+      <rule id='BRASILEIRISMO_TIMES' name='[pt-PT][Brasileirismo] time → equipa'>
         <antipattern>
           <token regexp='yes'>part|full</token>
           <token min='0'>-</token>
@@ -5044,42 +5067,14 @@
         <example>O jornal The <marker>Times</marker> é britânica.</example>
       </rule>
 
-      <rule id='BRASILEIRISMO_20_REVISAR' name='[pt-PT] Brasileirismo: revisar - rever'>
-        <pattern>
-          <token inflected='yes'>revisar</token>
+      <rule id='BRASILEIRISMO_XINGAR' name='[pt-PT][Brasileirismo] xingar → gozar'>
+        <pattern case_sensitive='yes'>
+          <token regexp='yes'>xing.+</token>
         </pattern>
-        <message>Esta é uma expressão de Português do Brasil para <suggestion><match no='1' postag='V.+' postag_regexp='yes'>rever</match></suggestion>.</message>
-        <example correction='Reviste'><marker>Revisaste</marker> o texto antes de enviar.</example>
+        <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='xing(.+)' regexp_replace='goz$1'/></suggestion>.</message>
+        <example correction='gozou'>Ela o <marker>xingou</marker> por não cortar o gramado.</example><!-- TODO Add xingar POSs to tagger -->
+        <example>os rios Juruá, Purus, Madeira, Tapajós e Xingu.</example>
       </rule>
-      <rule id='BRASILEIRISMO_21_EXPERIMENTO' name='[pt-PT] Brasileirismo: experimento - experiência'>
-        <pattern>
-          <token postag="[AD]..MS.+" postag_regexp='yes'/>
-          <marker>
-            <token>experimento</token>
-          </marker>
-        </pattern>
-        <message>Esta é uma expressão de Português do Brasil para <suggestion>experiência</suggestion>.</message>
-        <example correction='experiência'>Vai começar o <marker>experimento</marker>.</example>
-      </rule>
-      <rule id='BRASILEIRISMO_22_EXPERIMENTOS' name='[pt-PT] Brasileirismo: experimentos - experiências'>
-        <pattern>
-          <token postag="[AD]..MP.+" postag_regexp='yes'/>
-          <marker>
-            <token>experimentos</token>
-          </marker>
-        </pattern>
-        <message>Esta é uma expressão de Português do Brasil para <suggestion>experiências</suggestion>.</message>
-        <example correction='experiências'>Vão começar os <marker>experimentos</marker>.</example>
-      </rule>
-
-      <rule id="BRASILEIRISMO_SOBRADO" name="[pt-PT] Brasileirismo: Sobrado - Vivenda">
-        <pattern>
-          <token case_sensitive='yes'>sobrado
-            <exception postag_regexp='yes' postag='V.[^P].+'/></token>
-        </pattern>
-        <message>Expressão de Português do Brasil. Substitua por <suggestion>vivenda</suggestion>.</message>
-        <example correction="vivenda">O <marker>sobrado</marker> do António está à venda.</example>
-      </rule>	  
 
     </rulegroup>
 
@@ -6924,7 +6919,7 @@
 
   <category id="STYLE_PT_PT" name="[pt-PT] Estilo" type="style">
 
-    <rulegroup id="PORTUGUESE_ADDRESSES" name="[pt-PT] Formato de endereços em Portugal">
+    <rulegroup id="PORTUGUESE_ADDRESSES" name="[pt-PT] Formato de endereços em Portugal" type="style">
     <!--  Localized from French, by Tiago F. Santos, 2017-10-01      -->
     <rule>
       <regexp type="exact" mark="1">\b(?:Rua|R\.|Arruamento|Avenida|Av\.|Praça|Pr\.|Cruzamento|Caminho|Via|Estrada|Piso)[  ][^,\n]+\s*[,\n]\s*(\p{Lu}[^,%\d\n]+[  ]\d{4}(?:\-\d{3})?)\s*[,\n]\s*(?:PORTUGAL|PORTOGALLO|PORTOGALIA)\b</regexp>
