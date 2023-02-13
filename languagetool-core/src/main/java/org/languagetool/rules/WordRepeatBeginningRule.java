@@ -71,42 +71,45 @@ public class WordRepeatBeginningRule extends TextLevelRule {
     AnalyzedSentence prevSentence = null;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-      if (tokens.length > 3) {
+      String token = "";
+      if (tokens.length > 1) {
         AnalyzedTokenReadings analyzedToken = tokens[1];
-        String token = analyzedToken.getToken();
-        // avoid "..." etc. to be matched:
-        boolean isWord = true;
-        if (token.length() == 1) {
-          if (!Character.isLetter(token.charAt(0))) {
-            isWord = false;
-          }
-        }
-        if (isWord && lastToken.equals(token)
-                && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())
-                && prevSentence != null && prevSentence.getText().trim().matches(".+[.?!]$")) {  // no matches for e.g. table cells
-          String shortMsg;
-          if (isAdverb(analyzedToken)) {
-            shortMsg = messages.getString("desc_repetition_beginning_adv");
-          } else if (beforeLastToken.equals(token)) {
-            shortMsg = messages.getString("desc_repetition_beginning_word");
-          } else {
-            shortMsg = "";
-          }
-          if (!shortMsg.isEmpty()) {
-            String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
-            int startPos = analyzedToken.getStartPos();
-            int endPos = startPos + token.length();
-            RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+startPos, pos+endPos, msg, shortMsg);
-            List<String> suggestions = getSuggestions(analyzedToken);
-            if (suggestions.size() > 0) {
-              ruleMatch.setSuggestedReplacements(suggestions);
+        token = analyzedToken.getToken();
+        if (tokens.length > 3) {
+          // avoid "..." etc. to be matched:
+          boolean isWord = true;
+          if (token.length() == 1) {
+            if (!Character.isLetter(token.charAt(0))) {
+              isWord = false;
             }
-            ruleMatches.add(ruleMatch);
+          }
+          if (isWord && lastToken.equals(token) && !isException(token) && !isException(tokens[2].getToken())
+              && !isException(tokens[3].getToken()) && prevSentence != null
+              && prevSentence.getText().trim().matches(".+[.?!]$")) { // no matches for e.g. table cells
+            String shortMsg;
+            if (isAdverb(analyzedToken)) {
+              shortMsg = messages.getString("desc_repetition_beginning_adv");
+            } else if (beforeLastToken.equals(token)) {
+              shortMsg = messages.getString("desc_repetition_beginning_word");
+            } else {
+              shortMsg = "";
+            }
+            if (!shortMsg.isEmpty()) {
+              String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
+              int startPos = analyzedToken.getStartPos();
+              int endPos = startPos + token.length();
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + startPos, pos + endPos, msg, shortMsg);
+              List<String> suggestions = getSuggestions(analyzedToken);
+              if (suggestions.size() > 0) {
+                ruleMatch.setSuggestedReplacements(suggestions);
+              }
+              ruleMatches.add(ruleMatch);
+            }
           }
         }
-        beforeLastToken = lastToken;
-        lastToken = token;
       }
+      beforeLastToken = lastToken;
+      lastToken = token;
       pos += sentence.getCorrectedTextLength();
       prevSentence = sentence;
     }
