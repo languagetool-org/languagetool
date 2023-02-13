@@ -8451,20 +8451,47 @@ O namorado dela era um ladrão.
                <example>Colocaram da sua prêmios em primeiro lugar.</example>
                <example>Colocaram as sua prêmios em primeiro lugar.</example>
                <example>Colocaram os sua prêmios em primeiro lugar.</example>
+           </antipattern>
+           <antipattern>
+               <token postag='(?:D[ADIP].|SPS00:D..)FS.+' postag_regexp='yes'/>
+               <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+               <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
+             <and>
+               <token postag='(?:N.|A..)MP.+' postag_regexp='yes'/>
+               <token regexp='yes'>\p{Lu}.*
+                 <exception regexp='yes'>Estados|Direitos|Países|Santos|Reis|Deputados</exception></token>
+             </and>
             </antipattern>
+           <antipattern>
+               <token postag='(?:D[ADIP].|SPS00:D..)FS.+' postag_regexp='yes'/>
+               <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+               <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
+             <and>
+               <token postag='(?:N.|A..)MP.+' postag_regexp='yes'/>
+               <token postag='V.+' postag_regexp='yes'>
+                 <exception postag='VMN01P0|VMP.+|VMN02S0' postag_regexp='yes'/></token>
+             </and>
+           </antipattern>
+           <antipattern>
+               <token postag='V.[CSIG].+' postag_regexp='yes'>
+                 <exception regexp='yes' inflected='yes'>&verbos_muito_incomuns;</exception></token>
+               <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
+               <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
+               <token postag='(?:N.|A..)MP.+' postag_regexp='yes'/>
+           </antipattern>
            <pattern>
                 <token negate='yes' regexp='yes'>&hifen;</token>
               <marker>
                 <token postag='(?:D[DIP].|Z.|SPS00:D..)FS.+' postag_regexp='yes'>
-                    <exception postag='(?:[NZ].|A..)C[NS].+|(?:[NZ].|A..)M.+|(?:[NZ].|A..).P.+|SPS00|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/></token>
+                    <exception postag='(?:[NZ].|A..)C[NS].+|(?:[NZ].|A..)M.+|(?:[NZ].|A..).P.+|SPS00|(C|R).+|SPS00' postag_regexp='yes'/></token>
                 <token min='0' regexp='yes'>&adverbios_de_intensidade;
                     <exception regexp='yes'>quanto|quão|tão</exception></token>
                 <token min='0' postag='(?:A..)[CM][SN].+' postag_regexp='yes'>
                     <exception regexp='yes'>\p{Lu}.*</exception>
                     <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
                 <token postag='(?:N.|A..)MP.+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}.*|cais|\d+%|libertadores</exception>
-                    <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)[FC].+|(?:N.|A..).S.+|V.+'/></token>
+                    <exception regexp='yes'>cais|\d+%|libertadores</exception>
+                    <exception postag_regexp='yes' postag='SPS.+|D.+|R.+|P.+|(?:N.|A..)[FC].+|(?:N.|A..).S.+'/></token>
               </marker>
            </pattern>
            <message>Possível erro de concordância.</message>
@@ -8474,6 +8501,10 @@ O namorado dela era um ladrão.
            <suggestion suppress_misspelled="yes"><match no='2' postag="(D[DIP].|Z.|SPS00:D..)FS(.+)" postag_replace='$1MS$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' postag="(N.|A..)MP(.+)" postag_replace='$1MS$2' postag_regexp="yes"/></suggestion>
            <suggestion suppress_misspelled="yes"><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/>, <match no='5' include_skipped='all'/></suggestion>
            <example correction='Uma caneca|Uns canecos|Umas canecas|Um caneco|Uma, canecos'><marker>Uma canecos</marker> são pesadas.</example>
+           <example correction='pela espanhola|pelos espanhóis|pelas espanholas|pelo espanhol|pela, espanhóis'>Exemplares trazidos <marker>pela espanhóis</marker>.</example>
+           <example correction='nos termos|no termo|na, termos'>Este texto é disponibilizado <marker>na termos</marker> da licença.</example>
+           <example correction='nos poderes|no poder|na, poderes'>não se apoia somente <marker>na poderes</marker> da mente.</example>
+           <example correction='da direita|dos Direitos|das direitas|do direito|da, Direitos'>pela aprovação da Declaração <marker>da Direitos</marker> do Homem e do Cidadão.</example>
            <example>varia de 30% a 84% dos pacientes operados</example>
            <example>bloqueando todas as extensões que a Donuts gerenciará</example>
            <example>processo direcionado a jovens ou a adultos</example>
