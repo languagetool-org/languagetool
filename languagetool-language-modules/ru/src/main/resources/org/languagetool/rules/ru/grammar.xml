@@ -2941,7 +2941,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="смеётся, радуется|смеётся и радуется">Он <marker>смеётся радуется</marker> жизни.</example>
             </rule>                                                                                                      
         </rulegroup>                 
-    	<rule  id="takim_obrazom_chto" name="Запятая после «таким образом»">
+    	<rule  id="takim_obrazom_chto" name="Запятая в обороте «таким образом, что»">
     	    <pattern case_sensitive="no">
             	<token>таким</token>
     	        <token>образом</token>
@@ -2952,7 +2952,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <example correction="таким образом, что">Это сделано <marker>таким образом что</marker> и не найти.</example>
     	    <example>Таким образом, что слово есть, что его нет - без разницы.</example>
     	</rule>
-        <rule id="takim_obrazom" name="Запятая после «таким образом» (2)"  tags="picky" >  <!--default="temp_off"  TODO: need improve! -->
+        <rulegroup id="takim_obrazom" name="Запятая после «таким образом»"  tags="picky" >
+            <rule> <!-- В середине предложения - может быть как членом предложения, так и вводным. -->
             <antipattern>
                 <token skip="4" postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
                 <token>таким</token>
@@ -2964,25 +2965,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>образом</token>
             </antipattern>
             <pattern>
+                <token><exception postag="SENT_START" /></token>
                 <token>таким<exception postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC|NN:.*" postag_regexp="yes" scope="previous"></exception>
                     <exception regexp="yes" scope="previous">[,.-;:—-]</exception>
                     <exception scope="previous" postag_regexp="yes" postag="SENT_START" />
                     <exception scope="previous" regexp="yes">что|чтобы|как|только</exception>
                 </token>
                 <token>образом</token>
-                <token postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP" postag_regexp="yes" negate_pos="yes">
+                <token postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC" postag_regexp="yes" negate_pos="yes">
                     <exception regexp="yes">[?,!;:.«(]</exception><exception scope="next" regexp="yes">что|чтобы|как</exception>
                 </token>
             </pattern>
-            <message>Возможно пропущена запятая, если словосочетание «таким образом» выступает в качестве вводного.</message>
-            <url>https://github.com/languagetool-org/languagetool/issues/1121</url>
+            <message>Возможно пропущена запятая, если словосочетание «таким образом» выступает в качестве вводного: <suggestion>\1, \2 \3, \4</suggestion>.</message>
+            <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_715</url>
             <short>Пропущена запятая</short>
-            <example correction="">И <marker>таким образом мы</marker></example>
+            <example correction="И, таким образом, мы"><marker>И таким образом мы</marker></example>
             <example>И,таким образом, мы</example>
             <example>Продавец "экономит" таким образом 4000 рублей.</example>
             <example>И сообщают им таким образом всю необходимую информацию.</example>
             <example>Можно сказать это и таким образом?</example>
         </rule>
+        <!-- В начале предложения - почти всегда вводное. -->
+  <!--      <rule> 
+            <pattern>
+                <token postag="SENT_START" ></token>
+                <marker>
+                <token>таким</token>
+                <token>образом</token>
+                <token postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC" postag_regexp="yes" negate_pos="yes">
+                    <exception regexp="yes">[?,!;:.«(]</exception><exception scope="next" regexp="yes">что|чтобы|как</exception>
+                </token>
+                </marker>
+            </pattern>
+            <message>Возможно пропущена запятая, если словосочетание «таким образом» выступает в качестве вводного: <suggestion>\2 \3, \4</suggestion>.</message>
+            <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_715</url>
+            <short>Пропущена запятая</short>
+            <example correction="Таким образом, мы"><marker>Таким образом мы</marker></example>
+            <example>Таким образом, мы</example>
+            <example>Таким образом, они сообщают им всю необходимую информацию.</example>
+        </rule>  -->
+        </rulegroup>
         <rule default="on" id="comma_and_to_jest" name="Запятая перед «то есть»">
     	    <pattern case_sensitive="no">
             	<token regexp="yes" negate="yes">[,;)»]|тогда|[\p{Punct}]|-|—|–<exception postag="SENT_START" /></token>
