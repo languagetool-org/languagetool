@@ -2586,6 +2586,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Он изображается в виде мужчины, держащего за шею выпрямленную змею.</example>
                 <example>Он увидел собаку, хромавшую на задние лапы.</example>
         </rule>
+
+        <rule>
+            <!-- Причастный оборот всегда выделяется запятыми, если располагается после определяемого слова. --> 
+            <pattern> 
+                    <marker>
+                        <token postag="NN:.*:Nom" postag_regexp="yes"></token>
+                        <token>,</token>
+                        <token postag="PT:.*" postag_regexp="yes" chunk="B-ADJP"><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>                 
+                        <token chunk="I-ADJP"><exception>,</exception><exception postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
+                        <token min="1" max="4" chunk="I-ADJP"><exception>,</exception><exception postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
+                    </marker>
+                <or>
+                    <token postag="VB:.*" postag_regexp="yes" chunk="B-VP"></token>
+                    <token chunk="B-VP">не</token>
+                </or>
+            </pattern>
+            <message>Пропущены запятые при причастном обороте: <suggestion><match no="1"/>, <match no="3"/> <match no="4" include_skipped="all"/> <match no="5" include_skipped="all" />,</suggestion></message>
+        <short>Причастный оборот</short>
+        <example correction="Картинка, висящая на белой стене,"><marker>Картинка, висящая на белой стене</marker> упала.</example>
+        <example correction="Дети, гуляющие во дворе,"><marker>Дети, гуляющие во дворе</marker> не спешили идти домой.</example>
+  <!--  <example>Посетитель описанных выше сервисов мог заметить.</example> -->
+  <!--  <example>Посетители описанных выше сервисов могли заметить.</example> TODO: опр. слово "сервисов", а не "посетители", поэтому запятые не нужны!!! -->
+        <example>Картинка, висящая на белой стене, упала.</example>
+        </rule>
+        <rule>
+            <!-- Причастный оборот всегда выделяется запятыми, если располагается после определяемого слова. --> 
+            <pattern> 
+                    <marker>
+                        <token postag="NN:.*:Nom" postag_regexp="yes"></token>
+                        <token postag="PT:.*" postag_regexp="yes" chunk="B-ADJP"><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>                 
+                        <token chunk="I-ADJP"><exception>,</exception><exception postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
+                        <token min="1" max="4" chunk="I-ADJP"><exception>,</exception><exception postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
+                        <token>,</token>                   
+                    </marker> 
+                <or>
+                    <token postag="VB:.*" postag_regexp="yes" chunk="B-VP"></token>
+                    <token chunk="B-VP">не</token>
+                </or>
+            </pattern>
+            <message>Пропущены запятые при причастном обороте: <suggestion><match no="1"/>, <match no="2"/> <match no="3" include_skipped="all"/> <match no="4" include_skipped="all" />,</suggestion></message>
+        <short>Причастный оборот</short>
+        <example correction="Картинка, висящая на белой стене,"><marker>Картинка висящая на белой стене,</marker> упала.</example>
+        <example correction="Дети, гуляющие во дворе,"><marker>Дети гуляющие во дворе,</marker> не спешили идти домой.</example>
+  <!--  <example>Посетитель описанных выше сервисов мог заметить.</example> -->
+  <!--  <example>Посетители описанных выше сервисов могли заметить.</example> TODO: опр. слово "сервисов", а не "посетители", поэтому запятые не нужны!!! -->
+        <example>Картинка, висящая на белой стене, упала.</example>
+        </rule>
+
         </rulegroup>
         
         <!-- issue #1119  -->
