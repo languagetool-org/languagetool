@@ -4,8 +4,17 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.identifier.LanguageIdentifier;
 import org.languagetool.language.identifier.LanguageIdentifierService;
+import org.languagetool.rules.RuleMatch;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -37,6 +46,23 @@ public class FunctionalTest {
     textArea.setText("Second test content");
     assertEquals(ltSupport.getTextComponent().getText(), "Second test content");
   }
+  @Test
+  public void testLanguageToolCheck() throws IOException {
+    textArea.setText("This is a example input to to show you how LanguageTool works.");
+    List<RuleMatch> rules = ltSupport.getLanguageTool().check("This is a example input to to show you how LanguageTool works.");
+    assertTrue(rules.size() == 2);
+  }
+
+  @Test
+  public void testShowResult() throws IOException {
+    textArea.setText("This is a example input to to show you how LanguageTool works.");
+    List<RuleMatch> rules = ltSupport.getLanguageTool().check("This is a example input to to show you how LanguageTool works.");
+    List<String> expect = Arrays.asList("EN_A_VS_AN:8-9:Use <suggestion>an</suggestion> instead of 'a' if the following word starts with a vowel sound, e.g. 'an article', 'an hour'.",
+      "ENGLISH_WORD_REPEAT_RULE:24-29:Possible typo: you repeated a word");
+    for (int i = 0; i < rules.size(); i++) {
+      assertEquals(rules.get(i).toString(), expect.get(i));
+    }
+  }
 
   @Test
   public void testDisableRuleFunction() {
@@ -54,4 +80,5 @@ public class FunctionalTest {
 
     assertTrue(!disabledRules.contains("ENGLISH_WORD_REPEAT_RULE")); // should not be in disabled rules set because it was not disabled
   }
+
 }
