@@ -19498,6 +19498,29 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- PARA QUE para -->
+    <rule id='PARA_QUE_PARA' name="Simplificar: para que → para" type='style'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-14 (25-JUL-2022+) -->
+      <!--
+      Os criminosos causam estragos para que o mundo saiba que eles existem. → Os criminosos causam estragos para o mundo saber que eles existem.
+      Os criminosos causam estragos para que os povos saibam que eles existem. → Os criminosos causam estragos para os povos saberem que eles existem.
+      -->
+      <pattern>
+        <marker>
+          <token>para</token>
+          <token>que</token>
+          <token postag='(SPS00:)?D[AI].+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token postag='VMM03.+' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\1 \3 \4 <match no='5' postag='VMM03(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+      <example correction="para o mundo saber">Os criminosos causam estragos <marker>para que o mundo saiba</marker> que eles existem.</example>
+      <example correction="para os povos saberem">Os criminosos causam estragos <marker>para que os povos saibam</marker> que eles existem.</example>
+    </rule>
+
+
     <!-- COMO É VISTO conforme visto -->
     <rule id='COMO_É_CONFORME' name="Simplificar: Como é → Conforme" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-25 (25-JUL-2022+) -->
