@@ -924,10 +924,11 @@
 
 
     <!-- EM RELAÇÃO À SITUAÇÃO relativamente à situação -->
-    <rulegroup id='EM_RELAÇÃO_RELATIVAMENTE_PT_PT' name="[pt-PT] Simplificar: Em relação a/à(s)/ao(s) → relativamente a/à(s)/ao(s)" type='style'>
-      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-25 (25-JUL-2022+) -->
+    <rulegroup id='EM_RELAÇÃO_RELATIVAMENTE_PT_PT' name="[pt-PT][Simplificar] Em relação a/à(s)/ao(s) → relativamente a/à(s)/ao(s)" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-25 + 2023-02-14 (25-JUL-2022+) -->
       <!--
       O que fazer em relação a esta situação? → O que fazer relativamente a esta situação?
+      Pede ajuda em relação a temas não abrangidos neste documento. → Pede ajuda relativamente a temas não abrangidos neste documento.
       O que fazer em relação à situação? → O que fazer relativamente à situação?
       O que fazer em relação ao projeto? → O que fazer relativamente ao projeto?
 
@@ -945,12 +946,13 @@
           </marker>
           <token regexp='no'>a</token>
           <token postag='PP.+|DI.+|DD.+|PD.+|VMN0000|DP.+|PE.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-          <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <token min="1" max="2" postag='NC.+|AQ.+|NP.+|RN' postag_regexp='yes'/>
           <token><exception regexp='no'>antes</exception></token>
         </pattern>
         <message>Esta perífrase poderá ser simplificada.</message>
         <suggestion>relativamente</suggestion>
         <example correction="relativamente">O que fazer <marker>em relação</marker> a esta situação?</example>
+        <example correction="relativamente">Pede ajuda <marker>em relação</marker> a temas não abrangidos neste documento.</example>
         <example>Já em relação a outros recursos, o DualShock 4 parece ser exatamente o mesmo que temos atualmente, sem qualquer g...</example>
       </rule>
 
