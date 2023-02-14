@@ -6,8 +6,10 @@ import org.languagetool.language.identifier.LanguageIdentifier;
 import org.languagetool.language.identifier.LanguageIdentifierService;
 
 import javax.swing.*;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class FunctionalTest {
   JFrame jf = new JFrame();
@@ -36,4 +38,20 @@ public class FunctionalTest {
     assertEquals(ltSupport.getTextComponent().getText(), "Second test content");
   }
 
+  @Test
+  public void testDisableRuleFunction() {
+    textArea.setText("This is is a test");
+    ltSupport.disableRule("ENGLISH_WORD_REPEAT_RULE"); // disables rule
+    Set<String> disabledRules = ltSupport.getLanguageTool().getDisabledRules();
+
+    assertTrue(disabledRules.contains("ENGLISH_WORD_REPEAT_RULE")); // should be in disabled rules set because it was disabled
+  }
+
+  @Test
+  public void testEnableRuleFunction() {
+    textArea.setText("This is is a test");
+    Set<String> disabledRules = ltSupport.getLanguageTool().getDisabledRules();
+
+    assertTrue(!disabledRules.contains("ENGLISH_WORD_REPEAT_RULE")); // should not be in disabled rules set because it was not disabled
+  }
 }
