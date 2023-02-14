@@ -15,8 +15,9 @@ import java.util.Set;
 import org.languagetool.Language;
 import org.languagetool.gui.Main;
 
-public class FunctionalModelTest {
+public class FunctionalTest {
   ResourceBundle messages = JLanguageTool.getMessageBundle();
+  
   @Test
   public void testDisableRuleFunction() throws IOException {
     JTextArea jTextArea = new JTextArea("This is is a test");
