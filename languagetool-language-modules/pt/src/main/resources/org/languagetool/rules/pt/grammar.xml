@@ -8453,14 +8453,16 @@ O namorado dela era um ladrão.
                <example>Colocaram os sua prêmios em primeiro lugar.</example>
            </antipattern>
            <antipattern>
+               <token negate='yes' regexp='yes'>\p{Lu}\p{Ll}.*</token>
                <token postag='(?:D[ADIP].|SPS00:D..)FS.+' postag_regexp='yes'/>
                <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
                <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
              <and>
                <token postag='(?:N.|A..)MP.+' postag_regexp='yes'/>
                <token regexp='yes'>\p{Lu}.*
-                 <exception regexp='yes'>Estados|Direitos|Países|Santos|Reis|Deputados</exception></token>
+                 <exception regexp='yes'>Estados|Direitos|Países|Santos|Reis|Deputados|Aliados</exception></token>
              </and>
+             <example>Foi no início da Comuneiros</example>
             </antipattern>
            <antipattern>
                <token postag='(?:D[ADIP].|SPS00:D..)FS.+' postag_regexp='yes'/>
@@ -8479,6 +8481,13 @@ O namorado dela era um ladrão.
                <token min='0' postag='(?:A..)[CF][SN].+' postag_regexp='yes'/>
                <token postag='(?:N.|A..)MP.+' postag_regexp='yes'/>
            </antipattern>
+           <antipattern>
+               <token inflected='yes' regexp='yes'>estar|tá|tamo|tamos</token>
+               <token>nessa</token>
+               <token postag='AQ.MP.+' postag_regexp='yes'/>
+               <example>Estamos nessa juntos</example>
+               <example>Tamos nessa juntos</example>
+           </antipattern>
            <pattern>
                 <token negate='yes' regexp='yes'>&hifen;</token>
               <marker>
@@ -8487,7 +8496,7 @@ O namorado dela era um ladrão.
                 <token min='0' regexp='yes'>&adverbios_de_intensidade;
                     <exception regexp='yes'>quanto|quão|tão</exception></token>
                 <token min='0' postag='(?:A..)[CM][SN].+' postag_regexp='yes'>
-                    <exception regexp='yes'>\p{Lu}.*</exception>
+                    <exception regexp='yes'>\p{Lu}.*|corrente</exception>
                     <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+|SPS.+'/></token>
                 <token postag='(?:N.|A..)MP.+' postag_regexp='yes'>
                     <exception regexp='yes'>cais|\d+%|libertadores</exception>
@@ -8505,6 +8514,8 @@ O namorado dela era um ladrão.
            <example correction='nos termos|no termo|na, termos'>Este texto é disponibilizado <marker>na termos</marker> da licença.</example>
            <example correction='nos poderes|no poder|na, poderes'>não se apoia somente <marker>na poderes</marker> da mente.</example>
            <example correction='da direita|dos Direitos|das direitas|do direito|da, Direitos'>pela aprovação da Declaração <marker>da Direitos</marker> do Homem e do Cidadão.</example>
+           <example correction='nos resultados|no resultado|na, resultados'>A incerteza <marker>na resultados</marker>  de um experimento.</example>
+           <example correction='da morta|dos Mortos|das mortas|do morto|da, Mortos'>A Cidade <marker>da Mortos</marker>.</example>
            <example>varia de 30% a 84% dos pacientes operados</example>
            <example>bloqueando todas as extensões que a Donuts gerenciará</example>
            <example>processo direcionado a jovens ou a adultos</example>
