@@ -4978,21 +4978,16 @@
 
   <category id='REGIONALISMS_PT_PT' name='[pt-PT] Regionalismos'>
 
-<!--
-    <rulegroup id="BRASILEIRISMOS" name="[pt-PT] Brasileirismos">
--->
-      <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
-<!--
-      <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Gram.C3.A1tica</url>
--->
 
       <rule id='BRASILEIRISMO_ATERRISAR' name='[pt-PT][Brasileirismo] aterrisar → aterrar'>
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
         <pattern>
           <token regexp='yes'>aterri(?:z|ss?).+</token>
         </pattern>
-        <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='aterri(z|ss?)(.+)' regexp_replace='aterr$2'/></suggestion>.</message>
+        <message>Grafia do Brasil. Substitua por <suggestion><match no='1' regexp_match='aterri(z|ss?)(.+)' regexp_replace='aterr$2'/></suggestion>.</message>
         <example correction='aterrar'>O avião vai <marker>aterrizar</marker> dentro de momentos.</example><!-- TODO Add aterrisar POSs to tagger -->
       </rule>
+
 
       <rule id='BRASILEIRISMO_CONTROLO_CONTROLE' name='[pt-PT][Brasileirismo] controle → controlo'>
       <!-- Created by Marco A.G.Pinto , Portuguese rule -->
@@ -5007,6 +5002,7 @@
         <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
       </rule>
 
+
       <rule id='BRASILEIRISMO_CONTROLO_CONTROLE_SOB' name="[pt-PT][Brasileirismo] 'sob controle' → 'sob controlo'">
       <!-- Created by Marco A.G.Pinto , Portuguese rule -->
         <pattern>
@@ -5017,13 +5013,16 @@
         <example correction="sob controlo">Está tudo <marker>sob controle</marker>.</example>
       </rule>
 
+
       <rule id='BRASILEIRISMO_DECOLAR' name='[pt-PT][Brasileirismo] decolar → descolar'>
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
         <pattern>
           <token regexp='yes'>decol.+</token>
         </pattern>
-        <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='decol(.+)' regexp_replace='descol$1'/></suggestion>.</message>
+        <message>Grafia do Brasil. Substitua por <suggestion><match no='1' regexp_match='decol(.+)' regexp_replace='descol$1'/></suggestion>.</message>
         <example correction='descolar'>O avião vai <marker>decolar</marker> dentro de momentos.</example><!-- TODO Add decolar POSs to tagger -->
       </rule>
+
 
       <rule id="EQUIPES" name="[pt-PT][Brasileirismo] equipes → equipas">
       <!-- Created by Marco A.G.Pinto , Portuguese rule -->
@@ -5038,46 +5037,56 @@
         <example correction="equipas">As nossas <marker>equipes</marker> são boas.</example>
       </rule>
 
+
       <rule id='BRASILEIRISMO_EXPERIMENTO' name='[pt-PT][Brasileirismo] experimento → experiência'>
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
         <pattern>
           <token postag="[AD]..M[SP].+" postag_regexp='yes'/>
           <marker>
             <token regexp='yes'>experimentos?</token>
           </marker>
         </pattern>
-        <message>Esta é uma expressão de Português do Brasil para <suggestion><match no='2' postag='NCM(.)000' postag_replace='NCF$1000'>experiência</match></suggestion>.</message>
+        <message>Grafia do Brasil. Substitua por <suggestion><match no='2' postag='NCM(.)000' postag_replace='NCF$1000'>experiência</match></suggestion>.</message>
         <example correction='experiência'>Vai começar o <marker>experimento</marker>.</example>
         <example correction='experiências'>Vão começar os <marker>experimentos</marker>.</example>
       </rule>
 
+
       <rule id='BRASILEIRISMO_PRIVADA' name="[pt-PT][Brasileirismo] 'privada sanitária', 'vaso sanitário' → retrete">
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
         <pattern>
           <token regexp='yes'>privada|vaso</token>
           <token regexp='yes'>sanitári[ao]</token>
         </pattern>
-        <message>Expressão de Português do Brasil. Substitua por <suggestion>retrete</suggestion>.</message>
+        <message>Grafia do Brasil. Substitua por <suggestion>retrete</suggestion>.</message>
         <example correction='retrete'><marker>privada sanitária</marker>.</example>
         <example correction='retrete'><marker>vaso sanitário</marker>.</example>
       </rule>
 
+
       <rule id='BRASILEIRISMO_REVISAR' name='[pt-PT][Brasileirismo] revisar → rever'>
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
         <pattern>
           <token inflected='yes'>revisar</token>
         </pattern>
-        <message>Esta é uma expressão de Português do Brasil para <suggestion><match no='1' postag='V.+' postag_regexp='yes'>rever</match></suggestion>.</message>
+        <message>Grafia do Brasil. Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>rever</match></suggestion>.</message>
         <example correction='Reviste'><marker>Revisaste</marker> o texto antes de enviar.</example>
       </rule>
 
+
       <rule id="BRASILEIRISMO_SOBRADO" name="[pt-PT][Brasileirismo] sobrado → vivenda">
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
         <pattern>
           <token case_sensitive='yes'>sobrado
             <exception postag_regexp='yes' postag='V.[^P].+'/></token>
         </pattern>
-        <message>Expressão de Português do Brasil. Substitua por <suggestion>vivenda</suggestion>.</message>
+        <message>Grafia do Brasil. Substitua por <suggestion>vivenda</suggestion>.</message>
         <example correction="vivenda">O <marker>sobrado</marker> do António está à venda.</example>
       </rule>
 
+
       <rule id='BRASILEIRISMO_TIMES' name='[pt-PT][Brasileirismo] time → equipa'>
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
         <antipattern>
           <token regexp='yes'>part|full</token>
           <token min='0'>-</token>
@@ -5086,23 +5095,22 @@
         <pattern case_sensitive='yes'>
           <token regexp='yes'>times?</token>
         </pattern>
-        <message>Esta é uma expressão de Português do Brasil para <suggestion>equipa<match no='1' regexp_match='time(s?)' regexp_replace='$1' include_skipped='all'/></suggestion>, ou inglesa para <suggestion>tempo<match no='1' regexp_match='time(s?)' regexp_replace='$1' include_skipped='all'/></suggestion>.</message>
+        <message>Grafia do Brasil. Substitua por <suggestion>equipa<match no='1' regexp_match='time(s?)' regexp_replace='$1' include_skipped='all'/></suggestion>, ou inglesa para <suggestion>tempo<match no='1' regexp_match='time(s?)' regexp_replace='$1' include_skipped='all'/></suggestion>.</message>
         <example correction='equipas|tempos'>Nossos <marker>times</marker> vão jogar hoje.</example>
         <example>O jornal The <marker>Times</marker> é britânica.</example>
       </rule>
 
+
       <rule id='BRASILEIRISMO_XINGAR' name='[pt-PT][Brasileirismo] xingar → gozar'>
+      <!-- Created by Tiago F. Santos , Portuguese rule, 2017-04-12 -->
         <pattern case_sensitive='yes'>
           <token regexp='yes'>xing.+</token>
         </pattern>
-        <message>Expressão de Português do Brasil. Substitua por <suggestion><match no='1' regexp_match='xing(.+)' regexp_replace='goz$1'/></suggestion>.</message>
+        <message>Grafia do Brasil. Substitua por <suggestion><match no='1' regexp_match='xing(.+)' regexp_replace='goz$1'/></suggestion>.</message>
         <example correction='gozou'>Ela o <marker>xingou</marker> por não cortar o gramado.</example><!-- TODO Add xingar POSs to tagger -->
         <example>os rios Juruá, Purus, Madeira, Tapajós e Xingu.</example>
       </rule>
 
-<!--
-    </rulegroup>
--->
 
   </category>
 
