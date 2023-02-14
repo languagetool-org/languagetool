@@ -1,10 +1,12 @@
 package org.languagetool.gui;
+import org.junit.Assert;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.identifier.LanguageIdentifier;
 import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.Tools;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -54,16 +56,19 @@ public class FunctionalTest {
   }
 
   @Test
-  public void testShowResult() throws IOException {
-    textArea.setText("This is a example input to to show you how LanguageTool works.");
-    List<RuleMatch> rules = ltSupport.getLanguageTool().check("This is a example input to to show you how LanguageTool works.");
-    List<String> expect = Arrays.asList("EN_A_VS_AN:8-9:Use <suggestion>an</suggestion> instead of 'a' if the following word starts with a vowel sound, e.g. 'an article', 'an hour'.",
-      "ENGLISH_WORD_REPEAT_RULE:24-29:Possible typo: you repeated a word");
-    for (int i = 0; i < rules.size(); i++) {
-      assertEquals(rules.get(i).toString(), expect.get(i));
-    }
-  }
+  public void testUpdateHighLights() throws IOException, NoSuchMethodException, NoSuchFieldException, InvocationTargetException, IllegalAccessException {
+    Class ltClass = ltSupport.getClass();
+    Method updateHighLights = ltClass.getDeclaredMethod("updateHighlights", List.class);
+    updateHighLights.setAccessible(true);
+    Field documentSpans = ltClass.getDeclaredField("documentSpans");
+    documentSpans.setAccessible(true);
 
+    List<RuleMatch> rules = ltSupport.getLanguageTool().check("This is a example input to to show you how LanguageTool works.");
+    updateHighLights.invoke(ltSupport, new Object[]{rules});
+
+    List SpanList = (List) documentSpans.get(ltSupport);
+    assertEquals(SpanList.size(), rules.size());
+  }
   @Test
   public void testDisableRuleFunction() {
     textArea.setText("This is is a test");
