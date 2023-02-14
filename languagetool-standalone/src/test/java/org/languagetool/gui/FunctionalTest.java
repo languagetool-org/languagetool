@@ -1,0 +1,39 @@
+package org.languagetool.gui;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
+
+import javax.swing.*;
+
+import static org.junit.Assert.assertEquals;
+
+public class FunctionalTest {
+  JFrame jf = new JFrame();
+  JTextArea textArea = new JTextArea();
+  LanguageIdentifier langIdentifier = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(0, null, null, null);
+  UndoRedoSupport undoRedo = new UndoRedoSupport(textArea, JLanguageTool.getMessageBundle());
+  LanguageToolSupport ltSupport = new LanguageToolSupport(jf, textArea, undoRedo);
+
+  @Test
+  public void testSetTextFromDefault(){
+    textArea.setText("Today's whether is bad");
+    assertEquals(ltSupport.getTextComponent().getText(), "Today's whether is bad");
+  }
+
+  @Test
+  public void testLanguageChange() {
+    textArea.setText("Aujourd'hui est-ce mauvais");
+    Language newLang = langIdentifier.detectLanguage(textArea.getText());
+    ltSupport.setLanguage(newLang);
+    assertEquals(newLang, ltSupport.getLanguage());
+  }
+
+  @Test
+  public void testSetTextFromResult(){
+    textArea.setText("Second test content");
+    assertEquals(ltSupport.getTextComponent().getText(), "Second test content");
+  }
+
+}
