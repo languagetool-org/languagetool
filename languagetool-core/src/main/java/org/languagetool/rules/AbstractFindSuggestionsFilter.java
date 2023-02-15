@@ -47,7 +47,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-//    if (match.getSentence().getText().contains("C'est le premier livre que les enfants ")) {
+//    if (match.getSentence().getText().contains("La primera compren")) {
 //      int ii=0;
 //      ii++;
 //    }
@@ -211,7 +211,9 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
             }
           }
         } else {
-          definitiveReplacements.add(s);
+          if (!definitiveReplacements.contains(s)) {
+            definitiveReplacements.add(s);
+          }
         }
       }
       if (!replacementsUsed) {

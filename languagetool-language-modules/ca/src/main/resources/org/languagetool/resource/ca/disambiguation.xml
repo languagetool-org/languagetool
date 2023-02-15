@@ -3189,6 +3189,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="V.*"/>
         </rule>
         <rule>
+            <antipattern>
+                <token inflected="yes" regexp="yes">deixar|haver</token>
+                <token>d'</token>
+                <token>ésser</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">voler|deure</token>
+                <token>ésser</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">ésser|esser</token>
@@ -3201,7 +3210,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <!-- incloent-hi errors de concordança -->
             <pattern>
                 <marker>
-                    <token postag="D.*" postag_regexp="yes"><exception>en</exception></token>
+                    <token postag="D[^N].*" postag_regexp="yes"><exception>en</exception></token>
                     <token postag="NCMS000" regexp="yes">ésser|esser</token>
                 </marker>
             </pattern>
@@ -4490,6 +4499,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </disambig>
     </rule>
     <rulegroup id="noms_aposicio" name="noms en aposició">
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">quadre|taula|redacció|escrit</token>
+                <marker>
+                    <token>resum</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0"/>
+        </rule>
         <rule>
             <pattern>
                 <token regexp="yes" inflected="yes">estètica|personatge|còmic|llibre|pel·lícula|dibuixant|publicació</token>
@@ -14367,7 +14385,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <and>
                     <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">força|coma|cap|noms?|nous?|deu|viu|cometa</exception></token>
-                    <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="_GV_"/><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes">[\p{Ll}·]+(e|es|[aei]sses|[ae]res|era)|seus?</exception></token>
+                    <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="_GV_|_loc_enma" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes">[\p{Ll}·]+(e|es|[aei]sses|[ae]res|era)|seus?</exception></token>
                     <!-- problema: els noms acabats en -e no tenen comprovació de concordança!!  -->
                 </and>
             </marker>
