@@ -3673,6 +3673,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="V.*"/>
     </rule>
+    <rule id="te_substantiu" name="te/té (amb error) + substantiu">
+        <pattern>
+            <token>te</token>
+            <marker>
+                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">dius?</exception></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
     <rule id="tant" name="tant (no nom)">
         <pattern>
             <token><exception regexp="yes">el|un</exception></token>
