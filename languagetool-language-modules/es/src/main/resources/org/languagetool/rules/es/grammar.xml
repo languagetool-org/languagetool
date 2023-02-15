@@ -12572,10 +12572,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="EX_ALTO_CARGO" name="exalto cargo (ex alto cargo)" default="temp_off">
             <pattern>
                 <marker>
-                    <token regexp="yes">exaltos?</token></marker>
+                    <token regexp="yes">exaltos?</token>
+                </marker>
                 <token regexp="yes">cargos?|mandos?</token>
             </pattern>
-            <message>La expresión "ex alto <match no="2"/>" se escribe en tres palabras.</message>
+            <message>La expresión "ex alto <match no="2" regexp_match="(?iu)s" regexp_replace=""/>" se escribe en tres palabras.</message>
             <suggestion><match no="1" regexp_match="(?iu)^ex" regexp_replace="ex " case_conversion="preserve"/></suggestion>
             <url>https://www.fundeu.es/recomendacion/ex-alto-cargo-en-tres-palabra/</url>
             <example correction="ex altos">Condenados a cadena perpetua por corrupción unos <marker>exaltos</marker> cargos del Ejército chino.</example>
@@ -13359,6 +13360,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="anticariógenas">Son <marker>anti cariógenas</marker>.</example>
                 <example correction="antirruso"><marker>anti ruso</marker></example>
                 <example correction="antirrusas"><marker>anti-rusas</marker></example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>contra</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="contra$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="contrar$1"/></suggestion>
+                <example correction="contrarrotación">La <marker>contra-rotación</marker>.</example>
             </rule>
             <rule>
                 <pattern>
