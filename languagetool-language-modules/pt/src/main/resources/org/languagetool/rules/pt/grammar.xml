@@ -3932,9 +3932,16 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- 2023-02-15:
+         The rule needs to be completely rewritten since it was done in 2021 and patched since then.
+         Back then the disambiguator was poorer.
+         I will do it in the weekend.
+         Please DON'T make changes to it until I rewrite it.
+         Thanks!
+    -->
     <!-- QUE FORAM/FOI/SÃO/É sendo -->
-    <rulegroup id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 + 2021-07-30 + 2021-08-18 + 2022-03-03 (17-MAR-2021+)      -->
+    <rulegroup id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo/V.Part.Passado">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 + 2021-07-30 + 2021-08-18 + 2022-03-03 + 2023-02-15 (17-MAR-2021+)      -->
       <!--
       Temos locais com árvores que são o ideal para o nosso modelo. → Temos locais com árvores sendo o ideal para o nosso modelo.
       Apresenta uma tela sensível ao toque que é o dispositivo de entrada principal. → Apresenta uma tela sensível ao toque sendo o dispositivo de entrada principal.
@@ -4049,9 +4056,14 @@ O namorado dela era um ladrão.
         <!-- MARCOAGPINTO 2023-01-10 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
         <pattern>
-          <token>,</token>
+          <token postag='_PUNCT_COMMA|PD0NN000' postag_regexp='yes'/> <!-- <token>,</token> - 2023-02-15 - MARCOAGPINTO - WHOLE RULE MUST BE REWRITTEN-->
+          <!-- the PD.+ above: "Tudo aquilo que é sabido além da dúvida é exato." - workaround - 2023-02-15 - MARCOAGPINTO --> 
+          <!-- well, decided to use PD0NN000 so it won't trigger false positives, after the antipattern below and workaround -->
           <marker>
-            <token>que</token>
+            <token>que
+              <!-- Below to fix the PD.+ above for "a" and such, it isn't 100% accurate, we must check the results, just added for now to remove some FPs, 2023-02-15 -->
+              <exception scope='previous' postag_regexp='yes' postag='PP.+'/>
+            </token>
             <token regexp='yes'>foram|foi|são|é</token>
             <token postag='CC|DA.+|V.+|NC.+|AQ0.+' postag_regexp='yes'>
               <exception postag='RG'/>
