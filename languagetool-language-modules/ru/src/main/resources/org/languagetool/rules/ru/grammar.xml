@@ -2537,7 +2537,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup  id="Punct_PT_oborot" name="Запятые при причастном обороте" tags="picky"> <!-- TODO: remove picky    -->
+        <rulegroup  id="Punct_PT_oborot" name="Запятые при причастном обороте">
         <rule>
             <!-- Причастный оборот всегда выделяется запятыми, если располагается после определяемого слова. --> 
             <pattern> 
@@ -2586,7 +2586,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Он изображается в виде мужчины, держащего за шею выпрямленную змею.</example>
                 <example>Он увидел собаку, хромавшую на задние лапы.</example>
         </rule>
+        </rulegroup>
 
+        <rulegroup  id="Punct_PT_oborot_2" name="Запятые при причастном обороте (2)" default="temp_off" > <!-- TODO: remove temp_off    -->
         <rule>
             <!-- Причастный оборот всегда выделяется запятыми, если располагается после определяемого слова. --> 
             <pattern> 
@@ -2614,7 +2616,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- Причастный оборот всегда выделяется запятыми, если располагается после определяемого слова. --> 
             <pattern> 
                     <marker>
-                        <token postag="NN:.*:Nom" postag_regexp="yes"></token>
+                        <token postag="NN:.*:Nom" postag_regexp="yes"><exception scope="previous" regexp="yes" >[,;:]</exception></token>
                         <token postag="PT:.*" postag_regexp="yes" chunk="B-ADJP"><exception postag="PT:.*" postag_regexp="yes" negate_pos="yes"></exception></token>                 
                         <token chunk="I-ADJP"><exception>,</exception><exception postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
                         <token min="1" max="4" chunk="I-ADJP"><exception>,</exception><exception postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
