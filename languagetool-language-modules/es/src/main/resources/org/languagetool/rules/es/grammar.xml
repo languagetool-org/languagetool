@@ -12572,12 +12572,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="EX_ALTO_CARGO" name="exalto cargo (ex alto cargo)" default="temp_off">
             <pattern>
                 <marker>
-                    <token>exalto</token></marker>
-                <token regexp="yes">cargo|mando</token>
+                    <token regexp="yes">exaltos?</token></marker>
+                <token regexp="yes">cargos?|mandos?</token>
             </pattern>
-            <message>La expresión <suggestion>ex alto</suggestion> <match no="2"/> se escribe en tres palabras.</message>
+            <message>La expresión "ex alto <match no="2"/>" se escribe en tres palabras.</message>
+            <suggestion><match no="1" regexp_match="(?iu)^ex" regexp_replace="ex " case_conversion="preserve"/></suggestion>
             <url>https://www.fundeu.es/recomendacion/ex-alto-cargo-en-tres-palabra/</url>
-            <example correction="ex alto">Condenado a cadena perpetua por corrupción un <marker>exalto</marker> cargo del Ejército chino.</example>
+            <example correction="ex altos">Condenados a cadena perpetua por corrupción unos <marker>exaltos</marker> cargos del Ejército chino.</example>
             <example correction="ex alto">Nombra a un <marker>exalto</marker> mando de finanzas como nuevo embajador en Colombia</example>
             <example correction="ex alto">Un <marker>exalto</marker> cargo de Rabat, detenido por apropiación de relojes</example>
         </rule>
