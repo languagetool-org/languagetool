@@ -250,7 +250,8 @@ public class TextLevelCheckQueue {
         if (locale != null && multiDocHandler.hasLocale(locale)) {
           return multiDocHandler.getLanguage(locale);
         }
-        MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: return null: locale = " + OfficeTools.localeToString(locale));
+        MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: return null: locale = " 
+            + (locale == null ? "null" : OfficeTools.localeToString(locale)));
       }
     }
     if (debugMode) {

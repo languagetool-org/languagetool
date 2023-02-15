@@ -362,6 +362,9 @@ class OfficeTools {
    *  Get a String from local
    */
   static String localeToString(Locale locale) {
+    if (locale == null) {
+      return null;
+    }
     return locale.Language + (locale.Country.isEmpty() ? "" : "-" + locale.Country) + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant);
   }
 
