@@ -5662,6 +5662,10 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
+<beforebreak>\b(кін)\.[\h\v]*</beforebreak>
+<afterbreak>[а-яіїєґ0-9IXV]|[ІХ]+\b</afterbreak>
+</rule>
+<rule break="no">
 <beforebreak>\b[сС]т\.[\h\v]</beforebreak>
 <afterbreak>[\h]*(?!([АВУОІЄ]|На|Але|Так?)[\h\v])</afterbreak>
 </rule>
@@ -5731,12 +5735,12 @@
 <!-- але розбиваємо «всього 20 м. Почалося» -->
 <rule break="no">
 <beforebreak>(?&lt;!\d[\h\v]*)\bм\.[\h\v]*</beforebreak>
-<afterbreak>[А-ЯІЇЄҐ][а-яіїєґ]</afterbreak>
+<afterbreak>[А-ЯІЇЄҐ][а-яіїєґ']</afterbreak>
 </rule>
 <!-- село/сторінка/місто, але щоб не збігалося з секундами/метрами -->
 <rule break="no">
 <beforebreak>([\h\v][«(][см]|[^0-9/. ][\h\v]+[см])\.[\h\v]+</beforebreak>
-<afterbreak>[А-ЯІЇЄҐ]</afterbreak>
+<afterbreak>[А-ЯІЇЄҐ][а-яіїєґ']</afterbreak>
 </rule>
 <!-- (реж. Емманюель -->
 <rule break="no">

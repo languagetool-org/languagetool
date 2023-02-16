@@ -522,10 +522,15 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("- Вибори-2019");
     assertEquals(Arrays.asList("-", " ", "Вибори-2019"), testList);
     
+    testList = w.tokenize("порівн. з англ");
+    assertEquals(Arrays.asList("порівн.", " ", "з", " ", "англ"), testList);
 
     // not too frequent
 //    testList = w.tokenize("30.04.10р.");
 //    assertEquals(Arrays.asList("30.04.10", "р."), testList);
+    
+    testList = w.tokenize("поч. 1945 - кін. 1946");
+    assertEquals(Arrays.asList("поч.", " ", "1945", " ", "-", " ", "кін.", " ", "1946"), testList);
   }
 
   @Test
