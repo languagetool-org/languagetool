@@ -3683,10 +3683,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="remove" postag="V.*"/>
     </rule>
     <rule id="te_substantiu" name="te/té (amb error) + substantiu">
+        <antipattern>
+            <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">['-].*</exception></token>
+            <token>te</token>
+        </antipattern>
+        <antipattern>
+            <token>te</token>
+            <token inflected="yes" regexp="yes">voler|deure|poder|preferir|desitjar</token>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token>te</token>
             <marker>
-                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">dius?</exception></token>
+                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">dius?|tornes|fan|don</exception></token>
             </marker>
         </pattern>
         <disambig action="remove" postag="V.*"/>
