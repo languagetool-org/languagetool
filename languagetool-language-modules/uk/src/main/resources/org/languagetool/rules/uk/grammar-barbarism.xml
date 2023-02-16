@@ -430,6 +430,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="vynosyty_podyaku" name="Виносити подяку">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">виносити|винести</token>
+          <token>подяку</token>
+        </pattern>
+        <message>Правильно: <suggestion>складати \2</suggestion></message>
+        <suggestion>висловлювати \2</suggestion>
+        <suggestion>дякувати</suggestion>
+        <example correction="складати подяку|висловлювати подяку|дякувати"><marker>виносити подяку</marker> хлопцям</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="NA_TAKIY_MOVI" name="На (такій) мові - (такою) мовою">
       <rule>
         <antipattern>
@@ -1720,7 +1733,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes" inflected="yes">відміняти(ся)?|відмінити(ся)?|відміня(вши|ючи)(сь)?|відмінивши(сь)?|відміна|відмінений</token>
       </antipattern>
       <antipattern>
-        <token regexp="yes" inflected="yes">перший|другий|третій|четвертий</token>
+        <token regexp="yes" inflected="yes">перший|другий|третій|четвертий|I+|IV|[1-4]</token>
         <token inflected="yes">відміна</token>
       </antipattern>
       <antipattern>
@@ -2612,7 +2625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <pattern>
-          <token regexp="yes" inflected="yes">збільшувати(ся)?|зменшувати(ся)?|переважати|перевищувати|значний|переважний</token>
+          <token regexp="yes" inflected="yes">збільшувати(ся)?|зменшувати(ся)?|переважати|перевищувати|значний|переважний|левовий</token>
           <marker>
             <token inflected="yes">доля</token>
           </marker>
@@ -3066,6 +3079,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>трохи-трохи не</suggestion>
       <suggestion>майже</suggestion>
       <example correction="мало не|трохи не|замалим не|мало-мало не|трохи-трохи не|майже">Він <marker>чуть не</marker> втопився?</example>
+    </rule>
+
+    <rule id="sharykova_ruchka" name="Шарикова ручка">
+      <pattern>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <marker>
+            <token inflected="yes">шариковий</token>
+          </marker>
+          <token inflected="yes">ручка</token>
+        </unify>
+      </pattern>
+      <message>Правильно: <suggestion>кулькова</suggestion></message>
+      <example correction="кулькова">Він взяв <marker>шарикову</marker> ручку</example>
+    </rule>
+
+    <rule id="po_krayniy_miri" name="По крайній мірі">
+      <pattern>
+        <token>по</token>
+        <token>крайній</token>
+        <token>мірі</token>
+      </pattern>
+      <message>Правильно: <suggestion>принаймні</suggestion></message>
+      <example correction="принаймні">Він <marker>по крайній мірі</marker> не втопився?</example>
     </rule>
 
     <rule id="povistka_dnya" name="Повістка дня">
@@ -4119,12 +4157,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token>як</token>
         <token>би</token>
-        <token>там</token>
+        <token regexp="yes">там|що</token>
         <token>не</token>
         <token>було</token>
       </pattern>
-      <message>Краще: <suggestion>хай там як/що</suggestion>, <suggestion>хоч би що там було</suggestion></message>
-      <example correction="хай там як/що|хоч би що там було">і <marker>як би там не було</marker>...</example>
+      <message>Краще: <suggestion>хай там як</suggestion></message>
+      <suggestion>хай там що</suggestion>
+      <suggestion>хоч би що там було</suggestion>
+      <example correction="хай там як|хай там що|хоч би що там було">і <marker>як би там не було</marker>...</example>
     </rule>
 
     <rule id="pryity_v_golovu" name="Прийти в голову">
