@@ -307,6 +307,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- GRAMMATICA ELSIONI E TRONCAMENTI - GR_04 -->
     <category id="CAT3" name="Grammatica - Elisioni e troncamenti">
         <rulegroup name="apocopi vocaliche" id="GR_04_001">
+            <!-- Che è -->
+            <rule default="temp_off">
+                <pattern>
+                    <token>ch</token>
+                    <token>'</token>
+                    <token>è</token>
+                </pattern>
+                <message>Nell'italiano standard, la frase <suggestion>che è</suggestion> non è normalmente contratta.</message>
+                <example correction="che è">Per dimostrare <marker>ch'è</marker> impossibile.</example>
+            </rule>
             <!-- Qual è -->
             <rule>
                 <pattern case_sensitive="no">
