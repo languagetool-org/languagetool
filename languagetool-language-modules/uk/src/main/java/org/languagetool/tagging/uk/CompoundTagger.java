@@ -107,7 +107,7 @@ class CompoundTagger {
   private static final List<String> WORDS_WITH_NUM = Arrays.asList(
       "Формула", "Карпати", "Динамо", "Шахтар", "Фукусіма", "Квартал", "Золоте", "Мінськ", "Нюренберг",
       "омега", "плутоній", "полоній", "стронцій", "уран", "потік"); //TODO: потік-2 - prop
-  private static final List<String> NAME_SUFFIX = Arrays.asList("ага", "ефенді", "бек", "сан", "сенсей");
+  private static final List<String> NAME_SUFFIX = Arrays.asList("ага", "ефенді", "бек", "заде", "огли", "сан", "кизи", "сенсей");
   private static final List<String> BAD_SUFFIX = Arrays.asList("б", "би", "ж", "же");
   private static final Pattern SKY_PATTERN = Pattern.compile(".*[сзц]ьки");
   private static final Pattern SKYI_PATTERN = Pattern.compile(".*[сзц]ький");
@@ -346,6 +346,22 @@ class CompoundTagger {
       }
     }
 
+    // Мустафа-ага
+    if( NAME_SUFFIX.contains(rightWord)
+        && PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "name") ) {
+      List<TaggedWord> wordList = PosTagHelper.adjust(leftWdList, null, "-" + rightWord);
+      return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, wordList);
+    }
+
+    if( leftWord.equals("аль") ) {
+      String wd = "Аль-" + rightWord;
+      List<TaggedWord> wdList = wordTagger.tag(wd);
+      if( wdList.size() > 0 ) {
+        wdList = PosTagHelper.adjust(wdList, null, null, ":bad");
+        return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(wd, wdList);
+      }
+    }
+
     if( rightWdList.isEmpty() ) {
       return null;
     }
@@ -383,13 +399,6 @@ class CompoundTagger {
       wordList = PosTagHelper.addIfNotContains(leftWdList, ":bad", null);
       List<AnalyzedToken> tagged = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, wordList);
       return tagged;
-    }
-
-    // Мустафа-ага
-    if( NAME_SUFFIX.contains(rightWord)
-        && PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "name") ) {
-      List<TaggedWord> wordList = PosTagHelper.adjust(leftWdList, null, "-" + rightWord);
-      return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, wordList);
     }
 
     if( leftWord.equalsIgnoreCase(rightWord)

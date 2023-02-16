@@ -39,6 +39,8 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class Ukrainian extends Language {
+  public static final Pattern IGNORED_CHARS = Pattern.compile("[\u00AD\u0301]");
+
   private static final List<String> RULE_FILES = Arrays.asList(
       "grammar-spelling.xml",
       "grammar-grammar.xml",
@@ -54,7 +56,7 @@ public class Ukrainian extends Language {
 
   @Override
   public Pattern getIgnoredCharactersRegex() {
-    return Pattern.compile("[\u00AD\u0301]");
+    return IGNORED_CHARS;
   }
 
   @Override

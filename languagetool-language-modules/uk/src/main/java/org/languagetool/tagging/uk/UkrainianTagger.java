@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.TaggedWord;
@@ -111,6 +112,8 @@ public class UkrainianTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
 
+    word = Ukrainian.IGNORED_CHARS.matcher(word).replaceAll("");
+    
     if ( word.length() >= 3 && word.indexOf('-') > 0 ) {
 
       // екс-«депутат»

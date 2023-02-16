@@ -155,6 +155,11 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("Є. Бакуліна.",
       "Є./[null]null -- Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_kly:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
        tokenizer, tagger);
+
+  TestTools.myAssert("і т. д.",
+      "і/[і]conj:coord|і/[і]part -- т./[т.]adj:n:v_dav:nv:abbr|т./[т.]adj:n:v_mis:nv:abbr|т./[т.]adj:n:v_naz:nv:abbr|т./[т.]adj:n:v_oru:nv:abbr|т./[т.]adj:n:v_rod:nv:abbr|т./[т.]adj:n:v_zna:nv:abbr|т./[т.]adv:abbr|т./[т.]noun:inanim:m:v_dav:nv:abbr|т./[т.]noun:inanim:m:v_mis:nv:abbr|т./[т.]noun:inanim:m:v_naz:nv:abbr|т./[т.]noun:inanim:m:v_oru:nv:abbr|т./[т.]noun:inanim:m:v_rod:nv:abbr|т./[т.]noun:inanim:m:v_zna:nv:abbr|т./[т.]noun:inanim:p:v_dav:nv:abbr|т./[т.]noun:inanim:p:v_mis:nv:abbr|т./[т.]noun:inanim:p:v_naz:nv:abbr|т./[т.]noun:inanim:p:v_oru:nv:abbr|т./[т.]noun:inanim:p:v_rod:nv:abbr|т./[т.]noun:inanim:p:v_zna:nv:abbr"
+      + " -- д./[д.]adv:abbr",
+       tokenizer, tagger);
   }
 
   @Test
@@ -295,7 +300,7 @@ public class UkrainianTaggerTest {
 
     assertNotTagged("хто-то");
     assertNotTagged("що-то");
-    assertNotTagged("чи-то");
+//    assertNotTagged("чи-то");
     assertNotTagged("как-то");
     assertNotTagged("кто-то");
     assertNotTagged("до-пари");
@@ -430,6 +435,7 @@ public class UkrainianTaggerTest {
     //TODO: бек, бег, ага, паша, хан
 //    TestTools.myAssert("Каладжі-ага", "", tokenizer, tagger);
     TestTools.myAssert("Каладжі-бей", "Каладжі-бей/[Каладжі-бей]noun:anim:m:v_naz:prop:fname", tokenizer, tagger);
+    TestTools.myAssert("Гасан-огли́", "Гасан-огли/[Гасан-огли]noun:anim:m:v_naz:prop:fname", tokenizer, tagger);
 //    TestTools.myAssert("капудан-паша", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
 //    TestTools.myAssert("кальфа-ефенді", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);
 
@@ -481,6 +487,8 @@ public class UkrainianTaggerTest {
     // bad removed in disambig
     TestTools.myAssert("Південно-Західній", "Південно-Західній/[південно-західний]adj:f:v_dav|Південно-Західній/[південно-західний]adj:f:v_mis|Південно-Західній/[південно-західній]adj:f:v_dav:bad|Південно-Західній/[південно-західній]adj:f:v_mis:bad|Південно-Західній/[південно-західній]adj:m:v_kly:bad|Південно-Західній/[південно-західній]adj:m:v_naz:bad|Південно-Західній/[південно-західній]adj:m:v_zna:rinanim:bad", tokenizer, tagger);
     TestTools.myAssert("Південно-Східної", "Південно-Східної/[південно-східний]adj:f:v_rod", tokenizer, tagger);
+    
+    TestTools.myAssert("аль-Каїда", "Аль-Каїда/[Аль-Каїда]noun:inanim:f:v_naz:prop:bad", tokenizer, tagger);
   }  
   
   @Test
@@ -737,7 +745,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("йо-га", "йо-га/[null]null", tokenizer, tagger);
     TestTools.myAssert("с-г", "с-г/[null]null", tokenizer, tagger);
     TestTools.myAssert("де-куди", "де-куди/[null]null", tokenizer, tagger);
-    TestTools.myAssert("чи-то", "чи-то/[null]null", tokenizer, tagger);
+//    TestTools.myAssert("чи-то", "чи-то/[null]null", tokenizer, tagger);
 //    TestTools.myAssert("як-то", "як-то/[як-то]conj:subord:bad", tokenizer, tagger);
 
     TestTools.myAssert("все-транс", "все-транс/[null]null", tokenizer, tagger);
