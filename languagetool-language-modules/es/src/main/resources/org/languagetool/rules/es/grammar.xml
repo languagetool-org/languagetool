@@ -13364,13 +13364,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule default="temp_off">
                 <pattern>
                     <token>contra</token>
-                    <token min="0">-</token>
+                    <token>-</token>
                     <token regexp="yes">..+</token>
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="contra$1"/></suggestion>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="contrar$1"/></suggestion>
                 <example correction="contrarrotación">La <marker>contra-rotación</marker>.</example>
+                <example correction="contraataque">Ataque a la derecha, <marker>contra-ataque</marker> a la izquierda.</example>
+                <example correction="contrainteligencia">Es como una mente maestra de <marker>contra-inteligencia</marker>.</example>
+                <example correction="contrarreloj">Su vida es una inacabable carrera <marker>contra-reloj</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
+                    <marker><token>contra</token>
+                        <token min="0">-</token>
+                        <token regexp="yes">..+<exception postag="V.*|S.*" postag_regexp="yes"/></token></marker>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="4" regexp_match="(.+)" regexp_replace="contra$1"/></suggestion>
+                <suggestion><match no="4" regexp_match="(.+)" regexp_replace="contrar$1"/></suggestion>
+                <example correction="contrarrotación">La <marker>contra rotación</marker>.</example>
+                <example correction="contraataque">Un <marker>contra ataque</marker> a la izquierda.</example>
+                <example correction="contrarreloj">Superó sus marcas en la <marker>contra reloj</marker>.</example>
             </rule>
             <rule>
                 <pattern>
