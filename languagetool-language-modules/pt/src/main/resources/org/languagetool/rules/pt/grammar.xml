@@ -3932,16 +3932,90 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <!-- 2023-02-15:
-         The rule needs to be completely rewritten since it was done in 2021 and patched since then.
-         Back then the disambiguator was poorer.
-         I will do it in the weekend.
-         Please DON'T make changes to it until I rewrite it.
-         Thanks!
-    -->
+    <!-- QUE É CONSIDERADA considerada -->
+    <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="que é + V.Part.Pass → V.Part.Pass">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-17 (25-JUL-2022+) -->
+      <!--
+      Tudo aquilo que é sabido além da dúvida é exato. → Tudo aquilo sabido além da dúvida é exato.
+      Esta é a chave, que é considerada realmente boa. → Esta é a chave, considerada realmente boa.
+      -->
+
+      <antipattern>
+        <token postag='SPS00|SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='SPS00|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+        <token>que</token>
+        <token regexp='yes'>fora|foram|foi|são|é</token>
+        <token postag='VMP00.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+        <token postag='SPS00' postag_regexp='no'/>
+        <token postag='V.+|NC.+|AQ.+|CS' postag_regexp='yes'/>
+        <example>Meia hora para pegar a mala que foi obrigada a despachar.</example>
+        <example>É de energia que é feita a matéria.</example>
+        <example>Há ritmos verbais que são bailados, em que a ideia se desnuda sinuosamente, numa sensualidade translúcida e perfeita.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='DI.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='SPS00' postag_regexp='no'/>
+        <token min="0" max="1" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+        <token>que</token>
+        <token regexp='yes'>fora|foram|foi|são|é</token>
+        <token postag='VMP00.+' postag_regexp='yes'/>
+        <token postag='SENT_END|_PUNCT' postag_regexp='yes'/>
+        <example>O problema da CRE Gama é porque alguns professores de contratos que foram chamados, não quiseram assinar contratos para carências pequenas de 15, 30 dias, querem carências maiores co...</example>
+        <example>Hannun – Houve no início algum tipo de ruído, que foram trabalhados.</example>
+        <example>...sso de anodização, podem haver pequenas diferenças de tonalidade entre os vários perfis de alumínio que foram anodizados.</example>
+        <example>Tom tem uma irmã que é advogada.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='RN' postag_regexp='no'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='DA.+|SPS00' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+|PI.+' postag_regexp='yes'/>
+        <token>que</token>
+        <token regexp='yes'>fora|foram|foi|são|é</token>
+        <token postag='VMP00.+' postag_regexp='yes'/>
+        <token postag='SENT_END|_PUNCT' postag_regexp='yes'/>
+        <example>mais eu não tenho o valor que foi cobrado.</example>
+        <example>Você não é o único que foi ferido.</example>
+        <example>Os homens que Tom assaltou não contaram a ninguém que foram assaltados.</example>
+      </antipattern>
+
+      <rule>
+        <pattern>
+          <token postag='Z0.+|NC.+|AQ.+|NP.+|_PUNCT|SPS00|DI.+|DA.+|PI.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='AO.+|SPS00:DA.+'/>
+            <exception scope="previous" postag_regexp='no' postag='dddUNKNOWN'/>
+          </token>
+          <token postag='NC.+|AQ.+|NP.+|SPS00:PP.+|PI.+|DD.+|PD.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='VMIP3.+|DA.+'/>
+          </token>
+          <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+          <marker>
+            <token>que</token>
+            <token regexp='yes'>fora|foram|foi|são|é</token>
+            <token postag='VMP00.+' postag_regexp='yes'/>
+          </marker>
+          <token min="0" max="1" postag='RN' postag_regexp='no'/>
+          <token postag='SPS00|SPS00:DA.+|RM|RG|SENT_END|_PUNCT' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\6</suggestion>
+        <example correction="sabido">Tudo aquilo <marker>que é sabido</marker> além da dúvida é exato.</example>
+        <example correction="considerada">Esta é a chave, <marker>que é considerada</marker> realmente boa.</example>
+      </rule>
+    </rulegroup>
+
+
     <!-- QUE FORAM/FOI/SÃO/É sendo -->
-    <rulegroup id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo/V.Part.Passado">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 + 2021-07-30 + 2021-08-18 + 2022-03-03 + 2023-02-15 (17-MAR-2021+)      -->
+    <rulegroup id='QUE_FORAM_FOI_SÃO_É_SENDO' name="Que foram/foi/são/é → Sendo" default="off">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20 + 2021-07-12 + 2021-07-13 + 2021-07-14 + 2021-07-30 + 2021-08-18 + 2022-03-03 + 2023-02-15 + 2023-02-17 (17-MAR-2021+)      -->
       <!--
       Temos locais com árvores que são o ideal para o nosso modelo. → Temos locais com árvores sendo o ideal para o nosso modelo.
       Apresenta uma tela sensível ao toque que é o dispositivo de entrada principal. → Apresenta uma tela sensível ao toque sendo o dispositivo de entrada principal.
