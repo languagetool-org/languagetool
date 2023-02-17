@@ -250,14 +250,15 @@ public class LinguisticServices extends LinguServices {
       // get synonyms in a acceptable time or return 0 synonyms
       AddSynonymsToCache addSynonymsToCache = new AddSynonymsToCache(word, locale);
       addSynonymsToCache.start();
-      int nRun = 0;
+      long startTime = System.currentTimeMillis();
+      long runTime = 0;
       do {
         Thread.sleep(10);
         if (synonymsCache.containsKey(word)) {
           return synonymsCache.get(word);
         }
-        nRun++;
-      } while (nRun < 50);
+        runTime = System.currentTimeMillis() - startTime;
+      } while (runTime < 500);
     } catch (InterruptedException e) {
       MessageHandler.printException(e);
     }

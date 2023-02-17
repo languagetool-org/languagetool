@@ -143,7 +143,7 @@ class SingleCheck {
       }
       if (changedParas.contains(lastChangedPara) )
       changedParas.add(lastChangedPara);
-      remarkChangedParagraphs(changedParas, docCursor, flatPara, lt, true);
+      remarkChangedParagraphs(changedParas, flatPara, lt, true);
     }
     this.lastSinglePara = lastSinglePara;
     if (numParasToCheck != 0 && paraNum >= 0) {
@@ -159,15 +159,15 @@ class SingleCheck {
           + "; docID: " + singleDocument.getDocID());
     }
     if (!isDisposed() && docType == DocumentType.WRITER && numParasToCheck != 0 && paraNum >= 0 && (textIsChanged || isDialogRequest)) {
-      if (docCursor == null && !isDisposed()) {
-        docCursor = new DocumentCursorTools(xComponent);
-      }
+//      if (docCursor == null && !isDisposed()) {
+//        docCursor = new DocumentCursorTools(xComponent);
+//      }
       if (!isIntern && isDialogRequest && !textIsChanged) {
         List<Integer> changedParas = new ArrayList<Integer>();
         changedParas.add(paraNum);
-        remarkChangedParagraphs(changedParas, docCursor, flatPara, lt, true);
+        remarkChangedParagraphs(changedParas, flatPara, lt, true);
       } else if (textIsChanged && (!useQueue || isDialogRequest)) {
-        remarkChangedParagraphs(changedParas, docCursor, flatPara, lt, true);
+        remarkChangedParagraphs(changedParas, flatPara, lt, true);
       }
     }
     return errors;
@@ -181,7 +181,6 @@ class SingleCheck {
         boolean checkOnlyParagraph, boolean override, boolean isIntern, boolean hasFootnotes) {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
-    DocumentCursorTools docCursor = this.docCursor;
     if (isDisposed() || docCache == null || nFPara < 0 || nFPara >= docCache.size()) {
       MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: return: isDisposed = " + isDisposed() + ", nFPara = " + nFPara 
           + ", docCache(Size) = " + (docCache == null ? "null" : docCache.size()) );
@@ -201,9 +200,6 @@ class SingleCheck {
       TextParagraph tPara = docCache.getNumberOfTextParagraph(nFPara);
       if (tPara.type < 0 || tPara.number < 0) {
         MessageHandler.printToLogFile("WARNING: doc cache corrupted (at SingleCheck: addParaErrorsToCache) : refresh doc cache!");
-        if (docCursor == null) {
-          docCursor = new DocumentCursorTools(xComponent);
-        }
         this.docCache.refresh(singleDocument, LinguisticServices.getLocale(fixedLanguage), 
             LinguisticServices.getLocale(docLanguage), xComponent, 7);
         docCache = new DocumentCache(this.docCache);
@@ -301,15 +297,12 @@ class SingleCheck {
           oldCache = null;
           return;
         }
-        if (docCursor == null) {
-          docCursor = new DocumentCursorTools(xComponent);
-        }
         flatPara = singleDocument.setFlatParagraphTools();
         
         List<Integer> changedParas = new ArrayList<>();
         if (cacheNum == 0) {
           changedParas.add(nFPara);
-          remarkChangedParagraphs(changedParas, docCursor, flatPara, lt, true);
+          remarkChangedParagraphs(changedParas, flatPara, lt, true);
         } else if (oldCache != null) {
           for (int nText = startPara; nText < endPara; nText++) {
             int nFlat = docCache.getFlatParagraphNumber(docCache.createTextParagraph(cursorType, nText));
@@ -331,7 +324,7 @@ class SingleCheck {
               MessageHandler.printToLogFile(tmpText);
             }
             singleDocument.setLastChangedParas(changedParas);
-            remarkChangedParagraphs(changedParas, docCursor, flatPara, lt, true);
+            remarkChangedParagraphs(changedParas, flatPara, lt, true);
           } else if (debugMode > 1) {
             MessageHandler.printToLogFile("SingleCheck: addParaErrorsToCache: Cache(" + cacheNum + ") Mark paragraphs from " + startPara 
                 + " to " + endPara + ": No Paras to Mark, tPara.type: " + tPara.type + ", tPara.number: " + tPara.number + ", nFPara: " + nFPara);
@@ -348,7 +341,7 @@ class SingleCheck {
    * remark changed paragraphs
    * override existing marks
    */
-  public void remarkChangedParagraphs(List<Integer> changedParas, DocumentCursorTools docCursor, 
+  public void remarkChangedParagraphs(List<Integer> changedParas,
       FlatParagraphTools flatPara, SwJLanguageTool lt, boolean override) {
     if (!isDisposed() && !mDocHandler.isBackgroundCheckOff() && (!isDialogRequest || isIntern)) {
       Map <Integer, List<SentenceErrors>> changedParasMap = new HashMap<>();
@@ -378,6 +371,9 @@ class SingleCheck {
                     + (paragraphsCache.get(j).getMatches(changedParas.get(i)) == null ? "null" : paragraphsCache.get(j).getMatches(changedParas.get(i)).length));
           }
         }
+      }
+      if (docCursor == null) {
+        docCursor = new DocumentCursorTools(xComponent);
       }
       docCursor.removeMarks(changedTextParas);
       flatPara.markParagraphs(changedParasMap);

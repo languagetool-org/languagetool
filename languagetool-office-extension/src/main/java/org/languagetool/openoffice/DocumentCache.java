@@ -179,6 +179,9 @@ public class DocumentCache implements Serializable {
     try {
       long startTime = System.currentTimeMillis();
       DocumentCursorTools docCursor = document.getDocumentCursorTools();
+      if (docCursor == null) {
+        docCursor = new DocumentCursorTools(document.getXComponent());
+      }
       FlatParagraphTools flatPara = document.getFlatParagraphTools();
       List<String> paragraphs = new ArrayList<String>();
       List<List<Integer>> chapterBegins = new ArrayList<List<Integer>>();

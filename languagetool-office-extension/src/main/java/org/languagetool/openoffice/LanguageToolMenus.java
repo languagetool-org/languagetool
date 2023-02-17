@@ -36,6 +36,7 @@ import com.sun.star.awt.XPopupMenu;
 import com.sun.star.beans.Property;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.XIndexAccess;
 import com.sun.star.container.XIndexContainer;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
@@ -43,6 +44,7 @@ import com.sun.star.lang.EventObject;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiServiceFactory;
+import com.sun.star.text.XTextRange;
 import com.sun.star.ui.ActionTriggerSeparatorType;
 import com.sun.star.ui.ContextMenuExecuteEvent;
 import com.sun.star.ui.ContextMenuInterceptorAction;
@@ -51,6 +53,7 @@ import com.sun.star.ui.XContextMenuInterceptor;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import com.sun.star.view.XSelectionSupplier;
 
 /**
  * Class of menus adding dynamic components 
@@ -426,7 +429,7 @@ public class LanguageToolMenus {
     public ContextMenuInterceptorAction notifyContextMenuExecute(ContextMenuExecuteEvent aEvent) {
       try {
         if (isRunning) {
-          MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: no change in Menu");
+          MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: is running: no change in Menu");
           return ContextMenuInterceptorAction.IGNORED;
         }
         isRunning = true;
@@ -436,6 +439,9 @@ public class LanguageToolMenus {
           MessageHandler.printToLogFile("Generate context menu started");
         }
         XIndexContainer xContextMenu = aEvent.ActionTriggerContainer;
+        if (debugMode) {
+          MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: get xContextMenu");
+        }
         
         if (document.getDocumentType() == DocumentType.IMPRESS) {
           XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
@@ -456,12 +462,14 @@ public class LanguageToolMenus {
             }
           }
           isRunning = false;
+          if (debugMode) {
+            MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: execute modified for Impress");
+          }
           return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
         }
         
-        
         int count = xContextMenu.getCount();
-        
+/*        
         if (debugMode) {
           for (int i = 0; i < count; i++) {
             Any a = (Any) xContextMenu.getByIndex(i);
@@ -469,6 +477,7 @@ public class LanguageToolMenus {
             printProperties(props);
           }
         }
+*/
         //  Add LT Options Item if a Grammar or Spell error was detected
         document.setMenuDocId();
         for (int i = 0; i < count; i++) {
@@ -487,8 +496,12 @@ public class LanguageToolMenus {
                 str = tmpProps.getPropertyValue("CommandURL").toString();
               }
               if (ADD_TO_DICTIONARY_2.equals(str) || ADD_TO_DICTIONARY_3.equals(str)) {
-                ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
-                String wrongWord = viewCursor.getViewCursorSelectedArea();
+//                ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
+//                String wrongWord = viewCursor.getViewCursorSelectedArea();
+                String wrongWord = getSelectedWord(aEvent);
+                if (debugMode) {
+                  MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: wrong word: " + wrongWord);
+                }
                 if (wrongWord != null && !wrongWord.isEmpty()) {
                   if (wrongWord.charAt(wrongWord.length() - 1) == '.') {
                     wrongWord= wrongWord.substring(0, wrongWord.length() - 1);
@@ -582,6 +595,9 @@ public class LanguageToolMenus {
                 }
               }
               isRunning = false;
+              if (debugMode) {
+                MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: execute modified for Writer");
+              }
               return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
             }
           }
@@ -623,6 +639,9 @@ public class LanguageToolMenus {
           }
         }
         isRunning = false;
+        if (debugMode) {
+          MessageHandler.printToLogFile("LanguageToolMenus: notifyContextMenuExecute: execute modified for Writer (no grammar error)");
+        }
         return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
 
       } catch (Throwable t) {
@@ -633,6 +652,30 @@ public class LanguageToolMenus {
       return ContextMenuInterceptorAction.IGNORED;
     }
     
+    /**
+     * get selected word
+     */
+    private String getSelectedWord(ContextMenuExecuteEvent aEvent) {
+      try {
+        XSelectionSupplier xSelectionSupplier = aEvent.Selection;
+        Object selection = xSelectionSupplier.getSelection();
+        XIndexAccess xIndexAccess = UnoRuntime.queryInterface(XIndexAccess.class, selection);
+        if (xIndexAccess == null) {
+          MessageHandler.printToLogFile("LanguageToolMenus: getSelectedWord: xIndexAccess == null");
+          return null;
+        }
+        XTextRange xTextRange = UnoRuntime.queryInterface(XTextRange.class, xIndexAccess.getByIndex(0));
+        if (xTextRange == null) {
+          MessageHandler.printToLogFile("LanguageToolMenus: getSelectedWord: xTextRange == null");
+          return null;
+        }
+        return xTextRange.getString();
+      } catch (Throwable t) {
+        MessageHandler.printException(t);
+      }
+      return null;
+    }
+
     /**
      * Print properties in debug mode
      */

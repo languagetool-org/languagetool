@@ -303,7 +303,7 @@ class SingleDocument {
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
-          MessageHandler.printToLogFile("Time to run request analyses: " + runTime);
+          MessageHandler.printToLogFile("Single document: Time to run request analyses: " + runTime);
         }
       }
       if (debugMode > 1) {
@@ -346,13 +346,22 @@ class SingleDocument {
       }
       paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
       lastChangedPara = (textIsChanged && numParasToCheck != 0) ? paraNum : -1;
-      if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT || isIntern) {
-        addSynonyms(paRes, paraText, locale, lt);
-      }
       if (debugModeTm) {
         long runTime = System.currentTimeMillis() - startTime;
         if (runTime > OfficeTools.TIME_TOLERANCE) {
-          MessageHandler.printToLogFile("Time to run single check: " + runTime);
+          MessageHandler.printToLogFile("Single document: Time to run single check: " + runTime);
+        }
+      }
+      if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT || isIntern) {
+        if (debugModeTm) {
+          startTime = System.currentTimeMillis();
+        }
+        addSynonyms(paRes, paraText, locale, lt);
+        if (debugModeTm) {
+          long runTime = System.currentTimeMillis() - startTime;
+          if (runTime > OfficeTools.TIME_TOLERANCE) {
+            MessageHandler.printToLogFile("Single document: Time to addSynonyms: " + runTime);
+          }
         }
       }
     } catch (Throwable t) {
@@ -504,7 +513,7 @@ class SingleDocument {
   /**
    *  Get flat paragraph tools of the document
    */
-  FlatParagraphTools getFlatParagraphTools () {
+  FlatParagraphTools getFlatParagraphTools() {
     if (flatPara == null) {
       setFlatParagraphTools();
     }
@@ -514,10 +523,10 @@ class SingleDocument {
   /**
    *  Get document cursor tools
    */
-  DocumentCursorTools getDocumentCursorTools () {
-    if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xComponent);
-    }
+  DocumentCursorTools getDocumentCursorTools() {
+//    if (docCursor == null) {
+//      docCursor = new DocumentCursorTools(xComponent);
+//    }
     return docCursor;
   }
 
@@ -795,10 +804,10 @@ class SingleDocument {
     if (!disposed) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage, docLanguage, 
           ignoredMatches, numParasToCheck, false, false, isIntern);
-      if (docCursor == null) {
-        docCursor = new DocumentCursorTools(xComponent);
-      }
-      singleCheck.remarkChangedParagraphs(changedParas, docCursor, flatPara, mDocHandler.getLanguageTool(), true);
+//      if (docCursor == null) {
+//        docCursor = new DocumentCursorTools(xComponent);
+//      }
+      singleCheck.remarkChangedParagraphs(changedParas, flatPara, mDocHandler.getLanguageTool(), true);
     }
   }
 
