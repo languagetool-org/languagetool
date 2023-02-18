@@ -3933,7 +3933,7 @@ O namorado dela era um ladrão.
 
 
     <!-- QUE É CONSIDERADA considerada -->
-    <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="que é + V.Part.Pass → V.Part.Pass">
+    <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="[Simplificar] que é + V.Part.Pass → V.Part.Pass">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-17 (25-JUL-2022+) -->
       <!--
       Tudo aquilo que é sabido além da dúvida é exato. → Tudo aquilo sabido além da dúvida é exato.
@@ -4009,6 +4009,67 @@ O namorado dela era um ladrão.
         <suggestion>\6</suggestion>
         <example correction="sabido">Tudo aquilo <marker>que é sabido</marker> além da dúvida é exato.</example>
         <example correction="considerada">Esta é a chave, <marker>que é considerada</marker> realmente boa.</example>
+        <example correction="elevado">Temos um número constante maior que zero e diferente de um, <marker>que é elevado</marker> a três.</example>
+      </rule>
+    </rulegroup>
+
+
+    <!-- SENDO CONSIDERADA considerada -->
+    <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-18 (25-JUL-2022+) -->
+      <!--
+      Temos um número maior que zero e diferente de um, sendo elevado a três. → Temos um número maior que zero e diferente de um, elevado a três.
+      Temos um número maior que zero e diferente de dois, sendo elevado a um. → Temos um número maior que zero e diferente de dois, elevado a um.
+      Há o Instituto Federal do Amapá, sendo fundado em 29 de dezembro de 2008. → Há o Instituto Federal do Amapá, fundado em 29 de dezembro de 2008.
+      O primeiro estudo formal conhecido da lógica, sendo incorporado posteriormente à lógica formal. → O primeiro estudo formal conhecido da lógica, incorporado posteriormente à lógica formal.
+      -->
+
+      <antipattern>
+        <token postag='V.+|UNKNOWN|SENT_START' postag_regexp='yes'/>
+        <token min="0" max="2" postag='V.+|NC.+|AQ.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='SPS00|DI.+' postag_regexp='yes'/>
+        <token min="1" max="7" postag='Z0.+|NC.+|AQ.+|NP.+|UNKNOWN|_PUNCT|SPS00' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='RG'/>
+        </token>
+        <token>sendo</token>
+        <token postag='VMP00.+' postag_regexp='yes'/>
+        <example>[15][16] A Remedy pressionou por uma versão para computadores e a Microsoft a autorizou em 2011, sendo lançada em fevereiro do ano seguinte e desenvolvida pela Nitro Games.</example>
+        <example>É só apelação grotesca chegando às raias da bizarrice disfarçada de pretensões artísticas sendo encoberta por um conceito distorcido de liberdade de expressão.</example>
+        <example>Obs: Para os resistores de 3 faixas a tolerância pode ser considerada em ± 20%, sendo definido sem cor.</example>
+        <example>[55][56] O cantor confessou que tinha agredido a ex-namorada, sendo condenado a cinco anos de liberdade condicional e seis meses de trabalhos comunitários.</example>
+        <example>Por esse motivo, as procurações públicas possuem maior eficácia jurídica, sendo aceitas em qualquer órgão, além de possibilitar a emissão de certidões.Apesar de ser um documento formal, n...</example>
+        <example>Um noivo sendo levado para sua festa.</example>
+        <example>Ele foi ver Sara, que estava de cama, pálida, sendo tratada por Tafet.</example>
+        <example>No entanto, Grabowski foi removido da luta em 21 de dezembro, por razões não divulgadas, sendo substituído por Oleksiy Oliynyk.</example>
+        <example>Então Jacob abandona o bando, sendo seguido por Seth e, mais tarde, por Leah.</example>
+        <example>A vacina pode ser efetuada de Setembro a Março, sendo recomendada em Outubro.</example>
+        <example>...elecimentos que vendem medicamentos e remédios, podendo também fazer a manipulação de medicamentos, sendo chamadas de farmácia de manipulação nesses casos.</example>
+        <example>Imediatamente após a apreensão, foi dado início a fase de cumprimento de mandados, sendo presos os líderes de organização criminosa voltada para o tráfico internacional de cocaína.</example>
+      </antipattern>
+
+      <rule>
+        <pattern>
+          <token postag='Z0.+|DI.+|NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'>
+            <exception scope="previous" postag_regexp='yes' postag='PI.+|V.+|DP.+|RG|CC'/>
+            <exception regexp='no'>mesmo</exception>
+          </token>
+          <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+          <marker>
+            <token>sendo</token>
+            <token postag='VMP00.+' postag_regexp='yes'/>
+          </marker>
+          <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+          <token postag='RM|DA.+|SPS00' postag_regexp='yes'>
+            <exception scope="next" postag_regexp='yes' postag='CS|RG|V.+|DA.+'/>
+          </token>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\4</suggestion>
+        <example correction="elevado">Temos um número maior que zero e diferente de um, <marker>sendo elevado</marker> a três.</example>
+        <example correction="elevado">Temos um número maior que zero e diferente de dois, <marker>sendo elevado</marker> a um.</example>
+        <example correction="fundado">Há o Instituto Federal do Amapá, <marker>sendo fundado</marker> em 29 de dezembro de 2008.</example>
+        <example correction="incorporado">O primeiro estudo formal conhecido da lógica, <marker>sendo incorporado</marker> posteriormente à lógica formal.</example>
+        <example>Jogam-se várias rodadas, sendo somados os pontos atingidos por cada dupla, até que se atinjam 3 000 ou 5 000 pontos.</example>
       </rule>
     </rulegroup>
 
