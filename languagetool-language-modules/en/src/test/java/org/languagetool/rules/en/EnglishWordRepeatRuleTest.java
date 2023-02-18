@@ -77,6 +77,49 @@ public class EnglishWordRepeatRuleTest {
     assertGood("Keep your chin up and whatever you do don't doubt yourself or your actions.");
     assertGood("I know that that can't really happen.");
   }
+  @Test
+  public void testRepeatRule2() throws IOException {
+    lt = new JLanguageTool(english);
+    assertGood("In the wild wild west");
+    assertGood("It's S.T.E.A.M.");
+    assertGood("There are so so many bagels.");
+    assertGood("a.k.a a");
+    assertGood("twinkle twinkle little star");
+    assertGood("Walla Walla is a city in Washington State");
+    assertGood("Bam bam bigelow was dead.");
+    assertGood("walla walla");
+    assertGood("blah blah");
+    assertGood("Good night, mau mau");
+    assertGood("Uh uh, no chance.");
+    assertGood("paw paw");
+    assertGood("cha cha");
+    assertGood("yum yum");
+    assertGood("wop wop");
+    assertGood("woop woop");
+    assertGood("fnarr fnarr");
+    assertGood("fnar fnar");
+    assertGood("ha ha");
+    assertGood("omg omg");
+    assertGood("boo boo");
+    assertGood("tick tick");
+    assertGood("ta ta");
+    assertGood("la la");
+    assertGood("x x");
+    assertGood("hi hi");
+    assertGood("ho ho");
+    assertGood("heh heh");
+    assertGood("jay jay");
+    assertGood("Sri Sri");
+    assertGood("hey hey");
+    assertGood("hah hah");
+    assertGood("heh heh");
+    assertGood("oh oh");
+    assertGood("ouh ouh");
+    assertGood("chop chop");
+    assertGood("ring ring");
+    assertGood("beep beep");
+    assertGood("yeah yeah");
+  }
 
   private void assertGood(String sentence) throws IOException {
     assertMatches(sentence, 0);

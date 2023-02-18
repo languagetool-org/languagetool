@@ -69,5 +69,39 @@ public class EnglishWordRepeatBeginningRuleTest {
      assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("In addition")));
      assertTrue(matches3.get(0).getSuggestedReplacements().stream().anyMatch(sugg ->  sugg.equals("As well as")));
   }
+  @Test
+  public void testRuleCONTRAST_ADVERBS() throws IOException {
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
+    List<RuleMatch> matches1 = lt.check("Nevertheless, I think so. Nevertheless, I think so.");
+    assertEquals(1, matches1.size());
+    // check suggestions
+    assertThat(matches1.get(0).getSuggestedReplacements().get(0), is("Nonetheless"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(1), is("Alternatively"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(2), is("Even so"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(3), is("On the other hand"));
+  }
+  @Test
+  public void testRuleEMPHASIS_ADVERBS() throws IOException {
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
+    List<RuleMatch> matches1 = lt.check("Undoubtedly, I think so. Undoubtedly, I think so.");
+    assertEquals(1, matches1.size());
+    // check suggestions
+    assertThat(matches1.get(0).getSuggestedReplacements().get(0), is("Absolutely"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(1), is("Clearly"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(2), is("Obviously"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(3), is("Definitely"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(4), is("Indeed"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(5), is("Importantly"));
+  }
+
+  @Test
+  public void testRuleEXPLAIN_ADVERBS() throws IOException {
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
+    List<RuleMatch> matches1 = lt.check("Particularly, I think so. Particularly, I think so.");
+    assertEquals(1, matches1.size());
+    // check suggestions
+    assertThat(matches1.get(0).getSuggestedReplacements().get(0), is("Especially"));
+    assertThat(matches1.get(0).getSuggestedReplacements().get(1), is("Specifically"));
+  }
 
 }
