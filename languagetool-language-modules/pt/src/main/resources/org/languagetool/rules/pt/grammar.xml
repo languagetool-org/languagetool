@@ -3933,7 +3933,7 @@ O namorado dela era um ladrão.
 
 
     <!-- QUE É CONSIDERADA considerada -->
-    <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="[Simplificar] que é + V.Part.Pass → V.Part.Pass">
+    <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="[Simplificar] que é + V.Part.Pass → V.Part.Pass" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-17 (25-JUL-2022+) -->
       <!--
       Tudo aquilo que é sabido além da dúvida é exato. → Tudo aquilo sabido além da dúvida é exato.
@@ -4015,7 +4015,7 @@ O namorado dela era um ladrão.
 
 
     <!-- SENDO CONSIDERADA considerada -->
-    <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass">
+    <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-18 (25-JUL-2022+) -->
       <!--
       Temos um número maior que zero e diferente de um, sendo elevado a três. → Temos um número maior que zero e diferente de um, elevado a três.
@@ -4385,6 +4385,31 @@ O namorado dela era um ladrão.
         <example>...je, com apoio da Polícia Rodoviária Federal (PRF), caminhão foi abordado quando deixava Ponta Porã, sendo encontrada a carga de 265 quilos de cocaína no veículo.</example>
       </rule>
     </rulegroup>
+
+
+    <!-- JÁ ESTÁ OCUPADA já ocupada -->
+    <rule id='QUE_JÁ_ESTAR_PARTPASS_JÁ_PARTPASS' name="[Simplificar] Que já + V.Estar + V.Part.Pass → Já + V.Part.Pass" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-19 (25-JUL-2022+) -->
+      <!--
+      Mova os elementos para a localização que já está ocupada com outros elementos. → Mova os elementos para a localização já ocupada com outros elementos.
+      Mova os elementos para as localizações que já estão ocupadas com outros elementos. → Mova os elementos para as localizações já ocupadas com outros elementos.
+      -->
+
+      <pattern>
+        <marker>
+          <token>que</token>
+          <token>já</token>
+          <token regexp='yes'>está|estão|estava|estavam</token>
+          <token postag='VMP00.+' postag_regexp='yes'/>
+        </marker>
+        <token postag='SPS00|SPS00:DA.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\2 \4</suggestion>
+      <example correction="já ocupada">Mova os elementos para a localização <marker>que já está ocupada</marker> com outros elementos.</example>
+      <example correction="já ocupadas">Mova os elementos para as localizações <marker>que já estão ocupadas</marker> com outros elementos.</example>
+    </rule>
+
 
     <!-- FREQUENTEMENTE É DADO é frequentemente dado -->
     <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio">
