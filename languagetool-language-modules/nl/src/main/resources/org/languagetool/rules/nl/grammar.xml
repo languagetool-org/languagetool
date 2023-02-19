@@ -45787,6 +45787,7 @@ steenwijk;Steenwijk
                 <example correction="seconde|seconden|s">Het duurt 15 <marker>sec</marker> lang.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="AFKO_PUNTEN" name="Afkortingen zonder punt" tags="picky" >
             <rule>
                 <pattern>
@@ -45807,6 +45808,19 @@ steenwijk;Steenwijk
                 <message>In deze afkorting horen punten.</message>
                 <suggestion>i.p.v.</suggestion>
                 <example correction="i.p.v.">Het is fout <marker>ipv</marker> de regels.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LS_IS" name="ls / Is" >
+            <rule>
+                <antipattern><token postag="SENT_START"/><token/><token skip="-1"/><token case_sensitive="yes">ls</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ls</token>
+                    </marker>
+                </pattern>
+                <message>Is de 'l' hier niet toevallig een 'I'?</message>
+                <suggestion>Is</suggestion>
+                <example correction="Is">- <marker>ls</marker> m'n bureau leeggeruimd?</example>
             </rule>
         </rulegroup>
     </category>
