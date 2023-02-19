@@ -2507,7 +2507,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>                                                
     </category>
     
-    <category id="PUNCTUATION" name="Пунктуация">     
+    <category id="PUNCTUATION" name="Пунктуация">
+        <rulegroup  id="DOUBLE_PUNCTUATION_2"  name="Повтор точки или запятой" default="temp_off">
+            <antipattern>
+                <token><exception  regexp="yes">[.,]</exception></token>
+                <marker>
+                <token>.</token>
+                <token spacebefore="no">.<exception  regexp="yes"  scope="next">[.,]</exception></token>
+                </marker>
+                <token spacebefore="no"></token>
+            </antipattern>
+           <rule> 
+            <pattern>
+                <token><exception  regexp="yes">[.,]</exception></token>
+                <marker>
+                <token>.</token>
+                <token spacebefore="no">.<exception  regexp="yes"  scope="next">[.,]</exception></token>
+                </marker>
+            </pattern>
+            <message>Две  точки  подряд: <suggestion><match  no="2"/></suggestion> или <suggestion>…</suggestion></message>
+            <short>Две  точки</short>
+            <example  correction=".|…">Это  пример<marker>..</marker></example>
+            <example>Вот лишь некоторые из них: Implement interface, Iterate with 'for..of'.</example>
+            <example>Это  пример.</example>
+        </rule>
+        <rule> 
+            <pattern>
+                <token><exception  regexp="yes">[.,]</exception></token>
+                <marker>
+                <token>,</token>
+                <token spacebefore="no">,<exception  regexp="yes"  scope="next">[.,]</exception></token>
+                </marker>
+            </pattern>
+            <message>Две  запятые  подряд: <suggestion><match  no="2"/></suggestion></message>
+            <short>Две  точки</short>
+            <example  correction=",">Вероятно<marker>,,</marker> мы пойдём в поход летом.</example>
+            <example>Вероятно, мы пойдём в поход летом.</example>
+        </rule>
+        </rulegroup>     
         <rulegroup id="PUNCT_DPT" name="Запятые при деепричастии и деепричастном обороте">
             <rule>
                 <pattern>
