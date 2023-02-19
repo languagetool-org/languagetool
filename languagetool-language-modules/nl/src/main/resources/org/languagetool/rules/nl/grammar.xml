@@ -45836,6 +45836,23 @@ steenwijk;Steenwijk
                 <example correction="Komt ie"><marker>Komt-ie</marker> nog?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ONS_BEIDE" name="Ons beide/ons beiden" default="temp_off">
+            <rule>
+                <antipattern><token>beide</token><token postag_regexp="yes" postag=".*MRV.*"/></antipattern>
+                <antipattern><token>beide</token><token postag_regexp="yes" postag="BNW.*VRB"/><token postag_regexp="yes" postag=".*MRV.*"/></antipattern>
+                <pattern>
+                    <marker>
+                        <token>ons</token>
+                        <marker>
+                            <token>beide</token>
+                        </marker>
+                    </marker>
+                </pattern>
+                <message>Wanneer naar mensen wordt verwezen, is het niet beide, maar beiden.</message>
+                <suggestion>beiden</suggestion>
+                <example correction="beiden">Hij laat het ons <marker>beide</marker> zien.</example>
+            </rule>
+        </rulegroup>
     </category>
 
 </rules>
