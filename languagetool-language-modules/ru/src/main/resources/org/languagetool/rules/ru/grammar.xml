@@ -5674,18 +5674,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="это, собственно говоря">Да и <marker>это собственно говоря</marker>, пустяки.</example>
             </rule>
         </rulegroup>
-               <rulegroup  id="Punct_nado_polagat" name="Вводное выражение «надо полагать»">
+        <rulegroup  id="Punct_nado_polagat" name="Вводное выражение «надо полагать»">
             <rule>
                 <pattern>
                     <marker>
                         <token>надо</token>
                         <token>полагать</token>
-                        <token><exception regexp="yes">&pnct;</exception></token>  
+                        <token><exception regexp="yes">&pnct;</exception><exception postag_regexp="yes" postag="ADJ:.*" /></token>  
                     </marker>
                 </pattern>
                 <message>Запятая нужна: <suggestion><match no="1"/> <match no="2" />, <match no="3"/></suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/buro/search-answer?s=%D0%BD%D0%B0%D0%B4%D0%BE+%D0%BF%D0%BE%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D1%8C</url>
                 <short>Запятая</short>
                 <example>Да и это, надо полагать, пустяки.</example>
+                <example>Оно углядело многое в действиях организации, надо полагать нового.</example>
                 <example correction="надо полагать, пустяки">Да и это, <marker>надо полагать пустяки</marker>.</example>
             </rule>
             <rule>
@@ -5698,6 +5700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Запятая нужна: <suggestion><match no="1"/>, <match no="2" /> <match no="3"/></suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/buro/search-answer?s=%D0%BD%D0%B0%D0%B4%D0%BE+%D0%BF%D0%BE%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D1%8C</url>
                 <short>Запятая</short>
                 <example>Да и это, надо полагать, пустяки.</example>
                 <example correction="это, надо полагать">Да и <marker>это надо полагать</marker>, пустяки.</example>
@@ -6580,7 +6583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Пропущен пробел</short>
             <example correction=" Только| только">LanguageTool предоставляет проверку грамматики, стиля и орфографии.<marker>только</marker> вставьте текст сюда.</example>
         </rule>
-    <rulegroup id="MISSING_PUNCT_IN_BULLET" name="Missing_punct_in_bullet" default="temp_off">
+    <rulegroup id="MISSING_PUNCT_IN_BULLET" name="Пропущены знаки пунктуации в списках" default="temp_off">
         <rule>
             <pattern>
                 <token spacebefore="yes">(<exception regexp="yes" scope="previous">[,;:]</exception></token>
