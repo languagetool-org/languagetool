@@ -4411,6 +4411,29 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- QUE ESTÁ ATUALMENTE atualmente -->
+    <rule id='QUE_ESTAR_ADVERB_ADVERB' name="[Simplificar] Que + V.Estar + Advérbio → Advérbio" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-19 (25-JUL-2022+) -->
+      <!--
+      Isto não afeta a equação que está atualmente no quadro. → Isto não afeta a equação atualmente no quadro.
+      Isto não afeta as equações que estão atualmente no quadro. → Isto não afeta as equações atualmente no quadro.
+      -->
+
+      <pattern>
+        <marker>
+          <token postag='NC.+|AQ.+|DD.+|_PUNCT' postag_regexp='yes'/>
+          <token>que</token>
+          <token regexp='yes'>está|estão|estava|estavam</token>
+          <token postag='RM' postag_regexp='no'/>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\1 \4</suggestion>
+      <example correction="equação atualmente">Isto não afeta a <marker>equação que está atualmente</marker> no quadro.</example>
+      <example correction="equações atualmente">Isto não afeta as <marker>equações que estão atualmente</marker> no quadro.</example>
+    </rule>
+
+
     <!-- FREQUENTEMENTE É DADO é frequentemente dado -->
     <rule id='COLOCAÇÃO_ADVÉRBIO' name="Colocação de advérbio">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-20+ 2021-07-27 (17-MAR-2021+)      -->
