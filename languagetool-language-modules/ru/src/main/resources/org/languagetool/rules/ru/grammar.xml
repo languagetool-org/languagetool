@@ -6543,8 +6543,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Пропущен пробел</short>
             <example correction=" Только| только">LanguageTool предоставляет проверку грамматики, стиля и орфографии.<marker>только</marker> вставьте текст сюда.</example>
         </rule>
-          
-        
+    <rulegroup id="MISSING_PUNCT_IN_BULLET" name="Missing_punct_in_bullet" default="temp_off">
+        <rule>
+            <pattern>
+                <token spacebefore="yes">(<exception regexp="yes" scope="previous">[,;:]</exception></token>
+                <token regexp="yes">[б-яБ-ЯЁё2-9]</token>
+                <token>)</token>
+                <token spacebefore="yes"><exception regexp="yes">[,;:(]|и|или</exception></token>
+            </pattern>
+            <message>Пропущены знаки пунктуации в списке</message>
+            <short>Пропущена пунктуация</short>
+            <example correction="">Случай (а) исходных параметров для построения линий потока энергии <marker>(б) пороговый</marker> угол уменьшен в 2 раза, минимальная длина отрезка в 10 раз.</example>
+            <example>Случай (а) исходных параметров для построения линий потока энергии, (б) пороговый угол уменьшен в 2 раза, минимальная длина отрезка в 10 раз.</example>
+        </rule>
+        <rule>
+            <pattern>              
+                <token spacebefore="yes" regexp="yes">[б-яБ-ЯЁё2-9]<exception regexp="yes" scope="previous">[,;:)]|и|или</exception></token>
+                <token>)</token>
+                <token spacebefore="yes"><exception regexp="yes">[,;:(]|и|или</exception></token>
+            </pattern>
+            <message>Пропущены знаки пунктуации в списке</message>
+            <short>Пропущена пунктуация</short>
+            <example correction="">Случай а) исходных параметров для построения линий потока энергии <marker>б) пороговый</marker> угол уменьшен в 2 раза, минимальная длина отрезка в 10 раз.</example>
+            <example>Случай а) исходных параметров для построения линий потока энергии, б) пороговый угол уменьшен в 2 раза, минимальная длина отрезка в 10 раз.</example>
+        </rule>
+    </rulegroup>
+    
     </category>
     <category id="GRAMMAR" name="Грамматика">
         
