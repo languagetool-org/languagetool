@@ -12577,6 +12577,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="MISSPELLING" name="Ortografía" type="misspelling">
+        <rule id="POR_AHI" name="por ai/ay -> por ahí" default="temp_off">
+            <pattern>
+                <token>por</token>
+                <token regexp="yes" case_sensitive="yes">ai|ay|ahi</token>
+            </pattern>
+            <message>Error de ortografía.</message>
+            <suggestion>por ahí</suggestion>
+            <example correction="por ahí">Me lo encontré <marker>por ai</marker>.</example>
+        </rule>
         <rule id="EX_ALTO_CARGO" name="exalto cargo (ex alto cargo)">
             <pattern>
                 <marker>
