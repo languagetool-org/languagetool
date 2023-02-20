@@ -4016,7 +4016,7 @@ O namorado dela era um ladrão.
 
     <!-- SENDO CONSIDERADA considerada -->
     <rulegroup id='SENDO_PARTPASS_PARTPASS' name="[Simplificar] sendo + V.Part.Pass → V.Part.Pass" type='style'>
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-18 (25-JUL-2022+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-18/19/20 (25-JUL-2022+) -->
       <!--
       Temos um número maior que zero e diferente de um, sendo elevado a três. → Temos um número maior que zero e diferente de um, elevado a três.
       Temos um número maior que zero e diferente de dois, sendo elevado a um. → Temos um número maior que zero e diferente de dois, elevado a um.
@@ -4045,6 +4045,17 @@ O namorado dela era um ladrão.
         <example>A vacina pode ser efetuada de Setembro a Março, sendo recomendada em Outubro.</example>
         <example>...elecimentos que vendem medicamentos e remédios, podendo também fazer a manipulação de medicamentos, sendo chamadas de farmácia de manipulação nesses casos.</example>
         <example>Imediatamente após a apreensão, foi dado início a fase de cumprimento de mandados, sendo presos os líderes de organização criminosa voltada para o tráfico internacional de cocaína.</example>
+      </antipattern>
+
+      <!-- 2023-02-20 - MARCOAGPINTO - Fix for thesis -->
+      <antipattern>
+        <token postag='SPS00:DA.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+        <token>sendo</token>
+        <token postag='VMP00.+' postag_regexp='yes'/>
+        <token regexp='yes'>[ao]s?</token> <!-- "a" appears as SPS00 which removes tons of valid sentences -->
+        <example>Houve um reforço da coligação, sendo desconhecida a localização dos mentores.</example>
       </antipattern>
 
       <rule>
