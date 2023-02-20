@@ -21,22 +21,26 @@ package org.languagetool.rules.en;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.ResourceBundleTools;
 
 public class EnglishWrongWordInContextRuleTest {
 
   private JLanguageTool lt;
-  private EnglishWrongWordInContextRule rule;
+  private EnglishWrongWordInContextRule rule = new EnglishWrongWordInContextRule(null);
   
   @Before
   public void setUp() throws IOException {
     lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
     rule = new EnglishWrongWordInContextRule(null);
   }
+
 
   @Test
   public void testRule() throws IOException {
@@ -74,6 +78,41 @@ public class EnglishWrongWordInContextRuleTest {
     // neutron/neuron
     assertBad("The plane taxied to the hanger.");
     assertGood("The plane taxied to the hangar.");
+  }
+
+  @Test
+  public void testGetCategoryString(){
+    assertEquals("Commonly Confused Words", rule.getCategoryString());
+  }
+
+  @Test
+  public void testGetId(){
+    assertEquals("ENGLISH_WRONG_WORD_IN_CONTEXT", rule.getId());
+  }
+
+  @Test
+  public void testGetDescription(){
+    assertEquals("commonly confused words (proscribe/prescribe, heroine/heroin etc.)", rule.getDescription());
+  }
+
+  @Test
+  public void testGetFileName(){
+    assertEquals("/en/wrongWordInContext.txt", rule.getFilename());
+  }
+
+  @Test
+  public void testGetMessageString() {
+    assertEquals("Possibly confused word: Did you mean <suggestion>$SUGGESTION</suggestion> instead of '$WRONGWORD'?", rule.getMessageString());
+  }
+
+  @Test
+  public void testGetShortMessageString(){
+    assertEquals("Possibly confused word", rule.getShortMessageString());
+  }
+
+  @Test
+  public void testGetLongMessageString(){
+    assertEquals("Possibly confused word: Did you mean <suggestion>$SUGGESTION</suggestion> (= $EXPLANATION_SUGGESTION) instead of '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?", rule.getLongMessageString());
   }
 
   private void assertGood(String sentence) throws IOException {

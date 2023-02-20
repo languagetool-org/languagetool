@@ -24,7 +24,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -76,6 +79,13 @@ public class MorfologikCanadianSpellerRuleTest extends AbstractEnglishSpellerRul
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("aõh")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("a")).length);
+  }
+
+  @Test
+  public void testIsValidInOtherVariantOtherVariantNotNull() throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    Language language = new CanadianEnglish();
+    MorfologikCanadianSpellerRule morfologikCanadianSpellerRule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
+    morfologikCanadianSpellerRule.isValidInOtherVariant("immunize");
   }
 
   private void assertSuggestion(Rule rule, JLanguageTool lt, String input, String... expectedSuggestions) throws IOException {
