@@ -236,6 +236,8 @@ public class DocumentCache implements Serializable {
         flatPara = document.getFlatParagraphTools();
       }
       if (flatPara == null) {
+        MessageHandler.printToLogFile(
+            "WARNING: DocumentCache: refresh: flatPara == null - ParagraphCache not initialised");
         return;
       }
       paragraphContainer = flatPara.getAllFlatParagraphs(fixedLocale);
