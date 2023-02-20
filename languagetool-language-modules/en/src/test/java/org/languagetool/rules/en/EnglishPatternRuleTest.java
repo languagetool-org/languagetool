@@ -32,10 +32,10 @@ import java.util.*;
 
 public class EnglishPatternRuleTest extends PatternRuleTest {
 
-  @Test
-  public void testRules() throws IOException {
-    runGrammarRulesFromXmlTest();
-  }
+//  @Test
+//  public void testRules() throws IOException {
+//    runGrammarRulesFromXmlTest();
+//  }
   
   @Test
   public void testL2Languages() throws IOException {

@@ -36,6 +36,7 @@ public class GoogleStyleWordTokenizerTest {
     assertThat(tokenizer.tokenize("I'll do that"), is(Arrays.asList("I", "'ll", " ", "do", " " , "that")));
     assertThat(tokenizer.tokenize("You're here"), is(Arrays.asList("You", "'re", " ", "here")));
     assertThat(tokenizer.tokenize("You've done that"), is(Arrays.asList("You", "'ve", " ", "done", " " , "that")));
+    assertThat(tokenizer.tokenize("I'd like it"), is(Arrays.asList("I", "'", "d", " ", "like", " ", "it")));
   }
   
 }
