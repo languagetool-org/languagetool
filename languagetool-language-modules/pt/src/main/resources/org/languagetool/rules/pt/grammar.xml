@@ -914,51 +914,208 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Tinham elas inimigos?</example>
       </antipattern>
 
+      <antipattern>
+        <token>entre</token>
+        <token regexp='yes'>el[ea]s?</token>
+        <token postag='NC.+' postag_regexp='yes'>
+          <exception regexp='yes'>própri[oa]s?|mesm[ao]s?</exception></token>
+        <example>entre elas italianos, espanhóis e portugueses.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag_regexp='yes' postag='SPS00:PP.+|SPS00:DD.+'/>
+        <token postag='NC.+' postag_regexp='yes'>
+          <exception regexp='yes'>própri[oa]s?|mesm[ao]s?</exception></token>
+        <example>e fez dela alvo de ameaças.</example>
+      </antipattern>
+
+
       <rule>
         <pattern>
           <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
-          <token postag='PP.M.+|SPS00:PP.M.+|DD0M.+|SPS00:DD0M.+' postag_regexp='yes'>
+         <marker>
+          <token postag='PP.MS.+|SPS00:PP.MS.+|DD0MS.+|SPS00:DD0MS.+' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
           </token>
-          <marker>
             <and>
-              <token postag='NCF.+' postag_regexp='yes'>
+              <token postag='NCFS.+' postag_regexp='yes'>
                 <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCM.+'/>
                 <exception regexp='no'>média</exception>
               </token>
-              <token postag='AQ.[FM].+' postag_regexp='yes'/>
+              <token postag='AQ.[FM]S.+' postag_regexp='yes'/>
             </and>
           </marker>
         </pattern>
         <message>&MSG_ECG;</message>
-        <suggestion><match no='3' postag='NCF(.)000' postag_regexp="yes" postag_replace='NCM$1000'/></suggestion>
-        <example correction="próprio">Ele <marker>própria</marker> escolheu.</example>
-        <example correction="próprios">Eles <marker>próprias</marker> escolheram.</example>
+        <suggestion>\2 <match no='3' postag='NCF(.)000' postag_regexp="yes" postag_replace='NCM$1000'/></suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0.+|SPS00:DD..)MS(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> \3</suggestion>
+        <suggestion>\2, \3</suggestion>
+        <example correction="Ele próprio|Ela própria|Ele, própria"><marker>Ele própria</marker> escolheu.</example>
         <example>Ele próprio fê-lo.</example>
         <example>A fé está neles próprios.</example>
       </rule>
       <rule>
         <pattern>
           <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
-          <token postag='PP.F.+|SPS00:PP.F.+|DD0F.+|SPS00:DD0F.+' postag_regexp='yes'>
+        <marker>
+          <token postag='PP.MP.+|SPS00:PP.MP.+|DD0MP.+|SPS00:DD0MP.+' postag_regexp='yes'>
               <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
           </token>
-          <marker>
             <and>
-              <token postag='NCM.+' postag_regexp='yes'>
-                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCF.+'/>
+              <token postag='NCFP.+' postag_regexp='yes'>
+                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCM.+'/>
                 <exception regexp='no'>média</exception>
               </token>
-              <token postag='AQ.[FM].+' postag_regexp='yes'/>
+              <token postag='AQ.[FM]P.+' postag_regexp='yes'/>
             </and>
           </marker>
         </pattern>
         <message>&MSG_ECG;</message>
-        <suggestion><match no='3' postag='NCM(.)000' postag_regexp="yes" postag_replace='NCF$1000'/></suggestion>
-        <example correction="própria">Ela <marker>próprio</marker> escolheu.</example>
-        <example correction="próprias">Elas <marker>próprios</marker> escolheram.</example>
-        <example>Elas próprias fizeram a comida.</example>
+        <suggestion>\2 <match no='3' postag='NCF(.)000' postag_regexp="yes" postag_replace='NCM$1000'/></suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0.+|SPS00:DD..)MP(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> \3</suggestion>
+        <suggestion>\2, \3</suggestion>
+        <example correction="Eles próprios|Elas próprias|Eles, próprias"><marker>Eles próprias</marker> escolheram.</example>
+        <example>A fé está neles próprios.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
+         <marker>
+          <token postag='PP.FS.+|SPS00:PP.FS.+|DD0FS.+|SPS00:DD0FS.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
+          </token>
+            <and>
+              <token postag='NCMS.+' postag_regexp='yes'>
+                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCF.+'/>
+                <exception regexp='no'>média</exception>
+              </token>
+              <token postag='AQ.[FM]S.+' postag_regexp='yes'/>
+            </and>
+          </marker>
+        </pattern>
+        <message>&MSG_ECG;</message>
+        <suggestion>\2 <match no='3' postag='NCMS000' postag_regexp="yes" postag_replace='NCFS000'/></suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0.+|SPS00:DD..)FS(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> \3</suggestion>
+        <suggestion>\2, \3</suggestion>
+        <example correction="Ela própria|Ele próprio|Ela, próprio"><marker>Ela próprio</marker> escolheu.</example>
         <example>A fé está nela própria.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
+         <marker>
+          <token postag='PP.FP.+|SPS00:PP.FP.+|DD0FP.+|SPS00:DD0FP.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
+          </token>
+            <and>
+              <token postag='NCMP.+' postag_regexp='yes'>
+                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCF.+'/>
+                <exception regexp='no'>média</exception>
+              </token>
+              <token postag='AQ.[FM]P.+' postag_regexp='yes'/>
+            </and>
+          </marker>
+        </pattern>
+        <message>&MSG_ECG;</message>
+        <suggestion>\2 <match no='3' postag='NCM(.)000' postag_regexp="yes" postag_replace='NCF$1000'/></suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0.+|SPS00:DD..)FP(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> \3</suggestion>
+        <suggestion>\2, \3</suggestion>
+        <example correction="Elas próprias|Eles próprios|Elas, próprios"><marker>Elas próprios</marker> escolheram.</example>
+        <example>Elas próprias fizeram a comida.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
+          <marker>
+          <token postag='PP.FP.+|SPS00:PP.FP.+|DD0FP.+|SPS00:DD0FP.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
+          </token>
+            <and>
+              <token postag='NCMS.+' postag_regexp='yes'>
+                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCF.+'/>
+                <exception regexp='no'>média</exception>
+              </token>
+              <token postag='AQ.[FM]S.+' postag_regexp='yes'/>
+            </and>
+          </marker>
+        </pattern>
+        <message>&MSG_ECG;</message>
+        <suggestion>\2 <match no='3' postag='NCMS000' postag_regexp="yes" postag_replace='NCFP000'/></suggestion>
+        <suggestion><match no='2' postag='(.+)FP(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> \3</suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)FP(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> <match no='3' postag='NCMS000' postag_regexp="yes" postag_replace='NCFS000'/></suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MS(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> <match no='3' postag='NCMS000' postag_regexp="yes" postag_replace='NCMP000'/></suggestion>
+        <suggestion>\2, \3</suggestion>
+        <example correction="Elas próprias|Ele próprio|Ela própria|Eles próprios|Elas, próprio"><marker>Elas próprio</marker> escolheram.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
+          <marker>
+          <token postag='PP.FS.+|SPS00:PP.FS.+|DD0FS.+|SPS00:DD0FS.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
+          </token>
+            <and>
+              <token postag='NCMP.+' postag_regexp='yes'>
+                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG|NCF.+'/>
+                <exception regexp='no'>média</exception>
+              </token>
+              <token postag='AQ.[FM]P.+' postag_regexp='yes'/>
+            </and>
+          </marker>
+        </pattern>
+        <message>&MSG_ECG;</message>
+        <suggestion>\2 <match no='3' postag='NCMP000' postag_regexp="yes" postag_replace='NCFS000'/></suggestion>
+        <suggestion><match no='2' postag='(.+)FS(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> \3</suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)FS(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> <match no='3' postag='NCMP000' postag_regexp="yes" postag_replace='NCFP000'/></suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MP(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> <match no='3' postag='NCMP000' postag_regexp="yes" postag_replace='NCMS000'/></suggestion>
+        <suggestion>\2, \3</suggestion>
+        <example correction="Ela própria|Eles próprios|Elas próprias|Ele próprio|Ela, próprios"><marker>Ela próprios</marker> escolheram.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
+          <marker>
+          <token postag='PP.MS.+|SPS00:PP.MS.+|DD0MS.+|SPS00:DD0MS.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
+          </token>
+            <and>
+              <token postag='NCFP.+' postag_regexp='yes'>
+                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG'/>
+              </token>
+              <token postag='AQ.[FM]P.+' postag_regexp='yes'/>
+            </and>
+          </marker>
+        </pattern>
+        <message>&MSG_ECG;</message>
+        <suggestion>\2 <match no='3' postag='NCFP000' postag_regexp="yes" postag_replace='NCMS000'/></suggestion>
+        <suggestion><match no='2' postag='(.+)MS(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> \3</suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MS(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> <match no='3' postag='NCFP000' postag_regexp="yes" postag_replace='NCFS000'/></suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MS(.+)' postag_regexp="yes" postag_replace='$1MP$2'/> <match no='3' postag='NCFP000' postag_regexp="yes" postag_replace='NCMP000'/></suggestion>
+        <suggestion>\2, \3</suggestion>
+        <example correction="Ele próprio|Elas próprias|Ela própria|Eles próprios|Ele, próprias"><marker>Ele próprias</marker> escolheram.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag='CC|V.+|SENT_START' postag_regexp='yes'/>
+          <marker>
+          <token postag='PP.MP.+|SPS00:PP.MP.+|DD0MP.+|SPS00:DD0MP.+' postag_regexp='yes'>
+              <exception postag_regexp='yes' postag='DA.+|SPS00:DA.+|RG'/>
+          </token>
+            <and>
+              <token postag='NCFS.+' postag_regexp='yes'>
+                <exception postag_regexp='yes' postag='V.+|Z0.+|RN|CS|CC|[DP].+|SPS00:[DP].+|RG'/>
+              </token>
+              <token postag='AQ.[FM]S.+' postag_regexp='yes'/>
+            </and>
+          </marker>
+        </pattern>
+        <message>&MSG_ECG;</message>
+        <suggestion>\2 <match no='3' postag='NCFS000' postag_regexp="yes" postag_replace='NCMP000'/></suggestion>
+        <suggestion><match no='2' postag='(.+)MP(.+)' postag_regexp="yes" postag_replace='$1FS$2'/> \3</suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MP(.+)' postag_regexp="yes" postag_replace='$1FP$2'/> <match no='3' postag='NCFS000' postag_regexp="yes" postag_replace='NCFP000'/></suggestion>
+        <suggestion><match no='2' postag='(PP.|SPS00:PP.|DD0FP.|SPS00:DD0FP.+)MP(.+)' postag_regexp="yes" postag_replace='$1MS$2'/> <match no='3' postag='NCFS000' postag_regexp="yes" postag_replace='NCMS000'/></suggestion>
+        <suggestion>\2, \3</suggestion>
+        <example correction="Eles próprios|Ela própria|Elas próprias|Ele próprio|Eles, própria"><marker>Eles própria</marker> escolheram.</example>
       </rule>
     </rulegroup>
 
