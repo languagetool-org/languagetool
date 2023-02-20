@@ -189,4 +189,15 @@ public class AvsAnRuleTest {
     assertEquals(11, matches[0].getFromPos());
     assertEquals(13, matches[0].getToPos());
   }
+
+  @Test
+  public void testForCorrectDeterminer(){
+    assertEquals(Determiner.AN, getDeterminerFor("a-game"));
+  }
+
+  @Test
+  public void testEstmateContextForSureMethod(){
+    // Used in codebase to determine if a word is a valid suggestion in a certain context
+    assertEquals(1, rule.estimateContextForSureMatch());
+  }
 }
