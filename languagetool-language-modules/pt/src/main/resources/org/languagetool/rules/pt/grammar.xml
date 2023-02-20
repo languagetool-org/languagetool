@@ -1045,19 +1045,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token negate_pos="yes" postag='NP[FN].+|AQ.[FC].+|NC[FC].+' postag_regexp='yes'/>
           <marker>
             <token regexp="yes">estas?</token>
-          </marker>
-          <token postag='NCM.+' postag_regexp='yes'>
+          <token postag='NCMS.+' postag_regexp='yes'>
             <exception postag_regexp='yes' postag='N[CP][CF].+|VMIP3.+|VMG0000|VMIF3.+|VMN03.+|VMI[SI].+|RG|Z0.P.+'/>
             <exception scope='next' spacebefore='no'>-</exception>
             <exception>só</exception>
           </token>
+          </marker>
         </pattern>
         <message>&MSG_ECG;</message>
-        <suggestion><match no='2' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match></suggestion>
-        <suggestion>está</suggestion>
-        <suggestion>estás</suggestion>
-        <example correction="este|está|estás">E <marker>esta</marker> documento foi redigido por mim.</example>
-        <example correction="estes|está|estás">E <marker>estas</marker> documentos foram redigidas por mim.</example>
+        <suggestion><match no='2' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match> \3</suggestion>
+        <suggestion>está \3</suggestion>
+        <suggestion>estás \3</suggestion>
+        <example correction="este documento|está documento|estás documento">E <marker>esta documento</marker> foi redigido por mim.</example>
+        <example>Esta só pode ser a sombrinha dele.</example>
+        <example>Esta teve pouca atividade</example>
+      </rule>
+            <rule>
+        <pattern>
+          <token negate_pos="yes" postag='NP[FN].+|AQ.[FC].+|NC[FC].+' postag_regexp='yes'/>
+          <marker>
+            <token regexp="yes">estas?</token>
+          <token postag='NCMP.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='N[CP][CF].+|VMIP3.+|VMG0000|VMIF3.+|VMN03.+|VMI[SI].+|RG|Z0.P.+'/>
+            <exception scope='next' spacebefore='no'>-</exception>
+            <exception>só</exception>
+          </token>
+          </marker>
+        </pattern>
+        <message>&MSG_ECG;</message>
+        <suggestion><match no='2' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match> \3</suggestion>
+        <suggestion>está \3</suggestion>
+        <suggestion>estás \3</suggestion>
+        <example correction="estes documentos|está documentos|estás documentos">E <marker>estas documentos</marker> foram redigidas por mim.</example>
         <example>Esta só pode ser a sombrinha dele.</example>
         <example>Esta teve pouca atividade</example>
       </rule>
