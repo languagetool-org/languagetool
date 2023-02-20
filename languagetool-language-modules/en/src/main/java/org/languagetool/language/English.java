@@ -360,9 +360,10 @@ public class English extends Language implements AutoCloseable {
       case "QUIET_QUITE":               return 1;   // higher prio than A_QUITE_WHILE
       case "A_OK":                      return 1;   // prefer over A_AN
       case "I_A":                       return 1;   // higher prio than I_IF
+      case "NO_GOOD":                   return 1;   // higher prio than I_IF
+      case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
       case "GOT_GO":                    return 1;   // higher prio than MD_BASEFORM
       case "THERE_FORE":                return 1;   // higher prio than FORE_FOR
-      case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
       case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
       case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY and IT_THE_PRP
       case "NO_KNOW":                   return 1;   // higher prio than DOUBLE_NEGATIVE
@@ -508,6 +509,7 @@ public class English extends Language implements AutoCloseable {
       case "SUPERLATIVE_THAN":          return -1;  // prefer other more specific rules
       case "UNLIKELY_OPENING_PUNCTUATION": return -1;  // prefer other more specific rules
       case "MD_DT_JJ":                  return -1;  // prefer other more specific rules
+      case "I_IF":                      return -1;  // prefer other more specific rules
       case "CC_PRP_ARTICLE":            return -1;  // prefer other more specific rules
       case "NOUNPHRASE_VB_RB_DT":       return -1;  // prefer other more specific rules
       case "SENT_START_NN_NN_VB":       return -1;  // prefer other more specific rules
