@@ -15532,25 +15532,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>buen</token>
                 <token>hambre</token>
             </antipattern>
+            <antipattern>
+                <token>buen</token>
+                <token>escucha</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>buen</token>
-                    <token postag="NC[MC]P.*|A..[MC]P.*|V.P..PM" postag_regexp="yes"/>
+                    <token postag="NC[MC]P.*|A..[MC]P.*|V.P..PM" postag_regexp="yes"><exception postag="NC[MC][SN].*|A..[MC][SN].*|V.P..SM" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Posible confusión o error de concordancia.</message>
                 <suggestion>bien \2</suggestion>
                 <suggestion>\1 <match no="2" postag_regexp="yes" postag="(NC.|A...|V.P..)P(.*)" postag_replace="$1S$2"/></suggestion>
                 <example correction="Bien conocidos|Buen conocido"><marker>Buen conocidos</marker> por todos.</example>
                 <example>El buen Descartes.</example>
+                <example>Buen martes.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>buen</token>
-                    <token postag="NCF..*|A..F..*|V.P...F" postag_regexp="yes"/>
+                    <token postag="NCF[SN].*|A..F[SN].*|V.P..SF" postag_regexp="yes"/>
                 </pattern>
                 <message>Posible confusión o error de concordancia.</message>
+                <suggestion>buena \2</suggestion>
                 <suggestion>bien \2</suggestion>
-                <example correction="Bien conocidas"><marker>Buen conocidas</marker> por todos.</example>
+                <example correction="Buena conocida|Bien conocida"><marker>Buen conocida</marker> por todos.</example>
+                <example correction="buena sazón|bien sazón">A <marker>buen sazón</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>buen</token>
+                    <token postag="NCFP.*|A..FP.*|V.P..PF" postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión o error de concordancia.</message>
+                <suggestion>buenas \2</suggestion>
+                <suggestion>bien \2</suggestion>
+                <example correction="Buenas conocidas|Bien conocidas"><marker>Buen conocidas</marker> por todos.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCIA_PRONOMBRE" name="concordancia pronombres">
@@ -18938,6 +18955,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="AGREEMENT_DET_ABREV" name="concordancia determinante y abreviatura">
+            <antipattern>
+                <token postag="D[^RN].*" postag_regexp="yes"/>
+                <token>/</token>
+                <token postag="D[^RN].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>SR</token>
+                <token>-</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">SR|SRA</token>
+                <token><exception>.</exception></token>
+            </antipattern>
             <pattern>
                 <marker>
                     <unify negate="yes">
@@ -18954,6 +18984,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
             <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
             <example correction="El Sr|Los Sres|La Sra|Las Sras"><marker>Los Sra</marker>. García</example>
+            <example>El/la Sr./Sra.</example>
+            <example>El/la Sr/a.</example>
         </rule>
         <rule id="LOS_MAPUCHE" name="los mapuche/mapuches">
             <pattern>
