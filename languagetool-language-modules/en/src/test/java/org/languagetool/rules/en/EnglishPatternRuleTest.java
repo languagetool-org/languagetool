@@ -32,7 +32,7 @@ import java.util.*;
 
 public class EnglishPatternRuleTest extends PatternRuleTest {
 
-//  @Test
+  @Test
   public void testRules() throws IOException {
     runGrammarRulesFromXmlTest();
   }
