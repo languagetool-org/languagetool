@@ -1193,7 +1193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </token>
         </pattern>
         <message>&MSG_ECG;</message>
-        <suggestion><match no='2' postag='DD0M(.)0' postag_regexp="yes" postag_replace='DD0F$10'>este</match></suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' postag='DD0M(.)0' postag_regexp="yes" postag_replace='DD0F$10'>este</match></suggestion>
         <example correction="esta">E <marker>este</marker> tese foi redigida por mim.</example>
         <example correction="estas">E <marker>estes</marker> teses foram redigidas por mim.</example>
       </rule>
@@ -1210,14 +1210,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
         </pattern>
         <message>&MSG_ECG;</message>
-        <suggestion><match no='2' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match> \3</suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match> \3</suggestion>
         <suggestion>está \3</suggestion>
         <suggestion>estás \3</suggestion>
         <example correction="este documento|está documento|estás documento">E <marker>esta documento</marker> foi redigido por mim.</example>
         <example>Esta só pode ser a sombrinha dele.</example>
         <example>Esta teve pouca atividade</example>
       </rule>
-            <rule>
+      <rule>
         <pattern>
           <token negate_pos="yes" postag='NP[FN].+|AQ.[FC].+|NC[FC].+' postag_regexp='yes'/>
           <marker>
@@ -1230,7 +1230,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           </marker>
         </pattern>
         <message>&MSG_ECG;</message>
-        <suggestion><match no='2' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match> \3</suggestion>
+        <suggestion suppress_misspelled='yes'><match no='2' postag='DD0F(.)0' postag_regexp="yes" postag_replace='DD0M$10'>este</match> \3</suggestion>
         <suggestion>está \3</suggestion>
         <suggestion>estás \3</suggestion>
         <example correction="estes documentos|está documentos|estás documentos">E <marker>estas documentos</marker> foram redigidas por mim.</example>
