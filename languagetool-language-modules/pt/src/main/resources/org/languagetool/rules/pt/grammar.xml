@@ -31433,13 +31433,24 @@ O namorado dela era um ladrão.
         <message>Se for um erro ortográfico, substitua por <suggestion>\1 <match no='2' regexp_match="e" regexp_replace='é' postag_regexp="yes"/></suggestion>. Se for um erro de concordância, substitua por <suggestion><match no='1' postag="(N.|A..|D..|SPS00:D..)F(..+)" postag_replace='$1M$2' postag_regexp="yes"/> \2</suggestion></message>
         <example correction="das marés|dos mares">A resposta <marker>das mares</marker> foi imediata.</example>
     </rule>
-    <rule default='on'>
+    <rule>
         <pattern>
           <token>esta</token>
-          <token postag='A..M.+|D..M.+' postag_regexp='yes'/>
+          <token postag='A..M.+|D..MS.+' postag_regexp='yes'/>
         </pattern>
         <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de concordância, substitua por <suggestion>\1 <match no='2' postag="(A..|D..)M(..+)" postag_replace='$1F$2' postag_regexp="yes"/></suggestion></message>
-        <example correction="está confuso|esta confusa">Isso <marker>esta confuso</marker>.</example>
+        <suggestion><match no='1' regexp_match="a" regexp_replace='e' postag_regexp="yes"/> \2</suggestion>
+        <example correction="está confuso|esta confusa|este confuso">Isso <marker>esta confuso</marker>.</example>
+    </rule>
+    <rule default='temp_off'>
+        <pattern>
+          <token>esta</token>
+          <token postag='A..M.+|D..MP.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="a" regexp_replace='á' postag_regexp="yes"/> \2</suggestion>. Se for um erro de concordância, substitua por <suggestion>\1 <match no='2' postag="(A..|D..)MP(.+)" postag_replace='$1FS$2' postag_regexp="yes"/></suggestion></message>
+        <suggestion><match no='1' regexp_match="a" regexp_replace='es' postag_regexp="yes"/> \2</suggestion>
+        <suggestion><match no='1' regexp_match="a" regexp_replace='ão' postag_regexp="yes"/> \2</suggestion>
+        <example correction="está confusos|esta confusa|estes confusos|estão confusos">Isso <marker>esta confusos</marker>.</example>
     </rule>
     <rule default='on'>
         <pattern>
