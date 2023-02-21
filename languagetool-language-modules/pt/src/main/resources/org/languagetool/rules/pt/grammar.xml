@@ -41063,6 +41063,25 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- DIFERENÇA NO DINHEIRO diferença no valor -->
+    <rule id='CONFUSÃO_DINHEIRO_VALOR' name="[Confusão] Diferença no dinheiro/valor">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-21 (25-JUL-2022+) -->
+      <!--
+      Qual é a diferença no dinheiro? → Qual é a diferença no valor?
+      -->
+      <pattern>
+        <token regexp='yes'>diferenças?</token>
+        <token regexp='yes'>de|nos?</token>
+        <marker>
+          <token regexp='yes'>dinheiros?</token>
+        </marker>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion><match no='3' postag='NCM(.)000' postag_replace='NCM$1000'>valor</match></suggestion>
+      <example correction="valor">Qual é a diferença no <marker>dinheiro</marker>?</example>
+    </rule>
+
+
     <!-- DOS dois -->
     <rulegroup id='CONFUSÃO_DOS_DOIS' name="[Confusão] dos/dois">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01 (Checked/Enhanced) (1-JAN-2022+)      -->
