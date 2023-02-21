@@ -15539,35 +15539,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>buen</token>
-                    <token postag="NC[MC]P.*|A..[MC]P.*|V.P..PM" postag_regexp="yes"><exception postag="NC[MC][SN].*|A..[MC][SN].*|V.P..SM" postag_regexp="yes"/></token>
+                    <token postag="A..[MC]P.*|V.P..PM" postag_regexp="yes"><exception postag="NC[MC][SN].*|A..[MC][SN].*|V.P..SM" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Posible confusión o error de concordancia.</message>
                 <suggestion>bien \2</suggestion>
+                <suggestion>buenos \2</suggestion>
                 <suggestion>\1 <match no="2" postag_regexp="yes" postag="(NC.|A...|V.P..)P(.*)" postag_replace="$1S$2"/></suggestion>
-                <example correction="Bien conocidos|Buen conocido"><marker>Buen conocidos</marker> por todos.</example>
+                <example correction="Bien conocidos|Buenos conocidos|Buen conocido"><marker>Buen conocidos</marker> por todos.</example>
                 <example>El buen Descartes.</example>
                 <example>Buen martes.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>buen</token>
-                    <token postag="NCF[SN].*|A..F[SN].*|V.P..SF" postag_regexp="yes"/>
+                    <token postag="A..F[SN].*|V.P..SF" postag_regexp="yes"/>
                 </pattern>
                 <message>Posible confusión o error de concordancia.</message>
-                <suggestion>buena \2</suggestion>
                 <suggestion>bien \2</suggestion>
-                <example correction="Buena conocida|Bien conocida"><marker>Buen conocida</marker> por todos.</example>
-                <example correction="buena sazón|bien sazón">A <marker>buen sazón</marker>.</example>
+                <suggestion>buena \2</suggestion>
+                <example correction="Bien conocida|Buena conocida"><marker>Buen conocida</marker> por todos.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>buen</token>
-                    <token postag="NCFP.*|A..FP.*|V.P..PF" postag_regexp="yes"/>
+                    <token postag="A..FP.*|V.P..PF" postag_regexp="yes"/>
                 </pattern>
                 <message>Posible confusión o error de concordancia.</message>
-                <suggestion>buenas \2</suggestion>
                 <suggestion>bien \2</suggestion>
-                <example correction="Buenas conocidas|Bien conocidas"><marker>Buen conocidas</marker> por todos.</example>
+                <suggestion>buenas \2</suggestion>
+                <example correction="Bien conocidas|Buenas conocidas"><marker>Buen conocidas</marker> por todos.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCIA_PRONOMBRE" name="concordancia pronombres">
