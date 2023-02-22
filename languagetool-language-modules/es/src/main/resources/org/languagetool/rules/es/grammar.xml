@@ -18462,7 +18462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" inflected="yes">decena|centena|centenar|mil|millón|billón</token>
                     <token>de</token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes">presupuesto|valoración|estimación|evaluación|capitalización|deuda|uso|ganancia</exception></token>
+                        <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes">dinero|presupuesto|valoración|estimación|evaluación|capitalización|deuda|uso|ganancia</exception></token>
                     </marker>
                 </pattern>
                 <message>Posible error de concordancia.</message>
@@ -25551,6 +25551,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>He de Han, emperador chino.</example>
                 <example>puede haber de hecho hasta tres cesuras</example>
                 <example>He de veras pensado en ello.</example>
+                <example>Puede haber de uno a ocho casos.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -25692,7 +25693,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>vemos</token>
                 </marker>
-                <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">representado|dibujado|pintado</exception></token>
+                <token postag="V.P..SM" postag_regexp="yes"><exception regexp="yes">representado|dibujado|pintado|reflejado</exception></token>
             </pattern>
             <message>¿Quería decir <suggestion>hemos</suggestion>?</message>
             <example correction="hemos">Nos <marker>vemos</marker> visto obligados a hacerlo.</example>
@@ -27523,10 +27524,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>eren</token>
+                    <token>eren<exception postag="NPMSSP0"/></token>
                 </pattern>
                 <message>¿Quería decir <suggestion>eran</suggestion> (v. 'ser') o <suggestion>yerren</suggestion> (v. 'errar')? "Eren" del v. 'erar' es poco usual.</message>
                 <example correction="eran|yerren">Entonces <marker>eren</marker> buenos.</example>
+                <example>Mi amigo Eren es de Turquía.</example>
+                <example>Eren es mi amigo de Turquía.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
