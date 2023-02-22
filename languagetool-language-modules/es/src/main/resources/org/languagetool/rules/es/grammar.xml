@@ -24454,7 +24454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="D..FP." postag_regexp="yes"/>
                 <token regexp="yes">miles|millones|millares</token>
             </pattern>
-            <message>Error de concordancia. "<match no="2" case_conversion="startupper"/>" es una sustantivo masculino independientemente del sustantivo posterior (p. ej., unos <match no="2" case_conversion="alllower"/> de personas).</message>
+            <message>Error de concordancia. "<match no="2" case_conversion="startupper"/>" es un sustantivo masculino independiente del sustantivo posterior (p. ej., unos <match no="2" case_conversion="alllower"/> de personas).</message>
             <suggestion><match no="1" postag="(D..)FP." postag_regexp="yes" postag_replace="$1MP0"/> \2</suggestion>
             <url>https://www.fundeu.es/recomendacion/los-miles-de-personas-no-las-miles-de-personas-861/</url>
             <example correction="los miles">De <marker>las miles</marker> de personas que vinieron.</example>
@@ -28625,6 +28625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule default="temp_off">
                 <pattern>
                     <token regexp="yes">Decreto|Ley</token>
+                    <token min="0">-</token>
                     <token min="0" regexp="yes">orgánica|ley</token>
                     <marker>
                         <token regexp="yes">\d+</token>
@@ -28633,7 +28634,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&meses_ano;</token>
                 </pattern>
                 <message>Falta una coma.</message>
-                <suggestion>\3,</suggestion>
+                <suggestion>\4,</suggestion>
                 <example correction="943,">Decreto <marker>943</marker> de mayo de 2014</example>
             </rule>
         </rulegroup>
@@ -31295,6 +31296,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">Decreto|Ley</token>
+                <token min="0">-</token>
                 <token min="0" regexp="yes">orgánica|ley</token>
                 <token regexp="yes">\d+</token>
                 <token>de</token>
