@@ -3037,6 +3037,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "umgangsprachlich": return topMatch("umgangssprachlich");
       case "E-Mai": return topMatch("E-Mail");
       case "E-Mais": return topMatch("E-Mails");
+      case "Ubahn": return topMatch("U-Bahn");
+      case "UBahn": return topMatch("U-Bahn");
+      case "Ubahnen": return topMatch("U-Bahnen");
+      case "UBahnen": return topMatch("U-Bahnen");
     }
     return Collections.emptyList();
   }
