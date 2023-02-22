@@ -4110,6 +4110,37 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- QUE CHEGUE O DIA chegar o dia -->
+    <rulegroup id='SER_NC_QUE_VERBO_VINFINITIVO' name="[Simplificar] V.Ser + N.Comum + 'que + V.' → V.Inf." type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-22 (25-JUL-2022+) -->
+      <!--
+      É provável que chegue o dia em que estes serão os nossos mestres. → É provável chegar o dia em que estes serão os nossos mestres.
+      É provável que cheguem os dias em que estes serão os nossos mestres. → É provável chegarem os dias em que estes serão os nossos mestres.
+      -->
+      <rule>
+        <pattern>
+          <and>
+            <token regexp="no" inflected='yes'>ser</token>
+            <token regexp='yes'>é|era|foi</token>
+          </and>
+          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+          <marker>
+            <token>que</token>
+            <token postag='VMM03.+' postag_regexp='yes'>
+              <exception regexp='yes' inflected='yes'>&verbos_muito_incomuns;|entre</exception> <!-- Verb "elar" fix -->
+            </token>
+          </marker>
+          <token postag='(SPS00:)?DA.+|(SPS00:)?DD.+|(SPS00:)?DI.+|(SPS00:)?PI.+|VMG0000|VMP00.+|SPS00|NC.+|AQ.+|NP.+|RG|CS' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+|NP.+|V.+|_PUNCT|DI.+|SPS00|DA.+|RG' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion><match no='4' postag='VMM03(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+        <example correction="chegar">É provável <marker>que chegue</marker> o dia em que estes serão os nossos mestres.</example>
+        <example correction="chegarem">É provável <marker>que cheguem</marker> os dias em que estes serão os nossos mestres.</example>
+      </rule>
+    </rulegroup>
+
+
     <!-- QUE É CONSIDERADA considerada -->
     <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="[Simplificar] que é + V.Part.Pass → V.Part.Pass" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-17 (25-JUL-2022+) -->
