@@ -33,8 +33,10 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.ru.RussianHybridDisambiguator;
 import org.languagetool.tagging.ru.RussianTagger;
+import org.languagetool.tokenizers.ru.RussianWordTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.File;
 import java.io.IOException;
@@ -93,6 +95,11 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   public SentenceTokenizer createDefaultSentenceTokenizer() {
     return new SRXSentenceTokenizer(this);
+  }
+
+  @Override
+  public Tokenizer createDefaultWordTokenizer() {
+    return new RussianWordTokenizer();
   }
 
   @Override
