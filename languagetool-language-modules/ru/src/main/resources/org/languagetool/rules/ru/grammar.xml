@@ -2525,8 +2525,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">.<exception  regexp="yes"  scope="next">[.,]</exception></token>
                 </marker>
             </pattern>
-            <message>Две  точки  подряд: <suggestion><match  no="2"/></suggestion> или <suggestion>…</suggestion></message>
-            <short>Две  точки</short>
+            <message>Две точки подряд: <suggestion><match  no="2"/></suggestion> или <suggestion>…</suggestion></message>
+            <short>Две точки</short>
             <example  correction=".|…">Это  пример<marker>..</marker></example>
             <example>Вот лишь некоторые из них: Implement interface, Iterate with 'for..of'.</example>
             <example>Как вы… как вы смеете!..</example>
@@ -2540,8 +2540,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">,<exception  regexp="yes"  scope="next">[.,]</exception></token>
                 </marker>
             </pattern>
-            <message>Две  запятые  подряд: <suggestion><match  no="2"/></suggestion></message>
-            <short>Две  точки</short>
+            <message>Две запятые подряд: <suggestion><match  no="2"/></suggestion></message>
+            <short>Две запятые</short>
             <example  correction=",">Вероятно<marker>,,</marker> мы пойдём в поход летом.</example>
             <example>Вероятно, мы пойдём в поход летом.</example>
         </rule>
@@ -2677,7 +2677,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         <!-- issue #1119  -->
-        <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые между глаголами"  default="temp_off" >
+        <rule id="Multiple_missing_commas_VB" name="Пропущенные запятые между глаголами"  tags="picky" >
             <antipattern>
                <token postag="VB:.*" postag_regexp="yes" skip="-1">
                     <exception regexp="yes" scope="next">и|или|а|но|&pnct;|да|/|либо|что|прежде|когда|как|что|-|пока</exception>
@@ -2688,20 +2688,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </token> 
             </antipattern>
             
-            <pattern>     <!-- TO DO: experimental rule, need improve! --> <!-- default="temp_off" tags="picky" -->
+            <pattern>     <!-- TO DO:  need improve! --> <!-- default="temp_off" tags="picky" -->
                 <unify negate="no">
                         <feature id="tense"/>
                         <feature id="aspect"/>
                         <feature id="transitivity"/>
-                <token postag="VB:.*" postag_regexp="yes" skip="-1">
-                    <exception regexp="yes" scope="next">и|или|а|но|&pnct;|да|/|либо|что|прежде|когда|как|что|--|пока|[+]</exception>
+                <token case_sensitive="yes" postag="VB:.*" postag_regexp="yes" skip="-1" regexp="yes">[а-яё][а-яё].*<exception regexp="yes" scope="next">и|или|а|но|&pnct;|да|/|либо|что|прежде|когда|как|что|--|пока|[+]</exception>
                     <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
-                    <exception inflected="yes" regexp="yes">быть|идти|мешать|делать|сделать|пойти|просить|попросить|пытаться|помогать|побудить|заставить|иметься|мочь|сходить|смотреть|хотеть|брать|давать|думать|знать|надеяться</exception>
+                    <exception inflected="yes" regexp="yes">быть|разуметься|переставать|идти|мешать|делать|сделать|пойти|просить|попросить|пытаться|помогать|побудить|заставить|иметься|мочь|сходить|смотреть|хотеть|брать|давать|думать|знать|надеяться</exception>
                     <exception regexp="yes">&verb;</exception>
                     <exception postag="VB:INF:.*" postag_regexp="yes" ></exception>
                 </token>
-                <token postag="VB:.*" postag_regexp="yes">
-                    <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
+                <token case_sensitive="yes" postag="VB:.*" postag_regexp="yes" regexp="yes">[а-яё][а-яё].*<exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
                     <exception inflected="yes" regexp="yes">быть|идти|мешать|делать|сделать|пойти|просить|попросить|пытаться|помогать|побудить|заставить|иметься|мочь|сходить|смотреть|хотеть|брать|давать|думать|знать|надеяться</exception>
                     <exception regexp="yes">&verb;</exception>
                     <exception scope="previous" regexp="yes" >ни|черт|чёрт|пальцем</exception>
@@ -2713,6 +2711,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Я ни курю ни пью.</example>
             <example>Дал другу в долг -- потерял друга.</example>
             <example>Он приводит черт знает к чему.</example>
+            <example>На подарок разумеется не претендую.</example>
+            <example>Никогда не переставайте расти и развиваться.</example>
+            <example>Когда Кинули увидела, что Пери увели, она стала рычать, старалась выскочить из клетки.</example>
             <example>Думай не думай - ничего не изменишь.</example>
             <example correction="">Свиньи все <marker>подохли остался</marker> один баран.</example>
             <example>Свиньи все подохли, остался один баран.</example>
