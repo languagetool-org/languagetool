@@ -20015,19 +20015,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La alma máter.</example>
             <example>La alma mater.</example>
         </rule>
-        <rule id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal" default="off">
+        <rule id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal" default="temp_off">
             <pattern>
                 <marker>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
                         <token postag="D[^RN].*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
-                        <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
+                        <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*" postag_regexp="yes"/></token> <!-- |V.[IS].* -->
                     </unify>
                 </marker>
             </pattern>
+            <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:D([^RN].)..(.) postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:D\a1\b1\b2\a2"/>
             <message>Error de concordancia.</message>
-            <example correction="">Es de <marker>un media</marker> alta.</example>
+            <suggestion>{suggestion} \2</suggestion>
+            <example correction="una media">Es de <marker>un media</marker> alta.</example>
+            <example correction="un sustantivo">«Miles» es <marker>una sustantivo</marker> masculino</example>
         </rule>
         <rule id="TODO_EL" name="concordancia: todo el">
             <antipattern>
