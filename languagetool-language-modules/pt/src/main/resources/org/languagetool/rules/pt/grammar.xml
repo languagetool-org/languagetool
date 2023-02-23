@@ -19762,12 +19762,30 @@ O namorado dela era um ladrão.
       <!--
       Há organizações que põem em causa a segurança internacional. → Há organizações pondo em causa a segurança internacional.
       -->
+      <antipattern>
+        <token postag='Z0.+|DA.+|DI.+|SPS.+|SENT_START' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes' skip='5' min='0'/>
+        <token>que</token>
+        <token postag='VMIP3.+|VMM02S0' postag_regexp='yes'/>
+        <token>em</token>
+        <example>reparados pela injeção de vírus inofensivos que carregam em pessoas doentes</example>
+        <example>irritados pelo jogador que caminha em direção a eles</example>
+        <example>pelo que deixa em aberto a possibilidade de futura reivindicação</example>
+        <example>comenta as principais obras que colocam em cena visões do movimento</example>
+        <example>é uma ginasta canadense que compete em ginástica artística.</example>
+        <example>bem como a ginasta titular que compete em provas nacionais</example>
+        <example>Descubra, de seguida, algumas das correntes estéticas e decorativas que continuam em voga no segundo semestre</example>
+        <example>como a vasta série de painéis azulejados que corre em torno ao claustro</example>
+        <example>nas gerações subsequentes ou as características deletérias que desaparecem em organismos mais fracos.</example>
+        <example>uma espécie de vínculo empregatício temporário que dura em média 4 anos</example>
+        <example>Galinha que come em casa</example>
+     </antipattern>
       <pattern>
-        <token negate_pos="yes" postag='Z0.+|DA.+|DI.+|SPS.+' postag_regexp='yes'/>
         <token postag='NC.+|AQ.+' postag_regexp='yes'/>
         <marker>
           <token>que</token>
-          <token postag='VMIP3.+|VMM02S0' postag_regexp='yes'/>
+          <token postag='VMIP3.+|VMM02S0' postag_regexp='yes'>
+            <exception inflected='yes' regexp='yes'>acreditar|ser|estar|ficar|haver|suar|possuir|receber|aparecer|caminhar|existir</exception></token>
         </marker>
         <token>em</token>
         <token postag='RG|NC.+|AQ0.+|NP.+' postag_regexp='yes'/>
@@ -19775,7 +19793,7 @@ O namorado dela era um ladrão.
         <token negate="yes" regexp='yes'>[.]</token>
       </pattern>
       <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-      <suggestion><match no='4' postag='VMIP3.+|VMM02S0' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
+      <suggestion><match no='3' postag='VMIP3.+|VMM02S0' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
       <example correction="pondo">Há organizações <marker>que põem</marker> em causa a segurança internacional.</example>
     </rule>
 
