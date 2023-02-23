@@ -4156,6 +4156,53 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- PARA QUE O  para o -->
+    <rulegroup id='SIMPLIFICAR_PARA_QUE_PARA' name="[Simplificar] para que a(s)/o(s) + N.Comum + Verbo → para a(s)/o(s) N.Comum + V.Inf." type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-23 (25-JUL-2022+) -->
+      <!--
+      Um salto foi suficiente para que a macaquinha atingisse o galho? → Um salto foi suficiente para a macaquinha atingir o galho?
+      Um salto foi suficiente para que as macaquinhas atingissem o galho? → Um salto foi suficiente para as macaquinhas atingirem o galho?
+
+      Um salto foi suficiente para que a sua macaquinha atingisse o galho? → Um salto foi suficiente para a sua macaquinha atingir o galho?
+      Um salto foi suficiente para que as suas macaquinhas atingissem o galho? → Um salto foi suficiente para as suas macaquinhas atingirem o galho?
+      -->
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>para</token>
+            <token>que</token>
+            <token postag='DA.+|DI.+' postag_regexp='yes'/>
+            <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+            <token postag='VMSI3.+' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\1 \3 \4 <match no='5' postag='VMSI3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+        <example correction="para a macaquinha atingir">Um salto foi suficiente <marker>para que a macaquinha atingisse</marker> o galho?</example>
+        <example correction="para as macaquinhas atingirem">Um salto foi suficiente <marker>para que as macaquinhas atingissem</marker> o galho?</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>para</token>
+            <token>que</token>
+            <token postag='DA.+|DI.+' postag_regexp='yes'/>
+            <token postag='DP.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+            <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+            <token postag='VMSI3.+' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\1 \3 \4 \5 <match no='6' postag='VMSI3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+        <example correction="para a sua macaquinha atingir">Um salto foi suficiente <marker>para que a sua macaquinha atingisse</marker> o galho?</example>
+        <example correction="para as suas macaquinhas atingirem">Um salto foi suficiente <marker>para que as suas macaquinhas atingissem</marker> o galho?</example>
+      </rule>
+
+    </rulegroup>
+
+
     <!-- QUE É CONSIDERADA considerada -->
     <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="[Simplificar] que é + V.Part.Pass → V.Part.Pass" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-17 (25-JUL-2022+) -->
