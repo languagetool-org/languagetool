@@ -2545,7 +2545,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example  correction=",">Вероятно<marker>,,</marker> мы пойдём в поход летом.</example>
             <example>Вероятно, мы пойдём в поход летом.</example>
         </rule>
-        </rulegroup>     
+        </rulegroup>
+        
+        <rule id="Missing_punct_colon" name="Пропущено двоеточие" tags="picky">
+            <pattern>
+                <token>принципе</token>
+                <token>согласно</token>
+            </pattern>
+            <message>Пропущено двоеточие: <suggestion>\1: \2</suggestion>  </message>
+            <short>Пропущено двоеточие</short>
+            <example correction="принципе: согласно">Сокрытие сложности во многом основано на более общем <marker>принципе согласно</marker> ему выполнение сложной задачи (которая не может быть выполнена сразу и целиком) разбивается на несколько подзадач.</example>
+            <example>Сокрытие сложности во многом основано на более общем принципе: согласно ему выполнение сложной задачи (которая не может быть выполнена сразу и целиком) разбивается на несколько подзадач.</example>
+        </rule>    
+                  
+                            
         <rulegroup id="PUNCT_DPT" name="Запятые при деепричастии и деепричастном обороте">
             <rule>
                 <pattern>
