@@ -1295,7 +1295,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordância: Geral">
       <!--            General gender concordance errors            -->
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+      -->
       <url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
+
+      <!-- MARCOAGPINTO 2023-02-23 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <antipattern>
+        <token postag='(SPS00:)?[DP][ADIPR].M.+' postag_regexp='yes'/>
+        <token postag='AQ.M.+|NCM.+' postag_regexp='yes'/>
+        <token spacebefore='no' regexp='yes'>[/]</token>
+        <token spacebefore='no' postag='AQ.F.+|NCF.+' postag_regexp='yes'/>
+        <token postag='AQ.M.+|NCM.+|VMP00.M' postag_regexp='yes'/>
+        <example>Os indivíduos estão infiltrados no pelotão/secção oposto.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-02-23 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+
     <antipattern>
       <token regexp="yes">\p{Lu}\p{Ll}+</token>
       <token regexp='yes'>\d+[:h]\d+</token>
