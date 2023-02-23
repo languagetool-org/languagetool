@@ -304,6 +304,7 @@ public class German extends Language implements AutoCloseable {
       case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
       case "IN_DEUTSCHE_SPRACHE": return 1; // prefer over most other rules
       case "SCHMIERE_STEHEN": return 1; // prefer over most other rules
+      case "UEBER_EIN_MANGEL": return 1; // temporary high priority
       case "SEIT_LAENGEREN": return 1; // prefer over DE_CASE
       case "WIR_GEFUEHL": return 1; // prefer over DE_CASE
       case "VORHER_NACHHER_BILD": return 1; // prefer over DE_CASE
@@ -465,6 +466,7 @@ public class German extends Language implements AutoCloseable {
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
       case "DATIV_NACH_PRP": return -14; // spelling and AI rules
+      case "DAT_ODER_AKK_NACH_PRP": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "SENT_START_SIN_PLU": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "SENT_START_PLU_SIN": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "VER_INFNOMEN": return -14;  // prefer spelling and AI rules
