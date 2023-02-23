@@ -494,11 +494,11 @@ public class German extends Language implements AutoCloseable {
       case "REPETITIONS_STYLE": return -60;
       case "MAN_SIEHT_SEHR_SCHOEN": return -14; // prefer over SEHR_SCHOEN
       // Category ids - make sure style issues don't hide overlapping "real" errors:
+      case "TYPOGRAPHY": return -14;
       case "COLLOQUIALISMS": return -15;
       case "STYLE": return -15;
       case "REDUNDANCY": return -15;
       case "GENDER_NEUTRALITY": return -15;
-      case "TYPOGRAPHY": return -15;
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;
