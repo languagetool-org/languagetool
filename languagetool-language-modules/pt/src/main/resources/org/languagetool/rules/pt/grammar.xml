@@ -4203,6 +4203,31 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- ATÉ QUE SURGIRAM  até surgirem -->
+    <rulegroup id='SIMPLIFICAR_ATÉ_QUE_ATÉ_VERBO' name="[Simplificar] Até que + Verbo → Até + V.Inf." type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-02-23 (25-JUL-2022+) -->
+      <!--
+      Foi-lhe dada demasiada importância até que surgira uma nova teoria. → Foi-lhe dada demasiada importância até surgir uma nova teoria.
+      Foi-lhes dada demasiada importância até que surgiram novas teorias. → Foi-lhes dada demasiada importância até surgirem novas teorias.
+      -->
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>até</token>
+            <token>que</token>
+            <token postag='VMIM3.+' postag_regexp='yes'/>
+          </marker>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>\1 <match no='3' postag='VMIM3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+        <example correction="até surgir">Foi-lhe dada demasiada importância <marker>até que surgira</marker> uma nova teoria.</example>
+        <example correction="até surgirem">Foi-lhes dada demasiada importância <marker>até que surgiram</marker> novas teorias.</example>
+      </rule>
+
+    </rulegroup>
+
+
     <!-- QUE É CONSIDERADA considerada -->
     <rulegroup id='QUE_É_PARTPASS_PARTPASS' name="[Simplificar] que é + V.Part.Pass → V.Part.Pass" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-17 (25-JUL-2022+) -->
