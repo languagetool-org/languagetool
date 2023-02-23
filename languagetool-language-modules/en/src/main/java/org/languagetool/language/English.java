@@ -510,7 +510,6 @@ public class English extends Language implements AutoCloseable {
       case "UNLIKELY_OPENING_PUNCTUATION": return -1;  // prefer other more specific rules
       case "MD_DT_JJ":                  return -1;  // prefer other more specific rules
       case "I_IF":                      return -1;  // prefer other more specific rules
-      case "CC_PRP_ARTICLE":            return -1;  // prefer other more specific rules
       case "NOUNPHRASE_VB_RB_DT":       return -1;  // prefer other more specific rules
       case "SENT_START_NN_NN_VB":       return -1;  // prefer other more specific rules
       case "VB_A_JJ_NNS":               return -1;  // prefer other more specific rules (e.g. A_NNS)
@@ -579,6 +578,7 @@ public class English extends Language implements AutoCloseable {
       case "PRP_NO_ADVERB_VERB":        return -15;  // prefer other more specific rules (e.g. PRP_VBG, IT_ITS, ...)
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
       case "HAVE_TO_NOTVB":             return -15; // prefer AI and comma rules
+      case "CC_PRP_ARTICLE":            return -15;  // prefer other more specific rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
       case "POSSESSIVE_APOSTROPHE":     return -10;  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
       case "CONFUSION_RULE":            return -20;
