@@ -4363,15 +4363,17 @@ O namorado dela era um ladrão.
         <example>Imediatamente após a apreensão, foi dado início a fase de cumprimento de mandados, sendo presos os líderes de organização criminosa voltada para o tráfico internacional de cocaína.</example>
       </antipattern>
 
-      <!-- 2023-02-20 - MARCOAGPINTO - Fix for thesis -->
+      <!-- 2023-02-20/24 - MARCOAGPINTO - Fix for thesis -->
       <antipattern>
         <token postag='SPS00:DA.+' postag_regexp='yes'/>
         <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
         <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
         <token>sendo</token>
         <token postag='VMP00.+' postag_regexp='yes'/>
-        <token regexp='yes'>[ao]s?</token> <!-- "a" appears as SPS00 which removes tons of valid sentences -->
+        <token regexp='yes'>[ao]s?|por</token> <!-- "a" appears as SPS00 which removes tons of valid sentences -->
         <example>Houve um reforço da coligação, sendo desconhecida a localização dos mentores.</example>
+        <example>Estes treinos melhoram o combate no terreno sendo adotados por um crescente número de unidades.</example>
+        <example>As questões da água constituem uma das mais complexas temáticas do mundo contemporâneo, sendo ignorado por muitos que elas estão já na raiz de alguns dos actuais conflitos.</example>
       </antipattern>
 
       <rule>
