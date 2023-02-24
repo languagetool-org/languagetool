@@ -20022,17 +20022,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
-                        <token postag="D[^RN].*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
-                        <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*" postag_regexp="yes"/></token>
+                        <token postag="DI.*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/><exception>cada</exception></token>
+                        <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*|D[AD].*|SP.*" postag_regexp="yes"/></token>
                         <!-- |V.[IS].* -->
                     </unify>
                 </marker>
             </pattern>
-            <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:D([^RN].)..(.) postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:D\a1\b1\b2\a2"/>
+            <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:D(I.)..(.) postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:D\a1\b1\b2\a2"/>
             <message>Error de concordancia.</message>
             <suggestion>{suggestion} \2</suggestion>
             <example correction="una media">Es de <marker>un media</marker> alta.</example>
             <example correction="un sustantivo">«Miles» es <marker>una sustantivo</marker> masculino</example>
+            <example correction="algunas ideas">Ted tiene <marker>alguna ideas</marker> brillantes para este lugar.</example>
+            <example correction="algún otro">¿Me aconsejas <marker>alguna otro</marker> elemento?</example>
+            <example>No me esperaba, ni de lejos, que os gustara tanto la idea!</example>
+            <example>Cada 2 años le decimos lo mismo.</example>
+            <example>Algunos le temen a la altura, algunos al agua.</example>
+            <example>Me ha distraído mucho esta novela.</example>
+            <example>En su 12 cumpleaños.</example>
         </rule>
         <rule id="TODO_EL" name="concordancia: todo el">
             <antipattern>
