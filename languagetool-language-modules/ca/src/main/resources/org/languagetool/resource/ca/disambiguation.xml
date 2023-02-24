@@ -18300,6 +18300,31 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- girar el cap cap a l’altra persona -->
         <rule>
             <pattern>
+                <token>de</token>
+                <marker>
+                    <token case_sensitive="yes">A</token>
+                </marker>
+                <token>a</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>de</token>
+                <token/>
+                <token>a</token>
+                <marker>
+                    <token case_sensitive="yes">A</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token regexp="yes">\p{P}\p{P}+</token>
                 </marker>
@@ -19030,9 +19055,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token regexp="yes">\p{L}</token>
                 </marker>
-                <token regexp="yes">\p{L}</token>
-                <token regexp="yes">\p{L}</token>
-                <token regexp="yes">\p{L}</token>
+                <token regexp="yes" spacebefore="yes">\p{L}</token>
+                <token regexp="yes" spacebefore="yes">\p{L}</token>
+                <token regexp="yes" spacebefore="yes">\p{L}</token>
             </pattern>
             <disambig action="immunize"/>
         </rule>
@@ -19040,10 +19065,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <!--  c o n c l u s i ó -->
             <pattern>
                 <token regexp="yes">\p{L}</token>
-                <token regexp="yes">\p{L}</token>
-                <token regexp="yes">\p{L}</token>
+                <token regexp="yes" spacebefore="yes">\p{L}</token>
+                <token regexp="yes" spacebefore="yes">\p{L}</token>
                 <marker>
-                    <token regexp="yes">\p{L}</token>
+                    <token regexp="yes" spacebefore="yes">\p{L}</token>
                 </marker>
             </pattern>
             <disambig action="immunize"/>
