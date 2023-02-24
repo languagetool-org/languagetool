@@ -2836,24 +2836,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
            
         </rulegroup>
-        <!-- may be duplicate, see: COMPLEX_SOUZ_PUNCT -->
         <rule id="dlya_togo_chtoby_2" name="Пунктуация в предложении с союзом «для того чтобы» (2)" >
-                <pattern>
+                <pattern> 
                     <token postag="SENT_START"></token>
                     <marker>
-                    <token>для</token>
-                    <token>того</token>
-                    <token>,</token>
-                    <token>чтобы</token>
+                        <token regexp="yes">Для|Вместо</token>
+                        <token>того</token>          
+                        <token>,</token>
+                        <token>чтобы</token>
                     </marker>
                 </pattern>
-                <message>Лишняя запятая: <suggestion>\2 \3 \5</suggestion></message>
-                <url>https://russkiiyazyk.ru/punktuatsiya/dlia-togo-chtoby-zapyataya.html</url>
-                <short>Лишняя запятая</short>
+                <message>Сложный союз в начале предложения. Запятые не нужны: <suggestion>\2 \3 \5</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_172</url>
+                <short>Запятые не нужны</short>
                 <example correction="Для того чтобы"><marker>Для того, чтобы</marker>  капуста оставалась хрустящей, не стоит слишком сильно перетирать её с солью.</example>
                 <example>Для того чтобы капуста оставалась хрустящей, не стоит слишком сильно перетирать её с солью.</example>
                 <example>Он зашел к нам вовсе не для того, чтобы сообщить эту новость.</example>
-        </rule> 
+                <example>Для того чтобы желе застыло, нужно его около часа подержать в холодильнике.</example>
+                <example correction="Для того чтобы"><marker>Для того, чтобы</marker> желе застыло, нужно его около часа подержать в холодильнике.</example>
+        </rule>
+      
         <rule id="Not_Comma_eto" name="Избыточная запятая перед «это»"  >
             <pattern> <!-- Лишняя запятая #1098   default="temp_off" tags="picky" -->
                 <token postag="SENT_START"></token>
@@ -5428,22 +5430,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Тем не менее"><marker>Тем не менее,</marker>я вздремнул.</example>
         </rule>
         <rulegroup default="on" id="COMPLEX_SOUZ_PUNCT" name="Запятые в сложных союзах">
-            <rule>
-                <pattern> 
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token regexp="yes">Для|Вместо</token>
-                        <token>того</token>          
-                        <token>,</token>
-                        <token>чтобы</token>
-                    </marker>
-                </pattern>
-                <message>Сложный союз в начале предложения. Запятые не нужны: <suggestion>\2 \3 \5</suggestion>.</message>
-                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_172</url>
-                <short>Запятые не нужны</short>
-                <example>Для того чтобы желе застыло, нужно его около часа подержать в холодильнике.</example>
-                <example correction="Для того чтобы"><marker>Для того, чтобы</marker> желе застыло, нужно его около часа подержать в холодильнике.</example>
-            </rule>
             <rule>
                 <pattern> 
                     <token postag="SENT_START"></token>
