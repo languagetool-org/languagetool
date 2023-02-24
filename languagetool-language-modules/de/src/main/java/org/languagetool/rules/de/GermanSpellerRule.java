@@ -3041,6 +3041,28 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "UBahn": return topMatch("U-Bahn");
       case "Ubahnen": return topMatch("U-Bahnen");
       case "UBahnen": return topMatch("U-Bahnen");
+      case "Ubahnhof": return topMatch("U-Bahnhof");
+      case "UBahnhof": return topMatch("U-Bahnhof");
+      case "Ubahnhofs": return topMatch("U-Bahnhofs");
+      case "UBahnhofs": return topMatch("U-Bahnhofs");
+      case "Ubahnhöfe": return topMatch("U-Bahnhöfe");
+      case "UBahnhöfe": return topMatch("U-Bahnhöfe");
+      case "Ubahnhöfen": return topMatch("U-Bahnhöfen");
+      case "UBahnhöfen": return topMatch("U-Bahnhöfen");
+      case "Ubahnlinie": return topMatch("U-Bahnlinie");
+      case "UBahnlinie": return topMatch("U-Bahnlinie");
+      case "Ubahnlinien": return topMatch("U-Bahnlinien");
+      case "UBahnlinien": return topMatch("U-Bahnlinien");
+      case "Ubahnnetz": return topMatch("U-Bahnnetz");
+      case "UBahnnetz": return topMatch("U-Bahnnetz");
+      case "Ubahnnetze": return topMatch("U-Bahnnetze");
+      case "UBahnnetze": return topMatch("U-Bahnnetze");
+      case "Ubahnnetzes": return topMatch("U-Bahnnetzes");
+      case "UBahnnetzes": return topMatch("U-Bahnnetzes");
+      case "Ubahntunnel": return topMatch("U-Bahntunnel");
+      case "UBahntunnel": return topMatch("U-Bahntunnel");
+      case "Ubahntunnels": return topMatch("U-Bahntunnels");
+      case "UBahntunnels": return topMatch("U-Bahntunnels");
     }
     return Collections.emptyList();
   }
