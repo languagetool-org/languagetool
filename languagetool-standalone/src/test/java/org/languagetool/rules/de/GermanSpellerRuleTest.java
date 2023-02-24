@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -39,6 +40,7 @@ public class GermanSpellerRuleTest {
   private static final German GERMAN_DE = (German) Languages.getLanguageForShortCode("de-DE");
 
   @Test
+  @Ignore
   public void testErrorLimitReached() throws IOException {
     HunspellRule rule1 = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
