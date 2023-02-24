@@ -7613,4 +7613,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule id="NACH_WIE_VOR" name="nach wie vor ('vor' keine Präposition)">
+        <pattern>
+            <token>nach</token>
+            <token>wie</token>
+            <marker>
+                <token>vor</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(PRP|ZUS).*" />
+    </rule>
 </rules>
