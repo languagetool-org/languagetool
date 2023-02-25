@@ -2587,19 +2587,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="шёл улыбаясь.">Он <marker>шёл, улыбаясь.</marker></example>
             </rule>
         </rulegroup>
-        <rule id="PUNCT_DPT_2" name="Запятые при деепричастном обороте (2)" tags="picky" >  <!-- TO DO: remove picky after testing -->
+        <rule id="PUNCT_DPT_2" name="Запятые при деепричастном обороте (2)"  default="temp_off"  >  <!-- TO DO: remove picky after testing -->
             <pattern> <!-- #1093, #304 -->
-                <token skip="-1" postag="SENT_START" ></token>
+                <token skip="-1" postag="SENT_START" ><exception regexp="yes" scope="next">[,;:–—-]</exception></token>
                 <marker>
-                    <token postag="DPT:.*" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="DPT:.*" postag_regexp="yes" /><exception regexp="yes" scope="next">[,;—-]</exception></token>
-                    <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes" scope="previous">[,;:–—-]</exception><exception regexp="yes" scope="next">[,;:–—-]</exception></token>
+                    <token postag="DPT:.*" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="DPT:.*" postag_regexp="yes" /><exception regexp="yes" scope="next">[,;:–—-]</exception></token>
+                    <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes" scope="previous">[,;:–—-]</exception><exception regexp="yes" scope="next">[,;:–—-]</exception></token>
                 </marker>
+                <token postag="SENT_END"><exception postag="VB:.*" postag_regexp="yes" scope="previous"></exception></token>
             </pattern>
             <message>Требуется запятая до конца предложения, деепричастный оборот.</message>
             <short>Требуется запятая</short>
             <example correction=""><marker>Уменьшая значение параметров построения (пороговый угол и минимальная длина отрезка) несложно проверить</marker> его стабильность.</example>
             <example correction=""><marker>Учитывая высокую стоимость и трудоёмкость эксперимента в области оптики наночастиц вариант с предварительным теоретическим анализом проблемы оказывается</marker> более рациональным.</example>
-           
+            <example>Боясь упасть с дерева, Том ухватился за ветку.</example>
             <example>Уменьшая значение параметров построения (пороговый угол и минимальная длина отрезка), несложно проверить его стабильность.</example>
             <example>Учитывая высокую стоимость и трудоёмкость эксперимента в области оптики наночастиц, вариант с предварительным теоретическим анализом проблемы оказывается более рациональным.</example>
         </rule> 
