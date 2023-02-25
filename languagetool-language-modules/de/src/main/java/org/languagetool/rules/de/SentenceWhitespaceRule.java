@@ -53,9 +53,9 @@ public class SentenceWhitespaceRule extends org.languagetool.rules.SentenceWhite
   @Override
   public String getMessage(boolean prevSentenceEndsWithNumber) {
     if (prevSentenceEndsWithNumber) {
-      return "Fügen Sie nach Ordnungszahlen (1., 2. usw.) ein Leerzeichen ein";
+      return "Fügen Sie nach Ordnungszahlen (1., 2. usw.) ein Leerzeichen ein.";
     } else {
-      return "Fügen Sie zwischen Sätzen ein Leerzeichen ein";
+      return "Fügen Sie zwischen Sätzen ein Leerzeichen ein.";
     }
   }
 
