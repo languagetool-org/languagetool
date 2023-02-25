@@ -71,10 +71,10 @@ jobs:
           command: |
             cd $CIRCLE_WORKING_DIRECTORY && mvn test -fae
       - save-test-results
-      - run:
-          name: deploy full
-          command: |
-            cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml -DskipTests deploy
+      # - run:
+      #     name: deploy full
+      #     command: |
+      #       cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml -DskipTests deploy
       - save_cache:
           paths:
             - ~/.m2
