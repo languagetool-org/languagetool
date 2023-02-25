@@ -20016,31 +20016,72 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La alma máter.</example>
             <example>La alma mater.</example>
         </rule>
-        <rule id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal" default="temp_off">
-            <pattern>
-                <marker>
-                    <unify negate="yes">
-                        <feature id="numero"/>
-                        <feature id="genero"/>
-                        <token postag="DI.*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/><exception>cada</exception></token>
-                        <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*|D[AD].*|SP.*" postag_regexp="yes"/></token>
-                        <!-- |V.[IS].* -->
-                    </unify>
-                </marker>
-            </pattern>
-            <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:D(I.)..(.) postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:D\a1\b1\b2\a2"/>
-            <message>Error de concordancia.</message>
-            <suggestion>{suggestion} \2</suggestion>
-            <example correction="una media">Es de <marker>un media</marker> alta.</example>
-            <example correction="un sustantivo">«Miles» es <marker>una sustantivo</marker> masculino</example>
-            <example correction="algunas ideas">Ted tiene <marker>alguna ideas</marker> brillantes para este lugar.</example>
-            <example correction="algún otro">¿Me aconsejas <marker>alguna otro</marker> elemento?</example>
-            <example>No me esperaba, ni de lejos, que os gustara tanto la idea!</example>
-            <example>Cada 2 años le decimos lo mismo.</example>
-            <example>Algunos le temen a la altura, algunos al agua.</example>
-            <example>Me ha distraído mucho esta novela.</example>
-            <example>En su 12 cumpleaños.</example>
-        </rule>
+        <rulegroup id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">una|la</token>
+                    <token>nueve</token>
+                    <token>milímetros</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="PI.*" postag_regexp="yes"/>
+                    <token postag="DI.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">otro|poco</exception></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="DI.*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/><exception>cada</exception></token>
+                            <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*|D[ADPET].*|SP.*" postag_regexp="yes"/></token>
+                            <!-- |V.[IS].* -->
+                        </unify>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:D(I.)..(.) postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:D\a1\b1\b2\a2"/>
+                <message>Error de concordancia.</message>
+                <suggestion>{suggestion} \2</suggestion>
+                <example correction="una media">Es de <marker>un media</marker> alta.</example>
+                <example correction="un sustantivo">«Miles» es <marker>una sustantivo</marker> masculino</example>
+                <example correction="algunas ideas">Ted tiene <marker>alguna ideas</marker> brillantes para este lugar.</example>
+                <example correction="algún otro">¿Me aconsejas <marker>alguna otro</marker> elemento?</example>
+                <example correction="muchas otras">y <marker>muchos otras</marker> cosas</example>
+                <example correction="otros 100.000">una entre <marker>otras 100.000</marker> millones de estrellas</example>
+                <example correction="unas pocas">Fue llevado al hospital <marker>una pocas</marker> semanas antes de Navidad.</example>
+                <example>No me esperaba, ni de lejos, que os gustara tanto la idea!</example>
+                <example>Cada 2 años le decimos lo mismo.</example>
+                <example>Algunos le temen a la altura, algunos al agua.</example>
+                <example>Me ha distraído mucho esta novela.</example>
+                <example>En su 12 cumpleaños.</example>
+                <example>Me perdonaste sin pregunta alguna todos mis pecados.</example>
+                <example>la necesidad de avanzar algunos un fin semana</example>
+                <example>sin importarme mucho cuántas veces cambio de estilo</example>
+                <example>Esta clase de libros no atrajo mucho mi atención.</example>
+                <example>Últimamente aprecio muchísimo cualquier cosa.</example>
+                <example>Marcas una cada día y la vendes.</example>
+                <example type="triggers_error" reason="ambiguous">para <marker>otros dos</marker> palabras.</example>
+                <example>o a otros un set perfecto</example>
+                <example>No comprendo por qué te altera tanto una nimiedad así.</example>
+                <example type="triggers_error" reason="ambiguous, missing comma">Con <marker>un 3</marker> Joe, estás eliminado. </example>
+                <example>Te ha estado escribiendo una cada día esta semana.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="DI.*" postag_regexp="yes" regexp="yes">cualquier|cualquiera<exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/><exception>cada</exception></token>
+                            <token postag="_GN_.P" postag_regexp="yes"><exception postag="N.CN.*|D[ADP].*|SP.*" postag_regexp="yes"/></token>
+                            <!-- |V.[IS].* -->
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion>cualesquiera \2</suggestion>
+                <example correction="cualesquiera otras">Ya no era aplicable a <marker>cualquier otras</marker> escuelas</example>
+            </rule>
+        </rulegroup>
         <rule id="TODO_EL" name="concordancia: todo el">
             <antipattern>
                 <token postag="SPS00"/>
