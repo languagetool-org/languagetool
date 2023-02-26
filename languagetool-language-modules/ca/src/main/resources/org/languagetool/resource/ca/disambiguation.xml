@@ -7279,6 +7279,49 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="A.*"/>
     </rule>
+    <rule id="el_fa" name="el fa (verb)">
+        <pattern>
+            <marker>
+                <token postag="PP3MSA00">el</token>
+                <token postag="VMIP3S00">fa</token>
+            </marker>
+            <token postag="RG|LOC_ADV" min="0" max="3" postag_regexp="yes"/>
+            <token postag="A.*|V.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rulegroup id="que_els_deus" name="què els deus (verb)">
+        <rule>
+            <pattern>
+                <token>què</token>
+                <marker>
+                    <token postag="PP3CP000">els</token>
+                    <token postag="VMIP2S00">deus</token>
+                </marker>
+                <token regexp="yes">\p{P}</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>què</token>
+                <marker>
+                    <token postag="PP3CP000">els</token>
+                    <token postag="VMIP2S00">dius</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>què</token>
+                <marker>
+                    <token postag="VMIP2S00">tens</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="el_pais" name="el país, el domini, l'equilibri (nom)">
         <antipattern>
             <token postag="&pronom_feble;" postag_regexp="yes"/>
@@ -8948,6 +8991,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token><exception regexp="yes">allò|després|abans|malgrat</exception><exception postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">fer|aconseguir</exception></token>
                 <token regexp="yes">qui|que|què<exception postag=".*LOC_CONJ.*" postag_regexp="yes"/></token>
                 <token postag="&pronom_feble;" postag_regexp="yes"/>
+                <token min="0" postag="_QM_OPEN"/>
                 <marker>
                     <token postag="VM..3S..?" postag_regexp="yes" regexp="yes">\p{Ll}.*<exception regexp="yes">seu|.+e|tema|fera|país|divisa|nous?|baixa|dona|esquerra</exception></token>
                 </marker>
@@ -9915,6 +9959,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule id="objecte_de" name="objecte de">
             <!-- es pot generalitzar? -->
+            <antipattern>
+                <token>què</token>
+                <token>creus</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">objectes?|creus?</token>
@@ -13541,7 +13589,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>dona</token>
             </antipattern>
             <pattern>
-                <token><exception>que</exception></token>
+                <token><exception regexp="yes">que|què</exception></token>
                 <token>en</token>
                 <marker>
                     <and>
@@ -14084,6 +14132,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="V.[MSIG].*"/>
         </rule>
         <rule>
+            <antipattern>
+                <token regexp="yes">què|que</token>
+                <token postag="V.[MSIG].*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <and>
@@ -15277,6 +15329,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="_GV_"/>
                 </and>
             </marker>
+            <token min="0" postag="_QM_OPEN"/>
             <and>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
                 <token postag="_GV_"><exception postag="_GN_.*|N.*" postag_regexp="yes"/></token>
