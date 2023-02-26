@@ -2489,13 +2489,44 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="IN" />
             <token postag="DT|PRP\$" postag_regexp="yes" />
         </antipattern>
+        <antipattern>
+            <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token>from</token>
+            <token>this</token>
+            <token postag="VBZ" />
+            <token postag="P?DT|PRP\$" postag_regexp="yes" />
+        </antipattern> 
+        <antipattern>
+            <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token>due</token>
+            <token>to</token>
+            <token>this</token>
+            <token postag="VBZ" />
+            <token postag="P?DT|PRP\$" postag_regexp="yes" />
+        </antipattern> 
+        <antipattern>
+            <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token regexp="yes">all|none?|much</token>
+            <token>of</token>
+            <token>this</token>
+            <token postag="VBZ" />
+            <token postag="P?DT|PRP\$" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token postag="IN"/>
+            <token>this</token>
+            <token postag="VBZ" chunk_re=".-VP" />
+        </antipattern>
         <pattern>
             <token postag="IN"/>
             <token regexp="yes">th(is|ese)</token>
             <marker>
                 <and>
                     <token postag="NNS"/>
-                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|ma(ke|tter)s|does|looks</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">means|works|combines|shows|leads|takes|lies|goes|stems|gives|ma(ke|tter)s|does|looks</exception></token>
                 </and>
             </marker>
         </pattern>
@@ -16641,6 +16672,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">bands?</token>
         </pattern>
         <disambig action="remove" postag="VBG" />
+    </rule>
+
+    <rule id="CAME_NO_NN" name="'marching' no NN">
+        <pattern>
+            <marker>
+                <token chunk_re=".-VP">came</token>
+            </marker>
+            <token postag="DT|PRP\$|IN" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="NN" />
     </rule>
 
     <rule id="BUG_NO_VB" name="'bug' no VB">
