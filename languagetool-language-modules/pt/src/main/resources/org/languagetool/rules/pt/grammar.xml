@@ -46607,8 +46607,8 @@ O namorado dela era um ladrão.
 
       Um salto foi suficiente para que a sua macaca atingisse o galho? → Um salto foi suficiente para a sua macaca atingir o galho?
       Um salto foi suficiente para que as suas macacas atingissem o galho? → Um salto foi suficiente para as suas macacas atingirem o galho?
-      Isto para que o ser humano atue de acordo com a vontade divina. → Isto para o ser humano atuar de acordo com a vontade divina.
-      Isto para que os seres humanos atuem de acordo com a vontade divina. → Isto para os seres humanos atuarem de acordo com a vontade divina.
+      Isto para que o ser humano atue segundo a vontade divina. → Isto para o ser humano atuar segundo a vontade divina.
+      Isto para que os seres humanos atuem segundo a vontade divina. → Isto para os seres humanos atuarem segundo a vontade divina.
       -->
 
       <rule>
@@ -46644,8 +46644,8 @@ O namorado dela era um ladrão.
         <suggestion>\1 \3 \4 \5 <match no='6' postag='VM..3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
         <example correction="para a sua macaca atingir">Um salto foi suficiente <marker>para que a sua macaca atingisse</marker> o galho?</example>
         <example correction="para as suas macacas atingirem">Um salto foi suficiente <marker>para que as suas macacas atingissem</marker> o galho?</example>
-        <example correction="para o ser humano atuar">Isto <marker>para que o ser humano atue</marker> de acordo com a vontade divina.</example>
-        <example correction="para os seres humanos atuarem">Isto <marker>para que os seres humanos atuem</marker> de acordo com a vontade divina.</example>
+        <example correction="para o ser humano atuar">Isto <marker>para que o ser humano atue</marker> segundo a vontade divina.</example>
+        <example correction="para os seres humanos atuarem">Isto <marker>para que os seres humanos atuem</marker> segundo a vontade divina.</example>
 
       </rule>
 
@@ -46808,49 +46808,6 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
-    <!-- PARA TER ACONTECIDO para acontecer -->
-    <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='[Simplificar] Para/Por + Ter + Particípio passado → Ter baseado particípio passado' type="style">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-01 (Checked/Enhanced) (25-JUL-2022+) -->
-      <!--
-      Muitos fatores contribuíram para ter acontecido desse modo. → Muitos fatores contribuíram para acontecer desse modo.
-      -->
-      <rule>
-        <pattern>
-          <token>por</token>
-          <token postag='PP.+' postag_regexp='yes'/>
-          <marker>
-            <token inflected='yes'>ter</token>
-            <token postag='VMP00SM'>
-              <exception scope='next' postag_regexp='no' postag='_PUNCT'/>
-            </token>
-          </marker>
-        </pattern>
-        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:3 postagSelect:V.*"/>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>{suggestion}</suggestion>
-        <example correction='estar'>Isso por eu <marker>ter estado</marker> a ler o artigo.</example>
-        <example>Isso por eu <marker>estar</marker> a ler o artigo.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token>por</token>
-          <marker>
-            <token inflected='yes'>ter</token>
-            <token postag='VMP00SM'>
-              <exception scope='next' postag_regexp='no' postag='_PUNCT'/>
-            </token>
-          </marker>
-        </pattern>
-        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:2 postagSelect:V.*"/>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>{suggestion}</suggestion>
-        <example correction='estar'>Isso por <marker>ter estado</marker> a ler o artigo.</example>
-        <example>Isso por <marker>estar</marker> a ler o artigo.</example>
-      </rule>
-    </rulegroup>
-
-
     <!-- POR ISSO aí/assim/daí/isso -->
     <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="[Simplificar] por isso → aí/assim/daí/isso" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
@@ -46874,6 +46831,52 @@ O namorado dela era um ladrão.
         <example correction="isso">Lamento <marker>por isso</marker> ter acontecido.</example>
         <example correction="isso">Lamento muito <marker>por isso</marker> ter acontecido.</example>
         <example>Lamento isso ter acontecido.</example>
+      </rule>
+    </rulegroup>
+
+
+    <!-- PARA TER ACONTECIDO para acontecer -->
+    <rulegroup id='PARA-POR_TER_PARTICIPIO-PASSADO' name='[Simplificar] Por + V.Ter + V.Part.Pass. → V.Ter baseado no V.Part.Pass.' type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-01 + 2023-02-26 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Muitos fatores contribuíram para ter acontecido desse modo. → Muitos fatores contribuíram para acontecer desse modo.
+      Isso por eu ter estado a ler o artigo. → Isso por eu estar a ler o artigo.
+      Isso por eu ter estado a ler o artigo. → Isso por estar a ler o artigo.
+      -->
+      <rule>
+        <pattern>
+          <token regexp='no'>por</token>
+          <or>
+            <token postag='(SPS00:)?P[PDI].+|RN|RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+            <token regexp='no'>que</token> <!-- "por que" = RG + RG -->
+          </or>
+          <marker>
+            <token inflected='yes'>ter</token>
+            <token postag_regexp='yes' postag='VMP00.+'>
+              <exception scope='next' postag_regexp='no' postag='_PUNCT'/>
+            </token>
+          </marker>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:3 postagSelect:V.*"/>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>{suggestion}</suggestion>
+        <example correction='estar'>Isso por eu <marker>ter estado</marker> a ler o artigo.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp='no'>por</token>
+          <marker>
+            <token inflected='yes'>ter</token>
+            <token postag_regexp='yes' postag='VMP00.+'>
+              <exception scope='next' postag_regexp='no' postag='_PUNCT'/>
+            </token>
+          </marker>
+        </pattern>
+        <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:2 postagSelect:V.*"/>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>{suggestion}</suggestion>
+        <example correction='estar'>Isso por <marker>ter estado</marker> a ler o artigo.</example>
       </rule>
     </rulegroup>
 
