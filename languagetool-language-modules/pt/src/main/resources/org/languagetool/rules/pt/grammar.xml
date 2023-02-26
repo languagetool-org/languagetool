@@ -45655,6 +45655,68 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- ATRAVÉS DE por/via/com -->
+    <rulegroup id='ATRAVES_DE_POR_VIA' name="[Simplificar] Através de → por/via/com" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-13/26 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      O FBI soube disso através de carta. → O FBI soube disso por carta.
+      O FBI respondeu-lhe através de carta. → O FBI respondeu-lhe por carta.
+      Isto permite através de alguns cliques fazê-lo. → Isto permite com alguns cliques fazê-lo.
+      -->
+      <rule>
+
+        <!-- por/via -->
+        <pattern>
+          <token postag='CC|RM|Z0.+|CS|(SPS00:)?P[DP].+|NC.+|AQ.+|NP.+|V.+|SENT_START' postag_regexp='yes'>
+            <exception scope="previous" regexp='no'>como</exception> <!-- "como se" -->
+          </token>
+          <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+          <marker>
+            <token>através</token>
+            <token>de</token>
+          </marker>
+          <token>
+            <exception postag_regexp='yes' postag='VMN0000|(SPS00:)?DP.+|(SPS00:)?PR.+|SPS00|CC|CS|RG'/>
+            <exception regexp='yes'>algumas?|algum|alguns|muit[ao]s?|qualquer|quaisquer|tantos?</exception> <!-- Common postags thus they were added manually -->
+          </token>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>por</suggestion>
+        <suggestion>via</suggestion>
+        <example correction="por|via">O FBI soube disso <marker>através de</marker> carta.</example>
+        <example correction="por|via">O FBI respondeu-lhe <marker>através de</marker> carta.</example>
+        <example>..., poderá também melhorar visivelmente à medida que a criança continua a treinar as suas capacidades através de colorir desenhos.</example>
+        <example>Em vez disso, eles detectam sons através de suas línguas e sentem as vibrações através dos órgãos sensitivos no crânio.</example>
+        <example>Pois bem, os protestantes têm seus cantos religiosos através de cuja letra se exprime a fé protestante.</example>
+        <example>...com o Islã. Era o Islã - em lugares como a universidade Al-Azhar - que levava a luz do conhecimento através de tantos séculos, abrindo o caminho para a Renascença e para o Iluminismo da Europa.</example>
+        <example>...da era de nylon verde, ele fica preocupado e se afasta da moça porque pensava que ela ia embaraçado através de alguma coisa.</example>
+        <example>Para mais, o acesso através de alguns dispositivos em miniatura, com o preenchimento com os códigos de acesso fornecidos no semaná...</example>
+        <example>Levado através de muitos mares e nações, cheguei a estes ritos funerários miseráveis, irmão.</example>
+        <example>Seja quem você é e nunca tenha medo de amar através de quaisquer formas que ressoem com você, pois não há amor menor ou maior.</example>
+        <example>Este poema, "Aos irmãos", permite-nos olhar, como se através de um vidro transparente, bem fundo dentro de seu coração, vendo como ele batia no silêncio da noite p...</example>
+      </rule>
+
+      <!-- com -->
+      <rule>
+        <pattern>
+          <token postag='CC|RM|Z0.+|CS|(SPS00:)?P[DP].+|NC.+|AQ.+|NP.+|V.+|SENT_START' postag_regexp='yes'>
+            <exception scope="previous" regexp='no'>como</exception> <!-- "como se" -->
+          </token>
+          <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+          <marker>
+            <token>através</token>
+            <token>de</token>
+          </marker>
+          <token regexp='yes'>algumas?|algum|alguns|muit[ao]s?|qualquer|quaisquer|que|tantos?</token> <!-- Common postags thus they were added manually -->
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion>com</suggestion>
+        <example correction="com">Isto permite <marker>através de</marker> alguns cliques fazê-lo.</example>
+      </rule>
+
+    </rulegroup>
+
+
     <!-- COMO É VISTO conforme visto -->
     <rule id='COMO_É_CONFORME' name="[Simplificar] Como é → Conforme" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-10-25 (25-JUL-2022+) -->
@@ -51805,48 +51867,6 @@ O namorado dela era um ladrão.
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>observar</match></suggestion>
       <example correction="Lemos|Assistimos|Descobrimos|Observamos"><marker>Vimos</marker> no jornal o que aconteceu.</example>
     </rule>
-    </rulegroup>
-
-
-    <!-- ATRAVÉS DE por/via -->
-    <rulegroup id='ATRAVES_DE_POR_VIA' name="Simplificar: Através de → por/via" type="style">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-13 (Checked/Enhanced) (25-JUL-2022+) -->
-      <!--
-      O FBI soube disso através de carta. → O FBI soube disso por carta.
-      O FBI respondeu-lhe através de carta. → O FBI respondeu-lhe por carta.
-      -->
-      <rule>
-
-        <pattern>
-          <token postag='CC|RM|Z0.+|CS|(SPS00:)?P[DP].+|NC.+|AQ.+|NP.+|V.+|SENT_START' postag_regexp='yes'>
-            <exception scope="previous" regexp='no'>como</exception> <!-- "como se" -->
-          </token>
-          <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-          <marker>
-            <token>através</token>
-            <token>de</token>
-          </marker>
-          <token>
-            <exception postag_regexp='yes' postag='VMN0000|(SPS00:)?DP.+|(SPS00:)?PR.+|SPS00|CC|CS|RG'/>
-            <exception regexp='yes'>algumas?|algum|alguns|muit[ao]s?|qualquer|quaisquer|tantos?</exception> <!-- Common postags thus they were added manually -->
-          </token>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>por</suggestion>
-        <suggestion>via</suggestion>
-        <example correction="por|via">O FBI soube disso <marker>através de</marker> carta.</example>
-        <example correction="por|via">O FBI respondeu-lhe <marker>através de</marker> carta.</example>
-        <example>..., poderá também melhorar visivelmente à medida que a criança continua a treinar as suas capacidades através de colorir desenhos.</example>
-        <example>Em vez disso, eles detectam sons através de suas línguas e sentem as vibrações através dos órgãos sensitivos no crânio.</example>
-        <example>Pois bem, os protestantes têm seus cantos religiosos através de cuja letra se exprime a fé protestante.</example>
-        <example>...com o Islã. Era o Islã - em lugares como a universidade Al-Azhar - que levava a luz do conhecimento através de tantos séculos, abrindo o caminho para a Renascença e para o Iluminismo da Europa.</example>
-        <example>...da era de nylon verde, ele fica preocupado e se afasta da moça porque pensava que ela ia embaraçado através de alguma coisa.</example>
-        <example>Para mais, o acesso através de alguns dispositivos em miniatura, com o preenchimento com os códigos de acesso fornecidos no semaná...</example>
-        <example>Levado através de muitos mares e nações, cheguei a estes ritos funerários miseráveis, irmão.</example>
-        <example>Seja quem você é e nunca tenha medo de amar através de quaisquer formas que ressoem com você, pois não há amor menor ou maior.</example>
-        <example>Este poema, "Aos irmãos", permite-nos olhar, como se através de um vidro transparente, bem fundo dentro de seu coração, vendo como ele batia no silêncio da noite p...</example>
-      </rule>
-
     </rulegroup>
 
 
