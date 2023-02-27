@@ -45751,6 +45751,64 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- COMO SENDO A(S)/O(S)/UM/UNS/UMA(S) a(s)/o(s)/um/uns/uma(s) -->
+    <rule id='SIMPLIFICAR_COMO_SENDO' name="[Simplificar] Como sendo + a(s)/o(s)/um/uns/uma(s) → a(s)/o(s)/um/uns/uma(s)" type="style">
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-06-05 + 2022-07-07 + 2023-02-27 (Checked/Enhanced) (5-JUN-2022+)      -->
+      <!--
+      Foi considerado por muitos cientistas como sendo o pai da Matemática. → Foi considerado por muitos cientistas o pai da Matemática.
+      Uma sessão de login é considerada como sendo a vida útil de um processo de usuário. → Uma sessão de login é considerada a vida útil de um processo de usuário.
+      -->
+
+      <antipattern>
+        <token><exception postag='V.+' postag_regexp='yes'/></token>
+        <token min="0" max="1" postag='DI.+|RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='V.+|CC|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token>como</token>
+        <token>sendo</token>
+        <token/>
+        <example>...ndo que o profeta da Era do peixe seria o Messias; e é por isso que os judeus nunca aceitaram Jesus como sendo um Deus humano.</example>
+        <example>...os de representações sociais como nesse trabalho, enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.</example>
+        <example>Parece que muitas vezes, em nossa cabeça, interpretamos outras religiões cristãs como sendo outros deuses.</example>
+        <example>* (j) Monarca discutível como sendo o verdadeiro Chefe de Estado.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='VMIS.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='VMP00.+' postag_regexp='yes'/>
+        <token>como</token>
+        <token>sendo</token>
+        <token/>
+        <example>O arvoredo foi mantido como sendo um terreno.</example>
+        <example>Os terroristas retaliam contra Estados encarados como sendo os inimigos.</example>
+      </antipattern>
+
+      <pattern>
+        <token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'>
+          <exception scope="previous" postag_regexp='yes' postag='DA.+|RG'/> <!-- RG fix - MARCOAGPINTO - 2023-02-27 -->
+        </token>
+        <marker>
+          <token>como</token>
+          <token>sendo</token>
+          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
+        </marker>
+        <token postag='SPS00|CC|CS|RG|NC.+|AQ.+|NP.+|AO.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='V.+'/>
+        </token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\4</suggestion>
+      <example correction="o">Foi considerado por muitos cientistas <marker>como sendo o</marker> pai da Matemática.</example>
+      <example correction="o">O procedimento é considerado <marker>como sendo o</marker> que faltou à polícia.</example>
+      <example>Uma sessão de login é considerada a vida útil de um processo de usuário.</example>
+      <example>A polícia definiu o termo como sendo os atos de guerra contra os estados.</example>
+      <example>de representações sociais como nesse trabalho, enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.</example>
+      <example>O Sistema de Crenças é definido como sendo o conjunto de argumentos e os respetivos pesos.</example>
+      <example>São apenas mencionadas como sendo um modelo teórico.</example>
+      <example>Poder-se-ia definir mais terrenos como sendo um corpo de água.</example>
+    </rule>
+
+
     <!-- COMO É O CASO DO NOSSO como é o nosso -->
     <rule id='COMO_SER_O_CASO_DO' name="[Simplificar] Como é/são o caso do → Como o" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-09-02 (25-JUL-2022+) -->
@@ -50437,62 +50495,6 @@ O namorado dela era um ladrão.
       <suggestion><match no='3' postag='DA0(..)0' postag_replace='SPS00:DA0$10'>em:o</match></suggestion>
       <suggestion>\3</suggestion>
       <example correction="no|o">Como <marker>é o</marker> caso do Firefox.</example>
-    </rule>
-
-
-    <!-- COMO SENDO A(S)/O(S)/UM/UNS/UMA(S) a(s)/o(s)/um/uns/uma(s) -->
-    <rule id='SIMPLIFICAR_COMO_SENDO' name="Simplificar: Como sendo + a(s)/o(s)/um/uns/uma(s) → a(s)/o(s)/um/uns/uma(s)" type="style">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-06-05 + 2022-07-07 (Checked/Enhanced) (5-JUN-2022+)      -->
-      <!--
-      Foi considerado por muitos cientistas como sendo o pai da Matemática. → Foi considerado por muitos cientistas o pai da Matemática.
-      Uma sessão de login é considerada como sendo a vida útil de um processo de usuário. → Uma sessão de login é considerada a vida útil de um processo de usuário.
-      -->
-
-      <antipattern>
-        <token><exception postag='V.+' postag_regexp='yes'/></token>
-        <token min="0" max="1" postag='DI.+|RG|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token postag='V.+|CC|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token>como</token>
-        <token>sendo</token>
-        <token/>
-        <example>...ndo que o profeta da Era do peixe seria o Messias; e é por isso que os judeus nunca aceitaram Jesus como sendo um Deus humano.</example>
-        <example>...os de representações sociais como nesse trabalho, enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.</example>
-        <example>Parece que muitas vezes, em nossa cabeça, interpretamos outras religiões cristãs como sendo outros deuses.</example>
-        <example>* (j) Monarca discutível como sendo o verdadeiro Chefe de Estado.</example>
-      </antipattern>
-
-      <antipattern>
-        <token postag='VMIS.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
-        <token postag='VMP00.+' postag_regexp='yes'/>
-        <token>como</token>
-        <token>sendo</token>
-        <token/>
-        <example>O arvoredo foi mantido como sendo um terreno.</example>
-        <example>Os terroristas retaliam contra Estados encarados como sendo os inimigos.</example>
-      </antipattern>
-
-      <pattern>
-        <token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'>
-          <exception scope="previous" postag_regexp='yes' postag='DA.+'/>
-        </token>
-        <marker>
-          <token>como</token>
-          <token>sendo</token>
-          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
-        </marker>
-        <token postag='SPS00|CC|CS|RG|NC.+|AQ.+|NP.+|AO.+|[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'>
-          <exception postag_regexp='yes' postag='V.+'/>
-        </token>
-      </pattern>
-      <message>Esta perífrase poderá ser simplificada.</message>
-      <suggestion>\4</suggestion>
-      <example correction="o">Foi considerado por muitos cientistas <marker>como sendo o</marker> pai da Matemática.</example>
-      <example correction="o">O procedimento é considerado <marker>como sendo o</marker> que faltou à polícia.</example>
-      <example>Uma sessão de login é considerada a vida útil de um processo de usuário.</example>
-      <example>A polícia definiu o termo como sendo os atos de guerra contra os estados.</example>
-      <example>de representações sociais como nesse trabalho, enfocam-se significações, sentimentos e conceitos como sendo a própria realidade.</example>
-      <example>O Sistema de Crenças é definido como sendo o conjunto de argumentos e os respetivos pesos.</example>
     </rule>
 
 
