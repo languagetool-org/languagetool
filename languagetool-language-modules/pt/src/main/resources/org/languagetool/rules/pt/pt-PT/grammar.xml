@@ -68,6 +68,7 @@
     <!ENTITY pronomes_informais "contigo|t[ao]s?|teus?|tuas?|t[uie]">
 
 
+    <!ENTITY verbos_informais "és|estás|tens|tenhas">
     <!ENTITY verbos_de_ligacao "andar|assemelhar|continuar|estar|ficar|parecer|permanecer|semelhar|ser|virar">
     <!ENTITY verbos_pronominais "apelidar|chamar|denominar">
     <!ENTITY negacoes "jamais|nada|não|nem|nenhum|nenhuma|nenhumas|nenhuns|ninguém|nunca|sem|tampouco">
@@ -5219,13 +5220,15 @@
       <antipattern>
         <token postag='NC.+|AQ.+|NP.+|VMN0000|VMN03.+|VMG0000' postag_regexp='yes'/>
         <token min="0" max="1" postag='CC|RG|SPS00|(SPS00:)?[DP][ADIPRT].+|_PUNCT|VMP00.+|VMIP3.+' postag_regexp='yes'>
-          <exception regexp='yes'>&pronomes_informais;</exception>
+          <exception regexp='yes'>&pronomes_informais;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
         </token>
         <token postag='RM' postag_regexp='no'/>
         <token min="0" max="1" postag='CC|RG|SPS00|(SPS00:)?[DP][ADIPRT].+|_PUNCT|VMP00.+|VMIP3.+' postag_regexp='yes'>
-          <exception regexp='yes'>&pronomes_informais;</exception>
+          <exception regexp='yes'>&pronomes_informais;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
         </token>
-        <token postag='VM[IS]P2S0|VMM02S0|VMII2S0' postag_regexp='yes'/> <!-- Verbs to fix informalities 2023-02-27 (27-FEB-2023+) -->
+        <token postag='VM[IS]P2S0|VMM02S0|VMII2S0' postag_regexp='yes'> <!-- Verbs to fix informalities 2023-02-27 (27-FEB-2023+) -->
+          <exception regexp='yes'>&verbos_informais;</exception>
+        </token>
         <example>Tudo depende de fatores historicamente contingentes.</example>
         <example>Evento dedicou um dia inteiro da programação dos cinemas exclusivamente a filmes nacionais, com ingressos por apenas R$ 2.</example>
         <example>..., passaram para criaturas de boas condutas interpretadas por atores anões com máscaras extremamente toscas (eles falam, mas suas bocas praticamente não se mexem).</example>
@@ -5240,6 +5243,41 @@
         <example>...vestigação científica ou tecnológica, tem uma parte ou a totalidade dos seus serviços, nomeadamente salas de aula e laboratórios.</example>
         <example>Alguns perfumes são classificados tradicionalmente como perfumes femininos.</example>
         <example>Já não vou ao cinema tão frequentemente como antes.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-02-27 (Checked/Enhanced) (27-FEB-2023+) *END* -->
+
+      <!-- MARCOAGPINTO 2023-02-27 (Checked/Enhanced) (27-FEB-2023+) *START* -->
+      <antipattern>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception scope="previous" postag_regexp='yes' postag='SPS00|PP.+|DI.+|CS|SPS00:DA.+|RG|PI.+|SPS00:DI.+'/>
+          <exception postag_regexp='yes' postag='RN|RG'/> <!-- "Nada desejes de outrem." -->
+        </token>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <token min="0" max="1" postag='CSxxx|RGxxx|RN|CC|SPS00|SPS00:DA.+' postag_regexp='yes'/>
+        <token postag='VM[IS]P2S0|VMM02S0|VMII2S0' postag_regexp='yes'> <!-- Verbs to fix informalities 2023-02-27 (27-FEB-2023+) -->
+          <exception regexp='yes'>&verbos_informais;</exception>
+        </token>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <token postag='DP3.PS|SPS00|SPS00:DI.+|NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='V.+|PP.+|RG'/>
+          <exception regexp='yes'>&pronomes_informais;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
+        </token>
+        <token>
+          <exception postag_regexp='yes' postag='V.+|PP.+|RG|SENT_END'/>
+          <exception regexp='yes'>&pronomes_informais;</exception> <!-- To fix informalities 2023-02-27 (27-FEB-2023+) -->
+        </token>
+        <example>Aprendi a conhecer as pessoas, não pelas suas palavras, mas pelas suas ações.</example>
+        <example>...décadas passou a representar a comunicação digital (talvez consequência do céu e do mar, principais vias de troca à longas distâncias).</example>
+        <example>Os profissionais trazem em seu currículos 25 anos de trabalho em um dos maiores fabricantes de maquinas para wafer do pais.</example>
+        <example>Mais do que a web, o governo hoje tem em sua defesa várias emissoras de rádio e TV, sites, agencias de notícias etc.</example>
+        <example>IRMÃOS, rOGO A VÓS QUE OREM POR MIM POR BENÇAOS, GRAÇAS E VITORIAS NESSA SEMANA QUE SE INICIA.</example>
+        <example>isso é muito pouco pra ele hahahh eu acabei de adquirir dois volumes das cronicas de gelo e fogo e pretendo ler em breve, se eu gostar (provalvemente vou, todo mundo fala bem) e aca...</example>
+        <example>Bom, essa parte das musicas a gente mesmo fez.</example>
+        <example>Tenho algumas duvidas perante a projeção astral: se eu me projetar e tiver um vampirizador me sugando em meu quarto?</example>
+        <example>Com isso em mente, a OCP atribui tarefas aos policias para as zonas mais violentas da cidade, à espera que algum morresse no cumprimento do dever.</example>
+        <example>O artista havia publicado inúmeras músicas e remixes de outros artistas.</example>
+        <example>O estado da pupila de um indivíduo permite o diagnóstico de varias doenças, entre as quais distúrbios do sono (narcolepsia), esquizofrenia, Alzheimer, entre outras.</example>
+        <example>Desse mote surgem saborosos desencontros amorosos, confidencias íntimas, disputas pelo mesmo homem.</example>
       </antipattern>
       <!-- MARCOAGPINTO 2023-02-27 (Checked/Enhanced) (27-FEB-2023+) *END* -->
 
