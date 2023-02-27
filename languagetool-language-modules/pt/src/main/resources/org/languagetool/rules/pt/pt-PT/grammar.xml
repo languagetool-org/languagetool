@@ -65,6 +65,7 @@
     <!ENTITY pronomes_retos "ela|elas|ele|eles|eu|nós|tu|você|vocês|vós">
     <!ENTITY pronomes_ambiguos "a|as|mas|nos|o|os|se">
     <!ENTITY pronomes_nao_ambiguos "lha|lhas|lhe|lhes|lho|lhos|ma|me|mo|mos|ta|tas|te|to|tos|vos">
+    <!ENTITY pronomes_informais "contigo|t[ao]s?|teus?|tuas?|t[uie]">
 
 
     <!ENTITY verbos_de_ligacao "andar|assemelhar|continuar|estar|ficar|parecer|permanecer|semelhar|ser|virar">
@@ -5211,21 +5212,40 @@
       <url>https://pt.wikipedia.org/wiki/Distin%C3%A7%C3%A3o_t-v</url>
 
       <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (27-FEB-2023+)
       -->
 
-      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
+      <!-- MARCOAGPINTO 2023-02-27 (Checked/Enhanced) (27-FEB-2023+) *START* -->
       <antipattern>
-        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+|VMN0000|VMN03.+|VMG0000' postag_regexp='yes'/>
+        <token min="0" max="1" postag='CC|RG|SPS00|(SPS00:)?[DP][ADIPRT].+|_PUNCT|VMP00.+|VMIP3.+' postag_regexp='yes'>
+          <exception regexp='yes'>&pronomes_informais;</exception>
+        </token>
         <token postag='RM' postag_regexp='no'/>
-        <token postag='VMSP2S0' postag_regexp='no'/>
+        <token min="0" max="1" postag='CC|RG|SPS00|(SPS00:)?[DP][ADIPRT].+|_PUNCT|VMP00.+|VMIP3.+' postag_regexp='yes'>
+          <exception regexp='yes'>&pronomes_informais;</exception>
+        </token>
+        <token postag='VM[IS]P2S0|VMM02S0|VMII2S0' postag_regexp='yes'/> <!-- Verbs to fix informalities 2023-02-27 (27-FEB-2023+) -->
         <example>Tudo depende de fatores historicamente contingentes.</example>
+        <example>Evento dedicou um dia inteiro da programação dos cinemas exclusivamente a filmes nacionais, com ingressos por apenas R$ 2.</example>
+        <example>..., passaram para criaturas de boas condutas interpretadas por atores anões com máscaras extremamente toscas (eles falam, mas suas bocas praticamente não se mexem).</example>
+        <example>Hoje, o mercado para bebês tem várias opções extremamente fofas.</example>
+        <example>Com esse aplicativo será possível consultar diretamente nas bases da Receita Federal informações sobre liberação das restituições do IRPF e a situação cadastral de u...</example>
+        <example>Pegue seu exemplar gratuitamente nos melhores eventos dançantes da cidade.</example>
+        <example>Em 1940, nova mudança somente nas cores: fundo verde e as letras "P" e "I" na cor vermelha.</example>
+        <example>...ssertações, Magma pensa prestar um serviço cultural relevante a alunos, professores e eventualmente editores.</example>
+        <example>Vejo os crimes perpetrados diariamente nas ruas.</example>
+        <example>No terceiro, novamente perguntas livres entre candidatos.</example>
+        <example>O macrocéfalo ou cachalote vive principalmente nos mares do norte.</example>
+        <example>...vestigação científica ou tecnológica, tem uma parte ou a totalidade dos seus serviços, nomeadamente salas de aula e laboratórios.</example>
+        <example>Alguns perfumes são classificados tradicionalmente como perfumes femininos.</example>
+        <example>Já não vou ao cinema tão frequentemente como antes.</example>
       </antipattern>
-      <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+      <!-- MARCOAGPINTO 2023-02-27 (Checked/Enhanced) (27-FEB-2023+) *END* -->
 
       <!-- MARCOAGPINTO 2022-12-21 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
-        <token postag='SENT_START|DI.+|Z0.+' postag_regexp='yes'/> <!-- Add more as they appear, a full check with a blank token only generated the three results below. -->
+        <token postag='SENT_START|DI.+|Z0.+' postag_regexp='yes'/> <!-- Add more as they appear, a check with a blank token only generated the three results below. -->
         <token>comes</token>
         <token>e</token>
         <token>bebes</token>
