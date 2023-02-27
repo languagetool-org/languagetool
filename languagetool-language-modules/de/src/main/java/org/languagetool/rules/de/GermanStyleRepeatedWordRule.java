@@ -182,7 +182,9 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
       return false;
     }
     String lowerTokenText = StringTools.lowercaseFirstChar(tokenText);
-    if (lowerTokenText.equals("frei")) {
+    if (lowerTokenText.equals("frei")
+        || (lowerTokenText.equals("alten") && testTokenText.endsWith("halten"))
+        ) {
       return false;
     }
     if (StringTools.lowercaseFirstChar(testTokenText).startsWith(lowerTokenText)) {
