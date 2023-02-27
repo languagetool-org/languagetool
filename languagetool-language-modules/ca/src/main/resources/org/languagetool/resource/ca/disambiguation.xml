@@ -8986,6 +8986,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^V].*"/>
     </rule>
     <rulegroup id="qui_les_porta" name="qui pronom verb 3a persona sing">
+        <antipattern>
+            <token>la</token>
+            <token>carbonara</token>
+        </antipattern>
         <rule>
             <pattern>
                 <token><exception regexp="yes">allò|després|abans|malgrat</exception><exception postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">fer|aconseguir</exception></token>
@@ -19122,6 +19126,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token regexp="yes" spacebefore="yes">\p{L}</token>
                 <marker>
                     <token regexp="yes" spacebefore="yes">\p{L}</token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="sufixos_prefixos" name="sufixos i prefixos">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>-</token>
+                    <token regexp="yes" spacebefore="no">ista|isme</token>
                 </marker>
             </pattern>
             <disambig action="immunize"/>
