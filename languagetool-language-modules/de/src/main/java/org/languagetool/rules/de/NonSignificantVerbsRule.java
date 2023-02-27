@@ -58,7 +58,8 @@ public class NonSignificantVerbsRule extends AbstractStatisticStyleRule {
       return true;
     } else if (tokens[num].hasLemma("machen")) {
       for (int i = 1; i < tokens.length; i++) {
-        if ("Angst".equals(tokens[i].getToken()) || "frisch".equals(tokens[i].getToken()) || "bemerkbar".equals(tokens[i].getToken()) ||
+        if ("Angst".equals(tokens[i].getToken()) || "Weg".equals(tokens[i].getToken()) || 
+            "frisch".equals(tokens[i].getToken()) || "bemerkbar".equals(tokens[i].getToken()) ||
             "aufmerksam".equals(tokens[i].getToken())) {
           return true;
         }
@@ -68,14 +69,16 @@ public class NonSignificantVerbsRule extends AbstractStatisticStyleRule {
       if (isHaben) {
         for (int i = 1; i < tokens.length; i++) {
           String sToken = tokens[i].getToken();
-          if (sToken.equals("Glück") || sToken.equals("Angst") || sToken.equals("Recht") || sToken.equals("recht")) {
+          if (sToken.equals("Glück") || sToken.equals("Angst")  || sToken.equals("Mühe") || 
+              sToken.equals("Recht") || sToken.equals("recht")) {
             return true;
           }
         }
       }  
       if (isHaben || tokens[num].hasLemma("sein")) {
         for (int i = 1; i < tokens.length; i++) {
-          if (tokens[i].hasPosTagStartingWith("PA2") || tokens[i].hasPosTagStartingWith("VER:PA2") || isUnknownWord(tokens[i])) {
+          if (tokens[i].hasPosTagStartingWith("PA2") || tokens[i].hasPosTagStartingWith("VER:PA2") || 
+              "Flucht".equals(tokens[i].getToken()) || isUnknownWord(tokens[i])) {
             return true;
           }
         }
