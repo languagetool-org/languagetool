@@ -22994,6 +22994,15 @@ O namorado dela era um ladrão.
     <rulegroup id='COMER_A_REFEICAO' name="Comer + Determinante + Refeição">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-02 -->
       <url>https://pt.everybodywiki.com/Lista_de_pleonasmos</url>
+      <antipattern>
+        <token postag='_PUNCT_COMMA'/>
+        <token>como</token>
+        <token regexp='yes'>o|a</token>
+        <token regexp='yes'>almoço|jantar|lanche|ceia|refeição</token>
+        <token regexp='yes'>,|e|ou</token>
+        <example>às refeições, como o almoço e o café da tarde.</example>
+        <example>necessita fazer alguma coisa, como o almoço ou o jantar</example>
+      </antipattern>
       <rule>
         <pattern>
           <token inflected='yes'>comer</token>
