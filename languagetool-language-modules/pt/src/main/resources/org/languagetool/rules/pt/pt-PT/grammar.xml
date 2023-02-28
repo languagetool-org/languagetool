@@ -66,6 +66,7 @@
     <!ENTITY pronomes_ambiguos "a|as|mas|nos|o|os|se">
     <!ENTITY pronomes_nao_ambiguos "lha|lhas|lhe|lhes|lho|lhos|ma|me|mo|mos|ta|tas|te|to|tos|vos">
     <!ENTITY pronomes_informais "contigo|t[ao]s?|teus?|tuas?|t[uie]">
+    <!ENTITY pronomes_possessivos "del[ae]s?|meus?|noss[ao]s?|seus?|suas?|teus?|tuas?|voss[ao]s?">
 
 
     <!ENTITY verbos_informais "és|estás|tens|tenhas">
@@ -2836,12 +2837,37 @@
 
 
     <rulegroup id="POSSESSIVE_WITHOUT_ARTICLE" name="[pt-PT] Determinante possessivo sem artigo">
-      <!-- Improved by Tiago F. Santos, Portuguese rule, 2016-10-18 	-->
-      <!--     Base rule id="A_SUA" name="a sua" by Marco Pinto	-->
+      <!-- Improved by Tiago F. Santos, Portuguese rule, 2016-10-18 -->
+      <!--     Base rule id="A_SUA" name="a sua" by Marco Pinto -->
       <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (27-FEB-2023+)
       -->
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
+
+        <!-- MARCOAGPINTO 2023-02-28 (Checked/Enhanced) (27-FEB-2023+) *START* -->
+        <antipattern>
+          <token inflected='yes'>ser</token>
+          <token postag='RG|CC' postag_regexp='yes'>
+            <exception regexp='yes'>assim|como|quando</exception> <!-- Add exceptions here when found -->
+          </token>
+          <token regexp='yes'>&pronomes_possessivos;</token>
+          <token><exception postag_regexp='yes' postag='AQ.+'/></token>
+          <example>A verdade é sempre tua, e ninguém pode mudar isso.</example>
+          <example>A tua verdade é só tua.</example>
+          <example>A verdade é apenas tua.</example>
+          <example>Isto é apenas para teu conhecimento.</example>
+          <example>Ele é quase meu irmão: neto do primo do tio de um conhecido.</example>
+          <example>O namorado dela é apenas meu amigo.</example>
+          <example>Você não é mais meu amigo.</example>
+          <example>Tom não é mais meu aluno.</example>
+          <example>Dormir em silêncio e esparramada até meio dia é dez vezes melhor do que de conchinha com seres e suas idiossincrasias nasais.</example>
+          <example>Não sou mais seu treinador.</example>
+          <example>Se você se juntar às forças especiais, não será mais meu filho.</example>
+          <example>Eu, simplesmente, quero ser apenas sua amiga.</example>
+          <example>Sou apenas seu humilde servo, minha deusa.</example>
+          <example>Não sou mais seu professor.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2023-02-28 (Checked/Enhanced) (27-FEB-2023+) *START* -->
 
         <!-- MARCOAGPINTO 2022-10-25 (Checked/Enhanced) (25-JUL-2022+) *START* -->
         <!-- zero hits in 600 000 sentences -->
