@@ -13890,7 +13890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">super|súper</token>
                     <token min="0">-</token>
-                    <token postag="A.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">super .*</exception><exception>cercano</exception></token>
+                    <token postag="A.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">super .*</exception><exception regexp="yes">cercano|super</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="super$1" case_conversion="alllower"/></suggestion>
@@ -14212,6 +14212,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="seudo$1"/></suggestion>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="seudor$1"/></suggestion>
                 <example correction="seudorreferéndum">Fue un <marker>seudo-referéndum</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>extra</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">....+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="extra$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="extrar$1"/></suggestion>
+                <example correction="extraordinario">Fue <marker>extra ordinario</marker>.</example>
+                <example correction="extrarradio">Fue en el <marker>extra-radio</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
