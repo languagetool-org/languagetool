@@ -82,6 +82,7 @@ import org.languagetool.openoffice.DocumentCache.TextParagraph;
 import org.languagetool.openoffice.OfficeDrawTools.UndoMarkupContainer;
 import org.languagetool.openoffice.OfficeTools.DocumentType;
 import org.languagetool.openoffice.OfficeTools.RemoteCheck;
+import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -118,6 +119,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private final static String moreButtonName = messages.getString("guiMore"); 
   private final static String ignoreButtonName = messages.getString("guiOOoIgnoreButton"); 
   private final static String ignoreAllButtonName = messages.getString("guiOOoIgnoreAllButton"); 
+  private final static String ignorePermanentButtonName = messages.getString("loContextMenuIgnorePermanent"); 
+  private final static String resetIgnorePermanentButtonName = messages.getString("loMenuResetIgnorePermanent"); 
   private final static String ignoreRuleButtonName = messages.getString("guiOOoIgnoreRuleButton"); 
   private final static String deactivateRuleButtonName = messages.getString("loContextMenuDeactivateRule"); 
   private final static String addToDictionaryName = messages.getString("guiOOoaddToDictionary");
@@ -144,6 +147,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private final static String moreButtonHelp = messages.getString("loDialogMoreButtonHelp"); 
   private final static String ignoreButtonHelp = messages.getString("loDialogIgnoreButtonHelp"); 
   private final static String ignoreAllButtonHelp = messages.getString("loDialogIgnoreAllButtonHelp"); 
+  private final static String ignorePermanentButtonHelp = messages.getString("loDialogIgnorePermanentButtonHelp"); 
+  private final static String resetIgnorePermanentButtonHelp = messages.getString("loDialogResetIgnorePermanentButtonHelp"); 
   private final static String deactivateRuleButtonHelp = messages.getString("loDialogDeactivateRuleButtonHelp"); 
   private final static String activateRuleButtonHelp = messages.getString("loDialogActivateRuleButtonHelp"); 
   private final static String addToDictionaryHelp = messages.getString("loDialogAddToDictionaryButtonHelp");
@@ -714,14 +719,17 @@ public class SpellAndGrammarCheckDialog extends Thread {
     public String ruleId;
     public String word;
     public Map<Integer, List<Integer>> orgParas;
+    public IgnoredMatches ignoredMatches;
     
-    UndoContainer(int x, int y, String action, String ruleId, String word, Map<Integer, List<Integer>> orgParas) {
+    UndoContainer(int x, int y, String action, String ruleId, String word, Map<Integer, 
+        List<Integer>> orgParas, IgnoredMatches ignoredMatches) {
       this.x = x;
       this.y = y;
       this.action = action;
       this.ruleId = ruleId;
       this.orgParas = orgParas;
       this.word = word;
+      this.ignoredMatches = ignoredMatches;
     }
   }
 
@@ -748,7 +756,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final static int toolTipWidth = 300;
     
     private final static int dialogWidth = 640;
-    private final static int dialogHeight = 525;
+    private final static int dialogHeight = 600;
 
     private UndoMarkupContainer undoMarkup;
 
@@ -769,6 +777,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private final JRadioButton[] checkTypeButtons;
     private final JButton more; 
     private final JButton ignoreOnce; 
+    private final JButton ignorePermanent; 
+    private final JButton resetIgnorePermanent; 
     private final JButton ignoreAll; 
     private final JButton deactivateRule;
     private final JComboBox<String> addToDictionary; 
@@ -834,6 +844,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       close = new JButton (closeButtonName);
       more = new JButton (moreButtonName);
       ignoreOnce = new JButton (ignoreButtonName);
+      ignorePermanent = new JButton (ignorePermanentButtonName);
+      resetIgnorePermanent = new JButton (resetIgnorePermanentButtonName);
       ignoreAll = new JButton (ignoreAllButtonName);
       deactivateRule = new JButton (deactivateRuleButtonName);
       addToDictionary = new JComboBox<String> ();
@@ -1066,6 +1078,16 @@ public class SpellAndGrammarCheckDialog extends Thread {
         ignoreOnce.setActionCommand("ignoreOnce");
         ignoreOnce.setToolTipText(formatToolTipText(ignoreButtonHelp));
         
+        ignorePermanent.setFont(dialogFont);
+        ignorePermanent.addActionListener(this);
+        ignorePermanent.setActionCommand("ignorePermanent");
+        ignorePermanent.setToolTipText(formatToolTipText(ignorePermanentButtonHelp));
+        
+        resetIgnorePermanent.setFont(dialogFont);
+        resetIgnorePermanent.addActionListener(this);
+        resetIgnorePermanent.setActionCommand("resetIgnorePermanent");
+        resetIgnorePermanent.setToolTipText(formatToolTipText(resetIgnorePermanentButtonHelp));
+        
         ignoreAll.setFont(dialogFont);
         ignoreAll.addActionListener(this);
         ignoreAll.setActionCommand("ignoreAll");
@@ -1262,6 +1284,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
         cons21.gridy++;
         rightPanel1.add(ignoreOnce, cons21);
         cons21.gridy++;
+        rightPanel1.add(ignorePermanent, cons21);
+        cons21.gridy++;
         rightPanel1.add(ignoreAll, cons21);
         cons21.gridy++;
         rightPanel1.add(deactivateRule, cons21);
@@ -1286,6 +1310,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
         cons22.gridy++;
         rightPanel2.add(autoCorrect, cons22);
         rightPanel2.add(activateRule, cons22);
+        cons22.gridy++;
+        rightPanel2.add(resetIgnorePermanent, cons22);
         
         //  Define language panel
         JPanel checkTypePanel = new JPanel();
@@ -1612,6 +1638,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
     private void setAtWorkButtonState(boolean work) {
       checkProgress.setIndeterminate(true);
       ignoreOnce.setEnabled(false);
+      ignorePermanent.setEnabled(false);
+      resetIgnorePermanent.setEnabled(false);
       ignoreAll.setEnabled(false);
       deactivateRule.setEnabled(false);
       change.setEnabled(false);
@@ -1671,6 +1699,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         help.setEnabled(true);
         options.setEnabled(true);
         close.setEnabled(true);
+        resetIgnorePermanent.setEnabled(true);
         if (sentenceIncludeError == null || errorDescription == null || suggestions == null) {
           MessageHandler.printToLogFile("CheckDialog: findNextError: SentenceIncludeError == null || errorDescription == null || suggestions == null");
           error = null;
@@ -1744,6 +1773,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             addToDictionary.setEnabled(true);
             changeAll.setEnabled(true);
             autoCorrect.setEnabled(true);
+            ignorePermanent.setEnabled(false);
           } else {
             ignoreAll.setText(ignoreRuleButtonName);
             addToDictionary.setVisible(false);
@@ -1751,6 +1781,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             deactivateRule.setVisible(true);
             deactivateRule.setEnabled(true);
             autoCorrect.setEnabled(false);
+            ignorePermanent.setEnabled(true);
           }
           informationUrl = getUrl(error);
           more.setEnabled(informationUrl != null);
@@ -2030,11 +2061,17 @@ public class SpellAndGrammarCheckDialog extends Thread {
               public void run() {
                 try {
                   if (action.getActionCommand().equals("ignoreOnce")) {
-                  setAtWorkButtonState();
-                  ignoreOnce();
+                    setAtWorkButtonState();
+                    ignoreOnce();
                   } else if (action.getActionCommand().equals("ignoreAll")) {
                     setAtWorkButtonState();
                     ignoreAll();
+                  } else if (action.getActionCommand().equals("ignorePermanent")) {
+                    setAtWorkButtonState();
+                    ignorePermanent();
+                  } else if (action.getActionCommand().equals("resetIgnorePermanent")) {
+                    setAtWorkButtonState();
+                    resetIgnorePermanent();
                   } else if (action.getActionCommand().equals("deactivateRule")) {
                     setAtWorkButtonState();
                     deactivateRule();
@@ -2111,6 +2148,27 @@ public class SpellAndGrammarCheckDialog extends Thread {
       }
       currentDocument.setIgnoredMatch(x, y, error.aRuleIdentifier, true);
       addUndo(x, y, "ignoreOnce", error.aRuleIdentifier);
+      gotoNextError();
+    }
+
+    /**
+     * set the information to ignore the match at the given position permanent
+     * @throws Throwable 
+     */
+    private void ignorePermanent() throws Throwable {
+      x = error.nErrorStart;
+      currentDocument.setPermanentIgnoredMatch(x, y, error.aRuleIdentifier, true);
+      addUndo(x, y, "ignorePermanent", error.aRuleIdentifier);
+      gotoNextError();
+    }
+
+    /**
+     * set the information to ignore the match at the given position permanent
+     * @throws Throwable 
+     */
+    private void resetIgnorePermanent() throws Throwable {
+      addUndo(y, "resetIgnorePermanent", currentDocument.getPermanentIgnoredMatches());
+      currentDocument.resetIgnorePermanent();
       gotoNextError();
     }
 
@@ -2473,25 +2531,30 @@ public class SpellAndGrammarCheckDialog extends Thread {
     }
     
     private void addUndo(int y, String action, String ruleId, String word) throws Throwable {
-      addUndo(0, y, action, ruleId, word, null);
+      addUndo(0, y, action, ruleId, word, null, null);
     }
     
     private void addUndo(int x, int y, String action, String ruleId, Map<Integer, List<Integer>> orgParas) throws Throwable {
-      addUndo(x, y, action, ruleId, null, orgParas);
+      addUndo(x, y, action, ruleId, null, orgParas, null);
     }
     
-    private void addUndo(int x, int y, String action, String ruleId, String word, Map<Integer, List<Integer>> orgParas) throws Throwable {
+    private void addUndo(int y, String action, IgnoredMatches ignoredMatches) throws Throwable {
+      addUndo(0, y, action, null, null, null, ignoredMatches);
+    }
+    
+    private void addUndo(int x, int y, String action, String ruleId, String word, Map<Integer, 
+        List<Integer>> orgParas, IgnoredMatches ignoredMatches) throws Throwable {
       if (undoList.size() >= maxUndos) {
         undoList.remove(0);
       }
-      undoList.add(new UndoContainer(x, y, action, ruleId, word, orgParas));
+      undoList.add(new UndoContainer(x, y, action, ruleId, word, orgParas, ignoredMatches));
     }
 
     /**
      * add undo information for change function (general)
      */
     private void addChangeUndo(int x, int y, String word, String replace, Map<Integer, List<Integer>> orgParas) throws Throwable {
-      addUndo(x, y, "change", replace, word, orgParas);
+      addUndo(x, y, "change", replace, word, orgParas, null);
     }
     
     /**
@@ -2516,7 +2579,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
       xVals.add(nStart);
       xVals.add(nLen);
       paraMap.put(nFlat, xVals);
-      addUndo(0, nFlat, "changeLanguage", originalLanguage, null, paraMap);
+      addUndo(0, nFlat, "changeLanguage", originalLanguage, null, paraMap, null);
     }
 
     /**
@@ -2538,6 +2601,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
         }
         if (action.equals("ignoreOnce")) {
           currentDocument.removeIgnoredMatch(xUndo, yUndo, lastUndo.ruleId, true);
+        } else if (action.equals("ignorePermanent")) {
+          currentDocument.removePermanentIgnoredMatch(xUndo, yUndo, lastUndo.ruleId, true);
+        } else if (action.equals("resetIgnorePermanent")) {
+          currentDocument.setPermanentIgnoredMatches(lastUndo.ignoredMatches);
         } else if (action.equals("ignoreAll")) {
           if (lastUndo.ruleId.equals(spellRuleId)) {
             if (debugMode) {

@@ -101,11 +101,12 @@ class SingleDocument {
   private int lastChangedPara;                    //  lastPara which was detected as changed
   private List<Integer> lastChangedParas;         //  lastPara which was detected as changed
   private IgnoredMatches ignoredMatches;          //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
+  private IgnoredMatches permanentIgnoredMatches; //  Map of matches (number of paragraph, number of character) that should be ignored permanent
   private final DocumentType docType;             //  save the type of document
   private boolean disposed = false;               //  true: document with this docId is disposed - SingleDocument shall be removed
   private boolean resetDocCache = false;          //  true: the cache of the document should be reseted before the next check
   private boolean hasFootnotes = true;            //  true: Footnotes are supported by LO/OO
-  private boolean hasSortedTextId = true;            //  true: Node Index is supported by LO
+  private boolean hasSortedTextId = true;         //  true: Node Index is supported by LO
   private boolean isLastIntern = false;           //  true: last check was intern
   private boolean isRightButtonPressed = false;   //  true: right mouse Button was pressed
   private boolean isOnUnload = false;             //  Document will be closed
@@ -143,6 +144,7 @@ class SingleDocument {
     }
     resetResultCache();
     ignoredMatches = new IgnoredMatches();
+    permanentIgnoredMatches = new IgnoredMatches();
     if (docCursor == null) {
       docCursor = new DocumentCursorTools(xComponent);
     }
@@ -246,7 +248,7 @@ class SingleDocument {
       //  NOTE: LO blocks the read of information by document or view cursor tools till a PROOFINFO_GET_PROOFRESULT request is done
       //        This causes a hanging of LO when the request isn't answered immediately by a 0 matches result
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage,
-          docLanguage, ignoredMatches, numParasToCheck, true, isMouseRequest, false);
+          docLanguage, ignoredMatches, permanentIgnoredMatches, numParasToCheck, true, isMouseRequest, false);
       paRes.aErrors = singleCheck.checkParaRules(paraText, locale, footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false);
       docCursor = null;
       viewCursor = null;
@@ -335,7 +337,7 @@ class SingleDocument {
         startTime = System.currentTimeMillis();
       }
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage,
-          docLanguage, ignoredMatches, numParasToCheck, isDialogRequest, isMouseRequest, isIntern);
+          docLanguage, ignoredMatches, permanentIgnoredMatches, numParasToCheck, isDialogRequest, isMouseRequest, isIntern);
       paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, lt, paraNum, 
           paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, lastChangedPara);
       lastSinglePara = singleCheck.getLastSingleParagraph();
@@ -585,7 +587,7 @@ class SingleDocument {
         for (int i = 0; i < cacheIO.getParagraphsCache().size(); i++) {
           paragraphsCache.get(i).replace(cacheIO.getParagraphsCache().get(i));
         }
-        ignoredMatches = new IgnoredMatches(cacheIO.getIgnoredMatches());
+        permanentIgnoredMatches = new IgnoredMatches(cacheIO.getIgnoredMatches());
         if (docType == DocumentType.WRITER && mDocHandler != null) {
           mDocHandler.runShapeCheck(docCache.hasUnsupportedText(), 9);
         }
@@ -604,7 +606,7 @@ class SingleDocument {
       for (int i = 0; i < this.paragraphsCache.size(); i++) {
         paragraphsCache.add(new ResultCache(this.paragraphsCache.get(i)));
       }
-      cacheIO.saveCaches(docCache, paragraphsCache, ignoredMatches, config, mDocHandler);
+      cacheIO.saveCaches(docCache, paragraphsCache, permanentIgnoredMatches, config, mDocHandler);
     }
   }
   
@@ -794,7 +796,7 @@ class SingleDocument {
   public void runQueueEntry(TextParagraph nStart, TextParagraph nEnd, int cacheNum, int nCheck, boolean override, SwJLanguageTool lt) {
     if (!disposed && flatPara != null && docCache.isFinished() && nStart.number < docCache.textSize(nStart)) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara,
-          fixedLanguage, docLanguage, ignoredMatches, numParasToCheck, false, false, false);
+          fixedLanguage, docLanguage, ignoredMatches, permanentIgnoredMatches, numParasToCheck, false, false, false);
       singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, 
           nEnd.number == nStart.number + 1, override, false, hasFootnotes);
     }
@@ -803,7 +805,7 @@ class SingleDocument {
   private void remarkChangedParagraphs(List<Integer> changedParas, boolean isIntern) {
     if (!disposed) {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage, docLanguage, 
-          ignoredMatches, numParasToCheck, false, false, isIntern);
+          ignoredMatches, permanentIgnoredMatches, numParasToCheck, false, false, isIntern);
 //      if (docCursor == null) {
 //        docCursor = new DocumentCursorTools(xComponent);
 //      }
@@ -876,6 +878,60 @@ class SingleDocument {
   }
   
   /**
+   * reset the permanent ignore cache
+   */
+  public void resetIgnorePermanent() {
+    List<Integer> changedParas = permanentIgnoredMatches.getAllParagraphs();
+    permanentIgnoredMatches = new IgnoredMatches();
+    remarkChangedParagraphs(changedParas, false);
+  }
+  
+  /**
+   * add a ignore once entry to queue and remove the mark
+   */
+  public String ignorePermanent() {
+    if (disposed) {
+      return null;
+    }
+    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
+    int y = docCache.getFlatParagraphNumber(viewCursor.getViewCursorParagraph());
+    int x = viewCursor.getViewCursorCharacter();
+    String ruleId = getRuleIdFromCache(y, x).ruleID;
+    setPermanentIgnoredMatch (x, y, ruleId, false);
+    return docID;
+  }
+  
+  /**
+   * add a ignore once entry for point x, y to queue and remove the mark
+   */
+  public void setPermanentIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
+    permanentIgnoredMatches.setIgnoredMatch(x, y, ruleId);
+    if (debugMode > 1) {
+      MessageHandler.printToLogFile("SingleDocument: setPermanentIgnoredMatch: DocumentType = " + docType + "; numParasToCheck = " + numParasToCheck);
+    }
+    if (docType == DocumentType.WRITER && numParasToCheck != 0) {
+      List<Integer> changedParas = new ArrayList<>();
+      changedParas.add(y);
+      remarkChangedParagraphs(changedParas, isIntern);
+    }
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("SingleDocument: setPermanentIgnoredMatch: Ignore Match added at: paragraph: " + y + "; character: " + x + "; ruleId: " + ruleId);
+    }
+  }
+  
+  public void setPermanentIgnoredMatches(IgnoredMatches ignoredMatches) {
+    List<Integer> changedParas = permanentIgnoredMatches.getAllParagraphs();
+    permanentIgnoredMatches = ignoredMatches;
+    remarkChangedParagraphs(changedParas, false);
+    changedParas = permanentIgnoredMatches.getAllParagraphs();
+    remarkChangedParagraphs(changedParas, false);
+  }
+  
+  public IgnoredMatches getPermanentIgnoredMatches() {
+    return permanentIgnoredMatches;
+  }
+  
+  /**
    * remove all ignore once entries for paragraph y from queue and set the mark
    */
   public void removeAndShiftIgnoredMatch(int from, int to, int oldSize, int newSize) {
@@ -924,6 +980,22 @@ class SingleDocument {
     }
     if (debugMode > 0) {
       MessageHandler.printToLogFile("SingleDocument: removeIgnoredMatch: Ignore Match removed at: paragraph: " + y + "; character: " + x);
+    }
+  }
+  
+  /**
+   * remove a ignore Permanent entry for point x, y from queue and set the mark
+   * if x < 0 remove all ignore once entries for paragraph y
+   */
+  public void removePermanentIgnoredMatch(int x, int y, String ruleId, boolean isIntern) {
+    permanentIgnoredMatches.removeIgnoredMatch(x, y, ruleId);
+    if (numParasToCheck != 0) {
+      List<Integer> changedParas = new ArrayList<>();
+      changedParas.add(y);
+      remarkChangedParagraphs(changedParas, isIntern);
+    }
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("SingleDocument: removePermanentIgnoredMatch: Ignore Match removed at: paragraph: " + y + "; character: " + x);
     }
   }
   
@@ -1159,6 +1231,13 @@ class SingleDocument {
      */
     public void put(int y, Map<String, Set<Integer>> ruleAtX) {
       ignoredMatches.put(y, ruleAtX);
+    }
+
+    /**
+     * get all paragraphs containing ignored matches
+     */
+    public List<Integer> getAllParagraphs() {
+      return new ArrayList<Integer>(ignoredMatches.keySet());
     }
   }
   

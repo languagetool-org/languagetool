@@ -88,6 +88,7 @@ class SingleCheck {
   private final Language docLanguage;               //  docLanguage (usually the Language of the first paragraph)
   private final Language fixedLanguage;             //  fixed language (by configuration); if null: use language of document (given by LO/OO)
   private final IgnoredMatches ignoredMatches;      //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
+  private final IgnoredMatches permanentIgnoredMatches; //  Map of matches (number of paragraph, number of character) that should be ignored permanent
   private DocumentCursorTools docCursor;            //  Save document cursor for the single document
   private FlatParagraphTools flatPara;              //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
 
@@ -98,7 +99,8 @@ class SingleCheck {
   private List<Integer> changedParas;               //  List of changed paragraphs after editing the document
   
   SingleCheck(SingleDocument singleDocument, List<ResultCache> paragraphsCache, DocumentCursorTools docCursor,
-      FlatParagraphTools flatPara, Language fixedLanguage, Language docLanguage, IgnoredMatches ignoredMatches, 
+      FlatParagraphTools flatPara, Language fixedLanguage, Language docLanguage, 
+      IgnoredMatches ignoredMatches, IgnoredMatches permanentIgnoredMatches, 
       int numParasToCheck, boolean isDialogRequest, boolean isMouseRequest, boolean isIntern) {
     debugMode = OfficeTools.DEBUG_MODE_SC;
     this.singleDocument = singleDocument;
@@ -112,6 +114,7 @@ class SingleCheck {
     this.docLanguage = docLanguage;
     this.fixedLanguage = fixedLanguage;
     this.ignoredMatches = ignoredMatches;
+    this.permanentIgnoredMatches = permanentIgnoredMatches;
     mDocHandler = singleDocument.getMultiDocumentsHandler();
     xComponent = singleDocument.getXComponent();
     docCache = singleDocument.getDocumentCache();
@@ -425,10 +428,12 @@ class SingleCheck {
    * Filter ignored errors (from ignore once)
    */
   private SingleProofreadingError[] filterIgnoredMatches (SingleProofreadingError[] unFilteredErrors, int nPara) {
-    if (!ignoredMatches.isEmpty() && ignoredMatches.containsParagraph(nPara)) {
+    if ((!ignoredMatches.isEmpty() && ignoredMatches.containsParagraph(nPara)) || 
+        (!permanentIgnoredMatches.isEmpty() && permanentIgnoredMatches.containsParagraph(nPara))){
       List<SingleProofreadingError> filteredErrors = new ArrayList<>();
       for (SingleProofreadingError error : unFilteredErrors) {
-        if (!ignoredMatches.isIgnored(error.nErrorStart, error.nErrorStart + error.nErrorLength, nPara, error.aRuleIdentifier)) {
+        if (!ignoredMatches.isIgnored(error.nErrorStart, error.nErrorStart + error.nErrorLength, nPara, error.aRuleIdentifier) &&
+            !permanentIgnoredMatches.isIgnored(error.nErrorStart, error.nErrorStart + error.nErrorLength, nPara, error.aRuleIdentifier)) {
           filteredErrors.add(error);
         }
       }

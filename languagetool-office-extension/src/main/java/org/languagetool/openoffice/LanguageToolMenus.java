@@ -116,6 +116,7 @@ public class LanguageToolMenus {
     private static final String TOOLS_COMMAND = ".uno:ToolsMenu";             //  Command to open tools menu
     private static final String COMMAND_BEFORE_LT_MENU = ".uno:LanguageMenu";   //  Command for Language Menu (LT menu is installed after)
                                                       //  Command to Switch Off/On LT
+    private static final String LT_RESET_IGNORE_PERMANENT_COMMAND = "service:org.languagetool.openoffice.Main?resetIgnorePermanent";   
     private static final String LT_TOGGLE_BACKGROUND_CHECK_COMMAND = "service:org.languagetool.openoffice.Main?toggleBackgroundCheck";   
     private static final String LT_Options_COMMAND = "service:org.languagetool.openoffice.Main?configure";   
     private static final String LT_PROFILE_COMMAND = "service:org.languagetool.openoffice.Main?profileChangeTo:";
@@ -167,7 +168,7 @@ public class LanguageToolMenus {
       for (short i = 0; i < ltMenu.getItemCount(); i++) {
         String command = ltMenu.getCommand(ltMenu.getItemId(i));
         if (LT_Options_COMMAND.equals(command)) {
-          switchOffId = (short)101;
+          switchOffId = (short)102;
           switchOffPos = (short)(i - 1);
           break;
         }
@@ -176,6 +177,10 @@ public class LanguageToolMenus {
         MessageHandler.printToLogFile("LanguageToolMenus: LTHeadMenu: switchOffId not found");
         return;
       }
+      ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuResetIgnorePermanent"), (short)0, switchOffPos);
+      ltMenu.setCommand(switchOffId, LT_RESET_IGNORE_PERMANENT_COMMAND);
+      switchOffId--;
+      switchOffPos++;
       ltMenu.insertItem(switchOffId, MESSAGES.getString("loMenuEnableBackgroundCheck"), (short)0, switchOffPos);
       ltMenu.setCommand(switchOffId, LT_TOGGLE_BACKGROUND_CHECK_COMMAND);
       toolsMenu.addMenuListener(this);
@@ -347,6 +352,8 @@ public class LanguageToolMenus {
           if (document.getMultiDocumentsHandler().toggleNoBackgroundCheck()) {
             document.getMultiDocumentsHandler().resetCheck(); 
           }
+        } else if (event.MenuId == switchOffId + 1) {
+          document.resetIgnorePermanent();
         } else if (event.MenuId == switchOffId + SUBMENU_ID_DIFF) {
           runProfileAction(null);
         } else if (event.MenuId > switchOffId + SUBMENU_ID_DIFF && event.MenuId <= switchOffId + SUBMENU_ID_DIFF + definedProfiles.size()) {
@@ -383,6 +390,7 @@ public class LanguageToolMenus {
     private final static String ADD_TO_DICTIONARY_3 = "slot:3";
     private final static String LT_OPTIONS_URL = "service:org.languagetool.openoffice.Main?configure";
     private final static String LT_IGNORE_ONCE = "service:org.languagetool.openoffice.Main?ignoreOnce";
+    private final static String LT_IGNORE_PERMANENT = "service:org.languagetool.openoffice.Main?ignorePermanent";
     private final static String LT_DEACTIVATE_RULE = "service:org.languagetool.openoffice.Main?deactivateRule";
     private final static String LT_ACTIVATE_RULE = "service:org.languagetool.openoffice.Main?activateRule_";
     private final static String LT_REMOTE_HINT = "service:org.languagetool.openoffice.Main?remoteHint";   
@@ -536,14 +544,20 @@ public class LanguageToolMenus {
               }
               XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
 
+              XPropertySet xNewMenuEntry3 = UnoRuntime.queryInterface(XPropertySet.class,
+                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
+              xNewMenuEntry3.setPropertyValue("Text", MESSAGES.getString("loContextMenuIgnorePermanent"));
+              xNewMenuEntry3.setPropertyValue("CommandURL", LT_IGNORE_PERMANENT);
+              xContextMenu.insertByIndex(i + 1, xNewMenuEntry3);
+              
               XPropertySet xNewMenuEntry1 = UnoRuntime.queryInterface(XPropertySet.class,
                   xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
               xNewMenuEntry1.setPropertyValue("Text", MESSAGES.getString("loContextMenuDeactivateRule"));
               xNewMenuEntry1.setPropertyValue("CommandURL", LT_DEACTIVATE_RULE);
-              xContextMenu.insertByIndex(i + 2, xNewMenuEntry1);
+              xContextMenu.insertByIndex(i + 3, xNewMenuEntry1);
               
               int nId = i + 4;
-              
+/*              
               Map<String, String> deactivatedRulesMap = document.getMultiDocumentsHandler().getDisabledRulesMap(null);
 
               if (!deactivatedRulesMap.isEmpty()) {
@@ -566,7 +580,7 @@ public class LanguageToolMenus {
                 xContextMenu.insertByIndex(i + 3, xNewMenuEntry3);
                 nId++;
               }
-              
+*/              
               if (isRemote) {
                 XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
                     xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));

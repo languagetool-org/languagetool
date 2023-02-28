@@ -1172,6 +1172,18 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * Call method ignorePermanent for concerned document 
+   */
+  public String ignorePermanent() {
+    for (SingleDocument document : documents) {
+      if (menuDocId.equals(document.getDocID())) {
+        return document.ignorePermanent();
+      }
+    }
+    return null;
+  }
+  
+  /**
    * Call method renewMarkups for concerned document 
    */
   public void renewMarkups() {
@@ -1507,6 +1519,8 @@ public class MultiDocumentsHandler {
         }
       } else if ("ignoreOnce".equals(sEvent)) {
         ignoreOnce();
+      } else if ("ignorePermanent".equals(sEvent)) {
+        ignorePermanent();
       } else if ("deactivateRule".equals(sEvent)) {
         deactivateRule();
       } else if (sEvent.startsWith("activateRule_")) {
