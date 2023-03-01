@@ -50142,6 +50142,31 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- NADA ME VEM À MENTE nada me ocorre -->
+    <rule id='NADA_PRONOME_VEM_À_MENTE_NADA_OCORRE' name="Nada + Pron. + vem à mente → Nada + Pron. + ocorre">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-01 (27-FEB-2023+) -->
+      <!--
+      Contudo, nada lhe vem à mente. → Contudo, nada lhe ocorre.
+      Contudo, nada vos vem à mente. → Contudo, nada vos ocorre.
+      Contudo, nada me vem à mente. → Contudo, nada me ocorre.
+      -->
+      <pattern>
+        <token>nada</token>
+        <token regexp='yes'>&pronomes_obliquos_sem_a_as_o_os;</token>
+        <marker>
+          <token>vem</token>
+          <token>à</token>
+          <token>mente</token>
+        </marker>
+      </pattern>
+      <message>A gramática poderá ser melhorada nesta perífrase.</message>
+      <suggestion>ocorre</suggestion>
+      <example correction="ocorre">Contudo, nada lhe <marker>vem à mente</marker>.</example>
+      <example correction="ocorre">Contudo, nada vos <marker>vem à mente</marker>.</example>
+      <example correction="ocorre">Contudo, nada me <marker>vem à mente</marker>.</example>
+    </rule>
+
+
     <!-- QUATRO OU MENOS SÃO SUFICIENTES até quatro são suficientes -->
     <rule id='ATE_NUMERO_NUMERO_OU_MENOS' name="Simplificar: NÚMERO + ou menos → até NÚMERO">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-23 (25-JUL-2022+) -->
