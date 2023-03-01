@@ -1592,6 +1592,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DIACRITICS" name="Diacríticos (tilde)" type="misspelling">
+        <rule id="EMEPECE" name="empece/empecé" default="temp_off">
+            <antipattern>
+                <token>no</token>
+                <token>empece</token>
+                <token>para</token>
+            </antipattern>
+            <antipattern>
+                <token>no</token>
+                <token>empece</token>
+                <token min="0">a</token>
+                <token>que</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>empece</token>
+                </marker>
+            </pattern>
+            <message>¿Quería decir "empecé" (pasado del v. 'empezar')? Correcto si es del v. 'empecer' (impedir, obstar).</message>
+            <suggestion><match no="1" regexp_match="(?iu)e$" regexp_replace="é" case_conversion="preserve"/></suggestion>
+            <example correction="Empecé"><marker>Empece</marker> a pensarlo.</example>
+        </rule>
         <rule id="COLERA" name="colera/cólera">
             <pattern>
                 <marker>
