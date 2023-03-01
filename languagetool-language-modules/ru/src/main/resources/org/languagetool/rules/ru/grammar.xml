@@ -2591,7 +2591,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern> <!-- #1093, #304 -->
                 <token skip="-1" postag="SENT_START" ><exception regexp="yes" scope="next">[,;:–—-]</exception></token>
                 <marker>
-                    <token postag="DPT:.*" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="DPT:.*" postag_regexp="yes" /><exception regexp="yes" scope="next">[,;:–—-]</exception></token>
+                    <token postag="DPT:.*" postag_regexp="yes" skip="-1"><exception postag="&lt;ADV&gt;" ></exception><exception negate_pos="yes" postag="DPT:.*" postag_regexp="yes" /><exception regexp="yes" scope="next">[,;:–—-]</exception></token>
                     <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes" scope="previous">[,;:–—-]</exception><exception regexp="yes" scope="next">[,;:–—-]</exception></token>
                 </marker>
                 <token postag="SENT_END"><exception postag="VB:.*" postag_regexp="yes" scope="previous"></exception></token>
@@ -3088,7 +3088,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <short>Пропущена запятая</short>
     	    <example correction="сабель, то есть">К Тамбову подступали две с половиной тысячи <marker>сабель то есть</marker> всего три полка.</example>
     	</rule>
-        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед «и», «как» в сложном предложении">
+        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед «и», «как» в сложном предложении" tags="picky" >
             <rule>
             <!--             VB:.*   NN:.*   и      VB:.*   NN:.*     -->
                 <antipattern>
@@ -3177,6 +3177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Могу ли я уточнить время и место нашей встречи?</example>
                 <example>Они сделали предложение и вызов бросили нам.</example>
                 <example>Нам пришлось уменьшить шаг сканирования и увеличить размер в настройках.</example>
+       <!--     <example>Пройдите опрос и получите шанс выиграть приз!</example>  -->
                 <example>Мой отец и брат мой.</example>
                 <example correction="Пролетели года, и время настало"><marker>Пролетели года и время настало</marker>.</example>
             </rule>                
