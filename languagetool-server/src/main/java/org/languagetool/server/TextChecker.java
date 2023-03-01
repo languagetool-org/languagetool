@@ -18,6 +18,8 @@
  */
 package org.languagetool.server;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -95,6 +97,8 @@ abstract class TextChecker {
   private final Set<DatabasePingLogEntry> pings = new HashSet<>();
 
   private long pingsCleanDateMillis = System.currentTimeMillis();
+
+  private final ObjectMapper objectMapper = new ObjectMapper();
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
@@ -135,9 +139,8 @@ abstract class TextChecker {
         config.getMaxCheckThreads(),
         config.getMaxCheckThreads() * remoteRuleCount * LtThreadPoolFactory.REMOTE_RULE_POOL_SIZE_FACTOR,
         -1,
-        5L, true, (thread, throwable) -> {
-          log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage());
-        },
+        5L, true, (thread, throwable) ->
+          log.error("Thread: " + thread.getName() + " failed with: " + throwable.getMessage()),
         true
       );
     }
@@ -192,9 +195,7 @@ abstract class TextChecker {
               .map(Languages::getLanguageForShortCode)
               .collect(Collectors.toList()));
     } else {
-      config.preferredLanguages.forEach(s -> {
-        prewarmLanguages.add(Languages.getLanguageForShortCode(s));
-      });
+      config.preferredLanguages.forEach(s -> prewarmLanguages.add(Languages.getLanguageForShortCode(s)));
     }
 
     List<String> addonDisabledRules = Collections.singletonList("WHITESPACE_RULE");
@@ -313,8 +314,19 @@ abstract class TextChecker {
       dictGroups.sort(Comparator.naturalOrder());
       dictName = "groups_" + String.join(",", dictGroups);
     }
-    List<String> dictWords = limits.getPremiumUid() != null ?
-      getUserDictWords(limits, dictGroups) : Collections.emptyList();
+
+    List<String> dictWords = new ArrayList<>(
+      limits.getPremiumUid() != null ? getUserDictWords(limits, dictGroups) : Collections.emptyList()
+    );
+
+    if (params.containsKey("dictionary")) {
+      try {
+        List<String> dictionaryData = objectMapper.readValue(params.get("dictionary"), new TypeReference<List<String>>(){});
+        dictWords.addAll(dictionaryData);
+      } catch (Exception e) {
+        throw new RuntimeException("'dictionary' should be a JSON array in string format.");
+      }
+    }
 
     boolean filterDictionaryMatches = "true".equals(params.get("filterDictionaryMatches"));
 
@@ -461,7 +473,6 @@ abstract class TextChecker {
       enabledCategories, disabledCategories, useEnabledOnly,
       useQuerySettings, allowIncompleteResults, enableHiddenRules, limits.getPremiumUid() != null && limits.hasPremium(), enableTempOffRules, mode, level, callback, inputLogging);
 
-    int textSize = length;
     List<CheckResults> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
     Future<List<CheckResults>> future;
     try {
@@ -542,7 +553,6 @@ abstract class TextChecker {
     setHeaders(httpExchange);
 
     List<RuleMatch> hiddenMatches = new ArrayList<>();
-    boolean temporaryPremiumDisabledRuleMatch = false;
     Set<String> temporaryPremiumDisabledRuleMatchedIds = new HashSet<>();
     // filter computed premium matches, convert to hidden matches - no separate hidden matches server needed
     if (!qParams.premium && qParams.enableHiddenRules) {
@@ -557,7 +567,6 @@ abstract class TextChecker {
             System.out.println("Rule: " + match.getRule().getId() + " is premium but temporary available in basic");
             filteredMatches.add(match);
             allMatches.add(match);
-            temporaryPremiumDisabledRuleMatch = true;
             temporaryPremiumDisabledRuleMatchedIds.add(match.getRule().getId());
           } else {
             // filter out premium matches
@@ -635,13 +644,13 @@ abstract class TextChecker {
 
     if (!Premium.isPremiumStatusCheck(aText)) { // exclude status checks from add-on from metrics
       ServerMetricsCollector.getInstance().logCheck(
-        lang, computationTime, textSize, matchCount, mode);
+        lang, computationTime, length, matchCount, mode);
 
       if (!config.isSkipLoggingChecks()) {
         // NOTE: Java/DB (not sure) can't keep up with logging the volume of new entries we've reached,
         // so we limit it to enterprise customers where we actually pay attention to the request limits
         if (limits.getRequestsPerDay() != null) {
-          DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
+          DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, length, matchCount,
             lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
           databaseLogger.log(logEntry);
         }
