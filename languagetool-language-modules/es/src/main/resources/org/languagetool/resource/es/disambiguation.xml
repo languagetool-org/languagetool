@@ -5945,6 +5945,10 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="D.*"/>
     </rule>
     <rule id="noun_nounverb" name="noun + verb/noun">
+        <antipattern>
+            <token>alas</token>
+            <token postag="NC[FC]P000" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token postag="N.*" postag_regexp="yes"><exception postag="V.*|D.*|A.*|V.P.*|_GV_|C.*|RG.*|complement|.*LOC.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&denominacion;|numeral</exception><exception regexp="yes">.*%</exception></token>
             <marker>
