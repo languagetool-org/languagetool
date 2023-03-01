@@ -1090,7 +1090,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <marker>
                         <token>but</token>
                     </marker>
-                    <token postag="VB(P|Z)?" postag_regexp="yes" chunk="B-VP" />
+                    <token postag="VB(P|Z|D)?" postag_regexp="yes" chunk="B-VP" />
                 </pattern>
                 <suggestion>, but</suggestion>
                 <example correction=", but">Some words are spelled or pronounced similarly<marker> but</marker> have two different meanings.</example>
@@ -1766,6 +1766,24 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token>:</token>
                 </pattern>
                 <example correction=""><marker>Finally</marker> official: Netflix will create a new ad-supported tier.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token>but</token>
+                </antipattern>
+                <pattern>
+                    <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" skip="-1" />
+                    <marker>
+                        <token>but</token>
+                    </marker>
+                    <token postag="VB.*" postag_regexp="yes" chunk="B-VP">
+                        <exception inflected="yes" regexp="yes">have|do|be</exception>
+                        <exception postag="MD" />
+                    </token>
+                </pattern>
+                <suggestion>, but</suggestion>
+                <example correction=", but">62% of Americans say they thought about "bouncing back" from a recent financial or personal tragedy<marker> but</marker> decided to nap instead.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
