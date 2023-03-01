@@ -44,6 +44,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">We did just <marker>fill</marker> the position.</example>
             </rule>
             <rule>
+                <pattern>
+                    <token inflected="yes" chunk="B-VP">be</token>
+                    <token min="0" inflected="yes">not</token>
+                    <marker>
+                        <token postag="VBG" chunk="I-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">I'm not <marker>finding</marker> the equation.</example>
+                <example correction="">All that is <marker>allowing</marker> us to do is operate our generators without the significant pollution restrictions.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token skip="7">since</token>
                     <token postag="V.*" postag_regexp="yes" chunk="B-VP" /> <!-- need chunk -->
@@ -60,6 +71,35 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Sami <marker>knows</marker> Layla since high school.</example>
                 <example>Sami knows Layla since they have the same instructor.</example>    <!-- since as because -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DT" />
+                    <token postag="PRP_S.*" postag_regexp="yes" />
+                    <token>'s</token>
+                    <token postag="VBN" />
+                    <token regexp="yes">is|was</token>
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VB" />
+                    </marker>
+                </pattern>
+                <example correction="">He thought if he killed us that we'd fall and shatter, But all that he's done is just <marker>make</marker> us madder.</example>
+                <example correction="">He thought if he killed us that we'd fall and shatter, But all he's done is just <marker>make</marker> us madder.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk_re="E-NP.*" />
+                    <token inflected="yes">go</token>
+                    <token postag="JJ" chunk="B-ADJP" />
+                    <token min="0" chunk="B-PP" />
+                    <token min="0" chunk="E-NP-singular" />
+                    <token postag="TO" />
+                    <marker>
+                        <token postag="VB" />
+                    </marker>
+                </pattern>
+                <example correction="">She went mad with delight to <marker>hear</marker> the news.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_CP_THE_THEY" name="">
