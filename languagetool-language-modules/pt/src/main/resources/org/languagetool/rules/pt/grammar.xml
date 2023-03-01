@@ -45448,28 +45448,31 @@ O namorado dela era um ladrão.
 
     <!-- MAS NÃO TERÁ UTILIDADE mas sem utilidade -->
     <rule id='MAS_EMBORA_CONTUDO_SEM' name="Expressões do tipo: 'não ter utilidade' → 'sem utilidade'" type='style'>
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 (25-JUL-2022+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-02-04 + 2023-03-01 (25-JUL-2022+) -->
       <!--
       Concluirei o doutoramento, embora não terá utilidade profissional. → Concluirei o doutoramento, embora sem utilidade profissional.
       Concluirei o doutoramento, embora não terá grande utilidade profissional. → Concluirei o doutoramento, embora sem grande utilidade profissional.
       Concluirei o doutoramento, embora não terá nenhuma utilidade profissional. → Concluirei o doutoramento, embora sem nenhuma utilidade profissional.
+      Fizeram estudos importantes, mas estes não tinham objetivos militares. → Fizeram estudos importantes, mas estes sem objetivos militares.
       -->
       <pattern>
         <token regexp='yes'>mas|embora|contudo</token>
+        <token min="0" max="1" postag='DD.+|PD.+' postag_regexp='yes'/>
         <marker>
           <token>não</token>
-          <token regexp='yes'>tenha|tenham|tem|têm|terá|terão</token>
+          <token regexp='yes'>tinha|tinham|tenha|tenham|tem|têm|terá|terão</token>
         </marker>
         <token min="0" max="1" postag='AQ.+|DI.+' postag_regexp='yes'>
-          <exception regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|interesse|precisão|uso|utilidade|utilização</exception>
+          <exception regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|fim|interesse|objetivo|precisão|uso|utilidade|utilização</exception>
         </token>
-        <token regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|interesse|precisão|uso|utilidade|utilização</token>
+        <token regexp='yes' inflected='yes'>aplicabilidade|empregabilidade|fiabilidade|fim|interesse|objetivo|precisão|uso|utilidade|utilização</token>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
       <suggestion>sem</suggestion>
       <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> utilidade profissional.</example>
       <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> grande utilidade profissional.</example>
       <example correction="sem">Concluirei o doutoramento, embora <marker>não terá</marker> nenhuma utilidade profissional.</example>
+      <example correction="sem">Fizeram estudos importantes, mas estes <marker>não tinham</marker> objetivos militares.</example>
     </rule>
 
 
