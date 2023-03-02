@@ -24120,6 +24120,14 @@ O namorado dela era um ladrão.
         <example correction='autobiografia'><marker>própria autobiografia</marker></example>
       </rule>
       <rule id='REDUNDANCY_PAÍSES' name="Pleonasmo: Países do mundo">
+        <antipattern>
+          <token><exception postag='Z.+|DI.+|DA.+' postag_regexp='yes'/></token>
+          <token inflected='yes'>país</token>
+          <token>do</token>
+          <token>mundo</token>
+          <token>.</token>
+          <example>Na minha opinião a Austrália é um dos melhores países do mundo.</example>
+        </antipattern>
         <pattern>
           <token inflected='yes'>país</token>
           <token>do</token>
@@ -24128,6 +24136,7 @@ O namorado dela era um ladrão.
         <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
         <example correction='países'><marker>países do mundo</marker></example>
+        <example correction='países'>Ocorre em cerca de cem <marker>países do mundo</marker>.</example>
       </rule>
       <rule id='REDUNDANCY_VIÚVO' name="Pleonasmo: Viúvo da falecida">
         <pattern>
