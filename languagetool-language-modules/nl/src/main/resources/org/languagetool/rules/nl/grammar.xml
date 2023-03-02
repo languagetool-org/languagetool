@@ -350,6 +350,17 @@ regexp case-insensitive maken: (?i)
     </category>
 
     <category id="GRAMMAR" name="Grammaticaregels">
+        <rule id="MEN_MIJN" name="Appels zijn men (mijn) favoriete fruitsoort" type="misspelling" default="temp_off">
+            <pattern>
+                <token>zijn</token>
+                <marker>
+                    <token>men</token>
+                </marker>
+            </pattern>
+            <message>Misschien bedoelt u <suggestion>m'n</suggestion> of <suggestion>mijn</suggestion>.</message>
+            <example correction="m'n|mijn">Dit zijn <marker>men</marker> grootste prestaties.</example>
+            <example correction="m'n|mijn">Zij zijn <marker>men</marker> beste vrienden.</example>
+        </rule>
         <rulegroup id="AFTE" name="afte lopen/af te lopen">
             <rule>
                 <pattern>
