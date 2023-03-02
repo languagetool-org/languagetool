@@ -110,6 +110,35 @@ public class MissingCommaRelativeClauseRule extends Rule {
         new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("sollen|können|müssen").build()
       ),
       Arrays.asList(
+        // Komma an der falschen Stelle
+        csToken("ja"),
+        csToken("was")
+      ),
+      Arrays.asList(
+        // Komma an der falschen Stelle
+        posRegex("SENT_START|PKT"),
+        csToken("aber"),
+        regex("solange|wenn|wo|wie|was"),
+        regex("du|er|sie|sich|man|euch|uns|die|der|das")
+      ),
+      Arrays.asList(
+        // Komma an der falschen Stelle
+        csToken("selbst"),
+        csToken("wenn"),
+        regex("du|er|sie|sich|man|euch|uns|die|der|das"),
+        regex("die|der|das")
+      ),
+      Arrays.asList(
+        // Komma an der falschen Stelle
+        csToken("wie"),
+        regex("die|der|das")
+      ),
+      Arrays.asList( 
+        // Kein Komma in "weder ... noch ..."
+        new PatternTokenBuilder().setSkip(12).matchInflectedForms().token("weder").build(),
+        token("noch")
+      ),
+      Arrays.asList(
         posRegex("VER:.*1:SIN:KJ1:.+"),
         posRegex("VER:MOD:[12]:.+"),
         posRegex("PKT|KON:NEB")

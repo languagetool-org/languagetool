@@ -422,6 +422,7 @@ public class German extends Language implements AutoCloseable {
       case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
       case "MEHRERE_WOCHE_PREMIUM": return -2;  // less prio than DE_AGREEMENT
       case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
+      case "KUDAMM": return -2;   // overwrite spell checker
       case "ALTERNATIVEN_FUER_ANGLIZISMEN" : return -2;   // overwrite spell checker
       case "ANGLIZISMUS_INTERNAL" : return -2;   // overwrite spell checker
       case "DOPPELUNG_VER_MOD_AUX": return -2;
