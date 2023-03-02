@@ -3937,13 +3937,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <!-- APARECE NO ECRÃ UM NÚMERO aparece um número no ecrã -->
     <rulegroup id='COLOCACAO_ADVERBIOS_LUGAR' name="Colocação de advérbios no lugar">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-13 + 2022-08-15 (17-MAR-2021+)      -->
+      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-13 + 2022-08-15 + 2023-03-02 (17-MAR-2021+)      -->
       <!-- RULE NEEDS TO BE REWRITTEN FOR MORE RECENT TOKEN USAGE -->
       <!-- Jaume suggested creating three rules since there was a bug with max="3" -->
 
       <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
+
+      <!-- MARCOAGPINTO 2023-03-02 (2-MAR-2023+) *START* -->
+      <antipattern>
+        <token regexp='yes' inflected='yes'>ir|ser</token>
+        <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='DI.+|Z0.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+        <example>O Rui foi na realidade um homem empreendedor.</example>
+        <example>Chamado de "deserto do Jalapão", ele é na realidade um grande oásis pois apresenta nascentes e córregos que juntos compõem belíssimas cachoeiras e corredeiras em parce...</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-03-02 (2-MAR-2023+) *END* -->
+
+      <!-- MARCOAGPINTO 2023-03-02 (2-MAR-2023+) *START* -->
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
+        <token regexp='yes'>hot(el|éis)|restaurantes?</token>
+        <token postag='Z0.+' postag_regexp='yes'/>
+        <token regexp='yes'>estrelas?</token>
+        <example>Ficamos num hotel três estrelas.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-03-02 (2-MAR-2023+) *END* -->	  
 
       <!-- MARCOAGPINTO 2022-12-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
@@ -3965,7 +3988,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         Assim aparece no ecrã um número. → Assim aparece um número no ecrã.
         -->
         <pattern>
-          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='VMIF2.+'/> <!-- "farás" 2023-03-02 -->
+            <exception scope="next" postag_regexp='no' postag='SPS00:RG'/> <!-- "daqui" 2023-03-02 -->
+            <exception scope="previous" postag_regexp='no' postag='CS'/> <!-- "já" 2023-03-02 -->
+          </token>
           <marker>
             <token postag='SPS00.+' postag_regexp='yes'>
               <exception regexp='yes'>às?|aos?|d[ao]s?|pel[ao]s?</exception>
@@ -4002,7 +4029,11 @@ O namorado dela era um ladrão.
         Assim aparece no ecrã um número grande. → Assim aparece um número grande no ecrã.
         -->
         <pattern>
-          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='VMIF2.+'/> <!-- "farás" 2023-03-02 -->
+            <exception scope="next" postag_regexp='no' postag='SPS00:RG'/> <!-- "daqui" 2023-03-02 -->
+            <exception scope="previous" postag_regexp='no' postag='CS'/> <!-- "já" 2023-03-02 -->
+          </token>
           <marker>
             <token postag='SPS00.+' postag_regexp='yes'>
               <exception regexp='yes'>às?|aos?|d[ao]s?|pel[ao]s?</exception>
@@ -4033,7 +4064,11 @@ O namorado dela era um ladrão.
         Assim aparece no ecrã um número muito grande. → Assim aparece um número muito grande no ecrã.
         -->
         <pattern>
-          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='V.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='VMIF2.+'/> <!-- "farás" 2023-03-02 -->
+            <exception scope="next" postag_regexp='no' postag='SPS00:RG'/> <!-- "daqui" 2023-03-02 -->
+            <exception scope="previous" postag_regexp='no' postag='CS'/> <!-- "já" 2023-03-02 -->
+          </token>
           <marker>
             <token postag='SPS00.+' postag_regexp='yes'>
               <exception regexp='yes'>às?|aos?|d[ao]s?|pel[ao]s?</exception>
