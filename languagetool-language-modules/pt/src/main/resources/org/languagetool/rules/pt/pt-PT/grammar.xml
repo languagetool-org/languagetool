@@ -220,7 +220,7 @@
       <!-- Based on Catalan grammar.xml by Tiago F. Santos,  2017-09-05      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/toponimos-com-ou-sem-artigo/24569</url>
       <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
 
       <!-- MARCOAGPINTO 2022-12-04 (Checked/Enhanced) (25-JUL-2022+) *START* -->
@@ -268,21 +268,13 @@
         <token postag_regexp='yes' postag='N.F.+'/>
       </antipattern>
       <rule>
-        <!-- MARCOAGPINTO 2020-11-22 (21-OCT-2020+) *START* -->
-        <!-- "O mais aproximado é a Rua da Coxa em Bragança." -->
-        <!-- "Na mesma época foi criado o conceito de Europa Latina." -->
-        <antipattern>
-          <token regexp='yes'>a|de</token>
-          <token postag_regexp='yes' postag='NP[CF].+'/>
-        </antipattern>
-        <!-- MARCOAGPINTO 2020-11-22 (21-OCT-2020+) *END* -->
         <pattern>
           <token postag="SPS00"/><!-- TODO rethink postag_regexp='yes' CC|SENT_START Belize, Honduras e Panamá usam também a língua inglesa.-->
           <marker>
             <token regexp="yes" case_sensitive="yes">&paises_com_artigo;|&outros_toponimos_com_artigo;</token>
           </marker>
         </pattern>
-        <message>Este nome geográfico é precedido de um artigo.</message>
+        <message>Este nome geográfico é precedido de um artigo (contração obrigatória depois).</message>
         <suggestion><match no='2' postag="NP(..).+" postag_regexp="yes" postag_replace="DA0$1." case_conversion="alllower">o</match> \2</suggestion>
         <example correction="o Peru">Vão a <marker>Peru</marker>.</example><!-- XXX a o handled by CONTRACOES_OBRIGATORIAS -->
         <example correction="os EUA">Vão a <marker>EUA</marker>.</example><!-- XXX a os handled by CONTRACOES_OBRIGATORIAS -->
