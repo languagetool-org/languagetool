@@ -112,6 +112,10 @@ public class CacheIO implements Serializable {
       return null;
     }
     File cacheDir = OfficeTools.getCacheDir();
+    if (cacheDir == null) {
+      MessageHandler.printToLogFile("CacheIO: getCachePath: cacheDir == null!");
+      return null;
+    }
     if (DEBUG_MODE) {
       MessageHandler.printToLogFile("CacheIO: getCachePath: cacheDir: " + cacheDir.getAbsolutePath());
     }
@@ -173,7 +177,7 @@ public class CacheIO implements Serializable {
     String cachePath = getCachePath(true);
     if (cachePath != null) {
       try {
-        if (exceedsSaveSize(docCache)) {
+        if (!ignoredMatches.isEmpty() || exceedsSaveSize(docCache)) {
           allCaches = new AllCaches(docCache, paragraphsCache, mDocHandler.getAllDisabledRules(), config.getDisabledRuleIds(), config.getDisabledCategoryNames(), 
               config.getEnabledRuleIds(), ignoredMatches, JLanguageTool.VERSION);
           saveAllCaches(cachePath);

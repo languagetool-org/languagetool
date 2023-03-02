@@ -304,6 +304,7 @@ public class German extends Language implements AutoCloseable {
       case "VERWANDET_VERWANDTE": return 1; // prefer over DE_CASE
       case "IN_DEUTSCHE_SPRACHE": return 1; // prefer over most other rules
       case "SCHMIERE_STEHEN": return 1; // prefer over most other rules
+      case "UEBER_EIN_MANGEL": return 1; // prefer over PRAEP_AKK
       case "SEIT_LAENGEREN": return 1; // prefer over DE_CASE
       case "WIR_GEFUEHL": return 1; // prefer over DE_CASE
       case "VORHER_NACHHER_BILD": return 1; // prefer over DE_CASE
@@ -421,6 +422,7 @@ public class German extends Language implements AutoCloseable {
       case "ICH_INF_PREMIUM": return -2; // prefer more specific rules that offer a suggestion (e.g. SUBJECT_VERB_AGREEMENT)
       case "MEHRERE_WOCHE_PREMIUM": return -2;  // less prio than DE_AGREEMENT
       case "DOPPELTER_NOMINATIV": return -2;  // give precedence to wie-wir-wird confusion rules
+      case "KUDAMM": return -2;   // overwrite spell checker
       case "ALTERNATIVEN_FUER_ANGLIZISMEN" : return -2;   // overwrite spell checker
       case "ANGLIZISMUS_INTERNAL" : return -2;   // overwrite spell checker
       case "DOPPELUNG_VER_MOD_AUX": return -2;
@@ -465,6 +467,7 @@ public class German extends Language implements AutoCloseable {
       case "BEI_VERB": return -14; // prefer case, spelling and AI rules
       case "MODALVERB_FLEKT_VERB": return -14; // prefer case, spelling and AI rules
       case "DATIV_NACH_PRP": return -14; // spelling and AI rules
+      case "DAT_ODER_AKK_NACH_PRP": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "SENT_START_SIN_PLU": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "SENT_START_PLU_SIN": return -14; // prefer more specific rules that offer a suggestion (A.I., spelling)
       case "VER_INFNOMEN": return -14;  // prefer spelling and AI rules
@@ -492,11 +495,11 @@ public class German extends Language implements AutoCloseable {
       case "REPETITIONS_STYLE": return -60;
       case "MAN_SIEHT_SEHR_SCHOEN": return -14; // prefer over SEHR_SCHOEN
       // Category ids - make sure style issues don't hide overlapping "real" errors:
+      case "TYPOGRAPHY": return -14;
       case "COLLOQUIALISMS": return -15;
       case "STYLE": return -15;
       case "REDUNDANCY": return -15;
       case "GENDER_NEUTRALITY": return -15;
-      case "TYPOGRAPHY": return -15;
     }
     if (id.startsWith("CONFUSION_RULE_")) {
       return -1;

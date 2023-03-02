@@ -503,7 +503,14 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "she gave god", // vs good
       "he gave god", // vs good
       "believed in god", // vs good
-      "faith with god" // vs good
+      "faith with god", // vs good
+      "days where", // vs were
+      "where, when and why", // vs were
+      "where, when, and why", // vs were
+      "where, when and how", // vs were
+      "where, when, and how", // vs were
+      "where, when and who", // vs were
+      "where, when, and who" // vs were
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(

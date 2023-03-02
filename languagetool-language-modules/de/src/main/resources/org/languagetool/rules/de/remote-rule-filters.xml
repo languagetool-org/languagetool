@@ -780,6 +780,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Wir kennen Menschen, <marker>die</marker> Avocados auf dem Balkon anbauen.</example>
             </rule>
+            <rule>
+                <regexp case_sensitive="no" mark="1">[;,\-–](\s+die)</regexp>
+                <example correction="">Die API VFR ist in Teilen kostenpflichtig,<marker> Die</marker> sorgt für Unmut.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive="no" mark="1">^@[a-zäöüß\.\-0-9]+(\s+die)</regexp>
+                <example correction="">@Emanuel<marker> die</marker> ist eine aus diesem Issue.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive="yes" mark="2">^@[A-ZÄÖÜ][a-zäöüß\-0-9]+\s+(v[ao]n\s+)?[A-ZÄÖÜ][a-zäöüß\-0-9]+(\s+die)</regexp>
+                <example correction="">@Emanuel Peter<marker> die</marker> ist eine aus diesem Issue.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DA_CDA" name="">
             <rule>
@@ -815,6 +827,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Ich weiß &#8291; <marker>das</marker> ist einer aus diesem Issue.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive="no" mark="1">[;,\-–](\s+das)</regexp>
+                <example correction="">Die API VFR ist in Teilen kostenpflichtig,<marker> Das</marker> sorgt für Unmut.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CP_DAS_DASS" name="">

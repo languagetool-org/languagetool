@@ -67,6 +67,7 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("елементів множини A. Отже, нехай");
     
     testSplit("Опергрупа приїхала в с. Лісове.");
+    testSplit("Біля с. Березичі.");
     testSplit("300 р. до н. е.");
     testSplit("З 300 р. до н.е., і по цей день.");
     testSplit("Пролісок (рос. пролесок) — маленька квітка.");
@@ -134,6 +135,8 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("Ради нар. депутатів");
     testSplit("нар. арт. ", "України");
     testSplit("біля нар. ", "У таких умовах");
+
+    testSplit("поч. 1945 - кін. 1946 р.");
   }
   
   @Test

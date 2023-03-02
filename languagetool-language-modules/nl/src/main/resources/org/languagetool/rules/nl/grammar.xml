@@ -350,6 +350,17 @@ regexp case-insensitive maken: (?i)
     </category>
 
     <category id="GRAMMAR" name="Grammaticaregels">
+        <rule id="MEN_MIJN" name="Appels zijn men (mijn) favoriete fruitsoort" type="misspelling" default="temp_off">
+            <pattern>
+                <token>zijn</token>
+                <marker>
+                    <token>men</token>
+                </marker>
+            </pattern>
+            <message>Misschien bedoelt u <suggestion>m'n</suggestion> of <suggestion>mijn</suggestion>.</message>
+            <example correction="m'n|mijn">Dit zijn <marker>men</marker> grootste prestaties.</example>
+            <example correction="m'n|mijn">Zij zijn <marker>men</marker> beste vrienden.</example>
+        </rule>
         <rulegroup id="AFTE" name="afte lopen/af te lopen">
             <rule>
                 <pattern>
@@ -362,6 +373,17 @@ regexp case-insensitive maken: (?i)
                 <example correction="af te">Het hoeft nog niet <marker>afte</marker> lopen.</example>
             </rule>
         </rulegroup>
+        <rule id="IS_JOUW_MRV" name="Dit is (zijn) jouw auto's" type="misspelling" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>is</token>
+                </marker>
+                <token>jouw</token>
+                <token postag_regexp="yes" postag="ZNW:MRV:DE_"></token>
+            </pattern>
+            <message>\3 is meervoud, dus het zou moeten zijn '<suggestion>zijn</suggestion> jouw \3'.</message>
+            <example correction="zijn">Dit <marker>is</marker> jouw auto's.</example>
+        </rule>
     </category>
 
     <category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
@@ -45787,6 +45809,7 @@ steenwijk;Steenwijk
                 <example correction="seconde|seconden|s">Het duurt 15 <marker>sec</marker> lang.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="AFKO_PUNTEN" name="Afkortingen zonder punt" tags="picky" >
             <rule>
                 <pattern>
@@ -45807,6 +45830,48 @@ steenwijk;Steenwijk
                 <message>In deze afkorting horen punten.</message>
                 <suggestion>i.p.v.</suggestion>
                 <example correction="i.p.v.">Het is fout <marker>ipv</marker> de regels.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LS_IS" name="ls / Is" >
+            <rule>
+                <antipattern><token postag="SENT_START"/><token/><token skip="-1"/><token case_sensitive="yes">ls</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ls</token>
+                    </marker>
+                </pattern>
+                <message>Is de 'l' hier niet toevallig een 'I'?</message>
+                <suggestion>Is</suggestion>
+                <example correction="Is">- <marker>ls</marker> m'n bureau leeggeruimd?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DOET-IE" name="Doet-ie / doet ie">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">.*-ie</token>
+                    </marker>
+                </pattern>
+                <message>Het koppelteken is hier incorrect, hoe gebruikelijk ook. Overigens is dit ongebruikelijk in verzorgde communicatie.</message>
+                <suggestion><match no="1" regexp_match='-' regexp_replace=' '/></suggestion>
+                <suggestion><match no="1" regexp_match='-ie' regexp_replace=' hij'/></suggestion>
+                <url>https://www.vlaanderen.be/taaladvies/taaladviezen/ie-komt-ie-komt-ie-komt-ie</url>
+                <example correction="Komt ie|Komt hij"><marker>Komt-ie</marker> nog?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ONS_BEIDE" name="Ons beide/ons beiden" >
+            <rule>
+                <antipattern><token>beide</token><token postag_regexp="yes" postag=".*MRV.*"/></antipattern>
+                <antipattern><token>beide</token><token postag_regexp="yes" postag="BNW.*VRB"/><token postag_regexp="yes" postag=".*MRV.*"/></antipattern>
+                <pattern>
+                    <token>ons</token>
+                    <marker>
+                        <token>beide</token>
+                    </marker>
+                </pattern>
+                <message>Wanneer naar mensen wordt verwezen, is het niet beide, maar beiden.</message>
+                <suggestion>beiden</suggestion>
+                <example correction="beiden">Hij laat het ons <marker>beide</marker> zien.</example>
             </rule>
         </rulegroup>
     </category>

@@ -178,6 +178,19 @@ Copyright (C) 2009-2023 Yakov Reztsov
         <example type="ambiguous" inputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom,телефон/NN:Inanim:Masc:Sin:V]" outputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom]">Где наш <marker>телефон</marker>?</example>
     </rule>
     --> 
+    <rule name="NOUN_V7" id="NOUN_V7">
+        <pattern>		   
+            <!-- все время  "время" только NN:.*:.*:.*:V  -->
+            <token regexp="yes" skip="1">всё|все|это|то</token>
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes">время</token>
+                    <token postag="NN:.*:.*:.*:V" postag_regexp="yes">время<exception postag="NN:.*:.*:.*:P" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
+    </rule>
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
             <!-- без  - родительный  -->

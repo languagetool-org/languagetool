@@ -48,6 +48,9 @@ public class SimpleReplaceSoftRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("у Трускавці."));
     assertEquals(0, matches.length);
 
+    matches = rule.match(lt.getAnalyzedSentence("завидна"));
+    assertEquals(0, matches.length);
+
     matches = rule.match(lt.getAnalyzedSentence("Цей брелок"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("дармовис"), matches[0].getSuggestedReplacements());

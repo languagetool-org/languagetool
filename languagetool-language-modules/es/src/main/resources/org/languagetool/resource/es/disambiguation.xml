@@ -2266,11 +2266,11 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <!-- SPECIAL CASES -->
-    <rule id="agua" name="agua">
+    <rule id="agua" name="agua, not verb">
         <pattern>
             <token postag="D.*" postag_regexp="yes"/>
             <marker>
-                <token postag="N.*" postag_regexp="yes" inflected="yes">agua</token>
+                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">agua|sustantivo</token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
@@ -2755,7 +2755,7 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="SP.*|LOC_PREP" postag_regexp="yes"><exception postag="PP.*|P0.*|RG.*|CS" postag_regexp="yes"/></token>
                 <marker>
                     <and>
-                        <token postag="N.*|A.*|RG|Z" postag_regexp="yes"/>
+                        <token postag="N.*|A.*|RG|Z|PI.*" postag_regexp="yes"/>
                         <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/></token>
                     </and>
                 </marker>
@@ -4651,6 +4651,21 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    <rule id="DDDN" name="todos los demás bienes">
+        <pattern>
+            <unify>
+                <feature id="numero"/>
+                <feature id="genero"/>
+                <marker>
+                    <token postag="DI.*" postag_regexp="yes" inflected="yes">todo</token>
+                    <token postag="D[AD].*" postag_regexp="yes"/>
+                    <token postag="DI.*" postag_regexp="yes">demás</token>
+                    <token postag="N.*|PI.*|A.*|V.P.*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="DDN" name=" Det + Det + Noun/Pronoun">
         <pattern>
             <unify>
@@ -5081,7 +5096,7 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="D.*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/><exception>lo</exception></token>
                 <marker>
                     <and>
-                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token postag="AQ.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">nuevo|precedente</exception></token>
                         <token negate_pos="yes" postag="V.*" postag_regexp="yes"/>
                     </and>
@@ -5930,6 +5945,10 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="D.*"/>
     </rule>
     <rule id="noun_nounverb" name="noun + verb/noun">
+        <antipattern>
+            <token>alas</token>
+            <token postag="NC[FC]P000" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <token postag="N.*" postag_regexp="yes"><exception postag="V.*|D.*|A.*|V.P.*|_GV_|C.*|RG.*|complement|.*LOC.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&denominacion;|numeral</exception><exception regexp="yes">.*%</exception></token>
             <marker>
@@ -7559,6 +7578,45 @@ Copyright (C) 2011 Juan Martorell
                 <token regexp="yes">\d+</token>
             </pattern>
             <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <!--  c o n c l u s i ó n -->
+            <pattern>
+                <marker>
+                    <token regexp="yes">\p{L}</token>
+                </marker>
+                <token regexp="yes">\p{L}</token>
+                <token regexp="yes">\p{L}</token>
+                <token regexp="yes">\p{L}</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <!--  c o n c l u s i ó n -->
+            <pattern>
+                <token regexp="yes">\p{L}</token>
+                <token regexp="yes">\p{L}</token>
+                <token regexp="yes">\p{L}</token>
+                <marker>
+                    <token regexp="yes">\p{L}</token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <!--  word in syllables -->
+            <pattern>
+                <marker>
+                    <token regexp="yes">\p{L}{1,4}</token>
+                    <token>/</token>
+                    <token regexp="yes">\p{L}{1,4}</token>
+                    <token>/</token>
+                    <token regexp="yes">\p{L}{1,4}</token>
+                    <token>/</token>
+                    <token regexp="yes">\p{L}{1,4}</token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
         </rule>
     </rulegroup>
     <rulegroup id="nombres_persona" name="nombres de persona abreviados">

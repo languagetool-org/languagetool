@@ -338,6 +338,9 @@ public class ConfigurationDialog implements ActionListener {
       cons.gridy++;
       cons.anchor = GridBagConstraints.WEST;
       jPane.add(getMotherTonguePanel(cons), cons);
+      cons.gridx = 0;
+      cons.gridy++;
+      jPane.add(getNgramPanel(), cons);
     }
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
@@ -1069,7 +1072,7 @@ public class ConfigurationDialog implements ActionListener {
     portPanel.add(saveCacheBox, cons);
 
     cons.gridy++;
-    portPanel.add(getNgramAndWord2VecPanel(), cons);
+    portPanel.add(getNgramPanel(), cons);
   }
   
   private int showRemoteServerHint(Component component, boolean otherServer) {
@@ -1484,7 +1487,7 @@ public class ConfigurationDialog implements ActionListener {
     return motherTonguePanel;
   }
 
-  private JPanel getNgramAndWord2VecPanel() {
+  private JPanel getNgramPanel() {
     JPanel panel = new JPanel();
     panel.setLayout(new GridBagLayout());
     GridBagConstraints cons1 = new GridBagConstraints();
@@ -1495,7 +1498,6 @@ public class ConfigurationDialog implements ActionListener {
     cons1.fill = GridBagConstraints.NONE;
     cons1.weightx = 0.0f;
     addNgramPanel(cons1, panel);
-    cons1.gridy++;
     return panel;
   }
 

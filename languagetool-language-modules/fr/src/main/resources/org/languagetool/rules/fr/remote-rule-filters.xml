@@ -318,6 +318,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Par son absence volontaire de <marker>conjonction</marker> de coordination.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">locutions?</token>
+                <marker>
+                    <token regexp="yes">interjectives?|adverbiales?|adjectivales?|conjonctives?|déterminatives?|nominales?|postpositives?|prépositionnelles?|verbales?|pronominales?</token>
+                </marker>
+                </pattern>
+                <example correction="">La locution <marker>interjective</marker> bon sang, mais c'est bien sûr ! est utilisée.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token regexp="yes">écriture|orthographe|accord|graphie</token>
+                    </marker>
+                    <token regexp="yes">du|de</token>
+                    <token min="0" max="1">l'</token>
+                    <token regexp="yes">mot|expression|locution|verbe|nom|adjectif|adverbe|pronom</token>
+                </pattern>
+                <example correction="">Un doute sur l'<marker>écriture</marker> de l'expression ?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_FR_HYDRA_LEO_MISSING_PERIOD" name="">
         <rule>

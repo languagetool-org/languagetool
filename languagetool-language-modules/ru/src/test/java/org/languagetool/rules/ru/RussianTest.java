@@ -33,7 +33,7 @@ public class RussianTest extends LanguageSpecificTest {
     String s = "Вставьте ваш текст сюда .. или проверьте этот текстт. Релиз LanguageTool 4.7 состоялся в четверг 28 сентября 2019 года.";
     Russian lang = new Russian();
     testDemoText(lang, s,
-      Arrays.asList("DOUBLE_PUNCTUATION", "UPPERCASE_SENTENCE_START", "MORFOLOGIK_RULE_RU_RU", "DATE_WEEKDAY1")
+      Arrays.asList( "DOUBLE_PUNCTUATION", "UPPERCASE_SENTENCE_START", "MORFOLOGIK_RULE_RU_RU", "DATE_WEEKDAY1")
     );
     runTests(lang);
   }

@@ -32,6 +32,10 @@ public abstract class AbstractSuppressIfAnyRuleMatchesFilter extends RuleFilter 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
+//    if (match.getSentence().getText().contains("t'ho has cregut")) {
+//      int ii=0;
+//      ii++;
+//    }
     List<String> ruleIDs = Arrays.asList(getRequired("ruleIDs", arguments).split(","));
     JLanguageTool lt = getJLanguageTool();
     String sentence = match.getSentence().getText();

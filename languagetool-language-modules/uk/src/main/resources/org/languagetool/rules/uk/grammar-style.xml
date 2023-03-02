@@ -978,6 +978,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <pattern>
+          <token inflected="yes">спільний</token>
+          <token inflected="yes">співпраця</token>
+        </pattern>
+        <message>Правильно: <suggestion><match no="2"/></suggestion>.</message>
+        <example correction="співпраці"><marker>спільної співпраці</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
           <token inflected="yes">звільнитися</token>
           <token regexp="yes">вакансі(я|ї)</token>
         </pattern>
@@ -2280,11 +2289,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">рідкий</token>
           </marker>
-          <token inflected="yes" regexp="yes">виключення|виняток</token>
+          <token inflected="yes" regexp="yes">виключення|виняток|випадок</token>
         </unify>
       </pattern>
       <message>Правильно: <suggestion>рідкісний</suggestion></message>
       <example correction="рідкісний">за <marker>рідкими</marker> винятками</example>
+      <example correction="рідкісний">за <marker>рідкими</marker> випадками</example>
     </rule>
 
     <rule id="konoplya" name="конопля">
@@ -2298,6 +2308,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Сучасні словники подають «коноплі» як можнинний іменник.</message>
       <example correction="">отруєння <marker>коноплею</marker>.</example>
       <example>різні коноплі</example>
+    </rule>
+
+    <rule id="za_stanom_na" name="За станом на">
+      <pattern>
+        <token>за</token>
+        <token>станом</token>
+        <token>на</token>
+      </pattern>
+      <message>Правильно: <suggestion>\2 \3</suggestion></message>
+      <example correction="станом на"><marker>за станом на</marker>.</example>
+    </rule>
+
+    <rule id="bratskyi_narod" name="Братський народ">
+      <pattern>
+        <marker>
+          <token inflected="yes">братський</token>
+        </marker>
+        <token>народ</token>
+      </pattern>
+      <message>Правильно: <suggestion>братній</suggestion></message>
+      <example correction="братній"><marker>братський</marker> народ.</example>
     </rule>
 
     <rule id="khresnyi_khreschenyi" name="хресний і хрещений">
@@ -3588,6 +3619,101 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Правильно: <suggestion>віддавати</suggestion></message>
       <example correction="віддавати">Він <marker>надавав</marker> перевагу іншому способу.</example>
     </rule>
+
+    <rule id="hola_pravda" name="Гола правда">
+      <pattern>
+        <marker>
+          <token inflected="yes">голий</token>
+        </marker>
+        <token inflected="yes">правда</token>
+      </pattern>
+      <message>Краще: <suggestion>чиста</suggestion></message>
+      <suggestion>щира</suggestion>
+      <example correction="чиста|щира"><marker>голу</marker> правду.</example>
+    </rule>
+
+    <rule id="durnyi_ton" name="Дурний тон">
+      <pattern>
+        <token inflected="yes">дурний</token>
+        <token inflected="yes">тон</token>
+      </pattern>
+      <message>Краще: <suggestion>поганий тон</suggestion></message>
+      <suggestion>моветон</suggestion>
+      <example correction="поганий тон|моветон"><marker>дурного тону</marker>.</example>
+    </rule>
+
+    <rulegroup id="granycia_kordon" name="Границя і кордон">
+      <rule>
+        <pattern>
+          <token>за</token>
+          <marker>
+            <token>границю</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>кордон</suggestion></message>
+        <example correction="кордон">за <marker>границю</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>з-за</token>
+          <marker>
+            <token>границі</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>кордону</suggestion></message>
+        <example correction="кордону">з-за <marker>границі</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="granycia_mezha" name="Границя і межа">
+      <rule>
+        <pattern>
+          <token>не</token>
+          <token inflected="yes">знати</token>
+          <marker>
+            <token>границь</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>меж</suggestion></message>
+        <example correction="меж">не знав <marker>границь</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">проводити|провести</token>
+          <marker>
+            <token>границю</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>межу</suggestion></message>
+        <example correction="межу">проводити <marker>границю</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">ставити|виставляти|поставити|виставити</token>
+          <marker>
+            <token>границі</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>межі</suggestion></message>
+        <example correction="межі">виставляв <marker>границі</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">переходити|перейти</token>
+          <token regexp="yes">всі|всілякі</token>
+          <token>границі</token>
+        </pattern>
+        <message>Краще: <suggestion>\1 \2 межі</suggestion></message>
+        <suggestion>перебрати всяку міру</suggestion>
+        <suggestion>зайти за край</suggestion>
+        <suggestion>перебрати</suggestion>
+        <example correction="перейшов всі межі|перебрати всяку міру|зайти за край|перебрати"><marker>перейшов всі границі</marker>.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="pryyemnogo_apetytu" name="Приємного апетиту і самчного">
       <pattern>

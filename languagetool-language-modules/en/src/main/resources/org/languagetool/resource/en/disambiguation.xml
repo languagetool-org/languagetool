@@ -2489,13 +2489,44 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="IN" />
             <token postag="DT|PRP\$" postag_regexp="yes" />
         </antipattern>
+        <antipattern>
+            <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token>from</token>
+            <token>this</token>
+            <token postag="VBZ" />
+            <token postag="P?DT|PRP\$" postag_regexp="yes" />
+        </antipattern> 
+        <antipattern>
+            <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token>due</token>
+            <token>to</token>
+            <token>this</token>
+            <token postag="VBZ" />
+            <token postag="P?DT|PRP\$" postag_regexp="yes" />
+        </antipattern> 
+        <antipattern>
+            <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+            <token postag="RB" min="0" />
+            <token regexp="yes">all|none?|much</token>
+            <token>of</token>
+            <token>this</token>
+            <token postag="VBZ" />
+            <token postag="P?DT|PRP\$" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token postag="IN"/>
+            <token>this</token>
+            <token postag="VBZ" chunk_re=".-VP" />
+        </antipattern>
         <pattern>
             <token postag="IN"/>
             <token regexp="yes">th(is|ese)</token>
             <marker>
                 <and>
                     <token postag="NNS"/>
-                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|ma(ke|tter)s|does|looks</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">means|works|combines|shows|leads|takes|lies|goes|stems|gives|ma(ke|tter)s|does|looks</exception></token>
                 </and>
             </marker>
         </pattern>
@@ -2538,6 +2569,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token regexp="yes">times|addresses</token>
         <token postag="DT"/>
       </antipattern>
+      <antipattern>
+        <token regexp="yes">this|that</token>
+        <token chunk="E-NP-plural" regexp="yes">times|addresses</token>
+        <token postag="PRP\$|P?DT" postag_regexp="yes" />
+      </antipattern>
       <pattern>
         <token postag="DT"/>
         <marker><token chunk="E-NP-plural" regexp="yes">times|addresses</token></marker>
@@ -2547,6 +2583,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">This addresses most major concerns.</example><!-- #2334. addresses/B-VP -->
       <example type="untouched">... and each addresses a different problem.</example><!-- addresses/B-VP -->
       <example type="untouched">... but neither times the flies accurately; we need better timing equipment.</example><!-- times/E-NP-plural -->
+      <example type="untouched">Hope this addresses your concerns.</example>
       <example type="ambiguous" inputform="times[time/NNS,time/VBZ]" outputform="times[time/NNS]">It happened so many <marker>times</marker>.</example>
       <example type="ambiguous" inputform="times[time/NNS,time/VBZ]" outputform="times[time/NNS]">Each <marker>times</marker> I visit France, I rent a car.</example><!-- Grammar rule EVERY_EACH_SINGULAR finds this incorrect grammar. If I add an exception on DT for singular determiners, 'times' continues to have the postag VBZ, and EVERY_EACH_SINGULAR does not find the error. -->
     </rule>
@@ -16641,6 +16678,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">bands?</token>
         </pattern>
         <disambig action="remove" postag="VBG" />
+    </rule>
+
+    <rule id="CAME_NO_NN" name="'marching' no NN">
+        <pattern>
+            <marker>
+                <token chunk_re=".-VP">came</token>
+            </marker>
+            <token postag="DT|PRP\$|IN" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="NN" />
     </rule>
 
     <rule id="BUG_NO_VB" name="'bug' no VB">

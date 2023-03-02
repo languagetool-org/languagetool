@@ -59,7 +59,7 @@ public class LongSentenceRule extends TextLevelRule {
 
   @Override
   public String getDescription() {
-    return "Finds long sentences";
+    return MessageFormat.format(messages.getString("long_sentence_rule_desc"), maxWords);
   }
 
   @Override

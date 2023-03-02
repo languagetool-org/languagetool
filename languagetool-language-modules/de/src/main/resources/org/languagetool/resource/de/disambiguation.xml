@@ -2122,8 +2122,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="An- und ..." id="AN_HYPHEN">
         <pattern case_sensitive="yes">
             <token>An-</token>
-            <token regexp="yes">und|oder</token>
-            <token regexp="yes">(Ver|Zu|Abver)kauf</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
+            <token regexp="yes">(Ver|Zu|Abver)kauf(en)?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2132,8 +2133,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">[Bb]e-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
             <token regexp="yes">[Ee]nt.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Nah- und ..." id="NAH_HYPHEN">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Nah-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
+            <token regexp="yes">Fern.+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2142,8 +2155,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">[Vv]er-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
             <token regexp="yes">[Ee]nt.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Runter- und Hochladen" id="RUNTER_HYPHEN">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">([Rr]unter|[Hh]erunter)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
+            <token regexp="yes">[Hh]och.+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -7603,5 +7628,25 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">Jahr|JAHR</token>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="KU_DAMM" name="Ku'damm">
+        <pattern case_sensitive="yes">
+            <token>Ku</token>
+            <token regexp="yes">['’]</token>
+            <token>damm</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NACH_WIE_VOR" name="nach wie vor ('vor' keine Präposition)">
+        <pattern>
+            <token>nach</token>
+            <token>wie</token>
+            <marker>
+                <token>vor</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(PRP|ZUS).*" />
     </rule>
 </rules>

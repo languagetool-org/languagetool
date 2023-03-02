@@ -439,6 +439,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>навчитися самій робити хліб</example>
         <example>тут навчалася півтора року.</example>
       </rule>
+      
+      <rule>
+        <pattern>
+          <token inflected="yes">навчання</token>
+          <marker>
+            <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*">
+              <exception postag_regexp="yes" postag="noun:inanim:.:v_(oru|rod).*|adv.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Навчати чого</message>
+        <example correction="">навчання <marker>математиці</marker>.</example>
+        <example correction="">навчання <marker>іноземним мовам</marker>.</example>
+        <!--
+        <example correction="">навчинню їх <marker>здоровому способу</marker> життя.</example>
+        -->
+        <example>навчання персоналу</example>
+      </rule>
+
     </rulegroup>
 
     <rulegroup id="CONSISTENCY_NOUN_NUMERIC_FRACTIONAL" name="Узгодженість числа іменників з дробовими числівниками">
