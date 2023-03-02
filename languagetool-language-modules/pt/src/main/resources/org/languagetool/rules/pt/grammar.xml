@@ -46933,6 +46933,7 @@ O namorado dela era um ladrão.
       <!--
       O stress é importante, pois, afeta o comportamento humano. → O stress é importante ao afetar o comportamento humano.
       Os stresses são importantes, pois, afetam o comportamento humano. → Os stresses são importantes ao afetarem o comportamento humano.
+      O que aconteceu em maio foi terrível, pois, atingiu a democracia. → O que aconteceu em maio foi terrível ao atingir a democracia.
       -->
       <pattern>
         <token><exception postag_regexp='yes' postag='SENT_START|VMIP3.+'/></token>
@@ -46942,18 +46943,18 @@ O namorado dela era um ladrão.
             <exception scope='previous' regexp='yes'>[/():;]|&tracos_de_separacao;</exception>
           </token>
           <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
-          <token postag='VMIP3.+' postag_regexp='yes'>
+          <token postag='VMI[PS]3.+' postag_regexp='yes'>
             <exception regexp='yes' inflected='yes'>&verbos_muito_incomuns;</exception>
           </token>
         </marker>
         <token><exception postag_regexp='yes' postag='VMG0000|xxxx'/></token>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
-      <suggestion>, ao <match no='5' postag='VMIP3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-      <suggestion> ao <match no='5' postag='VMIP3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+      <suggestion>, ao <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+      <suggestion> ao <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
       <example correction=", ao afetar| ao afetar">O stress é importante<marker>, pois, afeta</marker> o comportamento humano.</example>
       <example correction=", ao afetarem| ao afetarem">Os stresses são importantes<marker>, pois, afetam</marker> o comportamento humano.</example>
-
+      <example correction=", ao atingir| ao atingir">O que aconteceu em maio foi terrível<marker>, pois, atingiu</marker> a democracia.</example>
     </rule>
 
 
