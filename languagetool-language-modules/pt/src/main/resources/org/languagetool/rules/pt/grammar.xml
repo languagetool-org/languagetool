@@ -40480,12 +40480,42 @@ O namorado dela era um ladrão.
         <example>...italismo FDP foi o maior feito do Lula não escreveria tanas críticas , precisa de um choquezinho de realidade das favelas!</example>
         <example>Desejo lhe um choque de realidade.</example>
       </antipattern>
-
+      <antipattern>
+        <token>não</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token regexp='yes'>mais|menos|maior|menor</token>
+        <token>realidade</token>
+        <example>Isso não é mais realidade.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>mais|menos|maior|menor</token>
+        <token postag='N.+' postag_regexp='yes'/>
+        <token>e</token>
+        <token regexp='yes'>mais|menos|maior|menor</token>
+        <token>realidade</token>
+        <example>Deve haver menos ficção e mais realidade.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='_PUNCT|SENT_START' postag_regexp='yes'/>
+        <token regexp='yes'>mais|menos|maior|menor</token>
+        <token>realidade</token>
+        <example>Mais realidade.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes' inflected='yes'>ter|haver|querer|oferecer|vez|ver</token>
+        <token regexp='yes'>mais|menos|maior|menor</token>
+        <token>realidade</token>
+        <example>Isso tem mais realidade.</example>
+      </antipattern>
+      <antipattern>
+        <token postag='D..F.+|AQ.F.+|SPS00:D..F.+' postag_regexp='yes'/>
+        <token regexp='yes'>mais|menos|maior|menor</token>
+        <token>realidade</token>
+        <example>A maior realidade é essa.</example>
+      </antipattern>
       <pattern>
-        <token postag_regexp='yes' postag='V.+|SPS00'/>
-        <token min="0" max="1" postag_regexp='yes' postag='AQ.+|RG'>
-          <exception postag_regexp='no' postag='CS'/> <!-- Remove "como" -->
-        </token>
+        <token negate='yes' regexp='yes'>quanto|e</token>
+        <token regexp='yes'>mais|menos|maior|menor</token>
         <marker>
           <token>realidade</token>
         </marker>
@@ -40493,11 +40523,8 @@ O namorado dela era um ladrão.
       <message>Possível confusão de termos.</message>
       <suggestion>realismo</suggestion>
       <example correction="realismo">A equação dá mais <marker>realidade</marker> aos modelos.</example>
-      <example correction="realismo">Isto permite modelar com enorme <marker>realidade</marker>.</example>
       <example correction="realismo">A equação para mais <marker>realidade</marker> é esta.</example>
       <example correction="realismo">A equação para maior <marker>realidade</marker> é esta.</example>
-      <example correction="realismo">As equações aumentam o grau de <marker>realidade</marker> dos modelos.</example>
-      <example correction="realismo">Há diferentes graus de <marker>realidade</marker> nos modelos.</example>
     </rule>
 
 
