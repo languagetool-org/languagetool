@@ -23749,13 +23749,16 @@ O namorado dela era um ladrão.
       </rule>
       <rule id='REDUNDANCY_SEGUIR_EM_FRENTE' name="Pleonasmo: Seguir em frente">
         <pattern>
+         <marker>
           <token inflected='yes'>seguir</token>
           <token>em</token>
           <token>frente</token>
+         </marker>
+           <token negate_pos='yes' postag='_PUNCT|SENT_END' postag_regexp='yes'/>
         </pattern>
         <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
-        <example correction='seguir'><marker>seguir em frente</marker></example>
+        <example correction='seguir'><marker>seguir em frente</marker> com a certeza que fez a coisa certa.</example>
       </rule>
       <rule id='REDUNDANCY_VOLTAR_ATRAS' name="Pleonasmo: Voltar atrás">
         <pattern>
