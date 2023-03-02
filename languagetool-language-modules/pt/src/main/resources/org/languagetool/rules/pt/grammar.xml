@@ -46919,35 +46919,33 @@ O namorado dela era um ladrão.
 
 
     <!-- POIS AFETA ao afetar -->
-    <rulegroup id='SIMPLIFICAR_POIS_VERBO_AO_VERBOINF' name="[Simplificar] Pois + Verbo → Ao + V.Inf." type='style'>
+    <rule id='SIMPLIFICAR_POIS_VERBO_AO_VERBOINF' name="[Simplificar] Pois + Verbo → Ao + V.Inf." type='style'>
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-02 (27-FEB-2023+) -->
       <!--
       O stress é importante, pois, afeta o comportamento humano. → O stress é importante ao afetar o comportamento humano.
       Os stresses são importantes, pois, afetam o comportamento humano. → Os stresses são importantes ao afetarem o comportamento humano.
       -->
-      <rule>
-        <pattern>
-          <token><exception postag_regexp='yes' postag='SENT_START|VMIP3.+'/></token>
-          <marker>
-            <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
-            <token>pois
-              <exception scope='previous' regexp='yes'>[/():;]|&tracos_de_separacao;</exception>
-            </token>
-            <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
-            <token postag='VMIP3.+' postag_regexp='yes'>
-              <exception regexp='yes' inflected='yes'>&verbos_muito_incomuns;</exception>
-            </token>
-          </marker>
-          <token><exception postag_regexp='yes' postag='VMG0000|xxxx'/></token>
-        </pattern>
-        <message>Esta perífrase poderá ser simplificada.</message>
-        <suggestion>, ao <match no='5' postag='VMIP3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-        <suggestion> ao <match no='5' postag='VMIP3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-        <example correction=", ao afetar| ao afetar">O stress é importante<marker>, pois, afeta</marker> o comportamento humano.</example>
-        <example correction=", ao afetarem| ao afetarem">Os stresses são importantes<marker>, pois, afetam</marker> o comportamento humano.</example>
-      </rule>
+      <pattern>
+        <token><exception postag_regexp='yes' postag='SENT_START|VMIP3.+'/></token>
+        <marker>
+          <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+          <token>pois
+            <exception scope='previous' regexp='yes'>[/():;]|&tracos_de_separacao;</exception>
+          </token>
+          <token min="0" max="1" postag='_PUNCT_COMMA' postag_regexp='no'/>
+          <token postag='VMIP3.+' postag_regexp='yes'>
+            <exception regexp='yes' inflected='yes'>&verbos_muito_incomuns;</exception>
+          </token>
+        </marker>
+        <token><exception postag_regexp='yes' postag='VMG0000|xxxx'/></token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>, ao <match no='5' postag='VMIP3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+      <suggestion> ao <match no='5' postag='VMIP3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+      <example correction=", ao afetar| ao afetar">O stress é importante<marker>, pois, afeta</marker> o comportamento humano.</example>
+      <example correction=", ao afetarem| ao afetarem">Os stresses são importantes<marker>, pois, afetam</marker> o comportamento humano.</example>
 
-    </rulegroup>
+    </rule>
 
 
     <!-- POR ISSO aí/assim/daí/isso -->
