@@ -373,6 +373,17 @@ regexp case-insensitive maken: (?i)
                 <example correction="af te">Het hoeft nog niet <marker>afte</marker> lopen.</example>
             </rule>
         </rulegroup>
+        <rule id="IS_JOUW_MRV" name="Dit is (zijn) jouw auto's" type="misspelling" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>is</token>
+                </marker>
+                <token>jouw</token>
+                <token postag_regexp="yes" postag="ZNW:MRV:DE_"></token>
+            </pattern>
+            <message>\3 is meervoud, dus het zou moeten zijn '<suggestion>zijn</suggestion> jouw \3'.</message>
+            <example correction="zijn">Dit <marker>is</marker> jouw auto's.</example>
+        </rule>
     </category>
 
     <category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
