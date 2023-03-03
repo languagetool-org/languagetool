@@ -380,9 +380,13 @@ regexp case-insensitive maken: (?i)
                 </marker>
                 <token>jouw</token>
                 <token postag_regexp="yes" postag="ZNW:MRV:DE_"></token>
+                <token>
+                    <exception postag_regexp="yes" postag="ZNW.*"/>
+                </token>
             </pattern>
-            <message>\3 is meervoud, dus het zou moeten zijn '<suggestion>zijn</suggestion> jouw \3'.</message>
+            <message><match no="3" case_conversion="startupper" /> is meervoud, dus het zou moeten zijn '<suggestion>zijn</suggestion> jouw \3'.</message>
             <example correction="zijn">Dit <marker>is</marker> jouw auto's.</example>
+            <example>Dat is jouw broers mening.</example>
         </rule>
     </category>
 
