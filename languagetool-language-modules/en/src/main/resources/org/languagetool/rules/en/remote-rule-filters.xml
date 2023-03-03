@@ -1888,11 +1888,30 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                     <token postag="VB.*" postag_regexp="yes" chunk="B-VP">
                         <exception inflected="yes" regexp="yes">have|do|be</exception>
+                        <exception regexp="yes">let|feel</exception><!-- but let me ..., but feel free to  -->
                         <exception postag="MD" />
                     </token>
                 </pattern>
                 <suggestion>, but</suggestion>
                 <example correction=", but">62% of Americans say they thought about "bouncing back" from a recent financial or personal tragedy<marker> but</marker> decided to nap instead.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token>but</token>
+                </antipattern>
+                <pattern>
+                    <token postag="VB.*" postag_regexp="yes" chunk_re=".-VP" skip="-1" />
+                    <marker>
+                        <token>but</token>
+                    </marker>
+                    <token>
+                        feel
+                    </token>
+                    <token><exception>free</exception></token>
+                </pattern>
+                <suggestion>, but</suggestion>
+                <example correction=", but">I have not been following this proceeding at all<marker> but</marker> feel we should watch closely.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_G_REPLACE_ORTH" name="">
