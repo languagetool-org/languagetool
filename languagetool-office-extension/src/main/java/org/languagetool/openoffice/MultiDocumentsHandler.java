@@ -493,29 +493,43 @@ public class MultiDocumentsHandler {
       langCode = OfficeTools.localeToString(locale);
     }
     Map<String, String> disabledRulesMap = new HashMap<>();
-    List<Rule> allRules = lt.getAllRules();
-    for (String disabledRule : getDisabledRules(langCode)) {
-      String ruleDesc = null;
-      for (Rule rule : allRules) {
-        if (disabledRule.equals(rule.getId())) {
-          ruleDesc = rule.getDescription();
-          break;
+    if (langCode != null && lt != null && config != null) {
+      List<Rule> allRules = lt.getAllRules();
+      List<String> disabledRules = new ArrayList<String>(getDisabledRules(langCode));
+      for (int i = disabledRules.size() - 1; i >= 0; i--) {
+        String disabledRule = disabledRules.get(i);
+        String ruleDesc = null;
+        for (Rule rule : allRules) {
+          if (disabledRule.equals(rule.getId())) {
+            if (!rule.isDefaultOff() || rule.isOfficeDefaultOn()) {
+              ruleDesc = rule.getDescription();
+            } else {
+              removeDisabledRule(langCode, disabledRule);
+            }
+            break;
+          }
+        }
+        if (ruleDesc != null) {
+          disabledRulesMap.put(disabledRule, ruleDesc);
         }
       }
-      if (ruleDesc != null) {
-        disabledRulesMap.put(disabledRule, ruleDesc);
-      }
-    }
-    for (String disabledRule : config.getDisabledRuleIds()) {
-      String ruleDesc = null;
-      for (Rule rule : allRules) {
-        if (disabledRule.equals(rule.getId())) {
-          ruleDesc = rule.getDescription();
-          break;
+      disabledRules = new ArrayList<String>(config.getDisabledRuleIds());
+      for (int i = disabledRules.size() - 1; i >= 0; i--) {
+        String disabledRule = disabledRules.get(i);
+        String ruleDesc = null;
+        for (Rule rule : allRules) {
+          if (disabledRule.equals(rule.getId())) {
+            if (!rule.isDefaultOff() || rule.isOfficeDefaultOn()) {
+              ruleDesc = rule.getDescription();
+            } else {
+              config.removeDisabledRuleId(disabledRule);
+            }
+            break;
+          }
         }
-      }
-      if (ruleDesc != null) {
-        disabledRulesMap.put(disabledRule, ruleDesc);
+        if (ruleDesc != null) {
+          disabledRulesMap.put(disabledRule, ruleDesc);
+        }
       }
     }
     return disabledRulesMap;

@@ -433,6 +433,14 @@ public class Configuration {
     enabledRuleIds.addAll(ruleIds);
   }
 
+  public void removeDisabledRuleId(String ruleId) {
+    disabledRuleIds.remove(ruleId);
+  }
+
+  public void removeEnabledRuleId(String ruleId) {
+    enabledRuleIds.remove(ruleId);
+  }
+
   public void setEnabledRuleIds(Set<String> ruleIds) {
     enabledRuleIds = ruleIds;
   }

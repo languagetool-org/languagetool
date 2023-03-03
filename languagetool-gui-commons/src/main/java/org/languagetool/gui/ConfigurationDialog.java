@@ -1663,20 +1663,31 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.NONE;
     cons.insets = new Insets(4, 3, 0, 4);
     
-    Set<String> changedRuleIds;
+    List<String> changedRuleIds;
     if (enabledRules) {
-      changedRuleIds = config.getEnabledRuleIds();
+      changedRuleIds = new ArrayList<String>(config.getEnabledRuleIds());
     } else {
-      changedRuleIds = config.getDisabledRuleIds();
+      changedRuleIds = new ArrayList<String>(config.getDisabledRuleIds());
     }
     
     if (changedRuleIds != null) {
       List<JCheckBox> ruleCheckboxes = new ArrayList<>();
-      for (String ruleId : changedRuleIds) {
+      for (int i = changedRuleIds.size() - 1; i >= 0; i--) {
+        String ruleId = changedRuleIds.get(i);
         String ruleDescription = null;
         for (Rule rule : rules) {
           if (rule.getId().equals(ruleId)) {
-            ruleDescription = rule.getDescription();
+            if ((enabledRules && rule.isDefaultOff() && !rule.isOfficeDefaultOn()) ||
+                (!enabledRules && (!rule.isDefaultOff() || rule.isOfficeDefaultOn()))) {
+              ruleDescription = rule.getDescription();
+            } else {
+              if (enabledRules) {
+                config.removeEnabledRuleId(ruleId);
+              } else {
+                config.removeDisabledRuleId(ruleId);
+              }
+            }
+            
             break;
           }
         }
