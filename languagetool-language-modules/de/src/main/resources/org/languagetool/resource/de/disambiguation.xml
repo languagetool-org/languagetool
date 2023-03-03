@@ -7649,4 +7649,26 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="(PRP|ZUS).*" />
     </rule>
+
+    <rulegroup id="SEGELT_EINHAND" name="Er segelt einhand (ignore spelling)">
+        <!-- https://de.wikipedia.org/wiki/Einhandsegeln -->
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes" skip="-1">(um)?segeln</token>
+                <marker>
+                    <token case_sensitive="yes">einhand</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" skip="-1">einhand</token>
+                </marker>
+                <token inflected="yes" regexp="yes">(um)?segeln</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>

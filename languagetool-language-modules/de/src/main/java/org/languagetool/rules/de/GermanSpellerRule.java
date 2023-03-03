@@ -3063,6 +3063,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "UBahntunnel": return topMatch("U-Bahntunnel");
       case "Ubahntunnels": return topMatch("U-Bahntunnels");
       case "UBahntunnels": return topMatch("U-Bahntunnels");
+      case "Gelantine": return topMatch("Gelatine");
     }
     return Collections.emptyList();
   }

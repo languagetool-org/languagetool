@@ -111,7 +111,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
       ),
       Arrays.asList(
         // Komma an der falschen Stelle
-        csToken("ja"),
+        regex("ja|mal"),
         csToken("was")
       ),
       Arrays.asList(
