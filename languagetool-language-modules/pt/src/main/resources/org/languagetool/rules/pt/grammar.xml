@@ -47003,8 +47003,8 @@ O namorado dela era um ladrão.
 
 
     <!-- POIS AFETA ao afetar -->
-    <rule id='SIMPLIFICAR_POIS_VERBO_AO_VERBOINF' name="[Simplificar] Pois + Verbo → Ao + V.Inf." type='style'>
-      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-02 (27-FEB-2023+) -->
+    <rule id='SIMPLIFICAR_POIS_VERBO_AO_VERBOINF' name="[Simplificar] Pois + Verbo → Ao/por/visto + V.Inf." type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-02/3 (27-FEB-2023+) -->
       <!--
       O stress é importante, pois, afeta o comportamento humano. → O stress é importante ao afetar o comportamento humano.
       Os stresses são importantes, pois, afetam o comportamento humano. → Os stresses são importantes ao afetarem o comportamento humano.
@@ -47027,9 +47027,16 @@ O namorado dela era um ladrão.
       <message>Esta perífrase poderá ser simplificada.</message>
       <suggestion>, ao <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
       <suggestion> ao <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
-      <example correction=", ao afetar| ao afetar">O stress é importante<marker>, pois, afeta</marker> o comportamento humano.</example>
-      <example correction=", ao afetarem| ao afetarem">Os stresses são importantes<marker>, pois, afetam</marker> o comportamento humano.</example>
-      <example correction=", ao atingir| ao atingir">O que aconteceu em maio foi terrível<marker>, pois, atingiu</marker> a democracia.</example>
+
+      <suggestion>, por <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+      <suggestion> por <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+
+      <suggestion>, visto <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+      <suggestion> visto <match no='5' postag='VMI.3(.)0' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+
+      <example correction=", ao afetar| ao afetar|, por afetar| por afetar|, visto afetar| visto afetar">O stress é importante<marker>, pois, afeta</marker> o comportamento humano.</example>
+      <example correction=", ao afetarem| ao afetarem|, por afetarem| por afetarem|, visto afetarem| visto afetarem">Os stresses são importantes<marker>, pois, afetam</marker> o comportamento humano.</example>
+      <example correction=", ao atingir| ao atingir|, por atingir| por atingir|, visto atingir| visto atingir">O que aconteceu em maio foi terrível<marker>, pois, atingiu</marker> a democracia.</example>
     </rule>
 
 
