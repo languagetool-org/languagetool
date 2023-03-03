@@ -24114,24 +24114,63 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.rae.es/espanol-al-dia/la-conjuncion-o-siempre-sin-tilde-incluso-entre-cifras</url>
             <example correction="o">Son 15 <marker>ó</marker> 16 casos.</example>
         </rule>
-        <rule id="ESTE" name="éste/este">
+        <rulegroup id="ESTE_ESE_AQUEL_ADJETIVO" name="éste, ése, aquél -> este, ese aquel">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">éste|ése|aquél</token>
+                    </marker>
+                    <token postag="N.[MC][SN].*|A..[MC][SN]." postag_regexp="yes"><exception postag="V...3S." postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se escribe sin tilde cuando es un adjetivo demostrativo que acompaña a un nombre.</message>
+                <suggestion><match no="1" regexp_match="(?iu)é" regexp_replace="e" case_conversion="preserve"/></suggestion>
+                <example correction="Este"><marker>Éste</marker> señor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ésta|ésa|aquélla</token>
+                    </marker>
+                    <token postag="N.[FC][SN].*|A..[FC][SN]." postag_regexp="yes"><exception postag="V...3S." postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se escribe sin tilde cuando es un adjetivo demostrativo que acompaña a un nombre.</message>
+                <suggestion><match no="1" regexp_match="(?iu)é" regexp_replace="e" case_conversion="preserve"/></suggestion>
+                <example correction="Esta"><marker>Ésta</marker> señora.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">éstos|ésos|aquéllos</token>
+                    </marker>
+                    <token postag="N.[MC][PN].*|A..[MC][PN]." postag_regexp="yes"><exception postag="V...3P." postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se escribe sin tilde cuando es un adjetivo demostrativo que acompaña a un nombre.</message>
+                <suggestion><match no="1" regexp_match="(?iu)é" regexp_replace="e" case_conversion="preserve"/></suggestion>
+                <example correction="Estos"><marker>Éstos</marker> señores.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">éstas|ésas|aquéllas</token>
+                    </marker>
+                    <token postag="N.[FC][PN].*|A..[FC][PN]." postag_regexp="yes"><exception postag="V...3P." postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se escribe sin tilde cuando es un adjetivo demostrativo que acompaña a un nombre.</message>
+                <suggestion><match no="1" regexp_match="(?iu)é" regexp_replace="e" case_conversion="preserve"/></suggestion>
+                <example correction="Estas"><marker>Éstas</marker> señoras.</example>
+            </rule>
+        </rulegroup>
+        <rule id="ESTE_ESE_AQUEL_NOTILDE" name="éste, ése, aquél -> este, ese aquel">
+            <!-- catch-all rule -->
             <pattern>
-                <token regexp="yes">ést?(e|a|os|as)</token>
+                <token regexp="yes">ést?(e|a|os|as)|aquél|aquéll(as?|os)</token>
             </pattern>
-            <message>La tilde es innecesaria según la norma actual. Se puede usar en caso de ambigüedad.</message>
-            <suggestion><match no="1" regexp_match="(?iu)é(.*)" regexp_replace="e$1"/></suggestion>
+            <message>La tilde es innecesaria según la norma actual. Se puede usar en caso de ambigüedad cuando es un pronombre.</message>
+            <suggestion><match no="1" regexp_match="(?iu)é" regexp_replace="e" case_conversion="preserve"/></suggestion>
             <url>http://www.rae.es/consultas/el-adverbio-solo-y-los-pronombres-demostrativos-sin-tilde</url>
             <example correction="Este"><marker>Éste</marker> es el camino.</example>
             <example correction="este">En relación con <marker>éste</marker>.</example>
             <example correction="esa">En relación con <marker>ésa</marker>.</example>
-        </rule>
-        <rule id="AQUEL" name="aquel/aquél">
-            <pattern>
-                <token regexp="yes">aquél|aquéll(as?|os)</token>
-            </pattern>
-            <message>La tilde es innecesaria según la norma actual. Se puede usar en caso de ambigüedad.</message>
-            <suggestion><match no="1" regexp_match="(?iu)aqué(.*)" regexp_replace="aque$1"/></suggestion>
-            <url>http://www.rae.es/consultas/el-adverbio-solo-y-los-pronombres-demostrativos-sin-tilde</url>
             <example correction="Aquel"><marker>Aquél</marker> es el camino.</example>
             <example correction="aquellos">En relación con <marker>aquéllos</marker>.</example>
         </rule>
