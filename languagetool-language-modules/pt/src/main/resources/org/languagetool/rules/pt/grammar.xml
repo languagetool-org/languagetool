@@ -47300,6 +47300,51 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- ME ANDAVA A ARRASTAR me arrastava -->
+    <rule id='SIMPLIFICAR_QUE_PRON_V_ANDAR_A_INFINITIVO' name="[Simplificar] que + Pron. + 'V.Andar + a + V.Inf.' → V. baseado no V.Andar" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-03 (2-MAR-2023+) -->
+      <!--
+      Há décadas que me andava a arrastar sem objetivos. → Há décadas que me arrastava sem objetivos.
+      Há décadas que eu me andava a arrastar sem objetivos. → Há décadas que eu me arrastava sem objetivos.
+
+      Há décadas que se andavam a arrastar sem objetivos. → Há décadas que se arrastavam sem objetivos.
+      Há décadas que eles se andavam a arrastar sem objetivos. → Há décadas que eles se arrastavam sem objetivos.
+
+      Há décadas que me andei a arrastar sem objetivos. → Há décadas que me arrastei sem objetivos.
+      Há décadas que eu me andei a arrastar sem objetivos. → Há décadas que eu me arrastei sem objetivos.
+
+      Há décadas que nos andamos a arrastar sem objetivos. → Há décadas que nos arrastamos sem objetivos.
+      Há décadas que nós nos andamos a arrastar sem objetivos. → Há décadas que nós nos arrastamos sem objetivos.
+
+      Há décadas que nos andámos a arrastar sem objetivos. → Há décadas que nos arrastámos sem objetivos.
+      Há décadas que nós nos andámos a arrastar sem objetivos. → Há décadas que nós nos arrastámos sem objetivos.
+      -->
+      <pattern>
+        <token regexp="no">que</token>
+        <token min="0" max="1" regexp="yes">&pronomes_retos;</token>
+        <token regexp="yes">&pronomes_obliquos;</token>
+        <marker>
+          <token inflected='yes'>andar</token>
+          <token regexp="no">a</token>
+          <token postag='VMN0000' postag_regexp='no'/>
+        </marker>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:marker2 lemmaSelect:V.* postagFrom:marker postagSelect:V.*"/>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>{suggestion}</suggestion>
+      <example correction="arrastava">Há décadas que me <marker>andava a arrastar</marker> sem objetivos.</example>
+      <example correction="arrastava">Há décadas que eu me <marker>andava a arrastar</marker> sem objetivos.</example>
+      <example correction="arrastavam">Há décadas que se <marker>andavam a arrastar</marker> sem objetivos.</example>
+      <example correction="arrastavam">Há décadas que eles se <marker>andavam a arrastar</marker> sem objetivos.</example>
+      <example correction="arrastei">Há décadas que me <marker>andei a arrastar</marker> sem objetivos.</example>
+      <example correction="arrastei">Há décadas que eu me <marker>andei a arrastar</marker> sem objetivos.</example>
+      <example correction="arrastamos">Há décadas que nos <marker>andamos a arrastar</marker> sem objetivos.</example>
+      <example correction="arrastamos">Há décadas que nós nos <marker>andamos a arrastar</marker> sem objetivos.</example>
+      <example correction="arrastámos">Há décadas que nos <marker>andámos a arrastar</marker> sem objetivos.</example>
+      <example correction="arrastámos">Há décadas que nós nos <marker>andámos a arrastar</marker> sem objetivos.</example>
+    </rule>
+
+
     <!-- QUE RESULTAM DE resultantes de -->
     <rule id='QUE_RESULTA_RESULTAM_DE_DA_DAS_DO_DOS_NA_NAS_NO_NOS' name="[Simplificar] Que + resulta(m) + de/d(a/o)(s)/n(a/o)(s) → Resultante(s) + de/d(a/o)(s)/n(a/o)(s)" type='style'>
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-08-24 (25-JUL-2022+) -->
