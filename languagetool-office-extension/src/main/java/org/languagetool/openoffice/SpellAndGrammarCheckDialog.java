@@ -757,7 +757,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     
     private final static int dialogWidth = 640;
     private final static int dialogHeight = 600;
-
+    private final static int MAX_ITEM_LENGTH = 28;
     private UndoMarkupContainer undoMarkup;
 
     private Color defaultForeground;
@@ -1755,7 +1755,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
             activateRule.removeAllItems();
             activateRule.addItem(messages.getString("loContextMenuActivateRule"));
             for (String ruleId : deactivatedRulesMap.keySet()) {
-              activateRule.addItem(deactivatedRulesMap.get(ruleId));
+              String tmpStr = deactivatedRulesMap.get(ruleId);
+              if (tmpStr.length() > MAX_ITEM_LENGTH) {
+                tmpStr = tmpStr.substring(0, MAX_ITEM_LENGTH - 3) + "...";
+              }
+              activateRule.addItem(tmpStr);
             }
             activateRule.setVisible(true);
             activateRule.setEnabled(true);
@@ -1836,7 +1840,11 @@ public class SpellAndGrammarCheckDialog extends Thread {
       userDictionaries = new String[tmpDictionaries.length + 1];
       userDictionaries[0] = addToDictionaryName;
       for (int i = 0; i < tmpDictionaries.length; i++) {
-        userDictionaries[i + 1] = tmpDictionaries[i];
+        String tmpStr = tmpDictionaries[i];
+        if (tmpStr.length() > MAX_ITEM_LENGTH) {
+          tmpStr = tmpStr.substring(0, MAX_ITEM_LENGTH - 3) + "...";
+        }
+        userDictionaries[i + 1] = tmpStr;
       }
     }
 
