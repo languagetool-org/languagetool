@@ -262,14 +262,37 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token skip="1">weder</token>
+                    <token>weder</token>
                     <marker>
-                        <token regexp="yes">[a-zäöüß\-]+</token>
+                        <token regexp="yes">[a-zäöüß\-0-9]+</token>
                     </marker>
                     <token>noch</token>
                 </pattern>
                 <example correction="">Die Bereitstellung Ihrer Daten ist weder <marker>gesetzlich</marker> noch vertraglich vorgeschrieben.</example>
                 <example correction="">Folglich lassen sie sich weder <marker>löschen</marker> noch aktualisieren.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>weder</token>
+                    <token regexp="yes">[a-zäöüß\-0-9]+</token>
+                    <marker>
+                        <token regexp="yes">[a-zäöüß\-0-9]+</token>
+                    </marker>
+                    <token>noch</token>
+                </pattern>
+                <example correction="">Er kann weder gut <marker>schreiben</marker> noch gut kommunizieren.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>weder</token>
+                    <token regexp="yes">[a-zäöüß\-0-9]+</token>
+                    <token regexp="yes">[a-zäöüß\-0-9]+</token>
+                    <marker>
+                        <token regexp="yes">[a-zäöüß\-]+</token>
+                    </marker>
+                    <token>noch</token>
+                </pattern>
+                <example correction="">Er kann weder sehr gut <marker>schreiben</marker> noch gut kommunizieren.</example>
             </rule>
             <rule>
                 <pattern>
