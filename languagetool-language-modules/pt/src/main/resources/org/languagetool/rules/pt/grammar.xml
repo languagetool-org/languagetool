@@ -58313,16 +58313,17 @@ O namorado dela era um ladrão.
       <pattern>
         <marker>
           <token regexp='yes'>que|como</token>
+          <token min="0" max="1" regexp='no'>se</token>
           <and>
             <token regexp='yes' inflected='yes'>debater|descrever|detalhar|documentar|escrever|explanar|explicar|mencionar|mostrar|observar|referir|relatar|ver</token> <!-- Add verbs here as found -->
-            <token postag='VMIF1.+' postag_regexp='yes'/>
+            <token postag='VMIF.+' postag_regexp='yes'/>
           </and>
           <token regexp='yes'>a|de</token>
           <token regexp='yes'>seguir|seguida</token>
         </marker>
       </pattern>
       <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-      <suggestion><match no='2' postag='VMIF1(.)0' postag_regexp="yes" postag_replace='VMP00$1F|VMP00$1M'/> a seguir</suggestion>
+      <suggestion><match no='3' postag='VMIF.(.)0' postag_regexp="yes" postag_replace='VMP00$1F|VMP00$1M'/> a seguir</suggestion>
       <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>que referiremos a seguir</marker>.</example>
       <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>como referiremos a seguir</marker>.</example>
       <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>que referiremos de seguida</marker>.</example>
