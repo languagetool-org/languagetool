@@ -58301,6 +58301,35 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- QUE REFERIREMOS A SEGUIR referidas a seguir -->
+    <rule id='PHD_TESE_REFERIREMOS_A_SEGUIR_REFERIDAS_REFERIDOS' name="[PhD Tese] Expressões do tipo 'que/como referiremos a seguir' → 'referidas a seguir'" type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-04 (2-MAR-2023+) -->
+      <!--
+      Existem algumas críticas ao modelo, que referiremos a seguir. → Existem algumas críticas ao modelo, referidas a seguir.
+      Existem algumas críticas ao modelo, como referiremos a seguir. → Existem algumas críticas ao modelo, referidas a seguir.
+      Existem algumas críticas ao modelo, que referiremos de seguida. → Existem algumas críticas ao modelo, referidas a seguir.
+      Existem algumas críticas ao modelo, como referiremos de seguida. → Existem algumas críticas ao modelo, referidas a seguir.
+      -->
+      <pattern>
+        <marker>
+          <token regexp='yes'>que|como</token>
+          <and>
+            <token regexp='yes' inflected='yes'>debater|descrever|detalhar|documentar|escrever|explanar|explicar|mencionar|mostrar|observar|referir|relatar|ver</token> <!-- Add verbs here as found -->
+            <token postag='VMIF1.+' postag_regexp='yes'/>
+          </and>
+          <token regexp='yes'>a|de</token>
+          <token regexp='yes'>seguir|seguida</token>
+        </marker>
+      </pattern>
+      <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+      <suggestion><match no='2' postag='VMIF1(.)0' postag_regexp="yes" postag_replace='VMP00$1F|VMP00$1M'/> a seguir</suggestion>
+      <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>que referiremos a seguir</marker>.</example>
+      <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>como referiremos a seguir</marker>.</example>
+      <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>que referiremos de seguida</marker>.</example>
+      <example correction="referidas a seguir|referidos a seguir">Existem algumas críticas ao modelo, <marker>como referiremos de seguida</marker>.</example>
+    </rule>
+
+
   </category>
 
 
