@@ -49495,6 +49495,52 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- TENHO PENA lamento -->
+    <rulegroup id='TER_PENA_LAMENTAR' name="[Formal] Ter pena → Lamentar">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-04 (2-MAR-2023+) -->
+      <!--
+      Subrule1:
+      Tenho pena de que as coisas tenham corrido mal. → Lamento que as coisas tenham corrido mal.
+
+      Subrule2:
+      Tenho pena em vos informar que hoje não dá. → Lamento vos informar que hoje não dá.
+      Tenho pena de lhe informar que hoje não dá. → Lamento lhe informar que hoje não dá.
+      -->
+
+      <!-- Subrule1: -->
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected='yes'>ter</token>
+            <token>pena</token>
+          </marker>
+          <token min="0" max="1">de</token>
+          <token>que</token>
+        </pattern>
+        <message>Num contexto formal, é preferível escrever:</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match></suggestion>
+        <example correction="Lamento"><marker>Tenho pena</marker> de que as coisas tenham corrido mal.</example>
+      </rule>
+
+      <!-- Subrule2: -->
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected='yes'>ter</token>
+            <token>pena</token>
+            <token regexp='yes'>em|de</token>
+            <token regexp='yes'>&pronomes_obliquos;</token>
+          </marker>
+          <token postag='V.+' postag_regexp='yes'/>
+        </pattern>
+        <message>Num contexto formal, é preferível escrever:</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match> \4</suggestion>
+        <example correction="Lamento vos"><marker>Tenho pena em vos</marker> informar que hoje não dá.</example>
+        <example correction="Lamento lhe"><marker>Tenho pena de lhe</marker> informar que hoje não dá.</example>
+      </rule>  
+
+    </rulegroup>
+
 
     <rule id='IR_AOS_POUCOS_BOCADOS_BOCADINHOS' name="gradualmente" tags='picky'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-10-10 (Enhanced) (25-JUN-2021+)      -->
