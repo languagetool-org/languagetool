@@ -47041,12 +47041,22 @@ O namorado dela era um ladrão.
 
     <!-- POIS AFETA ao afetar -->
     <rule id='SIMPLIFICAR_POIS_VERBO_AO_VERBOINF' name="[Simplificar] Pois + Verbo → Ao/por/visto + V.Inf." type='style'>
-      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-02/3 (27-FEB-2023+) -->
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-02/3/4 (27-FEB-2023+) -->
       <!--
       O stress é importante, pois, afeta o comportamento humano. → O stress é importante ao afetar o comportamento humano.
       Os stresses são importantes, pois, afetam o comportamento humano. → Os stresses são importantes ao afetarem o comportamento humano.
       O que aconteceu em maio foi terrível, pois, atingiu a democracia. → O que aconteceu em maio foi terrível ao atingir a democracia.
       -->
+
+      <antipattern>
+        <token>pois</token>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <token postag='CC' postag_regexp='no'/>
+        <token postag='PP3CN000' postag_regexp='no'/>
+        <token postag='VMSP.+' postag_regexp='yes'/>
+        <example>O parâmetro é ignorado, pois, quer se veja ou não o resultado é o correto.</example>
+      </antipattern>
+
       <pattern>
         <token><exception postag_regexp='yes' postag='SENT_START|VMIP3.+'/></token>
         <marker>
