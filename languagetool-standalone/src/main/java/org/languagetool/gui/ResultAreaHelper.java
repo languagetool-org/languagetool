@@ -310,7 +310,6 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
   }
 
   public List<RuleMatch> filterRuleMatches(List<RuleMatch> matches) {
-    System.out.println("FILTER");
     List<RuleMatch> filtered = new ArrayList<>();
     Set<String> disabledRuleIds = ltSupport.getConfig().getDisabledRuleIds();
     for (RuleMatch ruleMatch : matches) {
