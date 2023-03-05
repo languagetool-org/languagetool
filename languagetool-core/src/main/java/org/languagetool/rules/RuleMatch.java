@@ -201,10 +201,26 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
   
   //clone with new replacements
-  public RuleMatch(RuleMatch clone, List<SuggestedReplacement> replacements) {
+  public RuleMatch(RuleMatch clone, List<SuggestedReplacement> replacements, boolean ignored) {
     this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
     this.setPatternPosition(clone.getPatternFromPos(), clone.getPatternToPos());
     this.setSuggestedReplacementObjects(replacements);
+    this.setAutoCorrect(clone.isAutoCorrect());
+    this.setFeatures(clone.getFeatures());
+    this.setUrl(clone.getUrl());
+    this.setType(clone.getType());
+    this.setLine(clone.getLine());
+    this.setEndLine(clone.getEndLine());
+    this.setColumn(clone.getColumn());
+    this.setEndColumn(clone.getEndColumn());
+    this.setSpecificRuleId(clone.getSpecificRuleId());
+  }
+
+  //clone with new replacements
+  public RuleMatch(RuleMatch clone, List<String> replacements) {
+    this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
+    this.setPatternPosition(clone.getPatternFromPos(), clone.getPatternToPos());
+    this.setSuggestedReplacements(replacements);
     this.setAutoCorrect(clone.isAutoCorrect());
     this.setFeatures(clone.getFeatures());
     this.setUrl(clone.getUrl());
