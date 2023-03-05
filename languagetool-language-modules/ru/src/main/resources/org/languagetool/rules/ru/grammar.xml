@@ -8989,6 +8989,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token postag="ADV"  regexp="yes">(.*)[о]<exception postag="PARTICLE"></exception></token>
                 </antipattern>
+                <antipattern>
+                    <token>не</token>
+                    <token skip="-1" postag="ADV"  regexp="yes">(.*)[о]<exception postag="PARTICLE"></exception></token>
+                    <token skip="-1" postag="VB:.*"  postag_regexp="yes"><exception postag="VB:.*"  postag_regexp="yes"   negate_pos="yes" ></exception></token>
+                    <token>,</token>
+                    <token skip="2">но</token>
+                    <token postag="VB:.*|ADJ:Short:.*"  postag_regexp="yes"><exception postag="VB:.*|ADJ:Short:.*"  postag_regexp="yes"   negate_pos="yes" ></exception></token>
+                </antipattern>
+
                 <pattern>
                     <marker>         
                         <token>не<exception scope="previous" regexp="yes">ни(.*)|отнюдь|вовсе|далеко|разве|ли|–|-|—|это|эти|эта|этот|тот|та|те|да|а</exception>
@@ -9014,7 +9023,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Разве не опасно бродить по улицам?</example>
                 <example>Отрасли промышленности с большим вложением капитала, совершенно не обязательно требуют вложения знаний.</example>
                 <example>Работа выполнена не плохо, а хорошо.</example>  <!-- противопоставление с отрицанием, раздельно-->
+                <example>Работа выполнена не плохо, но хорошо.</example>  <!-- противопоставление с отрицанием, раздельно-->
                 <example>Работа выполнена неплохо, но с опозданием.</example>  <!-- противопоставление без отрицания, слитно -->
+                <example>Не обязательно упоминать нас, но мы будем признательны.</example>
                 <example correction="Несложно"><marker>Не сложно</marker> проверить его стабильность.</example>
         </rule>        
               
