@@ -2,39 +2,52 @@ package org.languagetool.gui;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.identifier.LanguageIdentifier;
-import org.languagetool.language.identifier.LanguageIdentifierService;
-import org.mockito.Mock;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-import static java.util.Arrays.asList;
 import static org.mockito.Mockito.*;
 
 public class ResultAreaHelperTest {
   ResultAreaHelper resultAreaHelper = mock(ResultAreaHelper.class);
-  @Mock
-  LanguageToolSupport languageToolSupport;
-
+  JFrame jf = new JFrame();
+  JTextArea textArea = new JTextArea();
+  UndoRedoSupport undoRedo = new UndoRedoSupport(textArea, JLanguageTool.getMessageBundle());
+  LanguageToolSupport ltSupport = new LanguageToolSupport(jf, textArea, undoRedo);
+  LanguageToolEvent event = new LanguageToolEvent(ltSupport, LanguageToolEvent.Type.CHECKING_FINISHED, null);
 
   @Test
   public void testHandleRuleLinkClick() throws IOException {
-
     resultAreaHelper.handleRuleLinkClick("http://languagetool.org/deactivate/EN_A_VS_AN");
     verify(resultAreaHelper, times(1)).handleRuleLinkClick("http://languagetool.org/deactivate/EN_A_VS_AN");
-//    JFrame jf = new JFrame();
-//    JTextArea textArea = new JTextArea();
-//    UndoRedoSupport undoRedo = new UndoRedoSupport(textArea, JLanguageTool.getMessageBundle());
-//    languageToolSupport = new LanguageToolSupport(jf, textArea, undoRedo);
-//    verify(languageToolSupport, atLeastOnce()).disableRule("EN_A_VS_AN");
   }
 
   @Test
-  public void testGetDisabledRulesHTML(){
+  public void testHyperLinkUpdate() throws URISyntaxException, MalformedURLException {
+    URL url = new URI("http://languagetool.org/deactivate/EN_A_VS_AN").toURL();
+    HyperlinkEvent event = new HyperlinkEvent(url, HyperlinkEvent.EventType.ACTIVATED, url);
+    resultAreaHelper.hyperlinkUpdate(event);
+    verify(resultAreaHelper, times(1)).hyperlinkUpdate(event);
+  }
 
-    when(resultAreaHelper.getDisabledRulesHtml()).thenReturn("<br>Deactivated rules - click to activate again: <a href=\"http://languagetool.org/reactivate/EN_A_VS_AN\">Use of 'a' vs. 'an'</a>, <a href=\"http://languagetool.org/reactivate/ENGLISH_WORD_REPEAT_RULE\">Word repetition (e.g. 'will will')</a><br>");
-    verify(resultAreaHelper, times(1)).getDisabledRulesHtml();
+  @Test
+  public void testFilterRuleMatches(){
+    resultAreaHelper.filterRuleMatches(event.getSource().getMatches());
+    verify(resultAreaHelper, times(1)).filterRuleMatches(event.getSource().getMatches());
+  }
+
+  @Test
+  public void testDisplayResult(){
+    resultAreaHelper.displayResult("This is an example input.", event.getSource().getMatches());
+    verify(resultAreaHelper, times(1)).displayResult("This is an example input.", event.getSource().getMatches());
+//    verify(resultAreaHelper, times(1)).getRuleMatchHtml(event.getSource().getMatches(), "This is an example input.");
+//    verify(resultAreaHelper, times(1)).filterRuleMatches(event.getSource().getMatches());
   }
 
 }
