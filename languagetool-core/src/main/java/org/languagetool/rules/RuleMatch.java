@@ -201,10 +201,10 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
   
   //clone with new replacements
-  public RuleMatch(RuleMatch clone, List<String> replacements) {
+  public RuleMatch(RuleMatch clone, List<SuggestedReplacement> replacements) {
     this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
     this.setPatternPosition(clone.getPatternFromPos(), clone.getPatternToPos());
-    this.setSuggestedReplacements(replacements);
+    this.setSuggestedReplacementObjects(replacements);
     this.setAutoCorrect(clone.isAutoCorrect());
     this.setFeatures(clone.getFeatures());
     this.setUrl(clone.getUrl());

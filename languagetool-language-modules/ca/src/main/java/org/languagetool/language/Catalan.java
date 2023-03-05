@@ -274,18 +274,21 @@ public class Catalan extends Language {
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
-      List<String> replacements = rm.getSuggestedReplacements();
-      List<String> newReplacements = new ArrayList<>();
-      for (String s : replacements) {
-        if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.length() > 1) {
-          s = s.replace("'", "’");
+      List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
+      List<SuggestedReplacement> newReplacements = new ArrayList<>();
+      for (SuggestedReplacement s : replacements) {
+        String newReplStr = s.getReplacement();
+        if (enabledRules.contains("APOSTROF_TIPOGRAFIC") && s.getReplacement().length() > 1) {
+          newReplStr = s.getReplacement().replace("'", "’");
         }
         //s = adaptContractionsApostrophes(s);
-        Matcher m5 = CA_OLD_DIACRITICS.matcher(s);
+        Matcher m5 = CA_OLD_DIACRITICS.matcher(s.getReplacement());
         if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
           // skip this suggestion with traditional diacritics
         } else {
-          newReplacements.add(s);
+          SuggestedReplacement newRepl = new SuggestedReplacement(s);
+          newRepl.setReplacement(newReplStr);
+          newReplacements.add(newRepl);
         }
       }
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);

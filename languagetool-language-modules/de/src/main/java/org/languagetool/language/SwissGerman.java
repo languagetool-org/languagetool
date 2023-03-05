@@ -24,6 +24,7 @@ import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.de.SwissCompoundRule;
 import org.languagetool.rules.de.SwissGermanSpellerRule;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -76,16 +77,18 @@ public class SwissGerman extends German {
   public boolean isVariant() {
     return true;
   }
-  
+
   @Override
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
     List<RuleMatch> newRuleMatches = new ArrayList<>();
     for (RuleMatch rm : ruleMatches) {
-      List<String> replacements = rm.getSuggestedReplacements();
-      List<String> newReplacements = new ArrayList<>();
-      for (String s : replacements) {
-        s = s.replaceAll("ß", "ss");
-        newReplacements.add(s);
+      List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
+      List<SuggestedReplacement> newReplacements = new ArrayList<>();
+      for (SuggestedReplacement s : replacements) {
+        String newReplStr = s.getReplacement().replaceAll("ß", "ss");
+        SuggestedReplacement newRepl = new SuggestedReplacement(s);
+        newRepl.setReplacement(newReplStr);
+        newReplacements.add(newRepl);
       }
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);
       newRuleMatches.add(newMatch);
