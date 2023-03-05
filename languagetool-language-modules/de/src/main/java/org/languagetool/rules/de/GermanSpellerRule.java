@@ -2649,6 +2649,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     switch (word) {
       case "Büffet":
+      case "Buffett":
+      case "Bufett":
+      case "Büffett":
+      case "Bufet":
+      case "Büfet":
         if (language.getShortCodeWithCountryAndVariant().equals("de-CH") || language.getShortCodeWithCountryAndVariant().equals("de-AT")) {
           return topMatch("Buffet", "zum Verzehr bereitgestellte Speisen");
         } else {
