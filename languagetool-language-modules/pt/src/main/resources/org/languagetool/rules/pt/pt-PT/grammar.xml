@@ -6106,61 +6106,26 @@
     </rule>
 
 
-    <rulegroup id='FORMAL_MONTES_DE' name="[pt-PT][Formal] 'montes de' → 'inúmeros'">
-      <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.MS.+"/>
-        </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imenso</suggestion>
-        <example correction="imenso">Perdi <marker>montes de</marker> tempo.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.MP.+"/>
-        </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imensos</suggestion>
-        <example correction="imensos">Perdi <marker>montes de</marker> contactos.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.FS.+"/>
-        </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imensa</suggestion>
-        <example correction="imensa">Perdi <marker>montes de</marker> gordura.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.FP.+"/>
-        </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imensas</suggestion>
-        <example correction="imensas">Perdi <marker>montes de</marker> horas.</example>
-      </rule>
-    </rulegroup>
+    <rule id='FORMAL_MONTES_DE' name="[pt-PT][Formal] 'montes de' → inúmeros/imensos">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-05 (Checked/Enhanced) (2-MAR-2023+) -->
+      <!--
+      Perdi montes de tempo. → Perdi imenso tempo.
+      Deparei-me com montes de obstáculos. → Deparei-me com inúmeros obstáculos.
+      -->
+      <pattern>
+        <token postag_regexp='yes' postag="V.+|SPS00"/>
+        <marker>
+          <token>montes</token>
+          <token>de</token>
+        </marker>
+        <token postag_regexp='yes' postag="NC.+"/>
+      </pattern>
+      <message>Num contexto formal, é preferível escrever:</message>
+      <suggestion><match no='4' postag='NC(..)000' postag_replace='AQ0$10'>imenso</match></suggestion>
+      <suggestion><match no='4' postag='NC(..)000' postag_replace='AQ0$10'>inúmero</match></suggestion>
+      <example correction="imenso|inúmero">Perdi <marker>montes de</marker> tempo.</example>
+      <example correction="imensos|inúmeros">Deparei-me com <marker>montes de</marker> obstáculos.</example>
+   </rule>
 
 
   </category>
