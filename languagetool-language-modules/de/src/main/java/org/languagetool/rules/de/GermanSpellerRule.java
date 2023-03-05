@@ -2648,6 +2648,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return topMatch(word.replaceFirst("brilliant", "brillant"));
     }
     switch (word) {
+      case "Büffet":
+        if (language.getShortCodeWithCountryAndVariant().equals("de-CH") || language.getShortCodeWithCountryAndVariant().equals("de-AT")) {
+          return topMatch("Buffet", "zum Verzehr bereitgestellte Speisen");
+        } else {
+          return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
+        }
       case "do": return topMatch("so");
       case "offensichtlicherweise": return topMatch("offensichtlich");
       case "Offensichtlicherweise": return topMatch("Offensichtlich");
