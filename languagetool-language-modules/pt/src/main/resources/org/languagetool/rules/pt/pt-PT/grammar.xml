@@ -153,23 +153,11 @@
 
 
   <category id="EUROPEAN_PORTUGUESE_PT_PT" name="[pt-PT] Português de Portugal">
-    <!-- FURTO/ROUBO DE IDENTIDADE usurpação de identidade -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
-    <rule id='ERRO_TRADUÇÃO_FURTO_ROUBO_IDENTIDADE' name="[Erro tradução] 'furto' de identidade → 'usurpação'">
-      <pattern>
-        <marker>
-          <token skip="3" inflected='yes' regexp='yes'>furtar|roubar</token>
-        </marker>
-        <token regexp='yes'>identidades?</token>
-      </pattern>
-      <message>Expressão não pode ser traduzida literalmente.</message>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usurpar</match></suggestion>
-      <example correction="usurpou">Alguém <marker>roubou</marker> a identidade do dono da empresa.</example>
-      <example>Alguém <marker>usurpou</marker> a minha identidade.</example>
-    </rule>
+
+
     <!-- CRIAR querer -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-03 (Enhanced) (1-JAN-2021+)      -->
-    <rulegroup id='CRIAR_QUERER' name="[Confusão] Criar/Querer">
+    <rulegroup id='CRIAR_QUERER' name="[pt-PT][Confusão] Criar/Querer">
 
       <!-- EU CRIA -->
       <rule>
@@ -5222,63 +5210,6 @@
     </rule>
 
 
-    <rulegroup id='FORMAL_MONTES_DE' name="[pt-PT][Formal] 'montes de' → 'inúmeros'">
-      <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.MS.+"/>
-        </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imenso</suggestion>
-        <example correction="imenso">Perdi <marker>montes de</marker> tempo.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.MP.+"/>
-        </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imensos</suggestion>
-        <example correction="imensos">Perdi <marker>montes de</marker> contactos.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.FS.+"/>
-        </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imensa</suggestion>
-        <example correction="imensa">Perdi <marker>montes de</marker> gordura.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag_regexp='yes' postag="V.+"/>
-          <marker>
-            <token>montes</token>
-            <token>de</token>
-          </marker>
-          <token postag_regexp='yes' postag="N.FP.+"/>
-        </pattern>
-        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
-        <suggestion>imensas</suggestion>
-        <example correction="imensas">Perdi <marker>montes de</marker> horas.</example>
-      </rule>
-    </rulegroup>
-
-
     <!-- TODO Add antipattern for dash and quotations -->
     <rulegroup id='FORMAL_T-V_DISTINCTION' name='[pt-PT][Formal] Tratamento formal: Tu,Você; Vós,Vocês' default='on' tags="picky">
       <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-28 -->
@@ -6173,6 +6104,63 @@
       <example correction="connosco">Ele veio <marker>com nós</marker> para o revéillon.</example>
       <example>Para isso temos que saber estar primeiro com nós próprios.</example>
     </rule>
+
+
+    <rulegroup id='FORMAL_MONTES_DE' name="[pt-PT][Formal] 'montes de' → 'inúmeros'">
+      <!--     Created by Marco A.G. Pinto, 2017-03-19   -->
+      <rule>
+        <pattern>
+          <token postag_regexp='yes' postag="V.+"/>
+          <marker>
+            <token>montes</token>
+            <token>de</token>
+          </marker>
+          <token postag_regexp='yes' postag="N.MS.+"/>
+        </pattern>
+        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imenso</suggestion>
+        <example correction="imenso">Perdi <marker>montes de</marker> tempo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag_regexp='yes' postag="V.+"/>
+          <marker>
+            <token>montes</token>
+            <token>de</token>
+          </marker>
+          <token postag_regexp='yes' postag="N.MP.+"/>
+        </pattern>
+        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensos</suggestion>
+        <example correction="imensos">Perdi <marker>montes de</marker> contactos.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag_regexp='yes' postag="V.+"/>
+          <marker>
+            <token>montes</token>
+            <token>de</token>
+          </marker>
+          <token postag_regexp='yes' postag="N.FS.+"/>
+        </pattern>
+        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensa</suggestion>
+        <example correction="imensa">Perdi <marker>montes de</marker> gordura.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag_regexp='yes' postag="V.+"/>
+          <marker>
+            <token>montes</token>
+            <token>de</token>
+          </marker>
+          <token postag_regexp='yes' postag="N.FP.+"/>
+        </pattern>
+        <message>Linguagem informal. Pondere usar uma expressão alternativa.</message>
+        <suggestion>imensas</suggestion>
+        <example correction="imensas">Perdi <marker>montes de</marker> horas.</example>
+      </rule>
+    </rulegroup>
 
 
   </category>
@@ -8107,6 +8095,22 @@
       <message>Expressão não pode ser traduzida literalmente.</message>
       <suggestion>verosimilhança</suggestion>
       <example correction='verosimilhança'>A estimativa de máxima <marker>semelhança</marker> é usada em Estatística.</example>
+    </rule>
+
+
+    <!-- FURTO/ROUBO DE IDENTIDADE usurpação de identidade -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-06 (Checked/Enhanced) (1-JAN-2022+)      -->
+    <rule id='ERRO_TRADUÇÃO_FURTO_ROUBO_IDENTIDADE' name="[pt-PT][Erro tradução] 'furto' de identidade → 'usurpação'">
+      <pattern>
+        <marker>
+          <token skip="3" inflected='yes' regexp='yes'>furtar|roubar</token>
+        </marker>
+        <token regexp='yes'>identidades?</token>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usurpar</match></suggestion>
+      <example correction="usurpou">Alguém <marker>roubou</marker> a identidade do dono da empresa.</example>
+      <example>Alguém <marker>usurpou</marker> a minha identidade.</example>
     </rule>
 
 
