@@ -350,7 +350,7 @@ regexp case-insensitive maken: (?i)
     </category>
 
     <category id="GRAMMAR" name="Grammaticaregels">
-        <rule id="MEN_MIJN" name="Appels zijn men (mijn) favoriete fruitsoort" type="misspelling" default="temp_off">
+        <rule id="MEN_MIJN" name="Appels zijn men (mijn) favoriete fruitsoort" type="misspelling" >
             <pattern>
                 <token>zijn</token>
                 <marker>
@@ -373,7 +373,7 @@ regexp case-insensitive maken: (?i)
                 <example correction="af te">Het hoeft nog niet <marker>afte</marker> lopen.</example>
             </rule>
         </rulegroup>
-        <rule id="IS_JOUW_MRV" name="Dit is (zijn) jouw auto's" type="misspelling" default="temp_off">
+        <rule id="IS_JOUW_MRV" name="Dit is (zijn) jouw auto's" type="misspelling" >
             <pattern>
                 <marker>
                     <token>is</token>
@@ -13363,7 +13363,7 @@ onwaarschijnlijk
             <rule>
                 <pattern>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" postag="UNKNOWN">[a-z]{2,4}</token>
+                        <token case_sensitive="yes" regexp="yes" postag="UNKNOWN">[a-z]{2,4}<exception regexp="yes">zgn|bijv|ca|cf|cfr|dr|drs|dra|ed||em|enz|etc|evt|excl|geb|incl|ir|jhr|jl|jr|max|nl|resp|sr|vnl|vs|ww|zg|zgn</token>
                         <token spacebefore="no">.</token>
                     </marker>
                     <token spacebefore="yes" case_sensitive="yes" regexp="yes">[a-z].*</token>
@@ -18738,7 +18738,7 @@ steenwijk;Steenwijk
         </rulegroup>
     </category>
     <category id="COLLOQUIALISMS" name="Informeel" type="style" tags="professional clarity">
-        <rulegroup id="VAN_DE_ZOTTE" name="Van de zotte" default="temp_off">
+        <rulegroup id="VAN_DE_ZOTTE" name="Van de zotte">
             <!-- R. Baars, januari 2023 -->
             <rule>
                 <pattern>
@@ -45725,7 +45725,7 @@ steenwijk;Steenwijk
                 <example correction="N.B.">Het aantal is <marker>NB</marker> verkeerd.</example>
             </rule>
         </rulegroup>
-         <rulegroup id="AMPERSAND" name="&amp;/en" default="temp_off" tags="picky">
+         <rulegroup id="AMPERSAND" name="&amp;/en" tags="picky">
             <rule>
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
