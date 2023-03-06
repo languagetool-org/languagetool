@@ -2588,7 +2588,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="PUNCT_DPT_2" name="Запятые при деепричастном обороте (2)"  tags="picky"  >  <!-- TO DO: remove picky after testing -->
-            <antipattern>
+            <antipattern> <!-- кроме таких одиночных деепричастий и деепричастных оборотов, которые примыкают непосредственно к сказуемому и по своему значению приближаются к наречию -->
               <token postag="DPT:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="DPT:.*" postag_regexp="yes" /></token>
               <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes" /></token>
             </antipattern>
@@ -7566,11 +7566,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify negate="yes">
                                 <feature id="number"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
+                                    <exception postag="ADJ:Posit|ADJ:Comp" postag_regexp="yes" ></exception>
                                     <exception scope="previous"  regexp="yes">,|и|или|–|-|—|&double_num;|[\p{Digit}]+|[\p{Digit}]+-го</exception>
                                     <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
                                     <exception regexp="yes">р|онлайн|полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное|серый</exception>
                                 </token>
                                 <token postag="NN:.*" postag_regexp="yes">
+                                    <exception postag="NN:Anim|NN:Inanim|NN:Fam" postag_regexp="yes" ></exception>
                                     <exception postag="CONJ|PREP|ADV|ABR|Ord:.*" postag_regexp="yes" />
                                     <exception regexp="yes">друг|уже|были|дай|гей|стряпней|стерней</exception>
                                     <!-- полчаса, полдня -->
@@ -7618,6 +7620,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>После выходных работник смотрелся не важно.</example>
                     <example correction=""><marker>Железные кровать</marker>.</example>
                     <example>Вдали виднелись красивые сосны.</example>
+                    <example>У молодоженов был замечательный ретро автомобиль — белый запорожец.</example> <!-- ретро ADJ:Posit test if case is absent -->
                     <example correction="">Вдали виднелись <marker>красивые ёлка</marker>.</example>
                     <example>Мебель сделана из красивой сосны.</example>
                     <example>Невежливо показывать на других пальцем.</example>
@@ -7651,6 +7654,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify negate="yes">
                                 <feature id="gender"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
+                                    <exception postag="ADJ:Posit|ADJ:Comp" postag_regexp="yes" ></exception>
                                     <exception scope="previous" regexp="yes">,|–|-|—|был|&double_num;|[\p{Digit}]+</exception>
                                     <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp="yes"/>
              <!--                       <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>  -->
@@ -7659,6 +7663,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <exception regexp="yes">р|онлайн</exception>
                                 </token>
                                 <token postag="NN:.*" postag_regexp="yes">
+                                    <exception postag="NN:Anim|NN:Inanim|NN:Fam" postag_regexp="yes" ></exception>
                                     <exception postag="CONJ|PREP|ADV|ABR|ADJ:.*|Ord:.*" postag_regexp="yes" />
                                     <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью|были|дай|гей</exception>
                                     <exception case_sensitive="yes">Tом</exception>
@@ -7715,6 +7720,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Был построен добротный дом.</example>
                     <example correction="">Был построен <marker>добротная дом</marker>.</example>
                     <example>Пушистая кошка грелась на солнышке.</example>
+                    <example>У молодоженов был замечательный ретро автомобиль — белый запорожец.</example> <!-- ретро ADJ:Posit test if case is absent -->
                     <example correction="">Эта <marker>пушистое кошка</marker> грелась.</example>
                     <example>Вдали виднелось синее небо.</example>
                     <example>Тогда это проблема другой стороны.</example>
@@ -7759,6 +7765,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <unify negate="yes">
                                 <feature id="case"/>
                                 <token postag="ADJ:.*" postag_regexp="yes">
+                                    <exception postag="ADJ:Posit|ADJ:Comp" postag_regexp="yes" ></exception>
                                     <exception scope="previous" regexp="yes">,|–|-|—</exception>
                                     <exception postag="PT:.*|ADV|ADJ:Comp|ABR|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp="yes" />
                                     <exception regexp="yes">р|онлайн|полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|возможным|невозможным|собственн(ом|ый)|активн(ым|ыми)|сборной|большее|меньшее</exception>
@@ -7766,6 +7773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <exception case_sensitive="yes">Божию</exception>
                                 </token>
                                 <token postag="NN:.*" postag_regexp="yes">
+                                    <exception postag="NN:Anim|NN:Inanim|NN:Fam" postag_regexp="yes" ></exception>
                                     <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
                                     <exception postag="VB:.*|CONJ|PREP|ADV|ABR|ADJ:.*|Ord:.*" postag_regexp="yes" />
                                     <!-- Слова без буквы ё имеют неправильный падеж -->
@@ -7790,6 +7798,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Временными правительства называли журналисты.</example>
                     <example>Эти добрые полчаса.</example>
                     <example>Контактный тел.</example>
+                    <example>У молодоженов был замечательный ретро автомобиль - белый запорожец.</example> <!-- ретро ADJ:Posit test if case is absent -->
                     <example>Подошел казавшийся смуглым человек.</example><!-- Test for Russian chunker -->
                     <example>Всё необходимое накопитель получает от шины USB.</example>
                     <example>Она позволяет сильным страны сей ситуативно решать.</example>
