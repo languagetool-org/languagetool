@@ -936,6 +936,18 @@ Copyright (C) 2009-2023 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="VB:.*:.*:.*:.*|ADJ:.*:.*"></disambig>
     </rule>
+    <rule name="NN_or_NN_Fam" id="NN_or_NN_Fam">
+        <pattern>		   
+            <token><exception  postag="SENT_START"   /></token>
+            <marker>
+                <and>
+                    <token postag="NN:Fam:.*:.*:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[А-ЯЁ][а-яё]*</token>
+                    <token postag="NN:(Anim|Inanim):.*:.*:.*" postag_regexp="yes" ></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:(Anim|Inanim):.*:.*:.*"></disambig>
+    </rule>
      
   <rulegroup id="po-ADJ" name="po-ADJ">  <!-- по-мышиному -->
         <rule>
