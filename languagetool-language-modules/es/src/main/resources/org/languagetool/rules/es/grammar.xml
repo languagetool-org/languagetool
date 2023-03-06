@@ -16371,14 +16371,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PORQUE" name="porque/por que/porqué">
             <url>https://www.rae.es/consultas/porque-porque-por-que-por-que-0</url>
             <rule>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">ser|parecer</token>
+                    <token regexp="yes">nuestro|vuestro</token>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">el|del|al|su|tu|mi</token>
+                    <token regexp="yes">el|del|al|su|tu|mi|nuestro|vuestro|un</token>
                     <marker>
                         <token>porque</token>
                     </marker>
                 </pattern>
                 <message>Como sustantivo ('causa, motivo'), se escribe <suggestion>porqué</suggestion>.</message>
                 <example correction="porqué">Quiero saber el <marker>porque</marker>.</example>
+                <example>Lo haré porque quiero.</example>
+                <example>Es nuestro porque lo compramos nosotros.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes" inflected="yes">ser|parecer</token>
+                    <token regexp="yes">nuestro|vuestro</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">el|del|al|su|tu|mi|nuestro|vuestro|un</token>
+                    <marker>
+                        <token>por</token>
+                        <token regexp="yes">qué|que</token>
+                    </marker>
+                </pattern>
+                <message>Como sustantivo ('causa, motivo'), se escribe <suggestion>porqué</suggestion>.</message>
+                <example correction="porqué">Quiero saber el <marker>por qué</marker>.</example>
+                <example correction="porqué">Debe haber un <marker>por qué</marker>.</example>
                 <example>Lo haré porque quiero.</example>
                 <example>Es nuestro porque lo compramos nosotros.</example>
             </rule>
