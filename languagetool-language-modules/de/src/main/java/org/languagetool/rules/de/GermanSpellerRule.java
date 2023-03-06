@@ -1476,9 +1476,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("lehr", w -> Arrays.asList("mehr", "lehrt", "sehr", "leer"));
     put("sm", w -> Arrays.asList("am", "im", "am", "SM"));
     put("tuh", w -> Arrays.asList("tun", "tut", "tue", "Kuh"));
+    put("wuden", w -> Arrays.asList("wurden", "würden"));
     put("intere", w -> Arrays.asList("interne", "innere", "hintere", "untere"));
     put("unterschiede", w -> Arrays.asList("Unterschiede", "unterscheide", "unterschiebe", "unterschieden"));
     put("bi", "bei");
+    put("Aendert", "Ändert");
+    put("aendert", "ändert");
+    put("bizte", "bitte");
+    put("korekkt", "korrekt");
     put("Erhlich", "Ehrlich");
     put("gestrest", "gestresst");
     put("rauschicken", "rausschicken");
@@ -3130,6 +3135,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Ubahntunnels": return topMatch("U-Bahntunnels");
       case "UBahntunnels": return topMatch("U-Bahntunnels");
       case "Gelantine": return topMatch("Gelatine");
+      case "angehangenen": return topMatch("angehängten");
+      case "ausmahlen": return topMatch("ausmalen");
+      case "ausgemahlt": return topMatch("ausgemalt");
     }
     return Collections.emptyList();
   }
