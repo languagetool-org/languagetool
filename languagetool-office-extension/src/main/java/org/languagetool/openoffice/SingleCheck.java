@@ -380,7 +380,9 @@ class SingleCheck {
         docCursor.removeMarks(changedTextParas);
       }
       FlatParagraphTools flatPara = singleDocument.getFlatParagraphTools();
-      flatPara.markParagraphs(changedParasMap);
+      if (flatPara != null) {
+        flatPara.markParagraphs(changedParasMap);
+      }
     }
   }
   

@@ -1624,6 +1624,7 @@ public class MultiDocumentsHandler {
       if (linguServices == null) {
         linguServices = new LinguisticServices(xContext);
       }
+/*
       if (!linguServices.spellCheckerIsActive()) {
         if (showMessage) {
           MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
@@ -1632,6 +1633,7 @@ public class MultiDocumentsHandler {
         }
         return false;
       }
+*/
       if (xContext == null) {
         if (showMessage) { 
           MessageHandler.showMessage("There may be a installation problem! \nNo xContext!");
