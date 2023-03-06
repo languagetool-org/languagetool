@@ -52,20 +52,11 @@
         </repository>
     </distributionManagement>
 
-    <!-- TODO remove if nothing failed after reorganize  
-        <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-        </parent>
-    -->
     <properties>
         <revision>6.1-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <!-- TODO: Which should remain? -->
-        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss Z</maven.build.timestamp.format>
         <!--Maven-Plugin-Versions -->
         <!-- NOTE: don't update without testing OpenOffice, 3.0.2 caused "Got no data stream!" after add-on installation -->
@@ -185,14 +176,306 @@
     </properties>
 
     <dependencyManagement>
-        <!--LT Premium dependencies-->
         <dependencies>
-            <!-- 3rd Party Dependencies -->
+            <!-- Start LT-Dependencies -->
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>languagetool-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>language-all</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>languagetool-commandline</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>languagetool-dev</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>languagetool-gui-commons</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>languagetool-http-client</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>languagetool-office-extension</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>languagetool-server</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>languagetool-standalone</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>languagetool-tools</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.languagetool</groupId>
+                <artifactId>languagetool-wikipedia</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- End LT-Dependencies -->
+            <!-- Start apache commons dependencies -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${org.apache.commons.lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${org.apache.commons.text.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${org.apache.commons.commons-pool2.version}</version>
+            </dependency>
+            <!-- End apache commons dependencies -->
+            <!-- Start logging dependencies -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${org.slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${ch.qos.logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${commons-logging.version}</version>
+            </dependency>
+            <!-- End logging dependencies -->
+            <!-- Start lingu dependencies -->
+            <dependency>
+                <groupId>org.carrot2</groupId>
+                <artifactId>morfologik-fsa</artifactId>
+                <version>${morfologik.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.carrot2</groupId>
+                <artifactId>morfologik-fsa-builders</artifactId>
+                <version>${morfologik.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.carrot2</groupId>
+                <artifactId>morfologik-speller</artifactId>
+                <version>${morfologik.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.carrot2</groupId>
+                <artifactId>morfologik-stemming</artifactId>
+                <version>${morfologik.version}</version>
+            </dependency>
+            <dependency>
+                <!-- needed for building the Morfologik dict at runtime (for ignore.txt) -->
+                <groupId>com.carrotsearch</groupId>
+                <artifactId>hppc</artifactId>
+                <version>${com.carrotsearch.hppc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.loomchild</groupId>
+                <artifactId>segment</artifactId>
+                <version>${net.loomchild.segment.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gitlab.dumonts</groupId>
+                <artifactId>hunspell</artifactId>
+                <version>${com.gitlab.dumonts.hunspell.version}</version>
+            </dependency>
+            <!-- End lingu dependencies -->
+            <!-- Start grpc dependencies -->
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>${javax.annotation.javax.annotation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty-shaded</artifactId>
+                <version>${io.grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-protobuf</artifactId>
+                <version>${io.grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-stub</artifactId>
+                <version>${io.grpc.version}</version>
+            </dependency>
+            <!-- End grpc dependencies -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.hankcs</groupId>
+                <artifactId>aho-corasick-double-array-trie</artifactId>
+                <version>${com.hankcs.aho-corasick-double-array-trie.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.optimaize.languagedetector</groupId>
+                <artifactId>language-detector</artifactId>
+                <version>${optimaize.languagedetector.language-detector.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${org.jetbrains.annotations.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-core</artifactId>
+                <version>${lucene.version}</version>
+            </dependency>
+            <dependency>
+                <!-- so we can open indexed created with older versions of Lucene -->
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-backward-codecs</artifactId>
+                <version>${lucene.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.measure</groupId>
+                <artifactId>unit-api</artifactId>
+                <!-- see https://github.com/languagetool-org/languagetool/issues/4088 before you upgrade this -->
+                <version>${javax.measure.unit-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.units</groupId>
+                <artifactId>indriya</artifactId>
+                <!-- see https://github.com/languagetool-org/languagetool/issues/4088 before you upgrade this -->
+                <version>${tech.units.indriya.version}</version>
+            </dependency>
+            <dependency>
+                <!-- for JDK 9 -->
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${javax.xml.bind.jaxb-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${org.glassfish.jaxb.jaxb-runtime.version}</version>
+            </dependency>
+            <!-- JAXB needs javax.activation module (jdk9) -->
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>javax.activation-api</artifactId>
+                <version>${javax.activation.javax.activation-api.version}</version>
+            </dependency>
+
+
+            <!-- prometheus monitoring, further dependencies in languagetool-server -->
+            <!-- The client -->
+            <dependency>
+                <groupId>io.prometheus</groupId>
+                <artifactId>simpleclient</artifactId>
+                <version>${io.prometheus.simpleclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.prometheus</groupId>
+                <artifactId>simpleclient_guava</artifactId>
+                <version>${io.prometheus.simpleclient.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-circuitbreaker</artifactId>
+                <version>${io.github.resilience4j.version}</version>
+            </dependency>
+            <!-- monitoring for resilience4j -->
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-micrometer</artifactId>
+                <version>${io.github.resilience4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${io.micrometer.micrometer-prometheus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.awaitility</groupId>
+                <artifactId>awaitility</artifactId>
+                <version>${org.awaitility.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.intellij.deps</groupId>
+                <artifactId>trove4j</artifactId>
+                <version>${org.jetbrains.intellij.deps.trove4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-validator</groupId>
+                <artifactId>commons-validator</artifactId>
+                <version>${commons-validator}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vdurmont</groupId>
+                <artifactId>emoji-java</artifactId>
+                <version>${com.vdurmont.emoji-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${org.json.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
-                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
