@@ -178,10 +178,6 @@ public class DocumentCache implements Serializable {
   private void refreshWriterCache(SingleDocument document, Locale fixedLocale, Locale docLocale, int fromWhere) {
     try {
       long startTime = System.currentTimeMillis();
-      DocumentCursorTools docCursor = document.getDocumentCursorTools();
-      if (docCursor == null) {
-        docCursor = new DocumentCursorTools(document.getXComponent());
-      }
       FlatParagraphTools flatPara = document.getFlatParagraphTools();
       List<String> paragraphs = new ArrayList<String>();
       List<List<Integer>> chapterBegins = new ArrayList<List<Integer>>();
@@ -198,6 +194,11 @@ public class DocumentCache implements Serializable {
       List<DocumentText> documentTexts = new ArrayList<>();
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         documentTexts.add(null);
+      }
+      DocumentCursorTools docCursor = document.getDocumentCursorTools();
+      if (docCursor == null) {
+        MessageHandler.printToLogFile("DocumentCache: refreshWriterCache: docCursor == null: return");
+        return;
       }
       documentTexts.set(CURSOR_TYPE_TEXT, docCursor.getAllTextParagraphs());
       documentTexts.set(CURSOR_TYPE_TABLE, docCursor.getTextOfAllTables());

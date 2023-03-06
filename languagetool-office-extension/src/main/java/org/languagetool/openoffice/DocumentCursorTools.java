@@ -286,7 +286,7 @@ class DocumentCursorTools {
           sortedTextIds = new ArrayList<Integer>();
         }
       }
-      allParas.add(xPCursor.getString());
+      allParas.add(new String(xPCursor.getString()));
       deletedCharacters.add(getDeletedCharacters(xPCursor));
       TextType textType = getTextType();
       if (textType == TextType.HEADING) {
@@ -301,7 +301,7 @@ class DocumentCursorTools {
       while (xPCursor.gotoNextParagraph(false)) {
         xPCursor.gotoStartOfParagraph(false);
         xPCursor.gotoEndOfParagraph(true);
-        allParas.add(xPCursor.getString());
+        allParas.add(new String(xPCursor.getString()));
         deletedCharacters.add(getDeletedCharacters(xPCursor));
         paraNum++;
         textType = getTextType();
@@ -442,7 +442,7 @@ class DocumentCursorTools {
     do {
       xParagraphCursor.gotoStartOfParagraph(false);
       xParagraphCursor.gotoEndOfParagraph(true);
-      sText.add(xParagraphCursor.getString());
+      sText.add(new String(xParagraphCursor.getString()));
       deletedCharacters.add(getDeletedCharacters(xParagraphCursor));
       if (sortedTextIds != null) {
         sortedTextIds.add(getSortedTextId(xParagraphCursor));

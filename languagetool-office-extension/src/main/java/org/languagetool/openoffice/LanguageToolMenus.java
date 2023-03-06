@@ -519,7 +519,7 @@ public class LanguageToolMenus {
                     XIndexContainer xSubMenuContainer = (XIndexContainer)UnoRuntime.queryInterface(XIndexContainer.class,
                         xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerContainer"));
                     int j = 0;
-                    for (String dict : document.getMultiDocumentsHandler().getLtDictionary().getUserDictionaries(xContext)) {
+                    for (String dict : LtDictionary.getUserDictionaries(xContext)) {
                       XPropertySet xNewSubMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
                           xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
                       xNewSubMenuEntry.setPropertyValue("Text", dict);

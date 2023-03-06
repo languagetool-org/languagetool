@@ -102,7 +102,6 @@ public class MultiDocumentsHandler {
   private SortedTextRules sortedTextRules;
   private Map<String, Set<String>> disabledRulesUI; //  Rules disabled by context menu or spell dialog
   private final List<Rule> extraRemoteRules;        //  store of rules supported by remote server but not locally
-  private final LtDictionary dictionary;            //  internal dictionary of LT defined words 
   private LtCheckDialog ltDialog = null;            //  LT spelling and grammar check dialog
   private ConfigurationDialog cfgDialog = null;     //  configuration dialog (show only one configuration panel)
   private static AboutDialog aboutDialog = null;           //  about dialog (show only one about panel)
@@ -144,7 +143,6 @@ public class MultiDocumentsHandler {
     documents = new ArrayList<>();
     disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
-    dictionary = new LtDictionary();
     LtHelper ltHelper = new LtHelper();
     ltHelper.start();
   }
@@ -1059,13 +1057,6 @@ public class MultiDocumentsHandler {
   }
   
   /**
-   * Get dictionary access
-   */
-  public LtDictionary getLtDictionary() {
-    return dictionary;
-  }
-
-  /**
    * Get list of single documents
    */
   public List<SingleDocument> getDocuments() {
@@ -1542,7 +1533,7 @@ public class MultiDocumentsHandler {
         activateRule(ruleId);
       } else if (sEvent.startsWith("addToDictionary_")) {
         String[] sArray = sEvent.substring(16).split(":");
-        getLtDictionary().addWordToDictionary(sArray[0], sArray[1], xContext);;
+        LtDictionary.addWordToDictionary(sArray[0], sArray[1], xContext);;
       } else if ("renewMarkups".equals(sEvent)) {
         renewMarkups();
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
@@ -1927,11 +1918,11 @@ public class MultiDocumentsHandler {
     @Override
     public void run() {
       if (config.useLtDictionary()) {
-        if (dictionary.setLtDictionary(xContext, locale, linguServices)) {
+        if (LtDictionary.setLtDictionary(xContext, locale, linguServices)) {
           resetCheck();
         }
       } else {
-        if (dictionary.removeLtDictionaries(xContext)) {
+        if (LtDictionary.removeLtDictionaries(xContext)) {
           resetCheck();
         }
       }

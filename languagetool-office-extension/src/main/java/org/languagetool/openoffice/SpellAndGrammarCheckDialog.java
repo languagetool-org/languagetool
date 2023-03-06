@@ -1109,7 +1109,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
                   try {
                     setAtWorkButtonState();
                     String dictionary = (String) addToDictionary.getSelectedItem();
-                    documents.getLtDictionary().addWordToDictionary(dictionary, wrongWord, xContext);
+                    LtDictionary.addWordToDictionary(dictionary, wrongWord, xContext);
                     addUndo(y, "addToDictionary", dictionary, wrongWord);
                     addToDictionary.setSelectedIndex(0);
                     gotoNextError();
@@ -1836,7 +1836,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
      * stores the list of local dictionaries into the dialog element
      */
     private void setUserDictionaries () {
-      String[] tmpDictionaries = documents.getLtDictionary().getUserDictionaries(xContext);
+      String[] tmpDictionaries = LtDictionary.getUserDictionaries(xContext);
       userDictionaries = new String[tmpDictionaries.length + 1];
       userDictionaries[0] = addToDictionaryName;
       for (int i = 0; i < tmpDictionaries.length; i++) {
@@ -2192,7 +2192,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
         if (debugMode) {
           MessageHandler.printToLogFile("CheckDialog: ignoreAll: Ignored word: " + wrongWord);
         }
-        documents.getLtDictionary().addIgnoredWord(wrongWord);
+        LtDictionary.addIgnoredWord(wrongWord, xContext);
       } else {
         documents.ignoreRule(error.aRuleIdentifier, locale);
         documents.initDocuments(true);
@@ -2618,7 +2618,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
             if (debugMode) {
               MessageHandler.printToLogFile("CheckDialog: Undo: Ignored word removed: " + wrongWord);
             }
-            documents.getLtDictionary().removeIgnoredWord(wrongWord);
+            LtDictionary.removeIgnoredWord(wrongWord, xContext);
           } else {
             Locale locale = docCache.getFlatParagraphLocale(yUndo);
             documents.removeDisabledRule(OfficeTools.localeToString(locale), lastUndo.ruleId);
@@ -2637,7 +2637,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           documents.deactivateRule(lastUndo.ruleId, OfficeTools.localeToString(locale), false);
           doInit = true;
         } else if (action.equals("addToDictionary")) {
-          documents.getLtDictionary().removeWordFromDictionary(lastUndo.ruleId, lastUndo.word, xContext);
+          LtDictionary.removeWordFromDictionary(lastUndo.ruleId, lastUndo.word, xContext);
         } else if (action.equals("changeLanguage")) {
           Locale locale = getLocaleFromLanguageName(lastUndo.ruleId);
           FlatParagraphTools flatPara = currentDocument.getFlatParagraphTools();
