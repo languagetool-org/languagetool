@@ -14573,19 +14573,31 @@ onwaarschijnlijk
                 <example correction="">Welke inhoud die 80 <marker>triljard</marker> becq veroorzaken daar hebben we allemaal het raden naar.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="A" name="Geen a of ad maar á">
+        <rulegroup id="A" name="Geen a of ad maar à">
             <!-- 2014-08-23 TaalTik -->
             <rule>
                 <pattern>
-                    <token regexp="yes">ad|a</token>
+                    <token regexp="yes">ad|a|á</token>
                     <token regexp="yes">€|EUR</token>
                     <token regexp="yes">[0-9][1-9]{0,6}</token>
                     <token>per</token>
                 </pattern>
-                <message>De prijs per stuk wordt aangegeven met: <suggestion>á</suggestion>.</message>
+                <message>De prijs per stuk wordt aangegeven met: <suggestion>à</suggestion>.</message>
+                <short>à</short>
+                <example correction="à">Het is <marker>ad € 15 per</marker> stuk of niet.</example>
+                <example>Het is <marker>à € 20 per</marker> stuk toch niet duur?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[0-9][1-9]{0,6}</token>
+                    <marker>
+                        <token regexp="yes">a|á</token>
+                    </marker>
+                    <token regexp="yes">[0-9][1-9]{0,6}</token>
+                </pattern>
+                <message>Een reeks wordt aangeven met <suggestion>à</suggestion>.</message>
                 <short>á</short>
-                <example correction="á">Het is <marker>ad € 15 per</marker> stuk of niet.</example>
-                <example>Het is <marker>á € 20 per</marker> stuk toch niet duur?</example>
+                <example correction="à">Het duurt 2 <marker>a</marker> 3 minuten.</example>
             </rule>
         </rulegroup>
     </category>
