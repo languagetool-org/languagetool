@@ -388,6 +388,19 @@ regexp case-insensitive maken: (?i)
             <example correction="zijn">Dit <marker>is</marker> jouw auto's.</example>
             <example>Dat is jouw broers mening.</example>
         </rule>
+        <rule id="JOU_JOUW_VNW" name="Waarom stuurt hij jouw (jou) geen berichtjes meer?" type="misspelling" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>jouw</token>
+                </marker>
+                <token postag_regexp="yes" postag="VNW:OBP.*">
+                    <exception postag_regexp="yes" postag="VNW:OBP:ONV|VNW:OBP:VRB"/>
+                </token>
+            </pattern>
+            <message>U bedoelt waarschijnlijk <suggestion>jou</suggestion> of <suggestion>je</suggestion>.</message>
+            <example correction="jou|je">Dat gaat <marker>jouw</marker> niets aan!</example>
+            <example correction="jou|je">Waarom stuurt hij <marker>jouw</marker> geen berichtjes meer?</example>
+        </rule>
     </category>
 
     <category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
