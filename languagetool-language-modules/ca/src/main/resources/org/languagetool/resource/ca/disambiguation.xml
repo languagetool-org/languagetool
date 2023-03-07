@@ -13073,7 +13073,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <token postag="A..[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_|N.CN.*|VAP00SM0" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|voler|saber</exception></token>
-                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">recull|ens|estic|tant|cap</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">recull|ens|estic|tant|cap|son</exception><exception postag="DN.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -13085,7 +13085,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <token postag="A..[FC][SN0].*|V.P..SF.?|PX.[FC][SN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_|N.CN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|voler|saber</exception></token>
-                    <token postag="N.[FC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/><exception regexp="yes">parla|cap</exception></token>
+                    <token postag="N.[FC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/><exception regexp="yes">parla|cap|son</exception></token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -16967,6 +16967,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="VMIS3S00"/>
     </rule>
+    <rule id="verb_start" name="verb al principi de frase">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token min="0" max="3" regexp="yes">\p{P}</token>
+            <marker>
+                <token postag="V.[IM].*" postag_regexp="yes"><exception postag_regexp="yes" postag="_GN_.*"/><exception>visca</exception></token>
+            </marker>
+            <token postag="_GN_.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="NC.*|A.*"/>
+    </rule>
     <rulegroup id="SUBJUNTIU_IMPERATIU" name="subjuntiu/imperatiu">
         <rule>
             <antipattern>
@@ -17260,11 +17271,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rulegroup>
     <rulegroup id="verb_reflexiu_simple" name="verb acompanyat de pronom reflexiu">
         <rule>
-            <antipattern>
-                <!-- TODO: generalitzar -->
+            <!--<antipattern>
+                <!-\- TODO: generalitzar -\->
                 <token regexp="yes">això|aço|allò|ell|ella</token>
                 <token regexp="yes">m'|em</token>
-            </antipattern>
+            </antipattern>-->
             <pattern>
                 <unify>
                     <feature id="nombre"/>
@@ -17418,11 +17429,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="CC"/>
         </antipattern>
         <rule>
-            <antipattern>
-                <!-- TODO: generalitzar -->
+            <!--<antipattern>
+                <!-\- TODO: generalitzar -\->
                 <token regexp="yes">això|aço|allò|ell|ella</token>
                 <token regexp="yes">m'|em</token>
-            </antipattern>
+            </antipattern>-->
             <pattern>
                 <unify>
                     <feature id="nombre"/>
