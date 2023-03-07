@@ -41,7 +41,7 @@ workflows:
             equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
         - equal: [ true, << pipeline.parameters.run_on_pull >> ]            
     jobs:
-      - test-and-deploy-full
+      - test-and-deploy-partial
 jobs:
   security-scan:
     resource_class: medium

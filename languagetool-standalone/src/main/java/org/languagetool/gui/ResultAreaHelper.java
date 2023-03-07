@@ -113,7 +113,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     }
   }
 
-  private ResultAreaHelper(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
+  public ResultAreaHelper(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
     this.messages = messages;
     this.ltSupport = ltSupport;
     this.statusPane = statusPane;
@@ -209,7 +209,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     }
   }
 
-  private void getRuleMatchHtml(List<RuleMatch> ruleMatches, String text) {
+  public void getRuleMatchHtml(List<RuleMatch> ruleMatches, String text) {
     ContextTools contextTools = new ContextTools();
     StringBuilder sb = new StringBuilder(200);
     if (ltSupport.getLanguage().getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
@@ -270,7 +270,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     appendMain(sb.toString());
   }
 
-  private String getDisabledRulesHtml() {
+  public String getDisabledRulesHtml() {
     StringBuilder sb = new StringBuilder(40);
     sb.append(messages.getString("deactivatedRulesText"));
     int i = 0;
@@ -303,13 +303,13 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     this.runTime = runTime;
   }
 
-  private void displayResult(String inputText, List<RuleMatch> matches) {
+  public void displayResult(String inputText, List<RuleMatch> matches) {
     List<RuleMatch> filtered = filterRuleMatches(matches);
     getRuleMatchHtml(filtered, inputText);
     statusPane.setCaretPosition(0);
   }
 
-  private List<RuleMatch> filterRuleMatches(List<RuleMatch> matches) {
+  public List<RuleMatch> filterRuleMatches(List<RuleMatch> matches) {
     List<RuleMatch> filtered = new ArrayList<>();
     Set<String> disabledRuleIds = ltSupport.getConfig().getDisabledRuleIds();
     for (RuleMatch ruleMatch : matches) {
@@ -337,7 +337,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     }
   }
 
-  private void handleRuleLinkClick(String uri) throws IOException {
+  public void handleRuleLinkClick(String uri) throws IOException {
     RuleLink ruleLink = RuleLink.getFromString(uri);
     String ruleId = ruleLink.getId();
     if (uri.startsWith(DEACTIVATE_URL)) {
