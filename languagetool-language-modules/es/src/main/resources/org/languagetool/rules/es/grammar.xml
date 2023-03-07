@@ -16394,6 +16394,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es nuestro porque lo compramos nosotros.</example>
             </rule>
             <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token>por</token>
+                        <token regexp="yes" skip="-1">qué|que</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>¿Quería decir "él" (pronombre), "el porqué" (la causa, el motivo) o "por qué" (por qué motivo)?</message>
+                <suggestion>él por qué</suggestion>
+                <suggestion>el porqué</suggestion>
+                <suggestion>por qué</suggestion>
+                <example correction="él por qué|el porqué|por qué">¿Y <marker>el por qué</marker> no viene?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token>por</token>
+                        <token regexp="yes">qué|que</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe <suggestion>el porqué</suggestion> (la causa, el motivo) o <suggestion>por qué</suggestion> (por qué motivo).</message>
+                <example correction="el porqué|por qué">Quiero saber <marker>el por qué</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">al|del</token>
+                    <marker>
+                        <token>por</token>
+                        <token regexp="yes">qué|que</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe "el porqué" (la causa, el motivo) o "por qué" (por qué motivo).</message>
+                <suggestion>\1 porqué</suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)l" regexp_replace=""/> por qué</suggestion>
+                <example correction="del porqué|de por qué">Me olvidé del <marker>por qué</marker>.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token regexp="yes" inflected="yes">ser|parecer</token>
                     <token regexp="yes">nuestro|vuestro</token>
@@ -16405,14 +16444,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>qué</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">el|del|al|su|tu|mi|nuestro|vuestro|un</token>
+                    <token regexp="yes">su|tu|mi|nuestro|vuestro|un</token>
                     <marker>
                         <token>por</token>
                         <token regexp="yes">qué|que</token>
                     </marker>
                 </pattern>
                 <message>Como sustantivo ('causa, motivo'), se escribe <suggestion>porqué</suggestion>.</message>
-                <example correction="porqué">Quiero saber el <marker>por qué</marker>.</example>
                 <example correction="porqué">Debe haber un <marker>por qué</marker>.</example>
                 <example>Lo haré porque quiero.</example>
                 <example>Es nuestro porque lo compramos nosotros.</example>
