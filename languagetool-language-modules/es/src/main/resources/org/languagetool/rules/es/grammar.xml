@@ -16386,10 +16386,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo haré porque quiero.</example>
                 <example>Es nuestro porque lo compramos nosotros.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes" inflected="yes">ser|parecer</token>
                     <token regexp="yes">nuestro|vuestro</token>
+                </antipattern>
+                <antipattern>
+                    <!-- error tu->tú -->
+                    <token>tu</token>
+                    <token>por</token>
+                    <token>qué</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">el|del|al|su|tu|mi|nuestro|vuestro|un</token>
