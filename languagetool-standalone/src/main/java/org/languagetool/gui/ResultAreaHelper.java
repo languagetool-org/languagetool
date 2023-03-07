@@ -113,7 +113,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     }
   }
 
-  private ResultAreaHelper(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
+  public ResultAreaHelper(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
     this.messages = messages;
     this.ltSupport = ltSupport;
     this.statusPane = statusPane;
