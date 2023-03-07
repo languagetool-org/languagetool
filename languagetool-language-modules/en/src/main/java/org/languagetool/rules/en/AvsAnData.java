@@ -36,7 +36,7 @@ final class AvsAnData {
   private static final Set<String> requiresA = loadWords("/en/det_a.txt");
   private static final Set<String> requiresAn = loadWords("/en/det_an.txt");
 
-  private AvsAnData() {
+  public AvsAnData() {
   }
 
   static Set<String> getWordsRequiringA() {
@@ -50,7 +50,7 @@ final class AvsAnData {
   /**
    * Load words, normalized to lowercase unless starting with '*'.
    */
-  private static Set<String> loadWords(String path) {
+  public static Set<String> loadWords(String path) {
     Set<String> set = new THashSet<>();
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     try (Scanner scanner = new Scanner(stream, "utf-8")) {
