@@ -6122,6 +6122,28 @@
    </rule>
 
 
+    <!-- PERANTE O MESMO perante idêntico -->
+    <rule id='PERANTE_O_MESMO_IDENTICO' name="[pt-PT][Formal] Perante 'o mesmo' → idêntico">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-07 (2-MAR-2023+) -->
+      <!-- 
+      A ciência responde diferentemente perante o mesmo conjunto de dados. → A ciência responde diferentemente perante idêntico conjunto de dados.
+      Estamos perante a mesma categoria de dados. → Estamos perante idêntica categoria de dados.
+      -->
+      <pattern>
+        <token regexp='yes'>perante|ante|diante</token>
+        <marker>          
+          <token regexp='yes'>d?[ao]s?</token>
+          <token regexp='yes'>mesm[ao]s?</token>
+        </marker>
+        <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Num contexto formal, é preferível escrever:</message>
+      <suggestion><match no='3' postag='DD0(..)0' postag_replace='AQ0$10'>idêntico</match></suggestion>
+      <example correction="idêntico">A ciência responde diferentemente perante <marker>o mesmo</marker> conjunto de dados.</example>
+      <example correction="idêntica">Estamos perante <marker>a mesma</marker> categoria de dados.</example>
+    </rule>
+
+
   </category>
 
 
