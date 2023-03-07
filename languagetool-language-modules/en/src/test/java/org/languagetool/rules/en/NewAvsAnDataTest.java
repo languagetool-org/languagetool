@@ -21,4 +21,16 @@ public class NewAvsAnDataTest {
   public void testGetWordsRequiringAn(){
     assertEquals(requiresAn, newAvsAnData.getWordsRequiringAn());
   }
+
+  @Test
+  public void testLoadWordsForADet(){
+    Set<String> aWords = newAvsAnData.loadWords("/en/det_a.txt");
+    assertNotEquals(aWords.size(), 0);
+  }
+
+  @Test
+  public void testLoadWordsForAnDet(){
+    Set<String> anWords = newAvsAnData.loadWords("/en/det_an.txt");
+    assertNotEquals(anWords.size(), 0);
+  }
 }
