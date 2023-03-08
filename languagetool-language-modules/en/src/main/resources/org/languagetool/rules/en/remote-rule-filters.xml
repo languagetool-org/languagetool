@@ -27,9 +27,65 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <!DOCTYPE rules [
     <!ENTITY apostrophe "['’`´‘ʻ]">
+    <!ENTITY quote '["“”„]'>
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_EN_LECTOR_REPLACEMENT_WORD_ORDER" name="">
+            <rule>
+                <pattern>
+                    <token skip="-1" regexp="yes">&apostrophe;
+                        <exception scope="next" regexp="yes">&quote;</exception>
+                    </token>
+                    <marker>
+                        <token regexp="yes">&apostrophe;</token>
+                        <token regexp="yes">&quote;</token>
+                    </marker>
+                </pattern>
+                <example correction="">At age seventeen, he was heard by a school examiner in Aarau as he played Beethoven's violin sonatas, the examiner stating afterward that his playing was "remarkable and revealing of 'great insight.<marker>'"</marker></example>
+                <example correction="">"through bar 'C' using wrench 'F, <marker>'"</marker> which is...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="," />
+                        <token postag="RB">
+                            <exception>ago</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <example correction="">Kevin and I talked to Errol who is keeping risk book today<marker>, unfortunately</marker> he doesn't know much about the structure of each deal.</example>
+                <example>About a month, ago you should have received an invitation to your FAP 2001 webCafe room(s) that contained log on information to access the room.</example>
+                <example>But when I wanted to set out, for America you said:</example>
+                <example>As a starting, point I've attached Bill McCoy's draft and the comments circulated to date.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+                    <marker>
+                        <token>even</token>
+                        <token min="0" chunk_re="B-NP.*" />
+                        <token min="0" max="2" chunk_re="I-NP.*" />
+                        <token chunk_re="E-NP.*" />
+                        <token>can</token>
+                    </marker>
+                    <token min="0" postag="RB" />
+                    <token postag="VB" />
+                </pattern>
+                <example correction=""><marker>Even I can</marker> speak a little French.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk_re="[BI]-NP-singular" />
+                    <marker>
+                        <token chunk="E-NP-singular">call</token>
+                        <token>to</token>
+                    </marker>
+                    <token chunk_re="B-NP.*" />
+                </pattern>
+                <example correction="">Also, if they have the time of their <marker>call to</marker> us, that would be great.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_NOUN_NUMBER" name="">
             <rule>
                 <pattern>
@@ -40,6 +96,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">If you need more <marker>detail</marker>, let me know.</example>
                 <example correction="">More <marker>detail</marker> is necessary to understand the situation.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk="B-NP-plural">the</token>
+                    <token regexp="yes" chunk="I-NP-plural">accepted|conventional|established|everyday|expected|normal|regular|routine|standard|traditional|typical|usual</token>
+                    <token min="0" chunk="I-NP-plural" />
+                    <marker>
+                        <token postag="NNS" chunk="E-NP-plural" />
+                    </marker>
+                </pattern>
+                <example correction="">It seems like the usual <marker>examples</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_FORM" name="">
