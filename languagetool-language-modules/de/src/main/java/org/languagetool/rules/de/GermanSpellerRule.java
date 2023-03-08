@@ -1234,6 +1234,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Dak", w -> Arrays.asList("Dank", "Das", "Dock"));
     put("Dake", w -> Arrays.asList("Danke"));
     put("dake", w -> Arrays.asList("danke"));
+    put("Laola", w -> Arrays.asList("La-Ola", "Paola", "Layla", "Lala"));
+    put("Laolas", w -> Arrays.asList("La-Olas", "Paolas", "Laylas"));
     put("Gedaken", "Gedanken");
     put("Wiso", "Wieso");
     put("gebs", "gebe es");
@@ -3138,6 +3140,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "angehangenen": return topMatch("angehängten");
       case "ausmahlen": return topMatch("ausmalen");
       case "ausgemahlt": return topMatch("ausgemalt");
+      case "Laola-Welle": return topMatch("La-Ola-Welle");
+      case "Laola-Wellen": return topMatch("La-Ola-Wellen");
     }
     return Collections.emptyList();
   }
