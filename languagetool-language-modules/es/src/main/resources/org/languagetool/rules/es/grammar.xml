@@ -12149,7 +12149,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>si</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" inflected="yes" skip="2">olvidar</token>
+                    <token inflected="yes" skip="2">olvidar</token>
                     <token>de</token>
                     <token>si</token>
                     <example>Conseguirán que se olvide de si es de esta forma o de otra.</example>
@@ -29222,16 +29222,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="COMMA_SINO" name="coma antes de 'sino'">
             <!-- less priority than SINO_SI_NO -->
             <antipattern>
+                <token regexp="yes" inflected="yes">desear|pedir|querer|solicitar</token>
+                <token>sino</token>
+            </antipattern>
+            <antipattern>
+                <token>sino</token>
+                <token skip="2">que</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token skip="2">sino</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
                 <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
                 <token>sino</token>
             </antipattern>
             <antipattern>
                 <token postag="D..[MC]S.|SP:DA" postag_regexp="yes"/>
-                <token>sino</token>
-            </antipattern>
-            <antipattern>
-                <token postag="V.[SI].*" postag_regexp="yes"/>
-                <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
                 <token>sino</token>
             </antipattern>
             <antipattern>
@@ -29248,6 +29256,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>sino</token>
             </antipattern>
             <rule>
+                <!-- sino + verbo -->
                 <pattern>
                     <marker>
                         <token skip="-1" case_sensitive="yes">sino<exception postag="CC|LOC_CS|CS|PR.*" postag_regexp="yes" scope="next"/></token>
@@ -29256,17 +29265,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>En la mayoría de los casos la conjunción 'sino' va precedida de una coma.</message>
                 <suggestion>, \1</suggestion>
-                <example correction=", sino">La mujer del César no solo debe ser honesta<marker> sino</marker> parecerlo.</example>
+                <example correction=", sino">La mujer del César no solo debe ser honesta<marker> sino</marker> parecerlo en todo momento.</example>
+                <example correction=", sino">No quiero hablar<marker> sino</marker> irme enseguida a mi casa.</example>
+                <example>La mujer del César no solo debe ser honesta sino parecerlo.</example>
+                <example>No quiero hablar sino irme.</example>
                 <example>Su sino es fracasar.</example>
                 <example>Nadie lo sabe sino Juan.</example>
-                <example>No te pido sino que te vaysa enseguida</example>
+                <example>No te pido sino que te vayas enseguida</example>
                 <example>No sólo en lo institucional sino también en lo político.</example>
                 <example>No sólo en lo institucional sino también en lo político, ya que la universidad ha ido consolidándose.</example>
                 <example>Sabes que no quiero a nadie sino a él.</example>
                 <example>No deseaba sino retornar a la sede.</example>
                 <example>Mi madre no hizo nada sino llorar.</example>
+                <example>Lo importante en la vida no es el triunfo sino la lucha.</example>
             </rule>
             <rule>
+                <!-- sino que + verbo -->
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">sino</token>
@@ -29277,6 +29291,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>En la mayoría de los casos la conjunción 'sino' va precedida de una coma.</message>
                 <suggestion>, \1</suggestion>
                 <example correction=", sino">No lo hice yo<marker> sino</marker> que lo hizo él.</example>
+                <example correction=", sino">No estudia en Sevilla<marker> sino</marker> que trabaja en Granada.</example>
+                <example correction=", sino">Nunca fue rechazada<marker> sino</marker> que optó por seguir sola su camino.</example>
+                <example>No estudia sino que trabaja.</example>
+                <example>Su sino es fracasar.</example>
+                <example>Nadie lo sabe sino Juan.</example>
+                <example>No te pido sino que te vayas enseguida</example>
+                <example>No sólo en lo institucional sino también en lo político.</example>
+                <example>No sólo en lo institucional sino también en lo político, ya que la universidad ha ido consolidándose.</example>
+                <example>Sabes que no quiero a nadie sino a él.</example>
+                <example>No deseaba sino retornar a la sede.</example>
+                <example>Mi madre no hizo nada sino llorar.</example>
             </rule>
         </rulegroup>
         <rule id="COMMA_PERO" name="coma antes de 'pero'">
