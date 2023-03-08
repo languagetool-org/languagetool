@@ -204,6 +204,21 @@
     </rule>
 
 
+    <!-- DAR NA VISTA das nas vistas -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-26 (21-OCT-2020+)     -->
+    <rule id='DAR_NA_VISTA' name="[pt-PT] Dar nas vistas">
+      <pattern>
+        <token inflected='yes'>dar</token>
+        <marker>
+          <token>na</token>
+          <token>vista</token>
+        </marker>
+      </pattern>
+      <message>Esta expressão é utilizada no plural: <suggestion>nas vistas</suggestion>.</message>
+      <example correction="nas vistas">Procura não dar <marker>na vista</marker>.</example>
+    </rule>
+
+
     <rulegroup id="ARTICLES_PRECEDING_LOCATIONS" name="[pt-PT] Nomes geográficos que requerem artigo">
       <!-- Based on Catalan grammar.xml by Tiago F. Santos,  2017-09-05      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/toponimos-com-ou-sem-artigo/24569</url>
@@ -7049,6 +7064,445 @@
   </category>
 
 
+  <category id='REDUNDANCY_PT_PT' name="[pt-PT] Redundância">
+
+
+      <rule id='REDUNDANCY_24' name="[pt-PT][Pleonasmo] 24 horas por dia">
+        <pattern>
+          <token>24</token>
+          <token regexp='yes'>horas?</token>
+          <token>por</token>
+          <token>dia</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1 \2</suggestion>
+        <example correction='24 horas'><marker>24 horas por dia</marker></example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_5_AGRAVAR' name='[pt-PT][Pleonasmo] agravar ainda mais'>
+        <pattern>
+          <token inflected='yes'>agravar</token>
+          <token>ainda</token>
+          <token>mais</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <example correction='agravar'><marker>agravar ainda mais</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_8_AUMENTAR' name='[pt-PT][Pleonasmo] aumentar ainda mais'>
+        <pattern>
+          <token inflected='yes'>aumentar</token>
+          <token>ainda</token>
+          <token>mais</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <example correction='aumentar'><marker>aumentar ainda mais</marker>.</example>
+      </rule>
+
+
+     <rule id='REDUNDANCY_11_AVISAR' name='[pt-PT][Pleonasmo] avisar com antecedência'>
+        <pattern>
+          <token inflected='yes'>avisar</token>
+          <token>com</token>
+          <token>antecedência</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <example correction='avisar'><marker>avisar com antecedência</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_PALMAS' name="[pt-PT][Pleonasmo] Bater palmas">
+        <pattern>
+          <token inflected='yes'>bater</token>
+          <token>palmas</token>
+          <token>com</token>
+          <token>as</token>
+          <token>mãos</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1 \2</suggestion>
+        <example correction='bater palmas'><marker>bater palmas com as mãos</marker></example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_12_CLASSIFICAR' name='[pt-PT][Pleonasmo] classificar em grupos'>
+        <pattern>
+          <token inflected='yes'>classificar</token>
+          <token>em</token>
+          <token>grupos</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <example correction='classificar'><marker>classificar em grupos</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_11_COMPARECER' name='[pt-PT][Pleonasmo] Comparecer em pessoa'>
+        <pattern>
+          <token inflected='yes'>comparecer</token>
+          <token>em</token>
+          <token>pessoa</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='comparecer'><marker>comparecer em pessoa</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_COMPARECER' name="[pt-PT][Pleonasmo] Comparecer pessoalmente">
+        <pattern>
+          <token inflected='yes'>comparecer</token>
+          <token>pessoalmente</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='comparecer'><marker>comparecer pessoalmente</marker></example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_16_COMPETIR' name='[pt-PT][Pleonasmo] competir uns com os outros'>
+        <pattern>
+          <token inflected='yes'>competir</token>
+          <token>uns</token>
+          <token>com</token>
+          <token>os</token>
+          <token>outros</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <example correction='competir'><marker>competir uns com os outros</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_CONVIVER' name="[pt-PT][Pleonasmo] Conviver juntos">
+        <pattern>
+          <token inflected='yes'>conviver</token>
+          <token regexp='yes'>juntos?</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='conviver'><marker>conviver juntos</marker></example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_CRIAR' name="[pt-PT][Pleonasmo] Criar novas">
+        <pattern>
+          <token inflected='yes'>criar</token>
+          <token min='0' regexp='yes'>u[nm]a?s?</token>
+          <token regexp='yes'>nov[ao]s?</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/></suggestion>
+        <example correction='criou '><marker>criou novas</marker></example>
+        <example correction='criar um'><marker>criar um novo</marker></example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_CHAPEU' name="[pt-PT][Pleonasmo] De chapéu">
+        <pattern>
+          <token>de</token>
+          <token inflected='yes'>chapéu</token>
+          <token>na</token>
+          <token inflected='yes'>cabeça</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1 \2</suggestion>
+        <example correction='de chapéu'><marker>de chapéu na cabeça</marker></example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_19_DETALHES' name='[pt-PT][Pleonasmo] Detalhes minuciosos'>
+        <pattern>
+          <token regexp='yes'>detalhes?</token>
+          <token regexp='yes'>minuciosos?</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='detalhes'><marker>detalhes minuciosos</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_ELO' name="[pt-PT][Pleonasmo] Elo de ligação">
+        <pattern>
+          <token inflected='yes'>elo</token>
+          <token>de</token>
+          <token>ligação</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='elo'><marker>elo de ligação</marker></example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_27_EXPRESSAMENTE' name='[pt-PT][Pleonasmo] Expressamente proibido'>
+        <pattern>
+          <token>expressamente</token>
+          <token regexp='yes'>proibid[ao]s?</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\2</suggestion>
+        <example correction='proibido'><marker>expressamente proibido</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_28_EXULTAR' name='[pt-PT][Pleonasmo] Exultar de alegria'>
+        <pattern>
+          <token regexp='yes'>exult.+</token>
+          <token>de</token>
+          <token>alegria</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='exultar'><marker>exultar de alegria</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_22_EXULTAR' name='[pt-PT][Pleonasmo] exultar de felicidade'>
+        <pattern>
+          <token inflected='yes'>exultar</token>
+          <token>de</token>
+          <token>felicidade</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <example correction='exultar'><marker>exultar de felicidade</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_32_HABITAT' name='[pt-PT][Pleonasmo] Habitat natural'>
+        <pattern>
+          <token regexp='yes'>habitats?</token>
+          <token regexp='yes'>natura(?:l|is)</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='habitat'><marker>habitat natural</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_NAO_HAVER_MAIS' name="[pt-PT][Pleonasmo] Já não há mais">
+        <pattern>
+          <token>já</token>
+          <token>não</token>
+          <token inflected='yes'>haver</token>
+          <token>mais</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1 \2 \3</suggestion>
+        <example correction='já não há'><marker>já não há mais</marker></example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_34_JUNTAMENTE' name='[pt-PT][Pleonasmo] Juntamente com'>
+        <pattern>
+          <token inflected='yes'>juntamente</token>
+          <token>com</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\2</suggestion>
+        <example correction='com'><marker>juntamente com</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_35_LIVRE' name='[pt-PT][Pleonasmo] Livre escolha' default='off'>
+        <pattern>
+          <token inflected='yes'>livre</token>
+          <token>escolha</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\2</suggestion>
+        <example correction='escolha'><marker>livre escolha</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_24_MANTER' name='[pt-PT][Pleonasmo] manter a mesma'>
+        <pattern>
+          <token inflected='yes'>manter</token>
+          <token regexp='yes'>[ao]s?</token>
+          <token regexp='yes'>mesm[ao]s?</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1 \2</suggestion>
+        <example correction='manter a'><marker>manter a mesma</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_39_OPINIÃO' name='[pt-PT][Pleonasmo] Opinião individual'>
+        <pattern>
+          <token regexp='yes'>opini(?:ão|ões)</token>
+          <token regexp='yes'>individu(?:al|ais)</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='opinião'><marker>opinião individual</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_PAÍSES' name="[pt-PT][Pleonasmo] Países do mundo">
+        <antipattern>
+          <token><exception postag='Z.+|DI.+|DA.+' postag_regexp='yes'/></token>
+          <token inflected='yes'>país</token>
+          <token>do</token>
+          <token>mundo</token>
+          <token>.</token>
+          <example>Na minha opinião a Austrália é um dos melhores países do mundo.</example>
+        </antipattern>
+        <pattern>
+          <token inflected='yes'>país</token>
+          <token>do</token>
+          <token>mundo</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='países'><marker>países do mundo</marker></example>
+        <example correction='países'>Ocorre em cerca de cem <marker>países do mundo</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_48_PROPRIEDADES' name='[pt-PT][Pleonasmo] Propriedades características'>
+        <pattern>
+          <token regexp='yes'>propriedades?</token>
+          <token regexp='yes'>carac?terísticas?</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='propriedades'><marker>propriedades características</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_32_RECORDAR' name='[pt-PT][Pleonasmo] recordar o passado'>
+        <pattern>
+          <token inflected='yes'>recordar</token>
+          <token>o</token>
+          <token>passado</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <example correction='recordar'><marker>recordar o passado</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_37_REPETIR' name='[pt-PT][Pleonasmo] repetir novamente'>
+        <pattern>
+          <token inflected='yes'>repetir</token>
+          <token>novamente</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <example correction='repetir'><marker>repetir novamente</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_SEGUIR_EM_FRENTE' name="[pt-PT][Pleonasmo] Seguir em frente">
+        <pattern>
+         <marker>
+          <token inflected='yes'>seguir</token>
+          <token>em</token>
+          <token>frente</token>
+         </marker>
+           <token negate_pos='yes' postag='_PUNCT|SENT_END' postag_regexp='yes'/>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='seguir'><marker>seguir em frente</marker> com a certeza que fez a coisa certa.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_SI_MESMO' name="[pt-PT][Pleonasmo] Si mesmo" default="off">
+        <pattern>
+          <token>si</token>
+          <token inflected='yes'>mesmo</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='si'><marker>si mesmo</marker></example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_41_SOLETRAR' name='[pt-PT][Pleonasmo] soletrar em detalhe'>
+        <pattern>
+          <token inflected='yes'>soletrar</token>
+          <token min='0'>em</token>
+          <token regexp='yes'>detalhes?</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <example correction='soletrar'><marker>soletrar em detalhe</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_42_TESTEMUNHAR' name='[pt-PT][Pleonasmo] testemunhar in loco o facto'>
+        <pattern>
+          <token inflected='yes'>testemunhar</token>
+          <token min='0' regexp='yes'>os?</token>
+          <token min='0' regexp='yes'>fac?tos?</token>
+          <token>in</token>
+          <token>loco</token>
+          <token min='0' regexp='yes'>os?</token>
+          <token min='0' regexp='yes'>fac?tos?</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por: </message>
+        <suggestion>\1</suggestion>
+        <example correction='testemunhar'><marker>testemunhar in loco o facto</marker>.</example>
+      </rule>
+
+
+      <rule id='REDUNDANCY_63_VIVER' name='[pt-PT][Pleonasmo] Viver a vida'>
+        <pattern>
+          <token inflected='yes'>viver</token>
+          <token>a</token>
+          <token>vida</token>
+        </pattern>
+        <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <example correction='viver'><marker>viver a vida</marker>.</example>
+      </rule>
+
+
+  </category>
+
+
+  <category id='CONFUSED_WORDS_PT_PT' name="[pt-PT] Confusão de Palavras">
+
+
+    <!-- TIVER estiver -->
+    <rule id='TIVER_ESTIVER' name='[pt-PT][Confusão] tiver/estiver'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
+      <!--
+      Quando tiver a ver TV. → Quando estiver a ver TV.
+      -->
+      <pattern>
+        <token postag='CS|RG' postag_regexp='yes'/>
+        <!-- <token regexp='yes'>caso|embora|quando|que|se</token> -->
+        <marker>
+          <and>
+            <token regexp='no' inflected='yes'>ter</token>
+            <token regexp='yes'>tiver|tiveres|tiverem|tivermos|tiveram</token>
+          </and>
+        </marker>
+        <token regexp='no'>a</token>
+        <token postag='VMN0000' postag_regexp='no'/>
+        <token negate="yes">com</token>
+      </pattern>
+      <message>Possível confusão de termos.</message>
+      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
+      <example correction="estiver">Quando <marker>tiver</marker> a ver TV.</example>
+      <example correction="estiveres">Quando <marker>tiveres</marker> a ver TV.</example>
+      <example correction="estiverem">Quando <marker>tiverem</marker> a ver TV.</example>
+      <example correction="estivermos">Quando <marker>tivermos</marker> a ver TV.</example>
+      <example correction="estiveram">Quando <marker>tiveram</marker> a ver TV.</example>
+      <example>Quando tiver a ver com isso.</example>
+    </rule>
+
+
+  </category>
+
+
   <category id="STYLE_PT_PT" name="[pt-PT] Estilo" type="style">
 
     <rulegroup id="PORTUGUESE_ADDRESSES" name="[pt-PT] Formato de endereços em Portugal" type="style">
@@ -8013,42 +8467,6 @@
       <message>Evite a redundância para melhorar a clareza da perífrase.</message>
       <suggestion>\6 também o \8</suggestion>
       <example correction="esta também o é">Eu fiz a formação MULTIBANCO que é obrigatória; <marker>esta também é obrigatória</marker>?</example>
-    </rule>
-
-
-  </category>
-
-
-  <category id='CONFUSED_WORDS_PT_PT' name="[pt-PT] Confusão de Palavras">
-
-
-    <!-- TIVER estiver -->
-    <rule id='TIVER_ESTIVER' name='[pt-PT][Confusão] tiver/estiver'>
-      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
-      <!--
-      Quando tiver a ver TV. → Quando estiver a ver TV.
-      -->
-      <pattern>
-        <token postag='CS|RG' postag_regexp='yes'/>
-        <!-- <token regexp='yes'>caso|embora|quando|que|se</token> -->
-        <marker>
-          <and>
-            <token regexp='no' inflected='yes'>ter</token>
-            <token regexp='yes'>tiver|tiveres|tiverem|tivermos|tiveram</token>
-          </and>
-        </marker>
-        <token regexp='no'>a</token>
-        <token postag='VMN0000' postag_regexp='no'/>
-        <token negate="yes">com</token>
-      </pattern>
-      <message>Possível confusão de termos.</message>
-      <suggestion><match no='2' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
-      <example correction="estiver">Quando <marker>tiver</marker> a ver TV.</example>
-      <example correction="estiveres">Quando <marker>tiveres</marker> a ver TV.</example>
-      <example correction="estiverem">Quando <marker>tiverem</marker> a ver TV.</example>
-      <example correction="estivermos">Quando <marker>tivermos</marker> a ver TV.</example>
-      <example correction="estiveram">Quando <marker>tiveram</marker> a ver TV.</example>
-      <example>Quando tiver a ver com isso.</example>
     </rule>
 
 
