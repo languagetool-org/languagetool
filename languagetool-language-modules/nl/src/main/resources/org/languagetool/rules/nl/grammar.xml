@@ -953,55 +953,55 @@ regexp case-insensitive maken: (?i)
                 <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1' sterk verschillend wordt geïnterpreteerd.</message>
                 <example correction="">Dit is <marker>doorgaans</marker> onduidelijk.</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token>bijna</token>
-                    <token regexp="yes">zeker|altijd</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' sterk verschillend wordt geïnterpreteerd.</message>
-                <example correction="">Dit is <marker>bijna zeker</marker> onduidelijk.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>zeer</token>
-                    <token>waarschijnlijk</token>
-                </pattern>
-                <message>Wanneer u precies wit zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example correction="">Dit is <marker>zeer waarschijnlijk</marker> onduidelijk.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>heel</token>
-                    <token>vaak</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example correction="">Dit is <marker>heel vaak</marker> onduidelijk.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">grote|kleine</token>
-                    <token>kans</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example correction="">Dit is <marker>grote kans</marker> onduidelijk.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>te</token>
-                    <token>verwachten</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example correction="">Dit is <marker>te verwachten</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes">kunnen</token>
-                    <token>gebeuren</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example correction="">Dit <marker>kan gebeuren</marker>.</example>
-            </rule>
         </rulegroup>
+        <rule id="INSPECIFIEK_2" name="bijna zeker/altijd" tags="picky">
+            <pattern>
+                <token>bijna</token>
+                <token regexp="yes">zeker|altijd</token>
+            </pattern>
+            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' sterk verschillend wordt geïnterpreteerd.</message>
+            <example correction="">Dit is <marker>bijna zeker</marker> onduidelijk.</example>
+        </rule>
+        <rule id="INSPECIFIEK_3" name="zeer waarschijnlijk" tags="picky">
+            <pattern>
+                <token>zeer</token>
+                <token>waarschijnlijk</token>
+            </pattern>
+            <message>Wanneer u precies wit zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+            <example correction="">Dit is <marker>zeer waarschijnlijk</marker> onduidelijk.</example>
+        </rule>
+        <rule id="INSPECIFIEK_4" name="heel vaak" tags="picky">
+            <pattern>
+                <token>heel</token>
+                <token>vaak</token>
+            </pattern>
+            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+            <example correction="">Dit is <marker>heel vaak</marker> onduidelijk.</example>
+        </rule>
+        <rule id="INSPECIFIEK_5" name="grote/kleine kans" tags="picky">
+            <pattern>
+                <token regexp="yes">grote|kleine</token>
+                <token>kans</token>
+            </pattern>
+            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+            <example correction="">Dit is <marker>grote kans</marker> onduidelijk.</example>
+        </rule>
+        <rule id="INSPECIFIEK_6" name="te verwachten" tags="picky">
+            <pattern>
+                <token>te</token>
+                <token>verwachten</token>
+            </pattern>
+            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+            <example correction="">Dit is <marker>te verwachten</marker>.</example>
+        </rule>
+        <rule id="INSPECIFIEK_7" name="kunnen gebeuren" tags="picky">
+            <pattern>
+                <token inflected="yes">kunnen</token>
+                <token>gebeuren</token>
+            </pattern>
+            <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+            <example correction="">Dit <marker>kan gebeuren</marker>.</example>
+        </rule>
         <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij/jou/jouw, mij → we, ze, je, me" tags="picky">
             <rule>
                 <antipattern><token regexp="yes">ook|tussen</token><token regexp="yes">[jwm]ij</token></antipattern>
