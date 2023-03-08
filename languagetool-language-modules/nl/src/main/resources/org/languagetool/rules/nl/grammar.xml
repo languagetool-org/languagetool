@@ -35262,32 +35262,32 @@ steenwijk;Steenwijk
                 <message>Is dit niet overdreven?</message>
                 <example correction=""><marker>Gigantisch</marker> gebouw.</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">enorm|vreselijk|super|mega</token>
-                    <token postag_regexp="yes" postag="BNW.*"/>
-                </pattern>
-                <message>Is dit niet overdreven? Is <suggestion>\2</suggestion> niet voldoende?</message>
-                <example correction="Mooi"><marker>Vreselijk mooi</marker>."</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>heel</token>
-                    <token>erg</token>
-                </pattern>
-                <message>Is dit niet \1 \2 overdreven? Misschien is <suggestion>\1</suggestion> of <suggestion>\2</suggestion> al voldoende.</message>
-                <example correction="heel|erg">Wij vonden het <marker>heel erg</marker> saai.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">(giga|mega|super|ultra|über).{3,30}<exception regexp="yes">^(giga|mega)(pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|superfoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*|übermensch.*|überhaupt|Super-G</exception><exception postag="UNKNOWN"/></token>
-                </pattern>
-                <message>Dit lijkt wat overdreven. Is <suggestion><match no="1" regexp_match="^(giga|mega|super|ultra|über)-?" regexp_replace=""/></suggestion> niet genoeg?</message>
-                <example correction="slim">Ze is <marker>superslim</marker>.</example>
-                <example>Het apparaat heeft een opslagcapaciteit van maar 1 <marker>megabyte</marker>.</example>
-                <example>Ze gebruiken ongeveer 10 <marker>gigawattuur</marker> aan stroom per maand.</example>
-            </rule>
         </rulegroup>
+        <rule id="OVERDRIJVING_2" name="vreselijk mooi (mooi)" tags="picky objective professional">
+            <pattern>
+                <token regexp="yes">enorm|vreselijk|super|mega</token>
+                <token postag_regexp="yes" postag="BNW.*"/>
+            </pattern>
+            <message>Is dit niet overdreven? Is <suggestion>\2</suggestion> niet voldoende?</message>
+            <example correction="Mooi"><marker>Vreselijk mooi</marker>."</example>
+        </rule>
+        <rule id="OVERDRIJVING_3" name="heel erg saai (erg saai)" tags="picky objective professional">
+            <pattern>
+                <token>heel</token>
+                <token>erg</token>
+            </pattern>
+            <message>Is dit niet \1 \2 overdreven? Misschien is <suggestion>\1</suggestion> of <suggestion>\2</suggestion> al voldoende.</message>
+            <example correction="heel|erg">Wij vonden het <marker>heel erg</marker> saai.</example>
+        </rule>
+        <rule id="OVERDRIJVING_4" name="Dat was supertof (tof)!" tags="picky objective professional">
+            <pattern>
+                <token regexp="yes">(giga|mega|super|ultra|über).{3,30}<exception regexp="yes">^(giga|mega)(pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|superfoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*|übermensch.*|überhaupt|Super-G</exception><exception postag="UNKNOWN"/></token>
+            </pattern>
+            <message>Dit lijkt wat overdreven. Is <suggestion><match no="1" regexp_match="^(giga|mega|super|ultra|über)-?" regexp_replace=""/></suggestion> niet genoeg?</message>
+            <example correction="slim">Ze is <marker>superslim</marker>.</example>
+            <example>Het apparaat heeft een opslagcapaciteit van maar 1 <marker>megabyte</marker>.</example>
+            <example>Ze gebruiken ongeveer 10 <marker>gigawattuur</marker> aan stroom per maand.</example>
+        </rule>
     </category>
     <category id="STREEKTAAL" name="Streektaal" type="style" tags="clarity">
         <rulegroup id="TE_BED" name="te bed">
