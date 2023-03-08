@@ -3420,7 +3420,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>que</token>
                     <token postag="SPS00" min="0"/>
-                    <token regexp="yes">qué|cómo|cuántos?|cuándo|quién|quiénes|cuál|cuáles</token>
+                    <token regexp="yes">qué|cómo|cuántos?|cuándo|quién|quiénes|cuál|cuáles|que|como|cuantos?|cuando|quien|quienes|cual|cuales</token>
                 </antipattern>
                 <antipattern>
                     <token>a</token>
@@ -9265,7 +9265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>esta</token>
                     </marker>
                     <token min="0" max="4" postag="RG.*|LOC_ADV" postag_regexp="yes"/>
-                    <token postag="A...S." postag_regexp="yes"><exception postag="NC[FC]S000|AO0FS0" postag_regexp="yes"/><exception>misma</exception></token>
+                    <token postag="A...S." postag_regexp="yes"><exception postag="NC[FC]S000|AO0FS0" postag_regexp="yes"/><exception regexp="yes">misma|otra</exception></token>
                 </pattern>
                 <message>Si es del verbo 'estar', se escribe con tilde.</message>
                 <suggestion><match no="1" regexp_match="(?iu)a" regexp_replace="á" case_conversion="preserve"/></suggestion>
@@ -9299,6 +9299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aunque esta fuera la mejor.</example>
                 <example>Sobre todo si esta fuera multianual.</example>
                 <example>Esta expresa sus sentimientos.</example>
+                <example>Me harás esta cosa y esta otra.</example>
             </rule>
             <rule>
                 <!--  ESTA_TILDE7 está + llena (ambiguous adj/n)-->
