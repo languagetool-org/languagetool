@@ -35,6 +35,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.ca.CatalanTagger;
+import org.languagetool.tools.StringTools;
 
 /**
  * A rule that matches incorrect verbs (including all inflected forms) and
@@ -190,7 +191,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
         List<String> replacementInfinitives = wrongWords.get(infinitive);
         for (String replacementInfinitive : replacementInfinitives) {
           if (replacementInfinitive.startsWith("(")) {
-            possibleReplacements.add(replacementInfinitive);
+            possibleReplacements.add(StringTools.preserveCase(replacementInfinitive, originalTokenStr));
           } else {
             String[] parts = replacementInfinitive.split(" "); // the first part
                                                                // is the verb
@@ -211,7 +212,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
                   s = s.concat(" ").concat(parts[j]);
                 }
                 if (!possibleReplacements.contains(s)) {
-                  possibleReplacements.add(s);
+                  possibleReplacements.add(StringTools.preserveCase(s, originalTokenStr));
                 }
               }
             }
