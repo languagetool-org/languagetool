@@ -20943,7 +20943,23 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
-        <rulegroup id="ECHTER" name="Echter zonder komma">
+        <rulegroup id="ECHTER" name="Echter zonder komma" tags="picky">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="SENT_START|START"/>
+                    <marker>
+                        <token>Echter</token>
+                        <token postag_regexp="yes" postag="WKW:.*"/>
+                    </marker>
+                </pattern>
+                <message>Deze woordvolgorde wordt tegenwoordig als fout gezien. Begin met bijvoorbeeld met 'Echter, dit'.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/echter-maar</url>
+                <short>Echter</short>
+                <example correction=""><marker>Echter heeft</marker> het volk géén god.</example>
+                <example correction=""><marker>Echter hoeft</marker> dit niet altijd.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ECHTER_2" name="Echter het (Echter, het) is niet ideaal.">
             <!-- 2014-08-21 TaalTik -->
             <rule>
                 <antipattern><token>echter</token><token postag_regexp="yes" postag="WKW.*INF|WKW:.*EP"/></antipattern>
@@ -20964,20 +20980,6 @@ steenwijk;Steenwijk
                 <example correction="Echter, ook"><marker>Echter ook</marker> de minst snelle.</example>
                 <example correction="Echter, dit"><marker>Echter dit</marker> is een extraatje.</example>
                 <example><marker>Echter hoeft</marker> dit niet altijd.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag_regexp="yes" postag="SENT_START|START"/>
-                    <marker>
-                        <token>Echter</token>
-                        <token postag_regexp="yes" postag="WKW:.*"/>
-                    </marker>
-                </pattern>
-                <message>Deze woordvolgorde wordt tegenwoordig als fout gezien. Begin met bijvoorbeeld met 'Echter, dit'.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/echter-maar</url>
-                <short>Echter</short>
-                <example correction=""><marker>Echter heeft</marker> het volk géén god.</example>
-                <example correction=""><marker>Echter hoeft</marker> dit niet altijd.</example>
             </rule>
         </rulegroup>
 
