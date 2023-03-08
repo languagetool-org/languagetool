@@ -46788,6 +46788,95 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- POR ANO anuais -->
+    <rulegroup id='POR_ANO_MÊS_SEMANA_DIA_ANUAL_MENSAL_SEMANAL_DIÁRIO_V2' name="[Simplificar] por ano/mês/semana/dia → anual/mensal/semanal/diário" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-08 (2-MAR-2023+) -->
+      <!-- 
+      O LibreOffice tem milhares de downloads por ano. → O LibreOffice tem milhares de downloads anuais.
+      O LibreOffice tem milhares de downloads por mês. → O LibreOffice tem milhares de downloads mensais.
+      O LibreOffice tem milhares de downloads por semana. → O LibreOffice tem milhares de downloads semanais.
+      O LibreOffice tem milhares de downloads por dia. → O LibreOffice tem milhares de downloads diários.
+      -->
+
+      <!-- ano -->
+      <rule>
+        <pattern>
+          <token postag='DI.+|V.+|Z0.+|SPS00|DA.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='DD.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'/>
+          <token postag='SPS00' postag_regexp='no'/>
+          <token postag='NC.P.+' postag_regexp='yes'/>
+          <marker>
+            <token regexp='no'>por</token>
+            <token regexp='no'>ano</token>
+          </marker>
+          <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion><match no='5' postag='NC.(.)000' postag_replace='AQ0C$10'>anual</match></suggestion>
+        <example correction="anuais">O LibreOffice tem milhares de downloads <marker>por ano</marker>.</example>
+      </rule>
+
+      <!-- mês -->
+      <rule>
+        <pattern>
+          <token postag='DI.+|V.+|Z0.+|SPS00|DA.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='DD.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'/>
+          <token postag='SPS00' postag_regexp='no'/>
+          <token postag='NC.P.+' postag_regexp='yes'/>
+          <marker>
+            <token regexp='no'>por</token>
+            <token regexp='no'>mês</token>
+          </marker>
+          <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion><match no='5' postag='NC.(.)000' postag_replace='AQ0C$10'>mensal</match></suggestion>
+        <example correction="mensais">O LibreOffice tem milhares de downloads <marker>por mês</marker>.</example>
+      </rule>
+
+      <!-- semana -->
+      <rule>
+        <pattern>
+          <token postag='DI.+|V.+|Z0.+|SPS00|DA.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='DD.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'/>
+          <token postag='SPS00' postag_regexp='no'/>
+          <token postag='NC.P.+' postag_regexp='yes'/>
+          <marker>
+            <token regexp='no'>por</token>
+            <token regexp='no'>semana</token>
+          </marker>
+          <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion><match no='5' postag='NC.(.)000' postag_replace='AQ0C$10'>semanal</match></suggestion>
+        <example correction="semanais">O LibreOffice tem milhares de downloads <marker>por semana</marker>.</example>
+      </rule>
+
+      <!-- dia -->
+      <rule>
+        <pattern>
+          <token postag='DI.+|V.+|Z0.+|SPS00|DA.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='DD.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+|Z0.+' postag_regexp='yes'/>
+          <token postag='SPS00' postag_regexp='no'/>
+          <token postag='NC.P.+' postag_regexp='yes'/>
+          <marker>
+            <token regexp='no'>por</token>
+            <token regexp='no'>dia</token>
+          </marker>
+          <token postag='_PUNCT|SPS00|CC' postag_regexp='yes'/>
+        </pattern>
+        <message>Esta perífrase poderá ser simplificada.</message>
+        <suggestion><match no='5' postag='NC(..)000' postag_replace='AQ0$10'>diário</match></suggestion>
+        <example correction="diários">O LibreOffice tem milhares de downloads <marker>por dia</marker>.</example>
+      </rule>
+
+    </rulegroup>    
+
+
     <!-- POR ISSO aí/assim/daí/isso -->
     <rulegroup id='POR_ISSO_AÍ_ASSIM_DAÍ_ISSO' name="[Simplificar] por isso → aí/assim/daí/isso" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-24/25 (Checked/Enhanced) (1-JAN-2022+)      -->
