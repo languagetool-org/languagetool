@@ -29304,6 +29304,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Mi madre no hizo nada sino llorar.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="COMMA_SINO2" name="coma antes de 'sino'" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/uso-de-la-coma-antes-de-sino/</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">no|nunca|jamás|tampoco</token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
+                    <token min="0" postag="SP:DA|D.*|S.*" postag_regexp="yes"/>
+                    <token postag="N.*|A.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>sino</token>
+                    </marker>
+                </pattern>
+                <message>En la mayoría de los casos la conjunción 'sino' va precedida de una coma.</message>
+                <suggestion>, \6</suggestion>
+                <example correction=", sino">No soy de Sevilla<marker> sino</marker> de Huelva.</example>
+                <example correction=", sino">No son argentinos<marker> sino</marker> uruguayos.</example>
+                <example correction=", sino">No vamos al cine<marker> sino</marker> al parque.</example>
+                <example correction=", sino">No vivo en Salamanca<marker> sino</marker> en León.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">no|nunca|jamás|tampoco</token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
+                    <token min="0" postag="SP:DA|D.*|S.*" postag_regexp="yes"/>
+                    <token postag="N.*|A.*" postag_regexp="yes"/>
+                    <token min="0" postag="SP:DA|D.*|S.*" postag_regexp="yes"/>
+                    <token postag="N.*|A.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>sino</token>
+                    </marker>
+                </pattern>
+                <message>En la mayoría de los casos la conjunción 'sino' va precedida de una coma.</message>
+                <suggestion>, \8</suggestion>
+                <example correction=", sino">No es el exceso de agua<marker> sino</marker> la sequía.</example>
+                <example correction=", sino">No hablamos del campo económico<marker> sino</marker> de otros campos.</example>
+                <example correction=", sino">Nunca utiliza su nombre real<marker> sino</marker> un seudónimo.</example>
+            </rule>
+        </rulegroup>
         <rule id="COMMA_PERO" name="coma antes de 'pero'">
             <antipattern>
                 <token postag="_PUNCT.*|SENT_START" postag_regexp="yes"/>
