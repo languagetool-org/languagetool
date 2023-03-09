@@ -31111,8 +31111,16 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="REALISEREN" name="realiseren" tags="picky">
             <rule>
-                <antipattern><token skip="10" regexp="yes">zich|me</token><token inflected="yes">realiseren</token></antipattern>
-                <antipattern><token skip="10" inflected="yes">realiseren</token><token regexp="yes">zich|me</token></antipattern>
+                <antipattern>
+                    <token skip="10" regexp="yes">zich|me|ons</token>
+                    <token inflected="yes">realiseren</token>
+                    <example>Dat konden we ons toen nog niet realiseren.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="10" inflected="yes">realiseren</token>
+                    <token regexp="yes">zich|me|ons</token>
+                    <example>Realiseert hij zich dat wel?</example>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">realiseren</token>
                 </pattern>
