@@ -255,6 +255,7 @@ public class Spanish extends Language implements AutoCloseable {
       case "MULTI_ADJ": return -30;
       case "SUBJUNTIVO_INCORRECTO": return -40;
       case "COMMA_SINO": return -40;
+      case "COMMA_SINO2": return -40;
       case "VOSEO": return -40;
       case "REPETITIONS_STYLE": return -50;
       case "MORFOLOGIK_RULE_ES": return -100;
