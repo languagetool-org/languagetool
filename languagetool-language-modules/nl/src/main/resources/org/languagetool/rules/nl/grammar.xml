@@ -14622,7 +14622,7 @@ onwaarschijnlijk
                     <token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge|Fabergé|touché).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
-                <message>Gebruik geen nadruktekens als het niet nodig is. Het staat lelijk.</message>
+                <message>Gebruik geen nadruktekens als het niet nodig is. Het staat niet netjes.</message>
                 <suggestion><match no="1" regexp_match="é" regexp_replace="e"/></suggestion>
                 <suggestion><match no="1" regexp_match="á" regexp_replace="a"/></suggestion>
                 <suggestion><match no="1" regexp_match="ó" regexp_replace="o"/></suggestion>
@@ -14630,22 +14630,15 @@ onwaarschijnlijk
                 <suggestion><match no="1" regexp_match="ú" regexp_replace="u"/></suggestion>
                 <example correction="een">Hij is <marker>één</marker> van de vreemden.</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">^één.{3,50}</token>
-                </pattern>
-                <message>Hier zijn de tekens absoluut onnodig voor de uitspraak.</message>
-                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="^één" regexp_replace="een"/></suggestion>
-                <example correction="eenzaam">Hij is <marker>éénzaam</marker>.</example>
-            </rule>
         </rulegroup>
         <rulegroup id="NADRUKTEKENS_EEN" name= "optionele accenten">
             <rule>
                 <pattern>
                     <token regexp="yes">^één.{3,50}</token>
                 </pattern>
-                <message>Hier zijn de tekens absoluut onnodig voor de uitspraak.</message>
-                <example correction="">Hij is <marker>éénzaam</marker>.</example>
+                <message>Hier zijn nadruktekens onnodig voor de uitspraak.</message>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="^één" regexp_replace="een"/></suggestion>
+                <example correction="eenzaam">Hij is <marker>éénzaam</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky clarity">
