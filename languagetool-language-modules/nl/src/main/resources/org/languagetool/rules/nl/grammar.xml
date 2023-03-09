@@ -37770,17 +37770,17 @@ steenwijk;Steenwijk
                 <example>Er is geen reden waarom het niet zou kunnen.</example>
                 <example>Ik zeg niet dat het nooit mag gebeuren.</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+</token>
-                    <token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens|niet-.+</token>
-                </pattern>
-                <message>Dubbele ontkenning maakt de tekst moeilijker te begrijpen.</message>
-                <example correction="">Ik bel <marker>NOOIT geen</marker> klanten op.</example>
-                <example correction="">Ik doe <marker>nooit geen</marker> jas aan.</example>
-                <example correction="">En <marker>nooit geen</marker> vakantie.</example>
-            </rule>
         </rulegroup>
+        <rule id="ONTKEN_3" name="Ik heb nooit geen (nooit) koffie gedronken." tags="picky">
+            <pattern>
+                <token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens.+</token>
+                <token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens.+</token>
+            </pattern>
+            <message>Dit lijkt een dubbele ontkenning. Bedoelde u <suggestion>\1</suggestion>?</message>
+            <example correction="nooit">Ik bel <marker>nooit geen</marker> klanten op.</example>
+            <example correction="evenmin">Daar heb ik <marker>evenmin niet</marker> van gehoord.</example>
+            <example correction="nooit">En <marker>nooit geen</marker> vakantie.</example>
+        </rule>
         <rulegroup id="IETS_DAT" name="Iets dat → iets wat" tags="picky">
             <rule>
                 <pattern>
