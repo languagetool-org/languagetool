@@ -27407,18 +27407,23 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="HEDEN" name="Heden → vandaag, nu">
             <rule>
-                <!-- 2014-09-08 TaalTik
-                nieuw
-                -->
-                <pattern>
+                <!-- 2014-09-08 TaalTik-->
+                <antipattern>
+                    <!-- Added antipattern for "tot op heden" which is often used in professional context-->
+                    <token>tot</token>
+                    <token>op</token>
                     <token>heden</token>
+                    <example>Tot op heden hebben wij nog niets van u vernomen.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>heden</token>
+                    </marker>
                 </pattern>
                 <message>Als u dit ouderwets woord niet voor het stilistisch effect heeft gekozen, gebruik liever <suggestion>vandaag</suggestion>, <suggestion>nu</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
-                <example correction="vandaag|nu">Tot op <marker>heden</marker>.</example>
                 <example correction="Vandaag|Nu"><marker>Heden</marker> verspillen we.</example>
                 <example correction="vandaag|nu">Tot <marker>heden</marker> zijn de daders nog niet bekend.</example>
-                <example correction="vandaag|nu">En tot op <marker>heden</marker> heb ik daar geen spijt van."</example>
                 <example correction="vandaag|nu">Leven in een eeuwig <marker>heden</marker> zonder doel.</example>
                 <example correction="vandaag|nu">Maar dat is enkel in het <marker>heden</marker>.</example>
                 <example correction="vandaag|nu">Dat was voor het <marker>heden</marker> een scherp verwijt.</example>
