@@ -1236,6 +1236,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("dake", w -> Arrays.asList("danke"));
     put("Laola", w -> Arrays.asList("La-Ola", "Paola", "Layla", "Lala"));
     put("Laolas", w -> Arrays.asList("La-Olas", "Paolas", "Laylas"));
+    put("übernohmen", w -> Arrays.asList("übernehmen", "übernommen"));
+    put("augeschlossen", w -> Arrays.asList("ausgeschlossen", "angeschlossen"));
+    put("Akteures", "Akteurs");
+    put("popup", "Pop-up");
     put("Gedaken", "Gedanken");
     put("Wiso", "Wieso");
     put("gebs", "gebe es");
