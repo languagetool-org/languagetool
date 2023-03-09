@@ -1306,6 +1306,15 @@ class SingleDocument {
     }
   }
   
+  public void removeDokumentListener(XComponent xComponent) {
+    if (eventListener != null) {
+      XDocumentEventBroadcaster broadcaster = UnoRuntime.queryInterface(XDocumentEventBroadcaster.class, xComponent);
+      if (broadcaster != null) {
+        broadcaster.removeDocumentEventListener(eventListener);
+      }
+    }
+  }
+  
   public static class RuleDesc {
     String langCode;
     String ruleID;
@@ -1331,7 +1340,7 @@ class SingleDocument {
       } else if(event.EventName.equals("OnSave") && config.saveLoCache()) {
         writeCaches();
       } else if(event.EventName.equals("OnSaveAsDone") && config.saveLoCache()) {
-        writeCaches();
+//        writeCaches();
         cacheIO.setDocumentPath(xComponent);
         writeCaches();
       }

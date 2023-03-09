@@ -396,16 +396,19 @@ public class MultiDocumentsHandler {
   /**
    *  Set a document as closed
    */
-  private void setContextOfClosedDoc(XComponent context) {
+  private void setContextOfClosedDoc(XComponent xComponent) {
     boolean found = false;
     for (SingleDocument document : documents) {
-      if (context.equals(document.getXComponent())) {
+      if (xComponent.equals(document.getXComponent())) {
         found = true;
         document.dispose(true);
         isDisposed = true;
+/*      save only if document is saved
         if (config.saveLoCache()) {
           document.writeCaches();
         }
+*/
+        document.removeDokumentListener(xComponent);
         document.setXComponent(xContext, null);
         if (document.getDocumentCache().hasNoContent(false)) {
           //  The delay seems to be necessary as workaround for a GDK bug (Linux) to stabilizes
