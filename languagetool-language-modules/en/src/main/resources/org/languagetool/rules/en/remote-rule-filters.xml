@@ -28,9 +28,124 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 <!DOCTYPE rules [
     <!ENTITY apostrophe "['’`´‘ʻ]">
     <!ENTITY quote '["“”„]'>
+    <!ENTITY hyphen "(?:[–\-—])">
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_EN_LECTOR_MISSING_PUNCTUATION" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[a-z]+['’`´‘ʻ]</token>
+                    <marker>
+                        <token regexp="yes">[,\?]|and|&quote;</token>
+                    </marker>
+                </pattern>
+                <example correction="">Spears was also sued by Louis Vuitton over her 2005 music video "Do Somethin'<marker>"</marker> for upholstering her Hummer interior in counterfeit Louis Vuitton cherry blossom fabric, which resulted in her video being banned on European TV stations.</example>
+                <example correction="">The album's introduction single, "It Ain't Nothin'<marker>"</marker> was released as a free download from the group's official website.</example>
+                <example correction="">The second single, "Do Somethin'<marker>"</marker>, was a top ten hit in Australia, the United Kingdom and other countries of mainland Europe.</example>
+                <example correction="">You think I'm stupid or somethin'<marker>,</marker> is that it?</example>
+                <example correction="">Her limping around or somethin'<marker>?</marker></example>
+                <example correction="">Now I'm going to tell you somethin' <marker>and</marker> you listen close here.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="-1" regexp="yes">&quote;</token>
+                    </marker>
+                    <token regexp="yes">&quote;</token>
+                    <token>)</token>
+                </pattern>
+                <example correction="">Cavitation is the formation of vapour cavities in a liquidi.e. small liquid-free zones ("bubbles" or <marker>"</marker>voids")that are the consequence of forces acting upon the liquid.</example>
+                <example correction="">...pecifically, modern demagogic/populist (<marker>"</marker>volkist")-oriented Germany and Germans. ...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>#</token>
+                    </marker>
+                    <token>'s</token>
+                </pattern>
+                <example correction="">Jessica, add Delainey's <marker>#</marker>'s... and here are Lavorato's...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">)
+                        <exception scope="next">(</exception>
+                    </token>
+                    <marker>
+                        <token>)</token>
+                    </marker>
+                </pattern>
+                <example correction="">...e with the molten beryllocene (Be(C5H5)2<marker>)</marker> at about 70 °C. </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">
+                        <exception regexp="yes">&quote;</exception>
+                        <exception scope="next" regexp="yes">&quote;</exception>
+                    </token>
+                    <marker>
+                        <token regexp="yes">\.|\?</token>
+                    </marker>
+                </pattern>
+                <example correction="">Tom said you're not happy here<marker>.</marker></example>
+                <example correction="">and he's like, what do you, You, you killed him<marker>?</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" regexp="yes">&quote;</token>
+                    <token skip="-1" regexp="yes">&quote;
+                        <exception scope="next" regexp="yes">&quote;</exception>
+                    </token>
+                    <marker>
+                        <token regexp="yes">;|\.</token>
+                    </marker>
+                </pattern>
+                <example correction="">1825 – The treaty between the United States and the Cheyenne tribe refers to "American citizen"s<marker>.</marker></example>
+                <example correction="">Some cheeses called Cheddar, are actually flavoured processed cheeses or "cheese food"s<marker>;</marker> they often bear little resemblance to the natural cheeses they were named for.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>-</token>
+                    <token spacebefore="no">-</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">I've got a thing of thing-- <marker>Here</marker>, got them right here.</example>
+                <example correction="">All we have to do is think of a nonviolent, unsuspicious way to purchase the car wash that- - That-- <marker>That</marker> protects the innocent and doesn't cost $20 million.</example>
+                <example correction="">By the way-- <marker>Where</marker> do you think we are?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">https?://.+</token>
+                    </marker>
+                </pattern>
+                <example correction="">Please see: <marker>https://share.getcloudapp.com/geuEvAe1</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>|</token>
+                        <token spacebefore="no">|</token>
+                    </marker>
+                </pattern>
+                <example correction="">| "type of sarong" |- | "thread" |- | <marker>||</marker> "spacious" |}</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_EN_LECTOR_MISSING_PUNCTUATION_PERIOD" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token />
+                    </marker>
+                    <token postag="," />
+                    <token postag="RB" />
+                </pattern>
+                <example correction="">Yes, we do have a new trading game, link <marker>below</marker>, essentially you can play with up to 10 people and they play against each other.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_WORD_ORDER" name="">
             <rule>
                 <pattern>
