@@ -129,6 +129,8 @@ public class MultiDocumentsHandler {
   private int heapCheckInterval = HEAP_CHECK_INTERVAL;
   private boolean testMode = false;
   private boolean javaLookAndFeelIsSet = false;
+  private boolean isHelperDisposed = false;
+
   
 
   MultiDocumentsHandler(XComponentContext xContext, XProofreader xProofreader, XEventListener xEventListener) {
@@ -403,6 +405,14 @@ public class MultiDocumentsHandler {
         found = true;
         document.dispose(true);
         isDisposed = true;
+        if (documents.size() < 2) {
+          LtDictionary.setDisposed();
+          if (textLevelQueue != null) {
+            textLevelQueue.setStop();
+            textLevelQueue = null;
+          }
+          isHelperDisposed = true;
+        }
 /*      save only if document is saved
         if (config.saveLoCache()) {
           document.writeCaches();
@@ -1973,12 +1983,16 @@ public class MultiDocumentsHandler {
   /** class to start a separate thread to check for Impress documents
    */
   private class LtHelper extends Thread {
+    
     @Override
     public void run() {
       try {
         SingleDocument currentDocument = null;
-        while (currentDocument == null) {
-          Thread.sleep(1000);
+        while (!isHelperDisposed && currentDocument == null) {
+          Thread.sleep(250);
+          if (isHelperDisposed) {
+            return;
+          }
           currentDocument = getCurrentDocument();
           if (currentDocument != null && currentDocument.getDocumentType() == DocumentType.IMPRESS) {
             checkImpressDocument = true;
@@ -1995,6 +2009,7 @@ public class MultiDocumentsHandler {
         MessageHandler.showError(e);
       }
     }
+    
   }
 
 }

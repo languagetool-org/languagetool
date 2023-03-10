@@ -60,24 +60,35 @@ public class LtDictionary {
   
   private static Set<String> dictionaryList = new HashSet<>();
   private static String listIgnoredWords = null;
+  private static boolean isDisposed = false;
   
+  /**
+   * Add a non permanent dictionary to LO/OO that contains additional words defined in LT
+   */
+  public static void setDisposed() {
+    isDisposed = true;
+  }
+
   /**
    * Add a non permanent dictionary to LO/OO that contains additional words defined in LT
    */
   public static boolean setLtDictionary(XComponentContext xContext, Locale locale, LinguisticServices linguServices) {
     boolean debugMode = OfficeTools.DEBUG_MODE_LD;
+    if (isDisposed) {
+      return false;
+    }
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
     if (searchableDictionaryList == null) {
       MessageHandler.printToLogFile("LtDictionary: setLtDictionary: searchableDictionaryList == null");
       return false;
     }
-    if (listIgnoredWords == null) {
+    if (listIgnoredWords == null && !isDisposed) {
       setListIgnoredWords(searchableDictionaryList.getDictionaries());
     }
     String shortCode = OfficeTools.localeToString(locale);
     String dictionaryNamePrefix = INTERNAL_DICT_PREFIX + shortCode + "_internal";
     String dictionaryName = dictionaryNamePrefix + "1" + DICT_FILE_POSTFIX;
-    if (!dictionaryList.contains(dictionaryName) && searchableDictionaryList.getDictionaryByName(dictionaryName) == null) {
+    if (!isDisposed && !dictionaryList.contains(dictionaryName) && searchableDictionaryList.getDictionaryByName(dictionaryName) == null) {
       dictionaryList.add(dictionaryName);
       String ltDictionaryPath = getLTDictionaryFile(locale, linguServices);
       if (ltDictionaryPath != null) {
@@ -91,6 +102,9 @@ public class LtDictionary {
         int count = 0;
         int dictNum = 1;
         int dictCount = 0;
+        if (isDisposed) {
+          return false;
+        }
         XDictionary manualDictionary = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
         if (debugMode) {
           MessageHandler.printToLogFile("Add " + words.size() + " words to " + dictionaryName);
@@ -104,11 +118,17 @@ public class LtDictionary {
             dictCount += manualDictionary.getCount();
             dictNum++;
             dictionaryName = dictionaryNamePrefix + dictNum + DICT_FILE_POSTFIX;
+            if (isDisposed) {
+              return false;
+            }
             manualDictionary = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
             count = 0;
           }
         }
         manualDictionary.setActive(true);
+        if (isDisposed) {
+          return false;
+        }
         searchableDictionaryList.addDictionary(manualDictionary);
         dictCount += manualDictionary.getCount();
         long endTime = System.currentTimeMillis();

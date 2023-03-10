@@ -181,7 +181,7 @@ public class TextLevelCheckQueue {
       if (debugMode) {
         MessageHandler.printToLogFile("TextLevelCheckQueue: setStop: stop queue");
       }
-      textRuleQueue.add(queueEntry);
+      textRuleQueue.add(0, queueEntry);
     }
     wakeupQueue();
   }
