@@ -25127,6 +25127,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="bocabajo|boca abajo">Se quedó <marker>boca bajo</marker>.</example>
         </rule>
         <rule id="LEE_LE" name="confusión *lee/le">
+            <antipattern>
+                <token>lee</token>
+                <token regexp="yes">manga|reseñas|informes</token>
+                <example>También lee manga.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <token>que</token>
+                <token>lee</token>
+                <example>Las cosas que lee pueden ser útiles para el futuro.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token>lee</token>
+                <example>María lo lee observa y calla.</example>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>lee<exception postag="_possible_NP"/></token>
