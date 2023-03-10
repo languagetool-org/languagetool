@@ -10615,9 +10615,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <rule>        
             <pattern>
                 <!--     VB:.*         -->
-                <token skip="-1" regexp="yes">нужно|надо|необходимо<exception  scope="next" regexp="yes">&pnct;|и|или</exception><exception postag="PNN:.*" postag_regexp="yes" scope="next" /></token>
+                <token skip="-1" regexp="yes">нужно|надо|необходимо<exception  scope="next" regexp="yes">&pnct;|и|или</exception><exception postag="PNN:.*|VB:INF:.*" postag_regexp="yes" scope="next" /></token>
                 <marker>
-                  <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception postag_regexp="yes"  postag="VB:INF:.*"></exception><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception><exception>трём</exception><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception></token>
+                  <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception postag_regexp="yes"  postag="VB:INF:.*"></exception><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception><exception regexp="yes">трём|будет</exception><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception></token>
                 </marker>
                 <token regexp="yes">[.;,!?]</token>
             </pattern>
@@ -10736,7 +10736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
               <antipattern>
                  <token postag="SENT_START" skip="-1" />
-                 <token  skip="-1" regexp="yes" >было|стало|можно|сложно|важно|возможно|тяжело|интересно|приятно|нужно|трудно|надо|нелегко|легко|легче|труднее|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено|приятно|вправе|вежливо|невежливо</token>
+                 <token  skip="-1" regexp="yes" >было|стало|можно|сложно|важно|возможно|тяжело|интересно|приятно|нужно|трудно|надо|нелегко|легко|легче|труднее|лучше|хуже|невозможно|успешно|чтобы|сильно|слабо|непросто|небрежно|вовремя|разрешено|вправе|вежливо|невежливо</token>
                  <marker>
                     <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/></token>
                 </marker>
