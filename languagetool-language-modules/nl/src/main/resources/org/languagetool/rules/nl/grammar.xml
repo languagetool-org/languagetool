@@ -38475,21 +38475,17 @@ steenwijk;Steenwijk
                     <token>der</token>
                     <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
                 </antipattern>
-                <antipattern>
-                    <!-- haal Duits weg -->
-                    <token postag="UNKNOWN"/>
-                    <token>der</token>
-                </antipattern>
-                <antipattern>
-                    <!-- haal Duits weg -->
-                    <token>der</token>
-                    <token postag="UNKNOWN"/>
-                </antipattern>
+                <!-- haal Duits weg -->
+                <antipattern><token postag="UNKNOWN"/><token>der</token></antipattern>
+                <antipattern><token skip="1" postag="UNKNOWN"/><token>der</token></antipattern>
+                <antipattern><token>der</token><token postag="UNKNOWN"/></antipattern>
+                <antipattern><token>der</token><token skip="1" postag="UNKNOWN"/></antipattern>
+                <!-- veel voorkomend gebruik -->
                 <antipattern><token>periodiek</token><token>systeem</token><token>der</token><token>elementen</token></antipattern>
                 <antipattern case_sensitive="yes"><token>Vallei</token><token>der</token><token>Koningen</token></antipattern>
                 <antipattern><token regexp="yes">einde?|begin</token><token>der</token><token>tijden</token></antipattern>
                 <antipattern><token>loop</token><token>der</token><token regexp="yes">jaren|tijd</token></antipattern>
-                <antipattern><token>Republiek</token><token>der</token><token>Nederlanden</token></antipattern>
+                <antipattern><token>der</token><token skip="-1" regexp="yes">Nederland.*</token></antipattern>
                 <antipattern><token>Commandant</token><token>der</token><token>Strijdkrachten</token></antipattern>
                 <antipattern><token>her</token><token>en</token><token>der</token></antipattern>
                 <antipattern><token>tocht</token><token>der</token><token>tochten</token></antipattern>
@@ -38512,12 +38508,13 @@ steenwijk;Steenwijk
                     </marker>
                     <token/>
                 </pattern>
-                <message>In moderne teksten past geen 'der' buiten staande uitdrukkingen. Moderner is <suggestion>van de</suggestion>. Of misschien bedoelt u <suggestion>haar</suggestion>?</message>
+                <message>In moderne teksten past geen 'der' buiten staande uitdrukkingen. Moderner is <suggestion>van de</suggestion>. Of misschien bedoelt u <suggestion>haar</suggestion>, <suggestion>daar</suggestion> of <suggestion>er</suggestion>?</message>
                 <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
                 <short>staande uitdrukking</short>
-                <example correction="van de|haar">De helaasheid <marker>der</marker> dingen.</example>
-                <example correction="van de|haar">Uitbetaling <marker>der</marker> obligaties.</example>
-                <example correction="van de|haar">Het is <marker>der</marker> auto.</example>
+                <example correction="van de|haar|daar|er">De helaasheid <marker>der</marker> dingen.</example>
+                <example correction="van de|haar|daar|er">Uitbetaling <marker>der</marker> obligaties.</example>
+                <example correction="van de|haar|daar|er">Ik ben het <marker>der</marker> echt niet mee eens.</example>
+                <example correction="van de|haar|daar|er">Het is <marker>der</marker> auto.</example>
             </rule>
         </rulegroup>
 
