@@ -965,6 +965,29 @@
     </rule>
 
 
+    <!-- EM DETALHE detalhadamente -->
+    <rule id='EM_DETALHE_DETALHADAMENTE_PT_PT' name="[pt-PT][Simplificar] 'em detalhe' → detalhadamente" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-10 (2-MAR-2023+) -->
+      <!--
+      Queira explicar em detalhe o tema. → Queira explicar detalhadamente o tema.
+      Queira explicar o tema em detalhe. → Queira explicar o tema detalhadamente.
+      -->
+      <pattern>
+        <token postag='V.+|RG|PD.+|NC.+|AQ.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT' postag_regexp='no'/>
+        <marker>
+          <token>em</token>
+          <token>detalhe</token>
+        </marker>
+        <token postag='_PUNCT|SPS00|(SPS00:)?D[AI].+|PI.+' postag_regexp='yes'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>detalhadamente</suggestion>
+      <example correction="detalhadamente">Queira explicar <marker>em detalhe</marker> o tema.</example>
+      <example correction="detalhadamente">Queira explicar o tema <marker>em detalhe</marker>.</example>
+    </rule>
+
+
     <!-- EM RELAÇÃO À SITUAÇÃO relativamente à situação -->
     <rulegroup id='EM_RELAÇÃO_RELATIVAMENTE_PT_PT' name="[pt-PT][Simplificar] Em relação a/à(s)/ao(s) → relativamente a/à(s)/ao(s)" type='style'>
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-25 + 2023-02-14 (25-JUL-2022+) -->
