@@ -25689,6 +25689,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="DE_LA" name="del a/de la">
+            <antipattern>
+                <token>a</token>
+                <token>quo</token>
+                <example>La decisión del a quo.</example>
+            </antipattern>
             <pattern>
                 <token regexp="yes">del|al</token>
                 <token case_sensitive="yes">a</token>
@@ -25697,6 +25702,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="de la">La situación <marker>del a</marker> inspección.</example>
         </rule>
         <rule id="DE_LAS" name="del as/de las">
+            <antipattern case_sensitive="yes">
+                <token>AS</token>
+                <token regexp="yes">Mónaco|Cannes|Magenta|Roma|Muret|Nancy|Livorno|Bari</token>
+                <example>Traspasado del AS Mónaco por 80 millones de euros.</example>
+            </antipattern>
             <pattern>
                 <token regexp="yes">del|al</token>
                 <token>as</token>
