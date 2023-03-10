@@ -2107,6 +2107,23 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
+
+    <rule name="Telecommunications" id="TELECOMMUNICATIONS">
+        <pattern>
+            <token regexp="yes">International|Personal|FlexDSL</token>
+            <token regexp="yes">Telecommunications?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Telecommunications_2" id="TELECOMMUNICATIONS_2">
+        <pattern>
+            <token regexp="yes">Telecommunications?</token>
+            <token min="0">compan(y|ies)|standardization|services?|development|Orbiters?|AG</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Chai latte" id="CHAI_LATTE">
         <pattern case_sensitive="yes">
             <token regexp="yes">Chai|Fior</token>
@@ -2115,7 +2132,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
     <rule name="Café crème" id="CAFÉ_CRÈME">
         <pattern case_sensitive="yes">
             <token regexp="yes">Caff?[èéêe]</token>
@@ -2124,7 +2140,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
     <rule name="Espresso doppio" id="ESPRESSO_DOPPIO">
         <pattern case_sensitive="yes">
             <token regexp="yes">Espresso|Latte</token>
@@ -2132,7 +2147,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
         <pattern><!-- chrome://, ftp://, file:// -->
             <token regexp="yes">[a-z\-]+</token>
