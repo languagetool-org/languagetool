@@ -212,6 +212,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">More <marker>detail</marker> is necessary to understand the situation.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token min="0" max="2" chunk_re="[BI]-NP-singular" />
+                    <token chunk="E-NP-singular" />
+                    <token postag="," />
+                    <token chunk="B-NP-plural">the</token>
+                    <token regexp="yes" chunk="I-NP-plural">accepted|conventional|established|everyday|expected|normal|regular|routine|standard|traditional|typical|usual</token>
+                    <token min="0" chunk="I-NP-plural" />
+                    <token postag="NNS" chunk="E-NP-plural" />
+                    <token>of</token>
+                    <example>Eskrima, the traditional martial arts of the Philippines teaches Doble Baston techniques involving the basic use of a pair of rattan sticks and also Espada y daga or Sword/Stick and Dagger.</example>
+                </antipattern>
                 <pattern>
                     <token chunk="B-NP-plural">the</token>
                     <token regexp="yes" chunk="I-NP-plural">accepted|conventional|established|everyday|expected|normal|regular|routine|standard|traditional|typical|usual</token>
