@@ -17867,7 +17867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token skip="12">no</token>
+                    <token skip="12" regexp="yes">no|tampoco</token>
                     <marker>
                         <token skip="2">sino<exception regexp="yes" scope="next">que|también|porque|como|cómo|donde|dónde|adonde|adónde|qué|quien|quién|si|quienes|quiénes|,|;|cuando|según|cuál|cuáles|cual|cuales</exception></token>
                     </marker>
@@ -17877,6 +17877,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Posible confusión</short>
                 <example correction="sino que|si no">La ley no fue hecha para agradar a Dios <marker>sino</marker> fue introducida por causa del pecado.</example>
                 <example correction="sino que|si no">Así no se puede recibir a alguien con los brazos abiertos <marker>sino</marker> se quieren integrar.</example>
+                <example correction="sino que|si no">Tampoco puedes ver el sol <marker>sino</marker> solamente ves los fotones emitidos por este.</example>
                 <example>No es así, sino de otra manera.</example>
                 <example>No hace un siglo, sino hace escasamente dos meses.</example>
                 <example>No implica contacto sino falta de cooperación.</example>
@@ -29254,6 +29255,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="COMMA_SINO" name="coma antes de 'sino'">
             <!-- less priority than SINO_SI_NO -->
             <antipattern>
+                <token regexp="yes">otr[oa]s?</token>
+                <token regexp="yes" inflected="yes">cosa|manera|modo|opción|solución|forma</token>
+                <token>sino</token>
+                <example>La fiscalía no tiene otra opción sino requerir que se presenten cargos.</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes" inflected="yes">desear|pedir|querer|solicitar</token>
                 <token>sino</token>
             </antipattern>
@@ -29345,6 +29352,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">otr[oa]s?</token>
                 <token regexp="yes" inflected="yes">cosa|manera|modo|opción|solución|forma</token>
+                <token>sino</token>
                 <example>No había otra manera sino esta.</example>
                 <example>La fiscalía no tiene otra opción sino requerir que se presenten cargos por agresión.</example>
                 <example>Él no hace otra cosa sino leer manga.</example>
