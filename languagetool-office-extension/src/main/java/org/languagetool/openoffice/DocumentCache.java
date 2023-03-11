@@ -382,7 +382,7 @@ public class DocumentCache implements Serializable {
   private static boolean isEqualWithoutFootnotes(String flatPara, String textPara, int[] footnotes, int[] n, int level) {
     //  NOTE: flat paragraphs contain footnotes and endnotes as zero space characters
     //        text paragraphs contain footnotes and endnotes as digits or Roman characters
-    for(n[level] = 1; n[level] <= MAX_NOTE_CHAR; n[level]++) {
+    for(n[level] = 0; n[level] <= MAX_NOTE_CHAR; n[level]++) {
       if (level == 0) {
         String textP = textPara;
         for (int i = footnotes.length - 1; i >= 0; i--) {
@@ -421,7 +421,7 @@ public class DocumentCache implements Serializable {
     }
     int[] n = new int[footnotes.length];
     for(int j = 0; j < n.length; j++) {
-      n[j] = 1;
+      n[j] = 0;
     }
     return isEqualWithoutFootnotes(flatPara, textPara, footnotes, n, n.length - 1);
   }

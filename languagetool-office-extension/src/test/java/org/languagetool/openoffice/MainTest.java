@@ -59,6 +59,11 @@ public class MainTest {
     textPara = "This is a test with two footnotes14. Here is the secondXIII.";
     flatPara = "This is a test with two footnotes​. Here is no second.";
     assertTrue(!DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    textPara = "A Informação é os dados num contexto [148] possuindo um valor semântico compreendido como sememas8.";
+    flatPara = "A Informação é os dados num contexto ​[148] possuindo um valor semântico compreendido como sememas​.";
+    footnotes[0] = 37;
+    footnotes[1] = 98;
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
   }
 
   @Test
