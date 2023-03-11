@@ -10931,10 +10931,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--              PREP VB:.*    -->
                 <!--              excluded prep "по" for another rule    -->
                 <or>
-                <token postag="PREP">
-                    <exception negate_pos="yes" postag="PREP"></exception>
-                    <exception regexp="yes">спустя|ради|по|насчёт|насчет|ко</exception>   <!--  |[А-ЯЁ]* -->
-                </token>
+                <token case_sensitive="yes" postag="PREP" regexp="yes">[а-яё]*<exception negate_pos="yes" postag="PREP"></exception><exception regexp="yes">спустя|ради|по|насчёт|насчет|ко</exception></token>
                 <token regexp="yes">у|при</token>
                 </or>
                 <token postag="VB:.*" postag_regexp="yes">
@@ -10949,6 +10946,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он пошёл в лес.</example>
             <example>Стив Джобс и Ко начали поиск специалистов.</example>
             <example>Он лёгок на подъем.</example>
+            <example>Из пункта А в пункт В вышел поезд "Стрела" со скоростью 100 км/ч.</example>
             <example>Как насчет поиграть в теннис сегодня после обеда?</example>
             <example correction="пошёл|пошёл в">Он <marker>в пошёл</marker> лес.</example>
         </rule>
