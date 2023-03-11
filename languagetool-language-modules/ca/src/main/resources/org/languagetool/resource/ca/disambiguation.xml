@@ -186,6 +186,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd pos="NCFS000"/>
         </disambig>
     </rule>
+    <rule id="M_nompropi" name="M. en nom propis">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">M</token>
+            </marker>
+            <token>.</token>
+            <token regexp="yes">\p{Lu}.*</token>
+        </pattern>
+        <disambig action="add"><wd lemma="M" pos="NPCNSP00"/></disambig>
+    </rule>
     <rulegroup id="ENUMERACIONS" name="enumeracions amb lletres: a)">
         <antipattern>
             <token>s</token>
@@ -19390,6 +19400,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="add">
             <wd lemma="euros" pos="NCMN000"/>
         </disambig>
+    </rule>
+    <rule id="mes_info" name="més info">
+        <pattern>
+            <token regexp="yes">més|\+</token>
+            <marker>
+                <token>info</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
     </rule>
     <rule id="IGNORE_SPELLING_LE" name="ignorar le">
         <pattern>
