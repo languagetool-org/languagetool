@@ -3390,19 +3390,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
        <!-- До тех пор, пока, "лучше, чем", "хуже, чем", "несмотря на то, что" -->    
           <rule>
             <pattern>
-                <token negate="yes" regexp="yes">&pnct;</token>
                 <marker>
-                    <token>несмотря</token>
+                    <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START" /></token>
+                    <token case_sensitive="yes">несмотря</token>
                     <token>на</token>
                     <token>то</token>
                     <token>что</token>
                 </marker>
             </pattern>           
-            <message>Нужна запятая: <suggestion>\2 \3 \4, \5</suggestion></message>
-            <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_483</url>
+            <message>Нужна запятая: <suggestion>\1, \2 \3 \4 \5</suggestion></message>
+            <url>http://new.gramota.ru/spravka/punctum/punctum-attach3</url>
             <short>Нужна запятая</short>
             <example>Мы принялись бегать по закрайку самого берега, и всё выходило отлично, несмотря на то что кое-где лед ломался и выступала вода.</example>
-            <example correction="Несмотря на то, что"><marker>Несмотря на то что</marker> Ягозин был кровным детищем Петербурга.</example>
+            <example correction="отлично, несмотря на то что">Мы принялись бегать по закрайку самого берега, и всё выходило <marker>отлично несмотря на то что</marker> кое-где лед ломался и выступала вода.</example>
+            <example>Несмотря на то что предпочтительными методами активации являются учетная запись или сервер лицензий, клиенты могут использовать физический ключ.</example>
           </rule>
           <rule>
             <pattern>
@@ -9625,9 +9626,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>на<exception scope="next" postag_regexp="yes" postag="NN:Anim:.*"></exception></token> <!-- TODO: need improve --> 
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2 \3</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum/punctum-attach3</url>
                 <short>Пишется слитно</short>
                 <example correction="несмотря на">Премия в этом году состоялась <marker>не смотря на</marker> кризис.</example>
                 <example correction="невзирая на">Премия в этом году состоялась <marker>не взирая на</marker> кризис.</example>
+                <example>Несмотря на то что предпочтительными методами активации являются учетная запись или сервер лицензий, клиенты могут использовать физический ключ.</example>
                 <example>Максим говорил, не смотря на девушку, сидевшую напротив.</example> <!-- TODO: need improve --> 
             </rule>
            
