@@ -528,6 +528,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
+    newMatch.setType(oldMatch.getType());
     newMatch.setLazySuggestedReplacements(() -> new ArrayList<>(Sets.newLinkedHashSet(Iterables.concat(
       Iterables.transform(forms, SuggestedReplacement::new),
       oldMatch.getSuggestedReplacementObjects()
@@ -540,6 +541,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
+    newMatch.setType(oldMatch.getType());
     SuggestedReplacement sugg = new SuggestedReplacement(suggestion);
     sugg.setShortDescription(language.getName());
     newMatch.setSuggestedReplacementObjects(Collections.singletonList(sugg));

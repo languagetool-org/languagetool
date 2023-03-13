@@ -365,6 +365,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             if (getFrequency(speller1, sugg) >= getFrequency(speller1, prevWord)) {
               ruleMatch = new RuleMatch(this, sentence, prevStartPos, startPos + word.length(),
                   messages.getString("spelling"), messages.getString("desc_spelling_short"));
+              ruleMatch.setType(RuleMatch.Type.UnknownWord);
               beforeSuggestionStr = prevWord + " ";
               ruleMatch.setSuggestedReplacement(sugg);
             }
@@ -410,6 +411,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             if (getFrequency(speller1, sugg) >= getFrequency(speller1, nextWord)) {
               ruleMatch = new RuleMatch(this, sentence, startPos, nextStartPos + nextWord.length(),
                   messages.getString("spelling"), messages.getString("desc_spelling_short"));
+              ruleMatch.setType(RuleMatch.Type.UnknownWord);
               afterSuggestionStr = " " + nextWord;
               ruleMatch.setSuggestedReplacement(sugg);
             }
@@ -473,6 +475,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (ruleMatch == null) {
       ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(), messages.getString("spelling"),
               messages.getString("desc_spelling_short"));
+      ruleMatch.setType(RuleMatch.Type.UnknownWord);
     }
     
     //word starting with numbers or bullets    
