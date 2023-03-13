@@ -34663,6 +34663,10 @@ steenwijk;Steenwijk
                 <antipattern><token>op</token><token>zoek</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|UNKNOWN"/><token postag="WKW:TGW:1EP"/></antipattern>
                 <antipattern><token regexp="yes">en|of|maar|dus|ben|[,;:"'‘]</token><token postag="WKW:TGW:1EP"/></antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="-1" postag_regexp="yes" postag="WKW.*">zijn</token><token>zoek</token>
+                    <example>Mijn telefoon is zoek.</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="WKW:TGW:1EP"><exception negate_pos="yes" postag="WKW:TGW:1EP"/><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception><exception>ben</exception></token>
