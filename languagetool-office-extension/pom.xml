@@ -41,7 +41,6 @@
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-core</artifactId>
-            <version>${revision}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.optimaize.languagedetector</groupId>
@@ -52,46 +51,38 @@
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-gui-commons</artifactId>
-            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>languagetool-http-client</artifactId>
-            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>language-all</artifactId>
-            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.openoffice</groupId>
             <artifactId>ridl</artifactId>
-            <version>${org.openoffice.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.openoffice</groupId>
             <artifactId>jurt</artifactId>
-            <version>${org.openoffice.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.openoffice</groupId>
             <artifactId>juh</artifactId>
-            <version>${org.openoffice.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.openoffice</groupId>
             <artifactId>unoil</artifactId>
-            <version>${org.openoffice.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -113,8 +104,8 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven-jar-plugin.version}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -131,8 +122,8 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>${maven-assembly-plugin.version}</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/main/assembly/oxt.xml</descriptor>
@@ -157,14 +148,16 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven-deploy-plugin.version}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
