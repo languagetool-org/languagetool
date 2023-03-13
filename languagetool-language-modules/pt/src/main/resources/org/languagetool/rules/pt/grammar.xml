@@ -4095,13 +4095,13 @@ O namorado dela era um ladrão.
 
 
     <!-- PORQUE É por ser -->
-    <rule id='PORQUE_É_POR_SER' name="Porque é → Por ser" type="style">
+    <rulegroup id='PORQUE_É_POR_SER' name="Porque é → Por ser" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-06 (25-JUN-2021+)      -->
       <!--
       Difere da guerra porque o conflito é uma luta entre radicais. → Difere da guerra por o conflito ser uma luta entre radicais.
       Difere da guerra porque os conflitos são uma luta entre radicais. → Difere da guerra por os conflitos serem uma luta entre radicais.
       -->
-      <pattern>
+      <antipattern>
         <token>porque
           <exception scope='previous' postag_regexp='yes' postag='SPS.+'/>
         </token>
@@ -4111,14 +4111,96 @@ O namorado dela era um ladrão.
         <token inflected='yes'>ser
           <exception inflected='yes'>ir</exception>
         </token>
+        <token postag='VMIP3.+' postag_regexp='yes' skip='-1'/>
+        </and>
+        <token>?</token>
+        <example>Se ações são mais fortes que palavras, porque a caneta é mais poderosa que a espada?</example>
+      </antipattern>
+    <rule>
+      <pattern>
+        <marker>
+        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token>porque</token>
+        <token postag='D.+' postag_regexp='yes' min='0'/>
+        <token postag='NPMS.+|AQ0MS.+|NCMS.+' postag_regexp='yes'/>
+        <and>
+        <token inflected='yes' skip='-1'>ser
+          <exception inflected='yes'>ir</exception>
+        </token>
         <token postag='VMIP3.+' postag_regexp='yes'/>
         </and>
+        </marker>
+        <token>,</token>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
-      <suggestion>por \2 \3 <match no='4' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
-      <example correction="por o conflito ser">Difere da guerra <marker>porque o conflito é</marker> uma luta entre radicais.</example>
-      <example correction="por os conflitos serem">Difere da guerra <marker>porque os conflitos são</marker> uma luta entre radicais.</example>
+      <suggestion>por \3 \4 <match no='5' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
+      <suggestion>pelo \4 <match no='5' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
+      <example correction="Por o conflito ser|Pelo conflito ser"><marker>Porque o conflito é</marker> uma luta entre radicais, isso acontece.</example>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token>porque</token>
+        <token postag='D.+' postag_regexp='yes'/>
+        <token postag='NPMP.+|AQ0MP.+|NCMP.+' postag_regexp='yes'/>
+        <and>
+        <token inflected='yes' skip='-1'>ser
+          <exception inflected='yes'>ir</exception>
+        </token>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        </and>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>por \3 \4 <match no='5' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
+      <suggestion>pelos \4 <match no='5' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
+      <example correction="Por os conflitos serem|Pelos conflitos serem"><marker>Porque os conflitos são</marker> uma luta entre radicais, isso acontece.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token>porque</token>
+        <token postag='D.+' postag_regexp='yes' min='0'/>
+        <token postag='NPFS.+|AQ0FS.+|NCFS.+' postag_regexp='yes'/>
+        <and>
+        <token inflected='yes' skip='-1'>ser
+          <exception inflected='yes'>ir</exception>
+        </token>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        </and>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>por \3 \4 <match no='5' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
+      <suggestion>pela \4 <match no='5' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
+      <example correction="Por a ideia ser|Pela ideia ser"><marker>Porque a ideia é</marker> uma luta entre radicais, isso acontece.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+        <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+        <token>porque</token>
+        <token postag='D.+' postag_regexp='yes' min='0'/>
+        <token postag='NPFP.+|AQ0FP.+|NCFP.+' postag_regexp='yes'/>
+        <and>
+        <token inflected='yes' skip='-1'>ser
+          <exception inflected='yes'>ir</exception>
+        </token>
+        <token postag='VMIP3.+' postag_regexp='yes'/>
+        </and>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>por \3 \4 <match no='5' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
+      <suggestion>pelas \4 <match no='5' postag='(VM)(IP3)(.)(0)' postag_regexp="yes" postag_replace='$1N03$30'/></suggestion>
+      <example correction="Por as máquinas serem|Pelas máquinas serem"><marker>Porque as máquinas são</marker> uma luta entre radicais, isso acontece.</example>
+    </rule>
+  </rulegroup>
 
 
     <!-- FREQUENTEMENTE É DADO é frequentemente dado -->
