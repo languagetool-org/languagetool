@@ -35304,10 +35304,10 @@ steenwijk;Steenwijk
         </rulegroup>
         <rule id="OVERDRIJVING_2" name="vreselijk mooi (mooi)" tags="picky objective professional">
             <pattern>
-                <token regexp="yes">enorm|vreselijk|super|mega</token>
+                <token regexp="yes">vreselijk|super|mega</token>
                 <token postag_regexp="yes" postag="BNW.*"/>
             </pattern>
-            <message>Is dit niet overdreven? Is <suggestion>\2</suggestion> niet voldoende?</message>
+            <message>Misschien kan dit ook gezegd worden met alleen <suggestion>\2</suggestion>.</message>
             <example correction="Mooi"><marker>Vreselijk mooi</marker>."</example>
         </rule>
         <rule id="OVERDRIJVING_3" name="heel erg saai (erg saai)" tags="picky objective professional">
@@ -35315,10 +35315,11 @@ steenwijk;Steenwijk
                 <token>heel</token>
                 <token>erg</token>
             </pattern>
-            <message>Is dit niet \1 \2 overdreven? Misschien is <suggestion>\1</suggestion> of <suggestion>\2</suggestion> al voldoende.</message>
+            <message>Misschien kan dit ook gezegd worden met alleen <suggestion>\1</suggestion> of <suggestion>\2</suggestion>.</message>
             <example correction="heel|erg">Wij vonden het <marker>heel erg</marker> saai.</example>
         </rule>
-        <rule id="OVERDRIJVING_4" name="Dat was supertof (tof)!" tags="picky objective professional">
+        <rule id="OVERDRIJVING_4" name="Dat was supertof (tof)!" tags="picky objective professional" default="off">
+            <!-- Disabled, this is the most unpopular OVERDRIJVING rule -->
             <pattern>
                 <token regexp="yes">(giga|mega|super|ultra|über).{3,30}<exception regexp="yes">^(giga|mega)(pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|superfoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*|übermensch.*|überhaupt|Super-G</exception><exception postag="UNKNOWN"/></token>
             </pattern>
