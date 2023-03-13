@@ -32,6 +32,71 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 ]>
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_AGREEMENT" name="">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token chunk="B-NP-singular" />
+                    <token min="0" max="3" chunk="I-NP-singular" />
+                    <token chunk="E-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VBZ" chunk="B-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">The rule <marker>looks</marker> good!</example>
+                <example correction="">The cloud <marker>is</marker> grey.</example>
+                <example correction="">An American <marker>is</marker> generous.</example>
+                <example correction="">My hand <marker>is</marker> too full!</example>
+                <example correction="">Our meeting rarely <marker>starts</marker> on time.</example>
+                <example correction="">Huge spot market purchasing requirement <marker>causes</marker> utilities to take large short positions into real time, creating reliability problems.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <or>
+                        <token postag="SENT_START" />
+                        <token regexp="yes">when|where|why</token>
+                    </or>
+                    <token postag="NN(P|:UN)" postag_regexp="yes" chunk="E-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VBZ" chunk="B-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">Habit <marker>converts</marker> luxurious enjoyments into dull and daily necessities.</example>
+                <example correction="">Antiperspirant <marker>is</marker> useful.</example>
+                <example correction="">Berber <marker>is</marker> struggling to survive.</example>
+                <example correction="">There are also calls where substance <marker>is</marker> discussed.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <or>
+                        <token postag="CC" />
+                        <token>that</token>
+                    </or>
+                    <token>it</token>
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VBZ" chunk="B-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">I want that it <marker>distracts</marker> them while I do what I have to do.</example>
+                <example correction="">Perhaps more important, The Washington Times National Weekly Edition reports stories the liberal news media intentionally ignores because it <marker>does</marker> not fit their version of the news.</example>
+                <example correction="">The CoE currently sends out forecasts of water flow but it <marker>is</marker> not accurate.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">n?or</token>
+                    <token min="0" max="3" chunk_re="[BI]-NP-singular" />
+                    <token postag="NN(P|:UN?)?" postag_regexp="yes" chunk="E-NP-singular" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VBZ" chunk="B-VP" />
+                    </marker>
+                    </pattern>
+                    <example correction="">Neither Tom nor Mary <marker>has</marker> played a lot of basketball.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_TENSE" name="">
             <rule>
                 <pattern>
