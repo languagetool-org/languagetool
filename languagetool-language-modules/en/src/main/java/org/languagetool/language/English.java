@@ -310,6 +310,7 @@ public class English extends Language implements AutoCloseable {
       case "ACCESS_EXCESS":             return 1;   // higher prio than A_UNCOUNTABLE
       case "PRP_ABLE_TO":               return 1;   // higher prio than AI_HYDRA_LEO_CP_YOU.*
       case "WEE_WE":                    return 1;   // higher prio than INTERJECTIONS_PUNCTUATION
+      case "CAN_MISSPELLING":           return 1;   // higher prio than COM_COME
       case "FOR_THE_MOST_PART2":        return 1;   // higher prio than FOR_THE_MOST_PART
       case "FACE_TO_FACE_HYPHEN":       return 1;   // higher prio than THIS_NNS
       case "RUN_ON":                    return 1;   // higher prio than TOO_LONG_SENTENCE

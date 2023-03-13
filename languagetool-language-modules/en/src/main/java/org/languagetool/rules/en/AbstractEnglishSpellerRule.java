@@ -455,6 +455,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("oft ") &&
                    !k.getReplacement().endsWith(" i") &&
                    !k.getReplacement().endsWith(" able") &&
+                   !k.getReplacement().endsWith(" wide") && // (e.g. storewide)
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                    !k.getReplacement().endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
                    !k.getReplacement().endsWith(" OO") && // unnecessary suggestion (e.g. for "HELLOOO")
