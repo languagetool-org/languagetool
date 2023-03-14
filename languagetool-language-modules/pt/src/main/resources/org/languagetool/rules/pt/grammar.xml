@@ -52455,6 +52455,22 @@ O namorado dela era um ladrão.
       <message>Caso se refira ao país, o correto é <suggestion>Catar</suggestion>.</message>
       <example correction="Catar">Fui ao <marker>qtar</marker> ver a copa</example>
     </rule>
+
+        <rule id='PHILLIPS' name="Erro de tradução">
+      <pattern>
+        <token case_sensitive='yes'>phillips</token>
+      </pattern>
+      <message>Caso se refira à marca, o correto é <suggestion>Phillips</suggestion>.</message>
+      <example correction="Phillips">Comprei uma geladeira <marker>phillips</marker>.</example>
+    </rule>
+
+    <rule id='HUNSPELL_SUGESTAO' name="Sugestão não detectada pelo dicionário">
+      <pattern>
+        <token>acampanhando</token>
+      </pattern>
+      <message>Será que quis dizer <suggestion>acompanhando</suggestion> ou <suggestion>acampando</suggestion>?</message>
+      <example correction="acompanhando|acampando">E estavam <marker>acampanhando</marker> em Brasília</example>
+    </rule>
     <rule id='APOSTROFE_S' name='Uso de apóstrofe para palavras no plural' default='on'>
       <antipattern>
         <token regexp='yes' skip='-1'>&palavras_estrangeiras;</token>
