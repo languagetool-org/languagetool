@@ -34,7 +34,8 @@ public class GermanCommaWhitespaceRule extends CommaWhitespaceRule {
 
   @Override
   protected boolean isException(AnalyzedTokenReadings[] tokens, int tokenIdx) {
-    if (tokens[tokenIdx].getToken().equals(".") &&
+    if (tokenIdx+1 < tokens.length &&
+        tokens[tokenIdx].getToken().equals(".") &&
         tokens[tokenIdx+1].getToken().matches("[a-z]{2,10}-Domains?")) {
       return true;
     }
