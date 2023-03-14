@@ -1466,6 +1466,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
             <rule>
                 <pattern>
+                    <token inflected="yes" chunk_re=".-VP">help</token>
+                    <token postag="NNP|PRP_O.*" postag_regexp="yes" />
+                    <marker>
+                        <token postag="VB" chunk="B-VP" />
+                    </marker>
+                    <token postag="NNP|PRP_O.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">Anything you do to help me <marker>help</marker> you will be very welcome.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="CC|SENT_START|PCT" postag_regexp="yes" />
                     <token postag="RB" min="0" />
                     <token>now</token>
