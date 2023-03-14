@@ -36,9 +36,17 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <token postag="SENT_START" />
-                    <token chunk="B-NP-singular" />
-                    <token min="0" max="3" chunk="I-NP-singular" />
-                    <token chunk="E-NP-singular" />
+                    <token chunk="B-NP-singular">
+                        <exception postag="MD" />
+                        <exception regexp="yes">th[eo]se</exception>
+                    </token>
+                    <token min="0" max="3" chunk="I-NP-singular">
+                        <exception postag="CC" />
+                    </token>
+                    <token chunk="E-NP-singular">
+                        <exception postag="NNPS" />
+                        <exception regexp="yes">phragmites|youth</exception>
+                    </token>
                     <token min="0" postag="RB" />
                     <marker>
                         <token postag="VBZ" chunk="B-VP" />
@@ -50,6 +58,15 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">My hand <marker>is</marker> too full!</example>
                 <example correction="">Our meeting rarely <marker>starts</marker> on time.</example>
                 <example correction="">Huge spot market purchasing requirement <marker>causes</marker> utilities to take large short positions into real time, creating reliability problems.</example>
+                <example>Gaming headset and control pad enables both voice commands and voice chat during game play.</example>
+                <example>The Persians focuses on the popular Greek theme of hubris by blaming Persia's loss on the pride of its king.</example>
+                <example>These spillage causes a lot of havoc to inhabitants of the community and hence contracts are awarded especially to foreign firms to clean and mop up the spilled crude oil from the areas affected.</example>
+                <example>The invasive reed Phragmites has been steadily overtaking a marsh scientists are studying.</example>
+                <example>The youth is in love with technology.</example>
+                <example>Dick and Sandy Giese has just sent you a greeting card from Bluemountain.com.</example>
+                <example>SoCal and Davis has yet to give their support.</example>
+                <example>Their scope and shape is unclear.</example>
+                <example>May god gives you wisdom.</example>
             </rule>
             <rule>
                 <pattern>
