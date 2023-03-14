@@ -26444,6 +26444,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 puede</suggestion>
                 <example correction="Se puede"><marker>Se pude</marker> hacer mejor.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="6">yo</token>
+                    <token>pude</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="6">pude</token>
+                    <token>yo</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>pude</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>puede</suggestion>?</message>
+                <suggestion>pudo</suggestion>
+                <example correction="Puede|Pudo"><marker>Pude</marker> ser correcto.</example>
+                <example>Yo pude ser el primero.</example>
+                <example>Puude ser yo el primero.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="E_SINGLE_CHAR" name="confusión e/el/en/de">
             <antipattern>
