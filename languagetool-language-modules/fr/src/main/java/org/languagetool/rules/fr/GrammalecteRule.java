@@ -419,7 +419,8 @@ public class GrammalecteRule extends Rule {
     "g2__conf_a_à_verbe__b4_a1_1",
     "g2__conf_a_à_verbe__b7_a1_1",
     "g2__conf_a_à_verbe__b8_a1_1",
-    "g3__gn_la_3m__b1_a1_1"
+    "g3__gn_la_3m__b1_a1_1",
+    "gv1__imp_verbe_groupe3_d__b2"//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
