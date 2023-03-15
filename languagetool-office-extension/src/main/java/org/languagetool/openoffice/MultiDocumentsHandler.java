@@ -215,6 +215,8 @@ public class MultiDocumentsHandler {
         if (initDocs) {
           initDocuments(true);
         }
+      } else if (textLevelQueue == null && useQueue) {
+        textLevelQueue = new TextLevelCheckQueue(this);
       }
     }
     if (debugMode) {
@@ -1954,7 +1956,7 @@ public class MultiDocumentsHandler {
     @Override
     public void run() {
       try {
-        while (runLoop) {
+        while (runLoop && textLevelQueue != null) {
           try {
             for (int i = 0; i < documents.size(); i++) {
               documents.get(i).addShapeQueueEntries();

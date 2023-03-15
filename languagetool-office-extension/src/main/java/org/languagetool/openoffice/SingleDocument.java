@@ -671,7 +671,7 @@ class SingleDocument {
    * nFPara is number of flat paragraph
    */
   public void addQueueEntry(int nFPara, int nCache, int nCheck, String docId, boolean checkOnlyParagraph, boolean overrideRunning) {
-    if (!disposed && mDocHandler.isSortedRuleForIndex(nCache) && docCache != null) {
+    if (!disposed && mDocHandler.getTextLevelCheckQueue() != null && mDocHandler.isSortedRuleForIndex(nCache) && docCache != null) {
       TextParagraph nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara != null && nTPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
         int nStart;
