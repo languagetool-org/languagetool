@@ -298,7 +298,6 @@ public class English extends Language implements AutoCloseable {
       case "YEAR_OLD_HYPHEN":           return 6;   // higher prio than MISSING_HYPHEN
       case "MISSING_HYPHEN":            return 5;
       case "WRONG_APOSTROPHE":          return 5;
-      case "AI_HYDRA_LEO_SCY_IT_S":     return 3;   // prefer over AI_HYDRA_LEO_CPT
       case "YOU_GOOD":                  return 3;   // prefer over AI_HYDRA_LEO_CP (YOU_YOURE etc.) // prefer over PRP_PAST_PART
       case "DOS_AND_DONTS":             return 3;
       case "IF_YOU_FURTHER_QUESTIONS":  return 3;   // higher prio than agreement rules and AI
@@ -625,6 +624,9 @@ public class English extends Language implements AutoCloseable {
       }
       if (id.startsWith("AI_HYDRA_LEO_CP")) {
         return 2;
+      }
+      if (id.startsWith("AI_HYDRA_LEO_SCY_IT_S")) {
+        return 3;
       }
       if (id.startsWith("AI_HYDRA_LEO_MISSING_A")) {
         return -8; // higher prio than BEEN_PART_AGREEMENT and HAVE_BEEN_AGREEMENT
