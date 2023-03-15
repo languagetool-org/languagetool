@@ -32833,6 +32833,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://es.wikipedia.org/wiki/Scarlett_Johansson</url>
                 <example correction="Scarlett Johansson"><marker>Scarlet Johanson</marker></example>
             </rule>
+            <rule id="WARREN_BUFFETT" name="Warren Buffett" default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token>Warren</token>
+                    <token>Buffett</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">Warr?en</token>
+                    <token regexp="yes">Buff?et?ts?</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>Warren Buffett</suggestion> (hombre de negocios)?</message>
+                <url>https://es.wikipedia.org/wiki/Warren_Buffett</url>
+                <example correction="Warren Buffett"><marker>Waren Buffet</marker> es una de las personas más ricas del mundo.</example>
+            </rule>
         </rulegroup>
     </category>
 </rules>
