@@ -8104,7 +8104,8 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
         <rulegroup id="BE_NL_VERSCHIL" name="Verschil in betekenis" tags="clarity">
-            <rule>
+            <rule default="off">
+                <!-- Disabled. Rule doesn't seem to add much value to users and gets disabled often. -->
                 <pattern>
                     <token>onthaal</token>
                 </pattern>
@@ -8122,64 +8123,80 @@ regexp case-insensitive maken: (?i)
                 <example correction="">Het algemeen gemiddelde <marker>ASO</marker> was 56 %.</example>
                 <example correction="">75% is meer dan voldoende in het middelbaar <marker>aso</marker>.</example>
             </rule>
+            <rule default="off">
+                <!-- Disabled. Very unpopular amongst users and triggering on Flemish words like "motorbotten" and "zomerbotten" seems unnecessary. -->
+                <antipattern>
+                    <token regexp="yes">grove|zware</token>
+                    <token>botten</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">dit|dat|het</token>
+                    <token>bot</token>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="SENT_START|START" skip="-1"/>
+                    <token inflected="yes" regexp="yes">gedragen|stellen</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="SENT_START|START" skip="-1"/>
+                    <token skip="-1" regexp="yes">spier.*|vlees|merg</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token>broze</token>
+                    <token>botten</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">botten|motorbotten|winterbotten|zomerbotjes</token>
+                </pattern>
+                <message>In Vlaanderen betekent 'bot' (ook) 'laars'.</message>
+                <example correction="">Ik trok mijn <marker>motorbotten</marker> aan.</example>
+            </rule>
             <rule>
-                <antipattern><token regexp="yes">grove|zware</token><token>botten</token></antipattern>
-                <antipattern><token regexp="yes">dit|dat|het</token><token>bot</token></antipattern>
-                <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token inflected="yes" regexp="yes">gedragen|stellen</token><token
-                    postag="SENT_END"/></antipattern>
-                    <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">spier.*|vlees|merg</token><token
-                    postag="SENT_END"/></antipattern>
-                    <antipattern><token>broze</token><token>botten</token></antipattern>
-                    <pattern>
-                        <token case_sensitive="yes" regexp="yes">botten|motorbotten|winterbotten|zomerbotjes</token>
-                    </pattern>
-                    <message>In Vlaanderen betekent 'bot' (ook) 'laars'.</message>
-                    <example correction="">Ik trok mijn <marker>motorbotten</marker> aan.</example>
-                </rule>
-                <rule>
-                    <pattern>
-                        <token inflected="yes">enerverend</token>
-                    </pattern>
-                    <message>'Enerverend' betekent in Vlaanderen 'spannend', in Nederland 'zenuwslopend'.</message>
-                    <example correction="">Het was <marker>enerverend</marker>.</example>
-                </rule>
-                <rule>
-                    <pattern>
-                        <token>mes</token>
-                        <token skip="8">snijdt</token>
-                        <token>twee</token>
-                        <token>kanten</token>
-                    </pattern>
-                    <message>'Mes snijdt aan twee kanten' betekent in Vlaanderen 'heeft voor- en nadelen', in Nederland 'geeft dubbel voordeel'.</message>
-                    <example correction="">Het <marker>mes snijdt weer aan twee kanten</marker>.</example>
-                </rule>
-                <rule>
-                    <pattern>
-                        <token skip="8">mes</token>
-                        <token>twee</token>
-                        <token>kanten</token>
-                        <token>snijdt</token>
-                    </pattern>
-                    <message>'Mes snijdt aan twee kanten' betekent in Vlaanderen 'heeft voor- en nadelen', in Nederland 'geeft dubbel voordeel'.</message>
-                    <example correction="">Als het <marker>mes weer aan twee kanten snijdt</marker>, gaat het goed.</example>
-                </rule>
-                <rule>
-                    <pattern>
-                        <token skip="8">sisser</token>
-                        <token inflected="yes">aflopen</token>
-                    </pattern>
-                    <message>'(met/op) een sisser aflopen' betekent in Vlaanderen 'teleurstellen', in Nederland 'meevallen'.</message>
-                    <example correction="">Als het met een <marker>sisser is afgelopen</marker>, gaat het goed.</example>
-                </rule>
-                <rule>
-                    <pattern>
-                        <token skip="8" inflected="yes">aflopen</token>
-                        <token>sisser</token>
-                    </pattern>
-                    <message>'(met/op) een sisser aflopen' betekent in Vlaanderen 'teleurstellen', in Nederland 'meevallen'.</message>
-                    <example correction="">Als het met een <marker>afloopt met een sisser</marker>, gaat het goed.</example>
-                </rule>
-            </rulegroup>
+                <pattern>
+                    <token inflected="yes">enerverend</token>
+                </pattern>
+                <message>'Enerverend' betekent in Vlaanderen 'spannend', in Nederland 'zenuwslopend'.</message>
+                <example correction="">Het was <marker>enerverend</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mes</token>
+                    <token skip="8">snijdt</token>
+                    <token>twee</token>
+                    <token>kanten</token>
+                </pattern>
+                <message>'Mes snijdt aan twee kanten' betekent in Vlaanderen 'heeft voor- en nadelen', in Nederland 'geeft dubbel voordeel'.</message>
+                <example correction="">Het <marker>mes snijdt weer aan twee kanten</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="8">mes</token>
+                    <token>twee</token>
+                    <token>kanten</token>
+                    <token>snijdt</token>
+                </pattern>
+                <message>'Mes snijdt aan twee kanten' betekent in Vlaanderen 'heeft voor- en nadelen', in Nederland 'geeft dubbel voordeel'.</message>
+                <example correction="">Als het <marker>mes weer aan twee kanten snijdt</marker>, gaat het goed.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="8">sisser</token>
+                    <token inflected="yes">aflopen</token>
+                </pattern>
+                <message>'(met/op) een sisser aflopen' betekent in Vlaanderen 'teleurstellen', in Nederland 'meevallen'.</message>
+                <example correction="">Als het met een <marker>sisser is afgelopen</marker>, gaat het goed.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="8" inflected="yes">aflopen</token>
+                    <token>sisser</token>
+                </pattern>
+                <message>'(met/op) een sisser aflopen' betekent in Vlaanderen 'teleurstellen', in Nederland 'meevallen'.</message>
+                <example correction="">Als het met een <marker>afloopt met een sisser</marker>, gaat het goed.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="LEESBAARHEID" name="Leesbaarheid" type="style" tags="clarity">
             <rulegroup id="LANG_WOORD" name="Lang woord" tags="picky" default="off">
