@@ -152,9 +152,9 @@ public class RuleMatchDiffFinder {
       }
     }
     if (fullMode) {
-      fw.write(". <a href='../" + langCode + "/" + filename + "'>Today's list</a>");
+      fw.write(". <a href='../" + langCode + "/" + enc(filename) + "'>Today's list</a>");
     } else {
-      fw.write(". <a href='../" + langCode + "_full/" + filename + "'>Full list</a>");
+      fw.write(". <a href='../" + langCode + "_full/" + enc(filename) + "'>Full list</a>");
     }
     String shortRuleId = ruleId.replaceFirst("^.* / ", "").replaceFirst("\\[[0-9]+\\]", "");
     fw.write(".  " + getAnalyticsLink(shortRuleId, langCode));
