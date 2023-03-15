@@ -1587,6 +1587,12 @@ class CaseRuleAntiPatterns {
       new PatternTokenBuilder().posRegex("SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*NEU.*|UNKNOWN").csTokenRegex("(?!(Die|Diese|Alle|Eine|Jene|[DMSK]eine|Andere|Eure|Unse?re|Sonstige|Einige|Manche|Ohne|Welche|Viele|Solche))[A-ZÄÖÜ].+e").build(),
       csRegex("und|oder|&"),
       posRegex("SUB.*NOM.*PLU.*(MAS|FEM|NEU)")
+    ),
+    Arrays.asList(
+      // Hier ist Text. (Und dann schreibe ich etwas in Klammern.) Nach der Klammer möchte LT klein weiterschreiben.
+      csToken("."),
+      csToken(")"),
+      csRegex("[A-ZÄÖÜ].+")
     )
   );
 }
