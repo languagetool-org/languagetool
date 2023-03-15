@@ -1100,7 +1100,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[wW]idersprüchig(e[mnrs]?)?", "ig", "lich");
     putRepl("[fF]austig(e[mnrs]?)?", "austig", "austdick");
     putRepl("Belastungsekgs?", "ekg", "-EKG");
-    putRepl("gehardcodet(e[mnrs]?)?", "gehardcodet", "hartkodiert");
+    putRepl("gehardcode[dt](e[mnrs]?)?", "gehardcode", "hartkodier");
+    putRepl("hardgecode[dt](e[mnrs]?)?", "gehardcode", "hartkodier");
     putRepl("Flektion(en)?", "Flektion", "Flexion");
     putRepl("Off-[Ss]hore-[A-Z].+", "Off-[Ss]hore-", "Offshore");
     put("Deis", "Dies");

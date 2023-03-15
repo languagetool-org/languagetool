@@ -267,6 +267,10 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no everything fine",
       "no we don't",
       "no dont",
+      "95 theses", // vs these
+      "ninety-five theses", // vs these
+      "Ninety-five theses", // vs these
+      "April Theses", // vs these
       "for your recharge", // vs you
       "all you kids", // vs your
       "thanks for the patience", // vs patients
