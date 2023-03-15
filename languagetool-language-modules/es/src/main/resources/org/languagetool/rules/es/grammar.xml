@@ -24832,6 +24832,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="originar">Podría <marker>original</marker> problemas.</example>
         </rule>
         <rule id="U_NO" name="u no -> uno">
+            <antipattern>
+                <token skip="-1">no</token>
+                <token regexp="yes" inflected="yes">escribir|pronunciar|deletrear|letra|vocal|consonante|sílaba|muda|diptongo|palabra</token>
+                <example>La u no es una consonante.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes" inflected="yes">escribir|pronunciar|deletrear|letra|vocal|consonante|sílaba|muda|diptongo|palabra</token>
+                <token>u</token>
+                <token>no</token>
+                <example>La vocal u no se pronuncia así.</example>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Wii</token>
+                <token>U</token>
+                <example>La Nintendo 3DS y la Wii U no obtuvieron tantos beneficios como la Wii.</example>
+            </antipattern>
             <pattern>
                 <token>u</token>
                 <token>no</token>
