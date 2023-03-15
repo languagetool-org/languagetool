@@ -86,11 +86,17 @@ public class AgreementRule extends Rule {
     Ins, Zur
   }
 
+  /*
   private static final String MSG = "Möglicherweise fehlende grammatische Übereinstimmung " +
     "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' statt 'mein kleines Haus'";
   private static final String MSG2 = "Möglicherweise fehlende grammatische Übereinstimmung " +
     "von Kasus, Numerus oder Genus. Beispiel: 'mein schönes kleiner Haus' statt 'mein schönes kleines Haus'";
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
+  */
+
+  private static final String MSG = "Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.";
+  private static final String MSG2 = "Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.";
+  private static final String SHORT_MSG = "Evtl. passen Wörter grammatisch nicht zusammen.";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
     "zu",
@@ -491,11 +497,16 @@ public class AgreementRule extends Rule {
       if (compoundMatch != null) {
         return compoundMatch;
       }
+      /*
       List<String> errorCategories = getCategoriesCausingError(token1, token2);
       String errorDetails = errorCategories.isEmpty() ?
             "Kasus, Genus oder Numerus" : String.join(" und ", errorCategories);
       String msg = "Möglicherweise fehlende grammatische Übereinstimmung des " + errorDetails + ".";
       String shortMsg = "Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus";
+      */
+
+      String msg = "Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.";
+      String shortMsg = "Evtl. passen Wörter grammatisch nicht zusammen.";
       ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token2.getEndPos(), msg, shortMsg);
       // this will not give a match for compounds that are not in the dictionary...
       //ruleMatch.setUrl(Tools.getUrl("https://www.korrekturen.de/flexion/deklination/" + token2.getToken() + "/"));
