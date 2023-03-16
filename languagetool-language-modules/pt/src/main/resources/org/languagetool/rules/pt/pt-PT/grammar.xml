@@ -7942,6 +7942,29 @@
     </rulegroup>
 
 
+    <!-- É NECESSÁRIO TER requer -->
+    <rule id='SIMPLIFICAR_É_NECESSÁRIO_TER_REQUER' name="[pt-PT][Simplificar] é necessário ter → requer" type='style'>
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-16 (2-MAR-2023+) -->
+      <!--
+      Para executar a app é necessário ter no mínimo um sistema operativo 64-bit. → Executar a app requer no mínimo um sistema operativo 64-bit.
+      -->
+      <pattern>
+        <marker>
+          <token>para</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token postag='SPS00|(SPS00:)?D[ADI].+|(SPS00:)?PD.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+|NP.+|UNKNOWN' postag_regexp='yes'/>
+          <token>é</token>
+          <token>necessário</token>
+          <token>ter</token>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>\2 \3 \4 requer</suggestion>
+      <example correction="Executar a app requer"><marker>Para executar a app é necessário ter</marker> no mínimo um sistema operativo 64-bit.</example>
+    </rule>
+
+
     <rule id='ALUGAR_CASA' name="[pt-PT] 'alugar' casa → 'arrendar'" type='style'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
