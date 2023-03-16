@@ -155,26 +155,6 @@
 
   <category id="EUROPEAN_PORTUGUESE_PT_PT" name="[pt-PT] Português de Portugal">
 
-    <!-- PARA DESEMPENHAR DETERMINADAS FUNÇÕES para desempenhar funções específicas -->
-    <rule id='CIENTÍFICO_DETERMINADAS_ESPECÍFICAS' name="[Científico] Determinados → Específicos" type="style">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-13 (2-MAR-2023+) -->
-      <!--
-      Estes foram criados para desempenhar determinadas funções. → Estes foram criados para desempenhar funções específicas.
-      -->
-      <pattern>
-        <token regexp="yes">para|como|por</token>
-        <token postag='V.+' postag_regexp='yes'/>
-        <marker>
-          <token regexp="yes">determinad[ao]s</token>
-          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
-        </marker>
-      </pattern>
-      <message>Num contexto formal/científico, é preferível escrever 'específico'.</message>
-      <suggestion>\4 <match no='3' postag='AQ0(..)0' postag_replace='AQ0$10'>específico</match></suggestion>
-      <example correction="funções específicas">Estes foram criados para desempenhar <marker>determinadas funções</marker>.</example>
-    </rule>
-
-
 
     <!-- PASSARAM 10 MINUTOS decorreram 10 minutos -->
     <rulegroup id='PASSAR_TEMPO_DECORRER_TEMPO' name="[Formal] 'passar' tempo → decorrer">
@@ -8699,4 +8679,29 @@
   </category>
 
 
+  <category id='ACADEMIC_SCIENTIFIC_PT_PT' name="[pt-PT] Regras académicas e científicas" type="other">
+
+
+    <!-- PARA DESEMPENHAR DETERMINADAS FUNÇÕES para desempenhar funções específicas -->
+    <rule id='CIENTÍFICO_DETERMINADAS_ESPECÍFICAS' name="[pt-PT][Científico] Determinados → Específicos" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-13 (2-MAR-2023+) -->
+      <!--
+      Estes foram criados para desempenhar determinadas funções. → Estes foram criados para desempenhar funções específicas.
+      -->
+      <pattern>
+        <token regexp="yes">para|como|por</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <marker>
+          <token regexp="yes">determinad[ao]s</token>
+          <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Num contexto formal/científico, é preferível escrever 'específico'.</message>
+      <suggestion>\4 <match no='3' postag='AQ0(..)0' postag_replace='AQ0$10'>específico</match></suggestion>
+      <example correction="funções específicas">Estes foram criados para desempenhar <marker>determinadas funções</marker>.</example>
+    </rule>
+
+
+  </category>
+  
 </rules>
