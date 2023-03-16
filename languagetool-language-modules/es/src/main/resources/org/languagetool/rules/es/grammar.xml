@@ -15611,12 +15611,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token>gran</token>
-                <token postag="NC.P.*|A...P.*|V.P..P." postag_regexp="yes"/>
+                <token postag="NC.P.*|A...P.*|V.P..P." postag_regexp="yes"><exception postag="N..[SN].*|A...[SN].*|V.P..S.|_GN_.S" postag_regexp="yes"/></token>
             </pattern>
             <message>Posible error de concordancia.</message>
             <suggestion>\1 <match no="2" postag_regexp="yes" postag="(NC.|A...|V.P..)P(.*)" postag_replace="$1S$2"/></suggestion>
             <suggestion>grandes \2</suggestion>
             <example correction="Gran perjudicado|Grandes perjudicados"><marker>Gran perjudicados</marker> por la decisión.</example>
+            <example>Gran cortafuegos.</example>
         </rule>
         <rulegroup id="CONCORDANCIA_BUEN" name="concordancia buen + nombre/adjetivo">
             <antipattern>
