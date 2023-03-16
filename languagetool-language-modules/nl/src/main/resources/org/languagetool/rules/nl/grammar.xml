@@ -373,34 +373,6 @@ regexp case-insensitive maken: (?i)
                 <example correction="af te">Het hoeft nog niet <marker>afte</marker> lopen.</example>
             </rule>
         </rulegroup>
-        <rule id="IS_JOUW_MRV" name="Dit is (zijn) jouw auto's" type="misspelling" >
-            <pattern>
-                <marker>
-                    <token>is</token>
-                </marker>
-                <token>jouw</token>
-                <token postag="ZNW:MRV:DE_"></token>
-                <token>
-                    <exception postag_regexp="yes" postag="ZNW.*"/>
-                </token>
-            </pattern>
-            <message><match no="3" case_conversion="startupper" /> is meervoud, dus het zou moeten zijn '<suggestion>zijn</suggestion> jouw \3'.</message>
-            <example correction="zijn">Dit <marker>is</marker> jouw auto's.</example>
-            <example>Dat is jouw broers mening.</example>
-        </rule>
-        <rule id="JOU_JOUW_VNW" name="Waarom stuurt hij jouw (jou) geen berichtjes meer?" type="misspelling">
-            <pattern>
-                <marker>
-                    <token>jouw</token>
-                </marker>
-                <token postag_regexp="yes" postag="VNW:OBP.*">
-                    <exception postag_regexp="yes" postag="VNW:OBP:ONV|VNW:OBP:VRB"/>
-                </token>
-            </pattern>
-            <message>U bedoelt waarschijnlijk <suggestion>jou</suggestion> of <suggestion>je</suggestion>.</message>
-            <example correction="jou|je">Dat gaat <marker>jouw</marker> niets aan!</example>
-            <example correction="jou|je">Waarom stuurt hij <marker>jouw</marker> geen berichtjes meer?</example>
-        </rule>
     </category>
 
     <category id="MISC" name="Overige regels die niet in de andere categorieën passen.">
@@ -42114,6 +42086,44 @@ regexp case-insensitive maken: (?i)
                 <example correction="jou">Er was veel goeds in <marker>jouw.</marker></example>
                 <example correction="jou">Ik vind dat mijn rechten op privacy ernstig geschonden zijn door het plaatsen van een raming van de prijs en van de verhuurprijs van mijn woning maar ook die van <marker>jouw.</marker></example>
                 <example correction="jou">Wij zappen voor <marker>jouw.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>is</token>
+                    </marker>
+                    <token>jouw</token>
+                    <token postag="ZNW:MRV:DE_"></token>
+                    <token>
+                        <exception postag_regexp="yes" postag="ZNW.*"/>
+                    </token>
+                </pattern>
+                <message><match no="3" case_conversion="startupper" /> is meervoud, dus het zou moeten zijn '<suggestion>zijn</suggestion> jouw \3'.</message>
+                <example correction="zijn">Dit <marker>is</marker> jouw auto's.</example>
+                <example>Dat is jouw broers mening.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="VRZ"></token>
+                    <token>jouw</token>
+                    <token postag="WKW:VTD:VRB"></token>
+                    <example>Dat wordt gepland op jouw aangegeven aankomsttijd.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>jouw</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="VNW:OBP.*|GET:TXT:EKV|WKW:VTD:ONV|VRZ|VNW:AWZ:EKV:HET|BYW">
+                        <exception postag_regexp="yes" postag="VNW:OBP:ONV|VNW:OBP:VRB"/>
+                    </token>
+                </pattern>
+                <message>U bedoelt waarschijnlijk <suggestion>jou</suggestion> of <suggestion>je</suggestion>.</message>
+                <example correction="jou|je">Dat gaat <marker>jouw</marker> niets aan!</example>
+                <example correction="jou|je">Waarom stuurt hij <marker>jouw</marker> geen berichtjes meer?</example>
+                <example correction="jou|je">Heeft ze het nieuws al aan <marker>jouw</marker> verteld?</example>
+                <example correction="jou|je">Ik wil graag met <marker>jouw</marker> naar de bioscoop.</example>
+                <example correction="jou|je">Zij heeft <marker>jouw</marker> een uitnodiging gestuurd.</example>
+                <example correction="jou|je">Ik hoop dat het duidelijk is voor <marker>jouw</marker> nu.</example>
             </rule>
         </rulegroup>
     </category>
