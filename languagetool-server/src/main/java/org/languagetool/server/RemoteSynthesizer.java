@@ -15,7 +15,8 @@ import org.languagetool.synthesis.Synthesizer;
 
 public class RemoteSynthesizer {
 
-  protected List<String> synthesize(String languageCode, String lemma, String postag, boolean postagRegexp) throws IOException { 
+  protected List<String> synthesize(String languageCode, String lemma, String postag, boolean postagRegexp)
+      throws IOException {
     Language lang = Languages.getLanguageForShortCode(languageCode);
     Synthesizer synth = lang.getSynthesizer();
     AnalyzedToken at = new AnalyzedToken(lemma, postag, lemma);
@@ -23,7 +24,7 @@ public class RemoteSynthesizer {
     // removing duplicates. TODO: de-duplicate in the original synthesizer (?)
     return removeDuplicates(synthesizedForms);
   }
-  
+
   protected List<String> synthesize(String languageCode, AnalyzedTokenReadings atrs, boolean postagRegexp,
       String postagSelect, String postagReplace, String lemmaReplace) throws IOException {
     if (!postagRegexp) {
@@ -31,7 +32,7 @@ public class RemoteSynthesizer {
     }
     AnalyzedToken atr = atrs.readingWithTagRegex(postagSelect);
     if (atr == null) {
-      //TODO: log error
+      // TODO: log error
       return null;
     }
     if (lemmaReplace != null & !lemmaReplace.isEmpty()) {
@@ -41,9 +42,9 @@ public class RemoteSynthesizer {
     try {
       Pattern p = Pattern.compile(postagSelect);
       Matcher m = p.matcher(atr.getPOSTag());
-      postagReplaceFinal = m.replaceAll(postagReplace);  
-    } catch(PatternSyntaxException pse) {
-      //TODO: log error
+      postagReplaceFinal = m.replaceAll(postagReplace);
+    } catch (IndexOutOfBoundsException | PatternSyntaxException e) {
+      // TODO: log error
       return null;
     }
     Language lang = Languages.getLanguageForShortCode(languageCode);
@@ -51,9 +52,9 @@ public class RemoteSynthesizer {
     String[] synthesizedForms = synth.synthesize(atr, postagReplaceFinal, true);
     return removeDuplicates(synthesizedForms);
   }
-  
+
   private List<String> removeDuplicates(String[] forms) {
-    List<String> results = new ArrayList<>(); 
+    List<String> results = new ArrayList<>();
     for (String s : forms) {
       if (!results.contains(s)) {
         results.add(s);
