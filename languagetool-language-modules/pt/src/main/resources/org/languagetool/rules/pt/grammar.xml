@@ -40147,65 +40147,21 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rulegroup id='POR_PÔR' name="[Confusão] por/pôr" >
-      <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-06-29 + 2020-06-30  -->
-      <rule>
-        <pattern>
-          <token postag='VMI[SM]3P0|VMI[SP]1S0|VMM01P0|VM[IS]P1P0|VMIF[13]P0|SENT_START' postag_regexp='yes'/>
-          <marker>
-            <token>por</token>
-          </marker>
-          <token postag='NC[CM]S000|AQ0CN0' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='V.+'/></token>
-          <token regexp='yes'>aos?|às?</token>
-        </pattern>
-        <message>Substitua por <suggestion>pôr</suggestion>.</message>
-        <example correction="pôr">Vou <marker>por</marker> termo ao contrato.</example>
-      </rule>
-      <rule>
-        <antipattern>
-          <token postag_regexp='yes' postag='V.+'/>
-          <token regexp='yes' spacebefore='no'>&hifen;</token>
-          <token regexp='yes'>se|lhes?|te</token>
-          <token>por</token>
-          <token postag='NC[CM]S000|AQ0CN0' postag_regexp='yes'/>
-          <token>a</token>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-        </antipattern>
-        <antipattern>
-          <token min="0" max="1" postag_regexp='yes' postag='V.+'/> <!-- MARCOAGPINTO - 2020-07-06 -->
-          <token>por</token>
-          <token postag='NC[CM]S000|AQ0CN0' postag_regexp='yes'/>
-          <token>a</token>
-          <token postag='NC[CFM]S000' postag_regexp='yes'/>
-        </antipattern>
-        <pattern>
-          <token negate="yes" regexp='yes'>e|,</token>
-          <marker>
-            <token>por</token>
-          </marker>
-          <token postag='NC[CM]S000|AQ0CN0' postag_regexp='yes'>
-            <exception postag_regexp='yes' postag='V.+'/></token>
-          <token>a</token>
-          <token postag='PI0NN000|NC[CFM]S000|PI0CN000|RN' postag_regexp='yes'/>
-          <and>
-          <token negate="yes" regexp='yes'>das?|de|dos?|com|em</token>
-          <token negate_pos="yes" postag_regexp='yes' postag='V.+'/>
-          </and>
-        </pattern>
-        <message>Substitua por <suggestion>pôr</suggestion>.</message>
-        <example correction="pôr">Vou <marker>por</marker> termo a tudo.</example>
-      </rule>
-    </rulegroup>
-
-
     <!-- VAMOS POR A MÁSCARA vamos pôr a máscara -->
     <rulegroup id='CONFUSION_POR_PÔR_V2' name="[Confusão] por/pôr">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-15/16 (2-MAR-2023+) -->
       <!--
+
+      Subrule #1:
       Temos de por os pratos na mesa! → Temos de pôr os pratos na mesa!
       Temos que por os pratos na mesa! → Temos que pôr os pratos na mesa!
       Temos de por em prática tudo o que aprendemos! → Temos de pôr em prática tudo o que aprendemos!
+
+      Subrule #2:
+      Vou por termo a tudo. → Vou pôr termo a tudo.
+      Vamos por termo a tudo. → Vamos pôr termo a tudo.
+      Vou por termo ao contrato. → Vou pôr termo ao contrato.
+      Vamos por termo ao contrato. → Vamos pôr termo ao contrato.
       -->
 
       <antipattern>
@@ -40261,6 +40217,7 @@ O namorado dela era um ladrão.
         <example>Emily Blunt foi a grande esnobada, já que poderia ter concorrido por O Retorno de Mary Poppins como Atriz e por Um Lugar Silencioso como Coadjuvante.</example>
       </antipattern>
 
+      <!-- Subrule #1: -->
       <rule>
         <pattern>
           <token postag='V.+|SPS00|CS' postag_regexp='yes'>
@@ -40282,6 +40239,33 @@ O namorado dela era um ladrão.
         <example>A sua importância é atestada pelo facto de por lá passar uma das vias romanas.</example>
         <example>…compreender de por quão pouco as pessoas se desentendem.</example>
         <example>Ele concorre por O Grande Hotel Budapeste e O Jogo da Imitação.</example>
+      </rule>
+
+      <!-- Subrule #2: -->
+      <rule>
+        <pattern>
+          <token postag='CC|SENT_START|_PUNCT' postag_regexp='yes'/>
+          <token postag='V.+|SPS00|CS' postag_regexp='yes'>
+            <exception scope='previous' postag_regexp='yes' postag='RG|V.+|CS|PP.+|SPS00'/>
+            <exception postag_regexp='yes' postag='VMG0000|VMN0000|VMP00.+|VMM03.+|VMIS.+'/>
+          </token>
+          <marker>
+            <token>por</token>
+          </marker>
+          <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+|SPS00|RG|(SPS00:)?PP.+'/>
+          </token>
+          <token regexp='yes'>aos?|às?|[ao]s?|em</token>
+          <token postag='NC.+|AQ.+|PI.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+|SPS00|RG'/>
+          </token>
+        </pattern>
+        <message>Possível confusão de termos.</message>
+        <suggestion>pôr</suggestion>
+        <example correction="pôr">Vou <marker>por</marker> termo a tudo.</example>
+        <example correction="pôr">Vamos <marker>por</marker> termo a tudo.</example>
+        <example correction="pôr">Vou <marker>por</marker> termo ao contrato.</example>
+        <example correction="pôr">Vamos <marker>por</marker> termo ao contrato.</example>
       </rule>
 
     </rulegroup>
