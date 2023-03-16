@@ -7772,6 +7772,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El Fondo Monetario Internacional critica severamente al manejo de la crisis en la Eurozona.</example>
                 <example>Marea Verde critica también que el consejero quiera aprobar el decreto.</example>
             </rule>
+            <rule id="DANES" name="danes/danés">
+                <antipattern>
+                    <token skip="-1">danes</token>
+                    <token regexp="yes">medallas?|oro|plata|bronce|lucha|marcial|marciales</token>
+                    <example>En los danes el cinto y la solapa son azul marino, no negro como en otras artes marciales.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes">medallas?|oro|plata|bronce|lucha|marcial|marciales</token>
+                    <token>danes</token>
+                    <example>Medalla de Oro en Forma de 3º Danes.</example>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">Claire|Liz|Clement|Luke|Great|Catherine|[tT]he</token>
+                    <token>Danes</token>
+                    <example>Se puede leer en su obra "The History of the Danes"</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>danes</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>danés</suggestion> (idioma, nacionalidad) en vez de "danes" (apellido, plural de 'dan')?</message>
+                <example correction="danés">El perro de mi vecina es un gran <marker>danes</marker>.</example>
+            </rule>
             <rule id="INGLES" name="ingles/inglés">
                 <antipattern>
                     <token postag="D..FP." postag_regexp="yes"/>
@@ -15570,6 +15594,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="CONCORDANCIA_GRAN" name="concordancia gran + nombre/adjetivo">
+            <antipattern>
+                <token>gran</token>
+                <token case_sensitive="yes" regexp="yes">Rodas|Púas</token>
+                <example>Las glorias del gran Púas.</example>
+            </antipattern>
             <pattern>
                 <token>gran</token>
                 <token postag="NC.P.*|A...P.*|V.P..P." postag_regexp="yes"/>
