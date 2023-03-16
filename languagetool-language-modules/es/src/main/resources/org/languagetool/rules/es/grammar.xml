@@ -14278,6 +14278,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="extraordinario">Fue <marker>extra ordinario</marker>.</example>
                 <example correction="extrarradio">Fue en el <marker>extra-radio</marker>.</example>
             </rule>
+            <rule id="BIEN_VENIDO" name="bein venido > bienvenido" default="temp_off">
+                <!-- TODO: other words with bien- -->
+                <pattern>
+                    <token>bien</token>
+                    <token regexp="yes">venid[oa]s?</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>bien<match no="2"/></suggestion>
+                <example correction="Bienvenidos">¡<marker>Bien venidos</marker> a la fiesta!</example>
+            </rule>
         </rulegroup>
         <rule id="TIK_TOK" name="TikTok">
             <pattern>
