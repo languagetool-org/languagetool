@@ -40199,8 +40199,14 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
-    <rulegroup id='CONFUSION_POR' name="[Confusão] por/pôr">
-      <!--      Created by Marco A.G.Pinto, 2017-07-08      -->
+    <!-- VAMOS POR A MÁSCARA vamos pôr a máscara -->
+    <rulegroup id='CONFUSION_POR_PÔR_V2' name="[Confusão] por/pôr">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-15/16 (2-MAR-2023+) -->
+      <!--
+      Temos de por os pratos na mesa! → Temos de pôr os pratos na mesa!
+      Temos que por os pratos na mesa! → Temos que pôr os pratos na mesa!
+      Temos de por em prática tudo o que aprendemos! → Temos de pôr em prática tudo o que aprendemos!
+      -->
 
       <antipattern>
         <token>de</token>
@@ -40210,30 +40216,74 @@ O namorado dela era um ladrão.
         <example>Não deve ser nada de por aí além.</example>
       </antipattern>
 
+      <antipattern>
+        <token postag='V.+|SPS00|CS' postag_regexp='yes'/>
+        <token>por</token>
+        <token regexp='yes'>[ao]s?|em</token>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='V.+|(SPS00:)?PP.+' postag_regexp='yes'/>
+        <example>De qualquer forma, estou aliviado por o teste ter terminado.</example>
+        <example>Os fantasmas existem por as pessoas acharem que eles são de verdade.</example>
+        <example>Estou desiludido por o Tom ter todos os tipos de macieiras no seu jardim, mas nem um pessegueiro.</example>
+        <example>Fui ofendido por o comportamento dele.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='V.+|SPS00|CS' postag_regexp='yes'/>
+        <token>por</token>
+        <token regexp='yes'>[ao]s?|em</token>
+        <token postag='SPS00' postag_regexp='no'/>
+        <token postag='DI.+' postag_regexp='yes'/>
+        <example>Assim a quadratriz é a curva descrita por A durante todo o percurso.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.+|SPS00|CS' postag_regexp='yes'/>
+        <token>por</token>
+        <token regexp='yes'>[ao]s?|em</token>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='_PUNCT' postag_regexp='no'/>
+        <example>Júlio diz a Diana que não a vai denunciar por a amar.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token postag='V.+|SPS00|CS' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='RG'/>
+        </token>
+        <token>por</token>
+        <token regexp='yes'>[ao]s?|em</token>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='SPS00' postag_regexp='no'/>
+        <token postag='D.+|NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <example>Ao contrário, teriam descaradamente, sido prejudicados por a irresponsabilidade de um gestor que abre um concurso sem sequer se importar com profissionais que...</example>
+        <example>Emily Blunt foi a grande esnobada, já que poderia ter concorrido por O Retorno de Mary Poppins como Atriz e por Um Lugar Silencioso como Coadjuvante.</example>
+      </antipattern>
+
       <rule>
-        <antipattern>
-          <token>por</token>
-          <token regexp='yes'>&adverbios_de_lugar;</token>
-          <token postag_regexp='yes' postag='V.+'/>
-        </antipattern>
         <pattern>
-          <token>de</token>
-          <token>por
-            <exception scope='next'>quão</exception></token>
+          <token postag='V.+|SPS00|CS' postag_regexp='yes'>
+            <exception scope='previous' postag_regexp='yes' postag='PP.+'/>
+          </token>
+          <marker>
+            <token>por</token>
+          </marker>
+          <token regexp='yes'>[ao]s?|em</token>
+          <token>
+            <exception postag_regexp='yes' postag='UNKNOWN|_PUNCT_PERIOD|PP.+'/>
+          </token>
         </pattern>
-        <message>Se se refere ao verbo, substitua por <suggestion>de pôr</suggestion>.</message>
-        <example correction="de pôr">Temos <marker>de por</marker> os pratos na mesa!</example>
+        <message>Possível confusão de termos.</message>
+        <suggestion>pôr</suggestion>
+        <example correction="pôr">Temos de <marker>por</marker> os pratos na mesa!</example>
+        <example correction="pôr">Temos que <marker>por</marker> os pratos na mesa!</example>
+        <example correction="pôr">Temos de <marker>por</marker> em prática tudo o que aprendemos!</example>
         <example>A sua importância é atestada pelo facto de por lá passar uma das vias romanas.</example>
         <example>…compreender de por quão pouco as pessoas se desentendem.</example>
+        <example>Ele concorre por O Grande Hotel Budapeste e O Jogo da Imitação.</example>
       </rule>
-      <rule>
-        <pattern>
-          <token>por</token>
-          <token>em</token>
-        </pattern>
-        <message>Substitua por <suggestion>pôr em</suggestion> ou <suggestion>porém</suggestion>.</message>
-        <example correction="pôr em|porém">Temos de <marker>por em</marker> prática tudo o que aprendemos!</example>
-      </rule>
+
     </rulegroup>
 
 
