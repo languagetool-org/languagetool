@@ -40245,10 +40245,15 @@ O namorado dela era um ladrão.
       <rule>
         <pattern>
           <token postag='CC|SENT_START|_PUNCT' postag_regexp='yes'/>
-          <token postag='V.+|SPS00|CS' postag_regexp='yes'>
+        <or>
+          <token inflected='yes' regexp='yes'>ir|dever|poder|querer|conseguir|pretender|tentar
+             <exception scope='previous' postag_regexp='yes' postag='RG|V.+|CS|PP.+|SPS00'/>
+             <exception postag_regexp='yes' postag='VMG0000|VMN0000|VMP00.+|VMM03.+|VMIS.+'/></token>
+          <token postag='SPS00|CS' postag_regexp='yes'>
             <exception scope='previous' postag_regexp='yes' postag='RG|V.+|CS|PP.+|SPS00'/>
             <exception postag_regexp='yes' postag='VMG0000|VMN0000|VMP00.+|VMM03.+|VMIS.+'/>
           </token>
+        </or>
           <marker>
             <token>por</token>
           </marker>
