@@ -512,7 +512,10 @@ public class TextLevelCheckQueue {
         for (;;) {
 //          queueWaits = false;
           if (interruptCheck) {
-            MessageHandler.printToLogFile("TextLevelCheckQueue: run: Interrupt ended");
+            MessageHandler.printToLogFile("TextLevelCheckQueue: run: Interrupt check - queue ended");
+            textRuleQueue.clear();
+            interruptCheck = false;
+            return;
           }
           if (textRuleQueue.isEmpty()) {
             synchronized(textRuleQueue) {

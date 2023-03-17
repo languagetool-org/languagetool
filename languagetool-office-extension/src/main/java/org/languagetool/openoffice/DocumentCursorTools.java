@@ -1036,14 +1036,16 @@ class DocumentCursorTools {
                 if (xShapeText != null) {
                   XTextCursor xTextCursor = xShapeText.createTextCursor();
                   XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-                  xParagraphCursor.gotoStart(false);
-                  while (nPara < number && xParagraphCursor.gotoNextParagraph(false)){
+                  if (xParagraphCursor != null) {
+                    xParagraphCursor.gotoStart(false);
+                    while (nPara < number && xParagraphCursor.gotoNextParagraph(false)){
+                      nPara++;
+                    }
+                    if (nPara == number) {
+                      return xParagraphCursor;
+                    }
                     nPara++;
                   }
-                  if (nPara == number) {
-                    return xParagraphCursor;
-                  }
-                  nPara++;
                 }
               }
             }
