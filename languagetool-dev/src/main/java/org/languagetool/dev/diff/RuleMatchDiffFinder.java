@@ -496,7 +496,7 @@ public class RuleMatchDiffFinder {
         }
         fw.write("<td>");
         String id = file.replaceFirst("result_.*?_", "").replace(".html", "");
-        fw.write("  <a href='" + file + "'>" + id + "</a>");
+        fw.write("  <a href='" + enc(file) + "'>" + id + "</a>");
         fw.write("  " + getAnalyticsLink(id, langCode));
         fw.write("</td>");
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
