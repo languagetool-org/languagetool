@@ -7947,7 +7947,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="stand-in">De <marker>stand in</marker> doet de stunts.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="FREELANCE_ZNW" name="freelance journalist/freelancejournalist" >
+        <rulegroup id="FREELANCE_ZNW" name="freelance journalist/freelancejournalist" default="off">
+            <!-- Disabled, either is fine | https://onzetaal.nl/taalloket/freelanceredacteur-freelance-redacteur -->
             <rule>
                 <pattern>
                     <token>freelance</token>
@@ -28655,10 +28656,10 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token>veelal</token>
                 </pattern>
-                <message>&vlotter_mess; <suggestion>vaak</suggestion>.</message>
+                <message>&vlotter_mess; <suggestion>vaak</suggestion> of <suggestion>meestal</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="Vaak"><marker>Veelal</marker> naar klassieke muziek.</example>
-                <example correction="vaak">Dat gebeurt <marker>veelal</marker> op casusniveau.</example>
+                <example correction="Vaak|Meestal"><marker>Veelal</marker> naar klassieke muziek.</example>
+                <example correction="vaak|meestal">Dat gebeurt <marker>veelal</marker> op casusniveau.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VEELVULDIG" name="veelvuldig" tags="picky">
@@ -31564,7 +31565,7 @@ regexp case-insensitive maken: (?i)
                     <token postag_regexp="yes" postag="SENT_START|START"/>
                     <marker>
                         <token regexp="yes">wij|we</token>
-                        <token postag="WKW:TGW:1EP|WKW:TGW:3EP" postag_regexp="yes"><exception regexp="yes">in|wel|uit|niet|weer</exception><exception postag_regexp="yes" postag="WKW:TGW:INF|VBh"/></token>
+                        <token postag="WKW:TGW:1EP|WKW:TGW:3EP" postag_regexp="yes"><exception regexp="yes">in|wel|uit|niet|weer|maar|net</exception><exception postag_regexp="yes" postag="WKW:TGW:INF|VBh"/></token>
                     </marker>
                 </pattern>
                 <message>U bedoelt vast <suggestion><match no="2"/> <match no="3" postag="WKW:TGW:INF"/></suggestion> of <suggestion><match no="2"/> <match no="3" postag="WKW:VLT:INF"/></suggestion>.</message>
@@ -37222,20 +37223,6 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
         <rulegroup id="VAN_VAN" name="van van/van Van">
-            <antipattern><token>van</token><token>van</token><token>alles</token></antipattern>
-            <antipattern><token>in</token><token>plaats</token><token>van</token><token>van</token></antipattern>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token case_sensitive="yes">van</token>
-                        <token case_sensitive="yes">van</token>
-                    </marker>
-                    <token case_sensitive="yes" regexp="yes">[^A_Z].*</token>
-                </pattern>
-                <message>Waarschijnlijk staat hier een 'van' te veel.</message>
-                <suggestion>van</suggestion>
-                <example correction="van">Ik haal de pan <marker>van van</marker> het vuur.</example>
-            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -37249,7 +37236,20 @@ regexp case-insensitive maken: (?i)
                 <suggestion>Van</suggestion>
                 <example correction="Van">Ik haal de pan <marker>van van</marker> Heijningen.</example>
             </rule>
-
+            <rule>
+                <antipattern><token>van</token><token>van</token><token>alles</token></antipattern>
+                <antipattern><token>in</token><token>plaats</token><token>van</token><token>van</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">van</token>
+                        <token case_sensitive="yes">van</token>
+                    </marker>
+                    <token case_sensitive="yes" regexp="yes">[^A_Z].*</token>
+                </pattern>
+                <message>Waarschijnlijk staat hier een 'van' te veel.</message>
+                <suggestion>van</suggestion>
+                <example correction="van">Ik haal de pan <marker>van van</marker> het vuur.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DE_HET" name="De het">
             <!-- 2014-08-22 TaalTik regel werkt prima -->
@@ -40979,7 +40979,9 @@ regexp case-insensitive maken: (?i)
                     <token postag="SENT_START"/>
                     <marker>
                         <token>I</token>
-                        <token postag_regexp="yes" postag="WKW.*1EP"/>
+                        <token postag_regexp="yes" postag="WKW.*1EP">
+                            <exception case_sensitive="yes" regexp="yes">[A-Z].*</exception>
+                        </token>
                     </marker>
                     <token><exception postag="UNKNOWN"/></token>
                 </pattern>

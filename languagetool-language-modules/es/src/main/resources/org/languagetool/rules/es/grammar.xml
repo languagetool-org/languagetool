@@ -14278,7 +14278,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="extraordinario">Fue <marker>extra ordinario</marker>.</example>
                 <example correction="extrarradio">Fue en el <marker>extra-radio</marker>.</example>
             </rule>
-            <rule id="BIEN_VENIDO" name="bein venido > bienvenido" default="temp_off">
+            <rule id="BIEN_VENIDO" name="bein venido > bienvenido">
                 <!-- TODO: other words with bien- -->
                 <pattern>
                     <token>bien</token>
@@ -20204,7 +20204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La alma máter.</example>
             <example>La alma mater.</example>
         </rule>
-        <rulegroup id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal" default="temp_off">
+        <rulegroup id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal">
             <rule>
                 <antipattern>
                     <token regexp="yes">una|la</token>
@@ -20214,6 +20214,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="PI.*" postag_regexp="yes"/>
                     <token postag="DI.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">otro|poco</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="PI.*" postag_regexp="yes"><exception inflected="yes">otro</exception></token>
+                    <token postag="DN.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -20226,7 +20230,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </unify>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:D(I.)..(.) postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:D\a1\b1\b2\a2"/>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:D(I.)..(.) postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:D\a1[C\b1]\b2\a2"/>
                 <message>Error de concordancia.</message>
                 <suggestion>{suggestion} \2</suggestion>
                 <example correction="una media">Es de <marker>un media</marker> alta.</example>
@@ -20236,6 +20240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="muchas otras">y <marker>muchos otras</marker> cosas</example>
                 <example correction="otros 100.000">una entre <marker>otras 100.000</marker> millones de estrellas</example>
                 <example correction="unas pocas">Fue llevado al hospital <marker>una pocas</marker> semanas antes de Navidad.</example>
+                <example correction="cualesquier otras">Ya no era aplicable a <marker>cualquier otras</marker> escuelas.</example>
                 <example>No me esperaba, ni de lejos, que os gustara tanto la idea!</example>
                 <example>Cada 2 años le decimos lo mismo.</example>
                 <example>Algunos le temen a la altura, algunos al agua.</example>
@@ -20252,6 +20257,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No comprendo por qué te altera tanto una nimiedad así.</example>
                 <example type="triggers_error" reason="ambiguous, missing comma">Con <marker>un 3</marker> Joe, estás eliminado. </example>
                 <example>Te ha estado escribiendo una cada día esta semana.</example>
+                <example>Sería mejor para la salud comer mucho tres veces al día.</example>
+                <example>comer poco cinco veces al día</example>
             </rule>
             <rule>
                 <pattern>
