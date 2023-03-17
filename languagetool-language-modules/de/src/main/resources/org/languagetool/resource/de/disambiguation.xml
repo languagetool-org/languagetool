@@ -5548,7 +5548,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule><!-- lowercase word + abbreviation with no vowels -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">.*[a-z].*</token>
-                <token min="0">(</token>
+                <token min="0" regexp="yes">[\)\(,\/]</token>
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
                 </marker>
@@ -5560,7 +5560,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
                 </marker>
-                <token min="0">)</token>
+                <token min="0" regexp="yes">[\)\(,\/]</token>
                 <token regexp="yes">.*[a-z].*</token>
             </pattern>
             <disambig action="ignore_spelling"/>
