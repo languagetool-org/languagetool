@@ -37222,20 +37222,6 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
         <rulegroup id="VAN_VAN" name="van van/van Van">
-            <antipattern><token>van</token><token>van</token><token>alles</token></antipattern>
-            <antipattern><token>in</token><token>plaats</token><token>van</token><token>van</token></antipattern>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token case_sensitive="yes">van</token>
-                        <token case_sensitive="yes">van</token>
-                    </marker>
-                    <token case_sensitive="yes" regexp="yes">[^A_Z].*</token>
-                </pattern>
-                <message>Waarschijnlijk staat hier een 'van' te veel.</message>
-                <suggestion>van</suggestion>
-                <example correction="van">Ik haal de pan <marker>van van</marker> het vuur.</example>
-            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -37249,7 +37235,20 @@ regexp case-insensitive maken: (?i)
                 <suggestion>Van</suggestion>
                 <example correction="Van">Ik haal de pan <marker>van van</marker> Heijningen.</example>
             </rule>
-
+            <rule>
+                <antipattern><token>van</token><token>van</token><token>alles</token></antipattern>
+                <antipattern><token>in</token><token>plaats</token><token>van</token><token>van</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">van</token>
+                        <token case_sensitive="yes">van</token>
+                    </marker>
+                    <token case_sensitive="yes" regexp="yes">[^A_Z].*</token>
+                </pattern>
+                <message>Waarschijnlijk staat hier een 'van' te veel.</message>
+                <suggestion>van</suggestion>
+                <example correction="van">Ik haal de pan <marker>van van</marker> het vuur.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DE_HET" name="De het">
             <!-- 2014-08-22 TaalTik regel werkt prima -->
