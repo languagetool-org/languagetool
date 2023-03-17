@@ -8707,7 +8707,12 @@ regexp case-insensitive maken: (?i)
             <!-- 2017-06-21 TaalTik -->
             <rule>
                 <pattern>
-                    <token>inde</token>
+                    <marker>
+                        <token>inde</token>
+                    </marker>
+                    <token>
+                        <exception postag_regexp="yes" postag="VNW.*|GET:TXT:EKV|SENT_END"></exception>
+                    </token>
                 </pattern>
                 <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>in de</suggestion> moet staan.</message>
                 <example correction="in de">Op zondag 2 juni is er een speciaal aperitief te bekomen <marker>inde</marker> bar.</example>
@@ -8716,6 +8721,7 @@ regexp case-insensitive maken: (?i)
                 <example correction="in de">Een golvend landschap met veel open ruimte en <marker>inde</marker> namiddag de plassen in de vallei van de Scarpe.</example>
                 <example correction="In de"><marker>Inde</marker> middeleeuwen werd dit gezien als een symbool van status.</example>
                 <example correction="in de">De tentoonstelling van de foto’s <marker>inde</marker> binnenstad was een brede campagne.</example>
+                <example>Toen inde hij hoge belastingen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MENIET" name="meniet → me niet">
