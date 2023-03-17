@@ -35542,6 +35542,15 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="DAR" name="Dar → daar">
             <rule>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token regexp="yes">mannelijk|wesp</token><token postag="SENT_END"/></antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">Dar</token>
+                    <token>es</token>
+                    <example>Dar es Salaam is de grootste stad in Tanzania.</example>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" case_sensitive="yes">Dar</token>
+                    <example>De stad wordt ook wel Dar genoemd.</example>
+                </antipattern>
                 <pattern>
                     <token>dar</token>
                 </pattern>
