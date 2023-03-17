@@ -18768,13 +18768,19 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="POSTCODE" name="In Nederlandse postcode hoort een spatie">
             <!-- 2014-08-22 TaalTik -->
             <rule>
-                <antipattern case_sensitive="yes"><token regexp="yes">[0-9]{4}[MKT]B</token></antipattern>				<pattern case_sensitive="yes">
-                <token regexp="yes">[0-9]{4}[A-Z]{2}</token>
+                <antipattern case_sensitive="yes"><token regexp="yes">[0-9]{4}[MKT]B</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token skip="2" case_sensitive="yes" regexp="yes">[0-9]{4}[A-Z]{2}</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="ENM:LOC:PTS"></token>
                 </pattern>
                 <message>Als dit een Nederlandse postcode is, dan hoort deze met spatie <suggestion><match no="1" regexp_match="([0-9])([A-Z])" regexp_replace="$1 $2"/></suggestion>.</message>
                 <url>https://taaladvies.net/taal/advies/vraag/24/adressering_aan_bedrijven_en_instellingen/</url>
                 <short>Postcode heeft spatie</short>
-                <example correction="1234 AB"><marker>1234AB</marker></example>
+                <example correction="1234 AB"><marker>1234AB</marker>, Leiden</example>
+                <example correction="1100 PV">Onze postcode is <marker>1100PV</marker> te Amsterdam.</example>
+                <example>De Supra vindt zijn oorsprong in de Toyota 2000GT.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TIJD" name="tijdnotaties" tags="objective academic">
