@@ -55,6 +55,7 @@ public abstract class RemoteRule extends Rule {
   protected static final ConcurrentMap<String, CircuitBreaker> circuitBreakers = new ConcurrentHashMap<>();
 
   protected final RemoteRuleConfig serviceConfiguration;
+  protected final boolean premium;
   protected final boolean inputLogging;
   protected final boolean filterMatches;
   protected final boolean fixOffsets;
@@ -76,6 +77,7 @@ public abstract class RemoteRule extends Rule {
     filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
     whitespaceNormalisation = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("whitespaceNormalisation", "true"));
     fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("fixOffsets", "true"));
+    premium = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("premium", "false"));
     try {
       if (serviceConfiguration.getOptions().containsKey("suppressMisspelledMatch")) {
         suppressMisspelledMatch = Pattern.compile(serviceConfiguration.getOptions().get("suppressMisspelledMatch"));
@@ -157,6 +159,11 @@ public abstract class RemoteRule extends Rule {
       .enableAutomaticTransitionFromOpenToHalfOpen()
       .build();
     return config;
+  }
+
+  @Override
+  public boolean isPremium() {
+    return premium;
   }
 
   /**
