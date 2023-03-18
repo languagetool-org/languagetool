@@ -26,6 +26,8 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -259,4 +261,42 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     }
     return results;
   }
+  
+  @Override
+  public String getTargetPosTag(List<String> posTags, String targetPosTag) {
+    if (posTags.isEmpty()) {
+      return targetPosTag;
+    }
+    PostagComparator postagComparator = new PostagComparator();
+    posTags.sort(postagComparator);
+    // return the last one to keep the previous results
+    return posTags.get(posTags.size() - 1);
+  }
+  
+  private class PostagComparator implements Comparator<String> {
+
+    @Override
+    public int compare(String arg0, String arg1) {
+      // give priority 3 person > 1 person, Indicative > Subjunctive
+      int len0 = arg0.length();
+      int len1 = arg1.length();
+      if (len0 > 4 && len1 > 4) {
+        if (arg0.charAt(2) == 'I' && arg1.charAt(2) != 'I') {
+          return 100;
+        }
+        if (arg1.charAt(2) == 'I' && arg0.charAt(2) != 'I') {
+          return -100;
+        }
+        if (arg0.charAt(4) == '3' && arg1.charAt(4) == '1') {
+          return 50;
+        }
+        if (arg1.charAt(4) == '1' && arg0.charAt(4) == '3') {
+          return -50;
+        }
+      }
+      return 0;
+    }
+  }
+  
 }
+
