@@ -17924,54 +17924,6 @@ O namorado dela era um ladrão.
       <example correction="partir de aí">A <marker>partir daí</marker> deduzir o que fazer.</example>
     </rule>
 
-    <rulegroup id='O_FACTO_DA_ACÇÂO' name="Contração: expressão invariável com contração (p.ex. o facto da/de a)">
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/preposicao-seguida-de-artigo-definido-sem-contracao/32586</url>
-      <!-- Created by Marco A.G. Pinto, Portuguese rule -->
-      <rule>
-
-        <!-- MARCOAGPINTO 2022-09-09 (Checked/Enhanced) (25-JUL-2022+) *START* -->
-        <!-- It has no hits in 600 000 sentences, it just removes one false positive in my thesis -->
-        <antipattern>
-          <token postag='AQ..+|NC.+' postag_regexp='yes'/>
-          <token regexp='yes'>d[ao]s?</token>
-          <token postag='[DP][ADIPR].+|SPS00:[DP][ADIPR].+' postag_regexp='yes'/>
-          <example>E assim reforçando a necessidade do nosso estudo.</example>
-        </antipattern>
-        <!-- MARCOAGPINTO 2022-09-09 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-        <antipattern>
-          <token regexp='yes'>&expressao_invariavel_com_DE;</token>
-          <token skip='-1' regexp='yes'>d[ao]s?</token>
-          <token postag='SPS00|C.+' postag_regexp='yes'/>
-          <token postag_regexp='yes' postag='VMN.+'/>
-          <example>Isto reafirma a necessidade da existência da nossa equação para fazer face às necessidades científicas.</example>
-        </antipattern>
-        <pattern>
-          <marker>
-            <token regexp='yes'>&expressao_invariavel_com_DE;</token>
-            <token skip='-1' regexp='yes'>d[ao]s?
-              <exception scope='next' postag='_PUNCT|V.[^N].+' postag_regexp='yes'/></token>
-          </marker>
-          <token postag_regexp='yes' postag='VMN.+'/>
-        </pattern>
-        <message>Nesta expressão não deve utilizar a contração.</message>
-        <suggestion>\1 de <match no='2' regexp_match='d(.+)' regexp_replace='$1'/></suggestion>
-        <example correction="facto de a">Ter em conta o <marker>facto da</marker> aluna não saber.</example>
-        <example correction="facto de as">Ter em conta o <marker>facto das</marker> alunas não saberem.</example>
-        <example correction="facto de o">Ter em conta o <marker>facto do</marker> aluno não saber.</example>
-        <example correction="facto de os">Ter em conta o <marker>facto dos</marker> alunos não saberem.</example>
-        <example>Esta é a intenção da senhora.</example>
-        <example>…Tancredo Neves, morto antes da posse, sendo substituído pelo seu vice…</example>
-        <example><marker>Muito antes da</marker> chegada de Cristóvão Colombo à América.</example>
-        <example>O problema resultou de a secção de contabilidade ter enviado o NIB errado.</example>
-        <example>Preocupa-me o facto de ele não estar preocupado.</example>
-        <example>O cão pôs-se a rosnar pouco antes de uma rapariga ter aparecido.</example>
-        <example>O problema está em o homem não querer pagar impostos.</example>
-        <example>Esperou por o João chegar.</example>
-        <example>Depois das várias aplicações que tem sido instaladas para impedir malware…</example>
-      </rule>
-    </rulegroup>
-
-
     <!-- ULTRAPASSAR superar/vencer	-->
     <rule id='ULTRAPASSAR_SUPERAR_VENCER' name="Ultrapassar → superar/vencer">
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
