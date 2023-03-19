@@ -3086,12 +3086,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule default="on" id="comma_and_to_jest" name="Запятая перед «то есть»">
     	    <pattern case_sensitive="no">
-            	<token regexp="yes" negate="yes">[,;)»]|тогда|[\p{Punct}]|-|—|–<exception postag="SENT_START" /></token>
+            	<token regexp="yes" negate="yes">[,;)»]|тогда|на|[\p{Punct}]|-|—|–<exception postag="SENT_START" /></token>
     	        <token>то</token>
     	        <token>есть</token>
     	    </pattern>
     	    <message>Пропущена запятая: <suggestion>\1, \2 \3</suggestion>.</message>
     	    <short>Пропущена запятая</short>
+            <example>На то есть веские причины.</example>
     	    <example correction="сабель, то есть">К Тамбову подступали две с половиной тысячи <marker>сабель то есть</marker> всего три полка.</example>
     	</rule>
         <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед «и», «как» в сложном предложении" tags="picky" >
@@ -11469,6 +11470,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="ADJ:.*:(V|P)" postag_regexp="yes" min="1" max="2">
                     <exception postag="PT:.*" postag_regexp="yes"></exception>
                     <exception inflected="yes">который</exception>
+                    <exception regexp="yes">это|то</exception>
                 </token> 
                 <marker>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
@@ -11485,6 +11487,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он смотрел в новое окно.</example>
             <example>В предусмотренных конституцией случаях.</example>
             <example>Он всегда смотрит в будущее.</example>
+            <example>Я верю в это всем сердцем.</example>
             <example>В котором писатель предсказал такие блага современной цивилизации как мобильные телефоны, принтеры и прочие технические устройства.</example>
             <example>Это наблюдается в одной такой группе</example>
             <example correction="группе">Это наблюдается в одной такой <marker>группой</marker></example>
