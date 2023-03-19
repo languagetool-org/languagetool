@@ -48666,6 +48666,46 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- TÊM SIDO DESENVOLVIDOS desenvolveram-se -->
+    <rule id='TER_SIDO_PART_PASSADO_VERBO' name="[Simplificar] V.Ter + sido + V.Part.Pass. → V." type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-19 (2-MAR-2023+) -->
+      <!--
+      Ao longo dos anos tem sido desenvolvido um modelo. → Ao longo dos anos desenvolveu-se um modelo.
+      Ao longo dos anos têm sido desenvolvidos vários modelos. → Ao longo dos anos desenvolveram-se vários modelos.
+      Ao longo dos anos têm sido desenvolvidos modelos. → Ao longo dos anos desenvolveram-se modelos.
+      -->
+
+      <antipattern>
+        <token regexp='yes'>t[eê]m</token>
+        <token>sido</token>
+        <token postag='VMP00.+' postag_regexp='yes'/>
+        <token regexp='yes'>a|com</token>
+        <token postag='V.+|DA.+' postag_regexp='yes'/>
+        <token postag='SPS00|NC.+|AQ.+' postag_regexp='yes'/>
+        <example>Várias colaboradoras têm sido convidadas a colaborar com outros blogs/sites devido à exposição no BPM.</example>
+        <example>O difícil trabalho tem sido recompensado com os inúmeros acessos que recebemos diariamente e por diversos casos e denúncias que foram soluci...</example>
+        <example>Esse investimento que ela faz em sua carreira tem sido compensado com a chegada mais rápida ao topo das corporações.</example>
+      </antipattern>
+
+      <pattern>
+        <marker>
+          <token regexp='yes'>t[eê]m</token>
+          <token>sido</token>
+          <token postag='VMP00.+' postag_regexp='yes'/>
+        </marker>
+        <token postag='(SPS00:)?D[AI].+|NC.+|AQ.+|SPS00|CS|CC' postag_regexp='yes'>
+          <exception regexp='yes'>como|pel[ao]s?|por</exception>
+        </token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='3' postag='VMP00(.).' postag_regexp="yes" postag_replace='VMIS3$10'/>-se</suggestion>
+      <suggestion>se <match no='3' postag='VMP00(.).' postag_regexp="yes" postag_replace='VMIS3$10'/></suggestion>
+      <example correction="desenvolveu-se|se desenvolveu">Ao longo dos anos <marker>tem sido desenvolvido</marker> um modelo.</example>
+      <example correction="desenvolveram-se|se desenvolveram">Ao longo dos anos <marker>têm sido desenvolvidos</marker> vários modelos.</example>
+      <example correction="desenvolveram-se|se desenvolveram">Ao longo dos anos <marker>têm sido desenvolvidos</marker> modelos.</example>
+    </rule>
+
+
     <!-- VERBO1 QUE VERBO2 VERBO3 O QUE verbo2_infinitivo verbo3_infinitivo o que -->
     <rule id='VERBO1_QUE_VERBO2_VERBO3_O_QUE' name="[Simplificar] verbo2 + verbo3_infinitivo" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-23 + 2020-11-17 (21-OCT-2020+)     -->
