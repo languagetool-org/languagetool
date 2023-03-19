@@ -9067,13 +9067,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными и причастиями">
             <rule>
                 <pattern>
-                    <token regexp="yes">очень|весьма|крайне|совершенно|вполне|почти|отчасти|совсем|чрезвычайно</token>
+                    <token regexp="yes">очень|весьма|крайне|совершенно|вполне|почти|отчасти|чрезвычайно</token> <!-- совсем не - возможно как слитное, так и раздельное написание -->
                     <marker>
                         <token>не</token>
                         <token postag="ADJ:.*" postag_regexp="yes"><exception regexp="yes">такой|сякой</exception><exception postag="ADJ:Short:.*" postag_regexp="yes"/><exception negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Пишется слитно: <suggestion>\2\3</suggestion>.</message>
+                <url>https://skysmart.ru/articles/russian/chastica-ne-s-prilagatelnymi</url>
                 <short>Слитно с «не»</short>
                 <example>Этот поступок был крайне неосторожным.</example>
                 <example>Совсем не такой.</example>
@@ -9081,7 +9082,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">очень|крайне|совершенно|совсем|чрезвычайно</token>
+                    <token regexp="yes">очень|крайне|совершенно|чрезвычайно</token>
                     <marker>
                         <token>не</token>
                         <token postag="PT:.*" postag_regexp="yes"></token>
@@ -9089,8 +9090,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Пишется слитно: <suggestion>\2\3</suggestion>.</message>
                 <short>Слитно с «не»</short>
-                <example>Это совсем непродуманное решение.</example>
-                <example correction="непродуманное">Это совсем <marker>не продуманное</marker> решение.</example>
+                <example>Это совершенно непродуманное решение.</example>
+                <example correction="непродуманное">Это совершенно <marker>не продуманное</marker> решение.</example>
             </rule>
             
             <rule>
