@@ -3146,6 +3146,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "angehangenen": return topMatch("angehängten");
       case "ausmahlen": return topMatch("ausmalen");
       case "ausgemahlt": return topMatch("ausgemalt");
+      case "Rehgipsplatte": return topMatch("Rigipsplatte");
+      case "Rehgipsplatten": return topMatch("Rigipsplatten");
+      case "Rehgips-Platte": return topMatch("Rigips-Platte");
+      case "Rehgips-Platten": return topMatch("Rigips-Platten");
+      case "Rehgips": return topMatch("Rigips");
       case "Laola-Welle": return topMatch("La-Ola-Welle");
       case "Laola-Wellen": return topMatch("La-Ola-Wellen");
     }
