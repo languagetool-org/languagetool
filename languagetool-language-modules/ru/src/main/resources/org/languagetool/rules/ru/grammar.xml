@@ -268,8 +268,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Мы посетили клиента <marker>17.06.2039</marker>.</example>
             <example>Мы посетили клиента 17.06.1939.</example>
           </rule>
-        </rulegroup>
-        
+        </rulegroup>    
         <rule id="WRONG_INN" name="Некорректный ИНН" default="temp_off">
             <pattern>
                 <token>ИНН</token>
@@ -278,11 +277,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <filter args="inn:\3" class="org.languagetool.rules.ru.INNNumberFilter"/>
             <message>Некорректный ИНН: \3</message>
+            <short>Некорректный ИНН</short>
             <example correction=""><marker>ИНН: 1234567890</marker></example>
             <example correction=""><marker>ИНН  123456789025</marker></example>
             <example><marker>ИНН: 2301050337</marker></example>
-        </rule>
-        
+        </rule>       
         <rule id="zadat_test" name="Опечатка: «задать тест»">
             <pattern>
 		<token>задать</token>
@@ -11563,7 +11562,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--              PREP при -> NN:.*:P   -->
                 <token>при</token>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
-                <token skip="1">,<exception postag="CONJ|PREP|UNKNOWN" scope="next" postag_regexp="yes"></exception></token>
+                <token skip="1">,<exception postag="CONJ|PREP|UNKNOWN" scope="next" postag_regexp="yes"></exception><exception scope="next" regexp="yes">эта|та|это|то|этот|тот|эти|те</exception></token>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
                     <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
                     <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
@@ -11575,6 +11574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>С 5 апреля 1797 великие князья при крещении, а князья императорской крови при совершеннолетии получали льготы.</example>
             <example>В морской битве при Ладе, вследствие измены, эллины были разбиты.</example>
             <example>Настройка проектов Pyramid при открытии, поддержка SQLAlchemy.</example>
+            <example>Кем бы он ни был при жизни, эта личность.</example>
             <example>Кодировка по умолчанию, используемая при чтении и записи файлов.</example>
             <example correction="при кафедре, факультете">В университете лаборатории созданы <marker>при кафедре, факультет</marker>.</example>
             <example correction="при кафедре, профильном факультете">В университете лаборатории созданы <marker>при кафедре, профильном факультет</marker>.</example>
