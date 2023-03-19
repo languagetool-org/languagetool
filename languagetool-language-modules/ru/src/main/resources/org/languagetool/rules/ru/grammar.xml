@@ -269,6 +269,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Мы посетили клиента 17.06.1939.</example>
           </rule>
         </rulegroup>
+        
+        <rule id="WRONG_INN" name="Некорректный ИНН" default="temp_off">
+            <pattern>
+                <token>ИНН</token>
+                <token max="1" min="0">:</token>
+                <token regexp="yes">(\d\d){5,6}</token>
+            </pattern>
+            <filter args="inn:\3" class="org.languagetool.rules.ru.INNNumberFilter"/>
+            <message>Некорректный ИНН: \3</message>
+            <example correction=""><marker>ИНН: 1234567890</marker></example>
+            <example correction=""><marker>ИНН  123456789025</marker></example>
+            <example><marker>ИНН: 2301050337</marker></example>
+        </rule>
+        
         <rule id="zadat_test" name="Опечатка: «задать тест»">
             <pattern>
 		<token>задать</token>
