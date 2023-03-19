@@ -48713,22 +48713,29 @@ O namorado dela era um ladrão.
 
 
     <!-- VISTO por -->
-    <rule id='VISTO_POR' name="[Simplificar] Visto → Por" type="style">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-07-04 (25-JUN-2021+)      -->
+    <rule id='VISTO_POR_V2' name="[Simplificar] Visto → Por" type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-19 (Checked/Enhanced) (2-MAR-2023+) -->
       <!--
+      Ele tomou essa decisão visto ser possível assim. → Ele tomou essa decisão por ser possível assim.
       Ele tomou essa decisão visto só ser possível assim. → Ele tomou essa decisão por só ser possível assim.
+      O valor é aproximado visto nem sempre se conseguir o mesmo valor. → O valor é aproximado por nem sempre se conseguir o mesmo valor.
       -->
       <pattern>
-        <token negate_pos="yes" postag='V.+|SPS.+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+|VMP00.+' postag_regexp='yes'>
+          <exception postag_regexp='yes' postag='(SPS00:)?[DP][ADIPRT].+'/>
+          <exception regexp='no'>ser</exception>
+        </token>
         <marker>
           <token>visto</token>
         </marker>
-        <token min="0" max="1" postag='DD.+|PD.+|RN|RG' postag_regexp='yes'/>
-        <token regexp='yes' inflected='yes'>ser|ir</token> <!-- Later try to (in)transitive verbs and such, more tests required -->
+        <token min="0" postag='NC.+|AQ.+|RG|CC|RN' postag_regexp='yes' skip='-1'/>
+        <token regexp='yes' inflected='yes'>ser|ir|conseguir</token> <!-- Later try to (in)transitive verbs and such, more tests required -->
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
       <suggestion>por</suggestion>
+      <example correction="por">Ele tomou essa decisão <marker>visto</marker> ser possível assim.</example>
       <example correction="por">Ele tomou essa decisão <marker>visto</marker> só ser possível assim.</example>
+      <example correction="por">O valor é aproximado <marker>visto</marker> nem sempre se conseguir o mesmo valor.</example>
     </rule>
 
 
