@@ -1246,7 +1246,7 @@
     </rule>
 
 
-    <rulegroup id='INFORMALITIES' name="[pt-PT] Linguagem informal" default="on">
+    <rulegroup id='INFORMALITIES' name="[pt-PT] Linguagem informal" default="on" tags="picky">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-05-09 -->
       <url>https://pt.wiktionary.org/wiki/Categoria:Coloquialismo_(Portugu%C3%AAs)</url>
       <rule>
@@ -1332,16 +1332,17 @@
           <marker>
             <token>a</token>
             <token>gente</token>
+            <token postag="V...3S." postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>O uso de "a gente" pode ser interpretado como desrespeitoso. Considere remover ou substituí-lo pelo pronome de tratamento mais adequado.</message>
-        <suggestion>nós</suggestion>
-        <suggestion/>
+        <suggestion>nós <match no='4' postag="(....)3S(.)" postag_replace="$11P$2" postag_regexp="yes"/></suggestion>
+        <suggestion><match no='4' postag="(....)3S(.)" postag_replace="$11P$2" postag_regexp="yes"/></suggestion>
         <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/connosco-com-a-gente-e-com-nos-no-portugues-europeu/26842</url>
-        <example correction='Nós|'><marker>A gente</marker> foi à rua.</example>
-        <example correction='nós|'>Estava tudo animado, e <marker>a gente</marker> foi à rua.</example>
-        <example correction='nós|'>Estava tudo animado — <marker>a gente</marker> foi à rua.</example>
-        <example>Quase toda <marker>a gente</marker> estava insegura.</example>
+        <example correction='Nós fomos|Fomos'><marker>A gente foi</marker> à rua.</example>
+        <example correction='nós fomos|fomos'>Estava tudo animado, e <marker>a gente foi</marker> à rua.</example>
+        <example correction='nós fomos|fomos'>Estava tudo animado — <marker>a gente foi</marker> à rua.</example>
+        <example>Quase toda <marker>a gente estava</marker> insegura.</example>
       </rule>
 
       <rule>
