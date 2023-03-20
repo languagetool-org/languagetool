@@ -1316,9 +1316,12 @@
 
       <rule>
         <pattern>
+         <marker>
           <token>a</token>
           <token>fim</token>
           <token>de</token>
+        </marker>
+        <token negate="yes">que</token>
         </pattern>
         <message>Possível linguagem informal. Considere as alternativas.</message>
         <suggestion>de modo a</suggestion>
@@ -2107,6 +2110,12 @@
           <example>Se tiver mais que isso, uma rodinha acaba travando a outra por qualquer torcida que o portão der com o passar do tempo, e também é bem comum acontecer o efeito gangorra no portão, ou seja, a rodinha d...</example>
         </antipattern>
         <!-- MARCOAGPINTO 2023-02-24 (Checked/Enhanced) (25-JUL-2022+) *END* -->
+        <antipattern>
+          <token regexp='yes'>mãos?</token>
+          <token regexp='yes'>dadas?</token>
+          <token regexp='yes'>com</token>
+          <example>Estava de mãos dadas com ele.</example>
+        </antipattern>
         <pattern>
           <token inflected='yes'>dar
             <exception scope='previous' postag_regexp='yes' postag='SPS00:DA.+'/> <!-- 2023-02-23 - MARCOAGPINTO -->
@@ -2402,15 +2411,16 @@
       </rule>
       <rule>
         <pattern>
+          <token postag="SPS00:D..FS.|D..FS." postag_regexp="yes"/>
           <token inflected='yes'>mão</token>
           <token>de</token>
           <token>obra</token>
+          <token min="0" postag="AQ0FS0"/>
         </pattern>
         <message>Esta é uma expressão oral. Reveja.</message>
-        <suggestion>trabalhadores</suggestion>
-        <url>https://pt.wiktionary.org/wiki/mão_de_obra</url>
+        <suggestion><match no="1" postag="(.+)FS(.+)" postag_regexp="yes" postag_replace="$1MS$2"/> trabalho <match no="5" postag="(.+)FS(.+)" postag_regexp="yes" postag_replace="$1MS$2"/></suggestion>
         <short>Coloquialismo</short>
-        <example correction='trabalhadores'><marker>mão de obra</marker></example>
+        <example correction='muito trabalho escravo'>Havia <marker>muita mão de obra escrava</marker></example>
       </rule>
       <rule>
         <pattern>
