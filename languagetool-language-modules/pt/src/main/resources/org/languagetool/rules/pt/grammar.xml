@@ -48507,6 +48507,32 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- SERVE PARA permite -->
+    <rule id='SERVIR_PARA_PERMITIR' name="[Simplificar] V.Servir + para → V.Permitir" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-20 (2-MAR-2023+) -->
+      <!--
+      Este botão serve para gravar ficheiros JPEG. → Este botão permite gravar ficheiros JPEG.
+      Estes botões servem para gravar ficheiros JPEG. → Estes botões permitem gravar ficheiros JPEG.
+      -->
+      <pattern>        
+        <marker>
+          <token regexp='yes'>servem?
+            <exception scope="previous" postag_regexp='yes' postag='RN|RG|V.+'/>
+          </token>
+          <token>para</token>
+        </marker>
+        <token postag='V.+' postag_regexp='yes'>
+          <exception postag_regexp='no' postag='RN'/>
+        </token>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>permitir</match></suggestion>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>possibilitar</match></suggestion>
+      <example correction="permite|possibilita">Este botão <marker>serve para</marker> gravar ficheiros JPEG.</example>
+      <example correction="permitem|possibilitam">Estes botões <marker>servem para</marker> gravar ficheiros JPEG.</example>
+    </rule>
+
+
     <!-- VERBO_ESTAR + A + VERBO_INF verbo -->
     <rulegroup id='VERBO_ESTAR_A_VERBO_INF' name="[Simplificar] Verbo estar + a + V.Inf. → Verbo" type="style">
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-11-11 (21-OCT-2020+)     -->
