@@ -1593,6 +1593,13 @@ class CaseRuleAntiPatterns {
       csToken("."),
       csToken(")"),
       csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // Filme drehen muss mir Spaß machen, und das machen Organisation, Finanzierung, Logistik nicht, deswegen sind meine Filme nicht aufwändig.
+      csRegex("und|oder|&"),
+      csToken("das"),
+      posRegex("VER:INF.*"),
+      posRegex("SUB.*")
     )
   );
 }
