@@ -45718,6 +45718,15 @@ O namorado dela era um ladrão.
       O Rui corre o risco de perder o carro. → O Rui arrisca perder o carro.
       -->
       <rule>
+        <antipattern>
+           <token postag='PI.+' postag_regexp='yes'/>
+           <token inflected='yes'>correr</token>
+           <token min="0" max="1" regexp='yes'>os?</token>
+           <token regexp='yes'>riscos?</token>
+           <token>de</token>
+
+           <example>Tudo corre o risco de dar errado</example>
+        </antipattern>
         <pattern>
           <marker>
             <token inflected='yes'>correr</token>
@@ -45732,13 +45741,20 @@ O namorado dela era um ladrão.
         </pattern>
         <message>Esta perífrase poderá ser simplificada.</message>
         <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arriscar</match></suggestion>
-        <example correction="arriscar">O Rui vai <marker>correr o risco de</marker> perder o carro.</example>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>poder</match></suggestion>
+        <example correction="arriscar|poder">O Rui vai <marker>correr o risco de</marker> perder o carro.</example>
       </rule>
 
       <!--
       O Rui vai correr o risco para tentar vencer. → O Rui vai arriscar para tentar vencer.
       -->
       <rule>
+        <antipattern>
+           <token inflected='yes'>correr</token>
+           <token regexp='yes'>riscos?</token>
+           <token negate_pos='yes' postag_regexp='yes' postag='SENT_END|_PUNCT'/>
+           <example>Deve levar ao pet sem correr riscos e sem muita demora</example>
+        </antipattern>
         <pattern>
           <marker>
             <token inflected='yes'>correr</token>
