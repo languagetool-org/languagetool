@@ -809,6 +809,20 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Das Kind fragte <marker>wie</marker> eine große, bunte Ballmaschine.</example>
                 <example correction="">Das Kind fragte <marker>wie</marker> eine große und bunte Ballmaschine.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                    <token skip="-1"></token>
+                    <marker>
+                        <token postag="SUB:AKK.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="ART.*GEN.*" postag_regexp="yes"/>
+                    <token postag="ADJ.*GEN.*" postag_regexp="yes"/>
+                    <token postag="SUB:GEN.*" postag_regexp="yes"/>
+                    <token postag="SENT_END" regexp="yes">[.:!?]</token>
+                </pattern>
+                <example correction="">Fast immer bezieht es sich auf deren erste <marker>Bedeutung</marker> der physischen Position.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>
