@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -39,24 +38,20 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.languagetool</groupId>
-            <artifactId>languagetool-core</artifactId>
-            <version>${revision}</version>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
         </dependency>
         <dependency>
             <groupId>org.carrot2</groupId>
             <artifactId>morfologik-tools</artifactId>
-            <version>${morfologik.version}</version>
         </dependency>
         <dependency>
-            <groupId>commons-cli</groupId>
-            <artifactId>commons-cli</artifactId>
-            <version>${commons-cli.version}</version>
+            <groupId>org.languagetool</groupId>
+            <artifactId>languagetool-core</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -64,8 +59,8 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven-deploy-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -77,8 +72,8 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
-                        <version>${maven-assembly-plugin.version}</version>
                         <configuration>
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
