@@ -48214,6 +48214,16 @@ O namorado dela era um ladrão.
       <!--
       Apesar de não serem capazes de arrasar a cidade. → Apesar de não conseguirem arrasar a cidade.
       -->
+      <antipattern>
+         <token postag='V.+' postag_regexp='yes'/>
+         <token>do</token>
+         <token skip='-1'>que</token>
+         <token inflected='yes'>ser</token>
+         <token regexp='yes'>capaz|capazes</token>
+         <token>de</token>
+        <token postag='V.+|DI.+|PI.+|RG' postag_regexp='yes'/>
+        <example>Não sei do que ele é capaz de fazer.</example>
+      </antipattern>
       <pattern>
         <marker>
           <token inflected='yes'>ser</token>
@@ -48224,7 +48234,9 @@ O namorado dela era um ladrão.
       </pattern>
       <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conseguir</match></suggestion>
-      <example correction="conseguirem">Apesar de não <marker>serem capazes de</marker> arrasar a cidade.</example>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>poder</match></suggestion>
+      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> o poder de</suggestion>
+      <example correction="conseguirem|poderem|terem o poder de">Apesar de não <marker>serem capazes de</marker> arrasar a cidade.</example>
     </rule>
 
 
