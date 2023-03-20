@@ -217,6 +217,8 @@ public class UserConfig {
       // only group must match; keeps hit rate of pipeline cache up
       .append(abTest, other.abTest)
       .append(hidePremiumMatches, other.hidePremiumMatches)
+      .append(preferredLanguages, other.preferredLanguages)
+      .append(noopsLanguages, other.noopsLanguages)
       .isEquals();
   }
 

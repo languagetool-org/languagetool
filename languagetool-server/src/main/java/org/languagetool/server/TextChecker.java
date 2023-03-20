@@ -580,26 +580,27 @@ abstract class TextChecker {
     //### Start multiLangPart
     //TODO: implement recheck of ignoreRanges
     if (isMultiLangEnabled) {
-      long startTimeRecheck = System.currentTimeMillis();
-      Map<String, List<Range>> rangesOrderedByLanguage = new HashMap<>();
-      res.forEach(checkResults -> {
-        checkResults.getIgnoredRanges().forEach(range -> {
-          List<Range> sentenceRanges = rangesOrderedByLanguage.getOrDefault(range.getLang(), new ArrayList<>());
-          sentenceRanges.add(range);
-          rangesOrderedByLanguage.put(range.getLang(), sentenceRanges);
-        });
-      });
-      rangesOrderedByLanguage.forEach((shortLangCode, ranges) -> {
-        Language rangeLanguage = Languages.getLanguageForShortCode(shortLangCode);
-        StringBuilder languageTextBuilder = new StringBuilder();
-        ranges.forEach(range -> {
-          String text = range.getAnalyzedSentence().getText().trim() + " ";
-          languageTextBuilder.append(text);
-        });
-        AnnotatedText finalTextToCheckAgain = new AnnotatedTextBuilder().addText(languageTextBuilder.toString().trim()).build();
-      });
-      long endTimeRecheck = System.currentTimeMillis();
-      log.trace("Time needed for recheck other languages: {}", (endTimeRecheck - startTimeRecheck) / 1000f);
+      log.debug("Not implemented yet");
+//      long startTimeRecheck = System.currentTimeMillis();
+//      Map<String, List<Range>> rangesOrderedByLanguage = new HashMap<>();
+//      res.forEach(checkResults -> {
+//        checkResults.getIgnoredRanges().forEach(range -> {
+//          List<Range> sentenceRanges = rangesOrderedByLanguage.getOrDefault(range.getLang(), new ArrayList<>());
+//          sentenceRanges.add(range);
+//          rangesOrderedByLanguage.put(range.getLang(), sentenceRanges);
+//        });
+//      });
+//      rangesOrderedByLanguage.forEach((shortLangCode, ranges) -> {
+//        Language rangeLanguage = Languages.getLanguageForShortCode(shortLangCode);
+//        StringBuilder languageTextBuilder = new StringBuilder();
+//        ranges.forEach(range -> {
+//          String text = range.getAnalyzedSentence().getText().trim() + " ";
+//          languageTextBuilder.append(text);
+//        });
+//        AnnotatedText finalTextToCheckAgain = new AnnotatedTextBuilder().addText(languageTextBuilder.toString().trim()).build();
+//      });
+//      long endTimeRecheck = System.currentTimeMillis();
+//      log.trace("Time needed for recheck other languages: {}", (endTimeRecheck - startTimeRecheck) / 1000f);
     }
     //### End multiLangPart
 
@@ -777,10 +778,11 @@ abstract class TextChecker {
       );
     } else {
       List<CheckResults> res = new ArrayList<>();
-
-      if (/*preferredLangs.size() < 2 ||*/ parameters.get("multilingual") == null || parameters.get("multilingual").equals("false")) {
-        res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
-      } 
+      res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
+//      NOTE: Not needed anymore. The "multilingual" parameter is not used.
+//      if (preferredLangs.size() < 2 || parameters.get("multilingual") == null || parameters.get("multilingual").equals("false")) {
+//        res.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
+//      } 
 //      else {
 //        // support for multilingual texts:
 //        try {
