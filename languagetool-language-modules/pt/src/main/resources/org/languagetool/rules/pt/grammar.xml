@@ -57494,6 +57494,46 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- CONCEITOS MAIS IMPORTANTES conceitos-chave -->
+    <rule id='CIENTÍFICO_MAIS_IMPORTANTE_CHAVE' name="[Científico] mais conhecidos/importantes → -chave" type="style">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-20 (2-MAR-2023+) -->
+      <!--
+      A entropia é um dos conceitos mais conhecidos na teoria. → A entropia é um dos conceitos-chave na teoria.
+      -->
+
+      <antipattern>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token>mais</token>
+        <token regexp='yes'>conhecidos?|importantes?</token>
+        <token postag='CC' postag_regexp='no'/>
+        <token min="0" max="1">mais</token>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <example>Tóquio é a cidade mais importante e mais moderna do Japão.</example>
+        <example>Tóquio é a cidade mais importante e moderna do Japão.</example>
+        <example>O Real Madrid é um dos times mais importantes e vitoriosos do mundo!</example>
+      </antipattern>
+
+      <pattern>
+        <token postag='(SPS00:)?DA.+|DI.+|SPS00|Z0.+|DP.+|CC|NC.+|AQ.+|NP.+' postag_regexp='yes'>
+          <exception scope='previous' postag_regexp='yes' postag='AQ.+'/>
+        </token>
+        <marker>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'>
+            <exception regexp='yes' inflected='yes'>nadar|ser</exception> <!-- Verbs exceptions -->
+            <exception regexp='yes' inflected='yes'>algo|centro|chave|coisa|forma|risco|&languages;</exception> <!-- Nouns/Adjectives exceptions -->
+            <exception postag_regexp='yes' postag='Z0.+'/>
+          </token>
+          <token>mais</token>
+          <token regexp='yes'>conhecidos?|importantes?</token>
+        </marker>
+        <token postag='V.+|SPS00|SPS00:DA.+|SPS00:DD.+|_PUNCT|CC|RG' postag_regexp='yes'/>
+      </pattern>
+      <message>Num contexto formal/científico, é preferível escrever '-chave'.</message>
+      <suggestion>\2-chave</suggestion>
+      <example correction="conceitos-chave">A entropia é um dos <marker>conceitos mais conhecidos</marker> na teoria.</example>
+    </rule>
+
+
     <!-- PARA CONCLUIR em suma -->
     <rulegroup id='CIENTÍFICO_PARA_CONCLUIR_EM_SUMA' name="[Científico] Para concluir/resumidamente → em suma" type="style" tags='picky'>
       <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-13/19 (5-JUN-2022+)      -->
