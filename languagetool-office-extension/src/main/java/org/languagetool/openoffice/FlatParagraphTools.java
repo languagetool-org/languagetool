@@ -219,7 +219,7 @@ public class FlatParagraphTools {
         }
         return null;
       }
-      return xFlatPara.getText();
+      return new String(xFlatPara.getText());
     } finally {
       isBusy--;
     }
@@ -277,7 +277,7 @@ public class FlatParagraphTools {
       int documentElementsCount = sortedTextIds == null ? -1 : getIntPropertyValue("DocumentElementsCount", tmpFlatPara);
       Locale locale = null;
       while (tmpFlatPara != null) {
-        String text = tmpFlatPara.getText();
+        String text = new String(tmpFlatPara.getText());
         int len = text.length();
         allParas.add(0, text);
         footnotePositions.add(0, getIntArrayPropertyValue("FootnotePositions", tmpFlatPara));
@@ -291,7 +291,7 @@ public class FlatParagraphTools {
       }
       tmpFlatPara = xFlatParaIter.getParaAfter(xFlatPara);
       while (tmpFlatPara != null) {
-        String text = tmpFlatPara.getText();
+        String text = new String(tmpFlatPara.getText());
         int len = text.length();
         allParas.add(text);
         footnotePositions.add(getIntArrayPropertyValue("FootnotePositions", tmpFlatPara));
@@ -339,7 +339,7 @@ public class FlatParagraphTools {
       int nPara = 0;
       while (xFlatPara != null && nPara < nParas.size()) {
         if (nFlat == nParas.get(nPara)) {
-          String text = xFlatPara.getText();
+          String text = new String(xFlatPara.getText());
           sParas.add(text);
           nPara++;
         }
@@ -356,6 +356,13 @@ public class FlatParagraphTools {
   }
   
   /**
+   * Get a save Locale 
+   */
+  private static Locale getSaveLocale(String language, String country, String variant) {
+    return new Locale(new String(language), new String(country), new String(variant));
+  }
+  
+  /**
    * Get the language of paragraph 
    * @throws IllegalArgumentException 
    */
@@ -364,7 +371,7 @@ public class FlatParagraphTools {
     if (locale == null || locale.Language.isEmpty()) {
       locale = flatPara.getPrimaryLanguageOfText(first, len);
     }
-    return locale;
+    return getSaveLocale(locale.Language, locale.Country, locale.Variant);
   }
   
   /**
@@ -399,7 +406,7 @@ public class FlatParagraphTools {
       }
       if (len == 0 && lastLocale != null) {
         return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
-            new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
+            getSaveLocale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
       }
       if (len < 2) {
         return getParagraphLanguage(flatPara, start, len);
@@ -421,7 +428,7 @@ public class FlatParagraphTools {
       }
       if (locales.keySet().size() == 0) {
         return lastLocale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL) ? 
-            new Locale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
+            getSaveLocale(lastLocale.Language, lastLocale.Country, lastLocale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length())) : lastLocale;
       }
       Locale biggestLocal = null;
       int biggestLocalNumber = 0;
@@ -444,7 +451,7 @@ public class FlatParagraphTools {
         if (debugMode) {
           MessageHandler.printToLogFile("FlatParagraphTools: getPrimaryParagraphLanguage: is multilingual locale: " + OfficeTools.localeToString(biggestLocal));
         }
-        return new Locale(biggestLocal.Language, biggestLocal.Country, OfficeTools.MULTILINGUAL_LABEL + biggestLocal.Variant);
+        return getSaveLocale(biggestLocal.Language, biggestLocal.Country, OfficeTools.MULTILINGUAL_LABEL + biggestLocal.Variant);
       }
     } finally {
       isBusy--;

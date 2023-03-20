@@ -81,7 +81,7 @@ public class XmlIndenter {
       if (line.startsWith("<rulegroup")) { inRuleGroup = true; }
       if (line.startsWith("<rule ") || line.startsWith("<rule>")) { inRule = true; }
       if (line.startsWith("<pattern")) { inPattern = true; }
-      if (line.startsWith("<antipattern")) { inAntiPattern = true; }
+      if (line.startsWith("<antipattern") && !line.contains("</antipattern")) { inAntiPattern = true; }
       if (line.contains("<marker>") && !line.contains("</marker>") && (inPattern || inAntiPattern)) { inMarker = true; }
       if (line.contains("<and>")) { inAnd = true; }
       if (line.contains("<unify>") || line.contains("<unify ")) { inUnify = true; }

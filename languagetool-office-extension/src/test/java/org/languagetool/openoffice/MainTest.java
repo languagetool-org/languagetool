@@ -50,15 +50,25 @@ public class MainTest {
     textPara = "This is a test with one footnote1. And a Zero Space at the end of the second sentence.";
     flatPara = "This is a test with one footnote​. And a Zero Space at the end of the second sentence​.";
     assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
-    textPara = "This is a test with two footnotes14. Here is the secondXIII.";
-    flatPara = "This is a test with two footnotes​. Here is the second​.";
     footnotes = new int[2];
     footnotes[0] = 33;
     footnotes[1] = 54;
+    textPara = "This is a test with two footnotes14. Here is the secondXIII.";
+    flatPara = "This is a test with two footnotes​. Here is the second​.";
     assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
     textPara = "This is a test with two footnotes14. Here is the secondXIII.";
     flatPara = "This is a test with two footnotes​. Here is no second.";
     assertTrue(!DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    footnotes[0] = 33;
+    footnotes[1] = 54;
+    textPara = "This is a test with two footnotes14. Here is the second [17] with full Roman numerals in text paragraph.";
+    flatPara = "This is a test with two footnotes​. Here is the second ​[17] with full Roman numerals in text paragraph.";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    footnotes[0] = 34;
+    footnotes[1] = 59;
+    textPara = "This is a test with two footnotes [14]. Here is the second1 with full Roman numerals in text paragraph.";
+    flatPara = "This is a test with two footnotes ​[14]. Here is the second​ with full Roman numerals in text paragraph.";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
   }
 
   @Test

@@ -185,9 +185,11 @@ public class RuleMatchesAsJsonSerializer {
         g.writeNumberField("offset", match.getFromPos());
         g.writeNumberField("length", match.getToPos()-match.getFromPos());
         writeContext(g, match, text, contextTools);
-        g.writeObjectFieldStart("type");
-        g.writeStringField("typeName", match.getType().toString());
-        g.writeEndObject();
+        if (compactMode != 1) {
+          g.writeObjectFieldStart("type");
+          g.writeStringField("typeName", match.getType().toString());
+          g.writeEndObject();
+        }
         writeRule(g, match);
         // 3 is a guess - key 'ignoreForIncompleteSentence' isn't official and can hopefully be removed in the future
         // now that we have 'contextForSureMatch':

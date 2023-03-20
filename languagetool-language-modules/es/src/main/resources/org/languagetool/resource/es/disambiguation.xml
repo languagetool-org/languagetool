@@ -467,6 +467,19 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filter" postag="RG"/>
         </rule>
+        <rule id="dado_que" name="dado que">
+            <pattern>
+                <token><exception postag="D..[MC][SN]." postag_regexp="yes"/></token>
+                <marker>
+                    <token>dado</token>
+                    <token>que</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_CS"/>
+                <wd pos="LOC_CS"/>
+            </disambig>
+        </rule>
         <rule id="en_tanto" name="en tanto">
             <pattern>
                 <marker>

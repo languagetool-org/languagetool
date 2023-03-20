@@ -936,6 +936,39 @@ Copyright (C) 2009-2023 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="VB:.*:.*:.*:.*|ADJ:.*:.*"></disambig>
     </rule>
+    <rule name="NN_or_NN_Fam" id="NN_or_NN_Fam">
+        <pattern>	<!-- TODO need improve, need add to exception geo names, etc. -->	   
+            <token><exception  postag="SENT_START"   /></token>
+            <marker>
+                <and>
+                    <token postag="NN:Fam:.*:.*:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[А-ЯЁ][а-яё]*</token>
+                    <token postag="NN:(Anim|Inanim):.*:.*:.*" postag_regexp="yes" >
+                        <exception regexp="yes" inflected="yes">америка|танга|заказчик|остров|основа|штат|иловайск|клиент|весы|родина|ростов</exception>
+                    </token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:(Anim|Inanim):.*:.*:.*"></disambig>
+    </rule>
+    <rule name="NN_or_NN_Fam2" id="NN_or_NN_Fam2">
+        <pattern>	<!-- TODO need improve, need add to exception geo names, etc. -->	   
+            <token>
+                <exception  postag="SENT_START" />
+                <exception>.</exception>  
+                <exception  postag="NN:(Name|Patr):.*:.*:.*" postag_regexp="yes" />
+            </token>
+            <marker>
+                <and>
+                    <token postag="NN:Fam:.*:.*:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[а-яё][а-яё]*</token>
+                    <token postag="NN:(Anim|Inanim):.*:.*:.*" postag_regexp="yes" >
+                        <exception regexp="yes" inflected="yes">америка|танга|заказчик|остров|основа|штат|иловайск|клиент|весы|родина|ростов</exception>
+                    </token>
+                </and>
+            </marker>
+            <token><exception  postag="NN:(Name|Patr):.*:.*:.*" postag_regexp="yes" /></token>
+        </pattern>
+        <disambig action="remove" postag="NN:Fam:.*:.*:.*"></disambig>
+    </rule>
      
   <rulegroup id="po-ADJ" name="po-ADJ">  <!-- по-мышиному -->
         <rule>

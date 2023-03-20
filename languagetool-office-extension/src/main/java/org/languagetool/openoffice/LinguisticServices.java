@@ -53,21 +53,24 @@ import com.sun.star.uno.XComponentContext;
 public class LinguisticServices extends LinguServices {
   
   private static boolean isSetLt = false;
-  private XThesaurus thesaurus = null;
-  private XSpellChecker spellChecker = null;
-  private XHyphenator hyphenator = null;
+//  private XThesaurus thesaurus = null;
+//  private XSpellChecker spellChecker = null;
+//  private XHyphenator hyphenator = null;
+  private XComponentContext xContext;
   private Map<String, List<String>> synonymsCache;
   private List<String> thesaurusRelevantRules = null;
   private boolean noSynonymsAsSuggestions = false;
 
   public LinguisticServices(XComponentContext xContext) {
-    if (xContext != null) {
-      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
-      thesaurus = getThesaurus(mxLinguSvcMgr);
-      spellChecker = getSpellChecker(mxLinguSvcMgr);
-      hyphenator = getHyphenator(mxLinguSvcMgr);
-      synonymsCache = new HashMap<>();
-    }
+    this.xContext = xContext;
+    synonymsCache = new HashMap<>();
+//    if (xContext != null) {
+//      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
+//      thesaurus = getThesaurus(mxLinguSvcMgr);
+//      spellChecker = getSpellChecker(mxLinguSvcMgr);
+//      hyphenator = getHyphenator(mxLinguSvcMgr);
+//      synonymsCache = new HashMap<>();
+//    }
   }
 
   /**
@@ -80,11 +83,11 @@ public class LinguisticServices extends LinguServices {
   /**
    * returns if spell checker can be used
    * if false initialize LinguisticServices again
-   */
+   *//*
   public boolean spellCheckerIsActive () {
     return (spellChecker != null);
   }
-  
+  */
   /** 
    * Get the LinguServiceManager to be used for example 
    * to access spell checker, thesaurus and hyphenator
@@ -165,8 +168,9 @@ public class LinguisticServices extends LinguServices {
   /** 
    * Get the Thesaurus to be used.
    */
-  private XThesaurus getThesaurus(XLinguServiceManager mxLinguSvcMgr) {
+  private XThesaurus getThesaurus(XComponentContext xContext) {
     try {
+      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
       if (mxLinguSvcMgr != null) {
         return mxLinguSvcMgr.getThesaurus();
       }
@@ -180,8 +184,9 @@ public class LinguisticServices extends LinguServices {
   /** 
    * Get the Hyphenator to be used.
    */
-  private XHyphenator getHyphenator(XLinguServiceManager mxLinguSvcMgr) {
+  private XHyphenator getHyphenator(XComponentContext xContext) {
     try {
+      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
       if (mxLinguSvcMgr != null) {
         return mxLinguSvcMgr.getHyphenator();
       }
@@ -195,8 +200,9 @@ public class LinguisticServices extends LinguServices {
   /** 
    * Get the SpellChecker to be used.
    */
-  private XSpellChecker getSpellChecker(XLinguServiceManager mxLinguSvcMgr) {
+  private XSpellChecker getSpellChecker(XComponentContext xContext) {
     try {
+      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
       if (mxLinguSvcMgr != null) {
         return mxLinguSvcMgr.getSpellChecker();
       }
@@ -274,6 +280,7 @@ public class LinguisticServices extends LinguServices {
   }
   
   public boolean isCorrectSpell(String word, Locale locale) {
+    XSpellChecker spellChecker = getSpellChecker(xContext);
     if (spellChecker == null) {
       MessageHandler.printToLogFile("LinguisticServices: isCorrectSpell: XSpellChecker == null");
       return false;
@@ -296,6 +303,7 @@ public class LinguisticServices extends LinguServices {
   }
   
   public String[] getSpellAlternatives(String word, Locale locale) {
+    XSpellChecker spellChecker = getSpellChecker(xContext);
     if (spellChecker == null) {
       MessageHandler.printToLogFile("LinguisticServices: getSpellAlternatives: XSpellChecker == null");
       return null;
@@ -324,6 +332,7 @@ public class LinguisticServices extends LinguServices {
   }
   
   public int getNumberOfSyllables(String word, Locale locale) {
+    XHyphenator hyphenator = getHyphenator(xContext);
     if (hyphenator == null) {
       MessageHandler.printToLogFile("LinguisticServices: getNumberOfSyllables: XHyphenator == null");
       return 1;
@@ -463,6 +472,7 @@ public class LinguisticServices extends LinguServices {
     public void run() {
       List<String> synonyms = new ArrayList<>();
       try {
+        XThesaurus thesaurus = getThesaurus(xContext);
         if (thesaurus == null) {
           MessageHandler.printToLogFile("LinguisticServices: getSynonyms: XThesaurus == null");
           return;

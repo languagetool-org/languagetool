@@ -341,4 +341,13 @@ public class BaseSynthesizer implements Synthesizer {
     return results.toArray(new String[0]);
   }
 
+  @Override
+  public String getTargetPosTag(List<String> posTags, String targetPosTag) {
+    if (posTags.isEmpty()) {
+      return targetPosTag;
+    }
+    // return the last one to keep the previous results
+    return posTags.get(posTags.size() - 1);
+  }
+
 }

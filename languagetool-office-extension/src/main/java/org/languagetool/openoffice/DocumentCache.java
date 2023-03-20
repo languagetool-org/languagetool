@@ -178,10 +178,6 @@ public class DocumentCache implements Serializable {
   private void refreshWriterCache(SingleDocument document, Locale fixedLocale, Locale docLocale, int fromWhere) {
     try {
       long startTime = System.currentTimeMillis();
-      DocumentCursorTools docCursor = document.getDocumentCursorTools();
-      if (docCursor == null) {
-        docCursor = new DocumentCursorTools(document.getXComponent());
-      }
       FlatParagraphTools flatPara = document.getFlatParagraphTools();
       List<String> paragraphs = new ArrayList<String>();
       List<List<Integer>> chapterBegins = new ArrayList<List<Integer>>();
@@ -198,6 +194,11 @@ public class DocumentCache implements Serializable {
       List<DocumentText> documentTexts = new ArrayList<>();
       for (int i = 0; i < NUMBER_CURSOR_TYPES; i++) {
         documentTexts.add(null);
+      }
+      DocumentCursorTools docCursor = document.getDocumentCursorTools();
+      if (docCursor == null) {
+        MessageHandler.printToLogFile("DocumentCache: refreshWriterCache: docCursor == null: return");
+        return;
       }
       documentTexts.set(CURSOR_TYPE_TEXT, docCursor.getAllTextParagraphs());
       documentTexts.set(CURSOR_TYPE_TABLE, docCursor.getTextOfAllTables());
@@ -378,10 +379,79 @@ public class DocumentCache implements Serializable {
     return hasUnsupported;
   }
   
+  public static boolean isEqualText(String flatPara, String textPara, int[] footnotes) {
+    if (footnotes == null || footnotes.length == 0) {
+      return isEqualTextWithoutZeroSpace(flatPara, textPara);
+    }
+    //  NOTE: flat paragraphs contain footnotes and endnotes as zero space characters
+    //        text paragraphs contain footnotes and endnotes as digits or Roman characters
+    if (footnotes[footnotes.length - 1] >= flatPara.length()) {
+      MessageHandler.printToLogFile("DocumentCache: isEqualWithoutFootnotes: footnotes[footnotes.length - 1] >= flatPara.length()");
+      return false;
+    }
+    int tParaBeg;
+    String fPara;
+    String tPara;
+    textPara = removeZeroWidthSpace(textPara);
+    if (footnotes[0] > 0) {
+      fPara = flatPara.substring(0, footnotes[0]);
+      fPara = removeZeroWidthSpace(fPara);
+      if (!fPara.isEmpty()) {
+        if (textPara.length() < fPara.length()) {
+          return false;
+        }
+        tPara = textPara.substring(0, fPara.length());
+        if (!tPara.equals(fPara)) {
+          return false;
+        }
+      }
+    }
+    if (footnotes[footnotes.length - 1] < flatPara.length() - 1) {
+      fPara = flatPara.substring(footnotes[footnotes.length - 1] + 1);
+      fPara = removeZeroWidthSpace(fPara);
+      if (!fPara.isEmpty()) {
+        tParaBeg = textPara.length() - fPara.length();
+        if (tParaBeg < 0) {
+          return false;
+        }
+        tPara = textPara.substring(tParaBeg);
+        if (!tPara.equals(fPara)) {
+          return false;
+        }
+      } else {
+        tParaBeg = textPara.length() - 1;
+      }
+    } else {
+      tParaBeg = textPara.length() - 1;
+    }
+    for (int i = footnotes.length - 2; i >= 0; i--) {
+      flatPara = flatPara.substring(0, footnotes[i + 1]);
+      textPara = textPara.substring(0, tParaBeg);
+      fPara = flatPara.substring(footnotes[i] + 1);
+      fPara = removeZeroWidthSpace(fPara);
+      tParaBeg = textPara.length() - fPara.length();
+      boolean isEqual = false; 
+      for (int j = 0; j <= MAX_NOTE_CHAR && !isEqual; j++) {
+        if (tParaBeg - j < 0) {
+          break;
+        }
+        tPara = textPara.substring(tParaBeg - j, textPara.length() - j);
+        isEqual = tPara.equals(fPara);
+        if (isEqual) {
+          tParaBeg -= j;
+        }
+      }
+      if (!isEqual) {
+        return false;
+      }
+    }
+    return true;
+  }
+/*  
   private static boolean isEqualWithoutFootnotes(String flatPara, String textPara, int[] footnotes, int[] n, int level) {
     //  NOTE: flat paragraphs contain footnotes and endnotes as zero space characters
     //        text paragraphs contain footnotes and endnotes as digits or Roman characters
-    for(n[level] = 1; n[level] <= MAX_NOTE_CHAR; n[level]++) {
+    for(n[level] = 0; n[level] <= MAX_NOTE_CHAR; n[level]++) {
       if (level == 0) {
         String textP = textPara;
         for (int i = footnotes.length - 1; i >= 0; i--) {
@@ -408,7 +478,7 @@ public class DocumentCache implements Serializable {
     }
     return false;
   }
-  
+
   public static boolean isEqualText(String flatPara, String textPara, int[] footnotes) {
     if (footnotes == null || footnotes.length == 0) {
       return isEqualTextWithoutZeroSpace(flatPara, textPara);
@@ -418,12 +488,14 @@ public class DocumentCache implements Serializable {
       //  NOTE: size of footnote sign is assumed as <= MAX_NOTE_CHAR
       return false;
     }
+    
     int[] n = new int[footnotes.length];
     for(int j = 0; j < n.length; j++) {
-      n[j] = 1;
+      n[j] = 0;
     }
     return isEqualWithoutFootnotes(flatPara, textPara, footnotes, n, n.length - 1);
   }
+*/
   
   private static int[] getFootnotes(List<int[]> footnotes, int i) {
     return footnotes != null && i < footnotes.size() ? footnotes.get(i) : null;

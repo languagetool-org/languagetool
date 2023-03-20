@@ -394,6 +394,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("sub ") &&
                    !k.getReplacement().toLowerCase().startsWith("auto ") &&
                    !k.getReplacement().toLowerCase().startsWith("pl ") &&
+                   !k.getReplacement().startsWith("i ") &&
                    !k.getReplacement().startsWith("sh ") &&
                    !k.getReplacement().startsWith("li ") &&
                    !k.getReplacement().startsWith("ha ") &&
@@ -454,6 +455,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    !k.getReplacement().toLowerCase().startsWith("oft ") &&
                    !k.getReplacement().endsWith(" i") &&
                    !k.getReplacement().endsWith(" able") &&
+                   !k.getReplacement().endsWith(" wide") && // (e.g. storewide)
                    !k.getReplacement().endsWith(" less") && // (e.g. permissionless)
                    !k.getReplacement().endsWith(" sly") && // unnecessary suggestion (e.g. for continuesly)
                    !k.getReplacement().endsWith(" OO") && // unnecessary suggestion (e.g. for "HELLOOO")
@@ -527,6 +529,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
+    newMatch.setType(oldMatch.getType());
     newMatch.setLazySuggestedReplacements(() -> new ArrayList<>(Sets.newLinkedHashSet(Iterables.concat(
       Iterables.transform(forms, SuggestedReplacement::new),
       oldMatch.getSuggestedReplacementObjects()
@@ -539,6 +542,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
+    newMatch.setType(oldMatch.getType());
     SuggestedReplacement sugg = new SuggestedReplacement(suggestion);
     sugg.setShortDescription(language.getName());
     newMatch.setSuggestedReplacementObjects(Collections.singletonList(sugg));
@@ -640,6 +644,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected static Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
     s.put("Ths", Arrays.asList("This", "The"));
+    s.put("whitout", Arrays.asList("without", "white out"));
+    s.put("Whitout", Arrays.asList("Without", "White out"));
     s.put("compability", Arrays.asList("compatibility"));
     s.put("Compability", Arrays.asList("Compatibility"));
     s.put("enroute", Arrays.asList("en route"));
@@ -859,8 +865,12 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Countys", Arrays.asList("Counties", "County's", "County"));
     s.put("familys", Arrays.asList("families", "family's", "family"));
     s.put("Familys", Arrays.asList("Families", "Family's", "Family"));
+    s.put("Thak", Arrays.asList("Thank"));
+    s.put("thak", Arrays.asList("thank"));
     s.put("dieing", Arrays.asList("dying"));
     s.put("Dieing", Arrays.asList("Dying"));
+    s.put("Supposably", Arrays.asList("Supposedly"));
+    s.put("supposably", Arrays.asList("supposedly"));
     s.put("dem", Arrays.asList("them"));
     s.put("Dem", Arrays.asList("Them"));
     s.put("infact", Arrays.asList("in fact"));

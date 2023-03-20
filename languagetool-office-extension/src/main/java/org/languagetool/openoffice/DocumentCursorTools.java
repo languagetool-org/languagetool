@@ -286,7 +286,7 @@ class DocumentCursorTools {
           sortedTextIds = new ArrayList<Integer>();
         }
       }
-      allParas.add(xPCursor.getString());
+      allParas.add(new String(xPCursor.getString()));
       deletedCharacters.add(getDeletedCharacters(xPCursor));
       TextType textType = getTextType();
       if (textType == TextType.HEADING) {
@@ -301,7 +301,7 @@ class DocumentCursorTools {
       while (xPCursor.gotoNextParagraph(false)) {
         xPCursor.gotoStartOfParagraph(false);
         xPCursor.gotoEndOfParagraph(true);
-        allParas.add(xPCursor.getString());
+        allParas.add(new String(xPCursor.getString()));
         deletedCharacters.add(getDeletedCharacters(xPCursor));
         paraNum++;
         textType = getTextType();
@@ -442,7 +442,7 @@ class DocumentCursorTools {
     do {
       xParagraphCursor.gotoStartOfParagraph(false);
       xParagraphCursor.gotoEndOfParagraph(true);
-      sText.add(xParagraphCursor.getString());
+      sText.add(new String(xParagraphCursor.getString()));
       deletedCharacters.add(getDeletedCharacters(xParagraphCursor));
       if (sortedTextIds != null) {
         sortedTextIds.add(getSortedTextId(xParagraphCursor));
@@ -1036,14 +1036,16 @@ class DocumentCursorTools {
                 if (xShapeText != null) {
                   XTextCursor xTextCursor = xShapeText.createTextCursor();
                   XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-                  xParagraphCursor.gotoStart(false);
-                  while (nPara < number && xParagraphCursor.gotoNextParagraph(false)){
+                  if (xParagraphCursor != null) {
+                    xParagraphCursor.gotoStart(false);
+                    while (nPara < number && xParagraphCursor.gotoNextParagraph(false)){
+                      nPara++;
+                    }
+                    if (nPara == number) {
+                      return xParagraphCursor;
+                    }
                     nPara++;
                   }
-                  if (nPara == number) {
-                    return xParagraphCursor;
-                  }
-                  nPara++;
                 }
               }
             }

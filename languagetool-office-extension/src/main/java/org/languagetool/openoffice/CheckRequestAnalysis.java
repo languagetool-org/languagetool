@@ -62,23 +62,25 @@ class CheckRequestAnalysis {
   private final Map<Integer, String> changedParas;  //  Map of last changed paragraphs;
   private final List<ResultCache> paragraphsCache;  //  Cache for matches of text rules
 
-  private FlatParagraphTools flatPara;              //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
-  private ViewCursorTools viewCursor;               //  Get the view cursor for desktop
+//  private FlatParagraphTools flatPara;              //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
+//  private ViewCursorTools viewCursor;               //  Get the view cursor for desktop
   private int numLastVCPara;                        //  Save position of ViewCursor for the single documents
   private int numLastFlPara;                        //  Save position of FlatParagraph for the single documents
-  private DocumentCursorTools docCursor = null;     //  Save document cursor for the single document
+//  private DocumentCursorTools docCursor = null;     //  Save document cursor for the single document
   private int changeFrom = 0;                       //  Change result cache from paragraph
   private int changeTo = 0;                         //  Change result cache to paragraph
   private boolean textIsChanged = false;            //  true: check number of paragraphs again
   private int numParasToChange = -1;                //  Number of paragraphs to change for n-paragraph cache
   private int paraNum;                              //  Number of current checked paragraph
 
+//  CheckRequestAnalysis(int numLastVCPara, int numLastFlPara, int proofInfo, int numParasToCheck, Language fixedLanguage, Language docLanguage,
+//      SingleDocument singleDocument, List<ResultCache> paragraphsCache, ViewCursorTools viewCursor, Map<Integer, String> changedParas) {
   CheckRequestAnalysis(int numLastVCPara, int numLastFlPara, int proofInfo, int numParasToCheck, Language fixedLanguage, Language docLanguage,
-      SingleDocument singleDocument, List<ResultCache> paragraphsCache, ViewCursorTools viewCursor, Map<Integer, String> changedParas) {
+      SingleDocument singleDocument, List<ResultCache> paragraphsCache, Map<Integer, String> changedParas) {
     debugMode = OfficeTools.DEBUG_MODE_CR;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
     this.singleDocument = singleDocument;
-    this.viewCursor = viewCursor;
+//    this.viewCursor = viewCursor;
     this.numLastVCPara = numLastVCPara;
     this.numLastFlPara = numLastFlPara;
     this.proofInfo = proofInfo;
@@ -92,7 +94,7 @@ class CheckRequestAnalysis {
     docType = singleDocument.getDocumentType();
     minToCheckPara = mDocHandler.getNumMinToCheckParas();
     docCache = singleDocument.getDocumentCache();
-    flatPara = singleDocument.getFlatParagraphTools();
+//    flatPara = singleDocument.getFlatParagraphTools();
     Configuration config = mDocHandler.getConfiguration();
     this.numParasToCheck = mDocHandler.isTestMode() ? 0 : numParasToCheck;
     useQueue = (numParasToCheck != 0 && proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && config.useTextLevelQueue());
@@ -127,9 +129,7 @@ class CheckRequestAnalysis {
     if (paraNum >= 0) {
       //  test if paragraph has changed --> actualize all caches for single paragraph
       TextParagraph tPara = docCache.getNumberOfTextParagraph(paraNum);
-      if (docCursor == null) {
-        docCursor = new DocumentCursorTools(xComponent);
-      }
+      DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
       List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara);
       
       if (!docCache.isEqual(paraNum, paraText, locale, deletedChars)) {
@@ -161,9 +161,7 @@ class CheckRequestAnalysis {
     if (debugModeTm) {
       startTime = System.currentTimeMillis();
     }
-    setFlatParagraphTools(xComponent);
     if (docCache.isEmpty()) {
-      docCursor = new DocumentCursorTools(xComponent);
       docCache.refresh(singleDocument, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 1);
       if (debugMode > 0) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: actualizeDocumentCache: resetAllParas (docCache is empty): new docCache.size: " + docCache.size()
@@ -189,6 +187,7 @@ class CheckRequestAnalysis {
         return;
       }
     }
+    FlatParagraphTools flatPara = singleDocument.getFlatParagraphTools();
     XFlatParagraph xFlatPara = flatPara.getFlatParagraphAt(nPara);
     if (isDisposed() || xFlatPara == null) {
       return;
@@ -198,9 +197,7 @@ class CheckRequestAnalysis {
     Locale lastLocale = nPara <= 0 ? null : docCache.getFlatParagraphLocale(nPara - 1);
     try {
       Locale locale = FlatParagraphTools.getPrimaryParagraphLanguage(xFlatPara, 0, chPara.length(), docLocale, lastLocale, false);
-      if (docCursor == null) {
-        docCursor = new DocumentCursorTools(xComponent);
-      }
+      DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
       List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(docCache.getNumberOfTextParagraph(nPara));
       if (!docCache.isEqual(nPara, chPara, locale, deletedChars)) {
         if (debugMode > 1) {
@@ -224,28 +221,28 @@ class CheckRequestAnalysis {
   
   /** 
    * Get new initialized flat paragraph tools
-   */
+   *//*
   FlatParagraphTools getFlatParagraphTools() {
     if (flatPara == null) {
       flatPara = new FlatParagraphTools(xComponent);
     }
     return flatPara;
   }
-  
+*/  
   /** 
    * Get new initialized view cursor tools
-   */
+   *//*
   ViewCursorTools getViewCursorTools() {
     return viewCursor;
   }
-  
+*/  
   /** 
    * Get new initialized document cursor tools
-   */
+   *//*
   DocumentCursorTools getDocumentCursorTools() {
     return docCursor;
   }
-
+*/
   /** 
    * Get last number of paragraph from view cursor
    */
@@ -280,7 +277,7 @@ class CheckRequestAnalysis {
 
   /** 
    * Open new flat paragraph tools or initialize them again
-   */
+   *//*
   private void setFlatParagraphTools(XComponent xComponent) {
     long startTime = 0;
     if (debugModeTm) {
@@ -298,7 +295,7 @@ class CheckRequestAnalysis {
       }
     }
   }
-  
+  */
   /**
    * Search for Position of Paragraph
    * gives Back the Position of flat paragraph / -1 if Paragraph can not be found
@@ -331,11 +328,9 @@ class CheckRequestAnalysis {
     }
 
     // Initialization 
-    docCursor = null;
     if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
       MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: start setFlatParagraphTools");
     }
-    setFlatParagraphTools(xComponent);
 
     if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
       MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: test docCache.isEmpty");
@@ -344,7 +339,6 @@ class CheckRequestAnalysis {
       if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: get DocumentCursorTools");
       }
-      docCursor = new DocumentCursorTools(xComponent);
       docCache.refresh(singleDocument, LinguisticServices.getLocale(fixedLanguage), LinguisticServices.getLocale(docLanguage), xComponent, 4);
       if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: getParaPos: start docCache.refresh");
@@ -451,6 +445,7 @@ class CheckRequestAnalysis {
       }
     }
     if (!isDisposed()) {
+      FlatParagraphTools flatPara = singleDocument.getFlatParagraphTools();
       String curFlatParaText = flatPara.getCurrentParaText();
       if (debugMode > 0) {
         MessageHandler.printToLogFile("CheckRequestAnalysis: getParaFromFlatparagraph: curFlatParaText: " + curFlatParaText + OfficeTools.LOG_LINE_BREAK
@@ -542,6 +537,14 @@ class CheckRequestAnalysis {
     return -1;
   }
 
+  /**
+   *  Get view cursor tools
+   */
+  ViewCursorTools getViewCursorTools() {
+    OfficeTools.waitForLO();
+    return new ViewCursorTools(xComponent);
+  }
+  
   /** 
    * Get the Position of Paragraph if result is ordered by right mouse click or spelling dialog
    * returns -1 if it fails
@@ -555,9 +558,7 @@ class CheckRequestAnalysis {
     if (debugModeTm) {
       startTime = System.currentTimeMillis();
     }
-    if (viewCursor == null) {
-      viewCursor = new ViewCursorTools(xComponent);
-    }
+    ViewCursorTools viewCursor = new ViewCursorTools(xComponent);
     int nPara;
     String vcText = SingleCheck.removeFootnotes(viewCursor.getViewCursorParagraphText(), footnotePositions, null);
     String chPara = SingleCheck.removeFootnotes(chParaWithFootnotes, footnotePositions, null);
@@ -699,9 +700,9 @@ class CheckRequestAnalysis {
     if (docCache.isEmpty() || isDisposed()) {
       return -1;
     }
-    setFlatParagraphTools(xComponent);
     int nPara = 0;
     long startTime1 = 0;
+    FlatParagraphTools flatPara = singleDocument.getFlatParagraphTools();
     if (getCurNum) {
       if (debugModeTm) {
         startTime1 = System.currentTimeMillis();
@@ -722,9 +723,6 @@ class CheckRequestAnalysis {
         }
         return -2;
       }
-    }
-    if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xComponent);
     }
     if (debugModeTm) {
       startTime1 = System.currentTimeMillis();
@@ -830,9 +828,7 @@ class CheckRequestAnalysis {
       startTime = System.currentTimeMillis();
     }
     TextParagraph tPara = docCache.getNumberOfTextParagraph(nPara);
-    if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xComponent);
-    }
+    DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
     List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara);
     
     if (!docCache.isEqual(nPara, chPara, locale, deletedChars)) {

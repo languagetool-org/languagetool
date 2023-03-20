@@ -199,6 +199,7 @@ public abstract class SpellingCheckRule extends Rule {
     }
     RuleMatch ruleMatch = new RuleMatch(this, sentence, prevPos, pos + coveredWord.length(),
             messages.getString("spelling"), messages.getString("desc_spelling_short"));
+    ruleMatch.setType(RuleMatch.Type.UnknownWord);
     ruleMatch.setSuggestedReplacement((suggestion1 + " " + suggestion2).trim());
     return ruleMatch;
   }

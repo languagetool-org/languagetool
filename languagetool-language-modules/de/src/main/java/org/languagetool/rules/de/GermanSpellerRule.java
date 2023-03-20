@@ -1100,6 +1100,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[wW]idersprüchig(e[mnrs]?)?", "ig", "lich");
     putRepl("[fF]austig(e[mnrs]?)?", "austig", "austdick");
     putRepl("Belastungsekgs?", "ekg", "-EKG");
+    putRepl("gehardcode[dt](e[mnrs]?)?", "gehardcode", "hartkodier");
+    putRepl("hardgecode[dt](e[mnrs]?)?", "gehardcode", "hartkodier");
     putRepl("Flektion(en)?", "Flektion", "Flexion");
     putRepl("Off-[Ss]hore-[A-Z].+", "Off-[Ss]hore-", "Offshore");
     put("Deis", "Dies");
@@ -1234,6 +1236,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Dak", w -> Arrays.asList("Dank", "Das", "Dock"));
     put("Dake", w -> Arrays.asList("Danke"));
     put("dake", w -> Arrays.asList("danke"));
+    put("Laola", w -> Arrays.asList("La-Ola", "Paola", "Layla", "Lala"));
+    put("Laolas", w -> Arrays.asList("La-Olas", "Paolas", "Laylas"));
+    put("übernohmen", w -> Arrays.asList("übernehmen", "übernommen"));
+    put("augeschlossen", w -> Arrays.asList("ausgeschlossen", "angeschlossen"));
+    put("Akteures", "Akteurs");
+    put("popup", "Pop-up");
     put("Gedaken", "Gedanken");
     put("Wiso", "Wieso");
     put("gebs", "gebe es");
@@ -1445,6 +1453,66 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Ausm", w -> Arrays.asList("Aus dem", "Aus einem", "Aus"));
     put("ausm", w -> Arrays.asList("aus dem", "aus einem", "aus"));
     put("best", w -> Arrays.asList("beste", "bester", "Best"));
+    put("Bitet", w -> Arrays.asList("Bitte", "Bittet", "Bidet", "Bietet"));
+    put("lage", w -> Arrays.asList("lange", "Lage", "läge", "lache"));
+    put("mur", w -> Arrays.asList("mir", "zur", "nur", "für"));
+    put("ass", w -> Arrays.asList("Ass", "aß", "aus", "dass"));
+    put("Blat", w -> Arrays.asList("Blatt", "Blut", "Bald", "Bat"));
+    put("much", w -> Arrays.asList("mich", "auch", "Buch"));
+    put("scheibe", w -> Arrays.asList("Scheibe", "schreibe"));
+    put("vielmal", w -> Arrays.asList("Vielmal", "vielmals", "viermal", "viel mal"));
+    put("bachten", w -> Arrays.asList("brachten", "beachten", "machten", "pachten"));
+    put("brache", w -> Arrays.asList("brauche", "brachte", "brach", "bräche"));
+    put("beliebn", w -> Arrays.asList("beliebt", "bleiben", "belieben"));
+    put("Kono", w -> Arrays.asList("Kino", "Kongo", "Konto"));
+    put("aich", w -> Arrays.asList("ich", "auch", "sich", "eich"));
+    put("anahme", w -> Arrays.asList("Annahme", "nahmen", "nahe", "nahmen"));
+    put("anleigen", w -> Arrays.asList("anlegen", "Anliegen", "anliegen", "anzeigen"));
+    put("besproch", w -> Arrays.asList("besprach", "besprich", "bespreche", "besprochen"));
+    put("dan", w -> Arrays.asList("dann", "den", "das", "an"));
+    put("lase", w -> Arrays.asList("las", "lasse", "Nase"));
+    put("Shr", w -> Arrays.asList("Sehr", "Ihr", "Uhr", "Sir"));
+    put("start", w -> Arrays.asList("Start", "stark", "statt", "stand"));
+    put("neuse", w -> Arrays.asList("neues", "neue"));
+    put("Standart", w -> Arrays.asList("Standard", "Standort"));
+    put("wiessen", w -> Arrays.asList("wissen", "weisen", "wiesen"));
+    put("schnells", w -> Arrays.asList("schnell", "schnellst"));
+    put("sn", w -> Arrays.asList("an", "in"));
+    put("eie", w -> Arrays.asList("die", "wie", "eine", "sie"));
+    put("Mei", w -> Arrays.asList("Mai", "Bei", "Sei", "Mein"));
+    put("bim", w -> Arrays.asList("bin", "im", "bis", "beim"));
+    put("lehr", w -> Arrays.asList("mehr", "lehrt", "sehr", "leer"));
+    put("sm", w -> Arrays.asList("am", "im", "am", "SM"));
+    put("tuh", w -> Arrays.asList("tun", "tut", "tue", "Kuh"));
+    put("wuden", w -> Arrays.asList("wurden", "würden"));
+    put("intere", w -> Arrays.asList("interne", "innere", "hintere", "untere"));
+    put("unterschiede", w -> Arrays.asList("Unterschiede", "unterscheide", "unterschiebe", "unterschieden"));
+    put("bi", "bei");
+    put("Aendert", "Ändert");
+    put("aendert", "ändert");
+    put("bizte", "bitte");
+    put("korekkt", "korrekt");
+    put("Erhlich", "Ehrlich");
+    put("gestrest", "gestresst");
+    put("rauschicken", "rausschicken");
+    put("stoniren", "stornieren");
+    put("drinen", "drinnen");
+    put("gestigen", "gestiegen");
+    put("prozes", "Prozess");
+    put("Auschluss", "Ausschluss");
+    put("Anbeot", "Angebot");
+    put("Paleten", "Paletten");
+    put("mächten", "möchten");
+    put("auschreibung", "Ausschreibung");
+    put("worter", "Wörter");
+    put("Ihrerer", "Ihrer");
+    put("Modelles", "Modells");
+    put("entchuldigen", "entschuldigen");
+    put("kundne", "Kunden");
+    put("bestellun", "Bestellung");
+    put("[Nn]umber", "Nummer");
+    put("mirgen", "morgen");
+    put("korekkt", "korrekt");
     put("Bs", "Bis");
     put("Biß", "Biss");
     put("bs", "bis");
@@ -2593,6 +2661,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return topMatch(word.replaceFirst("brilliant", "brillant"));
     }
     switch (word) {
+      case "Büffet":
+      case "Buffett":
+      case "Bufett":
+      case "Büffett":
+      case "Bufet":
+      case "Büfet":
+        if (language.getShortCodeWithCountryAndVariant().equals("de-CH") || language.getShortCodeWithCountryAndVariant().equals("de-AT")) {
+          return topMatch("Buffet", "zum Verzehr bereitgestellte Speisen");
+        } else {
+          return topMatch("Büfett", "zum Verzehr bereitgestellte Speisen");
+        }
       case "do": return topMatch("so");
       case "offensichtlicherweise": return topMatch("offensichtlich");
       case "Offensichtlicherweise": return topMatch("Offensichtlich");
@@ -3064,6 +3143,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Ubahntunnels": return topMatch("U-Bahntunnels");
       case "UBahntunnels": return topMatch("U-Bahntunnels");
       case "Gelantine": return topMatch("Gelatine");
+      case "angehangenen": return topMatch("angehängten");
+      case "ausmahlen": return topMatch("ausmalen");
+      case "ausgemahlt": return topMatch("ausgemalt");
+      case "Rehgipsplatte": return topMatch("Rigipsplatte");
+      case "Rehgipsplatten": return topMatch("Rigipsplatten");
+      case "Rehgips-Platte": return topMatch("Rigips-Platte");
+      case "Rehgips-Platten": return topMatch("Rigips-Platten");
+      case "Rehgips": return topMatch("Rigips");
+      case "Laola-Welle": return topMatch("La-Ola-Welle");
+      case "Laola-Wellen": return topMatch("La-Ola-Wellen");
     }
     return Collections.emptyList();
   }

@@ -635,6 +635,16 @@ class OfficeTools {
     return false;
   }
   
+  public static void waitForLO() {
+    while (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy()) {
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+        MessageHandler.printException(e);
+      }
+    }
+  }
+  
   /**
    * Handle logLevel for debugging and development
    */
@@ -733,21 +743,21 @@ class OfficeTools {
     public final String osArch;
     
     OfficeProductInfo(Object name, Object version, Object extension, Object vendor, Object locale, Object arch) {
-      ooName = (String) name;
-      ooVersion = (String) version;
-      ooExtension = (String) extension;
-      ooVendor = (String) vendor;
-      ooLocale = (String) locale;
-      osArch = (String) arch;
+      ooName = new String((String) name);
+      ooVersion = new String((String) version);
+      ooExtension = new String((String) extension);
+      ooVendor = new String((String) vendor);
+      ooLocale = new String((String) locale);
+      osArch = new String((String) arch);
     }
     
     OfficeProductInfo(String name, String version, String extension, String vendor, String locale, String arch) {
-      ooName = name;
-      ooVersion = version;
-      ooExtension = extension;
-      ooVendor = vendor;
-      ooLocale = locale;
-      osArch = arch;
+      ooName = new String(name);
+      ooVersion = new String(version);
+      ooExtension = new String(extension);
+      ooVendor = new String(vendor);
+      ooLocale = new String(locale);
+      osArch = new String(arch);
     }
   }
 }

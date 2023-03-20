@@ -113,6 +113,7 @@ public class AgreementRule2 extends Rule {
     asList(token("richtig")),    // "Richtig Kaffee kochen ..."
     asList(token("weiß")),       // "Weiß Papa, dass ..."
     asList(token("speziell")),   // "Speziell Flugfähigkeit hat sich unabhängig voneinander ..."
+    asList(token("proaktiv")),   // "Speziell Flugfähigkeit hat sich unabhängig voneinander ..."
     asList(token("halb")),       // "Halb Traum, halb Wirklichkeit"
     asList(token("hinter")),     // "Hinter Bäumen"
     asList(token("vermutlich")), // "Vermutlich Ende 1813 erkrankte..."

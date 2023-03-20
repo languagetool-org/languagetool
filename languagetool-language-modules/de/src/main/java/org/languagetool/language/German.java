@@ -130,7 +130,7 @@ public class German extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages,
+            new GermanCommaWhitespaceRule(messages,
                     Example.wrong("Die Partei<marker> ,</marker> die die letzte Wahl gewann."),
                     Example.fixed("Die Partei<marker>,</marker> die die letzte Wahl gewann."),
                     Tools.getUrl("https://languagetool.org/insights/de/beitrag/grammatik-leerzeichen/#fehler-1-leerzeichen-vor-und-nach-satzzeichen")),
@@ -321,6 +321,7 @@ public class German extends Language implements AutoCloseable {
       case "BLUETOOTH_LAUTSPRECHER" : return 1;   // prefer over agreement rules
       case "KOENNT_ICH" : return 1;   // prefer over DE_VERBAGREEMENT
       case "WIR_HABE" : return 1;   // prefer over DE_VERBAGREEMENT
+      case "DAS_IST_GLAUBE_ICH_EGAL" : return 1;   // prefer over agreement rules
       case "ICH_KOENNT" : return 1;   // prefer over DE_VERBAGREEMENT
       case "HAT_DU" : return 1;   // prefer over agreement rules
       case "HAST_DICH" : return 1;   // prefer over agreement rules

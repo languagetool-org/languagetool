@@ -9,7 +9,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!ENTITY zal_adj_ig "jähr|bänd|seit|monat|täg|köpf|tür|spur|geschoss|stöck|mal|teil|lag|stünd|minüt|sekünd|zeil|wöch|stell|räum|schicht|zähn|eck|arm|karät">
     <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun|zehn|elf|zwölf)(zehn|zig)?)(&zal_adj_ig;)">
     <!ENTITY apostrophe "['’`´‘]">
-    <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|eps|exe|flv|gif|htm|html|ibooks|ico|idml|ini|indd|jar|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|ods|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|scss|sh|shtml|sql|stl|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z">
+    <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|eps|exe|flv|gif|htm|html|ibooks|ico|idml|ini|indd|jar|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|ods|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|scss|sh|shtml|sql|stl|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z|web[mp]">
     <!ENTITY genderzeichen "[:_*]">
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
     <!ENTITY anf "&anfauf;|'|'|‹|«">
@@ -2107,6 +2107,53 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
+
+    <rule name="Telecommunications" id="TELECOMMUNICATIONS">
+        <pattern>
+            <token regexp="yes">International|Personal|FlexDSL</token>
+            <token regexp="yes">Telecommunications?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="x-Sitzer" id="X-SITZER">
+        <pattern>
+            <token regexp="yes">\d+-Sitzer[ns]?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Telecommunications_2" id="TELECOMMUNICATIONS_2">
+        <pattern>
+            <token regexp="yes">Telecommunications?</token>
+            <token min="0" regexp="yes">compan(y|ies)|standardization|services?|development|Orbiters?|AG</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Chai latte" id="CHAI_LATTE">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Chai|Fior</token>
+            <token min="0">di</token>
+            <token>latte</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Café crème" id="CAFÉ_CRÈME">
+        <pattern>
+            <token regexp="yes">Caff?[èéêe]</token>
+            <token min="0">con</token>
+            <token regexp="yes">crème|mélange|cortado|cheio|leche|latte|lungo|americano</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Espresso doppio" id="ESPRESSO_DOPPIO">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Espresso|Latte</token>
+            <token>doppio</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
         <pattern><!-- chrome://, ftp://, file:// -->
             <token regexp="yes">[a-z\-]+</token>
@@ -5508,7 +5555,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule><!-- lowercase word + abbreviation with no vowels -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">.*[a-z].*</token>
-                <token min="0">(</token>
+                <token min="0" regexp="yes">[\)\(,\/]</token>
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
                 </marker>
@@ -5520,7 +5567,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
                 </marker>
-                <token min="0">)</token>
+                <token min="0" regexp="yes">[\)\(,\/]</token>
                 <token regexp="yes">.*[a-z].*</token>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -7221,7 +7268,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token postag="ADV.*" postag_regexp="yes" min="0" />
                 <marker>
                     <!-- verben, die großgeschrieben auch ein Substantiv sein könnten oder mit anderen Wörtern verwechselt werden könnten -->
-                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör|grab|cancel|ras|hinweis</token>
+                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör|grab|cancel|ras|hinweis|beruf|nerv|zeug</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -7230,7 +7277,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern>
                 <marker>
                     <!-- verben, die großgeschrieben auch ein Substantiv sein könnten oder mit anderen Wörtern verwechselt werden könnten -->
-                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|helf|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör|grab|cancel|ras</token>
+                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|helf|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör|grab|cancel|ras|beruf|nerv|zeug</token>
                 </marker>
                 <token>ich</token>
             </pattern>

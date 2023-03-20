@@ -127,9 +127,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ANREDE_KOMMA_2" name="Fehlendes Komma nach Begrüßungsformeln (Hallo, Guten Tag)">
             <rule>
                 <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Hey</token>
+                    <token regexp="yes">toll|cool|super</token>
+                    <example>Hey super, das wusste ich noch gar nicht!</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Hallo</token>
+                    <token regexp="yes">nochmal|noch|da|wieder</token>
+                    <token min="0" regexp="yes">mal|einmal|drau(ss|ß)en</token>
+                    <example>Hallo noch mal!</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Hallo</token>
+                    <token>in</token>
+                    <token>die</token>
+                    <token min="0" />
+                    <token>Runde</token>
+                    <example>Hallo in die Runde!</example>
+                </antipattern>
+                <antipattern>
                     <token skip="3" regexp="yes">Hallo|Hi|Hey|Moin|Servus|Tschüss?
                         <exception scope="next" postag=".*INR.*|VER.*:[123]:.*" postag_regexp="yes"/>
-                        </token>
+                    </token>
                     <token>,</token>
                 </antipattern>
                 <antipattern case_sensitive="yes">
@@ -152,7 +174,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>
                         <exception postag="PKT"/>
-                        <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|herr|frau|liebes?|meine?|moin|zusammen|miteinander|und|oder|ihr|du|@.*</exception>
+                        <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|herr|frau|liebe(r|s)?|meine?|moin|zusammen|miteinander|und|oder|ihr|du|@.*|an|–|-|\+|\(|&amp;|there|community|people|team|all|to</exception>
                     </token>
                 </pattern>
                 <message>Nach der Anredeformel sollte ein Komma stehen.</message>
@@ -163,7 +185,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Hallo,"><marker>Hallo</marker> wie geht es euch?</example>
                 <example correction="Hallo,"><marker>Hallo</marker> ich bin Kira, wo ist die Bibliothek?</example>
                 <example>Moin herr Müller.</example><!-- "herr" muss großgeschrieben werden, trotzdem sollte kein Komma vorgeschlagen werden -->
-                <example>Hallo an alle, habe am Montag vormittag einen Brief aus Polen abgeschickt nach Hamburg.</example>
+                <example>Hallo an alle, habe am Montag einen Brief aus Polen abgeschickt nach Hamburg.</example>
             </rule>
             <!--<rule>
                 <pattern case_sensitive="yes">

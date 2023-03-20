@@ -102,7 +102,6 @@ public class MultiDocumentsHandler {
   private SortedTextRules sortedTextRules;
   private Map<String, Set<String>> disabledRulesUI; //  Rules disabled by context menu or spell dialog
   private final List<Rule> extraRemoteRules;        //  store of rules supported by remote server but not locally
-  private final LtDictionary dictionary;            //  internal dictionary of LT defined words 
   private LtCheckDialog ltDialog = null;            //  LT spelling and grammar check dialog
   private ConfigurationDialog cfgDialog = null;     //  configuration dialog (show only one configuration panel)
   private static AboutDialog aboutDialog = null;           //  about dialog (show only one about panel)
@@ -130,6 +129,8 @@ public class MultiDocumentsHandler {
   private int heapCheckInterval = HEAP_CHECK_INTERVAL;
   private boolean testMode = false;
   private boolean javaLookAndFeelIsSet = false;
+  private boolean isHelperDisposed = false;
+
   
 
   MultiDocumentsHandler(XComponentContext xContext, XProofreader xProofreader, XEventListener xEventListener) {
@@ -144,7 +145,6 @@ public class MultiDocumentsHandler {
     documents = new ArrayList<>();
     disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
-    dictionary = new LtDictionary();
     LtHelper ltHelper = new LtHelper();
     ltHelper.start();
   }
@@ -215,6 +215,8 @@ public class MultiDocumentsHandler {
         if (initDocs) {
           initDocuments(true);
         }
+      } else if (textLevelQueue == null && useQueue) {
+        textLevelQueue = new TextLevelCheckQueue(this);
       }
     }
     if (debugMode) {
@@ -398,16 +400,27 @@ public class MultiDocumentsHandler {
   /**
    *  Set a document as closed
    */
-  private void setContextOfClosedDoc(XComponent context) {
+  private void setContextOfClosedDoc(XComponent xComponent) {
     boolean found = false;
     for (SingleDocument document : documents) {
-      if (context.equals(document.getXComponent())) {
+      if (xComponent.equals(document.getXComponent())) {
         found = true;
         document.dispose(true);
         isDisposed = true;
+        if (documents.size() < 2) {
+          LtDictionary.setDisposed();
+          if (textLevelQueue != null) {
+            textLevelQueue.setStop();
+            textLevelQueue = null;
+          }
+          isHelperDisposed = true;
+        }
+/*      save only if document is saved
         if (config.saveLoCache()) {
           document.writeCaches();
         }
+*/
+        document.removeDokumentListener(xComponent);
         document.setXComponent(xContext, null);
         if (document.getDocumentCache().hasNoContent(false)) {
           //  The delay seems to be necessary as workaround for a GDK bug (Linux) to stabilizes
@@ -493,29 +506,43 @@ public class MultiDocumentsHandler {
       langCode = OfficeTools.localeToString(locale);
     }
     Map<String, String> disabledRulesMap = new HashMap<>();
-    List<Rule> allRules = lt.getAllRules();
-    for (String disabledRule : getDisabledRules(langCode)) {
-      String ruleDesc = null;
-      for (Rule rule : allRules) {
-        if (disabledRule.equals(rule.getId())) {
-          ruleDesc = rule.getDescription();
-          break;
+    if (langCode != null && lt != null && config != null) {
+      List<Rule> allRules = lt.getAllRules();
+      List<String> disabledRules = new ArrayList<String>(getDisabledRules(langCode));
+      for (int i = disabledRules.size() - 1; i >= 0; i--) {
+        String disabledRule = disabledRules.get(i);
+        String ruleDesc = null;
+        for (Rule rule : allRules) {
+          if (disabledRule.equals(rule.getId())) {
+            if (!rule.isDefaultOff() || rule.isOfficeDefaultOn()) {
+              ruleDesc = rule.getDescription();
+            } else {
+              removeDisabledRule(langCode, disabledRule);
+            }
+            break;
+          }
+        }
+        if (ruleDesc != null) {
+          disabledRulesMap.put(disabledRule, ruleDesc);
         }
       }
-      if (ruleDesc != null) {
-        disabledRulesMap.put(disabledRule, ruleDesc);
-      }
-    }
-    for (String disabledRule : config.getDisabledRuleIds()) {
-      String ruleDesc = null;
-      for (Rule rule : allRules) {
-        if (disabledRule.equals(rule.getId())) {
-          ruleDesc = rule.getDescription();
-          break;
+      disabledRules = new ArrayList<String>(config.getDisabledRuleIds());
+      for (int i = disabledRules.size() - 1; i >= 0; i--) {
+        String disabledRule = disabledRules.get(i);
+        String ruleDesc = null;
+        for (Rule rule : allRules) {
+          if (disabledRule.equals(rule.getId())) {
+            if (!rule.isDefaultOff() || rule.isOfficeDefaultOn()) {
+              ruleDesc = rule.getDescription();
+            } else {
+              config.removeDisabledRuleId(disabledRule);
+            }
+            break;
+          }
         }
-      }
-      if (ruleDesc != null) {
-        disabledRulesMap.put(disabledRule, ruleDesc);
+        if (ruleDesc != null) {
+          disabledRulesMap.put(disabledRule, ruleDesc);
+        }
       }
     }
     return disabledRulesMap;
@@ -1045,13 +1072,6 @@ public class MultiDocumentsHandler {
   }
   
   /**
-   * Get dictionary access
-   */
-  public LtDictionary getLtDictionary() {
-    return dictionary;
-  }
-
-  /**
    * Get list of single documents
    */
   public List<SingleDocument> getDocuments() {
@@ -1528,7 +1548,7 @@ public class MultiDocumentsHandler {
         activateRule(ruleId);
       } else if (sEvent.startsWith("addToDictionary_")) {
         String[] sArray = sEvent.substring(16).split(":");
-        getLtDictionary().addWordToDictionary(sArray[0], sArray[1], xContext);;
+        LtDictionary.addWordToDictionary(sArray[0], sArray[1], xContext);;
       } else if ("renewMarkups".equals(sEvent)) {
         renewMarkups();
       } else if ("checkDialog".equals(sEvent) || "checkAgainDialog".equals(sEvent)) {
@@ -1619,6 +1639,7 @@ public class MultiDocumentsHandler {
       if (linguServices == null) {
         linguServices = new LinguisticServices(xContext);
       }
+/*
       if (!linguServices.spellCheckerIsActive()) {
         if (showMessage) {
           MessageHandler.showMessage("LinguisticServices failed! LanguageTool can not be started!");
@@ -1627,6 +1648,7 @@ public class MultiDocumentsHandler {
         }
         return false;
       }
+*/
       if (xContext == null) {
         if (showMessage) { 
           MessageHandler.showMessage("There may be a installation problem! \nNo xContext!");
@@ -1913,11 +1935,11 @@ public class MultiDocumentsHandler {
     @Override
     public void run() {
       if (config.useLtDictionary()) {
-        if (dictionary.setLtDictionary(xContext, locale, linguServices)) {
+        if (LtDictionary.setLtDictionary(xContext, locale, linguServices)) {
           resetCheck();
         }
       } else {
-        if (dictionary.removeLtDictionaries(xContext)) {
+        if (LtDictionary.removeLtDictionaries(xContext)) {
           resetCheck();
         }
       }
@@ -1934,7 +1956,7 @@ public class MultiDocumentsHandler {
     @Override
     public void run() {
       try {
-        while (runLoop) {
+        while (runLoop && textLevelQueue != null) {
           try {
             for (int i = 0; i < documents.size(); i++) {
               documents.get(i).addShapeQueueEntries();
@@ -1963,12 +1985,16 @@ public class MultiDocumentsHandler {
   /** class to start a separate thread to check for Impress documents
    */
   private class LtHelper extends Thread {
+    
     @Override
     public void run() {
       try {
         SingleDocument currentDocument = null;
-        while (currentDocument == null) {
-          Thread.sleep(1000);
+        while (!isHelperDisposed && currentDocument == null) {
+          Thread.sleep(250);
+          if (isHelperDisposed) {
+            return;
+          }
           currentDocument = getCurrentDocument();
           if (currentDocument != null && currentDocument.getDocumentType() == DocumentType.IMPRESS) {
             checkImpressDocument = true;
@@ -1985,6 +2011,7 @@ public class MultiDocumentsHandler {
         MessageHandler.showError(e);
       }
     }
+    
   }
 
 }

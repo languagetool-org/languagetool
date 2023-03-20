@@ -282,7 +282,7 @@ public class ViewCursorTools {
       }
       xParagraphCursor.gotoStartOfParagraph(false);
       xParagraphCursor.gotoEndOfParagraph(true);
-      return xParagraphCursor.getString();
+      return new String(xParagraphCursor.getString());
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;                          // Return null value as method failed
@@ -608,14 +608,14 @@ public class ViewCursorTools {
                 XText xTableText = UnoRuntime.queryInterface(XText.class, xTable.getCellByName(cellName) );
                 if (xTableText != null && xViewCursorText.equals(xTableText)) {
                   XTextRange range = vCursor;
-                  return xTableText.createTextCursorByRange(range).getString();
+                  return new String(xTableText.createTextCursorByRange(range).getString());
                 }
               }
             }
           }
         }
       }
-      return vCursor.getString();
+      return new String(vCursor.getString());
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;             // Return negative value as method failed

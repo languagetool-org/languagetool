@@ -4,7 +4,7 @@
     Copyright (C) 2008 Marcin Miłkowski
 -->
 <!DOCTYPE rules [
-    <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|ods|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|scss|sh|shtml|sql|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z">
+    <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|ods|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|scss|sh|shtml|sql|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z|web[mp]">
     <!ENTITY apostrophe "['’`´‘ʻ]">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
@@ -4390,7 +4390,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
             <token postag="NNP" regexp="yes">
                 \p{Lu}\p{Ll}+
-                <exception case_sensitive="yes" regexp="yes">Going|Tell|Save|Cant|In|Quick|See|Had|Be|Radical</exception><!-- uncommon NNPs -->
+                <exception case_sensitive="yes" regexp="yes">Going|Tell|Save|Cant|In|Quick|See|Had|Be|Radical|Him</exception><!-- uncommon NNPs -->
             </token>
         </pattern>
         <disambig postag="NNP"/>
@@ -4399,6 +4399,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">If You Just Had One Wish.</example><!-- #2748 -->
         <example type="untouched">So You Want To Be Taoiseach.</example><!-- #2748 -->
         <example type="untouched">Let's Be Radical.</example>
+        <example type="untouched">How Much Do We Tell Him?</example>
         <example type="untouched">Please Be Radical.</example>
         <example type="untouched">We Need to Grow Facebook.</example>
         <example type="untouched">See Wikipedia for a list of TCP/UDP ports that are already used.</example><!-- #2748 -->
@@ -16207,7 +16208,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule><!-- lowercase word + abbreviation with no vowels -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">.*[a-z0-9].*</token>
-                <token min="0" regexp="yes">[\)\(,]</token>
+                <token min="0" regexp="yes">[\)\(,\/]</token>
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}s?</token>
                 </marker>
@@ -16219,7 +16220,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}s?</token>
                 </marker>
-                <token min="0" regexp="yes">[\)\(,]</token>
+                <token min="0" regexp="yes">[\)\(,\/]</token>
                 <token regexp="yes">.*[a-z0-9].*</token>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -16244,6 +16245,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>(</token>
             <marker>
                 <token case_sensitive="yes" regexp="yes">ing|ed</token>
+            </marker>
+            <token>)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="STEALTH_ISH" name="ignore spelling of stealth(ish)">
+        <pattern>
+            <token>(</token>
+            <marker>
+                <token case_sensitive="yes">ish</token>
             </marker>
             <token>)</token>
         </pattern>
@@ -16785,4 +16797,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="filter" postag="NN.*" />
         </rule>
     </rulegroup>
+
+    <rule id="CO2_FREE" name="ignore spelling of 'CO₂-free'">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">CO₂-([Ff]ree|[Bb]ased|[Nn]eutral|[Cc]ompensat(ing|ed)|[Dd]ependent|[Ii]ndependent)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
