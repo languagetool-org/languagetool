@@ -1,75 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.languagetool</groupId>
-        <artifactId>languagetool-parent</artifactId>
-        <version>${revision}</version>
-    </parent>
+  <parent>
+    <groupId>org.languagetool</groupId>
+    <artifactId>languagetool-parent</artifactId>
+    <version>${revision}</version>
+  </parent>
 
-    <artifactId>languagetool-dev</artifactId>
-    <packaging>jar</packaging>
-    <name>LanguageTool development tools</name>
-    <description>Developer tools for working with and evaluating LanguageTool</description>
-    <url>https://www.languagetool.org</url>
+  <artifactId>languagetool-dev</artifactId>
+  <packaging>jar</packaging>
+  <name>LanguageTool development tools</name>
+  <description>Developer tools for working with and evaluating LanguageTool</description>
+  <url>https://www.languagetool.org</url>
 
-    <licenses>
-        <license>
-            <name>GNU Lesser General Public License</name>
-            <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License</name>
+      <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
-    <developers>
-        <developer>
-            <name>Daniel Naber</name>
-            <roles>
-                <role>Maintainer</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>Marcin Miłkowski</name>
-            <roles>
-                <role>Maintainer</role>
-            </roles>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <name>Daniel Naber</name>
+      <roles>
+        <role>Maintainer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Marcin Miłkowski</name>
+      <roles>
+        <role>Maintainer</role>
+      </roles>
+    </developer>
+  </developers>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.languagetool</groupId>
-            <artifactId>language-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.languagetool</groupId>
-            <artifactId>languagetool-commandline</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.languagetool</groupId>
-            <artifactId>languagetool-wikipedia</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-csv</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- see https://github.com/commoncrawl/language-detection-cld2 -->
-        <!--
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.languagetool</groupId>
+      <artifactId>language-all</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.languagetool</groupId>
+      <artifactId>languagetool-commandline</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.languagetool</groupId>
+      <artifactId>languagetool-wikipedia</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- see https://github.com/commoncrawl/language-detection-cld2 -->
+    <!--
         <dependency>
             <groupId>org.commoncrawl</groupId>
             <artifactId>language-detection-cld2</artifactId>
@@ -77,51 +76,51 @@
             <scope>test</scope>
         </dependency>
         -->
-    </dependencies>
+  </dependencies>
 
-    <build>
+  <build>
+    <plugins>
+      <plugin>
+        <!-- call with: mvn clean compile assembly:single -->
+        <!-- may need to call `mvn install` in parent folder for this to work -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/zip.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <!--https://stackoverflow.com/questions/17006405/exclude-jar-with-dependencies-from-deploying-to-nexus-->
+    <!--mvn clean package -P shade -pl languagetool-tools -->
+    <profile>
+      <id>shade</id>
+      <build>
         <plugins>
-            <plugin>
-                <!-- call with: mvn clean compile assembly:single -->
-                <!-- may need to call `mvn install` in parent folder for this to work -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
+          <plugin>
+            <!-- build one big JAR named languagetool-dev-x.y-SNAPSHOT-shaded.jar -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>shade</goal>
+                </goals>
                 <configuration>
-                    <descriptors>
-                        <descriptor>src/main/assembly/zip.xml</descriptor>
-                    </descriptors>
+                  <shadedArtifactAttached>true</shadedArtifactAttached>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-            </plugin>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
-    </build>
-    <profiles>
-        <!--https://stackoverflow.com/questions/17006405/exclude-jar-with-dependencies-from-deploying-to-nexus-->
-        <!--mvn clean package -P shade -pl languagetool-tools -->
-        <profile>
-            <id>shade</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <!-- build one big JAR named languagetool-dev-x.y-SNAPSHOT-shaded.jar -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-shade-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>shade</goal>
-                                </goals>
-                                <configuration>
-                                    <shadedArtifactAttached>true</shadedArtifactAttached>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+      </build>
+    </profile>
+  </profiles>
 </project>
