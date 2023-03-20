@@ -45789,10 +45789,25 @@ O namorado dela era um ladrão.
     <!-- DE FORMA/MODO + ADJ adv -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-08 (2-JUL-2020+)     -->
     <rule id='DE_FORMA-MODO_ADJ' name="[Simplificar] De + forma/modo + Adj → Adv" type="style" tags="picky">
-      <pattern>
+      <antipattern>
+        <token>de</token>
+        <token regexp="yes">forma|modo</token>
+        <token postag='AQ0[CFM]S0' postag_regexp='yes'/>
+        <token>com</token>
+        <example>É realizado de forma consistente com o protocolo</example>
+      </antipattern>
+      <antipattern>
         <token>de</token>
         <token regexp="yes">forma|modo</token>
         <token postag='AQ0[CFM]S0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*|geral</exception></token>
+        <token regexp='yes'>,|e|ou</token>
+        <token postag='AQ.+' postag_regexp='yes'/>
+        <example>Oriente de forma clara e coerente</example>
+      </antipattern>
+      <pattern>
+        <token>de</token>
+        <token regexp="yes">forma|modo</token>
+        <token postag='AQ0[CFM]S0' postag_regexp='yes'><exception regexp="yes">.*[áéíóúâêôãõàèìòù].*|inclusiv[oa]|geral|pulverizada|transparente|especial|diferente|independente</exception></token>
       </pattern>
       <message>Substitua por</message>
       <suggestion><match no='3' postag='AQ0[CFM]S0' postag_regexp='yes' postag_replace='AQ0[CF]S0'/>mente</suggestion>
