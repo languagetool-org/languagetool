@@ -15529,7 +15529,7 @@ O namorado dela era um ladrão.
 
     <!-- DIFERENTES diferem	-->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-11 + 2022-06-23 + 2022-07-18 (2-JUL-2020+)     -->
-    <rule id='DIFERENTES' name="Diferir">
+    <rule id='DIFERENTES' name="Diferir" tags='picky'>
 
       <!-- 2022-07-18 - workaround, rule needs to be rewritten to remove the negate="yes" -->
       <antipattern>
@@ -15543,12 +15543,12 @@ O namorado dela era um ladrão.
       <pattern>
         <marker>
           <token inflected='yes'>ser
-            <exception postag_regexp='yes' postag='VMIP1.+'/>
+            <exception postag_regexp='yes' postag='VMIP1.+|VMIC.+|VMM.+'/>
           </token>
           <token regexp="yes">diferentes?</token>
         </marker>
         <and>
-        <token negate_pos="yes" postag='NC[CFM][SP]000|AQ0[CFM][SP]0' postag_regexp='yes'/>
+        <token negate_pos="yes" postag='NC[CFM][SP]000|AQ0[CFM][SP]0|_PUNCT|SENT_END' postag_regexp='yes'/>
         <token negate="yes" regexp="yes">[.]|as?|os?</token>
         </and>
       </pattern>
