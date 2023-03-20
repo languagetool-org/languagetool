@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import lombok.Getter;
 import org.languagetool.rules.Rule;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -58,6 +59,8 @@ public class UserConfig {
   // provided to rules only for A/B tests
   private final Long textSessionId;
   private final String abTest;
+  private final List<String> preferredLanguages;
+  private final List<String> noopsLanguages;
 
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
@@ -83,7 +86,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName, Long userDictCacheSize,
                     LinguServices linguServices) {
     this(userSpecificSpellerWords, Collections.emptyList(), ruleValues, maxSpellingSuggestions, premiumUid, userDictName, userDictCacheSize, linguServices,
-      false, null, null, false);
+      false, null, null, false, null, null);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords,
@@ -92,7 +95,7 @@ public class UserConfig {
                     int maxSpellingSuggestions, Long premiumUid, String userDictName,
                     Long userDictCacheSize,
                     LinguServices linguServices, boolean filterDictionaryMatches,
-                    @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches) {
+                    @Nullable String abTest, @Nullable Long textSessionId, boolean hidePremiumMatches, List<String> preferredLanguages, List<String> noopsLanguages) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     this.userSpecificRules = Objects.requireNonNull(userSpecificRules);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
@@ -108,6 +111,8 @@ public class UserConfig {
     this.textSessionId = textSessionId;
     this.hidePremiumMatches = hidePremiumMatches;
     this.acceptedPhrases = buildAcceptedPhrases();
+    this.preferredLanguages = preferredLanguages != null ? preferredLanguages : Collections.emptyList();
+    this.noopsLanguages = noopsLanguages != null ? noopsLanguages : Collections.emptyList();
   }
 
   @NotNull
@@ -212,6 +217,8 @@ public class UserConfig {
       // only group must match; keeps hit rate of pipeline cache up
       .append(abTest, other.abTest)
       .append(hidePremiumMatches, other.hidePremiumMatches)
+      .append(preferredLanguages, other.preferredLanguages)
+      .append(noopsLanguages, other.noopsLanguages)
       .isEquals();
   }
 
@@ -229,6 +236,8 @@ public class UserConfig {
       .append(abTest)
       .append(filterDictionaryMatches)
       .append(hidePremiumMatches)
+      .append(preferredLanguages)
+      .append(noopsLanguages)
       .toHashCode();
   }
 
@@ -262,5 +271,15 @@ public class UserConfig {
   /** @since 5.5 */
   public boolean getHidePremiumMatches() {
     return hidePremiumMatches;
+  }
+
+  @NotNull
+  public List<String> getPreferredLanguages() {
+    return preferredLanguages;
+  }
+  
+  @NotNull
+  public List<String> getNoopsLanguages() {
+    return noopsLanguages;
   }
 }

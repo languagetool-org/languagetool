@@ -55,6 +55,7 @@ public class MultiLanguageTextTest {
   }
   
   @Test
+  @Ignore //TODO: need rework: works only with preferred languages in userConfig
   public void testEnglishInGermanDetected() throws IOException {
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
     RuleMatch[] matches1 = germanSpellerRule.match(lt.getAnalyzedSentence("He is a very cool guy from Poland."));
@@ -89,7 +90,7 @@ public class MultiLanguageTextTest {
   }
 
   @Test
-  @Ignore
+  @Ignore //TODO: need rework: works only with preferred languages in userConfig 
   public void testWithLanguageIdentifier() throws IOException {
     LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(1000, new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip"), new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext"), new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin"));
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);

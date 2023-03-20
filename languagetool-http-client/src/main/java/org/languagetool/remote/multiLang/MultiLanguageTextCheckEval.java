@@ -20,9 +20,7 @@
 
 package org.languagetool.remote.multiLang;
 
-import org.languagetool.remote.RemoteIgnoreRange;
-import org.languagetool.remote.RemoteLanguageTool;
-import org.languagetool.remote.RemoteResult;
+import org.languagetool.remote.*;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
@@ -35,8 +33,7 @@ import java.util.stream.Stream;
 
 public final class MultiLanguageTextCheckEval {
   private static Random randomGen = new Random();
-  ;
-  private static int minMainLanguageSentences = 50;
+  private static int minMainLanguageSentences = 100;
   private static int maxOtherLanguageSentences = 15;
   private static int maxOtherLanguageSentencesAtOnce = 4;
   private static String mainLanguages = "de";
@@ -123,6 +120,8 @@ public final class MultiLanguageTextCheckEval {
   private static void printSummary(String mode) {
     System.out.println(rounds + " of " + mode + " finished");
     System.out.println("Avg. time to check: " + String.format("%.2f", roundResults.stream().mapToDouble(detectionResults -> detectionResults.time).average().getAsDouble()) + " seconds");
+    System.out.println("Avg. time to check (no MultiLanguage): " + String.format("%.2f", roundResults.stream().mapToDouble(detectionResults -> detectionResults.timeWithout).average().getAsDouble()) + " seconds");
+    System.out.println("Avg. timediff: " + String.format("%.2f", roundResults.stream().mapToDouble(DetectionResults::getTimeDiff).average().getAsDouble()) + " seconds");
     System.out.println("Avg. chars in corpora: " + String.format("%.2f", roundResults.stream().mapToDouble(detectionResults -> detectionResults.charsInText).average().getAsDouble()));
     System.out.println("Avg. detection rate: " + String.format("%.2f", roundResults.stream().mapToDouble(detectionResults -> detectionResults.detectionRate).average().getAsDouble()) + " %");
     System.out.println("Avg. sentences in corpora: " + String.format("%.2f", roundResults.stream().mapToDouble(detectionResults -> detectionResults.sentencesInText).average().getAsDouble()));
@@ -135,7 +134,7 @@ public final class MultiLanguageTextCheckEval {
       allWrongRanges.forEach(System.out::println);
     }
   }
-  
+
   private static MultiLangCorpora createCorporaFromFiles(String mainLanguage, List<String> mainLanguageLines, String otherLanguage, List<String> otherLanguageLines) {
     if (spamToMe) {
       System.out.printf("Created mixed %s corpora with %s.%n", mainLanguage, otherLanguage);
@@ -171,20 +170,26 @@ public final class MultiLanguageTextCheckEval {
 
   static class DetectionResults {
     private float time;
+    private float timeWithout;
     private float detectionRate;
     private int wrongDetected;
     private long charsInText;
     private int sentencesInText;
     private int injectedSentecesInText;
 
-    DetectionResults(float time, float detectionRate, int wrongDetected, long charsInText, int sentencesInText, int injectedSentecesInText) {
+    DetectionResults(float time, float timeWithout, float detectionRate, int wrongDetected, long charsInText, int sentencesInText, int injectedSentecesInText) {
       this.time = time;
+      this.timeWithout = timeWithout;
       this.detectionRate = detectionRate;
       this.wrongDetected = wrongDetected;
 
       this.charsInText = charsInText;
       this.sentencesInText = sentencesInText;
       this.injectedSentecesInText = injectedSentecesInText;
+    }
+
+    public float getTimeDiff() {
+      return time - timeWithout;
     }
 
   }
@@ -199,7 +204,10 @@ public final class MultiLanguageTextCheckEval {
     long startTime = System.currentTimeMillis();
     RemoteResult results = null;
     try {
-      results = remoteLanguageTool.check(mlc.getText(), language);
+      Map<String, String> params = new HashMap<>();
+      params.put("enableMultiLanguageChecks", "true");
+      params.put("preferredLanguages", "de,en");
+      results = remoteLanguageTool.check(mlc.getText(), language, params);
     } catch (RuntimeException ex) {
       if (spamToMe) {
         System.out.println("too many errors");
@@ -208,6 +216,21 @@ public final class MultiLanguageTextCheckEval {
     }
     long endTime = System.currentTimeMillis();
     float timeToCheck = (endTime - startTime) / 1000f;
+    //2nd check without multilanguage
+    long startTimeRound2 = System.currentTimeMillis();
+    try {
+      Map<String, String> params = new HashMap<>();
+      params.put("enableMultiLanguageChecks", "false");
+      params.put("preferredLanguages", "de");
+      remoteLanguageTool.check(mlc.getText(), language, params);
+    } catch (RuntimeException ex) {
+      if (spamToMe) {
+        System.out.println("too many errors");
+      }
+      return null;
+    }
+    long endTimeRound2 = System.currentTimeMillis();
+    float timeToCheckRound2 = (endTimeRound2 - startTimeRound2) / 1000f;
 
     //detected sentences by lt
     List<String> detectedSentences = new ArrayList<>();
@@ -247,7 +270,7 @@ public final class MultiLanguageTextCheckEval {
     if (rounds == 1) {
       System.out.println(mlc.getText());
     }
-    return new DetectionResults(timeToCheck, ((float) detectedLines.size() / (float) injectedLines.size()) * 100, wrongDetectedSentences.size(), mlc.getText().length(), mlc.getSentencesInText(), mlc.getInjectedSentences().size());
+    return new DetectionResults(timeToCheck, timeToCheckRound2, ((float) detectedLines.size() / (float) injectedLines.size()) * 100, wrongDetectedSentences.size(), mlc.getText().length(), mlc.getSentencesInText(), mlc.getInjectedSentences().size());
   }
 
 
