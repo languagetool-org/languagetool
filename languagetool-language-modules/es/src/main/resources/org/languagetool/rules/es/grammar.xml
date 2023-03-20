@@ -4751,12 +4751,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Hay algo que podamos hacer? </example>
                 <example>¿De verdad que quieres ir?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- 24 -->
                 <antipattern>
                     <token skip="-1">que<exception scope="next"/></token>
                     <token postag="V.S.*" postag_regexp="yes"/>
                     <example>Se limitaban a que extraños cogieran al gato.</example>
+                </antipattern>
+                <antipattern>
+                    <token>seguro</token>
+                    <token>de</token>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
+                    <token>hecho</token>
+                    <token>de</token>
+                    <token>que</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">a|de|sobre</token>
@@ -4775,6 +4785,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">Y de <marker>que</marker> forma resultaba factible conseguirlo.</example>
                 <example correction="qué">Sé de <marker>que</marker> pie cojean.</example>
                 <example>Me daba cuenta de que Negro había corrido mucho.</example>
+                <example>Estoy seguro de que mamá se enojará.</example>
+                <example>el hecho de que falta agua</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUE_SIN_TILDE" name="qué -> que">
