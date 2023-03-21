@@ -173,7 +173,12 @@ public class HunspellRule extends SpellingCheckRule {
         len = sentence.getTokens()[0].getStartPos();
       }
       int prevStartPos = -1;
-      boolean otherLangDetected = false;
+      boolean gotResultsFromForeignLanguageChecker = false;
+      Long sentenceLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1;
+      ForeignLanguageChecker foreignLanguageChecker = null;
+      if (userConfig != null && userConfig.getPreferredLanguages() != null && userConfig.getNoopsLanguages() != null && !userConfig.getPreferredLanguages().isEmpty() && userConfig.getPreferredLanguages().size() >= 2) { //only create instance if user has 2 or more preferredLanguages
+        foreignLanguageChecker = new ForeignLanguageChecker(language.getShortCode(), sentence.getText(), sentenceLength, userConfig.getPreferredLanguages(), userConfig.getNoopsLanguages());
+      }
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
         int dashCorr = 0;
@@ -248,11 +253,13 @@ public class HunspellRule extends SpellingCheckRule {
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
           }
           ruleMatches.add(ruleMatch);
-          if (!otherLangDetected && userConfig != null && !userConfig.getPreferredLanguages().isEmpty() && userConfig.getPreferredLanguages().size() >= 2) {
-            String langCode = ForeignLanguageChecker.check(ruleMatches.size(), language, sentence, userConfig.getPreferredLanguages(), userConfig.getNoopsLanguages());
+          if (foreignLanguageChecker != null && !gotResultsFromForeignLanguageChecker) {
+            String langCode = foreignLanguageChecker.check(ruleMatches.size());
             if (langCode != null) {
-              ruleMatch.setErrorLimitLang(langCode);
-              otherLangDetected = true;
+              if (!langCode.equals(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED)) {
+                ruleMatches.get(0).setErrorLimitLang(langCode);
+              }
+              gotResultsFromForeignLanguageChecker = true;
             }
           }
         }

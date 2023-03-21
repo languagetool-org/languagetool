@@ -111,8 +111,8 @@ public class UserConfig {
     this.textSessionId = textSessionId;
     this.hidePremiumMatches = hidePremiumMatches;
     this.acceptedPhrases = buildAcceptedPhrases();
-    this.preferredLanguages = preferredLanguages != null ? preferredLanguages : Collections.emptyList();
-    this.noopsLanguages = noopsLanguages != null ? noopsLanguages : Collections.emptyList();
+    this.preferredLanguages = preferredLanguages;
+    this.noopsLanguages = noopsLanguages;
   }
 
   @NotNull
