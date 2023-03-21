@@ -23976,6 +23976,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Así"><marker>Asín</marker> no puede ser.</example>
             <example>Fernando Asín.</example>
         </rule>
+        <rule id="PA_PARA" name="pa -> para" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>pa</token>
+                </marker>
+                <token postag="V.N.*|[DP][TE].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Forma coloquial de <suggestion>para</suggestion>.</message>
+            <example correction="Para">¿<marker>Pa</marker> qué lo quieres?</example>
+            <example correction="Para"><marker>Pa</marker> preparar la sopa, necesitas cebollas.</example>
+        </rule>
         <rule id="NADIE" name="nadie/naide">
             <pattern>
                 <token regexp="yes">naide|naiden|nadien|nadies</token>
