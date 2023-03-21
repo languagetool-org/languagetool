@@ -39,32 +39,20 @@ public class ForeignLanguageChecker {
   private static final int MIN_SENTENCE_THRESHOLD = 3;
   private static final float MIN_DETECTION_CONFIDENCE_FASTTEXT = 0.85f;
   private static final float MIN_DETECTION_CONFIDENCE_NGRAM = 0.350f;
-
-  private final Language language;
-  private final AnalyzedSentence sentence;
-  private final long sentenceLength;
-  private final List<String> preferredLanguages;
-  private final List<String> noopsLanguages;
-
-  public ForeignLanguageChecker(Language language, AnalyzedSentence sentence, List<String> preferredLanguages, List<String> noopsLanguages) {
-    this.language = language;
-    this.sentence = sentence;
-    this.sentenceLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1;  // -1 for the SENT_START token
-    this.preferredLanguages = Collections.unmodifiableList(preferredLanguages);
-    this.noopsLanguages = Collections.unmodifiableList(noopsLanguages);
+  private ForeignLanguageChecker() {
   }
 
-  public String check(int matchesSoFar) throws IOException {
+  public static String check(int matchesSoFar, Language language, AnalyzedSentence sentence, List<String> preferredLanguages, List<String> noopsLanguages) throws IOException {
+    
+    long sentenceLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1;  // -1 for the SENT_START token
+    
     long timeStart = System.currentTimeMillis();
-    float errorRatio = (float) matchesSoFar / this.sentenceLength;
-    if (this.preferredLanguages.size() == 1 && this.preferredLanguages.get(0).equals(language.getShortCode())) {
+    float errorRatio = (float) matchesSoFar / sentenceLength;
+    if (preferredLanguages.size() == 1 && preferredLanguages.get(0).equals(language.getShortCode())) {
       log.trace("Do not start language detection as the user only has one preferred language.");
       return null;
     }
-    
-    
-    
-    if (this.sentenceLength >= MIN_SENTENCE_THRESHOLD && errorRatio >= ERROR_THRESHOLD) {
+    if (sentenceLength >= MIN_SENTENCE_THRESHOLD && errorRatio >= ERROR_THRESHOLD) {
       LanguageIdentifier langIdent = LanguageIdentifierService.INSTANCE.getInitialized();
       if (langIdent != null) {
         DetectedLanguage langDetectResults = langIdent.detectLanguage(sentence.getText(), noopsLanguages, preferredLanguages);
@@ -72,12 +60,12 @@ public class ForeignLanguageChecker {
         if (langDetectResults != null) {
           long timeEnd = System.currentTimeMillis();
           Language detectedLanguage = langDetectResults.getDetectedLanguage();
-          if (detectedLanguage != null && !detectedLanguage.getShortCode().equals(this.language.getShortCode()) && preferredLanguages.contains(detectedLanguage.getShortCode())) {
+          if (detectedLanguage != null && !detectedLanguage.getShortCode().equals(language.getShortCode()) && preferredLanguages.contains(detectedLanguage.getShortCode())) {
             //DO NEVER enable traceLevel for this class in production @LanguageTool
             log.trace("Time to find the correct language of the sentence: {} seconds", (timeEnd - timeStart) / 1000f);
             log.trace("Found '{}' sentence in '{}' text: '{}' with confidence {} from source '{}'",
                     detectedLanguage.getShortCode(),
-                    this.language.getShortCode(),
+                    language.getShortCode(),
                     sentence.getText(),
                     langDetectResults.getDetectionConfidence(),
                     langDetectResults.getDetectionSource());

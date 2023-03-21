@@ -174,10 +174,6 @@ public class HunspellRule extends SpellingCheckRule {
       }
       int prevStartPos = -1;
       boolean otherLangDetected = false;
-      ForeignLanguageChecker foreignLanguageChecker = null;
-      if (userConfig != null && !userConfig.getPreferredLanguages().isEmpty()) {
-        foreignLanguageChecker = new ForeignLanguageChecker(language, sentence, userConfig.getPreferredLanguages(), userConfig.getNoopsLanguages());
-      }
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
         int dashCorr = 0;
@@ -252,8 +248,8 @@ public class HunspellRule extends SpellingCheckRule {
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
           }
           ruleMatches.add(ruleMatch);
-          if (foreignLanguageChecker != null && !otherLangDetected) {
-            String langCode = foreignLanguageChecker.check(ruleMatches.size());
+          if (!otherLangDetected && userConfig != null && !userConfig.getPreferredLanguages().isEmpty() && userConfig.getPreferredLanguages().size() >= 2) {
+            String langCode = ForeignLanguageChecker.check(ruleMatches.size(), language, sentence, userConfig.getPreferredLanguages(), userConfig.getNoopsLanguages());
             if (langCode != null) {
               ruleMatch.setErrorLimitLang(langCode);
               otherLangDetected = true;

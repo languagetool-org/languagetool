@@ -25,10 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.language.identifier.LanguageIdentifier;
-import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.noop.NoopLanguage;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
@@ -133,10 +130,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     int idx = -1;
     boolean isFirstWord = true;
     boolean otherLangDetected = false;
-    ForeignLanguageChecker foreignLanguageChecker = null;
-    if (userConfig != null && !userConfig.getPreferredLanguages().isEmpty()) {
-      foreignLanguageChecker = new ForeignLanguageChecker(language, sentence, userConfig.getPreferredLanguages(), userConfig.getNoopsLanguages());
-    }
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
       if (canBeIgnored(tokens, idx, token)) {
@@ -206,8 +199,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (idx > 0 && isFirstWord && !StringTools.isPunctuationMark(token.getToken())) {
         isFirstWord = false;
       }
-      if (foreignLanguageChecker != null && !otherLangDetected) {
-        String langCode = foreignLanguageChecker.check(ruleMatches.size());
+      if (!otherLangDetected && userConfig != null && !userConfig.getPreferredLanguages().isEmpty() && userConfig.getPreferredLanguages().size() >= 2) {
+        String langCode = ForeignLanguageChecker.check(ruleMatches.size(), language, sentence, userConfig.getPreferredLanguages(), userConfig.getNoopsLanguages());
         if (langCode != null) {
           ruleMatches.get(0).setErrorLimitLang(langCode);
           otherLangDetected = true;
