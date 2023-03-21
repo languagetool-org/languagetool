@@ -903,7 +903,8 @@ regexp case-insensitive maken: (?i)
             <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
             <example correction="">Dit is <marker>te verwachten</marker>.</example>
         </rule>
-        <rule id="INSPECIFIEK_7" name="kunnen gebeuren" tags="picky">
+        <rule id="INSPECIFIEK_7" name="kunnen gebeuren" tags="picky" default="off">
+            <!-- Unpopular rule -->
             <pattern>
                 <token inflected="yes">kunnen</token>
                 <token>gebeuren</token>
@@ -17805,7 +17806,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="doelen|doelpunten">Van een fanatieke jacht op meer <marker>goals</marker> was geen sprake.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SUPPORT" name="support → ondersteuning" tags="picky">
+        <rulegroup id="SUPPORT" name="support → ondersteuning" tags="picky" default="off">
+            <!-- Unpopular rule and common word to use -->
             <!-- 2014-08-21 TaalTik -->
             <rule>
                 <antipattern><token regexp="yes">bolt|customer|premium</token><token>support</token></antipattern>
@@ -18124,7 +18126,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="">De keepers waren de <marker>matchwinnaars</marker> vandaag.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="STATEMENT" name="statement → stelling, uitspraak, verklaring">
+        <rulegroup id="STATEMENT" name="statement → stelling, uitspraak, verklaring" default="off">
+            <!-- Unpopular rule, common loanword -->
             <!-- 2014-08-22 TaalTik -->
             <rule>
                 <pattern>
@@ -19318,7 +19321,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="">Hij doet een gevaarlijke aanval die dan op keihard schieten van de centervoor nipt <marker>nevens</marker> eindigt.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MEDE" name="Mede → ook, onder andere">
+        <rulegroup id="MEDE" name="Mede → ook, onder andere" default="off">
+            <!-- Unpopular rule, old fashioned word but still common to use -->
             <!-- 2014-09-09 TaalTik -->
             <rule>
                 <pattern>
@@ -21319,7 +21323,8 @@ regexp case-insensitive maken: (?i)
                 <example>QQ <marker>tankstation</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CAPACITEIT" name="capaciteit" tags="picky">
+        <rulegroup id="CAPACITEIT" name="capaciteit" tags="picky" default="off">
+            <!-- Unpopular rule, common word to use -->
             <rule>
                 <pattern>
                     <token inflected="yes">capaciteit</token>
@@ -21471,7 +21476,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="vergoeding">Voorzieningen ter <marker>compensatie</marker> van het gewicht van het poortblad (balansveren) zijn overbodig.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="COMPLEX" name="complex" tags="picky">
+        <rulegroup id="COMPLEX" name="complex" tags="picky" default="off">
+            <!-- Unpopular rule, common word to use in professional context -->
             <rule>
                 <pattern>
                     <token negate="yes" skip="4" regexp="yes">het|dit|dat</token>
@@ -22007,7 +22013,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="verlies">De kost hiervoor wordt als <marker>derving</marker> terugbetaald door de verzekeringsmaatschappij.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DESBETREFFEND" name="desbetreffend" tags="picky">
+        <rulegroup id="DESBETREFFEND" name="desbetreffend" tags="picky" default="off">
+            <!-- Unpopular rule, new suggestions did not help -->
             <rule>
                 <pattern>
                     <token regexp="yes">desbetreffend|desbetreffende</token>
@@ -22638,7 +22645,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="">Luidens de inlichtingen zou deze bepaling <marker>ertoe strekken</marker> de pensioenaanspraken van de aangestelde personen veilig te stellen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ERVARING" name="…ervaring" tags="picky">
+        <rulegroup id="ERVARING" name="…ervaring" tags="picky" default="off">
+            <!-- Unpopular rule, common word to use in professional context -->
             <rule>
                 <pattern>
                     <token regexp="yes">.{2,30}ervaring</token>
@@ -22696,7 +22704,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="besprekingen|beoordelingen">De <marker>evaluaties</marker> waren over de hele lijn positief.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EVALUEREN" name="evalueren" tags="picky">
+        <rulegroup id="EVALUEREN" name="evalueren" tags="picky" default="off">
+            <!-- Unpopular rule and common word to use in professional context -->
             <rule>
                 <pattern>
                     <token inflected="yes">evalueren</token>
@@ -23365,7 +23374,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="informeel|alledaags">Vandaar ook dat de andere kinderen van het dorp Soso <marker>gemeenzaam</marker> de Rus noemden.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="GEMOTIVEERD" name="gemotiveerd" tags="picky">
+        <rulegroup id="GEMOTIVEERD" name="gemotiveerd" tags="picky" default="off">
+            <!-- Unpopular rule, common word to use. Rarely triggers on alternative meaning -->
             <rule>
                 <pattern>
                     <token inflected="yes">gemotiveerd</token>
@@ -23566,7 +23576,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="Vandaag|Vandaag de dag|Tegenwoordig"><marker>Heden ten dage</marker> is hier een restaurant gevestigd.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HEDEN" name="Heden → vandaag, nu">
+        <rulegroup id="HEDEN" name="Heden → vandaag, nu" default="off">
+            <!-- Unpopular rule, improvement did not help -->
             <rule>
                 <!-- 2014-09-08 TaalTik-->
                 <antipattern>
@@ -23929,7 +23940,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="uitvoering|invoering|toepassing">Daar werd de <marker>implementatie</marker> van de Vogel- en Habitatrichtlijn in de nationale wetgeving herzien.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IMPLEMENTEREN" name="implementeren" tags="picky">
+        <rulegroup id="IMPLEMENTEREN" name="implementeren" tags="picky" default="off">
+            <!-- Unpopular rule, common word to use in professional context -->
             <rule>
                 <pattern>
                     <token inflected="yes">implementeren</token>
@@ -24387,7 +24399,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="hierna|hieronder">Wanneer <marker>in het navolgende</marker> getracht wordt een weg aan te geven, gebeurt dit goed.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="INHOUDELIJK" name="inhoudelijk" tags="picky">
+        <rulegroup id="INHOUDELIJK" name="inhoudelijk" tags="picky" default="off">
+            <!-- Unpopular rule, no good alternatives -->
             <rule>
                 <pattern>
                     <token inflected="yes">inhoudelijk</token>
@@ -24400,7 +24413,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="">Ze krijgt ook <marker>inhoudelijk</marker> een ruimere invulling.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="INITIATIEF" name="initiatief" tags="picky">
+        <rulegroup id="INITIATIEF" name="initiatief" tags="picky" default="off">
+            <!-- Unpopular rule and common word to use -->
             <rule>
                 <pattern>
                     <token inflected="yes">initiatief</token>
@@ -24550,7 +24564,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="volledige">Wenst u hierover meer te lezen, dan verwijzen wij u graag naar de <marker>integrale</marker> tekst.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="INTEGREREN" name="integreren" tags="picky">
+        <rulegroup id="INTEGREREN" name="integreren" tags="picky" default="off">
+            <!-- Unpopular rule, common word to use -->
             <rule>
                 <pattern>
                     <token inflected="yes">integreren</token>
@@ -24714,7 +24729,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="">Misschien omdat ik er geen <marker>issue</marker> van maak.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ITEM" name="item" tags="picky">
+        <rulegroup id="ITEM" name="item" tags="picky" default="off">
+            <!-- Unpopular rule, new suggestions did not improve it -->
             <rule>
                 <pattern>
                     <token inflected="yes">item</token>
@@ -25221,7 +25237,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="">Als ze dat niet doen, dreigen die landen ermee een akkoord over verdere <marker>liberalisering</marker> van de wereldhandel onmogelijk te maken.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="LICENTIE" name="licentie" tags="picky">
+        <rulegroup id="LICENTIE" name="licentie" tags="picky" default="off">
+            <!-- Unpopular rule, no good alternatives -->
             <rule>
                 <pattern>
                     <token inflected="yes">licentie</token>
@@ -25396,7 +25413,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="zodat">De politie patrouilleerde extra, <marker>met als resultaat dat</marker> de dief op heterdaad werd betrapt."</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MET_BEHULP_VAN" name="met behulp van" tags="picky">
+        <rulegroup id="MET_BEHULP_VAN" name="met behulp van" tags="picky" default="off">
+            <!-- Unpopular rule, common to use -->
             <rule>
                 <pattern>
                     <token>met</token><token>behulp</token><token>van</token>
@@ -25408,7 +25426,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="met|door">De omgrenzing kunt u <marker>met behulp van</marker> onderstaande tekening bepalen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MET_BETREKKING_TOT" name="met betrekking tot" tags="picky">
+        <rulegroup id="MET_BETREKKING_TOT" name="met betrekking tot" tags="picky" default="off">
+            <!-- Unpopular rule and common word to use -->
             <rule>
                 <pattern>
                     <token>met</token><token>betrekking</token><token>tot</token>
@@ -25851,7 +25870,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="echter|toch">Onzin is het <marker>nochtans</marker> niet.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NOODZAKELIJK" name="noodzakelijk" tags="picky">
+        <rulegroup id="NOODZAKELIJK" name="noodzakelijk" tags="picky" default="off">
+            <!-- Unpopular rule and suggested as an alternative for other rules -->
             <rule>
                 <pattern>
                     <token inflected="yes">noodzakelijk</token>
@@ -26717,7 +26737,8 @@ regexp case-insensitive maken: (?i)
                 <example correction=""><marker>Principiële</marker> goedkeuring verkoop en verkoopsvoorwaarden.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRIORITEIT" name="prioriteit" tags="picky">
+        <rulegroup id="PRIORITEIT" name="prioriteit" tags="picky" default="off">
+            <!-- Unpopular rule, common word to use -->
             <rule>
                 <pattern>
                     <token inflected="yes">prioriteit</token>
@@ -26940,7 +26961,8 @@ regexp case-insensitive maken: (?i)
                 <example correction=""><marker>Reactieve</marker> zone in een webdocument.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REALISEREN" name="realiseren" tags="picky">
+        <rulegroup id="REALISEREN" name="realiseren" tags="picky" default="off">
+            <!-- Unpopular rule, added suggestions did not improve statistics -->
             <rule>
                 <antipattern>
                     <token skip="10" regexp="yes">zich|me|ons</token>
@@ -27046,7 +27068,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="al">Bezit u <marker>reeds</marker> een stuk grond?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REFERENTIE" name="referentie" tags="picky">
+        <rulegroup id="REFERENTIE" name="referentie" tags="picky" default="off">
+            <!-- Unpopular rule and common word to use -->
             <rule>
                 <pattern>
                     <token inflected="yes">referentie</token>
@@ -27122,7 +27145,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="Gebruikelijk|Gewoon"><marker>Regulier</marker> onderhoud doet u best met een zeemvel en een dreftoplossing.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="RELEVANT" name="relevant" tags="picky">
+        <rulegroup id="RELEVANT" name="relevant" tags="picky" default="off">
+            <!-- Unpopular rule and common word to use -->
             <rule>
                 <pattern>
                     <token inflected="yes">relevant</token>
@@ -27473,7 +27497,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="terugboeking">Als gevolg van <marker>stornering</marker> komt het bedrag niet aan.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="STRATEGIE" name="strategie" tags="picky">
+        <rulegroup id="STRATEGIE" name="strategie" tags="picky" default="off">
+            <!-- Unpopular rule, common word to use in professional context -->
             <rule>
                 <pattern>
                     <token inflected="yes">strategie</token>
@@ -28574,7 +28599,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="">QQ <marker>zijn van oordeel</marker> QQQ.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VAN_PLAN_ZIJN" name="van plan zijn" tags="picky">
+        <rulegroup id="VAN_PLAN_ZIJN" name="van plan zijn" tags="picky" default="off">
+            <!-- Unpopular rule, very common -->
             <rule>
                 <pattern>
                     <token>van</token>
@@ -29555,7 +29581,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="voor hem zorgen">We moeten daar dan goed <marker>zorg voor hem dragen</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZORGVULDIG" name="zorgvuldig" tags="picky">
+        <rulegroup id="ZORGVULDIG" name="zorgvuldig" tags="picky" default="off">
+            <!-- Unpopular rule and common word to use -->
             <rule>
                 <pattern>
                     <token inflected="yes">zorgvuldig</token>
@@ -32353,7 +32380,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="Nou en of"><marker>Nauw en of</marker>!</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BUTTON" name="Button/knop">
+        <rulegroup id="BUTTON" name="Button/knop" default="off">
+            <!-- Unpopular rule, common word to use in professional context -->
             <rule>
                 <pattern>
                     <marker>
@@ -32618,7 +32646,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="z'n">Het is <marker>z n</marker> fout.</example>
                 <example correction="z'n">Iedereen mist al eens tijdens <marker>z n</marker> loopbaan.</example>
             </rule>
-            <rule>
+            <rule default="off">
+                <!-- Unpopular rule, disables in rulegroup come from here -->
                 <pattern>
                     <token case_sensitive="yes">x</token>
                 </pattern>
@@ -32943,7 +32972,8 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="BNW-VRIJ" name="Bijvoeglijk naamwoord met -vrij" tags="picky">
+        <rulegroup id="BNW-VRIJ" name="Bijvoeglijk naamwoord met -vrij" tags="picky" default="off">
+            <!-- Unpopular rule -->
             <rule>
                 <pattern>
                     <token regexp="yes">.{4,50}vrije?<exception regexp="yes">(gast)vrije?</exception></token>
@@ -41076,7 +41106,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="N.B.">Het aantal is <marker>NB</marker> verkeerd.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AMPERSAND" name="&amp;/en" tags="picky">
+        <rulegroup id="AMPERSAND" name="&amp;/en" tags="picky" default="off">
+            <!-- Unpopular rule, not used in other languages -->
             <rule>
                 <antipattern>
                     <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
