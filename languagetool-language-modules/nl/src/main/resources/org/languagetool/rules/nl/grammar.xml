@@ -5223,7 +5223,8 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
         <rulegroup id="BE_NL_VERSCHIL" name="Verschil in betekenis" tags="clarity">
-            <rule>
+            <rule default="off">
+                <!-- Disabled. Very unpopular and does not offer much value to users -->
                 <pattern>
                     <token>aso</token>
                 </pattern>
@@ -5240,7 +5241,8 @@ regexp case-insensitive maken: (?i)
                 <message>'Enerverend' betekent in Vlaanderen 'spannend', in Nederland 'zenuwslopend'.</message>
                 <example correction="">Het was <marker>enerverend</marker>.</example>
             </rule>
-            <rule>
+            <rule default="off">
+                <!-- Disabled. Very unpopular and does not offer much value to users -->
                 <pattern>
                     <token>mes</token>
                     <token skip="8">snijdt</token>
@@ -5250,7 +5252,8 @@ regexp case-insensitive maken: (?i)
                 <message>'Mes snijdt aan twee kanten' betekent in Vlaanderen 'heeft voor- en nadelen', in Nederland 'geeft dubbel voordeel'.</message>
                 <example correction="">Het <marker>mes snijdt weer aan twee kanten</marker>.</example>
             </rule>
-            <rule>
+            <rule default="off">
+                <!-- Disabled. Very unpopular and does not offer much value to users -->
                 <pattern>
                     <token skip="8">mes</token>
                     <token>twee</token>
@@ -11184,7 +11187,7 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="TE_PLAATS" name="Te voor plaats">
+        <rulegroup id="TE_PLAATS" name="Te voor plaats" tags="picky">
             <rule>
                 <pattern><marker><token>te</token></marker><token postag="ENM:LOC:PTS"/></pattern>
                     <message>Minder formeel is <suggestion>in</suggestion>.</message>
@@ -20883,7 +20886,8 @@ regexp case-insensitive maken: (?i)
                 <example>QQ <marker>moeten</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BEHOREN" name="behoren" tags="picky">
+        <rulegroup id="BEHOREN" name="behoren" tags="picky" default="off">
+            <!-- Disabled. Suggestions don't match the many uses for this word. -->
             <rule>
                 <pattern>
                     <token inflected="yes">behoren</token>
@@ -21598,9 +21602,9 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token inflected="yes">constateren</token>
                 </pattern>
-                <message>&vlotter_mess; 'zien' of 'vaststellen'.</message>
+                <message>&vlotter_mess; <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">zien</match></suggestion> of <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">ondervinden</match></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Ik <marker>constateer</marker> gewoon.</example>
+                <example correction="zie|ondervind">Ik <marker>constateer</marker> gewoon.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONSTELLATIE" name="constellatie" tags="picky">
@@ -22277,7 +22281,8 @@ regexp case-insensitive maken: (?i)
             </rule>
 
         </rulegroup>
-        <rulegroup id="DOORONTWIKKELEN" name="doorontwikkelen" tags="picky">
+        <rulegroup id="DOORONTWIKKELEN" name="doorontwikkelen" tags="picky" default="off">
+            <!-- Disabled. Too common in professional context to suggest otherwise -->
             <rule>
                 <pattern>
                     <token inflected="yes">doorontwikkelen</token>
@@ -22681,7 +22686,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="Onmisbaar|Nodig|Noodzakelijk"><marker>Essentieel</marker> is dat ze geen bestemming hebben.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EVALUATIE" name="evaluatie" tags="picky">
+        <rulegroup id="EVALUATIE" name="evaluatie" tags="picky" default="off">
+            <!-- Disabled. Already using the best available suggestions but rule remains very unpopular -->
             <rule>
                 <pattern>
                     <token inflected="yes">evaluatie</token>
@@ -31763,9 +31769,9 @@ regexp case-insensitive maken: (?i)
                     <token>opzichte</token>
                     <token>van</token>
                 </pattern>
-                <message>Dit klinkt wat ouderwets. Misschien kan het iets moderner met <suggestion>vergeleken met</suggestion>.</message>
-                <example correction="Vergeleken met"><marker>Ten opzichte van</marker> de originelen.</example>
-                <example correction="vergeleken met">En dat <marker>ten opzichte van</marker> zichzelf.</example>
+                <message>Dit klinkt wat ouderwets. Misschien kan het iets moderner met <suggestion>vergeleken met</suggestion> of <suggestion>tegenover</suggestion>.</message>
+                <example correction="Vergeleken met|Tegenover"><marker>Ten opzichte van</marker> de originelen.</example>
+                <example correction="vergeleken met|tegenover">En dat <marker>ten opzichte van</marker> zichzelf.</example>
             </rule>
         </rulegroup>
         <!--
