@@ -9033,7 +9033,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="2">но</token>
                     <token postag="VB:.*|ADJ:Short:.*"  postag_regexp="yes"><exception postag="VB:.*|ADJ:Short:.*"  postag_regexp="yes"   negate_pos="yes" ></exception></token>
                 </antipattern>
-
+                <antipattern>
+                    <token skip="-1" regexp="yes">едва|чуть|разве</token> <!-- отсутствуют «едва ли не», «чуть ли не» ,«разве не». -->
+                    <marker>         
+                        <token>не<exception scope="previous" regexp="yes">ни(.*)|отнюдь|вовсе|далеко|разве|ли|–|-|—|это|эти|эта|этот|тот|та|те|да|а</exception>
+                            <exception scope="previous" postag_regexp="yes" postag="ADV" />
+                            <exception scope="previous">но</exception>
+                        </token>
+                        <token postag="ADV"  regexp="yes">(.*)[о]<exception regexp="yes">заново|настолько|несколько|одиноко|особенно|особо|специально</exception>
+                            <exception scope="next" regexp="yes">,|а|да|иной|иное|иные|иная|–|-|—</exception>
+                            <exception scope="next" postag_regexp="yes" postag="CONJ|ADV"></exception>
+                            <exception postag="PARTICLE"></exception>
+                        </token>
+                    </marker>                        
+                </antipattern>
                 <pattern>
                     <marker>         
                         <token>не<exception scope="previous" regexp="yes">ни(.*)|отнюдь|вовсе|далеко|разве|ли|–|-|—|это|эти|эта|этот|тот|та|те|да|а</exception>
@@ -9056,6 +9069,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Достаточно A, но не достаточно B.</example>
                 <example>Красное больше не модно.</example>
                 <example>Дома сидеть невесело.</example>
+                <example>Разве тебе не достаточно?</example>
                 <example>Разве не опасно бродить по улицам?</example>
                 <example>Отрасли промышленности с большим вложением капитала, совершенно не обязательно требуют вложения знаний.</example>
                 <example>Работа выполнена не плохо, а хорошо.</example>  <!-- противопоставление с отрицанием, раздельно-->
