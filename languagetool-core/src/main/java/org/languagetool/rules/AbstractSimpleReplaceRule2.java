@@ -140,6 +140,8 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       BufferedReader br = new BufferedReader(isr)) 
     {
       String line;
+      int msgCount = 0;
+      int lineCount = 0;
       while ((line = br.readLine()) != null) {
         line = line.trim();
         if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
@@ -154,11 +156,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         }
         String[] parts = line.split("\t");
         String confPair = parts[0];
+        lineCount++;
         String msg;
         if (parts.length == 1) {
           msg = null;
         } else if (parts.length == 2) {
           msg = parts[1];
+          msgCount++;
         } else {
           throw new IOException("Format error in file " + getDataBroker().getFromRulesDirAsUrl(filename)
             + ". Expected at most 1 '=' character and at most 1 tab character. Line: " + line);
@@ -179,6 +183,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           list.get(wordCount - 1).put(searchToken, sugg);
         }
       }
+      //System.out.println(msgCount + " of " + lineCount + " have a specific message in " + filename);
     }
     // seal the result (prevent modification from outside this class)
     List<Map<String,SuggestionWithMessage>> result = new ArrayList<>();
