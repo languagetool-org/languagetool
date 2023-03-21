@@ -7967,7 +7967,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <unify negate="yes">
                     <feature id="gender"/>        
                     <marker>
-                        <token postag="NN:.*:D" postag_regexp="yes"><exception postag="NN:.*:D" postag_regexp="yes" negate_pos="yes"></exception></token>
+                        <token postag="NN:.*:D" postag_regexp="yes">
+                            <exception postag="NN:.*:D" postag_regexp="yes" negate_pos="yes"></exception>
+                            <exception regexp="yes">счастью|несчастью|радости|ужасу|сожалению</exception>
+                        </token>
                         <unify-ignore>
                             <token>,</token>
                         </unify-ignore>
@@ -7980,6 +7983,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Ошибка в согласовании</short>
             <example correction="">Довольно часто авторы таких работ предоставляют доступ к своим <marker>программам, реализующее</marker> новые разработки в этой области.</example>
             <example>Довольно часто авторы таких работ предоставляют доступ к своим программам, реализующим новые разработки в этой области.</example>
+                        <example>К сожалению, находящаяся здесь книга давно истлела в пыль.</example>
         </rule>
         <rule>
             <!-- Experimental rule, issue #1069, #1062 (число) -->  
