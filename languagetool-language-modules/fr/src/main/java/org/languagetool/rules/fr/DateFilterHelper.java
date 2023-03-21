@@ -53,6 +53,7 @@ class DateFilterHelper {
     String mon = monthStr.toLowerCase();
     if (mon.startsWith("jan")) return 1;
     if (mon.startsWith("fév")) return 2;
+    if (mon.startsWith("fev")) return 2;
     if (mon.startsWith("mar")) return 3;
     if (mon.startsWith("avr")) return 4;
     if (mon.startsWith("mai")) return 5;
@@ -66,6 +67,7 @@ class DateFilterHelper {
     if (mon.startsWith("oct")) return 10;
     if (mon.startsWith("nov")) return 11;
     if (mon.startsWith("déc")) return 12;
+    if (mon.startsWith("dec")) return 12;
     throw new RuntimeException("Could not find month '" + monthStr + "'");
   }
 }
