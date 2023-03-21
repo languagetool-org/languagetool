@@ -129,7 +129,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (initSpellers()) return toRuleMatchArray(ruleMatches);
     int idx = -1;
     boolean isFirstWord = true;
-    boolean otherLangDetected = false;
+    boolean gotResultsFromForeignLanguageChecker = false;
+    Long sentenceLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1; 
+    ForeignLanguageChecker foreignLanguageChecker = null;
+    if (userConfig != null && userConfig.getPreferredLanguages() != null && userConfig.getNoopsLanguages() != null && !userConfig.getPreferredLanguages().isEmpty() && userConfig.getPreferredLanguages().size() >= 2) { //only create instance if user has 2 or more preferredLanguages
+      foreignLanguageChecker = new ForeignLanguageChecker(language.getShortCode(), sentence.getText(), sentenceLength, userConfig.getPreferredLanguages(), userConfig.getNoopsLanguages());
+    }
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
       if (canBeIgnored(tokens, idx, token)) {
@@ -199,11 +204,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (idx > 0 && isFirstWord && !StringTools.isPunctuationMark(token.getToken())) {
         isFirstWord = false;
       }
-      if (!otherLangDetected && userConfig != null && !userConfig.getPreferredLanguages().isEmpty() && userConfig.getPreferredLanguages().size() >= 2) {
-        String langCode = ForeignLanguageChecker.check(ruleMatches.size(), language, sentence, userConfig.getPreferredLanguages(), userConfig.getNoopsLanguages());
+      if (foreignLanguageChecker != null && !gotResultsFromForeignLanguageChecker) {
+        String langCode = foreignLanguageChecker.check(ruleMatches.size());
         if (langCode != null) {
-          ruleMatches.get(0).setErrorLimitLang(langCode);
-          otherLangDetected = true;
+          if (!langCode.equals(ForeignLanguageChecker.NO_FOREIGN_LANG_DETECTED)) {
+            ruleMatches.get(0).setErrorLimitLang(langCode);
+          }
+          gotResultsFromForeignLanguageChecker = true;
         }
       }
     }
