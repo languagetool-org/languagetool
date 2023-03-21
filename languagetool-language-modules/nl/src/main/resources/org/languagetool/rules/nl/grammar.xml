@@ -10030,12 +10030,24 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="DI" name="di → d.i.">
             <rule>
-                <antipattern><token regexp="yes" case_sensitive="yes">[A-Z].*</token><token>di</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <token>di</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="UNKNOWN|ENM.*"></token>
+                    <token>di</token>
+                </antipattern>
+                <antipattern>
+                    <token>di</token>
+                    <token postag_regexp="yes" postag="UNKNOWN|ENM.*"></token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token>di</token>
                 </pattern>
-                <message>U bedoelt vast: <suggestion>dinsdag</suggestion> of <suggestion>d.i.</suggestion> (dit is).</message>
-                <example correction="dinsdag|d.i.">Ik houd van <marker>di</marker>.</example>
+                <message>Bedoelt u hier: <suggestion>dinsdag</suggestion> of <suggestion>d.i.</suggestion> (dit is)?</message>
+                <example correction="dinsdag|d.i.">Ik houd op <marker>di</marker> een spreekbeurt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CS" name="cso → c.s.">
@@ -15888,7 +15900,7 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token postag="SENT_END" regexp="yes">[;]</token>
                 </pattern>
-                <message>Een zin eindigt meestal niet op een puntkomma. Hebt u per ongeluk een regelovergang gezet of een verkeerd teken gebruikt?</message>
+                <message>Een zin eindigt meestal niet op een puntkomma. Hoort hier misschien een <suggestion><match no="1" regexp_match=";" regexp_replace="."/></suggestion> of een <suggestion><match no="1" regexp_match=";" regexp_replace=":"/></suggestion> te staan?</message>
                 <example type="incorrect">Deze zin eindigt met een puntkomma<marker>;</marker></example>
             </rule>
         </rulegroup>
@@ -17712,7 +17724,7 @@ regexp case-insensitive maken: (?i)
                         <token postag_regexp="yes" postag="WKW:.*"/>
                     </marker>
                 </pattern>
-                <message>Deze woordvolgorde wordt tegenwoordig als fout gezien. Begin met bijvoorbeeld met 'Echter, dit'.</message>
+                <message>Deze woordvolgorde wordt als fout gezien. Begin met bijvoorbeeld met 'Echter, dit'.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/echter-maar</url>
                 <short>Echter</short>
                 <example correction=""><marker>Echter heeft</marker> het volk géén god.</example>
@@ -18229,7 +18241,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="Hee|Hé"><marker>Hey</marker> daar.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DEVELOPER" name="overbodig Engels: developer" tags="picky">
+        <rulegroup id="DEVELOPER" name="overbodig Engels: developer" tags="picky" default="off">
+            <!-- Disabled, unpopular rule and a very common word in professional context like job descriptions -->
             <rule>
                 <!-- november 2022 R. Baars -->
                 <pattern>
@@ -24586,7 +24599,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="steeds vaker">De buikzijde verkleurt <marker>in toenemende mate</marker> tot lichtroze, terwijl de lippen wijnrood overtrokken zijn.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IN_VERBAND_MET" name="in verband met" tags="picky">
+        <rulegroup id="IN_VERBAND_MET" name="in verband met" tags="picky" default="off">
+            <!-- Disabled, still very common to use -->
             <rule>
                 <pattern>
                     <token>in</token><token>verband</token><token>met</token>
@@ -40907,7 +40921,7 @@ regexp case-insensitive maken: (?i)
                         <token>idd</token>
                     </marker>
                 </pattern>
-                <message>Idd is geen officiële afkorting. Netter is: <suggestion>inderdaad</suggestion>.</message>
+                <message>Correct is: <suggestion>inderdaad</suggestion>.</message>
                 <example correction="inderdaad">Het is <marker>idd</marker> erg informeel.</example>
             </rule>
         </rulegroup>
