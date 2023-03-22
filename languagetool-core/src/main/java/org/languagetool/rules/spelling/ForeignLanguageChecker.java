@@ -41,14 +41,12 @@ public class ForeignLanguageChecker {
   private final String sentence;
   private final long sentenceLength;
   private final List<String> preferredLanguages;
-  private final List<String> noopsLanguages;
   
-  public ForeignLanguageChecker(String languageShortCode, String sentence, Long sentenceLength, List<String> preferredLanguages, List<String> noopsLanguages) {
+  public ForeignLanguageChecker(String languageShortCode, String sentence, Long sentenceLength, List<String> preferredLanguages) {
     this.languageShortCode = languageShortCode;
     this.sentence = sentence;
     this.sentenceLength = sentenceLength;
     this.preferredLanguages = Collections.unmodifiableList(preferredLanguages);
-    this.noopsLanguages = Collections.unmodifiableList(noopsLanguages);
   }
 
   public String check(int matchesSoFar) throws IOException {
@@ -56,7 +54,7 @@ public class ForeignLanguageChecker {
     if (sentenceLength >= MIN_SENTENCE_THRESHOLD && errorRatio >= ERROR_THRESHOLD) {
       LanguageIdentifier langIdent = LanguageIdentifierService.INSTANCE.getInitialized();
       if (langIdent != null) {
-        DetectedLanguage langDetectResults = langIdent.detectLanguage(sentence, noopsLanguages, preferredLanguages);
+        DetectedLanguage langDetectResults = langIdent.detectLanguage(sentence, Collections.emptyList(), preferredLanguages);
         //for now, we just use the result if also in preferredLanguages to prevent false positive
         if (langDetectResults != null) {
           Language detectedLanguage = langDetectResults.getDetectedLanguage();

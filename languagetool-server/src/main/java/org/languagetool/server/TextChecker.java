@@ -396,7 +396,7 @@ abstract class TextChecker {
                      getRuleValues(params), config.getMaxSpellingSuggestions(),
                      limits.getPremiumUid(), dictName, limits.getDictCacheSize(),
                      null, filterDictionaryMatches, abTest, textSessionId,
-                     !limits.hasPremium() && enableHiddenRules, null, null); //this disables the ForeignLanguageChecker
+                     !limits.hasPremium() && enableHiddenRules, preferredLangs);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
 
