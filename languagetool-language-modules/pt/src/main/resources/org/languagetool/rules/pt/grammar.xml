@@ -33090,7 +33090,24 @@ O namorado dela era um ladrão.
         <example correction='da vanglória'><marker>da vangloria</marker>.</example>
         <example correction='das vanglórias'><marker>das vanglorias</marker>.</example>
       </rule>
+
       <rule id='PARONYM_VARIA_340' name='Parónimo: varia'>
+        <!-- MARCOAGPINTO 2023-03-22 (2-MAR-2023+) *START* -->
+        <antipattern>
+          <token postag='SPS00|(SPS00:)?D[AI].+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token regexp='yes'>vari[ao]s?</token>
+          <token postag='SPS00|DA.+|DI.+|SP000' postag_regexp='yes'/>
+          <example>A bateria de Rui no passado varia de extremamente técnica a suave.</example>
+          <example>A refrigeração do restaurante varia de refrigeradores pequenos (como um refrigerador de dormitório) a frigoríficos e freezers maciços, ...</example>
+          <example>O tamanho varia  de 0,5 mm  a  10 mm, com um pouco mais de  15 mm  em  algumas espécies.</example>
+          <example>O tamanho da concha varia entre 100 mm e 374 mm, com um comprimento méximo registado de 374 mm.</example>
+          <example>capital de giro varia de R$ 50 milénio a R$ 500 milénio e faturamento médio mensal é estimado em R$ 80 mil.</example>
+          <example>A faixa de preço para este tipo de restaurante varia muito.</example>
+          <example>O preço da aposta varia de acordo com a quantidade de números marcados.</example>
+          <example>...Primeiro, como muitos visitantes acessam a Internet através de um provedor de acesso, o endereço IP do visitante varia a cada conexão.</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2023-03-22 (2-MAR-2023+) *END* -->
         <pattern>
           <token regexp='yes'>&art_detecao_paronimos;|segundo</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
@@ -33104,6 +33121,7 @@ O namorado dela era um ladrão.
         <example correction='um vário'><marker>um vario</marker>.</example>
         <example correction='uns vários'><marker>uns varios</marker>.</example>
       </rule>
+
       <rule id='PARONYM_VENEFICIO_342' name='Parónimo: veneficio'>
         <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
