@@ -16218,11 +16218,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>ha</suggestion>
                 <example correction="ha">No <marker>hay</marker> tenido nada que ver.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- still too many false positives -->
                 <antipattern>
                     <token postag="V.P..SM" postag_regexp="yes"/>
-                    <token postag="DI.*" postag_regexp="yes"/>
+                    <token postag="[DP]I.*" postag_regexp="yes"/>
+                    <example>No hay alojado nadie más.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">quien|quién|cuando|cuándo|donde|dónde</token>
+                    <token>hay</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">lo|el|la|los|las|del|al</token>
+                    <token>que</token>
+                    <token>hay</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -16232,7 +16242,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Posible confusión.</message>
                 <suggestion>ha</suggestion>
-                <example correction="Ha"><marker>Hay</marker> venido muy tarde.</example>
+                <suggestion>haya</suggestion>
+                <example correction="Ha|Haya"><marker>Hay</marker> venido muy tarde.</example>
+                <example correction="ha|haya">Es extraño que no <marker>hay</marker> localizado en tus posts los frontones.</example>
+                <example correction="ha|haya">No creo que <marker>hay</marker> llegado a la autopista todavía.</example>
+                <example>No hay alojado nadie más.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MUY_MUCHO" name="mucho/muy (adverbio)">
