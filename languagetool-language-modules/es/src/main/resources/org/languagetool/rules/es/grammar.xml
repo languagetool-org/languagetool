@@ -10767,6 +10767,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dé">Quieren que de una vez por todas <marker>de</marker> voz a los marginados.</example>
             </rule>
             <rule default="off">
+                <!-- too many FPs -->
                 <antipattern>
                     <token regexp="yes" skip="2">más|menos|mejor|peor</token>
                     <token regexp="yes">que|de</token>
@@ -10863,7 +10864,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>dé</suggestion>
                 <example correction="dé">Espero que <marker>de</marker> a luz pronto.</example>
             </rule>
-            <rule default="off">
+            <rule>
                 <pattern>
                     <token regexp="yes">que|cual|cuales|cuando|quien</token>
                     <marker>
@@ -10878,18 +10879,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Yo pensaba que la pena de muerte debía ser abolida.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token regexp="yes">pie|poco</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" skip="3">que|cual|cuales|cuando<exception scope="next" postag="V.[IS].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>de</token>
                     </marker>
-                    <token regexp="yes">al|a</token>
+                    <token regexp="yes" case_sensitive="yes">al|a</token>
                 </pattern>
                 <message>Si es del v. 'dar', se escribe con tilde.</message>
                 <suggestion>dé</suggestion>
                 <example correction="dé">Lo que cada uno <marker>de</marker> al sacerdote.</example>
+                <example>que la velocidad de A medida por B sea opuesta</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>así</token>
                     <token>que</token>
@@ -10898,7 +10904,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">que|cual</token>
                     <token min="0" max="6" postag="DI.*|_GN_.*|RG|LOC_ADV|RN|PP1CSN00|PP3[MF]S000|PI.*" postag_regexp="yes"/>
                     <marker>
-                        <token>de</token>
+                        <token>de<exception scope="previous" postag="DI.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag_regexp="yes" postag="[DA].*|V.P*" min="0" max="2"/>
                     <token regexp="yes" inflected="yes">grito|alarido|respuesta|testimonio</token>
@@ -10908,8 +10914,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dé">que todo el pueblo <marker>de</marker> un gran alarido.</example>
                 <example correction="dé">Una apelación para que Dios mismo <marker>de</marker> una respuesta</example>
                 <example>así que las probabilidades de una respuesta positiva son alentadoramente altas</example>
+                <example>Se ha considerado que alguno de estos testimonios representa una “versión intermedia”.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <!-- 14 -->
                 <pattern>
                     <token regexp="yes" skip="2">que|cual|aunque</token>
                     <token postag="VMSP3S0" skip="2"><exception scope="next" postag_regexp="yes" postag="V.[SMI].*"/></token>
@@ -10927,7 +10935,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El usuario será responsable de las informaciones falsas o inexactas que proporcione y de los perjuicios que ello cause al titular de esta web o a terceros.</example>
                 <!-- Aunque la higuera no eche yemas ni la viña de sus frutos, -->
             </rule>
-            <rule default="temp_off">
+            <rule default="off">
                 <antipattern>
                     <token>de</token>
                     <token/>
@@ -11542,7 +11550,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>hacía</suggestion>
                 <example correction="hacía">Entonces <marker>hacia</marker> las veces de gerente.</example>
             </rule>
-            <!--<rule default="temp_off">
+            <!--<rule default="off">
                 <antipattern>
                     <token regexp="yes" inflected="yes">enlace|dirección|redirección|atajo|camino</token>
                     <token>hacia</token>
@@ -11559,7 +11567,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vamos hacia allá.</example>
                 <example>Vamos hacia abajo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="off">
                 <pattern>
                     <token postag="NP.*|PP3[MF]S000" postag_regexp="yes"/>
                     <marker>
@@ -12589,7 +12597,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pero si explicas que alguien ha muerto, te lo entregan de inmediato.</example>
                 <example>¡Pero si fueron ellos los que se independizaron!</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="off">
                 <!-- ambiguous
             pero si hay vida y aún es posible escucharla,-->
                 <antipattern>
