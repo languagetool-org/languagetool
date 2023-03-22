@@ -90,7 +90,7 @@ public class SwissGerman extends German {
         newRepl.setReplacement(newReplStr);
         newReplacements.add(newRepl);
       }
-      RuleMatch newMatch = new RuleMatch(rm, newReplacements, false);
+      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
       newRuleMatches.add(newMatch);
     }
     return newRuleMatches;

@@ -292,7 +292,7 @@ public class Catalan extends Language {
           newReplacements.add(newRepl);
         }
       }
-      RuleMatch newMatch = new RuleMatch(rm, newReplacements, false);
+      RuleMatch newMatch = new RuleMatch(rm, newReplacements);
       newRuleMatches.add(newMatch);
     }
     return newRuleMatches;
