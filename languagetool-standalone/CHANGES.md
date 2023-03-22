@@ -2,7 +2,9 @@
 
 ## 6.1-SNAPSHOT (release planned for 2023-03-28)
 
-...
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.22)
 
 #### Russian
   * added and improved rules
