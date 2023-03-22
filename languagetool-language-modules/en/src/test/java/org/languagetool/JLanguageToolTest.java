@@ -194,6 +194,12 @@ public class JLanguageToolTest {
         tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
     //test paragraph ends adding
     assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());
+    
+    //test vertical tab as white space
+    String sentence = "I'm a cool test\u000Bwith a line";
+    AnalyzedSentence aSentence = tool.getAnalyzedSentence(sentence);
+    assertEquals(aSentence.getTokens()[9].isWhitespace(), true);
+    assertEquals(aSentence.getTokens()[10].isWhitespaceBefore(), true);
   }
 
   @Test
