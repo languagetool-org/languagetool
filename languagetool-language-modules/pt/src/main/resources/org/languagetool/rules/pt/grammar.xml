@@ -57533,7 +57533,7 @@ O namorado dela era um ladrão.
 
     <!-- CONCEITOS MAIS IMPORTANTES conceitos-chave -->
     <rule id='CIENTÍFICO_MAIS_IMPORTANTE_CHAVE' name="[Científico] mais conhecidos/importantes → -chave" type="style">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-20 (2-MAR-2023+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-20/22 (2-MAR-2023+) -->
       <!--
       A entropia é um dos conceitos mais conhecidos na teoria. → A entropia é um dos conceitos-chave na teoria.
       -->
@@ -57551,7 +57551,7 @@ O namorado dela era um ladrão.
       </antipattern>
 
       <pattern>
-        <token postag='(SPS00:)?DA.+|DI.+|SPS00|Z0.+|DP.+|CC|NC.+|AQ.+|NP.+' postag_regexp='yes'>
+        <token postag='DA.+|(SPS00:)?DA.+|DI.+|SPS00|Z0.+|DP.+|CC|NC.+|AQ.+|NP.+' postag_regexp='yes'>
           <exception scope='previous' postag_regexp='yes' postag='AQ.+'/>
         </token>
         <marker>
@@ -57563,7 +57563,7 @@ O namorado dela era um ladrão.
           <token>mais</token>
           <token regexp='yes'>conhecidos?|importantes?</token>
         </marker>
-        <token postag='V.+|SPS00|SPS00:DA.+|SPS00:DD.+|_PUNCT|CC|RG' postag_regexp='yes'/>
+        <token postag='V.+|SPS00|SPS00:DA.+|SPS00:DI.+|SPS00:DD.+|_PUNCT|CC|RG' postag_regexp='yes'/>
       </pattern>
       <message>Num contexto formal/científico, é preferível escrever '-chave'.</message>
       <suggestion>\2-chave</suggestion>
