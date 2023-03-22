@@ -9,6 +9,9 @@
   * improved disambiguation
   * added words and POS data
 
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-2.0)
 
 ## 6.0 (released 2022-12-29)
 
