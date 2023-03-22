@@ -11655,7 +11655,18 @@ regexp case-insensitive maken: (?i)
     <category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten" type="style" tags="professional objective">
         <rulegroup id="NADRUKTEKENS" name= "optionele accenten" tags="picky">
             <rule>
-                <antipattern><token negate_pos="yes" postag="SENT_START"/><token regexp="yes" case_sensitive="yes">^[A-Z].*</token></antipattern>
+                <antipattern>
+                    <token negate_pos="yes" postag="SENT_START"/>
+                    <token regexp="yes" case_sensitive="yes">^[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token>één</token>
+                    <token>een</token>
+                </antipattern>
+                <antipattern>
+                    <token>een</token>
+                    <token>één</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge|Fabergé|touché).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
@@ -11667,6 +11678,7 @@ regexp case-insensitive maken: (?i)
                 <suggestion><match no="1" regexp_match="í" regexp_replace="i"/></suggestion>
                 <suggestion><match no="1" regexp_match="ú" regexp_replace="u"/></suggestion>
                 <example correction="een">Hij is <marker>één</marker> van de vreemden.</example>
+                <example>Omdat één een appel is.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NADRUKTEKENS_EEN" name= "optionele accenten">
@@ -34464,8 +34476,9 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="EN_EN_EN" name="En … en … en …" tags="picky">
             <!-- bron: Onze Taal via Woordpost 2014-08-27 -->
-            <rule>
-                <pattern>
+            <rule default="off">
+                <!-- Disabled. Not used in other languages and triggers too many FPs, therefore very unpopular -->
+               <pattern>
                     <token skip="10">en</token>
                     <token skip="10">en</token>
                     <marker>
@@ -37180,11 +37193,6 @@ regexp case-insensitive maken: (?i)
                 <antipattern><token regexp="yes">alaaf|bison|jullie</token></antipattern>
                 <antipattern><token postag="UNKNOWN"/></antipattern><!-- diverse planten- en dierensoorten -->
                 <antipattern>
-                    <token>de</token>
-                    <token>Sing</token>
-                    <token>Sing</token>
-                </antipattern>
-                <antipattern>
                     <token>Dai</token>
                     <token>Dai</token>
                     <token regexp="yes">N'?tab</token>
@@ -37219,6 +37227,18 @@ regexp case-insensitive maken: (?i)
                     <token>te</token>
                     <token postag="WKW:TGW:INF"/>
                 </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">de</token>
+                    <token case_sensitive="yes">De</token>
+                    <example>Wij wonen aan de De Ruiterkade.</example>
+                </antipattern>
+                <antipattern>
+                    <token negate_pos="yes" postag="SENT_START"></token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <example>Dat moet je aan Chow Chow vragen.</example>
+                    <example>Hij zat al jaren vast in de Sing Sing gevangenis.</example>
+                </antipattern>
                 <pattern>
                     <token><exception>’</exception></token>
                     <marker>
@@ -37226,7 +37246,7 @@ regexp case-insensitive maken: (?i)
                         <token><match no="1"/><exception regexp="yes">aan|agar|ai|balletje|bla|bling|bora|dat|die|enz|etc|ha|haar|het|hey|hi|hiep|hoi|is|ja|je|lepeltje|leren|nee|nou|sam|sapiens|toi|tom|van|via|ze|zijn</exception></token>
                     </marker>
                 </pattern>
-                <message>Een dubbel woord kan juist zijn, maar vaak is het een vergissing: <suggestion>\2</suggestion>.</message>
+                <message>Er staat hier een dubbel woord, bedoelde u soms: <suggestion>\2</suggestion>?</message>
                 <example correction="de">Ik zie <marker>de de</marker> man.</example>
             </rule>
             <rule>
@@ -37514,6 +37534,13 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
 
         <rulegroup id="_2_LEESTEKENS" name="Twee maal zelfde leesteken" tags="picky">
+            <!-- MB@22-03-23 - probably replace with this rule to get all characters -->
+            <rule default="temp_off">
+                <regexp>([\!\?])[\!\?]{1,30}</regexp>
+                <message>Waarschijnlijk staat hier een leesteken te veel. <suggestion>\1</suggestion></message>
+                <example correction="!">Ik zie het<marker>!!</marker></example>
+                <example correction="?">Hoe kan dat<marker>???????</marker></example>
+            </rule>
             <rule>
                 <antipattern><token>:</token><token>-</token><token>)</token></antipattern><!-- smiley -->
                 <pattern>
