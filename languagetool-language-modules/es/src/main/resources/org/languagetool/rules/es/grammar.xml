@@ -12440,6 +12440,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">en|sin</token>
                     <token regexp="yes">cambio|embargo</token>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>si<exception postag="_GN_MS"/></token>
+                    </marker>
+                    <token skip="-1">,</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes" skip="-1"/>
+                    <token skip="-1">,</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="_GN_*" postag_regexp="yes"/></token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" regexp="yes">\p{P}</token>
@@ -12452,6 +12461,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="Sí"><marker>Si</marker>, me gusta mucho.</example>
                 <example correction="Sí">¡<marker>Si</marker>, me gusta mucho!</example>
+                <example>Si, por la razón que fuera, no puedo venir, te llamaré.</example>
+                <example>Si, en cambio, se trata de un nombre propio, cada una de las palabras que forma la sigla se escribe con mayúscula inicial.</example>
             </rule>
             <rule>
                 <pattern>
