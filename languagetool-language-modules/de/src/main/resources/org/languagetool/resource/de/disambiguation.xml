@@ -7718,4 +7718,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule id="EINE_KEIN_VERB" name="'eine' kein Verb in 'eine der besten'">
+        <pattern>
+            <marker>
+                <token regexp="yes">einen?</token>
+            </marker>
+            <token>der</token>
+            <token min="0">am</token>
+            <token regexp="yes" postag="ADJ.*SUP.*" postag_regexp="yes">.+sten</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
 </rules>
