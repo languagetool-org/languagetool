@@ -67,7 +67,7 @@ public class WordTokenizer implements Tokenizer {
       + "\u25CF\u25CB\u25C6\u27A2\u25A0\u25A1\u2605\u274F\u2794\u21B5\u2756\u25AA\u2751\u2022" // bullet points
       + "\u2B9A\u2265\u2192\u21FE\u21C9\u21D2\u21E8\u21DB" // arrows
       + "\u00b9\u00b2\u00b3\u2070\u2071\u2074\u2075\u2076\u2077\u2078\u2079" // superscripts
-      + "\t\n\r";
+      + "\t\n\r\u000B"; // tabs, line breaks
 
   /**
    * Get the protocols that the tokenizer knows about.
