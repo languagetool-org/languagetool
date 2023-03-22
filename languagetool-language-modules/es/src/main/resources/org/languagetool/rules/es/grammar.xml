@@ -10904,7 +10904,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">que|cual</token>
                     <token min="0" max="6" postag="DI.*|_GN_.*|RG|LOC_ADV|RN|PP1CSN00|PP3[MF]S000|PI.*" postag_regexp="yes"/>
                     <marker>
-                        <token>de<exception scope="previous" postag="DI.*" postag_regexp="yes"/></token>
+                        <token>de<exception scope="previous" inflected="yes" regexp="yes">uno|alguno</exception></token>
                     </marker>
                     <token postag_regexp="yes" postag="[DA].*|V.P*" min="0" max="2"/>
                     <token regexp="yes" inflected="yes">grito|alarido|respuesta|testimonio</token>
@@ -10915,6 +10915,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dé">Una apelación para que Dios mismo <marker>de</marker> una respuesta</example>
                 <example>así que las probabilidades de una respuesta positiva son alentadoramente altas</example>
                 <example>Se ha considerado que alguno de estos testimonios representa una “versión intermedia”.</example>
+                <example>Se ha considerado que uno de estos testimonios representa una “versión intermedia”.</example>
             </rule>
             <rule>
                 <!-- 14 -->
@@ -16069,7 +16070,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="DOS_VERBOS_MODALES" name="dos verbos modales seguidos">
             <antipattern>
                 <!-- word form duplication -->
-                <token></token>
+                <token inflected="yes" postag="V.*" postag_regexp="yes"/>
                 <token><match no="0"/></token>
             </antipattern>
             <antipattern>
@@ -16160,9 +16161,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Empezó hace diez minutos.</example>
                 <example>El sacrificio era visto como un medio.</example>
                 <example>El invierno llegó hace apenas cuatro días.</example>
-                <!-- No tenemos pruebas de que eso realmente sucederá.
-                Mañana hay prueba de matemáticas.
-                Solicito nos puedan informar -->
+                <example>Hay uso intensivo de legumbres.</example>
+                <example>Mañana hay prueba de matemáticas.</example>
+                <example> No tenemos pruebas de que eso realmente sucederá.</example>
+                <example>Solicito nos puedan informar.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TE_HAY" name="*te hay">

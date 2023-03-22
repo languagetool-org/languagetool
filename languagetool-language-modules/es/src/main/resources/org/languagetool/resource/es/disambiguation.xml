@@ -5602,17 +5602,30 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filterall"/>
     </rule>
-    <rule id="not_noun_no_agreement0" name="not noun if no agreement">
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">dominó|trata|tratas|mientes?|bien|alrededor|dejas?|crías?|busco|dejes?|buscas?|fallas?|tantos?|resultas?|uso|usas?|cuestas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|calmas?<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="N.*"/>
-    </rule>
+    <rulegroup id="not_noun_no_agreement0" name="not noun if no agreement">
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes">tantos?|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|bien<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes">dominó|trata|tratas|mientes?|alrededor|dejas?|crías?|busco|dejes?|buscas?|fallas?|tantos?|resultas?|uso|usas?|cuestas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|calmas?<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*" postag_regexp="yes"/></token>
+                        <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="NomAdj" name="nom + adj">
         <rule>
             <pattern>
@@ -5723,17 +5736,30 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="N.*|V.[SI].*"/>
     </rule>
-    <rule id="not_noun_no_agreement1" name="not noun if no agreement">
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">trata|tratas|percibo|bien|pruebas?|muestra|muestras|alrededor|dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|calmas?<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="N.*"/>
-    </rule>
+    <rulegroup id="not_noun_no_agreement1" name="not noun if no agreement">
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes">tantos?|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|bien<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes">trata|tratas|percibo|pruebas?|muestra|muestras|alrededor|dejas?|crías?|busco|dejes?|buscas?|fallas?|faltas?|tantos?|resultas?|uso|usas?|cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|calmas?<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[IS].*" postag_regexp="yes"/></token>
+                        <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+    </rulegroup>
     <rule id="LO_MAL_QUE" name="lo + adj + que">
         <pattern>
             <token>lo</token>
