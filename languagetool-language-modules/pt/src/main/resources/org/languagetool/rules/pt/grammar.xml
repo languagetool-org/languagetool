@@ -15275,12 +15275,15 @@ O namorado dela era um ladrão.
     <rule id="ADJ_DE_VERB" name="Adj + Verbo">
       <!--      Created by Marco A.G.Pinto, Portuguese rule, 2017-10-04   -->
       <pattern>
+        <token inflected='yes'>ser</token>
+       <marker>
         <token regexp="yes">importantes?|indecentes?|interessantes?|oportunos?|perigosos?</token>
         <token>de</token>
         <token regexp='yes' case_sensitive='yes'>.*[aeiou]r</token>
+       </marker>
       </pattern>
       <message>Possível preposição desnecessária após adjetivo.</message>
-      <suggestion>\1 \3</suggestion>
+      <suggestion>\2 \4</suggestion>
       <example correction="oportunos citar">Tais textos são <marker>oportunos de citar</marker>.</example>
     </rule>
 
