@@ -962,28 +962,19 @@ public final class Synthesizer {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+     * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+     * @return Whether the tokens field is set.
      */
-    java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> 
-        getTokensList();
+    boolean hasTokens();
     /**
-     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+     * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+     * @return The tokens.
      */
-    org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getTokens(int index);
+    org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getTokens();
     /**
-     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+     * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
      */
-    int getTokensCount();
-    /**
-     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-     */
-    java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder> 
-        getTokensOrBuilderList();
-    /**
-     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-     */
-    org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder getTokensOrBuilder(
-        int index);
+    org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder getTokensOrBuilder();
 
     /**
      * <code>string postag = 2;</code>
@@ -1040,7 +1031,6 @@ public final class Synthesizer {
       super(builder);
     }
     private SynthesizeRequestItem() {
-      tokens_ = java.util.Collections.emptyList();
       postag_ = "";
       postagReplace_ = "";
       lemma_ = "";
@@ -1066,7 +1056,6 @@ public final class Synthesizer {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1078,12 +1067,16 @@ public final class Synthesizer {
               done = true;
               break;
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                tokens_ = new java.util.ArrayList<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings>();
-                mutable_bitField0_ |= 0x00000001;
+              org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder subBuilder = null;
+              if (tokens_ != null) {
+                subBuilder = tokens_.toBuilder();
               }
-              tokens_.add(
-                  input.readMessage(org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.parser(), extensionRegistry));
+              tokens_ = input.readMessage(org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(tokens_);
+                tokens_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             case 18: {
@@ -1124,9 +1117,6 @@ public final class Synthesizer {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          tokens_ = java.util.Collections.unmodifiableList(tokens_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -1145,43 +1135,29 @@ public final class Synthesizer {
     }
 
     public static final int TOKENS_FIELD_NUMBER = 1;
-    private java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> tokens_;
+    private org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings tokens_;
     /**
-     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+     * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+     * @return Whether the tokens field is set.
      */
     @java.lang.Override
-    public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> getTokensList() {
-      return tokens_;
+    public boolean hasTokens() {
+      return tokens_ != null;
     }
     /**
-     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+     * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+     * @return The tokens.
      */
     @java.lang.Override
-    public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder> 
-        getTokensOrBuilderList() {
-      return tokens_;
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getTokens() {
+      return tokens_ == null ? org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.getDefaultInstance() : tokens_;
     }
     /**
-     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+     * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
      */
     @java.lang.Override
-    public int getTokensCount() {
-      return tokens_.size();
-    }
-    /**
-     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-     */
-    @java.lang.Override
-    public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getTokens(int index) {
-      return tokens_.get(index);
-    }
-    /**
-     * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-     */
-    @java.lang.Override
-    public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder getTokensOrBuilder(
-        int index) {
-      return tokens_.get(index);
+    public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder getTokensOrBuilder() {
+      return getTokens();
     }
 
     public static final int POSTAG_FIELD_NUMBER = 2;
@@ -1323,8 +1299,8 @@ public final class Synthesizer {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      for (int i = 0; i < tokens_.size(); i++) {
-        output.writeMessage(1, tokens_.get(i));
+      if (tokens_ != null) {
+        output.writeMessage(1, getTokens());
       }
       if (!getPostagBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, postag_);
@@ -1347,9 +1323,9 @@ public final class Synthesizer {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < tokens_.size(); i++) {
+      if (tokens_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, tokens_.get(i));
+          .computeMessageSize(1, getTokens());
       }
       if (!getPostagBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, postag_);
@@ -1379,8 +1355,11 @@ public final class Synthesizer {
       }
       org.languagetool.grpc.Synthesizer.SynthesizeRequestItem other = (org.languagetool.grpc.Synthesizer.SynthesizeRequestItem) obj;
 
-      if (!getTokensList()
-          .equals(other.getTokensList())) return false;
+      if (hasTokens() != other.hasTokens()) return false;
+      if (hasTokens()) {
+        if (!getTokens()
+            .equals(other.getTokens())) return false;
+      }
       if (!getPostag()
           .equals(other.getPostag())) return false;
       if (getPostagRegexp()
@@ -1400,9 +1379,9 @@ public final class Synthesizer {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (getTokensCount() > 0) {
+      if (hasTokens()) {
         hash = (37 * hash) + TOKENS_FIELD_NUMBER;
-        hash = (53 * hash) + getTokensList().hashCode();
+        hash = (53 * hash) + getTokens().hashCode();
       }
       hash = (37 * hash) + POSTAG_FIELD_NUMBER;
       hash = (53 * hash) + getPostag().hashCode();
@@ -1541,17 +1520,16 @@ public final class Synthesizer {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getTokensFieldBuilder();
         }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
         if (tokensBuilder_ == null) {
-          tokens_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          tokens_ = null;
         } else {
-          tokensBuilder_.clear();
+          tokens_ = null;
+          tokensBuilder_ = null;
         }
         postag_ = "";
 
@@ -1587,12 +1565,7 @@ public final class Synthesizer {
       @java.lang.Override
       public org.languagetool.grpc.Synthesizer.SynthesizeRequestItem buildPartial() {
         org.languagetool.grpc.Synthesizer.SynthesizeRequestItem result = new org.languagetool.grpc.Synthesizer.SynthesizeRequestItem(this);
-        int from_bitField0_ = bitField0_;
         if (tokensBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
-            tokens_ = java.util.Collections.unmodifiableList(tokens_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
           result.tokens_ = tokens_;
         } else {
           result.tokens_ = tokensBuilder_.build();
@@ -1649,31 +1622,8 @@ public final class Synthesizer {
 
       public Builder mergeFrom(org.languagetool.grpc.Synthesizer.SynthesizeRequestItem other) {
         if (other == org.languagetool.grpc.Synthesizer.SynthesizeRequestItem.getDefaultInstance()) return this;
-        if (tokensBuilder_ == null) {
-          if (!other.tokens_.isEmpty()) {
-            if (tokens_.isEmpty()) {
-              tokens_ = other.tokens_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureTokensIsMutable();
-              tokens_.addAll(other.tokens_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.tokens_.isEmpty()) {
-            if (tokensBuilder_.isEmpty()) {
-              tokensBuilder_.dispose();
-              tokensBuilder_ = null;
-              tokens_ = other.tokens_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              tokensBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getTokensFieldBuilder() : null;
-            } else {
-              tokensBuilder_.addAllMessages(other.tokens_);
-            }
-          }
+        if (other.hasTokens()) {
+          mergeTokens(other.getTokens());
         }
         if (!other.getPostag().isEmpty()) {
           postag_ = other.postag_;
@@ -1718,241 +1668,119 @@ public final class Synthesizer {
         }
         return this;
       }
-      private int bitField0_;
 
-      private java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> tokens_ =
-        java.util.Collections.emptyList();
-      private void ensureTokensIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
-          tokens_ = new java.util.ArrayList<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings>(tokens_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
+      private org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings tokens_;
+      private com.google.protobuf.SingleFieldBuilderV3<
           org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder> tokensBuilder_;
+      /**
+       * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+       * @return Whether the tokens field is set.
+       */
+      public boolean hasTokens() {
+        return tokensBuilder_ != null || tokens_ != null;
+      }
+      /**
+       * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+       * @return The tokens.
+       */
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getTokens() {
+        if (tokensBuilder_ == null) {
+          return tokens_ == null ? org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.getDefaultInstance() : tokens_;
+        } else {
+          return tokensBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+       */
+      public Builder setTokens(org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings value) {
+        if (tokensBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          tokens_ = value;
+          onChanged();
+        } else {
+          tokensBuilder_.setMessage(value);
+        }
 
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> getTokensList() {
-        if (tokensBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(tokens_);
-        } else {
-          return tokensBuilder_.getMessageList();
-        }
+        return this;
       }
       /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public int getTokensCount() {
-        if (tokensBuilder_ == null) {
-          return tokens_.size();
-        } else {
-          return tokensBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings getTokens(int index) {
-        if (tokensBuilder_ == null) {
-          return tokens_.get(index);
-        } else {
-          return tokensBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+       * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
        */
       public Builder setTokens(
-          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings value) {
-        if (tokensBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTokensIsMutable();
-          tokens_.set(index, value);
-          onChanged();
-        } else {
-          tokensBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public Builder setTokens(
-          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder builderForValue) {
-        if (tokensBuilder_ == null) {
-          ensureTokensIsMutable();
-          tokens_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          tokensBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public Builder addTokens(org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings value) {
-        if (tokensBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTokensIsMutable();
-          tokens_.add(value);
-          onChanged();
-        } else {
-          tokensBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public Builder addTokens(
-          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings value) {
-        if (tokensBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTokensIsMutable();
-          tokens_.add(index, value);
-          onChanged();
-        } else {
-          tokensBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public Builder addTokens(
           org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder builderForValue) {
         if (tokensBuilder_ == null) {
-          ensureTokensIsMutable();
-          tokens_.add(builderForValue.build());
+          tokens_ = builderForValue.build();
           onChanged();
         } else {
-          tokensBuilder_.addMessage(builderForValue.build());
+          tokensBuilder_.setMessage(builderForValue.build());
         }
+
         return this;
       }
       /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+       * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
        */
-      public Builder addTokens(
-          int index, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder builderForValue) {
+      public Builder mergeTokens(org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings value) {
         if (tokensBuilder_ == null) {
-          ensureTokensIsMutable();
-          tokens_.add(index, builderForValue.build());
+          if (tokens_ != null) {
+            tokens_ =
+              org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.newBuilder(tokens_).mergeFrom(value).buildPartial();
+          } else {
+            tokens_ = value;
+          }
           onChanged();
         } else {
-          tokensBuilder_.addMessage(index, builderForValue.build());
+          tokensBuilder_.mergeFrom(value);
         }
+
         return this;
       }
       /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public Builder addAllTokens(
-          java.lang.Iterable<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings> values) {
-        if (tokensBuilder_ == null) {
-          ensureTokensIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, tokens_);
-          onChanged();
-        } else {
-          tokensBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+       * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
        */
       public Builder clearTokens() {
         if (tokensBuilder_ == null) {
-          tokens_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          tokens_ = null;
           onChanged();
         } else {
-          tokensBuilder_.clear();
+          tokens_ = null;
+          tokensBuilder_ = null;
         }
+
         return this;
       }
       /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+       * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
        */
-      public Builder removeTokens(int index) {
-        if (tokensBuilder_ == null) {
-          ensureTokensIsMutable();
-          tokens_.remove(index);
-          onChanged();
-        } else {
-          tokensBuilder_.remove(index);
-        }
-        return this;
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder getTokensBuilder() {
+        
+        onChanged();
+        return getTokensFieldBuilder().getBuilder();
       }
       /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+       * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
        */
-      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder getTokensBuilder(
-          int index) {
-        return getTokensFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder getTokensOrBuilder(
-          int index) {
-        if (tokensBuilder_ == null) {
-          return tokens_.get(index);  } else {
-          return tokensBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public java.util.List<? extends org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder> 
-           getTokensOrBuilderList() {
+      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder getTokensOrBuilder() {
         if (tokensBuilder_ != null) {
-          return tokensBuilder_.getMessageOrBuilderList();
+          return tokensBuilder_.getMessageOrBuilder();
         } else {
-          return java.util.Collections.unmodifiableList(tokens_);
+          return tokens_ == null ?
+              org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.getDefaultInstance() : tokens_;
         }
       }
       /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
+       * <code>.lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
        */
-      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder addTokensBuilder() {
-        return getTokensFieldBuilder().addBuilder(
-            org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder addTokensBuilder(
-          int index) {
-        return getTokensFieldBuilder().addBuilder(
-            index, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .lt_ml_server.AnalyzedTokenReadings tokens = 1;</code>
-       */
-      public java.util.List<org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder> 
-           getTokensBuilderList() {
-        return getTokensFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
+      private com.google.protobuf.SingleFieldBuilderV3<
           org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder> 
           getTokensFieldBuilder() {
         if (tokensBuilder_ == null) {
-          tokensBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+          tokensBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadings.Builder, org.languagetool.rules.ml.MLServerProto.AnalyzedTokenReadingsOrBuilder>(
-                  tokens_,
-                  ((bitField0_ & 0x00000001) != 0),
+                  getTokens(),
                   getParentForChildren(),
                   isClean());
           tokens_ = null;
@@ -3735,7 +3563,7 @@ public final class Synthesizer {
       "rver.proto\"]\n\021SynthesizeRequest\022\024\n\014langu" +
       "ageCode\030\001 \001(\t\0222\n\005items\030\002 \003(\0132#.lt_ml_ser" +
       "ver.SynthesizeRequestItem\"\232\001\n\025Synthesize" +
-      "RequestItem\0223\n\006tokens\030\001 \003(\0132#.lt_ml_serv" +
+      "RequestItem\0223\n\006tokens\030\001 \001(\0132#.lt_ml_serv" +
       "er.AnalyzedTokenReadings\022\016\n\006postag\030\002 \001(\t" +
       "\022\025\n\rpostag_regexp\030\003 \001(\010\022\026\n\016postag_replac" +
       "e\030\004 \001(\t\022\r\n\005lemma\030\005 \001(\t\"I\n\022SynthesizeResp" +
