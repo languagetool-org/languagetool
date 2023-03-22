@@ -5221,7 +5221,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="pagó">Uber <marker>pago</marker> a reputados economistas.</example>
                 <example>Acabo de encontrar por casualidad el anuncio.</example>
             </rule>
-            <!-- SE_CREO_TEMP_OFF -->
             <rule default="off">
                 <antipattern>
                     <token>creo</token>
@@ -12435,20 +12434,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">otra|otro</token>
                     <token regexp="yes">parte|lado</token>
                 </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token regexp="yes">en|sin</token>
+                    <token regexp="yes">cambio|embargo</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="3" regexp="yes">\p{P}</token>
                     <marker>
                         <token>si</token>
                     </marker>
-                    <token regexp="yes">[\.,;:!\?]</token>
+                    <token>,</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="Sí"><marker>Si</marker>, me gusta mucho.</example>
+                <example correction="Sí">¡<marker>Si</marker>, me gusta mucho!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" regexp="yes">\p{P}</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token regexp="yes">[\.;:!\?]</token>
                 </pattern>
                 <message>Como adverbio de afirmación, se escribe con tilde.</message>
                 <suggestion>sí</suggestion>
                 <example correction="Sí"><marker>Si</marker>!</example>
                 <example correction="Sí">¡<marker>Si</marker>!</example>
-                <example correction="Sí"><marker>Si</marker>, me gusta mucho.</example>
-                <example correction="Sí">¡<marker>Si</marker>, me gusta mucho!</example>
+                <example correction="Sí"><marker>Si</marker>: me gusta mucho.</example>
             </rule>
             <rule>
                 <pattern>
@@ -22110,7 +22128,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>han asesinado a miles, <marker>llevado ciudades</marker> a la ruina</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MULTI_ADJ" name="concordancia entre adjetivos" default="temp_off">
+        <rulegroup id="MULTI_ADJ" name="concordancia entre adjetivos" default="off">
             <antipattern case_sensitive="yes">
                 <token> <exception postag="SENT_START"/></token>
                 <token regexp="yes">\p{Lu}.*</token>
@@ -22263,7 +22281,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="AGREEMENT_VERBS" name="Concordancia sujeto/predicado" type="inconsistency" default="on">
-        <rulegroup id="AGREEMENT_SER_ADJ_PL" name="concordancia: somos conscientes" default="temp_off">
+        <rulegroup id="AGREEMENT_SER_ADJ_PL" name="concordancia: somos conscientes" default="off">
             <rule>
                 <pattern>
                     <token postag="V.[SIM]..P." postag_regexp="yes" regexp="yes" inflected="yes">ser|estar|parecer</token>
@@ -22310,7 +22328,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Soy consciente|Somos conscientes"><marker>Soy conscientes</marker> de ello.</example>
                 <example correction="Sé consciente|Sabemos conscientes|Sed conscientes"><marker>Sé conscientes</marker> de ello.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="off">
                 <pattern>
                     <token postag="V.[SIM]..S." postag_regexp="yes"/>
                     <token min="0" regexp="yes">a|de|que|en|por</token>
@@ -22938,7 +22956,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estados Unidos había sido rico en recursos naturales.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AGREEMENT_SUBJECT_VERB_INTERROGATIVE" name="concordancias sujeto y verbo en interrogativas" default="temp_off">
+        <rulegroup id="AGREEMENT_SUBJECT_VERB_INTERROGATIVE" name="concordancias sujeto y verbo en interrogativas" default="off">
             <rule>
                 <antipattern>
                     <token postag="V...3S.*" postag_regexp="yes" skip="-1"/>
@@ -23208,7 +23226,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me han gustado mucho más los batidos.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONCORDANCIAS_ATRIBUTO" name="Concordancias entre sujeto y atributo en frases copulativas" default="temp_off">
+        <rulegroup id="CONCORDANCIAS_ATRIBUTO" name="Concordancias entre sujeto y atributo en frases copulativas" default="off">
             <antipattern>
                 <token regexp="yes" inflected="yes">resto|mayoría|vez|&dias_semana;|&meses_ano;|&unidades_tiempo;|&expresiones_tiempo;|\d{3,4}</token>
             </antipattern>
@@ -25344,7 +25362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Creo que es tu deber ir.</example>
                 <example>Estar junto a tu ser amado.</example>
             </rule>
-            <rule default="temp_off">
+            <!--<rule default="off">
                 <antipattern>
                     <token postag="V.*" postag_regexp="yes"/>
                     <token postag="RG|LOC_ADV" max="4" postag_regexp="yes"/>
@@ -25367,7 +25385,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me alegra mucho saber que no soy la única.</example>
                 <example>Uno debe más ser que parecer.</example>
                 <example>Llevo muy mal tener que estar justificando continuamente lo que hago.</example>
-            </rule>
+            </rule>-->
         </rulegroup>
         <rule id="LARDO_LARGO" name="lardo/largo">
             <pattern>
@@ -26603,7 +26621,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 puede</suggestion>
                 <example correction="Se puede"><marker>Se pude</marker> hacer mejor.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="off">
                 <antipattern>
                     <token skip="6">yo</token>
                     <token>pude</token>
@@ -29087,7 +29105,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Beso grande.</example>
                 <example>Un beso grande</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">Decreto|Ley</token>
                     <token min="0">-</token>
