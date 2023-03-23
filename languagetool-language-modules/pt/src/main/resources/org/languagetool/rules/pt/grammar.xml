@@ -11952,6 +11952,13 @@ O namorado dela era um ladrão.
           <token>que</token>
         </marker>
       </antipattern>
+      <antipattern>
+          <token skip='2'>espera</token>
+          <token skip='2'>que</token>
+          <token>já</token>
+          <token>volto</token>
+          <example>Espera aqui que já volto</example>
+      </antipattern>
       <pattern>
         <token postag='V.IP.+|V.[NG].+' postag_regexp='yes' inflected='yes' skip='4' regexp="yes">esperar|evitar
           <exception>como</exception>
@@ -11964,7 +11971,8 @@ O namorado dela era um ladrão.
           <exception scope="previous" regexp="yes">até|o</exception></token>
         <marker>
           <token postag='V.IP.+' postag_regexp='yes'>
-            <exception postag='V.S.+|N.+|V.IC.+' postag_regexp='yes'/></token>
+            <exception postag='V.S.+|N.+|V.IC.+|A.+|VMG.+' postag_regexp='yes'/>
+            <exception regexp='yes'>\p{Lu}.*|&verbos_muito_incomuns;|estar</exception></token> <!-- "estar" must be dealt with in a diacritics rule -->
         </marker>
       </pattern>
       <message>Tempo verbal incorreto.</message> <!-- VMIP3S00 -->
