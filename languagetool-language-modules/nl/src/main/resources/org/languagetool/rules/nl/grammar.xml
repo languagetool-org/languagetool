@@ -15785,28 +15785,36 @@ regexp case-insensitive maken: (?i)
             <!-- 2017-06-24 TaalTik -->
             <rule>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">[,:;]</token><token postag_regexp="yes" postag="SENT_START|START"/></antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="5">gaan</token>
+                    <token skip="1">bezig</token>
+                    <token>houden</token>
+                    <token>met</token>
+                    <example>Hij gaat proberen om zich bezig te houden met andere dingen.</example>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" skip="5">gaan</token>
-                    <token skip="5">bezig</token>
+                    <marker>
+                        <token skip="5">bezig</token>
+                    </marker>
                     <token>met</token>
                 </pattern>
-                <message>Bezig gaan met is geen Standaardnederlands. Het is 'bezig zijn' of 'aan de slag gaan'.</message>
+                <message>'Bezig gaan met' is geen Standaardnederlands. Hier past beter <suggestion>aan de slag</suggestion>, <suggestion>aan de gang</suggestion> of <suggestion>beginnen</suggestion>.</message>
                 <url>https://taaladvies.net/taal/advies/vraag/1796/bezig_gaan_met/</url>
-                <example correction="">Hij <marker>gaat bezig met</marker> de fout.</example>
-                <example correction="">Daarna <marker>gaan we ons stillekes beginnen bezig houden met</marker> de muziek in den auto.</example>
-                <example correction="">Naast de politiek <marker>ging Sijes zich tevens meer actief bezig houden met</marker> de geschiedenis.</example>
-                <example correction="">Na muziek, mode en hamburgerrestaurants <marker>gaat Kanye West zich nu bezig houden met</marker> het maken van videogames.</example>
-                <example correction="">Langzamerhand <marker>ging men zich ook bezig houden met</marker> visserij en handel zoals Hydra en Spetses deden, zij waren erg succesvol.</example>
+                <example correction="aan de slag|aan de gang|beginnen">Hij gaat <marker>bezig</marker> met de fout.</example>
+                <example correction="aan de slag|aan de gang|beginnen">Waarom ga je pas <marker>bezig</marker> met vandalismebestrijding als je moderator bent?</example>
             </rule>
             <rule>
                 <pattern>
-                    <token skip="5">bezig</token>
+                    <marker>
+                        <token skip="5">bezig</token>
+                    </marker>
                     <token inflected="yes">gaan</token>
                     <token>met</token>
                 </pattern>
-                <message>Bezig gaan met is geen Standaardnederlands. Het is 'bezig zijn' of 'aan de slag gaan'.</message>
+                <message>'Bezig gaan met' is geen Standaardnederlands. Hier past beter <suggestion>aan de slag</suggestion> of <suggestion>aan de gang</suggestion>.</message>
                 <url>https://taaladvies.net/taal/advies/vraag/1796/bezig_gaan_met/</url>
-                <example correction="">Hij wil weer <marker>bezig gaan met</marker> de fout.</example>
+                <example correction="aan de slag|aan de gang">Hij wil weer <marker>bezig</marker> gaan met de fout.</example>
                 <example>Hij wil <marker>weer bezig zijn met</marker>.</example>
             </rule>
         </rulegroup>
@@ -20318,7 +20326,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="goedkeuring|aanvaarding">De <marker>acceptatie</marker> van de wissel is een formeel engagement.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ACCOMMODATIE" name="accommodatie" tags="picky">
+        <rulegroup id="ACCOMMODATIE" name="accommodatie" tags="picky" default="off">
+            <!-- Disabled, suggestions are a bit inaccurate and good alternatives (onderkomen, huisvesting) are similarly old fashioned -->
             <rule>
                 <pattern>
                     <token inflected="yes">accommodatie</token>
