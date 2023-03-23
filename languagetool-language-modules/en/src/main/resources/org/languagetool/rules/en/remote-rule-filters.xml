@@ -297,6 +297,48 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_NOUN_NUMBER" name="">
             <rule>
                 <pattern>
+                    <token chunk="B-NP-singular"/>
+                        <marker>
+                            <and>
+                                <token chunk="E-NP-singular"/>
+                                <token postag="NN:UN"/>
+                            </and>
+                        </marker>
+                </pattern>
+            <example correction="">We are gearing to win some Court cases, but the <marker>case</marker> is dragging on.</example>
+            <example correction="">His <marker>composition</marker> is by far the best of all.</example>
+            <example correction="">How are you getting along with your <marker>study</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|an|this|that</token>
+                    <marker>
+                        <token postag="NN"/>
+                    </marker>
+                </pattern>
+            <example correction="">I am the caretaker of this <marker>child</marker>, and they are my care-receiver.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk="B-NP-singular"/>
+                        <marker>
+                            <token chunk="I-NP-singular"/>
+                        </marker>
+                    <token chunk="E-NP-singular"/>
+                </pattern>
+            <example correction="">I have talked to their <marker>contracts</marker> person and I want to this to get executed.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">buy</token>
+                    <marker>
+                        <token postag="NNS"/>
+                    </marker>
+                </pattern>
+            <example correction="">We're changing the way the world buys <marker>contacts</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>more</token>
                     <marker>
                         <token>detail</token>
