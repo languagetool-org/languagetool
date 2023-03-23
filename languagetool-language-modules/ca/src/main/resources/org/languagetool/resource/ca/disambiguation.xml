@@ -194,7 +194,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>.</token>
             <token regexp="yes">\p{Lu}.*</token>
         </pattern>
-        <disambig action="add"><wd lemma="M" pos="NPCNSP00"/></disambig>
+        <disambig action="add">
+            <wd lemma="M" pos="NPCNSP00"/>
+        </disambig>
     </rule>
     <rulegroup id="ENUMERACIONS" name="enumeracions amb lletres: a)">
         <antipattern>
@@ -19191,6 +19193,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </disambig>
     </rule>
     <rulegroup id="lletres_majuscules" name="lletres soltes majúscules">
+        <rule>
+            <pattern>
+                <token regexp="yes">.*\d</token>
+                <marker>
+                    <token>-m</token>
+                </marker>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="NPCN000"/>
+            </disambig>
+        </rule>
         <rule>
             <pattern>
                 <token><exception postag="SENT_START"/><exception regexp="yes">[¿?¡!"'‘“«»—–:\-]</exception></token>
