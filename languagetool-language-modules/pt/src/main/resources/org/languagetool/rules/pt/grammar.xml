@@ -22832,15 +22832,18 @@ O namorado dela era um ladrão.
 
 
     <!-- 	CADA VEZ MAIOR/MENOR crescente/decrescente -->
-    <rulegroup id='CADA_VEZ_MAIOR_MENOR_CRESCENTE_DECRESCENTE' name="Cada vez maior/menor → crescente/decrescente">
+    <rulegroup id='CADA_VEZ_MAIOR_MENOR_CRESCENTE_DECRESCENTE' name="Cada vez maior/menor → crescente/decrescente" tags='picky'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-14 + 2022-02-22 (Checked/Enhanced) (1-JAN-2022+)      -->
-
+        <antipattern>
+        </antipattern>
       <!-- CRESCENTE -->
       <rule>
         <pattern>
           <or>
-          <token negate_pos="yes" postag='V.+' postag_regexp='yes'/>
-          <token inflected='yes'>ser</token>
+          <token negate_pos="yes" postag='V.+' postag_regexp='yes'>
+            <exception postag='VMS.+' postag_regexp='yes'/></token>
+          <token inflected='yes'>ser
+            <exception postag='VMS.+' postag_regexp='yes'/></token>
           </or>
           <marker>
             <token>cada</token>
@@ -22849,7 +22852,11 @@ O namorado dela era um ladrão.
           </marker>
         </pattern>
         <message>Substitua por <suggestion><match no='4' postag='AQ..(.).' postag_replace='AQ0C$10'>crescente</match></suggestion>.</message>
-        <example correction="crescente">O número <marker>cada vez maior</marker> de cometas descobertos tornou o processo problemático.</example>
+        <suggestion><match no='4' postag='AQ..(.).' postag_replace='AQ0M$10'>gradativo</match></suggestion>
+        <suggestion><match no='4' postag='AQ..(.).' postag_replace='AQ0F$10'>gradativo</match></suggestion>
+        <suggestion><match no='4' postag='AQ..(.).' postag_replace='AQ0M$10'>sucessivo</match></suggestion>
+        <suggestion><match no='4' postag='AQ..(.).' postag_replace='AQ0F$10'>sucessivo</match></suggestion>
+        <example correction="crescente|gradativo|gradativa|sucessivo|sucessiva">O número <marker>cada vez maior</marker> de cometas descobertos tornou o processo problemático.</example>
       </rule>
 	  
       <!-- DECRESCENTE -->
