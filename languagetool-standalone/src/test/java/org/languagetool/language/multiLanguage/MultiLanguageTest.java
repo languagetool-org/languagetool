@@ -74,8 +74,8 @@ public class MultiLanguageTest {
   @Test
   @Ignore("Only run with full LanguageIdentifierService")
   public void testWithPreferredLanguagesDeAndEn() throws IOException {
-    List<String> preferredLanguages = Arrays.asList("de", "en");
-    UserConfig userConfig = new UserConfig(Collections.emptyList(), Collections.emptyList(), Collections.emptyMap(), 0, 0L, null, 0L, null, false, null, null, false, preferredLanguages, null);
+    List<String> preferredLanguages = Arrays.asList("en","de");
+    UserConfig userConfig = new UserConfig(Collections.emptyList(), Collections.emptyList(), Collections.emptyMap(), 0, 0L, null, 0L, null, false, null, null, false, preferredLanguages);
     GermanSpellerRule germanSpellerRule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE, userConfig, null);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
     

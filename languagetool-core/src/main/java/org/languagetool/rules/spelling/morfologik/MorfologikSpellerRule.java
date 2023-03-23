@@ -132,8 +132,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     boolean gotResultsFromForeignLanguageChecker = false;
     Long sentenceLength = Arrays.stream(sentence.getTokensWithoutWhitespace()).filter(k -> !k.isNonWord()).count() - 1; 
     ForeignLanguageChecker foreignLanguageChecker = null;
-    if (userConfig != null && userConfig.getPreferredLanguages() != null && userConfig.getNoopsLanguages() != null && !userConfig.getPreferredLanguages().isEmpty() && userConfig.getPreferredLanguages().size() >= 2) { //only create instance if user has 2 or more preferredLanguages
-      foreignLanguageChecker = new ForeignLanguageChecker(language.getShortCode(), sentence.getText(), sentenceLength, userConfig.getPreferredLanguages(), userConfig.getNoopsLanguages());
+    if (userConfig != null && !userConfig.getPreferredLanguages().isEmpty() && userConfig.getPreferredLanguages().size() >= 2) { //only create instance if user has 2 or more preferredLanguages
+      foreignLanguageChecker = new ForeignLanguageChecker(language.getShortCode(), sentence.getText(), sentenceLength, userConfig.getPreferredLanguages());
     }
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
