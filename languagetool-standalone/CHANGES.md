@@ -18,6 +18,11 @@
   * added chunker rules
   * some xml grammar rules uses a chunker now
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
 #### Spanish
   * added and improved rules
   * updated dictionary (spanish-pos-dict-2.0)
