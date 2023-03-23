@@ -6,10 +6,17 @@
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.22)
 
-#### Russian
+#### English
   * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2023.03.01, v.3.1.8)
+
+#### Russian
+  * added and improved xml and java rules 
   * improved disambiguation
+  * fix a lot of false positives
   * added words and POS data
+  * added chunker rules
+  * some xml grammar rules uses a chunker now
 
 #### Spanish
   * added and improved rules
