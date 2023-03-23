@@ -15274,6 +15274,15 @@ O namorado dela era um ladrão.
 
     <rule id="ADJ_DE_VERB" name="Adj + Verbo">
       <!--      Created by Marco A.G.Pinto, Portuguese rule, 2017-10-04   -->
+      <antipattern>
+        <token postag='DD.+' postag_regexp='yes'/>
+        <token postag ="N.+" postag_regexp='yes'/>
+        <token inflected='yes'>ser</token>
+        <token regexp="yes">perigosos?</token>
+        <token>de</token>
+        <token postag='VMN0000'/>
+        <example>Este rio é perigoso de nadar</example>
+      </antipattern>
       <pattern>
         <token inflected='yes'>ser</token>
        <marker>
