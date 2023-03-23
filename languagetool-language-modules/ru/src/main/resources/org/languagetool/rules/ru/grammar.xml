@@ -10756,8 +10756,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--     VB:INF:.*  .*ть|.*ться       -->
                 <token skip="1" >что<exception  scope="next" regexp="yes">[,:;]</exception><exception postag="PNN:.*" postag_regexp="yes" scope="next" /></token>
                 <marker>
-                 <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception postag_regexp="yes" negate_pos="yes" postag="VB:INF:.*"></exception><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception><exception postag_regexp="yes" scope="previous" postag="VB:.*|NN:.*:Nom|PNN:.*:Nom:.*"></exception></token>
-                </marker>          
+                 <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception postag_regexp="yes" negate_pos="yes" postag="VB:INF:.*"></exception><exception postag_regexp="yes" scope="next" postag="VB:.*|PREP"></exception></token>
+                </marker>
+                <token><exception  regexp="yes">&pnct;</exception><exception postag_regexp="yes"  postag="VB:.*|PREP"></exception></token>         
             </pattern>
             <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:2 regexp:(.*)ься postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "ь" exist -->
@@ -10766,6 +10767,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Мягкий знак не нужен</short>
             <example>Проблема может возникнуть при наличии собственных резонансов в модели, что относится и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
             <example>Всё больше людей понимает, что учиться любить можно и нужно.</example>
+            <example>Можно однозначно сказать, что гнаться за дешевизной мы не советуем.</example>
+            <example>На снимке чистое поле, глазу не за что зацепиться.</example>
 	    <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
