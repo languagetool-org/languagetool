@@ -282,7 +282,7 @@ public class UserConfig {
   }
 
   /**
-   * This may not contain the full preferredLanguages list as its indent to only used with ForeignLanguageChecker
+   * This may not contain the full preferredLanguages list as it's  intended to only be used with ForeignLanguageChecker
    * @return 
    */
   @NotNull
