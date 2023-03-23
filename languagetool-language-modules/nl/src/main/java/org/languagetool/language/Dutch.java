@@ -187,6 +187,8 @@ public class Dutch extends Language {
       case "KORT_2": return -5;  //so that spelling errors are recognized first
       case "EINDE_ZIN_ONVERWACHT": return -5;  //so that spelling errors are recognized first
       case "TOO_LONG_PARAGRAPH": return -15;
+      case "WIJ_ZIJ_MIJ": return -19;  //needs higher priority than JOU_JOUW
+      case "JOU_JOUW": return -20;
       case "DE_ONVERWACHT": return -20;  // below spell checker and simple replace rule
       case "TE-VREEMD": return -20;  // below spell checker and simple replace rule
       // category style : -50
