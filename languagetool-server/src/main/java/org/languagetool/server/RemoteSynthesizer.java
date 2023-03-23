@@ -43,7 +43,7 @@ public class RemoteSynthesizer extends SynthesizeServerGrpc.SynthesizeServerImpl
     }
     AnalyzedToken atr = atrs.readingWithTagRegex(postagSelect);
     if (atr == null) {
-      log.info("AnalyzedToken is null. Language: ", languageCode, " Token:", atrs.toString(), "postagSelect: ",
+      log.error("AnalyzedToken is null. Language: ", languageCode, " Token:", atrs.toString(), "postagSelect: ",
           postagSelect);
       return null;
     }
@@ -56,7 +56,7 @@ public class RemoteSynthesizer extends SynthesizeServerGrpc.SynthesizeServerImpl
       Matcher m = p.matcher(atr.getPOSTag());
       postagReplaceFinal = m.replaceAll(postagReplace);
     } catch (IndexOutOfBoundsException | PatternSyntaxException e) {
-      log.info("Exception: error in regular expressions. Language: ", languageCode, " Token:", atrs.toString(),
+      log.error("Exception: error in regular expressions. Language: ", languageCode, " Token:", atrs.toString(),
           " Stack trace: ", e.getStackTrace());
       return null;
     }
