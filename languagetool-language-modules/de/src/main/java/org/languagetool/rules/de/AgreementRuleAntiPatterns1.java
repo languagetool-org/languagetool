@@ -81,6 +81,12 @@ class AgreementRuleAntiPatterns1 {
       tokenRegex("Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag")
     ),
     asList(
+      token("bei"),   // "Es kann gut sein, dass bei sowas Probleme erkannt werden."
+      token("sowas"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB:.*PLU.*")
+    ),
+    asList(
       token("beides"),   // "Beides Grund genug, es mal zu probieren."
       token("Grund")
     ),

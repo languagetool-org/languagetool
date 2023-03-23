@@ -320,6 +320,7 @@ public class AgreementRuleTest {
     assertGood("Spielst du vielleicht auf das Bordell neben unsrem Hotel an?");
     assertGood("Dieses ungeahnt prophetische Wort");
     assertGood("Das bestätigte Regierungssprecher Steffen Hebestreit am Freitag");
+    assertGood("Es kann gut sein, dass bei sowas Probleme erkannt werden.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
@@ -825,6 +826,7 @@ public class AgreementRuleTest {
     assertGood("Dieser relativ gesehen starke Mann.");
     assertGood("Diese relativ gesehen starke Frau.");
     assertGood("Dieses relativ gesehen starke Auto.");
+    assertGood("Es kann gut sein, dass bei sowas echte Probleme erkannt werden.");
     //assertBad("Leute, die eine gewissen Sicherheit brauchen.");
     //assertBad("An der rot Ampel.");
   }
