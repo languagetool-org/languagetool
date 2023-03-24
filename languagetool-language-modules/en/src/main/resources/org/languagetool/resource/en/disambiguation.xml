@@ -2041,7 +2041,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="VBZ"/>
                 <token postag="NNS">
                     <exception postag_regexp="yes" postag="NNPS?"/>
-                    <exception>does</exception>
+                    <exception regexp="yes">does|says|hopes|shouts|cries</exception>
                 </token>
                 </and>
             </marker>
@@ -2052,6 +2052,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The things he <marker>says</marker> are entirely inconsequential.</example>
         <example type="untouched">First, the premises on which it <marker>rests</marker> may not be correct.</example>
         <example type="untouched">She really does have no idea what I'm talking about.</example>
+        <example type="untouched">Dave says don't do it.</example>
         <example type="untouched">Information about what this <marker>does</marker> would be nice.</example>
         <example type="untouched">... but data about whoever each <marker>tries</marker> should tell us whether these judges are corrupt.</example>
         <example type="untouched">Incorrect grammar: He always <marker>notices</marker> were that animal is going.</example><!-- #2598 -->
@@ -8201,6 +8202,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>barley</token><!-- commonly confused with "barely" -->
             <token postag="VB.*" postag_regexp="yes" chunk="E-NP-singular" />
         </antipattern>
+        <antipattern>
+            <token postag="NNP" />
+            <token regexp="yes">wait|look|search</token>
+        </antipattern>
+        <antipattern>
+            <token postag="NNP" />
+            <token>work</token>
+            <token regexp="yes">with|for|at</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -8236,6 +8246,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">For a person who's wrong frequently, it's nice to be right.</example>
         <example type="untouched">Many play, but only one will win.</example>
         <example type="untouched">This will bright my day.</example>
+        <example type="untouched">Lola wait!</example>
         <example type="untouched">Ms. Tanaka can type, can't she?</example>
         <example type="untouched">Also if you have made any other significant changes to your application that may conflict with the agent, it would be great to know.</example>
         <example type="untouched">Many claim that the behavior is in the past.</example>
@@ -10420,6 +10431,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="VB" chunk_re=".-VP" />
                 <token regexp="yes" postag="CC">and|or|as</token>
             </antipattern>
+            <antipattern>
+                <token postag="NNP" />
+                <token postag="VBZ" />
+                <token regexp="yes">and|or</token>
+                <token postag="NNP" />
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
@@ -10443,6 +10460,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">I love the way you <marker>are</marker> and time will tell whether we...</example><!-- #2343 -->
             <example type="untouched">We will be lost when they <marker>die</marker> and computers take over the world.</example><!-- #2343 -->
             <example type="untouched">They could maybe go and hangout.</example><!-- #2386 -->
+            <example type="untouched">Elsa cries and Anna comes to me</example>
             <example type="untouched">She might possibly go and hangout.</example><!-- #2386 -->
             <example type="untouched">Are there specific lock models where some commands would function and others wouldn't?</example>
             <example type="untouched">I can't restart or logoff.</example><!-- #2501 -->
