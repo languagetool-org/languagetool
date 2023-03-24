@@ -490,7 +490,7 @@ public class TokenAgreementNumrNounRule extends Rule {
         else if( masterInflections.contains(new Inflection("m", "v_rod", null))
             && tokens[i].getToken().matches(".*[ую]")
             && PosTagHelper.hasPosTag(nounTokenReadings, "noun.*?:m:v_dav.*") ) {
-          msg += ". Можливо, вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
+          msg += CaseGovernmentHelper.USED_U_INSTEAD_OF_A_MSG;
         }
         else if( ! PosTagHelper.hasPosTag(state.numrTokenReadings, "adj.*?v_mis.*")
             && PosTagHelper.hasPosTag(nounTokenReadings, "noun.*?v_mis.*") ) {

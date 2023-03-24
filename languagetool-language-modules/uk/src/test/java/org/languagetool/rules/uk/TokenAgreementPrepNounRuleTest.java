@@ -236,6 +236,9 @@ public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
     matches = ruleMatch("до Ленінграду");
     assertEquals(1, matches.length);
 
+    matches = ruleMatch("для логотипу");
+    assertEquals(1, matches.length);
+
 //    matches = ruleMatch("На фото: З Голлівуду Яринка Шуст привезла дві золоті медалі");
 //    assertEquals(1, matches.length);
   }

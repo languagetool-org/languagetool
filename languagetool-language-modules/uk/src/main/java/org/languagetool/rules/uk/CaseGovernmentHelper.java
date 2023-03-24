@@ -169,5 +169,7 @@ public class CaseGovernmentHelper {
     }
    return vLemma; 
   }
+
+  static final String USED_U_INSTEAD_OF_A_MSG = ". Можливо, вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
   
 }

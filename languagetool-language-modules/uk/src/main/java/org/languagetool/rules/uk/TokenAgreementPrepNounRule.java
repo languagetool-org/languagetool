@@ -460,7 +460,12 @@ public class TokenAgreementPrepNounRule extends Rule {
     String msg = MessageFormat.format("Прийменник «{0}» вимагає іншого відмінка: {1}, а знайдено: {2}", 
         prepTokenReadings.getToken(), String.join(", ", reqVidminkyNames), String.join(", ", foundVidminkyNames));
 
-    if( tokenString.equals("їх") && requiredPostTagsRegEx != null ) {
+    if( posTagsToFind.contains("v_rod")
+        && tokens[i].getToken().matches(".*[ую]")
+        && PosTagHelper.hasPosTag(tokenReadings.getReadings(), "noun.*?:m:v_dav.*") ) {
+      msg += CaseGovernmentHelper.USED_U_INSTEAD_OF_A_MSG;
+    }
+    else if( tokenString.equals("їх") && requiredPostTagsRegEx != null ) {
       msg += ". Можливо, тут потрібно присвійний займенник «їхній» або нормативна форма р.в. «них»?";
       try {
         String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";

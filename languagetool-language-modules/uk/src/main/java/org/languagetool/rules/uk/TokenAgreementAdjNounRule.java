@@ -256,7 +256,7 @@ public class TokenAgreementAdjNounRule extends Rule {
         if( PosTagHelper.hasPosTagPart(state.adjTokenReadings, ":m:v_rod")
             && tokens[i].getToken().matches(".*[ую]")
             && PosTagHelper.hasPosTag(nounTokenReadings, "noun.*?:m:v_dav.*") ) {
-          msg += ". Можливо, вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
+          msg += CaseGovernmentHelper.USED_U_INSTEAD_OF_A_MSG;
         }
         else if( state.adjAnalyzedTokenReadings.getToken().contains("-")
             && Pattern.compile(".*([23]-є|[02-9]-а|[0-9]-ма)").matcher(state.adjAnalyzedTokenReadings.getToken()).matches() ) {
