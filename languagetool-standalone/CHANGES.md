@@ -22,6 +22,11 @@
   * added and improved rules
   * updated dictionary (spanish-pos-dict-2.0)
 
+#### Ukrainian
+  * new words in the POS dictionary
+  * improved tokenization, tagging, and disambiguation
+  * new rules
+
 ## 6.0 (released 2022-12-29)
 
 #### Catalan
