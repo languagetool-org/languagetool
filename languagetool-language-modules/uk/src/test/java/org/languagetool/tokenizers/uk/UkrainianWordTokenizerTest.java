@@ -648,6 +648,8 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("5′"); // U+2032
     assertEquals(Arrays.asList("5", "′"), testList);
     
+    testList = w.tokenize("'⚪'"); // U+26AA + U+FE0F
+    assertEquals(Arrays.asList("'", "⚪", "'"), testList);
   }
   
   @Test
