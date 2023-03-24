@@ -3654,7 +3654,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token inflected="yes">en</token>
                 </marker>
-                <token negate="yes" regexp="yes" inflected="yes">\p{Lu}\p{Ll}*</token>
+                <token><exception regexp="yes">\p{Lu}\p{Ll}*</exception></token>
             </pattern>
             <disambig>
                 <match no="1" postag_regexp="yes" postag="[^D].*"/>
@@ -9530,6 +9530,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token regexp="yes">un|altre|aquest|aqueix|este|eixe|aquell</token>
                 <token>nou</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">ens</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">un|aquest|aqueix|este|eixe|aquell</token>
+                <token postag="AQ.MS." postag_regexp="yes"/>
                 <marker>
                     <token postag="N.*" postag_regexp="yes">ens</token>
                 </marker>
@@ -19205,6 +19215,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </disambig>
         </rule>
         <rule>
+            <antipattern>
+                <token>A</token>
+                <token regexp="yes">\p{Lu}+</token>
+            </antipattern>
             <pattern>
                 <token><exception postag="SENT_START"/><exception regexp="yes">[¿?¡!"'‘“«»—–:\-]</exception></token>
                 <marker>
