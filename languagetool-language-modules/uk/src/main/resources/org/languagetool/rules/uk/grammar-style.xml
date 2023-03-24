@@ -3867,6 +3867,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="vitrovyi_vitrianyi" name="Вітровий і вітряний">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">вітряний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">скло|ерозія|шибка|порив|удар|сила|навантаження</token>
+        </pattern>
+        <message>Для «викликаний вітром», «для захисту від вітру» Правильно: <suggestion>вітровий</suggestion></message>
+        <example correction="вітровий">і <marker>вітряне</marker> скло</example>
+      </rule>
+
+      <!-- вітрова енергія, енергентика, а отже й вітрова електростанція, турбіна тощо, і навіть млин -->
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">вітровий</token>
+          </marker>
+          <token inflected="yes" regexp="yes">хвиля|віспа|день</token>
+        </pattern>
+        <message>Правильно: <suggestion>вітряний</suggestion></message>
+        <example correction="вітряний">і <marker>вітрова</marker> віспа</example>
+      </rule>
+    </rulegroup>
+
 
     <rulegroup id="strasnyi_vs_prystrasnyi" name="Страсний і пристрасний">
       <antipattern>
