@@ -119,6 +119,9 @@ class SingleDocument {
       XComponent xComp, MultiDocumentsHandler mDH) {
     debugMode = OfficeTools.DEBUG_MODE_SD;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
+    if (!OfficeTools.DEVELOP_MODE_ST) {
+      hasSortedTextId = false;
+    }
     this.xContext = xContext;
     this.config = config;
     this.docID = docID;
@@ -395,7 +398,7 @@ class SingleDocument {
   void setDocumentCacheForTests(List<String> paragraphs, List<List<String>> textParagraphs, List<int[]> footnotes, List<List<Integer>> chapterBegins, Locale locale) {
     docCache.setForTest(paragraphs, textParagraphs, footnotes, chapterBegins, locale);
     numParasToCheck = -1;
-    mDocHandler.resetSortedTextRules();
+    mDocHandler.resetSortedTextRules(mDocHandler.getLanguageTool());
   }
   
   /** Get LanguageTool menu
@@ -1279,30 +1282,34 @@ class SingleDocument {
   }
   
   private void setDokumentListener(XComponent xComponent) {
-    if (xComponent != null && eventListener == null) {
-      eventListener = new LTDokumentEventListener();
-      XDocumentEventBroadcaster broadcaster = UnoRuntime.queryInterface(XDocumentEventBroadcaster.class, xComponent);
-      if (broadcaster != null) {
-        broadcaster.addDocumentEventListener(eventListener);
-      } else {
-        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: Could not add document event listener!");
+    try {
+      if (!disposed && xComponent != null && eventListener == null) {
+        eventListener = new LTDokumentEventListener();
+        XDocumentEventBroadcaster broadcaster = UnoRuntime.queryInterface(XDocumentEventBroadcaster.class, xComponent);
+        if (!disposed && broadcaster != null) {
+          broadcaster.addDocumentEventListener(eventListener);
+        } else {
+          MessageHandler.printToLogFile("SingleDocument: setDokumentListener: Could not add document event listener!");
+        }
+        XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
+        if (disposed || xModel == null) {
+          MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XModel not found!");
+          return;
+        }
+        XController xController = xModel.getCurrentController();
+        if (disposed || xController == null) {
+          MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XController not found!");
+          return;
+        }
+        XUserInputInterception xUserInputInterception = UnoRuntime.queryInterface(XUserInputInterception.class, xController);
+        if (disposed || xUserInputInterception == null) {
+          MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XUserInputInterception not found!");
+          return;
+        }
+        xUserInputInterception.addMouseClickHandler(eventListener);
       }
-      XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
-      if (xModel == null) {
-        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XModel not found!");
-        return;
-      }
-      XController xController = xModel.getCurrentController();
-      if (xController == null) {
-        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XController not found!");
-        return;
-      }
-      XUserInputInterception xUserInputInterception = UnoRuntime.queryInterface(XUserInputInterception.class, xController);
-      if (xUserInputInterception == null) {
-        MessageHandler.printToLogFile("SingleDocument: setDokumentListener: XUserInputInterception not found!");
-        return;
-      }
-      xUserInputInterception.addMouseClickHandler(eventListener);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);
     }
   }
   

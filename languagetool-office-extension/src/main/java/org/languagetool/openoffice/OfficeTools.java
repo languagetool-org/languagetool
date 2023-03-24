@@ -111,6 +111,7 @@ class OfficeTools {
   public static boolean DEBUG_MODE_IO = false;    //  Activate Debug Mode for Cache save to file
   public static boolean DEBUG_MODE_SR = false;    //  Activate Debug Mode for SortedTextRules
   public static boolean DEBUG_MODE_TM = false;    //  Activate Debug Mode for time measurements
+  public static boolean DEVELOP_MODE_ST = false;  //  Activate Development Mode to test sorted text IDs
   public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
   public  static final String CONFIG_FILE = "Languagetool.cfg";
@@ -727,6 +728,8 @@ class OfficeTools {
               }
             }
           }
+        } else if (level.equals("st")) {
+          DEVELOP_MODE_ST = true;
         } else if (level.equals("dev")) {
           DEVELOP_MODE = true;
         }

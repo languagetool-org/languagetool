@@ -194,7 +194,10 @@ public class SpellAndGrammarCheckDialog extends Thread {
   private void setLangTool(MultiDocumentsHandler documents, Language language) {
     documents.setCheckImpressDocument(true);
     lt = documents.initLanguageTool(language, false);
-    documents.initCheck(lt);
+    if (lt != null) {
+      documents.initCheck(lt);
+      documents.resetSortedTextRules(lt);
+    }
     if (debugMode) {
       for (String id : lt.getDisabledRules()) {
         MessageHandler.printToLogFile("CheckDialog: setLangTool: After init disabled rule: " + id);

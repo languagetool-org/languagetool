@@ -1301,7 +1301,7 @@ public class MultiDocumentsHandler {
   /**
    * reset sorted text level rules
    */
-  public void resetSortedTextRules() {
+  public void resetSortedTextRules(SwJLanguageTool lt) {
     String langCode = lt.getLanguage().getShortCodeWithCountryAndVariant();
     sortedTextRules = new SortedTextRules(lt, config, getDisabledRules(langCode), checkImpressDocument);
   }
@@ -1996,9 +1996,17 @@ public class MultiDocumentsHandler {
             return;
           }
           currentDocument = getCurrentDocument();
-          if (currentDocument != null && currentDocument.getDocumentType() == DocumentType.IMPRESS) {
-            checkImpressDocument = true;
-            locale = OfficeDrawTools.getDocumentLocale(currentDocument.getXComponent());
+          if (currentDocument != null && (currentDocument.getDocumentType() == DocumentType.IMPRESS 
+              || currentDocument.getDocumentType() == DocumentType.CALC)) {
+            if (currentDocument.getDocumentType() == DocumentType.IMPRESS) {
+              checkImpressDocument = true;
+              locale = OfficeDrawTools.getDocumentLocale(currentDocument.getXComponent());
+            } else {
+              locale = OfficeSpreadsheetTools.getDocumentLocale(currentDocument.getXComponent());
+            }
+            if (locale == null) {
+              locale = new Locale("en","US","");
+            }
             MessageHandler.printToLogFile("MultiDocumentsHandler: LtHelper: local: " + OfficeTools.localeToString(locale));
             langForShortName = getLanguage(locale);
             docLanguage = langForShortName;
