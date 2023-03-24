@@ -3420,7 +3420,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>que</token>
                     <token postag="SPS00" min="0"/>
-                    <token regexp="yes">qué|cómo|cuántos?|cuándo|quién|quiénes|cuál|cuáles|que|como|cuantos?|cuando|quien|quienes|cual|cuales</token>
+                    <token regexp="yes">qué|cómo|cuántos?|cuándo|quién|quiénes|cuál|cuáles|dónde|donde|que|como|cuantos?|cuando|quien|quienes|cual|cuales</token>
+                    <example>¿Que dónde me gustaría vivir?</example>
                 </antipattern>
                 <antipattern>
                     <token>a</token>
@@ -3562,6 +3563,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.S.*" postag_regexp="yes"/>
                     <example>¿Y que le funcione?</example>
                     <example>¿Hasta que se case?</example>
+                </antipattern>
+                <antipattern>
+                    <token>con</token>
+                    <token>que</token>
+                    <token postag="[PD]D.*" postag_regexp="yes"/>
+                    <example>¿Con que esta era la felicidad, eh?</example>
                 </antipattern>
                 <pattern>
                     <token>¿</token>
@@ -3993,6 +4000,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- 5 -->
                 <antipattern>
+                    <token>cada</token>
+                    <token>vez</token>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
                     <token skip="-1">que<exception scope="next">que</exception></token>
                     <token postag="V.S.*" postag_regexp="yes"/>
                     <example>Que dios las bendiga siempre.</example>
@@ -4098,6 +4110,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- used as a proper noun -->
                     <token>internet</token>
                     <example>Sabemos que internet tiene problemas.</example>
+                </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token inflected="yes">equivaler</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -4727,7 +4744,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- 23 -->
                 <!-- Previous rule slightly modified because of a bug -->
                 <antipattern>
-                    <token>seguro</token>
+                    <token regexp="yes">seguro|cómo</token>
                     <token>que</token>
                     <example>¿Seguro que nos ayudarán?</example>
                 </antipattern>
@@ -4750,6 +4767,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Quieres que conteste?</example>
                 <example>¿Hay algo que podamos hacer? </example>
                 <example>¿De verdad que quieres ir?</example>
+                <example>¿Cómo que se acabaron?</example>
             </rule>
             <rule>
                 <!-- 24 -->
