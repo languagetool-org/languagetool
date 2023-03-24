@@ -635,6 +635,13 @@ class CompoundTagger {
       }
     }
 
+    if( parts.length == 3 ) {
+        Set<AnalyzedToken> tokens = generateEntities(word);
+        if( tokens.size() > 0 )
+          return new ArrayList<>(tokens);
+    }
+
+    
     // filter out г-г-г
     if( parts.length >= 3 && set.size() > 1
         && ! dashPrefixes.containsKey(parts[0])

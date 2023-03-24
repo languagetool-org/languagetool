@@ -112,6 +112,14 @@ public class UkrainianTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
 
+    if ( word.length() > 5 && word.matches("[а-яіїєґ'-]*[а-яіїєґ][А-ЯІЇЄҐ][а-яіїєґ][а-яіїєґ'-]*") ) {
+      List<TaggedWord> wdList = wordTagger.tag(word.toLowerCase());
+      if( wdList.size() > 0 ) {
+        wdList = PosTagHelper.adjust(wdList, null, null, ":alt");
+        return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
+      }
+    }
+
     word = Ukrainian.IGNORED_CHARS.matcher(word).replaceAll("");
     
     if ( word.length() >= 3 && word.indexOf('-') > 0 ) {
