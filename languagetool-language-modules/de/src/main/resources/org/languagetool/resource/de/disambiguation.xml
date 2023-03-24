@@ -7730,4 +7730,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER.*" />
     </rule>
+    <rule id="RECHT_KEIN_VERB" name="'eine' kein Verb in 'eine der besten'">
+        <antipattern>
+            <token skip="1" regexp="yes">er|sie|ihr|bitte</token>
+            <token>recht</token>
+        </antipattern>
+        <antipattern>
+            <token skip="1">recht</token>
+            <token>er</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">recht</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
 </rules>
