@@ -55,7 +55,7 @@ final class TokenPredicate extends Expression.Arg.Pred<ChunkTaggedToken> {
         return analyzedToken -> matcher.matches(analyzedToken.getToken());
 
       case "chunk":
-        StringMatcher chunkPattern = StringMatcher.create(exprValue, true, true);
+        StringMatcher chunkPattern = StringMatcher.regexp(exprValue);
         return analyzedToken -> {
           for (ChunkTag chunkTag : analyzedToken.getChunkTags()) {
             if (chunkPattern.matches(chunkTag.getChunkTag())) {
@@ -80,7 +80,7 @@ final class TokenPredicate extends Expression.Arg.Pred<ChunkTaggedToken> {
 
       case "posre":
       case "posregex":
-        StringMatcher posPattern = StringMatcher.create(exprValue, true, true);
+        StringMatcher posPattern = StringMatcher.regexp(exprValue);
         return analyzedToken -> {
           AnalyzedTokenReadings readings = analyzedToken.getReadings();
           if (readings != null) {
