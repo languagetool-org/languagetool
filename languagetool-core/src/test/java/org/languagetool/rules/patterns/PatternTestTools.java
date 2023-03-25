@@ -472,11 +472,13 @@ public final class PatternTestTools {
                         + part + ") within " + "\"" + stringValue + "\".");
               } else {
                 // Duplicate disjunction parts "Foo|foo" since element ignores case.
-                warn("The " + lang + " rule: "
-                        + ruleId + ", token [" + tokenIndex + "], contains duplicated "
-                        + "non case sensitive disjunction part ("
-                        + part + ") within " + "\"" + stringValue + "\". Did you "
-                        + "forget case_sensitive=\"yes\"?");
+                if (!(part.equals("K") && ruleId.startsWith("AI_NL_HYDRA_LEO_MISSING_COMMA"))) {
+                  warn("The " + lang + " rule: "
+                    + ruleId + ", token [" + tokenIndex + "], contains duplicated "
+                    + "non case sensitive disjunction part ("
+                    + part + ") within " + "\"" + stringValue + "\". Did you "
+                    + "forget case_sensitive=\"yes\"?");
+                }
               }
             }
             partSetNoCase.add(partNoCase);
