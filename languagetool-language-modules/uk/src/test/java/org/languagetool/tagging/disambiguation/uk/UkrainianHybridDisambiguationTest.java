@@ -592,6 +592,8 @@ public class UkrainianHybridDisambiguationTest {
         + ".[</S>]",
         analyzedSentence.toString());
 
+    analyzedSentence = lt.getAnalyzedSentence("\u0301");
+    assertEquals("<S> </S> ", analyzedSentence.toString());
   }
 
   
