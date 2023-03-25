@@ -5430,6 +5430,20 @@
       </rule>
 
 
+    <rule id='ZERO_IN_DAYS_OF_THE_MONTH' name="[pt-PT] Datas: zeros nos dias do mês">
+      <!--       Created by Tiago F. Santos,  2019-09-05      -->
+      <pattern>
+        <token regexp='yes'>0\d</token>
+        <token min='0'>de</token>
+        <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
+      </pattern>
+      <message>A convenção padrão não utiliza o zero no dia do mês em datas escritas por extenso.</message>
+      <suggestion><match no='1' include_skipped='all' regexp_match='0(.)' regexp_replace='$1'/> <match no='2' include_skipped='all'/> \3</suggestion>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/datas-grafia/13231</url>
+      <example correction="3 de agosto">A peça estreia na sexta-feira, <marker>03 de agosto</marker>.</example>
+    </rule>
+
+
   </category>
 
 
