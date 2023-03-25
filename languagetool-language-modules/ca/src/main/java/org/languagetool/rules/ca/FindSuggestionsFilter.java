@@ -62,9 +62,9 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
     return analyzedSuggestion.hasAnyLemma(LemmasToIgnore) && !analyzedSuggestion.hasAnyLemma(LemmasToAllow);
   };
   
-  @Override
-  protected Synthesizer getSynthesizer() {
-    return CatalanSynthesizer.INSTANCE;
-  }
+//  @Override
+//  protected Synthesizer getSynthesizer() {
+//    return CatalanSynthesizer.INSTANCE;
+//  }
 
 }
