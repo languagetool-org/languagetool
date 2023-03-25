@@ -11705,14 +11705,16 @@ regexp case-insensitive maken: (?i)
                 <antipattern><token regexp="yes">.*(a-[aeiou]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</token></antipattern>
                 <!-- 24-3-2023 Ruud: antipattern weer aangezet, want het uitzetten staat foute woorden toe ; zie woordenlijst.org-->
                 <!-- 24-3-2023 added rekening-courant, moeder-overste, a-b -->
-                <antipattern><token regexp="yes">a-b|moeder-overste|rekening-courant|zwart-wit|up-to-date|make-up|try-out|pop-up||time-out|all-in|avant-garde|(back-up|amateur|interim|ex|oud|chef|meester|leerling|niet)-.*</token></antipattern>
+                <!-- 24-2-2023 remove amateur -->
+                <antipattern><token regexp="yes">a-b|moeder-overste|rekening-courant|zwart-wit|up-to-date|make-up|try-out|pop-up|time-out|all-in|avant-garde</token></antipattern>
+                <antipattern><token regexp="yes">(meester|leerling)-.*</token></antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
-                <message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan ook zonder. Let er wel op dat u het consequent doet voor een woord.</message>
+                <message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan vaak ook zonder. Let wel op de betekenis, daar kan het streepje belangrijk voor zijn.</message>
                 <suggestion suppress_misspelled="yes"><match no="1" regexp_match="[-]" regexp_replace=""/></suggestion>
                 <example correction="muziekindustrie">De <marker>muziek-industrie</marker> is overspannen.</example>
                 <example>De <marker>muziekindustrie</marker> is overspannen.</example>
