@@ -21749,14 +21749,14 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token inflected="yes">coördineren</token>
                 </pattern>
-                <message>&vlotter_mess; 'onderdelen op elkaar afstemmen' of 'de samenwerking regelen'.</message>
+                <message>&vlotter_mess; <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">organiseren</match></suggestion> of <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">regelen</match></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Laat het PMS dit <marker>coördineren</marker>.</example>
-                <example correction="">De VLM <marker>coördineert</marker> ook alle aankopen.</example>
-                <example correction=""><marker>Coördinerend</marker> minister Homans heeft het woord.</example>
-                <example correction=""><marker>Coördineert</marker> ook de werking van de vrijwilligers.</example>
-                <example correction="">De directie kan hier een <marker>coördinerende</marker> rol spelen.</example>
-                <example correction="">In 1973 was dat, toen hij de verbouwing van de kantoren <marker>coör­dineerde</marker>.</example>
+                <example correction="organiseren|regelen">Laat het PMS dit <marker>coördineren</marker>.</example>
+                <example correction="organiseert|regelt">De VLM <marker>coördineert</marker> ook alle aankopen.</example>
+                <example correction="Organiserend|Regelend"><marker>Coördinerend</marker> minister Homans heeft het woord.</example>
+                <example correction="Organiseert|Regelt"><marker>Coördineert</marker> ook de werking van de vrijwilligers.</example>
+                <example correction="organiserende|regelende">De directie kan hier een <marker>coördinerende</marker> rol spelen.</example>
+                <example correction="organiseerde|regelde">In 1973 was dat, toen hij de verbouwing van de kantoren <marker>coör­dineerde</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="COURANT" name="courant" tags="picky">
@@ -23466,10 +23466,10 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token>gereed</token>
                 </pattern>
-                <message>&vlotter_mess; 'klaar' of 'af'.</message>
+                <message>&vlotter_mess; <suggestion>klaar</suggestion>, <suggestion>bereid</suggestion>, <suggestion>af</suggestion> of <suggestion>afgehandeld</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction=""><marker>Gereed</marker> om in actie te komen.</example>
-                <example correction="">Deze suspensie laat men uitharden nadat een sectie van de sleuf <marker>gereed</marker> is.</example>
+                <example correction="Klaar|Bereid|Af|Afgehandeld"><marker>Gereed</marker> om in actie te komen.</example>
+                <example correction="klaar|bereid|af|afgehandeld">Deze suspensie laat men uitharden nadat een sectie van de sleuf <marker>gereed</marker> is.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GEREVITALISEERD" name="gerevitaliseerd" tags="picky">
@@ -27180,7 +27180,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="">Als de populaire naam <marker>aan iets bijzonders refereert</marker> als de breedte van de magneetband.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="REFLECTEREN" name="reflecteren" tags="picky">
+        <rulegroup id="REFLECTEREN" name="reflecteren" tags="picky" default="off">
+            <!-- Disabled. Unpopular rule with around 1% apply rate as it's a common word -->
             <rule>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token regexp="yes" skip="-1">.*(licht|geluid).*</token><token postag="SENT_END"/></antipattern>
                 <pattern>
@@ -28779,7 +28780,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="Vaak"><marker>Veelvuldig</marker> gebruikt voor het bewaren van dekens.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VERBETERPUNT" name="verbeterpunt" tags="picky">
+        <rulegroup id="VERBETERPUNT" name="verbeterpunt" tags="picky" default="off">
+            <!-- Disabled, suggestions too often do not fit the context, alternatives are similarly "old fashioned". -->
             <rule>
                 <pattern>
                     <token inflected="yes">verbeterpunt</token>
@@ -30926,7 +30928,8 @@ regexp case-insensitive maken: (?i)
                 <message>&vaag_mess;</message>
                 <example correction="">Ik ga <marker>ooit</marker>.</example>
             </rule>
-            <rule>
+            <rule default="off">
+                <!-- Very high disable rate, disabled rule for now. -->
                 <pattern>
                     <token>men</token>
                 </pattern>
