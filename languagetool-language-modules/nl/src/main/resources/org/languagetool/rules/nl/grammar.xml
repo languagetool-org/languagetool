@@ -865,7 +865,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="100 cm³">De inhoud is <marker>100cm3</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="INSPECIFIEK_2" name="bijna zeker/altijd" tags="picky">
+        <rule id="INSPECIFIEK_2" name="bijna zeker/altijd" tags="picky" default="off">
+            <!-- Disabled. Unpopular rule with high disable rate. This is a suggestion in rule "IN_DE_MEESTE_GEVALLEN" -->
             <pattern>
                 <token>bijna</token>
                 <token regexp="yes">zeker|altijd</token>
@@ -881,7 +882,8 @@ regexp case-insensitive maken: (?i)
             <message>Wanneer u precies wit zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
             <example correction="">Dit is <marker>zeer waarschijnlijk</marker> onduidelijk.</example>
         </rule>
-        <rule id="INSPECIFIEK_4" name="heel vaak" tags="picky">
+        <rule id="INSPECIFIEK_4" name="heel vaak" tags="picky" default="off">
+            <!-- Disabled. Unpopular rule with high disable rate, common to use. -->
             <pattern>
                 <token>heel</token>
                 <token>vaak</token>
@@ -889,7 +891,8 @@ regexp case-insensitive maken: (?i)
             <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
             <example correction="">Dit is <marker>heel vaak</marker> onduidelijk.</example>
         </rule>
-        <rule id="INSPECIFIEK_5" name="grote/kleine kans" tags="picky">
+        <rule id="INSPECIFIEK_5" name="grote/kleine kans" tags="picky" default="off">
+            <!-- Disabled. Unpopular rule with high disable rate. This specific wording is used in our own messages.-->
             <pattern>
                 <token regexp="yes">grote|kleine</token>
                 <token>kans</token>
@@ -21195,7 +21198,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="Hierbij"><marker>Bij dezen</marker> een woordje over het gebruik van formele woorden, dewelke thans nog vaak voorkomen, zeker in schriftelijk taalgebruik.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BIJDRAGE_LEVEREN" name="bijdrage leveren" tags="picky">
+        <rulegroup id="BIJDRAGE_LEVEREN" name="bijdrage leveren" tags="picky" default="off">
+            <!-- Disabled, suggestions don't exactly give it the same meaning - unpopular rule. -->
             <rule>
                 <pattern>
                     <token skip="3">bijdrage</token><token inflected="yes">leveren</token>
@@ -21346,18 +21350,28 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="BRANDING" name="branding">
             <!-- omdat de branding van de zee frequent voorkomt, dit weghalen aan de hand van andere woorden -->
             <rule>
-                <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token regexp="yes" skip="-1">strand|bruis.*|.*kust|golven|golf|zee|rots|woest|rolt|surfen|donderen.*|.*bulder.*|meeuw.*|gebroken</token><token postag="SENT_END"/></antipattern>
+                <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token regexp="yes" skip="-1">strand|bruis.*|.*kust|golven|golf|.*zee.*|zand.*|.*rots.*|woest|rolt|.*surfen|donderen.*|.*bulder.*|meeuw.*|gebroken</token><token postag="SENT_END"/></antipattern>
+                <antipattern>
+                    <token postag="VRZ"></token>
+                    <token>de</token>
+                    <token>branding</token>
+                    <example>Zwemmen in de branding.</example>
+                </antipattern>
+                <antipattern>
+                    <!-- "personal merkontwikkeling" does not fit very well -->
+                    <token postag_regexp="yes" postag="UNKNOWN|DVW"></token>
+                    <token>branding</token>
+                    <example>Ik heb geïnvesteerd in personal branding.</example>
+                </antipattern>
                 <pattern>
-                    <token skip="10">branding</token>
+                    <token case_sensitive="yes" skip="10">branding</token>
                 </pattern>
-                <message>Als u reclame bedoelt, schrijf dan ook 'reclame maken voor' of 'als een merk presenteren'.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Onze designers creëren samen met jou een volledige <marker>branding</marker>, en vatten die perfect samen in een duidelijke stijlgids.</example>
-                <example>En als er behoorlijk wat <marker>branding</marker> stond, moest de schuit het bonkend aankomen op het strand aankunnen.</example>
-                <example>Je was een rots in de <marker>branding</marker>.</example>
-                <example>Gelukkig zonder gevaar, de beesten kunnen nu eenmaal moeilijk anders terwijl ze golven in de <marker>branding</marker> proberen te bedwingen.</example>
-                <example>Deze <marker>branding</marker> is ideaal om te surfen.</example>
-                <example>De zevende hole heeft een afslag over de donderende <marker>branding</marker>.</example>
+                <message>Als u reclame bedoelt kunt u ook een Nederlands woord als <suggestion>merkontwikkeling</suggestion> of <suggestion>merkbevordering</suggestion> gebruiken.</message>
+                <example correction="merkontwikkeling|merkbevordering">Onze designers zullen samen met jou de <marker>branding</marker> opzetten en vatten die perfect samen in een duidelijke stijlgids.</example>
+                <example>En als er behoorlijk wat branding stond, moest de schuit het bonkend aankomen op het strand aankunnen.</example>
+                <example>Je was een rots in de branding.</example>
+                <example>Deze branding is ideaal om te surfen.</example>
+                <example>De zevende hole heeft een afslag over de donderende branding.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BRANDSTOFVERKOOPPUNT" name="brandstofverkooppunt" tags="picky">
@@ -22276,14 +22290,14 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token inflected="yes">diversiteit</token>
                 </pattern>
-                <message>&vlotter_mess; 'verschillen', 'ongelijkheid' of 'allerlei'.</message>
+                <message>&vlotter_mess; <suggestion>variatie</suggestion>, <suggestion>afwisseling</suggestion> of <suggestion>verschillen</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Leren in <marker>diversiteit</marker>.</example>
-                <example correction="">Lokale <marker>diversiteit</marker> kan positief zijn.</example>
-                <example correction="">Een <marker>diversiteit</marker> van verschillende soorten kunst.</example>
-                <example correction="">Deze <marker>diversiteit</marker> proberen we hier op te brengen.</example>
-                <example correction="">We hadden daarbij aandacht voor geografische <marker>diversiteit</marker>.</example>
-                <example correction="">Skeeleren wordt gekenmerkt door snelheid en <marker>diversiteit</marker>.</example>
+                <example correction="variatie|afwisseling|verschillen">Leren in <marker>diversiteit</marker>.</example>
+                <example correction="variatie|afwisseling|verschillen">Lokale <marker>diversiteit</marker> kan positief zijn.</example>
+                <example correction="variatie|afwisseling|verschillen">Een <marker>diversiteit</marker> van verschillende soorten kunst.</example>
+                <example correction="variatie|afwisseling|verschillen">Deze <marker>diversiteit</marker> proberen we hier op te brengen.</example>
+                <example correction="variatie|afwisseling|verschillen">We hadden daarbij aandacht voor geografische <marker>diversiteit</marker>.</example>
+                <example correction="variatie|afwisseling|verschillen">Skeeleren wordt gekenmerkt door snelheid en <marker>diversiteit</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DOEN_TOEKOMEN" name="doen toekomen" tags="picky">
@@ -23048,9 +23062,9 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token inflected="yes">faciliteren</token>
                 </pattern>
-                <message>&vlotter_mess; 'ondersteunen' of 'mogelijk maken'.</message>
+                <message>&vlotter_mess; <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">ondersteunen</match></suggestion>, <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">voorzien</match></suggestion> of <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">vergemakkelijken</match></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Wij <marker>faciliteren</marker> het veilingsysteem.</example>
+                <example correction="ondersteunen|voorzien|vergemakkelijken">Wij <marker>faciliteren</marker> het veilingsysteem.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FASEGEWIJS" name="fasegewijs" tags="picky">
@@ -23371,7 +23385,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="">Gelukkig waren er 18 leden <marker>in de gelegenheid</marker> om te komen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="GELET_OP" name="gelet op">
+        <rulegroup id="GELET_OP" name="gelet op" default="off">
+            <!-- Disabled. Pretty bad suggestions. Potential suggestions like "met het oog op" or "rekening houdend met" do not improve readability -->
             <rule>
                 <pattern>
                     <token>gelet</token>
@@ -24400,7 +24415,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="nu|in de tijd waarin we nu leven">Net zo als er <marker>in het huidige tijdsgewricht</marker> punten zijn waar nominalisaties plaatsvinden.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IN_HET_KADER_VAN" name="in het kader van" tags="picky">
+        <rulegroup id="IN_HET_KADER_VAN" name="in het kader van" tags="picky" default="off">
+            <!-- Disabled. Suggestions are either bad or similarly old fashioned (op basis van, met het oog op) -->
             <rule>
                 <pattern>
                     <token>in</token>
@@ -24773,13 +24789,21 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="ISSUE" name="issue" tags="picky">
             <rule>
                 <pattern>
-                    <token inflected="yes">issue</token>
+                    <token>issue</token>
                 </pattern>
-                <message>&vlotter_mess; 'belangrijk onderwerp' of 'het punt waar het om gaat'.</message>
+                <message>&vlotter_mess; <suggestion>belangrijk onderwerp</suggestion>, <suggestion>kwestie</suggestion> of <suggestion>probleem</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Alleen duiken er misschien <marker>issues</marker> op.</example>
-                <example correction="">Er wordt achter de schermen gewerkt aan een nieuwe website dus ook dit zal in de toekomst geen <marker>issue</marker> meer zijn.</example>
-                <example correction="">Misschien omdat ik er geen <marker>issue</marker> van maak.</example>
+                <example correction="belangrijk onderwerp|kwestie|probleem">Alleen duikt er misschien een <marker>issue</marker> op.</example>
+                <example correction="belangrijk onderwerp|kwestie|probleem">Misschien omdat ik er geen <marker>issue</marker> van maak.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>issues</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion>belangrijke onderwerpen</suggestion>, <suggestion>kwesties</suggestion> of <suggestion>problemen</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="belangrijke onderwerpen|kwesties|problemen">Dat zijn geen <marker>issues</marker> meer.</example>
+                <example correction="belangrijke onderwerpen|kwesties|problemen">Jij hebt echt <marker>issues</marker>, man.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ITEM" name="item" tags="picky" default="off">
@@ -25050,7 +25074,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="hoeveelheid|bedrag|grootte">Let maar eens op die typische mannenpraatjes, het gaat altijd over de <marker>kwantiteit</marker>, nooit over de kwaliteit.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KWARTAAL" name="kwartaal" tags="picky">
+        <rulegroup id="KWARTAAL" name="kwartaal" tags="picky" default="off">
+            <!-- Disabled, suggestions make it sound a lot less smooth than the original -->
             <rule>
                 <pattern>
                     <token inflected="yes">kwartaal</token>
@@ -25504,7 +25529,8 @@ regexp case-insensitive maken: (?i)
                 <example correction="om|daarom">Kort daarop gaat men in de wijnberg om de takken weg te snijden waarop geen druiven groeien, <marker>met de bedoeling dat</marker> de volledige kracht van de plant in de vrucht zou gaan.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MET_HET_OOG_OP" name="met het oog op" tags="picky">
+        <rulegroup id="MET_HET_OOG_OP" name="met het oog op" tags="picky" default="off">
+            <!-- Disabled. Very unpopular rule. Suggestions do not match meaning, better suggestions (in verband met, rekening houdend met) are similarly old fashioned -->
             <rule>
                 <pattern>
                     <token>met</token><token>het</token><token>oog</token><token>op</token>
@@ -26179,10 +26205,10 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token>ongeacht</token>
                 </pattern>
-                <message>&vlotter_mess; 'of nu wel of niet' of 'maakt niet uit'.</message>
+                <message>&vlotter_mess; <suggestion>afgezien van</suggestion> of <suggestion>ondanks</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction=""><marker>Ongeacht</marker> de taal.</example>
-                <example correction="">En dit <marker>ongeacht</marker> de datum.</example>
+                <example correction="Afgezien van|Ondanks"><marker>Ongeacht</marker> de taal.</example>
+                <example correction="afgezien van|ondanks">En dit <marker>ongeacht</marker> de datum.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ONGENOEGEN" name="ongenoegen" tags="picky">
