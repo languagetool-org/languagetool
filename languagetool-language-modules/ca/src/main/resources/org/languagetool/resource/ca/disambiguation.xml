@@ -9603,6 +9603,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token postag="DA.MS." postag_regexp="yes"/>
+                <token postag="PX.*" postag_regexp="yes"/>
+                <marker>
+                    <token>ens</token>
+                </marker>
+                <token><exception postag="V.[IS].*|&pronom_feble;" postag_regexp="yes"></exception></token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token>ens</token>
                 </marker>

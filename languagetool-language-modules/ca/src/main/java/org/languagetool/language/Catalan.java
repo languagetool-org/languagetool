@@ -195,6 +195,8 @@ public class Catalan extends Language {
       case "REPETEAD_ELEMENTS": return 40;
       case "ESPERANT_US_AGRADI": return 40;
       case "ESPAIS_SOBRANTS": return 40; // greater than L
+      case "ELA_GEMINADA": return 35; // greater than agreement rules, pronoun rules
+      case "PRONOMS_FEBLES_TEMPS_VERBAL": return 35;
       case "ET_AL": return 30; // greater than apostrophes and pronouns
       case "PRONOMS_FEBLES_COLLOQUIALS": return 30; // greater than PRONOMS_FEBLES_SOLTS2
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
@@ -220,7 +222,6 @@ public class Catalan extends Language {
       case "HAVER_PARTICIPI_HAVER_IMPERSONAL": return 15; // greater than ACCENTUATION_CHECK
       case "CONCORDANCES_NUMERALS_DUES": return 10; // greater than CONCORDANCES_NUMERALS
       case "FALTA_CONDICIONAL": return 10; // greater than POTSER_SIGUI
-      case "ELA_GEMINADA": return 10; // greater than agreement rules
       case "ACCENTUATION_CHECK": return 10;
       case "CONCORDANCES_NUMERALS": return 10;
       case "CAP_ELS_CAP_ALS": return 10; // greater than DET_GN
