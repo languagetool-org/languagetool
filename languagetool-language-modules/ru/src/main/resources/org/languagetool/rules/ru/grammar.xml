@@ -9009,7 +9009,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="неплохо, но">Работа выполнена <marker>не плохо, но</marker> медленно.</example>
         </rule>
         </rulegroup>            
-        <rule  id="Ne_narech2" name="«Не» с наречиями (2)" default="on">
+        <rule  id="Ne_narech2" name="«Не» с наречиями (2)" default="on" tags="picky" >
             <!-- TODO set on after release -->
             <!-- слитное написание частицы не:
                отсутствует противопоставление, отсутствуют слова  «отнюдь, вовсе, далеко», отсутствует местоимение или наречие с «ни»,  отсутствуют «едва ли не», «чуть ли не» ,«разве не».
@@ -9078,7 +9078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:2 regexp:(.*) postag_regexp:(ADV) prefix:не suffix:  "/>      <!--   Test if word with "не" exist! -->
-                <message>Обычно пишется слитно с «не», отсутствует противопоставление: <suggestion>не<match no="2"></match></suggestion>.</message>
+                <message>Обычно пишется слитно с «не», отсутствует противопоставление, проверьте контекст: <suggestion>не<match no="2"></match></suggestion>.</message>
                 <url>https://kak-pravilno.net/ne-obyazatelno-ili-neobyazatelno-kak-pravilno/</url>
                 <short>Обычно слитно с «не»</short>
                 <example>Несложно проверить его стабильность.</example>
@@ -9186,7 +9186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
             
-        <rule default="temp_off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)"> 
+        <rule default="on" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями (краткая форма)" tags="picky"> 
                 <!-- Его походка медлительна, неуверенна. Это краткое прилагательное, слитное написание НЕ, две буквы НН, зависимых слов нет   default="temp_off" -->
             <antipattern>   
                     <marker>
