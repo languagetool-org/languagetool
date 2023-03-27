@@ -3061,7 +3061,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>таким<exception postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC|NN:.*" postag_regexp="yes" scope="previous"></exception>
                     <exception regexp="yes" scope="previous">[,.-;:—-]</exception>
                     <exception scope="previous" postag_regexp="yes" postag="SENT_START" />
-                    <exception scope="previous" regexp="yes">что|чтобы|как|только</exception>
+                    <exception scope="previous" regexp="yes">не|что|чтобы|как|только</exception>
                 </token>
                 <token>образом</token>
                 <token postag="VB:.*|DPT:.*|PT:.*|PT_Short:.*|PREP|PRDC" postag_regexp="yes" negate_pos="yes">
@@ -3073,6 +3073,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Пропущена запятая</short>
             <example correction="И, таким образом, мы"><marker>И таким образом мы</marker></example>
             <example>И,таким образом, мы</example>
+            <example>Только не таким образом мы занимаемся спортом.</example>
             <example>Продавец "экономит" таким образом 4000 рублей.</example>
             <example>И сообщают им таким образом всю необходимую информацию.</example>
             <example>Можно сказать это и таким образом?</example>
@@ -4439,14 +4440,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
                 <antipattern>
-                    <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что|не</exception><exception postag="SENT_START" ></exception></token>
-                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->                                    
+                    <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|вполне|сначала|очень|а|и|но|что|не</exception><exception postag="SENT_START" ></exception></token>
+                    <token case_sensitive="yes" regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->                                    
                     <token postag="ADV" skip="-1"><exception negate_pos="yes" postag="ADV" /><exception scope="next" postag_regexp="yes" postag="VB:.*" /><exception regexp="yes">же|ж|,</exception></token>
                     <token regexp="yes" >&pnct;</token>  
                 </antipattern>
-                <pattern case_sensitive="yes">
-                    <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что|не</exception><exception postag="SENT_START" ></exception></token>
-                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->                                    
+                <pattern>
+                    <token><exception regexp="yes">&pnct;|наиболее|наименее|более|менее|вполне|сначала|очень|а|и|но|что|не</exception><exception postag="SENT_START" ></exception></token>
+                    <token case_sensitive="yes" regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->                                    
                     <token postag_regexp="yes" postag="VB:.*|ADV"><exception negate_pos="yes" postag_regexp="yes" postag="VB:.*|ADV" /><exception regexp="yes">же|ж|,</exception></token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\1, \2, \3</suggestion>.</message>
@@ -4463,9 +4464,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако, наверное, наверно   ...-->
-                <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что|как<exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
-                    <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>  <!-- temp remove однако (Вводное слово «однако» не может стоять в начале предложения, соединять однородные члены и части сложного предложения.)--> 
+                <pattern>
+                    <token negate="yes" regexp="yes">&pnct;|наиболее|наименее|более|менее|вполне|сначала|очень|а|и|но|что|как<exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
+                    <token case_sensitive="yes" regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>  <!-- temp remove однако (Вводное слово «однако» не может стоять в начале предложения, соединять однородные члены и части сложного предложения.)--> 
                     <token>,</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\1, \2\3</suggestion>.</message>
@@ -9506,12 +9507,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>в</token>
                         <token>место</token>
                     </marker>
-                    <token><exception postag_regexp="yes" postag="ADJ:MPR:.*:R "></exception><exception regexp="yes" >назначения|поиска|сбора|сосредоточения</exception></token>
+                    <token><exception postag_regexp="yes" postag="ADJ:MPR:.*:R"></exception><exception regexp="yes" >назначения|поиска|сбора|сосредоточения|работы|отдыха|учебы|учёбы|практики</exception></token>
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
                 <short>Пишется слитно</short>
                 <example correction="вместо">Это новое оборудование можно  использовать <marker>в место</marker> старого.</example>
                 <example>Он махнул кулаком, целясь в место, где совсем недавно был мой подбородок.</example>
+                <example>Мы превратили его в место работы.</example>
             </rule>
             <rule>
                 <!-- заместо    -->
