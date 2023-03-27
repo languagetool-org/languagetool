@@ -27349,11 +27349,64 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="RETOURNEREN" name="retourneren" tags="picky">
             <rule>
                 <pattern>
-                    <token inflected="yes">retourneren</token>
+                    <token regexp="yes">geretourneerd.*</token>
                 </pattern>
-                <message>&vlotter_mess; 'terugsturen'.</message>
+                <message>&vlotter_mess; <suggestion><match no="1" postag_regexp="yes" postag="WKW:VTD.*">terugsturen</match></suggestion>, <suggestion><match no="1" postag_regexp="yes" postag="WKW:VTD.*">teruggeven</match></suggestion> of <suggestion><match no="1" postag_regexp="yes" postag="WKW:VTD.*">terugkomen</match></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Deze kan dus niet <marker>geretourneerd</marker> worden.</example>
+                <example correction="teruggestuurd|teruggegeven|teruggekomen">Deze kan dus niet <marker>geretourneerd</marker> worden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>te</token>
+                    <token>retourneren</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion>terug te sturen</suggestion>, <suggestion>terug te geven</suggestion> of <suggestion>terug te komen</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="terug te sturen|terug te geven|terug te komen">Dit valt dus niet <marker>te retourneren</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="VNW:PER.*"></token>
+                    <token>retourneren</token>
+                </antipattern>
+                <antipattern>
+                    <token>te</token>
+                    <token>retourneren</token>
+                </antipattern>
+                <pattern>
+                    <token>retourneren</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion>terugsturen</suggestion>, <suggestion>teruggeven</suggestion> of <suggestion>terugkomen</suggestion> .</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="terugsturen|teruggeven|terugkomen">Deze kan je dus niet <marker>retourneren</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="VNW:PER.*"></token>
+                    <marker>
+                        <token>retourneren</token>
+                    </marker>
+                    <token postag="SENT_END"></token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion>terugsturen</suggestion>, <suggestion>teruggeven</suggestion> of <suggestion>terugkomen</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="terugsturen|teruggeven|terugkomen">Maandag zal hij <marker>retourneren</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag_regexp="yes" postag="VNW:PER.*"></token>
+                    <token>retourneren</token>
+                    <token postag="SENT_END"></token>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="VNW:PER.*"></token>
+                    <marker>
+                        <token regexp="yes">retourneren|retourneert</token>
+                    </marker>
+                </pattern>
+                <message>&vlotter_mess; 'terugsturen', 'teruggeven' of 'terugkomen'.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="">Ze <marker>retourneren</marker> de gestolen goederen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="RETOURZENDEN" name="retourzenden" tags="picky">
