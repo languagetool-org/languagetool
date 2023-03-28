@@ -1,5 +1,10 @@
 # LanguageTool Change Log
 
+## 6.2-SNAPSHOT (release planned for 2023-06-28)
+
+...
+
+
 ## 6.1 (2023-03-28)
 
 #### Catalan
