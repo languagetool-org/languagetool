@@ -1376,6 +1376,7 @@ public class MultiDocumentsHandler {
         initCheck(lTool);
         config = this.config;
       }
+      config.initStyleCategories(lTool.getAllRules());
       ConfigThread configThread = new ConfigThread(lang, config, lTool, this);
       configThread.start();
     } catch (Throwable t) {
