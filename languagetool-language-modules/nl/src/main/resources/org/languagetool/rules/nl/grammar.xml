@@ -18020,28 +18020,49 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <!-- 2014-08-22 TaalTik -->
                 <pattern>
-                    <token inflected="yes" case_sensitive="yes">commercial</token>
+                    <token case_sensitive="yes">commercial</token>
                 </pattern>
                 <message>&leenwoord_mess;</message>
-                <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">reclame</match></suggestion>
-                <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">reclameboodschap</match></suggestion>
+                <suggestion>reclame</suggestion>
+                <suggestion>reclameboodschap</suggestion>
+                <example>Dat is een Airbus Commercial Aircraft.</example>
                 <example correction="reclame|reclameboodschap">Gebruik de <marker>commercial</marker>.</example>
                 <example>Gebruik de <marker>reclameboodschap</marker>.</example>
-                <example correction="reclame|reclameboodschap">Wat je nu moet maken van die <marker>commercial</marker>?</example>
-                <example correction="reclames|reclameboodschappen">En dat terwijl het draait om de <marker>commercials</marker> die verkocht worden.</example>
-                <example correction="reclame|reclameboodschap">De <marker>commercial</marker> eindigt op het dak van een gebouw.</example>
-                <example correction="reclame|reclameboodschap">In de <marker>commercial</marker> is te zien hoe ze vol ongeduld hun kerstcadeau uitpakken.</example>
+            </rule>
+            <rule>
+                <!-- 2014-08-22 TaalTik -->
+                <pattern>
+                    <token case_sensitive="yes">commercials</token>
+                </pattern>
+                <message>&leenwoord_mess;</message>
+                <suggestion>reclames</suggestion>
+                <suggestion>reclameboodschappen</suggestion>
+                <example correction="reclames|reclameboodschappen">Wat je nu moet maken van die <marker>commercials</marker>?</example>
+                <example correction="reclames|reclameboodschappen">De <marker>commercials</marker> eindigen op het dak van een gebouw.</example>
+                <example correction="reclames|reclameboodschappen">In de <marker>commercials</marker> is te zien hoe ze vol ongeduld hun kerstcadeau uitpakken.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BREAK" name="break → pauze">
             <rule>
                 <!-- 2014-08-22 TaalTik -->
+                <antipattern>
+                    <token postag_regexp="yes" postag="UNKNOWN|DVW|ENM.*"></token>
+                    <token inflected="yes">break</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">break</token>
+                    <token postag_regexp="yes" postag="UNKNOWN|DVW|ENM.*"></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"></token>
+                    <token inflected="yes">break</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">break</token>
                 </pattern>
                 <message>&leenwoord_mess;</message>
                 <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">pauze</match></suggestion>
-                <example correction="pauze">Gebruik de <marker>break</marker>.</example>
+                <example correction="pauze">Gebruik de <marker>break</marker> maar.</example>
                 <example correction="pauzen|pauzes">Deze <marker>breaks</marker> duren met moeite 2 à 3 minuten.</example>
                 <example correction="pauze">Na een korte <marker>break</marker> hervatten we onze tocht om via de oude trambedding richting Begijnendijk te drijven.</example>
                 <example correction="pauze">Tijd voor een <marker>break</marker> en ik wacht op de rest van de Fuerzianen.</example>
@@ -19154,6 +19175,31 @@ regexp case-insensitive maken: (?i)
                 <example correction="">De volgorde is van makkelijk naar meer <marker>complex</marker>.</example>
                 <example correction="">Je muziek is erg <marker>complex</marker>.</example>
                 <example correction="">Een bestaand industrieel <marker>complex</marker> renoveren?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CONSISTENT" name="consistent" tags="picky">
+            <rule>
+                <pattern>
+                    <token inflected="yes">consistent</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">logisch</match></suggestion> of <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">samenhangend</match></suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="logisch|samenhangend">We moeten <marker>consistent</marker> zijn', verklaarde ze.</example>
+                <example correction="logischer|samenhangender">Die zijn veel <marker>consistenter</marker> en geloofwaardiger.</example>
+                <example correction="logische|samenhangende">Een <marker>consistente</marker> run, althans voor de MD periode.</example>
+                <example correction="Logische|Samenhangende"><marker>Consistente</marker> en gevalideerde meertalige informatie leveren.</example>
+                <example correction="logisch|samenhangend">Daar bleven beide ploegen <marker>consistent</marker> missen totdat de doelman van Meulebeke succesvol afwerkte.</example>
+                <example correction="logisch|samenhangend">Een <marker>consistent</marker> nationaal beleid wordt aanbevolen, zodat marktpartijen vertrouwen kunnen hebben in de marktpotentie van geavanceerde renovatie.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CONSTATEREN" name="constateren" tags="picky">
+            <rule>
+                <pattern>
+                    <token inflected="yes">constateren</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">zien</match></suggestion> of <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">ondervinden</match></suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="zie|ondervind">Ik <marker>constateer</marker> gewoon.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DESBETREFFEND" name="desbetreffend" tags="picky">
@@ -22086,21 +22132,6 @@ regexp case-insensitive maken: (?i)
                 <example correction="overeenstemming">Ze eisen een nieuwe regering van nationale <marker>consensus</marker> met hen aan het roer.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONSISTENT" name="consistent" tags="picky">
-            <rule>
-                <pattern>
-                    <token inflected="yes">consistent</token>
-                </pattern>
-                <message>&vlotter_mess; <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">logisch</match></suggestion> of <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">samenhangend</match></suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="logisch|samenhangend">We moeten <marker>consistent</marker> zijn', verklaarde ze.</example>
-                <example correction="logischer|samenhangender">Die zijn veel <marker>consistenter</marker> en geloofwaardiger.</example>
-                <example correction="logische|samenhangende">Een <marker>consistente</marker> run, althans voor de MD periode.</example>
-                <example correction="Logische|Samenhangende"><marker>Consistente</marker> en gevalideerde meertalige informatie leveren.</example>
-                <example correction="logisch|samenhangend">Daar bleven beide ploegen <marker>consistent</marker> missen totdat de doelman van Meulebeke succesvol afwerkte.</example>
-                <example correction="logisch|samenhangend">Een <marker>consistent</marker> nationaal beleid wordt aanbevolen, zodat marktpartijen vertrouwen kunnen hebben in de marktpotentie van geavanceerde renovatie.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="CONSOLIDATIE" name="consolidatie" tags="picky">
             <rule>
                 <pattern>
@@ -22109,16 +22140,6 @@ regexp case-insensitive maken: (?i)
                 <message>&vlotter_mess; 'het vasthouden', 'het vastleggen van iets goeds' of 'het bewaren van'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction=""><marker>Consolidatie</marker> is iets voor later.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="CONSTATEREN" name="constateren" tags="picky">
-            <rule>
-                <pattern>
-                    <token inflected="yes">constateren</token>
-                </pattern>
-                <message>&vlotter_mess; <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">zien</match></suggestion> of <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">ondervinden</match></suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="zie|ondervind">Ik <marker>constateer</marker> gewoon.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONSTELLATIE" name="constellatie" tags="picky">
