@@ -12665,6 +12665,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное" tags="picky" >
             <rule>
+                 <antipattern>
+                        <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
+                        <token postag="ADJ:.*:.*:.*" postag_regexp="yes"></token>
+                        <token min="0" max="1">,</token>
+                        <token min="0" max="1">но</token>
+                        <token postag="ADJ:.*:.*:.*" postag_regexp="yes"></token>  
+                        <token postag="SENT_END" spacebefore="no">.</token>
+                </antipattern>
                 <antipattern>
                         <token postag="VB:.*" postag_regexp="yes"></token>
                         <token postag="ADJ:Posit:.*:T" postag_regexp="yes"></token> 
@@ -12695,7 +12703,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Магазин находится на ул. Горной.</example>
                 <example>Это кольцо является волшебным.</example>
                 <example>Такой подход оказался достаточно универсальным.</example>
-                <example>Когда он был маленький.</example>
+                <example>Холл небольшой, но уютный.</example>
+                <example>Холл небольшой, уютный.</example>
                 <example>В случае, если локальные минимумы сильно отличаются друг от друга, то предсказание становится затруднительным.</example>
                 <example correction="">Так он и выбрал <marker>красивую.</marker></example>
             </rule>
