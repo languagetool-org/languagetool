@@ -37635,21 +37635,11 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
 
         <rulegroup id="_2_LEESTEKENS" name="Twee maal zelfde leesteken" tags="picky">
-            <!-- MB@22-03-23 - probably replace with this rule to get all characters -->
-            <rule default="temp_off">
+            <rule>
                 <regexp>([\!\?])[\!\?]{1,30}</regexp>
                 <message>Waarschijnlijk staat hier een leesteken te veel. <suggestion>\1</suggestion></message>
                 <example correction="!">Ik zie het<marker>!!</marker></example>
                 <example correction="?">Hoe kan dat<marker>???????</marker></example>
-            </rule>
-            <rule>
-                <antipattern><token>:</token><token>-</token><token>)</token></antipattern><!-- smiley -->
-                <pattern>
-                    <token regexp="yes">[!?,;:]</token>
-                    <token><match no="0"/></token>
-                </pattern>
-                <message>Waarschijnlijk staat hier een leesteken te veel. <suggestion>\1</suggestion>.</message>
-                <example correction="!">Ik zie het<marker>!!</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="_2_AANH_A" name="Twee enkele aanhalingstekens" tags="picky">
