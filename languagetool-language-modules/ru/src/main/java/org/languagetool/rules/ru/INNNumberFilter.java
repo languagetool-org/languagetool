@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 /**
  * Checks if INN number is incorrect
- * @ author Yakov Reztsov
+ * @author Yakov Reztsov
  * @since 6.1
  */
 
