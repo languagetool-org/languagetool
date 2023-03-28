@@ -100,7 +100,7 @@ public class AboutDialog {
       licensePane.setEditable(false);
       licensePane.setOpaque(false);
       licensePane.setText("<html>"
-              + "<p>Copyright (C) 2005-2022 the LanguageTool community and Daniel Naber.<br>"
+              + "<p>Copyright (C) 2005-2023 the LanguageTool community and Daniel Naber.<br>"
               + "This software is licensed under the GNU Lesser General Public License.<br>"
               + "<a href=\"https://www.languagetool.org\">https://www.languagetool.org</a><br>"
               + "</html>");
