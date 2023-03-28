@@ -3151,6 +3151,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Rehgips-Platte": return topMatch("Rigips-Platte");
       case "Rehgips-Platten": return topMatch("Rigips-Platten");
       case "Rehgips": return topMatch("Rigips");
+      case "rundumerneuert": return topMatch("runderneuert");
+      case "rundumerneuerte": return topMatch("runderneuerte");
+      case "rundumerneuertes": return topMatch("runderneuertes");
+      case "rundumerneuerter": return topMatch("runderneuerter");
+      case "rundumerneuerten": return topMatch("runderneuerten");
+      case "rundumerneuertem": return topMatch("runderneuertem");
       case "Davidswache": return topMatch("Davidwache");
       case "Laola-Welle": return topMatch("La-Ola-Welle");
       case "Laola-Wellen": return topMatch("La-Ola-Wellen");
