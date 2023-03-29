@@ -46125,6 +46125,10 @@ O namorado dela era um ladrão.
         <token>e</token>
       </antipattern>
       <antipattern>
+        <token regexp='yes'>vitamina|\p{Lu}.*|\)|·</token>
+        <token>e</token>
+      </antipattern>
+      <antipattern>
         <token>foi</token>
         <token postag="V.N.*" postag_regexp="yes"/>
       </antipattern>
@@ -46143,7 +46147,8 @@ O namorado dela era um ladrão.
       <suggestion>sido \4</suggestion>
       <suggestion>e \4</suggestion>
       <suggestion>\4</suggestion>
-      <example correction="sendo considerado|sido considerado|e considerado|considerado">Einstein é um génio <marker>e é considerado</marker> o pai da relatividade.</example>
+      <suggestion>tendo sido \4</suggestion>
+      <example correction="sendo considerado|sido considerado|e considerado|considerado|tendo sido considerado">Einstein é um génio <marker>e é considerado</marker> o pai da relatividade.</example>
       <example>Ele escondeu-se sendo capturado em maio.</example>
       <example>Começou tímido, e foi soltando uma lista que parecia não acabar, de tanto assunto.</example>
       <example>Tom apagou a luz e foi dormir.</example>
