@@ -78,6 +78,10 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (repetitionOf("s", tokens, position) && position > 1 && tokens[position - 2].getToken().matches("['’`´‘]")) {
       return true; // It's S.T.E.A.M.
+    } else if (repetitionOf("in", tokens, position) && position > 2 && tokens[position - 3].getToken().matches("log(ged|s)?|sign(ed|s)?")) {
+      return true; // log them in in the
+    } else if (repetitionOf("in", tokens, position) && position > 1 && tokens[position - 2].getToken().matches("log(ged|s)?|sign(ed|s)?")) {
+      return true; // log in in the
     } else if (repetitionOf("a", tokens, position) && position > 1 && tokens[position - 2].getToken().equals(".")) {
       return true; // "a.k.a a"
     } else if (repetitionOf("on", tokens, position) && position > 1 && tokens[position - 2].getToken().equals(".")) {
