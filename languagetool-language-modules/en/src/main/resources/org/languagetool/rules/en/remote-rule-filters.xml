@@ -297,6 +297,21 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_NOUN_NUMBER" name="">
             <rule>
                 <pattern>
+                    <and>
+                        <token postag="NN"/>
+                        <token chunk="B-NP-singular"/>
+                    </and>
+                    <marker>
+                        <and>
+                            <token chunk="E-NP-singular"/>
+                            <token postag="NN:UN"/>
+                        </and>
+                    </marker>
+                </pattern>
+            <example correction="">Movie <marker>film</marker> seen in theaters in the United States runs at 24 frames per second, which is sufficient to create the illusion of continuous movement.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token chunk="B-NP-singular"/>
                         <marker>
                             <and>
