@@ -18481,6 +18481,7 @@ regexp case-insensitive maken: (?i)
             <antipattern><token>de</token><token>beest</token><token inflected="yes">uithangen</token></antipattern> <!-- de paar woningen -->
             <antipattern><token>de</token><token regexp="yes" skip="1">duizend|honderd</token><token postag_regexp="yes" postag=".*MRV.*"/></antipattern> <!-- de paar woningen -->
             <antipattern case_sensitive="yes"><token regexp="yes">[dD]e</token><token regexp="yes">[A-Z][a-z]+</token><token/></antipattern> <!-- de Laar etc. -->
+            <antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET.*"/></antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -18488,7 +18489,7 @@ regexp case-insensitive maken: (?i)
                     </marker>
                     <token postag="ZNW:EKV:HET"><exception postag_regexp="yes" postag="GET.*MRV"/></token>
                     <!-- de regel wordt vaak genegeerd als het om een spatiefout gaat. Beter om dat door een andere regel te laten signaleren -->
-                    <token><exception postag_regexp="yes" postag="ZNW.*DE_"/></token>
+                    <token><exception postag_regexp="yes" postag="ZNW.*DE_|ZNW:EKV"/></token>
                 </pattern>
                 <message>Bij \2 hoort meestal <suggestion>het</suggestion>; het kan ook een spatiefout zijn.</message>
                 <example correction="het">Ik loop in <marker>de</marker> veld.</example>
@@ -18496,6 +18497,7 @@ regexp case-insensitive maken: (?i)
                 <example correction="het">Daar ligt nu <marker>de</marker> plateau.</example>
                 <example correction="het">Vacuüm pomp in <marker>de</marker> kabinet.</example>
                 <example correction="het">Nu nog wachten op <marker>de</marker> menu.</example>
+                <example>Dat is de nummer zestien.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HET_JE_DIE" name="het hondje die">
@@ -18625,11 +18627,16 @@ regexp case-insensitive maken: (?i)
                         <token postag_regexp="yes" postag="WKW:(ODW|VTD).*"></token>
                     </and>
                 </antipattern>
+                <antipattern>
+                    <token>kost</token>
+                    <token>geld</token>
+                    <example>En zoals je weet, dit kost geld.</example>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">het|dit</token>
                         <token postag_regexp="yes" postag="ZNW:.*:DE_"><exception regexp="yes">mijn|hen|kan|zo|leek|was|weer|pro|moet</exception><exception postag_regexp="yes" postag=".*ONV"/></token>
-                        <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond|waarom</exception><exception postag="WKW:TGW:INF"/></token>
+                        <token postag_regexp="yes" postag="ZNW:.*HET"><exception regexp="yes">weer|net|tegen|weinig|rond|waarom|meer</exception><exception postag="WKW:TGW:INF"/></token>
                     </marker>
                 </pattern>
                 <message>\2 is een 'de'-woord, maar \3 een 'het'-woord. U kunt het best de onderdelen aaneenschrijven als het een begrip is of gewoon het lidwoord veranderen.</message>
@@ -18640,6 +18647,7 @@ regexp case-insensitive maken: (?i)
                 <example>Ik zong door en het leek net of het niet ging.</example>
                 <example>In dit geval had het KNVB gelijk met zijn beslissing.</example>
                 <example>Ik heb het tijd gegeven.</example>
+                <example>Ik had dit trimester meer tijd over.</example>
             </rule>
             <rule>
                 <pattern>
@@ -30820,6 +30828,14 @@ regexp case-insensitive maken: (?i)
                 <token>kan</token>
                 <token regexp="yes">u|je</token>
             </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag="ZNW.*"/>
+                <token>kan</token>
+                <token skip="3" regexp="yes">u|je</token>
+                <token>helpen</token>
+                <example>De coach kan je helpen als je daar moeite mee hebt.</example>
+                <example>Dagelijkse beweging kan u daarbij helpen.</example>
+            </antipattern>
             <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>Kan</token><token regexp="yes">je|u</token><token>nog</token><token postag="BNW:STL:ONV"/><token>van</token><token>pas</token><token>komen</token><token postag="SENT_END">.</token></antipattern>
             <antipattern><token regexp="yes">[0-9]{1,2}</token><token>u</token></antipattern> <!-- tijd -->
             <rule>
@@ -33347,6 +33363,11 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
         <rule id="ONTKEN_3" name="Ik heb nooit geen (nooit) koffie gedronken." tags="picky">
+            <antipattern>
+                <token>zeg</token>
+                <token>nooit</token>
+                <token>nooit</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens.+</token>
                 <token regexp="yes">evenmin|nimmer|niet|nooit|geen|nergens.+</token>
@@ -33355,6 +33376,7 @@ regexp case-insensitive maken: (?i)
             <example correction="nooit">Ik bel <marker>nooit geen</marker> klanten op.</example>
             <example correction="evenmin">Daar heb ik <marker>evenmin niet</marker> van gehoord.</example>
             <example correction="nooit">En <marker>nooit geen</marker> vakantie.</example>
+            <example>Zeg nooit nooit.</example>
         </rule>
         <rulegroup id="IETS_DAT" name="Iets dat → iets wat" tags="picky">
             <rule>
@@ -37282,6 +37304,11 @@ regexp case-insensitive maken: (?i)
                 <antipattern><token regexp="yes">alaaf|bison|jullie</token></antipattern>
                 <antipattern><token postag="UNKNOWN"/></antipattern><!-- diverse planten- en dierensoorten -->
                 <antipattern>
+                    <token>zeg</token>
+                    <token>nooit</token>
+                    <token>nooit</token>
+                </antipattern>
+                <antipattern>
                     <token>Dai</token>
                     <token>Dai</token>
                     <token regexp="yes">N'?tab</token>
@@ -37337,6 +37364,7 @@ regexp case-insensitive maken: (?i)
                 </pattern>
                 <message>Er staat hier een dubbel woord, bedoelde u soms: <suggestion>\2</suggestion>?</message>
                 <example correction="de">Ik zie <marker>de de</marker> man.</example>
+                <example>Zeg nooit nooit.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -40769,6 +40797,7 @@ regexp case-insensitive maken: (?i)
                 <antipattern><token>geseculariseerd</token><token>Vlaanderen</token></antipattern>
                 <antipattern><token>medisch</token><token>attest</token></antipattern>
                 <antipattern><token>financieel</token><token>planner</token></antipattern>
+                <antipattern><token>financieel</token><token>coördinator</token></antipattern>
                 <antipattern><token>vol</token><token>bewondering</token></antipattern>
                 <antipattern>
                     <token>een</token>

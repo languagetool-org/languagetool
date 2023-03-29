@@ -183,8 +183,12 @@ public class Dutch extends Language {
       // default : 0
       case "STAM_ZONDER_IK": return -1;  // sse https://github.com/languagetool-org/languagetool/issues/7644
       case "KOMMA_ONTBR": return -1;   // see https://github.com/languagetool-org/languagetool/issues/7644
-      case "WIJ_ZIJ_MIJ": return -2;  //needs higher priority than JOU_JOUW
+      case "WIJ_ZIJ_MIJ": return -2;  // needs higher priority than JOU_JOUW
+      case "KOMMA_AANH": return -2; // needs higher priority than DOUBLE_PUNCTUATION
+      case "HOOFDLETTERS_OVERBODIG_A": return -2; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "JOU_JOUW": return -3;
+      case "DOUBLE_PUNCTUATION": return -3;
+      case "MORFOLOGIK_RULE_NL_NL": return -3;
       case "KORT_1": return -5;
       case "KORT_2": return -5;  //so that spelling errors are recognized first
       case "EINDE_ZIN_ONVERWACHT": return -5;  //so that spelling errors are recognized first
