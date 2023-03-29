@@ -45404,6 +45404,41 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- AO MESMO TEMPO QUE enquanto -->
+    <rule id='AO_MESMO_TEMPO_QUE_ENQUANTO' name=" Ao mesmo tempo que → enquanto" type="style" tags='picky' default='temp_off'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-29 (2-MAR-2023+) -->
+      <!--
+      Ao mesmo tempo que tenta entender as situações antes de criticar. → Enquanto tenta entender as situações antes de criticar.
+      -->
+
+      <antipattern>
+        <token>ao</token>
+        <token>mesmo</token>
+        <token>tempo</token>
+        <token>que</token>
+        <token postag='SPS00|(SPS00:)?D[AI].+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token postag='SENT_END' postag_regexp='no'/>
+        <example>Isto ocorre ao mesmo tempo que o vento.</example>
+        <example>A coragem cresce ao mesmo tempo que o perigo.</example>
+        <example>O jovem tinha na cabeça apenas uma idéia: acordar ao mesmo tempo que a criadagem.</example>
+        <example>O Tom não se levanta ao mesmo tempo que a Maria.</example>
+      </antipattern>
+
+      <pattern>
+        <marker>
+          <token>ao</token>
+          <token>mesmo</token>
+          <token>tempo</token>
+          <token>que</token>
+        </marker>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>enquanto</suggestion>
+      <example correction="Enquanto"><marker>Ao mesmo tempo que</marker> tenta entender as situações antes de criticar.</example>
+    </rule>
+
+
     <rule id='ENQUANTO_POSSA_SER' name="Expressão: Enquanto puder ser" type='style'>
       <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
       <pattern>
