@@ -22556,16 +22556,17 @@ O namorado dela era um ladrão.
     <rule id='CONJUNCTION_REPETITION' name="Repetição de conjunções" default='on'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
       <pattern>
-        <token regexp="yes" skip='3'>ademais|além|conforme|contudo|demais|embora|entanto|entretanto|logo|mas|obstante|porém|portanto|senão|também|todavia
-          <exception scope='next' postag_regexp='yes' postag="_PUNCT|''"/></token>
-        <marker>
-          <token><match no='0'/></token>
-        </marker>
+        <token regexp="yes">ademais|além|conforme|contudo|demais|embora|entanto|entretanto|logo|mas|obstante|porém|portanto|senão|também|todavia</token>
+        <token skip='2' regexp='yes'>\p{L}.*</token>
+        <token><match no='0'/></token>
       </pattern>
-      <message>Repetição gramaticalmente incorreta.</message>
+      <message>Repetição de palavras.</message>
+      <suggestion><match no='2' include_skipped='all'/> \3</suggestion>
+      <suggestion>\1 <match no='2' include_skipped='all'/></suggestion>
       <url>https://pt.wikiversity.org/wiki/Norma_padrão_da_língua_portuguesa/Repetições_e_elipses</url>
-      <example correction="">Também escreveu <marker>também</marker> para um jornal nacional.</example>
-      <example correction="">Embora não é <marker>embora</marker> definitivo.</example>
+      <example correction="Escreveu também|Também escreveu"><marker>Também escreveu também</marker> para um jornal nacional.</example>
+      <example correction="Não é embora|Embora não é"><marker>Embora não é embora</marker> definitivo.</example>
+      <example correction="ou velho demais|demais ou velho">é jovem <marker>demais ou velho demais</marker> para apreciar certo tipo de música.</example>
       <example>Seja por vergonha, seja por timidez.</example>
     </rule>
 
