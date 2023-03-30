@@ -32369,6 +32369,38 @@ O namorado dela era um ladrão.
         <example correction='do rádio'><marker>do radio</marker>.</example>
         <example correction='dos rádios'><marker>dos radios</marker>.</example>
       </rule>
+      <rule id='PARONYM_RADIO_2' name='Parónimo: radia'>
+        <pattern>
+         <token regexp='yes' inflected='yes' skip='2'>ouvir|escutar</token>
+        <marker>
+         <token regexp='yes'>radi[ao]s?</token>
+        </marker>
+        </pattern>
+        <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>rádi<match no='2' regexp_match='.+?(s?)$' regexp_replace='o$1'/></suggestion>
+        <url>https://www.dicio.com.br/radia</url>
+        <example correction='rádio'>Ouvia <marker>radia</marker>.</example>
+        <example correction='rádios'>Escuto <marker>radias</marker>.</example>
+        <example correction='rádio'>Ouço <marker>radio</marker> todos os dias.</example>
+        <example correction='rádios'>Escutamos muitos <marker>radios</marker> ao mesmo tempo.</example>
+      </rule>
+      <rule id='PARONYM_RADIO_3' name='Parónimo: radia'>
+        <pattern>
+         <token postag_regexp='yes' postag='V.+'/>
+         <token min='0' postag_regexp='yes' postag='DI.+'/>
+         <token min='0' postag_regexp='yes' postag='A.+'/>
+        <marker>
+         <token regexp='yes'>radi[ao]s?</token>
+        </marker>
+        </pattern>
+        <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion>rádi<match no='4' regexp_match='.+?([ao]s?)$' regexp_replace='$1'/></suggestion>
+        <url>https://www.dicio.com.br/radia</url>
+        <example correction='rádia'>Tive <marker>radia</marker>.</example>
+        <example correction='rádias'>Comi <marker>radias</marker>.</example>
+        <example correction='rádio'>Tenho um belo <marker>radio</marker> em casa.</example>
+        <example correction='rádios'>Vendi vários <marker>radios</marker>.</example>
+      </rule>
       <rule id='PARONYM_RAFIA_273' name='Parónimo: rafia'>
         <pattern>
           <token regexp='yes'>&art_detecao_paronimos;
