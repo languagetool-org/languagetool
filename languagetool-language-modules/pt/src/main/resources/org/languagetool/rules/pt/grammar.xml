@@ -38476,6 +38476,18 @@ O namorado dela era um ladrão.
       Excelente para quem não esta doente. → Excelente para quem não está doente.
       O Dia dos Namorados esta a chegar. → O Dia dos Namorados está a chegar.
       -->
+
+      <!-- Quick fix - 2023-03-30 -->
+      <antipattern>
+        <token postag='CC'/>
+        <token regexp="yes">estas?</token>
+        <token postag='SPS00:D[AI].+' postag_regexp='yes'/>
+        <token postag='NC.+|AQ.+|NP.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='_PUNCT'/>
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Mas esta do ego, explica muito.</example>
+      </antipattern>
+
       <rule>
 
         <!--
