@@ -42688,11 +42688,12 @@ O namorado dela era um ladrão.
           <exception postag_regexp='yes' postag="NP.+"/></token>
       </pattern>
       <message>Em português formal, as palavras não contêm traço baixo (_), nem são separadas por traços. Verifique que a palavra '\1' está correta.</message>
-      <short>Erro tipográfico</short>
-      <example type="incorrect">Este é um <marker>caso_de_teste</marker> com erro.</example>
+      <suggestion><match no='1' regexp_match='_' regexp_replace=' '/></suggestion>
+      <suggestion><match no='1' regexp_match='_' regexp_replace='-'/></suggestion>
+      <example correction="caso de teste|caso-de-teste">Este é um <marker>caso_de_teste</marker> com erro.</example>
       <example>Este é um <marker>caso-de-teste</marker> sem erro.</example>
-      <example type="incorrect">Este é um <marker>caso_de</marker>-teste com hifens.</example>
-      <example type="incorrect">Alguns testes <marker>são______desnecessários</marker>.</example><!-- The message does not show all the underscores. -->
+      <example correction="caso de|caso-de">Este é um <marker>caso_de</marker>-teste com hifens.</example>
+      <example correction="são      desnecessários|são------desnecessários">Alguns testes <marker>são______desnecessários</marker>.</example><!-- The message does not show all the underscores. -->
       <example>Escreva o seu nome aqui: <marker>______________________</marker></example>
       <example>Teste de Idioma <marker>______________________</marker> 37</example>
       <example>Mais tests de idioma <marker>_</marker> Appendix B</example>
