@@ -176,7 +176,7 @@ public class Dutch extends Language {
   @Override
   protected int getPriorityForId(String id) {
     if (id.startsWith(SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE)) {
-      return -2;
+      return 1; // above spell checker, seems to do better with its suggestions
     }
     switch (id) {
       case LongSentenceRule.RULE_ID: return -1;
