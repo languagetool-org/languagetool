@@ -8007,8 +8007,9 @@ regexp case-insensitive maken: (?i)
                 <antipattern><token>.</token><token spacebefore="no">de</token></antipattern>
                 <antipattern>
                     <token>de</token>
-                    <token>edit</token>
+                    <token regexp="yes">edit|redirect</token>
                     <example>Dat wordt met de edit bijgewerkt.</example>
+                    <example>De redirect geeft een foutmelding.</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token>de</token>
@@ -9663,6 +9664,10 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="TE_VEEL" name="Te veel → teveel">
             <!-- 2014-08-20 TaalTik: regel uitgebreid met te kort, werkte goed, url toegevoegd -->
             <rule>
+                <antipattern>
+                    <token>het</token><token>te</token><token>veel</token><token>van</token><token>hetzelfde</token>
+                    <example>Ik denk dat het te veel van hetzelfde is.</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">een|het</token>
                     <marker>
@@ -16217,6 +16222,11 @@ regexp case-insensitive maken: (?i)
                     <token spacebefore="no">;</token>
                     <token spacebefore="no" min="0" regexp="yes">[A-Za-z]+</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">[:;]</token>
+                    <token spacebefore="no" regexp="yes">[”’]</token>
+                    <example>“Bezoekadres:”</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">[:;]</token>
                     <token spacebefore="no"/>
@@ -18406,11 +18416,12 @@ regexp case-insensitive maken: (?i)
                 <antipattern><token>gedaagden</token><token>sub</token></antipattern>
                 <antipattern><token>geïnteresseerden</token><token regexp="yes">informatie|kennis</token></antipattern>
                 <pattern>
-                    <token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="WKW:TGW:INF.*|WKW:VLT:INF|ZNW:MRV:DE_|BNW:STF|BNW.*VRB" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden|gesloten|.*fijn</exception></token>
+                    <token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*" regexp="yes">[a-z].*<exception postag_regexp="yes" postag="WKW:TGW:INF.*|WKW:VLT:INF|ZNW:MRV:DE_|BNW:STF|BNW.*VRB|ENM.*" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden|gesloten|.*fijn</exception></token>
                     <token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">meer|kan|bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen|zo|moet|stond|hen|&weekdays;|Grand</exception></token>
                 </pattern>
                 <message>Er staat misschien een 'n' te veel: <suggestion><match no="1" regexp_match="n$" regexp_replace=""/> \2</suggestion>.</message>
                 <example correction="gestoorde man">Ik zie de <marker>gestoorden man</marker> lopen.</example>
+                <example>Vanuit Stegeren wil hij maximaal zes keer op en neer.</example>
             </rule>
         </rulegroup>
 
@@ -19289,6 +19300,16 @@ regexp case-insensitive maken: (?i)
                 <example correction="bespreekt|beoordeelt">De kijker analyseert en <marker>evalueert</marker>".</example>
                 <example correction="Bespreek|Beoordeel"><marker>Evalueer</marker> nu ook eens je eigen seizoen.</example>
                 <example correction="bespraken|beoordeelden">Politie en parket <marker>evalueerden</marker> het O.M.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EVIDENT" name="Evident → duidelijk">
+            <rule>
+                <pattern>
+                    <token inflected="yes">evident</token>
+                </pattern>
+                <message>Als u dit ouderwets woord niet voor het stilistisch effect heeft gekozen, gebruik dan liever <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">duidelijk</match></suggestion>, <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">overduidelijk</match></suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
+                <example correction="duidelijk|overduidelijk">De werkgroep noemt het <marker>evident</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GELET_OP" name="gelet op">
@@ -20624,16 +20645,6 @@ regexp case-insensitive maken: (?i)
                 <example correction="schommelend">Binnen dat politiek systeem is hun macht <marker>fluctuerend</marker> en op tijdelijk drijfzand gebouwd.</example>
                 <example correction="schommelt">Hoe hoger deze afwijking, hoe meer dit fonds <marker>fluctueert</marker>, en dus hoe meer risicovol het fonds is.</example>
                 <example correction="schommelen">Hun bijdragen <marker>fluctueren</marker> samen met de beursresultaten.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="EVIDENT" name="Evident → duidelijk">
-            <rule>
-                <pattern>
-                    <token inflected="yes">evident</token>
-                </pattern>
-                <message>Als u dit ouderwets woord niet voor het stilistisch effect heeft gekozen, gebruik dan liever <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">duidelijk</match></suggestion>, <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">overduidelijk</match></suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
-                <example correction="duidelijk|overduidelijk">De werkgroep noemt het <marker>evident</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="NIET_X_MINST" name="Niet (in) het minst">
@@ -28519,10 +28530,10 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token inflected="yes">transparant</token>
                 </pattern>
-                <message>&vlotter_mess; 'open', <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">doorzichtig</match></suggestion> of <suggestion><match no="1" postag="(BNW:.*)(VRB|ONV)" postag_replace="$1ONV" postag_regexp="yes">goed</match> te controleren</suggestion>.</message>
+                <message>&vlotter_mess; <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">duidelijk</match></suggestion>, <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">helder</match></suggestion> of <suggestion><match no="1" postag="BNW.*" postag_regexp="yes">doorzichtig</match></suggestion></message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="doorzichtig|goed te controleren">Men is <marker>transparant</marker>.</example>
-                <example correction="doorzichtiger|beter te controleren">Het kan niet <marker>transparanter</marker>.</example>
+                <example correction="duidelijk|helder|doorzichtig">Men is <marker>transparant</marker>.</example>
+                <example correction="duidelijker|helderder|doorzichtiger">Het kan niet <marker>transparanter</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="U_GELIEVE" name="u gelieve" tags="picky">
@@ -32745,7 +32756,11 @@ regexp case-insensitive maken: (?i)
                 <example correction="dia's">Als je de <marker>dia s</marker> in de lounge ziet is het de hemel op aarde.</example>
             </rule>
             <rule>
-                <antipattern><token regexp="yes">[0-9]+</token><token case_sensitive="yes" spacebefore="yes">m</token></antipattern>
+                <antipattern>
+                    <token regexp="yes">.*[0-9]+</token>
+                    <token case_sensitive="yes" spacebefore="yes">m</token>
+                    <example>2x300 m vrije slag.</example>
+                </antipattern>
                 <antipattern><token case_sensitive="yes" spacebefore="yes">m</token><token regexp="yes">[/.2]</token></antipattern>
                 <pattern>
                     <marker>
@@ -33283,6 +33298,11 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="VTD_GEWORDEN" name="Gebruikt geworden → gebruikt">
             <rule>
+                <antipattern>
+                    <token>bekend</token>
+                    <token regexp="yes">geworden|geraakt</token>
+                    <example>Pas daarna is hij bekend geworden.</example>
+                </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="WKW:VTD:(INV|ONV)"/>
                     <token>geworden</token>
