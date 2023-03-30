@@ -52977,20 +52977,57 @@ O namorado dela era um ladrão.
       <example correction="Vamo-nos"><marker>Vamos-nos</marker> embora.</example>
     </rule>
 
-    <rule id='MISSPELLED_COMPOUND_VERB' name="Contrações: Verbos + Pronomes átonos">
+    <rulegroup id='MISSPELLED_COMPOUND_VERB' name="Contrações: Verbos + Pronomes átonos">
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-22 -->
+      <rule>
       <pattern>
-        <token regexp="yes">.+[rsz]$
+        <token regexp="yes">.+ar
           <exception regexp="yes">[a-z]+mos$</exception></token><!-- XXX handled by WRONG_REFLEXIVES -->
         <token regexp='yes' spacebefore='no'>&hifen;</token>
         <token regexp='yes' spacebefore='no'>l[ao]s?</token>
       </pattern>
       <message>Formas verbais terminadas em r, s, z, quando seguidas por pronomes átonos, devem ser adaptadas.</message>
+      <suggestion><match no='1' regexp_match='ar' regexp_replace='á'/>\2\3</suggestion>
       <url>http://www.migalhas.com.br/Gramatigalhas/10,MI23518,41046-Verbo+seguido+de+pronome</url>
-      <example type='incorrect'><marker>Fiz-las</marker> há minutos.</example>
-      <example><marker>Fi-las</marker> há minutos.</example>
+      <example correction="torná-lo">Para <marker>tornar-lo</marker> mais claro.</example>
     </rule>
-
+    <rule>
+      <pattern>
+        <token regexp="yes">.+er
+          <exception regexp="yes">[a-z]+mos$</exception></token><!-- XXX handled by WRONG_REFLEXIVES -->
+        <token regexp='yes' spacebefore='no'>&hifen;</token>
+        <token regexp='yes' spacebefore='no'>l[ao]s?</token>
+      </pattern>
+      <message>Formas verbais terminadas em r, s, z, quando seguidas por pronomes átonos, devem ser adaptadas.</message>
+      <suggestion><match no='1' regexp_match='er' regexp_replace='ê'/>\2\3</suggestion>
+      <url>http://www.migalhas.com.br/Gramatigalhas/10,MI23518,41046-Verbo+seguido+de+pronome</url>
+      <example correction="fazê-los">Quis <marker>fazer-los</marker> pagar.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">.+ir
+          <exception regexp="yes">[a-z]+mos$</exception></token><!-- XXX handled by WRONG_REFLEXIVES -->
+        <token regexp='yes' spacebefore='no'>&hifen;</token>
+        <token regexp='yes' spacebefore='no'>l[ao]s?</token>
+      </pattern>
+      <message>Formas verbais terminadas em r, s, z, quando seguidas por pronomes átonos, devem ser adaptadas.</message>
+      <suggestion><match no='1' regexp_match='ir' regexp_replace='í'/>\2\3</suggestion>
+      <url>http://www.migalhas.com.br/Gramatigalhas/10,MI23518,41046-Verbo+seguido+de+pronome</url>
+      <example correction="demití-lo">Queria poder <marker>demitir-lo</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">.+z
+          <exception regexp="yes">[a-z]+mos$</exception></token><!-- XXX handled by WRONG_REFLEXIVES -->
+        <token regexp='yes' spacebefore='no'>&hifen;</token>
+        <token regexp='yes' spacebefore='no'>l[ao]s?</token>
+      </pattern>
+      <message>Formas verbais terminadas em r, s, z, quando seguidas por pronomes átonos, devem ser adaptadas.</message>
+      <suggestion><match no='1' regexp_match='(.+)z' regexp_replace='$1'/>\2\3</suggestion>
+      <url>http://www.migalhas.com.br/Gramatigalhas/10,MI23518,41046-Verbo+seguido+de+pronome</url>
+      <example correction="fi-lo">E <marker>fiz-lo</marker> esquecer tudo.</example>
+    </rule>
+  </rulegroup>
 
     <rule id='OLD_SPELLING_U' name="Acordo Ortográfico de 45: ü (uso de trema)" type="misspelling">
       <!-- Created by Tiago F. Santos, 2017-05-15 -->
