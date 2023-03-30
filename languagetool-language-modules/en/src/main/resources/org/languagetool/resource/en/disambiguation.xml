@@ -16822,4 +16822,43 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule id="IGNORE_SHARP_BRACKETS" name="Ignore spelling in sharp brackets">
+        <pattern>
+            <token regexp="yes">&lt;|\{</token>
+            <token min="0" spacebefore="no">/</token>
+            <marker>
+                <token regexp="yes" spacebefore="no">.*[a-z].*</token>
+            </marker>
+            <token regexp="yes" spacebefore="no">&gt;|\}</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rulegroup id="IGNORE_JSON" name="Ignore json">
+        <rule>
+            <pattern>
+                <token postag="SENT_START">"</token>
+                <marker>
+                    <token regexp="yes" spacebefore="no">[a-z_\-0-9]+</token>
+                </marker>
+                <token regexp="yes" spacebefore="no">"</token>
+                <token spacebefore="no">:</token>
+                <token skip="-1">"</token>
+                <token>"</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START">"</token>
+                <marker>
+                    <token regexp="yes" spacebefore="no">[a-z_\-0-9]+</token>
+                </marker>
+                <token regexp="yes" spacebefore="no">"</token>
+                <token spacebefore="no">:</token>
+                <token regexp="yes">\d+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
 </rules>
