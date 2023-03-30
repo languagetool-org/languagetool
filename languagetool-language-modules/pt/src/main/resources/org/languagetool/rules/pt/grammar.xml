@@ -43678,20 +43678,31 @@ O namorado dela era um ladrão.
 
     <rule id='EMERGIR_EM' name="Confusão: Emergir + em">
       <!--    Created by Tiago F. Santos, 2017-03-17     -->
+      <antipattern>
+        <token inflected='yes' skip="-1">emergir</token>
+        <token>em</token>
+        <token regexp="yes">resposta|frente|face|resultados?</token>
+        <example>O movimento emergiu em resposta aos protestos</example>
+      </antipattern>
       <pattern>
+       <marker>
         <token inflected='yes'>emergir</token>
-        <token regexp='yes'>em|n[ao]s?</token>
+       </marker>
+        <token postag='D.+' postag_regexp="yes" min="0"/>
+        <token postag='N.+' postag_regexp="yes" min="0" skip='2'/>
+        <token regexp='yes'>em|n[ao]s?|numa?s?|nuns|dentro</token>
       </pattern>
       <message>Confusão de palavras</message>
-      <suggestion><match no='1' regexp_match='eme(.+)' regexp_replace='ime$1'/> \2</suggestion>
-      <example correction="imergir em">Para uma limpeza adequada dos intrumentos, deve <marker>emergir em</marker> água durante cerca 30 minutos.</example>
+      <suggestion><match no='1' regexp_match='eme(.+)' regexp_replace='ime$1'/></suggestion>
+      <example correction="imergir">Para uma limpeza adequada dos intrumentos, deve <marker>emergir</marker> em água durante cerca 30 minutos.</example>
+      <example correction="imergiu">Ele <marker>emergiu</marker> o saquinho de chá em água durante cerca 30 minutos.</example>
     </rule>
 
     <rule id='IMERGIR_DE' name="Confusão: Imergir + de">
       <!--    Created by Tiago F. Santos, 2017-03-17     -->
       <pattern>
         <token inflected='yes'>imergir</token>
-        <token regexp='yes'>d[eao]s?|à</token>
+        <token regexp='yes'>d[eao]s?|à|duma?s?|duns|daquel[ae]s?|de[st]eas?</token>
       </pattern>
       <message>Confusão de palavras</message>
       <suggestion><match no='1' regexp_match='ime(.+)' regexp_replace='eme$1'/> \2</suggestion>
