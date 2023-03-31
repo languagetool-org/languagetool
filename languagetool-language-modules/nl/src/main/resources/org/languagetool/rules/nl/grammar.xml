@@ -1061,11 +1061,17 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
         <rulegroup id="MEEST_GEWOON" name="Meest gewoon/gewoonst" tags="picky">
-            <!-- TODO: add exceptions for adjectives ending in -de, -isch, -sd, -sk or -st -->
+            <!-- TODO: add exceptions for adjectives ending in -de, -isch, -sd, -sk -->
             <rule>
+                <antipattern>
+                    <token>meest</token>
+                    <token regexp="yes">luxe|perfec(t|te)|sexy|relax(te|ed)|identiek(e)?|ervaren</token>
+                    <example>Ik wil de meest luxe kamer die je hebt.</example>
+                    <example>Dat zijn de meest identieke exemplaren.</example>
+                </antipattern>
                 <pattern>
                     <token>meest</token>
-                    <token postag_regexp="yes" postag="BNW:STL.*"><exception regexp="yes">.*(rd|nd|st|isch)e?</exception></token>
+                    <token postag_regexp="yes" postag="BNW:STL.*"><exception regexp="yes">.*(rd|nd|st|isch|ïsch)e?</exception></token>
                 </pattern>
                 <message>Sommigen vinden dit 'te Engels' en geven de voorkeur aan: <suggestion><match no="2" postag_regexp="yes" postag="(BNW:STL:)(.*)" postag_replace="BNW:OVR:$2"/></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/meest-origineel-origineelst</url>
