@@ -16430,20 +16430,28 @@ O namorado dela era um ladrão.
       <example correction="esqueceu-se de que">O Rui <marker>esqueceu-se que</marker> tinha um exame.</example>
     </rule>
 
-    <rule id='ESTAR_SOBRE_O_EFEITO_DE' name="estar sob o efeito de">
-      <!-- Created by Marco A.G.Pinto, 2017-06-06 -->
+
+    <rule id='ESTAR_SOBRE_O_EFEITO_DE' name="V.Estar 'sobre' o efeito de → sob">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-31 (Checked/Enhanced) (2-MAR-2023+) -->
+      <!--
+      Ele estava sobre o efeito de drogas. → Ele estava sob o efeito de drogas.
+      Ele estava sobre o efeito dessa droga. → Ele estava sob o efeito dessa droga.
+      -->
       <pattern>
+        <token inflected='yes'>estar</token>
         <marker>
-          <token inflected='yes'>estar</token>
           <token>sobre</token>
-          <token regexp="yes">os?</token>
-          <token regexp="yes">efeitos?</token>
         </marker>
-        <token regexp="yes">d[aeo]s?</token>
+        <token regexp="yes">os?</token>
+        <token regexp="yes">efeitos?</token>
+        <token postag='SPS00|SPS00:D[ADI].+' postag_regexp='yes'/>
       </pattern>
-      <message>Substitua por <suggestion>sob</suggestion>.</message>
-      <example correction="sob">Ele <marker>estava sobre o efeito</marker> de drogas.</example>
+      <message>Neste caso empregue 'sob'.</message>
+      <suggestion>sob</suggestion>
+      <example correction="sob">Ele estava <marker>sobre</marker> o efeito de drogas.</example>
+      <example correction="sob">Ele estava <marker>sobre</marker> o efeito dessa droga.</example>
     </rule>
+
 
     <rule id='ESTAR-ESTÃO_A_PLURAL' name="Usar infinitivo ESTAR/ESTÃO + A + INFINITIVO">
       <!-- Created by Marco A.G.Pinto, 2016-XX-XX -->
