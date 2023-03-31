@@ -27,6 +27,7 @@ import com.optimaize.langdetect.text.RemoveMinorityScriptsTextFilter;
 import com.optimaize.langdetect.text.TextObjectFactory;
 import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -41,6 +42,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Identify the language of a text. Note that some languages might never be
@@ -79,6 +83,11 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
   private final TextObjectFactory textObjectFactory;
 
   private FastTextDetector fastTextDetector;
+  private File fasttextBinary;
+  private File fasttextModel;
+  private AtomicInteger fasttextInitCounter = new AtomicInteger(0);
+  private AtomicLong fasttextLastUpdated = new AtomicLong();
+  private ReentrantLock fasttextInitInProgress = new ReentrantLock();
   private NGramDetector ngram;
 
   DefaultLanguageIdentifier() {
@@ -115,17 +124,43 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
     }
   }
 
-  void enableFasttext(File fasttextBinary, File fasttextModel) {
+  void enableFasttext() {
     if (fasttextBinary != null && fasttextModel != null) {
       try {
         fastTextDetector = new FastTextDetector(fasttextModel, fasttextBinary);
         logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
+        fasttextLastUpdated.set(System.currentTimeMillis());
       } catch (IOException e) {
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
     }
   }
+  
+  public void setFasttextBinary(File fasttextBinary) {
+    this.fasttextBinary = fasttextBinary;
+  }
 
+  public void setFasttextModel(File fasttextModel) {
+    this.fasttextModel = fasttextModel;
+  }
+
+  /**
+   * For test only
+   * @param fastTextDetector
+   */
+  @TestOnly
+  public void setFastTextDetector(FastTextDetector fastTextDetector) {
+    this.fastTextDetector = fastTextDetector;
+  }
+
+  /**
+   * For test only
+   * @return a counter how often fasttext was already recreated after a failure
+   */
+  @TestOnly
+  public AtomicInteger getFasttextInitCounter() {
+    return fasttextInitCounter;
+  }
   /**
    * @since 5.2
    */
@@ -274,20 +309,20 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
       } catch (FastTextDetector.FastTextException e) {
         if (e.isDisabled()) {
-          fastTextDetector = null;
-          logger.error("Fasttext disabled", e);
+          fasttextFailed = true;
+          reinitFasttextAfterFailure(e);
         } else {
           logger.error("Fasttext failed, fallback used", e);
           fasttextFailed = true;
         }
       } catch (Exception e) {
-        //fastText.destroy();
-        fastTextDetector = null;
-        logger.error("Fasttext disabled", e);
+        fasttextFailed = true;
+        reinitFasttextAfterFailure(e);
       }
     }
     if (fastTextDetector == null && ngram == null || fasttextFailed) { // no else, value can change in if clause
       text = textObjectFactory.forText(text).toString();
+      source +="+fallback";
       result = detectLanguageCode(text);
       if (additionalLangs.size() > 0) {
         logger.warn("Cannot consider noopLanguages because not in fastText mode: " + additionalLangs);
@@ -303,6 +338,21 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
         return new DetectedLanguage(null, Languages.getLanguageForShortCode(preferredLangs.get(0)), 0.1f, source);
       }
       return null;
+    }
+  }
+
+  private void reinitFasttextAfterFailure(Exception e) {
+    if (fasttextInitInProgress.tryLock()) {
+      if (fasttextInitCounter.get() < 10 && (System.currentTimeMillis() - fasttextLastUpdated.get()) > 50) {
+        enableFasttext();
+        int newCounter = fasttextInitCounter.incrementAndGet();
+        logger.warn("{} Fasttext was new initialized after failure. Remaining initializing: {}", Thread.currentThread().getName(), 10 - newCounter);
+        fasttextLastUpdated.set(System.currentTimeMillis());
+        fasttextInitInProgress.unlock();
+      } else {
+        fastTextDetector = null;
+        logger.error("Fasttext disabled", e);
+      }
     }
   }
 
