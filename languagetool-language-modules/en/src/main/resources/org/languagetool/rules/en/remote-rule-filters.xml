@@ -389,6 +389,34 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_FORM" name="">
             <rule>
                 <pattern>
+                    <token regexp="yes">how|who|what|when|where|why</token>
+                    <token inflected="yes">be</token>
+                    <token min="1" max="4" chunk_re=".-NP.*" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VBG" chunk_re=".-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">How are you <marker>creating</marker> the account for that user?</example>
+                <example correction="">How is the new teacher <marker>creating</marker> an account for that student?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token min="0" postag="RB" />
+                    <token postag="VBG" chunk="I-VP">
+                        <exception regexp="yes">leaning|resorting|referring|contributing|committing</exception>
+                    </token>
+                    <token postag="TO" />
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token postag="VB" chunk_re=".-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">I'm looking to <marker>file</marker> my taxes.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="SENT_START"/>
                     <token>did</token>
                     <token chunk_re="B-NP-.*"/>
@@ -399,8 +427,8 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                         <token postag="VB|VBP" postag_regexp="yes"/>
                     </marker>
                 </pattern>
-            <example correction="">Did you already <marker>try</marker> that original password?</example>
-            <example correction="">Did the man already <marker>see</marker> the film?</example>
+                <example correction="">Did you already <marker>try</marker> that original password?</example>
+                <example correction="">Did the man already <marker>see</marker> the film?</example>
             </rule>
             <rule>
                 <pattern>
