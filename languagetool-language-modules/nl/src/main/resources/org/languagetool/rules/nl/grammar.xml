@@ -18206,8 +18206,12 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="MATCH_COMPOUND" name="match → wedstrijd, overeenkomst">
             <rule>
+                <antipattern>
+                    <token regexp="yes">match(boek|play|dart(s)?|fixing|point(s)?|stick)</token>
+                    <example>Hij gooit de matchdarts.</example>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">match.{4,30}</token>
+                    <token regexp="yes">match.{4,30}<exception postag="UNKNOWN"/><exception spacebefore="yes" case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
                 </pattern>
                 <message>&leenwoord_mess; met 'overeenkomst', 'koppelaar', 'overeenkomst', 'wedstrijd' en hun vormen.</message>
                 <example correction="">Gebruik de <marker>matchmaker</marker>.</example>
@@ -19277,6 +19281,20 @@ regexp case-insensitive maken: (?i)
                 <message>De tekst wordt vlotter als u 'doorontwikkelen' herschrijft met 'verder ontwikkelen'.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="">Mede daardoor ging men <marker>door met ontwikkelen</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ENERZIJDS" name="enerzijds" tags="picky">
+            <rule>
+                <pattern>
+                    <token>enerzijds</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion>aan de ene kant</suggestion> of <suggestion>als je het zo bekijkt</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="aan de ene kant|als je het zo bekijkt">Dit komt <marker>enerzijds</marker> door de vezels.</example>
+                <example correction="aan de ene kant|als je het zo bekijkt">Zo is de gameplay <marker>enerzijds</marker> gestroomlijnd en anderzijds uitgediept.</example>
+                <example correction="aan de ene kant|als je het zo bekijkt">Dit staat <marker>enerzijds</marker> voor opportuniteiten maar ook voor "verandering".</example>
+                <example correction="Aan de ene kant|Als je het zo bekijkt"><marker>Enerzijds</marker> klopt de kritiek op die uitspraken wel.</example>
+                <example correction="aan de ene kant|als je het zo bekijkt">Ronde medaille met <marker>enerzijds</marker> een afbeelding van Kon.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ERVARING" name="…ervaring" tags="picky">
@@ -23167,20 +23185,6 @@ regexp case-insensitive maken: (?i)
                 <example correction="Iedereen"><marker>Elkeen</marker> die in de weg staat, moet “geneutraliseerd” worden.</example>
                 <example correction="iedereen">Alle christenen zijn gezalfd opdat het chrisma <marker>elkeen</marker> zou bereiken.</example>
                 <example correction="iedereen">Onbewust, onwetend en toch op de eerste rij aanschuivend tot een grote gebeurtenis is <marker>elkeen</marker> aanwezig.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ENERZIJDS" name="enerzijds" tags="picky">
-            <rule>
-                <pattern>
-                    <token>enerzijds</token>
-                </pattern>
-                <message>&vlotter_mess; <suggestion>aan de ene kant</suggestion> of <suggestion>als je het zo bekijkt</suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="aan de ene kant|als je het zo bekijkt">Dit komt <marker>enerzijds</marker> door de vezels.</example>
-                <example correction="aan de ene kant|als je het zo bekijkt">Zo is de gameplay <marker>enerzijds</marker> gestroomlijnd en anderzijds uitgediept.</example>
-                <example correction="aan de ene kant|als je het zo bekijkt">Dit staat <marker>enerzijds</marker> voor opportuniteiten maar ook voor "verandering".</example>
-                <example correction="Aan de ene kant|Als je het zo bekijkt"><marker>Enerzijds</marker> klopt de kritiek op die uitspraken wel.</example>
-                <example correction="aan de ene kant|als je het zo bekijkt">Ronde medaille met <marker>enerzijds</marker> een afbeelding van Kon.</example>
             </rule>
         </rulegroup>
 
