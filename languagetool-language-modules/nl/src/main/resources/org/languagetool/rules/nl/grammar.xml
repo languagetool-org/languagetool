@@ -19229,6 +19229,21 @@ regexp case-insensitive maken: (?i)
                 <example correction="zie|ondervind">Ik <marker>constateer</marker> gewoon.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="COÖRDINEREN" name="coördineren" tags="picky">
+            <rule>
+                <pattern>
+                    <token inflected="yes">coördineren</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">organiseren</match></suggestion> of <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">regelen</match></suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="organiseren|regelen">Laat het PMS dit <marker>coördineren</marker>.</example>
+                <example correction="organiseert|regelt">De VLM <marker>coördineert</marker> ook alle aankopen.</example>
+                <example correction="Organiserend|Regelend"><marker>Coördinerend</marker> minister Homans heeft het woord.</example>
+                <example correction="Organiseert|Regelt"><marker>Coördineert</marker> ook de werking van de vrijwilligers.</example>
+                <example correction="organiserende|regelende">De directie kan hier een <marker>coördinerende</marker> rol spelen.</example>
+                <example correction="organiseerde|regelde">In 1973 was dat, toen hij de verbouwing van de kantoren <marker>coör­dineerde</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CRASHEN" name="crashen → neerstorten">
             <!-- 2014-08-22 TaalTik -->
             <rule>
@@ -22334,21 +22349,6 @@ regexp case-insensitive maken: (?i)
                 <example correction="overeenkomst|overeenkomsten|afspraak|afspraken">Daarmee komen ze nog maar op het niveau van de andere <marker>convenants</marker>.</example>
                 <example correction="overeenkomst|overeenkomsten|afspraak|afspraken">Dat is precies wat Leen Laconte, die het Kortrijkse plan hielp schrijven, tegen <marker>convenanten</marker> heeft.</example>
                 <example correction="overeenkomst|afspraak">Dit is nu al mogelijk met subsidies mits het afsluiten van het gepaste <marker>convenant</marker>.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="COÖRDINEREN" name="coördineren" tags="picky">
-            <rule>
-                <pattern>
-                    <token inflected="yes">coördineren</token>
-                </pattern>
-                <message>&vlotter_mess; <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">organiseren</match></suggestion> of <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">regelen</match></suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="organiseren|regelen">Laat het PMS dit <marker>coördineren</marker>.</example>
-                <example correction="organiseert|regelt">De VLM <marker>coördineert</marker> ook alle aankopen.</example>
-                <example correction="Organiserend|Regelend"><marker>Coördinerend</marker> minister Homans heeft het woord.</example>
-                <example correction="Organiseert|Regelt"><marker>Coördineert</marker> ook de werking van de vrijwilligers.</example>
-                <example correction="organiserende|regelende">De directie kan hier een <marker>coördinerende</marker> rol spelen.</example>
-                <example correction="organiseerde|regelde">In 1973 was dat, toen hij de verbouwing van de kantoren <marker>coör­dineerde</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="COURANT" name="courant" tags="picky">
@@ -40728,9 +40728,21 @@ regexp case-insensitive maken: (?i)
                     <token>trading</token>
                 </antipattern>
                 <antipattern>
-                    <token>copy</token>
-                    <token>/</token>
+                    <token skip="4">copy</token>
                     <token>paste</token>
+                </antipattern>
+                <antipattern>
+                    <token>copy</token>
+                    <token spacebefore="no">.<exception postag="SENT_END"></exception></token>
+                    <example>Ik stuur je het bestand met de naam copy.jpg</example>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <token case_sensitive="yes" >Copy</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" case_sensitive="yes">Copy</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
                 </antipattern>
                 <pattern>
                     <marker>
