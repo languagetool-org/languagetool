@@ -18290,6 +18290,23 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="CALL" name="overbodig Engels: call" tags="picky">
             <rule>
                 <antipattern><token>collect</token><token>call</token></antipattern>
+                <antipattern>
+                    <token>call</token>
+                    <token regexp="yes">of|to</token>
+                    <token postag="UNKNOWN"></token>
+                </antipattern>
+                <antipattern>
+                    <token>call</token>
+                    <token postag="UNKNOWN"><exception postag="SENT_END"></exception></token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <token case_sensitive="yes">Call</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" case_sensitive="yes">Call</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                </antipattern>
                 <!-- november 2022 R. Baars -->
                 <pattern>
                     <token>call</token>
@@ -18303,6 +18320,22 @@ regexp case-insensitive maken: (?i)
             </rule>
             <rule>
                 <!-- nolvember 2022 R. Baars -->
+                <antipattern>
+                    <token spacebefore="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    <token case_sensitive="yes">Calls</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" case_sensitive="yes">Calls</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="UNKNOWN"></token>
+                    <token>calls</token>
+                </antipattern>
+                <antipattern>
+                    <token>calls</token>
+                    <token postag="UNKNOWN"><exception postag="SENT_END"></exception></token>
+                </antipattern>
                 <pattern>
                     <token>calls</token>
                 </pattern>
