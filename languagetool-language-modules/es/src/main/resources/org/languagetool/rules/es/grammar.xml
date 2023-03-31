@@ -15658,6 +15658,168 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rule id="MALO_AMIGO_MAL_AMIGO" name="«malo» y «bueno» se apocopan delante de sustantivos masculinos en singular" default="temp_off">
+            <antipattern> <!--1-->
+                <token postag="V.*|DE0CN0" postag_regexp="yes" skip="1" min="0"/>
+                <token regexp="yes" skip="1">malo|bueno</token>
+                <token postag="VMN.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern> <!--2-->
+                <token regexp="yes">qué|que</token>
+                <token regexp="yes">malo|bueno</token>
+            </antipattern>
+            <antipattern> <!--3-->
+                <token postag="NP.*S.*|UNKNOWN|NCFS000" postag_regexp="yes" skip="1" min="0"/>
+                <token regexp="yes">Bueno|Malo</token>
+                <token postag="NP.*:S.*|UNKNOWN|NC.*S.*|NCMS.*" postag_regexp="yes" min="0"/>
+                <token postag="_PUNCT_CONT" min="0"/>
+                <token postag="NPMS.*|NPFS.*" postag_regexp="yes" min="0"/>
+            </antipattern>
+            <antipattern> <!--4-->
+                <token postag="UNKNOWN|NP.*" postag_regexp="yes"/>
+                <token postag="DA0MS0" min="0"/>
+                <token regexp="yes">Bueno|Malo</token>
+                <token postag="NCMS.*" postag_regexp="yes" min="0"/>
+            </antipattern>
+            <antipattern> <!--5-->
+                <token>Bueno</token>
+                <token>Torio</token>
+            </antipattern>
+            <antipattern> <!--6-->
+                <token postag="SENT_START|_PUNCT|_PUNCT_CONT" postag_regexp="yes"/>
+                <token>Bueno</token>
+                <token postag="NC.*S.*" postag_regexp="yes" min="0"/>
+            </antipattern>
+            <antipattern> <!--7-->
+                <token inflected="yes">ser</token>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="_PUNCT|_PUNCT_CONT" postag_regexp="yes"/>
+                <token regexp="yes">bueno</token>
+            </antipattern>
+            <antipattern> <!--8-->
+                <token>bueno</token>
+                <token>igual</token>
+            </antipattern>
+            <antipattern> <!--9-->
+                <token regexp="yes">lo|algo|nada</token>
+                <token regexp="yes">malo|bueno</token>
+            </antipattern>
+            <antipattern> <!--10-->
+                <token regexp="yes">que|qué</token>
+                <token inflected="yes">tener</token>
+                <token>de</token>
+                <token>malo</token>
+            </antipattern>
+            <antipattern> <!--11-->
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="A.*" postag_regexp="yes"/>
+                <token>por</token>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token regexp="yes">malo|bueno</token>
+                <token postag="A.*|N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern> <!--12-->
+                <token regexp="yes">malo|bueno</token>
+                <token><match no="0"/></token>
+            </antipattern>
+            <antipattern> <!--13-->
+                <token regexp="yes">malo|bueno</token>
+                <token regexp="yes">\d+?%</token>
+            </antipattern>
+            <antipattern> <!--14-->
+                <token regexp="yes">malo|bueno</token>
+                <token postag="VMP.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern><!--15-->
+                <token postag="NCMS.*" postag_regexp="yes"/>
+                <token postag="RG" min="0"/>
+                <token regexp="yes">malo|bueno</token>
+                <token postag="A.*MS.*|V.*G.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern> <!--16-->
+                <token inflected="yes" regexp="yes">estar|ser</token>
+                <token regexp="yes">malo|bueno</token>
+                <token regexp="yes">señor(a|as|es)?</token>
+            </antipattern>
+            <antipattern> <!--17-->
+                <token regexp="yes">es|está|esta</token>
+                <token regexp="yes">bueno|malo</token>
+                <token postag="VM.*|DD.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern> <!--18-->
+                <token>Malo</token>
+                <token regexp="yes">Polje|Coro|film|Dr|Misto|mal</token>
+            </antipattern>
+            <antipattern><!--19-->
+                <token regexp="yes">pero|río|visto</token>
+                <token>bueno</token>
+            </antipattern>
+            <antipattern> <!--20-->
+                <token min="0">barrio</token>
+                <token case_sensitive="yes">Bueno</token>
+                <token case_sensitive="yes" regexp="yes">Fin|Fondo</token>
+            </antipattern>
+            <antipattern> <!--21-->
+                <token postag="DI0MS0"/>
+                <token postag="DA0MS0"/>
+                <token postag="NCMS.*" postag_regexp="yes"/>
+                <token inflected="yes">ser</token>
+                <token>bueno</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern><!--22-->
+                <token postag="DA0MS0|DP.*MS.*" postag_regexp="yes"/>
+                <token>artículo</token>
+                <token regexp="yes">malo|bueno</token>
+                <token>número</token>
+                <token regexp="yes">\d+?</token>
+            </antipattern>
+            <antipattern> <!--23-->
+                <token postag="N.*|A.*|VMIP1S0" postag_regexp="yes"/>
+                <token regexp="yes">malo|bueno</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">malo|bueno</token>
+                </marker>
+                <token postag="NCMS.*" postag_regexp="yes"/>
+            </pattern>
+            <message>'<match no="1"/>' se apocopa cuando precede a un sustantivo masculino singular:<suggestion><match no="1" regexp_match="o$" regexp_replace=""/></suggestion>.</message>
+            <example correction="mal">La vida es demasiado corta para beber <marker>malo</marker> vino.</example>
+            <example correction="buen">Gracias por ayudarme, eres un <marker>bueno</marker> amigo.</example>
+            <example>Es bueno conocer la historia.</example> <!--AP1-->
+            <example>¡Qué bueno escuchar de ti!</example> <!--AP1-->
+            <example>¡Qué bueno muchacho, a descansar entonces!</example> <!--AP2--> <!--falta una coma-->
+            <example>Los tres hermanos del Teniente Coronel Teodoro Malo Moscoso se llaman Juan Bueno Torio, Braulio Guerra Malo y Rodrigo Bueno.</example> <!--AP3-->
+            <example>Los autores son BUENO TABERNERO, Antonio y BUENO SERRANO, Ana Carmen.</example> <!--AP3-->
+            <example>Los protagonistas de la novela se llaman Letizia Bueno Garzón, Raul Malo, Hywel el Bueno y Arnulfo el Malo.</example> <!--AP4-->
+            <example>Se llama Bueno Torio.</example> <!--AP5-->
+            <example>Bueno dejo ya de decir tonterías.</example> <!--AP6--> <!--falta una coma-->
+            <example>Tuve algunas discusiones largas con Bob, y dije, "Bueno Bob, ¿por qué lo hiciste?"</example><!--AP6-->
+            <example>Soy ilustrador (bueno director de Arte) y puedo aportar imágenes propias a algunos artículos.</example> <!--AP7--> <!--falta una coma-->
+            <example>Bueno igual ya me voy a trabajar que las noticias de muertes y cáncer en famosos no me pagan la cuenta.</example> <!--AP8--> <!--falta una coma-->
+            <example>Su triunfo refleja la victoria de lo bello y lo bueno sobre la mediocridad.</example> <!--AP9-->
+            <example>No sé qué tiene de malo.</example> <!--AP10-->
+            <example>Quería cambiar su alfil malo por el bueno negro.</example> <!--AP11-->
+            <example>El resultado fue malo, malo, malo.</example><!--AP12-->
+            <example>Al finalizar el año 1990 el estado de las vías era el siguiente: muy bueno 12 %, bueno 32 %, regular 43 % y malo el 13 %.</example> <!--AP 13-->
+            <example>El autor publicó un libro bueno escrito.</example> <!--AP 14--> <!--correcto: bien escrito-->
+            <example>Luego publicó un cuento bastante bueno lleno de brutalidad y rapidez.</example> <!--AP 15--> <!--falta una coma-->
+            <example>Alemania hizo un torneo muy malo sumando solo un punto contra la entonces débil Rumanía.</example><!--AP 15 --> <!--falta una coma-->
+            <example>Está bueno señoras.</example> <!--AP 16--> <!--falta una coma-->
+            <example>Y eso es bueno pienso yo</example> <!--AP17--> <!--falta una coma-->
+            <example>Malo Polje es una estación de esquí en Croacia.</example> <!--AP18-->
+            <example>Es conocido por su serie de televisión Malo Misto y Velo Misto.</example> <!--AP18-->
+            <example>Y al malo mal.</example><!--18-->
+            <example>Los militares contaron con el visto bueno directo del gobierno de Manuel Azaña.</example> <!--AP19-->
+            <example>El Río Bueno Rugby Club es un club de rugby de Chile con sede en la ciudad de Río Bueno.</example> <!--AP19-->
+            <example>Pensé que era un foro de todos los países, pero bueno Puerto Rico es el país más famoso.</example> <!--AP19--> <!--falta una coma-->
+            <example>Es el barrio Bueno Fin.</example><!--AP20-->
+            <example>Todo el mundo es bueno Concurso (2012) Telecinco, con José Corbacho.</example> <!--AP21--> <!--falta una coma-->
+            <example>Es el artículo bueno número 900</example> <!--falta una coma--> <!--AP22--> <!--falta una coma-->
+            <example>A finales de 2009 estrenó el musical Cómico bueno cómico muerto</example> <!--AP23-->
+        </rule>
         <rulegroup id="BASTANTES" name="bastantes -> bastante">
             <rule>
                 <pattern raw_pos="yes">
