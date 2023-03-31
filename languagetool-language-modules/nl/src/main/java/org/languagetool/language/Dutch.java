@@ -181,6 +181,8 @@ public class Dutch extends Language {
     switch (id) {
       case LongSentenceRule.RULE_ID: return -1;
       // default : 0
+      case "ET_AL": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
+      case "N_PERSOONS": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "HOOFDLETTERS_OVERBODIG_A": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "STAM_ZONDER_IK": return -1;  // sse https://github.com/languagetool-org/languagetool/issues/7644
       case "KOMMA_ONTBR": return -1;   // see https://github.com/languagetool-org/languagetool/issues/7644
