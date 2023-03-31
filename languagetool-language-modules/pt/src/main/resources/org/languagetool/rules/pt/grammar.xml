@@ -16404,20 +16404,6 @@ O namorado dela era um ladrão.
     </rule>
 
 
-    <rule id='EM_QUE_NAO_HA_PRONOME-INDEFINIDO' name="Sem PRONOME_INDEFINIDO">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-03-12     -->
-      <pattern>
-        <token>em</token>
-        <token>que</token>
-        <token>não</token>
-        <token>há</token>
-        <token postag_regexp='yes' postag='DI0C[SP]0|DI0M[SP]0|DI0F[SP]0'/>
-      </pattern>
-      <message>Substitua por <suggestion>sem \5</suggestion>.</message>
-      <example correction="sem qualquer">Temos um período <marker>em que não há qualquer</marker> registo histórico.</example>
-    </rule>
-
-
     <rule id='ESQUECEU-SE_QUE' name="Esqueceu-se de que">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -46311,6 +46297,24 @@ O namorado dela era um ladrão.
       <suggestion>\1 \4 \3</suggestion>
       <example correction="e nada mais">Ele disse estar pronto a entregar <marker>e que mais nada</marker> era necessário.</example>
       <example correction="e nada quer">Ele disse já ter jantado, <marker>e que quer nada</marker> para comer.</example>
+    </rule>
+
+
+    <rule id='EM_QUE_NAO_HA_PRONOME-INDEFINIDO' name="[Simplificar] Em que não há + Pron.Indef. → Sem Pron.Indef." type="style">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-31 (Checked/Enhanced) (2-MAR-2023+) -->
+      <!--
+      Temos um período em que não há qualquer registo histórico. → Temos um período sem qualquer registo histórico.
+      -->
+      <pattern>
+        <token>em</token>
+        <token>que</token>
+        <token>não</token>
+        <token>há</token>
+        <token postag_regexp='yes' postag='DI.+'/>
+      </pattern>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>sem \5</suggestion>
+      <example correction="sem qualquer">Temos um período <marker>em que não há qualquer</marker> registo histórico.</example>
     </rule>
 
 
