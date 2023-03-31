@@ -794,6 +794,15 @@ regexp case-insensitive maken: (?i)
                     <token>:</token>
                     <token regexp="yes">[0-9]{1,2}</token>
                 </antipattern>
+                <antipattern>
+                    <!-- eigennamen -->
+                    <token postag_regexp="yes" postag="ENM.*"></token>
+                    <token spacebefore="yes" regexp="yes">[0-9]+</token>
+                    <example>Leopold 2, koning der Belgen.</example>
+                    <example>Het fonds kreeg grote bekendheid toen in 1995 de film Free Willy 2 werd uitgebracht.</example>
+                    <example>De Queen Mary 2 is een passagiersschip.</example>
+                    <example>De Gemini 5 zette een minisatellietje uit.</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">[0-9]|1[0-9]|[2-9]0</token>
                 </pattern>
@@ -17963,22 +17972,6 @@ regexp case-insensitive maken: (?i)
                 <example correction="opgewaardeerd|bijgewerkt">Deze pagina wordt regelmatig <marker>geüpdatet</marker> met nieuwe vragen en antwoorden.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CRASHEN" name="crashen → neerstorten">
-            <!-- 2014-08-22 TaalTik -->
-            <rule>
-                <pattern>
-                    <token inflected="yes">crashen</token>
-                </pattern>
-                <message>&leenwoord_mess;</message>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">neerstorten</match></suggestion>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">instorten</match></suggestion>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">botsen</match></suggestion>
-                <suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">vastlopen</match></suggestion>
-                <suggestion>defect <match no="1" postag="WKW.*" postag_regexp="yes">raken</match></suggestion>
-                <example correction="neerstorten|instorten|botsen|vastlopen|defect raken">Je moet niet <marker>crashen</marker>.</example>
-                <example>Je moet <marker>instorten</marker>.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="BULLSHIT" name="bullshit → onzin">
             <!-- 2014-08-22 TaalTik -->
             <rule>
@@ -19232,6 +19225,22 @@ regexp case-insensitive maken: (?i)
                 <example correction="zie|ondervind">Ik <marker>constateer</marker> gewoon.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CRASHEN" name="crashen → neerstorten">
+            <!-- 2014-08-22 TaalTik -->
+            <rule>
+                <pattern>
+                    <token inflected="yes">crashen</token>
+                </pattern>
+                <message>&leenwoord_mess;</message>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">neerstorten</match></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">instorten</match></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">botsen</match></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="WKW.*" postag_regexp="yes">vastlopen</match></suggestion>
+                <suggestion>defect <match no="1" postag="WKW.*" postag_regexp="yes">raken</match></suggestion>
+                <example correction="neerstorten|instorten|botsen|vastlopen|defect raken">Je moet niet <marker>crashen</marker>.</example>
+                <example>Je moet <marker>instorten</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DESBETREFFEND" name="desbetreffend" tags="picky">
             <rule>
                 <pattern>
@@ -19587,6 +19596,30 @@ regexp case-insensitive maken: (?i)
                 <example correction="">Je kan <marker>prioriteiten</marker> stellen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SEKSE_VOLGORDE" name="misschien volgorde omdraaien" tags="picky">
+            <!-- 3% apply rate, 10% temp disable -->
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">heer|man|jongen</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">dame|vrouw|meisje</token>
+                </pattern>
+                <message>U kunt hier wellicht ook <suggestion>personen</suggestion>, <suggestion>mensen</suggestion>, <suggestion>kinderen</suggestion> gebruiken.</message>
+                <example correction="personen|mensen|kinderen">We spreken de <marker>jongens en meisjes</marker> aan.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">dame|vrouw|meisje</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">heer|man|jongen</token>
+                </pattern>
+                <message>U kunt hier wellicht ook <suggestion>personen</suggestion>, <suggestion>mensen</suggestion>, <suggestion>kinderen</suggestion> gebruiken.</message>
+                <example correction="personen|mensen|kinderen">We spreken de <marker>meisjes en jongens</marker> aan.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">bruid|bruidegom</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">bruidegom|bruid</token>
+                </pattern>
+                <message>U kunt hier wellicht ook <suggestion>bruidspaar</suggestion> gebruiken.</message>
+                <example correction="bruidspaar">We spreken <marker>bruid en bruidegom</marker> aan.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="REALISEREN" name="realiseren" tags="picky">
             <rule>
                 <antipattern>
@@ -19704,6 +19737,46 @@ regexp case-insensitive maken: (?i)
             <message>&vaag_mess;</message>
             <example correction=""><marker>Men</marker> is niemand.</example>
         </rule>
+        <rulegroup id="VAN_MENING_ZIJN" name="van mening zijn" tags="picky">
+            <rule>
+                <pattern>
+                    <token>van</token>
+                    <token skip="3">mening</token>
+                    <token inflected="yes">zijn</token>
+                </pattern>
+                <message>&vlotter_mess; 'vinden'.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="">Ik ben blij dat ze <marker>van mening zijn</marker> veranderd.</example>
+                <example correction="">Vrijheid <marker>van mening is</marker> iets dat langs de twee kanten snijdt.</example>
+                <example correction="">Als jij <marker>van mening bent</marker>, dat er wel degelijk een of meerdere verschillen zijn, post die dan.</example>
+                <example correction="">Ben zelf altijd al <marker>van mening geweest</marker> dat het zou gevaarlijk zijn, maar ik weet eigenlijk niet waarom.</example>
+                <example correction="">En van betogen houd ik niet omdat ik nog altijd <marker>van mening ben</marker> dat een betere wereld begint bij jezelf.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">zijn</token>
+                    <token>van</token>
+                    <token>mening</token>
+                </pattern>
+                <message>&vlotter_mess; 'vinden'.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="">Deze <marker>waren van mening</marker> om Texas te koloniseren.</example>
+                <example correction="">De hond <marker>is van mening</marker> dat hij door de vlucht is gered.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZODOENDE" name="zodoende" tags="picky">
+            <rule>
+                <pattern>
+                    <token>zodoende</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion>zo</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="Zo"><marker>Zodoende</marker>, rekenen.</example>
+                <example correction="zo">Loop <marker>zodoende</marker> dus 2 à 3 km extra.</example>
+                <example correction="zo">De waarde van deze voorwerpen wordt <marker>zodoende</marker> enkele malen vergroot.</example>
+                <example correction="zo">Heerlijk kabbelend water <marker>zodoende</marker> te horen en zien.</example>
+            </rule>
+        </rulegroup>
         <!--1111-->
     </category>
     <category id="OUDERWETS" name="Ouderwets" type="style" tags="creative clarity professional">
@@ -28762,33 +28835,6 @@ regexp case-insensitive maken: (?i)
                 <example>QQ <marker>door de gemeente</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VAN_MENING_ZIJN" name="van mening zijn" tags="picky">
-            <rule>
-                <pattern>
-                    <token>van</token>
-                    <token skip="3">mening</token>
-                    <token inflected="yes">zijn</token>
-                </pattern>
-                <message>&vlotter_mess; 'vinden'.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Ik ben blij dat ze <marker>van mening zijn</marker> veranderd.</example>
-                <example correction="">Vrijheid <marker>van mening is</marker> iets dat langs de twee kanten snijdt.</example>
-                <example correction="">Als jij <marker>van mening bent</marker>, dat er wel degelijk een of meerdere verschillen zijn, post die dan.</example>
-                <example correction="">Ben zelf altijd al <marker>van mening geweest</marker> dat het zou gevaarlijk zijn, maar ik weet eigenlijk niet waarom.</example>
-                <example correction="">En van betogen houd ik niet omdat ik nog altijd <marker>van mening ben</marker> dat een betere wereld begint bij jezelf.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" skip="5">zijn</token>
-                    <token>van</token>
-                    <token>mening</token>
-                </pattern>
-                <message>&vlotter_mess; 'vinden'.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Deze <marker>waren van mening</marker> om Texas te koloniseren.</example>
-                <example correction="">De hond <marker>is van mening</marker> dat hij door de vlucht is gered.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="VAN_OORDEEL_ZIJN" name="van oordeel zijn" tags="picky">
             <rule>
                 <pattern>
@@ -29684,19 +29730,6 @@ regexp case-insensitive maken: (?i)
                 <message>Het moet zijn: 'zodanig', maar de tekst wordt vlotter als u de tekst herschrijft met <suggestion>zo</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="zo">En mijn oren genoten er <marker>zo danig</marker> van.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ZODOENDE" name="zodoende" tags="picky">
-            <rule>
-                <pattern>
-                    <token>zodoende</token>
-                </pattern>
-                <message>&vlotter_mess; <suggestion>zo</suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="Zo"><marker>Zodoende</marker>, rekenen.</example>
-                <example correction="zo">Loop <marker>zodoende</marker> dus 2 à 3 km extra.</example>
-                <example correction="zo">De waarde van deze voorwerpen wordt <marker>zodoende</marker> enkele malen vergroot.</example>
-                <example correction="zo">Heerlijk kabbelend water <marker>zodoende</marker> te horen en zien.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZONDER_MEER" name="zonder meer" tags="picky">
@@ -37765,31 +37798,6 @@ regexp case-insensitive maken: (?i)
 
     <category id="SEKSE_ZAKEN" name="stimuleren sekseneutraal schrijven" type="style" tags="professional customer jobapp">
 
-        <rulegroup id="SEKSE_VOLGORDE" name="misschien volgorde omdraaien" tags="picky">
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes">heer|man|jongen</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">dame|vrouw|meisje</token>
-                </pattern>
-                <message>U kunt hier wellicht ook <suggestion>personen</suggestion>, <suggestion>mensen</suggestion>, <suggestion>kinderen</suggestion> gebruiken.</message>
-                <example correction="personen|mensen|kinderen">We spreken de <marker>jongens en meisjes</marker> aan.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes">dame|vrouw|meisje</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">heer|man|jongen</token>
-                </pattern>
-                <message>U kunt hier wellicht ook <suggestion>personen</suggestion>, <suggestion>mensen</suggestion>, <suggestion>kinderen</suggestion> gebruiken.</message>
-                <example correction="personen|mensen|kinderen">We spreken de <marker>meisjes en jongens</marker> aan.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes">bruid|bruidegom</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">bruidegom|bruid</token>
-                </pattern>
-                <message>U kunt hier wellicht ook <suggestion>bruidspaar</suggestion> gebruiken.</message>
-                <example correction="bruidspaar">We spreken <marker>bruid en bruidegom</marker> aan.</example>
-            </rule>
-        </rulegroup>
-
-
         <rulegroup id="VROUWELIJK_FUNCTIE" name="Chauffeur/chauffeuse">
             <rule>
                 <pattern><token inflected="yes">vrouwelijk</token><token regexp="yes" postag_regexp="yes" postag="ZNW:.*">.*held</token></pattern>
@@ -40185,6 +40193,11 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="DE_3EP" name="de loopt" >
             <rule>
+                <antipattern>
+                    <token>de</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <example>Dat is Eddy de Blust.</example>
+                </antipattern>
                 <pattern>
                     <token>de</token>
                     <marker>
