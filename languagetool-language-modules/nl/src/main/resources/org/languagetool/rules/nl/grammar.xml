@@ -22914,11 +22914,12 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token inflected="yes">doorpakken</token>
                 </pattern>
-                <message>De tekst wordt vlotter als u 'doorpakken' herschrijft met 'doorgaan', 'volhouden' of 'niet stoppen'.</message>
+                <message>De tekst wordt vlotter als u 'doorpakken' herschrijft met <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">doorzetten</match></suggestion>, <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">aanhouden</match></suggestion> of <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">doorgaan</match></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Maar <marker>doorgepakt</marker> heeft hij nog niet.</example>
+                <example correction="Doorzetten|Aanhouden|Doorgaan"><marker>Doorpakken</marker> is ook mijn ding.</example>
             </rule>
-            <rule>
+            <rule default="off">
+                <!-- almost exclusively triggers FPs -->
                 <pattern>
                     <token inflected="yes" skip="5">pakken</token>
                     <token>door</token>
@@ -22927,7 +22928,8 @@ regexp case-insensitive maken: (?i)
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="">Mede daardoor <marker>pakte men door</marker>.</example>
             </rule>
-            <rule>
+            <rule default="off">
+                <!-- almost exclusively triggers FPs -->
                 <pattern>
                     <token skip="5">door</token>
                     <token inflected="yes">pakken</token>
