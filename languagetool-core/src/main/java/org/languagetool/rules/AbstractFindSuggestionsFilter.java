@@ -113,6 +113,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
           regexpPattern = Pattern.compile(removeSuggestionsRegexp, Pattern.UNICODE_CASE);
         }
         List<String> suggestions = getSpellingSuggestions(atrWord);
+        int usedPriorityPostagPos = 0;
         if (suggestions.size() > 0) {
           for (String suggestion : suggestions) {
             // TODO: do not tag capitalized words with tags for lower case
@@ -139,7 +140,8 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
                       replacement = StringTools.uppercaseFirstChar(replacement);
                     }
                     if (priorityPostag!= null && analyzedSuggestion.matchesPosTagRegex(priorityPostag)) {
-                      replacements.add(0, replacement);
+                      replacements.add(usedPriorityPostagPos, replacement);
+                      usedPriorityPostagPos++;
                       used = true;
                     } else {
                       replacements.add(replacement);

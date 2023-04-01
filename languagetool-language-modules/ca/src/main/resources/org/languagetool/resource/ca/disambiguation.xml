@@ -9120,16 +9120,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="[^V].*"/>
     </rule>
     <rule id="nom_noverb_seguit_de" name="nom no verb seguit de de">
+        <antipattern>
+            <token regexp="yes">de|d'</token>
+            <token min="0" postag="A..[FC]S." postag_regexp="yes"/>
+            <token>manera</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
                     <token postag="V.*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">signe|barreja|mescla|taxa</token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">nota|signe|barreja|mescla|taxa</token>
                 </and>
             </marker>
             <token regexp="yes">de|d'</token>
-            <token><exception>manera</exception></token>
-            <token><exception>manera</exception></token>
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
