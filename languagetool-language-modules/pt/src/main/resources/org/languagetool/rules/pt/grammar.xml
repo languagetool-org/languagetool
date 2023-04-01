@@ -22742,14 +22742,16 @@ O namorado dela era um ladrão.
       <!-- two repeated tokens -->
       <rule>
         <pattern>
-          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+'/>
+          </token>
           <token postag='NC.+|AQ.+' postag_regexp='yes'/>
           <marker>
             <token>que</token>
             <token regexp="yes">é|são</token>
             <token><match no="0"/></token>
             <token><match no="1"/></token>
-            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+            <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
           </marker>
         </pattern>
         <message>Possível redundância em redor de 'que é/são'.</message>
@@ -22760,13 +22762,15 @@ O namorado dela era um ladrão.
       <!-- one repeated token -->
       <rule>
         <pattern>
-          <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+          <token postag='NC.+|AQ.+' postag_regexp='yes'>
+            <exception postag_regexp='yes' postag='V.+'/>
+          </token>
           <token min="0" max="1" postag='NC.+|AQ.+' postag_regexp='yes'/>
           <marker>
             <token>que</token>
             <token regexp="yes">é|são</token>
             <token><match no="0"/></token>
-            <token postag='NC.+|AQ.+' postag_regexp='yes'/>
+            <token postag='NC.+|AQ.+|V.+' postag_regexp='yes'/>
           </marker>
         </pattern>
         <message>Possível redundância em redor de 'que é/são'.</message>
