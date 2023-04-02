@@ -189,6 +189,7 @@ public class Catalan extends Language {
       case "CA_COMPOUNDS": return 50;
       case "INCORRECT_EXPRESSIONS": return 50;
       case "PERSONATGES_FAMOSOS": return 50;
+      case "CONEIXO_CONEC": return 50;
       case "OFERTAR_OFERIR": return 50; // greater than PRONOMS_FEBLES_SOLTS2
       case "DESDE_UN": return 40;
       case "MOTS_NO_SEPARATS": return 40;
