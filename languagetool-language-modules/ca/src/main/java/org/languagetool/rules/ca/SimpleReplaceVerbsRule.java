@@ -193,8 +193,8 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
           if (replacementInfinitive.startsWith("(")) {
             possibleReplacements.add(StringTools.preserveCase(replacementInfinitive, originalTokenStr));
           } else {
-            String[] parts = replacementInfinitive.split(" "); // the first part
-                                                               // is the verb
+            // the first part is the verb
+            String[] parts = replacementInfinitive.split(" "); 
             AnalyzedToken infinitiveAsAnTkn = new AnalyzedToken(parts[0], "V.*", parts[0]);
             for (AnalyzedToken analyzedToken : analyzedTokenReadings) {
               try {
@@ -211,8 +211,9 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
                 for (int j = 1; j < parts.length; j++) {
                   s = s.concat(" ").concat(parts[j]);
                 }
-                if (!possibleReplacements.contains(s)) {
-                  possibleReplacements.add(StringTools.preserveCase(s, originalTokenStr));
+                String ps = StringTools.preserveCase(s, originalTokenStr);
+                if (!possibleReplacements.contains(ps)) {
+                  possibleReplacements.add(ps);
                 }
               }
             }
