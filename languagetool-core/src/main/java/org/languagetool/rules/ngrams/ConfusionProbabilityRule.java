@@ -32,6 +32,7 @@ import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -375,6 +376,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
       super(messages, lm, lang);
       this.id = Objects.requireNonNull(id);
       this.desc = desc;
+      if (lang.getShortCode().equals("en") && id.equals("CONFUSION_RULE_BARE_BEAR")
+          || id.equals("CONFUSION_RULE_BARE_BEAR")) {
+        this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/spelling-bear-vs-bare-with-me/"));
+      }
     }
     @Override
     public String getId() {
