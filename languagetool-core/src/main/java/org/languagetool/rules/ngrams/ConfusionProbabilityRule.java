@@ -377,7 +377,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
       this.id = Objects.requireNonNull(id);
       this.desc = desc;
       if (lang.getShortCode().equals("en") && (id.equals("CONFUSION_RULE_BARE_BEAR")
-          || id.equals("CONFUSION_RULE_BARE_BEAR"))) {
+          || id.equals("CONFUSION_RULE_BEAR_BARE"))) {
         this.setUrl(Tools.getUrl("https://languagetool.org/insights/post/spelling-bear-vs-bare-with-me/"));
       }
     }
