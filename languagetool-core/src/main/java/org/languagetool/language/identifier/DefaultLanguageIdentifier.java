@@ -334,7 +334,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
         try {
           boolean wasRestarted = fastTextDetector.restartProcess();
           if (wasRestarted) {
-            logger.warn("{} Fasttext was new initialized after failure. Remaining initializing: {}", Thread.currentThread().getName(), 10 - newCounter);
+            logger.warn("Fasttext was new initialized after failure. Remaining initializing: {}", 10 - newCounter);
           } else {
             fasttextInitCounter.decrementAndGet();
           }

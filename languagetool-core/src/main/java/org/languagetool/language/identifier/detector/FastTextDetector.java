@@ -141,7 +141,6 @@ public class FastTextDetector {
         this.fasttextIn.close();
         this.fasttextOut.close();
       }
-      logger.info("Try to reinit fasttext: {}", Thread.currentThread().getName());
       init();
       return true;
     }
