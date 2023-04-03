@@ -121,12 +121,14 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
   }
 
   void enableFasttext(File fasttextBinary, File fasttextModel) {
+    if (fasttextBinary != null && fasttextModel != null) {
       try {
         fastTextDetector = new FastTextDetector(fasttextModel, fasttextBinary);
         logger.info("Started fasttext process for language identification: Binary {} with model @ {}", fasttextBinary, fasttextModel);
       } catch (IOException e) {
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
+    }
   }
 
   /**
