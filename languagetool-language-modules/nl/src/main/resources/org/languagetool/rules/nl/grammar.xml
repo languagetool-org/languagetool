@@ -8302,7 +8302,9 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="TE_ZNW" name="te man" >
             <rule>
                 <pattern>
-                    <token>te</token>
+                    <marker>
+                        <token>te</token>
+                    </marker>
                     <token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk|fiets|keer|gemeente</exception></token>
                 </pattern>
                 <message>Voor een zelfstandig naamwoord hoort <suggestion>de</suggestion>. Er is ook een kans dat u <suggestion>ter</suggestion> bedoelt.</message>
@@ -10797,7 +10799,7 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <marker>
                         <token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:EKV:HET"/></token>
-                        <token regexp="yes">ik</token>
+                        <token>ik</token>
                     </marker>
                     <token negate="yes">en</token>
                 </pattern>
@@ -10809,7 +10811,7 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <marker>
                         <token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:EKV:HET"/></token>
-                        <token regexp="yes">hij</token>
+                        <token>hij</token>
                     </marker>
                     <token negate="yes" regexp="yes">en|,</token>
                 </pattern>
@@ -11910,7 +11912,7 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="WEEKDAGEN_MAANDEN" name="Hoofdletters bij dagen en maanden" type="misspelling">
             <rule>
                 <antipattern case_sensitive="yes"><token>April</token><token postag_regexp="yes" postag="ENM:PER:LST.*"/></antipattern>
-                <antipattern><token postag_regexp="yes" postag="UNKNOWN"/><token case_sensitive="yes">April</token></antipattern> <!-- titles, names -->
+                <antipattern><token postag="UNKNOWN"/><token case_sensitive="yes">April</token></antipattern> <!-- titles, names -->
                 <antipattern case_sensitive="yes"><token>Zondag</token><token>met</token><token>Lubach</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="ENM:PER.*|BNW:STL:VRB" case_sensitive="yes" regexp="yes">[A-Z].*</token><token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag|Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">keizer|fort|villa|imperator|Caesar|.*ianus|Constantijns?|.*ius|Nero</token><token postag="SENT_END"/></antipattern>
