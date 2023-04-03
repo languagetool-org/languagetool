@@ -14849,6 +14849,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="V.*|_GV_"/>
     </rule>
     <rulegroup id="nParticipi" name="no participi si no ha concordat">
+        <antipattern>
+            <token regexp="yes">me|ma</token>
+            <token postag="V.P..SM." postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <!--  paraules que habitualment no són participi si no han concordat (darrere de "de"?: base de dades, sistema de partits -->
             <pattern>
