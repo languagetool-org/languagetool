@@ -83,11 +83,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
   private final TextObjectFactory textObjectFactory;
 
   private FastTextDetector fastTextDetector;
-  private File fasttextBinary;
-  private File fasttextModel;
   private AtomicInteger fasttextInitCounter = new AtomicInteger(0);
-  private AtomicLong fasttextLastUpdated = new AtomicLong();
-  private ReentrantLock fasttextInitInProgress = new ReentrantLock();
   private NGramDetector ngram;
 
   DefaultLanguageIdentifier() {
@@ -124,24 +120,13 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
     }
   }
 
-  void enableFasttext() {
-    if (fasttextBinary != null && fasttextModel != null) {
+  void enableFasttext(File fasttextBinary, File fasttextModel) {
       try {
         fastTextDetector = new FastTextDetector(fasttextModel, fasttextBinary);
-        logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
-        fasttextLastUpdated.set(System.currentTimeMillis());
+        logger.info("Started fasttext process for language identification: Binary {} with model @ {}", fasttextBinary, fasttextModel);
       } catch (IOException e) {
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
-    }
-  }
-  
-  public void setFasttextBinary(File fasttextBinary) {
-    this.fasttextBinary = fasttextBinary;
-  }
-
-  public void setFasttextModel(File fasttextModel) {
-    this.fasttextModel = fasttextModel;
   }
 
   /**
@@ -161,6 +146,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
   public AtomicInteger getFasttextInitCounter() {
     return fasttextInitCounter;
   }
+  
   /**
    * @since 5.2
    */
@@ -342,16 +328,22 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
   }
 
   private void reinitFasttextAfterFailure(Exception e) {
-    if (fasttextInitInProgress.tryLock()) {
-      if (fasttextInitCounter.get() < 10 && (System.currentTimeMillis() - fasttextLastUpdated.get()) > 50) {
-        enableFasttext();
-        int newCounter = fasttextInitCounter.incrementAndGet();
-        logger.warn("{} Fasttext was new initialized after failure. Remaining initializing: {}", Thread.currentThread().getName(), 10 - newCounter);
-        fasttextLastUpdated.set(System.currentTimeMillis());
-        fasttextInitInProgress.unlock();
+    if (fastTextDetector != null) {
+      int newCounter = fasttextInitCounter.incrementAndGet();
+      if (newCounter <= 10) {
+        try {
+          boolean wasRestarted = fastTextDetector.restartProcess();
+          if (wasRestarted) {
+            logger.warn("{} Fasttext was new initialized after failure. Remaining initializing: {}", Thread.currentThread().getName(), 10 - newCounter);
+          } else {
+            fasttextInitCounter.decrementAndGet();
+          }
+        } catch (IOException ex) {
+          logger.warn("Restarting fasttext failed. Remaining initializing: {}", 10 - newCounter);
+        }
       } else {
         fastTextDetector = null;
-        logger.error("Fasttext disabled", e);
+        logger.error("Fasttext finally disabled after too many restarts.", e);
       }
     }
   }

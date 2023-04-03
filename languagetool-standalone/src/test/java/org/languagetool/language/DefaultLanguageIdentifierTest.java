@@ -72,108 +72,95 @@ public class DefaultLanguageIdentifierTest extends LanguageIdentifierTest{
   @Test
   @Ignore("Requires local files to run")
   public void fasttextReinitTest() throws IOException, InterruptedException {
+    String failingText = "LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.";
+    String notFailingText = "LanguageTool ist eine freie Software zur Rechtschreib- und Grammatikprüfung für mehrere Sprachen, unter anderem Deutsch und Englisch. Sie spürt Fehler in der Rechtschreibung und Zeichensetzung auf, entdeckt mögliche false friends bei Übersetzungen, führt terminologische Konsistenzprüfungen durch, prüft Kollokationen sowie die stilistische Qualität und die Grammatik.";
+    
     File ngramDataFile = new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip");
     File fastTextBinaryFile = new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext");
     File fastTextModelFile = new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin");
     LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
             .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(50, ngramDataFile, fastTextBinaryFile, fastTextModelFile);
+    
     FastTextDetector failingFastTextDetector = spy(new FastTextDetector(fastTextModelFile, fastTextBinaryFile));
-    doThrow(new FastTextDetector.FastTextException("Fasttext failure", true)).when(failingFastTextDetector).runFasttext(anyString(), any());
+    doThrow(new FastTextDetector.FastTextException("Fasttext failure", true)).when(failingFastTextDetector).runFasttext(eq(failingText), any());
+    doThrow(new FastTextDetector.FastTextException("Fasttext failure", true)).when(failingFastTextDetector).runFasttext(eq("This is a test text that should work."), any()); //also throw if the FastTextDetector checks itself
+    doCallRealMethod().when(failingFastTextDetector).runFasttext(eq(notFailingText), any());
     ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked1 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+    
+    DetectedLanguage langWithMocked1 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked1);
     assertEquals("+fallback", langWithMocked1.getDetectionSource());
     assertEquals("de", langWithMocked1.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
     
-    DetectedLanguage langWithoutMocked1 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+    DetectedLanguage langWithoutMocked1 = ident.detectLanguage(notFailingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithoutMocked1);
     assertEquals("fasttext", langWithoutMocked1.getDetectionSource());
     assertEquals("de", langWithoutMocked1.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
     
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked2 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+    DetectedLanguage langWithMocked2 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked2);
     assertEquals("+fallback", langWithMocked2.getDetectionSource());
     assertEquals("de", langWithMocked2.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    Thread.sleep(50);
-    
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked3 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+
+    DetectedLanguage langWithMocked3 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked3);
     assertEquals("+fallback", langWithMocked3.getDetectionSource());
     assertEquals("de", langWithMocked3.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    Thread.sleep(50);
-    
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked4 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+
+    DetectedLanguage langWithMocked4 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked4);
     assertEquals("+fallback", langWithMocked4.getDetectionSource());
     assertEquals("de", langWithMocked4.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    Thread.sleep(50);
-    
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked5 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+
+    DetectedLanguage langWithMocked5 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked5);
     assertEquals("+fallback", langWithMocked5.getDetectionSource());
     assertEquals("de", langWithMocked5.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    Thread.sleep(50);
-    
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked6 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+
+    DetectedLanguage langWithMocked6 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked6);
     assertEquals("+fallback", langWithMocked6.getDetectionSource());
     assertEquals("de", langWithMocked6.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    Thread.sleep(50);
-    
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked7 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+
+    DetectedLanguage langWithMocked7 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked7);
     assertEquals("+fallback", langWithMocked7.getDetectionSource());
     assertEquals("de", langWithMocked7.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    Thread.sleep(50);
-    
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked8 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+
+    DetectedLanguage langWithMocked8 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked8);
     assertEquals("+fallback", langWithMocked8.getDetectionSource());
     assertEquals("de", langWithMocked8.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    Thread.sleep(50);
-    
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked9 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+
+    DetectedLanguage langWithMocked9 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked9);
     assertEquals("+fallback", langWithMocked9.getDetectionSource());
     assertEquals("de", langWithMocked9.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    Thread.sleep(50);
-    
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked10 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+
+    DetectedLanguage langWithMocked10 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked10);
     assertEquals("+fallback", langWithMocked10.getDetectionSource());
     assertEquals("de", langWithMocked10.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    Thread.sleep(50);
     
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
-    DetectedLanguage langWithMocked11 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+    DetectedLanguage langWithMocked11 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithMocked11);
     assertEquals("+fallback", langWithMocked11.getDetectionSource());
     assertEquals("de", langWithMocked11.getDetectedLanguage().getShortCode());
     assertFalse(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    Thread.sleep(50);
     
-    DetectedLanguage langWithoutMocked2 = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+    DetectedLanguage langWithoutMocked2 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
     assertNotNull(langWithoutMocked2);
     assertEquals("ngram", langWithoutMocked2.getDetectionSource());
     assertEquals("de", langWithoutMocked2.getDetectedLanguage().getShortCode());
@@ -190,14 +177,40 @@ public class DefaultLanguageIdentifierTest extends LanguageIdentifierTest{
             .clearLanguageIdentifier("default")
             .getDefaultLanguageIdentifier(50, ngramDataFile, fastTextBinaryFile, fastTextModelFile);
     FastTextDetector failingFastTextDetector = spy(new FastTextDetector(fastTextModelFile, fastTextBinaryFile));
-    doThrow(new FastTextDetector.FastTextException("Fasttext failure", true)).when(failingFastTextDetector).runFasttext(anyString(), any());
-    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
+    
+    String text = "LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.";
 
+    //only fail on first time
+    final boolean[] failedCheck = {false};
+    doAnswer(invocation -> {
+      if (failedCheck[0]) {
+        return Collections.singletonMap("en", 1.0);
+      } else {
+        failedCheck[0] = true;
+        throw new FastTextDetector.FastTextException("Fasttext failure", true);
+      }
+    })
+            .when(failingFastTextDetector).runFasttext(eq(text), any());
+
+    //also throw if the FastTextDetector checks itself for the first time
+    final boolean[] failedIsAliveCheck = {false};
+    doAnswer(invocation -> {
+      if (failedIsAliveCheck[0]) {
+        return Collections.singletonMap("en", 1.0);
+      } else {
+        failedIsAliveCheck[0] = true;
+        throw new FastTextDetector.FastTextException("Fasttext failure", true);
+      }
+    })
+            .when(failingFastTextDetector).runFasttext(eq("This is a test text that should work."), any());
+    
+    ((DefaultLanguageIdentifier) ident).setFastTextDetector(failingFastTextDetector);
+    
     ExecutorService executorService = Executors.newFixedThreadPool(32);
     List<Callable<DetectedLanguage>> tasks = new ArrayList<>();
     for (int i = 0; i < 32; i++) {
       Callable<DetectedLanguage> callable = () -> {
-        DetectedLanguage dl = ident.detectLanguage("LanguageTool prüft einen Satz nicht auf grammatikalische Korrektheit, sondern, ob er typische Fehler enthält. Daher ist es einfach, ungrammatikalische Sätze zu erfinden, die LanguageTool trotzdem akzeptiert. Die Fehlererkennung gelingt mit einer Vielzahl von Regeln, die auf XML basieren oder in Java geschrieben sind.", Collections.emptyList(), Collections.emptyList());
+        DetectedLanguage dl = ident.detectLanguage(text, Collections.emptyList(), Collections.emptyList());
         return dl;
       };
       tasks.add(callable);

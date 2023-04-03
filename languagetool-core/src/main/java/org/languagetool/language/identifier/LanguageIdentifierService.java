@@ -53,9 +53,7 @@ public enum LanguageIdentifierService {
     if (defaultIdentifier == null) {
       DefaultLanguageIdentifier defaultIdentifier = maxLength > 0 ? new DefaultLanguageIdentifier(maxLength) : new DefaultLanguageIdentifier();
       defaultIdentifier.enableNgrams(ngramLangIdentData);
-      defaultIdentifier.setFasttextModel(fasttextModel);
-      defaultIdentifier.setFasttextBinary(fasttextBinary);
-      defaultIdentifier.enableFasttext();
+      defaultIdentifier.enableFasttext(fasttextBinary, fasttextModel);
       this.defaultIdentifier = defaultIdentifier;
     }
     return this.defaultIdentifier;

@@ -25,10 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @since 5.0
@@ -39,9 +36,12 @@ public class FastTextDetector {
   private static final int K_HIGHEST_SCORES = 5;
   private static final int BUFFER_SIZE = 4096;
 
-  private final Process fasttextProcess;
-  private final Reader fasttextIn;
-  private final Writer fasttextOut;
+  private Process fasttextProcess;
+  private Reader fasttextIn;
+  private Writer fasttextOut;
+  
+  private File modelPath;
+  private File binaryPath;
 
   public static class FastTextException extends RuntimeException {
     private final boolean disabled;
@@ -60,6 +60,12 @@ public class FastTextDetector {
   }
 
   public FastTextDetector(File modelPath, File binaryPath) throws IOException {
+    this.modelPath = modelPath;
+    this.binaryPath = binaryPath;
+    init();
+  }
+  
+  private void init() throws IOException{
     fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
     // avoid buffering, we want to flush/read all data immediately
     // might cause mixup
@@ -124,6 +130,22 @@ public class FastTextDetector {
       }
     }
     return probabilities;
+  }
+
+  public synchronized boolean restartProcess() throws IOException {
+    try {
+      runFasttext("This is a test text that should work.", Collections.emptyList());
+    } catch (IOException | FastTextException e) {
+      if (fasttextProcess != null && fasttextIn != null && fasttextOut != null) {
+        this.fasttextProcess.destroy();
+        this.fasttextIn.close();
+        this.fasttextOut.close();
+      }
+      logger.info("Try to reinit fasttext: {}", Thread.currentThread().getName());
+      init();
+      return true;
+    }
+    return false;
   }
 
   void destroy() {
