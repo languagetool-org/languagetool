@@ -11900,6 +11900,9 @@ regexp case-insensitive maken: (?i)
                 <antipattern><token postag_regexp="yes" postag="ENM:PER.*|BNW:STL:VRB" case_sensitive="yes" regexp="yes">[A-Z].*</token><token regexp="yes" case_sensitive="yes">(Maan|Dins|Woens|Donder|Zater|Zon)dag|Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">keizer|fort|villa|imperator|Caesar|.*ianus|Constantijns?|.*ius|Nero</token><token postag="SENT_END"/></antipattern>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">&APOSTROPH;|&DBLQUOTE;</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
+                <antipattern><token case_sensitive="yes">Augustus</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern> <!-- first name Augustus -->
+                <antipattern><token postag="WKW:VLT:1EP"></token><token case_sensitive="yes">Augustus</token></antipattern> <!-- Roman emperor -->
+                <antipattern><token case_sensitive="yes">Augustus</token><token postag="WKW:VLT:1EP"></token></antipattern> <!-- Roman emperor -->
                 <pattern>
                     <token><exception postag_regexp="yes" postag="SENT_START|START"/></token>
                     <marker>
@@ -11913,9 +11916,8 @@ regexp case-insensitive maken: (?i)
                 <example>"<marker>Maandag</marker> is een rotdag."</example>
                 <example>'<marker>Maandag</marker> is een rotdag.'</example>
                 <example>Ze noemden het daarom Bloedige Zondag.</example>
-                <example>Dat gebeurt op Zwarte Donderdag.</example>
-                <example>Het is binnenkort weer Goede Vrijdag.</example>
-                <example>De dag erna is het Stille Zaterdag.</example>
+                <example>De dag na Goede Vrijdag noemen we Stille Zaterdag.</example>
+                <example>Augustus veranderde het burgerlijk procesrecht.</example>
             </rule>
         </rulegroup>
 
@@ -17754,6 +17756,12 @@ regexp case-insensitive maken: (?i)
                     <token>wel</token>
                     <token>,</token>
                 </antipattern>
+                <antipattern>
+                    <token spacebefore="no">,</token>
+                    <token spacebefore="yes">dat</token>
+                    <token postag_regexp="yes" postag="WKW.*"></token>
+                    <example>Nogal logisch, dat snapt iedereen.</example>
+                </antipattern>
                 <pattern>
                     <token>,</token>
                     <token case_sensitive="yes">dat</token>
@@ -17761,14 +17769,6 @@ regexp case-insensitive maken: (?i)
                 <message>Gebruik voor 'dat' alleen een komma als u ook een pauze hoort: <suggestion> \2</suggestion>.</message>
                 <example correction=" dat">Ik wist niet<marker>, dat</marker> het fout was.</example>
                 <example>Ik wist niet <marker>dat</marker> het goed was.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>,</token>
-                    <token case_sensitive="yes">Dat</token>
-                </pattern>
-                <message>Met een komma begint geen nieuwe zin; de hoofdletter geeft aan dat dat mogelijk wel de bedoeling was: <suggestion>. Dat</suggestion>.</message>
-                <example correction=". Dat">Ik wist het<marker>, Dat</marker> was fout.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PUNT_UITR" name=".! of .?">
@@ -19651,6 +19651,27 @@ regexp case-insensitive maken: (?i)
             <example correction="zo goed mogelijk">De sfeer is <marker>optimaal</marker>.</example>
             <example correction="zo goed mogelijke">Een <marker>optimale</marker> nachtrust.</example>
         </rule>
+        <rulegroup id="PRINCIPE" name="principe" tags="picky">
+            <rule>
+                <antipattern><token>in</token><token>principe</token></antipattern>
+                <pattern>
+                    <token>principe</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion>keuze</suggestion> of <suggestion>uitgangspunt</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="keuze|uitgangspunt">Heel mooi <marker>principe</marker>.</example>
+                <example correction="keuze|uitgangspunt">Eind jaren ‘90 was dit <marker>principe</marker> erg rendabel.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>principes</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion>keuzes</suggestion> of <suggestion>uitgangspunten</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="keuzes|uitgangspunten">Een mens moet trouw blijven aan zijn <marker>principes</marker>.</example>
+                <example correction="keuzes|uitgangspunten">Wat Newton had gedaan, was dezelfde <marker>principes</marker> toepassen op de natuur.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRIORITEIT" name="prioriteit" tags="picky">
             <rule>
                 <pattern>
@@ -27055,27 +27076,6 @@ regexp case-insensitive maken: (?i)
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="">Fundamentele analyse is <marker>primair</marker>.</example>
                 <example correction="">Dit is een <marker>primaire</marker> taalstoornis.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="PRINCIPE" name="principe" tags="picky">
-            <rule>
-                <antipattern><token>in</token><token>principe</token></antipattern>
-                <pattern>
-                    <token>principe</token>
-                </pattern>
-                <message>&vlotter_mess; <suggestion>keuze</suggestion> of <suggestion>uitgangspunt</suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="keuze|uitgangspunt">Heel mooi <marker>principe</marker>.</example>
-                <example correction="keuze|uitgangspunt">Eind jaren ‘90 was dit <marker>principe</marker> erg rendabel.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>principes</token>
-                </pattern>
-                <message>&vlotter_mess; <suggestion>keuzes</suggestion> of <suggestion>uitgangspunten</suggestion>.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="keuzes|uitgangspunten">Een mens moet trouw blijven aan zijn <marker>principes</marker>.</example>
-                <example correction="keuzes|uitgangspunten">Wat Newton had gedaan, was dezelfde <marker>principes</marker> toepassen op de natuur.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRINCIPIEEL" name="principieel" tags="picky">
