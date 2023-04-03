@@ -27,6 +27,7 @@ import com.optimaize.langdetect.text.RemoveMinorityScriptsTextFilter;
 import com.optimaize.langdetect.text.TextObjectFactory;
 import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -41,6 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Identify the language of a text. Note that some languages might never be
@@ -79,6 +81,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
   private final TextObjectFactory textObjectFactory;
 
   private FastTextDetector fastTextDetector;
+  private AtomicInteger fasttextInitCounter = new AtomicInteger(0);
   private NGramDetector ngram;
 
   DefaultLanguageIdentifier() {
@@ -119,13 +122,31 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
     if (fasttextBinary != null && fasttextModel != null) {
       try {
         fastTextDetector = new FastTextDetector(fasttextModel, fasttextBinary);
-        logger.info("Started fasttext process for language identification: Binary " + fasttextBinary + " with model @ " + fasttextModel);
+        logger.info("Started fasttext process for language identification: Binary {} with model @ {}", fasttextBinary, fasttextModel);
       } catch (IOException e) {
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
     }
   }
 
+  /**
+   * For test only
+   * @param fastTextDetector
+   */
+  @TestOnly
+  public void setFastTextDetector(FastTextDetector fastTextDetector) {
+    this.fastTextDetector = fastTextDetector;
+  }
+
+  /**
+   * For test only
+   * @return a counter how often fasttext was already recreated after a failure
+   */
+  @TestOnly
+  public AtomicInteger getFasttextInitCounter() {
+    return fasttextInitCounter;
+  }
+  
   /**
    * @since 5.2
    */
@@ -274,20 +295,20 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
       } catch (FastTextDetector.FastTextException e) {
         if (e.isDisabled()) {
-          fastTextDetector = null;
-          logger.error("Fasttext disabled", e);
+          fasttextFailed = true;
+          reinitFasttextAfterFailure(e);
         } else {
           logger.error("Fasttext failed, fallback used", e);
           fasttextFailed = true;
         }
       } catch (Exception e) {
-        //fastText.destroy();
-        fastTextDetector = null;
-        logger.error("Fasttext disabled", e);
+        fasttextFailed = true;
+        reinitFasttextAfterFailure(e);
       }
     }
     if (fastTextDetector == null && ngram == null || fasttextFailed) { // no else, value can change in if clause
       text = textObjectFactory.forText(text).toString();
+      source +="+fallback";
       result = detectLanguageCode(text);
       if (additionalLangs.size() > 0) {
         logger.warn("Cannot consider noopLanguages because not in fastText mode: " + additionalLangs);
@@ -303,6 +324,27 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
         return new DetectedLanguage(null, Languages.getLanguageForShortCode(preferredLangs.get(0)), 0.1f, source);
       }
       return null;
+    }
+  }
+
+  private void reinitFasttextAfterFailure(Exception e) {
+    if (fastTextDetector != null) {
+      int newCounter = fasttextInitCounter.incrementAndGet();
+      if (newCounter <= 10) {
+        try {
+          boolean wasRestarted = fastTextDetector.restartProcess();
+          if (wasRestarted) {
+            logger.warn("Fasttext was new initialized after failure. Remaining initializing: {}", 10 - newCounter);
+          } else {
+            fasttextInitCounter.decrementAndGet();
+          }
+        } catch (IOException ex) {
+          logger.warn("Restarting fasttext failed. Remaining initializing: {}", 10 - newCounter);
+        }
+      } else {
+        fastTextDetector = null;
+        logger.error("Fasttext finally disabled after too many restarts.", e);
+      }
     }
   }
 
