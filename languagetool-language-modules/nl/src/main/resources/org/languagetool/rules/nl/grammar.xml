@@ -8480,6 +8480,12 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="VOORVOEGSEL" name="mega, giga etc.">
             <rule>
                 <antipattern><token>de</token><token>mini</token><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/></antipattern>
+                <antipattern>
+                    <!-- Many FPs coming from titles -->
+                    <token regexp="yes">mini|ultra|giga|mega|tera|nano|micro|macro</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+                    <example>Hij is groot fan van de Mega Top 40.</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" >mini|ultra|giga|mega|tera|nano|micro|macro</token>
                     <token postag_regexp="yes" postag="ZNW.*|BNW.*"><exception regexp="yes">kan|HD</exception></token>
@@ -19912,7 +19918,12 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="ENKEL" name="Enkel → alleen" tags="picky">
             <!-- 2014-09-08 TaalTik -->
             <rule>
-                <antipattern><token regexp="yes">de|een</token><token>enkel</token><token postag_regexp="yes" postag="WKW.*"/></antipattern>
+                <antipattern><token regexp="yes">de|een|één</token><token>enkel</token></antipattern>
+                <antipattern>
+                    <token skip="3">enkel</token>
+                    <token>dubbel</token>
+                    <example>Heb je er enkel of dubbel glas inzitten?</example>
+                </antipattern>
                 <pattern>
                     <token><exception>geen</exception></token>
                     <marker>
@@ -19932,6 +19943,7 @@ regexp case-insensitive maken: (?i)
                 <example correction="Alleen|Alleen maar|"><marker>Enkel</marker> afhalen mogelijk.</example>
                 <example correction="alleen|alleen maar|">Maandag <marker>enkel</marker> op afspraak.</example>
                 <example correction="alleen|alleen maar|">Ik wil <marker>enkel</marker> voelen.</example>
+                <example>Dat biedt dan één enkel toegangspunt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZEGGEN_EN_SCHRIJVEN" name="Zeggen en schrijven → zegge en schrijve">
@@ -29531,9 +29543,9 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <token>wellicht</token>
                 </pattern>
-                <message>&vlotter_mess; <suggestion>misschien</suggestion>.</message>
+                <message>&vlotter_mess; <suggestion>misschien</suggestion> of <suggestion>mogelijk</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="misschien">Doe <marker>wellicht</marker> iets anders.</example>
+                <example correction="misschien|mogelijk">Doe <marker>wellicht</marker> iets anders.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WERKBAAR" name="werkbaar" tags="picky">
