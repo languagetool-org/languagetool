@@ -852,13 +852,14 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="SPATIE_GETALLEN" name="Spatie tussen getal en meeteenheid" tags="picky">
             <rule>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[1-9][0-9]+(m|v|V|kV|A|W|g|l|ml|cc|km|mm|cm)</token>
+                    <token case_sensitive="yes" regexp="yes">[1-9][0-9]+(m|v|V|kV|W|g|l|ml|cc|km|mm|cm)</token>
                 </pattern>
                 <message>Tussen het getal en de meeteenheid hoort een spatie (behalve in samenstellingen).</message>
-                <suggestion><match no="1" regexp_match="(^[0-9]+)(m|v|V|kV|A|W|g|l|ml|cc|km|mm|cm|km)" regexp_replace="$1 $2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(^[0-9]+)(m|v|V|kV|W|g|l|ml|cc|km|mm|cm|km)" regexp_replace="$1 $2"/></suggestion>
                 <url>https://taaladvies.net/wel-of-geen-spaties-voor-en-na-leestekens-en-symbolen-algemeen/</url>
                 <short>Spatie</short>
                 <example correction="100 cm">De lengte is <marker>100cm</marker>.</example>
+                <example>Ze zit in klas 4A</example>
             </rule>
             <rule>
                 <pattern>
@@ -18859,9 +18860,14 @@ regexp case-insensitive maken: (?i)
                 <antipattern><token regexp="yes">[0-9]+</token><token>.</token></antipattern>
                 <antipattern><token regexp="yes" case_sensitive="yes">:|nummer|[A-Z].*</token><token regexp="yes" case_sensitive="yes">[0-9]+[A-Z]</token></antipattern>
                 <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,3}[AB]</token></antipattern>
-                <antipattern><token regexp="yes">[0-9]{1,3}[AB]</token><token>en</token><token regexp="yes">[0-9]{1,3}[AB]</token></antipattern>
+                <antipattern>
+                    <!-- too many false positives for XX A and B -->
+                    <token regexp="yes">[0-9]{1,2}[AB]</token>
+                    <example>Ze zit momenteel in groep 1A.</example>
+                    <example>Je moet wachten bij spoorlijn 22B.</example>
+                </antipattern>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(([-]|[+]){0,1}[1-9]{0,1}[0-9]{1,10})(A|mA|V|kV|mm|cm|km|B|MB|GB|TB|°C|°F)</token>
+                    <token regexp="yes">(([-]|[+]){0,1}[1-9]{0,1}[0-9]{1,10})(mA|V|kV|mm|cm|km|MB|GB|TB|°C|°F)</token>
                 </pattern>
                 <message>Als dit een aantal met eenheid is, dan hoort er een spatie in: <suggestion><match no="1" regexp_match="([0-9])([^0-9])" regexp_replace="$1 $2"/></suggestion>.</message>
                 <url>https://taaladvies.net/taal/advies/tekst/114/wel_of_geen_spaties_voor_en_na_leestekens_en_symbolen_algemeen/</url>
