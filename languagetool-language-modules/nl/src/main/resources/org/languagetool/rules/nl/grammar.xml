@@ -8305,9 +8305,9 @@ regexp case-insensitive maken: (?i)
                     <token>te</token>
                     <token postag_regexp="yes" postag=".*DE_"><exception postag_regexp="yes" postag="BNW.*|WKW:TGW:INF.*|BYW:JES"/><exception case_sensitive="yes" regexp="yes">[A-Z].*|koop|huur|voer|Den|baat|beurt|gast|hulp|pas|pletter|schande|voet|vondeling|vriend|weer|paard|voren|water|hoop|kijk|fiets|keer|gemeente</exception></token>
                 </pattern>
-                <message>Voor een zelfstandig naamwoord hoort 'de'.</message>
-                <suggestion>de \2</suggestion>
-                <example correction="de leeservaring">Zij heeft <marker>te leeservaring</marker>.</example>
+                <message>Voor een zelfstandig naamwoord hoort <suggestion>de</suggestion>. Er is ook een kans dat u <suggestion>ter</suggestion> bedoelt.</message>
+                <example correction="de|ter">Zij heeft <marker>te</marker> leeservaring.</example>
+                <example correction="de|ter">Dit <marker>te</marker> verbetering op het huidige model.</example>
                 <example>De eed van trouw aan de koning te zweren.</example>
                 <example>Dit werk te prijzen zou neerkomen op lof voor mezelf.</example>
             </rule>
@@ -10797,12 +10797,26 @@ regexp case-insensitive maken: (?i)
                 <pattern>
                     <marker>
                         <token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:EKV:HET"/></token>
-                        <token regexp="yes">ik|hij</token>
+                        <token regexp="yes">ik</token>
                     </marker>
                     <token negate="yes">en</token>
                 </pattern>
-                <message>Zinsovergang of leesteken vergeten? <suggestion>\1. <match no="2" case_conversion="startupper"/></suggestion>, <suggestion>\1; \2</suggestion> of <suggestion>\1: \2</suggestion>.</message>
-                <example correction="breken. Ik|breken; ik|breken: ik">Wij <marker>breken ik</marker> ga weg.</example>
+                <message>Zinsovergang of leesteken vergeten? Anders misschien een verkeerde vorm van het werkwoord gebruikt? <suggestion>\1. <match no="2" case_conversion="startupper"/></suggestion>, <suggestion>\1; \2</suggestion> of <suggestion><match no="1" postag="WKW:TGW:1EP"></match> \2</suggestion>.</message>
+                <example correction="breken. Ik|breken; ik|breek ik">Wij <marker>breken ik</marker> ga weg.</example>
+                <example correction="gaan. Ik|gaan; ik|ga ik">Wat <marker>gaan ik</marker> hieraan doen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="WKW:TGW:INF"><exception postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:EKV:HET"/></token>
+                        <token regexp="yes">hij</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">en|,</token>
+                </pattern>
+                <message>Zinsovergang of leesteken vergeten? Anders misschien een verkeerde vorm van het werkwoord gebruikt? <suggestion>\1. <match no="2" case_conversion="startupper"/></suggestion>, <suggestion>\1; \2</suggestion> of <suggestion><match no="1" postag="WKW:TGW:3EP"></match> \2</suggestion>.</message>
+                <example correction="breken. Hij|breken; hij|breekt hij">Wij <marker>breken hij</marker> gaat weg.</example>
+                <example correction="gaan. Hij|gaan; hij|gaat hij">Wat <marker>gaan hij</marker> hieraan doen?</example>
+                <example>Tegenwoordig worden hij, zijn bekering en zijn toestaan van het christendom echter kritischer bekeken</example>
             </rule>
         </rulegroup>
         <rulegroup id="EINDE_ZIN_ONVERWACHT" name="onverwacht einde zin" tags="picky">
@@ -14679,10 +14693,6 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="KOMMA_HOOFDLETTER" name=", Hoofdletter" type="misspelling" tags="picky">
             <rule>
-                <antipattern case_sensitive="yes"><token>Landbouw</token><token>,</token><token>Natuur</token><token>en</token><token>Voedselkwaliteit</token></antipattern>
-                <antipattern case_sensitive="yes"><token>Transport</token><token>,</token><token>Communicatie</token><token>en</token><token>Toerisme</token></antipattern>
-                <antipattern case_sensitive="yes"><token>Onderwijs</token><token>,</token><token>Cultuur</token><token>en</token><token>Wetenschap</token></antipattern>
-                <antipattern case_sensitive="yes"><token>Volksgezondheid</token><token>,</token><token>Welzijn</token><token>en</token><token>Sport</token></antipattern>
                 <antipattern><token regexp="yes">[,;]</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
                 <antipattern><token regexp="yes">[,;]</token><token regexp="yes">San|St|Ch|Th|Ph|Peg</token></antipattern>
                 <antipattern><token regexp="yes">[,;]</token><token/><token>,</token></antipattern>
@@ -14697,6 +14707,12 @@ regexp case-insensitive maken: (?i)
                         <token regexp="yes" postag="ZNW:EKV:HET">[A-Z][a-z].*</token>
                         <token regexp="yes" postag="BNW:STL:ONV">[A-Z][a-z].*</token>
                     </and>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <token regexp="yes">[,]</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <example>Dan moet je bij het ministerie van Landbouw, Veeteelt en Visserij zijn.</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[,;]</token>
