@@ -6653,6 +6653,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Случай а) исходных параметров для построения линий потока энергии, б) пороговый угол уменьшен в 2 раза, минимальная длина отрезка в 10 раз.</example>
         </rule>
     </rulegroup>
+    <rule id="CHTO_CHTOBY" name="Замена «что» на «чтобы»">
+        <pattern>
+            <token>,</token>
+            <marker>
+                <token>что</token>
+            </marker>
+            <token postag="VB:INF:.*" postag_regexp="yes"><exception postag="VB:INF:.*" postag_regexp="yes" negate_pos="yes"></exception></token>
+        </pattern>
+        <message>В данном контексте вместо «что» должно быть <suggestion>чтобы</suggestion>.</message>
+        <short>Ошибка?</short>
+        <example correction="чтобы">Выйдите из дома, <marker>что</marker> встретить друзей.</example>
+        <example>Выйдите из дома, чтобы встретить друзей.</example>
+    </rule>
     
     </category>
     <category id="GRAMMAR" name="Грамматика">
