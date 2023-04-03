@@ -310,6 +310,9 @@ public class DocumentCache implements Serializable {
       }
       actualizeCache (paragraphs, chapterBegins, locales, footnotes, toTextMapping, toParaMapping, 
           deletedCharacters, documentTexts.get(CURSOR_TYPE_TEXT).automaticTextParagraphs, sortedTextIds);
+      for (Locale locale : getDifferentLocalesOftext(paragraphContainer.locales)) {
+        document.getMultiDocumentsHandler().handleLtDictionary(getDocAsString(), locale);
+      }
       document.getMultiDocumentsHandler().runShapeCheck(hasUnsupportedText(), fromWhere);
       if (fromWhere != 2 || debugModeTm) { //  do not write time to log for text level queue
         long endTime = System.currentTimeMillis();
@@ -446,6 +449,29 @@ public class DocumentCache implements Serializable {
       }
     }
     return true;
+  }
+  
+  /**
+   * get the list of different locales out of the list of all locales
+   */
+  List<Locale> getDifferentLocalesOftext(List<Locale> locales) {
+    List<Locale> differentLocales = new ArrayList<>();
+    for (Locale locale : locales) {
+      if (locale.Variant.startsWith(OfficeTools.MULTILINGUAL_LABEL)) {
+        locale = new Locale(locale.Language, locale.Country, locale.Variant.substring(OfficeTools.MULTILINGUAL_LABEL.length()));
+      }
+      boolean isInList = false;
+      for (Locale difLoc : differentLocales) {
+        if (OfficeTools.isEqualLocale(locale, difLoc)) {
+          isInList = true;
+          break;
+        }
+      }
+      if (!isInList) {
+        differentLocales.add(locale); 
+      }
+    }
+    return differentLocales;
   }
 /*  
   private static boolean isEqualWithoutFootnotes(String flatPara, String textPara, int[] footnotes, int[] n, int level) {
@@ -1692,7 +1718,7 @@ public class DocumentCache implements Serializable {
   }
 
   /**
-   * Gives Back the full Text as String
+   * Gives Back the full Text as String sorted by cursor types
    */
   public String getDocAsString(TextParagraph textParagraph, int parasToCheck, boolean checkOnlyParagraph,
       boolean useQueue, boolean hasFootnotes) {
@@ -1725,6 +1751,22 @@ public class DocumentCache implements Serializable {
           docText.append(OfficeTools.END_OF_PARAGRAPH).append(fixLinebreak(SingleCheck
               .removeFootnotes(getTextParagraph(tPara), (hasFootnotes ? getTextParagraphFootnotes(tPara) : null), getTextParagraphDeletedCharacters(tPara))));
         }
+      }
+      return docText.toString();
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * Gives Back the full Text as String
+   */
+  public String getDocAsString() {
+    rwLock.readLock().lock();
+    try {
+      StringBuilder docText = new StringBuilder(paragraphs.get(0));
+      for (int i = 1; i < paragraphs.size(); i++) {
+        docText.append(OfficeTools.END_OF_PARAGRAPH).append(paragraphs.get(i));
       }
       return docText.toString();
     } finally {

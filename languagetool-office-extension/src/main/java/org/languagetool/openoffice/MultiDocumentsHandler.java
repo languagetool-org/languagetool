@@ -33,6 +33,8 @@ import java.util.Set;
 import javax.swing.UIManager;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -125,6 +127,7 @@ public class MultiDocumentsHandler {
   
   private boolean useOrginalCheckDialog = false;    // use original spell and grammar dialog (LT check dialog does not work for OO)
   private boolean checkImpressDocument = false;     //  the document to check is Impress
+  private final HandleLtDictionary handleDictionary;
   private boolean isNotTextDocument = false;
   private int heapCheckInterval = HEAP_CHECK_INTERVAL;
   private boolean testMode = false;
@@ -145,6 +148,8 @@ public class MultiDocumentsHandler {
     documents = new ArrayList<>();
     disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
+    handleDictionary = new HandleLtDictionary();
+    handleDictionary.start();
     LtHelper ltHelper = new LtHelper();
     ltHelper.start();
   }
@@ -233,6 +238,7 @@ public class MultiDocumentsHandler {
     if (debugMode) {
       MessageHandler.printToLogFile("MultiDocumentsHandler: getCheckResults: Start getCheckResults at single document: " + paraText);
     }
+//    handleLtDictionary(paraText);
     paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, lt);
     if (lt.doReset()) {
       // langTool.doReset() == true: if server connection is broken ==> switch to internal check
@@ -999,7 +1005,7 @@ public class MultiDocumentsHandler {
         lt.disableRule(id);
       }
     }
-    handleLtDictionary();
+//    handleLtDictionary();
     if (debugModeTm) {
       long runTime = System.currentTimeMillis() - startTime;
       if (runTime > OfficeTools.TIME_TOLERANCE) {
@@ -1923,27 +1929,68 @@ public class MultiDocumentsHandler {
   
   /**
    *  start a separate thread to add or remove the internal LT dictionary
+   *//*
+  private void handleLtDictionary(String text) {
+    LtDictionary.setIgnoreWordsForSpelling(text, lt, locale, xContext);
+  }
+*/
+  /**
+   *  start a separate thread to add or remove the internal LT dictionary
    */
-  private void handleLtDictionary() {
-    HandleLtDictionary handleDictionary = new HandleLtDictionary();
-    handleDictionary.start();
+  public void handleLtDictionary(String text, Locale locale) {
+    handleDictionary.addTextToCheck(text, locale);
+    handleDictionary.wakeup();
   }
 
   /**
    *  class to start a separate thread to add or remove the internal LT dictionary
    */
   private class HandleLtDictionary extends Thread {
+    private Object queueWakeup = new Object();
+    private final List<String> textToCheck = new ArrayList<>();
+    private final List<Locale> localeToCheck = new ArrayList<>();
+    private boolean isRunning = true;
+    
+    void setStop() {
+      isRunning = false;
+    }
+    
+    void addTextToCheck (String text, Locale locale) {
+      textToCheck.add(text);
+      localeToCheck.add(locale);
+    }
+    
+    void wakeup() {
+      synchronized(queueWakeup) {
+//        if (debugMode) {
+//          MessageHandler.printToLogFile("HandleLtDictionary: wakeupQueue: wake queue");
+//        }
+        queueWakeup.notify();
+      }
+    }
+
     @Override
     public void run() {
-      if (config.useLtDictionary()) {
-        if (LtDictionary.setLtDictionary(xContext, locale, linguServices)) {
-          resetCheck();
+      isRunning = true;
+      while (isRunning) {
+        synchronized(queueWakeup) {
+          if (textToCheck.size() < 1) {
+            try {
+              MessageHandler.printToLogFile("HandleLtDictionary: run: queue waits");
+              queueWakeup.wait();
+            } catch (InterruptedException e) {
+              MessageHandler.printException(e);
+            }
+          }
         }
-      } else {
-        if (LtDictionary.removeLtDictionaries(xContext)) {
-          resetCheck();
-        }
+        String text = textToCheck.get(0);
+        Locale locale = localeToCheck.get(0);
+        textToCheck.remove(0);
+        localeToCheck.remove(0);
+        OfficeTools.waitForLO();
+        LtDictionary.setIgnoreWordsForSpelling(text, lt, locale, xContext);
       }
+      isRunning = false;
     }
   }
 

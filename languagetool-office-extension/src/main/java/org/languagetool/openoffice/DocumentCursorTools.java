@@ -87,9 +87,14 @@ class DocumentCursorTools {
   private XTextDocument curDoc;
   
   DocumentCursorTools(XComponent xComponent) {
-    curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-    xTextCursor = getCursor(xComponent);
-    xPCursor = getParagraphCursor(xComponent);
+    isBusy++;
+    try {
+      curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+      xTextCursor = getCursor(xComponent);
+      xPCursor = getParagraphCursor(xComponent);
+    } finally {
+      isBusy--;
+    }
   }
   
   /**

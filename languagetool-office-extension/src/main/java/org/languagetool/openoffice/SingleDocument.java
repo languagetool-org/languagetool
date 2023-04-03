@@ -764,6 +764,7 @@ class SingleDocument {
           changedParas.remove(nPara);
           if (sChangedPara != null && !sChangedPara.equals(sPara)) {
             docCache.setFlatParagraph(nPara, sPara);
+            mDocHandler.handleLtDictionary(sPara, docCache.getFlatParagraphLocale(nPara));
             //  NOTE: Don't remove paragraph cache 0. It is needed to set correct markups
             for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
               paragraphsCache.get(i).remove(nPara);

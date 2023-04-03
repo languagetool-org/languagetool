@@ -237,11 +237,11 @@ public class SwJLanguageTool {
   /**
    * Get a list of tokens from a sentence
    * This Method may be used only for local checks
-   * Returns null for remote checks
+   * use local lt for remote checks
    */
   public List<String> sentenceTokenize(String text) {
     if (isRemote) {
-      return null;
+      return lt.sentenceTokenize(text);
     } else if (isMultiThread) {
         return mlt.sentenceTokenize(text); 
     } else {
@@ -252,11 +252,11 @@ public class SwJLanguageTool {
   /**
    * Analyze sentence
    * This Method may be used only for local checks
-   * Returns null for remote checks
+   * use local lt for remote checks
    */
   public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
     if (isRemote) {
-      return null;
+      return lt.getAnalyzedSentence(sentence);
     } else if (isMultiThread) {
         return mlt.getAnalyzedSentence(sentence); 
     } else {

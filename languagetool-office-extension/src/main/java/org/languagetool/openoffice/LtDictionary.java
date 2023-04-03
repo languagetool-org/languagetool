@@ -32,10 +32,14 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 
 import com.sun.star.lang.Locale;
@@ -61,6 +65,7 @@ public class LtDictionary {
   private static Set<String> dictionaryList = new HashSet<>();
   private static String listIgnoredWords = null;
   private static boolean isDisposed = false;
+  private static Map<String, Set<String>> ltSpellingWords = new HashMap<>();
   
   /**
    * Add a non permanent dictionary to LO/OO that contains additional words defined in LT
@@ -68,11 +73,85 @@ public class LtDictionary {
   public static void setDisposed() {
     isDisposed = true;
   }
+  
+  /**
+   * private void set to ignore words
+   */
+  public static void setIgnoreWordsForSpelling(String text, SwJLanguageTool lt, Locale locale, XComponentContext xContext) {
+//    boolean resetNeeded = false;
+    try {
+      XDictionary ignoredWords = null;
+      XSearchableDictionaryList searchableDictionaryList = null;
+      String shortCode = OfficeTools.localeToString(locale);
+      addSpellingList(locale, shortCode);
+//      MessageHandler.printToLogFile("LtDictionary: setIgnoreWordsForSpelling: Prozess Text: " + text);
+      List<String> sentences = lt.sentenceTokenize(text);
+      for (String sentence : sentences) {
+        AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(sentence);
+        for (AnalyzedTokenReadings reading : analyzedSentence.getTokens()) {
+          String word = reading.getToken();
+          if(isIgnoredSpellingWord(word, shortCode)) {
+//            MessageHandler.printToLogFile("LtDictionary: setIgnoreWordsForSpelling: Word found: " + word);
+            if (ignoredWords == null) {
+              searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
+              if (searchableDictionaryList == null) {
+                MessageHandler.printToLogFile("LtDictionary: setIgnoreWordsForSpelling: searchableDictionaryList == null");
+                return;
+              }
+              String dictionaryName = INTERNAL_DICT_PREFIX + shortCode + "_internal" + DICT_FILE_POSTFIX;
+              ignoredWords = searchableDictionaryList.getDictionaryByName(dictionaryName);
+              if (ignoredWords == null) {
+                ignoredWords = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
+              } else {
+                OfficeTools.waitForLO();
+                ignoredWords.setActive(false);
+                OfficeTools.waitForLO();
+                searchableDictionaryList.removeDictionary(ignoredWords);
+              }
+            }
+            if (ignoredWords.isFull()) {
+              MessageHandler.showMessage("List of ignored words is full! Count = " + ignoredWords.getCount());
+              return;
+            }
+            boolean hasWord = false;
+            for (XDictionaryEntry entry : ignoredWords.getEntries()) {
+              if (word.equals(entry.getDictionaryWord())) {
+                hasWord = true;
+              }
+            }
+            if (!hasWord) {
+              OfficeTools.waitForLO();
+              ignoredWords.add(word, false, "");
+            }
+          }
+        }
+      }
+      if (ignoredWords != null) {
+        OfficeTools.waitForLO();
+        ignoredWords.setActive(true);
+        OfficeTools.waitForLO();
+        searchableDictionaryList.addDictionary(ignoredWords);
+      }
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
+    }
+    return;
+  }
+
+  private static boolean isIgnoredSpellingWord(String word, String shortCode) {
+    return ltSpellingWords.get(shortCode).contains(word);
+  }
+  
+  private static void addSpellingList(Locale locale, String shortCode) {
+    if (!ltSpellingWords.containsKey(shortCode)) {
+      ltSpellingWords.put(shortCode, getManualWordList(locale));
+    }
+  }
 
   /**
    * Add a non permanent dictionary to LO/OO that contains additional words defined in LT
-   */
-  public static boolean setLtDictionary(XComponentContext xContext, Locale locale, LinguisticServices linguServices) {
+   *//*
+  public static boolean setLtDictionary(XComponentContext xContext, Locale locale) {
     boolean debugMode = OfficeTools.DEBUG_MODE_LD;
     if (isDisposed) {
       return false;
@@ -90,7 +169,7 @@ public class LtDictionary {
     String dictionaryName = dictionaryNamePrefix + "1" + DICT_FILE_POSTFIX;
     if (!isDisposed && !dictionaryList.contains(dictionaryName) && searchableDictionaryList.getDictionaryByName(dictionaryName) == null) {
       dictionaryList.add(dictionaryName);
-      String ltDictionaryPath = getLTDictionaryFile(locale, linguServices);
+      String ltDictionaryPath = getLTDictionaryFile(locale);
       if (ltDictionaryPath != null) {
         if (debugMode) {
           MessageHandler.printToLogFile("setLtDictionary: Create LT spelling dictionary " + dictionaryName + ": File path: " + ltDictionaryPath);
@@ -139,12 +218,13 @@ public class LtDictionary {
             MessageHandler.printToLogFile(entry.getDictionaryWord());
           }
         }
+        searchableDictionaryList.flushEvents();
         return true;
       }
     }
     return false;
   }
-  
+*/  
   private static void setListIgnoredWords(XDictionary[] dictionaryList) {
     if (listIgnoredWords != null) {
       return;
@@ -205,7 +285,7 @@ public class LtDictionary {
   /**
    * get the list of words out of spelling.txt files defined by LT
    */
-  private static Set<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
+  private static Set<String> getManualWordList(Locale locale) {
     Set<String> words = new HashSet<>();
     String path;
     for (int i = 0; i < NUM_PATHS; i++) {
@@ -255,8 +335,8 @@ public class LtDictionary {
   
   /**
    * get the list of words out of LT full spelling list
-   */
-  public static List<String> getSpellingWordsAsLines(String path) {
+   *//*
+  private static List<String> getSpellingWordsAsLines(String path) {
     List<String> lines = new ArrayList<>();
     try (InputStream stream = new FileInputStream(path);
          InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
@@ -271,12 +351,12 @@ public class LtDictionary {
     }
     return lines;
   }
-  
+*/
   /**
    * get the LT dictionary file from LT installation directory
    * create the dictionary file, if not exist
-   */
-  private static String getLTDictionaryFile(Locale locale, LinguisticServices linguServices) {
+   *//*
+  private static String getLTDictionaryFile(Locale locale) {
     boolean debugMode = OfficeTools.DEBUG_MODE_LD;
     if (debugMode) {
       MessageHandler.printToLogFile("getLTDictionaryFile: start generate full LT dictionary file");
@@ -303,7 +383,7 @@ public class LtDictionary {
       } else {
         MessageHandler.printToLogFile("getLTDictionaryFile: LT dictionary file doesn't exist: start to create");
       }
-      Set<String> words = getManualWordList(locale, linguServices);
+      Set<String> words = getManualWordList(locale);
       try (OutputStream stream = new FileOutputStream(path);
           OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
           BufferedWriter br = new BufferedWriter(writer)
@@ -325,10 +405,10 @@ public class LtDictionary {
     }
     return null;
   }
-  
+*/  
   /**
    * Remove the non permanent LT dictionaries
-   */
+   *//*
   public static boolean removeLtDictionaries(XComponentContext xContext) {
     if (!dictionaryList.isEmpty()) {
       XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
@@ -342,12 +422,13 @@ public class LtDictionary {
           searchableDictionaryList.removeDictionary(manualDictionary);
         }
       }
+      searchableDictionaryList.flushEvents();
       dictionaryList.clear();
       return true;
     }
     return false;
   }
-  
+*/  
   /**
    * Add a word to the List of ignored words
    * Used for ignore all in spelling check
