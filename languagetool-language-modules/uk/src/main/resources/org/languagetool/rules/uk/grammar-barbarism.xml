@@ -7369,7 +7369,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="погасив">і <marker>потушив</marker> вогні</example>
     </rule>
 -->
-<!--
+
+<!-- this error does not happen oftena and the rule does not work well -->
     <rulegroup id="lyshaty" name="Лишати і позбавляти">
       <rule>
         <pattern>
@@ -7405,19 +7406,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token postag_regexp="yes" postag="noun:(un)?anim:.*v_zna.*"/>
           <token postag_regexp="yes" postag="noun:.*v_rod.*">
-            <exception postag_regexp="yes" postag="(noun|adj):.*v_(naz|zna|dav).*|verb.*inf.*"/>
+            <exception postag_regexp="yes" postag="(noun|adj):.*v_(naz|zna).*|verb.*inf.*"/>
           </token>
         </pattern>
         <message>Замість »лишати (кого) чого» краще вживати «позбавляти»</message>
         <suggestion>позбавляти</suggestion>
         <suggestion>відбирати</suggestion>
         <example correction="позбавляти|відбирати"><marker>лишили</marker> його прав.</example>
+        <example correction="позбавляти|відбирати"><marker>лишили</marker> людей добробуту.</example>
         <example correction="позбавляти|відбирати"><marker>лишило</marker> мене спокою.</example>
         <example>не лишає йому часу ні на що</example>
         <example>лишали частку заробленого</example>
       </rule>
     </rulegroup>
--->
+
+
 <!--  Too many false positives with надоїти, moved to replace.txt
     <rule id="nadoyisty" name="Надоїсти">
       <pattern>
