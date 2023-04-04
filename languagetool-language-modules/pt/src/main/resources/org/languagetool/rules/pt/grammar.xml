@@ -28599,12 +28599,16 @@ O namorado dela era um ladrão.
         <example correction="tô|te">E eu <marker>to</marker> muito animada.</example>
     </rule>
     <rule default='on'>
+        <antipattern>
+          <token>apos</token>
+          <token>;</token>
+        </antipattern>
         <pattern>
           <token>apos</token>
           <token postag='RG' min='0'/>
           <token postag='N.F.+|A..F.+|V.+' postag_regexp='yes'/>
         </pattern>
-        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' regexp_match="o" regexp_replace='ó' postag_regexp="yes"/> \2 \3</suggestion>.</message>
+        <message>Se for um erro ortográfico, substitua por <suggestion><match no='1' case_conversion="preserve" regexp_match="o" regexp_replace='ó' postag_regexp="yes"/> \2 \3</suggestion>.</message>
         <example correction="após aprovação">Isso é feito <marker>apos aprovação</marker>.</example>
     </rule>
     <rule default='on'>
