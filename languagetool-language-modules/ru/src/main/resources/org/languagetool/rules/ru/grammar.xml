@@ -11805,6 +11805,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Он рассказывал <marker>про путешествию</marker>.</example>
             <example>Он рассказывал про путешествие.</example>
         </rule>
+        <rule id="PREP_Pro_And_ADJ" name="Предлог «про» и прилагательное" default="temp_off">
+            <pattern>
+                <token>про</token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes">
+                    <exception postag="ADJ:.*:.*:V" postag_regexp="yes" />
+                    <exception postag="ADJ:.*:.*:T" postag_regexp="yes" />
+                    <exception postag="ADJ:.*:.*:.*" postag_regexp="yes" negate_pos="yes" />
+                </token>
+            </pattern>
+            <message>Предлог «про» предполагает употребление прилагательного в винительном падеже.</message>
+            <url>https://ru.wiktionary.org/wiki/%D0%BF%D1%80%D0%BE</url>
+            <short>Требуется винительный падеж</short>
+            <example correction="">Он рассказывал <marker>про красивая</marker> путешествие.</example>
+            <example>Он рассказывал про красивое путешествие.</example>
+            <example>Мавританское руководство пыталось поддерживать равновесие между про сахарскими и про марокканскими группировками.</example>
+        </rule>
         <rule id="PREP_Za_And_Noun" name="Предлог «за» и существительное">
             <antipattern>
                 <token  regexp="yes" >что|из</token>
