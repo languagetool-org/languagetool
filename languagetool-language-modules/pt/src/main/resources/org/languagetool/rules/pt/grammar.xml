@@ -48849,7 +48849,7 @@ O namorado dela era um ladrão.
 
 
     <!-- TÊM SIDO DESENVOLVIDOS desenvolveram-se -->
-    <rule id='TER_SIDO_PART_PASSADO_VERBO' name="[Simplificar] V.Ter + sido + V.Part.Pass. → V." type="style">
+    <rule id='TER_SIDO_PART_PASSADO_VERBO' name="[Simplificar] V.Ter + sido + V.Part.Pass. → V." type="style" tags='picky'>
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-03-19 (2-MAR-2023+) -->
       <!--
       Ao longo dos anos tem sido desenvolvido um modelo. → Ao longo dos anos desenvolveu-se um modelo.
@@ -48880,11 +48880,14 @@ O namorado dela era um ladrão.
         </token>
       </pattern>
       <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion><match no='1' postag='VMI.+' postag_regexp='yes'>ser</match> \3</suggestion>
       <suggestion><match no='3' postag='VMP00(.).' postag_regexp="yes" postag_replace='VMIS3$10'/>-se</suggestion>
       <suggestion>se <match no='3' postag='VMP00(.).' postag_regexp="yes" postag_replace='VMIS3$10'/></suggestion>
-      <example correction="desenvolveu-se|se desenvolveu">Ao longo dos anos <marker>tem sido desenvolvido</marker> um modelo.</example>
-      <example correction="desenvolveram-se|se desenvolveram">Ao longo dos anos <marker>têm sido desenvolvidos</marker> vários modelos.</example>
-      <example correction="desenvolveram-se|se desenvolveram">Ao longo dos anos <marker>têm sido desenvolvidos</marker> modelos.</example>
+      <suggestion><match no='3' postag='VMP00(.).' postag_regexp="yes" postag_replace='VMIP3$10'/>-se</suggestion>
+      <suggestion>se <match no='3' postag='VMP00(.).' postag_regexp="yes" postag_replace='VMIP3$10'/></suggestion>
+      <example correction="é desenvolvido|desenvolveu-se|se desenvolveu|desenvolve-se|se desenvolve">Ao longo dos anos <marker>tem sido desenvolvido</marker> um modelo.</example>
+      <example correction="são desenvolvidos|desenvolveram-se|se desenvolveram|desenvolvem-se|se desenvolvem">Ao longo dos anos <marker>têm sido desenvolvidos</marker> vários modelos.</example>
+      <example correction="são desenvolvidos|desenvolveram-se|se desenvolveram|desenvolvem-se|se desenvolvem">Ao longo dos anos <marker>têm sido desenvolvidos</marker> modelos.</example>
     </rule>
 
 
