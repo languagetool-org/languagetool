@@ -81,6 +81,7 @@ class DocumentCursorTools {
   
   private boolean isCheckedSortedTextId = false;
   private boolean hasSortedTextId = false;
+  private boolean isDisposed = false;
 
   private XParagraphCursor xPCursor;
   private XTextCursor xTextCursor;
@@ -89,9 +90,11 @@ class DocumentCursorTools {
   DocumentCursorTools(XComponent xComponent) {
     isBusy++;
     try {
-      curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-      xTextCursor = getCursor(xComponent);
-      xPCursor = getParagraphCursor(xComponent);
+      if (!isDisposed) {
+        curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+        xTextCursor = getCursor(xComponent);
+        xPCursor = getParagraphCursor(xComponent);
+      }
     } finally {
       isBusy--;
     }
@@ -104,6 +107,7 @@ class DocumentCursorTools {
     xPCursor = null;
     xTextCursor = null;
     curDoc = null;
+    isDisposed = true;
   }
 
   /** 

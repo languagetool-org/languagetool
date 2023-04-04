@@ -415,6 +415,7 @@ public class MultiDocumentsHandler {
         isDisposed = true;
         if (documents.size() < 2) {
           LtDictionary.setDisposed();
+          handleDictionary.setStop();
           if (textLevelQueue != null) {
             textLevelQueue.setStop();
             textLevelQueue = null;

@@ -375,13 +375,17 @@ class SingleCheck {
           }
         }
       }
-      DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
-      if (docCursor != null) {
-        docCursor.removeMarks(changedTextParas);
+      if (!isDisposed()) {
+        DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
+        if (docCursor != null) {
+          docCursor.removeMarks(changedTextParas);
+        }
       }
-      FlatParagraphTools flatPara = singleDocument.getFlatParagraphTools();
-      if (flatPara != null) {
-        flatPara.markParagraphs(changedParasMap);
+      if (!isDisposed()) {
+        FlatParagraphTools flatPara = singleDocument.getFlatParagraphTools();
+        if (flatPara != null) {
+          flatPara.markParagraphs(changedParasMap);
+        }
       }
     }
   }
