@@ -330,21 +330,21 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
   private void reinitFasttextAfterFailure(Exception e) {
     if (fastTextDetector != null) {
       int newCounter = fasttextInitCounter.incrementAndGet();
-      if (newCounter <= 10) {
+//      if (newCounter <= 10) {
         try {
           boolean wasRestarted = fastTextDetector.restartProcess();
           if (wasRestarted) {
-            logger.warn("Fasttext was new initialized after failure. Remaining initializing: {}", 10 - newCounter);
+            logger.warn("Fasttext was new initialized after failure {}", newCounter);
           } else {
             fasttextInitCounter.decrementAndGet();
           }
         } catch (IOException ex) {
-          logger.warn("Restarting fasttext failed. Remaining initializing: {}", 10 - newCounter);
+          logger.warn("Restarting fasttext failed {}", newCounter);
         }
-      } else {
-        fastTextDetector = null;
-        logger.error("Fasttext finally disabled after too many restarts.", e);
-      }
+//      } else {
+//        fastTextDetector = null;
+//        logger.error("Fasttext finally disabled after too many restarts.", e);
+//      }
     }
   }
 

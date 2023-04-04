@@ -111,60 +111,8 @@ public class DefaultLanguageIdentifierTest extends LanguageIdentifierTest{
     assertEquals("+fallback", langWithMocked3.getDetectionSource());
     assertEquals("de", langWithMocked3.getDetectedLanguage().getShortCode());
     assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-
-    DetectedLanguage langWithMocked4 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked4);
-    assertEquals("+fallback", langWithMocked4.getDetectionSource());
-    assertEquals("de", langWithMocked4.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-
-    DetectedLanguage langWithMocked5 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked5);
-    assertEquals("+fallback", langWithMocked5.getDetectionSource());
-    assertEquals("de", langWithMocked5.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-
-    DetectedLanguage langWithMocked6 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked6);
-    assertEquals("+fallback", langWithMocked6.getDetectionSource());
-    assertEquals("de", langWithMocked6.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-
-    DetectedLanguage langWithMocked7 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked7);
-    assertEquals("+fallback", langWithMocked7.getDetectionSource());
-    assertEquals("de", langWithMocked7.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-
-    DetectedLanguage langWithMocked8 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked8);
-    assertEquals("+fallback", langWithMocked8.getDetectionSource());
-    assertEquals("de", langWithMocked8.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-
-    DetectedLanguage langWithMocked9 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked9);
-    assertEquals("+fallback", langWithMocked9.getDetectionSource());
-    assertEquals("de", langWithMocked9.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-
-    DetectedLanguage langWithMocked10 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked10);
-    assertEquals("+fallback", langWithMocked10.getDetectionSource());
-    assertEquals("de", langWithMocked10.getDetectedLanguage().getShortCode());
-    assertTrue(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
     
-    DetectedLanguage langWithMocked11 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithMocked11);
-    assertEquals("+fallback", langWithMocked11.getDetectionSource());
-    assertEquals("de", langWithMocked11.getDetectedLanguage().getShortCode());
-    assertFalse(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
-    
-    DetectedLanguage langWithoutMocked2 = ident.detectLanguage(failingText, Collections.emptyList(), Collections.emptyList());
-    assertNotNull(langWithoutMocked2);
-    assertEquals("ngram", langWithoutMocked2.getDetectionSource());
-    assertEquals("de", langWithoutMocked2.getDetectedLanguage().getShortCode());
-    assertFalse(((DefaultLanguageIdentifier) ident).isFastTextEnabled());
+    assertEquals(3, ((DefaultLanguageIdentifier) ident).getFasttextInitCounter().get());
   }
   
   @Test
