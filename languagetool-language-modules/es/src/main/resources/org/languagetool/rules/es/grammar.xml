@@ -12414,6 +12414,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>…</token>-->
             </antipattern>
             <rule>
+                <antipattern>
+                    <token skip="-1">si</token>
+                    <token regexp="yes">sí|no</token>
+                    <example>Si está en otra posición, sí, lógicamente.</example>
+                    <example>Si está en otra posición, no, por supuesto.</example>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -20666,7 +20672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <unify negate="yes">
                             <feature id="numero"/>
                             <feature id="genero"/>
-                            <token postag="SP:DA" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/><exception>cada</exception></token>
+                            <token postag="SP:DA"/>
                             <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*|D[ADPET].*|SP.*" postag_regexp="yes"/></token>
                         </unify>
                     </marker>
