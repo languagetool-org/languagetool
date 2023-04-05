@@ -4806,7 +4806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estoy seguro de que mamá se enojará.</example>
                 <example>el hecho de que falta agua</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>no</token>
                     <token>sé</token>
@@ -4817,6 +4817,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
                 <example correction="qué">No sé <marker>que</marker> tiene eso de leonés.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>no</token>
+                    <token inflected="yes" regexp="yes">haber|ir</token>
+                    <token min="0">a</token>
+                    <token inflected="yes">saber</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Como pronombre interrogativo (=qué cosa), se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No he sabido <marker>que</marker> decir en este caso.</example>
+                <example correction="qué">No voy a saber <marker>que</marker> decir en este caso.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUE_SIN_TILDE" name="qué -> que">
