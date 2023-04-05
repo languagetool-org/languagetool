@@ -646,6 +646,16 @@ class OfficeTools {
     }
   }
   
+  public static void waitForLtDictionary() {
+    while (LtDictionary.isActivating()) {
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+        MessageHandler.printException(e);
+      }
+    }
+  }
+  
   /**
    * Handle logLevel for debugging and development
    */

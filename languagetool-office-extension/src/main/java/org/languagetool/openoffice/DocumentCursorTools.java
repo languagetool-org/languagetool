@@ -92,6 +92,7 @@ class DocumentCursorTools {
     try {
       if (!isDisposed) {
         curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+        OfficeTools.waitForLtDictionary();
         xTextCursor = getCursor(xComponent);
         xPCursor = getParagraphCursor(xComponent);
       }

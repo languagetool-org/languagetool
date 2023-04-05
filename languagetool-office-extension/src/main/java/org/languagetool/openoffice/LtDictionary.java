@@ -65,6 +65,7 @@ public class LtDictionary {
   private static Set<String> dictionaryList = new HashSet<>();
   private static String listIgnoredWords = null;
   private static boolean isDisposed = false;
+  private static boolean activateDictionary = false;
   private static Map<String, Set<String>> ltSpellingWords = new HashMap<>();
   
   /**
@@ -72,6 +73,13 @@ public class LtDictionary {
    */
   public static void setDisposed() {
     isDisposed = true;
+  }
+  
+  /**
+   * Add a non permanent dictionary to LO/OO that contains additional words defined in LT
+   */
+  public static boolean isActivating() {
+    return activateDictionary;
   }
   
   /**
@@ -104,9 +112,13 @@ public class LtDictionary {
                 ignoredWords = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
               } else {
                 OfficeTools.waitForLO();
+                activateDictionary = true;
                 ignoredWords.setActive(false);
+                activateDictionary = false;
                 OfficeTools.waitForLO();
+                activateDictionary = true;
                 searchableDictionaryList.removeDictionary(ignoredWords);
+                activateDictionary = false;
               }
             }
             if (ignoredWords.isFull()) {
@@ -128,9 +140,13 @@ public class LtDictionary {
       }
       if (ignoredWords != null) {
         OfficeTools.waitForLO();
+        activateDictionary = true;
         ignoredWords.setActive(true);
+        activateDictionary = false;
         OfficeTools.waitForLO();
+        activateDictionary = true;
         searchableDictionaryList.addDictionary(ignoredWords);
+        activateDictionary = false;
       }
     } catch (Throwable t) {
       MessageHandler.showError(t);
