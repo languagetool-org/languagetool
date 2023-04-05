@@ -29005,7 +29005,25 @@ O namorado dela era um ladrão.
     <rulegroup id='PARONYM_A_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (á)'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <!--	  TODO Write better examples for all these rules	    -->
-      <short>Esta palavra não é um verbo</short>
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
+      -->
+
+      <!-- MARCOAGPINTO 2023-04-05 (2-MAR-2023+) *START* -->
+      <antipattern>
+        <token postag="SPS00|SENT_START" postag_regexp="yes"/>
+        <token postag="PP.+" postag_regexp="yes"/>
+        <token postag="NC.+|AQ.+|DI.+" postag_regexp="yes"/>
+        <token postag="NC.+|AQ.+|V.+" postag_regexp="yes"/>
+        <example>Vá bater com ele várias vezes.</example>
+        <example>Já tentei ligar para ela várias vezes, mas só fica dando ocupado.</example>
+        <example>Tentei falar com eles várias vezes, mas o telefone só dava ocupado.</example>
+        <example>...veram juntas na 10ª edição do BBB, mas apenas Maroca voltou ao reality neste ano, o que rendeu para ela várias presenças vips e um novo ensaio nu para a edição de junho da revista Sexy.</example>
+        <example>Nós empresários iniciamos o ano de 2019 com muitas expectativas e incertezas de como seria o caminho do nosso país,...</example>
+        <example>A esperança de nós empresários é que você derrube as travas que seguram nossa capacidade de produzir riqueza e empregos.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-04-05 (2-MAR-2023+) *END* -->
+
       <antipattern>
         <token>a</token>
         <token regexp='yes'>&pronomes_retos;</token>
