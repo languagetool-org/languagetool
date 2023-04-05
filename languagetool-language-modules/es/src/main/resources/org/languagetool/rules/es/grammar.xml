@@ -20572,12 +20572,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La alma mater.</example>
         </rule>
         <rulegroup id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal">
+            <antipattern>
+                <token regexp="yes">una|la</token>
+                <token>nueve</token>
+                <token>milímetros</token>
+            </antipattern>
             <rule>
-                <antipattern>
-                    <token regexp="yes">una|la</token>
-                    <token>nueve</token>
-                    <token>milímetros</token>
-                </antipattern>
                 <antipattern>
                     <token postag="PI.*" postag_regexp="yes"/>
                     <token postag="DI.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">otro|poco</exception></token>
@@ -20643,6 +20643,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de concordancia.</message>
                 <suggestion>cualesquiera \2</suggestion>
                 <example correction="cualesquiera otras">Ya no era aplicable a <marker>cualquier otras</marker> escuelas</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="DA.*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/><exception>cada</exception></token>
+                            <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*|D[ADPET].*|SP.*" postag_regexp="yes"/></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.es.AdvancedSynthesizerFilter" args="lemmaFrom:1 lemmaSelect:D(..)..(.) postagFrom:2 postagSelect:_GN_(.)(.) postagReplace:D\a1[C\b1]\b2\a2"/>
+                <message>Error de concordancia.</message>
+                <suggestion>{suggestion} \2</suggestion>
+                <example correction="Las tres"><marker>La tres</marker> reglas son estas.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="SP:DA" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/><exception>cada</exception></token>
+                            <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*|D[ADPET].*|SP.*" postag_regexp="yes"/></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion><match no="1" regexp_match="(?iu)l" regexp_replace=""/> <match no="2" postag="_GN_(.)(.)" postag_regexp="yes" postag_replace="DA0$1$20">el</match> \2</suggestion>
+                <example correction="de las tres">Es <marker>del tres</marker> reglas.</example>
             </rule>
         </rulegroup>
         <rule id="TODO_EL" name="concordancia: todo el">
