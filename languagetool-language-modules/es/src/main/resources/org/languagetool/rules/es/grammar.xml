@@ -26682,26 +26682,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hola de parte de mi hermano.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HE_E" name="he -> e" default="temp_off">
+        <rulegroup id="HE_E" name="he -> e">
             <antipattern>
                 <token>he</token>
                 <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
                 <token postag="V.P..SM" postag_regexp="yes"/>
                 <example>He siempre querido hacer algo diferente.</example>
             </antipattern>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>he</token>
-                        <token postag="V.[GN].*" postag_regexp="yes"><exception postag="V.P..SM|[^VS].*|VMP0000" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>Falta un participio o la preposición 'de'. Si es una conjunción, se escribe "e" (sin hache).</message>
-                <suggestion>he <match no="2" postag="V.P..SM" postag_regexp="yes"/></suggestion>
-                <suggestion>he de <match no="2" postag="V.N...." postag_regexp="yes"/></suggestion>
-                <suggestion>e \2</suggestion>
-                <example correction="he intentado|he de intentar|e intentar">Después <marker>he intentar</marker> hacerlo.</example>
-            </rule>
+            <antipattern>
+                <token>he</token>
+                <token>de</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>he</token>
+                <token regexp="yes">aquí|ahí</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">HE</token>
+            </antipattern>
+            <antipattern>
+                <token>he</token>
+                <token min="0">,</token>
+                <token>he</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>he</token>
@@ -26721,9 +26725,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.P..SM suppressMatch:true"/>
                 <message>Probablemente, falta un participio después del verbo auxiliar 'haber'.</message>
                 <suggestion>he {suggestion}</suggestion>
-                <example correction="He hecho"><marker>He echo</marker> algo mejor.</example>
+                <example correction="He trabajado"><marker>He trabajad</marker> mejor.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>he</token>
+                    <token postag="V...1S." postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>me \2</suggestion>?</message>
+                <example correction="Me quedé"><marker>He quedé</marker> extrañado.</example>
+            </rule>
+            <rule default="temp_off">
                 <!-- no suggestion -->
                 <pattern>
                     <marker>
