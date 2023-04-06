@@ -67,6 +67,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY wrong_as_pron_verb2 "de|e">
 <!-- also: de, e-->
 <!ENTITY colors_invariable "burdeos|naranja|rosa|violeta|añil|carmesí">
+<!ENTITY ola_hola_context "calor|frío|lluvia|nevada|nieve|tormenta|violencia|mar|crímenes|huelgas|popularidad|detenciones|terrorismo|rumores|despidos|atentados|asaltos|refugiados|inmigración|oro">
     <!ENTITY words_H_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|hits?|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
     <!ENTITY words_H_ASPIRADA "Harris|Harvey|Hunspell|Hassan|Haddock|Haarle[mn].*|Hainan|haendel.*|händel.*|habermas.*|hadits?|Hanuk?kà|hack.*|Harlem|Harper|Hartford|Haifa|haikus?|haima|haimes|Haikou|halal|halar|Halifax|Halmstad|halls?|Halle|Halley|Hallstatt|Hallstein|Halloweens?|Hals|herr|Herut|Hamadan|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|hàmsters?|h[aà]ndicaps?|Hangzhou|Hannover|Hanoi|Hans|Hansa|hanseàti[cq].*|happenings?|Harbin|hardware|Haneke|harolds?|Hatay|Hamleigh|Harrisburg|Harrison|harrods?|harry|Hartley|Hartmann?|Hartree|Haruki|Har[td]?vard|Harz|hash.*|Hastings|Havel|Havilland|hawai.*|hawk.*|Hayek|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Hebei|Hedmark|Heerenveen|Hedw.*|Heerlen|Hefei|Heidelberg|Heide[gn].*|Heilbronn|Heilongjiang|Heilig.*|hei[nk].*|Heisen.*|Heitz|Helmand|Helmholtz|Helen|Helsingborg|Hèlsinki|Heming.*|Henan|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Herford|Herning|Hertfordshire|Herzog|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|Hillingdon|hinden.*|Hilton|hinterlands?|Hirsch.*|Hitch.*|hitler.*|Hilversum|Hobart|Hockenheim|Hodeida|Hohhot|Hokkaido|hobbes.*|hobby|Hogw.*|hobbies|Hodgkin|Hohen.*|Hölderlin|h[òo]ldings?|holy.*|hollywood.*|Holmes.*|Holstein|Hong|Hong-Kong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|Horowitz|horst|H[ou]f.*|Houla|house|Houston|Howard|Hoyerswerda|Hunan|Huddersfield|Hunedoara|huskys?|huskies|hubs?|Hubble|humbold.*|Hume|hunting.*|Hussein|husseinit.+|university|united|(?-i)Hagen|Hamada">
     <!ENTITY diacritics_00 "linea|lineas|entrelinea|entrelineas|arboles|lagrima|lagrimas|victima|victimas|solida|solidas|solido|autentica|autenticas|autentico|adan|magnifico|oleo|ovulo|oxido|oxigeno|pacifico|petroleo|pixeles|petalo|azucares|canceres|capsula|capsulas|indice|indices|espontaneo|espontanea|espontaneas|bufalo|bufala|bufalas|ovalo|ovalos|astrologo|astrologa|astrologas|petalos|clausula|clausulas|decrepito|decrepita|decrepitas|tempano|purpurea|purpureas|recamara|recamaras|embolo|epitome|epitomes|estomago|debito|ignifuga|ignifugas|ignifugo|epilogo">
@@ -26550,6 +26551,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Cuando se laque el pelo, no la reconocerás.</example>
         </rule>
         <rulegroup id="OLA_HOLA" name="ola/hola">
+            <antipattern>
+                <token>dicha</token>
+                <token>ola</token>
+                <example>Dicha ola empezó antes de la introducción del algodón transgénico.</example>
+            </antipattern>
             <rule>
                 <pattern>
                     <token inflected="yes">decir</token>
@@ -26563,8 +26569,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token>ola</token>
-                    <token>de</token>
-                    <token regexp="yes" inflected="yes">calor|frío|lluvia|nevada|nieve|tormenta</token>
+                    <token regexp="yes">de|del</token>
+                    <token regexp="yes" inflected="yes">&ola_hola_context;</token>
+                    <example>Ola del mar.</example>
+                    <example>Ola de detenciones.</example>
                 </antipattern>
                 <antipattern>
                     <token>ola</token>
