@@ -289,17 +289,38 @@ public class Catalan extends Language {
         //s = adaptContractionsApostrophes(s);
         Matcher m5 = CA_OLD_DIACRITICS.matcher(s.getReplacement());
         if (!enabledRules.contains("DIACRITICS_TRADITIONAL_RULES") && m5.matches()) {
-          // skip this suggestion with traditional diacritics
+          SuggestedReplacement newRepl = new SuggestedReplacement(s);
+          newRepl.setReplacement(removeOldDiacritics(newReplStr));
+          if (!newReplacements.contains(newRepl)) {
+            newReplacements.add(newRepl);
+          }
         } else {
           SuggestedReplacement newRepl = new SuggestedReplacement(s);
           newRepl.setReplacement(newReplStr);
-          newReplacements.add(newRepl);
+          if (!newReplacements.contains(newRepl)) {
+            newReplacements.add(newRepl);
+          }
         }
       }
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);
       newRuleMatches.add(newMatch);
     }
     return newRuleMatches;
+  }
+  
+  private String removeOldDiacritics(String s) {
+    return s.replace("dóna", "dona")
+        .replace("dónes", "dones")
+        .replace("sóc", "soc")
+        .replace("vénen", "venen")
+        .replace("véns", "véns")
+        .replace("fóra", "fora")
+        .replace("Dóna", "Dona")
+        .replace("Dónes", "Dones")
+        .replace("Sóc", "Soc")
+        .replace("Vénen", "Venen")
+        .replace("Véns", "Vens")
+        .replace("Fóra", "Fora");
   }
   
   private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
