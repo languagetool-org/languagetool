@@ -2637,7 +2637,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="el_haya" name="el haya">
         <pattern>
             <token regexp="yes">el|al|del|un|algún|ningún</token>
-            <token regexp="yes">&nombre_fem_el;</token>
+            <token regexp="yes">&nombre_fem_el;<exception postag="NCCS000"/></token>
         </pattern>
         <disambig action="add">
             <wd pos="_GN_FS"/>
@@ -5414,6 +5414,10 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.*"/>
     </rule>
     <rulegroup id="Det_Noun" name="det + nombre">
+        <antipattern>
+            <token>demás</token>
+            <token postag="NC.S..|V.P..S.|A...S." postag_regexp="yes"></token>
+        </antipattern>
         <antipattern>
             <token>mi</token>
             <token>todo</token>
