@@ -31,6 +31,7 @@ import org.languagetool.openoffice.OfficeTools.DocumentType;
 
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
+import com.sun.star.linguistic2.SingleProofreadingError;
 
 /**
  * Class to store the Text of a LO document (document cache)
@@ -165,6 +166,7 @@ public class DocumentCache implements Serializable {
       } else {
         refreshWriterCache(document, fixedLocale, docLocale, fromWhere);
       }
+      setSingleParagraphsCacheToNull(document.getParagraphsCache());
     } finally {
       isReset = false;
       rwLock.writeLock().unlock();
@@ -1096,6 +1098,38 @@ public class DocumentCache implements Serializable {
       MessageHandler.showError(t);
     }
   }
+  
+  /**
+   * Set text level cache to no errors for single paragraph text
+   */
+  private void setSingleParagraphsCacheToNull(List<ResultCache> paragraphsCache) {
+    for (int i = 0; i < paragraphs.size(); i++) {
+      if (isSingleParagraph_intern(i)) {
+        for (int n = 1; n < paragraphsCache.size(); n++) {
+          paragraphsCache.get(n).put(i, new SingleProofreadingError[0]);
+        }
+      }
+    }
+  }
+
+  /**
+   * Set text level cache for one paragraph to no errors for single paragraph text
+   */
+  public boolean setSingleParagraphsCacheToNull(int numberFlatParagraph, List<ResultCache> paragraphsCache) {
+    rwLock.writeLock().lock();
+    try {
+      if (isSingleParagraph_intern(numberFlatParagraph)) {
+        for (int n = 1; n < paragraphsCache.size(); n++) {
+          paragraphsCache.get(n).put(numberFlatParagraph, new SingleProofreadingError[0]);
+        }
+        return true;
+      } else {
+        return false;
+      }
+    } finally {
+      rwLock.writeLock().unlock();
+    }
+  }
 
   /**
    * wait till reset is finished
@@ -1632,7 +1666,44 @@ public class DocumentCache implements Serializable {
     }
     return nChanged;
   }
-
+  
+  /**
+   * is flat paragraph a single paragraph
+   */
+  public boolean isSingleParagraph(int numberOfFlatParagraph) {
+    rwLock.readLock().lock();
+    try {
+      return isSingleParagraph_intern(numberOfFlatParagraph);
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+ 
+  /**
+   * is flat paragraph a single paragraph (intern, not secure)
+   */
+  private boolean isSingleParagraph_intern(int numberOfFlatParagraph) {
+    if (numberOfFlatParagraph < 0 || numberOfFlatParagraph >= toTextMapping.size()) {
+      return true;
+    }
+    TextParagraph textParagraph = toTextMapping.get(numberOfFlatParagraph);
+    if (textParagraph.type == CURSOR_TYPE_UNKNOWN) {
+      return true;
+    }
+    for (int n = 0; n < chapterBegins.get(textParagraph.type).size(); n++) {
+      if (textParagraph.number == chapterBegins.get(textParagraph.type).get(n)) {
+        if (n == chapterBegins.get(textParagraph.type).size() - 1 || 
+            chapterBegins.get(textParagraph.type).get(n + 1) == textParagraph.number + 1) {
+          return true;
+        }
+        break;
+      } else if (textParagraph.number < chapterBegins.get(textParagraph.type).get(n)) {
+        break;
+      }
+    }
+    return false;
+  }
+ 
   /**
    * Gives back the start paragraph for text level check
    */

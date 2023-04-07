@@ -205,7 +205,7 @@ class CheckRequestAnalysis {
               + chPara + "\nnew:" + docCache.getFlatParagraph(nPara));
         }
         docCache.setFlatParagraph(nPara, chPara, locale);
-        removeResultCache(nPara);
+        singleDocument.removeResultCache(nPara,true);
         singleDocument.removeIgnoredMatch(nPara, isIntern);
       }
     } catch (Throwable t) {
@@ -499,17 +499,6 @@ class CheckRequestAnalysis {
   }
 
   /**
-   * remove all cached matches for one paragraph
-   */
-  public void removeResultCache(int nPara) {
-    if (!isDisposed()) {
-      for (ResultCache cache : paragraphsCache) {
-        cache.remove(nPara);
-      }
-    }
-  }
-  
-  /**
    *  Is document disposed?
    */
   private boolean isDisposed() {
@@ -671,6 +660,7 @@ class CheckRequestAnalysis {
           if (minToCheckPara.get(i) != 0) {
             if (changed.newSize - changed.oldSize > 0) {
               for (int n = changed.from; n < changed.to; n++) {
+                docCache.setSingleParagraphsCacheToNull(n, paragraphsCache);
                 singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, false, true);
               }
             } else if (changed.newSize - changed.oldSize < 0) {
@@ -799,16 +789,12 @@ class CheckRequestAnalysis {
     mDocHandler.handleLtDictionary(chPara, locale);
     if (useQueue) {
       changedParas.put(nPara, chPara);
-      for (int i = 0; i < minToCheckPara.size(); i++) {
-        paragraphsCache.get(i).remove(nPara);
-        if (minToCheckPara.get(i) > 0) {
-          singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, checkOnlyPara, numLastFlPara < 0 ? false : true);
-        }
+      singleDocument.removeResultCache(nPara, false);
+      for (int i = 1; i < minToCheckPara.size(); i++) {
+        singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, checkOnlyPara, numLastFlPara < 0 ? false : true);
       }
     } else {
-      for (ResultCache cache : paragraphsCache) {
-        cache.remove(nPara);
-      }
+      singleDocument.removeResultCache(nPara, false);
     }
     textIsChanged = true;
     changeFrom = nPara - numParasToChange;

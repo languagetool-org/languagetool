@@ -622,9 +622,17 @@ class SingleDocument {
   /**
    * remove all cached matches for one paragraph
    */
-  public void removeResultCache(int nPara) {
-    for (ResultCache cache : paragraphsCache) {
-      cache.remove(nPara);
+  public void removeResultCache(int nPara, boolean alsoParaLevel) {
+    if (!isDisposed()) {
+      if (alsoParaLevel) {
+        paragraphsCache.get(0).remove(nPara);
+      }
+      if (!docCache.setSingleParagraphsCacheToNull(nPara, paragraphsCache)) {
+        //  NOTE: Don't remove paragraph cache 0. It is needed to set correct markups
+        for (int i = 1; i < paragraphsCache.size(); i++) {
+          paragraphsCache.get(i).remove(nPara);
+        }
+      }
     }
   }
   
@@ -668,13 +676,14 @@ class SingleDocument {
     }
     return flatPara;
   }
-  
+
   /**
    * Add an new entry to text level queue
    * nFPara is number of flat paragraph
    */
   public void addQueueEntry(int nFPara, int nCache, int nCheck, String docId, boolean checkOnlyParagraph, boolean overrideRunning) {
-    if (!disposed && mDocHandler.getTextLevelCheckQueue() != null && mDocHandler.isSortedRuleForIndex(nCache) && docCache != null) {
+    if (!disposed && mDocHandler.getTextLevelCheckQueue() != null && mDocHandler.isSortedRuleForIndex(nCache) && 
+        docCache != null && !docCache.isSingleParagraph(nFPara)) {
       TextParagraph nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara != null && nTPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
         int nStart;
@@ -721,7 +730,8 @@ class SingleDocument {
       if (nPara != null && nPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN && nPara.number < docCache.textSize(nPara)) {
         for (int nCache = 1; nCache < paragraphsCache.size(); nCache++) {
           if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() 
-              && paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(nPara)) == null) {
+              && (paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(nPara)) == null && 
+                  !docCache.isSingleParagraph(docCache.getFlatParagraphNumber(nPara)))) {
             return createQueueEntry(nPara, nCache);
           }
         }
@@ -731,7 +741,8 @@ class SingleDocument {
       for (int i = nStart; i < docCache.size(); i++) {
         if (docCache.getNumberOfTextParagraph(i).type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
           for (int nCache = 1; nCache < paragraphsCache.size(); nCache++) {
-            if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() && paragraphsCache.get(nCache).getCacheEntry(i) == null) {
+            if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() && 
+                (paragraphsCache.get(nCache).getCacheEntry(i) == null  && !docCache.isSingleParagraph(i))) {
               return createQueueEntry(docCache.getNumberOfTextParagraph(i), nCache);
             }
           }
@@ -740,7 +751,8 @@ class SingleDocument {
       for (int i = 0; i < nStart && i < docCache.size(); i++) {
         if (docCache.getNumberOfTextParagraph(i).type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
           for (int nCache = 1; nCache < paragraphsCache.size(); nCache++) {
-            if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() && paragraphsCache.get(nCache).getCacheEntry(i) == null) {
+            if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() && 
+                (paragraphsCache.get(nCache).getCacheEntry(i) == null  && !docCache.isSingleParagraph(i))) {
               return createQueueEntry(docCache.getNumberOfTextParagraph(i), nCache);
             }
           }
@@ -767,10 +779,7 @@ class SingleDocument {
             if (!disposed) {
               mDocHandler.handleLtDictionary(sPara, docCache.getFlatParagraphLocale(nPara));
             }
-            //  NOTE: Don't remove paragraph cache 0. It is needed to set correct markups
-            for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
-              paragraphsCache.get(i).remove(nPara);
-            }
+            removeResultCache(nPara, false);
             return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
           }
         }

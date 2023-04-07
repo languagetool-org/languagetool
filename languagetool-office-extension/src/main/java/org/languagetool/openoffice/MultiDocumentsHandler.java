@@ -1977,7 +1977,7 @@ public class MultiDocumentsHandler {
         synchronized(queueWakeup) {
           if (textToCheck.size() < 1) {
             try {
-              MessageHandler.printToLogFile("HandleLtDictionary: run: queue waits");
+//              MessageHandler.printToLogFile("HandleLtDictionary: run: queue waits");
               queueWakeup.wait();
             } catch (InterruptedException e) {
               MessageHandler.printException(e);
