@@ -20598,6 +20598,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal">
             <antipattern>
+                <token regexp="yes">al|del|el</token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*|\d+|[,'"‘’“”«»]<exception case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</exception></token>
+                <token case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</token>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*|\d+|[,'"‘’“”«»]<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
+                <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
+                <example>liberado bajo la GNU General Public License</example>
+            </antipattern>
+            <antipattern>
+                <!-- years -->
+                <token regexp="yes">el|al|del</token>
+                <token regexp="yes">[12]\d\d\d</token>
+                <example>Vendía en el 2007 participaciones por 30 €.</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">el|al|del|un|algún|ningún</token>
                 <token regexp="yes">&nombre_fem_el;</token>
             </antipattern>
@@ -20629,6 +20646,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </unify>
                 <example>El tres veces campeón del mundo.</example>
                 <example>La tres veces campeona del mundo.</example>
+            </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="SP:DA|SPS00" postag_regexp="yes"/>
+                        <token min="0" postag="D.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </unify-ignore>
+                    <token postag="A.*" postag_regexp="yes"/>
+                </unify>
+                <example>Atención al cliente pésima.</example>
             </antipattern>
             <antipattern>
                 <unify>
@@ -20727,6 +20758,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion} \2</suggestion>
                 <example correction="Las tres"><marker>La tres</marker> reglas son estas.</example>
                 <example>No juzgues a los demás basado en su color de piel.</example>
+                <example>¿Las dos estáis bien?</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -20742,6 +20774,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de concordancia.</message>
                 <suggestion><match no="1" regexp_match="(?iu)l" regexp_replace=""/> <match no="2" postag="_GN_(.)(.)" postag_regexp="yes" postag_replace="DA0$1$20">el</match> \2</suggestion>
                 <example correction="de las tres">Es <marker>del tres</marker> reglas.</example>
+                <example>Emite señales al Gran Concepción.</example>
+                <example>la línea de servicio al cliente adecuada </example>
             </rule>
         </rulegroup>
         <rule id="TODO_EL" name="concordancia: todo el">
@@ -26686,13 +26720,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="HE_E" name="he -> e">
             <antipattern>
                 <token>he</token>
-                <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                <token postag="RG|LOC_ADV|_QM_OPEN" postag_regexp="yes" min="0" max="4"/>
                 <token postag="V.P..SM" postag_regexp="yes"/>
                 <example>He siempre querido hacer algo diferente.</example>
+                <example>He "decidido" hacerlo ahora.</example>
             </antipattern>
             <antipattern>
                 <token>he</token>
+                <token postag="RG|LOC_ADV|_QM_OPEN" postag_regexp="yes" min="0" max="4"/>
                 <token>de</token>
+                <token postag="R.|_QM_OPEN" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -26707,6 +26744,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0">,</token>
                 <token>he</token>
             </antipattern>
+            <antipattern>
+                <token>he</token>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token>he</token>
+                <token>…</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>he</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">h?i.*<exception postag="V.[PGN].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es una conjunción, se escribe sin hache. Si no, falta un participio después del verbo auxiliar 'haber'.</message>
+                <suggestion>e \2</suggestion>
+                <suggestion>he <match no="2" postag_regexp="yes" postag="(V.).*" postag_replace="$1P..SM"/></suggestion>
+                <example correction="E intenta|He intentado"><marker>He intenta</marker> hacerlo mejor.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>he</token>
@@ -26721,20 +26778,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>he</token>
-                    <token regexp="yes">...*<exception postag="V.[PGN].*|UNKNOWN" postag_regexp="yes"/><!--<exception>echo</exception>--></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">...*<exception postag="V.[PGN].*" postag_regexp="yes"/><exception>echo</exception></token>
+                </pattern>
+                <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.P..SM suppressMatch:true"/>
+                <message>Probablemente, falta un participio después del verbo auxiliar 'haber'.</message>
+                <suggestion>he <match no="2" postag_regexp="yes" postag="(V.).*" postag_replace="$1P..SM"/></suggestion>
+                <suggestion>he {suggestion}</suggestion>
+                <example correction="He trabajado"><marker>He trabajad</marker> mejor.</example>
+                <example correction="he decidido|he debido|he decaído|he mecido">¿Por qué <marker>he decido</marker> dejar de usar WordPress?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>he</token>
+                    <token regexp="yes">...*<exception postag="V.[PGN].*|UNKNOWN" postag_regexp="yes"/><exception>echo</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.P..SM suppressMatch:true"/>
                 <message>Probablemente, falta un participio después del verbo auxiliar 'haber'.</message>
                 <suggestion>he {suggestion}</suggestion>
                 <example correction="He trabajado"><marker>He trabajad</marker> mejor.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>he</token>
                     <token postag="V...1S." postag_regexp="yes"/>
                 </pattern>
-                <message>¿Quería decir <suggestion>me \2</suggestion>?</message>
-                <example correction="Me quedé"><marker>He quedé</marker> extrañado.</example>
+                <message>¿Quería decir <suggestion>me \2</suggestion> o <suggestion>he <match no="2" postag_regexp="yes" postag="(V.).*" postag_replace="$1P..SM"/></suggestion>?</message>
+                <example correction="Me quedé|He quedado"><marker>He quedé</marker> extrañado.</example>
             </rule>
             <rule default="temp_off">
                 <!-- no suggestion -->
@@ -26742,7 +26811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>he</token>
                     </marker>
-                    <token><exception postag="V.[PGN].*|UNKNOWN" postag_regexp="yes"/></token>
+                    <token><exception postag="V.[PGN].*|UNKNOWN|_possible_NP" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Probablemente, falta un participio después del verbo auxiliar 'haber'.</message>
                 <example correction=""><marker>He</marker> coche més nuevo.</example>

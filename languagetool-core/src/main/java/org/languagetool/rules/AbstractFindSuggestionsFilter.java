@@ -25,6 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -239,7 +240,7 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
     }
 
     if (!definitiveReplacements.isEmpty()) {
-      ruleMatch.setSuggestedReplacements(definitiveReplacements);
+      ruleMatch.setSuggestedReplacements(definitiveReplacements.stream().distinct().collect(Collectors.toList()));
     }
     return ruleMatch;
   }
