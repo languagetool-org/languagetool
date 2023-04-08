@@ -5927,6 +5927,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <wd lemma="volar"/>
         </disambig>
     </rule>
+    <rule id="deure_dar" name="deure/dar + infinitiu">
+        <pattern>
+            <marker>
+                <and>
+                    <token inflected="yes">deure</token>
+                    <token inflected="yes">dar</token>
+                </and>
+            </marker>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove">
+            <wd lemma="dar"/>
+        </disambig>
+    </rule>
     <rule id="menjar_substantiu" name="menjar substantiu">
         <pattern>
             <token postag="D[^R].[CM]S.*" postag_regexp="yes"><exception>tant</exception></token>
