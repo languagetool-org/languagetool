@@ -160,145 +160,6 @@
   <category id="EUROPEAN_PORTUGUESE_PT_PT" name="[pt-PT] Português de Portugal">
 
 
-    <!-- PASSARAM 10 MINUTOS decorreram 10 minutos -->
-    <rulegroup id='PASSAR_TEMPO_DECORRER_TEMPO' name="[Formal] 'passar' tempo → decorrer">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-11 (2-MAR-2023+) -->
-      <!--
-      Subrule1:
-      Dez minutos passaram desde o início do show. → Dez minutos decorreram desde o início do show.
-
-      Subrule2:
-      Passados os 30 dias tudo mudou. → Decorridos os 30 dias tudo mudou.
-      Passaram horas desde o início do show. → Decorreram horas desde o início do show.
-      -->
-      <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
-      -->
-
-      <antipattern>
-        <token regexp='yes'>&expressoes_de_tempo_simples;
-          <exception scope='previous' postag_regexp='yes' postag='Z0.+'/>
-        </token>
-        <token postag='VMP00.+' postag_regexp='yes'/>
-        <example>O casamento deles acabou ano passado.</example>
-        <example>A minha irmã morreu no ano passado.</example>
-        <example>Segundo o jornal, houve um grande incêndio na noite passada.</example>
-        <example>Nossa amiga viajou a uma cidade pequena na semana passada.</example>
-        <example>Meu irmão casou-se com a mulher do seu amigo no ano passado.</example>
-        <example>Quanto tempo você dormiu na noite passada?</example>
-      </antipattern>
-
-      <antipattern>
-        <token inflected='yes'>passar
-          <exception scope='previous' postag_regexp='yes' postag='SENT_START|RG|CS|_PUNCT|RM'/>
-        </token>
-        <token min="0" max="1" postag='DA.+|DI.+' postag_regexp='yes'/>
-        <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
-        <token regexp='yes'>&expressoes_de_tempo_simples;</token>
-        <token postag='SPS00|(SPS00:)?D[AI].+|V.+|NC.+|AQ.+|RG' postag_regexp='yes'>
-        </token>
-        <example>Eu passei doze horas no trem.</example>
-        <example>Onde você vai passar o Dia das Mães?</example>
-        <example>No ano passado, ele passou três meses no mar.</example>
-        <example>Ele passou três anos na prisão.</example>
-        <example>Preferiria passar o dia em casa, dormindo.</example>
-        <example>Consigo passar meses sem uma bebida alcoólica, mas nem mesmo uma hora sem um cigarro.</example>
-        <example>Tom passou alguns anos em Boston quando estava na faculdade.</example>
-        <example>Nós passamos três dias em Bagdá.</example>
-        <example>Neste ano passei dias tão bonitos no exterior como no ano passado.</example>
-        <example>Minha mãe passa o dia inteiro limpando.</example>
-        <example>Tom passou o dia inteiro lendo na cama.</example>
-        <example>Ontem Tom passou o dia todo mandriando.</example>
-        <example>Ele acreditava que era macaco, e passava dias inteiros nas árvores.</example>
-      </antipattern>
-
-      <antipattern>
-        <token postag='RG|CS|NC.+|AQ.+' postag_regexp='yes'/>
-        <token inflected='yes'>passar
-          <exception postag_regexp='yes' postag='VMP00.+'/>
-          <exception scope="previous" postag_regexp='no' postag='SENT_START'/>
-        </token>
-        <token min="0" max="1" postag='DA.+|DI.+' postag_regexp='yes'/>
-        <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
-        <token regexp='yes'>&expressoes_de_tempo_simples;</token>
-        <token postag='SPS00|(SPS00:)?D[AI].+|DA.+|DI.+|V.+|_PUNCT' postag_regexp='yes'>
-          <exception regexp='no'>desde</exception>
-          <exception scope="next" regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</exception>
-        </token>
-        <example>Após passar quatro anos sem recrutar novos astronautas, a Nasa anunciou hoje que voltará a aceitar inscrições d...</example>
-        <example>Após passar dezoito meses em treino na Cidade das Estrelas, Sharman subiu ao espaço em 18 de Maio de 1991 na mi...</example>
-        <example>Passou o dia dos pais em branco.</example>
-        <example>Passo algumas horas do meu dia mantendo o meu site.</example>
-        <example>Passa dois anos na Argélia, primeiro em Orléansville (Chlef) e depois em Argel.</example>
-        <example>Passo o dia inteiro na praia.</example>
-        <example>Passava o dia inteiro lá, tentando se superar a cada dia e assim o fez.</example>
-      </antipattern>
-
-      <antipattern>
-        <token postag='SENT_START|SPS00' postag_regexp='yes'/>
-        <token inflected='yes'>passar
-          <exception postag_regexp='yes' postag='VMP00.+'/>
-        </token>
-        <token min="0" max="1" postag='DA.+|DI.+' postag_regexp='yes'/>
-        <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
-        <token regexp='yes'>&expressoes_de_tempo_simples;</token>
-        <token postag='SENT_END|SPS00|(SPS00:)?D[AI].+|PD.+|V.+' postag_regexp='yes'>
-          <exception regexp='no'>desde</exception>
-          <exception scope="next" regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</exception>
-        </token>
-        <example>Passo semana sem acessar a conta do facebook e, se saio sem celular, muitas vezes nem faz diferença para ...</example>
-        <example>Passo algumas horas do meu dia mantendo o meu site.</example>
-        <example>Passa dois anos na Argélia, primeiro em Orléansville (Chlef) e depois em Argel.</example>
-        <example>Passo muitas horas a escrever frases para o Tatoeba.</example>
-        <example>Eu gosto de pescar; é uma maneira muito relaxante de passar o dia.</example>
-      </antipattern>
-
-      <!-- Subrule1: -->
-      <rule>
-        <pattern>
-          <token regexp='yes'>&expressoes_de_tempo_simples;</token>
-          <marker>
-            <token inflected='yes'>passar
-              <exception postag_regexp='yes' postag='VMIS[12].+|VMIP1.+'/>
-            </token>
-          </marker>
-          <token>
-            <exception postag_regexp='yes' postag='NC.+|AQ.+|DA.+|DI.+'/>
-            <exception regexp='yes'>a|por</exception> <!-- SPS00 can't be used above or will remove good results -->
-          </token>
-        </pattern>
-        <message>Num contexto formal, é preferível escrever 'decorrer'.</message>
-        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>decorrer</match></suggestion>
-        <example correction="decorreram">Dez minutos <marker>passaram</marker> desde o início do show.</example>
-      </rule>
-
-      <!-- Subrule2: -->
-      <rule>
-        <pattern>
-          <marker>
-            <token inflected='yes'>passar
-              <exception scope='previous' regexp='yes'>&pronomes_retos;|sempre|para|que</exception>
-              <exception scope='previous' postag_regexp='yes' postag='SPS00:DA.+'/> <!-- "no passado dia" -->
-              <exception scope='previous' postag_regexp='yes' postag='VMIP3.+|VMN0000'/>
-              <exception postag_regexp='yes' postag='VMI[CFI].+|VMIS[12].+|VMIP1.+'/>
-            </token>
-          </marker>
-          <token min="0" max="1" postag='DA.+|DI.+' postag_regexp='yes'/>
-          <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
-          <token regexp='yes'>&expressoes_de_tempo_simples;
-            <exception scope='next' postag_regexp='yes' postag='V.+|CC|Z0.+'/>
-            <exception scope='next' regexp='no'>ao</exception> <!-- "ao lado de" (SPS00+SPS00+SPS00: SPS00 can't be used above or will remove good results) -->
-          </token>
-        </pattern>
-        <message>Num contexto formal, é preferível escrever 'decorrer'.</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>decorrer</match></suggestion>
-        <example correction="Decorridos"><marker>Passados</marker> os 30 dias tudo mudou.</example>
-        <example correction="Decorreram"><marker>Passaram</marker> horas desde o início do show.</example>
-      </rule>
-
-    </rulegroup>
-
-
     <!-- CRIAR querer -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-03 (Enhanced) (1-JAN-2021+)      -->
     <rulegroup id='CRIAR_QUERER' name="[pt-PT][Confusão] Criar/Querer">
@@ -6395,6 +6256,145 @@
       <example correction="imenso|inúmero">Perdi <marker>montes de</marker> tempo.</example>
       <example correction="imensos|inúmeros">Deparei-me com <marker>montes de</marker> obstáculos.</example>
    </rule>
+
+
+    <!-- PASSARAM 10 MINUTOS decorreram 10 minutos -->
+    <rulegroup id='PASSAR_TEMPO_DECORRER_TEMPO' name="[pt-PT][Formal] 'passar' tempo → decorrer">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-03-11 (2-MAR-2023+) -->
+      <!--
+      Subrule1:
+      Dez minutos passaram desde o início do show. → Dez minutos decorreram desde o início do show.
+
+      Subrule2:
+      Passados os 30 dias tudo mudou. → Decorridos os 30 dias tudo mudou.
+      Passaram horas desde o início do show. → Decorreram horas desde o início do show.
+      -->
+      <!--
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
+      -->
+
+      <antipattern>
+        <token regexp='yes'>&expressoes_de_tempo_simples;
+          <exception scope='previous' postag_regexp='yes' postag='Z0.+'/>
+        </token>
+        <token postag='VMP00.+' postag_regexp='yes'/>
+        <example>O casamento deles acabou ano passado.</example>
+        <example>A minha irmã morreu no ano passado.</example>
+        <example>Segundo o jornal, houve um grande incêndio na noite passada.</example>
+        <example>Nossa amiga viajou a uma cidade pequena na semana passada.</example>
+        <example>Meu irmão casou-se com a mulher do seu amigo no ano passado.</example>
+        <example>Quanto tempo você dormiu na noite passada?</example>
+      </antipattern>
+
+      <antipattern>
+        <token inflected='yes'>passar
+          <exception scope='previous' postag_regexp='yes' postag='SENT_START|RG|CS|_PUNCT|RM'/>
+        </token>
+        <token min="0" max="1" postag='DA.+|DI.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
+        <token regexp='yes'>&expressoes_de_tempo_simples;</token>
+        <token postag='SPS00|(SPS00:)?D[AI].+|V.+|NC.+|AQ.+|RG' postag_regexp='yes'>
+        </token>
+        <example>Eu passei doze horas no trem.</example>
+        <example>Onde você vai passar o Dia das Mães?</example>
+        <example>No ano passado, ele passou três meses no mar.</example>
+        <example>Ele passou três anos na prisão.</example>
+        <example>Preferiria passar o dia em casa, dormindo.</example>
+        <example>Consigo passar meses sem uma bebida alcoólica, mas nem mesmo uma hora sem um cigarro.</example>
+        <example>Tom passou alguns anos em Boston quando estava na faculdade.</example>
+        <example>Nós passamos três dias em Bagdá.</example>
+        <example>Neste ano passei dias tão bonitos no exterior como no ano passado.</example>
+        <example>Minha mãe passa o dia inteiro limpando.</example>
+        <example>Tom passou o dia inteiro lendo na cama.</example>
+        <example>Ontem Tom passou o dia todo mandriando.</example>
+        <example>Ele acreditava que era macaco, e passava dias inteiros nas árvores.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='RG|CS|NC.+|AQ.+' postag_regexp='yes'/>
+        <token inflected='yes'>passar
+          <exception postag_regexp='yes' postag='VMP00.+'/>
+          <exception scope="previous" postag_regexp='no' postag='SENT_START'/>
+        </token>
+        <token min="0" max="1" postag='DA.+|DI.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
+        <token regexp='yes'>&expressoes_de_tempo_simples;</token>
+        <token postag='SPS00|(SPS00:)?D[AI].+|DA.+|DI.+|V.+|_PUNCT' postag_regexp='yes'>
+          <exception regexp='no'>desde</exception>
+          <exception scope="next" regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</exception>
+        </token>
+        <example>Após passar quatro anos sem recrutar novos astronautas, a Nasa anunciou hoje que voltará a aceitar inscrições d...</example>
+        <example>Após passar dezoito meses em treino na Cidade das Estrelas, Sharman subiu ao espaço em 18 de Maio de 1991 na mi...</example>
+        <example>Passou o dia dos pais em branco.</example>
+        <example>Passo algumas horas do meu dia mantendo o meu site.</example>
+        <example>Passa dois anos na Argélia, primeiro em Orléansville (Chlef) e depois em Argel.</example>
+        <example>Passo o dia inteiro na praia.</example>
+        <example>Passava o dia inteiro lá, tentando se superar a cada dia e assim o fez.</example>
+      </antipattern>
+
+      <antipattern>
+        <token postag='SENT_START|SPS00' postag_regexp='yes'/>
+        <token inflected='yes'>passar
+          <exception postag_regexp='yes' postag='VMP00.+'/>
+        </token>
+        <token min="0" max="1" postag='DA.+|DI.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
+        <token regexp='yes'>&expressoes_de_tempo_simples;</token>
+        <token postag='SENT_END|SPS00|(SPS00:)?D[AI].+|PD.+|V.+' postag_regexp='yes'>
+          <exception regexp='no'>desde</exception>
+          <exception scope="next" regexp='yes'>&meses_ano_abrev;|&meses_ano;|&dias_semana_abrev;|&dias_semana;|&partes_do_dia;|&expressoes_de_tempo;</exception>
+        </token>
+        <example>Passo semana sem acessar a conta do facebook e, se saio sem celular, muitas vezes nem faz diferença para ...</example>
+        <example>Passo algumas horas do meu dia mantendo o meu site.</example>
+        <example>Passa dois anos na Argélia, primeiro em Orléansville (Chlef) e depois em Argel.</example>
+        <example>Passo muitas horas a escrever frases para o Tatoeba.</example>
+        <example>Eu gosto de pescar; é uma maneira muito relaxante de passar o dia.</example>
+      </antipattern>
+
+      <!-- Subrule1: -->
+      <rule>
+        <pattern>
+          <token regexp='yes'>&expressoes_de_tempo_simples;</token>
+          <marker>
+            <token inflected='yes'>passar
+              <exception postag_regexp='yes' postag='VMIS[12].+|VMIP1.+'/>
+            </token>
+          </marker>
+          <token>
+            <exception postag_regexp='yes' postag='NC.+|AQ.+|DA.+|DI.+'/>
+            <exception regexp='yes'>a|por</exception> <!-- SPS00 can't be used above or will remove good results -->
+          </token>
+        </pattern>
+        <message>Num contexto formal, é preferível escrever 'decorrer'.</message>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>decorrer</match></suggestion>
+        <example correction="decorreram">Dez minutos <marker>passaram</marker> desde o início do show.</example>
+      </rule>
+
+      <!-- Subrule2: -->
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected='yes'>passar
+              <exception scope='previous' regexp='yes'>&pronomes_retos;|sempre|para|que</exception>
+              <exception scope='previous' postag_regexp='yes' postag='SPS00:DA.+'/> <!-- "no passado dia" -->
+              <exception scope='previous' postag_regexp='yes' postag='VMIP3.+|VMN0000'/>
+              <exception postag_regexp='yes' postag='VMI[CFI].+|VMIS[12].+|VMIP1.+'/>
+            </token>
+          </marker>
+          <token min="0" max="1" postag='DA.+|DI.+' postag_regexp='yes'/>
+          <token min="0" max="1" postag='Z0.+' postag_regexp='yes'/>
+          <token regexp='yes'>&expressoes_de_tempo_simples;
+            <exception scope='next' postag_regexp='yes' postag='V.+|CC|Z0.+'/>
+            <exception scope='next' regexp='no'>ao</exception> <!-- "ao lado de" (SPS00+SPS00+SPS00: SPS00 can't be used above or will remove good results) -->
+          </token>
+        </pattern>
+        <message>Num contexto formal, é preferível escrever 'decorrer'.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>decorrer</match></suggestion>
+        <example correction="Decorridos"><marker>Passados</marker> os 30 dias tudo mudou.</example>
+        <example correction="Decorreram"><marker>Passaram</marker> horas desde o início do show.</example>
+      </rule>
+
+    </rulegroup>
 
 
     <!-- PERANTE O MESMO perante idêntico -->
