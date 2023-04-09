@@ -7711,8 +7711,13 @@
 
 
     <!-- CRIAR querer -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-03 (Enhanced) (1-JAN-2021+)      -->
     <rulegroup id='CRIAR_QUERER' name="[pt-PT][Confusão] Criar/Querer">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-04-09 (Checked/Enhanced) (2-MAR-2023+) -->
+      <!--
+      É o que eu cria dizer. → É o que eu queria dizer.
+      Ele cria comprar o livro. → Ele queria comprar o livro.
+      Eles criam comprar o livro. → Eles queriam comprar o livro.
+      -->
 
       <!-- EU CRIA -->
       <rule>
@@ -7722,21 +7727,22 @@
             <token>cria</token>
           </marker>
         </pattern>
-        <message>Substitua por <suggestion>queria</suggestion>.</message>
+        <message>Possível confusão de termos.</message>
+        <suggestion>queria</suggestion>
         <example correction="queria">É o que eu <marker>cria</marker> dizer.</example>
       </rule>
 
-      <!-- CRIAR + Infinitivo -->
+      <!-- CRIA(M) + Infinitivo -->
       <rule>
         <pattern>
           <marker>
-            <token inflected='yes'>criar</token>
+            <token regexp="yes">criam?</token>
           </marker>
-          <token postag="VMN0000">
-            <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
-          </token>
+          <token postag="VMN0000"/>
         </pattern>
-        <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='V.+'>querer</match></suggestion>.</message>
+        <message>Possível confusão de termos.</message>
+        <suggestion><match no='1' postag_regexp='yes' postag='V.+'>querer</match></suggestion>
+        <example correction="queria">Ele <marker>cria</marker> comprar o livro.</example>
         <example correction="queriam">Eles <marker>criam</marker> comprar o livro.</example>
       </rule>
 
