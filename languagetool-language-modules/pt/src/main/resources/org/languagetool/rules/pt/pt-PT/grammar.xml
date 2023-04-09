@@ -160,37 +160,6 @@
   <category id="EUROPEAN_PORTUGUESE_PT_PT" name="[pt-PT] Português de Portugal">
 
 
-    <!-- CRIAR querer -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-03 (Enhanced) (1-JAN-2021+)      -->
-    <rulegroup id='CRIAR_QUERER' name="[pt-PT][Confusão] Criar/Querer">
-
-      <!-- EU CRIA -->
-      <rule>
-        <pattern>
-          <token>eu</token>
-          <marker>
-            <token>cria</token>
-          </marker>
-        </pattern>
-        <message>Substitua por <suggestion>queria</suggestion>.</message>
-        <example correction="queria">É o que eu <marker>cria</marker> dizer.</example>
-      </rule>
-
-      <!-- CRIAR + Infinitivo -->
-      <rule>
-        <pattern>
-          <marker>
-            <token inflected='yes'>criar</token>
-          </marker>
-          <token postag="VMN0000">
-            <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
-          </token>
-        </pattern>
-        <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='V.+'>querer</match></suggestion>.</message>
-        <example correction="queriam">Eles <marker>criam</marker> comprar o livro.</example>
-      </rule>
-
-    </rulegroup>
     <rule id='A_APRENDIZ' name="[pt-PT] Concordância: Variação (p.ex. juiz/juíza)">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -7739,6 +7708,39 @@
 
 
   <category id='CONFUSED_WORDS_PT_PT' name="[pt-PT] Confusão de Palavras">
+
+
+    <!-- CRIAR querer -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-03 (Enhanced) (1-JAN-2021+)      -->
+    <rulegroup id='CRIAR_QUERER' name="[pt-PT][Confusão] Criar/Querer">
+
+      <!-- EU CRIA -->
+      <rule>
+        <pattern>
+          <token>eu</token>
+          <marker>
+            <token>cria</token>
+          </marker>
+        </pattern>
+        <message>Substitua por <suggestion>queria</suggestion>.</message>
+        <example correction="queria">É o que eu <marker>cria</marker> dizer.</example>
+      </rule>
+
+      <!-- CRIAR + Infinitivo -->
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected='yes'>criar</token>
+          </marker>
+          <token postag="VMN0000">
+            <exception postag_regexp='yes' postag='NC.+|AQ.+'/>
+          </token>
+        </pattern>
+        <message>Substitua por <suggestion><match no='1' postag_regexp='yes' postag='V.+'>querer</match></suggestion>.</message>
+        <example correction="queriam">Eles <marker>criam</marker> comprar o livro.</example>
+      </rule>
+
+    </rulegroup>
 
 
     <!-- TIVER estiver -->
