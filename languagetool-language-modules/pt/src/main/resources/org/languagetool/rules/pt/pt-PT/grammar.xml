@@ -7715,6 +7715,7 @@
       <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-04-09 (Checked/Enhanced) (2-MAR-2023+) -->
       <!--
       É o que eu cria dizer. → É o que eu queria dizer.
+      Tu crias comprar o livro. → Tu querias comprar o livro.
       Ele cria comprar o livro. → Ele queria comprar o livro.
       Eles criam comprar o livro. → Eles queriam comprar o livro.
       -->
@@ -7736,12 +7737,13 @@
       <rule>
         <pattern>
           <marker>
-            <token regexp="yes">criam?</token>
+            <token regexp="yes">cria[ms]?</token>
           </marker>
           <token postag="VMN0000"/>
         </pattern>
         <message>Possível confusão de termos.</message>
         <suggestion><match no='1' postag_regexp='yes' postag='V.+'>querer</match></suggestion>
+        <example correction="querias">Tu <marker>crias</marker> comprar o livro.</example>
         <example correction="queria">Ele <marker>cria</marker> comprar o livro.</example>
         <example correction="queriam">Eles <marker>criam</marker> comprar o livro.</example>
       </rule>
