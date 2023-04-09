@@ -7733,11 +7733,14 @@
         <example correction="queria">É o que eu <marker>cria</marker> dizer.</example>
       </rule>
 
-      <!-- CRIA(M) + Infinitivo -->
+      <!-- CRIAR + Infinitivo -->
       <rule>
         <pattern>
           <marker>
-            <token regexp="yes">cria[ms]?</token>
+            <and>
+              <token inflected='yes'>criar</token>
+              <token postag='VMII.+' postag_regexp='yes'/>
+            </and>
           </marker>
           <token postag="VMN0000"/>
         </pattern>
