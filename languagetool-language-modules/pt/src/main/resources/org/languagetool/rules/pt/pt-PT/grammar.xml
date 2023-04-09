@@ -7742,13 +7742,16 @@
               <token postag='VMII.+' postag_regexp='yes'/>
             </and>
           </marker>
-          <token postag="VMN0000"/>
+          <token postag="VMN0000">
+            <exception postag_regexp='yes' postag='NC.+|AQ.+'/> <!-- "Ele cria saber." -->
+          </token>
         </pattern>
         <message>Possível confusão de termos.</message>
         <suggestion><match no='1' postag_regexp='yes' postag='V.+'>querer</match></suggestion>
         <example correction="querias">Tu <marker>crias</marker> comprar o livro.</example>
         <example correction="queria">Ele <marker>cria</marker> comprar o livro.</example>
         <example correction="queriam">Eles <marker>criam</marker> comprar o livro.</example>
+        <example>Ele cria saber.</example>
       </rule>
 
     </rulegroup>
