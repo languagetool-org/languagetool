@@ -47219,6 +47219,33 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
+    <!-- QUANDO TEMOS DE LIDAR ao lidarmos -->
+    <rule id='QUANDO_TER_DE_QUE_VINF_AO_VINF' name="[Simplificar] 'Quando V.Ter de/que V.Inf.' com → 'Ao V.Inf.'" type="style" default="temp_off">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-10 (2-MAR-2023+) -->
+      <!--
+      Quando tenho de lidar com muitos elementos. → Ao lidar com muitos elementos.
+      Quando temos de lidar com muitos elementos. → Ao lidarmos com muitos elementos.
+      -->
+      <pattern>
+        <marker>
+          <token>quando</token>
+          <and>
+            <token inflected='yes'>ter</token>
+            <token postag='VMIP.+' postag_regexp='yes'/>
+          </and>
+          <token regexp="yes">de|que</token>
+          <token postag='VMN0000' postag_regexp='no'/>
+        </marker>
+        <token>com</token>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:VMIP(.)(.).* postagReplace:VMN0[\b1][\b2].*"/>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>ao {suggestion}</suggestion>
+      <example correction="Ao lidar"><marker>Quando tenho de lidar</marker> com muitos elementos.</example>
+      <example correction="Ao lidarmos"><marker>Quando temos de lidar</marker> com muitos elementos.</example>
+    </rule>
+
+
     <!-- QUE É DEPOIS TRANSFORMADO depois transformado -->
     <rule id='QUE_É_ADVERBIO_VERPARTPASSADO' name="[Simplificar] Que é + Adv + V.Part.Pass → Adv V.Part.Pass" type="style">
       <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-12-11 (25-JUL-2022+) -->
