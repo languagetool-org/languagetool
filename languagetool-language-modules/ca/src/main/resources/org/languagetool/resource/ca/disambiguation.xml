@@ -6801,15 +6801,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="V.P..SM." postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-            <token postag="NC[FC][SN]000" postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
+            <token postag="D..[MC][SN]." postag_regexp="yes"><exception inflected="yes">haver</exception></token>
+            <token postag="V.P..SM." postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="NC[FC][SN]000|D..[FC][SN]." postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..SF." postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-            <token postag="NC[MC][PN]000" postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
+            <token postag="NC[MC][PN]000|D..[MC][PN]." postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..PM." postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-            <token postag="NC[FC][PN]000" postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
+            <token postag="NC[FC][PN]000|D..[FC][PN]." postag_regexp="yes"><exception postag="RG|V.P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..PF." postag_regexp="yes"/>
         </antipattern>
         <rule>
@@ -9815,6 +9819,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="VMG00000"/>
     </rule>
     <rule id="petit" name="petit: adjectiu davant de nom">
+        <antipattern>
+            <!-- ambiguous -->
+            <token>a</token>
+            <token>l</token>
+            <token>màxim</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token postag="AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">petit|màxim|mínim</token>
@@ -9822,6 +9832,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="N.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="AQ.*"/>
+        <example type="untouched">Delegarà al màxim funcions i responsabilitats.</example>
     </rule>
     <rule id="vessant" name="vessant: gerundi">
         <pattern>
