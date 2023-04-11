@@ -30100,7 +30100,18 @@ regexp case-insensitive maken: (?i)
             <message>Meestal wordt dit als 'scherpe, ronde o' uitgesproken, en dan is de correcte spelling <suggestion>o</suggestion>.</message>
             <example correction="O"><marker>Oh</marker>, dat is mooi!</example>
         </rule>
-
+        <rulegroup id="TELEFONISCHE" name="zoals telefonische (telefonisch) besproken">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>telefonische</token>
+                    </marker>
+                    <token>besproken</token>
+                </pattern>
+                <message>Hier moet vast <suggestion>telefonisch</suggestion> staan.</message>
+                <example correction="telefonisch">Zoals zojuist <marker>telefonische</marker> besproken.</example>
+            </rule>
+        </rulegroup>
         <rule id="NL_AFGEBROKEN_WOORD" name="afgebroken woorden">
             <pattern>
                 <token regexp="yes">\p{L}+[-]$</token>
