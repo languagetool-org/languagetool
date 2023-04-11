@@ -37574,6 +37574,22 @@ regexp case-insensitive maken: (?i)
                 <example>We willen weten waarom het het best product voor ons was.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="OVERBODIG_WKW" name="...om het te moeten aangeven en te (moeten) noteren">
+            <rule>
+                <pattern>
+                    <token>te</token>
+                    <token skip="8">moeten</token>
+                    <marker>
+                        <token>te</token>
+                        <token>moeten</token>
+                        <token postag_regexp="yes" postag="WKW.*"></token>
+                    </marker>
+                </pattern>
+                <message>Er staat twee keer 'te moeten', wellicht kan de tweede worden weggelaten: <suggestion>\3 \5</suggestion>.</message>
+                <example correction="te noteren">Om dat dan te moeten aangeven en <marker>te moeten noteren</marker>.</example>
+                <example correction="te verdiepen">Ik vind het ook zeer leuk om zelfstandig te moeten werken en mij in een bepaalde zaak <marker>te moeten verdiepen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VAN_VAN" name="van van/van Van">
             <rule>
                 <pattern>
