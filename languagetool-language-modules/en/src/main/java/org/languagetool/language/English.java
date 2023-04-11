@@ -579,6 +579,7 @@ public class English extends Language implements AutoCloseable {
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
       case "PRP_NO_ADVERB_VERB":        return -15;  // prefer other more specific rules (e.g. PRP_VBG, IT_ITS, ...)
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
+      case "IN_DT_IN": return -15; // prefer AI and comma rules
       case "HAVE_TO_NOTVB":             return -15; // prefer AI and comma rules
       case "CC_PRP_ARTICLE":            return -15;  // prefer other more specific rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
