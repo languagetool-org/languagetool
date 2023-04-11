@@ -2845,15 +2845,25 @@
     </rule>
 
 
-
-
     <rulegroup id="POSSESSIVE_WITHOUT_ARTICLE" name="[pt-PT] Determinante possessivo sem artigo">
       <!-- Improved by Tiago F. Santos, Portuguese rule, 2016-10-18 -->
       <!--     Base rule id="A_SUA" name="a sua" by Marco Pinto -->
       <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (27-FEB-2023+)
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
       <url>https://pt.wikipedia.org/wiki/Portugu%C3%AAs_brasileiro#Artigo_definido_antes_do_possessivo</url>
+
+        <!-- MARCOAGPINTO 2023-04-11 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+        <antipattern>
+          <token regexp='yes' inflected='yes'>apresentar|querer|ter</token> <!-- Add verbs here when found -->
+          <token regexp='no'>como</token>
+          <token regexp='yes'>&pronomes_possessivos;</token>
+          <token postag='VMP00.+|NC.+|AQ.+' postag_regexp='yes'/>
+          <example>... Lee, coreano radicado no EUA no ano de 1989, professa um estilo de Taekwondo chamado Hangil, tendo como seu maior representante e Presidente o Mestre Faixa Preta 8o Dan Agustin Garay Ramirez, na cidade de La...</example>
+          <example>Quem respeita a natureza e a tem como sua aliada.</example>
+          <example>Em 2010, apresentou como seu enredo uma homenagem a Chica da Silva, abrindo o desfile do Grupo Especial, com cerca de 750 compon...</example>
+        </antipattern>
+        <!-- MARCOAGPINTO 2023-04-11 (Checked/Enhanced) (2-MAR-2023+) *END* -->
 
         <!-- MARCOAGPINTO 2023-02-28 (Checked/Enhanced) (27-FEB-2023+) *START* -->
         <antipattern>
