@@ -3814,6 +3814,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>que</token>
                     </marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es un pronombre interrogativo, se escribe con tilde.</message>
+                <suggestion>qué</suggestion>
+                <example correction="qué">No saben de <marker>que</marker> Esperanza se trata.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">saber|preguntar</token>
+                    <token postag="SPS00"><exception regexp="yes">por|hasta</exception><exception postag="RG"/></token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
                 </pattern>
                 <message>Si equivale a 'qué cosa', se escribe con tilde.</message>
                 <suggestion>qué</suggestion>
@@ -26798,7 +26811,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.*" postag_regexp="yes" regexp="yes">...*<exception postag="V.[PGN].*" postag_regexp="yes"/><exception>echo</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.P..SM suppressMatch:true"/>
-                <message>Probablemente, falta un participio después del verbo auxiliar 'haber'.</message>
+                <message>Falta un participio después del verbo auxiliar 'haber'.</message>
                 <suggestion>he <match no="2" postag_regexp="yes" postag="(V.).*" postag_replace="$1P..SM"/></suggestion>
                 <suggestion>he {suggestion}</suggestion>
                 <example correction="He trabajado"><marker>He trabajad</marker> mejor.</example>
@@ -26807,10 +26820,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>he</token>
+                    <token postag="V.*" postag_regexp="yes"><exception postag="V.[PGN].*" postag_regexp="yes"/><exception>echo</exception></token>
+                </pattern>
+                <message>Falta un participio después del verbo auxiliar 'haber'.</message>
+                <suggestion>he <match no="2" postag_regexp="yes" postag="(V.).*" postag_replace="$1P..SM"/></suggestion>
+                <example correction="he cansado">Me <marker>he cansa</marker> mucho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>he</token>
                     <token regexp="yes">...*<exception postag="V.[PGN].*|UNKNOWN" postag_regexp="yes"/><exception>echo</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.FindSuggestionsFilter" args="wordFrom:2 desiredPostag:V.P..SM suppressMatch:true"/>
-                <message>Probablemente, falta un participio después del verbo auxiliar 'haber'.</message>
+                <message>Falta un participio después del verbo auxiliar 'haber'.</message>
                 <suggestion>he {suggestion}</suggestion>
                 <example correction="He trabajado"><marker>He trabajad</marker> mejor.</example>
             </rule>
