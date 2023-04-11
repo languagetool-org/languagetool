@@ -48894,7 +48894,21 @@ O namorado dela era um ladrão.
       <!--
       E assim passando a reduzir as perdas. → E assim reduzindo as perdas.
       -->
+      <antipattern>
+          <token inflected='yes'>passar</token>
+          <token>a</token>
+          <token postag='VMN0000'/>
+          <token regexp='yes'>e|ou|,</token>
+          <token min='0' postag='SPS.+' postag_regexp='yes'/>
+          <token postag='VMN0000'/>
+          <example>Os garotos passam a assumir e a vender os bens.</example>
+      </antipattern>
       <pattern>
+        <or>
+          <token postag='C.+' postag_regexp='yes' skip='2'>
+            <exception>que</exception></token>
+          <token regexp='yes'>,|19{2}|20{2}|&meses_ano;</token>
+        </or>
         <marker>
           <token inflected='yes'>passar
             <exception postag_regexp='yes' postag='VMP00.+|VMIS.+'/>
@@ -48902,14 +48916,12 @@ O namorado dela era um ladrão.
           <token>a</token>
           <token postag='VMN0000'/>
         </marker>
+          <token negate_pos='yes' postag='SENT_END'/>
       </pattern>
-      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:1 postagSelect:V.*"/>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:4 lemmaSelect:V.* postagFrom:2 postagSelect:V.*"/>
       <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
-      <suggestion>agora <match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP3S0'/></suggestion>
-      <suggestion>agora <match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMIP3P0'/></suggestion>
-      <suggestion>agora <match no='3' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
-      <suggestion>agora \3</suggestion>
-      <example correction="agora reduz|agora reduzem|agora reduzindo|agora reduzir|reduzindo">E assim <marker>passando a reduzir</marker> as perdas.</example>
+      <suggestion suppress_misspelled='yes'><match no='4' postag='VMN0000' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
+      <example correction="reduzindo">E assim <marker>passando a reduzir</marker> as perdas.</example>
     </rule>
 
 
