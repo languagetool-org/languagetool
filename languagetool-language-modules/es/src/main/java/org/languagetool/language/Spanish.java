@@ -234,6 +234,7 @@ public class Spanish extends Language implements AutoCloseable {
       case "AGREEMENT_DET_NOUN": return 15;
       //case "PRONOMBRE_SIN_VERBO": return 20;
       case "AGREEMENT_DET_ADJ": return 10;
+      case "CONFUSION_ES_SE": return 20; //lower than diacrtics rules
       case "HALLA_HAYA": return 10;
       case "VALLA_VAYA": return 10;
       case "SI_AFIRMACION": return 10; // less than DIACRITICS
