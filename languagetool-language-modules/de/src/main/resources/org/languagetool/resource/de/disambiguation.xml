@@ -7746,4 +7746,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER.*" />
     </rule>
+
+    <rule id="IN_UND_AUSWENDIG" name="ignore spelling of 'in-'">
+        <pattern>
+            <marker>
+                <token>in-</token>
+            </marker>
+            <token regexp="yes">und|&amp;</token>
+            <token regexp="yes">auswendig.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
