@@ -20613,6 +20613,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="AGREEMENT_DET_GN" name="concordancia det. + grupo nominal">
             <antipattern>
+                <unify>
+                    <feature id="numero"/>
+                    <feature id="genero"/>
+                    <token skip="4">uno</token>
+                    <unify-ignore>
+                        <token>y</token>
+                    </unify-ignore>
+                    <token>otro</token>
+                </unify>
+                <example>Uno tres meses y otro cuatro meses</example>
+                <example>Una tres meses y otra cuatro meses</example>
+                <example>Unas tres meses y otras cuatro meses</example>
+                <example>Uno sobre 3 meses y otro 9 meses.</example>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">al|del|el</token>
                 <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*|\d+|[,'"‘’“”«»]<exception case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</exception></token>
                 <token case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</token>
