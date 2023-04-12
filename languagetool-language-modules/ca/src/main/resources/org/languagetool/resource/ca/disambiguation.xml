@@ -1397,6 +1397,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="NCF.*"/>
         </rule>
     </rulegroup>
+    <rule id="A_TOCAR" name="a tocar">
+        <pattern>
+            <token regexp="yes">tan|tant</token>
+            <marker>
+                <token>a</token>
+                <token>tocar</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="a tocar" pos="LOC_ADV"/>
+            <wd lemma="a tocar" pos="LOC_ADV"/>
+        </disambig>
+    </rule>
     <rule id="A_BAIX" name="a baix">
         <pattern>
             <token>a</token>
@@ -9629,7 +9642,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token>ens</token>
                 </marker>
-                <token><exception postag="V.[IS].*|&pronom_feble;" postag_regexp="yes"></exception></token>
+                <token><exception postag="V.[IS].*|&pronom_feble;" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="filter" postag="N.*"/>
         </rule>
