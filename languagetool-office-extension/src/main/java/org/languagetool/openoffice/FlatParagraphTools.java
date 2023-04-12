@@ -400,7 +400,7 @@ public class FlatParagraphTools {
    * Get the main language of paragraph 
    * @throws IllegalArgumentException 
    */
-  public static Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale fixedLocale, 
+  public Locale getPrimaryParagraphLanguage(XFlatParagraph flatPara, int start, int len, Locale fixedLocale, 
       Locale lastLocale, boolean onlyPrimary) throws IllegalArgumentException {
     isBusy++;
     try {

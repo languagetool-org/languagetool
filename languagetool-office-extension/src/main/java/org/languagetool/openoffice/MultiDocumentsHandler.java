@@ -33,8 +33,6 @@ import java.util.Set;
 import javax.swing.UIManager;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -121,9 +119,10 @@ public class MultiDocumentsHandler {
   private boolean noBackgroundCheck = false;        //  is LT switched off by config
   private boolean useQueue = true;                  //  will be overwritten by config
 
-  private String menuDocId = null;                  //  Id of document at which context menu was called 
+  private String menuDocId = null;                    //  Id of document at which context menu was called 
   private TextLevelCheckQueue textLevelQueue = null;  // Queue to check text level rules
   private ShapeChangeCheck shapeChangeCheck = null;   // Thread for test changes in shape texts
+  private boolean doShapeCheck = false;               // do the test for changes in shape texts
   
   private boolean useOrginalCheckDialog = false;    // use original spell and grammar dialog (LT check dialog does not work for OO)
   private boolean checkImpressDocument = false;     //  the document to check is Impress
@@ -1906,21 +1905,23 @@ public class MultiDocumentsHandler {
    */
   public void runShapeCheck (boolean hasShapes, int where) {
     try {
-      if (hasShapes && (shapeChangeCheck == null || !shapeChangeCheck.isRunning())) {
-        MessageHandler.printToLogFile("MultiDocumentsHandler: runShapeCheck: start");
-        shapeChangeCheck = new ShapeChangeCheck();
-        shapeChangeCheck.start();
-      } else if (!hasShapes && shapeChangeCheck != null) {
-        boolean noShapes = true;
-        for (int i = 0; i < documents.size() && noShapes; i++) {
-          if (documents.get(i).getDocumentCache().textSize(DocumentCache.CURSOR_TYPE_SHAPE) > 0) {
-            noShapes = false;
+      if (doShapeCheck) {
+        if (hasShapes && (shapeChangeCheck == null || !shapeChangeCheck.isRunning())) {
+          MessageHandler.printToLogFile("MultiDocumentsHandler: runShapeCheck: start");
+          shapeChangeCheck = new ShapeChangeCheck();
+          shapeChangeCheck.start();
+        } else if (!hasShapes && shapeChangeCheck != null) {
+          boolean noShapes = true;
+          for (int i = 0; i < documents.size() && noShapes; i++) {
+            if (documents.get(i).getDocumentCache().textSize(DocumentCache.CURSOR_TYPE_SHAPE) > 0) {
+              noShapes = false;
+            }
           }
-        }
-        if (noShapes) {
-          MessageHandler.printToLogFile("MultiDocumentsHandler: runShapeCheck: stop");
-          shapeChangeCheck.stopLoop();
-          shapeChangeCheck = null;
+          if (noShapes) {
+            MessageHandler.printToLogFile("MultiDocumentsHandler: runShapeCheck: stop");
+            shapeChangeCheck.stopLoop();
+            shapeChangeCheck = null;
+          }
         }
       }
     } catch (Exception e) {

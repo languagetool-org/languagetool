@@ -468,10 +468,12 @@ class DocumentCursorTools {
     int num = 0;
     XTextCursor xTextCursor = xText.createTextCursor();
     XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-    xParagraphCursor.gotoStart(false);
-    do {
-      num++;
-    } while (xParagraphCursor.gotoNextParagraph(false));
+    if (xParagraphCursor != null) {
+      xParagraphCursor.gotoStart(false);
+      do {
+        num++;
+      } while (xParagraphCursor.gotoNextParagraph(false));
+    }
     return num;
   }
   

@@ -93,7 +93,7 @@ class SingleDocument {
 //  private ViewCursorTools viewCursor = null;      //  Get the view cursor for desktop
   private FlatParagraphTools flatPara = null;     //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
   private Integer numLastVCPara = 0;              //  Save position of ViewCursor for the single documents
-  private Integer numLastFlPara = -1;             //  Save position of FlatParagraph for the single documents
+  private final List<Integer> numLastFlPara;      //  Save position of FlatParagraph for the single documents
   private CacheIO cacheIO;
   private int changeFrom = 0;                     //  Change result cache from paragraph
   private int changeTo = 0;                       //  Change result cache to paragraph
@@ -117,6 +117,10 @@ class SingleDocument {
 
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
       XComponent xComp, MultiDocumentsHandler mDH) {
+    numLastFlPara = new ArrayList<>();
+    for (int i = 0; i < DocumentCache.NUMBER_CURSOR_TYPES + 1; i++) {
+      numLastFlPara.add(-1);
+    }
     debugMode = OfficeTools.DEBUG_MODE_SD;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
     if (!OfficeTools.DEVELOP_MODE_ST) {
@@ -250,7 +254,7 @@ class SingleDocument {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
           docLanguage, ignoredMatches, permanentIgnoredMatches, numParasToCheck, true, isMouseRequest, false);
       paRes.aErrors = singleCheck.checkParaRules(paraText, locale, footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false);
-      docCursor = null;
+//      docCursor = null;
 //      viewCursor = null;
       return paRes;
     }
@@ -261,12 +265,12 @@ class SingleDocument {
       if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
         MessageHandler.printToLogFile("SingleDocument: getCheckResults: is resetDocCache");
       }
-//      if (docCursor == null) {
-//        if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
-//          MessageHandler.printToLogFile("SingleDocument: getCheckResults: get docCursor");
-//        }
-//        docCursor = getDocumentCursorTools();
-//      }
+      if (docCursor == null) {
+        if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+          MessageHandler.printToLogFile("SingleDocument: getCheckResults: get docCursor");
+        }
+        docCursor = getDocumentCursorTools();
+      }
       if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
         MessageHandler.printToLogFile("SingleDocument: getCheckResults: refresh docCache");
       }
@@ -324,7 +328,7 @@ class SingleDocument {
 //      viewCursor = requestAnalysis.getViewCursorTools();
       changeFrom = requestAnalysis.getFirstParagraphToChange();
       changeTo = requestAnalysis.getLastParagraphToChange();
-      numLastFlPara = requestAnalysis.getLastParaNumFromFlatParagraph();
+//      numLastFlPara = requestAnalysis.getLastParaNumFromFlatParagraph();
       numLastVCPara = requestAnalysis.getLastParaNumFromViewCursor();
       boolean textIsChanged = requestAnalysis.textIsChanged();
       
@@ -372,7 +376,7 @@ class SingleDocument {
     if (ltMenus == null && docType == DocumentType.WRITER && paraText.length() > 0) {
       ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
     }
-    docCursor = null;
+ //   docCursor = null;
  //   viewCursor = null;
     return paRes;
   }
@@ -815,7 +819,7 @@ class SingleDocument {
           fixedLanguage, docLanguage, ignoredMatches, permanentIgnoredMatches, numParasToCheck, false, false, false);
       singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, 
           nEnd.number == nStart.number + 1, override, false, hasFootnotes);
-      docCursor = null;
+//      docCursor = null;
     }
   }
   
@@ -824,7 +828,7 @@ class SingleDocument {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage, docLanguage, 
           ignoredMatches, permanentIgnoredMatches, numParasToCheck, false, false, isIntern);
       singleCheck.remarkChangedParagraphs(changedParas, mDocHandler.getLanguageTool(), true);
-      docCursor = null;
+//      docCursor = null;
     }
   }
 
