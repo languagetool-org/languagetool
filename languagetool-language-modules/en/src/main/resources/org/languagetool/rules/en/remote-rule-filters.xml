@@ -389,6 +389,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_VERB_FORM" name="">
             <rule>
                 <pattern>
+                    <token>for</token>
+                    <marker>
+                        <token postag="VBG" chunk_re=".-VP" />
+                    </marker>
+                </pattern>
+                <example correction="">Can you review your continuous integration setup for <marker>making</marker> sure that the tutorials are fully reproducible?</example>
+                <example correction="">She was getting ready for <marker>leaving</marker> home.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">how|who|what|when|where|why</token>
                     <token inflected="yes">be</token>
                     <token min="1" max="4" chunk_re=".-NP.*" />
