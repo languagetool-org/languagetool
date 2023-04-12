@@ -157,7 +157,9 @@ public class ProhibitedCompoundRule extends Rule {
     ".+gra(ph|f)its?"   // ...grafit/graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
-          "Wildsymbol", "Wildsymbole",
+          "Reistee", "Reistees",
+          "Reiswaffel", "Reiswaffeln",
+          "Wildsymbol", "Wildsymbole", "Wildsymbolen",
           "Küchenteller", "Küchentellers", "Küchentellern",
           "Miettage",
           "Waldbaden",
