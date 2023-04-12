@@ -219,6 +219,8 @@ public class Portuguese extends Language implements AutoCloseable {
       case "PARONYM_PRONUNCIA_262":             return 10;
       case "PARONYM_CRITICA_397":             return 10;
       case "PARONYM_INICIO_169":             return 10;
+      case "LP_PARONYMS":             return 10;
+      case "PARONYM_MUSICO_499_bis":             return 10;
       case "NA_NÃO":             return 10;
       case "VERB_COMMA_CONJUNCTION":    return 10; // greater than PORTUGUESE_WORD_REPEAT_RULE
       case "HOMOPHONE_AS_CARD":         return  5;
