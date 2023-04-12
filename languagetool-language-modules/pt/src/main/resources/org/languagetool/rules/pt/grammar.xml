@@ -41000,7 +41000,7 @@ O namorado dela era um ladrão.
       <pattern>
         <marker>
           <token inflected="yes">vestir
-            <exception>vestidos?</exception>
+            <exception regexp="yes">vestidos?</exception>
           </token>
         </marker>
         <token min="0" max="2" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
@@ -46073,7 +46073,7 @@ O namorado dela era um ladrão.
 
 
     <!-- DOS HUMANOS humano -->
-    <rulegroup id='DOS_HUMANOS_HUMANO' name="[Simplificar] Do(s) + humano(s) → humano" type="style">
+    <rulegroup id='DOS_HUMANOS_HUMANO' name="[Simplificar] Do(s) + humano(s) → humano" type="style" tags='picky'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-02-12 + 2022-08-28 (1-JAN-2022+)      -->
       <!--
       O comportamento dos humanos é previsível. → O comportamento humano é previsível.
@@ -46098,6 +46098,20 @@ O namorado dela era um ladrão.
         <token regexp='yes'>dos?</token>
         <token regexp='yes'>humanos?</token>
         <example>Isso acontece mesmo por meio dos humanos.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>dos?</token>
+        <token regexp='yes'>humanos?</token>
+        <token postag='SPS.+' postag_regexp='yes'/>
+        <token postag='N.+|A.+' postag_regexp='yes'/>
+        <example>São colírios aos olhos dos humanos de Midgard.</example>
+      </antipattern>
+      <antipattern>
+        <token regexp='yes'>dos?</token>
+        <token regexp='yes' skip='1'>humanos?</token>
+        <token postag='PR.+' postag_regexp='yes'/>
+        <example>são sinônimos dos humanos que não contentam-se em fixar-se em um lugar</example>
+        <example>são sinônimos dos humanos os quais não contentam-se em fixar-se em um lugar</example>
       </antipattern>
       <rule>
         <pattern>
