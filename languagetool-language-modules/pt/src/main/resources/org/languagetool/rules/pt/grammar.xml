@@ -40980,7 +40980,7 @@ O namorado dela era um ladrão.
 
 
     <!-- VESTIR calçar -->
-    <rule id='CONFUSÃO_VESTIR_CALÇAR' name="[Confusão] vestir/calçar">
+    <rule id='CONFUSÃO_VESTIR_CALÇAR' name="[Confusão] vestir/calçar" tags='picky'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-01/02 (Checked/Enhanced) (1-JAN-2022+)      -->
       <!--
       Vou calçar os sapatos.
@@ -40999,10 +40999,12 @@ O namorado dela era um ladrão.
 
       <pattern>
         <marker>
-          <token inflected="yes">vestir</token>
+          <token inflected="yes">vestir
+            <exception>vestidos?</exception>
+          </token>
         </marker>
         <token min="0" max="2" negate="yes" regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
-        <token regexp="yes">botas?|chinelos?|galochas?|luvas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
+        <token regexp="yes">botas?|chinelos?|galochas?|meias?|peúgas?|sandálias?|sapatilhas?|sapatos?|ténis</token>
       </pattern>
       <message>Utilize o verbo 'calçar' nas extremidades dos membros do corpo.</message>
       <suggestion><match no='1' postag='V.+' postag_regexp='yes'>calçar</match></suggestion>
