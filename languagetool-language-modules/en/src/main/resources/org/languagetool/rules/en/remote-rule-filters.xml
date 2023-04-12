@@ -294,6 +294,41 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Also, if they have the time of their <marker>call to</marker> us, that would be great.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AI_EN_LECTOR_REPLACEMENT_DETERMINER" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <and>
+                            <token postag="DT"/>
+                            <token chunk="B-NP-singular"/>
+                        </and>
+                    </marker>
+                    <token min="0" postag="RB"/>
+                    <token postag="VBZ"/>
+                </pattern>
+                <example correction=""><marker>This</marker> just names a few of the items that will keep the Republic of Texas in good shape.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>know</token>
+                    <marker>
+                        <token>which</token>
+                    </marker>
+                    <token postag="NN:UN"/>
+                </pattern>
+                <example correction="">Please take a look and let Elizabeth know <marker>which</marker> price should be in Sitara.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">the|a</token>
+                    </marker>
+                    <token>body</token>
+                </pattern>
+                <example correction="">However, he was left vulnerable at the part of <marker>the</marker> body by which she held him, his heel (see Achilles heel, Achilles' tendon).</example>
+                <example correction="">A really good friend will help you move <marker>a</marker> body.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_EN_LECTOR_REPLACEMENT_NOUN_NUMBER" name="">
             <rule>
                 <pattern>
