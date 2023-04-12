@@ -5696,6 +5696,15 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
     <rulegroup id="AdjNom" name="adj + nom">
+        <antipattern>
+            <!-- adjetivo improbable antepuesto -->
+            <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">mural|volante|concursante</token>
+            <token postag="N.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="A.*" postag_regexp="yes"/>
+            <token postag="VMIP3S0"/>
+        </antipattern>
         <rule>
             <pattern>
                 <marker>
@@ -5712,7 +5721,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <marker>
                     <token postag="A..[FC][SN0].*|V.P..SF|PX.[FC][SN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_|N.CN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">tener|poder|voler|saber</exception><exception>seria</exception></token>
-                    <token postag="N.[FC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/><exception regexp="yes">enseña|era</exception></token>
+                    <token postag="N.[FC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/><exception regexp="yes">enseña|era|SA</exception></token>
                 </marker>
             </pattern>
             <disambig action="add">
