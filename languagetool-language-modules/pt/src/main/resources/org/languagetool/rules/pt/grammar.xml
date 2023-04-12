@@ -40646,29 +40646,47 @@ O namorado dela era um ladrão.
 
 
     <!-- SER TANTO RICO COMO ser tão rico como -->
-    <rule id='CONFUSÃO_TANTO_TÃO' name="[Confusão] tanto/tão">
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-29 (25-JUL-2022+) -->
-      <!--
-      Quero ser tanto rico como ele é. → Quero ser tão rico como ele é.
-      Quero ser tanto rico como a Ana. → Quero ser tão rico como a Ana.
-      -->
-      <pattern>
-        <token inflected='yes'>ser</token>
-        <marker>
-          <token regexp='yes'>tant[ao]</token>
-        </marker>
-        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
-          <exception regexp='no'>como</exception>
-        </token>
-        <token regexp='no'>como</token>
-        <token min="0" max="1" postag='DA.+|DI.+|SPS00' postag_regexp='yes'/>
-        <token postag='NC.+|AQ.+|NP.+|PP.+' postag_regexp='yes'/>
-      </pattern>
-      <message>Possível confusão de termos.</message>
-      <suggestion>tão</suggestion>
-      <example correction="tão">Quero ser <marker>tanto</marker> rico como ele é.</example>
-      <example correction="tão">Quero ser <marker>tanto</marker> rico como a Ana.</example>
-    </rule>
+            <rulegroup id='CONFUSÃO_TANTO_TÃO' name="[Confusão] tanto/tão">
+                <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-01-29 (25-JUL-2022+) -->
+                <!--
+                Quero ser tanto rico como ele é. → Quero ser tão rico como ele é.
+                Quero ser tanto rico como a Ana. → Quero ser tão rico como a Ana.
+                -->
+                <rule>
+                    <pattern>
+                        <token inflected='yes'>ser</token>
+                        <marker>
+                            <token regexp='yes'>tant[ao]</token>
+                        </marker>
+                        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                            <exception>como</exception>
+                        </token>
+                        <token>como</token>
+                        <token postag='D.+|SPS00' postag_regexp='yes'/>
+                        <token postag='N.+|AQ.+|NP.+|PP.+' postag_regexp='yes'/>
+                    </pattern>
+                    <message>Possível confusão de termos.</message>
+                    <suggestion>tão</suggestion>
+                    <example correction="tão">Quero ser <marker>tanto</marker> rico como a Ana.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token inflected='yes'>ser</token>
+                        <marker>
+                            <token regexp='yes'>tant[ao]</token>
+                        </marker>
+                        <token min="1" max="2" postag='NC.+|AQ.+|NP.+' postag_regexp='yes'>
+                            <exception>como</exception>
+                        </token>
+                        <token>como</token>
+                        <token postag='PP.+' postag_regexp='yes'/>
+                        <token postag='V.+' postag_regexp='yes'/>
+                    </pattern>
+                    <message>Possível confusão de termos.</message>
+                    <suggestion>tão</suggestion>
+                    <example correction="tão">Quero ser <marker>tanto</marker> rico como ele é.</example>
+                </rule>
+            </rulegroup>
 
 
     <!-- TANTO tão -->
