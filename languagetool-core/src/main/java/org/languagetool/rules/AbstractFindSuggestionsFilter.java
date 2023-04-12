@@ -80,12 +80,15 @@ public abstract class AbstractFindSuggestionsFilter extends RuleFilter {
 
     if (wordFrom != null && desiredPostag != null) {
       int posWord = 0;
-      if (wordFrom.equals("marker")) {
+      if (wordFrom.startsWith("marker")) {
         while (posWord < patternTokens.length && (patternTokens[posWord].getStartPos() < match.getFromPos()
             || patternTokens[posWord].isSentenceStart())) {
           posWord++;
         }
         posWord++;
+        if (wordFrom.length()>6) {
+          wordFrom += Integer.parseInt(wordFrom.replace("marker", ""));
+        }
       } else {
         posWord = Integer.parseInt(wordFrom);
       }
