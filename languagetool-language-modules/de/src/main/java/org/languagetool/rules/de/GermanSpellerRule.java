@@ -3159,6 +3159,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "rundumerneuertem": return topMatch("runderneuertem");
       case "Davidswache": return topMatch("Davidwache");
       case "Pinwand": return topMatch("Pinnwand");
+      case "Kreissaal": return topMatch("Kreißsaal");
+      case "Kreissaals": return topMatch("Kreißsaals");
       case "Laola-Welle": return topMatch("La-Ola-Welle");
       case "Laola-Wellen": return topMatch("La-Ola-Wellen");
     }

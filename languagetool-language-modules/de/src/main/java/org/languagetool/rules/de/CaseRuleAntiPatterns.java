@@ -1319,7 +1319,7 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!:;,\\?…\\)].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
-      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Störendes|Schlechteres|Schlechtes|Schönes|Schöneres|Schlimmeres|Zutreffendes|Unzutreffendes|Gesehenes|Ungesehenes|Abgerissenes|Versoffenes|Empfehlenswertes|Entnommenes|Sü(ß|ss)es|Saures|Wesentliches|Gegenteiliges|Wegweisendes|Hochprozentiges|Erlerntes|Vergangenes|Unglaubliches|Schlimmes|Eingemachtes|Rares|Brauchbares|Unbrauchbares|Gesehenes|Erlebtes|Privates|Berufliches|Ungeheuerliches|Veganes|Vegetarisches|Eingemachtes|Erwünschtes|Äu(ß|ss)erstes|Äu(ß|ss)eres|Inhaltliches|Vernichtendes|Salziges|Sü(ß|ss)es|Selbstgemachtes|Inhaltliches|Au(ß|ss)erordentliches|Säuerliches|Göttliches||Hochprozentige[sm]|Erbrochene[ms]|Innere[mns]|Vorhandenes|Relevantes|Geübtes|Unmögliches|Mögliches|Näheres|Wissenswertes|Fundamentales|Interessantes|Uninteressantes|Entsetzliche[ms]|Hartnäckige[ms]|Ersparte[ms]|Halbgare[ms]|Universale[ms]|Finanzielle[ms]|Überraschendes|Grundlegendes|Gesunde[ms]|Ungesunde[ms]|Tagesaktuelle[ms]|Aktuelle[ms]|Geschehene[ms]|Ungeschehene[ms]|Böse[ms]|Gesagte[ms]|Aufregende[sm]|Ausgestelltes|Verschiedenes|Verborgenes|Soziales|Erfundenes|Gro(ß|ss)es|Neueres|Au(ß|ss)ergewöhnliche[ms]|Zukunftsfähige[sm]|Administrative[ms]|Beunruhigendes|Naturverträgliches|Nachhaltiges|Verderbliche[ms]|Sinnstiftendes|Unüberlegtes|Alltägliche[sm]|Geartetes?|Allgemeines?|Übernatürliches?|Juristisches?|Rechtliches?|Vielfältiges?|Kommunales|Wundervolles?|Abgelaufenes|Erstere[ms]|Zweitere[ms]|Letztere[ms]|Unvermeidliches?|Fressbares?|Essbares?|Erbrochene[sm]|Politische[sm]|Regionale[sm]|Recherchiertes|Höheres|Kleineres|Deftiges|Liebes|Grünes|Diverses|Machbare[ms]|Nachweisbare[ms]|Zerstörtes"),
+      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Störendes|Schlechteres|Schlechtes|Schönes|Schöneres|Schlimmeres|Zutreffendes|Unzutreffendes|Gesehenes|Ungesehenes|Abgerissenes|Versoffenes|Empfehlenswertes|Entnommenes|Sü(ß|ss)es|Saures|Wesentliches|Gegenteiliges|Wegweisendes|Hochprozentiges|Erlerntes|Vergangenes|Unglaubliches|Schlimmes|Eingemachtes|Rares|Brauchbares|Unbrauchbares|Gesehenes|Erlebtes|Privates|Berufliches|Ungeheuerliches|Veganes|Vegetarisches|Eingemachtes|Erwünschtes|Äu(ß|ss)erstes|Äu(ß|ss)eres|Inhaltliches|Vernichtendes|Salziges|Sü(ß|ss)es|Selbstgemachtes|Inhaltliches|Au(ß|ss)erordentliches|Säuerliches|Göttliches||Hochprozentige[sm]|Erbrochene[ms]|Innere[mns]|Vorhandenes|Relevantes|Geübtes|Unmögliches|Mögliches|Näheres|Wissenswertes|Fundamentales|Interessantes|Uninteressantes|Entsetzliche[ms]|Hartnäckige[ms]|Ersparte[ms]|Halbgare[ms]|Universale[ms]|Finanzielle[ms]|Überraschendes|Grundlegendes|Gesunde[ms]|Ungesunde[ms]|Tagesaktuelle[ms]|Aktuelle[ms]|Geschehene[ms]|Ungeschehene[ms]|Böse[ms]|Gesagte[ms]|Aufregende[sm]|Ausgestelltes|Verschiedenes|Verborgenes|Soziales|Erfundenes|Gro(ß|ss)es|Neueres|Au(ß|ss)ergewöhnliche[ms]|Zukunftsfähige[sm]|Administrative[ms]|Beunruhigendes|Naturverträgliches|Nachhaltiges|Verderbliche[ms]|Sinnstiftendes|Unüberlegtes|Alltägliche[sm]|Geartetes?|Allgemeines?|Übernatürliches?|Juristisches?|Rechtliches?|Vielfältiges?|Kommunales|Wundervolles?|Abgelaufenes|Erstere[ms]|Zweitere[ms]|Letztere[ms]|Unvermeidliches?|Fressbares?|Essbares?|Erbrochene[sm]|Politische[sm]|Regionale[sm]|Recherchiertes|Höheres|Kleineres|Deftiges|Liebes|Grünes|Diverses|Machbare[ms]|Nachweisbare[ms]|Zerstörtes|Öffentliches"),
       csRegex("(?!(und|oder))[a-zäöü…\\.!,\\?…\\)“„\"»«–\\-:;].*")
     ),
     Arrays.asList(
@@ -1520,8 +1520,12 @@ class CaseRuleAntiPatterns {
     ),
     Arrays.asList( // Hallo, Kleines, wie geht es dir?
       token(","),
-      new PatternTokenBuilder().posRegex("SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*").csTokenRegex("[A-ZÄÖÜ].+es?").build(),
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+es?").build(),
       token(",")
+    ),
+    Arrays.asList( // Es gibt mehr Neues
+      csRegex("mehr|weniger"),
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("[A-ZÄÖÜ].+es").build()
     ),
     Arrays.asList(
       // Bei der Fülle an Vorgaben kann das schnell vergessen werden.

@@ -7757,4 +7757,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule id="DICHTE_KEIN_ADJ" name="Nomen mit 'Dichte' am ende">
+        <pattern>
+            <token case_sensitive="yes" regexp="yes" postag="SUB.+ADJ" postag_regexp="yes">[A-ZÄÖÜ].+dichten?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.+ADJ" />
+    </rule>
 </rules>
