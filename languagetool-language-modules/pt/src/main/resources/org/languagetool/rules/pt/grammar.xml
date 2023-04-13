@@ -45856,6 +45856,30 @@ O namorado dela era um ladrão.
     </rule>
 
 
+    <!-- CONFORME IA REVENDO conforme revia -->
+    <rule id='CONFORME_IA_IAM_GERUNDIO_CONFORME_PASSADO' name="[Simplificar] Conforme 'ia(m) + V.Gerúndio' → 'V.Passado.'" type="style" default='temp_off'>
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-13 (2-MAR-2023+) -->
+      <!--
+      O Marco, conforme ia revendo o texto da tese, melhorava a gramática. → O Marco, conforme revia o texto da tese, melhorava a gramática.
+      Os Marcos, conforme iam revendo o texto da tese, melhoravam a gramática. → Os Marcos, conforme reviam o texto da tese, melhoravam a gramática.
+      -->
+      <pattern>
+        <token>conforme</token>
+        <marker>
+          <token inflected='yes'>ir
+            <exception inflected='yes'>ser</exception>
+          </token>
+          <token postag='VMG0000' postag_regexp='no'/>
+        </marker>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:2 postagSelect:V.*"/>
+      <message>Esta perífrase poderá ser simplificada.</message>
+      <suggestion>{suggestion}</suggestion>
+      <example correction="revia">O Marco, conforme <marker>ia revendo</marker> o texto da tese, melhorava a gramática.</example>
+      <example correction="reviam">Os Marcos, conforme <marker>iam revendo</marker> o texto da tese, melhoravam a gramática.</example>
+    </rule>
+
+
     <!-- CORRER O RISCO arriscar-->
     <rulegroup id='CORRER_RISCO_ARRISCAR' name="[Simplificar] Correr o risco → arriscar" type='style'>
       <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-20/21 (Checked/Enhanced) (1-JAN-2022+)      -->
