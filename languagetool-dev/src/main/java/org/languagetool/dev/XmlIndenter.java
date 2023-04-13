@@ -21,6 +21,7 @@ package org.languagetool.dev;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -39,7 +40,7 @@ public class XmlIndenter {
       System.out.println("Usage: " + XmlIndenter.class.getSimpleName() + " <xmlFile>");
       System.exit(1);
     }
-    List<String> lines = Files.readAllLines(Paths.get(args[0]));
+    List<String> lines = Files.readAllLines(Paths.get(args[0]), StandardCharsets.UTF_8);
     boolean inCategory = false;
     boolean inRuleGroup = false;
     boolean inRule = false;
