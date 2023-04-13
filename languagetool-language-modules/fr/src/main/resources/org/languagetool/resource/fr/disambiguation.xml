@@ -8443,6 +8443,13 @@ RB => Règles Brutes
         </pattern>
         <disambig action="filter" postag="V (ind|sub|imp).*"/>
     </rule>
+    <rule id="VERSANT" name="versant (nom)">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes">versant</token>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">nord|sud|est|ouest</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule name="RP : Un + tel + Adj + Nom" id="RP-D_J_AMBIG_N0">
         <antipattern>
             <token postag="D.*" postag_regexp="yes"/>
@@ -8479,6 +8486,7 @@ RB => Règles Brutes
                 <feature id="number"/>
                 <feature id="gender"/>
                 <token postag="D.*|K.*" postag_regexp="yes">
+                   <exception scope="previous" postag="D.*|K.*" postag_regexp="yes"/>
                     <exception regexp="yes">de|du|d'|des</exception></token>
                 <token postag="J.*" postag_regexp="yes">
                     <exception regexp="yes">produits?|pie</exception></token>
