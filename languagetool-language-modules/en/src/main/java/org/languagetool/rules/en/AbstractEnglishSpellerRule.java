@@ -668,6 +668,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("transcripting", Arrays.asList("transcribing"));
     s.put("incase", Arrays.asList("in case"));
     s.put("Incase", Arrays.asList("In case"));
+    s.put("fam", Arrays.asList("family", "fame"));
+    s.put("awnser", Arrays.asList("answer"));
+    s.put("Awnser", Arrays.asList("Answer"));
+    s.put("awnsers", Arrays.asList("answers"));
+    s.put("Awnsers", Arrays.asList("Answers"));
     s.put("megatonne", Arrays.asList("megaton"));
     s.put("Megatonne", Arrays.asList("Megaton"));
     s.put("megatonnes", Arrays.asList("megatons"));

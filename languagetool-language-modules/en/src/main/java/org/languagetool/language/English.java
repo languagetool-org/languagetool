@@ -504,7 +504,6 @@ public class English extends Language implements AutoCloseable {
       case "NON3PRS_VERB":              return -1;  // prefer other more specific rules (with suggestions, e.g. DONS_T)
       case "DT_NN_VBG":                 return -1;  // prefer other more specific rules (with suggestions)
       case "NNS_THAT_ARE_JJ":           return -1;  // prefer other more specific rules
-      case "MISSING_SUBJECT":           return -1;  // prefer other more specific rules
       case "DID_FOUND_AMBIGUOUS":       return -1;  // prefer other more specific rules (e.g. TWO_CONNECTED_MODAL_VERBS)
       case "BE_I_BE_GERUND":            return -1;  // prefer other more specific rules (with suggestions)
       case "VBZ_VBD":                   return -1;  // prefer other more specific rules (e.g. IS_WAS)
@@ -580,6 +579,7 @@ public class English extends Language implements AutoCloseable {
       case "PRP_NO_ADVERB_VERB":        return -15;  // prefer other more specific rules (e.g. PRP_VBG, IT_ITS, ...)
       case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
       case "IN_DT_IN": return -15; // prefer AI and comma rules
+      case "MISSING_SUBJECT":           return -15;  // prefer other more specific rules
       case "HAVE_TO_NOTVB":             return -15; // prefer AI and comma rules
       case "CC_PRP_ARTICLE":            return -15;  // prefer other more specific rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
