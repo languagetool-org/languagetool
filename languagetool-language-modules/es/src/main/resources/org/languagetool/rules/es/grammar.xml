@@ -3373,6 +3373,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No quiero que encuentre nadie dónde enterramos el tesoro.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>cuándo</token>
+                    <token>?</token>
+                    <example>¿Y las mayúsculas en los días de la semana para cuándo?</example>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes">fecha|&unidades_tiempo;</token>
                     <token postag="SPS00" min="0"/>
@@ -3380,7 +3385,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>cuándo</token>
                     </marker>
                 </pattern>
-                <message>Se escribe sin tilde porque es una construcción de relativo.</message>
+                <message>Se escribe sin tilde si es una construcción de relativo. Es correcto con tilde si es un interrogativo.</message>
                 <suggestion>cuando</suggestion>
                 <example correction="cuando">Depende de la fecha <marker>cuándo</marker> empiece.</example>
             </rule>
