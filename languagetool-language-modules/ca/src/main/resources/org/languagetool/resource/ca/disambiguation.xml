@@ -3195,6 +3195,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
         </antipattern>
         <rule>
+            <!-- a Barcelona: no és l'equip de futbol -->
+            <pattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="NP..G.." postag_regexp="yes"/>
+                        <token postag="NP..O.." postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="NP..O.."/>
+        </rule>
+        <rule>
             <pattern>
                 <token postag="SENT_START"/>
                 <token min="0" max="3" regexp="yes">[¿?¡!"'‘“«»—–:\-]</token>
