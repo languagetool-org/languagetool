@@ -1275,7 +1275,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">de|para|fijo|largo</token>
                 </pattern>
-                <message>Esta locución es escribe separada.</message>
+                <message>Esta locución se escribe separada.</message>
                 <suggestion>a punto</suggestion>
                 <url>http://www.fundeu.es/recomendacion/a-punto-de-no-apunto-de-1427</url>
                 <example correction="a punto">Estaba <marker>apunto</marker> de llegar.</example>
@@ -1338,7 +1338,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>apunto<exception postag="_possible_NP"/></token>
                     </marker>
                 </pattern>
-                <message>Con el sentido de 'a tiempo' o 'listo, dispuesto', es escribe separado. Correcto si es del v. 'apuntar'.</message>
+                <message>Con el sentido de 'a tiempo' o 'listo, dispuesto', se escribe separado. Correcto si es del v. 'apuntar'.</message>
                 <suggestion>a punto</suggestion>
                 <example correction="a punto">Estaba todo <marker>apunto</marker>.</example>
                 <example>Me lo apunto.</example>
@@ -2551,7 +2551,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>pio</token>
                 </marker>
             </pattern>
-            <message>Si es adjetivo o nombre, es escribe con tile. Correcto como forma en pasado del v. 'piar'.</message>
+            <message>Si es adjetivo o nombre, se escribe con tile. Correcto como forma en pasado del v. 'piar'.</message>
             <suggestion><match no="1" regexp_match="(?iu)i" regexp_replace="í" case_conversion="preserve"/></suggestion>
             <example correction="pío">Es una personaje muy <marker>pio</marker>.</example>
             <example>El gorrión pio.</example>
@@ -7949,7 +7949,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">\p{Lu}.*</token>
                 </pattern>
-                <message>Si es un nombre, es escribe con tilde. Correcto si es del v. 'reír' en pasado (él se rio).</message>
+                <message>Si es un nombre, se escribe con tilde. Correcto si es del v. 'reír' en pasado (él se rio).</message>
                 <suggestion>río</suggestion>
                 <example correction="Río"><marker>Rio</marker> Turia.</example>
                 <example>Entonces se rio Juan.</example>
@@ -7960,7 +7960,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token case_sensitive="yes">Rio</token>
                     </marker>
                 </pattern>
-                <message>Si es un nombre, es escribe con tilde. Correcto si es del v. 'reír' en pasado (él rio).</message>
+                <message>Si es un nombre, se escribe con tilde. Correcto si es del v. 'reír' en pasado (él rio).</message>
                 <suggestion>Río</suggestion>
                 <example correction="Río"><marker>Rio</marker> es bonito.</example>
             </rule>
@@ -7977,7 +7977,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>frio</token>
             </pattern>
-            <message>Si es un nombre, es escribe con tilde. Correcto si es del v. 'freír' en pasado (él frio).</message>
+            <message>Si es un nombre, se escribe con tilde. Correcto si es del v. 'freír' en pasado (él frio).</message>
             <suggestion>frío</suggestion>
             <example correction="frío">No tengo ni <marker>frio</marker> ni calor</example>
             <example>Les frio el cerebro.</example>
@@ -7994,7 +7994,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>lio</token>
             </pattern>
-            <message>Si es un nombre o una forma del v. 'liar' en presente (yo lío), es escribe con tilde. Correcto si es del v. 'liar' en pasado (él lio).</message>
+            <message>Si es un nombre o una forma del v. 'liar' en presente (yo lío), se escribe con tilde. Correcto si es del v. 'liar' en pasado (él lio).</message>
             <suggestion>lío</suggestion>
             <example correction="lío">¡Menudo <marker>lio</marker>!</example>
             <example>Se lio una buena.</example>
@@ -16870,8 +16870,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">al|del</token>
                     <marker>
+                        <token regexp="yes">al|del</token>
                         <token>por</token>
                         <token regexp="yes">qué|que</token>
                     </marker>
@@ -16879,7 +16879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Se escribe "el porqué" (la causa, el motivo) o "por qué" (por qué motivo).</message>
                 <suggestion>\1 porqué</suggestion>
                 <suggestion><match no="1" regexp_match="(?iu)l" regexp_replace=""/> por qué</suggestion>
-                <example correction="del porqué|de por qué">Me olvidé del <marker>por qué</marker>.</example>
+                <example correction="del porqué|de por qué">Me olvidé <marker>del por qué</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -26849,10 +26849,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>he</token>
-                    <token postag="V.*" postag_regexp="yes"><exception postag="V.[PGN].*" postag_regexp="yes"/><exception>echo</exception></token>
+                    <token postag="V...1S." postag_regexp="yes"><exception>echo</exception></token>
+                </pattern>
+                <message>¿Quería decir <suggestion>me \2</suggestion> o <suggestion>he <match no="2" postag_regexp="yes" postag="(V.).*" postag_replace="$1P..SM"/></suggestion>?</message>
+                <suggestion>\2</suggestion>
+                <example correction="Me quedé|He quedado|Quedé"><marker>He quedé</marker> extrañado.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>he</token>
+                    <token postag="VM.*" postag_regexp="yes"><exception postag="V.[PGN].*" postag_regexp="yes"/><exception>echo</exception></token>
                 </pattern>
                 <message>Falta un participio después del verbo auxiliar 'haber'.</message>
-                <suggestion>he <match no="2" postag_regexp="yes" postag="(V.).*" postag_replace="$1P..SM"/></suggestion>
+                <suggestion>he <match no="2" postag_regexp="yes" postag="(VM).*" postag_replace="$1P..SM"/></suggestion>
                 <example correction="he cansado">Me <marker>he cansa</marker> mucho.</example>
             </rule>
             <rule>
@@ -26865,14 +26874,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>he {suggestion}</suggestion>
                 <example correction="He trabajado"><marker>He trabajad</marker> mejor.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <pattern>
-                    <token>he</token>
-                    <token postag="V...1S." postag_regexp="yes"><exception>echo</exception></token>
+                    <token inflected="yes">haber</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
                 </pattern>
-                <message>¿Quería decir <suggestion>me \2</suggestion> o <suggestion>he <match no="2" postag_regexp="yes" postag="(V.).*" postag_replace="$1P..SM"/></suggestion>?</message>
-                <suggestion>\2</suggestion>
-                <example correction="Me quedé|He quedado|Quedé"><marker>He quedé</marker> extrañado.</example>
+                <message>Orden incorrecto.</message>
+                <suggestion>\2 <match no="1" case_conversion="alllower"/> \3</suggestion>
+                <example correction="me he sentido"><marker>He me sentido</marker> muy bien.</example>
             </rule>
             <rule default="temp_off">
                 <!-- no suggestion -->
