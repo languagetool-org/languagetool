@@ -30834,6 +30834,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">Yahoo|\d+</token>
                 <token spacebefore="no">!</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">k.</token>
+            </antipattern>
+            <antipattern>
+                <token>(</token>
+                <token>?</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">[?!]</token>
@@ -30876,7 +30883,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[?!]</token>
-                    <token regexp="yes" min="1" max="2">[“‘«'"]</token>
+                    <token regexp="yes" min="1" max="2" postag="_QM_CLOSE"/>
                     <marker>
                         <token regexp="yes">\p{Ll}.*<exception postag="IS_URL"/></token>
                     </marker>
