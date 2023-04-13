@@ -40780,7 +40780,9 @@ O namorado dela era um ladrão.
       Eu tive com dores de cabeça. → Eu estive com dores de cabeça.
       -->
       <pattern>
-        <token postag='PP.+' postag_regexp='yes'/>
+        <token postag='PP.+' postag_regexp='yes'>
+          <exception regexp='yes'>&pronomes_obliquos;</exception>
+          </token>
         <marker>
           <and>
           <token inflected='yes'>ter</token>
@@ -40788,7 +40790,7 @@ O namorado dela era um ladrão.
           </and>
         </marker>
         <token>com</token>
-        <token postag='DA.+|DI.+|Z0.+|PP.+|NC.+|AQ.+' postag_regexp='yes'/>
+        <token postag='DA.+|DI.+|PP.+|NC.+|AQ.+' postag_regexp='yes'/>
       </pattern>
       <message>Possível confusão de termos.</message>
       <suggestion><match no='2' postag='V.+' postag_regexp='yes'>estar</match></suggestion>
