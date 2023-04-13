@@ -312,9 +312,9 @@ public class DocumentCache implements Serializable {
       }
       actualizeCache (paragraphs, chapterBegins, locales, footnotes, toTextMapping, toParaMapping, 
           deletedCharacters, documentTexts.get(CURSOR_TYPE_TEXT).automaticTextParagraphs, sortedTextIds);
-      for (Locale locale : getDifferentLocalesOftext(paragraphContainer.locales)) {
-        document.getMultiDocumentsHandler().handleLtDictionary(getDocAsString(), locale);
-      }
+//      for (Locale locale : getDifferentLocalesOftext(paragraphContainer.locales)) {
+//        document.getMultiDocumentsHandler().handleLtDictionary(getDocAsString(), locale);
+//      }
       document.getMultiDocumentsHandler().runShapeCheck(hasUnsupportedText(), fromWhere);
       if (fromWhere != 2 || debugModeTm) { //  do not write time to log for text level queue
         long endTime = System.currentTimeMillis();

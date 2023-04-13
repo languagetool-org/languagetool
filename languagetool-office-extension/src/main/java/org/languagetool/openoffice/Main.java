@@ -19,7 +19,7 @@
 package org.languagetool.openoffice;
 
 import com.sun.star.lang.*;
-
+import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
@@ -27,6 +27,8 @@ import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.XLinguServiceEventBroadcaster;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.linguistic2.XProofreader;
+import com.sun.star.linguistic2.XSpellAlternatives;
+import com.sun.star.linguistic2.XSpellChecker;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
 import com.sun.star.uno.XComponentContext;
@@ -37,12 +39,13 @@ import com.sun.star.uno.XComponentContext;
  * @author Marcin Miłkowski, Fred Kruse
  */
 public class Main extends WeakBase implements XJobExecutor,
-    XServiceDisplayName, XServiceInfo, XProofreader,
+    XServiceDisplayName, XServiceInfo, XProofreader, XSpellChecker,
     XLinguServiceEventBroadcaster, XEventListener {
 
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
           "com.sun.star.linguistic2.Proofreader",
+          "com.sun.star.linguistic2.SpellChecker",
           OfficeTools.LT_SERVICE_NAME };
 
   private XComponentContext xContext;
@@ -257,6 +260,16 @@ public class Main extends WeakBase implements XJobExecutor,
   @Override
   public void disposing(EventObject source) {
     documents.disposing(source);
+  }
+
+  @Override
+  public boolean isValid(String word, Locale locale, PropertyValue[] Properties) throws IllegalArgumentException {
+    return documents.isValid(word, locale, Properties);
+  }
+
+  @Override
+  public XSpellAlternatives spell(String word, Locale locale, PropertyValue[] properties) throws IllegalArgumentException {
+    return documents.spell(word, locale, properties);
   }
 
 }

@@ -85,7 +85,7 @@ public class LtDictionary {
   /**
    * private void set to ignore words
    */
-  public static void setIgnoreWordsForSpelling(String text, SwJLanguageTool lt, Locale locale, XComponentContext xContext) {
+  public static boolean setIgnoreWordsForSpelling(String text, SwJLanguageTool lt, Locale locale, XComponentContext xContext) {
 //    boolean resetNeeded = false;
     try {
       XDictionary ignoredWords = null;
@@ -104,7 +104,7 @@ public class LtDictionary {
               searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
               if (searchableDictionaryList == null) {
                 MessageHandler.printToLogFile("LtDictionary: setIgnoreWordsForSpelling: searchableDictionaryList == null");
-                return;
+                return false;
               }
               String dictionaryName = INTERNAL_DICT_PREFIX + shortCode + "_internal" + DICT_FILE_POSTFIX;
               ignoredWords = searchableDictionaryList.getDictionaryByName(dictionaryName);
@@ -123,7 +123,7 @@ public class LtDictionary {
             }
             if (ignoredWords.isFull()) {
               MessageHandler.showMessage("List of ignored words is full! Count = " + ignoredWords.getCount());
-              return;
+              return true;
             }
             boolean hasWord = false;
             for (XDictionaryEntry entry : ignoredWords.getEntries()) {
@@ -147,11 +147,12 @@ public class LtDictionary {
         activateDictionary = true;
         searchableDictionaryList.addDictionary(ignoredWords);
         activateDictionary = false;
+        return true;
       }
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    return;
+    return false;
   }
 
   private static boolean isIgnoredSpellingWord(String word, String shortCode) {

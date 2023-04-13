@@ -801,7 +801,7 @@ class CheckRequestAnalysis {
     docCache.setFlatParagraph(nPara, chPara, locale);
     docCache.setFlatParagraphFootnotes(nPara, footnotePos);
     docCache.setFlatParagraphDeletedCharacters(nPara, deletedChars);
-    mDocHandler.handleLtDictionary(chPara, locale);
+//    mDocHandler.handleLtDictionary(chPara, locale);
     if (useQueue) {
       changedParas.put(nPara, chPara);
       singleDocument.removeResultCache(nPara, false);

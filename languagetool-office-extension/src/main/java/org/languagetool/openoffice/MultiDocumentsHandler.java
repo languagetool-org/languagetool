@@ -21,6 +21,7 @@ package org.languagetool.openoffice;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,12 +47,16 @@ import org.languagetool.openoffice.SingleDocument.RuleDesc;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tools.Tools;
 
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
+import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XEventListener;
@@ -60,11 +65,13 @@ import com.sun.star.linguistic2.LinguServiceEventFlags;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.linguistic2.XProofreader;
+import com.sun.star.linguistic2.XSpellAlternatives;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+
 
 /**
  * Class to handle multiple LO documents for checking
@@ -79,7 +86,7 @@ public class MultiDocumentsHandler {
   
   private static final ResourceBundle messages = JLanguageTool.getMessageBundle();
 
-  private static final int HEAP_CHECK_INTERVAL = 500;
+  private static final int HEAP_CHECK_INTERVAL = 1000;
 
   private final List<XLinguServiceEventListener> xEventListeners;
   private boolean docReset = false;
@@ -88,10 +95,12 @@ public class MultiDocumentsHandler {
   private static boolean debugModeTm = false;   //  should be false except for testing
   
   private SwJLanguageTool lt = null;
+  private JLanguageTool spellLt = null;
   private Language docLanguage = null;
   private Language fixedLanguage = null;
   private Language langForShortName;
-  private Locale locale;
+  private Locale locale;                            //  locale for grammar check
+  private Locale spellLocale = null;                //  locale for spell check
   private final XEventListener xEventListener;
   private final XProofreader xProofreader;
   private final File configDir;
@@ -126,15 +135,15 @@ public class MultiDocumentsHandler {
   
   private boolean useOrginalCheckDialog = false;    // use original spell and grammar dialog (LT check dialog does not work for OO)
   private boolean checkImpressDocument = false;     //  the document to check is Impress
-  private final HandleLtDictionary handleDictionary;
+//  private final HandleLtDictionary handleDictionary;
   private boolean isNotTextDocument = false;
   private int heapCheckInterval = HEAP_CHECK_INTERVAL;
   private boolean testMode = false;
   private boolean javaLookAndFeelIsSet = false;
   private boolean isHelperDisposed = false;
+  private SpellingCheckRule spellingCheckRule = null;
 
   
-
   MultiDocumentsHandler(XComponentContext xContext, XProofreader xProofreader, XEventListener xEventListener) {
     this.xContext = xContext;
     this.xEventListener = xEventListener;
@@ -147,8 +156,8 @@ public class MultiDocumentsHandler {
     documents = new ArrayList<>();
     disabledRulesUI = new HashMap<>();
     extraRemoteRules = new ArrayList<>();
-    handleDictionary = new HandleLtDictionary();
-    handleDictionary.start();
+//    handleDictionary = new HandleLtDictionary();
+//    handleDictionary.start();
     LtHelper ltHelper = new LtHelper();
     ltHelper.start();
   }
@@ -414,7 +423,7 @@ public class MultiDocumentsHandler {
         isDisposed = true;
         if (documents.size() < 2) {
           LtDictionary.setDisposed();
-          handleDictionary.setStop();
+//          handleDictionary.setStop();
           if (textLevelQueue != null) {
             textLevelQueue.setStop();
             textLevelQueue = null;
@@ -756,7 +765,7 @@ public class MultiDocumentsHandler {
       } else {
         return Languages.getLanguageForShortCode(locale.Language + "-" + locale.Country);
       }
-    } catch (IllegalArgumentException e) {
+    } catch (Throwable e) {
       return Languages.getLanguageForShortCode(locale.Language);
     }
   }
@@ -1901,6 +1910,129 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   * Init spell checker for locale
+   */
+  public void initSpellChecker(Locale locale) {
+    if (spellLocale == null || !OfficeTools.isEqualLocale(spellLocale, locale)) {
+      if (hasLocale(locale)) {
+        spellLocale = locale;
+        Language lang = Languages.getLanguageForShortCode(locale.Language + "-" + locale.Country);
+        spellLt = new JLanguageTool(lang);
+        for (Rule rule : spellLt.getAllRules()) {
+          if (rule.isDictionaryBasedSpellingRule()) {
+            spellingCheckRule = (SpellingCheckRule) rule;
+            break;
+          }
+        }
+//        Language lang = Languages.getLanguageForShortCode(locale.Language + "-" + locale.Country);
+//        spellingCheckRule = lang.getDefaultSpellingRule();
+        if (linguServices == null) {
+          linguServices = new LinguisticServices(xContext);
+        }
+      }
+    }
+    
+  }
+  
+  /**
+   * is a correct spelled word
+   */
+  public boolean isValid(String word, Locale locale, PropertyValue[] Properties) throws IllegalArgumentException {
+    initSpellChecker(locale);
+    try {
+      if (spellingCheckRule != null) {
+        if (!spellingCheckRule.isMisspelled(word)) {
+          return true;
+        }
+        if (word.endsWith(".") && !spellingCheckRule.isMisspelled(word.substring(0, word.length() - 1))) {
+          return true;
+        }
+        return false;
+      }
+    } catch (IOException e) {
+      MessageHandler.showError(e);
+    }
+    return true;
+  }
+
+  /**
+   * get alternatives for a non correct spelled word
+   */
+  public XSpellAlternatives spell(String word, Locale locale, PropertyValue[] properties) throws IllegalArgumentException {
+    LTSpellAlternatives alternatives = new LTSpellAlternatives(word, locale);
+    return alternatives;
+  }
+
+  /**
+   * class for getting spelling alternatives
+   */
+  class LTSpellAlternatives implements XSpellAlternatives {
+    
+    Locale locale;
+    String word;
+    MorfologikSpellerRule mSpellRule = null;
+    HunspellRule hSpellRule = null;
+    
+    LTSpellAlternatives(String word, Locale locale) {
+      this.word = word;
+      this.locale = locale;
+      if (spellingCheckRule instanceof MorfologikSpellerRule) {
+        mSpellRule = (MorfologikSpellerRule) spellingCheckRule;
+      } else if (spellingCheckRule instanceof HunspellRule) {
+        hSpellRule = (HunspellRule) spellingCheckRule;
+      }
+    }
+
+    @Override
+    public String[] getAlternatives() {
+      try {
+        if (mSpellRule != null) {
+          return mSpellRule.getSpellingSuggestions(word).toArray(new String[0]);
+        }
+        if (hSpellRule != null) {
+          return hSpellRule.getSuggestions(word).toArray(new String[0]);
+        }
+      } catch (Throwable t) {
+        MessageHandler.showError(t);
+      }
+      return null;
+    }
+
+    @Override
+    public short getAlternativesCount() {
+      try {
+        if (mSpellRule != null) {
+          return (short) mSpellRule.getSpellingSuggestions(word).size();
+        }
+        if (hSpellRule != null) {
+          return (short) hSpellRule.getSuggestions(word).size();
+        }
+      } catch (Throwable t) {
+        MessageHandler.showError(t);
+      }
+      return 0;
+    }
+
+    @Override
+    public short getFailureType() {
+      // ??? unclear
+      return 0;
+    }
+
+    @Override
+    public Locale getLocale() {
+      return locale;
+    }
+
+    @Override
+    public String getWord() {
+      return word;
+    }
+    
+  }
+
+  
+  /**
    * Start or stop the shape check loop
    */
   public void runShapeCheck (boolean hasShapes, int where) {
@@ -1938,15 +2070,15 @@ public class MultiDocumentsHandler {
 */
   /**
    *  start a separate thread to add or remove the internal LT dictionary
-   */
+   *//*
   public void handleLtDictionary(String text, Locale locale) {
     handleDictionary.addTextToCheck(text, locale);
     handleDictionary.wakeup();
   }
-
+*/
   /**
    *  class to start a separate thread to add or remove the internal LT dictionary
-   */
+   *//*
   private class HandleLtDictionary extends Thread {
     private Object queueWakeup = new Object();
     private final List<String> textToCheck = new ArrayList<>();
@@ -1990,12 +2122,14 @@ public class MultiDocumentsHandler {
         textToCheck.remove(0);
         localeToCheck.remove(0);
         OfficeTools.waitForLO();
-        LtDictionary.setIgnoreWordsForSpelling(text, lt, locale, xContext);
+        if (LtDictionary.setIgnoreWordsForSpelling(text, lt, locale, xContext)) {
+          resetCheck(LinguServiceEventFlags.SPELL_WRONG_WORDS_AGAIN); 
+        }
       }
       isRunning = false;
     }
   }
-
+*/
   /**
    * class to test for text changes in shapes 
    */

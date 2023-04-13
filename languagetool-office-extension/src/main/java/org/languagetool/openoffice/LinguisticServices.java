@@ -200,7 +200,7 @@ public class LinguisticServices extends LinguServices {
   /** 
    * Get the SpellChecker to be used.
    */
-  private XSpellChecker getSpellChecker(XComponentContext xContext) {
+  protected XSpellChecker getSpellChecker(XComponentContext xContext) {
     try {
       XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
       if (mxLinguSvcMgr != null) {

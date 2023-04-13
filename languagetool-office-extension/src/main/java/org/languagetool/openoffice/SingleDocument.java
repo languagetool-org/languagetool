@@ -780,9 +780,9 @@ class SingleDocument {
           changedParas.remove(nPara);
           if (sChangedPara != null && !sChangedPara.equals(sPara)) {
             docCache.setFlatParagraph(nPara, sPara);
-            if (!disposed) {
-              mDocHandler.handleLtDictionary(sPara, docCache.getFlatParagraphLocale(nPara));
-            }
+//            if (!disposed) {
+//              mDocHandler.handleLtDictionary(sPara, docCache.getFlatParagraphLocale(nPara));
+//            }
             removeResultCache(nPara, false);
             return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
           }
@@ -1323,6 +1323,7 @@ class SingleDocument {
           return;
         }
         xUserInputInterception.addMouseClickHandler(eventListener);
+//        xUserInputInterception.addKeyHandler(eventListener);
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
@@ -1348,6 +1349,7 @@ class SingleDocument {
     }
   }
   
+//  private class LTDokumentEventListener implements XDocumentEventListener, XMouseClickHandler, XKeyHandler {
   private class LTDokumentEventListener implements XDocumentEventListener, XMouseClickHandler {
 
     @Override
@@ -1381,6 +1383,19 @@ class SingleDocument {
     public boolean mouseReleased(MouseEvent event) {
       return false;
     }
+/*
+    @Override
+    public boolean keyPressed(KeyEvent arg0) {
+      return false;
+    }
+
+    @Override
+    public boolean keyReleased(KeyEvent arg0) {
+      MessageHandler.printToLogFile("SingleDocument: setDokumentListener: Set Timestamp");
+      OfficeTools.setKeyReleaseTime(System.currentTimeMillis());
+      return false;
+    }
+*/
   }
 
 }
