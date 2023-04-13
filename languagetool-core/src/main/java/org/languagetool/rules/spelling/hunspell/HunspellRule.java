@@ -542,8 +542,8 @@ public class HunspellRule extends SpellingCheckRule {
            SpellingCheckRule.LANGUAGETOOL.equals(word) || SpellingCheckRule.LANGUAGETOOLER.equals(word);
   }
 
-  private static String getDictionaryPath(String dicName,
-                                          String originalPath) throws IOException {
+  private static synchronized String getDictionaryPath(String dicName,
+                                                       String originalPath) throws IOException {
 
     URL dictURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(originalPath);
     String dictionaryPath;
@@ -552,17 +552,19 @@ public class HunspellRule extends SpellingCheckRule {
     if (StringUtils.equalsAny(dictURL.getProtocol(), "jar", "vfs", "bundle", "bundleresource")) {
       File tempDir = new File(System.getProperty("java.io.tmpdir"));
       File tempDicFile = new File(tempDir, dicName + FILE_EXTENSION);
-      JLanguageTool.addTemporaryFile(tempDicFile);
-      try (InputStream dicStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath)) {
-        fileCopy(dicStream, tempDicFile);
-      }
-      File tempAffFile = new File(tempDir, dicName + ".aff");
-      JLanguageTool.addTemporaryFile(tempAffFile);
-      if (originalPath.endsWith(FILE_EXTENSION)) {
-        originalPath = originalPath.substring(0, originalPath.length() - FILE_EXTENSION.length()) + ".aff";
-      }
-      try (InputStream affStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath)) {
-        fileCopy(affStream, tempAffFile);
+      if (!tempDicFile.exists()) {
+        JLanguageTool.addTemporaryFile(tempDicFile);
+        try (InputStream dicStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath)) {
+          fileCopy(dicStream, tempDicFile);
+        }
+        File tempAffFile = new File(tempDir, dicName + ".aff");
+        JLanguageTool.addTemporaryFile(tempAffFile);
+        if (originalPath.endsWith(FILE_EXTENSION)) {
+          originalPath = originalPath.substring(0, originalPath.length() - FILE_EXTENSION.length()) + ".aff";
+        }
+        try (InputStream affStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath)) {
+          fileCopy(affStream, tempAffFile);
+        }
       }
       dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
     } else {
