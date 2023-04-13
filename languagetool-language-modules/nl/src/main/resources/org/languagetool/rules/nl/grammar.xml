@@ -938,7 +938,7 @@ regexp case-insensitive maken: (?i)
         </rule>
         <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij/jou/jouw, mij → we, ze, je, me" tags="picky">
             <rule>
-                <antipattern><token regexp="yes">ook|tussen</token><token regexp="yes">[jwm]ij</token></antipattern>
+                <antipattern><token regexp="yes">ook|tussen</token><token regexp="yes">[jwmz]ij</token></antipattern>
                 <antipattern>
                     <token postag_regexp="yes" postag="SENT_START|START"/>
                     <token>Jij</token>
@@ -1028,6 +1028,28 @@ regexp case-insensitive maken: (?i)
                 <antipattern>
                     <token regexp="yes">aan|bij|op</token>
                     <token regexp="yes">jij|mij</token>
+                </antipattern>
+                <antipattern>
+                    <token>zij</token>
+                    <token>die</token>
+                    <example>Perspectief van zij die zich uitgesloten voelen.</example>
+                </antipattern>
+                <antipattern>
+                    <token>mij</token>
+                    <token regexp="yes">betreft|vraagt</token>
+                    <example>Wat mij betreft wel.</example>
+                    <example>Als je het mij vraagt wel.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="7" regexp="yes">u(w)?</token>
+                    <token regexp="yes">[wmz]ij</token>
+                    <example>Kunt u mij een voorbeeld geven?</example>
+                    <example>Vreemd, uw melding is uiteindelijk niet bij mij terechtgekomen.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[wmz]ij</token>
+                    <token skip="7" regexp="yes">u(w)?</token>
+                    <example>Vijftien dagen geleden hebben wij uw verzoek ontvangen.</example>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">jij|wij|zij|mij<exception postag="UNKNOWN"/></token>
