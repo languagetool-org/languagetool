@@ -795,10 +795,10 @@ class SingleDocument {
   public void addShapeQueueEntries() {
     int shapeTextSize = docCache.textSize(DocumentCache.CURSOR_TYPE_SHAPE) + docCache.textSize(DocumentCache.CURSOR_TYPE_TABLE);
     if (shapeTextSize > 0) {
-      if (flatPara == null) {
-        setFlatParagraphTools();
+      if (docCursor == null) {
+        docCursor = getDocumentCursorTools();
       }
-      List<Integer> changedParas = docCache.getChangedUnsupportedParagraphs(flatPara, paragraphsCache.get(0));
+      List<Integer> changedParas = docCache.getChangedUnsupportedParagraphs(docCursor, paragraphsCache.get(0));
       if (changedParas != null) { 
         for (int i = 0; i < changedParas.size(); i++) {
           for (int nCache = 0; nCache < paragraphsCache.size(); nCache++) {

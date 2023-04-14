@@ -1634,6 +1634,55 @@ public class DocumentCache implements Serializable {
    * change the cache to new value
    * return all changed paragraphs
    */
+  public List<Integer> getChangedUnsupportedParagraphs(DocumentCursorTools docCursor, ResultCache firstResultCache) {
+    rwLock.writeLock().lock();
+    List<Integer> nChanged = new ArrayList<>();
+    try {
+      if (docCursor == null) {
+        return nChanged;
+      }
+      if (toParaMapping.get(CURSOR_TYPE_SHAPE).isEmpty() && toParaMapping.get(CURSOR_TYPE_TABLE).isEmpty()) {
+        return null;
+      }
+      List<Integer> nTableParas = new ArrayList<>();
+      List<Integer> nShapeParas = new ArrayList<>();
+      for (int i = 0; i < paragraphs.size() && toTextMapping.get(i).type != CURSOR_TYPE_TEXT; i++) {
+        if (toTextMapping.get(i).type == CURSOR_TYPE_SHAPE) {
+          nShapeParas.add(toTextMapping.get(i).number);
+        } else if (toTextMapping.get(i).type == CURSOR_TYPE_TABLE) {
+          nTableParas.add(toTextMapping.get(i).number);
+        }
+      }
+      if (!nShapeParas.isEmpty()) {
+        List<String> fParas = docCursor.getTextOfShapes(nShapeParas);
+        if (fParas != null) {
+          for (int i = 0; i < fParas.size(); i++) {
+            int nFPara = toParaMapping.get(CURSOR_TYPE_SHAPE).get(nShapeParas.get(i));
+            if (firstResultCache.getCacheEntry(nFPara) == null || !paragraphs.get(nFPara).equals(fParas.get(i))) {
+              paragraphs.set(nFPara, fParas.get(i));
+              nChanged.add(nFPara);
+            }
+          }
+        }
+      }
+      if (!nTableParas.isEmpty()) {
+        List<String> fParas = docCursor.getTextOfTables(nTableParas);
+        if (fParas != null) {
+          for (int i = 0; i < fParas.size(); i++) {
+            int nFPara = toParaMapping.get(CURSOR_TYPE_TABLE).get(nTableParas.get(i));
+            if (firstResultCache.getCacheEntry(nFPara) == null || !paragraphs.get(nFPara).equals(fParas.get(i))) {
+              paragraphs.set(nFPara, fParas.get(i));
+              nChanged.add(nFPara);
+            }
+          }
+        }
+      }
+    } finally {
+      rwLock.writeLock().unlock();
+    }
+    return nChanged;
+  }
+/*  
   public List<Integer> getChangedUnsupportedParagraphs(FlatParagraphTools flatPara, ResultCache firstResultCache) {
     rwLock.writeLock().lock();
     List<Integer> nChanged = new ArrayList<>();
@@ -1666,7 +1715,7 @@ public class DocumentCache implements Serializable {
     }
     return nChanged;
   }
-  
+*/  
   /**
    * is flat paragraph a single paragraph
    */
