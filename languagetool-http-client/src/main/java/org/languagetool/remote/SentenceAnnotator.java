@@ -1,20 +1,21 @@
 package org.languagetool.remote;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Scanner;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.Tools;
 
 public class SentenceAnnotator {
@@ -48,7 +49,7 @@ public class SentenceAnnotator {
   private static void runAnnotation(AnnotatorConfig cfg) throws IOException {
 
     List<String> lines = Files.readAllLines(Paths.get(cfg.inputFilePath));
-    int checkedSentences = 0;
+    int numSentence = 0;
     Scanner sc = new Scanner(System.in);
     System.out.print("Start at line? ");
     String response = sc.nextLine();
@@ -59,58 +60,85 @@ public class SentenceAnnotator {
       startLine = 0;
     }
     System.out.println("Starting at line " + String.valueOf(startLine) + " of file " + cfg.inputFilePath);
+    boolean quit = false;
     for (String line : lines) {
+      if (quit) {
+        break;
+      }
       String sentence = line;
-      checkedSentences++;
-      if (checkedSentences < startLine) {
+      numSentence++;
+      if (numSentence < startLine) {
         continue;
       }
       boolean done = false;
-      int fpNumber = 0;
+      List<String> fpMatches = new ArrayList<>();
       while (!done) {
         List<RemoteRuleMatch> matches = getMatches(cfg, sentence);
         RemoteRuleMatch match = null;
-        if (matches.size() > fpNumber) {
-          match = matches.get(fpNumber);
+        int i = 0;
+        boolean isValidMatch = false;
+        while (!isValidMatch && i < matches.size()) {
+          match = matches.get(i);
+          i++;
+          isValidMatch = !fpMatches.contains(getMatchIdentifier(sentence,match));
+          if (!isValidMatch) {
+            match = null;
+          }
         }
+        String formattedSentence = formatedSentence(sentence, match);
         System.out.println("=============================================");
-        System.out.println("Sentence no. " + String.valueOf(checkedSentences));
+        System.out.println("Sentence no. " + String.valueOf(numSentence));
         System.out.println("---------------------------------------------");
-
-        System.out.println(formatedSentence(sentence, match));
+        System.out.println(formattedSentence);
         System.out.println("---------------------------------------------");
         System.out.println(listSuggestions(match));
-
         System.out.println("---------------------------------------------");
         System.out.print("Action? ");
         response = sc.nextLine();
         if (!response.contains(">>")) {
           response = response.toLowerCase();
         }
+        String errorType = "";
+        int suggestionPos = -1;
+        String suggestionApplied = "";
         switch (response) {
+        case "q":
+          done = true;
+          quit = true;
+          break;
         case "d":
           done = true;
           break;
         case "g":
           done = true;
+          errorType = "Ignore sentence";
           break;
         case "f":
-          fpNumber++;
+          fpMatches.add(getMatchIdentifier(sentence,match));
+          errorType = "FP";
           break;
         case "1":
         case "2":
         case "3":
         case "4":
         case "5":
+          errorType = "TP";
           int r = Integer.valueOf(response);
           if (match != null && r >= 1 && r <= 5) {
             sentence = replaceSuggestion(sentence, match, r);
+            suggestionPos = r;
+            suggestionApplied = match.getReplacements().get().get(suggestionPos - 1);
           }
+          break;
+        }
+        if (quit) {
           break;
         }
         if (response.startsWith(">>")) { // alternative suggestion
           sentence = sentence.substring(0, match.getErrorOffset()) + response.substring(2)
               + sentence.substring(match.getErrorOffset() + match.getErrorLength());
+          errorType = "TPws";
+          suggestionApplied = response.substring(2);
         } else if (response.contains(">>")) {
           String[] parts = response.split(">>");
           String toReplace = parts[0];
@@ -120,19 +148,59 @@ public class SentenceAnnotator {
             if (sentence.substring(ind + toReplace.length()).indexOf(toReplace) > -1) {
               System.out.println("Cannot replace duplicate string in sentence.");
             } else {
+              formattedSentence = sentence.substring(0, ind) + "___" + toReplace + "___"
+                  + sentence.substring(ind + toReplace.length());
               sentence = sentence.substring(0, ind) + replacement + sentence.substring(ind + toReplace.length());
               System.out.println("FN: replacement done.");
+              errorType = "FN";
+              suggestionApplied = replacement;
             }
           }
         }
+        printOutputLine(cfg, numSentence, sentence, formattedSentence, errorType, suggestionApplied, suggestionPos,
+            getFullId(match));
       }
     }
     sc.close();
+    cfg.out.close();
+
+  }
+
+  static private void printOutputLine(AnnotatorConfig cfg, int numSentence, String originalSentence,
+      String formattedSentence, String errorType, String suggestion, int suggestionPos, String ruleId)
+      throws IOException {
+    cfg.out.write(String.valueOf(numSentence) + "\t" + originalSentence + "\t" + formattedSentence + "\t" + errorType
+        + "\t" + suggestion + "\t" + ruleId + "\t" + String.valueOf(suggestionPos) + "\n");
+  }
+ 
+  static private String getMatchIdentifier(String sentence, RemoteRuleMatch match) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(sentence.substring(match.getErrorOffset(), match.getErrorOffset() + match.getErrorLength()));
+    sb.append(getFullId(match));
+    sb.append(match.getReplacements().get().toString());
+    return sb.toString();
+  }
+
+  static private String getFullId(RemoteRuleMatch match) {
+    String ruleId = "";
+    if (match != null) {
+      String subId = null;
+      try {
+        subId = match.getRuleSubId().get();
+      } catch (NoSuchElementException e) {
+      }
+      if (subId != null) {
+        ruleId = match.getRuleId() + "[" + subId + "]";
+      } else {
+        ruleId = match.getRuleId();
+      }
+    }
+    return ruleId;
   }
 
   static private String listSuggestions(RemoteRuleMatch match) {
     StringBuilder sb = new StringBuilder();
-    sb.append("(D)one (G)arbled ");
+    sb.append("(Q)uit (D)one (G)arbled ");
     if (match == null) {
       sb.append("NO MATCHES");
       return sb.toString();
@@ -203,6 +271,7 @@ public class SentenceAnnotator {
     File outputFile;
     CheckConfiguration ltConfig;
     RemoteLanguageTool lt;
+    BufferedWriter out;
 
     void prepareConfiguration() throws IOException {
       if (!userName.isEmpty() && !apiKey.isEmpty()) {
@@ -220,10 +289,11 @@ public class SentenceAnnotator {
       // System.out.println("Analyzing file: " + fileName);
       fileName = fileName.substring(0, fileName.lastIndexOf('.'));
       if (outputFilePath.isEmpty()) {
-        outputFile = new File(inputFile.getParentFile() + "/" + fileName + "-annotations.txt");
+        outputFile = new File(inputFile.getParentFile() + "/" + fileName + "-annotations.tsv");
       } else {
         outputFile = new File(outputFilePath);
       }
+      out = new BufferedWriter(new FileWriter(outputFile, true));
       cachedMatches = new HashMap<>();
       lt = new RemoteLanguageTool(Tools.getUrl(remoteServer));
     }
