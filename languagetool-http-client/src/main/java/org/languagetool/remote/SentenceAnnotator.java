@@ -80,7 +80,7 @@ public class SentenceAnnotator {
         while (!isValidMatch && i < matches.size()) {
           match = matches.get(i);
           i++;
-          isValidMatch = !fpMatches.contains(getMatchIdentifier(sentence,match));
+          isValidMatch = !fpMatches.contains(getMatchIdentifier(sentence, match));
           if (!isValidMatch) {
             match = null;
           }
@@ -91,6 +91,9 @@ public class SentenceAnnotator {
         System.out.println("---------------------------------------------");
         System.out.println(formattedSentence);
         System.out.println("---------------------------------------------");
+        if (match != null) {
+          System.out.println(match.getMessage());
+        }
         System.out.println(listSuggestions(match));
         System.out.println("---------------------------------------------");
         System.out.print("Action? ");
@@ -114,8 +117,11 @@ public class SentenceAnnotator {
           errorType = "Ignore sentence";
           break;
         case "f":
-          fpMatches.add(getMatchIdentifier(sentence,match));
+          fpMatches.add(getMatchIdentifier(sentence, match));
           errorType = "FP";
+          break;
+        case "t":
+          errorType = "TPns";
           break;
         case "1":
         case "2":
@@ -157,8 +163,10 @@ public class SentenceAnnotator {
             }
           }
         }
-        printOutputLine(cfg, numSentence, sentence, formattedSentence, errorType, suggestionApplied, suggestionPos,
-            getFullId(match));
+        if (!errorType.isEmpty()) {
+          printOutputLine(cfg, numSentence, sentence, formattedSentence, errorType, suggestionApplied, suggestionPos,
+              getFullId(match));
+        }
       }
     }
     sc.close();
@@ -172,7 +180,7 @@ public class SentenceAnnotator {
     cfg.out.write(String.valueOf(numSentence) + "\t" + originalSentence + "\t" + formattedSentence + "\t" + errorType
         + "\t" + suggestion + "\t" + ruleId + "\t" + String.valueOf(suggestionPos) + "\n");
   }
- 
+
   static private String getMatchIdentifier(String sentence, RemoteRuleMatch match) {
     StringBuilder sb = new StringBuilder();
     sb.append(sentence.substring(match.getErrorOffset(), match.getErrorOffset() + match.getErrorLength()));
@@ -205,7 +213,7 @@ public class SentenceAnnotator {
       sb.append("NO MATCHES");
       return sb.toString();
     }
-    sb.append("(F)P ");
+    sb.append("(F)P (T)Pns ");
     if (match.getReplacements().get().size() > 0) {
       sb.append("SUGGESTIONS: ");
     } else {
