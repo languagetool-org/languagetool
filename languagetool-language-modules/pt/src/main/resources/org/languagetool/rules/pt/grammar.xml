@@ -45858,13 +45858,14 @@ O namorado dela era um ladrão.
 
     <!-- CONFORME IA REVENDO conforme revia -->
     <rule id='CONFORME_IA_IAM_GERUNDIO_CONFORME_PASSADO' name="[Simplificar] Conforme 'ia(m) + V.Gerúndio' → 'V.Passado.'" type="style" default='on'>
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-13 (2-MAR-2023+) -->
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-13/14 (2-MAR-2023+) -->
       <!--
       O Marco, conforme ia revendo o texto da tese, melhorava a gramática. → O Marco, conforme revia o texto da tese, melhorava a gramática.
       Os Marcos, conforme iam revendo o texto da tese, melhoravam a gramática. → Os Marcos, conforme reviam o texto da tese, melhoravam a gramática.
       -->
       <pattern>
         <token>conforme</token>
+        <token min="0" max="1" regexp='yes'>&pronomes_obliquos;</token>
         <marker>
           <token inflected='yes'>ir
             <exception inflected='yes'>ser</exception>
@@ -45872,7 +45873,7 @@ O namorado dela era um ladrão.
           <token postag='VMG0000' postag_regexp='no'/>
         </marker>
       </pattern>
-      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:3 lemmaSelect:V.* postagFrom:2 postagSelect:V.*"/>
+      <filter class="org.languagetool.rules.pt.AdvancedSynthesizerFilter" args="lemmaFrom:marker1 lemmaSelect:V.* postagFrom:marker postagSelect:V.*"/>
       <message>Esta perífrase poderá ser simplificada.</message>
       <suggestion>{suggestion}</suggestion>
       <example correction="revia">O Marco, conforme <marker>ia revendo</marker> o texto da tese, melhorava a gramática.</example>
