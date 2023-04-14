@@ -91,6 +91,10 @@ public class JLanguageTool {
    */
   public static final String PATTERN_FILE = "grammar.xml";
   /**
+   * The name of the file with style patterns.
+   */
+  public static final String STYLE_FILE = "style.xml";
+  /**
    * The name of the file with error patterns.
    */
   public static final String CUSTOM_PATTERN_FILE = "grammar_custom.xml";
