@@ -72,6 +72,7 @@ public class SentenceAnnotator {
       }
       boolean done = false;
       List<String> fpMatches = new ArrayList<>();
+      int annotationsPerSentence = 0;
       while (!done) {
         List<RemoteRuleMatch> matches = getMatches(cfg, sentence);
         RemoteRuleMatch match = null;
@@ -86,6 +87,7 @@ public class SentenceAnnotator {
           }
         }
         String formattedSentence = formatedSentence(sentence, match);
+        String formattedCorrectedSentence = formattedSentence;
         System.out.println("=============================================");
         System.out.println("Sentence no. " + String.valueOf(numSentence));
         System.out.println("---------------------------------------------");
@@ -111,17 +113,20 @@ public class SentenceAnnotator {
           break;
         case "d":
           done = true;
+          if (annotationsPerSentence == 0) {
+            errorType = "OK";
+          }
           break;
         case "g":
           done = true;
-          errorType = "Ignore sentence";
+          errorType = "IG";
           break;
         case "f":
           fpMatches.add(getMatchIdentifier(sentence, match));
           errorType = "FP";
           break;
         case "t":
-          errorType = "TPns";
+          errorType = "TPno";
           break;
         case "1":
         case "2":
@@ -129,11 +134,15 @@ public class SentenceAnnotator {
         case "4":
         case "5":
           errorType = "TP";
+          if (match.getReplacements().get().size() > 1) {
+            errorType = "TPmultiple";
+          }
           int r = Integer.valueOf(response);
           if (match != null && r >= 1 && r <= 5) {
             sentence = replaceSuggestion(sentence, match, r);
             suggestionPos = r;
             suggestionApplied = match.getReplacements().get().get(suggestionPos - 1);
+            formattedCorrectedSentence = formattedCorrectedSentence(sentence, match, i);
           }
           break;
         }
@@ -143,7 +152,9 @@ public class SentenceAnnotator {
         if (response.startsWith(">>")) { // alternative suggestion
           sentence = sentence.substring(0, match.getErrorOffset()) + response.substring(2)
               + sentence.substring(match.getErrorOffset() + match.getErrorLength());
-          errorType = "TPws";
+          formattedCorrectedSentence = sentence.substring(0, match.getErrorOffset()) + "___" + response.substring(2)
+              + "___" + sentence.substring(match.getErrorOffset() + match.getErrorLength());
+          errorType = "TPwrong";
           suggestionApplied = response.substring(2);
         } else if (response.contains(">>")) {
           String[] parts = response.split(">>");
@@ -156,6 +167,8 @@ public class SentenceAnnotator {
             } else {
               formattedSentence = sentence.substring(0, ind) + "___" + toReplace + "___"
                   + sentence.substring(ind + toReplace.length());
+              formattedCorrectedSentence = sentence.substring(0, ind) + "___" + replacement + "___"
+                  + sentence.substring(ind + toReplace.length());
               sentence = sentence.substring(0, ind) + replacement + sentence.substring(ind + toReplace.length());
               System.out.println("FN: replacement done.");
               errorType = "FN";
@@ -163,9 +176,14 @@ public class SentenceAnnotator {
             }
           }
         }
+        int suggestionsTotal = 0;
+        if (match != null) {
+          suggestionsTotal = match.getReplacements().get().size();
+        }
         if (!errorType.isEmpty()) {
-          printOutputLine(cfg, numSentence, sentence, formattedSentence, errorType, suggestionApplied, suggestionPos,
-              getFullId(match));
+          printOutputLine(cfg, numSentence, formattedSentence, formattedCorrectedSentence, errorType, suggestionApplied, suggestionPos,
+              suggestionsTotal, getFullId(match));
+          annotationsPerSentence++;
         }
       }
     }
@@ -174,11 +192,12 @@ public class SentenceAnnotator {
 
   }
 
-  static private void printOutputLine(AnnotatorConfig cfg, int numSentence, String originalSentence,
-      String formattedSentence, String errorType, String suggestion, int suggestionPos, String ruleId)
-      throws IOException {
-    cfg.out.write(String.valueOf(numSentence) + "\t" + originalSentence + "\t" + formattedSentence + "\t" + errorType
-        + "\t" + suggestion + "\t" + ruleId + "\t" + String.valueOf(suggestionPos) + "\n");
+  static private void printOutputLine(AnnotatorConfig cfg, int numSentence, String errorSentence,
+      String correctedSentence, String errorType, String suggestion, int suggestionPos, int suggestionsTotal,
+      String ruleId) throws IOException {
+    cfg.out.write(String.valueOf(numSentence) + "\t" + errorSentence + "\t" + correctedSentence + "\t" + errorType
+        + "\t" + suggestion + "\t" + ruleId + "\t" + String.valueOf(suggestionPos) + "\t"
+        + String.valueOf(suggestionsTotal) + "\n");
   }
 
   static private String getMatchIdentifier(String sentence, RemoteRuleMatch match) {
@@ -213,11 +232,11 @@ public class SentenceAnnotator {
       sb.append("NO MATCHES");
       return sb.toString();
     }
-    sb.append("(F)P (T)Pns ");
+    sb.append("(F)P ");
     if (match.getReplacements().get().size() > 0) {
       sb.append("SUGGESTIONS: ");
     } else {
-      sb.append("NO SUGGESTIONS ");
+      sb.append("(T)Pno NO SUGGESTIONS ");
     }
     int i = 1;
     for (String suggestion : match.getReplacements().get()) {
@@ -238,6 +257,19 @@ public class SentenceAnnotator {
     sb.append(line.substring(0, match.getErrorOffset()));
     sb.append("___");
     sb.append(line.substring(match.getErrorOffset(), match.getErrorOffset() + match.getErrorLength()));
+    sb.append("___");
+    sb.append(line.substring(match.getErrorOffset() + match.getErrorLength()));
+    return sb.toString();
+  }
+
+  static private String formattedCorrectedSentence(String line, RemoteRuleMatch match, int i) {
+    if (match == null) {
+      return line;
+    }
+    StringBuilder sb = new StringBuilder();
+    sb.append(line.substring(0, match.getErrorOffset()));
+    sb.append("___");
+    sb.append(match.getReplacements().get().get(i - 1));
     sb.append("___");
     sb.append(line.substring(match.getErrorOffset() + match.getErrorLength()));
     return sb.toString();
