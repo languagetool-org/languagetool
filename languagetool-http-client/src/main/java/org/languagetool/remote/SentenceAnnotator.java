@@ -142,7 +142,7 @@ public class SentenceAnnotator {
             sentence = replaceSuggestion(sentence, match, r);
             suggestionPos = r;
             suggestionApplied = match.getReplacements().get().get(suggestionPos - 1);
-            formattedCorrectedSentence = formattedCorrectedSentence(sentence, match, i);
+            formattedCorrectedSentence = formattedCorrectedSentence(sentence, match, r);
           }
           break;
         }
