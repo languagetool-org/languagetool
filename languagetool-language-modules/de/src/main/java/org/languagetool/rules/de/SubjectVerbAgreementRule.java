@@ -174,14 +174,20 @@ public class SubjectVerbAgreementRule extends Rule {
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),
       pos("ZAL"),
-      tokenRegex("Tage|Monate|Jahre"),
+      tokenRegex("Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte"),
+      posRegex("VER:3:SIN:.*")
+    ),
+    Arrays.asList(
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
+      tokenRegex("einige|viele|wenige|mehrere"),
+      tokenRegex("Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte"),
       posRegex("VER:3:SIN:.*")
     ),
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),
       posRegex("ADV:MOD|ADJ:PRD:GRU"),
       pos("ZAL"),
-      tokenRegex("Tage|Monate|Jahre"),
+      tokenRegex("Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte"),
       posRegex("VER:3:SIN:.*")
     ),
     Arrays.asList(
