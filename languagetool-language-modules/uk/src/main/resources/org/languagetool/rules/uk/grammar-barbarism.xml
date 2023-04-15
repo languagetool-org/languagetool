@@ -443,6 +443,81 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="sliduye" name="Слідує">
+      <rule>
+        <pattern>
+          <marker>
+            <token>слідує</token>
+          </marker>
+          <token postag_regexp="yes" postag="verb.*inf.*"/>
+        </pattern>
+        <message>Правильно: <suggestion>треба</suggestion></message>
+        <suggestion>потрібно</suggestion>
+        <suggestion>варто</suggestion>
+        <example correction="треба|потрібно|варто"><marker>слідує</marker> притримати</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>як</token>
+            <token>слідує
+              <exception scope="next" regexp="yes">за|і?з|зі</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>як випливає</suggestion></message>
+        <suggestion>як слід</suggestion>
+        <suggestion>як треба</suggestion>
+        <suggestion>до ладу</suggestion>
+        <suggestion>до пуття</suggestion>
+        <example correction="як випливає|як слід|як треба|до ладу|до пуття">жити <marker>як слідує</marker></example>
+        <example>як слідує за вилковськими чоловіками</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>як</token>
+          <marker>
+            <token>слідує</token>
+          </marker>
+          <token regexp="yes">і?з|зі</token>  
+        </pattern>
+        <message>Правильно: <suggestion>випливає</suggestion></message>
+        <example correction="випливає">як <marker>слідує</marker> зі звіту</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>слідує</token>
+          </marker>
+          <token regexp="yes">і?з
+            <exception scope="next" postag_regexp="yes" postag="noun:inanim:.:v_rod:prop:geo.*"/>
+          </token>
+        </pattern>
+        <message>Правильно: <suggestion>випливає</suggestion></message>
+        <suggestion>походить</suggestion>
+        <suggestion>виникає</suggestion>
+        <suggestion>постає</suggestion>
+        <example correction="випливає|походить|виникає|постає">одне <marker>слідує</marker> з іншого</example>
+        <example>він слідує з Києва до Дніпра</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="tekuchist_vs_plynnist" name="Текучість і плинність">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">текучість</token>
+          </marker>
+          <token regexp="yes">часу|кадрів</token>
+        </pattern>
+        <message>Правильно: <suggestion>плинність</suggestion></message>
+        <example correction="плинність"><marker>текучості</marker> кадрів</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="NA_TAKIY_MOVI" name="На (такій) мові - (такою) мовою">
       <rule>
         <antipattern>
@@ -1590,11 +1665,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">і?з</token>
           <token>числа</token>
           <token postag_regexp="yes" postag="noun.*?v_rod.*|adj.*?pron.*"/>
-          <token inflected="yes" regexp="yes">виключати|виключити|виключа(вши|ючи)|виключивши</token>
+          <token inflected="yes" regexp="yes">виключати|виключити|виключаючи|виключивши</token>
         </pattern>
         <message>Правильно: <suggestion>з \3 вилучити</suggestion></message>
         <example correction="з переговірників вилучити"><marker>з числа переговірників виключили</marker> всіх інших</example>
         <example correction="з котрих вилучити"><marker>з числа котрих виключили</marker> всіх інших</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="vyklyuchaty_svitlo" name="Виключати світло">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">виключати|виключити|виключаючи|виключивши</token>
+          <token regexp="yes">світло|газ|телевізор|комп'ютер|прилад|мотор|фари|мікрофон|телефон|звук|відео</token>
+        </pattern>
+        <message>Правильно: <suggestion>вимикати</suggestion></message>
+        <suggestion>вимкнути</suggestion>
+        <example correction="вимикати|вимкнути"><marker>виключив світло</marker></example>
+        <example>виключити пункт</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">виключатися|виключитися</token>
+          <token regexp="yes">світло|газ|телевізор|комп'ютер|прилад|мотор|фари|мікрофон|телефон|звук|відео</token>
+        </pattern>
+        <message>Правильно: <suggestion>вимикатися</suggestion></message>
+        <suggestion>вимкнутися</suggestion>
+        <example correction="вимикатися|вимкнутися"><marker>виключилося світло</marker></example>
+        <example>виключити пункт</example>
       </rule>
     </rulegroup>
 
@@ -2317,18 +2416,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">роковий</token>
           </marker>
-          <token inflected="yes" regexp="yes">день|випадок|жінка</token>
+          <token inflected="yes" regexp="yes">день|випадок|жінка|помилка|пристрасть|кінець</token>
         </pattern>
         <message>Краще: <suggestion><match no="1">фатальний</match></suggestion></message>
         <suggestion><match no="1">нещасний</match></suggestion>
         <suggestion><match no="1">судний</match></suggestion>
         <example correction="фатальний|нещасний|судний">В той <marker>роковий</marker> день.</example>
       </rule>
+
       <rule>
         <pattern>
           <token inflected="yes">стати</token>
           <marker>
-            <token inflected="yes">роковий</token>
+            <token inflected="yes" postag_regexp="yes" postag="adj:.:v_oru.*">роковий</token>
           </marker>
         </pattern>
         <message>Краще: <suggestion><match no="2">фатальний</match></suggestion></message>

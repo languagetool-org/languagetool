@@ -3916,6 +3916,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="obumovlyuvaty_vs_zumovlyuvaty" name="Обумовлювати і зумовлювати">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">обумовлювати|обумовити|обумовивши|обумовлюючи</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_zna:rinanim.*"/>
+          <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">результат|ефект|наслідок|реакцію|інтерес|рівень|зміна|ризик|небезпека|необхідність|потреба|розвал|руйнування|відхід|труднощі|порушення|послаблення|прискорення|зростання|пришвидшення|сповільнення|підвищення|зниження</token>
+        </pattern>
+        <message>Правильно: <suggestion>зумовлювати</suggestion></message>
+        <suggestion>спричиняти</suggestion>
+        <example correction="зумовлювати|спричиняти"><marker>обумовив</marker> чіткий ефект</example>
+        <example>обумовив задвадння</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="pokaznyi_vs_pokazovyi" name="Показний і показовий">
+      <url>https://r2u.org.ua/check/rules/pokaznyi_vs_pokazovyi</url>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">показний</token>
+          </marker>
+          <token regexp="yes" inflected="yes">приклад|аргумент|розправа|жорстокість|судовий|суд|процес|результат|набір|випадок|факт|риса|характер|виступ|екзекуція</token>
+        </pattern>
+        <message>У значенні «прилюдний», «зразковий», «що вказує на щось» треба вживати: <suggestion>показовий</suggestion></message>
+        <example correction="показовий"><marker>показна</marker> жорстокість</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">показовий</token>
+          </marker>
+          <token regexp="yes" inflected="yes">багатство|побожність|релігійність|байдужість|відвертість|розкіш|любов|обурення|примирення|оптимізм|патріотизм|опозиційність|пафос|веселість|могутність|суворість|таємничість|бравура</token>
+        </pattern>
+        <!-- «привабливий» стосується тільки людей (і зовнішності - таких іменників вище немає -->
+        <message>У значенні «що привертає увагу» або «підкреслено демонстративний» треба вживати: <suggestion>показний</suggestion></message>
+        <example correction="показний"><marker>показове</marker> багатство</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="strasnyi_vs_prystrasnyi" name="Страсний і пристрасний">
       <antipattern>
