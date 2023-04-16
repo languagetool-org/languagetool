@@ -6823,6 +6823,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!-- haver + participi. mogut per "han després/desprès"-->
     <rulegroup id="haver_participi" name="haver + participi">
         <antipattern>
+            <token>i</token>
+            <token inflected="yes">haver</token>
+            <!-- verb moldre imporable -->
+            <token regexp="yes">molts|moltes|molta</token>
+        </antipattern>
+        <antipattern>
+            <token>i</token>
+            <token inflected="yes">haver</token>
+            <!-- verb moldre imporable -->
+            <token>molt</token>
+            <token><exception postag="D.*" postag_regexp="yes"/></token>
+        </antipattern>
+        <antipattern>
             <token postag="NC[MC][SN]000" postag_regexp="yes"><exception postag="RG|V.P.*|P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..SM." postag_regexp="yes"/>
         </antipattern>
