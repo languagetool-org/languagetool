@@ -11898,6 +11898,15 @@ O namorado dela era um ladrão.
         <example>Entram André Horta e Jonas, saem Chrien e Rafa53' - Golo do Leipzig!</example>
       </antipattern>
 
+      <!-- Quick fix: MARCOAGPINTO - 2023-04-16 -->
+      <antipattern>
+        <token postag='V.+' postag_regexp='yes'/>
+        <token regexp='yes'>tod[ao]s</token>
+        <token postag='(SPS00:)?[DP]...[PN].+' postag_regexp='yes'/>
+        <example>Acabará todos os seus dias apanhando o autocarro.</example>
+        <example>Acabará todas as suas manhãs apanhando o autocarro.</example>
+      </antipattern>
+
       <rule>
         <pattern>
           <token postag_regexp='yes' postag='V...3S.+' inflected='yes' regexp='yes'>&verbos_nao_impessoais;
