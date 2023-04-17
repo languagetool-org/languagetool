@@ -19483,6 +19483,19 @@ regexp case-insensitive maken: (?i)
                 <example correction="leerzaam">De voetafdruk is vooral <marker>educatief</marker> een sterk instrument.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="EEN_EN_ANDER" name="een en ander" tags="picky">
+            <rule>
+                <pattern>
+                    <token>een</token><token>en</token><token>ander</token>
+                </pattern>
+                <message>&vlotter_mess; 'deze', 'dit alles' of 'iets'.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="">Er beweegt dus <marker>een en ander</marker>.</example>
+                <example correction="">We weten het <marker>een en ander</marker> van Antoni.</example>
+                <example correction="">Ja, met paus Gregorius VII veranderde zo <marker>een en ander</marker>.</example>
+                <example correction="">Daarin stond wel <marker>een en ander</marker> ter zake in.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ENERZIJDS" name="enerzijds" tags="picky">
             <rule>
                 <pattern>
@@ -23351,19 +23364,6 @@ regexp case-insensitive maken: (?i)
                 <example correction="binnenkort">De dokter van spoed heeft haar goed onderzocht, en tot onze grote spijt kregen we te horen dat haar voortandje inderdaad niet meer te redden valt, maar dat het zodanig los zit dat het <marker>een dezer dagen</marker> wel spontaan zal uitvallen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EEN_EN_ANDER" name="een en ander" tags="picky">
-            <rule>
-                <pattern>
-                    <token>een</token><token>en</token><token>ander</token>
-                </pattern>
-                <message>&vlotter_mess; 'deze', 'dit alles' of 'iets'.</message>
-                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Er beweegt dus <marker>een en ander</marker>.</example>
-                <example correction="">We weten het <marker>een en ander</marker> van Antoni.</example>
-                <example correction="">Ja, met paus Gregorius VII veranderde zo <marker>een en ander</marker>.</example>
-                <example correction="">Daarin stond wel <marker>een en ander</marker> ter zake in.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="EEN_KLEIN_AANTAL" name="een klein aantal" tags="picky">
             <rule>
                 <pattern>
@@ -23424,12 +23424,25 @@ regexp case-insensitive maken: (?i)
         </rulegroup>
         <rulegroup id="ELIMINEREN" name="elimineren" tags="picky">
             <rule>
+                <antipattern>
+                    <token>te</token>
+                    <token>elimineren</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">elimineren</token>
                 </pattern>
-                <message>&vlotter_mess; 'uitschakelen' of 'verwijderen'.</message>
+                <message>&vlotter_mess; <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">uitschakelen</match></suggestion>, <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">wegwerken</match></suggestion> of <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">verwijderen</match></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="">Elk gedeelte is <marker>eliminerend</marker>.</example>
+                <example correction="uitgeschakeld|weggewerkt|verwijderd">Kinderziektes moeten worden <marker>geëlimineerd</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>te</token>
+                    <token>elimineren</token>
+                </pattern>
+                <message>&vlotter_mess; <suggestion>uit te schakelen</suggestion>, <suggestion>weg te werken</suggestion> of <suggestion>te verwijderen</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+                <example correction="uit te schakelen|weg te werken|te verwijderen">Hij schuwde niet om tegenstanders <marker>te elimineren</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ELKEEN" name="elkeen" tags="picky">
