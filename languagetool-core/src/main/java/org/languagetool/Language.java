@@ -328,6 +328,10 @@ public abstract class Language {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
             + "/" + getShortCode() + "/" + JLanguageTool.PATTERN_FILE);
+    if (dataBroker.ruleFileExists(getShortCode() + "/" + JLanguageTool.STYLE_FILE)) {
+      String customFile = dataBroker.getRulesDir() + "/" + getShortCode() + "/" + JLanguageTool.STYLE_FILE;
+      ruleFiles.add(customFile);
+    }
     if (dataBroker.ruleFileExists(getShortCode() + "/" + JLanguageTool.CUSTOM_PATTERN_FILE)) {
       String customFile = dataBroker.getRulesDir() + "/" + getShortCode() + "/" + JLanguageTool.CUSTOM_PATTERN_FILE;
       ruleFiles.add(customFile);
@@ -338,6 +342,10 @@ public abstract class Language {
               + "/" + JLanguageTool.PATTERN_FILE;
       if (dataBroker.ruleFileExists(fileName)) {
         ruleFiles.add(dataBroker.getRulesDir() + "/" + fileName);
+      }
+      String styleFileName = getShortCode() + "/" + getShortCodeWithCountryAndVariant() + "/" + JLanguageTool.STYLE_FILE;
+      if (dataBroker.ruleFileExists(styleFileName)) {
+        ruleFiles.add(dataBroker.getRulesDir() + "/" + styleFileName);
       }
       String premiumFileName = getShortCode() + "/" + getShortCodeWithCountryAndVariant() + "/grammar-premium.xml";
       if (dataBroker.ruleFileExists(premiumFileName)) {
