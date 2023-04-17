@@ -4009,22 +4009,30 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove" postag="V.P.*"/>
         </rule>
+        <!-- TODO: cafè molt, etc. -->
         <rule>
-            <!-- si encara no s'ha eliminat el participi -->
             <pattern>
+                <token regexp="yes">l'|els|les|n'</token>
                 <token inflected="yes">haver</token>
                 <marker>
-                    <and>
-                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">moldre</token>
-                        <token inflected="yes">molt</token>
-                    </and>
+                    <token postag="V.P.*" postag_regexp="yes" regexp="yes">molt|molts|molta|molts</token>
                 </marker>
             </pattern>
-            <disambig action="remove" postag="[DPR].*"/>
+            <disambig action="filter" postag="V.P.*"/>
         </rule>
         <rule>
             <pattern>
-                <token postag="[DPR].*" postag_regexp="yes" inflected="yes">molt</token>
+                <token inflected="yes">haver</token>
+                <marker>
+                    <token postag="V.P.*" postag_regexp="yes">molt</token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="V.P.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="[DPR].*" postag_regexp="yes" regexp="yes">molt|molts|molta|moltes</token>
             </pattern>
             <disambig action="remove" postag="V.P.*"/>
         </rule>
@@ -6822,19 +6830,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <!-- haver + participi. mogut per "han després/desprès"-->
     <rulegroup id="haver_participi" name="haver + participi">
-        <antipattern>
-            <token>i</token>
-            <token inflected="yes">haver</token>
-            <!-- verb moldre imporable -->
-            <token regexp="yes">molts|moltes|molta</token>
-        </antipattern>
-        <antipattern>
-            <token>i</token>
-            <token inflected="yes">haver</token>
-            <!-- verb moldre imporable -->
-            <token>molt</token>
-            <token><exception postag="D.*" postag_regexp="yes"/></token>
-        </antipattern>
         <antipattern>
             <token postag="NC[MC][SN]000" postag_regexp="yes"><exception postag="RG|V.P.*|P.*" postag_regexp="yes"/><exception inflected="yes">haver</exception></token>
             <token postag="V.P..SM." postag_regexp="yes"/>
@@ -12314,7 +12309,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <token>si</token>
             </marker>
-            <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"/>
+            <token postag="SENT_END|_PUNCT.*|C.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="N.*"/>
     </rule>
