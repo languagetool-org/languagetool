@@ -12280,15 +12280,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes" inflected="yes" skip="2">informar|independencia|depender|independiente|independientemente|dependiente|seguro|seguridad|acerca de|función|cuestión|pregunta|certeza|duda|dudar|idea</token>
+                    <token regexp="yes" inflected="yes" skip="2">informar|independencia|depender|independiente|independientemente|dependiente|seguro|seguridad|acerca de|función|cuestión|pregunta|certeza|duda|dudar|idea|o|dilema</token>
                     <token>de</token>
                     <token>si</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" skip="2">olvidar</token>
+                    <token inflected="yes" skip="3" regexp="yes">olvidar|hablar</token>
                     <token>de</token>
                     <token>si</token>
                     <example>Conseguirán que se olvide de si es de esta forma o de otra.</example>
+                    <example>Se empezaba a hablar en Vetusta de si él ponía o no ponía los ojos.</example>
                 </antipattern>
                 <antipattern>
                     <token>de</token>
@@ -12346,6 +12347,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Los principios éticos están determinados por el hecho de si una acción cualquiera podría tener una consecuencia dañina.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>si</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>si</token>
@@ -12458,6 +12465,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Si está en otra posición, sí, lógicamente.</example>
                     <example>Si está en otra posición, no, por supuesto.</example>
                 </antipattern>
+                <antipattern>
+                    <token skip="-1">si</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">si</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">si</token>
+                    <token regexp="yes">…|:</token>
+                    <example>Si puedo acompañarte un trocito...</example>
+                    <example>Si le digo:</example>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -12530,6 +12555,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>por</token>
                     <token regexp="yes">otra|otro</token>
                     <token regexp="yes">parte|lado</token>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token>por</token>
+                    <token>después</token>
+                    <token>de</token>
+                    <token>todo</token>
                 </antipattern>
                 <antipattern>
                     <token>si</token>
