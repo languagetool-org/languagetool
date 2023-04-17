@@ -8262,7 +8262,7 @@ regexp case-insensitive maken: (?i)
                     <marker>
                         <token>aan</token>
                         <token>de</token>
-                        <token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|BNW.*"/><exception>kant</exception></token>
+                        <token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|BNW.*"/><exception regexp="yes">kant|uit|call</exception></token>
                     </marker>
                 </pattern>
                 <message>Dit is spreektaal.</message>
@@ -10470,7 +10470,7 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[a-z]</token>
+                        <token spacebefore="yes" regexp="yes">[a-z]</token>
                         <token spacebefore="no">.</token>
                         <token regexp="yes" spacebefore="no">[a-z]</token>
                     </marker>
@@ -10486,7 +10486,7 @@ regexp case-insensitive maken: (?i)
             <rule>
                 <pattern>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes" postag="UNKNOWN">[a-z]{2,4}<exception regexp="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|cf|cfr|dhr|div|dr|dra|drs|ds|ed|em|enz|etc|evt|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mld|mln|mr|mrs|nl|no|nr|nrs|ong|onov|pag|plm|plv|resp|sr|vgl|vnl|vnw|voorz|vs|ww|zg|zgn</exception></token>
+                        <token case_sensitive="yes" regexp="yes" postag="UNKNOWN">[a-z]{2,6}<exception regexp="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|cf|cfr|dhr|div|dr|dra|drs|ds|ed|em|enz|etc|evt|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mld|mln|mr|mrs|nl|no|nr|nrs|ong|onov|pag|plm|plv|resp|sr|vgl|vnl|vnw|voorz|vs|ww|zg|zgn</exception></token>
                         <token spacebefore="no">.</token>
                     </marker>
                     <token spacebefore="yes" case_sensitive="yes" regexp="yes">[a-z].*</token>
@@ -11638,6 +11638,8 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="DUIZEND" name="Na duizend een spatie">
             <!-- 2014-08-20 TaalTik -->
             <rule>
+                <antipattern><token regexp="yes">[/].*duizend</token></antipattern>
+                <antipattern><token regexp="yes">duizend.*[/]</token></antipattern>
                 <pattern>
                     <token regexp="yes">.+duizend.*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd).*</token>
                 </pattern>
@@ -16136,7 +16138,7 @@ regexp case-insensitive maken: (?i)
                 <example correction="St.-Anna">Ik aanbid <marker>st. Anna</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AANHALINMG_Z_SPATIE" name="«»">
+        <rulegroup id="AANHALING_Z_SPATIE" name="«»">
             <rule>
                 <pattern>
                     <token/>
@@ -30243,7 +30245,7 @@ regexp case-insensitive maken: (?i)
         <rulegroup id="_2ASSIG" name="2assig/2-assig" >
             <rule>
                 <pattern>
-                    <token regexp="yes">^[0-9]+[a-z]*ige?$</token>
+                    <token case_sensitive="yes" regexp="yes">^[0-9]+[a-z]*ige?$</token>
                 </pattern>
                 <message>Tussen een cijfer en het ander woorddeel hoort een koppelteken.</message>
                 <suggestion><match no="1" regexp_match="(^[0-9]+)([a-zA-Z]+ige?)$" regexp_replace="$1-$2"/></suggestion>
@@ -41012,6 +41014,7 @@ regexp case-insensitive maken: (?i)
                 <antipattern><token>financieel</token><token>planner</token></antipattern>
                 <antipattern><token>financieel</token><token>coördinator</token></antipattern>
                 <antipattern><token>vol</token><token>bewondering</token></antipattern>
+                <antipattern><token>wetenschappelijk</token><token>onderzoeksassistent</token></antipattern>
                 <antipattern>
                     <token>een</token>
                     <token>ander</token>
