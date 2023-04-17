@@ -88,6 +88,7 @@ public class SentenceAnnotator {
         }
         String formattedSentence = formatedSentence(sentence, match);
         String formattedCorrectedSentence = formattedSentence;
+        String detectedErrorStr = "";
         System.out.println("=============================================");
         System.out.println("Sentence no. " + String.valueOf(numSentence));
         System.out.println("---------------------------------------------");
@@ -95,6 +96,7 @@ public class SentenceAnnotator {
         System.out.println("---------------------------------------------");
         if (match != null) {
           System.out.println(match.getMessage());
+          detectedErrorStr = sentence.substring(match.getErrorOffset(), match.getErrorOffset() + match.getErrorLength());
         }
         System.out.println(listSuggestions(match));
         System.out.println("---------------------------------------------");
@@ -120,6 +122,10 @@ public class SentenceAnnotator {
         case "g":
           done = true;
           errorType = "IG";
+          break;
+        case "i":
+          fpMatches.add(getMatchIdentifier(sentence, match));
+          errorType = "IW";
           break;
         case "f":
           fpMatches.add(getMatchIdentifier(sentence, match));
@@ -173,6 +179,8 @@ public class SentenceAnnotator {
               System.out.println("FN: replacement done.");
               errorType = "FN";
               suggestionApplied = replacement;
+              detectedErrorStr = toReplace;
+
             }
           }
         }
@@ -181,8 +189,8 @@ public class SentenceAnnotator {
           suggestionsTotal = match.getReplacements().get().size();
         }
         if (!errorType.isEmpty()) {
-          printOutputLine(cfg, numSentence, formattedSentence, formattedCorrectedSentence, errorType, suggestionApplied, suggestionPos,
-              suggestionsTotal, getFullId(match));
+          printOutputLine(cfg, numSentence, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
+              suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match));
           annotationsPerSentence++;
         }
       }
@@ -193,10 +201,10 @@ public class SentenceAnnotator {
   }
 
   static private void printOutputLine(AnnotatorConfig cfg, int numSentence, String errorSentence,
-      String correctedSentence, String errorType, String suggestion, int suggestionPos, int suggestionsTotal,
-      String ruleId) throws IOException {
+      String correctedSentence, String errorType, String detectedErrorStr, String suggestion, int suggestionPos,
+      int suggestionsTotal, String ruleId) throws IOException {
     cfg.out.write(String.valueOf(numSentence) + "\t" + errorSentence + "\t" + correctedSentence + "\t" + errorType
-        + "\t" + suggestion + "\t" + ruleId + "\t" + String.valueOf(suggestionPos) + "\t"
+        + "\t" + detectedErrorStr + "\t" + suggestion + "\t" + ruleId + "\t" + String.valueOf(suggestionPos) + "\t"
         + String.valueOf(suggestionsTotal) + "\n");
   }
 
@@ -232,6 +240,7 @@ public class SentenceAnnotator {
       sb.append("NO MATCHES");
       return sb.toString();
     }
+    sb.append("(I)gnore_Word ");
     sb.append("(F)P ");
     if (match.getReplacements().get().size() > 0) {
       sb.append("SUGGESTIONS: ");
