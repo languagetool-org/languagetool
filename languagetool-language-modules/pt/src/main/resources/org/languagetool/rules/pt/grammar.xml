@@ -22806,17 +22806,6 @@ O namorado dela era um ladrão.
     </rulegroup>
 
 
-    <rule id='ANTES_PREFIRO' name="Prefiro">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-        <token>antes</token>
-        <token inflected='yes'>preferir</token>
-      </pattern>
-      <message>Pleonasmo. Substitua por:</message>
-      <suggestion>\2</suggestion>
-      <example correction="prefiro">Eu <marker>antes prefiro</marker> a outra solução.</example>
-    </rule>
-
     <rule id='CEREJAL_DE_CEREJEIRAS' name="Cerejal">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -22869,122 +22858,26 @@ O namorado dela era um ladrão.
       <example correction="Há n segundos"><marker>Há n segundos atrás</marker>.</example>
     </rule>
 
-    <rule id='HEMORRAGIA_DE_SANGUE' name="Hemorragia">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-        <token regexp='yes'>hemorragias?</token>
-        <token>de</token>
-        <token>sangue</token>
-      </pattern>
-      <message>Pleonasmo. Substitua por:</message>
-      <suggestion>hemorragia</suggestion>
-      <example correction="hemorragia">Uma <marker>hemorragia de sangue</marker> pode ser fatal.</example>
-    </rule>
 
-    <!-- IDA PARA LÁ ida -->
-    <rule id='IDA_PARA_LÁ' name="Ida">
+    <rule id='MAIS_MELHOR' name="Pleonasmo: Mais melhor → Melhor">
+      <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-04-17 (Checked/Enhanced) (2-MAR-2023+) -->
+      <!--      
+      Esta escola é mais melhor. → Esta escola é melhor.
+      Estas escolas são mais melhores. → Estas escolas são melhores.
+      -->
       <pattern>
-        <token>ida</token>
-        <token regexp='yes'>pa?ra</token>
-        <token>lá</token>
-      </pattern>
-      <message>Pleonasmo. Substitua por:</message>
-      <suggestion>ida</suggestion>
-      <example correction="ida">A minha <marker>ida para lá</marker> correu bem.</example>
-    </rule>
-
-    <rulegroup id='MÃE_E_PAI' name="pais">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <short>Redundância no neutro</short>
-      <rule>
-        <pattern>
-          <token>a</token>
-          <token>minha</token>
-          <token>mãe</token>
-          <token>e</token>
-          <token>o</token>
-          <token>meu</token>
-          <token>pai</token>
-        </pattern>
-        <message>Redundância no neutro. Substitua por <suggestion>os meus pais</suggestion>.</message>
-        <example correction="os meus pais">Quero <marker>a minha mãe e o meu pai</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>a</token>
-          <token>minha</token>
-          <token>mãe</token>
-          <token>e</token>
-          <token>pai</token>
-        </pattern>
-        <message>Redundância no neutro. Substitua por <suggestion>os meus pais</suggestion>.</message>
-        <example correction="os meus pais">Quero <marker>a minha mãe e pai</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>à</token>
-          <token>minha</token>
-          <token>mãe</token>
-          <token>e</token>
-          <token>ao</token>
-          <token>meu</token>
-          <token>pai</token>
-        </pattern>
-        <message>Redundância no neutro. Substitua por <suggestion>aos meus pais</suggestion>.</message>
-        <example correction="aos meus pais">Obrigado <marker>à minha mãe e ao meu pai</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>à</token>
-          <token>minha</token>
-          <token>mãe</token>
-          <token>e</token>
-          <token>pai</token>
-        </pattern>
-        <message>Redundância no neutro. Substitua por <suggestion>aos meus pais</suggestion>.</message>
-        <example correction="aos meus pais">Obrigado <marker>à minha mãe e pai</marker>.</example>
-      </rule>
-    </rulegroup>
-
-    <rule id='MAIS_MELHOR' name="Melhor">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-        <token>
-          <exception regexp='yes'>quanto[ao]s?</exception></token>
+        <token><exception regexp='yes'>quant[ao]s?</exception></token>
         <marker>
           <token>mais</token>
-          <token regexp='yes'>melhor(?:es)?</token>
+          <token regexp='yes'>melhor(es)?</token>
         </marker>
       </pattern>
       <message>Pleonasmo. Substitua por:</message>
-      <suggestion>melhor</suggestion>
+      <suggestion>\3</suggestion>
       <example correction="melhor">Esta escola é <marker>mais melhor</marker>.</example>
+      <example correction="melhores">Estas escolas são <marker>mais melhores</marker>.</example>
     </rule>
 
-    <rule id='NO_TÍTULO_EM_EPÍGRAFE' name="Em epígrafe">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-        <token>no</token>
-        <token>título</token>
-        <token>em</token>
-        <token>epígrafe</token>
-      </pattern>
-      <message>Pleonasmo. Substitua por:</message>
-      <suggestion>em epígrafe</suggestion>
-      <example correction="em epígrafe">Tal como aparece <marker>no título em epígrafe</marker>.</example>
-    </rule>
-
-    <rule id='QUADRILHA_DE_LADRÕES' name="Quadrilha">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-        <token regexp='yes'>quadrilhas?</token>
-        <token>de</token>
-        <token>ladrões</token>
-      </pattern>
-      <message>Pleonasmo. Substitua por:</message>
-      <suggestion>quadrilha</suggestion>
-      <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
-    </rule>
 
     <rulegroup id='BEBÉ-S_RECÉM-NASCIDO-S' name="recém-nascido(s)">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
