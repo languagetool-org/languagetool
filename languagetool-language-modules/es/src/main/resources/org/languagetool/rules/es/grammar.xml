@@ -12290,6 +12290,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sí">En <marker>si</marker> mismo no tiene misterio.</example>
                 <example correction="sí">Se olvidó de <marker>si</marker> mismo.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>por</token>
+                    <marker>
+                        <token case_sensitive="yes">si</token>
+                    </marker>
+                    <token regexp="yes">solo|sola|solos|solas</token>
+                </pattern>
+                <message>Como pronombre personal reflexivo, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">No se puede valer por <marker>si</marker> solo.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token regexp="yes" inflected="yes" skip="2">informar|independencia|depender|independiente|independientemente|dependiente|seguro|seguridad|acerca de|función|cuestión|pregunta|certeza|duda|dudar|idea|o|dilema</token>
