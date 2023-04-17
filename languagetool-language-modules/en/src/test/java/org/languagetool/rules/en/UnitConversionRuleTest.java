@@ -65,6 +65,8 @@ public class UnitConversionRuleTest {
     helper.assertMatches("My new apartment is 500 sq ft.", 1, "46.45 m²", rule, lt);
     helper.assertMatches("It is 100 degrees Fahrenheit outside.", 1, "37.78 °C", rule, lt);
     helper.assertMatches("It is 100 °F outside.", 1, "37.78 °C", rule, lt);
+    helper.assertMatches("It is -22 °F outside.", 1, "-30 °C", rule, lt);
+    helper.assertMatches("It is -22 degrees Fahrenheit outside.", 1, "-30 °C", rule, lt);
 
     // https://github.com/languagetool-org/languagetool/issues/2357
     helper.assertMatches("Millions watched the 1989's Superbowl.", 0, null, rule, lt);
