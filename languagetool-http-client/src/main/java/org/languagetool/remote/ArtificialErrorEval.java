@@ -39,6 +39,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -558,6 +560,7 @@ public class ArtificialErrorEval {
       }
       
       resultsString.append(printTimeFromStart(start, ""));
+      resultsString.append("\n" + printCurrentDateTime() + "\n");
       appendToFile(verboseOutputFilename, resultsString.toString());
       
       if (printSummaryDetails) {
@@ -822,5 +825,11 @@ public class ArtificialErrorEval {
     } catch (InterruptedException ex) {
       Thread.currentThread().interrupt();
     }
+  }
+
+  private static String printCurrentDateTime() {
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
+    return dtf.format(now);
   }
 }
