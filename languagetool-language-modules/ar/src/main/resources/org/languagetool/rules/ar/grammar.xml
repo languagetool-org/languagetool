@@ -65,6 +65,7 @@ USA
     <!ENTITY wrong_masculine "كتف|فخذ|ساق|ريح|بئر|يمين|ضبع|سن">
     ]>
 
+<!--suppress ALL -->
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         lang="ar"
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -7336,26 +7337,6 @@ END RULEGROUP Masdar errors
     <example correction="إلى فعل*" type="incorrect"> بادر <marker>لفعل</marker> / بفعل الشيء </example>
     <example type="correct"> بادرت إلى الصدقة </example>
   </rule>
-  <!-- trans_407_bAdr_l_b بادَرَ ل | ب -->
-  <rule id="trans_407_bAdr_l_b_2" name="بادر ل|ب">
-    <pattern>
-      <token inflected="yes" skip="1">بَادَرَ</token>
-      <marker>
-        <or>
-         <token regexp="yes">&forms_lih;</token>
-         <token regexp="yes">&forms_bih;</token>
-        </or>
-      </marker>
-    </pattern>
-    <message>يفضل أن يقال:
-   <suggestion><match no="2" postag="PR.*">إلى</match></suggestion>
-</message>
-    <example correction="إليها" type="incorrect"> بادر <marker>لها</marker> / بفعل الشيء </example>
-    <example correction="إليها" type="incorrect"> بادر <marker>بها</marker> / بفعل الشيء </example>
-
-    <example type="correct"> بادرت إلى الصدقة </example>
-  </rule>
-
  <!-- trans_411_tHkm_b تَحَكَّمَ ب -->
   <rule id="trans_411_tHkm_b" name="تحكم ب">
     <pattern>
@@ -7578,36 +7559,6 @@ END RULEGROUP Masdar errors
 </message>
     <example correction="أنه" type="incorrect"> ذكر <marker>بأنه</marker> مريض </example>
     <example type="correct"> ذكرت أنه مريض </example>
-  </rule>
-<!-- trans_442_rgbt_shdydt_l رَغْبَةٌ شديدة ل -->
-  <rule id="trans_442_rgbt_shdydt_l" name="رغبة شديدة ل">
-    <pattern>
-      <token inflected="yes" skip="1">رغبة</token>
-      <marker>
-      <token postag="N.*;.*;-L.?" postag_regexp="yes"/>
-      </marker>
-    </pattern>
-    <message>يفضل أن يقال:
-   <suggestion>في&nbsp;<match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
-   <suggestion><match no="2" regexp_match="^ل" regexp_replace="ب"/></suggestion>
-</message>
-    <example correction="في كتابة|بكتابة" type="incorrect"> لديه رغبة شديدة <marker>لكتابة</marker> الشعر </example>
-    <example type="correct"> لديه رغبة شديدة في الكتابة </example>
-  </rule>
-<!-- trans_442_rgbt_shdydt_l رَغْبَةٌ شديدة ل -->
-  <rule id="trans_442_rgbt_shdydt_l_2" name="رغبة شديدة ل">
-    <pattern>
-      <token inflected="yes" skip="1">رغبة</token>
-      <marker>
-      <token regexp="yes">&forms_lih;</token>
-      </marker>
-    </pattern>
-    <message>يفضل أن يقال:
-   <suggestion><match no="2" postag="PR.*">ب</match></suggestion>
-   <suggestion><match no="2" postag="PR.*">في</match></suggestion>
-</message>
-    <example correction="بها|فيها" type="incorrect"> لديه رغبة شديدة <marker>لها</marker> الشعر </example>
-    <example type="correct">لديه رغبة شديدة فيها</example>
   </rule>
  <!-- trans_443_zHf_Ela زَحَفَ على -->
   <rule id="trans_443_zHf_Ela" name="زحف على">
