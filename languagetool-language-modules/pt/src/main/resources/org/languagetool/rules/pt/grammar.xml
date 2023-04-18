@@ -8559,6 +8559,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             <exception scope='next'>,</exception></token>
           <token postag='V.[CIS].3S0' postag_regexp='yes'/>
         </antipattern>
+        <antipattern>
+          <token>nós</token>
+          <token regexp='yes'>aqui|lá|ali</token>
+          <token>fora</token>
+          <example>Nós aqui fora não concordamos</example>
+        </antipattern>
         <pattern>
          <marker>
           <token>nós</token>
@@ -10147,6 +10153,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <antipattern>
           <token>ambos</token>
           <token>nós</token>
+        </antipattern>
+        <antipattern>
+          <token postag='RG|_PUNCT' postag_regexp='yes'/>
+          <token postag_regexp='yes' postag='D...S.+'/>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'/>
+          <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+          <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
+          <token postag='_PUNCT|SENT_END' postag_regexp='yes'/>
+          <example>mora, distante, onde meu ser esqueço, parte</example>
+        </antipattern>
+        <antipattern>
+           <token postag='N..P.+|A...P.+' postag_regexp='yes' skip='3'/>
+           <token postag_regexp='yes' postag='D...S.+'/>
+           <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'/>
+           <token min="0" max="3" postag='R.+' postag_regexp='yes'/>
+           <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'/>
+           <example>As nações de todo o mundo estão a falhar</example>
         </antipattern>
         <pattern>
           <!-- MARCOAGPINTO 2020-05-09 *START* -->
