@@ -45,10 +45,14 @@ import com.sun.star.document.XDocumentEventListener;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
+import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
+import com.sun.star.linguistic2.XProofreadingIterator;
+import com.sun.star.text.XFlatParagraphIteratorProvider;
+import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -149,7 +153,7 @@ class SingleDocument {
     if (config != null) {
       setConfigValues(config);
     }
-    resetResultCache();
+    resetResultCache(true);
     ignoredMatches = new IgnoredMatches();
     permanentIgnoredMatches = new IgnoredMatches();
     docCache = new DocumentCache(docType);
@@ -617,8 +621,8 @@ class SingleDocument {
   /** 
    * Reset all caches of the document
    */
-  void resetResultCache() {
-    for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
+  void resetResultCache(boolean withSingleParagraph) {
+    for (int i = withSingleParagraph ? 0 : 1; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
       paragraphsCache.get(i).removeAll();
     }
   }
@@ -1293,6 +1297,17 @@ class SingleDocument {
             error.aSuggestions = suggestions.toArray(new String[suggestions.size()]);
           }
         }
+      }
+    }
+  }
+  
+  public void resetCheck(XProofreadingIterator xProofreadingIterator) {
+    if (docType == DocumentType.WRITER) {
+      try {
+        flatPara.setFlatParasAsChecked(false);;
+        xProofreadingIterator.startProofreading(xComponent, UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xComponent));
+      } catch (Throwable t) {
+        MessageHandler.showError(t);
       }
     }
   }

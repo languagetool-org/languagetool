@@ -240,7 +240,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
         }
         if (!isSame) {
-          document.resetResultCache();
+          document.resetResultCache(true);
         }
       }
     }

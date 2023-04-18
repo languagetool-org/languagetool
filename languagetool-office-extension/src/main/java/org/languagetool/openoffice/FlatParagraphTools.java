@@ -681,7 +681,7 @@ public class FlatParagraphTools {
   /**
    * Marks all paragraphs as checked
    */
-  public void setFlatParasAsChecked() {
+  public void setFlatParasAsChecked(boolean checked) {
     OfficeTools.waitForLO();
     isBusy++;
     try {
@@ -694,12 +694,12 @@ public class FlatParagraphTools {
       }
       XFlatParagraph tmpFlatPara = xFlatPara;
       while (tmpFlatPara != null) {
-        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, checked);
         tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
       }
       tmpFlatPara = xFlatPara;
       while (tmpFlatPara != null) {
-        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, checked);
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
     } catch (Throwable t) {

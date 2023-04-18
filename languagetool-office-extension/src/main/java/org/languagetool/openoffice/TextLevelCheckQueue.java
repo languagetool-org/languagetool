@@ -199,6 +199,7 @@ public class TextLevelCheckQueue {
       if (debugMode) {
         MessageHandler.printToLogFile("TextLevelCheckQueue: setReset: reset queue");
       }
+      textRuleQueue.clear();
       textRuleQueue.add(queueEntry);
     }
     wakeupQueue();
@@ -601,14 +602,20 @@ public class TextLevelCheckQueue {
                   lastStart = null;
                   lastEnd = null;
                   lastLanguage = null;
-//                  queueWaits = true;
+                  queueIterator = null;
                   interruptCheck = false;
+//                  queueWaits = true;
 //                  queueWakeup.wait();
-                  continue;
+//                  continue;
+                  queueRuns = false;
+                  queueIterator = null;
+                  multiDocHandler.resetResultCaches(false);
+                  return;
                 } catch (Throwable e) {
                   MessageHandler.showError(e);
                   queueRuns = false;
                   queueIterator = null;
+                  wakeupQueue();
                   return;
                 }
 //              }
