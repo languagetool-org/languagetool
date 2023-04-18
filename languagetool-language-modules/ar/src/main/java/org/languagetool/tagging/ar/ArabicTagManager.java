@@ -338,6 +338,15 @@ public class ArabicTagManager {
     return isNoun(postag) && (getFlag(postag, "PRONOUN") == 'L');
   }
 
+  /**
+   * @return true if a word has procletics like conj and jar
+   */
+  public boolean isBreak(String postag) {
+    return ((isStopWord(postag) && !hasConjunction(postag)) // a stopword without conjunction
+      || (isNoun(postag) && (!hasJar(postag) && !hasConjunction(postag))) // a noun without conjucntion and jar
+      || (isVerb(postag) && (!hasConjunction(postag)))); // a verb without conjucntion and istiqbal
+
+  }
 
   /**
    * @return true if the postag has a Jar
@@ -657,7 +666,6 @@ public class ArabicTagManager {
       return postag;
     }
     return newposTag;
-
   }
 
 }
