@@ -2,7 +2,9 @@
 
 ## 6.2-SNAPSHOT (release planned for 2023-06-28)
 
-...
+#### Arabic
+  * add ArabicTransVerbDirectToIndirectRule, ArabicTransVerbIndirectToDirectRule, ArabicTransVerbIndirectToIndirectRule
+  * add enclitics and proclitics tags
 
 
 ## 6.1 (2023-03-28)
