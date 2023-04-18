@@ -21,7 +21,10 @@ package org.languagetool.openoffice;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import javax.swing.JDialog;
@@ -29,7 +32,10 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.openoffice.OfficeTools.OfficeProductInfo;
 import org.languagetool.tools.Tools;
+
+import com.sun.star.uno.XComponentContext;
 
 /**
  * Writes Messages to screen or log-file
@@ -44,18 +50,30 @@ class MessageHandler {
   
   private static boolean testMode;
   
-  MessageHandler() {
-    initLogFile();
+  MessageHandler(XComponentContext xContext) {
+    initLogFile(xContext);
   }
 
   /**
    * Initialize log-file
    */
-  private static void initLogFile() {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath()))) {
+  private static void initLogFile(XComponentContext xContext) {
+    try (OutputStream stream = new FileOutputStream(OfficeTools.getLogFilePath(xContext));
+        OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
+        BufferedWriter br = new BufferedWriter(writer)
+        ) {
       Date date = new Date();
-      bw.write("LT office integration log from " + date + logLineBreak);
-      bw.write(OfficeTools.getJavaInformation() + logLineBreak);
+      OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
+      writer.write("LT office integration log from " + date + logLineBreak + logLineBreak);
+      writer.write("LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ", " 
+          + JLanguageTool.GIT_SHORT_ID + ")" + logLineBreak);
+      writer.write("OS: " + System.getProperty("os.name") + " " 
+          + System.getProperty("os.version") + " on " + System.getProperty("os.arch") + logLineBreak);
+      if (officeInfo != null) { 
+        writer.write(officeInfo.ooName + " " + officeInfo.ooVersion + officeInfo.ooExtension
+            + " (" + officeInfo.ooVendor +"), " + officeInfo.ooLocale + logLineBreak);
+      }
+      writer.write(OfficeTools.getJavaInformation() + logLineBreak + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
@@ -64,8 +82,8 @@ class MessageHandler {
   /**
    * Initialize MessageHandler
    */
-  static void init() {
-    initLogFile();
+  static void init(XComponentContext xContext) {
+    initLogFile(xContext);
   }
 
   /**
@@ -93,8 +111,11 @@ class MessageHandler {
    * Write to log-file
    */
   static void printToLogFile(String str) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath(), true))) {
-      bw.write(str + logLineBreak);
+    try (OutputStream stream = new FileOutputStream(OfficeTools.getLogFilePath(), true);
+        OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_8);
+        BufferedWriter br = new BufferedWriter(writer)
+        ) {
+      writer.write(str + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
@@ -182,6 +203,7 @@ class MessageHandler {
       JOptionPane pane = new JOptionPane(text, JOptionPane.INFORMATION_MESSAGE);
       dialog = pane.createDialog(null, UIManager.getString("OptionPane.messageDialogTitle", null));
       dialog.setModal(false);
+      dialog.setAutoRequestFocus(true);
       dialog.setAlwaysOnTop(true);
       dialog.addWindowFocusListener(new WindowFocusListener() {
         @Override

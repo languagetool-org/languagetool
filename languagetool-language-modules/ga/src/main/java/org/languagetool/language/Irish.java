@@ -24,6 +24,7 @@ import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ga.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ga.IrishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -117,7 +118,7 @@ public class Irish extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new IrishSynthesizer(this);
+    return IrishSynthesizer.INSTANCE;
   }
 
   @Override
@@ -161,4 +162,9 @@ public class Irish extends Language implements AutoCloseable {
     return super.getPriorityForId(id);
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikIrishSpellerRule(messages, this, null, null);
+  }
 }

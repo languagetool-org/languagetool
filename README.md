@@ -1,7 +1,7 @@
 ## LanguageTool
 
-**LanguageTool** is an Open Source proofreading software for English, French, German,
-Polish, Russian, and [more than 20 other languages](https://languagetool.org/languages/).
+**LanguageTool** is an Open Source proofreading software for English, Spanish, French, German,
+Portuguese, Polish, Dutch, and [more than 20 other languages](https://languagetool.org/languages/).
 It finds many errors that a simple spell checker cannot detect.
 
 * **[Jobs at LanguageTool](https://languagetool.org/careers)**
@@ -14,7 +14,7 @@ For more information, please see our homepage at https://languagetool.org,
 [this README](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/README.md),
 and [CHANGES](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md).
 
-LanguageTool is freely available under the LGPL 2.1 or later.
+The LanguageTool core (this repo) is freely available under the LGPL 2.1 or later.
 
 ## Docker
 
@@ -28,9 +28,6 @@ Try one of the following projects for a community-contributed Docker file:
 [The development overview](https://dev.languagetool.org/development-overview) describes
 how you can contribute error detection rules.
 
-See ['easy fix' issues](https://github.com/languagetool-org/languagetool/issues?q=is%3Aopen+is%3Aissue+label%3A%22easy+fix%22)
-for issues to get started.
-
 For more technical details, see [our dev pages](https://dev.languagetool.org).
 
 ## Scripted installation and building
@@ -39,7 +36,7 @@ To install or build using a script, simply type:
 curl -L https://raw.githubusercontent.com/languagetool-org/languagetool/master/install.sh | sudo bash <options>
 ```
 
-If you wish to have more options, download the install.sh script. Usage options follow:
+If you wish to have more options, download the `install.sh` script. Usage options follow:
 
 ```
 sudo bash install.sh <options>
@@ -72,7 +69,7 @@ Commands:
 
 Before start: you will need to clone from GitHub and install Java 8 and Apache Maven.
 
-Warning: a complete clone requires downloading more than 360 MB and needs more than 500 MB on disk.
+Warning: a complete clone requires downloading more than 500 MB and needs more than 1500 MB on disk.
 This can be reduced if you only need the last few revisions of the master branch
 by creating a shallow clone:
 
@@ -100,6 +97,15 @@ Test the result in `languagetool-office-extension/target`, rename the `*.zip` to
 
 Now you can use the bleeding edge development copy of LanguageTool `*.jar` files, be aware that it might contain regressions.
 
+
+### How to run under Mac M1 or M2
+
+1. Install Brew for Rosetta: `arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`
+2. Install openjdk for Rosetta: `arch -x86_64 brew install openjdk`
+3. Install Maven for Rosetta: `arch -x86_64 brew install maven`
+4. Now run build scripts
+
 ### License
 
-Unless otherwise noted, this software is distributed under the LGPL, see file [COPYING.txt](https://github.com/languagetool-org/languagetool/blob/master/COPYING.txt).
+Unless otherwise noted, this software - the LanguageTool core - is distributed under the LGPL, see
+file [COPYING.txt](https://github.com/languagetool-org/languagetool/blob/master/COPYING.txt).

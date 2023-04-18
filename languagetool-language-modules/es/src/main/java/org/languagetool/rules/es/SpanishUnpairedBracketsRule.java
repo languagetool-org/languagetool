@@ -65,7 +65,8 @@ public class SpanishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       return false;
     }
     
-    if (tokenStr.equals("’") && (tokens[i].hasPosTagStartingWith("N") || tokens[i].hasPosTagStartingWith("A"))  ) {
+    if ((tokenStr.equals("’") || tokenStr.equals("'"))
+        && (tokens[i].hasPosTagStartingWith("N") || tokens[i].hasPosTagStartingWith("A"))) {
       return false;
     }
     

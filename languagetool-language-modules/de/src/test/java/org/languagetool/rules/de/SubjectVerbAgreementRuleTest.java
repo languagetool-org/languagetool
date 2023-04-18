@@ -148,6 +148,8 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectSingularVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "Abschluss und Höhepunkt ist der Festumzug.",
+        "Abschluss und Höhepunkt ist der Festumzug, der im Oktober stattfindet.",
         "All diesen Stadtteilen ist die Nähe zum Hamburger Hafen und zu den Industrie- und Gewerbegebieten gemein.",
         "All diesen Bereichen ist gemeinsam, dass sie unterfinanziert sind.",
         "Nicht entmutigen lassen, nur weil Sie kein Genie sind.",
@@ -156,6 +158,9 @@ public class SubjectVerbAgreementRuleTest {
         "Die Katze ist schön.",
         "Die eine Katze ist schön.",
         "Eine Katze ist schön.",
+        "Für Tunesiens Tourismusindustrie mit seinen Stränden, Oasen und antiken Kulturschätzen ist das Attentat ein verheerender Rückschlag.",
+        "Man darf jedoch auch nicht glauben, weil die Brustvergrößerungscremes ein Allheilmittel sind, jedoch sind Sie optimal um Ihr Selbstvertrauen zu erhöhen",
+        "Die Rechte der Kinder sind universell.",
         "Beiden Filmen war kein Erfolg beschieden.",
         "In einigen Fällen ist der vermeintliche Beschützer schwach.",
         "Was Wasser für die Fische ist.",
@@ -312,7 +317,8 @@ public class SubjectVerbAgreementRuleTest {
         "Das bedeutendste Bauwerk und Wahrzeichen der Stadt ist die ehemalige Klosterkirche des Klosters Hofen.",
         "Das saisonale Obst und Gemüse ist köstlich und oft deutlich günstiger als in der Stadt.",
         "Gründer und Leiter des Zentrums ist der Rabbiner Marvin Hier, sein Stellvertreter ist Rabbi Abraham Cooper.",
-        "Dank unserer Kunden, Freunde, Partner und unserer Mitarbeiter ist Alpenwahnsinn zur Heimatadresse für schöne Trachtenmode geworden."
+        "Dank unserer Kunden, Freunde, Partner und unserer Mitarbeiter ist Alpenwahnsinn zur Heimatadresse für schöne Trachtenmode geworden.",
+        "Laut seiner Recherche und mehreren Berichten der Welt ist die Zahl zu niedrig gegriffen."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
@@ -341,6 +347,10 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectPluralVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "Wenn Sie kein Teil der Lösung sind, sind Sie ein Teil des Problems.",
+        "Er bemerkte, dass Experimente nicht gerade sein Ding sind",
+        "Die meisten der Spieler sind nicht vermögend",
+        "Wie viel Prozent der Menschen sind total bescheuert?",
         "Glaubt wirklich jemand, dass gute Fotos keine Arbeit sind?",
         "Zwei Schülern war aufgefallen, dass man im Fernsehen dazu nichts mehr sieht.",
         "Auch die Reste eines sehr großen Insektenfressers sind unter den Fossilien.",
@@ -431,7 +441,9 @@ public class SubjectVerbAgreementRuleTest {
         "Auch Polizisten zu Fuß sind unterwegs.",
         "Julia sagte, dass Vater und Mutter zu Hause sind.",
         "Damit müssen sie zurechtkommen, wenn Kinder zu Hause sind.",
-        "Die Züge vor Ort sind nicht klimatisiert."
+        "Auch Studien zu Zink sind vielversprechend.",
+        "Die Züge vor Ort sind nicht klimatisiert.",
+        "Ich verspreche dir, dass wir ein tolles Team sind."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
@@ -458,7 +470,8 @@ public class SubjectVerbAgreementRuleTest {
         "1,5 Pfund ist nicht genug.",  // ugs.
         "1,5 Pfund sind nicht genug.",
         "Hier ist sowohl Anhalten wie Parken verboten.",
-        "Hier sind sowohl Anhalten wie Parken verboten."
+        "Hier sind sowohl Anhalten wie Parken verboten.",
+        "Der Eifer der Männer und Frauen ist enorm."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

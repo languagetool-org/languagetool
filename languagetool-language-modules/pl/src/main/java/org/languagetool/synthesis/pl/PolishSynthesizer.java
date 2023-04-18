@@ -18,6 +18,16 @@
  */
 package org.languagetool.synthesis.pl;
 
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.SynthesizerTools;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -27,17 +37,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.synthesis.BaseSynthesizer;
-import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.SynthesizerTools;
 
 /**
  * Polish word form synthesizer. Based on project Morfologik.
@@ -57,8 +56,14 @@ public class PolishSynthesizer extends BaseSynthesizer implements Synthesizer {
 
   private List<String> possibleTags;
 
+  public static final PolishSynthesizer INSTANCE = new PolishSynthesizer();
+
+  /** @deprecated use {@link #INSTANCE} */
   public PolishSynthesizer(Language lang) {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+    this();
+  }
+  private PolishSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "pl");
   }
 
   @Override

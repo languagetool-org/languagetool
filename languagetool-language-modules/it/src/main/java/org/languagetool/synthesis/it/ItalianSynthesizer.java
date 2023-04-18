@@ -22,11 +22,16 @@ import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
- * French word form synthesizer.
+ * Italian word form synthesizer.
  */
 public class ItalianSynthesizer extends BaseSynthesizer {
 
+  public static final ItalianSynthesizer INSTANCE = new ItalianSynthesizer();
+  /** @deprecated use {@link #INSTANCE} */
   public ItalianSynthesizer(Language lang) {
-    super("/it/italian_synth.dict", "/it/italian_tags.txt", lang);
+    this();
+  }
+  private ItalianSynthesizer() {
+    super("/it/italian_synth.dict", "/it/italian_tags.txt", "it");
   }
 }

@@ -26,8 +26,16 @@ Filter for remote matches.
 To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
 -->
 <!DOCTYPE rules [
+<!ENTITY unites_temps "matinée|journée|an|année|veille|décade|décennie|h(eure)?|j(our)?|lustre|millénaire|min(ute)?|mois|quadrimestre|seconde|semaine|semestre|siècle|trimestre|secs?">
 <!ENTITY unites_de_mesure "min|(centi|milli|déci|déca|hecto|kilo|atto|exa|mega|giga|tera|peta|zetta|yotta|micro|nano|pico|femto|zepto|yocto)?[mètre|gramme|litre]|degré|[mchkd][wglm]|dag|dal|dam|volt|watt|hz|hertz|bits?|ms|s|cs|cc|dB|go|kw">
 <!ENTITY monnaies "afghani|rand|lek|d[ie]nar|euro|kwanza|dollar|florin|riyal|peso|dram|manat|taka|rouble|franc|r(h)?oupie|boliviano|mark|pula|couronne|real|(bulgarian)? lev|riel|peso|escudo|yuan|livre|won|kuna|colon|dirham|birr|dalasi|lari|ghana cedi|quetzal|gourde|lempira|forint|rupiah|rial|yen|tenge|shilling|som|kip|rans|loti|lats|litas|pataca|malagasy|ringgit|kwacha|rufiyaa|ouguija|leu|tugrik|metical|kyat|rand|cordoba|naira|soum|balboa|kina|guarani|(nouveau)? sol|zloty|tala|dobra|leone|lilangeni|somoni|baht|pa'anga|manat|hryvnia|vatu|bolivar|dong|kwacha">
+        <!ENTITY couleur_invariable "abricot|absinthe|acajou|acier|océan|aigue-marine|albâtre|amadou|amande|amarante|ambre|améthyste|andrinople|anis|anthracite|ardoise|argent|argile|asperge|aubergine|auburn|aurore|avocat|azur|banane|basane|basque|bistre|bitume|bonbon|bordeaux|bourgogne|bouteille|brique|bronze|bulle|cacao|cachou|café|canari|cannelle|capucine|caramel|carmin|carmélite|carotte|cassis|cerise|chair|chamois|champagne|chaudron|chocolat|châtaigne|ciel|citron|cognac|coquelicot|corail|crevette|crème|cuivre|cyclamen|céladon|denim|ébène|émeraude|étain|feu|filasse|fluo|fraise|framboise|fuchsia|garance|grenat|groseille|géranium|havane|indigo|isabelle|ivoire|jade|jonquille|kaki|klein|lagon|lavande|lie-de-vin|lilas|magenta|mangue|marengo|marron|mastic|maïs|melon|menthe|miel|moutarde|muscade|myrtille|n[âa]cre|nacarat|nacre|noisette|ocre|olive|or|orange|outremer|paille|pastel|pastèque|perle|pervenche|pie|piment|pistache|pivoine|pomme|ponceau|porto|prune|puce|pétrole|pêche|romarin|rouille|sable|safran|sang|saumon|sépia|tabac|taupe|tilleul|tomate|turquoise|vanille|verdâtre|vermillon">
+        <!-- |tendance indien|plastique|tendre nuit?? -->
+        <!ENTITY couleur_invariable_m "noyer|canard"> <!-- fem: marine -->
+        <!ENTITY couleur_variable "alezan|blanhâtre|pourpré|violacé|ambré|aubère|bai|baillet|basané|beige|bis|blafard|blond|blême|châtain|chiné|cramoisi|dense|doré|écarlate|écru|fauve|fluorescent|foncé|glauque|incarnat|intense|livide|louvet|lumineux|mat|mauve|métallique|mordoré|opalin|orangé|pâle|perse|pourpre|profond|rosé|rose|rouan|rousse|roux|tourdille|tropical|vairon|vermeil|vernissé|vif|violet|zain|zinzolin">
+        <!ENTITY couleur "blanc|bleu|brun|gris|jaune|noir|rouge|vert">
+        <!-- only on the second position: -->
+        <!ENTITY couleur_variable2 "brillant|paillette|pailleté|cassé|bigarré|clair|sombre">
         ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
@@ -39,6 +47,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Il le vend <marker>pour</marker> 20 €.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>à</token>
+                    <marker>
+                        <token postag="R pers obj.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="A"/>
+                </pattern>
+                <example correction="">À <marker>toi</marker> à présent, je ne vois pas ce que vous pouvez faire.</example>
             </rule>
             <rule>
                 <pattern>
@@ -134,7 +152,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <marker>
                         <token postag="[YK]" postag_regexp="yes"/>
                     </marker>
-                    <token regexp="yes">&unites_de_mesure;<exception>a</exception></token>
+                    <token regexp="yes">&unites_de_mesure;|[\%\+\=\-]<exception>a</exception></token>
                 </pattern>
                 <example correction="">Il fait <marker>97</marker> m de long.</example>
             </rule>
@@ -262,6 +280,272 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     <token postag="V.* ppa.*|V.* inf" postag_regexp="yes"/>
                 </pattern>
                 <example correction="">La différence est dans le fond de comparer les <marker>partis</marker> les mieux gérer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="[JN].*" postag_regexp="yes"/>
+                    </marker>
+                    <token><match no="0"/></token>
+                </pattern>
+                <example correction="">Se relever du canapé commence a être <marker>dur</marker> dur.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">Sur|Par|Dans|Pour</token>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>Sur</marker> les dentistes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&couleur;</token>
+                    </marker>
+                    <token regexp="yes">&couleur_variable;|&couleur_invariable;|&couleur_variable2;</token>
+                </pattern>
+                <example correction=""><marker>bleu</marker> ciel.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">conjonctions?</token>
+                    </marker>
+                    <token>de</token>
+                    <token regexp="yes">coordination|subordination</token>
+                </pattern>
+                <example correction="">Par son absence volontaire de <marker>conjonction</marker> de coordination.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">locutions?</token>
+                <marker>
+                    <token regexp="yes">interjectives?|adverbiales?|adjectivales?|conjonctives?|déterminatives?|nominales?|postpositives?|prépositionnelles?|verbales?|pronominales?</token>
+                </marker>
+                </pattern>
+                <example correction="">La locution <marker>interjective</marker> bon sang, mais c'est bien sûr ! est utilisée.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token regexp="yes">écriture|orthographe|accord|graphie</token>
+                    </marker>
+                    <token regexp="yes">du|de</token>
+                    <token min="0" max="1">l'</token>
+                    <token regexp="yes">mot|expression|locution|verbe|nom|adjectif|adverbe|pronom</token>
+                </pattern>
+                <example correction="">Un doute sur l'<marker>écriture</marker> de l'expression ?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_FR_HYDRA_LEO_MISSING_PERIOD" name="">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">[a-z].*</token>
+                    <token>etc</token>
+                </marker>
+            </pattern>
+            <example correction="">Ce revers n'était pas une défaite irréversible, mais il fut exploité par la propagande <marker>communiste etc</marker> s'ajouta en France.</example>
+        </rule>
+            <rule>
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Depuis plusieurs années, il est bien entendu approprié de dire que leur façon de s'occuper de leur <marker>foyer persiste</marker> de manière somme toute fort appropriée et accepté par tous.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">["»«]</token>
+                    <marker>
+                        <token regexp="yes">\d.*</token>
+                        <token regexp="yes">[a-z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">"Ce revers n'était pas une défaite irréversible, mais il fut exploité par la propagande" <marker>236 Pour</marker> cela s'ajouta en France de nombreuses formes de protestations contre ce genre de pratiques fermement condamnées et hautement répréhensibles qui sont bien sûr méprisaient par l'ensemble de la popoulation depuis des temps immémorables.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[a-z].*</token>
+                        <token>tes</token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <example correction="">Ces Maitres « turroneros » en font la démonstration et continuent d'employer les outils <marker>ancestraux tes</marker> que les « punxes » (spatule géante pour malaxer la pâte) ou le « boixet » (chaudron et pilon utilisés pour la cuisson).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">des|d'|de</token>
+                        <token postag="[YK]" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Carrière de rencontres en pétrole, j'aime la structuration initiale <marker>de 8785</marker> applications iphone montreal le long parcours du président de protection de surveiller, de tlemcen, un genre et d'assurer la paix, le poursuit-elle.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[a-z].*</token>
+                        <token>vert</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Quelques notes de musique, une phrase culte et un maître à <marker>penser vert</marker> font (entre autres) de cet objet culturel une oeuvre identifiable même par celles et ceux qui ne la regarde pas (oui oui ça existe …).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>été</token>
+                        <token postag="V.* inf" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Une horreur ce truc, impossible de savoir où ils avaient <marker>été pondre</marker> (enfin si, sans doute dans les joints du frigo et tous les petits trous inaccessibles pour nous, puisque le bestiau mesure un demi milimètre à peine) ils revenaient sans cesse.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">M</token>
+                        <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Malgré les pressions des armateurs et de <marker>M Bourgeois</marker> les témoignages des marins ukrainiens rescapés sont un élément clé : le bateau était en mauvais état.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                        <token regexp="yes" case_sensitive="yes">[A-Z][A-Z].*</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                </pattern>
+                <example correction="">Combien d'entre nous ont pris des benzos sur plusieurs mois voire plusieurs <marker>années SUR</marker> prescription de leur médecin ?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>une</token>
+                    <token>fois</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                        <token postag="Z.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Ils descendent tout les deux de la voiture, une fois <marker>dehors Sara</marker> regarde autour d'elle avant de se mettre à sourire et de regarder Michael.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                        <token postag="Z.*" postag_regexp="yes"/>
+                    </marker>
+                    <token regexp="yes">,|(?-i)[A-Z].*</token>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y <marker>mets Hugo</marker>, mais avant de te mettre à sourire et de regarder Michael laisse-moi t'expliquer mon cas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token>exemple</token>
+                        <token regexp="yes" case_sensitive="yes">[a-z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y mets, <marker>exemple un</marker> jour tu comprendras, mais avant de te mettre à sourire et de regarder Michael laisse-moi t'expliquer mon cas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[a-z].*</token>
+                        <token regexp="yes">euh|heu|bof|ben</token>
+                    </marker>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y mets par des <marker>tiers euh</marker> dans ce cas-ci, tu comprendras, mais avant de te mettre à sourire et de regarder Michael laisse-moi t'expliquer mon cas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>quel</token>
+                    <marker>
+                        <token>point</token>
+                        <token regexp="yes">[a-z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y mets par des tiers et à quel <marker>point tu</marker> comprendras, mais avant de te mettre à sourire et de regarder Michael laisse-moi t'expliquer mon cas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes" case_sensitive="yes">&unites_temps;</token>
+                        <token regexp="yes" case_sensitive="yes">\d.*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y mettrai dans la <marker>semaine 32</marker> le 8 ou le 9 août de l'année prochaine je pense mais je dois encore vérifier.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="[NJZ].*" postag_regexp="yes"/>
+                        <token postag="V.* ppr" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Pour pour la dernière fois, je te dis que je m'y mettrai et que la <marker>force opposant</marker> notre volonté disparaitra avec le temps, fais-moi confiance sur ce coup-là.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>.</token>
+                    <marker>
+                        <token regexp="yes">[a-z].*</token>
+                    </marker>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Eclectique, les éditions G.L.<marker>M</marker> sont traversées par les grands courants de cette période particulièrement créatrice.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="J.*" postag_regexp="yes"/>
+                        <token postag="J.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z].*
+                            <exception postag="N.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token>:</token>
+                </pattern>
+                <example correction="">C'est la folie sur Twitter, sur Facebook et dans le monde <marker>entier réveillé</marker> : NBC vient d'annoncer il y a quelques minutes qu'Oussama Ben Laden a été tué après une opération pour le capturer au Pakistan, dans la ville d'Abbottabad.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token>rarement</token>
+                    </marker>
+                    <token postag="D.*|(P\+)?D.*" postag_regexp="yes"/>
+                    <token postag="[JN].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Les sterculiacées – Les plantes de la famille des sterculiacées sont des arbres et <marker>arbustes rarement</marker> des herbacées et lianes qui ont des feuilles stipulées et des fleurs en cymes ou en corymbes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="A" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="R rel.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">A l'heure actuelle, les formations d'animateurs dans telle ou telle activité s'organisent dans les <marker>clubs directement</marker> où les animateurs plus expérimentés partagent leurs savoirs aux nouveaux ou débutants dans l'animation.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-Z]</token>
+                        <token case_sensitive="yes">Le</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                </pattern>
+                <example correction="">à propos de traces d'huile autour du bateau, <marker>J Le</marker> Coz a demandé qu'on le prévienne si cela continuait.</example>
             </rule>
         </rulegroup>
     </category>

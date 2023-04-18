@@ -37,7 +37,7 @@ public class TestRemoteRule extends RemoteRule {
 
     public TestRemoteRule(Language lang, RemoteRuleConfig config) {
       super(lang, JLanguageTool.getMessageBundle(), config, false);
-      waitTime = Long.parseLong(config.getOptions().getOrDefault("waitTime", "-1"));
+      waitTime = Long.parseLong(config.getOptions().getOrDefault("waitTime", "1"));
     }
 
     class TestRemoteRequest extends RemoteRequest {

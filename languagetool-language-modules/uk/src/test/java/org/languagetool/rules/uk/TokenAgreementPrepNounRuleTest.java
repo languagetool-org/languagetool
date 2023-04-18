@@ -24,26 +24,20 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
-public class TokenAgreementPrepNounRuleTest {
-
-  private JLanguageTool lt;
-  private TokenAgreementPrepNounRule rule;
+public class TokenAgreementPrepNounRuleTest extends AbstractRuleTest {
 
   @Before
   public void setUp() throws IOException {
-    rule = new TokenAgreementPrepNounRule(TestTools.getMessages("uk"));
-    lt = new JLanguageTool(new Ukrainian());
+    rule = new TokenAgreementPrepNounRule(TestTools.getMessages("uk"), lt.getLanguage());
   }
   
   @Test
@@ -90,7 +84,7 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("славетних од цареві");
     assertEmptyMatch("А шляхом тим була");
 
-    assertEquals(1, ruleMatch("що, незважаючи стислі терміни візиту").length);
+    assertHasError("що, незважаючи стислі терміни візиту");
 
     assertEmptyMatch("залежно що вважати перемогою");
 
@@ -157,10 +151,8 @@ public class TokenAgreementPrepNounRuleTest {
 
     assertEmptyMatch("На сьогодні рослинна їжа");
     
-    
-    
-    assertEquals(1, ruleMatch("в п'ятьом людям").length);
-    assertEquals(1, ruleMatch("в понад п'ятьом людям").length);
+    assertHasError("в п'ятьом людям");
+    assertHasError("в понад п'ятьом людям");
 
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("О дівчина!");
     RuleMatch[] match = rule.match(analyzedSentence);
@@ -244,8 +236,18 @@ public class TokenAgreementPrepNounRuleTest {
     matches = ruleMatch("до Ленінграду");
     assertEquals(1, matches.length);
 
+    matches = ruleMatch("для логотипу");
+    assertEquals(1, matches.length);
+
 //    matches = ruleMatch("На фото: З Голлівуду Яринка Шуст привезла дві золоті медалі");
 //    assertEquals(1, matches.length);
+  }
+
+  @Ignore
+  @Test
+  public void testRulePronPosNew() throws IOException {
+    //TODO:
+    assertEmptyMatch("від його покровителів");
   }
 
   @Test
@@ -260,7 +262,7 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("на їх користь стягнуто");
     assertEmptyMatch("не всупереч, а тому, що він має");
     assertEmptyMatch("у його (лікаря) присутності");
-    assertEquals(1, ruleMatch("до їх").length);
+    assertHasError("до їх");
     
     assertEmptyMatch("Під його, без перебільшення, мудрим");
     assertEmptyMatch("до її, так би мовити, санітарного стану");
@@ -269,9 +271,9 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("вплив на її або його здоров'я");
     assertEmptyMatch("щодо його \"лікування\":");
     
-    assertEquals(1, ruleMatch("вище за їх?").length);
-//    assertEquals(1, ruleMatch("займався в їх помаленьку").length);
-    assertEquals(1, ruleMatch("про їх говорилося").length);
+    assertHasError("вище за їх?");
+//    assertHasError("займався в їх помаленьку");
+    assertHasError("про їх говорилося");
 
     //  AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("завдяки їх вдалим трюкам");
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("завдяки їх.");
@@ -283,16 +285,16 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("при її, м’яко кажучи, невеликій популярності");
     assertEmptyMatch("через її, м’яко кажучи, невелику популярність");
     
-    assertEquals(1, ruleMatch("при його ж заняттів").length);
+    assertHasError("при його ж заняттів");
   }
   
   @Test
   public void testRuleFlexibleOrder() throws IOException {
 
-    assertEquals(1, ruleMatch("по бодай маленьким справам").length);
-    assertEquals(1, ruleMatch("по смішно маленьким справам").length);
+    assertHasError("по бодай маленьким справам");
+    assertHasError("по смішно маленьким справам");
 
-    assertEquals(1, ruleMatch("через, м’яко кажучи, невеликої популярності").length);
+    assertHasError("через, м’яко кажучи, невеликої популярності");
 
     assertEmptyMatch("спиралося на місячної давнини рішення");
 
@@ -300,10 +302,10 @@ public class TokenAgreementPrepNounRuleTest {
 
     assertEmptyMatch("При різного роду процесах");
 
-    assertEquals(1, ruleMatch("завдяки його прийомі").length);
+    assertHasError("завдяки його прийомі");
 
     assertEmptyMatch("по лише їм цікавих місцях");
-    assertEquals(1, ruleMatch("по лише їм цікавим місцям").length);
+    assertHasError("по лише їм цікавим місцям");
 
     assertEmptyMatch("від дуже близьких людей");
     assertEmptyMatch("завдяки саме цим сімом голосам");
@@ -314,13 +316,13 @@ public class TokenAgreementPrepNounRuleTest {
     //TODO:
 //    assertEmptyMatch("до ледве що не членства");
 
-    assertEquals(1, ruleMatch("призвів до значною мірою демократичному середньому класу").length);
+    assertHasError("призвів до значною мірою демократичному середньому класу");
 
-    assertEquals(1, ruleMatch("це нас для дуже велика сума").length);
+    assertHasError("це нас для дуже велика сума");
 
     assertEmptyMatch("для якої з мов воно первинне");
 
-    assertEquals(1, ruleMatch("у дуже обмеженим рамках").length);
+    assertHasError("у дуже обмеженим рамках");
 
     assertEmptyMatch("чи не проти я тієї церковної стройки");
     assertEmptyMatch("З точністю до навпаки ви все це побачите");
@@ -329,21 +331,13 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("весь світ замість спершу самому засвоїти");
     assertEmptyMatch("Йдеться про вже всім добре відому");
     
-    assertEquals(1, ruleMatch("кинулися до мені перші з них").length);
-    assertEquals(1, ruleMatch("Замість лимону можна брати").length);
+    assertHasError("кинулися до мені перші з них");
+    assertHasError("Замість лимону можна брати");
     
     //TODO:
 //    assertEmptyMatch("не завдяки, а всупереч політиці, яку проводила влада");
   }
 
-  private RuleMatch[] ruleMatch(String text) throws IOException {
-    return rule.match(lt.getAnalyzedSentence(text));
-  }
-  
-  private void assertEmptyMatch(String text) throws IOException {
-    assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(ruleMatch(text)));
-  }
-  
   @Test
   public void testSpecialChars() throws IOException {
     assertEmptyMatch("до їм поді\u00ADбних");

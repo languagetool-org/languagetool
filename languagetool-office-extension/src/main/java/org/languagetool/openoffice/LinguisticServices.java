@@ -26,9 +26,12 @@ import java.util.Map;
 
 import org.languagetool.Language;
 import org.languagetool.LinguServices;
+import org.languagetool.rules.Rule;
 
+import com.sun.star.beans.Property;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.beans.XPropertySetInfo;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.linguistic2.XHyphenator;
@@ -38,6 +41,7 @@ import com.sun.star.linguistic2.XPossibleHyphens;
 import com.sun.star.linguistic2.XSpellAlternatives;
 import com.sun.star.linguistic2.XSpellChecker;
 import com.sun.star.linguistic2.XThesaurus;
+import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -49,20 +53,24 @@ import com.sun.star.uno.XComponentContext;
 public class LinguisticServices extends LinguServices {
   
   private static boolean isSetLt = false;
-  private XThesaurus thesaurus = null;
-  private XSpellChecker spellChecker = null;
-  private XHyphenator hyphenator = null;
+//  private XThesaurus thesaurus = null;
+//  private XSpellChecker spellChecker = null;
+//  private XHyphenator hyphenator = null;
+  private XComponentContext xContext;
   private Map<String, List<String>> synonymsCache;
+  private List<String> thesaurusRelevantRules = null;
   private boolean noSynonymsAsSuggestions = false;
 
   public LinguisticServices(XComponentContext xContext) {
-    if (xContext != null) {
-      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
-      thesaurus = getThesaurus(mxLinguSvcMgr);
-      spellChecker = getSpellChecker(mxLinguSvcMgr);
-      hyphenator = getHyphenator(mxLinguSvcMgr);
-      synonymsCache = new HashMap<>();
-    }
+    this.xContext = xContext;
+    synonymsCache = new HashMap<>();
+//    if (xContext != null) {
+//      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
+//      thesaurus = getThesaurus(mxLinguSvcMgr);
+//      spellChecker = getSpellChecker(mxLinguSvcMgr);
+//      hyphenator = getHyphenator(mxLinguSvcMgr);
+//      synonymsCache = new HashMap<>();
+//    }
   }
 
   /**
@@ -75,11 +83,11 @@ public class LinguisticServices extends LinguServices {
   /**
    * returns if spell checker can be used
    * if false initialize LinguisticServices again
-   */
+   *//*
   public boolean spellCheckerIsActive () {
     return (spellChecker != null);
   }
-  
+  */
   /** 
    * Get the LinguServiceManager to be used for example 
    * to access spell checker, thesaurus and hyphenator
@@ -121,10 +129,48 @@ public class LinguisticServices extends LinguServices {
   }
   
   /** 
+   * Get XLinguProperties
+   */
+  private static XPropertySet getLinguProperties(XComponentContext xContext) {
+    if (xContext == null) {
+      return null;
+    }
+    XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
+            xContext.getServiceManager());
+    if (xMCF == null) {
+      return null;
+    }
+    Object linguProperties = null;
+    try {
+      linguProperties = xMCF.createInstanceWithContext("com.sun.star.linguistic2.LinguProperties", xContext);
+    } catch (Exception e) {
+      MessageHandler.printException(e);
+    }
+    if (linguProperties == null) {
+      return null;
+    }
+    return UnoRuntime.queryInterface(XPropertySet.class, linguProperties);
+  }
+  
+  /**
+   * Print LiguProperties to log file (Used for tests only)
+   */
+  
+  public void printLinguProperties(XComponentContext xContext) {
+    XPropertySet propSet = getLinguProperties(xContext);
+    XPropertySetInfo propertySetInfo = propSet.getPropertySetInfo();
+    MessageHandler.printToLogFile("OfficeTools: printPropertySet: PropertySet:");
+    for (Property property : propertySetInfo.getProperties()) {
+      MessageHandler.printToLogFile("Name: " + property.Name + ", Type: " + property.Type.getTypeName());
+    }
+  }
+  
+  /** 
    * Get the Thesaurus to be used.
    */
-  private XThesaurus getThesaurus(XLinguServiceManager mxLinguSvcMgr) {
+  private XThesaurus getThesaurus(XComponentContext xContext) {
     try {
+      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
       if (mxLinguSvcMgr != null) {
         return mxLinguSvcMgr.getThesaurus();
       }
@@ -138,8 +184,9 @@ public class LinguisticServices extends LinguServices {
   /** 
    * Get the Hyphenator to be used.
    */
-  private XHyphenator getHyphenator(XLinguServiceManager mxLinguSvcMgr) {
+  private XHyphenator getHyphenator(XComponentContext xContext) {
     try {
+      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
       if (mxLinguSvcMgr != null) {
         return mxLinguSvcMgr.getHyphenator();
       }
@@ -153,8 +200,9 @@ public class LinguisticServices extends LinguServices {
   /** 
    * Get the SpellChecker to be used.
    */
-  private XSpellChecker getSpellChecker(XLinguServiceManager mxLinguSvcMgr) {
+  protected XSpellChecker getSpellChecker(XComponentContext xContext) {
     try {
+      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
       if (mxLinguSvcMgr != null) {
         return mxLinguSvcMgr.getSpellChecker();
       }
@@ -169,6 +217,9 @@ public class LinguisticServices extends LinguServices {
    * Get a Locale from a LT defined language
    */
   public static Locale getLocale(Language lang) {
+    if (lang == null) {
+      return null;
+    }
     Locale locale = new Locale();
     locale.Language = lang.getShortCode();
     if ((lang.getCountries() == null || lang.getCountries().length != 1) && lang.getDefaultLanguageVariant() != null) {
@@ -195,40 +246,31 @@ public class LinguisticServices extends LinguServices {
   }
   
   public List<String> getSynonyms(String word, Locale locale) {
-    if (noSynonymsAsSuggestions) {
-      return new ArrayList<>();
-    }
-    if (synonymsCache.containsKey(word)) {
-      return synonymsCache.get(word);
-    }
-    List<String> synonyms = new ArrayList<>();
     try {
-      if (thesaurus == null) {
-        MessageHandler.printToLogFile("LinguisticServices: getSynonyms: XThesaurus == null");
-        return synonyms;
+      if (noSynonymsAsSuggestions) {
+        return new ArrayList<>();
       }
-      if (locale == null) {
-        MessageHandler.printToLogFile("LinguisticServices: getSynonyms: Locale == null");
-        return synonyms;
+      if (synonymsCache.containsKey(word)) {
+        return synonymsCache.get(word);
       }
-      PropertyValue[] properties = new PropertyValue[0];
-      XMeaning[] meanings = thesaurus.queryMeanings(word, locale, properties);
-      for (XMeaning meaning : meanings) {
-        if (synonyms.size() >= OfficeTools.MAX_SUGGESTIONS) {
-          break;
+      // get synonyms in a acceptable time or return 0 synonyms
+      AddSynonymsToCache addSynonymsToCache = new AddSynonymsToCache(word, locale);
+      addSynonymsToCache.start();
+      long startTime = System.currentTimeMillis();
+      long runTime = 0;
+      do {
+        Thread.sleep(10);
+        if (synonymsCache.containsKey(word)) {
+          return synonymsCache.get(word);
         }
-        String[] singleSynonyms = meaning.querySynonyms();
-        Collections.addAll(synonyms, singleSynonyms);
-      }
-      synonymsCache.put(word, synonyms);
-      return synonyms;
-    } catch (Throwable t) {
-      // If anything goes wrong, give the user a stack trace
-      MessageHandler.printException(t);
-      return synonyms;
+        runTime = System.currentTimeMillis() - startTime;
+      } while (runTime < 500);
+    } catch (InterruptedException e) {
+      MessageHandler.printException(e);
     }
+    return new ArrayList<>();
   }
-
+  
   /**
    * Returns true if the spell check is positive
    */
@@ -238,6 +280,7 @@ public class LinguisticServices extends LinguServices {
   }
   
   public boolean isCorrectSpell(String word, Locale locale) {
+    XSpellChecker spellChecker = getSpellChecker(xContext);
     if (spellChecker == null) {
       MessageHandler.printToLogFile("LinguisticServices: isCorrectSpell: XSpellChecker == null");
       return false;
@@ -260,6 +303,7 @@ public class LinguisticServices extends LinguServices {
   }
   
   public String[] getSpellAlternatives(String word, Locale locale) {
+    XSpellChecker spellChecker = getSpellChecker(xContext);
     if (spellChecker == null) {
       MessageHandler.printToLogFile("LinguisticServices: getSpellAlternatives: XSpellChecker == null");
       return null;
@@ -288,6 +332,7 @@ public class LinguisticServices extends LinguServices {
   }
   
   public int getNumberOfSyllables(String word, Locale locale) {
+    XHyphenator hyphenator = getHyphenator(xContext);
     if (hyphenator == null) {
       MessageHandler.printToLogFile("LinguisticServices: getNumberOfSyllables: XHyphenator == null");
       return 1;
@@ -387,6 +432,71 @@ public class LinguisticServices extends LinguServices {
       }
     }
     return true;
+  }
+
+  /**
+   * Set a thesaurus relevant rule
+   */
+  @Override
+  public void setThesaurusRelevantRule (Rule rule) {
+    if (thesaurusRelevantRules == null) {
+      thesaurusRelevantRules = new ArrayList<String>();
+    }
+    String ruleId = rule.getId();
+    if (!thesaurusRelevantRules.contains(ruleId)) {
+      thesaurusRelevantRules.add(ruleId);
+    }
+  }
+
+  /**
+   * Test if rule is thesaurus relevant 
+   * (match should give suggestions from thesaurus)
+   */
+  public boolean isThesaurusRelevantRule (String ruleId) {
+    return !noSynonymsAsSuggestions && thesaurusRelevantRules != null && thesaurusRelevantRules.contains(ruleId);
+  }
+  
+  /** class to start a separate thread to add Synonyms to cache
+   *  To get synonyms in a acceptable time or return null
+   */
+  private class AddSynonymsToCache extends Thread {
+    private String word;
+    private Locale locale;
+
+    private AddSynonymsToCache(String word, Locale locale) {
+      this.word = word;
+      this.locale = locale;
+    }
+    
+    @Override
+    public void run() {
+      List<String> synonyms = new ArrayList<>();
+      try {
+        XThesaurus thesaurus = getThesaurus(xContext);
+        if (thesaurus == null) {
+          MessageHandler.printToLogFile("LinguisticServices: getSynonyms: XThesaurus == null");
+          return;
+        }
+        if (locale == null) {
+          MessageHandler.printToLogFile("LinguisticServices: getSynonyms: Locale == null");
+          return;
+        }
+        PropertyValue[] properties = new PropertyValue[0];
+        XMeaning[] meanings = thesaurus.queryMeanings(word, locale, properties);
+        for (XMeaning meaning : meanings) {
+          if (synonyms.size() >= OfficeTools.MAX_SUGGESTIONS) {
+            break;
+          }
+          String[] singleSynonyms = meaning.querySynonyms();
+          Collections.addAll(synonyms, singleSynonyms);
+        }
+        synonymsCache.put(word, synonyms);
+      } catch (Throwable t) {
+        // If anything goes wrong, give the user a stack trace
+        MessageHandler.printException(t);
+      }
+    }
+
   }
 
 }

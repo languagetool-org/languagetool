@@ -25,6 +25,7 @@ import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sk.CompoundRule;
 import org.languagetool.rules.sk.MorfologikSlovakSpellerRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.sk.SlovakSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -65,7 +66,7 @@ public class Slovak extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new SlovakSynthesizer(this);
+    return SlovakSynthesizer.INSTANCE;
   }
 
   @Override
@@ -109,4 +110,9 @@ public class Slovak extends Language {
     return ruleFileNames;
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikSlovakSpellerRule(messages, this, null, null);
+  }
 }

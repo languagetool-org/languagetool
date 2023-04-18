@@ -20,10 +20,12 @@ package org.languagetool.rules;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -60,7 +62,12 @@ public class CommaWhitespaceRuleTest {
     assertMatches("I'd recommend resaving the .DOC as a PDF file.", 0);
     assertMatches("I'd recommend resaving the .mp3 as a WAV file.", 0);
     assertMatches("I'd suggest buying the .org domain.", 0);
+    assertMatches(". This isn't good.", 0);  // strange, but complaining without having a suggestions also doesn't help much...
+    assertMatches("), this isn't good.", 0);  // strange, but complaining without having a suggestions also doesn't help much...
+    assertMatches("Das sind .exe-Dateien", 0);  // German, but the exception might be useful for other languages
     assertMatches("I live in .Los Angeles", 1);
+    assertMatchesForText("Die Vertriebsniederlassu\u00ADng der Versorgungstechnik..\u00AD.", 1);
+    assertMatchesForText("Die Vertriebsniederlassu\u00ADng der Versorgungstechnik..\u00AD.\n", 1);
 
     // errors:
     assertMatches("This,is a test sentence.", 1);
@@ -115,6 +122,15 @@ public class CommaWhitespaceRuleTest {
 
   private void assertMatches(String text, int expectedMatches) throws IOException {
     assertEquals(expectedMatches, rule.match(lt.getAnalyzedSentence(text)).length);
+  }
+
+  private void assertMatchesForText(String text, int expectedMatches) throws IOException {
+    List<AnalyzedSentence> analyzedSentences = lt.analyzeText(text);
+    int matchCount = 0;
+    for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+      matchCount += rule.match(analyzedSentence).length;
+    }
+    assertEquals(expectedMatches, matchCount);
   }
 
 }

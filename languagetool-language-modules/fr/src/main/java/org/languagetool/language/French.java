@@ -74,7 +74,7 @@ public class French extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new FrenchSynthesizer(this);
+    return FrenchSynthesizer.INSTANCE;
   }
   
   @Override
@@ -121,7 +121,6 @@ public class French extends Language implements AutoCloseable {
             new QuestionWhitespaceStrictRule(messages, this),
             new QuestionWhitespaceRule(messages, this),
             new SimpleReplaceRule(messages),
-            new AnglicismReplaceRule(messages),
             new FrenchRepeatedWordsRule(messages)
     );
   }
@@ -259,7 +258,6 @@ public class French extends Language implements AutoCloseable {
       case "PLURIEL_AL2": return 100; // greater than other rules for pluriel al
       case "FR_SPLIT_WORDS_HYPHEN": return 100; // greater than MOTS_INCOMP
       case "PAS_DE_TRAIT_UNION": return 50; //  // greater than agreement rules
-      case "MOTS_INCOMP": return 50; // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
       case "PRIME-TIME": return 50; //  // greater than agreement rules
       case "A_VERBE_INFINITIF": return 20; // greater than PRONSUJ_NONVERBE
       case "DE_OU_DES": return 20; // greater than PAS_ADJ
@@ -279,6 +277,8 @@ public class French extends Language implements AutoCloseable {
       case "PEUTETRE": return 10; // needs to be higher than AUX_ETRE_VCONJ
       case "A_A_ACCENT": return 10; // triggers false alarms for IL_FAUT_INF if there is no a/à correction 
       case "A_ACCENT_A": return 10; // greater than PRONSUJ_NONVERBE
+      case "A_A_ACCENT2": return 10; // greater than ACCORD_SUJET_VERBE
+      case "A_ACCENT": return 10; // greater than ACCORD_SUJET_VERBE
       case "JE_M_APPEL": return 10;  // override NON_V
       case "ACCORD_R_PERS_VERBE": return 10;  // match before POSER_UNE_QUESTION
       case "JE_SUI": return 10;  // needs higher priority than spell checker
@@ -288,7 +288,10 @@ public class French extends Language implements AutoCloseable {
       case "AN_EN": return 10; // needs higher priority than AN_ANNEE
       case "APOS_M": return 10; // needs higher priority than APOS_ESPACE
       case "ACCORD_PLURIEL_ORDINAUX": return 10; // needs higher priority than D_J
+      case "SUJET_AUXILIAIRE": return 10; // needs higher priority than JE_VERBE; TU_VERBE; IL_VERBE; ILS_VERBE; ON_VERBE;
       case "ADJ_ADJ_SENT_END": return 10; // needs higher priority than ACCORD_COULEUR
+      case "OU_PAS": return 10; // needs higher priority than VERBE_OBJ
+      case "PLACE_DE_LA_VIRGULE": return 10; // needs higher priority than C_EST_QUOI
       case "SE_CE": return -10; // needs higher priority than ELISION
       case "SYNONYMS": return -10; // less than ELISION
       case "PAS_DE_SOUCIS": return 10; // needs higher priority than PAS_DE_PB_SOUCIS (premium)
@@ -316,6 +319,7 @@ public class French extends Language implements AutoCloseable {
       case "VERBES_FAMILIERS": return -25;  // less than PREP_VERBECONJUGUE + PAS_DE_VERBE_APRES_POSSESSIF_DEMONSTRATIF
       case "VERB_PRONOUN": return -50; // greater than FR_SPELLING_RULE; less than ACCORD_V_QUESTION
       case "IL_VERBE": return -50; // greater than FR_SPELLING_RULE
+      case "A_LE": return -50; // less than A_ACCENT
       case "ILS_VERBE": return -50; // greater than FR_SPELLING_RULE
       case "AGREEMENT_POSTPONED_ADJ": return -50;
       case "MULTI_ADJ": return -50;
@@ -328,6 +332,7 @@ public class French extends Language implements AutoCloseable {
       case "AIMER": return -50; // lesser than grammar rules
       case "CONFUSION_RULE_PREMIUM": return -50; // lesser than PRONSUJ_NONVERBE
       case "FR_SPELLING_RULE": return -100;
+      case "VIRG_INF": return -100;// lesser than CONFUSION_E_ER
       case "ET_SENT_START": return -151; // lower than grammalecte rules
       case "MAIS_SENT_START": return -151; // lower than grammalecte rules
       case "EN_CE_QUI_CONCERNE": return -152;  // less than MAIS_SENT_START + ET_SENT_START
@@ -343,6 +348,8 @@ public class French extends Language implements AutoCloseable {
       case "FRENCH_WHITESPACE_STRICT": return -350; // picky; if on, it should overwrite FRENCH_WHITESPACE
       case "TOUT_MAJUSCULES": return -400;
       case "VIRG_NON_TROUVEE": return -400;
+      case "POINTS_2": return -400;
+      case "MOTS_INCOMP": return -400; // greater than PRONSUJ_NONVERBE and DUPLICATE_DETERMINER
       case "FRENCH_WHITESPACE": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "MOT_TRAIT_MOT": return -400; // lesser than UPPERCASE_SENTENCE_START and FR_SPELLING_RULE
       case "FRENCH_WORD_REPEAT_BEGINNING_RULE": return -350; // less than REPETITIONS_STYLE
@@ -368,13 +375,16 @@ public class French extends Language implements AutoCloseable {
     if (enabledRules.contains("APOS_TYP")) {
       List<RuleMatch> newRuleMatches = new ArrayList<>();
       for (RuleMatch rm : ruleMatches) {
-        List<String> replacements = rm.getSuggestedReplacements();
-        List<String> newReplacements = new ArrayList<>();
-        for (String s : replacements) {
-          if (s.length() > 1) {
-            s = s.replace("'", "’");
+        List<SuggestedReplacement> replacements = rm.getSuggestedReplacementObjects();
+        List<SuggestedReplacement> newReplacements = new ArrayList<>();
+        for (SuggestedReplacement s : replacements) {
+          String newReplStr = s.getReplacement();
+          if (s.getReplacement().length() > 1) {
+            newReplStr = s.getReplacement().replace("'", "’");
           }
-          newReplacements.add(s);
+          SuggestedReplacement newRepl = new SuggestedReplacement(s);
+          newRepl.setReplacement(newReplStr);
+          newReplacements.add(newRepl);
         }
         RuleMatch newMatch = new RuleMatch(rm, newReplacements);
         newRuleMatches.add(newMatch);

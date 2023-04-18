@@ -138,6 +138,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "save you money",
       "so your plan",
       "the news man",
+      "on there,", // vs "their"
+      "in there,", // vs "their"
       "created us equally",
       ", their,",
       ", your,",
@@ -265,6 +267,10 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no everything fine",
       "no we don't",
       "no dont",
+      "95 theses", // vs these
+      "ninety-five theses", // vs these
+      "Ninety-five theses", // vs these
+      "April Theses", // vs these
       "for your recharge", // vs you
       "all you kids", // vs your
       "thanks for the patience", // vs patients
@@ -491,7 +497,24 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "people from there", // vs their
       "as you well know", // vs known
       "as they well know", // vs known
-      "as we well know" // vs known
+      "as we well know", // vs known
+      "close to god", // vs good
+      "close with god", // vs good
+      "see god when", // vs good
+      "in a god", // vs good
+      "he was a god", // vs good
+      "she was a god", // vs good
+      "she gave god", // vs good
+      "he gave god", // vs good
+      "believed in god", // vs good
+      "faith with god", // vs good
+      "days where", // vs were
+      "where, when and why", // vs were
+      "where, when, and why", // vs were
+      "where, when and how", // vs were
+      "where, when, and how", // vs were
+      "where, when and who", // vs were
+      "where, when, and who" // vs were
     );
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(

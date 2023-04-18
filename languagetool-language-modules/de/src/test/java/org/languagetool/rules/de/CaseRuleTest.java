@@ -189,7 +189,9 @@ public class CaseRuleTest {
     assertGood("Unser Wärmestrom-Tarif WärmeKompakt im Detail");  // ignore so we don't suggest "wärmeKompakt" (#3779)
     assertGood("Autohaus Dornig GmbH");
     assertGood("Hans Pries GmbH");
+    assertGood("Der Kund*innenservice war auch sehr kulant und persönlich.");
     assertGood(":D Auf dieses Frl.");
+    assertGood("@b_fischer Der Bonussemester-Antrag oder der Widerspruch?");
     assertGood("Das Gedicht “Der Panther”.");  // quotes are not correct, but leave that to the quotes rule
     assertGood("Klar, dass wir das brauchen.");
     assertGood("Das wird Scholz' engster Vertrauter Wolfgang Schmidt übernehmen.");
@@ -200,6 +202,50 @@ public class CaseRuleTest {
     assertGood("Liebe Kund:in");
     assertGood("Wir sollten das mal labeln.");
     assertGood("Teil 1: Der unaufhaltsame Aufstieg Bonapartes");
+    assertGood("Der Absatz bestimmt, in welchem Maße diese Daten Dritten zugänglich gemacht werden.");
+    assertGood("Der TN spricht Russisch - Muttersprache");
+
+    assertGood("Ich musste das Video mehrmals stoppen, um mir über das Gesagte Gedanken zu machen.");
+    assertGood("Während Besagtes Probleme verursachte.");
+    assertGood("Während der Befragte Geschichten erzählte.");
+    assertGood("Während ein Befragter Geschichten erzählte.");
+    assertGood("Während die Befragte Geld verdiente.");
+    assertGood("Während die Besagte Geschichten erzählte.");
+    assertGood("Jetzt, wo Protestierende und Politiker sich streiten");
+    assertGood("Während die Besagte Geld verdiente.");
+    assertGood("Die Nacht, die Liebe, dazu der Wein — zu nichts Gutem Ratgeber sein.");
+    assertGood("Warum tun die Menschen Böses?");
+    assertGood("Und das Vergangene Revue passieren lassen");
+    assertGood("Seither ist das Französische Amtssprache in Frankreich.");
+    assertGood("Für die Betreute Kontoauszüge holen.");
+    assertGood("Das verstehen Deutsche halt nicht.");
+    assertGood("12:00 - 13:00 Gemeinsames Mittagessen");
+    assertGood("12:00 Gemeinsames Mittagessen");
+    assertGood("Meld dich, wenn du Großes vorhast.");
+    assertGood("Muss nicht der Einzelne Einschränkungen der Freiheit hinnehmen, wenn die Sicherheit der Menschen und des Staates mehr gefährdet sind?");
+    assertGood("Wie reißt ein Einzelner Millionen aus ihren Sitzen?");
+    assertGood("Der Aphorismus will nicht Dumme gescheit, sondern Gescheite nachdenklich machen.");
+    assertGood("Während des Hochwassers den Eingeschlossenen Wasser und Nahrung bringen");
+    assertGood("Aus dem Stein der Weisen macht ein Dummer Schotter.");
+    assertGood("Auf dem Weg zu ihnen begegnet der Halbwüchsige Revolverhelden und Indianern.");
+    assertBad("Während des Hochwassers den Eingeschlossenen Menschen Nahrung bringen");
+    assertBad("Während Gefragte Menschen antworteten.");
+    // assertBad("Ich werde die Blaue Akte brauchen.");
+    assertBad("Ich brauche eine Gratis App die Ohne WLAN.");
+    assertBad("Alle Kommunikationsmedien die Meinem Widersacher dienen werden.");
+    assertBad("Ich wünsche dir Alles Liebe.");
+    assertBad("Das Auto Meines Vaters wird in Italien produziert.");
+    assertBad("Nach Böhm-Bawerk steht die Allgemeine Profitrate und die Theorie der Produktionspreise im Widerspruch zum Wertgesetz des ersten Bandes.");
+    assertBad("Ich sehe da keine Absolute Schranke.");
+    assertBad("Manns und Fontanes Gesammelten Werken.");
+    assertBad("Und das Neue Haus.");
+    assertBad("Das sind die Die Lehrer.");
+    assertBad("An der flachen Decke zeigt ein Großes Bildnis die Geburt Christi und die ewige Anbetung der Hirten.");
+    assertBad("Und das Gesagte Wort.");
+    assertBad("Und die Gesagten Wörter.");
+    assertBad("Und meine Erzählte Geschichte.");
+    assertBad("Und diese Erzählten Geschichten.");
+    assertBad("Und eine Neue Zeit.");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -218,6 +264,10 @@ public class CaseRuleTest {
     assertGood("mit U-Bahn-ähnlichen und günstigen Verkehrsmitteln");
     assertGood("mit Ü-Ei-großen, schweren Hagelkörnern");
     assertGood("mit E-Musik-artigen, komplizierten Harmonien");
+    assertGood("eBay International AG");
+    assertGood("Harald & Schön"); // Firmenname
+    assertGood("Nicholas and Stark"); // Eigenname
+    assertGood("Die Schweizerische Bewachungsgesellschaft"); // Eigenname
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");
@@ -312,13 +362,17 @@ public class CaseRuleTest {
     //assertBad("Die ausgewählten werden gut betreut.");
     assertBad("Die Ausgewählten Leute werden gut betreut.");
 
+    assertBad("Er war dort Im März 2000.");
+    assertBad("Er war dort Im Jahr 96.");
+
     // used to trigger error because of wrong POS tagging:
     assertGood("Die Schlinge zieht sich zu.");
     assertGood("Die Schlingen ziehen sich zu.");
     
     // used to trigger error because of "abbreviation"
     assertGood("Sie fällt auf durch ihre hilfsbereite Art. Zudem zeigt sie soziale Kompetenz.");
-    
+
+    assertGood("Die Lieferadresse ist Obere Brandstr. 4-7");
     assertGood("Das ist es: kein Satz.");
     assertGood("Werner Dahlheim: Die Antike.");
     assertGood("1993: Der talentierte Mr. Ripley");
@@ -437,8 +491,9 @@ public class CaseRuleTest {
     assertGood("4.)   Bei Beschäftigung von Hilfskräften: Schadenfälle durch Hilfskräfte");
     assertGood("Es besteht aus Schülern, Arbeitstätigen und Studenten.");
     assertGood("Sie starrt ständig ins Nichts.");
-    assertGood("\\u2063Das Haus ist schlön.");
-    assertGood("\\u2063\\u2063Das Haus ist schlön.");
+    assertGood("Sowas aber auch.\u2063Das Haus ist schön.");
+    assertGood("\u2063Das Haus ist schön.");
+    assertGood("\u2063\u2063Das Haus ist schön.");
     assertGood("Die Mannschaft ist eine gelungene Mischung aus alten Haudegen und jungen Wilden.");
     assertGood("Alleine durch die bloße Einwohnerzahl des Landes leben im Land zahlreiche Kulturschaffende, nach einer Schätzung etwa 30.000 Künstler.");
     assertGood("Ich hatte das offenbar vergessen oder nicht ganz verstanden.");

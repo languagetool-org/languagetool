@@ -30,4 +30,8 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     setUrl(Tools.getUrl("https://languagetool.org/insights/post/sentence-length/"));
   }
 
+  public String getShortMessage() {
+    return "Long sentence";
+  }
+
 }

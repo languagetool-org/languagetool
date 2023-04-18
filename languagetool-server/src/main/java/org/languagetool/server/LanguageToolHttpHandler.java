@@ -150,7 +150,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
       parameters = getRequestQuery(httpExchange, requestedUri);
-      if (requestLimiter != null) {
+      if (requestLimiter != null && limitPath(path)) {
         try {
           UserLimits userLimits = ServerTools.getUserLimits(parameters, config);
           requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders(), userLimits);
@@ -252,6 +252,13 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
   }
 
+  /**
+   * whitelist paths from request limiting
+   */
+  private boolean limitPath(String path) {
+    return !path.endsWith("admin/refreshUser");
+  }
+
   @NotNull
   static String getRequestId(HttpExchange httpExchange) {
     String requestId = httpExchange.getRequestHeaders().getFirst("X-Request-ID");
@@ -313,9 +320,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (params.get("apiKey") != null) {
       message += ", apiKey: " + params.get("apiKey");
     }
-    if (logToDb) {
-      logToDatabase(params, message);
-    }
     // TODO: might need more than 512 chars, thus not logged to DB:
     message += ", referrer: " + getHttpReferrer(httpExchange);
     message += ", language: " + params.get("language");
@@ -363,28 +367,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (config.isVerbose() && text != null && textLoggingAllowed) {
         print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
           StringUtils.abbreviate(text, 500), System.err);
-        logToDatabase(params, message + StringUtils.abbreviate(text, 500));
-      } else {
-        logToDatabase(params, message);
       }
     }
-  }
-
-  private void logToDatabase(Map<String, String> params, String message) {
-    DatabaseLogger logger = DatabaseLogger.getInstance();
-    if (!logger.isLogging()) {
-      return;
-    }
-    DatabaseAccess db = DatabaseAccess.getInstance();
-    Long server = db.getOrCreateServerId();
-    Long client = db.getOrCreateClientId(params.get("agent"));
-    Long user = null;
-    try {
-      user = db.getUserInfoWithApiKey(params.get("username"), params.get("apiKey")).getUserId();
-    } catch(IllegalArgumentException | IllegalStateException | AuthException ignored) {
-      // invalid username, api key or combination thereof - user stays null
-    }
-    logger.log(new DatabaseMiscLogEntry(server, client, user, message));
   }
 
   /**

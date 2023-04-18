@@ -18,9 +18,9 @@
  */
 package org.languagetool.tagging;
 
+import gnu.trove.TObjectIntHashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.synthesis.ManualSynthesizer;
-import org.languagetool.tools.MostlySingularMultiMap;
 import org.languagetool.tools.StringTools;
 
 import java.io.BufferedReader;
@@ -42,15 +42,43 @@ import java.util.function.Function;
  * @see ManualSynthesizer
  */
 public class ManualTagger implements WordTagger {
-  private final MostlySingularMultiMap<String, TaggedWord> mapping;
   private final static String DEFAULT_SEPARATOR = "\t";
-  
+
+  private static final int OFFSET_SHIFT = 8;
+  private static final int MAX_LENGTH = (1 << OFFSET_SHIFT) - 1;
+  private static final int MAX_OFFSET = (1 << 32 - OFFSET_SHIFT) - 1;
+  private static final int ENTRY_SIZE = 2;
+  private final String[] data;
+
+  /** A map from inflected forms to encoded lemma+POS pair offsets in {@link #data} */
+  private final TObjectIntHashMap<String> map;
+
   public ManualTagger(InputStream inputStream) throws IOException {
     this(inputStream, false);
   }
 
   public ManualTagger(InputStream inputStream, boolean internTags) throws IOException {
-    mapping = new MostlySingularMultiMap<>(loadMapping(inputStream, internTags));
+    Map<String, List<TaggedWord>> mapping = loadMapping(inputStream, internTags);
+    map = new TObjectIntHashMap<>(mapping.size());
+    int valueCount = mapping.values().stream().mapToInt(v -> v.size()).sum();
+    int firstIndex = ENTRY_SIZE; // skip an entry, as 0 means an absent value in TObjectIntHashMap
+    data = new String[valueCount * ENTRY_SIZE + firstIndex];
+    if (valueCount > MAX_OFFSET) {
+      throw new UnsupportedOperationException("Too many values (" + valueCount + "), the storage needs adjusting");
+    }
+    int index = firstIndex;
+    for (Map.Entry<String, List<TaggedWord>> entry : mapping.entrySet()) {
+      List<TaggedWord> value = entry.getValue();
+      if (value.size() > MAX_LENGTH) {
+        throw new UnsupportedOperationException(
+          "Too many lemmas (" + value.size() + " > " + MAX_LENGTH + " for " + entry.getKey() + "), the storage needs adjusting");
+      }
+      map.put(entry.getKey(), ((index / ENTRY_SIZE) << OFFSET_SHIFT) | value.size());
+      for (TaggedWord tw : value) {
+        data[index++] = tw.getLemma();
+        data[index++] = tw.getPosTag();
+      }
+    }
   }
 
   private static Map<String, List<TaggedWord>> loadMapping(InputStream inputStream, boolean internTags) throws IOException {
@@ -100,12 +128,18 @@ public class ManualTagger implements WordTagger {
    */
   @Override
   public List<TaggedWord> tag(String word) {
-    List<TaggedWord> lookedUpTerms = mapping.getList(word);
-    if (lookedUpTerms != null) {
-      return Collections.unmodifiableList(lookedUpTerms);
-    } else {
+    int value = map.get(word);
+    if (value == 0) {
       return Collections.emptyList();
     }
+
+    int offset = (value >>> OFFSET_SHIFT) * ENTRY_SIZE;
+    int length = value & MAX_LENGTH;
+    List<TaggedWord> result = new ArrayList<>(length);
+    for (int i = 0; i < length; i++) {
+      result.add(new TaggedWord(data[offset + i * ENTRY_SIZE], data[offset + i * ENTRY_SIZE + 1]));
+    }
+    return result;
   }
 
 }

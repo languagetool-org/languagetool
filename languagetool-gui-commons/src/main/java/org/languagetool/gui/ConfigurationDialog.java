@@ -59,12 +59,15 @@ public class ConfigurationDialog implements ActionListener {
 
   private static final int SHIFT1 = 4;
   private static final int SHIFT2 = 20;
+  private static final int SHIFT3 = 44;
 
   private final ResourceBundle messages;
   private final Configuration original;
   private final Configuration config;
   private final Frame owner;
   private final boolean insideOffice;
+  private final Image ltImage;
+  private String dialogTitle;
   private boolean configChanged = false;
   private boolean profileChanged = true;
   private boolean restartShow = false;
@@ -84,10 +87,16 @@ public class ConfigurationDialog implements ActionListener {
   private Rule rule;
 
   public ConfigurationDialog(Frame owner, boolean insideOffice, Configuration config) {
+    this(owner, insideOffice, null, null, config);
+  }
+
+  public ConfigurationDialog(Frame owner, boolean insideOffice, Image ltImage, String title, Configuration config) {
     this.owner = owner;
     this.insideOffice = insideOffice;
     this.original = config;
     this.config = original.copy(original);
+    this.ltImage = ltImage;
+    dialogTitle = title;
     messages = JLanguageTool.getMessageBundle();
   }
 
@@ -172,6 +181,10 @@ public class ConfigurationDialog implements ActionListener {
     return configChanged;
   }
     
+  public void close() {
+    dialog.setVisible(false);
+  }
+
   public boolean showPanel(List<Rule> rules) {
     configChanged = false;
     if (original != null && !restartShow) {
@@ -179,7 +192,13 @@ public class ConfigurationDialog implements ActionListener {
     }
     restartShow = false;
     dialog = new JDialog(owner, true);
-    dialog.setTitle(messages.getString("guiConfigWindowTitle"));
+    if (dialogTitle == null) {
+      dialogTitle = messages.getString("guiConfigWindowTitle");
+    }
+    dialog.setTitle(dialogTitle);
+    if (ltImage != null) {
+      ((Frame) dialog.getOwner()).setIconImage(ltImage);
+    }
     // close dialog when user presses Escape key:
     KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     ActionListener actionListener = actionEvent -> dialog.setVisible(false);
@@ -321,7 +340,7 @@ public class ConfigurationDialog implements ActionListener {
       jPane.add(getMotherTonguePanel(cons), cons);
       cons.gridx = 0;
       cons.gridy++;
-      jPane.add(getNgramAndWord2VecPanel(), cons);
+      jPane.add(getNgramPanel(), cons);
     }
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
@@ -456,7 +475,13 @@ public class ConfigurationDialog implements ActionListener {
         ((SavablePanel) extra).componentShowing();
       }
     }
+    dialog.setAutoRequestFocus(true);
+    
+    if(insideOffice) {
+      dialog.setAlwaysOnTop(true);
+    }
     dialog.setVisible(true);
+    dialog.toFront();
     return configChanged;
   }
 
@@ -757,12 +782,81 @@ public class ConfigurationDialog implements ActionListener {
         firstSelection = true;
       }
     });
+
+    JLabel usernameLabel = new JLabel(Tools.getLabel(messages.getString("guiPremiumUsername")));
+
+    JTextField usernameField = new JTextField(config.getRemoteUsername() ==  null ? "" : config.getRemoteUsername(), 25);
+    usernameField.setMinimumSize(new Dimension(100, 25));
+    usernameField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        String username = usernameField.getText();
+        username = username.trim();
+        if(username.isEmpty()) {
+          username = null;
+        }
+        if (username != null) {
+          config.setRemoteUsername(username);
+        }
+      }
+    });
+
+    JLabel apiKeyLabel = new JLabel(Tools.getLabel(messages.getString("guiPremiumApiKey")));
+
+    JTextField apiKeyField = new JTextField(config.getRemoteApiKey() ==  null ? "" : config.getRemoteApiKey(), 25);
+    apiKeyField.setMinimumSize(new Dimension(100, 25));
+    apiKeyField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        String apiKey = apiKeyField.getText();
+        apiKey = apiKey.trim();
+        if(apiKey.isEmpty()) {
+          apiKey = null;
+        }
+        if (apiKey != null) {
+          config.setRemoteApiKey(apiKey);
+        }
+      }
+    });
+
+    JCheckBox isPremiumBox = new JCheckBox(Tools.getLabel(messages.getString("guiUsePremiumAccount")) + " ");
+    isPremiumBox.setSelected(config.isPremium());
+    isPremiumBox.addItemListener(e -> {
+      boolean selected = isPremiumBox.isSelected();
+      config.setPremium(selected);
+      usernameLabel.setEnabled(selected);
+      usernameField.setEnabled(selected);
+      apiKeyLabel.setEnabled(selected);
+      apiKeyField.setEnabled(selected);
+    });
+    
     JRadioButton[] typeOfCheckButtons = new JRadioButton[3];
     ButtonGroup typeOfCheckGroup = new ButtonGroup();
     typeOfCheckButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiOneThread")));
     typeOfCheckButtons[0].addActionListener(e -> {
       otherServerNameField.setEnabled(false);
       useServerBox.setEnabled(false);
+      usernameLabel.setEnabled(false);
+      usernameField.setEnabled(false);
+      apiKeyLabel.setEnabled(false);
+      apiKeyField.setEnabled(false);
+      isPremiumBox.setEnabled(false);
       config.setMultiThreadLO(false);
       config.setRemoteCheck(false);
     });
@@ -770,6 +864,11 @@ public class ConfigurationDialog implements ActionListener {
     typeOfCheckButtons[1].addActionListener(e -> {
       otherServerNameField.setEnabled(false);
       useServerBox.setEnabled(false);
+      usernameLabel.setEnabled(false);
+      usernameField.setEnabled(false);
+      apiKeyLabel.setEnabled(false);
+      apiKeyField.setEnabled(false);
+      isPremiumBox.setEnabled(false);
       config.setMultiThreadLO(true);
       config.setRemoteCheck(false);
     });
@@ -787,6 +886,11 @@ public class ConfigurationDialog implements ActionListener {
 //        typeOfCheckButtons[2].setSelected(selected);
         otherServerNameField.setEnabled(useServerBox.isSelected());
         useServerBox.setEnabled(true);
+        usernameLabel.setEnabled(isPremiumBox.isSelected());
+        usernameField.setEnabled(isPremiumBox.isSelected());
+        apiKeyLabel.setEnabled(isPremiumBox.isSelected());
+        apiKeyField.setEnabled(isPremiumBox.isSelected());
+        isPremiumBox.setEnabled(true);
         config.setMultiThreadLO(false);
         config.setRemoteCheck(true);
       } else {
@@ -805,18 +909,33 @@ public class ConfigurationDialog implements ActionListener {
       typeOfCheckButtons[2].setSelected(true);
       otherServerNameField.setEnabled(useServerBox.isSelected());
       useServerBox.setEnabled(true);
+      usernameLabel.setEnabled(isPremiumBox.isSelected());
+      usernameField.setEnabled(isPremiumBox.isSelected());
+      apiKeyLabel.setEnabled(isPremiumBox.isSelected());
+      apiKeyField.setEnabled(isPremiumBox.isSelected());
+      isPremiumBox.setEnabled(true);
       config.setMultiThreadLO(false);
       config.setRemoteCheck(true);
     } else if (config.isMultiThread()) {
       typeOfCheckButtons[1].setSelected(true);
       otherServerNameField.setEnabled(false);
       useServerBox.setEnabled(false);
+      usernameLabel.setEnabled(false);
+      usernameField.setEnabled(false);
+      apiKeyLabel.setEnabled(false);
+      apiKeyField.setEnabled(false);
+      isPremiumBox.setEnabled(false);
       config.setMultiThreadLO(true);
       config.setRemoteCheck(false);
     } else {
       typeOfCheckButtons[0].setSelected(true);
       otherServerNameField.setEnabled(false);
       useServerBox.setEnabled(false);
+      usernameLabel.setEnabled(false);
+      usernameField.setEnabled(false);
+      apiKeyLabel.setEnabled(false);
+      apiKeyField.setEnabled(false);
+      isPremiumBox.setEnabled(false);
       config.setMultiThreadLO(false);
       config.setRemoteCheck(false);
     }
@@ -843,10 +962,32 @@ public class ConfigurationDialog implements ActionListener {
     serverExampleLabel.setEnabled(false);
     cons1.gridy++;
     serverPanel.add(serverExampleLabel, cons1);
-
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(serverPanel, cons);
+
+    JPanel premiumPanel = new JPanel();
+    premiumPanel.setLayout(new GridBagLayout());
+    cons1 = new GridBagConstraints();
+    cons1.insets = new Insets(0, SHIFT2, 0, 0);
+    cons1.gridx = 0;
+    cons1.gridy = 0;
+    cons1.anchor = GridBagConstraints.WEST;
+    cons1.fill = GridBagConstraints.NONE;
+    cons1.weightx = 0.0f;
+    premiumPanel.add(isPremiumBox, cons1);
+    cons1.insets = new Insets(0, SHIFT3, 0, 0);
+    cons1.gridy++;
+    premiumPanel.add(usernameLabel, cons1);
+    cons1.gridy++;
+    premiumPanel.add(usernameField, cons1);
+    cons1.gridy++;
+    premiumPanel.add(apiKeyLabel, cons1);
+    cons1.gridy++;
+    premiumPanel.add(apiKeyField, cons1);
+    cons.gridx = 0;
+    cons.gridy++;
+    portPanel.add(premiumPanel, cons);
   }
   
   private void createOfficeElements(GridBagConstraints cons, JPanel portPanel) {
@@ -929,9 +1070,9 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(saveCacheBox, cons);
-    
+
     cons.gridy++;
-    portPanel.add(getNgramAndWord2VecPanel(), cons);
+    portPanel.add(getNgramPanel(), cons);
   }
   
   private int showRemoteServerHint(Component component, boolean otherServer) {
@@ -1101,6 +1242,7 @@ public class ConfigurationDialog implements ActionListener {
     JPanel profilePanel = new JPanel();
     profilePanel.setLayout(new GridBagLayout());
     GridBagConstraints cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 0, 8);
     cons.gridx = 0;
     cons.gridy = 0;
     cons.weightx = 1.0f;
@@ -1147,7 +1289,7 @@ public class ConfigurationDialog implements ActionListener {
     });
       
     profilePanel.add(new JLabel(addColonToMessageString("guiCurrentProfile")), cons);
-    cons.insets = new Insets(6, 12, 0, 8);
+    cons.insets = new Insets(6, 16, 0, 8);
     cons.gridy++;
     profilePanel.add(profileBox, cons);
     
@@ -1230,11 +1372,11 @@ public class ConfigurationDialog implements ActionListener {
     });
     cons.gridx++;
     profilePanel.add(deleteButton, cons);
-    cons.insets = new Insets(16, 0, 0, 8);
+    cons.insets = new Insets(16, 4, 0, 8);
     cons.gridx = 0;
     cons.gridy++;
     profilePanel.add(new JLabel(addColonToMessageString("guiAddNewProfile")), cons);
-    cons.insets = new Insets(6, 12, 0, 8);
+    cons.insets = new Insets(6, 16, 0, 8);
     
     
     JButton addButton = new JButton(messages.getString("guiAddProfile") + "...");
@@ -1344,8 +1486,8 @@ public class ConfigurationDialog implements ActionListener {
     motherTonguePanel.add(motherTongueBox, cons);
     return motherTonguePanel;
   }
-  
-  private JPanel getNgramAndWord2VecPanel() {
+
+  private JPanel getNgramPanel() {
     JPanel panel = new JPanel();
     panel.setLayout(new GridBagLayout());
     GridBagConstraints cons1 = new GridBagConstraints();
@@ -1356,8 +1498,6 @@ public class ConfigurationDialog implements ActionListener {
     cons1.fill = GridBagConstraints.NONE;
     cons1.weightx = 0.0f;
     addNgramPanel(cons1, panel);
-    cons1.gridy++;
-    addWord2VecPanel(cons1, panel);
     return panel;
   }
 
@@ -1391,38 +1531,6 @@ public class ConfigurationDialog implements ActionListener {
     panel.add(ngramDirButton, cons);
     JButton helpButton = new JButton(messages.getString("guiNgramHelp"));
     helpButton.addActionListener(e -> Tools.openURL("https://dev.languagetool.org/finding-errors-using-n-gram-data"));
-    cons.gridx++;
-    panel.add(helpButton, cons);
-  }
-
-  private void addWord2VecPanel(GridBagConstraints cons, JPanel panel) {
-    cons.gridx = 0;
-    panel.add(new JLabel((messages.getString("guiWord2VecDir")) + "  "), cons);
-    File dir = config.getWord2VecDirectory();
-    int maxDirDisplayLength = 45;
-    String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength) : messages.getString("guiWord2VecDirSelect");
-    JButton word2vecDirButton = new JButton(buttonText);
-    word2vecDirButton.addActionListener(e -> {
-      File newDir = Tools.openDirectoryDialog(owner, dir);
-      if (newDir != null) {
-        try {
-          config.setWord2VecDirectory(newDir);
-          word2vecDirButton.setText(StringUtils.abbreviate(newDir.getAbsolutePath(), maxDirDisplayLength));
-        } catch (Exception ex) {
-          Tools.showErrorMessage(ex);
-        }
-      } else {
-        // not the best UI, but this way user can turn off word2vec feature without another checkbox
-        config.setWord2VecDirectory(null);
-        word2vecDirButton.setText(StringUtils.abbreviate(messages.getString("guiWord2VecDirSelect"), maxDirDisplayLength));
-      }
-    });
-    cons.gridx++;
-    panel.add(word2vecDirButton, cons);
-    JButton helpButton = new JButton(messages.getString("guiWord2VecHelp"));
-    helpButton.addActionListener(e -> {
-      Tools.openURL("https://github.com/gulp21/languagetool-neural-network");
-    });
     cons.gridx++;
     panel.add(helpButton, cons);
   }
@@ -1555,20 +1663,31 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.NONE;
     cons.insets = new Insets(4, 3, 0, 4);
     
-    Set<String> changedRuleIds;
+    List<String> changedRuleIds;
     if (enabledRules) {
-      changedRuleIds = config.getEnabledRuleIds();
+      changedRuleIds = new ArrayList<String>(config.getEnabledRuleIds());
     } else {
-      changedRuleIds = config.getDisabledRuleIds();
+      changedRuleIds = new ArrayList<String>(config.getDisabledRuleIds());
     }
     
     if (changedRuleIds != null) {
       List<JCheckBox> ruleCheckboxes = new ArrayList<>();
-      for (String ruleId : changedRuleIds) {
+      for (int i = changedRuleIds.size() - 1; i >= 0; i--) {
+        String ruleId = changedRuleIds.get(i);
         String ruleDescription = null;
         for (Rule rule : rules) {
           if (rule.getId().equals(ruleId)) {
-            ruleDescription = rule.getDescription();
+            if ((enabledRules && rule.isDefaultOff() && !rule.isOfficeDefaultOn()) ||
+                (!enabledRules && (!rule.isDefaultOff() || rule.isOfficeDefaultOn()))) {
+              ruleDescription = rule.getDescription();
+            } else {
+              if (enabledRules) {
+                config.removeEnabledRuleId(ruleId);
+              } else {
+                config.removeDisabledRuleId(ruleId);
+              }
+            }
+            
             break;
           }
         }
@@ -1703,11 +1822,48 @@ public class ConfigurationDialog implements ActionListener {
       changeButton.add(new JButton(messages.getString("guiUColorChange")));
       changeButton.get(nCat).addActionListener(e -> {
         Color oldColor = uLabel.getForeground();
-        Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
+        if(insideOffice) {
+          dialog.setAlwaysOnTop(false);
+        }
+        
+        JColorChooser colorChooser = new JColorChooser(oldColor);
+        ActionListener okActionListener = new ActionListener() {
+          public void actionPerformed(ActionEvent actionEvent) {
+            Color newColor = colorChooser.getColor();
+            if(newColor != null && newColor != oldColor) {
+              uLabel.setForeground(newColor);
+              config.setUnderlineColor(cLabel, newColor);
+            }
+            if(insideOffice) {
+              dialog.setAlwaysOnTop(true);
+            }
+          }
+        };
+        // For cancel selection, change button background to red
+        ActionListener cancelActionListener = new ActionListener() {
+          public void actionPerformed(ActionEvent actionEvent) {
+            if(insideOffice) {
+              dialog.setAlwaysOnTop(true);
+            }
+          }
+        };
+        JDialog colorDialog = JColorChooser.createDialog(dialog, messages.getString("guiUColorDialogHeader"), true,
+            colorChooser, okActionListener, cancelActionListener);
+        if(insideOffice) {
+          colorDialog.setAlwaysOnTop(true);
+        }
+        colorDialog.toFront();
+        colorDialog.setVisible(true);
+/*
+        Color newColor = JColorChooser.showDialog(null, messages.getString("guiUColorDialogHeader"), oldColor);
         if(newColor != null && newColor != oldColor) {
           uLabel.setForeground(newColor);
           config.setUnderlineColor(cLabel, newColor);
         }
+        if(insideOffice) {
+          dialog.setAlwaysOnTop(true);
+        }
+*/
       });
       cons.gridx++;
       panel.add(changeButton.get(nCat), cons);
@@ -1786,6 +1942,42 @@ public class ConfigurationDialog implements ActionListener {
     JButton changeButton = new JButton(messages.getString("guiUColorChange"));
     changeButton.addActionListener(e -> {
       Color oldColor = underlineLabel.getForeground();
+      if(insideOffice) {
+        dialog.setAlwaysOnTop(false);
+      }
+      JColorChooser colorChooser = new JColorChooser(oldColor);
+      ActionListener okActionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent actionEvent) {
+          Color newColor = colorChooser.getColor();
+          if(newColor != null && newColor != oldColor) {
+            underlineLabel.setForeground(newColor);
+            if (rule == null) {
+              config.setUnderlineColor(category, newColor);
+            } else {
+              config.setUnderlineRuleColor(rule.getId(), newColor);
+            }
+          }
+          if(insideOffice) {
+            dialog.setAlwaysOnTop(true);
+          }
+        }
+      };
+      // For cancel selection, change button background to red
+      ActionListener cancelActionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent actionEvent) {
+          if(insideOffice) {
+            dialog.setAlwaysOnTop(true);
+          }
+        }
+      };
+      JDialog colorDialog = JColorChooser.createDialog(dialog, messages.getString("guiUColorDialogHeader"), true,
+          colorChooser, okActionListener, cancelActionListener);
+      if(insideOffice) {
+        colorDialog.setAlwaysOnTop(true);
+      }
+      colorDialog.toFront();
+      colorDialog.setVisible(true);
+/*      
       Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
       if(newColor != null && newColor != oldColor) {
         underlineLabel.setForeground(newColor);
@@ -1795,6 +1987,10 @@ public class ConfigurationDialog implements ActionListener {
           config.setUnderlineRuleColor(rule.getId(), newColor);
         }
       }
+      if(insideOffice) {
+        dialog.setAlwaysOnTop(true);
+      }
+*/
     });
     cons1.gridx++;
     colorPanel.add(changeButton);
@@ -1922,5 +2118,5 @@ public class ConfigurationDialog implements ActionListener {
     });
     return ruleOptionsPanel;
   }
-
+  
 }

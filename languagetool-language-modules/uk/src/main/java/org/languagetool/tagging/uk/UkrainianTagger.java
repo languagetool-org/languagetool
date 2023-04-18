@@ -19,7 +19,6 @@
 package org.languagetool.tagging.uk;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -29,6 +28,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.languagetool.AnalyzedToken;
+import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.TaggedWord;
@@ -56,7 +56,8 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern DATE = Pattern.compile("[\\d]{1,2}\\.[\\d]{1,2}\\.[\\d]{4}");
   private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
   private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9a-z]\u2013[а-яіїєґ]|[а-яіїєґ]\u2013[0-9]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern COMPOUND_WITH_QUOTES_REGEX = Pattern.compile("-[«\"„]");
+  private static final Pattern COMPOUND_WITH_QUOTES_REGEX = Pattern.compile("[-\u2013][«\"„]");
+  private static final Pattern COMPOUND_WITH_QUOTES_REGEX2 = Pattern.compile("[»\"“][-\u2013]");
 
 
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, locale);
@@ -87,9 +88,9 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     if ( TIME.matcher(word).matches() ) {
-      List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.time.getText(), word));
-      return additionalTaggedTokens;
+        List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
+        additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.time.getText(), word));
+        return additionalTaggedTokens;
     }
 
     if ( DATE.matcher(word).matches() ) {
@@ -111,12 +112,26 @@ public class UkrainianTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
 
+    if ( word.length() > 5 && word.matches("[а-яіїєґ'-]*[а-яіїєґ][А-ЯІЇЄҐ][а-яіїєґ][а-яіїєґ'-]*") ) {
+      List<TaggedWord> wdList = wordTagger.tag(word.toLowerCase());
+      if( wdList.size() > 0 ) {
+        wdList = PosTagHelper.adjust(wdList, null, null, ":alt");
+        return asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
+      }
+    }
+
+    word = Ukrainian.IGNORED_CHARS.matcher(word).replaceAll("");
+    
     if ( word.length() >= 3 && word.indexOf('-') > 0 ) {
 
       // екс-«депутат»
-      if( word.length() >= 6 && COMPOUND_WITH_QUOTES_REGEX.matcher(word).find() ) {
-        String adjustedWord = word.replaceAll("[«»\"„“]", "");
-        return getAdjustedAnalyzedTokens(word, adjustedWord, null, null, null);
+      // "заступницю"-колаборантку
+      if( word.length() >= 6 ) {
+        if (COMPOUND_WITH_QUOTES_REGEX.matcher(word).find()
+            || COMPOUND_WITH_QUOTES_REGEX2.matcher(word).find()) {
+          String adjustedWord = word.replaceAll("[«»\"„“]", "");
+          return getAdjustedAnalyzedTokens(word, adjustedWord, null, null, null);
+        }
       }
 
       try {
@@ -147,13 +162,13 @@ public class UkrainianTagger extends BaseTagger {
     if( tokens.get(0).hasNoTag() ) {
       String origWord = word;
 
-      if( word.lastIndexOf('м') == word.length()-2 
-          && word.matches("([ксмнд]|мк)?м[23²³]") ) {
-//        word = origWord.substring(0, word.length()-1);
-//        List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, word, Pattern.compile("noun:inanim.*"), null, null);
-//        return newTokens.size() > 0 ? newTokens : tokens;
-        return Arrays.asList(new AnalyzedToken(origWord, "noninfl", origWord));
-      }
+//      if( word.lastIndexOf('м') == word.length()-2 
+//          && word.matches("([ксмнд]|мк)?м[23²³]") ) {
+////        word = origWord.substring(0, word.length()-1);
+////        List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, word, Pattern.compile("noun:inanim.*"), null, null);
+////        return newTokens.size() > 0 ? newTokens : tokens;
+//        return Arrays.asList(new AnalyzedToken(origWord, "noninfl", origWord));
+//      }
 
 //      if( word.matches("[0-9]+[а-яїієґa-z]") ) {
 //        return Arrays.asList(new AnalyzedToken(origWord, "noninfl", origWord));

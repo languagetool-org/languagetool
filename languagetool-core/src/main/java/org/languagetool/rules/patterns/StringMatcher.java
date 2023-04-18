@@ -54,7 +54,7 @@ public abstract class StringMatcher {
    * or {@code null} if it's not possible to determine those.
    */
   @Nullable
-  abstract Set<String> getPossibleValues();
+  public abstract Set<String> getPossibleValues();
 
   /**
    * @return whether the given string is accepted by this matcher.
@@ -92,7 +92,7 @@ public abstract class StringMatcher {
         Arrays.sort(sorted, String.CASE_INSENSITIVE_ORDER);
         return new StringMatcher(pattern, true, false) {
           @Override
-          Set<String> getPossibleValues() {
+          public Set<String> getPossibleValues() {
             return Sets.newHashSet(sorted);
           }
 
@@ -107,7 +107,7 @@ public abstract class StringMatcher {
       }
       return new StringMatcher(pattern, true, true) {
         @Override
-        Set<String> getPossibleValues() {
+        public Set<String> getPossibleValues() {
           return Collections.unmodifiableSet(set);
         }
 
@@ -129,7 +129,7 @@ public abstract class StringMatcher {
     return new StringMatcher(pattern, true, caseSensitive) {
       @Nullable
       @Override
-      Set<String> getPossibleValues() {
+      public Set<String> getPossibleValues() {
         return null;
       }
 
@@ -149,7 +149,7 @@ public abstract class StringMatcher {
   private static StringMatcher stringEquals(String pattern, final boolean isRegExp, boolean caseSensitive) {
     return new StringMatcher(pattern, isRegExp, caseSensitive) {
       @Override
-      Set<String> getPossibleValues() {
+      public Set<String> getPossibleValues() {
         return Collections.singleton(pattern);
       }
 

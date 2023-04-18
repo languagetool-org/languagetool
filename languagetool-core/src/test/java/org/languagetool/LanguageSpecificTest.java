@@ -67,11 +67,9 @@ public class LanguageSpecificTest {
       System.err.println("Skipping message tests for unmaintained language " + lang);
       return;
     }
+    System.out.println("Testing messages for line breaks...");
     JLanguageTool lt = new JLanguageTool(lang);
     for (Rule rule : lt.getAllRules()) {
-      if (lang.getShortCode().equals("en") && rule.getId().startsWith("EUPUB_")) {  // ignore, turned off anyway
-        continue;
-      }
       if (rule instanceof AbstractPatternRule) {
         AbstractPatternRule pRule = (AbstractPatternRule) rule;
         String message = pRule.getMessage();
@@ -105,6 +103,7 @@ public class LanguageSpecificTest {
       System.out.println("File not found (okay for many languages): "+ path);
       return;
     }
+    System.out.println("Testing coherency.txt...");
     System.out.println("Checking " + path + "...");
     Map<String, Set<String>> map = loader.loadWords(path);
     Set<String> invalid = new HashSet<>();
@@ -146,11 +145,16 @@ public class LanguageSpecificTest {
       for (Rule rule : allRules) {
         assertIdAndDescriptionValidity(language, rule);
         if (!(rule instanceof AbstractPatternRule)) {
+          long startTime = System.currentTimeMillis();
+          System.out.print("Testing Java rule " + rule.getFullId());
           assertIdUniqueness(idsToClassName, ruleClasses, language, rule);
           assertIdValidity(language, rule);
           assertTrue(rule.supportsLanguage(language));
           rule.setTags(rule.getTags().stream().filter(k -> !k.equals(Tag.picky)).collect(Collectors.toList()));  // make sure "picky" rules also run
           testExamples(rule, lt);
+          long endTime = System.currentTimeMillis();
+          float runTime = (endTime-startTime)/1000f;
+          System.out.printf(Locale.ENGLISH, " ... %.2fs\n", runTime);
         }
       }
     }
@@ -196,6 +200,7 @@ public class LanguageSpecificTest {
       System.out.println("Skipping testNoQuotesAroundSuggestion for " + lang.getName());
       return;
     }
+    System.out.println("Testing that there no quotes around <suggestion>s...");
     String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + lang.getShortCode() + "/";
     for (String ruleFileName : lang.getRuleFileNames()) {
       if (ruleFileName.contains("-test-")) {

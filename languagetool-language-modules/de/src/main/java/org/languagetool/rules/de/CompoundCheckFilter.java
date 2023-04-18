@@ -11,10 +11,13 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.function.Function;
 
-public class CompoundCheckFilter  extends RuleFilter {
+public class CompoundCheckFilter extends RuleFilter {
   
   private static final String FILE_ENCODING = "utf-8";
-  private static final MostlySingularMultiMap<String, String> relevantWords = loadWords("/de/addedCompound.txt");
+
+  private static class Lazy {
+    static final MostlySingularMultiMap<String, String> relevantWords = loadWords("/de/addedCompound.txt");
+  }
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
@@ -23,7 +26,7 @@ public class CompoundCheckFilter  extends RuleFilter {
     String part1 = arguments.get("part1").toLowerCase();
     String part2 = arguments.get("part2").toLowerCase();
 
-    List<String> list = relevantWords.getList(part1);
+    List<String> list = Lazy.relevantWords.getList(part1);
     return list != null && list.contains(part2) ? match : null;
   }
   

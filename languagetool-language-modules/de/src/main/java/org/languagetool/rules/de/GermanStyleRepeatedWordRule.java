@@ -68,7 +68,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   
   @Override
   protected String messageSameSentence() {
-    return "Mögliches Stilproblem: Das Wort wird bereits im selben Satz verwendet.";
+    return "Mögliches Stilproblem: Das Wort wird noch einmal im selben Satz verwendet.";
   }
   
   @Override
@@ -78,7 +78,7 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   
   @Override
   protected String messageSentenceAfter() {
-    return "Mögliches Stilproblem: Das Wort wird bereits in einem nachfolgenden Satz verwendet.";
+    return "Mögliches Stilproblem: Das Wort wird auch in einem nachfolgenden Satz verwendet.";
   }
 
   /**
@@ -86,12 +86,14 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
    */
   private boolean isCorrectSpell(String word) {
     word = StringTools.uppercaseFirstChar(word);
-    if (linguServices == null && speller == null) {
+//    if (linguServices == null && speller == null) {
+    if (speller == null) {
       // speller can not initialized by constructor because of temporary initialization of LanguageTool in other rules,
       // which leads to problems in LO/OO extension
       speller = new Speller(MorfologikSpeller.getDictionaryWithCaching("/de/hunspell/de_DE.dict"));
     }
-    if (linguServices == null && speller != null) {
+//    if (linguServices == null && speller != null) {
+    if (speller != null) {
       return !speller.isMisspelled(word);
     } else if (linguServices != null) {
       return linguServices.isCorrectSpell(word, lang);
@@ -121,16 +123,20 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
    */
   protected boolean isTokenPair(AnalyzedTokenReadings[] tokens, int n, boolean before) {
     if (before) {
-      if ((tokens[n-2].hasPosTagStartingWith("SUB") && tokens[n-1].hasPosTagStartingWith("PRP")
+      if (n > 2 && n < tokens.length &&
+          (tokens[n-2].hasPosTagStartingWith("SUB") && tokens[n-1].hasPosTagStartingWith("PRP")
               && tokens[n].hasPosTagStartingWith("SUB"))
-          || (!tokens[n-2].getToken().equals("hart") && !tokens[n-1].getToken().equals("auf") && !tokens[n].getToken().equals("hart"))
+          || (tokens[n-2].getToken().equals("hart") && tokens[n-1].getToken().equals("auf") && tokens[n].getToken().equals("hart"))
+          || (tokens[n-2].getToken().equals("dicht") && tokens[n-1].getToken().equals("an") && tokens[n].getToken().equals("dicht"))
          ) {
         return true;
       }
     } else {
-      if ((tokens[n].hasPosTagStartingWith("SUB") && tokens[n+1].hasPosTagStartingWith("PRP")
+      if (n > 0 && n < tokens.length - 2 &&
+          (tokens[n].hasPosTagStartingWith("SUB") && tokens[n+1].hasPosTagStartingWith("PRP")
               && tokens[n+2].hasPosTagStartingWith("SUB"))
-          || (!tokens[n].getToken().equals("hart") && !tokens[n-1].getToken().equals("auf") && !tokens[n + 2].getToken().equals("hart"))
+          || (tokens[n].getToken().equals("hart") && tokens[n+1].getToken().equals("auf") && tokens[n+2].getToken().equals("hart"))
+          || (tokens[n].getToken().equals("dicht") && tokens[n+1].getToken().equals("an") && tokens[n+2].getToken().equals("dicht"))
          ) {
         return true;
       }
@@ -176,7 +182,9 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
       return false;
     }
     String lowerTokenText = StringTools.lowercaseFirstChar(tokenText);
-    if (lowerTokenText.equals("frei")) {
+    if (lowerTokenText.equals("frei")
+        || (lowerTokenText.equals("alten") && testTokenText.endsWith("halten"))
+        ) {
       return false;
     }
     if (StringTools.lowercaseFirstChar(testTokenText).startsWith(lowerTokenText)) {

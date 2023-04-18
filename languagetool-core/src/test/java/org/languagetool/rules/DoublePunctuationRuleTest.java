@@ -34,32 +34,32 @@ public class DoublePunctuationRuleTest {
   @Test
   public void testRule() throws IOException {
     DoublePunctuationRule rule = new DoublePunctuationRule(TestTools.getEnglishMessages());
-    RuleMatch[] matches;
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
     
     // correct sentences:
-    matches = rule.match(lt.getAnalyzedSentence("This is a test sentence..."));
-    assertEquals(0, matches.length);
-    matches = rule.match(lt.getAnalyzedSentence("Это тестовое предложение?.."));
-    assertEquals(0, matches.length);
-    matches = rule.match(lt.getAnalyzedSentence("Это тестовое предложение!.. "));
-    assertEquals(0, matches.length);
-    matches = rule.match(lt.getAnalyzedSentence("This is a test sentence... More stuff...."));
-    assertEquals(0, matches.length);
-    matches = rule.match(lt.getAnalyzedSentence("This is a test sentence..... More stuff...."));
-    assertEquals(0, matches.length);
-    matches = rule.match(lt.getAnalyzedSentence("This, is, a test sentence."));
-    assertEquals(0, matches.length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is a test sentence...")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Это тестовое предложение?..")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Это тестовое предложение!.. ")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is a test sentence... More stuff....")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This is a test sentence..... More stuff....")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("This, is, a test sentence.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("The path is ../data/vtest.avi")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("The path is ..\\data\\vtest.avi")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Something … … ..")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Something … … ... …")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Something … … .... …")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Something … … .. …")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Something ……..")).length);
 
     // errors:
-    matches = rule.match(lt.getAnalyzedSentence("This,, is a test sentence."));
-    assertEquals(1, matches.length);
-    assertEquals(4, matches[0].getFromPos());
-    assertEquals(6, matches[0].getToPos());
-    matches = rule.match(lt.getAnalyzedSentence("This is a test sentence.. Another sentence"));
-    assertEquals(1, matches.length);
-    assertEquals(23, matches[0].getFromPos());
-    assertEquals(25, matches[0].getToPos());
+    RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("This,, is a test sentence."));
+    assertEquals(1, matches1.length);
+    assertEquals(4, matches1[0].getFromPos());
+    assertEquals(6, matches1[0].getToPos());
+    RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("This is a test sentence.. Another sentence"));
+    assertEquals(1, matches2.length);
+    assertEquals(23, matches2[0].getFromPos());
+    assertEquals(25, matches2[0].getToPos());
   }
   
 }

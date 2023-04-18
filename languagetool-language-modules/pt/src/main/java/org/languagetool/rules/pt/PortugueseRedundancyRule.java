@@ -55,6 +55,7 @@ public class PortugueseRedundancyRule extends AbstractSimpleReplaceRule2 {
     super(messages, new Portuguese());
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
+    useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>duna de areia</marker>"),
                    Example.fixed("<marker>duna</marker>"));
   }

@@ -37,7 +37,6 @@ import static tech.units.indriya.unit.Units.*;
  */
 public class UnitConversionRule extends AbstractUnitConversionRule {
 
-
   protected NumberFormat format;
 
   public UnitConversionRule(ResourceBundle messages) {
@@ -60,8 +59,8 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
     addUnit("yards?", YARD, "yards", 1, false);
     addUnit("inch(es)?", INCH, "inches", 1, false);
 
-    addUnit( "(?:degrees?)? Fahrenheit", FAHRENHEIT, "degree Fahrenheit", 1, false);
-    addUnit( "(?:degrees?)? Celsius", CELSIUS, "degree Celsius", 1, true);
+    addUnit("(?:degrees?)? Fahrenheit", FAHRENHEIT, "degree Fahrenheit", 1, false);
+    addUnit("(?:degrees?)? Celsius", CELSIUS, "degree Celsius", 1, true);
   }
 
   @Override

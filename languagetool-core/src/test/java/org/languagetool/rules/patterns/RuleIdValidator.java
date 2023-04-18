@@ -73,14 +73,26 @@ public class RuleIdValidator {
   private static class XmlIdHandler extends DefaultHandler {
 
     private final Set<String> ids = new HashSet<>();
-    
+
+    private String idPrefix = "";
+
     @Override
     public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) {
+      if (qName.equals("rules") && attrs.getValue("idprefix") != null) {
+        idPrefix = attrs.getValue("idprefix");
+      }
       if (qName.equals("rule") || qName.equals("rulegroup")) {
         String id = attrs.getValue("id");
         if (id != null) {
-          ids.add(id);
+          ids.add(idPrefix + id);
         }
+      }
+    }
+
+    @Override
+    public void endElement(String namespaceURI, String lName, String qName) {
+      if (qName.equals("rules")) {
+        idPrefix = "";
       }
     }
 

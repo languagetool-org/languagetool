@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+  ~ LanguageTool, a natural language style checker 
+  ~ Copyright (c) 2022.  Stefan Viol (https://stevio.de)
+  ~  
+  ~  This library is free software; you can redistribute it and/or
+  ~  modify it under the terms of the GNU Lesser General Public
+  ~  License as published by the Free Software Foundation; either
+  ~  version 2.1 of the License, or (at your option) any later version.
+  ~  
+  ~  This library is distributed in the hope that it will be useful,
+  ~  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~  Lesser General Public License for more details.
+  ~  
+  ~  You should have received a copy of the GNU Lesser General Public
+  ~  License along with this library; if not, write to the Free Software
+  ~  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+  ~  USA
+  -->
+
+<!--
+Filter for remote matches.
+To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
+-->
+<!DOCTYPE rules [
+
+<!ENTITY expressoes_de_tempo "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)s?|época)s?|m(?:ês|eses)|alturas?|datas?|eras?|idades?|instantes?|momentos?|ocasião|ocasiões|períodos?|quinzenas?|séculos?|vez|vezes">
+<!ENTITY expressoes_de_tempo_simples "yoctossegundos?|zeptossegundos?|atossegundos?|fentossegundos?|picossegundos?|nanossegundos?|microssegundos?|milissegundos?|(?:segundo|minuto|hora|dia|semana|(?:bi|tri|quadri|se)mestre|ano|década|decénio|mil[éê]nio)s?|mês|meses">
+<!ENTITY livros_biblicos "Gênesis|Êxodo|Levítico|Deuteronômio|Josué|Juízes|Rute|Samuel|Reis|Crônicas|Esdras|Neemias|Ester|Jó|Salmos|Provérbios|Eclesiastes|Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|Oseias|Joel|Amós|Obadias|Jonas|Miqueias|Naum|Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Tobias|Judite|Macabeus|Sabedoria|Eclesiástico|Baruque|Mateus|Marcos|Lucas|João|Apóstolos|Romanos|Coríntios|Gálatas|Efésios|Filipenses|Colossenses|Tessalonicenses|Timóteo|Tito|Filémon|Hebreus|Tiago|Pedro|Judas|Apocalipse">
+<!ENTITY unidades_de_medida "(?:(?:[khdcmnµfYZEPTGM]|da)?(?:[gmlsJNWCVSFTHΩ]|Hz|cd|lm|mol|Pa|Wb|rad|sr|lx|Bq|Gy|Sv|kat|Np|eV)(?:⁻)?[23¹²³]?|º[CFK]|cv|k?cal|mmHg|atm|bpm|ton|kWh|GWa|MWd|MWh|mAh|min|ha)">
+<!ENTITY unidades_de_medida_por_extenso "centigrama|centigramas|centilitro|centilitros|centímetro|centímetros|decigrama|decigramas|decilitro|decilitros|decímetro|decímetros|grama|gramas|grau|graus|hectares|litro|litros|metro|metros|micrograma|microgramas|microlitro|microlitros|micrometro|micrómetro|micrómetros|milha|milhas|miligrama|miligramas|mililitro|mililitros|milimetro|milímetro|milímetros|quilograma|quilogramas|quilolitro|quilolitros|quilometro|quilómetro|quilómetros|quilotonelada|quilotoneladas|segundo|segundos|tonelada|toneladas">
+<!ENTITY operadores_matematicos "[-x\.·\*\/\^\|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇‖′″‴⁀⁄⁒⁺⁻⁼⁽⁾₊₋₌₍₎∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿⊀⊁⊂⊃⊄⊅⊆⊇⊈⊉⊊⊋⊌⊍⊎⊏⊐⊑⊒⊓⊔⊕⊖⊗⊘⊙⊚⊛⊜⊝⊞⊟⊠⊡⊢⊣⊤⊥⊦⊧⊨⊩⊪⊫⊬⊭⊮⊯⊰⊱⊲⊳⊴⊵⊶⊷⊸⊹⊺⊻⊼⊽⊾⊿⋀⋁⋂⋃⋄⋅⋆⋇⋈⋉⋊⋋⋌⋍⋎⋏⋐⋑⋒⋓⋔⋕⋖⋗⋘⋙⋚⋛⋜⋝⋞⋟⋠⋡⋢⋣⋤⋥⋦⋧⋨⋩⋪⋫⋬⋭⋮⋯⋰⋱⋲⋳⋴⋵⋶⋷⋸⋹⋺⋻⋼⋽⋾⋿→]|\=|\+">
+<!ENTITY tracos_de_separacao "(?:[-‑]|–|—)">
+<!ENTITY meses_ano_abrev "(?:[Aa]br|[Aa]go|[Dd]ez|[Ff]ev|[Jj]an|[Jj]ul|[Jj]un|mai|mar|[Nn]ov|[Oo]ut|[Ss]et)">
+<!ENTITY meses_ano "(?:[Aa]bril|[Aa]gosto|[Dd]ezembro|[Ff]evereiro|[Jj]aneiro|[Jj]ulho|[Jj]unho|[Mm]aio|[Mm]arço|[Nn]ovembro|[Oo]utubro|[Ss]etembro)">
+
+]>
+
+<rules lang="pt" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <category name="Machine learning rules" id="AI_RULES">
+      <!-- TODO: fill me -->
+
+    <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="False alarms in missing comma rule">
+        <rule>
+            <pattern>
+                <token>de</token>
+                <token regexp="yes">\d+%</token>
+            </pattern>
+            <example correction="">Aumento <marker>de 285%</marker> no número de pessoas</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">\d+</token>
+                <token negate="yes">,</token>
+            </pattern>
+            <example correction="">ex: <marker>01 22 34.</marker></example>
+        </rule>
+        <rule>
+            <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">&expressoes_de_tempo;|&operadores_matematicos;|&unidades_de_medida;|&unidades_de_medida_por_extenso;</token>
+            </pattern>
+            <example correction=""><marker>100 milissegundos</marker> de atraso.</example>
+            <example correction="">e um raio de <marker>85 ±</marker> 1,6 raios solares.</example>
+            <example correction="">Está localizada a <marker>63 km</marker> a ESE da ilha Kanton.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.+" postag_regexp="yes"/>
+                <token regexp="yes">&tracos_de_separacao;</token>
+                <token postag="N...G.+" postag_regexp="yes"/>
+            </pattern>
+            <example correction=""><marker>Campanha — Rio</marker> de Janeiro, 29 de abril de 1887.</example>
+        </rule>
+        <rule>
+            <pattern>
+                 <token postag="N.+" postag_regexp="yes"/>
+                 <token>acima</token>
+                 <token>de</token>
+                 <token>tudo</token>
+                 <token>,</token>
+                 <token negate_pos="yes" postag="V.+" postag_regexp="yes"/>
+            </pattern>
+            <example correction=""><marker>Deus acima de tudo, família</marker> meu maior patrimônio.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.+" postag_regexp="yes"/>
+                <token postag="AQ.+" postag_regexp="yes"/>
+                <token>,</token>
+                <token postag="N.+" postag_regexp="yes"/>
+                <token regexp="yes">e|,</token>
+                <token postag="N.+" postag_regexp="yes"/>
+            </pattern>
+            <example correction="">Muitas <marker>pessoas pesquisadores, cientistas e astrônomos</marker> não comparecem a esses eventos.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="N.+" postag_regexp="yes"/>
+                <token postag="AQ.+" postag_regexp="yes"/>
+                <token regexp="yes">e|,</token>
+                <token postag="N.+" postag_regexp="yes"/>
+            </pattern>
+            <example correction="">Temos <marker>bens imóveis e monumentos</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.+" postag_regexp="yes"/>
+                <token postag="DA.+|DD.+" postag_regexp="yes" min="0"/>
+                <token postag="DP.+" postag_regexp="yes"/>
+                <token postag="N.+" postag_regexp="yes"/>
+            </pattern>
+            <example correction=""><marker>Entendo a sua preocupação</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp='yes'>\d+\%</token>
+                <token postag="SPS.+" postag_regexp="yes"/>
+            </pattern>
+            <example correction="">Houve um crescimento de <marker>40% nos</marker> acessos.</example>
+            <example correction="">A vitória rendeu <marker>40% de</marker> lucro.</example>
+        </rule>
+    </rulegroup>
+    </category>
+</rules>

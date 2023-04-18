@@ -18,8 +18,8 @@
  */
 package org.languagetool.dev.eval;
 
-import org.languagetool.language.FastText;
-import org.languagetool.language.NGramLangIdentifier;
+import org.languagetool.language.identifier.detector.FastTextDetector;
+import org.languagetool.language.identifier.detector.NGramDetector;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,18 +43,18 @@ class LangIdentExamples {
   private static final String IT = "it";
   private static final String UK = "uk";
 
-  private final FastText ft;
-  private final NGramLangIdentifier ngram;
+  private final FastTextDetector ft;
+  private final NGramDetector ngram;
   private final Map<String,Integer> langTotalCount = new HashMap<>();
   private final Map<String,Integer> langToCorrectCount = new HashMap<>();
 
   private LangIdentExamples() throws IOException {
     if (MODE.equals("ngram")) {
-      ngram = new NGramLangIdentifier(NGRAM_ZIP, 50);
+      ngram = new NGramDetector(NGRAM_ZIP, 50);
       ft = null;
     } else if (MODE.equals("fasttext")) {
       ngram = null;
-      ft = new FastText(MODEL_PATH, BINARY_PATH);
+      ft = new FastTextDetector(MODEL_PATH, BINARY_PATH);
     } else {
       throw new RuntimeException("MODE not known: " + MODE);
     }

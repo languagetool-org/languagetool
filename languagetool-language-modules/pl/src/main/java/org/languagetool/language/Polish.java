@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pl.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pl.PolishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -78,7 +79,7 @@ public class Polish extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new PolishSynthesizer(this);
+    return PolishSynthesizer.INSTANCE;
   }
 
   @Override
@@ -116,5 +117,11 @@ public class Polish extends Language {
       case "ZDANIA_ZLOZONE": return -1;  //so that it does not override more important rules
     }
     return super.getPriorityForId(id);
+  }
+
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikPolishSpellerRule(messages, this, null, null);
   }
 }

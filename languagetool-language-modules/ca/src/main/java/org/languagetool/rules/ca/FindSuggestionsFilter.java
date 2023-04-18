@@ -25,14 +25,19 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ca.CatalanTagger;
 
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
-  private static final String DICT_FILENAME = "/ca/ca-ES.dict";
-  private static MorfologikSpeller speller;  
-
+  protected static final String DICT_FILENAME = "/ca/ca-ES.dict";
+  protected static MorfologikSpeller speller;
+  /* lemma exceptions */
+  public static final String[] LemmasToIgnore =  new String[] {"enterar", "sentar", "conseguir", "alcançar"};
+  public static final String[] LemmasToAllow =  new String[] {"enter", "sentir"};
+  
   public FindSuggestionsFilter() throws IOException {
     // lazy init
     if (speller == null) {
@@ -51,5 +56,15 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   protected List<String> getSpellingSuggestions(AnalyzedTokenReadings atr) throws IOException {
     return speller.findSimilarWords(atr.getToken());
   }
+
+  @Override
+  protected boolean isSuggestionException(AnalyzedTokenReadings analyzedSuggestion) {
+    return analyzedSuggestion.hasAnyLemma(LemmasToIgnore) && !analyzedSuggestion.hasAnyLemma(LemmasToAllow);
+  };
+  
+//  @Override
+//  protected Synthesizer getSynthesizer() {
+//    return CatalanSynthesizer.INSTANCE;
+//  }
 
 }

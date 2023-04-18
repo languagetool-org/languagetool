@@ -31,8 +31,14 @@ public class RomanianSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/ro/romanian_synth.dict";
   private static final String TAGS_FILE_NAME = "/ro/romanian_tags.txt";
 
+  public static final RomanianSynthesizer INSTANCE = new RomanianSynthesizer();
+
+  /** @deprecated use {@link #INSTANCE} */
   public RomanianSynthesizer(Language lang) {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+    this();
+  }
+  private RomanianSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "ro");
   }
 
 }

@@ -99,6 +99,11 @@ public class UpperCaseNgramRule extends Rule {
       csRegex("[A-Z].+")
     ),
     Arrays.asList(
+      csRegex("[A-Z].+"),
+      tokenRegex("[’']"),
+      csRegex("s")
+    ),
+    Arrays.asList(
       pos("SENT_START"), // Two-word phrases with "?" or "!": "What Happened?", "Catch Up!" (can be headlines)
       tokenRegex("[A-Z].+"),
       tokenRegex("[A-Z].+"),
@@ -473,6 +478,27 @@ public class UpperCaseNgramRule extends Rule {
     ),
     Arrays.asList(
       csRegex("Peters")
+    ),
+    Arrays.asList( // What Does an Effective Cover Letter Look Like?
+      csRegex("Who|What|When|Where|Why|How"),
+      csRegex("Is|Are|Was|Were|Do(es)?|Have|Has"),
+      new PatternTokenBuilder().pos("DT").min(0).build(),
+      csRegex("[A-Z].+"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // PARENTHESES: (4 hrs/wk) Manage all IT affairs / Exercise (Engage in exercises...
+      tokenRegex("\\(|\\)"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Arrows
+      token("-"),
+      token(">"),
+      csRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Quotes
+      new PatternTokenBuilder().tokenRegex("[\"“”„]").setSkip(-1).build(),
+      new PatternTokenBuilder().tokenRegex("[A-Z].+").setSkip(-1).build(),
+      tokenRegex("[\"“”„]")
     )
   );
 

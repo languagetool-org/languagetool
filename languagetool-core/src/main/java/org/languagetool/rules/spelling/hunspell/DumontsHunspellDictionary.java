@@ -18,29 +18,19 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
-import dumonts.hunspell.bindings.HunspellLibrary;
-import org.bridj.Pointer;
+import dumonts.hunspell.Hunspell;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DumontsHunspellDictionary implements HunspellDictionary {
-  private final Pointer<HunspellLibrary.Hunhandle> handle;
-  private final Charset charset;
+  private final Hunspell hunspell;
 
   public DumontsHunspellDictionary(Path dictionary, Path affix) {
     try {
-      Pointer<Byte> aff = Pointer.pointerToCString(affix.toString());
-      Pointer<Byte> dic = Pointer.pointerToCString(dictionary.toString());
-      handle = HunspellLibrary.Hunspell_create(aff, dic);
-      charset = Charset.forName(HunspellLibrary.Hunspell_get_dic_encoding(handle).getCString());
-      if (this.handle == null) {
-        throw new RuntimeException("Unable to create Hunspell instance");
-      }
+      hunspell = new Hunspell(dictionary,affix);
     } catch (UnsatisfiedLinkError e) {
       throw new RuntimeException("Could not create hunspell instance. Please note that LanguageTool supports only 64-bit platforms " +
           "(Linux, Windows, Mac) and that it requires a 64-bit JVM (Java).", e);
@@ -49,52 +39,21 @@ public class DumontsHunspellDictionary implements HunspellDictionary {
 
   @Override
   public boolean spell(String word) {
-    if (handle == null) {
-      throw new RuntimeException("Attempt to use hunspell instance after closing");
-    }
-    @SuppressWarnings("unchecked")
-    Pointer<Byte> str = (Pointer<Byte>) Pointer.pointerToString(word, Pointer.StringType.C, charset);
-    int result = HunspellLibrary.Hunspell_spell(handle, str);
-    return result != 0;
+    return hunspell.spell(word);
   }
 
   @Override
   public void add(String word) {
-    if (handle == null) {
-      throw new RuntimeException("Attempt to use hunspell instance after closing");
-    }
-    @SuppressWarnings("unchecked")
-    Pointer<Byte> str = (Pointer<Byte>) Pointer.pointerToString(word, Pointer.StringType.C, charset);
-    HunspellLibrary.Hunspell_add(handle, str);
+    hunspell.add(word);
   }
 
   @Override
   public List<String> suggest(String word) {
-    // Create pointer to native string
-    @SuppressWarnings("unchecked")
-    Pointer<Byte> str = (Pointer<Byte>) Pointer.pointerToString(word, Pointer.StringType.C, charset);
-    // Create pointer to native string array
-    Pointer<Pointer<Pointer<Byte>>> nativeSuggestionArray = Pointer.allocatePointerPointer(Byte.class);
-    // Hunspell will allocate the array and fill it with suggestions
-    int suggestionCount = HunspellLibrary.Hunspell_suggest(handle, nativeSuggestionArray, str);
-    if (suggestionCount == 0) {
-      // Return early and don't try to free the array
-      return new ArrayList<>();
-    }
-    // Ask bridj for a `java.util.List` that wraps `nativeSuggestionArray`
-    List<Pointer<Byte>> nativeSuggestionList = nativeSuggestionArray.get().validElements(suggestionCount).asList();
-    // Convert C Strings to java strings
-    List<String> suggestions = nativeSuggestionList.stream().map(p -> p.getStringAtOffset(0, Pointer.StringType.C, charset)).collect(Collectors.toList());
-
-    // We can free the underlying buffer now because Java's `String` owns it's own memory
-    HunspellLibrary.Hunspell_free_list(handle, nativeSuggestionArray, suggestionCount);
-    return suggestions;
+    return Arrays.asList(hunspell.suggest(word));
   }
 
   @Override
   public void close() throws IOException {
-    if (handle != null) {
-      HunspellLibrary.Hunspell_destroy(handle);
-    }
+    hunspell.close();
   }
 }

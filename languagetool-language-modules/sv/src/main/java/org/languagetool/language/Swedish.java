@@ -19,9 +19,11 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.rules.sv.CompoundRule;
 import org.languagetool.tagging.Tagger;
@@ -83,4 +85,9 @@ public class Swedish extends Language {
     );
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new HunspellRule(messages, this, null, null);
+  }
 }

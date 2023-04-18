@@ -24,6 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ro.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ro.RomanianSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -93,7 +94,7 @@ public class Romanian extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new RomanianSynthesizer(this);
+    return RomanianSynthesizer.INSTANCE;
   }
 
   @Override
@@ -109,5 +110,11 @@ public class Romanian extends Language {
   @Override
   public SentenceTokenizer createDefaultSentenceTokenizer() {
     return new SRXSentenceTokenizer(this);
+  }
+
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikRomanianSpellerRule(messages, this, null,null);
   }
 }

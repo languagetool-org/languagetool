@@ -1,12 +1,12 @@
 # LanguageTool
 
-**A proof-reading tool for English, Spanish, German,
-Polish, Chinese, French, Russian, Italian, Dutch, Ukrainian
+**A proofreading tool for English, Spanish, German,
+French, Portuguese, Dutch, Ukrainian
 and [more languages](https://dev.languagetool.org/languages)**
 
-Version 5.8-SNAPSHOT (xxx-xx-xx)
-Copyright (C) 2005-2022 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
-https://www.languagetool.org
+Version 6.2-SNAPSHOT (2023-xx-xx)  
+Copyright (C) 2005-2023 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
+https://languagetool.org
 
 
 ## Requirements
@@ -23,21 +23,24 @@ https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-* Double-click `LanguageTool-5.7.oxt`. The extension should
+* Double-click `LanguageTool-6.2-SNAPSHOT.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 * If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in LibreOffice/OpenOffice.org and browse for the
-   `LanguageTool-5.7.oxt` file.
+   `LanguageTool-6.2-SNAPSHOT.oxt` file.
 
-Close and restart LibreOffice/OpenOffice.org Writer. Remember to close
-the QuickStarter as well if you use it. Type text with
+Close and restart LibreOffice/OpenOffice.org Writer. Type text with
 an error, e.g. "Feel tree to do so." - make sure the text language
 is set to English for this example.
 
 You should see a blue underline under the word "tree" after about a second.
 Opening the context menu with the right mouse button on that word
 offers you a short description of the error and a correction ("free").
+
+**NOTE:** If you run into trouble, you might want to try using the 
+embedded support for LanguageTool that was added in LibreOffice 7.4:
+https://forum.languagetool.org/t/new-libreoffice-7-4-languagetool-remote-grammar-checker/8187/2
 
 If you are using LibreOffice and you want to check English or Russian texts:
 Use `Options -> Language Settings -> Writing Aids -> Edit...` in the

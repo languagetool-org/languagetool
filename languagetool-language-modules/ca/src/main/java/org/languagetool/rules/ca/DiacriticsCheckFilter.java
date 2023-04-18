@@ -42,12 +42,13 @@ public class DiacriticsCheckFilter extends RuleFilter {
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) {
-
+    
     Pattern desiredGenderNumberPattern = null;
     String replacement = null;
     String postag = getRequired("postag", arguments);
     String originalForm = getRequired("form", arguments);
     boolean isAllUppercase = StringTools.isAllUppercase(originalForm);
+    boolean isCapitalized = StringTools.isCapitalizedWord(originalForm);
     String form = originalForm.toLowerCase();
     
     String gendernumberFrom = getOptional("gendernumberFrom", arguments);
@@ -92,11 +93,16 @@ public class DiacriticsCheckFilter extends RuleFilter {
       if (isAllUppercase) {
         replacement = replacement.toUpperCase();
       }
-      String suggestion = match.getSuggestedReplacements().get(0).replace("{suggestion}", replacement);
-      suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));
-      ruleMatch.setSuggestedReplacement(suggestion);
+      if (isCapitalized) {
+        replacement = StringTools.uppercaseFirstChar(replacement);
+      }
+      for (String sugg : match.getSuggestedReplacements()) {
+        String suggestion = sugg.replace("{suggestion}", replacement);
+        suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));
+        ruleMatch.addSuggestedReplacement(suggestion);  
+      }
       return ruleMatch;
-    }    
+    }
     return null;
   }
 

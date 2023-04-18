@@ -27,6 +27,36 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
 -->
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_ES_HYDRA_LEO_CP_ESTA_EST_" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token regexp="yes">tarde|noche|no</token>
+                </pattern>
+                <example correction=""><marker>Esta</marker> tarde pretendo estudiar después de que haya llegado a la casa. </example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token>de</token>
+                    <token regexp="yes">aquí|ahí|allí|allá|acá</token>
+                </pattern>
+                <example correction="">¿<marker>Esta</marker> de aquí?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token postag="NCFS000"/>
+                </pattern>
+                <example correction="">Quita de aquí <marker>esta</marker> porquería.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AI_ES_HYDRA_LEO_MISSING_COMMA" name="">
             <!-- ignore noun + adj if there is agreement -->
             <rule>

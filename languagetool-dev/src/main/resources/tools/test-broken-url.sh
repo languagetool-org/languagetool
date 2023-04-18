@@ -15,6 +15,8 @@ url_count=0
 broken_url_count=0
 
 # Loop on all grammar.xml files...
+# use this for premium:
+#for grammar_xml in $(find languagetool-language-modules/*/src -name grammar-premium*.xml); do
 for grammar_xml in $(find languagetool-language-modules/*/src -name grammar.xml); do
   printf "\rChecking [$grammar_xml]...\n"
 

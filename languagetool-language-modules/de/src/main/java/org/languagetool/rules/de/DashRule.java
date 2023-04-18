@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.*;
+import org.languagetool.tools.Tools;
 
 /**
  * Prüft, dass in Bindestrich-Komposita kein Leerzeichen eingefügt wird (wie z.B. in 'Diäten- Erhöhung').
@@ -34,6 +35,7 @@ public class DashRule extends Rule {
 
   public DashRule(ResourceBundle messages) {
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/de/beitrag/grammatik-leerzeichen/#fehler-1-leerzeichen-vor-und-nach-satzzeichen"));
     addExamplePair(Example.wrong("Bundestag beschließt <marker>Diäten- Erhöhung</marker>"),
                    Example.fixed("Bundestag beschließt <marker>Diäten-Erhöhung</marker>"));
   }

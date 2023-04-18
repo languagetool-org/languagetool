@@ -18,22 +18,26 @@
  */
 package org.languagetool.rules.es;
 
-import java.util.*;
-import java.util.function.Supplier;
-
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Tag;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
-import org.languagetool.rules.patterns.PatternToken;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.function.Supplier;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
 
 public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
-
-  private static final SpanishSynthesizer synth = new SpanishSynthesizer(new Spanish());
 
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
   
@@ -52,6 +56,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
   public SpanishRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new Spanish());
     antiPatterns = cacheAntiPatterns(new Spanish(), ANTI_PATTERNS);
+    super.setTags(Arrays.asList(Tag.picky));
     // super.setDefaultTempOff();
   }
 
@@ -79,7 +84,7 @@ public class SpanishRepeatedWordsRule extends AbstractRepeatedWordsRule {
 
   @Override
   protected Synthesizer getSynthesizer() {
-    return synth;
+    return SpanishSynthesizer.INSTANCE;
   }
 
   @Override

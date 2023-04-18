@@ -36,6 +36,42 @@ import java.util.Set;
 public class MainTest {
 
   @Test
+  public void testIsEqualText() {
+    String textPara = "This is a test with one footnote1.";
+    String flatPara = "This is a test with one footnote​.";
+    int[] footnotes = { 32 };
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    textPara = "This is a test with one footnote12, existing of two digits";
+    flatPara = "This is a test with one footnote​, existing of two digits";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    textPara = "This is a test with one footnoteXIV, existing of Roman numerals.";
+    flatPara = "This is a test with one footnote​, existing of Roman numerals.";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    textPara = "This is a test with one footnote1. And a Zero Space at the end of the second sentence.";
+    flatPara = "This is a test with one footnote​. And a Zero Space at the end of the second sentence​.";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    footnotes = new int[2];
+    footnotes[0] = 33;
+    footnotes[1] = 54;
+    textPara = "This is a test with two footnotes14. Here is the secondXIII.";
+    flatPara = "This is a test with two footnotes​. Here is the second​.";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    textPara = "This is a test with two footnotes14. Here is the secondXIII.";
+    flatPara = "This is a test with two footnotes​. Here is no second.";
+    assertTrue(!DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    footnotes[0] = 33;
+    footnotes[1] = 54;
+    textPara = "This is a test with two footnotes14. Here is the second [17] with full Roman numerals in text paragraph.";
+    flatPara = "This is a test with two footnotes​. Here is the second ​[17] with full Roman numerals in text paragraph.";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+    footnotes[0] = 34;
+    footnotes[1] = 59;
+    textPara = "This is a test with two footnotes [14]. Here is the second1 with full Roman numerals in text paragraph.";
+    flatPara = "This is a test with two footnotes ​[14]. Here is the second​ with full Roman numerals in text paragraph.";
+    assertTrue(DocumentCache.isEqualText(flatPara, textPara, footnotes));
+  }
+
+  @Test
 //  @Ignore("see https://github.com/languagetool-org/languagetool/issues/4064")
   public void testDoProofreading() {
     Main prog = new Main(null);
@@ -153,7 +189,6 @@ public class MainTest {
     }
   }
 
-
   @Test
   public void testCheckMixedDocument() {
     // check a document which includes tables footnotes, headers, etc.
@@ -179,14 +214,14 @@ public class MainTest {
     paragraphs.add("»Dies ist eine Beispieltabellentext.");
     paragraphs.add("Dies ist eine  zweite Zeile.");
     paragraphs.add("Dies ist eine (dritte.");
-    paragraphs.add("Dies ist eine vierte Zeile.«");
+    paragraphs.add("Dies ist eine vierte Zeile.« ");
     paragraphs.add("Hier steht eine weitere Zeile.");
     paragraphs.add("Dies ist eine weitere Tabellenzelle.");
     paragraphs.add("»Dies ist noch eine Tabellenzelle.");
     paragraphs.add("Noch eine Zeile«");
     paragraphs.add("");
     paragraphs.add("Dies ist ein (dritter.");
-    paragraphs.add("Dies ist ein vierter Satz.«");
+    paragraphs.add("Dies ist ein vierter Satz.« ");
     List<List<String>> textParagraphs = new ArrayList<>();
     for (int i = 0; i < DocumentCache.NUMBER_CURSOR_TYPES; i++) {
       textParagraphs.add(new ArrayList<>());
@@ -195,12 +230,12 @@ public class MainTest {
     textParagraphs.get(DocumentCache.CURSOR_TYPE_TEXT).add("»Dies ist eine Beispieltext.");
     textParagraphs.get(DocumentCache.CURSOR_TYPE_TEXT).add("Dies ist ein  zweiter Satz.");
     textParagraphs.get(DocumentCache.CURSOR_TYPE_TEXT).add("Dies ist ein (dritter.");
-    textParagraphs.get(DocumentCache.CURSOR_TYPE_TEXT).add("Dies ist ein vierter Satz.«");
+    textParagraphs.get(DocumentCache.CURSOR_TYPE_TEXT).add("Dies ist ein vierter Satz.«i");
     //  add Table paragraphs
     textParagraphs.get(DocumentCache.CURSOR_TYPE_TABLE).add("»Dies ist eine Beispieltabellentext.");
     textParagraphs.get(DocumentCache.CURSOR_TYPE_TABLE).add("Dies ist eine  zweite Zeile.");
     textParagraphs.get(DocumentCache.CURSOR_TYPE_TABLE).add("Dies ist eine (dritte.");
-    textParagraphs.get(DocumentCache.CURSOR_TYPE_TABLE).add("Dies ist eine vierte Zeile.«");
+    textParagraphs.get(DocumentCache.CURSOR_TYPE_TABLE).add("Dies ist eine vierte Zeile.«1");
     textParagraphs.get(DocumentCache.CURSOR_TYPE_TABLE).add("Hier steht eine weitere Zeile.");
     textParagraphs.get(DocumentCache.CURSOR_TYPE_TABLE).add("Dies ist eine weitere Tabellenzelle.");
     textParagraphs.get(DocumentCache.CURSOR_TYPE_TABLE).add("»Dies ist noch eine Tabellenzelle.");

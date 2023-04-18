@@ -18,15 +18,8 @@
  */
 package org.languagetool.rules.ca;
 
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.function.Supplier;
-
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Tag;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
@@ -35,10 +28,16 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.function.Supplier;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
+
 public class CatalanRepeatedWordsRule extends AbstractRepeatedWordsRule {
 
-  private static final CatalanSynthesizer synth = new CatalanSynthesizer(new Catalan());
-  
 private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
   
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays
@@ -54,6 +53,7 @@ private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
   public CatalanRepeatedWordsRule(ResourceBundle messages) {
     super(messages, new Catalan());
     antiPatterns = cacheAntiPatterns(new Catalan(), ANTI_PATTERNS);
+    super.setTags(Arrays.asList(Tag.picky));
     // super.setDefaultTempOff();
   }
 
@@ -81,7 +81,7 @@ private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   @Override
   protected Synthesizer getSynthesizer() {
-    return synth;
+    return CatalanSynthesizer.INSTANCE;
   }
 
   @Override

@@ -122,7 +122,6 @@ abstract class Server {
   protected static void printCommonConfigFileOptions() {
     System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
     System.out.println("                 'maxTextHardLength' - maximum text length, applies even to users with a special secret 'token' parameter (optional)");
-    System.out.println("                 'secretTokenKey' - secret JWT token key, if set by user and valid, maxTextLength can be increased by the user (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
     System.out.println("                 'maxErrorsPerWordRate' - checking will stop with error if there are more rules matches per word (optional)");
     System.out.println("                 'maxSpellingSuggestions' - only this many spelling errors will have suggestions for performance reasons (optional,\n" +
@@ -134,17 +133,14 @@ abstract class Server {
     System.out.println("                 'requestLimitInBytes' - maximum aggregated size of requests per requestLimitPeriodInSeconds (optional)");
     System.out.println("                 'timeoutRequestLimit' - maximum number of timeout request (optional)");
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit and timeoutRequestLimit applies (optional)");
-    System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");
+    System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories per language which contain a Lucene index");
     System.out.println("                                   each with ngram occurrence counts; activates the confusion rule if supported (optional)");
-    System.out.println("                 'word2vecModel' - a directory with word2vec data (optional), see");
-    System.out.println("                  https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
     System.out.println("                 'fasttextModel' - a model file for better language detection (optional), see");
     System.out.println("                                   https://fasttext.cc/docs/en/language-identification.html");
     System.out.println("                 'fasttextBinary' - compiled fasttext executable for language detection (optional), see");
     System.out.println("                                    https://fasttext.cc/docs/en/support.html");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
-    System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
     System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers (and 'Origin' headers) that are blocked and will not be served (optional)");
     System.out.println("                 'premiumOnly' - activate only the premium rules (optional)");
     System.out.println("                 'disabledRuleIds' - a comma-separated list of rule ids that are turned off for this server (optional)");
@@ -172,8 +168,6 @@ abstract class Server {
     System.out.println("  --languageModel  a directory with '1grams', '2grams', '3grams' sub directories (per language)");
     System.out.println("                         which contain a Lucene index (optional, overwrites 'languageModel'");
     System.out.println("                         parameter in properties files)");
-    System.out.println("  --word2vecModel  a directory with word2vec data (optional), see");
-    System.out.println("                   https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
     System.out.println("  --premiumAlways  activate the premium rules even when user has no username/password - useful for API servers");
   }
 

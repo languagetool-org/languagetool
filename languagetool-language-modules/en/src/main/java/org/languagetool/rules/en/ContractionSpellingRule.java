@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.*;
+import org.languagetool.tools.Tools;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -50,6 +51,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("We <marker>havent</marker> earned anything."),
                    Example.fixed("We <marker>haven't</marker> earned anything."));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/post/grammar-contractions/"));
     super.setCheckLemmas(false);
   }
 

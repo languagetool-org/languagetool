@@ -25,10 +25,17 @@ import org.languagetool.Language;
  */
 public class FrenchSynthesizer extends BaseSynthesizer {
 
+  public static final FrenchSynthesizer INSTANCE = new FrenchSynthesizer();
+
+  /** @deprecated use {@link #INSTANCE} */
   public FrenchSynthesizer(Language lang) {
-    super("fr/fr.sor", "/fr/french_synth.dict", "/fr/french_tags.txt", lang);
+    this();
   }
-  
+
+  private FrenchSynthesizer() {
+    super("fr/fr.sor", "/fr/french_synth.dict", "/fr/french_tags.txt", "fr");
+  }
+
   @Override
   protected boolean isException(String w) {
     // remove: qq, qqe...

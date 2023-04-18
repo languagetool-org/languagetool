@@ -75,15 +75,27 @@ public class ConjunctionAtBeginOfSentenceRule extends AbstractStatisticSentenceS
       return null;
     }
     AnalyzedTokenReadings token = null;
-    if (isConjunction(sentence.get(0))) {
-      token = sentence.get(0);
-    } else if (isOpeningQuote(sentence.get(0)) && isConjunction(sentence.get(1))) {
-      token = sentence.get(1);
+    int num = 0;
+    if (isOpeningQuote(sentence.get(0))) {
+      num++;
     }
-    if (token == null || token.getToken().equals("Wie") || token.getToken().equals("Seit")) {
+    if (isConjunction(sentence.get(num))) {
+      token = sentence.get(num);
+    }
+    if (token == null || token.getToken().equals("Wie") || token.getToken().equals("Seit") || token.getToken().equals("Allerdings")
+        || (token.getToken().equals("Aber") && sentence.get(num + 1).getToken().equals("auch"))) {
       return null;
     }
-    if (!token.hasPosTagStartingWith("KON:UNT") || token.getToken().equals("Sondern")) {
+    if (token.getToken().equals("Um")) {
+      for (int i = 1; i < sentence.size(); i++) {
+        if(isComma(sentence.get(i)) || sentence.get(i).getToken().equals("herum")) {
+          return null;
+        }
+      }
+      return token;
+    }
+    if (!token.hasPosTagStartingWith("KON:UNT") || token.getToken().equals("Sondern")
+        || (token.getToken().equals("Auch") && sentence.get(num + 1).getToken().equals("wenn"))) {
       if (token.getToken().equals("Entweder")) {
         for (int i = 1; i < sentence.size(); i++) {
           if(sentence.get(i).getToken().equals("oder")) {

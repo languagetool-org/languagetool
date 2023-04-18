@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+  ~ LanguageTool, a natural language style checker 
+  ~ Copyright (c) 2022.  Stefan Viol (https://stevio.de)
+  ~  
+  ~  This library is free software; you can redistribute it and/or
+  ~  modify it under the terms of the GNU Lesser General Public
+  ~  License as published by the Free Software Foundation; either
+  ~  version 2.1 of the License, or (at your option) any later version.
+  ~  
+  ~  This library is distributed in the hope that it will be useful,
+  ~  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~  Lesser General Public License for more details.
+  ~  
+  ~  You should have received a copy of the GNU Lesser General Public
+  ~  License along with this library; if not, write to the Free Software
+  ~  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+  ~  USA
+  -->
+
+<!--
+Filter for remote matches.
+To ignore a remote rule match, set the <marker> so that it exactly covers the text underlined by the remote rule.
+-->
+<!DOCTYPE rules [
+    <!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
+    <!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
+    <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
+    <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sept?|o[ck]t|nov|dec">
+    <!ENTITY timeOfDayToday "vanmorgen|vanmiddag|vanavond|vannacht">
+    <!ENTITY timeOfDayGeneral "morgen|middag|avond|nacht">
+    <!ENTITY twentyfourHours "[0-2]?[0-9]:[0-5][0-9]">
+
+    <!ENTITY linuxDistros "Arch|CentOS|Debian|Fedora|Gentoo|Knoppix|Mint|(open)?SUSE|RHEL|Slackware|Slax">
+
+    <!ENTITY measurementUnitPrefix "E(xa)?|P(eta)?|T(era)?|G(iga)?|M(ega)?|k(ilo)?|h(ecto)?|d(ec)?a|d(eci)?|c(enti)?|m(illi)?|u|&#x03BC;|micro|n(ano)?|licht">
+    <!ENTITY measurementUnitsTime "(&measurementUnitPrefix;)?(s(ec)?|seconde(n|s)?)|min(uut)?|minuten|u(ur)?|uren|hr?|d|dag(en)?|we(ek|ken)|ma(and|nden)|kwarta(al|len)|ja(ar|ren)|decenni(um|a|ën)|centenni(um|a)|euuw(en)?|millenni(um|a)">
+    <!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eter)?|mijl|p(arse)?cs?|AE|AU">
+    <!ENTITY measurementUnitsMass "(&measurementUnitPrefix;)?g(ram)?|ons|pond|ton">
+    <!ENTITY measurementUnitsTemperature "K|&#x212A;|kelvin|℃|℉|°C(elsius)?|°F(ahrenheit)?|°|graad|graden">
+    <!ENTITY measurementUnitsAngles "[°′″‴⁗'&quot;“]">
+    <!ENTITY measurementUnitsElectroMagnetism "(&measurementUnitPrefix;)?(J|joule|C|coulomb|A|ampere|V|volt|&#x03A9;|ohm|W|watt|F|farad|S|siemens|T|tesla|Wb|weber|H|henry)">
+    <!ENTITY measurementUnitsMisc "(&measurementUnitPrefix;)?(mol|cd|candela|l(u)?x|Bq|becquerel|dB|decibel|cal(orie)?|Pa|pascal|bar|atm)">
+    <!ENTITY measurementUnitsComputing "(&measurementUnitPrefix;|kibi|mebi|gibi|tebi|pebi|exbi|zebi|yobi)?(B|bits?|bytes?|Hz|hertz|hash|FLOPS)">
+    <!ENTITY measurementUnitsAll "&measurementUnitsTime;|&measurementUnitsLength;|&measurementUnitsMass;|&measurementUnitsTemperature;|&measurementUnitsAngles;|&measurementUnitsElectroMagnetism;|&measurementUnitsMisc;|&measurementUnitsComputing;">
+
+]>
+
+<rules lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/remote-rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <category name="Machine learning rules" id="AI_RULES">
+        <rulegroup id="AI_NL_HYDRA_LEO_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">&linuxDistros;</token>
+                    </marker>
+                    <token regexp="yes">GNU|Linux</token>
+                </pattern>
+                <example correction="">Er zijn een aantal projecten, waaronder <marker>Debian</marker> GNU/Linux, Blender, Python en Krita.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">MS|Microsoft</token>
+                    <marker>
+                        <token>Office</token>
+                    </marker>
+                    <token regexp="yes">Word|Excel|Powerpoint|Outlook|Access|Publisher|OneNote|InfoPath|Skype</token>
+                </pattern>
+                <example correction="">Computervaardigheden en kennis van MS <marker>Office</marker> Word en Excel, Apple-software en andere applicaties zijn belangrijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Apple</token>
+                    </marker>
+                    <token regexp="yes">iOS|iPad(OS)?|iPhone|Mac(intosh)?|MacOS|OSX|tv(OS)?|watchOS</token>
+                </pattern>
+                <example correction="">Voorbeelden van veelvoorkomende besturingssystemen zijn Microsoft Windows, <marker>Apple</marker> macOS en Linux.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Mozilla</token>
+                    </marker>
+                    <token regexp="yes">Calendar|Composer|Firefox|SeaMonkey|Skywriter|Thunderbird|Treeherder|VPN</token>
+                </pattern>
+                <example correction="">Dat kan met verschillende browsers, zoals Google Chrome, <marker>Mozilla</marker> Firefox, enzovoort.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Google</token>
+                    </marker>
+                    <token regexp="yes">Account|Ads|AdMob|Adsense|Alerts|Analytics|Android|Apps?|Assistant|Books|Calendar|Charts|Chat|Chrome(cast|book)?|Classroom|Cloud|Currents|Daydream|Developers?|Docs?|Domains|Drawings|Drive|Duo|Earth|Finance|Flights|Fonts?|Forms?|Fuchsia|Glass|Groups?|Home|Images?|Jamboard|Keep|Maps?|Mars|Moon|Meet|Nest|News|Nexus|Ngram|Patents|Pay|Pixel|reCAPTCHA|Santa|Scholar|Search|Sheets?|Shopping|Sites|Sky|Slides?|Stadia|Surveys?|Tables?|Translate|Travel|Trends?|Videos|Voice|Wear|Workspace</token>
+                </pattern>
+                <example correction="">Dat kan met verschillende producten, zoals LibreOffice Writer, Microsoft Word, <marker>Google</marker> Docs, enzovoort.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">aanbod|aanvraag|aansluiting|aantal(len)?|beetje|beleidsmedewerkers?|blik(ken|jes?)?|(af|in|om|op)?bouw|docent(en?)?|doos(jes?)?|dosis|financiering|fles(je)?|glas|hooglera(ar|re(n|s)?)|overschot|portefeuille|stop|type|vorm(en)?</token>
+                    </marker>
+                    <token min="0" max="2" postag_regexp="yes" postag="BNW.*|GET:TXT.*|VNW:.*:(DE_|HET)"/>
+                    <token postag_regexp="yes" postag="ZNW.*|DVS"/>
+                </pattern>
+                <example correction="">Zo vindt u een veel ruimer <marker>aanbod</marker> keukenuitrusting.</example>
+                <example correction="">Dat is een <marker>beetje</marker> een vaag begrip.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes">duur|goedkoop|gratis|mooi|nieuw|oud</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW.*|DVS"/>
+                </pattern>
+                <example correction=""><marker>Goedkope</marker> zonwering, rolluiken, zonneschermen, horren &amp; screens.</example>
+                <example correction="">Wij hebben de <marker>mooiste</marker> zonweringen, rolluiken, zonneschermen, horren &amp; screens.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>jouw</token>
+                    </marker>
+                    <token min="0" postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV"/>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                    <token regexp="yes">en|of|,</token>
+                </pattern>
+                <example correction=""><marker>Jouw</marker> inzet, moed en hulpvaardigheid zijn uitstekend.</example>
+                <example correction=""><marker>Jouw</marker> grote inzet, moed en hulpvaardigheid zijn uitstekend.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="ENM:BEZ"/>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+                <example correction="">Ze keerden terug met vooral graan, <marker>Zweeds</marker> kruit, hout, ijzer en wapens, maar ook vele andere goederen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="BNW.*|WKW:VTD:ONV"/>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                    <token regexp="yes">en|of|,</token>
+                </pattern>
+                <example correction="">Bereid eerst eieren, tarwebloem, <marker>gemodificeerd</marker> maïszetmeel, zout en de overigen specerijen voor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="ZNW.*"/>
+                    </marker>
+                    <token regexp="yes">fans?|liefhebbers?|supporters?|(voor|tegen)standers?</token>
+                    <token regexp="yes">en|of|,</token>
+                </pattern>
+                <example correction="">Als echte <marker>sneaker</marker> liefhebber en modebewuste persoon moet je dit model proberen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="ZNW.*"/>
+                    </marker>
+                    <token postag="WKW:TGW:INF"/>
+                    <token regexp="yes">en|of|,</token>
+                </pattern>
+                <example correction="">De belangrijkste stappen zijn: <marker>buitenmuur</marker> isoleren en binnenmuur drogen.</example>
+            </rule>
+            <!-- Subset of general rule for numbers with whitespace
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[1-2][0-9]{3}</token>
+                    </marker>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">&measurementUnitsAll;</token>
+                </pattern>
+                <example correction="">De oppervlakte bedroeg in <marker>2004</marker> 17160 km².</example>
+            </rule>
+            -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9]+</token>
+                    </marker>
+                    <token regexp="yes">&measurementUnitsAll;|miljoen(en)?|miljard(en)?|biljoen(en)?|biljard(en)?|triljoen(en)?|triljard(en)?</token>
+                </pattern>
+                <example correction="">Nog nooit werd het zo laat in het jaar in De Bilt nog tropisch warm (><marker>30</marker> °C).</example>
+                <example correction="">Dan zijn die 6.000 Nederlandse zwartspaarders, met in totaal 3 op de <marker>880</marker> miljard die de Nederlandse economie waard is, echt maar klein bier.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token min="0" regexp="yes">&months;|&abbrevMonths;</token>
+                    <marker>
+                        <token regexp="yes">[1-2]?[0-9]{3}</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="WKW.*"/>
+                </pattern>
+                <example correction="">In <marker>1859</marker> wist Walachije zich onafhankelijk van de Turken te verklaren.</example>
+                <example correction="">In november <marker>1990</marker> stopten ook deze uitzendingen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{Ps}|\.|,|:</token>
+                    <marker>
+                        <token postag="ENM:LOC:PTS"/>
+                    </marker>
+                    <token regexp="yes">[1-2]?[0-9]{3}</token>
+                    <token regexp="yes">\p{Pe}|\.|,</token>
+                </pattern>
+                <example correction="">Between Otherness and Authenticity (<marker>Aldershot</marker> 2007) 109-133, [over de herdenkingscultuur na Fortuyns dood].</example>
+                <example correction="">Door Thijs de Gooijer, Uitgeverij René de Milliano, <marker>Alkmaar</marker> 2005. ISBN 90-72810-50-3.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9]{4}</token>
+                    </marker>
+                    <token regexp="yes">[A-Z]{2}</token>
+                </pattern>
+                <example correction="">De verantwoordelijke voor de gegevensverwerking is Molenaar Solutions, Schakel 4, <marker>3645</marker> SJ Vinkeveen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[1-2]?[0-9]{3}</token>
+                    <token regexp="yes">&twentyfourHours;</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">&twentyfourHours;</token>
+                    <token regexp="yes" min="0">[0-2]?[0-9]</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes" min="0">[1-2]?[0-9]{3}</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[0-9]+</token>
+                    </marker>
+                    <token regexp="yes">[0-9]+</token>
+                </pattern>
+                <example correction="">Wij zijn telefonisch bereikbaar via <marker>648</marker> 8666 of per mail.</example>
+            </rule>
+        </rulegroup>
+    </category>
+</rules>

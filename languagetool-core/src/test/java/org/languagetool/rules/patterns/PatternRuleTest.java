@@ -29,7 +29,10 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,8 +62,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
     @Override
     public String getMessage() {
-      return String.format("Test failure for rule %s in file %s: %s",
-        rule.getFullId(), rule.getSourceFile(), message);
+      return String.format("Test failure for rule %s in file %s (line %d): %s",
+        rule.getFullId(), rule.getSourceFile(), rule.getXmlLineNumber(), message);
     }
 
   }
@@ -71,13 +74,39 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
 
   // for calling PatternRuleTest.main(), e.g. from scripts; allow to check and fail at the end
   static class PatternRuleErrorCollector extends ErrorCollector {
+
+    private final boolean expectToFail;
+    
+    PatternRuleErrorCollector() {
+      this.expectToFail = false;
+    }
+    
+    PatternRuleErrorCollector(boolean expectToFail) {
+      this.expectToFail = expectToFail;
+    }
+
     public void check() throws Throwable {
-      verify();
+      this.verify();
+    }
+
+    @Override
+    protected void verify() throws Throwable {
+      if (expectToFail) {
+        Throwable throwable = assertThrows(Throwable.class, () -> super.verify());
+        System.out.println("PatternRuleErrorCollector verify fails as expected.");
+        throwable.printStackTrace();
+      } else {
+        super.verify();
+      }
     }
   }
 
   @org.junit.Rule
-  public final PatternRuleErrorCollector ruleErrors = new PatternRuleErrorCollector();
+  public final PatternRuleErrorCollector ruleErrors = createPatternRuleErrorCollector();
+  
+  protected PatternRuleErrorCollector createPatternRuleErrorCollector() {
+    return new PatternRuleErrorCollector();
+  }
 
   @Test
   public void testSupportsLanguage() {
@@ -120,7 +149,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
    */
   protected void runGrammarRulesFromXmlTest() throws IOException {
     for (Language lang : Languages.get()) {
-        runGrammarRuleForLanguage(lang);
+      runGrammarRuleForLanguage(lang);
     }
     if (Languages.get().isEmpty()) {
       System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");
@@ -164,6 +193,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     validateRuleIds(lang, allRulesLt);
     validateSentenceStartNotInMarker(allRulesLt);
     validateUnifyIgnoreAtTheStartOfUnify(allRulesLt);
+    //validateRegexpInSynthesisMatches(allRulesLt);
+    validateParenthesisInSynthesisMatches(allRulesLt);
     List<AbstractPatternRule> rules = getAllPatternRules(lang, lt);
     testRegexSyntax(lang, rules);
     testMessages(lang, rules);
@@ -291,6 +322,95 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     }
   }
   
+  protected void validateParenthesisInSynthesisMatches(JLanguageTool lt) {
+    System.out.println("Check parenthesis and back references in synthesis matches...");
+    List<Rule> rules = lt.getAllRules();
+    for (Rule rule : rules) {
+      if (rule instanceof AbstractPatternRule) {
+        AbstractPatternRule apRule = (AbstractPatternRule) rule;
+        List<Match> suggestionMatches = new ArrayList<>();
+        if (apRule.getSuggestionMatches() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatches());
+        }
+        if (apRule.getSuggestionMatchesOutMsg() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatchesOutMsg());
+        }
+        for (Match suggestionMatch : suggestionMatches) {
+          if (suggestionMatch.getPosTag() != null && suggestionMatch.getPosTagReplace() != null) {
+            long openingNum = suggestionMatch.getPosTag().chars().filter(ch -> ch == '(').count();
+            int maxBackReference = getMaxBackReferenceNo(suggestionMatch.getPosTagReplace());
+            if (openingNum < maxBackReference) {
+              String failure = "Back reference number (" + maxBackReference
+                  + ") is greater than existing number of parenthesis.";
+              addError((AbstractPatternRule) rule, failure);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private int getMaxBackReferenceNo(String message) {
+    // back references are no greater than 9, i.e. $10 means $1
+    Pattern pattern = Pattern.compile("\\$[0-9]");
+    Matcher matcher = pattern.matcher(message);
+    int maxNo = -1;
+    while (matcher.find()) {
+      int no = Integer.parseInt(matcher.group().replace("$", ""));
+      if (no > maxNo) {
+        maxNo = no;
+      }
+    }
+    return maxNo;
+  }
+
+  protected void validateRegexpInSynthesisMatches(JLanguageTool lt) {
+    System.out.println("Check that synthesis matches with POS tag regexp have POS tag regexp in the pattern...");
+    List<Rule> rules = lt.getAllRules();
+    for (Rule rule : rules) {
+      if (rule instanceof AbstractPatternRule) {
+        AbstractPatternRule apRule = (AbstractPatternRule) rule;
+        List<PatternToken> patternTokens = apRule.getPatternTokens();
+        List<Match> suggestionMatches = new ArrayList<>();
+        if (apRule.getSuggestionMatches() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatches());
+        }
+        if (apRule.getSuggestionMatchesOutMsg() != null) {
+          suggestionMatches.addAll(apRule.getSuggestionMatchesOutMsg());
+        }
+        List<Integer> matchNos = getMatchNos(
+            ((AbstractPatternRule) rule).getMessage() + ((AbstractPatternRule) rule).getSuggestionsOutMsg());
+        int i = 0;
+        for (Match suggestionMatch : suggestionMatches) {
+          if (suggestionMatch.isPostagRegexp()) {
+            int no = matchNos.get(i);
+            if (patternTokens != null && no > patternTokens.size()) {
+              System.err.println("Warning: Rule " + rule.getFullId() + " refers to token \\" + (no) + " but has only "
+                  + patternTokens.size() + " tokens.");
+            } else {
+              // !patternTokens.get(no - 1).isPOStagRegularExpression() &&
+              if (patternTokens.get(no - 1).getPOStag() == null) {
+                System.err.println("Warning: Rule " + rule.getFullId() + " refers to token \\" + (no)
+                    + " with a postag regular expression, but the token in the pattern has no postag.");
+              }
+            }
+          }
+          i++;
+        }
+      }
+    }
+  }
+
+  private List<Integer> getMatchNos(String message) {
+    Pattern pattern = Pattern.compile("\\\\[0-9]+");
+    Matcher matcher = pattern.matcher(message);
+    List<Integer> noList = new ArrayList<>();
+    while (matcher.find()) {
+      noList.add(Integer.parseInt(matcher.group().replace("\\", "")));
+    }
+    return noList;
+  }
+  
   private static void disableSpellingRules(JLanguageTool lt) {
     List<Rule> allRules = lt.getAllRules();
     for (Rule rule : allRules) {
@@ -336,12 +456,29 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (rule.isDefaultTempOff() || rule.isDefaultOff()) {
         continue;
       }
-      if (msg.equalsIgnoreCase("tbd") || msg.equalsIgnoreCase("todo") || msg.equalsIgnoreCase("lorem ipsum")) {
-        fail("Unfinished message of rule " + rule.getFullId() + ": '" + msg + "'");
+      if (msg.equalsIgnoreCase("todo") || msg.equalsIgnoreCase("lorem ipsum")) {
+        fail("Unfinished message ('todo' or 'lorem ipsum') of rule " + rule.getFullId() + ": '" + msg + "'");
       }
-      //if (msg.matches(".*[^\"'>)?!.]$")) {
-      //  System.err.println("Warning: Message of " + rule.getFullId() + " doesn't end in [.!?]: " + msg);
-      //}
+      if (msg.toLowerCase().contains("tbd")) {
+        fail("Unfinished message (contains 'tbd') of rule " + rule.getFullId() + ": '" + msg + "'");
+      }
+      if (msg.startsWith(">")) {
+        System.err.println("*** WARNING: Message of rule " + rule.getFullId() + " starts with '>', is this a typo?: '" + rule.getMessage() + "'");
+      }
+      if (lang.getShortCode().matches("de|en|fr|es|nl")) {  // not yet 'pt' due to many matches there
+        if (!msg.trim().equals(rule.getMessage())) {
+          System.err.println("*** WARNING: Message of rule " + rule.getFullId() + " starts or ends with spaces: '" + rule.getMessage() + "'");
+        }
+      }
+      if (lang.getShortCode().equals("de") && !msg.equals("Failing for testing purposes")) {
+        if (msg.trim().endsWith("!")) {
+          fail("Message ends in '!' for rule " + rule.getFullId() + ": '" + msg + "'");
+        }
+        if (!msg.trim().matches(".*[.?)'\"]$")) {
+          fail("Message doesn't end with [.?)'\"] for rule " + rule.getFullId() + ": '" + msg + "'");
+          //System.out.println("Message doesn't end with [.?)'\"] for rule " + rule.getFullId() + ": '" + msg + "'");
+        }
+      }
     }
   }
   
@@ -445,14 +582,17 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           addError(rule, "Empty incorrect example sentence after cleaning/trimming.");
           continue;
       }
-      
+      if (origBadSentence.startsWith(">") && badSentence.length() > 1) {
+        System.err.println("*** WARNING: example of rule " + rule.getFullId() + " starts with '>', is this a typo?: '" + origBadSentence + "'");
+      }
+
       String marker = origBadSentence.substring(expectedMatchStart + "<marker>".length(),
           origBadSentence.indexOf("</marker>"));
       if (marker.startsWith(", ") && origBadExample.getCorrections().stream()
           .anyMatch(k -> !k.startsWith(" ") && !k.startsWith(",") && !k.startsWith("?") && !k.startsWith(".")
-              && !k.startsWith(":") && !k.startsWith(";") && !k.startsWith("…"))) {
+              && !k.startsWith(":") && !k.startsWith(";") && !k.startsWith("…") && !k.startsWith("-") && !k.startsWith("–"))) {
         System.err.println("*** WARNING: " + lang.getName() + " rule " + rule.getFullId() + " removes ', ' but "
-            + "doesn't have a space, comma, colon, semicolon, or dot at the start of the suggestion: " + origBadSentence
+            + "doesn't have a space, comma, colon, semicolon, hyphen or dot at the start of the suggestion: " + origBadSentence
             + " => " + origBadExample.getCorrections());
       }
 
@@ -646,6 +786,9 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       if (!(goodSentence.trim().length() > 0)) {
         addError(rule, "Empty correct example.");
         continue;
+      }
+      if (goodSentence.startsWith(">") && goodSentence.length() > 1) {
+        System.err.println("*** WARNING: example of rule " + rule.getFullId() + " starts with '>', is this a typo?: '" + goodSentence + "'");
       }
       boolean isMatched = false;
       // necessary for XML Pattern rules containing <or>

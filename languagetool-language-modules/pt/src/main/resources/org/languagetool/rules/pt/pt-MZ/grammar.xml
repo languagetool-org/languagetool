@@ -170,7 +170,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os meses e as estações do ano devem ser capitalizados.</message>
         <suggestion><match no='1' case_conversion='startupper'/></suggestion>
-      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <url>https://www.priberam.pt/docs/AcOrtog45_73.pdf</url>
       <example correction='Janeiro'>O ano novo chinês é a 28 de <marker>janeiro</marker>.</example>
       <example correction='Inverno'>Este <marker>inverno</marker> está a ser muito seco.</example>
       <example correction='Set'>22 <marker>set</marker> - início do Outono.</example>
@@ -185,19 +185,17 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 90, os dias da semana são capitalizados.</message>
         <suggestion><match no='1' case_conversion='startupper'/></suggestion>
-      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <url>https://www.priberam.pt/docs/AcOrtog45_73.pdf</url>
       <example correction='Domingo'>O torneio é no próximo <marker>domingo</marker>.</example>
       <example correction='Sáb'>A nova temporada estreia em <marker>sáb</marker> 24 dez 2016.</example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
-          <token regexp='yes'>(segunda|terça|quarta|quinta|sexta)s?|(seg|ter|qua|qui|sex)</token>
-          <token regexp='yes'>-|–|—</token>
-          <token regexp='yes'>[Ff]eiras?</token>
+        <token regexp='yes'>(segunda|terça|quarta|quinta|sexta)s?-[Ff]eiras?|(seg|ter|qua|qui|sex)-[Ff]eiras?</token>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os dias da semana são capitalizados.</message>
-        <suggestion><match no='1' case_conversion='startupper'/>-\3</suggestion>
-      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+        <suggestion><match no='1' case_conversion='startupper' regexp_match="Feira" regexp_replace="feira"/></suggestion>
+      <url>https://www.priberam.pt/docs/AcOrtog45_73.pdf</url>
       <example correction='Segundas-feiras'>As <marker>segundas-feiras</marker> são sempre difíceis.</example>
     <!--<example correction='Ter'>A última temporada estreou em <marker>ter</marker>, 27 Dez 2016.</example>--><!-- TODO seperate abrev and exclude ter -->
     </rule>
@@ -215,7 +213,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
         <suggestion><match no='1' case_conversion='startupper'/></suggestion>
-      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <url>https://www.priberam.pt/docs/AcOrtog45_73.pdf</url>
       <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
       <example>Devolva este livro assim que puder.</example>
     </rule>
@@ -227,7 +225,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Segundo o Acordo Ortográfico de 45, os pontos cardeais são capitalizados.</message>
         <suggestion><match no='1' case_conversion='startupper'/></suggestion>
-      <url>http://www.uc.pt/noticias/02_NL_2011/05_2011/2011_05_ManualNovoAcordoOrtografico.pdf/</url>
+      <url>https://www.priberam.pt/docs/AcOrtog45_73.pdf</url>
       <example correction='Sul'>Trás-os-Montes é a <marker>sul</marker> do rio Douro.</example>
     </rule>-->
   </rulegroup>

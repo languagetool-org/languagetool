@@ -48,6 +48,7 @@ public class CatalanUnpairedBracketsRuleTest {
   public void testRule() throws IOException {
     
     // correct sentences:
+    assertMatches("Guns N' Roses", 0);
     assertMatches("L'«home és així»", 0);
     assertMatches("l'«home»", 0);
     assertMatches("«\"És així\" o no»", 0);
@@ -101,6 +102,13 @@ public class CatalanUnpairedBracketsRuleTest {
     assertMatches("Harper’s Dictionary of Classical Antiquities", 0);
 
     // incorrect sentences:
+    assertMatches("Això és “important i ara què passa. ", 1);
+    assertMatches("Això és \"important i ara què passa. ", 1);
+    assertMatches("Això és (impossible. ", 1);
+    assertMatches("Això es (impossible. ", 1);
+    assertMatches("Això és) impossible. ", 1);
+    assertMatches("Això es impossible). ", 1);
+    assertMatches("Això és «important, oi que sí?", 1);
     assertMatches("(aquesta 'és la solució)", 1);
     assertMatches("(L'\"especialista\"", 0);
     assertMatches("(L'\"especialista\".", 1);

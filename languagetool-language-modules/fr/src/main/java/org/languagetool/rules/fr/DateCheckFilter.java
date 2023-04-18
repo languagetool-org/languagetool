@@ -19,9 +19,7 @@
 package org.languagetool.rules.fr;
 
 import org.languagetool.rules.AbstractDateCheckFilter;
-
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * French localization of {@link AbstractDateCheckFilter}.
@@ -29,50 +27,25 @@ import java.util.Locale;
  */
 public class DateCheckFilter extends AbstractDateCheckFilter {
 
+  private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
+
   @Override
-  protected Calendar getCalendar() {
-    return Calendar.getInstance(Locale.FRENCH);
+  protected int getMonth(String localizedMonth) {
+    return dateFilterHelper.getMonth(localizedMonth);
   }
 
-  @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
+  protected Calendar getCalendar() {
+    return dateFilterHelper.getCalendar();
+  }
+  
   protected int getDayOfWeek(String dayStr) {
-    String day = dayStr.toLowerCase();
-    if (day.startsWith("dim")) return Calendar.SUNDAY;
-    if (day.startsWith("lun")) return Calendar.MONDAY;
-    if (day.startsWith("mar")) return Calendar.TUESDAY;
-    if (day.startsWith("mer")) return Calendar.WEDNESDAY;
-    if (day.startsWith("jeu")) return Calendar.THURSDAY;
-    if (day.startsWith("ven")) return Calendar.FRIDAY;
-    if (day.startsWith("sam")) return Calendar.SATURDAY;
-    throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
+    return dateFilterHelper.getDayOfWeek(dayStr);
   }
 
   @Override
   protected String getDayOfWeek(Calendar date) {
-    return date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.FRENCH);
-  }
-
-  @SuppressWarnings({"ControlFlowStatementWithoutBraces", "MagicNumber"})
-  @Override
-  protected int getMonth(String monthStr) {
-    String mon = monthStr.toLowerCase();
-    if (mon.startsWith("jan")) return 1;
-    if (mon.startsWith("fév")) return 2;
-    if (mon.startsWith("mar")) return 3;
-    if (mon.startsWith("avr")) return 4;
-    if (mon.startsWith("mai")) return 5;
-    // "juin" and "juillet" are never abbreviated with 3 letters
-    // since it would be ambiguous (both start with "jui").
-    if (mon.startsWith("juin")) return 6;
-    if (mon.startsWith("juil")) return 7;
-    if (mon.startsWith("aou") ||
-        mon.startsWith("aoû")) return 8;
-    if (mon.startsWith("sep")) return 9;
-    if (mon.startsWith("oct")) return 10;
-    if (mon.startsWith("nov")) return 11;
-    if (mon.startsWith("déc")) return 12;
-    throw new RuntimeException("Could not find month '" + monthStr + "'");
+    return dateFilterHelper.getDayOfWeek(date);
   }
 
 }

@@ -20,7 +20,9 @@ package org.languagetool.rules.de;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Categories;
@@ -28,13 +30,17 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Supplier;
 
 import static java.util.Arrays.*;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+import static org.languagetool.tools.StringTools.uppercaseFirstChar;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -47,17 +53,38 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
  */
 public class AgreementRule2 extends Rule {
 
+  private static final String ADJ_GRU = "Allgemein|Ausgiebig|Stilvoll|Link|Direkt|Gegenseitig|Offensichtlich|Weitgehend|Frei|Prinzipiell|Regelrecht|Kostenlos|Gleichzeitig|Ganzjährig|Überraschend|Entsprechend|Ordentlich|Gelangweilt";
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
-    asList(csRegex("Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|Spät|Länger|Vorrangig|Rechtzeitig|Typisch|Allwöchentlich|Wöchentlich|Inhaltlich|Tagtäglich|Täglich|Komplett|Genau|Gerade|Bewusst|Vereinzelt|Gänzlich|Ständig|Okay|Meist|Generell|Ausreichend|Genügend|Reichlich|Regelmäßig(e|es)?|Unregelmäßig|Hauptsächlich"), posRegex("SUB:.*")),  // "Regelmäßig Kiwis und Ananas zu essen...", "Reichlich Inspiration bietet..."
-    asList(csRegex("Überraschend"), posRegex("SUB:.*"), posRegex("VER:.*")),  // "Überraschend Besuch bekommt er dann von ..."
-    asList(regex("Nachhaltig"), posRegex("SUB:NOM:.*"), pos("VER:INF:SFT")),  // 'nachhaltig Yoga praktizieren'
+    asList(csRegex("Willkommen|Link|Aktuell|Diverse|Flächendeckend|Entsprechende|Angeblich|Gelegentlich|Antizyklisch|Unbedingt|Zusätzlich|Natürlich|Äußerlich|Erfolgreich|" +
+      "Spät|Länger|Vorrangig|Rechtzeitig|Typisch|Allwöchentlich|Wöchentlich|Inhaltlich|Tagtäglich|Täglich|Komplett|" +
+      "Genau|Gerade|Bewusst|Vereinzelt|Gänzlich|Ständig|Okay|Meist|Generell|Ausreichend|Genügend|Reichlich|" +
+      "Regelmäßig(e|es)?|Unregelmäßig|Hauptsächlich"), posRegex("SUB:.*")),  // "Regelmäßig Kiwis und Ananas zu essen...", "Reichlich Inspiration bietet..."
+    asList(csRegex(ADJ_GRU), posRegex("SUB:.*"), posRegex("VER:.*")),  // "Überraschend Besuch bekommt er dann von ..."
+    asList(csRegex(ADJ_GRU), posRegex("SUB:.*"), posRegex("PRP.*")),  // "Prinzipiell Anrecht auf eine Vertretung..."
+    asList(csRegex(ADJ_GRU), posRegex("SUB:.*"), token(",")),  // "Weitgehend Konsens, auch über ..."
+    asList(csRegex("Gut|Schlecht|Existenziell|Ganz|Gering|Viel|Wenig"), posRegex("SUB:.*ADJ")),  // "Existenziell Bedrohte kriegen..."
+    asList(regex("Nachhaltig|Direkt"), posRegex("SUB:NOM:.*"), posRegex("VER:INF:(SFT|NON)")),  // 'nachhaltig Yoga praktizieren'
     asList(regex("\\d0er"), regex("Jahren?")),
+    asList(token("Liebe"), token("Mai")),   // Mai = auch Eigenname
+    asList(token("Ganz"), token("Ohr")),
+    asList(token("Klar"), token("Schiff")),
+    asList(token("Echt"), tokenRegex("Scheiße|Mist")),
+    asList(token("Dickes"), token("Danke")),
+    asList(token("Personal"), token("Shopper")),
     asList(token("Schwäbisch"), token("Hall")),
+    asList(token("Herzlich"), token("Willkommen")),
+    asList(token("Gut"), tokenRegex("Ding|Holz")),  // "Gut Ding will Weile haben"
+    asList(token("Urban"), token("Mining")),
+    asList(token("Responsive"), token("Design")),
+    asList(token("Dual"), token("Studierende")),
+    asList(token("Deutsche"), csRegex("Grammophon|Wohnen")),
+    asList(posRegex("ADJ.*"), tokenRegex(".+beamte")),  // "Alarmierte Polizeibeamte"
+    asList(new PatternTokenBuilder().token("Anderen").setSkip(5).build(), posRegex("VER:INF:(SFT|NON)")),  // "Anderen Brot und Arbeit ermöglichen - ..."
     asList(regex("echt|absolut|voll|total"), regex("Wahnsinn|Klasse")),
     asList(pos("SENT_START"), pos("ADJ:PRD:GRU"), posRegex("SUB:NOM:SIN:NEU:INF")),  // "Ruhig Schlafen & Zentral Wohnen"
     asList(tokenRegex("voll|voller"), posRegex("SUB:NOM:SIN:.*")),  // "Voller Mitleid", "Voller Mitleid"
     asList(token("einzig"), posRegex("SUB:NOM:.*")),  // "Einzig Fernschüsse brachten Erfolgsaussichten"
-    asList(token("Intelligent"), token("Design")),
+    asList(tokenRegex("Intelligent|Urban"), token("Design")),
     asList(token("Alternativ"), token("Berufserfahrung")),  // "Alternativ Berufserfahrung im Bereich ..."
     asList(token("Maritim"), token("Hotel")),
     asList(csToken("Russisch"), csToken("Brot")),
@@ -82,9 +109,11 @@ public class AgreementRule2 extends Rule {
     asList(token("gemeinsam")),   // "Gemeinsam Sportler anfeuern"
     asList(token("wenig")),      // "Wenig Geld - ..."
     asList(token("weniger")),      // "Weniger Geld - ..."
+    asList(token("unaufgefordert")),      // Unaufgefordert Dinge erledigen
     asList(token("richtig")),    // "Richtig Kaffee kochen ..."
     asList(token("weiß")),       // "Weiß Papa, dass ..."
     asList(token("speziell")),   // "Speziell Flugfähigkeit hat sich unabhängig voneinander ..."
+    asList(token("proaktiv")),   // "Speziell Flugfähigkeit hat sich unabhängig voneinander ..."
     asList(token("halb")),       // "Halb Traum, halb Wirklichkeit"
     asList(token("hinter")),     // "Hinter Bäumen"
     asList(token("vermutlich")), // "Vermutlich Ende 1813 erkrankte..."
@@ -108,6 +137,7 @@ public class AgreementRule2 extends Rule {
     asList(token("researchs")),  // engl.
     asList(token("security")),   // engl.
     asList(token("business")),   // oft engl.
+    asList(token("Universal")),   // oft engl.
     asList(token("voll"), token("Sorge")),
     asList(token("Total"), tokenRegex("Tankstellen?")),
     asList(token("Ganz"), token("Gentleman")),
@@ -117,7 +147,7 @@ public class AgreementRule2 extends Rule {
     asList(token("Russisch"), token("Roulette")),
     asList(token("Clever"), tokenRegex("Shuttles?")), // name
     asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer|Brand).*")),
-    asList(tokenRegex("Digital|Fair|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual|Golden|Human"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master|Gate|Drive|Learning|Publishing|Signage|Value|Entertainment|Museum|Register|Society|Union|Institute|Symposium|Style|Design).*")),
+    asList(tokenRegex("Digital|Fair|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual|Golden|Human"), tokenRegex("(Initiative|Office|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power|Shopping|Brand|Master|Gate|Drive|Learning|Publishing|Signage|Value|Entertainment|Museum|Register|Society|Union|Institute|Symposium|Style|Design|Edition).*")),
     asList(token("Smart")),
     asList(token("International"), tokenRegex("Society|Olympic|Space")),
     asList(token("GmbH"))
@@ -170,6 +200,8 @@ public class AgreementRule2 extends Rule {
           }
           RuleMatch ruleMatch = checkAdjNounAgreement(tokens[i], tokens[i+1], sentence);
           if (ruleMatch != null) {
+            List<String> suggestions = getSuggestions(tokens, i);
+            ruleMatch.setSuggestedReplacements(suggestions);
             ruleMatches.add(ruleMatch);
             break;
           }
@@ -180,6 +212,65 @@ public class AgreementRule2 extends Rule {
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @NotNull
+  private List<String> getSuggestions(AnalyzedTokenReadings[] tokens, int i) {
+    List<String> suggestions = new ArrayList<>();
+    AnalyzedToken adjToken = tokens[i].getAnalyzedToken(0);
+    for (AnalyzedToken nounToken : tokens[i+1].getReadings()) {
+      if (nounToken.getPOSTag() == null) {
+        continue;
+      }
+      try {
+        String gender = getGender(nounToken);
+        if (gender == null) {
+          continue;
+        }
+        String number = getNumber(nounToken);
+        if (number == null) {
+          continue;
+        }
+        String[] forms = GermanSynthesizer.INSTANCE.synthesize(adjToken, "ADJ:NOM:" + number + ":" + gender + ":GRU:SOL", true);
+        for (String s : forms) {
+          String fullSugg = uppercaseFirstChar(s) + " " + nounToken.getToken();
+          if (!suggestions.contains(fullSugg)) {
+            suggestions.add(fullSugg);
+          }
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return suggestions;
+  }
+
+  @Nullable
+  private static String getGender(AnalyzedToken nounToken) {
+    String gender;
+    if (nounToken.getPOSTag().contains(":MAS")) {
+      gender = "MAS";
+    } else if (nounToken.getPOSTag().contains(":FEM")) {
+      gender = "FEM";
+    } else if (nounToken.getPOSTag().contains(":NEU")) {
+      gender = "NEU";
+    } else {
+      return null;
+    }
+    return gender;
+  }
+
+  @Nullable
+  private static String getNumber(AnalyzedToken nounToken) {
+    String number;
+    if (nounToken.getPOSTag().contains(":SIN:")) {
+      number = "SIN";
+    } else if (nounToken.getPOSTag().contains(":PLU:")) {
+      number = "PLU";
+    } else {
+      return null;
+    }
+    return number;
   }
 
   private RuleMatch checkAdjNounAgreement(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedSentence sentence) {
@@ -197,9 +288,14 @@ public class AgreementRule2 extends Rule {
   @NotNull
   private Set<String> retainCommonCategories(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
     Set<AgreementRule.GrammarCategory> categoryToRelaxSet = Collections.emptySet();
+    // finds more error but also more false alarms? see commented out cases in testSuggestion():
+    //Set<String> set1 = AgreementTools.getAgreementSOLCategories(token1, categoryToRelaxSet);
     Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, false);
+    //System.out.println(token1 + " -> " + set1);
     Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, false);
+    //System.out.println(token2 + " -> " + set2);
     set1.retainAll(set2);
+    //System.out.println("==>"+set1);
     return set1;
   }
 

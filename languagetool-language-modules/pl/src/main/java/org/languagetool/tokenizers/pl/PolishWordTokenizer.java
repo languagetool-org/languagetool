@@ -63,7 +63,7 @@ public class PolishWordTokenizer extends WordTokenizer {
   }
 
   public PolishWordTokenizer() {
-    plTokenizing = super.getTokenizingCharacters() + "–";   // n-dash
+    plTokenizing = super.getTokenizingCharacters() + "–‚";   // n-dash
   }
 
   /**

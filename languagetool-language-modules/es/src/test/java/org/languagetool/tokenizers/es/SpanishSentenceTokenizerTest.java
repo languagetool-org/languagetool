@@ -84,6 +84,8 @@ public class SpanishSentenceTokenizerTest {
     testSplit("Me voy a EE. UU. ", "Buen viaje.");
     testSplit("Uno (ca. 2010), dos (c. 2011), tres (ca. XIX), cuatro (c. XX)");
     testSplit("Ayto. de Madrid.");
+    testSplit("¿Quién sabe hablar francés mejor: Tom o Mary?");
+    testSplit("Hola, Albert: ", "Me puedes decir tu correo?");
 
     // Exception to abbreviations    
     testSplit("Esto pasa el PP. ", "Pero, por otra parte,");

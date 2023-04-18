@@ -45,7 +45,7 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC]S.");
   private static final Pattern VERB = Pattern.compile("V.+");
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
+  private static final List<String> ALLUPPERCASE_EXCEPTIONS = Arrays.asList("ARNAU", "CRISTIAN", "TOMÀS");
   private String variant;
     
   public CatalanTagger(Language language) {
@@ -65,50 +65,51 @@ public class CatalanTagger extends BaseTagger {
     int pos = 0;
     final IStemmer dictLookup = new DictionaryLookup(getDictionary());
 
-    for (String word : sentenceTokens) {
+    for (String originalWord : sentenceTokens) {
       // This hack allows all rules and dictionary entries to work with
       // typewriter apostrophe
       boolean containsTypewriterApostrophe = false;
       boolean containsTypographicApostrophe = false;
-      if (word.length() > 1) {
-        if (word.contains("'")) {
+      if (originalWord.length() > 1) {
+        if (originalWord.contains("'")) {
           containsTypewriterApostrophe = true;
         }
-        if (word.contains("’")) {
+        if (originalWord.contains("’")) {
           containsTypographicApostrophe = true;
-          word = word.replace("’", "'");
+          originalWord = originalWord.replace("’", "'");
         }
       }
+      String normalizedWord = StringTools.normalizeNFC(originalWord);
       final List<AnalyzedToken> l = new ArrayList<>();
-      final String lowerWord = word.toLowerCase(locale);
-      final boolean isLowercase = word.equals(lowerWord);
-      final boolean isMixedCase = StringTools.isMixedCase(word);
-      final boolean isAllUpper = StringTools.isAllUppercase(word);
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
+      final String lowerWord = normalizedWord.toLowerCase(locale);
+      final boolean isLowercase = normalizedWord.equals(lowerWord);
+      final boolean isMixedCase = StringTools.isMixedCase(normalizedWord);
+      final boolean isAllUpper = StringTools.isAllUppercase(normalizedWord);
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(normalizedWord));
       
       // normal case:
       addTokens(taggerTokens, l);
       // tag non-lowercase (alluppercase or startuppercase), but not mixedcase
       // word with lowercase word tags:
       if (!isLowercase && !isMixedCase) {
-        List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
+        List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(lowerWord));
         addTokens(lowerTaggerTokens, l);
       }
       
       //tag all-uppercase proper nouns (ex. FRANÇA)
-      if (l.isEmpty() && isAllUpper) {
+      if ((l.isEmpty() || ALLUPPERCASE_EXCEPTIONS.contains(normalizedWord)) && isAllUpper) {
         final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
-        List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(firstUpper));
+        List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(originalWord, getWordTagger().tag(firstUpper));
         addTokens(firstupperTaggerTokens, l);
       }
 
       // additional tagging with prefixes
       if (l.isEmpty() && !isMixedCase) {
-        addTokens(additionalTags(word, dictLookup), l);
+        addTokens(additionalTags(originalWord, dictLookup), l);
       }
 
       if (l.isEmpty()) {
-        l.add(new AnalyzedToken(word, null, null));
+        l.add(new AnalyzedToken(originalWord, null, null));
       }
 
       AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
@@ -123,7 +124,7 @@ public class CatalanTagger extends BaseTagger {
         atr.setChunkTags(listChunkTags);
       }
       tokenReadings.add(atr);
-      pos += word.length();
+      pos += originalWord.length();
     }
 
     return tokenReadings;
@@ -135,7 +136,7 @@ public class CatalanTagger extends BaseTagger {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     //Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
     //Adjectiu femení singular o participi femení singular + -ment
-    final String lowerWord = word.toLowerCase(locale);
+    final String lowerWord = StringTools.normalizeNFC(word.toLowerCase(locale));
     if (lowerWord.endsWith("ment")){  
       final String possibleAdj = lowerWord.replaceAll("^(.+)ment$", "$1");
       List<AnalyzedToken> taggerTokens;
@@ -154,15 +155,17 @@ public class CatalanTagger extends BaseTagger {
     //Any well-formed verb with prefixes is tagged as a verb copying the original tags
     Matcher matcher = PREFIXES_FOR_VERBS.matcher(word);
     if (matcher.matches()) {
-      final String possibleVerb = matcher.group(2).toLowerCase();
+      final String possibleVerb = StringTools.normalizeNFC(matcher.group(2).toLowerCase());
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
-      for (AnalyzedToken taggerToken : taggerTokens ) {
-        final String posTag = taggerToken.getPOSTag();
-        if (posTag != null) {
-          final Matcher m = VERB.matcher(posTag);
-          if (m.matches()) {
-            String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
-            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        if (!taggerToken.getLemma().equals("nòmer")) {
+          final String posTag = taggerToken.getPOSTag();
+          if (posTag != null) {
+            final Matcher m = VERB.matcher(posTag);
+            if (m.matches()) {
+              String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+              additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+            }
           }
         }
       }

@@ -18,6 +18,17 @@
  */
 package org.languagetool.rules.fr;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.language.French;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.synthesis.FrenchSynthesizer;
+import org.languagetool.tools.StringTools;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,24 +37,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.French;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.FrenchSynthesizer;
-import org.languagetool.tools.StringTools;
-
 /*
  * Create suggestions for: determiner + noun/adjective
  */
-
 public class WordWithDeterminerFilter extends RuleFilter {
-
-  private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
-  private static JLanguageTool lt = new JLanguageTool(new French());
 
   private static final String determinerRegexp = "(P.)?D .*|J .*|V.* ppa .*";
   private static final Pattern DETERMINER = Pattern.compile(determinerRegexp);
@@ -51,11 +48,12 @@ public class WordWithDeterminerFilter extends RuleFilter {
   private static final Pattern WORD = Pattern.compile(wordRegexp);
 
   // 0=MS, 1=FS, 2=MP, 3=FP
-  private static final String[] GenderNumber = { "(m|e) (s|sp)", "(f|e) (s|sp)", "(m|e) (p|sp)", "(f|e) (p|sp)" };
+  private static final String[] GenderNumber = { "([me]) (s|sp)", "([fe]) (s|sp)", "([me]) (p|sp)", "([fe]) (p|sp)" };
   private static final String determiner = "((P.)?D |J |V.* ppa )";
 
-  private static final List<String> exceptionsDeterminer = Arrays
-      .asList(new String[] { "bels", "fols", "mols", "nouvels" });
+  private static final List<String> exceptionsDeterminer =
+    Arrays.asList("bels", "fols", "mols", "nouvels");
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {  
@@ -64,7 +62,10 @@ public class WordWithDeterminerFilter extends RuleFilter {
 //      int ii=0;
 //      ii++;
 //    }
-
+    
+    Language lang = new French();
+    JLanguageTool lt = lang.createDefaultJLanguageTool(); 
+    
     String wordFrom = getRequired("wordFrom", arguments);
     String determinerFrom = getRequired("determinerFrom", arguments);
     int posWord = 0;
@@ -112,8 +113,8 @@ public class WordWithDeterminerFilter extends RuleFilter {
     String[][] determinerForms = new String[4][];
     String[][] wordForms = new String[4][];
     for (int i = 0; i < 4; i++) {
-      determinerForms[i] = synth.synthesize(atDeterminer, determiner + GenderNumber[i], true);
-      wordForms[i] = synth.synthesize(atWord, prefix + GenderNumber[i], true);
+      determinerForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atDeterminer, determiner + GenderNumber[i], true);
+      wordForms[i] = FrenchSynthesizer.INSTANCE.synthesize(atWord, prefix + GenderNumber[i], true);
       // if it cannot be synthesyzed, keep the original determiner
       if (determinerForms[i].length == 0 && atDeterminer.getPOSTag().matches(".+" + GenderNumber[i])) {
         determinerForms[i] = new String[] { atDeterminer.getToken() };
@@ -124,6 +125,8 @@ public class WordWithDeterminerFilter extends RuleFilter {
       }
     }
 
+    //FIXME: enabling and disabling rules is not a good solution 
+    // if several filters use the same JLanguageTool instance 
     for (Rule r : lt.getAllRules()) {
       if (r.getCategory().getId().toString().equals("CAT_ELISION") || r.getId().equals("CET_CE")
           || r.getId().equals("CE_CET") || r.getId().equals("MA_VOYELLE") || r.getId().equals("MON_NFS")

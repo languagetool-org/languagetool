@@ -30,12 +30,11 @@ public class DutchWordTokenizer extends WordTokenizer {
 
   private static final List<String> QUOTES = Arrays.asList("'", "`", "’",  "‘", "´");
 
-  //the string used to tokenize characters
   private final String nlTokenizingChars;
 
   public DutchWordTokenizer() {
     //remove the apostrophe etc. from the standard tokenizing characters:
-    String chars = super.getTokenizingCharacters() + "\u005f"; //underscore
+    String chars = super.getTokenizingCharacters() + "_";
     for (String quote : QUOTES) {
       chars = chars.replace(quote, "");
     }

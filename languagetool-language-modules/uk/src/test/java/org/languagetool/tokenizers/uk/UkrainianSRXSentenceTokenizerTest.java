@@ -49,12 +49,17 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("Комендант преподобний С.\u00A0С.\u00A0Мокітімі 1.");
     testSplit("Комендант преподобний С.\u00A0С. Мокітімі 2.");
     testSplit("Склад: акад. Вернадський, проф. Харченко, доц. Семеняк.");
+    testSplit("для др.  Харченко.");
+    testSplit("и др. ", "Потім вони пішли.");
     testSplit("Ів. Франко.");
     testSplit("Алисов Н. В. , Хореев Б. С.");
     testSplit("і Г.-К. Андерсена");
     testSplit(" — К. : Наук. думка, 1990.");
     testSplit("Маркс К. «Показова держава»");
-    
+
+    testSplit("Приходь! — буркнула йому.");
+    testSplit("«Приходь!» — буркнула йому.");
+
     // latin I
     testSplit("М. Л. Гончарука, I. О. Денисюка");
     testSplit("I. I. Дорошенко");
@@ -62,6 +67,7 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("елементів множини A. Отже, нехай");
     
     testSplit("Опергрупа приїхала в с. Лісове.");
+    testSplit("Біля с. Березичі.");
     testSplit("300 р. до н. е.");
     testSplit("З 300 р. до н.е., і по цей день.");
     testSplit("Пролісок (рос. пролесок) — маленька квітка.");
@@ -120,6 +126,23 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("СК “Слон” (2008 р.) ", "У минулому харків’янка");
 
     testSplit("рис. 14, Мал. 5; Арт. 88-99");
+    
+    testSplit("нар. 1945 р.");
+    testSplit("Гліба (1995 р. нар.)");
+    testSplit("нар. бл. 1720 р.");
+    testSplit("(нар. у серпні 1904)");
+    testSplit("977 — нар. Кріс Мартін");
+    testSplit("Ради нар. депутатів");
+    testSplit("нар. арт. ", "України");
+    testSplit("біля нар. ", "У таких умовах");
+
+    testSplit("поч. 1945 - кін. 1946 р.");
+  }
+  
+  @Test
+  public void testWebEntities() {
+    testSplit("Паляниця.Інфо");
+    testSplit("Жмеринка.City");
   }
 
   @Test

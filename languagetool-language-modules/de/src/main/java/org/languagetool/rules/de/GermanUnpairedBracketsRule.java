@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.tools.Tools;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,14 +35,15 @@ public class GermanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
   public GermanUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, DE_START_SYMBOLS, DE_END_SYMBOLS);
+    setUrl(Tools.getUrl("https://languagetool.org/insights/de/beitrag/klammern/"));
     addExamplePair(Example.wrong("Dem Präsidenten des Deutschen Bauernverbands <marker>(</marker>DBV zufolge habe die Dürre einen Schaden von 1,4 Millionen verursacht."),
                    Example.fixed("Dem Präsidenten des Deutschen Bauernverbands <marker>(</marker>DBV) zufolge habe die Dürre einen Schaden von 1,4 Millionen verursacht."));
   }
 
   @Override
   public String getId() {
-    return "UNPAIRED_BRACKETS";
-  }  // no "DE_" to be compatible with old versions
+    return "UNPAIRED_BRACKETS";  // no "DE_" to be compatible with old versions
+  }
 
   @Override
   protected List<String> getSuggestions(Supplier<String> text, int startPos, int endPos) {

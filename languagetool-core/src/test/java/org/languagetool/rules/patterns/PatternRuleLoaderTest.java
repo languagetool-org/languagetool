@@ -30,7 +30,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -99,6 +99,48 @@ public class PatternRuleLoaderTest {
     }
     Rule nextRule = getRuleById("DEMO_CHUNK_RULE", rules);
     assertNull("http://fake-server.org/rule-group-url", nextRule.getUrl());
+  }
+
+  @Test
+  public void testPremiumXmlFlag() throws IOException {
+    PatternRuleLoader prg = new PatternRuleLoader();
+    String nameNonPremium = "/xx/grammar-nonPremium.xml";
+    List<AbstractPatternRule> rulesInNonPremiumFile = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(nameNonPremium), nameNonPremium);
+    Rule rule1 = getRuleById("F-NP_C-NP_RG-NP_R-NP", rulesInNonPremiumFile);
+    assertFalse(rule1.isPremium());
+    Rule rule2 = getRuleById("F-NP_C-NP_RG-NP_R-P", rulesInNonPremiumFile);
+    assertTrue(rule2.isPremium());
+    Rule rule3 = getRuleById("F-NP_C-NP_RG-P_R-NP", rulesInNonPremiumFile);
+    assertFalse(rule3.isPremium());
+    Rule rule4 = getRuleById("F-NP_C-NP_RG-P_R-P", rulesInNonPremiumFile);
+    assertTrue(rule4.isPremium());
+    Rule rule5 = getRuleById("F-NP_C-P_RG-NP_R-NP", rulesInNonPremiumFile);
+    assertFalse(rule5.isPremium());
+    Rule rule6 = getRuleById("F-NP_C-P_RG-NP_R-P", rulesInNonPremiumFile);
+    assertFalse(rule6.isPremium());
+    Rule rule7 = getRuleById("F-NP_C-P_RG-P_R-NP", rulesInNonPremiumFile);
+    assertFalse(rule7.isPremium());
+    Rule rule8 = getRuleById("F-NP_C-P_RG-P_R-P", rulesInNonPremiumFile);
+    assertTrue(rule8.isPremium());
+    
+    String namePremium = "/xx/grammar-premium.xml";
+    List<AbstractPatternRule> rulesInPremiumFile = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(namePremium), namePremium);
+    Rule rule9 = getRuleById("F-P_C-P_RG-P_R-P", rulesInPremiumFile);
+    assertTrue(rule9.isPremium());
+    Rule rule10 = getRuleById("F-P_C-P_RG-P_R-NP", rulesInPremiumFile);
+    assertFalse(rule10.isPremium());
+    Rule rule11 = getRuleById("F-P_C-P_RG-NP_R-P", rulesInPremiumFile);
+    assertTrue(rule11.isPremium());
+    Rule rule12 = getRuleById("F-P_C-P_RG-NP_R-NP", rulesInPremiumFile);
+    assertFalse(rule12.isPremium());
+    Rule rule13 = getRuleById("F-P_C-NP_RG-P_R-NP", rulesInPremiumFile);
+    assertFalse(rule13.isPremium());
+    Rule rule14 = getRuleById("F-P_C-NP_RG-P_R-P", rulesInPremiumFile);
+    assertTrue(rule14.isPremium());
+    Rule rule15 = getRuleById("F-P_C-NP_RG-NP_R-NP", rulesInPremiumFile);
+    assertFalse(rule15.isPremium());
+    Rule rule16 = getRuleById("F-P_C-NP_RG-NP_R-P", rulesInPremiumFile);
+    assertTrue(rule16.isPremium());
   }
 
   private Set<String> getCategoryNames(List<AbstractPatternRule> rules) {

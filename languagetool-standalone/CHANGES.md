@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 5.8-SNAPSHOT (release planned for 2022-06-28)
+## 6.2-SNAPSHOT (release planned for 2023-06-28)
 
 #### Arabic
   * added and improved xml rules
@@ -8,14 +8,194 @@
   * add enclitics and proclitics tags
 
 
+## 6.1 (2023-03-28)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.22)
+
+#### Dutch
+  * improved and cleaned up rules
+
 #### English
-* updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2022.06.01, v.3.0.9)
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2023.03.01, v.3.1.8)
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
 
 #### Polish
-* updated the spelling dictionary to match changes in language (the current version is in sync with sjp.pl as of April 1, 2022)
-* added and improved rules
+  * small rule updates
 
-...
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
+#### Russian
+  * added and improved xml and java rules 
+  * improved disambiguation
+  * fix a lot of false positives
+  * added words and POS data
+  * added chunker rules
+  * some xml grammar rules uses a chunker now
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-2.0)
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * improved tokenization, tagging, and disambiguation
+  * new rules
+
+
+
+## 6.0 (released 2022-12-29)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.21)
+
+#### Dutch
+  * improved rules
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2022.12.01, v.3.1.5)
+
+#### French
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### Polish
+  * improved rules
+
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.9)
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * improved tokenization, tagging, and disambiguation
+  * new rules
+
+#### HTTP API / LT server
+  * The `/languages` endpoint now lists language codes like `fr-FR` and `es-ES` for languages
+    that actually don't have a variant (e.g. there is no `fr-CA`). These codes can also be used
+    for the `language` parameter when sending a request. `fr-FR` will internally be mapped
+    to `fr` etc. (https://github.com/languagetool-org/languagetool/issues/7421)
+
+### General
+  * The `--api` parameter for the command-line version has been removed. It had
+    long been deprecated and replaced by `--json`.
+  * The `warmup` setting for the config file, which had no effect anymore, has been removed.
+  * The deprecated `--word2vecmodel` and `--neuralnetworkmodel` options have been removed,
+    as these features were not maintained and had never been used on languagetool.org.
+  * You can put a file `grammar_custom.xml` into the same directory that contains the
+    `grammar.xml` file for your language. This file will be loaded in addition to
+    `grammar.xml`. It can contain custom rules that you want to use now and with future
+    versions of LanguageTool, without modifying existing files. The `grammar_custom.xml`
+    needs to use the same XML syntax as `grammar.xml` and it must not introduce rule IDs
+    that are in use by other rules in other files already.
+
+
+## 5.9 (2022-09-28)
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * improved rules, removed many false alarms
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2022.09.01, v.3.1.2)
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### French
+  * added and improved rules
+
+#### Polish
+  * added and improved rules
+
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
+#### Russian
+  * updated dictionary
+  * some rules improvements
+
+#### Spanish
+  * added and improved rules
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * added verb and adj/noun agreement rule
+  * added and improved several rules
+  * improved tagging and disambiguation
+
+### General
+  * The `--word2vecModel` option has been deprecated
+
+
+## 5.8 (2022-07-01)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.19)
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2022.06.01, v.3.0.9)
+
+#### German
+  * added and improved rules
+  * extended dictionary
+
+#### French
+  * added and improved rules
+
+#### Polish
+  * updated the spelling dictionary to match changes in language (the current version is in sync with sjp.pl as of April 1, 2022)
+  * added and improved rules
+
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+  * the tagger dictionary has been moved to an external dependency (portuguese-pos-dict)
+
+#### Russian
+  * improved some rules
+
+#### Spanish
+  * added and improved rules
+  * updated dictionary (spanish-pos-dict-1.7)
+
+#### Ukrainian
+  * new words in the POS dictionary
+  * added and improved several rules
+  * added numeric and adj/noun agreement
+  * improved tagging and disambiguation
+
 
 
 ## 5.7 (2022-03-28)
@@ -1194,7 +1374,7 @@
     English, German, and Portuguese.
   * Neural network based rules for confusion pair disambiguation using the
     word2vec model are available for English, German, and Portuguese. The necessary
-    data must be downloaded separately from https://fscs.hhu.de/languagetool/word2vec.tar.gz.
+    data must be downloaded separately from https://languagetool.org/download/word2vec/.
     For details, please see:
     * Code: https://github.com/gulp21/languagetool-neural-network
     * Forum discussion: https://forum.languagetool.org/t/neural-network-rules/2225

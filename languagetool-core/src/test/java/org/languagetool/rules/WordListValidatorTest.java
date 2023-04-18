@@ -36,7 +36,7 @@ public class WordListValidatorTest {
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
           "ŚśōżúïÎôêâû" +
           "'’" +
-          "./-]+" +
+          "./%-]+" +
           "|[khmcdµ]?m[²³]|°[CFR]|C?O₂-?.*|mc²";
 
   // Words that are valid but with special characters so that we don't want to
@@ -143,14 +143,31 @@ public class WordListValidatorTest {
           "S&P",
           "ČSSR",
           "V&D",
+          "Loïc/S",
           "İlkay",
           "Gündoğan",
           "Tuğrul",
+          "Kīlauea",
+          "Māori",
+          "Terzić",
+          "Jūjutsu/S",
           "Ñuñoa",
+          "Stevanović",
+          "Børge",
+          "Børge/S",
+          "Bjørn Gulden/S",
+          "Snæfellsjökull/S",
+          "Clément/S",
+          "Snæfellsjökull",
+          "Skåneland",
+          "Øresund",
           "Ibišević",
           "Fríður",
           "Łódź",
           "Ørsted",
+          "Samsø/S",
+          "Sønderborg/S",
+          "Sønderborg",
           "Mirotić",
           "Subotić",
           "Pÿur",
@@ -166,6 +183,8 @@ public class WordListValidatorTest {
           "dtº",  // for PT
           "ª",  // for PT
           "º",  // for PT
+          "ĉi",  // for PT
+          "R$",  // for PT
           // Greek letters / Mathematics and physics variables
           "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω", 
           "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω"          
@@ -193,7 +212,7 @@ public class WordListValidatorTest {
         SpellingCheckRule sRule = (SpellingCheckRule) rule;
         String file = sRule.getSpellingFileName();
         if (JLanguageTool.getDataBroker().resourceExists(file) && !checked.contains(file)) {
-          System.out.println("Checking " + file);
+          System.out.println("Checking validity of word list file " + file);
           CachingWordListLoader loader = new CachingWordListLoader();
           List<String> words = loader.loadWords(file);
           validateWords(words, file);

@@ -40,7 +40,7 @@ public final class AnalyzedToken {
 
   public AnalyzedToken(String token, String posTag, String lemma) {
     this.token = Objects.requireNonNull(token, "token cannot be null");
-    this.posTag = posTag;
+    this.posTag = posTag != null ? posTag.trim() : null;
     this.lemma = lemma;    
     if (lemma == null) {
       lemmaOrToken = token;

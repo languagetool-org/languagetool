@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 American English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
-Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+Copyright (C) 2012 Marcin Miłkowski (https://www.languagetool.org)
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -204,7 +204,7 @@ USA
                 </marker>
             </pattern>
             <message>The noun <suggestion>shitshow</suggestion> is spelled as one word.</message>
-            <url>https://www.lexico.com/definition/shitshow</url>
+            <url>https://www.dictionary.com/browse/shitshow</url>
             <example correction="shitshow">The TV debate was an absolute <marker>shit show</marker>.</example>
         </rule>
 
@@ -287,6 +287,125 @@ USA
     </category>
 
     <category id="AMERICAN_ENGLISH_STYLE" name="American English Style" type="style">
+        <rulegroup id="EG_NO_COMMA" name="'e.g.' without a comma" tags="picky">
+            <rule>
+                <antipattern>
+                    <token>e</token>
+                    <token>.</token>
+                    <token>g</token>
+                    <token>.</token>
+                    <token regexp="yes" spacebefore="no">[a-z]{1,2}</token>
+                </antipattern>
+                <antipattern>
+                    <token>.</token>
+                    <token spacebefore="no">e</token>
+                    <token>.</token>
+                    <token>g</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>e</token>
+                        <token>.</token>
+                        <token spacebefore="no">g</token>
+                        <token>.</token>
+                    </marker>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>A comma is missing here.</message>
+                <suggestion>e.g.,</suggestion>
+                <short>Punctuation error</short>
+                <example>There are several grammar checkers for English, e.g., LanguageTool.</example>
+                <example correction="e.g.,">There are several grammar checkers for English, <marker>e.g.</marker> LanguageTool.</example>
+                <example>Davies, R.E.G. Delta - An Airline and Its Aircraft.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>eg</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">,|\.</token>
+                </pattern>
+                <message>A comma and a dot are missing here.</message>
+                <suggestion>e.g.,</suggestion>
+                <short>Punctuation error</short>
+                <example>There are several grammar checkers for English, e.g., LanguageTool.</example>
+                <example correction="e.g.,">There are several grammar checkers for English, <marker>eg</marker> LanguageTool.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IE_NO_COMMA" name="'i.e.' without a comma" tags="picky">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>i</token>
+                        <token>.</token>
+                        <token spacebefore="no">e</token>
+                        <token>.</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">,|-|–|:|;|\.|\/</token>
+                </pattern>
+                <message>A comma is missing here.</message>
+                <suggestion>i.e.,</suggestion>
+                <short>Punctuation error</short>
+                <example>Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+                <example correction="i.e.,">Who's responsible for providing public facilities, <marker>i.e.</marker> a post office, library, etc. for the Northwest?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ie</token>
+                    <token>:</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">IE</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">the|in</token>
+                    <token case_sensitive="yes">IE</token>
+                </antipattern>
+                <antipattern>
+                    <token>.</token>
+                    <token spacebefore="no">ie</token>
+                </antipattern>
+                <antipattern>
+                    <token>ie</token>
+                    <token>'s</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>IE</token>
+                    <token regexp="yes">[a-z].*</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>ie</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">,|-|–|:|;|\.|\/</token>
+                </pattern>
+                <message>The comma and dots are missing here:<suggestion>i.e.,</suggestion>.</message>
+                <short>Punctuation error</short>
+                <example>Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+                <example correction="i.e.,">Who's responsible for providing public facilities, <marker>ie</marker> a post office, library, etc. for the Northwest?</example>
+                <example>Atlantipedia.ie: Encyclopedic collection of information on Atlantis.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>.</token>
+                    <token spacebefore="no">ie</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>ie</token>
+                        <token>.</token>
+                    </marker>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>The comma and dots are missing here.</message>
+                <suggestion>i.e.,</suggestion>
+                <short>Punctuation error</short>
+                <example>Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+                <example correction="i.e.,">Who's responsible for providing public facilities, <marker>ie.</marker> a post office, library, etc. for the Northwest?</example>
+            </rule>
+        </rulegroup>
         <rule id="ETC_PERIOD" name="period after abbreviation 'etc.'">
             <antipattern>
                 <token>etc</token>
@@ -300,7 +419,7 @@ USA
             </pattern>
             <message>A period is needed after the abbreviation 'etc.'</message>
             <suggestion>etc.</suggestion>
-            <url>https://www.merriam-webster.com/dictionary/etc.</url>
+            <url>https://languagetool.org/insights/post/spelling-etc-or-ect/</url>
             <example correction="etc.">Tennis, soccer, baseball, <marker>etc</marker> are outdoor games.</example>
             <example correction="etc.">I use things like Java, Microsoft, Unix, <marker>etc</marker> at work.</example>
             <example correction="etc.">Make sure you bring your fishing pole, tackle, bait, <marker>etc</marker> as we will not make any stops.</example>
@@ -499,6 +618,15 @@ USA
     </category>
 
     <category id="BRITISH_ENGLISH" name="British English phrases" type="locale-violation">
+        <rule id="AFTERWARDS_US" name="We visited them afterwards (afterward)">
+        <!-- TODO: IF rule is popular in US English, add equivalent rule for GB/CA English -->
+            <pattern>
+                <token>afterwards</token>
+            </pattern>
+            <message>In American English, 'afterward' is the preferred variant. 'Afterwards' is more commonly used in British English and other dialects.</message>
+            <suggestion>afterward</suggestion>
+            <example correction="afterward">We visited him <marker>afterwards</marker>.</example>
+        </rule>
         <rule id="AUBERGINE" name="eggplant/aubergine">
             <pattern>
                 <token regexp="yes">aubergines?</token>
@@ -553,14 +681,15 @@ USA
           <marker>
               <token>at</token>
               <token>the</token>
-              <token>weekend</token>
+              <token chunk_re="E-NP.*">weekend</token>
           </marker>
-          <token postag="SENT_END"/>
       </pattern>
-      <message>The phrase '\1 \2 \3' is a British English expression, which is used the same way as <suggestion>on \2 \3</suggestion> in American English.</message>
+      <message>The phrase '\1 \2 \3' is a British English expression.</message>
+      <suggestion>on \2 \3</suggestion>
+      <suggestion>over \2 \3</suggestion>
       <url>http://learnersdictionary.com/qa/Over-the-weekend-on-the-weekend-at-the-weekend</url>
       <short>Collocation error</short>
-      <example correction="on the weekend">I like to play soccer <marker>at the weekend</marker>.</example>
+      <example correction="on the weekend|over the weekend">I like to play soccer <marker>at the weekend</marker>.</example>
     </rule>
 
         <rule id="IN_FUTURE" name="Missing definite article referring to a time period">
@@ -604,7 +733,47 @@ USA
     </category>
 
     <category id="SEMANTICS" name="Semantics" type="inconsistency">
-        <rulegroup id="DATE_FUTURE_VERB_PAST_US" name="Future date, but verb in past tense (US)">
+        <rulegroup id="DATE_FUTURE_VERB_PAST_US" name="Future date, but verb in past tense (US)" default="off">
+            <antipattern>
+                <token>due</token>
+                <token regexp="yes">&months;|&abbrevMonths;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">is|was|the</token>
+                &date_mdy_numbers;
+                <example>The date that was set is 12/31/2022.</example>
+                <example>The date given was the 08/28/2022.</example>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">by|to|for</token>
+                &date_mdy_numbers;
+                <example>They were supposed to be finished by 8/20/2022.</example>
+                <example>They moved the expiration date to 08/28/2022.</example>
+                <example>They rescheduled for 08/28/2022.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" postag="SENT_START" />
+                <token skip="-1" postag="MD" />
+                <token postag="SENT_END" />
+                <example>We won't have it finished 8/2/2022.</example>
+                <example>I wanted to know if I could start on 08/28/2022.</example>
+                <example>They had agreed the project would begin from 08/28/2022  to 08/29/2022.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="VBN" />
+                <token>to</token>
+                <token skip="1" postag="VB" />
+                &date_mdy_numbers;
+                <example>It it set to auto-renew on 8/20/2022.</example>
+            </antipattern>
+            <antipattern>
+                <token postag="VBN" />
+                <token>to</token>
+                <token>be</token>
+                <token skip="1" postag="VBN" />
+                &date_mdy_numbers;
+                <example>They were set to be processed 8/20/2022, but something came up and that date got pushed back even further.</example>
+            </antipattern>
             <rule> <!-- We have visited the client on 10/27/2040 -->
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>

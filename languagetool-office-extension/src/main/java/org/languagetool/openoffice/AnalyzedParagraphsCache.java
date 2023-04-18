@@ -19,16 +19,11 @@
 
 package org.languagetool.openoffice;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
@@ -89,7 +84,6 @@ public class AnalyzedParagraphsCache {
       }
       doc.put("locale", locale);
       doc.put("paragraphs", jParagraphs);
-//      MessageHandler.printToLogFile(doc.toString());
       writeIntoFile();
     } catch (IOException e) {
       MessageHandler.printException(e);
@@ -113,7 +107,6 @@ public class AnalyzedParagraphsCache {
       }
       GZIPOutputStream fileOut = new GZIPOutputStream(new FileOutputStream(tmpCacheFile.getAbsolutePath()));
       OutputStreamWriter out = new OutputStreamWriter(fileOut, StandardCharsets.UTF_8);
-//      BufferedWriter bw = new BufferedWriter(out);
       out.write(doc.toString());
       out.close();
       fileOut.close();
@@ -127,7 +120,7 @@ public class AnalyzedParagraphsCache {
     }
   }
   
-  class JAnalyzedSentence {
+  private class JAnalyzedSentence {
     private List<JAnalyzedTokenReadings> tokens = new ArrayList<JAnalyzedTokenReadings>();
     
     JAnalyzedSentence(AnalyzedSentence sentences) {
@@ -143,13 +136,12 @@ public class AnalyzedParagraphsCache {
         jSentences.add(token.getJSON());
       }
       obj.put("aS", jSentences);
-//      MessageHandler.printToLogFile(obj.toString());
       return obj.toString();
     }
     
   }
   
-  class JAnalyzedTokenReadings {
+  private class JAnalyzedTokenReadings {
     private List<JAnalyzedToken> tokenReadings = new ArrayList<JAnalyzedToken>();
     private String token;
     private int startPos;
@@ -176,7 +168,7 @@ public class AnalyzedParagraphsCache {
     
   }
   
-  class JAnalyzedToken {
+  private class JAnalyzedToken {
     private String posTag;
     private String lemma;
     private boolean hasNoTag = false;

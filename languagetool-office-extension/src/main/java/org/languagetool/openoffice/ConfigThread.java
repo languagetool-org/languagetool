@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
@@ -50,8 +51,9 @@ class ConfigThread extends Thread {
     }
     this.config = config;
     this.lt = lt;
-    this.documents = documents; 
-    cfgDialog = new ConfigurationDialog(null, true, config);
+    this.documents = documents;
+    String title = JLanguageTool.getMessageBundle().getString("guiConfigWindowTitle") + " (LT " + OfficeTools.getLtInformation() + ")";
+    cfgDialog = new ConfigurationDialog(null, true, OfficeTools.getLtImage(), title, config);
   }
 
   @Override
@@ -59,6 +61,10 @@ class ConfigThread extends Thread {
     if(!documents.javaVersionOkay()) {
       return;
     }
+    if (!documents.isJavaLookAndFeelSet()) {
+      documents.setJavaLookAndFeel();
+    }
+    documents.setConfigurationDialog(cfgDialog);
     try {
       List<Rule> allRules = lt.getAllRules();
       Set<String> disabledRulesUI = documents.getDisabledRules(docLanguage.getShortCodeWithCountryAndVariant());
@@ -83,6 +89,7 @@ class ConfigThread extends Thread {
     } catch (Throwable e) {
       MessageHandler.showError(e);
     }
+    documents.setConfigurationDialog(null);
   }
   
 }

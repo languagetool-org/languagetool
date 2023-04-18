@@ -60,6 +60,7 @@ public class CommandLineOptions {
   private boolean xmlFiltering = false;
   private boolean lineByLine = false;
   private boolean enableTempOff = false;
+  private boolean cleanOverlapping = false;
   private JLanguageTool.Level level = JLanguageTool.Level.DEFAULT;
   @Nullable
   private Language language = null;
@@ -67,10 +68,6 @@ public class CommandLineOptions {
   private Language motherTongue = null;
   @Nullable
   private File languageModel = null;
-  @Nullable
-  private File word2vecModel = null;
-  @Nullable
-  private File neuralNetworkModel = null;
 
   @Nullable
   private File fasttextModel = null;
@@ -132,6 +129,17 @@ public class CommandLineOptions {
   public void setEnableTempOff(boolean enableTempOff) {
     this.enableTempOff = enableTempOff;
   }
+  
+  /**
+   * @since 6.1
+   */
+  public boolean isCleanOverlapping() {
+    return cleanOverlapping;
+  }
+
+  public void setCleanOverlapping(boolean cleanOverlapping) {
+    this.cleanOverlapping = cleanOverlapping;
+  }
 
   public boolean isRecursive() {
     return recursive;
@@ -155,20 +163,6 @@ public class CommandLineOptions {
 
   public void setSingleLineBreakMarksParagraph(boolean singleLineBreakMarksParagraph) {
     this.singleLineBreakMarksParagraph = singleLineBreakMarksParagraph;
-  }
-
-  /**
-   * @since 3.6
-   */
-  public boolean isXmlFormat() {
-    return this.outputFormat == OutputFormat.XML;
-  }
-  
-  /**
-   * @since 3.6
-   */
-  public void setXmlFormat() {
-    this.outputFormat = OutputFormat.XML;
   }
 
   /**
@@ -257,37 +251,6 @@ public class CommandLineOptions {
    */
   public void setLanguageModel(File languageModel) {
     this.languageModel = languageModel;
-  }
-
-  /**
-   * @return a directory with a word2vec language model for use with neural network rules in sub directories like ({@code en}), or {@code null}
-   * @since 4.0
-   */
-  @Nullable
-  public File getWord2VecModel() {
-    return word2vecModel;
-  }
-
-  /**
-   * @since 4.0
-   */
-  public void setWord2VecModel(File neuralNetworkLanguageModel) {
-    this.word2vecModel = neuralNetworkLanguageModel;
-  }
-
-  /**
-   * @since 4.4
-   */
-  @Nullable
-  public File getNeuralNetworkModel() {
-    return neuralNetworkModel;
-  }
-
-  /**
-   * @since 4.4
-   */
-  public void setNeuralNetworkModel(File neuralNetworkModel) {
-    this.neuralNetworkModel = neuralNetworkModel;
   }
 
   /**

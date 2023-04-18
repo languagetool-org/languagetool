@@ -55,6 +55,7 @@ public abstract class RemoteRule extends Rule {
   protected static final ConcurrentMap<String, CircuitBreaker> circuitBreakers = new ConcurrentHashMap<>();
 
   protected final RemoteRuleConfig serviceConfiguration;
+  protected final boolean premium;
   protected final boolean inputLogging;
   protected final boolean filterMatches;
   protected final boolean fixOffsets;
@@ -76,6 +77,7 @@ public abstract class RemoteRule extends Rule {
     filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
     whitespaceNormalisation = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("whitespaceNormalisation", "true"));
     fixOffsets = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("fixOffsets", "true"));
+    premium = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("premium", "false"));
     try {
       if (serviceConfiguration.getOptions().containsKey("suppressMisspelledMatch")) {
         suppressMisspelledMatch = Pattern.compile(serviceConfiguration.getOptions().get("suppressMisspelledMatch"));
@@ -159,6 +161,11 @@ public abstract class RemoteRule extends Rule {
     return config;
   }
 
+  @Override
+  public boolean isPremium() {
+    return premium;
+  }
+
   /**
    * @param sentences text to check
    * @param textSessionId ID for texts, should stay constant for a user session; used for A/B tests of experimental rules
@@ -232,16 +239,7 @@ public abstract class RemoteRule extends Rule {
 
   private List<RuleMatch> suppressMisspelled(List<RuleMatch> sentenceMatches) {
     List<RuleMatch> result = new ArrayList<>();
-    SpellingCheckRule speller = ruleLanguage.getDefaultSpellingRule(messages);
-    Predicate<SuggestedReplacement> checkSpelling = (s) -> {
-     try {
-       AnalyzedSentence sentence = lt.getRawAnalyzedSentence(s.getReplacement());
-       RuleMatch[] matches = speller.match(sentence);
-       return matches.length == 0;
-     } catch(IOException e) {
-       throw new RuntimeException(e);
-     }
-    };
+    SpellingCheckRule speller = ruleLanguage.getDefaultSpellingRule();
     if (speller == null) {
       if (suppressMisspelledMatch != null || suppressMisspelledSuggestions != null) {
         logger.warn("Cannot activate suppression of misspelled matches for rule {}, no spelling rule found for language {}.",
@@ -249,6 +247,16 @@ public abstract class RemoteRule extends Rule {
       }
       return sentenceMatches;
     }
+
+    Predicate<SuggestedReplacement> checkSpelling = (s) -> {
+      try {
+        AnalyzedSentence sentence = lt.getRawAnalyzedSentence(s.getReplacement());
+        RuleMatch[] matches = speller.match(sentence);
+        return matches.length == 0;
+      } catch(IOException e) {
+        throw new RuntimeException(e);
+      }
+    };
 
     for (RuleMatch m : sentenceMatches) {
         String id = m.getRule().getId();

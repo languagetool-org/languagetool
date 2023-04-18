@@ -52,11 +52,15 @@ public final class MorfologikRussianYOSpellerRule extends MorfologikSpellerRule 
 
   private static final String RESOURCE_FILENAME = "/ru/hunspell/ru_RU_yo.dict";
   private static final Pattern RUSSIAN_LETTERS = Pattern.compile("[-а-яёо́а́е́у́и́ы́э́ю́я́о̀а̀ѐу̀ѝы̀э̀ю̀я̀ʼА-ЯЁ]*");
+  private static final int DEFAULT_MIN_RU_VALUE = 0;
+
+  private int conf_ru_Value = DEFAULT_MIN_RU_VALUE;
   
   private final static Set <String> lcDoNotSuggestWords = new HashSet <> (Arrays.asList(
     // words with 'NOSUGGEST' flag:
     "блоггер",
-    "елка"      
+    "елка",
+    "дрочим", "анальный", "орочем"      
  ));
 
   public MorfologikRussianYOSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
@@ -64,6 +68,13 @@ public final class MorfologikRussianYOSpellerRule extends MorfologikSpellerRule 
     setDefaultOff(); 
     addExamplePair(Example.wrong("Все счастливые семьи похожи друг на друга, <marker>каждя</marker> несчастливая семья несчастлива по-своему."),
                    Example.fixed("Все счастливые семьи похожи друг на друга, <marker>каждая</marker> несчастливая семья несчастлива по-своему."));
+
+    if (userConfig != null) {
+      int confValue = userConfig.getConfigValueByID(getId());
+      if(confValue >= 0) {
+        this.conf_ru_Value = confValue;
+      }
+    }
   }
 
   @Override
@@ -87,7 +98,7 @@ public final class MorfologikRussianYOSpellerRule extends MorfologikSpellerRule 
   protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
     String word = tokens[idx].getToken();  
     // don't check words that don't have  letters
-    if (!RUSSIAN_LETTERS.matcher(word).matches()) {
+    if ((conf_ru_Value != 1) && !RUSSIAN_LETTERS.matcher(word).matches()) {
       return true;
     }
       
@@ -107,6 +118,31 @@ public final class MorfologikRussianYOSpellerRule extends MorfologikSpellerRule 
   @Override
   protected boolean isLatinScript() {
     return false;
+  }
+  
+  @Override
+  public int getDefaultValue() {
+    return DEFAULT_MIN_RU_VALUE;
+  }
+
+  @Override
+  public boolean hasConfigurableValue() {
+    return true;
+  }
+
+  @Override
+  public int getMinConfigurableValue() {
+    return 0;
+  }
+
+  @Override
+  public int getMaxConfigurableValue() {
+    return 1;
+  }
+  
+  @Override
+  public String getConfigureText() {
+    return  "Проверять слова на латинице, только термины (0/1)";
   }
   
 }

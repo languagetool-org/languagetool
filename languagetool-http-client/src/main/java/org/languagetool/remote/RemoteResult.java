@@ -34,14 +34,16 @@ public class RemoteResult {
   private final String languageDetectedCode;
   private final String languageDetectedName;
   private final List<RemoteRuleMatch> matches;
+  private final List<RemoteIgnoreRange> ignoreRanges;
   private final RemoteServer remoteServer;
 
-  RemoteResult(String language, String languageCode, @Nullable String languageDetectedCode, @Nullable String languageDetectedName, List<RemoteRuleMatch> matches, RemoteServer remoteServer) {
+  RemoteResult(String language, String languageCode, @Nullable String languageDetectedCode, @Nullable String languageDetectedName, List<RemoteRuleMatch> matches, List<RemoteIgnoreRange> ignoreRanges, RemoteServer remoteServer) {
     this.language = Objects.requireNonNull(language);
     this.languageCode = Objects.requireNonNull(languageCode);
     this.languageDetectedCode = languageDetectedCode;
     this.languageDetectedName = languageDetectedName;
     this.matches = Collections.unmodifiableList(Objects.requireNonNull(matches));
+    this.ignoreRanges = ignoreRanges;
     this.remoteServer = Objects.requireNonNull(remoteServer);
   }
 
@@ -82,4 +84,7 @@ public class RemoteResult {
     return matches.toString();
   }
 
+  public List<RemoteIgnoreRange> getIgnoreRanges() {
+    return ignoreRanges;
+  }
 }

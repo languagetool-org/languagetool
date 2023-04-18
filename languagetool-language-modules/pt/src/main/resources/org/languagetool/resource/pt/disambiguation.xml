@@ -132,8 +132,121 @@
       <disambig action="add"><wd pos="SENT_END"/></disambig>
     </rule>
   </rulegroup-->
+  <rulegroup id="CONJ_COMPOSTAS" name="Conjunções compostas">
+    <rule>
+      <pattern>
+        <marker>
+          <token>ou</token>
+          <token>seja</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+        <disambig action="add">
+        <wd pos="CC"/>
+        <wd pos="CC"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>isto</token>
+          <token>é</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+        <disambig action="add">
+        <wd pos="CC"/>
+        <wd pos="CC"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>com</token>
+          <token regexp='yes'>isto|isso</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+        <disambig action="add">
+        <wd pos="CC"/>
+        <wd pos="CC"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>por</token>
+          <token min='0'>tudo</token>
+          <token regexp='yes'>isto|isso</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+        <disambig action="add">
+        <wd pos="CC"/>
+          <wd pos="CC"/>
+        <wd pos="CC"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>neste|nesse</token>
+          <token>sentido</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add">
+        <wd pos="CC"/>
+        <wd pos="CC"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>deste|desse</token>
+          <token>modo</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add">
+        <wd pos="CC"/>
+        <wd pos="CC"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>diante</token>
+          <token regexp='yes'>disto|disso</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add">
+        <wd pos="CC"/>
+        <wd pos="CC"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>neste|nesse</token>
+          <token>caso</token>
+        </marker>
+        <token>,</token>
+      </pattern>
+      <disambig action="add">
+        <wd pos="CC"/>
+        <wd pos="CC"/>
+      </disambig>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="RARE_POS" name="rare POS tags">
     <rule>
+      <antipattern>
+        <token>damos</token>
+        <token postag="NC.+"/>
+      </antipattern>
       <pattern>
         <!-- removed: li -->
         <token regexp="yes">amante|amantes|cinco|damos|dessa|estilo|feira|feiras|hora|horas|latina|latinas|linda|lindas|maluco|maluca|malucas|portuguesa|portuguesas|portugueses|quentes|uma|umas|vento</token>
@@ -148,7 +261,7 @@
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">cabes?|chegas?|cheiras?|dizer|durante|eu|fez|for|fores|gera|geras|há|mantém|manténs|mantinha|mantinhas|mas|passarão|tinha|tinhas|mais</token>
+        <token regexp="yes">virão|cabes?|chegas?|cheiras?|dizer|durante|eu|fez|for|fores|gera|geras|há|mantém|manténs|mantinha|mantinhas|mas|passarão|tinha|tinhas|mais</token>
       </pattern>
       <disambig action="remove" postag="N.*"></disambig>
     </rule>
@@ -522,6 +635,16 @@
       <example type="untouched">Nas Antilhas existem também <marker>ilhas</marker> que são possessões (britânicas, francesas, holand...</example>
     </rule>
     <rule>
+      <antipattern>
+        <token postag="NC.+" postag_regexp="yes"/>
+        <token postag="R.+" postag_regexp="yes"/>
+       <marker>
+       <and>
+        <token postag="AQ.+"/>
+        <token postag="V.+"/>
+       </and>
+       </marker>
+      </antipattern>
       <pattern>
           <token postag="R.+" postag_regexp="yes">
             <exception scope='previous' postag="(A|C|D|PP|R|V).+|_PUNCT" postag_regexp="yes"/>
@@ -572,6 +695,16 @@
         </marker>
       </pattern>
       <disambig action="filter" postag="V.+"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>que</token>
+        <marker>
+          <token postag="P.*" postag_regexp="yes">o</token>
+          <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">tornar|deixar</token>
+        </marker>
+      </pattern>
+      <disambig action="filterall"/>
     </rule>
     <rule>
       <pattern>
@@ -1051,8 +1184,30 @@
       </pattern>
       <disambig action="filterall"/>
     </rule>
-    
   </rulegroup>
+    
+  <rule id="FALA" name="fala (verb)">
+      <pattern>
+          <!-- exception to DAN -->
+          <!-- TODO: more general disambiguation rules for verb/noun -->
+          <token postag="N.*" postag_regexp="yes"/>
+          <marker>
+              <token postag_regexp="yes" postag="V.*" regexp="yes">fala|nada|dança</token>
+          </marker>
+      </pattern>
+      <disambig action="filter" postag="V.*"/>
+  </rule>
+  
+  <rule id="CONSEGUIR" name="conseguir + inf">
+    <pattern>
+      <marker>
+        <token postag="V.*" postag_regexp="yes" inflected="yes">conseguir</token>  
+      </marker>
+      <token postag="V.N.*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="V.*"/>
+  </rule>
+  
   
   <rulegroup id="D_R_N" name="Det + Adv + Nom">
     <!-- 		Based on Spanish disambiguation.xml by Tiago F. Santos		-->
@@ -1060,7 +1215,7 @@
       <pattern>
           <token postag="D.+" postag_regexp="yes"/>
         <marker>
-          <token postag="R.+" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"/></token>
+          <token postag="R.+" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"/><exception>mesmo</exception></token>
         </marker>
           <token postag="N.+" postag_regexp="yes">
             <exception>são</exception>
@@ -1085,7 +1240,18 @@
       <disambig action="filter" postag="N.*"/>
     </rule>
   </rulegroup>
-    
+  
+  <rulegroup id="VERB_PRON" name="verb + pron">
+    <rule>
+      <pattern>
+        <token postag="V.[MISNG].*" postag_regexp="yes"/>
+        <token spacebefore="no">-</token>
+        <token spacebefore="no" postag="P.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+  </rulegroup>
+  
     <rulegroup id="PRON_VERB" name="não + pron + verb">
         <antipattern>
             <token postag="D..[MC][SN]." postag_regexp="yes"/>
@@ -1106,7 +1272,7 @@
         <rule>
             <pattern>
                 <token postag="RN|RG" postag_regexp="yes"><exception postag="CS"></exception></token>
-                <token postag="P[^I].*" postag_regexp="yes"/>
+                <token postag="P[^I].*" postag_regexp="yes"><exception inflected="yes">comigo</exception></token>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filterall"/>
@@ -1153,6 +1319,15 @@
     </rule>
   </rulegroup>
 
+  <rule id="AMIGO" name="amigo (noun, not adjective">
+    <pattern>
+      <token postag="A.*|V.P.*" postag_regexp="yes"/>
+      <marker>
+        <token postag="N.*" postag_regexp="yes" inflected="yes">amigo</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="N.*"></disambig>
+  </rule>
   <rulegroup id="DNA" name="Det + Nom + Adj">
     <!-- DNA : Det + Nome + adjetivo-->
     <!-- 		based on from Spanish disambiguation.xml by Tiago F. Santos		-->
@@ -1204,6 +1379,14 @@
     <!-- DAN : Determinante + Adjetivo + Nome-->
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule id="DAN" name="Det + Adj + Nom">
+      <antipattern>
+        <token postag="VMP.+" postag_regexp="yes"/>
+        <token postag="SPS.+" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+        <token postag="SPS.+|DA.+" postag_regexp="yes"/>
+        <token>qual</token>
+      </antipattern>
       <pattern>
         <marker>
           <unify>
@@ -1267,37 +1450,218 @@
         </pattern>
         <disambig action="filter" postag="V.N.*"/>
     </rule>
+  <rule id="VERB_PRONOUN" name="verb + pronoun (enclitic)">
+    <pattern>
+      <token postag="V.[SIMN].*" postag_regexp="yes"/>
+      <token spacebefore="no">-</token>
+      <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
+    </pattern>
+    <disambig action="filterall"></disambig>
+  </rule>
+  
+  <rulegroup id="VERBOS_COMPOSTOS" name="Verbos compostos">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
+    <rule>
+      <pattern>
+        <token inflected='yes'>levar</token>
+        <token>a</token>
+        <marker>
+          <token>cabo</token>
+        </marker>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected='yes'>levar</token>
+        </marker>
+        <token>a</token>
+        <token>cabo</token>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
+  </rulegroup>
+  
+  <rule id="DEVE_SER" name="Deve + Infinitivo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
+    <pattern>
+      <marker>
+        <token inflected='yes'>dever</token>
+      </marker>
+      <token postag="VMN0000"/>
+    </pattern>
+    <disambig action="filter" postag="V.+"/>
+  </rule>
+
+  <rule id="VEIAR_VIR" name="Veio a + Infinitive">
+    <!-- Created by Susana Boatto, Portuguese rule, 2023-01-25  	-->
+    <pattern>
+      <marker>
+        <token>veio</token>
+      </marker>
+      <token>a</token>
+      <token postag="VMN0000"/>
+    </pattern>
+    <disambig action="filter" postag="VMIS3S0"/>
+  </rule>
+  
+  <rulegroup id="PERIFRASES" name="Perífrases de infinitivo">
+    <rule>
+      <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-04  	-->
+      <pattern>
+        <token inflected='yes'>ir</token>
+        <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <token postag="VMN0000"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="VMN0000"/>
+    </rule>
+    <!-- 		l18n from Galician disambiguation.xml by Tiago F. Santos		-->
+    <rule>
+      <pattern>
+        <token inflected="yes" regexp="yes">haver|ter</token>
+        <token>que</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes" regexp="yes">estar|andar|levar|continuar|seguir|ser|colocar|começar|pegar|vir|chegar|voltar|tornar|romper|pôr</token>
+        <token>a</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes" regexp="yes">dever|haver|deixar|parar|acabar|rematar|terminar|vir|ter</token>
+        <token>de</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">acabar</token>
+        <token>por</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">estar</token>
+        <token>para</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">dar</token>
+        <token>em</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes" regexp="yes">querer|ir|dever|haver|poder|voltar|adoptar|adotar|acostumar</token>
+        <marker>
+          <token postag="VMN0000">
+            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
+        </marker>
+      </pattern>
+      <disambig postag="VMN0000"/>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="DET_VERBONOME" name="Det + Ver/Nom">
     <!-- Created by Tiago F. Santos, Portuguese rule  	-->
-    <antipattern>
-      <token postag="V.*" postag_regexp="yes"/>
-      <token spacebefore="no">-</token>
-      <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
-    </antipattern>
     <rule>
       <pattern>
-          <token regexp="yes">&art_detecao_paronimos;
-            <exception postag='SPS00'/><!-- XXX because it is disambiguated by S_V -->
-            <exception regexp='yes'>à|nos</exception></token>
+        <token postag="DA0MS0">o</token>  
         <marker>
-        <and>
-          <token postag="N.+" postag_regexp="yes">
-            <exception regexp='yes'>cercas?|são</exception></token>
-          <token postag="V.+" postag_regexp="yes">
-            <exception postag="VMN0000"/></token>
-        </and>
+          <and>
+            <token postag="NC[MC][SN]000" postag_regexp="yes"/>  
+            <token postag="V.[ISM].+" postag_regexp="yes"/>
+          </and>  
         </marker>
+        <token inflected="yes" regexp="yes">de|de:.*</token>
       </pattern>
-      <disambig action="remove" postag="V.+"/>
-    <!--example type="ambiguous" inputform="cerca[cerca/NCFS000,cerca/RG,cercar/VMIP3S0,cercar/VMM02S0]" outputform="cerca[cerca/NCFS000,cerca/RG]">Dos <marker>cerca</marker> de 416 mil soldados que serviram, cerca de 60 mil...</example--><!-- XXX disambiguated by more specific CERCA_DE -->
+      <disambig action="remove" postag="V.[ISM].+"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="DA0MS0">o</token>  
+        <marker>
+          <and>
+            <token postag="NC[MC][SN]000" postag_regexp="yes"/>  
+            <token postag="V.[ISM].+" postag_regexp="yes"/>
+          </and>  
+        </marker>
+        <token postag="V.[IS].+" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="remove" postag="V.[ISM].+"/>
       <example type="ambiguous" inputform="carpinteiro[carpinteirar/VMIP1S0,carpinteiro/NCMS000]" outputform="carpinteiro[carpinteiro/NCMS000]">O <marker>carpinteiro</marker> serra-te isso à medida.</example>
-<!--      <example type="untouched">Muitos destes “senhores dos mares” correm sérios riscos de deixarem de o <marker>ser</marker>.</example>-->
+      <example type="untouched">Vejo que isso o deixa aflito.</example>
+      <example type="untouched">Você o acha parecido com o pai?</example>
     </rule>
     <rule>
       <pattern>
           <token regexp="yes">&art_detecao_paronimos;
-            <exception regexp='yes'>[ao]s?|nos|para</exception></token>
+            <exception postag='SPS00'/><!-- XXX because it is disambiguated by S_V -->
+            <exception regexp='yes'>[ao]s?|à|nos</exception></token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes">
+            <exception regexp='yes'>cercas?|são</exception></token>
+          <token postag="V.[ISM].+" postag_regexp="yes">
+            <exception postag="VMN0000"/></token>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.[ISM].+"/>
+    <!--example type="ambiguous" inputform="cerca[cerca/NCFS000,cerca/RG,cercar/VMIP3S0,cercar/VMM02S0]" outputform="cerca[cerca/NCFS000,cerca/RG]">Dos <marker>cerca</marker> de 416 mil soldados que serviram, cerca de 60 mil...</example--><!-- XXX disambiguated by more specific CERCA_DE -->
+<!--      <example type="untouched">Muitos destes “senhores dos mares” correm sérios riscos de deixarem de o <marker>ser</marker>.</example>-->
+      <example type="untouched">Vejo que isso o deixa aflito.</example>
+      <example type="untouched">Você o acha parecido com o pai?</example>
+    </rule>
+    <rule>
+      <antipattern>
+        <token regexp="yes">para</token>
+        <token postag="D.+" postag_regexp="yes"/>
+        <marker>
+        <and>
+        <token postag="N.+" postag_regexp="yes"/>
+        <token postag="VMN0000"/>
+        </and>
+        </marker>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">&art_detecao_paronimos;
+            <exception regexp='yes'>[ao]s?|nos|para|por</exception></token>
         <marker>
         <and>
           <token postag="N.+" postag_regexp="yes"/>
@@ -1319,7 +1683,7 @@
         <marker>
           <token>a</token>
         </marker>
-          <token postag="[RZ].+" postag_regexp="yes"/>
+          <token postag="[RZ].+|D[^A].*" postag_regexp="yes"/>
       </pattern>
       <disambig action="filter" postag="S.+"/>
     </rule>
@@ -1342,11 +1706,32 @@
       </pattern>
       <disambig action="filter" postag="S.+"/>
     </rule>
+    <rule>
+      <pattern>
+        <token inflected='yes' regexp='yes'>caminhar|correr|explicar|inaugurar|ver|comprar</token>
+        <token min='0' postag='R.' postag_regexp='yes'/>
+        <marker>
+          <token>a</token>
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="S.+"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="V.+" postag_regexp="yes" inflected="yes" regexp="yes">começar|levar|ir|chegar|feder</token>
+        <token min="0" postag="R." postag_regexp="yes"/>
+        <marker>
+          <token>a</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="S.+"/>
+      <example type="untouched">...desde que foi inaugurada a República de Itália, em 1946,...</example>
+    </rule>
     <rule><!-- TODO too agressive. try disabling this rule in a day without many changes and see regression results -->
       <pattern>
           <token postag="V.+" postag_regexp="yes">
-            <exception>para</exception>
-            <exception inflected='yes' regexp='yes'>caminhar|correr|explicar|inaugurar|ver|ele</exception></token>
+            <exception regexp="yes">para|como</exception>
+            <exception inflected='yes' regexp='yes'>caminhar|correr|explicar|inaugurar|ver|ele|comprar</exception></token>
           <token min='0' postag='R.' postag_regexp='yes'/>
         <marker>
           <token>a</token>
@@ -1397,7 +1782,67 @@
       <disambig action="filter" postag="S.+"/>
     </rule>
   </rulegroup>
-
+  
+  <rule id="A_BANDEIRA" name="a bandeira (det + noun)">
+    <!-- TODO: generalize me! -->
+    <pattern>
+      <token>a</token>
+      <marker>
+        <token postag="NCFS000">bandeira</token>  
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="V.[ISM].*"></disambig>
+  </rule>
+  
+  <rulegroup id="DET-NOUN_PRON-VERB" name="det+noun vs. pron+verb 'a casa'">
+    <rule>
+      <pattern>
+        <token postag="SENT_START|V.[SI].*" postag_regexp="yes"/>
+        <marker>
+          <and>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="P.*" postag_regexp="yes"/>
+          </and>  
+        </marker>
+        <and>
+          <token postag="V.[SI].*" postag_regexp="yes"><exception inflected="yes">ser</exception></token>
+          <token postag="N.*" postag_regexp="yes"/>
+        </and>
+      </pattern>
+      <disambig action="remove" postag="P.*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="SENT_START|V.[SI].*" postag_regexp="yes"/>
+          <and>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="P.*" postag_regexp="yes"/>
+          </and>  
+        <marker>
+          <and>
+            <token postag="V.[SI].*" postag_regexp="yes"><exception inflected="yes">ser</exception></token>
+            <token postag="N.*" postag_regexp="yes"/>
+          </and>  
+        </marker>
+      </pattern>
+      <disambig action="remove" postag="V.[SI].*"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token postag="SP.*|SENT_START" postag_regexp="yes"/>
+        <marker>
+          <unify>
+            <feature id="gender"/>
+            <feature id="number"/>
+            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="[NA].*|DP.*" postag_regexp="yes"/>
+          </unify>  
+        </marker>
+      </pattern>
+      <disambig action="filterall"/>
+    </rule>
+  </rulegroup>
+  
     <!--P_V Quando está a frente de um verbo, trata-se de um pronome-->
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
     <rule id="P_V" name="Pronome + Verbo">
@@ -1726,8 +2171,8 @@
         </marker>
       </pattern>
       <disambig action="filter" postag="P.+"/>
-      <example inputform="se[se/CS,se/PP3CN000]" outputform="se[se/PP3CN000]" type="ambiguous">Testa-<marker>se</marker>.</example>
-      <example inputform="o[o/DA0MS0,o/PD0MS000,o/PP3MSA00]" outputform="o[o/PD0MS000,o/PP3MSA00]" type="ambiguous">Testa-<marker>o</marker>.</example>
+      <!--<example inputform="se[se/CS,se/PP3CN000]" outputform="se[se/PP3CN000]" type="ambiguous">Testa-<marker>se</marker>.</example>-->
+      <!--<example inputform="o[o/DA0MS0,o/PD0MS000,o/PP3MSA00]" outputform="o[o/PD0MS000,o/PP3MSA00]" type="ambiguous">Testa-<marker>o</marker>.</example>-->
     </rule>
     
     <rule id="NOS_DEU" name="nos deu, nos servia...">
@@ -1764,7 +2209,7 @@
       <pattern>
           <token spacebefore='yes' postag_regexp='yes' postag="[DP].+"/><!-- TODO add S.+ after proper splitting -->
         <marker>
-          <token>mesmo</token>
+          <token postag="DD0MS0">mesmo</token>
         </marker>
       </pattern>
       <disambig action="remove"><wd pos="RG"/></disambig>
@@ -1817,6 +2262,116 @@
       </pattern>
       <disambig action="remove" postag="V.N.+"/>
     </rule>
+  
+  <rulegroup id="PUNCTUATION" name="punctuation">
+    <rule>
+      <pattern>
+        <marker>
+          <token>,</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_COMMA"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>.</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_PERIOD"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>!</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_EXCLAMATION"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>?</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_INTERROGATION"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>…</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_PERIOD3"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>.</token>
+          <token>.</token>
+          <token>.</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_PUNCT_PERIOD3"/>
+        <wd pos="_PUNCT_PERIOD3"/>
+        <wd pos="_PUNCT_PERIOD3"/>
+      </disambig>
+    </rule>
+    <!--<rule>
+      <pattern>
+        <token regexp="yes">[mntsld]'</token>
+        <marker>
+          <token regexp="yes">[“‘«'"]</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_QM_OPEN"/>
+      </disambig>
+    </rule>-->
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes" spacebefore="yes">['"]</token>
+        </marker>
+        <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_QM_OPEN"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes" spacebefore="yes">[“‘«‹]</token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_QM_OPEN"/>
+      </disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp="yes" spacebefore="no">['"’”»›]<exception postag="_QM_OPEN"/></token>
+        </marker>
+      </pattern>
+      <disambig action="add">
+        <wd pos="_QM_CLOSE"/>
+      </disambig>
+    </rule>   
+  </rulegroup>
+  
     <rule id="PUNCT" name="Pontuação">
     <!-- 		l18n from Spanish disambiguation.xml by Tiago F. Santos		-->
       <pattern>
@@ -1846,12 +2401,12 @@
       <disambig postag="``"/>
       <example type="untouched">Examplo 'a'</example>
       <example type="untouched">Examplo &quot;a</example>
-      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]"><marker>&quot;</marker>Um teste.</example>
+      <!--<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]"><marker>&quot;</marker>Um teste.</example>-->
     </rule>
     <rule>
       <pattern>
           <token>
-            <exception regexp="yes">\p{Ps}</exception></token>
+            <exception regexp="yes">\p{Ps}|\/</exception></token>
         <marker>
         <and>
           <token postag="``" spacebefore="no">&quot;</token>
@@ -1863,7 +2418,7 @@
       <example type="untouched">Examplo 'a'</example>
       <example type="untouched">Examplo &quot;a</example>
       <example type="untouched">Examplo (&quot;a</example>
-      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/'']">Um &quot;teste<marker>&quot;</marker>.</example>
+      <!--<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/'']">Um &quot;teste<marker>&quot;</marker>.</example>-->
     </rule>
     <rule>
       <pattern>
@@ -1877,11 +2432,11 @@
       <disambig postag="``"/>
       <example type="untouched">Examplo 'a'</example>
       <example type="untouched">Examplo a&quot;</example>
-      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um <marker>&quot;</marker>teste&quot;.</example>
+      <!--<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um <marker>&quot;</marker>teste&quot;.</example>-->
     </rule>
     <rule>
       <pattern>
-          <token regexp="yes">\p{Ps}</token>
+          <token regexp="yes">\p{Ps}|\/</token>
         <marker>
         <and>
           <token postag="``" spacebefore="no">&quot;</token>
@@ -1893,143 +2448,17 @@
       <example type="untouched">Examplo 'a'</example>
       <example type="untouched">Examplo &quot;a</example>
       <example type="untouched">Examplo a&quot;</example>
-      <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um (<marker>&quot;</marker>teste&quot;.</example>
+      <!--<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um (<marker>&quot;</marker>teste&quot;.</example>-->
     </rule>
   </rulegroup>
   
   <rule id="QUOTATION_MARCOAGPINTO" name="Aspas MARCOAGPINTO">
     <!--      Created by Marco A.G.Pinto, Portuguese 2021-11-05 (25-JUN-2021+)      -->
     <pattern>
-      <token regexp="yes">[»«"”‘‹›']</token>
+      <token regexp="yes">[»«"”“‘’‹›']</token>
     </pattern>
     <disambig action="add"><wd pos="_QUOT"/></disambig>
   </rule>
-
-  <rulegroup id="VERBOS_COMPOSTOS" name="Verbos compostos">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
-    <rule>
-      <pattern>
-          <token inflected='yes'>levar</token>
-          <token>a</token>
-        <marker>
-          <token>cabo</token>
-        </marker>
-      </pattern>
-      <disambig action="replace" postag="RG"/>
-    </rule>
-    <rule>
-      <pattern>
-        <marker>
-          <token inflected='yes'>levar</token>
-        </marker>
-          <token>a</token>
-          <token>cabo</token>
-      </pattern>
-      <disambig action="filter" postag="V.+"/>
-    </rule>
-  </rulegroup>
-
-    <rule id="DEVE_SER" name="Deve + Infinitivo">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
-      <pattern>
-        <marker>
-          <token inflected='yes'>dever</token>
-        </marker>
-          <token postag="VMN0000"/>
-      </pattern>
-      <disambig action="filter" postag="V.+"/>
-    </rule>
-
-  <rulegroup id="PERIFRASES" name="Perífrases de infinitivo">
-    <rule>
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-04  	-->
-      <pattern>
-          <token inflected='yes'>ir</token>
-          <token regexp='yes'>tod[ao]s</token>
-        <marker>
-          <token postag="VMN0000"/>
-        </marker>
-      </pattern>
-      <disambig action="filter" postag="VMN0000"/>
-    </rule>
-    <!-- 		l18n from Galician disambiguation.xml by Tiago F. Santos		-->
-    <rule>
-      <pattern>
-          <token inflected="yes" regexp="yes">haver|ter</token>
-          <token>que</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes" regexp="yes">estar|andar|levar|continuar|seguir|ser|colocar|começar|pegar|vir|chegar|voltar|tornar|romper|pôr</token>
-          <token>a</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes" regexp="yes">dever|haver|deixar|parar|acabar|rematar|terminar|vir|ter</token>
-          <token>de</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes">acabar</token>
-          <token>por</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes">estar</token>
-          <token>para</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes">dar</token>
-          <token>em</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-    <rule>
-      <pattern>
-          <token inflected="yes" regexp="yes">querer|ir|dever|haver|poder|voltar|adoptar|adotar|acostumar</token>
-        <marker>
-          <token postag="VMN0000">
-            <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
-        </marker>
-      </pattern>
-      <disambig postag="VMN0000"/>
-    </rule>
-  </rulegroup>
 
     <rule id="VOGAIS" name="[^o|letra] e[subst|conj] (e[subst])">
     <!-- 		l18n from Galician disambiguation.xml by Tiago F. Santos		-->
@@ -2064,6 +2493,12 @@
 
   <rulegroup id="NUMBER" name="Number">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-15  	-->
+    <antipattern>
+      <token regexp="yes">\p{Lu}\p{Ll}+</token>
+      <token regexp='yes'>\d+</token>
+      <token spacebefore='no'></token>
+      <token spacebefore='no' regexp='yes'>\d+</token>
+    </antipattern>
     <rule>
       <pattern>
           <token regexp="yes">[1234567890]+</token>
@@ -2154,6 +2589,13 @@
       <disambig action="replace"><wd pos="Z0MP0"/><wd pos="Z0MP0"/><wd pos="Z0MP0"/></disambig>
     </rule>
     <rule>
+      <antipattern>
+         <token>às</token>
+         <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
+         <exception regexp='yes'>\d+|0|zeros?|2\.0</exception></token>
+         <token regexp='yes'>e|-</token>
+         <token postag_regexp="yes" postag='Z0M[SPN]0'/>
+      </antipattern>
       <pattern>
           <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
             <exception regexp='yes'>\d+|0|zeros?|2\.0</exception></token>
@@ -2391,6 +2833,16 @@
           <token regexp='yes'>\d+[\.&#57347;]?[oº]</token>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000"/></disambig>
+    </rule>
+    <rule>
+      <antipattern>
+        <token regexp='yes'>\d+[\.&#57347;]?ª</token>
+        <token regexp='yes'>\d+(?:[\.,]\d+)?[′'']|[CFKNSEWO]</token>
+      </antipattern>
+      <pattern>
+        <token regexp='yes'>\d+[\.&#57347;]?[aª]</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NCFS000"/></disambig>
     </rule>
     <rule>
       <pattern>

@@ -66,12 +66,12 @@ public class SimpleReplaceAdverbsMent extends AbstractSimpleReplaceRule {
 
  @Override
   public String getDescription() {
-    return "Alternatives a adverbis acabants en -ment.";
+    return "Alternatives a adverbis acabats en -ment.";
   }
 
   @Override
   public String getShort() {
-    return "Alternatives a adverbis acabants en -ment";
+    return "Alternatives a adverbis acabats en -ment";
   }
   
   @Override

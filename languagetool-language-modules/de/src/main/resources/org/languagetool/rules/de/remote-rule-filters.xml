@@ -57,12 +57,22 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">n[ao]ch|vor|von|bis|a[mn]|ß|h|zu[mr]?|mit|ohne|eine?</token>
+                    <token regexp="yes" case_sensitive="yes">n[ao]ch|vor|von|bis|ab|bevor|telefonisch|umfangreichsten|verantwortungsvoll.*|a[mn]|ß|h|zu[mr]?|mit|ohne|eine?|im|eue?r(e[rsnm]?)?|unse?r(e[rsnm]?)?|[dmsk]?ein(e[rsnm]?)?</token>
                 </pattern>
                 <example correction="">Ich laufe <marker>nach</marker> vorne.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CASE_LOWER" name="">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Ach</token>
+                        <token case_sensitive="yes">und</token>
+                        <token case_sensitive="yes">Krach</token>
+                    </marker>
+                </pattern>
+                <example correction="">Sie hat mich <marker>Ach und Krach</marker> das Abitur geschafft.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -146,6 +156,26 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <regexp mark="2" case_sensitive="yes">\.(de|at|ch|lu|com|it|dk|nl|net|org|eu|biz|info|es|uk)/([A-Z][a-zäöüß]+)\b</regexp>
                 <example correction="">Wir informieren Sie unter www.deutsche-rentenversicherung.de/<marker>Datenschutzinformationen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\u2063</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ich bin ein Satz &#8291; <marker>Ich</marker> bin noch ein Satz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token case_sensitive="yes">Stand</token>
+                    </marker>
+                    <token>jetzt</token>
+                    <token>,</token>
+                </pattern>
+                <example correction="">Ich bin, <marker>Stand</marker> jetzt, unzufrieden damit.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_MISSING_COMMA.*" name="">
@@ -242,13 +272,37 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token skip="1">weder</token>
+                    <token>weder</token>
                     <marker>
-                        <token regexp="yes">\w+</token>
+                        <token regexp="yes">[a-zäöüß\-0-9]+</token>
                     </marker>
                     <token>noch</token>
                 </pattern>
                 <example correction="">Die Bereitstellung Ihrer Daten ist weder <marker>gesetzlich</marker> noch vertraglich vorgeschrieben.</example>
+                <example correction="">Folglich lassen sie sich weder <marker>löschen</marker> noch aktualisieren.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>weder</token>
+                    <token regexp="yes">[a-zäöüß\-0-9]+</token>
+                    <marker>
+                        <token regexp="yes">[a-zäöüß\-0-9]+</token>
+                    </marker>
+                    <token>noch</token>
+                </pattern>
+                <example correction="">Er kann weder gut <marker>schreiben</marker> noch gut kommunizieren.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>weder</token>
+                    <token regexp="yes">[a-zäöüß\-0-9]+</token>
+                    <token regexp="yes">[a-zäöüß\-0-9]+</token>
+                    <marker>
+                        <token regexp="yes">[a-zäöüß\-]+</token>
+                    </marker>
+                    <token>noch</token>
+                </pattern>
+                <example correction="">Er kann weder sehr gut <marker>schreiben</marker> noch gut kommunizieren.</example>
             </rule>
             <rule>
                 <pattern>
@@ -330,6 +384,16 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction="">Die Stadt hat eine Größe von ungefähr <marker>1000</marker> Quadratkilometern.</example>
                 <example correction="">Mit mehr als <marker>111</marker> Millionen Tagesbesuchern jährlich ist Hamburg eines der attraktivsten Tourismusziele in Deutschland.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="PRP.*" postag_regexp="yes" />
+                    </marker>
+                    <token regexp="yes">\d.*</token>
+                    <token regexp="yes">₿|¢|$|€|₤|₱|₽|₪|₩|¥|bits?|bytes?|cents?|centimetern?|dezilitern?|dezimetern?|dl|dm|.*dollar|euros?|franken|gb|gigabytes?|gramm|[kmg]w|ha|hektar|jahr(e|en)?|jahrzehnt(e|en)?|kilobytes?|kilogramm|kilometern?|km|kr|kronen?|kubikmetern?|litern?|mark|m|mb|megabits|megabytes?|metern?|mg|milligramm|millilitern?|millimetern?|million(en)?|milliard(e|en)?|minuten?|mio|ml|mm|monat(e|en)?|mrd|pesos?|pfund|pikogramm|pg|promille|prozent|quadratkilometern?|quadratmetern?|rappen?|rubel|sekunden?|stunden?|tag(e|en)?|tausend|tonnen?|wochen?|yen|zentimetern?|gw</token>
+                </pattern>
+                <example correction=""><marker>Mit</marker> 111 Millionen Tagesbesuchern jährlich ist Hamburg eines der attraktivsten Tourismusziele in Deutschland.</example>
+            </rule>
             <rule><!-- A. Merkel | E. T. A. Hoffmann | S. Band 3 ... -->
                 <pattern>
                     <token regexp="yes">\p{Lu}</token>
@@ -363,8 +427,9 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 <example correction=""><marker>Auflage</marker> München 2010, S. 17</example>
             </rule>
             <rule>
-                <regexp mark="1">^@(\S+)</regexp>
+                <regexp mark="2">(^|,\s)@(\S+)</regexp>
                 <example correction="">@<marker>Christian</marker> wir beabsichtigen ...</example>
+                <example correction="">Hallo, @<marker>Christian</marker> wir beabsichtigen ...</example>
             </rule>
             <rule>
                 <pattern>
@@ -516,6 +581,75 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
+                    <token regexp="yes" case_sensitive="yes">@[A-ZÄÖÜ].*</token>
+                    <token regexp="yes">v[ao]n</token>
+                    <token regexp="yes" min="0">der?</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Emanuel van der <marker>Vet</marker> trifft das auch auf dich zu?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" case_sensitive="yes">@[A-ZÄÖÜ].*</token>
+                    <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</token>
+                    <marker>
+                        <token regexp="yes">der|die|das|wie|wo|wann|wer|was|wieso|warum|wo(zu|mit|hin)</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Emanuel Peter <marker>das</marker> trifft auch auf euch zu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">@[a-zäöü0-9].*</token>
+                    <marker>
+                        <token regexp="yes">der|die|das|wie|wo|wann|wer|was|wieso|warum|wo(zu|mit|hin)</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Emanuel <marker>das</marker> trifft auch auf euch zu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" case_sensitive="yes">@[A-ZÄÖÜ].*</token>
+                    <token regexp="yes">v[ao]n</token>
+                    <token regexp="yes" min="0">der?</token>
+                    <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</token>
+                    <marker>
+                        <token regexp="yes">der|die|das|wie|wo|wann|wer|was|wieso|warum|wo(zu|mit|hin)</token>
+                    </marker>
+                </pattern>
+                <example correction="">@Emanuel van der Vet <marker>das</marker> trifft auch auf dich zu?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" />
+                    <token regexp="yes">@.*[a-z0-9].*</token>
+                    <token regexp="yes" spacebefore="no">[_.]</token>
+                    <marker>
+                        <token regexp="yes" spacebefore="no">.*[a-z0-9].*</token>
+                    </marker>
+                </pattern>
+                <example correction="">@fidor_<marker>hilft</marker> man kann sich bei euch nicht mehr einloggen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" />
+                    <token regexp="yes">@.*[a-z0-9].*</token>
+                    <token regexp="yes" spacebefore="no">[_.]</token>
+                    <token regexp="yes" spacebefore="no">.*[a-z0-9].*</token>
+                    <marker>
+                        <token regexp="yes">der|die|das|wie|wo|wann|wer|was|wieso|warum|wo(zu|mit|hin)</token>
+                    </marker>
+                </pattern>
+                <example correction="">@fidor_hilft <marker>der</marker> Log-in ist kaputt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token postag="ADV:(MOD|TMP)" postag_regexp="yes"/>
                     </marker>
@@ -595,6 +729,111 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Das Haus <marker>ist</marker> &#8291; grün.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\u2063</token>
+                    <marker>
+                        <token />
+                    </marker>
+                </pattern>
+                <example correction="">Das Haus &#8291; <marker>das</marker> ist grün.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="6">
+                        <exception scope="next" postag="VER.*|INJ" postag_regexp="yes" />
+                        <exception scope="next" regexp="yes">,|Mensch|Ja|Nein|Hmm?|Achtung|Obacht|Vorsicht</exception>
+                    </token>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="PA2.*|ADJ.*" postag_regexp="yes" />
+                        <exception regexp="yes">m?einen?</exception>
+                    </token>
+                </pattern>
+                <example correction="">Wie bei jedem anderen <marker>Text</marker> sollten Sie auch für Absätze genügend Zeit einplanen.</example>
+                <example>Um Himmels willen wie kannst du das nur machen?</example>
+                <example>Keine Chance du kannst es ja selber probieren.</example>
+                <example>Hallo Peter hast du Zeit?</example>
+                <example>Oh Mensch lerne tanzen!</example>
+                <example>So ein Baby süß und klein, muss ein Geschenk des Himmels sein!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="3">
+                        <exception scope="next" postag="VER.*|INJ" postag_regexp="yes" />
+                        <exception scope="next" regexp="yes">,|Mensch|Ja|Nein|Hmm?|Achtung|Obacht|Vorsicht</exception>
+                    </token>
+                    <token postag="SUB.*" postag_regexp="yes" skip="3">
+                        <exception scope="next" postag="VER.*|INJ" postag_regexp="yes" />
+                        <exception scope="next">,</exception>
+                    </token>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes" />
+                    </marker>
+                    <token postag="VER.*" postag_regexp="yes">
+                        <exception postag="PA2.*|ADJ.*" postag_regexp="yes" />
+                        <exception regexp="yes">m?einen?</exception>
+                    </token>
+                </pattern>
+                <example correction="">Bei der Fülle an gesetzlichen <marker>Vorgaben</marker> kann man schnell etwas vergessen.</example>
+                <example correction="">Deutsch: Neben ausführlichem <marker>Schriftverkehr</marker> füllst du auch viele Formulare aus.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">hey|hi|moin|hallo|servus|gr[üu]e?zi</token>
+                    </marker>
+                    <token postag="EIG.*|UNKNOWN" postag_regexp="yes" />
+                </pattern>
+                <example correction=""><marker>Hey</marker> Lennart, wie gehts?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="2">ebenso|gleichermaßen|genauso</token>
+                    <marker>
+                        <token skip="5">
+                            wie
+                            <exception scope="next" postag="VER.*" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                    <token postag="SENT_END" />
+                </pattern>
+                <example correction="">Dabei werden äußere Merkmale ebenso erwähnt <marker>wie</marker> (innere) Charaktereigenschaften.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>wie</token>
+                    </marker>
+                    <token postag="ART.*" postag_regexp="yes"/>
+                    <token skip="4" min="0">
+                        <exception postag="VER.*|UNKNOWN" postag_regexp="yes"/>
+                    </token>
+                    <token postag="SUB.*|EIG.*" postag_regexp="yes"/>
+                    <token postag="PKT"/>
+                </pattern>
+                <suggestion>, wie</suggestion>
+                <example correction=", wie">Das Kind fragte<marker> wie</marker> eine Ballmaschine.</example>
+                <example correction=", wie">Das Kind fragte<marker> wie</marker> eine große, bunte Ballmaschine.</example>
+                <example correction=", wie">Das Kind fragte<marker> wie</marker> eine große und bunte Ballmaschine.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER.*" postag_regexp="yes"/>
+                    <token skip="-1"></token>
+                    <marker>
+                        <token postag="SUB:AKK.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="ART.*GEN.*" postag_regexp="yes"/>
+                    <token postag="ADJ.*GEN.*" postag_regexp="yes"/>
+                    <token postag="SUB:GEN.*" postag_regexp="yes"/>
+                    <token postag="SENT_END" regexp="yes">[.:!?]</token>
+                </pattern>
+                <example correction="">Fast immer bezieht es sich auf deren erste <marker>Bedeutung</marker> der physischen Position.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DIE_CDIE" name="">
             <rule>
@@ -605,6 +844,18 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">Wir kennen Menschen, <marker>die</marker> Avocados auf dem Balkon anbauen.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive="no" mark="1">[;,\-–](\s+die)</regexp>
+                <example correction="">Die API VFR ist in Teilen kostenpflichtig,<marker> Die</marker> sorgt für Unmut.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive="no" mark="1">^@[a-zäöüß\.\-0-9]+(\s+die)</regexp>
+                <example correction="">@Emanuel<marker> die</marker> ist eine aus diesem Issue.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive="yes" mark="2">^@[A-ZÄÖÜ][a-zäöüß\-0-9]+\s+(v[ao]n\s+)?[A-ZÄÖÜ][a-zäöüß\-0-9]+(\s+die)</regexp>
+                <example correction="">@Emanuel Peter<marker> die</marker> ist eine aus diesem Issue.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DA_CDA" name="">
@@ -626,25 +877,25 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CPT_DAS_CDAS" name="">
             <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes">@.+</token>
-                    <marker>
-                        <token>das</token>
-                    </marker>
-                </pattern>
-                <example correction="">@Emanuel <marker>das</marker> ist einer aus diesem Issue.</example>
+                <regexp case_sensitive="no" mark="1">^@[a-zäöüß\.\-0-9]+(\s+das)</regexp>
+                <example correction="">@Emanuel<marker> das</marker> ist einer aus diesem Issue.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive="yes" mark="2">^@[A-ZÄÖÜ][a-zäöüß\-0-9]+\s+(v[ao]n\s+)?[A-ZÄÖÜ][a-zäöüß\-0-9]+(\s+das)</regexp>
+                <example correction="">@Emanuel Peter<marker> das</marker> ist einer aus diesem Issue.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes" case_sensitive="yes">@[A-ZÄÖÜ].*</token>
-                    <token regexp="yes" case_sensitive="yes">[A-ZÄÖÜ].*</token>
+                    <token regexp="yes">[\u2063"]</token>
                     <marker>
                         <token>das</token>
                     </marker>
                 </pattern>
-                <example correction="">@Emanuel Peter <marker>das</marker> ist einer aus diesem Issue.</example>
+                <example correction="">Ich weiß &#8291; <marker>das</marker> ist einer aus diesem Issue.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive="no" mark="1">[;,\-–](\s+das)</regexp>
+                <example correction="">Die API VFR ist in Teilen kostenpflichtig,<marker> Das</marker> sorgt für Unmut.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_CP_DAS_DASS" name="">
@@ -657,6 +908,116 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Manche Katzen weigern Würmer sonnik gesehen jedoch, Essen zu sich zu nehmen, <marker>das</marker> .</example>
                 <example correction="">Einer beziehung zerstörst, was sie bequem für lust statt bars zu versuchen sie mag, <marker>das</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_DE_HYDRA_LEO_CASING_LOWER_TO_UPPER" name="">
+            <rule>
+                <pattern>
+                    <token regexp="yes">und|oder|aber</token>
+                    <marker>
+                        <token postag="VER:IMP:SIN.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[a-zäöü].*</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">dann|bitte|mal</token>
+                </pattern>
+                <example correction="">Geh mal auf https://www.icloud.com/ und <marker>klick</marker> dann links unten auf den kleinen Link "Apple ID erstellen"</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <marker>
+                        <token case_sensitive="yes">petto</token>
+                    </marker>
+                </pattern>
+                <example correction="">Wir haben gleich zwei Eselsbrücken in <marker>petto</marker>, um „tot“ und „Tod“ zu unterscheiden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">ergo</token>
+                    </marker>
+                </pattern>
+                <example correction="">Ok, dann 155 €, <marker>ergo</marker> 12 * 155 = 1860</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">mega</token>
+                    </marker>
+                    <token postag="ADJ.*" postag_regexp="yes" />
+                </pattern>
+                <example correction="">Das sieht ja <marker>mega</marker> interessant aus.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>angst</token>
+                </pattern>
+                <example correction="">Da wird mir <marker>angst</marker> und bange.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">
+                            gewissermassen|folgendermassen|eingehenden?|meinetwillen|weiss|aussen|sprecht|oberhalb|fluide|einwirken|betreffs|seewasserbeständig|dadrin|infrage|aufseiten|zulasten|instand|naselang|außer|onshore|vonseiten|ausser|barfuss|einfach|lassen|variablen|portofrei|derb|mutterseelenallein|sensitive|pathogenen|heterozygoten|über|komm|anteilig|sanft|forma|zweitens|viral|asap|funktional|startest|netzwerken|bindegewebearm|schwups|alternativ|pikant|haarfein|anterior|hypoton|betreffend|originalverpackt|isch|grade|verkaufsoffen|gezwungenermassen|umschlungen|facto|atmungsaktive?|rektal|autosomal|w[eü]rd|dumpf|swipen?|bloss|bissel|intus|remote|bouldern|vivo|gell|wund|geehrter?|gleichermassen|gemäss|mittels|woke|nutzt|verschreiben|launchen|jedermann|bind|nonstop|geil|divers|besprecht|zusammensetzen|wohnhaft|probeweise|dato|montags|dienstags|mittwochs|donnerstags|freitags|samstags|sonntags|gratis|pun[kc]to|schreib|schwul|sexy|sprachwissenschaftlich|tagelang|twitter|ungerade|seekrank|seinetwillen|schick|online|offline|nachfragen|nachforschen|buchstabieren|ge.+t|upgraden|updaten?|anstinken|dringen|markenkonform|übrig|hell|megafett|anno
+                            <exception>gerät</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <example correction="">Der Wert der <marker>dadrin</marker> steht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="VER:EIZ.*" postag_regexp="yes" />
+                    </marker>
+                </pattern>
+                <example correction="">Er versuchte <marker>nachzudenken</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="no">:</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes" spacebefore="no">innen.*</token>
+                    </marker>
+                </pattern>
+                <example correction="">Viele Schüler:<marker>innengruppen</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">brand</token>
+                    </marker>
+                    <token>eins</token>
+                </pattern>
+                <example correction="">Ein Artikel in der <marker>brand</marker> eins.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>am</token>
+                    <marker>
+                        <token case_sensitive="yes">nächsten</token>
+                    </marker>
+                </pattern>
+                <example correction="">Was dem am <marker>nächsten</marker> kommt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">euro?|€|\d+</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">brutto|netto</token>
+                    </marker>
+                </pattern>
+                <example correction="">Das kostet 2000 € <marker>brutto</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>aus</token>
+                    <token regexp="yes">\d+</token>
+                    <marker>
+                        <token>mach</token>
+                    </marker>
+                    <token regexp="yes">\d+</token>
+                </pattern>
+                <example correction="">Aus 1 <marker>mach</marker> 2.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AI_DE_HYDRA_LEO_NOUN_SPACE" name="">
@@ -737,6 +1098,437 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                     </marker>
                 </pattern>
                 <example correction="">In diesen Studien wurde aber zumeist nicht der Einfluss von Antibiotika und antipyretischen Maßnahmen z<marker>.</marker> B durch Paracetamol berücksichtigt, denn letzteres hat einen asthmabegünstigenden Effekt</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_DE_KOMMA_MISSING_COMMA" name="">
+            <rule>
+                <pattern>
+                    <token postag="ADJ.*" postag_regexp="yes"></token>
+                    <marker>
+                        <token regexp="yes">morgen|tag|abend</token>
+                    </marker>
+                    <token regexp="yes">frau|herr</token>
+                </pattern>
+                <example correction="">Guten <marker>Morgen</marker> Frau Müller, wie geht es Ihnen?</example>
+            </rule>
+              <rule>
+                <pattern>
+                    <token postag="ART:DEF.*" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="PRP.*" postag_regexp="yes"></token>
+                    </marker>
+                    <token postag="ART:DEF.*" postag_regexp="yes"></token>
+                </pattern>
+                <example correction="">Er kehrte als Offizier zurück und leitete dort mehrere Abteilungen, darunter die <marker>für</marker> die Sportausbildung und die für kulturelle Aktivitäten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes"></token>
+                    </marker>
+                    <token postag="PRO:IND.*|ART.*GEN.*" postag_regexp="yes" regexp="yes">des|eines|der|einer</token>
+                </pattern>
+                <example correction="">Dieses <marker>Auskoppeln</marker> eines Teils wird als Auskoppelverlust bezeichnet.</example>
+            </rule>
+               <rule>
+                <pattern>
+                    <marker>
+                        <token postag="SUB.*|ADV:MOD" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token postag="ART.*" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ.*" postag_regexp="yes" min="0"/>
+                    <token postag="SUB.*|EIG.*|UNKNOWN" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Die seither an den einzelnen Museen betriebenen Recherchen waren der <marker>Ausgangspunkt</marker> für das Projekt, seine damit verbundenen Verlusterfahrungen und das tragische Schicksal seiner Familie würdigt.</example>
+                <example correction="">Speziell im Falle eines Gerätefarbraums ist, <marker>also</marker> für das spezielle (ergo individuelle) Gerät ist diese Beziehung zu beachten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">hallo|hi|hey</token>
+                    </marker>
+                    <token postag="ADJ.*" postag_regexp="yes"/>
+                    <token postag="SUB.*"  postag_regexp="yes"/>
+                </pattern>
+                <example correction=""><marker>Hallo</marker> liebe Kollegen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>zu</token>
+                    </marker>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Man muß sich das mal vorstellen da sagen welche die zehnmal so viel verdienen , 8,50 reicht für euch.das hat mit Gerechtigkeit nichts <marker>zu</marker> tun sondern mit Arroganz und Überheblichkeit wohl eher.`</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PKT"/>
+                    <marker>
+                        <token postag="KON.*"  postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Wie kannst du nur, <marker>so</marker> wie er dich behandelt hat?</example>
+                <example correction="">1 eine kurze Trainingseinheit, <marker>während</marker> für die Stammspieler das Auslaufen anstand.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token >,</token>
+                    <marker>
+                        <token postag="VER:[123].*|VER:(MOD|AUX).*"  postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Wer den Geringen bedrückt, <marker>schmäht</marker> dessen Schöpfer, ihn ehrt, wer Erbarmen hat mit dem Bedürftigen.</example>
+                <example correction="">Hätte Jackson danach ein wenig Vorfreude auf Finalspiel vier in Worte gepackt, <marker>verübelt</marker> hätte es ihm sicherlich niemand.</example>
+                <example correction="">30 Uhr und um 12 Uhr zum Bahnhof Spandau gereist sind und von dort mit der SBahn gen City Ost fahren, <marker>wollen</marker> ab 12 Uhr auf dem Alexanderplatz feiern.</example>
+                <example correction="">Roussel, <marker>schrieb</marker> seiner langjähriger Therapeut Pierre Janet, dass sie einen interessanten Begriff von literarischer Schönheit hat.</example>
+                <example correction="">Das Tomatenmark gleich mit dazu, <marker>wäre</marker> sonst schon fast unfair</example>
+                <example correction="">Wenn wir absteigen, <marker>würde</marker> das den Verein vier bis fünf Jahre kosten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="VER.*"  postag_regexp="yes"/>
+                    </marker>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token skip="-1">
+                        <exception scope="next" postag="VER:[123].*" postag_regexp="yes"/>
+                        <exception  postag="VER:[123].*" postag_regexp="yes"/>
+                    </token>
+                    <token postag="PKT|SENT_END" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Doch der Termin <marker>war</marker> für Martin Winterkorn, den Lenker des VWKonzerns derart wichtig, dass er sogar eine Vorstandssitzung dafür unterbrach.</example>
+                <example correction="">Die Aussicht darauf <marker>war</marker> für uns eine große Motivation, sagte Mittelblocker Felix Fischer.</example>
+                <example correction="">Unfälle, Baustellen oder einfach zu dichter Verkehr <marker>sorgen</marker> für mehr Staus, als Autofahrern lieb sein kann.</example>
+                <example correction="">Der Weg dahin <marker>scheint</marker> für die Berliner möglich den Verlauf des Spiels am Freitag zum Maßstab genommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">und|oder|sowie</token>
+                    </marker>
+                </pattern>
+                <example correction="">Küche mit Eßecke, sehr großer Balkon zur Ost <marker>und</marker> Südseite der sie zu jeder Tageszeit zum Verweilen einlädt.</example>
+               </rule>
+                <rule>
+                <pattern>
+         
+                    <marker>
+                        <token postag="VER:3:PLU.*|VER:INF.*" postag_regexp="yes" regexp="yes">.*n</token>
+                    </marker>
+                    <token postag="VER:(AUX|MOD).*|PA2.*" postag_regexp="yes"></token>
+                </pattern>
+                <example correction="">Es fährt 45km\h und ich weiß , dass ich wenn ich nur den MofaFührerschein hätte diesen <marker>wegbekommen</marker> würde wenn es raus kommt.</example>
+                <example correction="">Wenn Höwedes noch 5 Mio bringt , Geis für 8 verscherbelt <marker>werden</marker> könnte.</example>
+                <example correction="">Das sind Bestände , die nicht ausgeliehen <marker>werden</marker> können z.B. aus Bereichsbibliotheken oder der Handbibliothek.</example>
+                <example correction="">Das Schöne ist eine Manifestation geheimer Naturgesetze, die uns ohne dessen Erscheinung ewig <marker>wären</marker> verborgen geblieben.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="(EIG|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                    <marker>
+                        <token postag="(EIG|SUB|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                    </marker>
+                    <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ]{3}</token>
+                </pattern>
+                <example correction="">Dort hatte die Ministerpräsidentin Malu <marker>Dreyer</marker> SPD angedroht, an der Elefantenrunde im SWRFernsehen nicht teilzunehmen, sollte auch die AfD eingeladen werden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="(EIG|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                    <token postag="(EIG|SUB|UNKNOWN).*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[A-ZÄÖÜ]{3}</token>
+                    </marker>
+                </pattern>
+                <example correction="">Sozialsenator Mario Czaja <marker>CDU</marker> besuchte am Donnerstag in der Nähe die Traglufthallen der Stadtmission.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" postag="SENT_START"/>
+                    <token skip="-1" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Jetzt nach längerer <marker>Einnahme</marker> möchte ich nicht darauf verzichten.</example>
+                <example correction="">Leute mit Brillengläsern so dick wie der Boden einer <marker>Milchflasche</marker> sieht man gar nicht mehr.</example>
+                <example correction="">Zunächst so die <marker>Anklage</marker> konnte der Beschäftigte die Attacke noch abwehren.</example>
+                <example correction="">Die meisten darunter das Berliner <marker>Abgeordnetenhaus</marker> reagierten binnen weniger Tage mit freundlichen Eingangsbestätigungen.</example>
+                <example correction="">Ein junge Schauspielerin in <marker>Pakistan</marker> ist Opfer eines Säureangriffs geworden.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" postag="SENT_START"/>
+                    <token skip="-1" postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="PRP.*GEN.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="ART:DEF.*GEN.*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="PRP.*DAT.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="ART:DEF.*DAT.*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="PRP.*AKK.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="ART:DEF.*AKK.*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Gute <marker>Nachricht</marker> für alle, die sich gesundheitsbewußt ernähren wollen.</example>
+                <example correction="">Auch im zweiten <marker>Quartal</marker> für sich allein betrachtet war die Entwicklung der Kundenzahlen uneinheitlich.</example>
+                <example>Die <marker>Abstände</marker> in der sich solche Viren weltweit verbreiten werden kürzer.</example>
+                <example>Scheint so, dass jeder <marker>Cop</marker> gegen den sie ermitteln, tot endet.</example>
+                <example>Trotz ihrer Beziehung, besuchte Bundy wieder John Murray in der Country <marker>Bar</marker> in der er sang.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" postag="SENT_START"/>
+                    <token skip="-1" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="ADV.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token skip="-1" postag="ADV.*" postag_regexp="yes" regexp="yes">wann|warum|was|we[mnr]|weshalb|weswegen|wie|wieso|wieviel|wo|wobei|wodurch|wofür|wogegen|woher|wohin|wohinter|womit|wonach|woneben|woran|worauf|woraufhin|woraus|worin|worüber|worum|worunter|wovon|wovor|wozu|wozwischen</token>
+                    <token postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <and>
+                        <token skip="-1" postag="ADV.*" postag_regexp="yes"/>
+                        <token postag="KON.*" postag_regexp="yes"/>
+                    </and>
+                    <token postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token skip="-1">also
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <token regexp="yes">\p{P}</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="ADV.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Am nächsten <marker>Tag</marker> dann weiter, doch irgendwie kamen wir aus einem Talkessel nicht wieder heraus und mußten ein paar mal probieren bis wir eine Piste auf die Strasse fanden.</example>
+                <example>Wer Kontakte knüpft, entdeckt auch Ähnlichkeiten, es kommen schließlich Menschen so vieler Religionen und politischer Überzeugungen, viele sehr säkulare Menschen, mit <marker>Berufen</marker> wie es sie auch hier gibt.</example>
+                <example>Dem <marker>Ding</marker> wonach Dmitry für ihn nachsehen sollte...</example>
+                <example>Darüber hinaus benötigen wir für eine erfolgreiche Vermittlung, sämtliche <marker>Angaben</marker> wie sie sich üblicherweise in einem Lebenslauf (unter anderem Qualifikationen und Kenntnisse) befinden und solche die für eine erfolgreiche Vermittlung notwendig sind.</example>
+                <example>auf dem linken Display blinken Kacheln, auf dem rechten der gute alte <marker>Desktop</marker> da hat man alles im Blick, alles im Griff.</example>
+                <example>Ihr Politiker kümmert euch immer nur um die Rettung von <marker>Banken</marker> aber nie um unseren Alltag das hört wohl jeder Politiker bei Versammlungen oder Bürgersprechstunden.</example>
+                <example>6teiliges Weißweinglas-Set von Kwarx - 'Tulip' 47cl, Seebach (99846) - Weingläser kaufen &amp; verkaufen bei kleinanzeigen-landesweit.de (Art.-Nr. 622955)\n: 6 U 121/15) in einem Urteil entschieden, dass wir unsere <marker>Besucher</marker> also Sie, darauf hinweisen müssen, dass Ihre im Kontaktformular eingegebenen Daten gespeichert werden und gelöscht werden können.</example>
+                <example>Bevor wir zur Tagesordnung des Ministerrates übergehen, möchte ich die Entscheidung des Reformministers begrüßen,\nDu hast ja keine Ahnung wie enttäuscht ich gerade bin!</example>
+                <example>Am Eingang war eine Schlange, aber das hat nur ca.\nAm Eingang zur Ausstellungshalle ist auch immer ein Anschlagbrett wo man etwas zum Treffen aufhängen könnte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" regexp="yes">,|;|:
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Schaffe ideale Voraussetzungen für mehr Lebensqualität, ohne körperliche <marker>Einschränkungen</marker> stehen dir so viele Dinge offen!</example>
+                <example correction="">Große Sorge um "Star Wars"-Star Carrie Fisher: Die <marker>Schauspielerin</marker> liegt nach einem Herzinfarkt auf der Intensivstation.</example>
+                <example correction="">So ließ Lincoln Personen, die der <marker>Spionage</marker> für die Südstaaten verdächtigt wurden, verhaften.</example>
+                <example correction="">Tom macht alles schneller als Maria; <marker>Maria</marker> ist aber akkurater als Tom.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" regexp="yes">,|;|:
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <token skip="-1" postag="(EIG|SUB).*" postag_regexp="yes">
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Das heisst konkret: Das Fachwissen des <marker>Therapeuten</marker> interpretiert die bereits diagnostizierten ärztlichen Diagnosen und bespricht vorgängige Behandlungen mit dem Patienten.</example>
+                <example correction="">Dies gilt auch für Daten wie Auslösegeschwindigkeit, Anzahl der pro <marker>Sekunde</marker> möglichen Auslösungen etc., die hier noch nicht angesprochen wurden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token skip="-1" postag="(ADV|PRP).*" postag_regexp="yes">
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <example correction="">Heute kam ein <marker>Buch</marker> für Sie.</example>
+                <example correction="">Leitende Entwickler sind Cory Barlog und Derek <marker>Daniels</marker> von den berühmten Studios.</example>
+                <example correction="">Schon viel zu lange sind Regionalprogramme langweilige und unkreative <marker>Abspielstationen</marker> für langweiliges und unkreatives Programmfüllmaterial.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token skip="-1" postag="(ADV|PRP).*" postag_regexp="yes">
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <token regexp="yes">,|;|:</token>
+                </pattern>
+                <example correction="">Es sind schwere <marker>Stunden</marker> für ihn, der mal ein versierter Innenpolitiker und schon ohne Edathy politisch erledigt war, weil er den Konsum der Droge Chrystal Meth vor wenigen Monaten zugeben musste.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token skip="-1" postag="(ADV|PRP).*" postag_regexp="yes">
+                        <exception scope="next" postag="(UNKNOWN|VER:(AUX:|MOD:)?[123]).*" postag_regexp="yes" regexp="yes">\p{Ll}.+</exception>
+                    </token>
+                    <token regexp="yes">oder|und</token>
+                    <token postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Die Züge benötigen für die gleiche <marker>Strecke</marker> jedoch wesentlich länger als Fernreisebusse und haben einen sehr eingeschränkten Fahrplan (z. B. Buenos Aires, Bahnhof Retiro – Córdoba zwei Fahrten pro Woche).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token postag="PRP.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0" postag="(ADJ|PA[12]):[NGDA].*" postag_regexp="yes"/>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                    <token>und</token>
+                    <token min="0" postag="(ADJ|PA[12]):[NGDA].*" postag_regexp="yes"/>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Der Region brachte der Handel mit Waren aus <marker>Afrika</marker> Reichtum und Wohlstand.</example>
+                <example correction="">Sie sieht im Gegenzug für stärkere Bemühungen Ankaras zur Eindämmung der Abwanderung von Syrern nach <marker>Europa</marker> finanzielle Hilfe und Reiseerleichterungen für die Türkei vor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <and>
+                        <token regexp="yes">\p{P}</token>
+                        <token postag="SENT_END"/>
+                    </and>
+                </pattern>
+                <example correction="">Heute kam es für Sie in der <marker>Post</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0" postag="PRP.*" postag_regexp="yes"/>
+                    <token inflected="yes">der</token>
+                    <token regexp="yes">\p{P}</token>
+                </pattern>
+                <example correction="">Vor der Rodungsfläche kündet ein <marker>Bauschild</marker> von denen, die da kommen werden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token min="0" postag="PRP.*" postag_regexp="yes"/>
+                    <token skip="-1" inflected="yes">der
+                        <exception scope="next" postag="VER:(AUX:|MOD:)?[123].*" postag_regexp="yes"/>
+                    </token>
+                    <marker>
+                        <token postag="(EIG|SUB).*" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0" postag="PRP.*" postag_regexp="yes"/>
+                    <token inflected="yes">der</token>
+                </pattern>
+                <example correction="">Wäre die Vereinbarung mit Kanada, die als <marker>Blaupause</marker> für das geplante TTIPAbkommen mit den USA gilt, von der Zustimmung in sämtlichen Parlamenten in der EU abhängig, dann dürfte Ceta politisch tot sein.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="KON.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="SUB.*|UNKNOWN|EIG.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <example correction="">Bestimmte Produkte wie <marker>Milben-dichte</marker> Matratzenbezüge.</example>
+                <example correction="">Die Notizen dienten Jünger als <marker>Rohmaterial</marker> für sein Buch.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes" postag="VER:AUX.*" postag_regexp="yes" regexp="yes">haben|sein</token>
+                    <token skip="10">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                    <token skip="10" min="0">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" postag="VER:AUX.*" postag_regexp="yes" regexp="yes">haben|sein</token>
+                    <token skip="10">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <token postag="SUB.*" postag_regexp="yes"/>
+                    <token skip="10" min="0">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <token postag="VER:EIZ.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:(AUX|MOD).*" postag_regexp="yes"/>
+                    <token skip="10">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <marker>
+                        <token postag="SUB.*" postag_regexp="yes"/>
+                    </marker>
+                    <token skip="10" min="0">
+                        <exception postag="PKT"/>
+                        <exception postag="PKT" scope="next"/>
+                    </token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </pattern>
+                <example correction="">Demnächst wird ein wertvolles <marker>Paket</marker> für Sie eintreffen.</example>
+                <example correction="">Dann müssen doch noch einige <marker>Köpfe</marker> rollen.</example>
+                <example correction="">Sie ließ eine fragwürdige <marker>Giftmischerin</marker> die Sandwiches für ihre Stiefkinder machen.</example>
+                <example correction="">Damit können Anwender bei raumlufttechnischen <marker>Anlagen</marker> hygienischen Richtlinien und Vorgaben zur Raumluftqualität schnell und präzise entsprechen, z.B. in der Industrie, in Büroräumen oder in Reinräumen.</example>
+                <example correction="">Gut die Hälfte der Besucher dürfte für die <marker>Anreise</marker> aber das Auto nutzen, 20 den Reisebus, der Rest kommt mit Bahn und Nahverkehr.</example>
+                <example>Schon im ersten Buch hat mir der <marker>Ansatz</marker> einen Polizeipfarrer mehr oder weniger die Ermittlungsarbeit durchführen zu lassen sehr gefallen.</example>
+                <example>Die Lichtmalerei ist für mich die sinnvollste und sinnlichste <marker>Art</marker> einen unbekleideten Körper im Bild darzustellen und der Fantasie Raum zu lassen.</example>
+                <example>Es ist mir ein tiefes <marker>Bedürfnis</marker> mich an dieser Stelle bei einigen Menschen von Herzen zu bedanken, die mich auf meinem Weg begleitet haben.</example>
             </rule>
         </rulegroup>
     </category>

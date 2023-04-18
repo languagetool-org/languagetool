@@ -57,7 +57,7 @@ public class AgreementSuggestor2Test {
     assertSuggestion1("mehrere Kabels", "[mehrere Kabel, mehreren Kabeln, mehrerer Kabel]");
     assertSuggestion1("mehrere LAN-Kabels", "[mehrere LAN-Kabel, mehreren LAN-Kabeln, mehrerer LAN-Kabel]");
     assertSuggestion1("mehrere WLAN-LAN-Kabels", "[mehrere WLAN-LAN-Kabel, mehreren WLAN-LAN-Kabeln, mehrerer WLAN-LAN-Kabel]");
-    assertSuggestion1("Ihren Verständnis", "[Ihrem Verständnis, Ihr Verständnis, Ihrem Verständnisse, Ihres Verständnisses]");
+    assertSuggestion1("Ihren Verständnis", "[Ihrem Verständnis, Ihr Verständnis, Ihres Verständnisses]");
     assertSuggestion1("des Züchten", "[das Züchten, dem Züchten, des Züchtens]");
     assertSuggestion1("die Kühlschranktest", "[die Kühlschrankteste, die Kühlschranktests, der Kühlschranktest, den Kühlschranktest, " +
       "dem Kühlschranktest, des Kühlschranktests, den Kühlschranktests, der Kühlschrankteste, der Kühlschranktests, " +
@@ -76,6 +76,22 @@ public class AgreementSuggestor2Test {
     assertSuggestion2("ein anstrengenden Tag",
       "[ein anstrengender Tag, ein anstrengendes Tag, einen anstrengenden Tag, einem anstrengenden Tag, eines anstrengenden Tags, eines anstrengenden Tages]");
     //assertSuggestion2("vor allem Teams", "[vor allen Teams]");  // TODO: 'allen' is PRO:IND, 'allem' is PRO:DEM, so we don't map yet between those
+    assertSuggestion1("dasselbe Erinnerung", "[dieselbe Erinnerung, derselben Erinnerung]");
+    assertSuggestion1("derselbe Erinnerung", "[derselben Erinnerung, dieselbe Erinnerung]");
+    assertSuggestion1("derselbe Frau", "[derselben Frau, dieselbe Frau]");
+    assertSuggestion1("dieselben Erinnerung", "[dieselbe Erinnerung, derselben Erinnerung]");
+    assertSuggestion1("derselben Mann", "[derselbe Mann, denselben Mann, demselben Mann, desselben Manns, desselben Mannes]");
+    assertSuggestion1("demselben Frau", "[derselben Frau, dieselbe Frau]");
+    assertSuggestion1("desselben Mann", "[denselben Mann, demselben Mann, desselben Manns, derselbe Mann, desselben Mannes]");
+    assertSuggestion1("Desselben Mann", "[Denselben Mann, Demselben Mann, Desselben Manns, Derselbe Mann, Desselben Mannes]");
+    assertSuggestion1("meinem Eltern", "[meine Eltern, meinen Eltern, meiner Eltern]");
+    assertSuggestion1("eure Auge", "[eurem Auge, eure Augen, euer Auge, euerem Auge, euerm Auge, eures Auges, euren Augen, eueres Auges, euerer Augen]");
+    assertSuggestion1("welche Internetvideo", "[welches Internetvideo, welchem Internetvideo, welche Internetvideos, welches Internetvideos, welchen Internetvideos, welcher Internetvideos]");
+    assertSuggestion1("welchen Internetvideo", "[welches Internetvideo, welchem Internetvideo, welchen Internetvideos, welches Internetvideos, welche Internetvideos, welcher Internetvideos]");
+    assertSuggestion1("welches Mann", "[welcher Mann, welchen Mann, welchem Mann, welches Manns, welches Mannes, welche Männer, welcher Männer, welchen Männern]");
+    assertSuggestion1("welchem Frau", "[welche Frau, welcher Frau, welche Frauen, welchen Frauen, welcher Frauen]");
+    assertSuggestion1("welcher Kind", "[welches Kind, welchem Kind, welcher Kinder, welchem Kinde, welches Kinds, welches Kindes, welche Kinder, welchen Kindern]");
+    assertSuggestion1("Welcher Kind", "[Welches Kind, Welchem Kind, Welcher Kinder, Welchem Kinde, Welches Kinds, Welches Kindes, Welche Kinder, Welchen Kindern]");
   }
 
   @Test
@@ -124,6 +140,7 @@ public class AgreementSuggestor2Test {
     assertSuggestion1("die Haus", "[das Haus, dem Haus, die Häuser]", true);
     assertSuggestion1("die Hauses", "[des Hauses, die Häuser]", true);
     assertSuggestion1("die Häusern", "[die Häuser, den Häusern]", true);
+    assertSuggestion1("unsere Buch", "[unser Buch, unserem Buch, unsere Bücher]", true);
   }
 
   @Test

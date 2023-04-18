@@ -73,7 +73,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "'" + tokenStr + "' to najczęściej błąd; poprawnie pisze się: "
+    return "Wyraz „" + tokenStr + "” to najczęściej literówka; poprawnie pisze się: "
         + String.join(", ", replacements) + ".";
   }
 

@@ -19,12 +19,14 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ar.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ar.ArabicSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -89,7 +91,7 @@ public class Arabic extends Language implements AutoCloseable {
 
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new ArabicSynthesizer(this);
+    return ArabicSynthesizer.INSTANCE;
   }
 
   @Override
@@ -157,5 +159,11 @@ public class Arabic extends Language implements AutoCloseable {
     if (languageModel != null) {
       languageModel.close();
     }
+  }
+
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new ArabicHunspellSpellerRule(messages);
   }
 }

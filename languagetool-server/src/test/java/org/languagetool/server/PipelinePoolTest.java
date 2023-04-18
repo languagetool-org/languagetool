@@ -309,7 +309,6 @@ public class PipelinePoolTest {
       config.setDatabaseUrl("jdbc:hsqldb:mem:testdb");
       config.setDatabaseUsername("");
       config.setDatabasePassword("");
-      config.setSecretTokenKey("myfoo");
       config.setCacheSize(100);
       config.setPipelineCaching(true);
       config.setMaxPipelinePoolSize(5);

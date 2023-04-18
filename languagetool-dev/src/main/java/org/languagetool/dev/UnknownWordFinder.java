@@ -89,12 +89,12 @@ public class UnknownWordFinder {
         AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
         for (AnalyzedTokenReadings token : tokens) {
           String t = token.getToken();
-          boolean misspelled = rule.isMisspelled(t);
+          boolean misspelled = !t.matches("[\\d%$]+") && rule.isMisspelled(t);
           if (misspelled) {
             unknownSpelling.add(t);
           }
           List<AnalyzedTokenReadings> tags = tagger.tag(Collections.singletonList(t));
-          boolean noTag = tags.size() == 1 && !tags.get(0).isTagged();
+          boolean noTag = tags.size() == 1 && !tags.get(0).isTagged() && !t.matches("[\\d%$]+");
           if (noTag) {
             unknownTag.add(t);
           }

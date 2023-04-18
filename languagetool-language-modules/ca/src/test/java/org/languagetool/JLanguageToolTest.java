@@ -23,12 +23,13 @@ import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class JLanguageToolTest {
-  
+
   @Test
   public void testCleanOverlappingErrors() throws IOException {
     Language lang = new Catalan();
@@ -36,21 +37,13 @@ public class JLanguageToolTest {
     List<RuleMatch> matches = tool.check("prosper");
     assertEquals(1, matches.size());
     assertEquals("CA_SIMPLE_REPLACE_BALEARIC", matches.get(0).getRule().getId());
-    
+
     matches = tool.check("Potser siga el millor");
     assertEquals(1, matches.size());
     assertEquals("POTSER_SIGUI", matches.get(0).getRule().getId());
-    
-    /*tool.enableRule("CA_REPEAT_PATTERN_TEST");
-    matches = tool.check("D'altra banda, això és així. Però, d'altra banda, canta.");
-    assertEquals(1, matches.size());
-    assertEquals(35, matches.get(0).getFromPos());
-    
-    matches = tool.check("D'altra banda, això és així. Això és una frase llarga que ha de fer en total més de 450 caràcters. I què passa is no la faig prou llarga. L'he de fer prou llarga perquè no hi hagi error. No hi ha d'haver error si hi ha prou distància entres les repeticions de l'expressió marcada. Encara ha de ser més llarga del que és aquesta sentència de paràgrafs seguits. Però, d'altra banda, canta.");
-    assertEquals(0, matches.size());*/
-    
+
   }
-  
+
   @Test
   public void testAdvancedTypography() throws IOException {
     Language lang = new Catalan();
@@ -62,6 +55,20 @@ public class JLanguageToolTest {
     assertEquals(lang.toAdvancedTypography("És \"molt 'important'\"."), "És «molt ‘important’».");
     assertEquals(lang.toAdvancedTypography("Si és del v. 'haver'."), "Si és del v.\u00a0‘haver’.");
     assertEquals(lang.toAdvancedTypography("Amb el so de 's'."), "Amb el so de ‘s’.");
+
+    assertEquals(lang.adaptSuggestion("L'IEC"), "L'IEC");
+    assertEquals(lang.adaptSuggestion("te estimava"), "t'estimava");
+    assertEquals(lang.adaptSuggestion("el Albert"), "l'Albert");
+    assertEquals(lang.adaptSuggestion("l'Albert"), "l'Albert");
+    assertEquals(lang.adaptSuggestion("l'«Albert»"), "l'«Albert»");
+    assertEquals(lang.adaptSuggestion("l’«Albert»"), "l’«Albert»");
+    assertEquals(lang.adaptSuggestion("l'\"Albert\""), "l'\"Albert\"");
+    assertEquals(lang.adaptSuggestion("m'tancava"), "em tancava");
+    assertEquals(lang.adaptSuggestion("s'tancava"), "es tancava");
+    assertEquals(lang.adaptSuggestion("l'R+D"), "l'R+D");
+    assertEquals(lang.adaptSuggestion("l'FBI"), "l'FBI");
+
   }
-  
+
 }
+

@@ -29,7 +29,8 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
@@ -49,10 +50,10 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
       AnalyzedTokenReadings[] patternTokens) throws IOException {
     
-    //if (match.getSentence().getText().contains("Das ist wider der Vernunft")) {
-    //  int ii=0;
-    //  ii++;
-    //}
+//    if (match.getSentence().getText().contains("C'est une ville")) {
+//      int ii=0;
+//      ii++;
+//    }
 
     String postagSelect = getRequired("postagSelect", arguments);
     String lemmaSelect = getRequired("lemmaSelect", arguments);
@@ -60,11 +61,14 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String lemmaFromStr = getRequired("lemmaFrom", arguments);
     
     int postagFrom = 0;
-    if (postagFromStr.equals("marker")) {
+    if (postagFromStr.startsWith("marker")) {
       while (postagFrom < patternTokens.length && patternTokens[postagFrom].getStartPos() < match.getFromPos()) {
         postagFrom++;
       }
       postagFrom++;
+      if (postagFromStr.length()>6) {
+        postagFrom += Integer.parseInt(postagFromStr.replace("marker", ""));
+      }
     } else {
       postagFrom = Integer.parseInt(postagFromStr);
     }
@@ -73,11 +77,14 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
           + match.getRule().getFullId() + ", value: " + postagFromStr);
     }
     int lemmaFrom = 0;
-    if (lemmaFromStr.equals("marker")) {
+    if (lemmaFromStr.startsWith("marker")) {
       while (lemmaFrom < patternTokens.length && patternTokens[lemmaFrom].getStartPos() < match.getFromPos()) {
         lemmaFrom++;
       }
       lemmaFrom++;
+      if (lemmaFromStr.length()>6) {
+        lemmaFrom += Integer.parseInt(lemmaFromStr.replace("marker", ""));
+      }
     } else {
       lemmaFrom = Integer.parseInt(lemmaFromStr);
     }
@@ -93,7 +100,8 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
     String desiredPostag = getAnalyzedToken(patternTokens[postagFrom - 1], postagSelect).getPOSTag();
     
     if (desiredPostag == null) {
-      throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag");
+      throw new IllegalArgumentException("AdvancedSynthesizerFilter: undefined POS tag for rule " +
+        match.getRule().getFullId() + " with POS regex '" + postagSelect + "' for token: " + patternTokens[postagFrom-1]);
     }
 
     if (postagReplace != null) {
@@ -135,7 +143,18 @@ public abstract class AbstractAdvancedSynthesizerFilter extends RuleFilter {
       if (!suggestionUsed) {
         replacementsList.addAll(Arrays.asList(replacements));
       }
-      newMatch.setSuggestedReplacements(replacementsList);
+      
+      List<String> adjustedReplacementsList = new ArrayList<>();
+      Rule rule = match.getRule();
+      if (rule instanceof AbstractPatternRule) {  
+        Language lang = ((AbstractPatternRule) rule).getLanguage();
+        for (String replacement : replacementsList) {
+          adjustedReplacementsList.add(lang.adaptSuggestion(replacement));  
+        }
+      } else {
+        adjustedReplacementsList = replacementsList;
+      }
+      newMatch.setSuggestedReplacements(adjustedReplacementsList);
       return newMatch;
     }
     return match;

@@ -30,8 +30,14 @@ public class DutchSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/nl/dutch_synth.dict";
   private static final String TAGS_FILE_NAME = "/nl/dutch_tags.txt";
 
+  public static final DutchSynthesizer INSTANCE = new DutchSynthesizer();
+
+  /** @deprecated use {@link #INSTANCE} */
   public DutchSynthesizer(Language lang) {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+    this();
+  }
+  private DutchSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "nl");
   }
   
 }

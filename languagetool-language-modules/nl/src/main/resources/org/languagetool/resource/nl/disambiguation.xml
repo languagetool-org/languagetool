@@ -512,6 +512,18 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
 
     <!-- REAL DISAMBIGUATION -->
+	<rule id="DE_AFKO_RARE_WERKWOORDVORM" name="werkwoord 1e persoon onwaarschijnlijk"> <!-- related to: SPATIEFOUT_HET_DE[2]  -->
+		<pattern>
+			<token>de</token>
+			<token regexp="yes" case_sensitive="yes">[A-Z]{3,4}</token>
+			<marker>
+				<token regexp="yes">aanhang|chip|groep|kaart|kring|leden|pomp|raad|stoel|tafel|tour</token>
+			</marker>
+		</pattern>
+		<disambig action="remove" postag="WKW.*"/>
+		<example type='ambiguous' inputform="groep[groep/ZNW:EKV:DE_,groepen/WKW:TGW:1EP]" outputform="groep[groep/ZNW:EKV:DE_]">Wendbaarheid en Prestatiegerichtheid zijn twee van de kernwaarden van de IKO <marker>groep</marker>.</example>
+		<example type="untouched">De mogelijke versoepeling van de ECB zit al in de rente verrekend.</example>
+	</rule>
 	<rule id="ZNW_ZELDZAAM" name="niet, bij etc">
 		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
 		<pattern>
@@ -796,7 +808,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 				<token postag="VNW:AWZ:EKV:DE_"/>
 				<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*DE_"/>
 				<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
-				<token regexp="yes">je|jij|ik|zij|ze|hij|men</token>
+				<token regexp="yes">je|jij|ik</token>
 			</marker>
 		</pattern>
 		<disambig action="filterall"/>
@@ -1521,5 +1533,12 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 			</marker>
 		</pattern>
 	   <disambig action="remove" postag="[^E]"/>
+	</rule>
+
+	<rule id="IGNORE_SPELLING_OF_100K" name="ignore spelling of '100k' and '2022b'">
+		<pattern>
+			<token regexp="yes">\d+[a-z]</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>
 	</rule>
 </rules>

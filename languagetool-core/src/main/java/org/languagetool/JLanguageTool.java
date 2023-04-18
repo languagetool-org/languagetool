@@ -31,7 +31,6 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.markup.TextPart;
 import org.languagetool.rules.*;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.LoggingTools;
@@ -76,7 +75,7 @@ public class JLanguageTool {
   private static final Logger logger = LoggerFactory.getLogger(JLanguageTool.class);
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "5.8-SNAPSHOT";
+  public static final String VERSION = "6.2-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
   /**
@@ -91,6 +90,14 @@ public class JLanguageTool {
    * The name of the file with error patterns.
    */
   public static final String PATTERN_FILE = "grammar.xml";
+  /**
+   * The name of the file with style patterns.
+   */
+  public static final String STYLE_FILE = "style.xml";
+  /**
+   * The name of the file with error patterns.
+   */
+  public static final String CUSTOM_PATTERN_FILE = "grammar_custom.xml";
   /**
    * The name of the file with false friend information.
    */
@@ -579,19 +586,6 @@ public class JLanguageTool {
   }
 
   /**
-   * Activate rules that depend on pre-trained neural network models.
-   *
-   * @param modelDir root dir of exported models
-   * @since 4.4
-   */
-  public void activateNeuralNetworkRules(File modelDir) throws IOException {
-    ResourceBundle messages = getMessageBundle(language);
-    List<Rule> rules = language.getRelevantNeuralNetworkModels(messages, modelDir);
-    userRules.addAll(rules);
-    ruleSetCache.clear();
-  }
-
-  /**
    * Activate rules that depend on a language model. The language model currently
    * consists of Lucene indexes with ngram occurrence counts.
    *
@@ -643,21 +637,6 @@ public class JLanguageTool {
     transformRules(enhanced, builtinRules);
     transformRules(enhanced, userRules);
     ruleSetCache.clear();
-  }
-
-  /**
-   * Activate rules that depend on a word2vec language model.
-   *
-   * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
-   * @since 4.0
-   */
-  public void activateWord2VecModelRules(File indexDir) throws IOException {
-    Word2VecModel word2vecModel = language.getWord2VecModel(indexDir);
-    if (word2vecModel != null) {
-      ResourceBundle messages = getMessageBundle(language);
-      List<Rule> rules = language.getRelevantWord2VecModelRules(messages, word2vecModel);
-      userRules.addAll(rules);
-    }
   }
 
   /**
@@ -937,12 +916,11 @@ public class JLanguageTool {
 
   public CheckResults check2(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener,
                              Mode mode, Level level, @Nullable Long textSessionID) throws IOException {
-    List<String> unmodifiedSentences = getSentences(annotatedText, tokenizeText);
     annotatedText = cleanText(annotatedText);
     List<String> sentences = getSentences(annotatedText, tokenizeText);
     List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     CheckResults checkResults = checkInternal(annotatedText, paraMode, listener, mode, level, textSessionID, sentences, analyzedSentences);
-    checkResults.addSentenceRanges(SentenceRange.getRangesFromSentences(unmodifiedSentences));
+    checkResults.addSentenceRanges(SentenceRange.getRangesFromSentences(annotatedText, sentences));
     return checkResults;
   }
 
@@ -959,19 +937,19 @@ public class JLanguageTool {
 
   private AnnotatedText cleanText(AnnotatedText annotatedText) {
     AnnotatedTextBuilder atb = new AnnotatedTextBuilder();
-    annotatedText.getGlobalMetaData().forEach((key, value) -> atb.addGlobalMetaData(key, value));
-    annotatedText.getCustomMetaData().forEach((key, value) -> atb.addGlobalMetaData(key, value));
+    annotatedText.getGlobalMetaData().forEach(atb::addGlobalMetaData);
+    annotatedText.getCustomMetaData().forEach(atb::addGlobalMetaData);
     List<TextPart> parts = annotatedText.getParts();
     for (TextPart part : parts) {
       if (part.getType() == TextPart.Type.TEXT) {
         String byteOrderMark = "\uFEFF";  // BOM or zero-width non-breaking space
-        StringTokenizer st = new StringTokenizer(part.getPart(), byteOrderMark, true);
-        while (st.hasMoreElements()) {
-          Object next = st.nextElement();
-          if (next.equals(byteOrderMark)) {
+        // split by byteOrderMark and let the delimiter also be part of the array
+        String[] split = part.getPart().split("(?<=\uFEFF)|(?=\uFEFF)");
+        for (String text : split) {
+          if ("\uFEFF".equals(text)) {
             atb.addMarkup(byteOrderMark);
           } else {
-            atb.addText(next.toString());
+            atb.addText(text);
           }
         }
       } else {
@@ -980,8 +958,8 @@ public class JLanguageTool {
     }
     return atb.build();
   }
-  
-  private CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
+
+  protected CheckResults checkInternal(AnnotatedText annotatedText, ParagraphHandling paraMode, RuleMatchListener listener,
                                      Mode mode, Level level,
                                      @Nullable Long textSessionID, List<String> sentences, List<AnalyzedSentence> analyzedSentences) throws IOException {
     RuleSet rules = getActiveRulesForLevel(level);
@@ -1307,25 +1285,6 @@ public class JLanguageTool {
       printIfVerbose(analyzedSentence.toString());
       printIfVerbose(analyzedSentence.getAnnotations());
     }
-  }
-
-  /**
-   * @deprecated use {@link #performCheck(List, List, RuleSet, ParagraphHandling, AnnotatedText, RuleMatchListener, Mode, Level, boolean)}
-   */
-  @Deprecated
-  protected CheckResults performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
-                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, Mode mode, Level level) throws IOException {
-    List<Rule> nonIgnored = allRules.stream().filter(r -> !ignoreRule(r)).collect(Collectors.toList());
-    return performCheck(analyzedSentences, sentences, nonIgnored, paraMode, annotatedText, null, mode, level, true);
-  }
-
-  /**
-   * @deprecated use {@link #performCheck(List, List, RuleSet, ParagraphHandling, AnnotatedText, RuleMatchListener, Mode, Level, boolean)}
-   * @since 3.7
-   */
-  protected CheckResults performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentenceTexts,
-                                         List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener, Mode mode, Level level, boolean checkRemoteRules) throws IOException {
-    return performCheck(analyzedSentences, sentenceTexts, RuleSet.plain(allRules), paraMode, annotatedText, listener, mode, level, checkRemoteRules);
   }
 
   /**

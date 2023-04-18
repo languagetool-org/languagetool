@@ -19,10 +19,12 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.language.rules.ast.MorfologikAsturianSpellerRule;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ast.AsturianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -80,4 +82,9 @@ public class Asturian extends Language {
     return new AsturianTagger();
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikAsturianSpellerRule(messages, this, null, null);
+  }
 }

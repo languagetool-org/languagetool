@@ -58,8 +58,14 @@ public class ArabicSynthesizer extends BaseSynthesizer {
   private final ArabicTagManager tagmanager = new ArabicTagManager();
   private final ArabicTagger tagger = new ArabicTagger();
 
+  public static final ArabicSynthesizer INSTANCE = new ArabicSynthesizer();
+
+  /** @deprecated use {@link #INSTANCE} */
   public ArabicSynthesizer(Language lang) {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+    this();
+  }
+  private ArabicSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "ar");
   }
 
   /**

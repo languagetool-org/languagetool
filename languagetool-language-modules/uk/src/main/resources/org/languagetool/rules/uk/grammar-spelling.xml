@@ -279,7 +279,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes">Нь?ю</token>
-          <token>Йорк</token>
+          <token inflected="yes" regexp="yes">Йорк|Джерсі</token>
         </pattern>
         <message>Це слово пишеться через дефіс: <suggestion>Нью-\2</suggestion></message>
         <example correction="Нью-Йорк">у <marker>Нью Йорк</marker>.</example>
@@ -340,25 +340,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="ходить">хтось <marker>ходе</marker>.</example>
     </rule>
 
+    <rule id="zakordon" name="Закордон і за кордон">
+      <antipattern>
+        <token>закордон</token>
+        <token min="0" max="2"/>
+        <token inflected="yes" regexp="yes">(до)?помагати|(до)?помогти</token>
+      </antipattern>
+      <pattern>
+        <token>закордон
+          <exception scope="previous" postag_regexp="yes" postag="prep.*|adj:m:v_zna:rinanim.*"/>
+          <exception scope="previous" regexp="yes">[«"„]|це</exception>
+        </token>
+      </pattern>
+      <message>Можливо ви мали на увазі <suggestion>за кордон</suggestion>?</message>
+      <example correction="за кордон">поїхав <marker>закордон</marker>.</example>
+      <example>взнати про закордон</example>
+      <example>взнати «закордон»</example>
+      <example>далекий «закордон»</example>
+      <example>закордон нам не допоможе</example>
+    </rule>
+
     <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
       <rule>
+      <!--
         <antipattern>
           <token regexp="yes">[«"„]</token>
-          <token regexp="yes" spacebefore="no">[а-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ]+</token>
-          <!-- 
-          <token regexp="yes">[»"“]</token>
-           -->
+          <token regexp="yes" spacebefore="no">[а-яіїєґ'-][а-яіїєґ]+[0-9]</token>
         </antipattern>
+        -->
         <pattern>
           <marker>
-            <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]*[а-яіїєґ]+[0-9]+[^а-яіїєґА-ЯІЇЄҐ–-][^а-яіїєґА-ЯІЇЄҐ]*
-              <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ-]+[0-9]+</exception>
-            </token>
+            <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]*[а-яіїєґ]+</token>
+            <token regexp="yes" spacebefore="no">[0-9]+</token>
           </marker>
         </pattern>
         <message>Відсутній дефіс або пробіл між словом і числом</message>
-        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)" regexp_replace="$1-$2"/></suggestion>
-        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)" regexp_replace="$1 $2"/></suggestion>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <suggestion><match no="1"/> <match no="2"/></suggestion>
         <example correction="Мі-17|Мі 17"><marker>Мі17</marker></example>
         <example>СО2</example>
         <example>абстракція11</example>
@@ -367,6 +385,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
 
       <rule>
+        <antipattern>
+          <token regexp="yes">([кдсмн]|мк)?м</token>
+          <token regexp="yes" spacebefore="no">[23]</token>
+        </antipattern>
         <pattern>
           <marker>
             <token regexp="yes">[а-яіїєґ][а-яіїєґ'.-]*</token>
@@ -434,7 +456,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Відсутній дефіс або пробіл між числом і словом (або пропущена кома після назви вулиці)</message>
+        <message>Відсутній дефіс або пробіл між числом і словом (або пропущена кома після назви вулиці, або вжито тире на позначення мінуса)</message>
         <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([а-яіїєґ'-])" regexp_replace="$1 $2"/></suggestion>
         <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([а-яіїєґ'-])" regexp_replace="$1-$2"/></suggestion>
         <example correction="21 відсоток|21-відсоток">набрав <marker>21відсоток</marker>.</example>
@@ -502,7 +524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rulegroup id="ABBREVIATIONS_WRONG_DOT" name="Скорочення - зайва крапка">
       <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
-      <url>http://www.library.ukma.edu.ua/fileadmin/documents/Bibliography/26_DCTU3582-97.pdf</url>
+      <url>https://r2u.org.ua/data/other/%D0%94%D0%A1%D0%A2%D0%A3_3582-97.pdf</url>
       <rule>
         <antipattern>
           <token>.</token>
@@ -1381,6 +1403,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="vidryvaty_dveri" name="Відривати двері">
+      <pattern>
+        <marker>
+          <token inflected="yes" regexp="yes">відривати(ся)?|відрити(ся)?|відритий</token>
+        </marker>
+        <token inflected="yes" regexp="yes">двері|вікно</token>
+      </pattern>
+      <message>Можливо: <suggestion><match no="1" regexp_match="відри(.*)" regexp_replace="відкри$1"/></suggestion>?</message>
+      <example correction="відкрив">він <marker>відрив</marker> двері</example>
+    </rule>
+
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf
     без пробіла: ДСТУ 3582-13 (2013) http://lib.npu.edu.ua/full_txt/DSTU_3582_2013.pdf
@@ -1468,11 +1501,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="UPPER_INDEX_FOR_M" name="Верхній індекс для метрів" default="off">
       <pattern>
-        <token regexp="yes">([кдсмн]|мк)?м[23]</token>
+        <token regexp="yes">([кдсмн]|мк)?м</token>
+        <token regexp="yes" spacebefore="no">[23]</token>
       </pattern>
       <message>Можливо, потрібен верхній індекс?</message>
-      <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1²"/></suggestion>
-      <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1³"/></suggestion>
+      <suggestion><match no="1"/>²</suggestion>
+      <suggestion><match no="1"/>³</suggestion>
       <example correction="км²|км³">900 тис. <marker>км2</marker></example>
       <example correction="м²|м³">900 <marker>м3</marker></example>
       <example>20 скм3</example>

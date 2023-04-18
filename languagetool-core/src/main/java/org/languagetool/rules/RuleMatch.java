@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.ApiCleanupNeeded;
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleMatcher;
 import org.languagetool.tools.StringTools;
@@ -124,6 +126,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this(rule, sentence, fromPos, toPos, fromPos, toPos, message, shortMessage, false, null);
     setSuggestedReplacements(suggestions);
   }
+
   /**
    * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
    */
@@ -198,10 +201,10 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
   
   //clone with new replacements
-  public RuleMatch(RuleMatch clone, List<String> replacements) {
+  public RuleMatch(RuleMatch clone, List<SuggestedReplacement> replacements, boolean ignored) {
     this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
     this.setPatternPosition(clone.getPatternFromPos(), clone.getPatternToPos());
-    this.setSuggestedReplacements(replacements);
+    this.setSuggestedReplacementObjects(replacements);
     this.setAutoCorrect(clone.isAutoCorrect());
     this.setFeatures(clone.getFeatures());
     this.setUrl(clone.getUrl());
@@ -211,6 +214,11 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.setColumn(clone.getColumn());
     this.setEndColumn(clone.getEndColumn());
     this.setSpecificRuleId(clone.getSpecificRuleId());
+  }
+
+  // for compatibility
+  public RuleMatch(RuleMatch clone, List<SuggestedReplacement> replacements) {
+    this(clone, replacements, false);
   }
 
   @NotNull
@@ -373,7 +381,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   public void addSuggestedReplacements(List<String> replacements) {
-    Objects.requireNonNull(replacements, "replacements may be empty but not null");
+    Objects.requireNonNull(replacements, "replacements may be empty but not null");    
     Supplier<List<SuggestedReplacement>> prev = suggestedReplacements;
     setLazySuggestedReplacements(() ->
       Lists.newArrayList(Iterables.concat(prev.get(), Iterables.transform(replacements, SuggestedReplacement::new))));
@@ -397,7 +405,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     Objects.requireNonNull(replacements, "replacements may be empty but not null");
     suggestionsComputed = true;
     suggestedReplacements = Suppliers.ofInstance(
-      replacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
+        replacements.stream().map(SuggestedReplacement::new).collect(Collectors.toList())
     );
   }
 

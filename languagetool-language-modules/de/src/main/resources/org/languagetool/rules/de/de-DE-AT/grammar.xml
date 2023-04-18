@@ -7,7 +7,7 @@ German (de-DE) grammar and typo rules for LanguageTool.
 See resource/de/tagset.txt for the meaning of the POS tags.
 
 Copyright © 2020 Daniel Naber
-http://www.languagetool.org
+https://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -62,6 +62,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>weiss</token>
             </pattern>
             <message><suggestion>weiß</suggestion> als Farbe und Form von 'wissen' wird mit 'ß' geschrieben. 'Weiss' kann als Nachname vorkommen.</message>
+            <url>https://languagetool.org/insights/de/beitrag/keine-ahnung/#%E2%80%9Ewei%C3%9F-nicht%E2%80%9C-oder-%E2%80%9Eich-wei%C3%9F-es-nicht%E2%80%9C</url>
             <example correction="weiß">Das <marker>weiss</marker> ich auch.</example>
             <example>Das Buch ist von H. Weiss</example>
             <example>Hallo Frau Weiss</example>
@@ -86,8 +87,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">\-|\.|:|\!|;</token>
                     </marker>
                 </pattern>
-                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\2 \3 \4 \5,</suggestion></message>
-                <short>Nach der Anredeformel sollte ein Komma stehen.</short>
+                <message>Nach der Anredeformel sollte ein Komma stehen.</message>
+                <suggestion>\2 \3 \4 \5,</suggestion>
                 <example correction="Sehr geehrter Herr Müller,"><marker>Sehr geehrter Herr Müller!</marker></example>
             </rule>
             <rule>
@@ -102,7 +103,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes" postag=".*SENT_END.*" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüßáàâêéèëíìîïòóôõûçñšž]+</token>
                     </marker>
                 </pattern>
-                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\7,</suggestion></message>
+                <message>Nach der Anredeformel sollte ein Komma stehen.</message>
+                <suggestion>\7,</suggestion>
                 <example correction="Müller,">Sehr geehrte Frau Dr. <marker>Müller</marker></example>
                 <example correction="Müller,">Sehr geehrter Herr <marker>Müller</marker></example>
             </rule>
@@ -117,16 +119,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SENT_END">Herren</token>
                     </marker>
                 </pattern>
-                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>Herren,</suggestion></message>
+                <message>Nach der Anredeformel sollte ein Komma stehen.</message>
+                <suggestion>Herren,</suggestion>
                 <example correction="Herren,">Sehr geehrte Damen und <marker>Herren</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="ANREDE_KOMMA_2" name="Fehlendes Komma nach Begrüßungsformeln (Hallo, Guten Tag)">
             <rule>
                 <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Hey</token>
+                    <token regexp="yes">toll|cool|super</token>
+                    <example>Hey super, das wusste ich noch gar nicht!</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Hallo</token>
+                    <token regexp="yes">nochmal|noch|da|wieder</token>
+                    <token min="0" regexp="yes">mal|einmal|drau(ss|ß)en</token>
+                    <example>Hallo noch mal!</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Hallo</token>
+                    <token>in</token>
+                    <token>die</token>
+                    <token min="0" />
+                    <token>Runde</token>
+                    <example>Hallo in die Runde!</example>
+                </antipattern>
+                <antipattern>
                     <token skip="3" regexp="yes">Hallo|Hi|Hey|Moin|Servus|Tschüss?
                         <exception scope="next" postag=".*INR.*|VER.*:[123]:.*" postag_regexp="yes"/>
-                        </token>
+                    </token>
                     <token>,</token>
                 </antipattern>
                 <antipattern case_sensitive="yes">
@@ -149,17 +174,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>
                         <exception postag="PKT"/>
-                        <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|herr|frau|liebes?|meine?|moin|zusammen|miteinander|und|oder|ihr|du|@.*</exception>
+                        <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|herr|frau|liebe(r|s)?|meine?|moin|zusammen|miteinander|und|oder|ihr|du|@.*|an|–|-|\+|\(|&amp;|there|community|people|team|all|to</exception>
                     </token>
                 </pattern>
-                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\3,</suggestion></message>
+                <message>Nach der Anredeformel sollte ein Komma stehen.</message>
+                <suggestion>\3,</suggestion>
                 <example><marker>Hallo</marker> Tom!</example>
                 <example><marker>"Moin"</marker> ist Norddeutsch.</example>
                 <example correction="Hallo,">„<marker>Hallo</marker> da seid ihr ja endlich!“</example>
                 <example correction="Hallo,"><marker>Hallo</marker> wie geht es euch?</example>
                 <example correction="Hallo,"><marker>Hallo</marker> ich bin Kira, wo ist die Bibliothek?</example>
                 <example>Moin herr Müller.</example><!-- "herr" muss großgeschrieben werden, trotzdem sollte kein Komma vorgeschlagen werden -->
-                <example>Hallo an alle, habe am Montag vormittag einen Brief aus Polen abgeschickt nach Hamburg.</example>
+                <example>Hallo an alle, habe am Montag einen Brief aus Polen abgeschickt nach Hamburg.</example>
             </rule>
             <!--<rule>
                 <pattern case_sensitive="yes">
@@ -435,6 +461,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>«</suggestion>
                 <example correction="“|«">Er sagte "Tschüssi<marker>"</marker>.</example>
             </rule>
+            <rule><!-- [15] -->
+                <antipattern>
+                    <token regexp="yes">\d+[½¼¾]?</token>
+                    <token spacebefore="no">"</token>
+                    <token regexp="yes" spacebefore="no">-.*(Töner|Laufwerk|Felge|Granat(en)?werfer|Diskette|rad|platte|vinyl|Rohr|fernseher|Bildschirm).*</token>
+                    <example>16"-Stahlfelgen mit Radzierblenden</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+[½¼¾]?</token>
+                    <token spacebefore="no">"</token>
+                    <token regexp="yes" spacebefore="no" case_sensitive="yes">-.*(EP|TV).*</token>
+                    <example>(12"-Split-EP mit Lynrd's Innards und Slingshot Episode)</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token />
+                    <token spacebefore="no">"</token>
+                    <token regexp="yes" spacebefore="no">-.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">.*[a-z0-9äöüß].*</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">-[a-zäöüß].*</token>
+                </pattern>
+                <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>“</suggestion>
+                <suggestion>«</suggestion>
+                <example correction="“|«">Er klickte den "Gefällt mir<marker>"</marker>-Button.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ANFUEHRUNGSZEICHEN_DE_AT" name="«wörtliche Rede» (»wörtliche Rede«)" default="temp_off">
         <rule><!-- ANFUEHRUNGSZEICHEN_DE_AT[1] -->
@@ -500,6 +557,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example correction="«">James Bond führte noch an: «Ich trinke meinen Martini geschüttelt, nicht gerührt<marker>»</marker></example>
         </rule>
       </rulegroup>
+    </category>
+
+    <!-- ====================================================================== -->
+    <!-- Zeichensetzung -->
+    <!-- ====================================================================== -->
+
+    <category id="PUNCTUATION" name="Zeichensetzung">
+
+        <rule id="WAEHRUNGSANGABEN_KOMMA" name="Währungsangaben mit Komma statt Punkt, z. B. '45.00 Euro (45,00 Euro)'">
+            <pattern>
+                <token regexp="yes">[0-9].+</token>
+                <token>.</token>
+                <token regexp="yes">[0-9]{2}|–</token>
+                <token regexp="yes" case_sensitive="yes">€|$|AED|Dirham|AFN|Afghani|Puls|ALL|Lek|Qindarka|AMD|Dram|Luma|ANG|Gulden|Cent(s|imos|avos|imes|esimos|esimi) AOA|Kwanza|ARS|AUD|AWG|Florin|AZN|Aserbaidschan-Qäpik|BAM|KonvertibleMark|Fening|BBD|BDT|Taka|Poisha|BGN|Lew|Stotinki|BHD|BIF|BMD|BND|BOB|Boliviano|BOV|Mvdol|BRL|Real|BSD|BTN|Ngultrum|Chetrum|BWP|Pula|Thebe|BYN|Rubel|BZD|CAD|CDF|CHE|CHF|Franken|Rappen|CHW|CLF|UnidaddeFomento|CLP|CNY|RenminbiYuan|Jiao|Fen|COP|COU|UnidaddeValorReal|CRC|Colón|CUC|PesoConvertible|CUP|CVE|Escudo|CZK|Haleru|DJF|DKK|Krone|DOP|DZD|EGP|Piasters|ERN|Nakfa|ETB|Birr|Santim|EUR|Euro|FJD|FKP|GBP|GEL|Lari|Tetri|GHS|GhanaCedi|Pesewas|GIP|Pence|GMD|Dalasi|Bututs|GNF|GTQ|Quetzal|GYD|HKD|HNL|Lempira|HRK|Kuna|Lipa|HTG|Gourde|HUF|Forint|Fillér|IDR|Rupiah|ILS|Schekel|Agorot|INR|Paise|IQD|IRR|Rial|Dinars|ISK|Aurar|JMD|JOD|JPY|Yen|KES|Schilling|KGS|Som|Tyiyn|KHR|Riel|KarakKMF|Franc|KPW|Won|Chon|KRW|KWD|KYD|KZT|Tenge|Tyin|LAK|Laotischer Kip|At|LBP|LKR|LRD|DollarLSL|Loti|Lisente|LYD|MAD|MDL|Leu|MGA|Ariary|Iraimbilanja|MKD|Denar|Deni|MMK|Kyat|Pyas|MNT|Tögrög|Möngö|MOP|Pataca|Avos|MRU|Ouguiya|Khoums|MUR|MVR|Rufiyaa|Laari|MWK|Kwacha|Tambala|MXN|MXV|MYR|Ringgit|Sen|MZN|Metical|NAD|NGN|Naira|Kobo|NIO|CórdobaOro|NOK|Øre|NPR|NZD|OMR|Baizas|PAB|Balboa|PEN|NuevoSol|PGK|Kina|Toea|PHP|PKR|Paisa|PLN|Złoty|Groszy|PYG|Guaraní|QAR|Dirhams|RON|Bani|RSD|Dinar|Para|RUB|RWF|SAR|Riyal|Qirshes|Hallalas|SBD|SCR|Rupie|SDG|Pfund|SEK|Öre|SGD|SHP|SLL|Leone|SOS|SRD|SSP|Piaster|STN|Dobra|SVC|SYP|Piastres|SZL|Lilangeni|THB|Baht|Satang|TJS|Somoni|Diram|TMT|Manat|TND|Millimes|TOP|Paʻanga|Seniti|TRY|Lira|Kuruş|TTD|TWD|TZS|UAH|Hrywnja|Kopeken|UGX|USD|Dime|UYI|Pesos|UYU|Peso|UZS|Soʻm|Tiyin|VES|Céntimos|VND|Đồng|Hào|Xu|VUV|Vatu|WST|Tala|Sene|XAF|CFA|XCD|XOF|XPF|CFP|XSU|SUCRE|YER|Fils|ZAR|Rand|ZMW|Ngwee|ZWL</token>
+            </pattern>
+            <message>Währungsangaben werden im Deutschen in der Regel mit einem Komma geschrieben.</message>
+            <suggestion>\1,\3 \4</suggestion>
+            <url>https://www.typolexikon.de/zahlengliederung/#Waehrungsangaben</url>
+            <example correction="45,00 Euro">Sie erhalten das Produkt für einen Aufpreis von <marker>45.00 Euro</marker>.</example>
+        </rule>
+
     </category>
 </rules>
 

@@ -75,6 +75,7 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
       int offsetTokens = 0;
       int prevFromToken = 0;
       int prevMatches = 0;
+      List<Integer> distancesBetweenMatches = new ArrayList<>();
       // we need to adjust offsets since each pattern rule returns offsets relative to the sentence, not text
       for (AnalyzedSentence s : sentences) {
         List<RuleMatch> sentenceMatches = new ArrayList<>();
@@ -97,9 +98,11 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
           m.setOffsetPosition(fromPos, toPos);
           int maxDistanceTokens = m.getRule().getDistanceTokens();
           if (maxDistanceTokens < 1) {
-            maxDistanceTokens = defaultMaxDistanceTokens;
+            maxDistanceTokens = defaultMaxDistanceTokens * m.getRule().getMinPrevMatches();
           }
-          if (fromToken - prevFromToken <= maxDistanceTokens && prevMatches >= m.getRule().getMinPrevMatches()) {
+          distancesBetweenMatches.add(fromToken - prevFromToken);
+          if (prevMatches >= m.getRule().getMinPrevMatches()
+              && isDistanceValid(distancesBetweenMatches, maxDistanceTokens, m.getRule().getMinPrevMatches())) {
             matches.add(m);
           }
           prevFromToken = fromToken;
@@ -116,10 +119,21 @@ public class RepeatedPatternRuleTransformer implements PatternRuleTransformer {
       // TODO: what should we use here? calculate based on min_prev_matches?
       return 0;
     }
-    
+
     @Override
     public boolean supportsLanguage(Language language) {
       return language.equalsConsiderVariantsIfSpecified(this.ruleLanguage);
+    }
+
+    private boolean isDistanceValid(List<Integer> distancesBetweenMatches, int maxDistanceTokens, int minPrevMatches) {
+      int i = 0;
+      int size = distancesBetweenMatches.size();
+      int distance = 0;
+      while (i < minPrevMatches && i < size) {
+        distance += distancesBetweenMatches.get(size - 1 - i);
+        i++;
+      }
+      return distance < maxDistanceTokens;
     }
 
   }

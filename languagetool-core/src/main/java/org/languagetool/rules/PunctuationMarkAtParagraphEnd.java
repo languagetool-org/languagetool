@@ -38,7 +38,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
 
   private final static String[] PUNCTUATION_MARKS = {".", "!", "?", ":", ",", ";"};
   private final static String[] QUOTATION_MARKS = {"„", "»", "«", "\"", "”", "″", "’", "‚", "‘", "›", "‹", "′", "'"};
-  private final static Pattern pNumeric = Pattern.compile("[0-9.]+");
+  private final static Pattern P_NUMERIC = Pattern.compile("[0-9.]+");
   
   private final Language lang;
 
@@ -92,7 +92,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
   }
   
   private static boolean isNumeric(String s) {
-   return pNumeric.matcher(s.trim()).matches(); 
+   return P_NUMERIC.matcher(s.trim()).matches();
   }
 
   @Override
@@ -110,7 +110,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
                 || (tokens.length > 3 && isQuotationMark(tokens[1]) && isWord(tokens[2]) && !isPunctuationMark(tokens[3]));
           // ignore sentences like "2.2.2. This is an item" (two sentences, first sentence only numbers)
           boolean ignoreSentence = false;
-          if (n==1 && isNumeric(sentences.get(0).getText())) {
+          if (n == 1 && isNumeric(sentences.get(0).getText())) {
             ignoreSentence = true;
           }
           if (n > 0 && isNumeric(sentences.get(n - 1).getText())) {
@@ -130,7 +130,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
               continue;
             }
             if (isWord(tokens[lastNWToken]) 
-                || (isQuotationMark(tokens[lastNWToken]) && isWord(tokens[lastNWToken - 1]))) {
+                || (isQuotationMark(tokens[lastNWToken]) && isWord(tokens[lastNWToken-1]))) {
               int fromPos = pos + tokens[lastNWToken].getStartPos();
               int toPos = pos + tokens[lastNWToken].getEndPos();
               RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, 

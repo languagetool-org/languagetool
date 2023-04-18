@@ -63,6 +63,7 @@ public class GrammalecteRule extends Rule {
     "nbsp_avant_deux_points",  // Useful only if we decide to have the rest of the non-breakable space rules.
     "nbsp_ajout_avant_double_ponctuation",  // Useful only if we decide to have the rest of the non-breakable space rules.
     "apostrophe_typographique_après_t",  // Not useful. While being the technically correct character, it does not matter much.
+    "typo_point_collé_à_mot_suivant", // many FPs: file extensions, domain names...
     "typo_tiret_début_ligne",  // Arguably the same as 50671 and 17342 ; the french special character for lists is a 'tiret cadratin' ; so it should be that instead of a dash. Having it count as a mistake is giving access to the otherwise unaccessible special character. However, lists are a common occurrence, and the special character does not make a real difference. Not really useful but debatable
     "typo_guillemets_typographiques_simples_fermants",
     "typo_apostrophe_incorrecte",
@@ -418,7 +419,8 @@ public class GrammalecteRule extends Rule {
     "g2__conf_a_à_verbe__b4_a1_1",
     "g2__conf_a_à_verbe__b7_a1_1",
     "g2__conf_a_à_verbe__b8_a1_1",
-    "g3__gn_la_3m__b1_a1_1"
+    "g3__gn_la_3m__b1_a1_1",
+    "gv1__imp_verbe_groupe3_d__b2_a1_1"//rule is generating FP and a loop(https://github.com/languagetooler-gmbh/languagetool-premium/issues/5220)
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {

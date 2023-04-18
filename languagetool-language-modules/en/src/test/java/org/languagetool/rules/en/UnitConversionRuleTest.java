@@ -55,6 +55,9 @@ public class UnitConversionRuleTest {
     helper.assertMatches("I am 6 feet tall.", 1, "1.83 m", rule, lt);
     helper.assertMatches("I am 6 feet (2.02 m) tall.", 1, "1.83 m", rule, lt);
     helper.assertMatches("I am 6 feet (1.82 m) tall.", 0, null, rule, lt);
+    helper.assertMatches("Heat up to 18\u00A0°C (64.4 °F).", 0, null, rule, lt);
+    helper.assertMatches("Heat up to 18\u00A0°C (64.4\u00A0°F).", 0, null, rule, lt);
+    helper.assertMatches("Heat up to 18 °C (64.4\u00A0°F).", 0, null, rule, lt);
     helper.assertMatches("The path is 100 miles long.", 1, "160.93 km", rule, lt);
     helper.assertMatches("The path is 100 miles (160.93 km) long.", 0, null, rule, lt);
     helper.assertMatches("The shipment weighs 10,000.75 pounds.", 1, "4.54 t", rule, lt);
@@ -62,6 +65,8 @@ public class UnitConversionRuleTest {
     helper.assertMatches("My new apartment is 500 sq ft.", 1, "46.45 m²", rule, lt);
     helper.assertMatches("It is 100 degrees Fahrenheit outside.", 1, "37.78 °C", rule, lt);
     helper.assertMatches("It is 100 °F outside.", 1, "37.78 °C", rule, lt);
+    helper.assertMatches("It is -22 °F outside.", 1, "-30 °C", rule, lt);
+    helper.assertMatches("It is -22 degrees Fahrenheit outside.", 1, "-30 °C", rule, lt);
 
     // https://github.com/languagetool-org/languagetool/issues/2357
     helper.assertMatches("Millions watched the 1989's Superbowl.", 0, null, rule, lt);

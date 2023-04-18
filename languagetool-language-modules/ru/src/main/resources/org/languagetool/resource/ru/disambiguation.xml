@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Russian Disambiguation Rules for LanguageTool (www.languagetool.org)
-Copyright (C) 2009-2022 Yakov Reztsov
+Copyright (C) 2009-2023 Yakov Reztsov
 -->
 <rules lang="ru"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -147,11 +147,25 @@ Copyright (C) 2009-2022 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
     </rule>
+    <rule name="NOUN_V6" id="NOUN_V6">
+        <pattern>	 
+            <!-- на этот вопрос -->
+            <token>на</token>  
+            <token regexp="yes">этот|тот|эту|ту|эти|те|это|то</token>  
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:.*:V" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
+    </rule>
     <!-- где телефон? где телефоны? где Оля? -->
     <!--
     <rule name="NOUN_V5" id="NOUN_V5">
         <pattern>	 
-            <token skip="1">где</token>  
+            <token skip="1">где </token>  
             <marker>
                 <and>
                     <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
@@ -164,6 +178,34 @@ Copyright (C) 2009-2022 Yakov Reztsov
         <example type="ambiguous" inputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom,телефон/NN:Inanim:Masc:Sin:V]" outputform="телефон[телефон/NN:Inanim:Masc:Sin:Nom]">Где наш <marker>телефон</marker>?</example>
     </rule>
     --> 
+    <rule name="NOUN_V7" id="NOUN_V7">
+        <pattern>		   
+            <!-- все время  "время" только NN:.*:.*:.*:V  -->
+            <token regexp="yes" skip="1">всё|все|это|то</token>
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes">время</token>
+                    <token postag="NN:.*:.*:.*:V" postag_regexp="yes">время<exception postag="NN:.*:.*:.*:P" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
+    </rule>
+     <rule name="VB_VB_NOUN" id="VB_VB_NOUN">
+        <pattern>		   
+            <!-- постараюсь найти предмет  -->
+            <token postag="VB:Fut:.*" postag_regexp="yes"><exception postag="VB:INF:.*" postag_regexp="yes"></exception></token>
+            <token>найти</token>
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:.*:V" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
+    </rule>
+
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
             <!-- без  - родительный  -->
@@ -657,7 +699,16 @@ Copyright (C) 2009-2022 Yakov Reztsov
             </marker>
             <token>.</token> 
         </pattern>
-         <disambig action="add" ><wd pos="ABR"></wd></disambig>
+        <disambig action="add" ><wd pos="ABR"></wd></disambig>
+    </rule>
+    <rule name="ABR_without_dot" id="ABR_without_dot">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">т|тел|Тел</token>
+            </marker>
+            <token>:</token> 
+        </pattern>
+        <disambig action="add" ><wd pos="ABR"></wd></disambig>
     </rule>
      <!-- double -->
     <rule id="NumD_D_tag" name="NumD_D tag">
@@ -886,6 +937,53 @@ Copyright (C) 2009-2022 Yakov Reztsov
         </pattern>
         <disambig action="remove" postag="VB:.*:.*:.*:.*"></disambig>
     </rule>
+    <rule name="ADJ_Fam" id="ADJ_Fam">
+        <pattern>		   
+            <!-- Мария Готова или Мария готова пойти. -->
+            <!-- TO DO: make inverse rule   -->
+            <token postag="NN:Name:.*:.*:.*" postag_regexp="yes"></token>
+            <marker>
+                <and>
+                    <token postag="NN:Fam:.*:.*:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[А-ЯЁ][а-яё]*</token>
+                    <token postag="VB:.*:.*:.*:.*|ADJ:.*:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[А-ЯЁ][а-яё]*</token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VB:.*:.*:.*:.*|ADJ:.*:.*"></disambig>
+    </rule>
+    <rule name="NN_or_NN_Fam" id="NN_or_NN_Fam">
+        <pattern>	<!-- TODO need improve, need add to exception geo names, etc. -->	   
+            <token><exception  postag="SENT_START"   /></token>
+            <marker>
+                <and>
+                    <token postag="NN:Fam:.*:.*:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[А-ЯЁ][а-яё]*</token>
+                    <token postag="NN:(Anim|Inanim):.*:.*:.*" postag_regexp="yes" >
+                        <exception regexp="yes" inflected="yes">америка|танга|заказчик|остров|основа|штат|иловайск|клиент|весы|родина|ростов</exception>
+                    </token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NN:(Anim|Inanim):.*:.*:.*"></disambig>
+    </rule>
+    <rule name="NN_or_NN_Fam2" id="NN_or_NN_Fam2">
+        <pattern>	<!-- TODO need improve, need add to exception geo names, etc. -->	   
+            <token>
+                <exception  postag="SENT_START" />
+                <exception>.</exception>  
+                <exception  postag="NN:(Name|Patr):.*:.*:.*" postag_regexp="yes" />
+            </token>
+            <marker>
+                <and>
+                    <token postag="NN:Fam:.*:.*:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[а-яё][а-яё]*</token>
+                    <token postag="NN:(Anim|Inanim):.*:.*:.*" postag_regexp="yes" >
+                        <exception regexp="yes" inflected="yes">америка|танга|заказчик|остров|основа|штат|иловайск|клиент|весы|родина|ростов</exception>
+                    </token>
+                </and>
+            </marker>
+            <token><exception  postag="NN:(Name|Patr):.*:.*:.*" postag_regexp="yes" /></token>
+        </pattern>
+        <disambig action="remove" postag="NN:Fam:.*:.*:.*"></disambig>
+    </rule>
      
   <rulegroup id="po-ADJ" name="po-ADJ">  <!-- по-мышиному -->
         <rule>
@@ -897,5 +995,5 @@ Copyright (C) 2009-2022 Yakov Reztsov
             <disambig action="ignore_spelling"></disambig>
         </rule>
     </rulegroup>
-           
+       
 </rules>

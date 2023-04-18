@@ -66,6 +66,17 @@ final class TokenAgreementNumrNounExceptionHelper {
       }
     }
     
+    // півтора довгих роки
+    if( state.nounPos < tokens.length -1 ) {
+      if( state.numrAnalyzedTokenReadings.getCleanToken().matches("(один-|одне-)?півтора|(одна-)?півтори")
+          && PosTagHelper.hasPosTag(tokens[state.nounPos], Pattern.compile("adj:p:v_(naz|rod).*"))
+          && PosTagHelper.hasPosTag(tokens[state.nounPos+1], Pattern.compile("noun.*?:p:v_naz.*")) 
+          ) {
+        logException();
+        return true;
+      }
+    }
+    
     // хвилин зо п'ять люди
     if( state.numrPos > 2
         && PosTagHelper.hasPosTagStart(tokens[state.numrPos-1], "prep")
@@ -167,7 +178,7 @@ final class TokenAgreementNumrNounExceptionHelper {
       return true;
     }
 
-    if( TokenAgreementNumrNounRule.DVA_PATTERN.matcher(numrTokenLower).matches() || state.number ) {
+    if( TokenAgreementNumrNounRule.DVA_3_4_PATTERN.matcher(numrTokenLower).matches() || state.number ) {
       // два нових горнятка
       // три вихідних
       if ( PosTagHelper.hasPosTag(tokens[state.nounPos], "adj(?!.*numr).*:p:v_rod.*")

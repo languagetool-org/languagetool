@@ -26,15 +26,20 @@ import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
-import org.languagetool.rules.patterns.*;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.patterns.UnifierConfiguration;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.xx.DemoTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.SimpleSentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +50,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Base class for any supported language (English, German, etc). Language classes
@@ -68,6 +72,8 @@ public abstract class Language {
   private static final Pattern INSIDE_SUGGESTION = Pattern.compile("<suggestion>(.+?)</suggestion>");
   private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
+  private static final Map<Class<Language>, JLanguageTool> languagetoolInstances = new ConcurrentHashMap<>();
 
   private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
   private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();
@@ -242,34 +248,6 @@ public abstract class Language {
   }
 
   /**
-   * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
-   * @return a {@link Word2VecModel} or {@code null} if this language doesn't support one
-   * @since 4.0
-   */
-  @Nullable
-  public Word2VecModel getWord2VecModel(File indexDir) throws IOException {
-    return null;
-  }
-
-  /**
-   * Get a list of rules that require a {@link Word2VecModel}. Returns an empty list for
-   * languages that don't have such rules.
-   * @since 4.0
-   */
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    return Collections.emptyList();
-  }
-
-  /**
-   * Get a list of rules that load trained neural networks. Returns an empty list for
-   * languages that don't have such rules.
-   * @since 4.4
-   */
-  public List<Rule> getRelevantNeuralNetworkModels(ResourceBundle messages, File modelDir) {
-    return Collections.emptyList();
-  }
-
-  /**
    * Get the rules classes that should run for texts in this language.
    * @since 4.6
    */
@@ -294,15 +272,27 @@ public abstract class Language {
    * @since 5.5
    */
   @Nullable
-  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) {
-    return spellingRules.computeIfAbsent(this.getClass(), c -> {
+  public SpellingCheckRule getDefaultSpellingRule() {
+    return spellingRules.computeIfAbsent(getClass(), c -> {
       try {
-        return createDefaultSpellingRule(messages);
+        return createDefaultSpellingRule(ResourceBundleTools.getMessageBundle(this));
       } catch (IOException e) {
         logger.warn("Failed to create default spelling rule", e);
         return null;
       }
     }) ;
+  }
+
+  /**
+   * Retrieve default spelling rule for this language
+   * Useful for rules to implement suppression of misspelled suggestions
+   * @param messages unused
+   * @since 5.5
+   * @deprecated use {@link #getDefaultSpellingRule()}
+   */
+  @Deprecated
+  public SpellingCheckRule getDefaultSpellingRule(ResourceBundle messages) {
+    return getDefaultSpellingRule();
   }
 
   /**
@@ -338,12 +328,24 @@ public abstract class Language {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
             + "/" + getShortCode() + "/" + JLanguageTool.PATTERN_FILE);
+    if (dataBroker.ruleFileExists(getShortCode() + "/" + JLanguageTool.STYLE_FILE)) {
+      String customFile = dataBroker.getRulesDir() + "/" + getShortCode() + "/" + JLanguageTool.STYLE_FILE;
+      ruleFiles.add(customFile);
+    }
+    if (dataBroker.ruleFileExists(getShortCode() + "/" + JLanguageTool.CUSTOM_PATTERN_FILE)) {
+      String customFile = dataBroker.getRulesDir() + "/" + getShortCode() + "/" + JLanguageTool.CUSTOM_PATTERN_FILE;
+      ruleFiles.add(customFile);
+    }
     if (getShortCodeWithCountryAndVariant().length() > 2) {
       String fileName = getShortCode() + "/"
               + getShortCodeWithCountryAndVariant()
               + "/" + JLanguageTool.PATTERN_FILE;
       if (dataBroker.ruleFileExists(fileName)) {
         ruleFiles.add(dataBroker.getRulesDir() + "/" + fileName);
+      }
+      String styleFileName = getShortCode() + "/" + getShortCodeWithCountryAndVariant() + "/" + JLanguageTool.STYLE_FILE;
+      if (dataBroker.ruleFileExists(styleFileName)) {
+        ruleFiles.add(dataBroker.getRulesDir() + "/" + styleFileName);
       }
       String premiumFileName = getShortCode() + "/" + getShortCodeWithCountryAndVariant() + "/grammar-premium.xml";
       if (dataBroker.ruleFileExists(premiumFileName)) {
@@ -457,7 +459,6 @@ public abstract class Language {
     if (wordTokenizer == null) {
       wordTokenizer = createDefaultWordTokenizer();
     }
-
     return wordTokenizer;
   }
 
@@ -522,6 +523,18 @@ public abstract class Language {
    */
   public void setPostDisambiguationChunker(Chunker chunker) {
     postDisambiguationChunker = chunker;
+  }
+
+  /**
+   * Create a shared instance of JLanguageTool to use in rules for further processing
+   * Instances are shared by Language
+   * @since 6.1
+   * @return a shared JLanguageTool instance for this language
+   */
+  public JLanguageTool createDefaultJLanguageTool() {
+      Language self = this;
+      Class clazz = this.getClass();
+      return languagetoolInstances.computeIfAbsent(clazz, _class -> new JLanguageTool(self));
   }
 
   /**
@@ -903,7 +916,7 @@ public abstract class Language {
     return getShortCodeWithCountryAndVariant().hashCode();
   }
   
-  /*
+  /**
    * @since 5.1 
    * Some rules contain the field min_matches to check repeated patterns 
    */
@@ -911,9 +924,20 @@ public abstract class Language {
     return false;
   }
   
-  /** @since 5.6 */
+  /** 
+   * @since 5.6 
+   * Adjust suggestions depending on the enabled rules
+   */
   public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
 	  return ruleMatches;
+  }
+  
+  /**
+   * @since 6.0 
+   * Adjust suggestion 
+   */
+  public String adaptSuggestion(String s) {
+    return s;
   }
   
 }

@@ -18,7 +18,7 @@
  */
 package org.languagetool;
 
-import org.apache.commons.lang3.StringUtils;
+import org.languagetool.markup.AnnotatedText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,21 +37,34 @@ public class SentenceRange {
     this.fromPos = fromPos;
     this.toPos = toPos;
   }
-  
-  public static List<SentenceRange> getRangesFromSentences(List<String> sentences) {
+
+  public static List<SentenceRange> getRangesFromSentences(AnnotatedText annotatedText, List<String> sentences) {
     List<SentenceRange> sentenceRanges = new ArrayList<>();
     int pos = 0;
-    for (int i = 0; i < sentences.size(); i++) {
-        String sentence = sentences.get(i);
-        int origFromPos = pos;
-        int origToPos = pos + sentence.length();
-        
-        String trimStart = StringUtils.stripStart(sentence, null);
-        String trimEnd = StringUtils.stripEnd(sentence, null);
-        int newFromPosOffset = sentence.length() - trimStart.length();
-        int newToPosOffset = sentence.length() - trimEnd.length();
-        sentenceRanges.add(new SentenceRange(origFromPos + newFromPosOffset, origToPos - newToPosOffset));
-        pos += sentence.length();  
+    int diff = annotatedText.getTextWithMarkup().length() - annotatedText.getPlainText().length();
+    for (String sentence : sentences) {
+      if (sentence.trim().isEmpty()) {
+        //No content no sentence
+        pos += sentence.length();
+        continue;
+      }
+      //trim whitespaces
+      String sentenceNoBeginnWhitespace = sentence.replaceFirst("^\\s*", "");
+      String sentenceNoEndWhitespace = sentence.replaceFirst("\\s++$", "");
+      //Get position without tailing and leading whitespace
+      int fromPos = pos + (sentence.length() - sentenceNoBeginnWhitespace.length());
+      int toPos = pos + sentenceNoEndWhitespace.length();
+
+      int fromPosOrig = fromPos + diff;
+      int toPosOrig = toPos + diff;
+      if (fromPosOrig != annotatedText.getTextWithMarkup().length()) {
+        fromPosOrig = annotatedText.getOriginalTextPositionFor(fromPos, false);
+      }
+      if (toPosOrig != annotatedText.getTextWithMarkup().length()) {
+        toPosOrig = annotatedText.getOriginalTextPositionFor(toPos, true);
+      }
+      sentenceRanges.add(new SentenceRange(fromPosOrig, toPosOrig));
+      pos += sentence.length();
     }
     return sentenceRanges;
   }

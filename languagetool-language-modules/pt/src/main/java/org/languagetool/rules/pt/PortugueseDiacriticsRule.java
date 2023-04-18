@@ -55,6 +55,7 @@ public class PortugueseDiacriticsRule extends AbstractSimpleReplaceRule2 {
     setDefaultOff();
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
+    useSubRuleSpecificIds();
     addExamplePair(Example.wrong("<marker>coupe</marker>"),
                    Example.fixed("<marker>coupé</marker>"));
   }

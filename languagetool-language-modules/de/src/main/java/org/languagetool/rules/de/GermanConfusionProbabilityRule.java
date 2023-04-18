@@ -37,12 +37,19 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<Pattern> SENTENCE_EXCEPTION_PATTERNS = Arrays.asList(
     Pattern.compile("wir \\("),  // "Hallo, wir (die Dingsbums Gmbh)"
     Pattern.compile("Wie .*?en Sie"),  // "Wie heizen Sie das Haus?"
-    Pattern.compile("fiel(e|en)? .* (aus|auf)")
+    Pattern.compile("fiel(e|en)? .* (aus|auf)"),
+    Pattern.compile("(regnet|schneit)e? es viel"), // Schneit es viel im Herbst?
+    Pattern.compile("(regnet|schneit)e? es (im|jeden) [A-ZÄÖÜ][a-zäöü\\-ß]+ viel"), // In Hamburg regnet es im August viel.
+    Pattern.compile("viel in [A-ZÄÖÜ][a-zäöü\\-ß]+ unterwegs"), // "sodass Sie viel in Tirol unterwegs ist"
+    Pattern.compile("viel am [A-ZÄÖÜ][a-zäöü\\-ß]+"), // "sodass Sie viel am Lernen ist"
+    Pattern.compile("fiel .*in die Kategorie"), // vs "viel"
+    Pattern.compile("wie fiel das ins Gewicht") // vs "viel"
   );
 
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
+    "viel hin und her",
     "möglichkeit weißt",
     "du doch trotzdem",
     "wir stark ausgelastet sind",
@@ -116,6 +123,11 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "weißt ja, wie", // vs weist
     "weißt, dass", // vs weist
     "weißt ja, dass", // vs weist
+    "viel Spass", // vs fiel
+    "viel Bock", // vs fiel
+    "so viel", // vs fiel
+    "viel laenger", // vs fiel
+    "voll viel", // vs fiel
     "Vorgestern und Gestern" // vs Gesten
   );
 

@@ -172,7 +172,6 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishFile() throws Exception {
     String[] args = {"-l", "en", getTestFilePath()};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -183,7 +182,6 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishFileAutoDetect() throws Exception {
     String[] args = {"-adl", getTestFilePath()};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -196,7 +194,6 @@ public class MainTest extends AbstractSecurityTestCase {
     String test = "This is an test.";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-adl"};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -210,7 +207,6 @@ public class MainTest extends AbstractSecurityTestCase {
     String test = "Láska!\n";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "--level", "PICKY", "-m", "pl", "-"};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -222,7 +218,6 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishFileVerbose() throws Exception {
     String[] args = {"-l", "en", "-v", getTestFilePath()};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -235,7 +230,6 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishFileApplySuggestions() throws Exception {
     String[] args = {"-l", "en", "--apply", getTestFilePath()};
-
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertTrue(output.contains("This is a test.\n\n" +
@@ -248,7 +242,6 @@ public class MainTest extends AbstractSecurityTestCase {
     String test = "This is an test.";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en"};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -261,7 +254,6 @@ public class MainTest extends AbstractSecurityTestCase {
     String test = "This is an test.";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en", "-"};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -274,7 +266,6 @@ public class MainTest extends AbstractSecurityTestCase {
     String test = "This is an test.";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en", "-a", "-"};
-
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertEquals("This is a test.", output);
@@ -283,14 +274,19 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishStdIn4() throws Exception {
     System.setIn(new FileInputStream(enTestFile));
-    String[] args = {"-l", "en", "--api", "-"};
-
+    String[] args = {"-l", "en", "--json", "-"};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" " +
-        "tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" shortmsg=\"Word repetition\" " +
-        "replacements=\"is\" context=\"....  This is a test of of language tool.  This is is a test of language tool. \"" +
-        " contextoffset=\"48\" offset=\"60\" errorlength=\"5\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"duplication\"/>"));
+    assertTrue("Got: " + output, output.contains("{\"software\":{\"name\":\"LanguageTool\",\"version\":\""));
+    assertTrue("Got: " + output, output.contains("\"language\":{\"name\":\"English\",\"code\":\"en\""));
+    assertTrue("Got: " + output, output.contains("{\"message\":\"Use \\\"a\\\" instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'.\""));
+    assertTrue("Got: " + output, output.contains("\"replacements\":[{\"value\":\"a\"}]"));
+    assertTrue("Got: " + output, output.contains("\"offset\":8"));
+    assertTrue("Got: " + output, output.contains("\"length\":2,"));
+    assertTrue("Got: " + output, output.contains("\"context\":{\"text\":\"This is an test.  This is a test of of language tool.  ...\""));
+    assertTrue("Got: " + output, output.contains("{\"id\":\"EN_A_VS_AN\","));
+    assertTrue("Got: " + output, output.contains("{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}}"));
+    assertTrue("Got: " + output, output.contains("{\"id\":\"ENGLISH_WORD_REPEAT_RULE\""));
   }
   
   @Test
@@ -323,7 +319,6 @@ public class MainTest extends AbstractSecurityTestCase {
     String test = "This is what I mean\nand you know it.";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en", "-a", "-b", "-"};
-
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertEquals("This is what I mean\nAnd you know it.", output);
@@ -335,7 +330,6 @@ public class MainTest extends AbstractSecurityTestCase {
     String test = "This is what I mean\nand you know it.";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en", "-a", "-"};
-
     Main.main(args);
     String output = new String(this.out.toByteArray());
     assertEquals("This is what I mean\nand you know it.", output);
@@ -346,7 +340,6 @@ public class MainTest extends AbstractSecurityTestCase {
     String test = "To jest test, który zrobiłem, który mi się podoba.";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -359,24 +352,20 @@ public class MainTest extends AbstractSecurityTestCase {
   public void testPolishApiStdInDefaultOff() throws Exception {
     String test = "To jest test, który zrobiłem, który mi się podoba.";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
-    String[] args = {"--api", "-l", "pl", "-eo", "-e", "PL_WORD_REPEAT", "-"};
+    String[] args = {"--json", "-l", "pl", "-eo", "-e", "PL_WORD_REPEAT", "-"};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertThat(StringUtils.countMatches(output, "<error "), is(1));
-    assertThat(StringUtils.countMatches(output, "<matches "), is(1));
-    assertThat(StringUtils.countMatches(output, "</matches>"), is(1));  // https://github.com/languagetool-org/languagetool/issues/251
+    assertThat(StringUtils.countMatches(output, "\"PL_WORD_REPEAT\""), is(1));
   }
 
   @Test
   public void testPolishApiStdInDefaultOffNoErrors() throws Exception {
     String test = "To jest test.";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
-    String[] args = {"--api", "-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
+    String[] args = {"--json", "-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertThat(StringUtils.countMatches(output, "<error "), is(0));
-    assertThat(StringUtils.countMatches(output, "<matches "), is(1));
-    assertThat(StringUtils.countMatches(output, "</matches>"), is(1));
+    assertThat(StringUtils.countMatches(output, "\"PL_WORD_REPEAT\""), is(0));
   }
 
   @Test
@@ -384,7 +373,6 @@ public class MainTest extends AbstractSecurityTestCase {
     String test = "Zwuasdac?";
     System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "pl", "-e", "MORFOLOGIK_RULE_PL_PL", "-"};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -396,7 +384,6 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishFileRuleDisabled() throws Exception {
     String[] args = {"-l", "en", "-d", "EN_A_VS_AN", getTestFilePath()};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -407,7 +394,6 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishFileRuleEnabled() throws Exception {
     String[] args = {"-l", "en", "-e", "EN_A_VS_AN", getTestFilePath()};
-
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
@@ -427,28 +413,22 @@ public class MainTest extends AbstractSecurityTestCase {
 
   @Test
   public void testEnglishFileAPI() throws Exception {
-    String[] args = {"-l", "en", "--api", getTestFilePath()};
+    String[] args = {"-l", "en", "--json", getTestFilePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
-    assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"10\" ruleId=\"EN_A_VS_AN\" " +
-        "msg=\"Use &apos;a&apos; instead of &apos;an&apos; if the following word doesn&apos;t start with a vowel sound, e.g. &apos;a sentence&apos;, " +
-        "&apos;a university&apos;.\" " +
-        "shortmsg=\"Wrong article\" " +
-        "replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" " +
-        "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"https://languagetool.org/insights/post/indefinite-articles/\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>"));
+    assertTrue(output.contains("\"EN_A_VS_AN\""));
+    assertTrue(output.contains("\"MISC\""));
+    assertTrue(output.contains("https://languagetool.org/insights/post/indefinite-articles/"));
   }
 
   @Test
   public void testGermanFileWithURL() throws Exception {
     File input = writeToTempFile("Ward ihr zufrieden damit?");
-    String[] args = {"-l", "de", "--api", input.getAbsolutePath()};
+    String[] args = {"-l", "de", "--json", input.getAbsolutePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
-    assertTrue(output.contains("ruleId=\"WARD_VS_WART\" subId=\"1\""));
-    //check URL part
-    assertTrue(output.contains("url=\"https://www.korrekturen.de/beliebte_fehler/ward.shtml\""));
+    assertTrue(output.contains("\"WARD_VS_WART\""));
+    assertTrue(output.contains("https://www.korrekturen.de/beliebte_fehler/ward.shtml"));
 
     //now check in normal mode and check for URL
     String[] args2 = {"-l", "de", input.getAbsolutePath()};
@@ -460,16 +440,14 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testPolishFileAPI() throws Exception {
     File input = writeToTempFile("To jest świnia która się ślini.");
-    String[] args = {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
+    String[] args = {"-l", "pl", "--json", "-c", "utf-8", input.getAbsolutePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray(), StandardCharsets.UTF_8);
-    assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
-    assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"20\" ruleId=\"BRAK_PRZECINKA_KTORY\""));
-    //This tests whether XML encoding is actually UTF-8:
-    assertTrue(output.contains("msg=\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: &apos;świnia, która&apos;.\""));
-    assertTrue(output.contains("replacements=\"świnia, która\" "));
-    assertTrue(output.contains("context=\"To jest świnia która się ślini."));
-    assertTrue(output.contains("contextoffset=\"8\" offset=\"8\" errorlength=\"12\" category=\"Błędy interpunkcyjne\""));
+    assertTrue(output.contains("BRAK_PRZECINKA_KTORY"));
+    assertTrue(output.contains("\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak"));
+    assertTrue(output.contains("\"świnia, która\""));
+    assertTrue(output.contains("\"To jest świnia która się ślini."));
+    assertTrue(output.contains("\"Błędy interpunkcyjne\""));
   }
 
   @Test
@@ -508,7 +486,6 @@ public class MainTest extends AbstractSecurityTestCase {
         "This is not actual.\tTo nie jest aktualne.\n" +
             "Test\tTest\n" +
         "ab\tVery strange data indeed, much longer than input");
-
     String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", input.getAbsolutePath()};
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
@@ -525,7 +502,6 @@ public class MainTest extends AbstractSecurityTestCase {
         "this is not actual.\tTo nie jest aktualne.\n" +
             "test\tTest\n" +
         "ab\tVery strange data indeed, much longer than input");
-
     String[] args = {"-l", "pl", "--bitext", "-m", "en", "-d", "UPPERCASE_SENTENCE_START,TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
@@ -542,7 +518,6 @@ public class MainTest extends AbstractSecurityTestCase {
         "this is not actual.\tTo nie jest aktualne.\n" +
             "test\tTest\n" +
         "ab\tVery strange data indeed, much longer than input");
-
     String[] args = {"-l", "pl", "--bitext", "-m", "en", "-e", "TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
     String stdout = new String(this.out.toByteArray());

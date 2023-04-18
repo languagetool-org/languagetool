@@ -30,8 +30,6 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
 import org.languagetool.rules.en.LongSentenceRule;
-import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
@@ -44,17 +42,19 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
+import org.languagetool.tools.Tools;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+
+import static java.util.Arrays.asList;
 
 /**
  * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
@@ -129,7 +129,7 @@ public class English extends Language implements AutoCloseable {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new EnglishSynthesizer(this);
+    return EnglishSynthesizer.INSTANCE;
   }
 
   @Override
@@ -146,11 +146,6 @@ public class English extends Language implements AutoCloseable {
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
-  }
-
-  @Override
-  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
-    return new Word2VecModel(indexDir + File.separator + getShortCode());
   }
 
   @Override
@@ -173,14 +168,15 @@ public class English extends Language implements AutoCloseable {
         allRules.addAll(cache.getUnchecked("/org/languagetool/rules/en/grammar-l2-fr.xml"));
       }
     }
-    allRules.addAll(Arrays.asList(
+    allRules.addAll(asList(
         new CommaWhitespaceRule(messages,
                 Example.wrong("We had coffee<marker> ,</marker> cheese and crackers and grapes."),
                 Example.fixed("We had coffee<marker>,</marker> cheese and crackers and grapes.")),
-        new DoublePunctuationRule(messages),
+        new DoublePunctuationRule(messages, Tools.getUrl("https://languagetool.org/insights/post/punctuation-guide/#what-are-periods")),
         new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("This house is old. <marker>it</marker> was built in 1950."),
-                Example.fixed("This house is old. <marker>It</marker> was built in 1950.")),
+                Example.fixed("This house is old. <marker>It</marker> was built in 1950."),
+                Tools.getUrl("https://languagetool.org/insights/post/spelling-capital-letters/")),
         new MultipleWhitespaceRule(messages, this),
         new SentenceWhitespaceRule(messages),
         new WhiteSpaceBeforeParagraphEnd(messages, this),
@@ -217,7 +213,7 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.asList(
+    return asList(
         new UpperCaseNgramRule(messages, languageModel, this, userConfig),
         new EnglishConfusionProbabilityRule(messages, languageModel, this),
         new EnglishNgramProbabilityRule(messages, languageModel, this)
@@ -226,27 +222,18 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel lm, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    if (lm != null && motherTongue != null && "fr".equals(motherTongue.getShortCode())) {
-      return Arrays.asList(
-          new EnglishForFrenchFalseFriendRule(messages, lm, motherTongue, this)
-      );
+    if (lm != null && motherTongue != null) {
+      if ("fr".equals(motherTongue.getShortCode())) {
+        return asList(new EnglishForFrenchFalseFriendRule(messages, lm, motherTongue, this));
+      } else if ("de".equals(motherTongue.getShortCode())) {
+        return asList(new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this));
+      } else if ("es".equals(motherTongue.getShortCode())) {
+        return asList(new EnglishForSpaniardsFalseFriendRule(messages, lm, motherTongue, this));
+      } else if ("nl".equals(motherTongue.getShortCode())) {
+        return asList(new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this));
+      }
     }
-    if (lm != null && motherTongue != null && "de".equals(motherTongue.getShortCode())) {
-      return Arrays.asList(
-          new EnglishForGermansFalseFriendRule(messages, lm, motherTongue, this)
-      );
-    }
-    if (lm != null && motherTongue != null && "es".equals(motherTongue.getShortCode())) {
-      return Arrays.asList(
-          new EnglishForSpaniardsFalseFriendRule(messages, lm, motherTongue, this)
-      );
-    }
-    if (lm != null && motherTongue != null && "nl".equals(motherTongue.getShortCode())) {
-      return Arrays.asList(
-          new EnglishForDutchmenFalseFriendRule(messages, lm, motherTongue, this)
-      );
-    }
-    return Arrays.asList();
+    return asList();
   }
 
   @Override
@@ -258,11 +245,6 @@ public class English extends Language implements AutoCloseable {
       "fr".equals(motherTongue.getShortCode()) ||
       "es".equals(motherTongue.getShortCode()) ||
       "nl".equals(motherTongue.getShortCode()));
-  }
-
-  @Override
-  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
   }
 
   /** @since 5.1 */
@@ -321,23 +303,38 @@ public class English extends Language implements AutoCloseable {
       case "IF_YOU_FURTHER_QUESTIONS":  return 3;   // higher prio than agreement rules and AI
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
+      case "READ_ONLY_ACCESS_HYPHEN":   return 2;   // higher priority than agreement rules
+      case "MAKE_OR_BREAK_HYPHEN":   return 2;   // higher priority than agreement rules
+      case "LINKED_IN":                 return 2;   // higher prio than agreement rules
+      case "I_A_M":                     return 1;   // higher prio than EN_A_VS_AN
+      case "ACCESS_EXCESS":             return 1;   // higher prio than A_UNCOUNTABLE
+      case "PRP_ABLE_TO":               return 1;   // higher prio than AI_HYDRA_LEO_CP_YOU.*
+      case "WEE_WE":                    return 1;   // higher prio than INTERJECTIONS_PUNCTUATION
+      case "CAN_MISSPELLING":           return 1;   // higher prio than COM_COME
       case "FOR_THE_MOST_PART2":        return 1;   // higher prio than FOR_THE_MOST_PART
       case "FACE_TO_FACE_HYPHEN":       return 1;   // higher prio than THIS_NNS
       case "RUN_ON":                    return 1;   // higher prio than TOO_LONG_SENTENCE
       case "ON_THE_LOOK_OUT":           return 1;   // higher prio than VERB_NOUN_CONFUSION
       case "APOSTROPHE_IN_DAYS":        return 1;   // higher prio than A_NNS
+      case "SAFE_GUARD_COMPOUND":       return 1;   // higher prio than some agreement rules
+      case "EVEN_HANDED_HYPHEN":        return 1;   // higher prio than some agreement rules
+      case "GET_TOGETHER_HYPHEN":       return 1;   // higher prio than some agreement rules
+      case "GOT_HERE":                  return 1;   // higher prio than GET_VBN and HEAR_HERE
       case "PICTURE_PERFECT_HYPHEN":    return 1;   // higher prio than some agreement rules
+      case "SEEM_SEEN":    return 1;   // higher prio than some agreement rules (e.g. PRP_HAVE_VB)
       case "SAVE_SAFE":                 return 1;   // higher prio than agreement rules
       case "FEDEX":                     return 2;   // higher prio than many verb rules (e.g. MD_BASEFORM)
       case "DROP_DEAD_HYPHEN":          return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
       case "HEAR_HERE":                 return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
       case "THE_FRENCH":                return 1;   // higher prio than agreement rules (e.g. I_AM_VB)
       case "A_HEADS_UP":                return 1;   // higher prio than some plural agreement rules (e.g. THERE_S_MANY)
+      case "UNITES_UNITED":             return 1;   // higher prio than IS_VBZ
       case "THIS_MISSING_VERB":         return 1;   // higher priority than A_MY
       case "YOURE":                     return 1;   // prefer over EN_CONTRACTION_SPELLING
       case "LIFE_COMPOUNDS":            return 1;
       case "DRIVE_THROUGH_HYPHEN":      return 1;   // higher prio than agreement rules
       case "CAUSE_COURSE":              return 1;   // higher prio than CAUSE_BECAUSE
+      case "THANK_YOUR":                return 1;   // higher prio than POSSESSIVE_DETERMINER_SENT_END
       case "AN_AND":                    return 1;   // higher prio than A_MY and DT_PRP
       case "HER_S":                     return 1;   // higher prio than THEIR_S
       case "ONE_TO_MANY_HYPHEN":        return 1;   // higher prio than TO_TOO
@@ -365,9 +362,10 @@ public class English extends Language implements AutoCloseable {
       case "QUIET_QUITE":               return 1;   // higher prio than A_QUITE_WHILE
       case "A_OK":                      return 1;   // prefer over A_AN
       case "I_A":                       return 1;   // higher prio than I_IF
+      case "NO_GOOD":                   return 1;   // higher prio than I_IF
+      case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
       case "GOT_GO":                    return 1;   // higher prio than MD_BASEFORM
       case "THERE_FORE":                return 1;   // higher prio than FORE_FOR
-      case "PRP_NO_VB":                 return 1;   // higher prio than I_IF
       case "FOLLOW_UP":                 return 1;   // higher prio than MANY_NN
       case "IT_SOMETHING":              return 1;   // higher prio than IF_YOU_ANY and IT_THE_PRP
       case "NO_KNOW":                   return 1;   // higher prio than DOUBLE_NEGATIVE
@@ -395,7 +393,8 @@ public class English extends Language implements AutoCloseable {
       case "A_SNICKERS":                return 1;   // higher prio than A_NNS
       case "ROUND_A_BOUT":              return 1;   // higher prio than A_NNS
       case "A_NNS_BEST_NN":             return 1;   // higher prio than A_NNS
-      case "A_BACHELORS_IN":            return 1;   // higher prio than A_NNS
+      case "BACHELORS":                 return 1;   // higher prio than A_NNS
+      case "WERE_WEAR":                 return 1;   // higher prio than agreement rules
       case "NEITHER_NOR":               return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
       case "FOR_AWHILE":                return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
       case "A_BUT":                     return 1;   // higher prio than COMMA_COMPOUND_SENTENCE
@@ -405,11 +404,14 @@ public class English extends Language implements AutoCloseable {
       case "INCORRECT_POSSESSIVE_APOSTROPHE": return 1;  // higher prio than THIS_NNS
       case "THIS_YEARS_POSSESSIVE_APOSTROPHE": return 1;  // higher prio than THIS_NNS
       case "SPURIOUS_APOSTROPHE":       return 1;   // higher prio than THIS_NNS
+      case "BE_NOT_BE_JJ":       return 1;   // higher prio than BEEN_PART_AGREEMENT
       case "IN_THIS_REGARDS":           return 1;   // higher prio than THIS_NNS
       case "IT_SEAMS":                  return 1;   // higher prio than THIS_NNS_VB
       case "NO_WHERE":                  return 1;   // higher prio than NOW
       case "APOSTROPHE_VS_QUOTE":       return 1;   // higher prio than EN_QUOTES
+      case "ALL_OF_SUDDEN":             return 1;   // higher prio than ALL_MOST_SOME_OF_NOUN
       case "COMMA_PERIOD":              return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
+      case "COMMA_CLOSING_PARENTHESIS": return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
       case "HERE_HEAR":                 return 1;   // higher prio than ENGLISH_WORD_REPEAT_RULE
       case "MISSING_POSS_APOS":         return 1;   // higher prio than SINGULAR_NOUN_VERB_AGREEMENT
       case "DO_HE_VERB":                return 1;   // prefer over HE_VERB_AGR
@@ -441,7 +443,7 @@ public class English extends Language implements AutoCloseable {
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
       case "ULTRA_HYPHEN":              return 1;   // prefer over EN_COMPOUND_ADJECTIVE_INTERNAL
       case "THINK_BELIEVE_THAT":        return 1;
-      case "IF_DT_NN_VBZ":              return -1;  // prefer IF_PLEASE_COMMA
+      case "HAS_TO_APPROVED_BY":        return 1;   // prefer over TO_NON_BASE
       case "MD_VBD":                    return -1;  // prefer LOWERCASE_MONTHS
       case "PRP_PRP":                   return -1;  // prefer other rules that give a suggestion
       case "IS_LIKELY_TO_BE":           return -1;  // give IS_RB_BE precedence (more suggestions)
@@ -453,6 +455,7 @@ public class English extends Language implements AutoCloseable {
       case "EN_DIACRITICS_REPLACE":     return -1;   // prefer over spell checker
       case "MISSING_COMMA_BETWEEN_DAY_AND_YEAR":     return -1;   // less priority than DATE_WEEKDAY
       case "FASTLY":                    return -1;   // higher prio than spell checker
+      case "WHO_NOUN":                    return -1;   // prefer SPECIFIC_CASE
       case "ANYWAYS":                   return -1;   // higher prio than spell checker
       case "MISSING_GENITIVE":          return -1;  // prefer over spell checker (like EN_SPECIFIC_CASE)
       case "EN_UNPAIRED_BRACKETS":      return -1;  // less priority than rules that suggest the correct brackets
@@ -474,7 +477,6 @@ public class English extends Language implements AutoCloseable {
       case "ADVERB_WORD_ORDER":         return -1;  // less prio than PRP_PAST_PART //
       case "HAVE_VB_DT":                return -1;
       case "MD_PRP":                    return -1;  // prefer ME_BE
-      case "HAVE_TO_NOTVB":             return -1;
       case "IT_IS_2":                   return -1;  // needs higher prio than BEEN_PART_AGREEMENT
       case "A_RB_NN":                   return -1;  // prefer other more specific rules (e.g. QUIET_QUITE, A_QUITE_WHILE)
       case "DT_RB_IN":                  return -1;  // prefer other more specific rules
@@ -502,14 +504,13 @@ public class English extends Language implements AutoCloseable {
       case "NON3PRS_VERB":              return -1;  // prefer other more specific rules (with suggestions, e.g. DONS_T)
       case "DT_NN_VBG":                 return -1;  // prefer other more specific rules (with suggestions)
       case "NNS_THAT_ARE_JJ":           return -1;  // prefer other more specific rules
-      case "MISSING_SUBJECT":           return -1;  // prefer other more specific rules
       case "DID_FOUND_AMBIGUOUS":       return -1;  // prefer other more specific rules (e.g. TWO_CONNECTED_MODAL_VERBS)
       case "BE_I_BE_GERUND":            return -1;  // prefer other more specific rules (with suggestions)
       case "VBZ_VBD":                   return -1;  // prefer other more specific rules (e.g. IS_WAS)
       case "SUPERLATIVE_THAN":          return -1;  // prefer other more specific rules
       case "UNLIKELY_OPENING_PUNCTUATION": return -1;  // prefer other more specific rules
       case "MD_DT_JJ":                  return -1;  // prefer other more specific rules
-      case "CC_PRP_ARTICLE":            return -1;  // prefer other more specific rules
+      case "I_IF":                      return -1;  // prefer other more specific rules
       case "NOUNPHRASE_VB_RB_DT":       return -1;  // prefer other more specific rules
       case "SENT_START_NN_NN_VB":       return -1;  // prefer other more specific rules
       case "VB_A_JJ_NNS":               return -1;  // prefer other more specific rules (e.g. A_NNS)
@@ -527,9 +528,10 @@ public class English extends Language implements AutoCloseable {
       case "CONFUSION_OF_A_JJ_NNP_NNS_PRP": return -1;  // prefer other more specific rules
       case "PLURALITY_CONFUSION_OF_NNS_OF_NN": return -1; // prefer several compound rules
       case "NP_TO_IS":                  return -1;  // prefer other more specific rules
+      case "REPEATED_VERBS":            return -1;  // prefer other rules
+      case "MD_JJ":                     return -2;  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
       case "NNP_COMMA_QUESTION":        return -2;  // prefer other more specific rules
       case "VB_TO_NN_DT":               return -2;  // prefer other more specific rules (e.g. NOUN_VERB_CONFUSION)
-      case "REPEATED_VERBS":            return -1;  // prefer other rules
       case "THE_CC":                    return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
@@ -538,8 +540,8 @@ public class English extends Language implements AutoCloseable {
       case "CANT_JJ":                   return -2;  // prefer other more specific rules
       case "WOULD_A":                   return -2;  // prefer other more specific rules
       case "I_AM_VB":                   return -2;  // prefer other rules
-      case "MD_PRP_QUESTION_MARK":      return -2;  // less prio than YOU_YOUR and YOU_YOUR_2
       case "BE_VBP_IN":                 return -2;  // prefer over BEEN_PART_AGREEMENT
+      case "VBP_VBP":                 return -2;  // prefer more specific rules
       case "GONNA_TEMP":                return -3;
       case "A_INFINITIVE":              return -3;  // prefer other more specific rules (with suggestions, e.g. PREPOSITION_VERB, THE_TO)
       case "HE_VERB_AGR":               return -3;  // prefer other more specific rules (e.g. PRP_VBG)
@@ -548,7 +550,6 @@ public class English extends Language implements AutoCloseable {
       case "DO_PRP_NOTVB":              return -3;  // prefer other more specific rules (e.g. HOW_DO_I_VB)
       case "ARTICLE_VB":                return -3;  // prefer A_INFINITIVE and other more specific rules (with suggestions)
       case "PRP_A":                     return -4;  // prefer other more specific rules (e.g. I_AN, PRP_JJ)
-      case "PRP_NO_ADVERB_VERB":        return -4;  // prefer other more specific rules (e.g. PRP_VBG, IT_ITS, ...)
       case "PRP_THE":                   return -4;  // prefer other rules (e.g. I_A, PRP_JJ, IF_YOU_ANY, I_AN)
       case "GONNA":                     return -4;  // prefer over spelling rules
       case "WHATCHA":                   return -4;  // prefer over spelling rules
@@ -558,7 +559,6 @@ public class English extends Language implements AutoCloseable {
       case "Y_ALL":                     return -4;  // prefer over spelling rules
       case "GIMME":                     return -4;  // prefer over spelling rules
       case "LEMME":                     return -4;  // prefer over spelling rules
-      case "POSSESSIVE_APOSTROPHE":     return -4;  // prefer some agreement rules
       case "EN_GB_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
       case "EN_US_SIMPLE_REPLACE":      return -5;  // higher prio than Speller
       case "HAVE_PART_AGREEMENT":       return -9;  // prefer HYDRA_LEO
@@ -569,12 +569,21 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_ZA":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
+      case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
       case "BE_WITH_WRONG_VERB_FORM":   return -11;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
+      case "IF_DT_NN_VBZ":             return -12;  // prefer HYDRA_LEO
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
       case "TWO_CONNECTED_MODAL_VERBS": return -15;
+      case "PRP_NO_ADVERB_VERB":        return -15;  // prefer other more specific rules (e.g. PRP_VBG, IT_ITS, ...)
+      case "MISSING_TO_BETWEEN_BE_AND_VB": return -15; // prefer AI and comma rules
+      case "IN_DT_IN": return -15; // prefer AI and comma rules
+      case "MISSING_SUBJECT":           return -15;  // prefer other more specific rules
+      case "HAVE_TO_NOTVB":             return -15; // prefer AI and comma rules
+      case "CC_PRP_ARTICLE":            return -15;  // prefer other more specific rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
+      case "POSSESSIVE_APOSTROPHE":     return -10;  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
       case "CONFUSION_RULE":            return -20;
       case "PRP_VB_IMPROVE":            return -24;  // higher prio than PRP_VB but prefer other rules (with suggestions, e.g. confusion rules)
       case "WANT_TO_NN":                return -25;  // prefer more specific rules that give a suggestion
@@ -592,6 +601,8 @@ public class English extends Language implements AutoCloseable {
       case "KNOW_AWARE_REDO":           return -60;
       case "EN_REDUNDANCY_REPLACE":     return -510;  // style rules should always have the lowest priority.
       case "EN_PLAIN_ENGLISH_REPLACE":  return -511;  // style rules should always have the lowest priority.
+      case "REP_PASSIVE_VOICE":         return -599;  // higher prio than PASSIVE_VOICE for testing purposes, but lower than other style rules
+      case "FOUR_NN":                   return -599;  // higher prio than THREE_NN for testing purposes, but lower than other style rules
       case "THREE_NN":                  return -600;  // style rules should always have the lowest priority.
       case "SENT_START_NUM":            return -600;  // style rules should always have the lowest priority.
       case "PASSIVE_VOICE":             return -600;  // style rules should always have the lowest priority.
@@ -609,18 +620,21 @@ public class English extends Language implements AutoCloseable {
       return -9; // higher than MORFOLOGIK_*, for testing
     }
     if (id.startsWith("AI_HYDRA_LEO")) { // prefer more specific rules (also speller)
+      if (id.startsWith("AI_HYDRA_LEO_CP_YOU_YOUARE")) {
+        return -1;
+      }
       if (id.startsWith("AI_HYDRA_LEO_CP")) {
         return 2;
       }
-      if (id.startsWith("AI_HYDRA_LEO_CP_YOU")) {
-        return 1;
+      if (id.startsWith("AI_HYDRA_LEO_SCY_IT_S")) {
+        return 3;
       }
       if (id.startsWith("AI_HYDRA_LEO_MISSING_A")) {
         return -8; // higher prio than BEEN_PART_AGREEMENT and HAVE_BEEN_AGREEMENT
       }
       return -11;
     }
-    if (id.startsWith("AI_EN_G_")) { // prefer more specific rules (also speller)
+    if (id.startsWith("AI_EN_LECTOR")) { // prefer more specific rules (also speller)
       return -21;
     }
     if (id.matches("EN_FOR_[A-Z]+_SPEAKERS_FALSE_FRIENDS.*")) {

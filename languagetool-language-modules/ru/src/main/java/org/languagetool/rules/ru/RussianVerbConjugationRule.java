@@ -87,7 +87,7 @@ public class RussianVerbConjugationRule extends Rule {
                             }
                     String nextToken = nextLemmaTok.getToken();
                     String nextPosTag = nextLemmaTok.getPOSTag();
-                    if(nextPosTag != null && !(nextPosTag.isEmpty()) && !(next2Token.equals("быть")) && !(nextToken.equals("целую")) ) {  //  "может быть"
+                    if(nextPosTag != null && !(nextPosTag.isEmpty()) && !(next2Token.equals("быть") && nextToken.equals("может")) && !(nextToken.equals("целую")) ) {  //  "может быть"
                         Matcher verbMatcher = FUT_REAL_VERB.matcher(nextPosTag);
                         if (verbMatcher.find()) {
                             Pair<String, String> verbPair = new ImmutablePair<>(verbMatcher.group(4), verbMatcher.group(5));

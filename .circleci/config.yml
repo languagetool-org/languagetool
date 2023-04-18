@@ -3,10 +3,18 @@ parameters:
   run_on_pull:
     default: true
     type: boolean
-orbs:
-  shallow-checkout: expo/shallow-checkout@1.0.2
+#orbs:
+#  shallow-checkout: expo/shallow-checkout@1.0.2
 workflows:
   version: 2
+  security-scan-workflow:
+    # run when triggered by scheduled
+    when:
+      and:
+        - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+        - equal: [ "RunSecurityScan", << pipeline.schedule.name >> ]
+    jobs:
+      - security-scan
   scheduled-workflow:
     # run when triggered by scheduled 
     when:
@@ -35,12 +43,26 @@ workflows:
     jobs:
       - test-and-deploy-partial          
 jobs:
-  test-and-deploy-full:
+  security-scan:
     resource_class: medium
     executor:
       name: docker-openjdk11
     environment:
-      MAVEN_OPTS: -Xmx3200m
+      MAVEN_OPTS: -Xmx3500m
+    steps:
+      - custom-checkout
+      - run:
+          name: Scan dependencies
+          command: |
+            cd $CIRCLE_WORKING_DIRECTORY && mvn -s .circleci.settings.xml clean dependency-check:aggregate
+      - store_artifacts:
+          path: $CIRCLE_WORKING_DIRECTORY/target/dependency-check-report.html
+  test-and-deploy-full:
+    resource_class: medium+
+    executor:
+      name: docker-openjdk11
+    environment:
+      MAVEN_OPTS: -Xmx3500m
     steps:
       - custom-checkout
       - install-project
@@ -58,11 +80,11 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}
   test-and-deploy-partial:
-    resource_class: medium
+    resource_class: medium+
     executor: 
       name: docker-openjdk11
     environment: 
-      MAVEN_OPTS: -Xmx3200m
+      MAVEN_OPTS: -Xmx3500m
     steps:
       - custom-checkout
       - get-diffs
@@ -85,7 +107,57 @@ commands:
   custom-checkout:
     description: My custom checkout
     steps:
-      - shallow-checkout/checkout
+      - run:
+          name: Checkout code (shallow)
+          command: |
+            # This command has been copied from the `orb` expo/shallow-checkout@1.0.2 
+            
+            mkdir -p ~/.ssh
+            
+            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=' >> ~/.ssh/known_hosts
+            
+            (umask 077; touch ~/.ssh/id_rsa)
+            chmod 0600 ~/.ssh/id_rsa
+            (cat \<<EOF > ~/.ssh/id_rsa
+            $CHECKOUT_KEY
+            EOF
+            )
+            
+            # use git+ssh instead of https
+            git config --global url."ssh://git@github.com".insteadOf "https://github.com" || true
+            git config --global gc.auto 0 || true
+            
+            if [ -e $CIRCLE_WORKING_DIRECTORY/.git ]
+            then
+              cd $CIRCLE_WORKING_DIRECTORY
+              git remote set-url origin "$CIRCLE_REPOSITORY_URL" || true
+            else
+              mkdir -p $CIRCLE_WORKING_DIRECTORY
+              cd $CIRCLE_WORKING_DIRECTORY
+              git clone --depth=10 "$CIRCLE_REPOSITORY_URL" .
+            fi
+            
+            if [ -n "$CIRCLE_TAG" ]
+            then
+              git fetch --depth=10 --force origin "refs/tags/${CIRCLE_TAG}"
+            elif [[ "$CIRCLE_BRANCH" =~ ^pull\/* ]]
+            then
+              # For PR from Fork
+              git fetch --depth=10 --force origin "$CIRCLE_BRANCH/head:remotes/origin/$CIRCLE_BRANCH"
+            else
+              git fetch --depth=10 --force origin "$CIRCLE_BRANCH:remotes/origin/$CIRCLE_BRANCH"
+            fi
+            
+            if [ -n "$CIRCLE_TAG" ]
+            then
+              git reset --hard "$CIRCLE_SHA1"
+              git checkout -q "$CIRCLE_TAG"
+            elif [ -n "$CIRCLE_BRANCH" ]
+            then
+              git checkout -B "$CIRCLE_BRANCH" "$CIRCLE_SHA1"
+            fi
+            
+            git reset --hard "$CIRCLE_SHA1"
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "/home/circleci/project/~/project/pom.xml" }}

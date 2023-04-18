@@ -51,6 +51,7 @@ public class UppercaseSentenceStartRuleTest {
     assertGood("eBay can be at sentence start in lowercase.");
     assertGood("¿Esto es una pregunta?");
     assertGood("¿Esto es una pregunta?, ¿y esto?");
+    assertGood("ø This is a test sentence with a wrong bullet character.");
     
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.analyzeText("this is a test sentence."));

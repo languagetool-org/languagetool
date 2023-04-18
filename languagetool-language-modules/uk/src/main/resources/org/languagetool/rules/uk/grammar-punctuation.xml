@@ -2368,6 +2368,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="comma_tomuscho" name="Потрібна кома перед або всередині «тому що»">
+      <rule>
+        <pattern>
+          <token>тому
+            <exception scope="previous">,</exception>
+            <exception scope="previous" postag="SENT_START"/>
+          </token>
+          <token>що</token>
+        </pattern>
+        <message>Якщо «тому що» можна замінити на «бо», кому ставимо перед «тому що». Якщо ж така заміна неможлива, але можна поставити запитання до слова «тому», кома має стояти після «тому».</message>
+        <suggestion>, \1 \2</suggestion>
+        <suggestion>\1, \2</suggestion>
+        <example correction=", тому що|тому, що">спізнився<marker> тому що</marker> проспав.</example>
+        <example correction=", тому що|тому, що">спізнився не<marker> тому що</marker> проспав, ...</example>
+        <example>Тому що ми застрягли</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="chy_chy" name="Кома: чи ... чи">
+      <rule>
+        <pattern>
+          <token>чи</token>
+          <token max="5"><exception regexp="yes">[,;:-]|чи</exception></token>
+          <marker>
+            <token>чи</token>
+          </marker>
+        </pattern>
+        <message>Перед повторюваним сполучником чи ставимо кому</message>
+        <suggestion>, \3</suggestion>
+        <example correction=", чи">чи літо<marker> чи</marker> зима.</example>
+        <example correction=", чи">чи холодне літо<marker> чи</marker> зима.</example>
+        <example><marker>чи холодне літо; чи вже прилетіли птахи</marker> зима.</example>
+      </rule>
+    </rulegroup>
+
   <!-- 
       <rule>
         <pattern>

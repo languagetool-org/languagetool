@@ -28,6 +28,8 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 import java.io.IOException;
@@ -60,6 +62,23 @@ public class CompoundInfinitivRule extends Rule {
       token("Nummer"),
       token("sicher"),
       token("zu")
+    ),
+    Arrays.asList(  // "Der diensthabende Kollege hatte ganz schön zu tun."
+      token("ganz"),
+      token("schön"),
+      token("zu")
+    ),
+    Arrays.asList(  // "Fang dort an zu lesen, wo du aufgehört hast."
+      tokenRegex("fang|fängst|fängt|fangt|fangen|fing|fingen"),
+      posRegex("ADV.*"),
+      token("an"),
+      token("zu")
+    ),
+    Arrays.asList(  // "Hab keine Lust, mir Gedanken darüber zu machen."
+      token("Gedanken"),
+      tokenRegex("dazu|darüber"),
+      token("zu"),
+      token("machen")
     ),
     Arrays.asList(  // "um dort die Nacht über zu stehen."
       tokenRegex("Spiel|Tag|Nacht|Morgen|Nachmittag|Abend|Zeit|.+zeit"),
@@ -146,7 +165,7 @@ public class CompoundInfinitivRule extends Rule {
     } else {
       linguServices = null;
     }
-    setUrl(Tools.getUrl("https://www.duden.de/sprachwissen/sprachratgeber/Infinitiv-mit-zu"));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/de/beitrag/zu-zusammen-oder-getrennt/"));
     antiPatterns = cacheAntiPatterns(lang, ANTI_PATTERNS);
   }
 

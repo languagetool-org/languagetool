@@ -51,7 +51,12 @@ public class SpanishTagger extends BaseTagger {
   private static final Pattern ADJ_MS = Pattern.compile("AQ.MS.|AQ.CS.|AQ.MN.");
   private static final Pattern NO_PREFIXES_FOR_ADJ = Pattern.compile("(anti|pre|ex|pro|afro|ultra|super|súper)",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-    
+  
+  // adjectives with prefix + more than two syllables
+  private static final Pattern PREFIXES_FOR_ADJECTIVES = Pattern
+      .compile("(super)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern ADJ_VP = Pattern.compile("AQ.*|V.P.*");
+  
   public SpanishTagger() {
     super("/es/es-ES.dict", new Locale("es"));
   }
@@ -151,6 +156,25 @@ public class SpanishTagger extends BaseTagger {
         final String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
           final Matcher m = VERB.matcher(posTag);
+          if (m.matches()) {
+            String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+          }
+        }
+      }
+      return additionalTaggedTokens;
+    }
+    
+     // Any well-formed adejctive with prefixes is tagged as a verb copying the original
+    // tags
+    matcher = PREFIXES_FOR_ADJECTIVES.matcher(word);
+    if (matcher.matches()) {
+      final String possibleVerb = matcher.group(2).toLowerCase();
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
+      for (AnalyzedToken taggerToken : taggerTokens) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = ADJ_VP.matcher(posTag);
           if (m.matches()) {
             String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));

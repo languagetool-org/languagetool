@@ -19,12 +19,15 @@
 package org.languagetool.synthesis;
 
 import gnu.trove.THashSet;
-
+import gnu.trove.TIntIntHashMap;
+import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TIntObjectProcedure;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.TaggedWord;
-import org.languagetool.tools.MostlySingularMultiMap;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -44,18 +47,79 @@ import java.util.function.Function;
  * @see BaseSynthesizer
  */
 public final class ManualSynthesizer {
-
-  /** a map with the key composed by the lemma and POS. The values are inflected forms. */
-  private final MostlySingularMultiMap<TaggedWord, String> mapping;
   private final Set<String> possibleTags;
-  
+
+  private static final int OFFSET_SHIFT = 8;
+  private static final int MAX_LENGTH = (1 << OFFSET_SHIFT) - 1;
+  private static final int MAX_OFFSET = (1 << 32 - OFFSET_SHIFT) - 1;
+  private static final int ENTRY_SIZE = 3;
+  private final String[] data;
+
+  /** A map from lemma+POS hashes to encoded lemma+POS+word tuple offsets in {@link #data} */
+  private final TIntIntHashMap map;
+
   private final static String DEFAULT_SEPARATOR = "\t";
 
   public ManualSynthesizer(InputStream inputStream) throws IOException {
+    Map<TaggedWord, List<String>> mapping = loadMapping(inputStream);
+    TIntObjectHashMap<List<Triple<String, String, String>>> byHash = groupByHash(mapping);
+
+    map = new TIntIntHashMap(byHash.size());
+    int valueCount = mapping.values().stream().mapToInt(v -> v.size()).sum();
+    int firstIndex = ENTRY_SIZE; // skip an entry, as 0 means an absent value in TObjectIntHashMap
+    data = new String[valueCount * ENTRY_SIZE + firstIndex];
+    if (valueCount > MAX_OFFSET) {
+      throw new UnsupportedOperationException("Too many values (" + valueCount + "), the storage needs adjusting");
+    }
+    byHash.forEachEntry(new TIntObjectProcedure<List<Triple<String, String, String>>>() {
+      int index = firstIndex;
+
+      @Override
+      public boolean execute(int hash, List<Triple<String, String, String>> value) {
+        if (value.size() > MAX_LENGTH) {
+          throw new UnsupportedOperationException(
+            "Too many lemmas (" + value.size() + " for the same hash " + value + ", the storage needs adjusting");
+        }
+        map.put(hash, ((index / ENTRY_SIZE) << OFFSET_SHIFT) | value.size());
+        for (Triple<String, String, String> triple : value) {
+          data[index++] = triple.getLeft();
+          data[index++] = triple.getMiddle();
+          data[index++] = triple.getRight();
+        }
+        return true;
+      }
+    });
+
+    possibleTags = Collections.unmodifiableSet(collectTags(mapping));
+  }
+
+  private static TIntObjectHashMap<List<Triple<String, String, String>>> groupByHash(Map<TaggedWord, List<String>> mapping) {
+    TIntObjectHashMap<List<Triple<String, String, String>>> byHash = new TIntObjectHashMap<>(mapping.size());
+    for (Map.Entry<TaggedWord, List<String>> entry : mapping.entrySet()) {
+      TaggedWord tw = entry.getKey();
+      int hash = hashCode(tw.getLemma(), tw.getPosTag());
+      List<Triple<String, String, String>> list = byHash.get(hash);
+      if (list == null) {
+        byHash.put(hash, list = new ArrayList<>());
+      }
+      for (String word : entry.getValue()) {
+        list.add(new ImmutableTriple<>(tw.getLemma(), tw.getPosTag(), word));
+      }
+    }
+    return byHash;
+  }
+
+  private static THashSet<String> collectTags(Map<TaggedWord, List<String>> mapping) {
     THashSet<String> tags = new THashSet<>();
-    mapping = new MostlySingularMultiMap<>(loadMapping(inputStream, tags));
+    for (TaggedWord tw : mapping.keySet()) {
+      tags.add(tw.getPosTag());
+    }
     tags.trimToSize();
-    possibleTags = Collections.unmodifiableSet(tags);
+    return tags;
+  }
+
+  private static int hashCode(String lemma, String posTag) {
+    return lemma.hashCode() * 31 + posTag.hashCode();
   }
 
   /**
@@ -75,10 +139,25 @@ public final class ManualSynthesizer {
    */
   @Nullable
   public List<String> lookup(String lemma, String posTag) {
-    return mapping.getList(new TaggedWord(lemma, posTag));
+    if (lemma == null || posTag == null) {
+      return null;
+    }
+
+    int value = map.get(hashCode(lemma, posTag));
+    if (value == 0) return null;
+
+    int offset = (value >>> OFFSET_SHIFT) * ENTRY_SIZE;
+    int length = value & MAX_LENGTH;
+    List<String> result = new ArrayList<>(length);
+    for (int i = 0; i < length; i++) {
+      if (lemma.equals(data[offset + i * ENTRY_SIZE]) && posTag.equals(data[offset + i * ENTRY_SIZE + 1])) {
+        result.add(data[offset + i * ENTRY_SIZE + 2]);
+      }
+    }
+    return result;
   }
 
-  private static Map<TaggedWord, List<String>> loadMapping(InputStream inputStream, Set<String> outTags) throws IOException {
+  private static Map<TaggedWord, List<String>> loadMapping(InputStream inputStream) throws IOException {
     Map<String, String> internedStrings = new HashMap<>();
     Map<TaggedWord, List<String>> mapping = new HashMap<>();
     Map<String, String> interned = new HashMap<>();
@@ -107,7 +186,6 @@ public final class ManualSynthesizer {
         lemma = interned.computeIfAbsent(lemma, Function.identity());
         String posTag = internedStrings.computeIfAbsent(parts[2], Function.identity());
         mapping.computeIfAbsent(new TaggedWord(lemma, posTag), __ -> new ArrayList<>()).add(form);
-        outTags.add(posTag);
       }
     }
     return mapping;

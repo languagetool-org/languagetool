@@ -19,6 +19,7 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Tag;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
@@ -48,6 +49,8 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
     super(messages, new Catalan());
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
+    //super.setTags(Arrays.asList(Tag.picky));
+    super.useSubRuleSpecificIds();
   }
 
   @Override
@@ -63,11 +66,6 @@ public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule2 {
   @Override
   public String getShort() {
     return "Anglicisme innecessari";
-  }
-
-  @Override
-  public boolean isCaseSensitive() {
-    return false;
   }
 
   @Override

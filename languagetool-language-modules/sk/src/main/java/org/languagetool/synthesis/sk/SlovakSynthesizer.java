@@ -30,7 +30,13 @@ public class SlovakSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/sk/slovak_synth.dict";
   private static final String TAGS_FILE_NAME = "/sk/slovak_tags.txt";
 
+  public static final SlovakSynthesizer INSTANCE = new SlovakSynthesizer();
+
+  /** @deprecated use {@link #INSTANCE} */
   public SlovakSynthesizer(Language lang) {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+    this();
+  }
+  private SlovakSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "sk");
   }
 }

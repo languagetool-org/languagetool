@@ -53,7 +53,6 @@ public class UnitConversionRuleUS extends UnitConversionRule {
     addUnit("micromet(re|er)s?", METRE, "micrometers", 1e-6, true);
     addUnit("nanomet(re|er)s?", METRE, "nanometers", 1e-9, true);
 
-
     addUnit("square met(re|er)s?", SQUARE_METRE, "square meters", 1, true);
     addUnit("square kilomet(re|er)s?", SQUARE_METRE, "square kilometers", 1e6, true);
     addUnit("square decimet(re|er)s?", SQUARE_METRE, "square decimeters", 1e-2, false/*true*/); // Metric, but not commonly used

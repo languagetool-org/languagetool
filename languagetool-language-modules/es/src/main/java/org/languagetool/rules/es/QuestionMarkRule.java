@@ -101,7 +101,7 @@ public class QuestionMarkRule extends TextLevelRule {
           } else if (needsInvExclMark && !hasInvExlcMark) {
             s = "¡";
           }
-          if (s != null && !prevSentEndsWithColon) { // skip sentences with ':' due to unclear sentence boundaries
+          if (s != null) { // && !prevSentEndsWithColon: skip sentences with ':' due to unclear sentence boundaries
             String message = "Símbolo desparejado: Parece que falta un '" + s + "'";
             RuleMatch match = new RuleMatch(this, sentence, pos + firstToken.getStartPos(),
                 pos + firstToken.getEndPos(), message);

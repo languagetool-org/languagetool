@@ -25,10 +25,12 @@ import java.net.URL;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
 
 import com.sun.star.awt.XMenuBar;
 import com.sun.star.awt.XPopupMenu;
@@ -36,6 +38,7 @@ import com.sun.star.beans.Property;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.beans.XPropertySetInfo;
+import com.sun.star.container.XNameAccess;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XDispatchHelper;
@@ -46,6 +49,7 @@ import com.sun.star.frame.XModel;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
+import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.linguistic2.XSearchableDictionaryList;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.ui.XUIElement;
@@ -73,21 +77,26 @@ class OfficeTools {
     ONLY_GRAMMAR  //  only grammar check
   }
     
+  public static final String EXTENSION_MAINTAINER = "Fred Kruse";
   public static final String LT_SERVICE_NAME = "org.languagetool.openoffice.Main";
   public static final int PROOFINFO_UNKNOWN = 0;
   public static final int PROOFINFO_GET_PROOFRESULT = 1;
   public static final int PROOFINFO_MARK_PARAGRAPH = 2;
 
-  public static final String END_OF_PARAGRAPH = "\n\n";  //  Paragraph Separator like in standalone GUI
+  public static final String END_OF_PARAGRAPH = "\n\n";   //  Paragraph Separator like in standalone GUI
   public static final int NUMBER_PARAGRAPH_CHARS = END_OF_PARAGRAPH.length();  //  number of end of paragraph characters
   public static final String SINGLE_END_OF_PARAGRAPH = "\n";
-  public static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
-  public static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
+  public static final String MANUAL_LINEBREAK = "\r";     //  to distinguish from paragraph separator
+  public static final String ZERO_WIDTH_SPACE = "\u200B"; // Used to mark footnotes, functions, etc.
+  public static final char ZERO_WIDTH_SPACE_CHAR = '\u200B'; // Used to mark footnotes, functions, etc.
+  public static final String IGNORE_LANGUAGE = "zxx";     // Used from LT to mark automatic generated text like indexes
   public static final String LOG_LINE_BREAK = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
-  public static final int MAX_SUGGESTIONS = 15;  // Number of suggestions maximal shown in LO/OO
-  public static final int NUMBER_TEXTLEVEL_CACHE = 4;  // Number of caches for matches of text level rules
+  public static final int MAX_SUGGESTIONS = 15;           // Number of suggestions maximal shown in LO/OO
+  public static final int NUMBER_TEXTLEVEL_CACHE = 4;     // Number of caches for matches of text level rules
   public static final String MULTILINGUAL_LABEL = "99-";  // Label added in front of variant to indicate a multilingual paragraph (returned is the main language)
-  public static final int CHECK_MULTIPLIKATOR = 40;   //  Number of minimum checks for a first check run
+  public static final int CHECK_MULTIPLIKATOR = 40;       //  Number of minimum checks for a first check run
+  public static final int CHECK_SHAPES_TIME = 1000;       //  time interval to run check for changes in text inside of shapes
+  public static int TIME_TOLERANCE = 100;                 //  Minimal milliseconds to show message in TM debug mode
   
   public static int DEBUG_MODE_SD = 0;            //  Set Debug Mode for SingleDocument
   public static int DEBUG_MODE_SC = 0;            //  Set Debug Mode for SingleCheck
@@ -101,6 +110,8 @@ class OfficeTools {
   public static boolean DEBUG_MODE_CD = false;    //  Activate Debug Mode for SpellAndGrammarCheckDialog
   public static boolean DEBUG_MODE_IO = false;    //  Activate Debug Mode for Cache save to file
   public static boolean DEBUG_MODE_SR = false;    //  Activate Debug Mode for SortedTextRules
+  public static boolean DEBUG_MODE_TM = false;    //  Activate Debug Mode for time measurements
+  public static boolean DEVELOP_MODE_ST = false;  //  Activate Development Mode to test sorted text IDs
   public static boolean DEVELOP_MODE = false;     //  Activate Development Mode
 
   public  static final String CONFIG_FILE = "Languagetool.cfg";
@@ -110,16 +121,21 @@ class OfficeTools {
 
   private static final String VENDOR_ID = "languagetool.org";
   private static final String APPLICATION_ID = "LanguageTool";
-  private static final String OFFICE_EXTENSION_ID = "LibreOffice";
   private static final String CACHE_ID = "cache";
-  
+  private static String OFFICE_EXTENSION_ID = null;
+  private static OfficeProductInfo OFFICE_PRODUCT_INFO = null;
+
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
   
+  private static final long KEY_RELEASE_TOLERANCE = 500;
+
   private static final double LT_HEAP_LIMIT_FACTOR = 0.9;
   private static double MAX_HEAP_SPACE = -1;
   private static double LT_HEAP_LIMIT = -1;
 
+  private static long lastKeyRelease = 0;
+  
   /**
    * Returns the XDesktop
    * Returns null if it fails
@@ -225,14 +241,6 @@ class OfficeTools {
    * Get the menu bar of LO/OO
    * Returns null if it fails
    */
-/*  static XMenuBar getMenuBar(XComponentContext xContext) {
-    try {
-      XDesktop desktop = OfficeTools.getDesktop(xContext);
-      if (desktop == null) {
-        return null;
-      }
-      XFrame frame = desktop.getCurrentFrame();
-*/
   static XMenuBar getMenuBar(XComponent xComponent) {
     try {
       XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
@@ -359,6 +367,9 @@ class OfficeTools {
    *  Get a String from local
    */
   static String localeToString(Locale locale) {
+    if (locale == null) {
+      return null;
+    }
     return locale.Language + (locale.Country.isEmpty() ? "" : "-" + locale.Country) + (locale.Variant.isEmpty() ? "" : "-" + locale.Variant);
   }
 
@@ -399,74 +410,89 @@ class OfficeTools {
    * @since 4.7
    */
   public static File getLOConfigDir() {
-      String userHome = null;
-      File directory;
+    return getLOConfigDir(null);
+  }
+
+  public static File getLOConfigDir(XComponentContext xContext) {
+    if (OFFICE_EXTENSION_ID == null) {
+      if (xContext == null) {
+        OFFICE_EXTENSION_ID = "LibreOffice";
+      } else {
+        OFFICE_EXTENSION_ID = getOfficeProductInfo(xContext).ooName;
+      }
+    }
+    String userHome = null;
+    File directory;
+    try {
+      userHome = System.getProperty("user.home");
+    } catch (SecurityException ex) {
+    }
+    if (userHome == null) {
+      MessageHandler.showError(new RuntimeException("Could not get home directory"));
+      directory = null;
+    } else if (SystemUtils.IS_OS_WINDOWS) {
+      // Path: \\user\<YourUserName>\AppData\Roaming\languagetool.org\LanguageTool\LibreOffice  
+      File appDataDir = null;
       try {
-        userHome = System.getProperty("user.home");
+        String appData = System.getenv("APPDATA");
+        if (!StringUtils.isEmpty(appData)) {
+          appDataDir = new File(appData);
+        }
       } catch (SecurityException ex) {
       }
-      if (userHome == null) {
-        MessageHandler.showError(new RuntimeException("Could not get home directory"));
-        directory = null;
-      } else if (SystemUtils.IS_OS_WINDOWS) {
-        // Path: \\user\<YourUserName>\AppData\Roaming\languagetool.org\LanguageTool\LibreOffice  
-        File appDataDir = null;
-        try {
-          String appData = System.getenv("APPDATA");
-          if (!StringUtils.isEmpty(appData)) {
-            appDataDir = new File(appData);
-          }
-        } catch (SecurityException ex) {
-        }
-        if (appDataDir != null && appDataDir.isDirectory()) {
-          String path = VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
-          directory = new File(appDataDir, path);
-        } else {
-          String path = "Application Data\\" + VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
-          directory = new File(userHome, path);
-        }
-      } else if (SystemUtils.IS_OS_LINUX) {
-        // Path: /home/<YourUserName>/.config/LanguageTool/LibreOffice  
-        File appDataDir = null;
-        try {
-          String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
-          if (!StringUtils.isEmpty(xdgConfigHome)) {
-            appDataDir = new File(xdgConfigHome);
-            if (!appDataDir.isAbsolute()) {
-              //https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-              //All paths set in these environment variables must be absolute.
-              //If an implementation encounters a relative path in any of these
-              //variables it should consider the path invalid and ignore it.
-              appDataDir = null;
-            }
-          }
-        } catch (SecurityException ex) {
-        }
-        if (appDataDir != null && appDataDir.isDirectory()) {
-          String path = APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
-          directory = new File(appDataDir, path);
-        } else {
-          String path = ".config/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
-          directory = new File(userHome, path);
-        }
-      } else if (SystemUtils.IS_OS_MAC_OSX) {
-        String path = "Library/Application Support/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
-        directory = new File(userHome, path);
+      if (appDataDir != null && appDataDir.isDirectory()) {
+        String path = VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
+        directory = new File(appDataDir, path);
       } else {
-        String path = "." + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+        String path = "Application Data\\" + VENDOR_ID + "\\" + APPLICATION_ID + "\\" + OFFICE_EXTENSION_ID + "\\";
         directory = new File(userHome, path);
       }
-      if (directory != null && !directory.exists()) {
-        directory.mkdirs();
+    } else if (SystemUtils.IS_OS_LINUX) {
+      // Path: /home/<YourUserName>/.config/LanguageTool/LibreOffice  
+      File appDataDir = null;
+      try {
+        String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
+        if (!StringUtils.isEmpty(xdgConfigHome)) {
+          appDataDir = new File(xdgConfigHome);
+          if (!appDataDir.isAbsolute()) {
+            //https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+            //All paths set in these environment variables must be absolute.
+            //If an implementation encounters a relative path in any of these
+            //variables it should consider the path invalid and ignore it.
+            appDataDir = null;
+          }
+        }
+      } catch (SecurityException ex) {
       }
-      return directory;
+      if (appDataDir != null && appDataDir.isDirectory()) {
+        String path = APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+        directory = new File(appDataDir, path);
+      } else {
+        String path = ".config/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+        directory = new File(userHome, path);
+      }
+    } else if (SystemUtils.IS_OS_MAC_OSX) {
+      String path = "Library/Application Support/" + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+      directory = new File(userHome, path);
+    } else {
+      String path = "." + APPLICATION_ID + "/" + OFFICE_EXTENSION_ID + "/";
+      directory = new File(userHome, path);
+    }
+    if (directory != null && !directory.exists()) {
+      directory.mkdirs();
+    }
+    return directory;
   }
   
   /**
    * Returns log file 
    */
   public static String getLogFilePath() {
-    return new File(getLOConfigDir(), LOG_FILE).getAbsolutePath();
+    return getLogFilePath(null);
+  }
+
+  public static String getLogFilePath(XComponentContext xContext) {
+    return new File(getLOConfigDir(xContext), LOG_FILE).getAbsolutePath();
   }
 
   /**
@@ -474,7 +500,11 @@ class OfficeTools {
    * @since 5.2
    */
   public static File getCacheDir() {
-    File cacheDir = new File(getLOConfigDir(), CACHE_ID);
+    return getCacheDir(null);
+  }
+  
+  public static File getCacheDir(XComponentContext xContext) {
+    File cacheDir = new File(getLOConfigDir(xContext), CACHE_ID);
     if (cacheDir != null && !cacheDir.exists()) {
       cacheDir.mkdirs();
     }
@@ -513,6 +543,17 @@ class OfficeTools {
   }
 
   /**
+   * Get information about LanguageTool
+   */
+  public static String getLtInformation () {
+    String txt = JLanguageTool.VERSION;
+    if (JLanguageTool.VERSION.contains("SNAPSHOT")) {
+      txt += " - " + JLanguageTool.BUILD_DATE + ", " + JLanguageTool.GIT_SHORT_ID;
+    }
+    return txt;
+  }
+
+  /**
    * Get LanguageTool Image
    */
   public static Image getLtImage() {
@@ -526,13 +567,116 @@ class OfficeTools {
   }
   
   /**
+   * Get LanguageTool Image
+   */
+  public static ImageIcon getLtImageIcon(boolean big) {
+    URL url;
+    if (big) {
+      url = OfficeTools.class.getResource("/images/LanguageToolBig.png");
+    } else {
+      url = OfficeTools.class.getResource("/images/LanguageToolSmall.png");
+    }
+    return new ImageIcon(url);
+  }
+
+  /**
+   * get information of LO/OO office product
+   */
+  public static OfficeProductInfo getOfficeProductInfo(XComponentContext xContext) {
+    if (OFFICE_PRODUCT_INFO == null) {
+      OFFICE_PRODUCT_INFO = readOfficeProductInfo(xContext);
+    }
+    return OFFICE_PRODUCT_INFO;
+  }
+
+  /**
+   * read information of LO/OO office product from system
+   */
+  private static OfficeProductInfo readOfficeProductInfo(XComponentContext xContext) {
+    try {
+      if (xContext == null) {
+        return null;
+      }
+      XMultiServiceFactory xMSF = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContext.getServiceManager());
+      if (xMSF == null) {
+        MessageHandler.printToLogFile("XMultiServiceFactory == null");
+        return null;
+      }
+      Object oConfigProvider = xMSF.createInstance("com.sun.star.configuration.ConfigurationProvider");
+      XMultiServiceFactory confMsf = UnoRuntime.queryInterface(XMultiServiceFactory.class, oConfigProvider);
+
+      final String sView = "com.sun.star.configuration.ConfigurationAccess";
+
+      Object args[] = new Object[1];
+      PropertyValue aPathArgument = new PropertyValue();
+      aPathArgument.Name = "nodepath";
+      aPathArgument.Value = "org.openoffice.Setup/Product";
+      args[0] = aPathArgument;
+      Object oConfigAccess =  confMsf.createInstanceWithArguments(sView, args);
+      XNameAccess xName = UnoRuntime.queryInterface(XNameAccess.class, oConfigAccess);
+      
+      aPathArgument.Value = "org.openoffice.Setup/L10N";
+      Object oConfigAccess1 =  confMsf.createInstanceWithArguments(sView, args);
+      
+      XNameAccess xName1 = UnoRuntime.queryInterface(XNameAccess.class, oConfigAccess1);
+      
+      return (new OfficeProductInfo(xName.getByName("ooName"), xName.getByName("ooSetupVersion"), 
+          xName.getByName("ooSetupExtension"), xName.getByName("ooVendor"), xName1.getByName("ooLocale"), System.getProperty("os.arch")));
+      
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;           // Return null as method failed
+    }
+
+  }
+  
+  /**
    * Get a boolean value from an Object
    */
   public static boolean getBooleanValue(Object o) {
-    if (o instanceof Boolean) {
+    if (o != null && o instanceof Boolean) {
       return ((Boolean) o).booleanValue();
     }
     return false;
+  }
+  
+  /**
+   * timestamp for last key release
+   *//*
+  public static void setKeyReleaseTime(long time) {
+    lastKeyRelease = time;
+  }
+*/
+  public static void waitForLO() {
+    while (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy()) {
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+        MessageHandler.printException(e);
+      }
+    }
+  }
+/*  
+  public static void waitForLoDic() {
+    long spellDiff = KEY_RELEASE_TOLERANCE - System.currentTimeMillis() + lastKeyRelease;
+    while (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy() || spellDiff > 0) {
+      try {
+        Thread.sleep(spellDiff < 10 ? 10 : spellDiff);
+      } catch (InterruptedException e) {
+        MessageHandler.printException(e);
+      }
+      spellDiff = KEY_RELEASE_TOLERANCE - System.currentTimeMillis() + lastKeyRelease;
+    }
+  }
+*/  
+  public static void waitForLtDictionary() {
+    while (LtDictionary.isActivating()) {
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+        MessageHandler.printException(e);
+      }
+    }
   }
   
   /**
@@ -606,6 +750,19 @@ class OfficeTools {
           DEBUG_MODE_IO = true;
         } else if (level.equals("sr")) {
           DEBUG_MODE_SR = true;
+        } else if (level.startsWith("tm")) {
+          String[] levelTm = level.split(":");
+          if (levelTm[0].equals("tm")) {
+            DEBUG_MODE_TM = true;
+            if(levelTm.length > 1) {
+              int time = Integer.parseInt(levelTm[1]);
+              if (time >= 0) {
+                TIME_TOLERANCE = time;
+              }
+            }
+          }
+        } else if (level.equals("st")) {
+          DEVELOP_MODE_ST = true;
         } else if (level.equals("dev")) {
           DEVELOP_MODE = true;
         }
@@ -613,4 +770,30 @@ class OfficeTools {
     }
   }
 
+  public static class OfficeProductInfo {
+    public final String ooName;
+    public final String ooVersion;
+    public final String ooExtension;
+    public final String ooVendor;
+    public final String ooLocale;
+    public final String osArch;
+    
+    OfficeProductInfo(Object name, Object version, Object extension, Object vendor, Object locale, Object arch) {
+      ooName = new String((String) name);
+      ooVersion = new String((String) version);
+      ooExtension = new String((String) extension);
+      ooVendor = new String((String) vendor);
+      ooLocale = new String((String) locale);
+      osArch = new String((String) arch);
+    }
+    
+    OfficeProductInfo(String name, String version, String extension, String vendor, String locale, String arch) {
+      ooName = new String(name);
+      ooVersion = new String(version);
+      ooExtension = new String(extension);
+      ooVendor = new String(vendor);
+      ooLocale = new String(locale);
+      osArch = new String(arch);
+    }
+  }
 }

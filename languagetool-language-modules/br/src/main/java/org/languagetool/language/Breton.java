@@ -20,10 +20,12 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.br.MorfologikBretonSpellerRule;
 import org.languagetool.rules.br.TopoReplaceRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.br.BretonTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -100,4 +102,9 @@ public class Breton extends Language {
     return LanguageMaintainedState.ActivelyMaintained;
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikBretonSpellerRule(messages, this, null, null);
+  }
 }

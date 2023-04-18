@@ -42,37 +42,40 @@ public class PatternToken implements Cloneable {
 
   private static final PatternToken[] EMPTY_ARRAY = new PatternToken[0];
 
-  private final boolean inflected;
-
-  private StringMatcher textMatcher;
-  private PosToken posToken;
-  private boolean negation;
-  private boolean testWhitespace;
-  private boolean whitespaceBefore;
-  private boolean isInsideMarker = true;
-
-  private RareFields rareFields;
+  private static final int INFLECTED_MASK = 1;
+  private static final int NEGATION_MASK = 2;
+  private static final int TEST_WHITESPACE_MASK = 4;
+  private static final int WHITESPACE_BEFORE_MASK = 8;
+  private static final int INSIDE_MARKER_MASK = 0x10;
 
   /** True if scope=="next". */
-  private boolean exceptionValidNext;
+  private static final int EXCEPTION_VALID_NEXT_MASK = 0x20;
 
-  private byte skip;
-  private boolean mayBeOmitted;
-  private byte maxOccurrence = 1;
+  private static final int MAY_BE_OMITTED_MASK = 0x40;
 
   /**
    * This var is used to determine if calling {@link #setStringElement} makes sense. This method
    * takes most time so it's best to reduce the number of its calls.
    */
-  private boolean testString;
+  private static final int TEST_STRING_MASK = 0x80;
 
   /** Determines whether the element should be ignored when doing unification **/
-  private boolean unificationNeutral;
+  private static final int UNIFICATION_NEUTRAL_MASK = 0x100;
 
-  private boolean uniNegation;
+  private static final int UNI_NEGATION_MASK = 0x200;
 
   /** Set to true on tokens that close the unification block. */
-  private boolean isLastUnified;
+  private static final int LAST_UNIFIED_MASK = 0x400;
+
+  private short flags;
+
+  private StringMatcher textMatcher;
+  private PosToken posToken;
+
+  private RareFields rareFields;
+
+  private byte skip;
+  private byte maxOccurrence = 1;
 
   /**
    * Creates Element that is used to match tokens in the text.
@@ -86,7 +89,7 @@ public class PatternToken implements Cloneable {
   }
 
   PatternToken(boolean inflected, @NotNull StringMatcher textMatcher) {
-    this.inflected = inflected;
+    flags = (short) (INSIDE_MARKER_MASK | (inflected ? INFLECTED_MASK : 0));
     setTextMatcher(textMatcher);
   }
 
@@ -101,16 +104,28 @@ public class PatternToken implements Cloneable {
    * @return True if token matches, false otherwise.
    */
   public boolean isMatched(AnalyzedToken token) {
-    if (testWhitespace && !isWhitespaceBefore(token)) {
+    if (hasFlag(TEST_WHITESPACE_MASK) && !isWhitespaceBefore(token)) {
       return false;
     }
     boolean posNegation = posToken != null && posToken.negation;
-    if (testString) {
-      return textMatcher.matches(getTestToken(token)) ^ negation &&
+    if (hasFlag(TEST_STRING_MASK)) {
+      return textMatcher.matches(getTestToken(token)) ^ getNegation() &&
              isPosTokenMatched(token) ^ posNegation;
     } else {
-      return !negation &&
+      return !getNegation() &&
              isPosTokenMatched(token) ^ posNegation;
+    }
+  }
+
+  boolean hasFlag(int mask) {
+    return (flags & mask) != 0;
+  }
+
+  private void setFlag(int mask, boolean value) {
+    if (value) {
+      flags |= mask;
+    } else {
+      flags &= ~mask;
     }
   }
 
@@ -122,7 +137,7 @@ public class PatternToken implements Cloneable {
   public boolean isExceptionMatched(AnalyzedToken token) {
     if (rareFields != null && rareFields.currentAndNextExceptions.length > 0) {
       for (PatternToken testException : rareFields.currentAndNextExceptions) {
-        if (!testException.exceptionValidNext && testException.isMatched(token)) {
+        if (!testException.hasNextException() && testException.isMatched(token)) {
           return true;
         }
       }
@@ -216,7 +231,7 @@ public class PatternToken implements Cloneable {
   public boolean isMatchedByScopeNextException(AnalyzedToken token) {
     if (rareFields != null) {
       for (PatternToken testException : rareFields.currentAndNextExceptions) {
-        if (testException.exceptionValidNext && testException.isMatched(token)) {
+        if (testException.hasNextException() && testException.isMatched(token)) {
           return true;
         }
       }
@@ -233,7 +248,7 @@ public class PatternToken implements Cloneable {
   public boolean isMatchedByPreviousException(AnalyzedToken token) {
     if (hasPreviousException()) {
       for (PatternToken testException : rareFields.previousExceptions) {
-        if (!testException.exceptionValidNext && testException.isMatched(token)) {
+        if (!testException.hasNextException() && testException.isMatched(token)) {
           return true;
         }
       }
@@ -284,7 +299,7 @@ public class PatternToken implements Cloneable {
 
   void setTextMatcher(@NotNull StringMatcher matcher) {
     textMatcher = matcher;
-    testString = !StringTools.isEmpty(matcher.pattern);
+    setFlag(TEST_STRING_MASK, !StringTools.isEmpty(matcher.pattern));
   }
 
   static String normalizeTextPattern(String token) {
@@ -316,7 +331,7 @@ public class PatternToken implements Cloneable {
   }
 
   void addException(boolean scopeNext, boolean scopePrevious, PatternToken exception) {
-    exception.exceptionValidNext = scopeNext;
+    exception.setFlag(EXCEPTION_VALID_NEXT_MASK, scopeNext);
     initRareFields().addException(exception, scopePrevious);
   }
 
@@ -349,7 +364,7 @@ public class PatternToken implements Cloneable {
   private String getTestToken(AnalyzedToken token) {
     // enables using words with lemmas and without lemmas
     // in the same regexp with inflected="yes"
-    if (inflected) {
+    if (hasFlag(INFLECTED_MASK)) {
       if (token.getLemma() != null) {
         return token.getLemma();
       } else {
@@ -371,7 +386,7 @@ public class PatternToken implements Cloneable {
    * The minimum number of times the element needs to occur.
    */
   public int getMinOccurrence() {
-    return mayBeOmitted ? 0 : 1;
+    return hasFlag(MAY_BE_OMITTED_MASK) ? 0 : 1;
   }
 
   /**
@@ -399,7 +414,7 @@ public class PatternToken implements Cloneable {
     if (i != 0 && i != 1) {
       throw new IllegalArgumentException("minOccurrences must be 0 or 1: " + i);
     }
-    mayBeOmitted = i == 0;
+    setFlag(MAY_BE_OMITTED_MASK, i == 0);
   }
 
   /**
@@ -430,14 +445,14 @@ public class PatternToken implements Cloneable {
    * @return True if the element has exception for the next scope.
    */
   public boolean hasNextException() {
-    return exceptionValidNext;
+    return hasFlag(EXCEPTION_VALID_NEXT_MASK);
   }
 
   /**
    * Negates the matching so that non-matching elements match and vice-versa.
    */
   public void setNegation(boolean negation) {
-    this.negation = negation;
+    setFlag(NEGATION_MASK, negation);
   }
 
   /**
@@ -445,7 +460,7 @@ public class PatternToken implements Cloneable {
    * @since 0.9.3
    */
   public boolean getNegation() {
-    return negation;
+    return hasFlag(NEGATION_MASK);
   }
 
   /**
@@ -491,7 +506,7 @@ public class PatternToken implements Cloneable {
     if (tokenReference.setsPos()) {
       String posReference = matchState.getTargetPosTag();
       if (posReference != null) {
-        setPosToken(new PosToken(posReference, tokenReference.posRegExp(), negation));
+        setPosToken(new PosToken(posReference, tokenReference.posRegExp(), getNegation()));
       }
       setStringElement(getString().replace(reference, ""));
     } else {
@@ -568,7 +583,7 @@ public class PatternToken implements Cloneable {
    * @return true if the token matches all inflected forms
    */
   public boolean isInflected() {
-    return inflected;
+    return hasFlag(INFLECTED_MASK);
   }
 
   /**
@@ -599,19 +614,19 @@ public class PatternToken implements Cloneable {
   }
 
   public void setUniNegation() {
-    uniNegation = true;
+    setFlag(UNI_NEGATION_MASK, true);
   }
 
   public boolean isUniNegated() {
-    return uniNegation;
+    return hasFlag(UNI_NEGATION_MASK);
   }
 
   public boolean isLastInUnification() {
-    return isLastUnified;
+    return hasFlag(LAST_UNIFIED_MASK);
   }
 
   public void setLastInUnification() {
-    isLastUnified = true;
+    setFlag(LAST_UNIFIED_MASK, true);
   }
 
   /**
@@ -621,7 +636,7 @@ public class PatternToken implements Cloneable {
    * @since 2.5
    */
   public boolean isUnificationNeutral() {
-    return unificationNeutral;
+    return hasFlag(UNIFICATION_NEUTRAL_MASK);
   }
 
   /**
@@ -629,21 +644,21 @@ public class PatternToken implements Cloneable {
    * @since 2.5
    */
   public void setUnificationNeutral() {
-    unificationNeutral = true;
+    setFlag(UNIFICATION_NEUTRAL_MASK, true);
   }
 
 
   public void setWhitespaceBefore(boolean isWhite) {
-    whitespaceBefore = isWhite;
-    testWhitespace = true;
+    setFlag(WHITESPACE_BEFORE_MASK, isWhite);
+    setFlag(TEST_WHITESPACE_MASK, true);
   }
 
   public boolean isInsideMarker() {
-    return isInsideMarker;
+    return hasFlag(INSIDE_MARKER_MASK);
   }
 
   public void setInsideMarker(boolean isInsideMarker) {
-    this.isInsideMarker = isInsideMarker;
+    setFlag(INSIDE_MARKER_MASK, isInsideMarker);
   }
 
   /**
@@ -664,7 +679,7 @@ public class PatternToken implements Cloneable {
   }
 
   public boolean isWhitespaceBefore(AnalyzedToken token) {
-    return whitespaceBefore == token.isWhitespaceBefore();
+    return hasFlag(WHITESPACE_BEFORE_MASK) == token.isWhitespaceBefore();
   }
 
   /**
@@ -706,7 +721,7 @@ public class PatternToken implements Cloneable {
   }
 
   private Set<String> calcStringHints(boolean inflected) {
-    Set<String> result = inflected != this.inflected ? null : calcOwnPossibleStringValues();
+    Set<String> result = inflected != isInflected() ? null : calcOwnPossibleStringValues();
     if (result == null) return null;
 
     List<PatternToken> andGroupList = rareFields == null ? null : rareFields.andGroupList;
@@ -736,20 +751,20 @@ public class PatternToken implements Cloneable {
 
   @Nullable
   private Set<String> calcOwnPossibleStringValues() {
-    if (negation || !hasStringThatMustMatch()) {
+    if (getNegation() || !hasStringThatMustMatch()) {
       return null;
     }
     return textMatcher.getPossibleValues();
   }
 
   boolean hasStringThatMustMatch() {
-    return !isReferenceElement() && !mayBeOmitted && !getString().isEmpty();
+    return !isReferenceElement() && !hasFlag(MAY_BE_OMITTED_MASK) && !getString().isEmpty();
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    if (negation) {
+    if (getNegation()) {
       sb.append('!');
     }
     sb.append(getString());

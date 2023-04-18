@@ -21,8 +21,10 @@ package org.languagetool.chunking;
 import edu.washington.cs.knowitall.regex.Match;
 import edu.washington.cs.knowitall.regex.RegularExpression;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.patterns.StringMatcher;
 
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.languagetool.chunking.GermanChunker.PhraseType.*;
@@ -38,7 +40,11 @@ public class GermanChunker implements Chunker {
   private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS"));
   private static final TokenExpressionFactory FACTORY = new TokenExpressionFactory(false);
 
+  private static final Pattern simpleFormRegexp = Pattern.compile(
+    "(^| )<([a-zäöüß|()\\[\\]?,]+)>\\+?( |$)",
+    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Map<String,String> SYNTAX_EXPANSION = new HashMap<>();
+
   static {
     SYNTAX_EXPANSION.put("<NP>", "<chunk=B-NP> <chunk=I-NP>*");
     SYNTAX_EXPANSION.put("&prozent;", "Prozent|Kilo|Kilogramm|Gramm|Euro|Pfund");
@@ -88,16 +94,18 @@ public class GermanChunker implements Chunker {
    * The chunks are added to the existing chunks, unless the last argument of build() is
    * true, in which case existing chunks get overwritten.
    */
-  
+
+  private static final String[][] undOderBzw = new String[][]{{"und", "oder", "bzw"}};
+
   private static final List<RegularExpressionWithPhraseType> REGEXES1 = Arrays.asList(
       // "das Auto", "das schöne Auto", "das sehr schöne Auto", "die Pariser Innenstadt":
       build("(<posre=^ART.*>|<pos=PRO>)? <pos=ADV>* <pos=PA2>* <pos=ADJ>* <pos=SUB>+", NP),
       // "Mythen und Sagen":
-      build("<pos=SUB> (<und|oder>|(<bzw> <.>)) <pos=SUB>", NP),
+      buildExpanded("<pos=SUB> (<und|oder>|(<bzw> <.>)) <pos=SUB>", NP, false, undOderBzw),
       // "ältesten und bekanntesten Maßnahmen":
-      build("<pos=ADJ> (<und|oder>|(<bzw> <.>)) <pos=PA2> <pos=SUB>", NP),
+      buildExpanded("<pos=ADJ> (<und|oder>|(<bzw> <.>)) <pos=PA2> <pos=SUB>", NP, false, undOderBzw),
       // "räumliche und zeitliche Abstände":
-      build("<pos=ADJ> (<und|oder>|(<bzw> <.>)) <pos=ADJ> <pos=SUB>", NP),
+      buildExpanded("<pos=ADJ> (<und|oder>|(<bzw> <.>)) <pos=ADJ> <pos=SUB>", NP, false, undOderBzw),
 
       // "eine leckere Lasagne":
       build("<posre=^ART.*> <pos=ADV>* <pos=ADJ>* <regexCS=[A-ZÖÄÜ][a-zöäü]+>", NP),  // Lexikon kennt nicht alle Nomen, also so...
@@ -131,7 +139,7 @@ public class GermanChunker implements Chunker {
       build("<NP> <und|sowie> <pos=ART> <pos=PA1> <pos=SUB>", NPP, true),
 
       // "eins ihrer drei Autos":
-      build("(<eins>|<eines>) <chunk=B-NP> <chunk=I-NP>+", NPS),
+      build("<eins|eines> <chunk=B-NP> <chunk=I-NP>+", NPS),
 
       // "er und seine Schwester":
       build("<ich|du|er|sie|es|wir|ihr|sie> <und|oder|sowie> <NP>", NPP),
@@ -147,7 +155,7 @@ public class GermanChunker implements Chunker {
       build("<weder> <pos=SUB> <noch> <pos=SUB>", NPP),
 
       // "drei Katzen" - needed as ZAL cannot be unified, as it has no features:
-      build("(<zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf>) <chunk=I-NP>", NPP),
+      build("<zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf> <chunk=I-NP>", NPP),
 
       // "der von der Regierung geprüfte Hund ist grün":
       build("<chunk=B-NP> <pos=PRP> <NP> <chunk=B-NP & pos=SIN> <chunk=I-NP>*", NPS),
@@ -240,7 +248,7 @@ public class GermanChunker implements Chunker {
       build("<pos=PRP> <NP>", PP),
       // "einschließlich der biologischen und sozialen Grundlagen":
       // with OpenNLP: build("<pos=PRP> <NP> <pos=ADJ> (<und>|<oder>|<bzw.>) <pos=ADJ> <NP>", PP),
-      build("<pos=PRP> <NP> <pos=ADJ> (<und>|<oder>|<bzw.>) <NP>", PP),
+      build("<pos=PRP> <NP> <pos=ADJ> <und|oder|bzw.> <NP>", PP),
       // "für Ärzte und Ärztinnen festgestellte Risikoprofil", "der als Befestigung gedachte östliche Teil der Burg":
       build("<pos=PRP> (<NP>)+", PP),
       // "in den darauf folgenden Wochen":
@@ -251,7 +259,7 @@ public class GermanChunker implements Chunker {
       build("<pos=PRP> <pos=PRO> <NP>", PP),
       // "nach sachlichen und militärischen Kriterien" - we need to help OpenNLP a bit with this one:
       // with OpenNLP: build("<pos=PRP> <pos=ADJ> (<und|oder|sowie>) <pos=ADJ> <chunk=B-NP>", PP),
-      build("<pos=PRP> <pos=ADJ> (<und|oder|sowie>) <NP>", PP),
+      build("<pos=PRP> <pos=ADJ> <und|oder|sowie> <NP>", PP),
       // "mit über 1000 Handschriften":
       build("<pos=PRP> <pos=ADV> <regex=\\d+> <NP>", PP),
       // "über laufende Sanierungsmaßnahmen":
@@ -260,7 +268,7 @@ public class GermanChunker implements Chunker {
       build("<pos=PRP> <pos=ADJ> <pos=PA1> <NP>", PP),
       // "durch Einsatz größerer Maschinen und bessere Kapazitätsplanung":
       // with OpenNLP: build("<pos=PRP> <NP> <pos=ADJ> <NP> (<und|oder>) <NP>", PP),
-      build("<pos=PRP> <NP> <NP> (<und|oder>) <NP>", PP),
+      build("<pos=PRP> <NP> <NP> <und|oder> <NP>", PP),
       // "bei sehr guten Beobachtungsbedingungen":
       build("<pos=PRP> <pos=ADV> <pos=ADJ> <NP>", PP),
       // "[Von ursprünglich drei Almhütten] ist noch eine erhalten":
@@ -294,8 +302,25 @@ public class GermanChunker implements Chunker {
     for (Map.Entry<String, String> entry : SYNTAX_EXPANSION.entrySet()) {
       expandedExpr = expandedExpr.replace(entry.getKey(), entry.getValue());
     }
+
+    return buildExpanded(expandedExpr, phraseType, overwrite, calcFormHints(expandedExpr));
+  }
+
+  private static RegularExpressionWithPhraseType buildExpanded(String expandedExpr, PhraseType phraseType, boolean overwrite, String[][] formHints) {
     RegularExpression<ChunkTaggedToken> expression = RegularExpression.compile(expandedExpr, FACTORY);
-    return new RegularExpressionWithPhraseType(expression, phraseType, overwrite);
+    return new RegularExpressionWithPhraseType(expression, phraseType, overwrite, formHints);
+  }
+
+  private static String[][] calcFormHints(String expandedExpr) {
+    List<String[]> formHints = new ArrayList<>();
+    Matcher matcher = simpleFormRegexp.matcher(expandedExpr);
+    while (matcher.find()) {
+      Set<String> possibleValues = StringMatcher.create(matcher.group(2), true, false).getPossibleValues();
+      if (possibleValues != null) {
+        formHints.add(possibleValues.toArray(new String[0]));
+      }
+    }
+    return formHints.toArray(new String[0][]);
   }
 
   public GermanChunker() {
@@ -303,14 +328,19 @@ public class GermanChunker implements Chunker {
 
   @Override
   public void addChunkTags(List<AnalyzedTokenReadings> tokenReadings) {
-    List<ChunkTaggedToken> chunkTaggedTokens = getBasicChunks(tokenReadings);
+    Set<String> allForms = allForms(tokenReadings);
+    List<ChunkTaggedToken> chunkTaggedTokens = getBasicChunks(tokenReadings, allForms);
     for (RegularExpressionWithPhraseType regex : REGEXES2) {
-      apply(regex, chunkTaggedTokens);
+      apply(regex, chunkTaggedTokens, allForms);
     }
     assignChunksToReadings(chunkTaggedTokens);
   }
 
   List<ChunkTaggedToken> getBasicChunks(List<AnalyzedTokenReadings> tokenReadings) {
+    return getBasicChunks(tokenReadings, allForms(tokenReadings));
+  }
+
+  private List<ChunkTaggedToken> getBasicChunks(List<AnalyzedTokenReadings> tokenReadings, Set<String> allForms) {
     List<ChunkTaggedToken> chunkTaggedTokens = new ArrayList<>();
     for (AnalyzedTokenReadings tokenReading : tokenReadings) {
       if (!tokenReading.isWhitespace()) {
@@ -324,12 +354,16 @@ public class GermanChunker implements Chunker {
       System.out.println(getDebugString(chunkTaggedTokens));
     }
     for (RegularExpressionWithPhraseType regex : REGEXES1) {
-      apply(regex, chunkTaggedTokens);
+      apply(regex, chunkTaggedTokens, allForms);
     }
     return chunkTaggedTokens;
   }
 
-  private void apply(RegularExpressionWithPhraseType regex, List<ChunkTaggedToken> tokens) {
+  private void apply(RegularExpressionWithPhraseType regex, List<ChunkTaggedToken> tokens, Set<String> allForms) {
+    if (!hasAllFormHints(regex, allForms)) {
+      return;
+    }
+
     String prevDebug = getDebugString(tokens);
     try {
       AffectedSpans affectedSpans = doApplyRegex(regex, tokens);
@@ -340,6 +374,32 @@ public class GermanChunker implements Chunker {
     } catch (Exception e) {
       throw new RuntimeException("Could not apply chunk regexp '" + regex + "' to tokens: " + tokens, e);
     }
+  }
+
+  private static boolean hasAllFormHints(RegularExpressionWithPhraseType regex, Set<String> allForms) {
+    for (String[] hints : regex.formHints) {
+      if (!hasForm(allForms, hints)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static boolean hasForm(Set<String> allForms, String[] hints) {
+    for (String hint : hints) {
+      if (allForms.contains(hint)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static Set<String> allForms(List<AnalyzedTokenReadings> tokens) {
+    TreeSet<String> result = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    for (AnalyzedTokenReadings token : tokens) {
+      result.add(token.getToken());
+    }
+    return result;
   }
 
   private void assignChunksToReadings(List<ChunkTaggedToken> chunkTaggedTokens) {
@@ -453,10 +513,12 @@ public class GermanChunker implements Chunker {
     final RegularExpression<ChunkTaggedToken> expression;
     final PhraseType phraseType;
     final boolean overwrite;
-    RegularExpressionWithPhraseType(RegularExpression<ChunkTaggedToken> expression, PhraseType phraseType, boolean overwrite) {
+    final String[][] formHints;
+    RegularExpressionWithPhraseType(RegularExpression<ChunkTaggedToken> expression, PhraseType phraseType, boolean overwrite, String[][] formHints) {
       this.expression = expression;
       this.phraseType = phraseType;
       this.overwrite = overwrite;
+      this.formHints = formHints;
     }
     @Override
     public String toString() {

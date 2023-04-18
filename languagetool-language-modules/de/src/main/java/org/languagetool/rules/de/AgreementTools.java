@@ -83,6 +83,23 @@ class AgreementTools {
     return set;
   }
 
+  static Set<String> getAgreementSOLCategories(AnalyzedTokenReadings aToken, Set<GrammarCategory> omit) {
+    Set<String> set = new HashSet<>();
+    List<AnalyzedToken> readings = aToken.getReadings();
+    for (AnalyzedToken tmpReading : readings) {
+      if (tmpReading.getPOSTag() != null && !tmpReading.getPOSTag().endsWith(":SOL")) {
+        continue;
+      }
+      AnalyzedGermanToken reading = new AnalyzedGermanToken(tmpReading);
+      if (reading.getCasus() == null && reading.getNumerus() == null && reading.getGenus() == null) {
+        continue;
+      }
+      set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), Determination.DEFINITE, omit));
+      set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), Determination.INDEFINITE, omit));
+    }
+    return set;
+  }
+
   private static boolean possessiveSpecialCase(AnalyzedTokenReadings aToken, AnalyzedToken tmpReading) {
     // would cause error misses as it contains 'ALG', e.g. in "Der Zustand meiner Gehirns."
     return aToken.hasPosTagStartingWith("PRO:POS") && StringUtils.equalsAny(tmpReading.getLemma(), "ich", "sich");

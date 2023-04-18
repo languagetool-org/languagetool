@@ -1,18 +1,18 @@
 package org.languagetool.rules;
 
-import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Tag;
-import org.languagetool.language.Demo;
-import org.languagetool.rules.ml.MLServerProto;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Tag;
+import org.languagetool.language.Demo;
+import org.languagetool.rules.ml.MLServerProto;
 
 public class GRPCPostProcessingTest {
 

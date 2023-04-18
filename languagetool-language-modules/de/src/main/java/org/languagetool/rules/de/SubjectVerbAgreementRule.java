@@ -79,6 +79,38 @@ public class SubjectVerbAgreementRule extends Rule {
       csRegex("war|ist"),
       new PatternTokenBuilder().posRegex("NEG|PA2:.+").build()
     ),
+    Arrays.asList(  // "Wie viel Prozent der Menschen sind total bescheuert?"
+      token("Prozent"),
+      token("der"),
+      posRegex("SUB:.*:PLU:.*"),
+      csRegex("sind|waren")
+    ),
+    Arrays.asList(  // "Die meisten der Spieler sind nicht vermögend"
+      token("meisten"),
+      token("der"),
+      posRegex("SUB:.*:PLU:.*"),
+      csRegex("sind|waren")
+    ),
+    Arrays.asList(  // "er bemerkte, dass Experimente nicht gerade sein Ding sind"
+      posRegex("SUB:.*:PLU:.*"),
+      new PatternTokenBuilder().token("nicht").setSkip(1).build(),
+      posRegex("PRO:.*"),
+      csRegex("Ding"),
+      csRegex("sind|waren")
+    ),
+    Arrays.asList(  // "Wenn Sie kein Teil der Lösung sind, ..."
+      token("Teil"),
+      token("der"),
+      token("Lösung"),
+      csRegex("sind|waren")
+    ),
+    Arrays.asList(
+      // "Auch Studien zu Zink sind vielversprechend."
+      posRegex("SUB:NOM:PLU:.*"),
+      token("zu"),
+      posRegex("SUB:.*"),
+      tokenRegex("sind|waren")
+    ),
     Arrays.asList(
       // "Glaubt wirklich jemand, dass gute Fotos keine Arbeit sind?"
       posRegex("SUB:.*:PLU:.*"),
@@ -95,7 +127,7 @@ public class SubjectVerbAgreementRule extends Rule {
     Arrays.asList(
       // "All diesen Stadtteilen ist die Nähe zum Hamburger Hafen..."
       token("all"),
-      tokenRegex("den|diesen"),
+      tokenRegex("d(ies)?en"),
       posRegex("SUB:.*PLU.*"),
       token("ist"),
       posRegex("ART:.*"),
@@ -142,14 +174,20 @@ public class SubjectVerbAgreementRule extends Rule {
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),
       pos("ZAL"),
-      tokenRegex("Tage|Monate|Jahre"),
+      tokenRegex("Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte"),
+      posRegex("VER:3:SIN:.*")
+    ),
+    Arrays.asList(
+      pos(JLanguageTool.SENTENCE_START_TAGNAME),
+      tokenRegex("einige|viele|wenige|mehrere"),
+      tokenRegex("Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte"),
       posRegex("VER:3:SIN:.*")
     ),
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),
       posRegex("ADV:MOD|ADJ:PRD:GRU"),
       pos("ZAL"),
-      tokenRegex("Tage|Monate|Jahre"),
+      tokenRegex("Minuten|Stunden|Tage|Monate|Jahre|Jahrzehnte"),
       posRegex("VER:3:SIN:.*")
     ),
     Arrays.asList(
@@ -183,7 +221,7 @@ public class SubjectVerbAgreementRule extends Rule {
     ),
     Arrays.asList(
       token("zu"),
-      csRegex("Fuß|Hause"),
+      csRegex("Fuß|Hause|Bein|Besuch"),
       tokenRegex("sind|waren")
     ),
     Arrays.asList( //Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret
@@ -241,12 +279,18 @@ public class SubjectVerbAgreementRule extends Rule {
       token("Ziel"),
       tokenRegex("ist|war")
     ),
-    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit. 
+    Arrays.asList( // Abschluss und Höhepunkt ist der Festumzug
+      posRegex("SUB.*SIN.*"),
+      token("und"),
+      posRegex("SUB.*SIN.*"),
+      tokenRegex("ist|war")
+    ),
+    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit.
       token("Obst"),
       token("und"),
       token("Gemüse")
     ),
-    Arrays.asList( // Frisches Obst und Gemüse ist gut für die Gesundheit. 
+    Arrays.asList(
       token("Sport"),
       token("und"),
       token("Spiel")
@@ -311,15 +355,84 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("sind|w[äa]ren|seid"),
       posRegex("PRO:PER:NOM:PLU.*"),
       posRegex("ADJ:PRD:GRU")
+    ),
+    Arrays.asList( // Der Eifer der Männer und Frauen ist enorm.
+      pos("SUB:NOM:SIN:MAS"),
+      posRegex("ART:...:GEN:PLU:MAS"),
+      posRegex("SUB:GEN:PLU:.+"),
+      pos("KON:NEB"),
+      posRegex("SUB:GEN:PLU:.+"),
+      tokenRegex("ist|w[äa]r")
+    ),
+    Arrays.asList( // Einer der bedeutendsten Māori-Autoren der Gegenwart ist Witi Ihimaera.
+      new PatternTokenBuilder().csToken("Laut").setSkip(4).build(),
+      new PatternTokenBuilder().csToken("und").setSkip(5).build(),
+      tokenRegex("ist|war"),
+      tokenRegex("d(er|ie|as)"),
+      posRegex("SUB:NOM:SIN:.+")
+    ),
+    Arrays.asList( // Für Tunesiens Tourismusindustrie mit seinen Stränden, Oasen und antiken Kulturschätzen ist das Attentat ein verheerender Rückschlag.
+      tokenRegex("ist|war"),
+      tokenRegex("d(er|ie|as)"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB:NOM:SIN:.+"),
+      posRegex("(ART|PRO:POS).*SIN.*"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB:NOM:SIN:.+")
+    ),
+    Arrays.asList( // Die gute Nachricht vorweg: Die Mehrheit der Ehen sind tatsächlich ein Bund fürs Leben.
+      tokenRegex("die"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      tokenRegex("Mehrheit"),
+      tokenRegex("der|dieser|aller|unse?rer|[dsm]einer|euer|eurer|ihrer"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB.*NOM.*PLU.*"),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList( // Man darf jedoch auch nicht glauben, weil die Brustvergrößerungscremes ein Allheilmittel sind, jedoch sind Sie optimal um Ihr Selbstvertrauen zu erhöhen
+      tokenRegex("weil|da|denn|dass"),
+      tokenRegex("die|diese|solche|alle|viele|beide|einige|[mkds]eine|eure|unse?re|ihre"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB.*NOM.*PLU.*"),
+      tokenRegex("ein"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB.*NOM.*SIN.*"),
+      tokenRegex("sind|w[äa]ren")
+    ),
+    Arrays.asList( // Die Rechte der Kinder sind universell.
+      tokenRegex("alle|die(se)?|einige|keine|viele|solche"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB.*NOM.*PLU.*"),
+      tokenRegex("der|unse?rer|euer|eurer|[dsm]einer|dieser|solcher|aller|einiger|vieler|ihrer|beider"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB.*GEN.*PLU.*"),
+      posRegex("VER.*PLU.*")
+    ),
+    Arrays.asList(
+      // Ich verspreche dir, dass wir ein tolles Team sind.
+      tokenRegex("wir|sie|die|alle|diese|einige|manche|viele|sonstige"),
+      posRegex("ART.*|PRO:(POS|DEM|IND).*"),
+      new PatternTokenBuilder().posRegex("(ADJ|PA[12]).*").min(0).build(),
+      posRegex("SUB.*SIN.*"),
+      posRegex("VER.*PLU.*")
+    ),
+    Arrays.asList(
+      // Ich verspreche dir, dass wir ein wirklich tolles Team sind.
+      tokenRegex("wir|sie|die|alle|diese|einige|manche|viele|sonstige"),
+      posRegex("ART.*|PRO:(POS|DEM|IND).*"),
+      posRegex("(ADJ|PA[12]).*|ADV.*"),
+      posRegex("(ADJ|PA[12]).*"),
+      posRegex("SUB.*SIN.*"),
+      posRegex("VER.*PLU.*")
     )
   );
 
-  private final GermanTagger tagger;
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
+  private German language;
 
   public SubjectVerbAgreementRule(ResourceBundle messages, German language) {
+    this.language = language;
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
-    tagger = (GermanTagger) language.getTagger();
     for (SingularPluralPair pair : PAIRS) {
       singular.add(pair.singular);
       plural.add(pair.plural);
@@ -499,7 +612,7 @@ public class SubjectVerbAgreementRule extends Rule {
     for (int i = startPos; i > 0; i--) {
       String token = tokens[i].getToken();
       if (tokens[i].hasPartialPosTag("SUB:")) {
-        AnalyzedTokenReadings lookup = tagger.lookup(token.toLowerCase());
+        AnalyzedTokenReadings lookup = ((GermanTagger) language.getTagger()).lookup(token.toLowerCase());
         if (lookup != null && lookup.hasPosTagStartingWith("VER:INF")) {
           infinitives++;
         } else {

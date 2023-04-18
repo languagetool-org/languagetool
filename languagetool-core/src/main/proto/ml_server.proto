@@ -3,9 +3,79 @@ package lt_ml_server;
 option java_package = "org.languagetool.rules.ml";
 option java_outer_classname = "MLServerProto";
 
+// NOTE: should this be split this up into different packages?
+message AnalyzeRequest {
+    string text = 1;
+    ProcessingOptions options = 2;
+}
+
+message ProcessingOptions {
+    string language = 1;
+    bool tempOff = 2;
+    enum Level {
+        picky = 0;
+        academic = 1;
+        clarity = 2;
+        professional = 3;
+        creative = 4;
+        customer = 5;
+        jobapp = 6;
+        objective = 7;
+        elegant = 8;
+        defaultLevel = 9;
+    }
+    Level level = 3;
+    bool premium = 4;
+    bool enabledOnly = 5;
+    repeated string enabledRules = 6;
+    repeated string disabledRules = 7;
+}
+
+message AnalyzeResponse {
+    repeated AnalyzedSentence sentences = 1;
+}
+
+message ProcessRequest {
+    repeated AnalyzedSentence sentences = 1;
+    ProcessingOptions options = 2;
+}
+
+message ProcessResponse {
+    repeated Match rawMatches = 1;
+    repeated Match matches = 2;
+}
+
+service ProcessingServer {
+    rpc Analyze (AnalyzeRequest) returns (AnalyzeResponse) {}
+    rpc Process (ProcessRequest) returns (ProcessResponse) {}
+}
 
 service MLServer {
     rpc Match (MatchRequest) returns (MatchResponse) {}
+    rpc MatchAnalyzed (AnalyzedMatchRequest) returns (MatchResponse) {}
+}
+
+message AnalyzedMatchRequest {
+    repeated AnalyzedSentence sentences = 1;
+    bool inputLogging = 2; // allow logging of input on error
+    repeated int64 textSessionID = 3; // session ID, for partial rollout & A/B tests
+}
+
+message AnalyzedSentence {
+    string text = 1;
+    repeated AnalyzedTokenReadings tokens = 2;
+}
+
+message AnalyzedTokenReadings {
+    repeated AnalyzedToken readings = 1;
+    repeated string chunkTags = 2;
+    int32 startPos = 3;
+}
+
+message AnalyzedToken {
+    string token = 1;
+    string posTag = 2;
+    string lemma = 3;
 }
 
 // for e.g. resorting suggestions

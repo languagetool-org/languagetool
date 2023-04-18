@@ -58,7 +58,8 @@ import org.languagetool.rules.TextLevelRule;
 class LORemoteLanguageTool {
 
   private static final String BLANK = " ";
-  private static final String SERVER_URL = "https://languagetool.org/api";
+  private static final String SERVER_URL = "https://api.languagetool.org";
+  private static final String PREMIUM_SERVER_URL = "https://api.languagetoolplus.com";
   private static final int SERVER_LIMIT = 20000;
 
   private final Set<String> enabledRules = new HashSet<>();
@@ -73,6 +74,9 @@ class LORemoteLanguageTool {
   private final RemoteLanguageTool remoteLanguageTool;
   private final UserConfig userConfig;
   private final boolean addSynonyms;
+  private final boolean isPremium;
+  private final String username;
+  private final String apiKey;
   private JLanguageTool lt = null;
 
   private int maxTextLength;
@@ -86,7 +90,10 @@ class LORemoteLanguageTool {
     addSynonyms = userConfig != null && userConfig.getLinguServices() != null && !config.noSynonymsAsSuggestions();
     String serverUrl = config.getServerUrl();
     setRuleValues(config.getConfigurableValues());
-    URL serverBaseUrl = new URL(serverUrl == null ? SERVER_URL : serverUrl);
+    username = config.getRemoteUsername();
+    apiKey = config.getRemoteApiKey();
+    isPremium = username != null && apiKey != null && config.isPremium();
+    URL serverBaseUrl = new URL(serverUrl == null ? (isPremium ? PREMIUM_SERVER_URL : SERVER_URL) : serverUrl);
     remoteLanguageTool = new RemoteLanguageTool(serverBaseUrl);
     try {
       String urlParameters = "language=" + language.getShortCodeWithCountryAndVariant();
@@ -115,6 +122,10 @@ class LORemoteLanguageTool {
       return ruleMatches;
     }
     CheckConfigurationBuilder configBuilder = new CheckConfigurationBuilder(language.getShortCodeWithCountryAndVariant());
+    if (isPremium) {
+      configBuilder.username(username);
+      configBuilder.apiKey(apiKey);
+    }
     if (motherTongue != null) {
       configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
     }
@@ -229,6 +240,19 @@ class LORemoteLanguageTool {
     return isDisabled;
   }
 
+  /**
+   * get all active rules
+   */
+  public List<Rule> getAllActiveRules() {
+    List<Rule> rulesActive = new ArrayList<>();
+    for (Rule rule : allRules) {
+      if (!ignoreRule(rule)) {
+        rulesActive.add(rule);
+      }
+    }    
+    return rulesActive;
+  }
+  
   /**
    * get all active office rules
    */

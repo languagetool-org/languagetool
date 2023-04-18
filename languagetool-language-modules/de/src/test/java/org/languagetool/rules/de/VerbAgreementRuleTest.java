@@ -81,6 +81,8 @@ public class VerbAgreementRuleTest {
   @Test
   public void testWrongVerb() throws IOException {
     // correct sentences:
+    assertGood("*runterguck* das ist aber tief");  // chat style / Inflektiv
+    assertGood("Weder Peter noch ich wollen das.");
     assertGood("Du bist in dem Moment angekommen, als ich gegangen bin.");
     assertGood("Kümmere du dich mal nicht darum!");
     assertGood("Ich weiß, was ich tun werde, falls etwas geschehen sollte.");
@@ -181,13 +183,20 @@ public class VerbAgreementRuleTest {
     assertGood("Es würd' ein jeder Doktor sein, wenn's Wissen einging wie der Wein.");
     assertGood("Bald merkte er, dass er dank seines Talents nichts mehr in der österreichischen Jazzszene lernen konnte.");
     assertGood("»Alles, was wir dank dieses Projektes sehen werden, wird für uns neu sein«, so der renommierte Bienenforscher.");
+    assertGood("Und da wir äußerst Laissez-faire sind, kann man das auch machen.");
+    assertGood("Duzen, jemanden mit Du anreden, eine Sitte, die bei allen alten Völkern üblich war.");
+    assertGood("Schreibtischtäter wie Du sind doch eher selten.");
+    assertGood("Nee, geh du!");
+    //assertGood("Nee, mach du das mal.");
+    //assertGood("Ein Mädchen, das genauso wie wir war!");  // known false alarm
+    //assertGood("Und bin völlig ohne Idee losgelaufen.");  // known false alarm (could be a picky match maybe)
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
     assertBad("Die Eisenbahn dienst überwiegend dem Güterverkehr.");
     assertBad("Die Unterlagen solltest ihr gründlich durcharbeiten.");
     assertBad("Peter bin nett.");
-    assertBad("Solltest ihr das machen?", "Subjekt und Prädikat (Solltest)");
+    //assertBad("Solltest ihr das machen?", "Subjekt und Prädikat (Solltest)"); - could be okay in colloquial language (short for "Du solltest ihr das machen")
     assertBad("Weiter befindest sich im Osten die Gemeinde Dorf.");
     assertBad("Ich geht jetzt nach Hause, weil ich schon zu spät bin.");
     assertBad("„Du muss gehen.“");
@@ -282,6 +291,19 @@ public class VerbAgreementRuleTest {
     assertGood("John nimmt weiter an einem Abendkurs über Journalismus teil.");
     assertGood("Viele nahmen an der Aktion teil und am Ende des rAAd-Events war die Tafel zwar bunt, aber leider überwogen die roten Kärtchen sehr deutlich.");
     assertGood("Musst also nichts machen.");
+    assertGood("Eine Situation, wo der Stadtrat gleich mal zum Du übergeht.");
+    assertGood("Machen wir, sobald wir frische und neue Akkus haben.");
+    assertGood("Darfst nicht so reden, Franz!");
+    assertGood("Finde du den Jungen.");
+    assertGood("Finde Du den Jungen.");
+    assertGood("Kümmerst dich ja gar nicht um sie.");
+    assertGood("Könntest was erfinden, wie dein Papa.");
+    assertGood("Siehst aus wie ein Wachhund.");
+    assertGood("Solltest es mal in seinem Büro versuchen.");
+    assertGood("Stehst einfach nicht zu mir.");
+    assertGood("Stellst für deinen Dad etwas zu Essen bereit.");
+    assertGood("Springst weit, oder?");
+    assertGood("Wirst groß, was?");
     // incorrect sentences:
     assertBad("Auch morgen leben du.");
     assertBad("Du weiß noch, dass du das gestern gesagt hast.");

@@ -24,7 +24,6 @@ import org.languagetool.*;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -206,11 +205,6 @@ public final class LanguageBuilder {
     @Override
     public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
       return baseLanguage.getRelevantLanguageModelRules(messages, languageModel, userConfig);
-    }
-
-    @Override
-    public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
-      return baseLanguage.getRelevantWord2VecModelRules(messages, word2vecModel);
     }
 
     @Override

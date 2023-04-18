@@ -25,17 +25,12 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import java.util.*;
 
-import org.apache.commons.lang3.StringUtils;
-import static java.lang.Character.isLowerCase;
-import static java.lang.Character.isUpperCase;
-
 public class SpaceInCompoundRule extends Rule {
 
   private static final Map<String, String> normalizedCompound2message = new HashMap<>();
   private static final AhoCorasickDoubleArrayTrie<String> trie = getTrie();
 
   public SpaceInCompoundRule(ResourceBundle messages) {
-    //setDefaultTempOff();  // TODO
   }
 
   private static AhoCorasickDoubleArrayTrie<String> getTrie() {
@@ -51,6 +46,9 @@ public class SpaceInCompoundRule extends Rule {
         throw new RuntimeException("Unexpected format in " + filename + ", expected 2 columns separated by '|': " + line);
       }
       String wordParts = lineParts[0];
+      if (!wordParts.contains(" ")) {
+        throw new RuntimeException("Unexpected format in " + filename + ", expected multi-word (i.e. spaces) left of the '|': " + line);
+      }
       String[] words = wordParts.split(" ");
       generateVariants("", Arrays.asList(words), result);
       if (normalizedCompound2message.containsKey(Tools.glueParts(words))) {
@@ -100,6 +98,14 @@ public class SpaceInCompoundRule extends Rule {
     List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = trie.parseText(text);
     for (AhoCorasickDoubleArrayTrie.Hit<String> hit : hits) {
       String covered = text.substring(hit.begin, hit.end);
+      if (hit.begin > 0 && !isBoundary(text.substring(hit.begin-1, hit.begin))) {
+        // prevent substring matches
+        continue;
+      }
+      if (hit.end < text.length() && !isBoundary(text.substring(hit.end, hit.end+1))) {
+        // prevent substring matches
+        continue;
+      }
       String coveredNoSpaces = Tools.glueParts(covered.split(" "));
       String message = normalizedCompound2message.get(coveredNoSpaces);
       if (message != null) {
@@ -109,5 +115,9 @@ public class SpaceInCompoundRule extends Rule {
       }
     }
     return toRuleMatchArray(matches);
+  }
+
+  private boolean isBoundary(String s) {
+    return !s.matches("[a-zA-Z]");
   }
 }

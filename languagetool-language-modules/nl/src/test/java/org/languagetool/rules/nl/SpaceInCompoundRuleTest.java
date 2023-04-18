@@ -40,6 +40,9 @@ public class SpaceInCompoundRuleTest {
     SpaceInCompoundRule rule = new SpaceInCompoundRule(TestTools.getEnglishMessages());
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("nl"));
     assertGood("langeafstandloper", rule, lt);
+    assertGood("Dat zie je nu weer met de zogenaamde oudelullendagen die in heel andere tijden met gulle hand in cao’s werden uitgereikt aan werknemers van vijftig jaar en ouder.", rule, lt);
+    assertGood("...jk aan voor de middelbare school tijdens de aanmeldw...", rule, lt);
+    assertMatch("...jk aan voor de middelbare school tijdens de..., lange afstand loper", rule, lt);
     assertMatch("lange afstand loper", rule, lt);
     assertMatch("langeafstand loper", rule, lt);
     assertMatch("lange afstandloper", rule, lt);

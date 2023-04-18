@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.ITSIssueType;
 
@@ -88,6 +89,12 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
     return "«" + tokenStr + "» — нерекомендоване слово, кращий варіант: " + replaceText + ".";
   }
 
+  @Override
+  protected boolean isTokenException(AnalyzedTokenReadings atr) {
+    // завидна - could be normal adv
+    return "завидна".equals(atr.getCleanToken()) || super.isTokenException(atr);
+  }
+  
   @Override
   public boolean isCaseSensitive() {
     return false;

@@ -48,6 +48,7 @@ public class ConfusionCheckFilter extends RuleFilter {
     String postag = getRequired("postag", arguments);
     String originalForm = getRequired("form", arguments);
     boolean isAllUppercase = StringTools.isAllUppercase(originalForm);
+    boolean isCapitalized = StringTools.isCapitalizedWord(originalForm);
     String form = originalForm.toLowerCase();
     String gendernumberFrom = getOptional("gendernumberFrom", arguments);
     if (gendernumberFrom != null) {
@@ -90,6 +91,9 @@ public class ConfusionCheckFilter extends RuleFilter {
       ruleMatch.setType(match.getType());
       if (isAllUppercase) {
         replacement = replacement.toUpperCase();
+      }
+      if (isCapitalized) {
+        replacement = StringTools.uppercaseFirstChar(replacement);
       }
       String suggestion = match.getSuggestedReplacements().get(0).replace("{suggestion}", replacement);
       suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));

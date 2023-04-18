@@ -38,7 +38,6 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Test
   public void testRule() throws IOException {    
-    
     // correct sentences:
     check(0, "The software supports case-sensitive search.");
     check(0, "He is one-year-old.");
@@ -81,7 +80,6 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "Night-mare", "Nightmare");
     check(1, "Play Station", "PlayStation");
     check(1, "Play-Station", "PlayStation");
-    
   }
  
 }

@@ -218,7 +218,7 @@ public final class Tools {
     lt.setConfigValues(config.getConfigurableValues());
   }
   
-  static void addHyperlinkListener(JTextPane pane) {
+  public static void addHyperlinkListener(JTextPane pane) {
     pane.addHyperlinkListener(new HyperlinkListener() {
       @Override
       public void hyperlinkUpdate(HyperlinkEvent e) {

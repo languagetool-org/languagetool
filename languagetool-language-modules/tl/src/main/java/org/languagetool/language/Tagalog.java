@@ -20,11 +20,13 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.language.tl.MorfologikTagalogSpellerRule;
 import org.languagetool.language.tokenizers.TagalogWordTokenizer;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.tl.TagalogTagger;
 import org.languagetool.tokenizers.*;
@@ -91,4 +93,9 @@ public class Tagalog extends Language {
     );
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikTagalogSpellerRule(messages, this, null, null);
+  }
 }

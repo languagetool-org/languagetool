@@ -19,14 +19,15 @@
 package org.languagetool.dev.archive;
 
 import morfologik.fsa.FSA;
-import org.apache.commons.io.FileUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.tagging.de.GermanTagger;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -40,27 +41,14 @@ import java.util.*;
 public class MissingGenitiveFinder {
 
   private static final String DICT_FILENAME = "/de/german.dict";
+  private static final int THRESHOLD = 50;
 
-  private final Map<String,Integer> occurrences;
+  private final LuceneLanguageModel lm;
 
-  private MissingGenitiveFinder() throws IOException {
-    occurrences = loadOccurrences("/media/Data/google-ngram/de/1gram-aggregated/all_without_underscore");
+  private MissingGenitiveFinder() {
+    lm = new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de"));
   }
 
-  @SuppressWarnings("unchecked")
-  private Map<String, Integer> loadOccurrences(String filename) throws IOException {
-    System.err.println("Loading " + filename);
-    Map<String, Integer> map = new HashMap<>();
-    List<String> lines = FileUtils.readLines(new File(filename));
-    for (String line : lines) {
-      String[] parts = line.split(" ");
-      map.put(parts[0], Integer.valueOf(parts[1]));
-    }
-    System.err.println("Loaded " + map.size() + " occurrence items");
-    return map;
-  }
-
-  @SuppressWarnings("UnnecessaryParentheses")
   private void run() throws IOException {
     GermanTagger tagger = new GermanTagger();
     final FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
@@ -68,19 +56,20 @@ public class MissingGenitiveFinder {
     for (ByteBuffer buffer : fsa) {
       final byte [] sequence = new byte [buffer.remaining()];
       buffer.get(sequence);
-      final String output = new String(sequence, "iso-8859-1");
-      boolean isNoun = output.contains("+SUB:") || (output.contains("+EIG:") && output.contains("COU")); // COU = Country
+      final String output = new String(sequence, StandardCharsets.UTF_8);
+      boolean isNoun = output.contains("SUB:") || (output.contains("EIG:") && output.contains("COU")); // COU = Country
       if (isNoun && output.contains(":GEN:")) {
-        final String[] parts = output.split("\\+");
+        String[] parts = output.split("_");
         String word = parts[0];
         String esWord = parts[0].replaceFirst("s$", "es");
         if (isRelevantWord(word)) {
           boolean hasEsGenitive = hasEsGenitive(tagger, word);
           boolean ignore1 = word.endsWith("els") && !word.endsWith("iels");
-          Integer occurrence = occurrences.get(esWord);
-          if (!hasEsGenitive && !ignore1 &&  occurrence != null) {
+          long occurrences = lm.getCount(esWord);
+          if (!hasEsGenitive && !ignore1 && occurrences >= THRESHOLD) {
             //System.out.println(i + ". " + word + " " + occurrence);
             System.out.println(esWord + "\t" + word.replaceFirst("s$", "") + "\t" + parts[2]);
+            //System.out.println("  " + occurrences + " " + esWord);
             i++;
           }
         }

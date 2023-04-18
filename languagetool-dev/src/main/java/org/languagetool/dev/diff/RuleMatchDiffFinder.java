@@ -152,9 +152,9 @@ public class RuleMatchDiffFinder {
       }
     }
     if (fullMode) {
-      fw.write(". <a href='../" + langCode + "/" + filename + "'>Today's list</a>");
+      fw.write(". <a href='../" + langCode + "/" + enc(filename) + "'>Today's list</a>");
     } else {
-      fw.write(". <a href='../" + langCode + "_full/" + filename + "'>Full list</a>");
+      fw.write(". <a href='../" + langCode + "_full/" + enc(filename) + "'>Full list</a>");
     }
     String shortRuleId = ruleId.replaceFirst("^.* / ", "").replaceFirst("\\[[0-9]+\\]", "");
     fw.write(".  " + getAnalyticsLink(shortRuleId, langCode));
@@ -183,6 +183,7 @@ public class RuleMatchDiffFinder {
       }
       if (oldMatch != null && newMatch != null) {
         printRuleIdCol(fw, oldMatch, newMatch);
+        printReplacCol(fw, diff);
         iframeCount += printMessage(fw, oldMatch, newMatch, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         printMarkerCol(fw, oldMatch, newMatch);
         if (oldMatch.getSuggestions().equals(newMatch.getSuggestions())) {
@@ -199,6 +200,7 @@ public class RuleMatchDiffFinder {
       } else {
         LightRuleMatch match = diff.getOldMatch() != null ? diff.getOldMatch() : diff.getNewMatch();
         printRuleIdCol(fw, null, match);
+        printReplacCol(fw, diff);
         iframeCount += printMessage(fw, match, null, diff.getReplaces(), diff.getReplacedBy(), langCode, date, diff.getStatus(), iframeCount);
         printMarkerCol(fw, null, match);
         fw.write("  <td>" + match.getSuggestions().stream().map(k -> showTrimSpace(k)).collect(Collectors.joining(", ")) + "</td>\n");
@@ -206,6 +208,16 @@ public class RuleMatchDiffFinder {
       fw.write("</tr>\n");
     }
     printTableEnd(fw);
+  }
+
+  private void printReplacCol(FileWriter fw, RuleMatchDiff diff) throws IOException {
+    if (diff.getReplaces() != null) {
+      fw.write("<td title='replaces other match'>R's</td>");
+    } else if (diff.getReplacedBy() != null) {
+      fw.write("<td title='replaced by other match'>R'd</td>");
+    } else {
+      fw.write("<td>-</td>");
+    }
   }
 
   private String getAnalyticsLink(String ruleId, String langCode) {
@@ -365,6 +377,7 @@ public class RuleMatchDiffFinder {
     fw.write("  <th style='width:60px'>Change</th>\n");
     fw.write("  <th>File</th>\n");
     fw.write("  <th class='small'>Rule ID</th>\n");
+    fw.write("  <th title='Replaced by, Replaces'>R</th>\n");
     fw.write("  <th>Message and Text</th>\n");
     fw.write("  <th>Marked</th>\n");
     fw.write("  <th>Suggestions</th>\n");
@@ -436,6 +449,18 @@ public class RuleMatchDiffFinder {
       fw.write("</tr>");
       fw.write("</thead>");
       fw.write("<tbody>\n");
+      outputFiles.sort((f1, f2) -> {
+          long added1 = f1.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count();
+          long added2 = f2.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.ADDED).count();
+          if (added2 == added1) {
+            long removed1 = f1.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.REMOVED).count();
+            long removed2 = f2.items.stream().filter(k -> k.getStatus() == RuleMatchDiff.Status.REMOVED).count();
+            return Long.compare(removed2, removed1);
+          } else {
+            return Long.compare(added2, added1);
+          }
+        }
+      );
       for (OutputFile outputFile : outputFiles) {
         String file = outputFile.file.getName();
         fw.write("<tr>");
@@ -471,7 +496,7 @@ public class RuleMatchDiffFinder {
         }
         fw.write("<td>");
         String id = file.replaceFirst("result_.*?_", "").replace(".html", "");
-        fw.write("  <a href='" + file + "'>" + id + "</a>");
+        fw.write("  <a href='" + enc(file) + "'>" + id + "</a>");
         fw.write("  " + getAnalyticsLink(id, langCode));
         fw.write("</td>");
         if (outputFile.items.size() > 0 && outputFile.items.get(0).getNewMatch() != null) {
@@ -556,6 +581,7 @@ public class RuleMatchDiffFinder {
       "var tf = new TableFilter(document.querySelector('.sortable_table'), {\n" +
       "    base_path: 'https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/',\n" +
       "    col_1: 'select',\n" +
+      "    col_3: 'select',\n" +
       "    auto_filter: { delay: 100 },\n" +
       "    grid_layout: false,\n" +
       "    col_types: ['string', 'string', 'string'],\n" +

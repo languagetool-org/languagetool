@@ -30,8 +30,14 @@ public class RussianSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/ru/russian_synth.dict";
   private static final String TAGS_FILE_NAME = "/ru/tags_russian.txt";
 
+  public static final RussianSynthesizer INSTANCE = new RussianSynthesizer();
+
+  /** @deprecated use {@link #INSTANCE} */
   public RussianSynthesizer(Language lang) {
-    super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
+    this();
+  }
+  private RussianSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME, "ru");
   }
   
 }

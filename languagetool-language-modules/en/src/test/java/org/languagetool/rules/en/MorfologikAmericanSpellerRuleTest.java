@@ -206,7 +206,8 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     List<RuleMatch> ruleMatchesWithoutMerge = lt.check("sux\u00AD tainability");
     assertEquals(2, ruleMatchesWithoutMerge.size());
     // make sure we offset correctly for ignored characters
-    assertEquals(Arrays.asList(0, 4), Arrays.asList(ruleMatchesWithoutMerge.get(0).getFromPos(), ruleMatchesWithoutMerge.get(0).getToPos()));
+    // changed 0,4 -> 0,3 after \00AD is handled by annotated text
+    assertEquals(Arrays.asList(0, 3), Arrays.asList(ruleMatchesWithoutMerge.get(0).getFromPos(), ruleMatchesWithoutMerge.get(0).getToPos()));
     assertEquals(Arrays.asList(5, 16), Arrays.asList(ruleMatchesWithoutMerge.get(1).getFromPos(), ruleMatchesWithoutMerge.get(1).getToPos()));
 
     // see issue #1769
@@ -286,6 +287,11 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertThat(matches10[0].getToPos(), is(7));
     assertThat(matches10[0].getSuggestedReplacements().get(0), is("show")); // not really a good first suggestion... "throw" is 5th
     
+    RuleMatch[] matches11 = rule.match(lt.getAnalyzedSentence("dditionally, this is it."));
+    assertThat(matches11.length, is(1));
+    assertThat(matches11[0].getSuggestedReplacements().get(0), is("Additionally"));
+    assertThat(matches11[0].getFromPos(), is(0));
+    assertThat(matches11[0].getToPos(), is(11));
   }
 
   @Test
@@ -352,26 +358,6 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertFalse(rule.isMisspelled("bicycle"));
     assertFalse(rule.isMisspelled("table"));
     assertFalse(rule.isMisspelled("tables"));
-  }
-  
-  @Test
-  // case: signature is (mostly) English, user starts typing in German -> first, EN is detected for whole text
-  // Also see GermanSpellerRuleTest
-  public void testMultilingualSignatureCase() throws IOException {
-    String sig = "-- " +
-                 "Department of Electrical and Electronic Engineering\n" +
-                 "Office XY, Sackville Street Building, The University of Manchester, Manchester\n";
-    assertZZ("Hallo Herr Müller, wie geht\n\n" + sig);  // "Herr" and "Müller" are accepted by EN speller
-    assertZZ("Hallo Frau Müller, wie\n\n" + sig);  // "Frau" and "Müller" are accepted by EN speller
-    assertZZ("Hallo Frau Sauer, wie\n\n" + sig);
-    //assertZZ("Hallo Frau Müller,\n\n" + sig);  // only "Hallo" not accepted by EN speller
-  }
-
-  private void assertZZ(String input) throws IOException {
-    List<AnalyzedSentence> analyzedSentences = lt.analyzeText(input);
-    assertThat(analyzedSentences.size(), is(2));
-    assertThat(rule.match(analyzedSentences.get(0))[0].getErrorLimitLang(), is("zz"));
-    assertNull(rule.match(analyzedSentences.get(1))[0].getErrorLimitLang());
   }
 
   @Test

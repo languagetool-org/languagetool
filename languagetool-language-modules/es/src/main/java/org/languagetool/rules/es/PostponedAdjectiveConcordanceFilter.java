@@ -18,6 +18,12 @@
  */
 package org.languagetool.rules.es;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.synthesis.es.SpanishSynthesizer;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,13 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Spanish;
-import org.languagetool.rules.*;
-import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.synthesis.es.SpanishSynthesizer;
 
 /**
  * This rule checks if an adjective doesn't agree with the previous noun and at
@@ -106,8 +105,6 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
   
-  private static final SpanishSynthesizer synth = new SpanishSynthesizer(new Spanish());
-
   boolean adverbAppeared = false;
   boolean conjunctionAppeared = false;
   boolean punctuationAppeared = false;
@@ -385,6 +382,8 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
         j++;
       }
     }
+
+    SpanishSynthesizer synth = SpanishSynthesizer.INSTANCE;
 
     // The rule matches
     // Synthesize suggestions  

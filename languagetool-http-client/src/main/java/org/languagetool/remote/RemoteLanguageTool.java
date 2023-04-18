@@ -18,23 +18,19 @@
  */
 package org.languagetool.remote;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Check a text using a <a href="https://dev.languagetool.org/http-server">remote LanguageTool server</a> via HTTP or HTTPS.
  * Our public HTTPS API and its restrictions are documented
  * <a href="https://dev.languagetool.org/public-http-api">here</a>.
+ *
  * @since 3.4
  */
 @SuppressWarnings("unchecked")
@@ -43,7 +39,7 @@ public class RemoteLanguageTool {
   private static final String V2_CHECK = "/v2/check";
   private static final String V2_MAXTEXTLENGTH = "/v2/maxtextlength";
   private static final String V2_CONFIGINFO = "/v2/configinfo";
-  
+
   private final ObjectMapper mapper = new ObjectMapper();
   private final URL serverBaseUrl;
 
@@ -58,22 +54,30 @@ public class RemoteLanguageTool {
   }
 
   /**
-   * @param text the text to be checked
+   * @param text     the text to be checked
    * @param langCode the language code like {@code en} or {@code en-US} - <strong>note that for some languages (like English) you
    *                 need to specify the country code (like {@code US} or {@code GB}) to get spell checking</strong>
    */
   public RemoteResult check(String text, String langCode) {
-    return check(getUrlParams(text, new CheckConfigurationBuilder(langCode).build()));
+    return check(getUrlParams(text, new CheckConfigurationBuilder(langCode).build(), null));
+  }
+  
+  public RemoteResult check(String text, String langCode, Map<String, String> customParams) {
+    return check(getUrlParams(text, new CheckConfigurationBuilder(langCode).build(), customParams));
   }
 
   /**
    * @param text the text to be checked
    */
   public RemoteResult check(String text, CheckConfiguration config) {
-    return check(getUrlParams(text, config));
+    return check(getUrlParams(text, config, null));
+  }
+  
+  public RemoteResult check(String text, CheckConfiguration config, Map<String, String> customParams) {
+    return check(getUrlParams(text, config, customParams));
   }
 
-  private String getUrlParams(String text, CheckConfiguration config) {
+  private String getUrlParams(String text, CheckConfiguration config, Map<String, String> customParams) {
     StringBuilder params = new StringBuilder();
     append(params, "text", text);
     if (config.getMotherTongueLangCode() != null) {
@@ -104,6 +108,17 @@ public class RemoteLanguageTool {
     }
     if (config.getTextSessionID() != null) {
       append(params, "textSessionId", config.getTextSessionID());
+    }
+    if (config.getUsername() != null) {
+      append(params, "username", config.getUsername());
+    }
+    if (config.getAPIKey() != null) {
+      append(params, "apiKey", config.getAPIKey());
+    }
+    if (customParams != null) {
+      customParams.forEach((key, value) -> {
+        append(params, key, value);
+      });
     }
     append(params, "useragent", "java-http-client");
     return params.toString();
@@ -187,7 +202,7 @@ public class RemoteLanguageTool {
   }
 
   public int getMaxTextLength() {
-    byte[] postData = { 0 };
+    byte[] postData = {0};
     URL checkUrl;
     try {
       checkUrl = new URL(serverBaseUrl + V2_MAXTEXTLENGTH);
@@ -255,7 +270,7 @@ public class RemoteLanguageTool {
     Map<String, String> languageObj = (Map<String, String>) map.get("language");
     String language = languageObj.get("name");
     String languageCode = languageObj.get("code");
-    Map<String, String> detectedLanguageObj = (Map<String, String>) ((Map)languageObj).get("detectedLanguage");
+    Map<String, String> detectedLanguageObj = (Map<String, String>) ((Map) languageObj).get("detectedLanguage");
     String languageDetectedCode = null, languageDetectedName = null;
     if (detectedLanguageObj != null) {
       languageDetectedCode = detectedLanguageObj.get("code");
@@ -266,17 +281,32 @@ public class RemoteLanguageTool {
     List matches = (ArrayList) map.get("matches");
     List<RemoteRuleMatch> result = new ArrayList<>();
     for (Object match : matches) {
-      RemoteRuleMatch remoteMatch = getMatch((Map<String, Object>)match);
+      RemoteRuleMatch remoteMatch = getMatch((Map<String, Object>) match);
       result.add(remoteMatch);
     }
-    return new RemoteResult(language, languageCode, languageDetectedCode, languageDetectedName, result, remoteServer);
+    List ignoreRanges = (ArrayList) map.get("ignoreRanges");
+    List<RemoteIgnoreRange> remoteIgnoreRanges = new ArrayList<>();
+    if (ignoreRanges != null) {
+      for (Object range : ignoreRanges) {
+        RemoteIgnoreRange remoteIgnoreRange = getIgnoreRange((Map<String, Object>) range);
+        remoteIgnoreRanges.add(remoteIgnoreRange);
+      }
+    }
+    return new RemoteResult(language, languageCode, languageDetectedCode, languageDetectedName, result, remoteIgnoreRanges, remoteServer);
+  }
+
+  private RemoteIgnoreRange getIgnoreRange(Map<String, Object> range) {
+    int from = (int) range.get("from");
+    int to = (int) range.get("to");
+    String langCode = (String) ((Map<String, Object>) range.get("language")).get("code");
+    return new RemoteIgnoreRange(from, to, langCode);
   }
 
   private RemoteRuleMatch getMatch(Map<String, Object> match) {
     Map<String, Object> rule = (Map<String, Object>) match.get("rule");
     int offset = (int) getRequired(match, "offset");
     int errorLength = (int) getRequired(match, "length");
-    
+
     Map<String, Object> context = (Map<String, Object>) match.get("context");
     int contextOffset = (int) getRequired(context, "offset");
     RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, "id"), getRequiredString(rule, "description"), getRequiredString(match, "message"),

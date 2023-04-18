@@ -19,15 +19,14 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 2.3
@@ -41,6 +40,8 @@ public abstract class AbstractPatternRulePerformer {
   private final List<PatternTokenMatcher> patternTokenMatchers;
   private final int patternSize;
   private final int minOccurCorrection;
+  private final @Nullable Map<PatternToken, List<List<AnalyzedToken>>> toUnify;
+  private final @Nullable Map<PatternToken, List<AnalyzedTokenReadings>> neutralReadings;
 
   protected AbstractPatternRulePerformer(AbstractTokenBasedRule rule, Unifier unifier) {
     this.rule = Objects.requireNonNull(rule);
@@ -48,6 +49,8 @@ public abstract class AbstractPatternRulePerformer {
     patternTokenMatchers = createElementMatchers();
     patternSize = patternTokenMatchers.size();
     minOccurCorrection = getMinOccurrenceCorrection();
+    toUnify = rule.isTestUnification() ? new HashMap<>() : null;
+    neutralReadings = rule.isTestUnification() ? new HashMap<>() : null;
   }
 
   private List<PatternTokenMatcher> createElementMatchers() {
@@ -90,8 +93,9 @@ public abstract class AbstractPatternRulePerformer {
     int firstMarkerMatchToken = -1;
     int lastMarkerMatchToken = -1;
     int prevSkipNext = 0;
-    if (rule.isTestUnification()) {
-      unifier.reset();
+    if (toUnify != null) {
+      toUnify.clear();
+      Objects.requireNonNull(neutralReadings).clear();
     }
     int minOccurSkip = 0;
     for (int k = 0; k < patternSize; k++) {
@@ -153,7 +157,7 @@ public abstract class AbstractPatternRulePerformer {
         break;
       }
     }
-    if (allElementsMatch && matchingTokens == patternSize) {
+    if (allElementsMatch && matchingTokens == patternSize && testUnification()) {
       consumer.consume(tokenPositions, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken);
     }
   }
@@ -169,6 +173,8 @@ public abstract class AbstractPatternRulePerformer {
     boolean anyMatched = false;
     int numberOfReadings = tokens[tokenNo].getReadingsLength();
     matcher.prepareAndGroup(firstMatchToken, tokens, rule.getLanguage());
+
+    List<AnalyzedToken> readingsToUnify = toUnify == null ? null : new ArrayList<>();
 
     for (int i = 0; i < numberOfReadings; i++) {
       AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(i);
@@ -216,8 +222,8 @@ public abstract class AbstractPatternRulePerformer {
 
         boolean isLastReading = i + 1 == numberOfReadings;
         PatternToken elem = matcher.getPatternToken();
-        if (anyMatched && rule.testUnification && elem.isUnified() && !elem.isUnificationNeutral()) {
-          anyMatched = testUnification(readingMatches, isLastReading, matchToken, elem);
+        if (readingMatches && readingsToUnify != null && elem.isUnified() && !elem.isUnificationNeutral()) {
+          readingsToUnify.add(matchToken);
         }
         anyMatched &= testAndGroup(isLastReading, matchToken, matcher);
       }
@@ -233,8 +239,8 @@ public abstract class AbstractPatternRulePerformer {
           return false;
         }
       }
-      if (matcher.getPatternToken().isUnificationNeutral()) {
-        unifier.addNeutralElement(tokens[tokenNo]);
+      if (matcher.getPatternToken().isUnificationNeutral() && neutralReadings != null) {
+        neutralReadings.computeIfAbsent(matcher.getPatternToken(), __ -> new ArrayList<>()).add(tokens[tokenNo]);
       }
     }
     ChunkTag chunkTag = matcher.getPatternToken().getChunkTag();
@@ -255,31 +261,60 @@ public abstract class AbstractPatternRulePerformer {
         }
       }
     }
-    if (!anyMatched) return false;
+    if (anyMatched && readingsToUnify != null && !readingsToUnify.isEmpty()) {
+      toUnify.computeIfAbsent(matcher.getPatternToken(), __ -> new ArrayList<>()).add(readingsToUnify);
+    }
+    return anyMatched;
+  }
 
-    if (rule.testUnification) {
-      if (!matcher.getPatternToken().isUnified()) {
-        unifier.reset();
-      } else if (matcher.getPatternToken().isLastInUnification() && rule.isGetUnified()) {
-        unifiedTokens = unifier.getFinalUnified();
+  private boolean testUnification() {
+    if (toUnify == null || neutralReadings == null) return true;
+
+    unifier.reset();
+
+    for (PatternTokenMatcher matcher : patternTokenMatchers) {
+      PatternToken patternToken = matcher.getPatternToken();
+      List<AnalyzedTokenReadings> neutral = neutralReadings.get(patternToken);
+      if (neutral != null) {
+        for (AnalyzedTokenReadings atr : neutral) {
+          unifier.addNeutralElement(atr);
+        }
+        continue;
+      }
+
+      List<List<AnalyzedToken>> readingSets = toUnify.get(patternToken);
+      if (readingSets == null) continue;
+
+      for (List<AnalyzedToken> readings : readingSets) {
+        boolean anyMatched = false;
+        for (int i = 0; i < readings.size(); i++) {
+          anyMatched |= unifier.isUnified(readings.get(i), patternToken.getUniFeatures(), i == readings.size() - 1);
+        }
+        if (patternToken.isUniNegated() && anyMatched) {
+          return false;
+        }
+        if (patternToken.isLastInUnification() && readings == readingSets.get(readingSets.size() - 1)) {
+          if (!anyMatched && !patternToken.isUniNegated()) {
+            return false;
+          }
+          if (rule.isGetUnified()) {
+            unifiedTokens = unifier.getFinalUnified();
+            //try {
+            //  unifiedTokens = unifier.getFinalUnified();
+            //} catch (Exception e) {
+            //  System.out.println("Crashing rule: " + rule.getFullId());
+            //  throw e;
+            //}
+          }
+          unifier.reset();
+        }
       }
     }
 
     return true;
   }
 
-  private boolean testUnification(boolean readingMatched, boolean lastReading, AnalyzedToken matchToken, PatternToken elem) {
-    boolean unified = unifier.isUnified(matchToken, elem.getUniFeatures(), lastReading, readingMatched);
-    if (elem.isUniNegated()) {
-      return !unified;
-    }
-    if (elem.isLastInUnification()) {
-      return unified;
-    }
-    return true;
-  }
-
-  private boolean testAndGroup(boolean lastReading, AnalyzedToken matchToken, PatternTokenMatcher elemMatcher) {
+  private static boolean testAndGroup(boolean lastReading, AnalyzedToken matchToken, PatternTokenMatcher elemMatcher) {
     elemMatcher.addMemberAndGroup(matchToken);
     return !lastReading || elemMatcher.checkAndGroup(true);
   }

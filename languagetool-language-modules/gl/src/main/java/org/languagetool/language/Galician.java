@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.gl.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.gl.GalicianSynthesizer;
@@ -72,7 +73,7 @@ public class Galician extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new GalicianSynthesizer(this);
+    return GalicianSynthesizer.INSTANCE;
   }
 
   @Override
@@ -126,6 +127,12 @@ public class Galician extends Language {
     );
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new HunspellRule(messages, this, null, null);
+  }
+
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
@@ -171,5 +178,7 @@ public class Galician extends Language {
       // case "CACOPHONY":                 return -2000;
     }
     return super.getPriorityForId(id);
+    
+    
   }
 }

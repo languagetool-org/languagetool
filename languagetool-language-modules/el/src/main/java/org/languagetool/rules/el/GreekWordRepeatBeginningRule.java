@@ -72,7 +72,8 @@ public class GreekWordRepeatBeginningRule extends WordRepeatBeginningRule {
   @Override
   public boolean isException(String token) {
     return super.isException(token) || token.equals("Ο") || token.equals("Η") || token.equals("Το") ||
-    	   token.equals("Οι")|| token.equals("Τα");
+    	   token.equals("Οι")|| token.equals("Τα") || token.equals("Ένας") || token.equals("Μία") || 
+		   token.equals("Ένα");
   }
 
   @Override

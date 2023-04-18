@@ -439,6 +439,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>навчитися самій робити хліб</example>
         <example>тут навчалася півтора року.</example>
       </rule>
+      
+      <rule>
+        <pattern>
+          <token inflected="yes">навчання</token>
+          <marker>
+            <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*">
+              <exception postag_regexp="yes" postag="noun:inanim:.:v_(oru|rod).*|adv.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Навчати чого</message>
+        <example correction="">навчання <marker>математиці</marker>.</example>
+        <example correction="">навчання <marker>іноземним мовам</marker>.</example>
+        <!--
+        <example correction="">навчинню їх <marker>здоровому способу</marker> життя.</example>
+        -->
+        <example>навчання персоналу</example>
+      </rule>
+
     </rulegroup>
 
     <rulegroup id="CONSISTENCY_NOUN_NUMERIC_FRACTIONAL" name="Узгодженість числа іменників з дробовими числівниками">
@@ -499,7 +519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Десяті, соті, тисячні тощо — жіночого роду</message>
         <suggestion>півтори</suggestion>
         <example correction="півтори"><marker>півтора</marker> сотих секунди</example>
-        <example>не вистачило півтора метри</example>
+        <example>не вистачило півтора метра</example>
       </rule>
     </rulegroup>
 
@@ -2139,63 +2159,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>за цей злочин кару смертю</example>
       </rule>
     </rulegroup>
-  </category>
-
-  <category id="LOGICAL_ERRORS" name="Логічні помилки">
-    <rulegroup id="INVALID_DATE" name="Неправильна дата, наприклад '31 лютого 2014'">
-      <rule>
-        <pattern>
-          <marker>
-            <token>31</token>
-            <token regexp="yes">квітень|квітня|кві|червень|червня|вересень|вересня|вер|листопад|листопада|лис</token>
-          </marker>
-        </pattern>
-        <message>Місяць \2 має лише 30 днів.</message>
-        <example correction="">Це трапилося <marker>31 листопада</marker> 2014 р.</example>
-        <example>Це трапилося <marker>30 листопада</marker> 2014 р.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes">3[01]</token>
-            <token regexp="yes">лютий|лютого|лют</token>
-          </marker>
-        </pattern>
-        <message>Лютий має 28 днів або 29 днів у переступному році.</message>
-        <example correction="">Це трапилося <marker>30 лютого</marker> 2014 р.</example>
-        <example>Це трапилося <marker>28 лютого</marker> 2014 р.</example>
-      </rule>
-    </rulegroup>
-
-    <rule id="YEAR_20001" name="Забагато нулів в номері року">
-      <pattern>
-        <token regexp="yes">&months;|рік</token>
-        <token regexp="yes">200\d\d</token>
-      </pattern>
-      <message>Можливо <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
-      <short>Помилка друку?</short>
-      <example>Мою поїздку запланували на травень 2014 р.</example>
-      <example correction="травень 2014">Мою поїздку запланували на <marker>травень 20014</marker> р.</example>
-    </rule>
-
-    <rulegroup id="DATE_WEEKDAY1" name="День тижня не відповідає даті">
-      <!-- "понеділок, 7 жовтня 2014" -->
-      <rule>
-        <pattern>
-          <token regexp="yes">&weekdays;</token>
-          <token>,</token>
-          <token regexp="yes">\d\d?</token>
-          <token regexp="yes">&months;|&abbrevMonths;</token>
-          <token regexp="yes">\d\d\d\d</token>
-        </pattern>
-        <filter class="org.languagetool.rules.uk.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
-        <message>Днем тижня \3 \4 \5 є не \1, а {realDay}.</message>
-        <example correction="">Конференція відбудеться в <marker>понеділок, 7 жовтня 2014</marker> р.</example>
-        <example correction="">Конференція відбудеться в <marker>понеділок, 7 жов 2014</marker> р.</example>
-        <example>Конференція відбудеться у вівторок, 7 жовтня 2014 р.</example>
-        <example>Конференція відбудеться у вівторок, 7 жов 2014 р.</example>
-      </rule>
-    </rulegroup>
 
     <rulegroup id="nemaye_v_rod" name="Немає з р.в.">
       <rule>
@@ -2293,6 +2256,186 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
 
     </rulegroup>
+
+    <rulegroup id="adres_adresa" name="адреса і адрес">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="adj:m:v_(naz|zna).*pron:pos"/>
+          <marker>
+            <token>адрес</token>
+          </marker>
+        </pattern>
+        <message>Можливо, ви мали на увазі <suggestion>адреса</suggestion></message>
+        <example correction="адреса">дав йому свій <marker>адрес</marker>.</example>
+        <example>дав йому свою адресу</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">домашній|електронний|поштовий|зворотний|теперіншій</token>
+          <marker>
+            <token>адрес</token>
+          </marker>
+        </pattern>
+        <message>Можливо, ви мали на увазі <suggestion>адреса</suggestion></message>
+        <example correction="адреса">дав йому домашній <marker>адрес</marker>.</example>
+        <example>дав йому поштових адрес</example>
+      </rule>
+<!-- TODO: needs dictionary update
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token postag_regexp="yes" postag="adj:m:(?!.*pron:pos).*"/>
+            <marker>
+              <token inflected="yes">адрес</token>
+            </marker>
+          </unify>
+        </pattern>
+        <message>Можливо, ви мали на увазі <suggestion>адреса</suggestion></message>
+        <example correction="адреса">дав йому домашній <marker>адрес</marker>.</example>
+        <example>на домашній <marker>адресі</marker>.</example>
+      </rule>
+-->
+    </rulegroup>
+
+    <rulegroup id="na_vylit_vs_navylit" name="На виліт і навиліт">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">пройти|проходити|проби(ва)?ти|проши(ва)?ти|подати|подача|куля|поранення</token>
+          <token postag_regexp="yes" postag="noun.*v_zna.*" min="0"/>
+          <marker>
+            <token>на</token>
+            <token>виліт</token>
+          </marker>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion>навиліт</suggestion>?</message>
+        <example correction="навиліт">куля пройшла <marker>на виліт</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">матч|гра|кандидат|претендент|квиток|дозвіл|обмеження|черга</token>
+          <marker>
+            <token>навиліт</token>
+          </marker>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion>на виліт</suggestion>?</message>
+        <example correction="на виліт">той матч <marker>навиліт</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="pyvyd_vs_pryvid" name="Привід та привид">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">механічний|електричний|формальний|зайвий|да(ва)?ти|шукати|мати</token>
+          <marker>
+            <token>привид</token>
+          </marker>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion>привід</suggestion>?</message>
+        <example correction="привід">механічний <marker>привид</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>привид</token>
+          </marker>
+          <token regexp="yes">для|до</token>
+        </pattern>
+        <message>Може ви мали на увазі <suggestion>привід</suggestion>?</message>
+        <example correction="привід">шукав <marker>привид</marker> для.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="na_golovy" name="На голову - вщент">
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">розбити|розбивати|розгромити|розбивши|розгромивши|розбитий|розгромлений</token>
+          <token postag_regexp="yes" postag="noun:.*v_zna.*" min="0"/>
+          <marker>
+            <token>на</token>
+            <token>голову</token>
+          </marker>
+        </pattern>
+        <message>Можливо ви мали на увазі: <suggestion>ущент</suggestion>, <suggestion>дощенту</suggestion>, <suggestion>упень</suggestion>?</message>
+        <example correction="ущент|дощенту|упень">розбили <marker>на голову</marker>.</example>
+        <example correction="ущент|дощенту|упень">розбили його <marker>на голову</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>на</token>
+            <token>голову</token>
+          </marker>
+          <token regexp="yes" inflected="yes">розбити|розбивати|розгромити|розбивши|розгромивши|розбитий|розгромлений</token>
+        </pattern>
+        <message>Можливо ви мали на увазі: <suggestion>ущент</suggestion>, <suggestion>дощенту</suggestion>, <suggestion>упень</suggestion>?</message>
+        <example correction="ущент|дощенту|упень">і <marker>на голову</marker> розбитого.</example>
+      </rule>
+    </rulegroup>
+
+  </category>
+
+  <category id="LOGICAL_ERRORS" name="Логічні помилки">
+    <rulegroup id="INVALID_DATE" name="Неправильна дата, наприклад '31 лютого 2014'">
+      <rule>
+        <pattern>
+          <marker>
+            <token>31</token>
+            <token regexp="yes">квітень|квітня|кві|червень|червня|вересень|вересня|вер|листопад|листопада|лис</token>
+          </marker>
+        </pattern>
+        <message>Місяць \2 має лише 30 днів.</message>
+        <example correction="">Це трапилося <marker>31 листопада</marker> 2014 р.</example>
+        <example>Це трапилося <marker>30 листопада</marker> 2014 р.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">3[01]</token>
+            <token regexp="yes">лютий|лютого|лют</token>
+          </marker>
+        </pattern>
+        <message>Лютий має 28 днів або 29 днів у переступному році.</message>
+        <example correction="">Це трапилося <marker>30 лютого</marker> 2014 р.</example>
+        <example>Це трапилося <marker>28 лютого</marker> 2014 р.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="YEAR_20001" name="Забагато нулів в номері року">
+      <pattern>
+        <token regexp="yes">&months;|рік</token>
+        <token regexp="yes">200\d\d</token>
+      </pattern>
+      <message>Можливо <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+      <short>Помилка друку?</short>
+      <example>Мою поїздку запланували на травень 2014 р.</example>
+      <example correction="травень 2014">Мою поїздку запланували на <marker>травень 20014</marker> р.</example>
+    </rule>
+
+    <rulegroup id="DATE_WEEKDAY1" name="День тижня не відповідає даті">
+      <!-- "понеділок, 7 жовтня 2014" -->
+      <rule>
+        <pattern>
+          <token regexp="yes">&weekdays;</token>
+          <token>,</token>
+          <token regexp="yes">\d\d?</token>
+          <token regexp="yes">&months;|&abbrevMonths;</token>
+          <token regexp="yes">\d\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.uk.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
+        <message>Днем тижня \3 \4 \5 є не \1, а {realDay}.</message>
+        <example correction="">Конференція відбудеться в <marker>понеділок, 7 жовтня 2014</marker> р.</example>
+        <example correction="">Конференція відбудеться в <marker>понеділок, 7 жов 2014</marker> р.</example>
+        <example>Конференція відбудеться у вівторок, 7 жовтня 2014 р.</example>
+        <example>Конференція відбудеться у вівторок, 7 жов 2014 р.</example>
+      </rule>
+    </rulegroup>
+
   </category>
 
 </rules>

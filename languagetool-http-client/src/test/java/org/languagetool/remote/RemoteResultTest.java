@@ -21,6 +21,7 @@ package org.languagetool.remote;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RemoteResultTest {
@@ -29,7 +30,7 @@ public class RemoteResultTest {
   public void testGetLanguageDetectedCodeOutput() {
     final RemoteServer remoteServer = new RemoteServer("LanguageTool", "", "");
     final List matches = new ArrayList();
-    final RemoteResult objectUnderTest = new RemoteResult("English", "en", "en", "English", matches, remoteServer);
+    final RemoteResult objectUnderTest = new RemoteResult("English", "en", "en", "English", matches, Collections.emptyList(), remoteServer);
     Assert.assertEquals(objectUnderTest.getLanguageDetectedCode(), "en");
     Assert.assertEquals(objectUnderTest.getLanguageDetectedName(), "English");
   }

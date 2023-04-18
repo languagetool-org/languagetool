@@ -48,6 +48,7 @@ public class SpanishTaggerTest {
     TestTools.myAssert("DESTACADAMENTE", "DESTACADAMENTE/[destacadamente]RG", tokenizer, tagger);
     TestTools.myAssert("alucinadamente", "alucinadamente/[alucinadamente]RG", tokenizer, tagger);
     TestTools.myAssert("disputadamente", "disputadamente/[disputadamente]RG", tokenizer, tagger);
+    TestTools.myAssert("superincómodas", "superincómodas/[superincómodo]AQ0FP0", tokenizer, tagger);
     
     // all-upper case that is common noun & proper noun
     TestTools.myAssert("RIOJA", "RIOJA/[Rioja]NPCNG00|RIOJA/[rioja]NCMS000", tokenizer, tagger);

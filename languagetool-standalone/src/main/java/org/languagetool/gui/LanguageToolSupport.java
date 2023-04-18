@@ -20,12 +20,9 @@ package org.languagetool.gui;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.MultiThreadedJLanguageTool;
-import org.languagetool.UserConfig;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.*;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 import org.languagetool.rules.*;
 
 import javax.swing.*;
@@ -40,8 +37,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
@@ -105,7 +102,7 @@ class LanguageToolSupport {
     ruleMatches = new ArrayList<>();
     documentSpans = new ArrayList<>();    
     this.undo = support;
-    this.langIdentifier = new LanguageIdentifier();
+    this.langIdentifier = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(0, null, null, null);
     init();
   }
 
@@ -257,7 +254,6 @@ class LanguageToolSupport {
       languageTool.setCleanOverlappingMatches(false);
       Tools.configureFromRules(languageTool, config);
       activateLanguageModelRules(language);
-      activateWord2VecModelRules(language);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -277,21 +273,6 @@ class LanguageToolSupport {
         // might not have the data for other languages that supports ngram, so don't
         // annoy them with an error dialog:
         System.err.println("Not loading ngram data, directory does not exist: " + ngramLangDir);
-      }
-    }
-  }
-
-  private void activateWord2VecModelRules(Language language) {
-    if (config.getWord2VecDirectory() != null) {
-      File word2vecDir = new File(config.getWord2VecDirectory(), language.getShortCode());
-      if (word2vecDir.exists()) {
-        try {
-          languageTool.activateWord2VecModelRules(config.getWord2VecDirectory());
-        } catch (Exception e) {
-          JOptionPane.showMessageDialog(null, "Error while loading word2vec model.\n" + e.getMessage());
-        }
-      } else {
-        System.err.println("Not loading word2vec data, directory does not exist: " + word2vecDir);
       }
     }
   }

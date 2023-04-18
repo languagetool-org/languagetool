@@ -89,8 +89,8 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
     addUnit("Liter", LITRE, "Liter", 1, true);
     addUnit("Milliliter", LITRE, "Milliliter", 1e-3, true);
 
-    addUnit( "(?:Grad)? Fahrenheit", FAHRENHEIT, "Grad Fahrenheit", 1, false);
-    addUnit( "(?:Grad)? Celsius", CELSIUS, "Grad Celsius", 1, true);
+    addUnit("(?:Grad)? Fahrenheit", FAHRENHEIT, "Grad Fahrenheit", 1, false);
+    addUnit("(?:Grad)? Celsius", CELSIUS, "Grad Celsius", 1, true);
   }
 
   @Override

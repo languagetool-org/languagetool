@@ -56,4 +56,14 @@ public class HunspellRuleTest {
 
     lt.check("- Encontre no autoconheciemen");  // No "Could not map 29 to original position." issue
   }
+  
+  @Test
+  public void testBrazilianHunspellRule() throws Exception {
+    HunspellRule rule = new HunspellRule(TestTools.getMessages("pt"), Languages.getLanguageForShortCode("pt-PT"), null);
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("pt-BR"));
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("O Word.")).length);
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("O word.")); 
+    assertEquals(1, matches.length);
+    assertEquals("Word", matches[0].getSuggestedReplacements().get(0));
+  }
 }

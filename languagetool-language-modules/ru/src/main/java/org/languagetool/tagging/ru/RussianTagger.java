@@ -35,7 +35,7 @@ import java.util.*;
 public class RussianTagger extends BaseTagger {
   public static final RussianTagger INSTANCE = new RussianTagger();
 
-  private RussianTagger() {
+  public RussianTagger() {
     super("/ru/russian.dict", new Locale("ru"));
   }
 

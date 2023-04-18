@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tools.StringTools;
 
 
 /**
@@ -70,7 +71,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   // Sàsser-l'Alguer
   private static final Pattern HYPHEN_L= Pattern.compile("([\\p{L}]+)(-)([Ll]['’])([\\p{L}]+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
-  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", "");;
+  private final String CA_TOKENIZING_CHARACTERS = getTokenizingCharacters().replace("·", "") + "−";
   
   public CatalanWordTokenizer() {
 
@@ -118,7 +119,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    String auxText=text;
+    String auxText = text;
 
     Matcher matcher=ELA_GEMINADA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");

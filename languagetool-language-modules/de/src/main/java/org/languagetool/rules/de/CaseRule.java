@@ -25,7 +25,10 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
-import org.languagetool.rules.*;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.Example;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.de.GermanToken;
@@ -89,13 +92,58 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Bedienstete",
+    "Bediensteter",
+    "Feierwütiger",
+    "Feierwütige",
+    "Feierwütigen",
+    "Dritten",
+    "Berufstätige",
+    "Berufstätigen",
+    "Erwerbstätige",
+    "Erwerbstätigen",
+    "Tatverdächtige",
+    "Tatverdächtigen",
+    "Konsumierende",
+    "Konsumierenden",
+    "Verliebter",
+    "Verliebte",
+    "Beängstigendes",
+    "Oppositioneller",
+    "Oppositionelle",
+    "Verantwortlicher",
+    "Verantwortliche",
+    "Verantwortlichen",
+    "Beschuldigte",
+    "Beschuldigten",
+    "Beklagte",
+    "Beklagten",
+    "Befragte",
+    "Befragten",
+    "Hingerichtete",
+    "Lehrende",
+    "Lehrender",
     "Vertrauter",
     "Out", // eng
     "Packet", // misspelling of "Paket" (caught by spell checker)
     "Adult", // eng
     "Apart", // eng
+    "Universal", // eng
+    "Multinational", // eng
+    "Additional", // eng
     "Smart", // eng
+    "Adverse", // eng
     "Different", // eng
+    "Light", // eng
+    "Legal", // eng
+    "Computational", // eng
+    "Holder", // eng
+    "Just", // eng
+    "Lost", // eng
+    "Fundamental", // eng
+    "Quick", // eng
+    "Infernal", // eng
+    "Fit", // eng
     "Fair", // eng
     "Viral", // eng
     "Tough", // eng
@@ -665,7 +713,11 @@ public class CaseRule extends Rule {
     "Eure",
     "Eurem",
     "Euren",
-    "Eures"
+    "Eures",
+    "Eueren",
+    "Euerem",
+    "Eueres",
+    "Euerer"
   };
   
   private static final Set<StringMatcher[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
@@ -711,14 +763,13 @@ public class CaseRule extends Rule {
     substVerbenExceptions.add("bedeuten");
   }
 
-  private final GermanTagger tagger;
-  private final GermanSpellerRule speller;
   private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
+  private final German language;
 
   public CaseRule(ResourceBundle messages, German german) {
+    language = german;
     super.setCategory(Categories.CASING.getCategory(messages));
-    tagger = (GermanTagger) german.getTagger();
-    speller = new GermanSpellerRule(JLanguageTool.getMessageBundle(), german);
+    setUrl(Tools.getUrl("https://languagetool.org/insights/de/beitrag/gross-klein-schreibung-rechtschreibung/#1-nomen-werden-gro%C3%9Falle-anderen-wortarten-kleingeschrieben"));
     antiPatterns = cacheAntiPatterns(german, ANTI_PATTERNS);
     addExamplePair(Example.wrong("<marker>Das laufen</marker> fällt mir schwer."),
                    Example.fixed("<marker>Das Laufen</marker> fällt mir schwer."));
@@ -807,7 +858,7 @@ public class CaseRule extends Rule {
       if (analyzedToken.matchesPosTagRegex("VER:(MOD|AUX):[1-3]:.*")) {
         isPrecededByModalOrAuxiliary = true;
       }
-      AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
+      AnalyzedTokenReadings lowercaseReadings = ((GermanTagger) language.getTagger()).lookup(token.toLowerCase());
       if (hasNounReading(analyzedToken)) { // it's the spell checker's task to check that nouns are uppercase
         if (!isPotentialUpperCaseError(i, tokens, lowercaseReadings, isPrecededByModalOrAuxiliary)) {
           continue;
@@ -960,7 +1011,8 @@ public class CaseRule extends Rule {
         !isCaseTypo(tokens[i].getToken()) &&
         !followedByGenderGap(tokens, i) &&
         !isNounWithVerbReading(i, tokens) &&
-        !speller.isMisspelled(lcWord)) {
+        !isInvisibleSeparator(i-1, tokens) &&
+        !language.getDefaultSpellingRule().isMisspelled(lcWord)) {
       if (":".equals(tokens[i - 1].getToken())) {
         AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[i];
         System.arraycopy(tokens, 0, subarray, 0, i);
@@ -995,6 +1047,10 @@ public class CaseRule extends Rule {
     return tokens[i].hasPosTagStartingWith("SUB") &&
     		tokens[i].hasPosTagStartingWith("VER:INF");
 	}
+
+  private boolean isInvisibleSeparator(int i, AnalyzedTokenReadings[] tokens) {  // u2063 is used internally by our browser add-on
+    return i >= 0 && i < tokens.length && tokens[i].getToken().length() > 0 && tokens[i].getToken().charAt(0) == '\u2063';
+  }
 
 	private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
     AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[ tokens.length - i ];
@@ -1213,7 +1269,7 @@ public class CaseRule extends Rule {
 
   private AnalyzedTokenReadings lookup(String word) {
     try {
-      return tagger.lookup(word);
+      return ((GermanTagger) language.getTagger()).lookup(word);
     } catch (IOException e) {
       throw new RuntimeException("Could not lookup '" + word + "'.", e);
     }

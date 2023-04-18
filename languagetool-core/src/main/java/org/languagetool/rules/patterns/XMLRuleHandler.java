@@ -22,6 +22,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
+import org.languagetool.ResourceBundleTools;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.ErrorTriggeringExample;
@@ -102,8 +103,11 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected List<AbstractPatternRule> rules = new ArrayList<>();
   protected Language language;
+  protected ResourceBundle messages;
 
   protected StringBuilder correctExample = new StringBuilder();
+  protected StringBuilder antiPatternExample = new StringBuilder();
+  protected StringBuilder antiPatternForRuleGroupExample = new StringBuilder();
   protected StringBuilder incorrectExample = new StringBuilder();
   protected StringBuilder errorTriggerExample = new StringBuilder();
   protected StringBuilder exampleCorrection = null;
@@ -114,6 +118,8 @@ public class XMLRuleHandler extends DefaultHandler {
   protected StringBuilder exceptions;
 
   protected List<CorrectExample> correctExamples = new ArrayList<>();
+  protected List<CorrectExample> antipatternExamples = new ArrayList<>();
+  protected List<CorrectExample> antipatternForRuleGroupsExamples = new ArrayList<>();
   protected List<IncorrectExample> incorrectExamples = new ArrayList<>();
   protected List<ErrorTriggeringExample> errorTriggeringExamples = new ArrayList<>();
 
@@ -121,6 +127,8 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean inCorrectExample;
   protected boolean inIncorrectExample;
   protected boolean inErrorTriggerExample;
+  protected boolean inAntiPatternExample;
+  protected boolean inAntiPatternForRuleGroupExample;
   protected boolean inMessage;
   protected boolean inSuggestion;
   protected boolean inMatch;
@@ -142,9 +150,9 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean regExpression;
   protected boolean tokenNegated;
   protected boolean tokenInflected;
-  protected boolean isPremiumFile;
-  protected boolean isPremiumCategory;
-  protected boolean isPremiumRuleGroup;
+  protected String premiumRuleGroupAttribute;
+  protected String premiumCategoryAttribute;
+  protected String premiumFileAttribute;
   protected boolean isPremiumRule;
 
   protected boolean tokenLevelCaseSensitive;
@@ -186,6 +194,8 @@ public class XMLRuleHandler extends DefaultHandler {
   protected List<Match> suggestionMatches = new ArrayList<>();
   protected List<Match> suggestionMatchesOutMsg = new ArrayList<>();
   protected Locator pLocator;
+  protected int xmlLineNumber = -1;
+  protected int xmlLineNumberAntiPattern = -1;
 
   protected int startPositionCorrection;
   protected int endPositionCorrection;
@@ -482,11 +492,9 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected void setToken(Attributes attrs) throws SAXException {
     inToken = true;
-
     if (lastPhrase) {
       patternTokens.clear();
     }
-
     lastPhrase = false;
     tokenNegated = YES.equals(attrs.getValue(NEGATE));
     tokenInflected = YES.equals(attrs.getValue(INFLECTED));
@@ -500,7 +508,6 @@ public class XMLRuleHandler extends DefaultHandler {
       maxOccurrence = Integer.parseInt(attrs.getValue(MAX));
     }
     elements = new StringBuilder();
-    // POSElement creation
     if (attrs.getValue(POSTAG) != null) {
       posToken = internString(attrs.getValue(POSTAG));
       posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
@@ -515,16 +522,13 @@ public class XMLRuleHandler extends DefaultHandler {
       chunkTag = new ChunkTag(internString(attrs.getValue(CHUNKTAG_REGEXP)), true);
     }
     regExpression = YES.equals(attrs.getValue(REGEXP));
-
     if (attrs.getValue(SPACEBEFORE) != null) {
       tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
       tokenSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));
     }
-
     if (!inAndGroup && !inOrGroup) {
       tokenCounter++;
     }
-
     if (attrs.getValue(CASE_SENSITIVE) != null) {
       tokenLevelCaseSet = true;
       tokenLevelCaseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));

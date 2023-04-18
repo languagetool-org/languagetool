@@ -21,13 +21,13 @@ package org.languagetool.rules.de;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Category.Location;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 import java.io.IOException;
@@ -38,7 +38,6 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
-import org.languagetool.rules.patterns.PatternTokenBuilder;
 
 /**
  * A rule checks a sentence for a missing comma before or after a relative clause (only for German language).
@@ -49,8 +48,6 @@ public class MissingCommaRelativeClauseRule extends Rule {
   private static final Pattern MARKS_REGEX = Pattern.compile("[,;.:?•!-–—’'\"„“”…»«‚‘›‹()\\/\\[\\]]");
 
   private final boolean behind;
-
-  private static final German GERMAN = new GermanyGerman();
 
   private static final List<DisambiguationPatternRule> ANTI_PATTERNS = makeAntiPatterns(Arrays.asList(
       Arrays.asList(
@@ -113,6 +110,35 @@ public class MissingCommaRelativeClauseRule extends Rule {
         new PatternTokenBuilder().posRegex("SENT_END").matchInflectedForms().tokenRegex("sollen|können|müssen").build()
       ),
       Arrays.asList(
+        // Komma an der falschen Stelle
+        regex("ja|mal"),
+        csToken("was")
+      ),
+      Arrays.asList(
+        // Komma an der falschen Stelle
+        posRegex("SENT_START|PKT"),
+        csToken("aber"),
+        regex("solange|wenn|wo|wie|was"),
+        regex("du|er|sie|sich|man|euch|uns|die|der|das")
+      ),
+      Arrays.asList(
+        // Komma an der falschen Stelle
+        csToken("selbst"),
+        csToken("wenn"),
+        regex("du|er|sie|sich|man|euch|uns|die|der|das"),
+        regex("die|der|das")
+      ),
+      Arrays.asList(
+        // Komma an der falschen Stelle
+        csToken("wie"),
+        regex("die|der|das")
+      ),
+      Arrays.asList( 
+        // Kein Komma in "weder ... noch ..."
+        new PatternTokenBuilder().setSkip(12).matchInflectedForms().token("weder").build(),
+        token("noch")
+      ),
+      Arrays.asList(
         posRegex("VER:.*1:SIN:KJ1:.+"),
         posRegex("VER:MOD:[12]:.+"),
         posRegex("PKT|KON:NEB")
@@ -130,7 +156,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
         posRegex("VER:EIZ.*"),
         pos("PKT")
       )
-  ), GERMAN);
+  ), GermanyGerman.INSTANCE);
 
   public MissingCommaRelativeClauseRule(ResourceBundle messages) {
     this(messages, false);
@@ -738,7 +764,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
           if( nToken > 0) {
             int startToken = nToken - (isPrp(tokens[nToken - 1]) ? 2 : 1);
             RuleMatch match = new RuleMatch(this, sentence, tokens[startToken].getStartPos(), tokens[nToken].getEndPos(),
-                "Sollten Sie hier ein Komma einfügen?");
+              "Sowohl angehängte als auch eingeschobene Relativsätze werden durch Kommas vom Hauptsatz getrennt.");
             if(nToken - startToken > 1) {
               match.setSuggestedReplacement(tokens[startToken].getToken() + ", " + tokens[nToken - 1].getToken() + " " + tokens[nToken].getToken());
             } else {

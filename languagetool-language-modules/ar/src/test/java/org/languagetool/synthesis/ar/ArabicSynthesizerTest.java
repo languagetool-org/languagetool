@@ -21,7 +21,6 @@ package org.languagetool.synthesis.ar;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.Arabic;
 
 import java.util.Arrays;
 
@@ -31,7 +30,7 @@ public class ArabicSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() {
-    ArabicSynthesizer synth = new ArabicSynthesizer(new Arabic());
+    ArabicSynthesizer synth = ArabicSynthesizer.INSTANCE;
 
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("خيار"), "NJ-;F2--;---")), "[خيارتان, خياريتان]");
 

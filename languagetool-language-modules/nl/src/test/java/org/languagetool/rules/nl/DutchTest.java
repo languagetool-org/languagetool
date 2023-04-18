@@ -33,7 +33,7 @@ public class DutchTest extends LanguageSpecificTest {
     String s = "Schrijf of plak hier je tekst om deze al typende te check. Vergissingen worden gemarkeerd met verschillende kleuren: spelvouten laten we rood ondersteept zien. Grammaticafouten daarentegen markeren we met geel. LanguageTool laat stijlwesties zo optimaal mogelijk zien in het blauw. wist u al dat u synoniemen kunt oproepen met een dubbelklik op een woord ? LanguageTool is een absolute musthave voor het schrijven van perfecte tekst. Bij voorbeeld om een collega te vertellen wat er vrijdag 3 Maart 2007 gebeurd is.";
     Dutch lang = new Dutch();
     testDemoText(lang, s,
-      Arrays.asList("TE_ZNW", "MORFOLOGIK_RULE_NL_NL", "MORFOLOGIK_RULE_NL_NL", "MORFOLOGIK_RULE_NL_NL", "ZO_OPTIMAAL_MOGELIJK", "UPPERCASE_SENTENCE_START", "SPATIE_LEESTEKEN",  "NL_SIMPLE_REPLACE_MUSTHAVE", "BIJ_VOORBEELD", "DATE_WEEKDAY")
+      Arrays.asList("NL_SIMPLE_REPLACE_TE_CHECK", "MORFOLOGIK_RULE_NL_NL", "MORFOLOGIK_RULE_NL_NL", "MORFOLOGIK_RULE_NL_NL", "ZO_OPTIMAAL_MOGELIJK", "UPPERCASE_SENTENCE_START", "SPATIE_LEESTEKEN",  "NL_SIMPLE_REPLACE_MUSTHAVE", "BIJ_VOORBEELD", "DATE_WEEKDAY")
     );
     runTests(lang, null, "ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-₃");
   }

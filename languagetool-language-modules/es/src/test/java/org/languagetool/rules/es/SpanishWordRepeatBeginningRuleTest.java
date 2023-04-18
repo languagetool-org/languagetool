@@ -28,6 +28,10 @@ import java.util.List;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
+import org.languagetool.JLanguageTool.Level;
+import org.languagetool.JLanguageTool.Mode;
+import org.languagetool.JLanguageTool.ParagraphHandling;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 
 public class SpanishWordRepeatBeginningRuleTest {
@@ -39,21 +43,21 @@ public class SpanishWordRepeatBeginningRuleTest {
 
     // ================== correct sentences ===================
     // two successive sentences that start with the same non-adverb word.
-    assertEquals(0, lt.check("Esto está bien. Esto es mejor, también.").size());
+    assertEquals(0, getRuleMatches(lt, "Esto está bien. Esto es mejor, también.").size());
     // three successive sentences that start with the same exception word ("the").
-    assertEquals(0, lt.check("El coche. El profesor. El tercer elemento.").size());
+    assertEquals(0, getRuleMatches(lt, "El coche. El profesor. El tercer elemento.").size());
 
     // =================== errors =============================
-    assertEquals(2, lt.check("Mañana me voy. Mañana vuelvo. Mañana se acabó todo.").size());
+    assertEquals(2, getRuleMatches(lt, "Mañana me voy. Mañana vuelvo. Mañana se acabó todo.").size());
 
     // three successive sentences that start with the same non-exception word
-    List<RuleMatch> matches1 = lt.check("Yo creo. Yo he visto esto antes. Yo no lo creo.");
+    List<RuleMatch> matches1 = getRuleMatches(lt, "Yo creo. Yo he visto esto antes. Yo no lo creo.");
     assertEquals(1, matches1.size());
     // check suggestions
     assertThat(matches1.get(0).getSuggestedReplacements().get(0), is("Además, yo"));
     assertThat(matches1.get(0).getSuggestedReplacements().get(1), is("Igualmente, yo"));
     assertThat(matches1.get(0).getSuggestedReplacements().get(2), is("No solo eso, sino que yo"));
-    List<RuleMatch> matches2 = lt.check("También, juego a fútbol. También, juego a baloncesto.");
+    List<RuleMatch> matches2 = getRuleMatches(lt, "También, juego a fútbol. También, juego a baloncesto.");
     assertEquals(1, matches2.size());
     // check suggestions (because the adverbs are contained in a Set it is safer to
     // check if the correct suggestions
@@ -61,14 +65,20 @@ public class SpanishWordRepeatBeginningRuleTest {
     assertThat(matches2.get(0).getSuggestedReplacements().toString(),
         is("[Adicionalmente, Asimismo, Además, Igualmente, Así mismo]"));
 
-    List<RuleMatch> matches3 = lt.check("Sin embargo, me gusta. Sin embargo, otros me gustan más.");
+    List<RuleMatch> matches3 = getRuleMatches(lt, "Sin embargo, me gusta. Sin embargo, otros me gustan más.");
     assertEquals(1, matches3.size());
     // TODO add suggestions
     assertThat(matches3.get(0).getSuggestedReplacements().toString(), is("[]"));
 
-    List<RuleMatch> matches4 = lt.check("Pero me gusta. Pero otros me gustan más.");
+    List<RuleMatch> matches4 = getRuleMatches(lt, "Pero me gusta. Pero otros me gustan más.");
     assertEquals(1, matches4.size());
     assertThat(matches4.get(0).getSuggestedReplacements().toString(), is("[Aun así, Por otra parte, Sin embargo]"));
+  }
+  
+  List<RuleMatch> getRuleMatches(JLanguageTool lt, String text) throws IOException {
+    List<RuleMatch> matches = lt.check(new AnnotatedTextBuilder().addText(text).build(), true,
+        ParagraphHandling.NORMAL, null, Mode.ALL, Level.PICKY);
+    return matches;
   }
 
 }

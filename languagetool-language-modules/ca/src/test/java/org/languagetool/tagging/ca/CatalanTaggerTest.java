@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
 import java.io.IOException;
 
@@ -33,7 +34,7 @@ public class CatalanTaggerTest {
 
   @Before
   public void setUp() {
-    tokenizer = new WordTokenizer();
+    tokenizer = new CatalanWordTokenizer();
   }
 
   @Test
@@ -56,5 +57,7 @@ public class CatalanTaggerTest {
         "Acomplexadament/[acomplexadament]RG", tokenizer, tagger);
     TestTools.myAssert("FRANÇA",
         "FRANÇA/[França]NPFSG00", tokenizer, tagger);
+    // combining characters
+    TestTools.myAssert("dema\u0300", "dema\u0300/[demà]NCMS000|dema\u0300/[demà]RG", tokenizer, tagger);
   }
 }

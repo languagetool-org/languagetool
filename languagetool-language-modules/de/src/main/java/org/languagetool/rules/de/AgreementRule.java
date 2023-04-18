@@ -86,13 +86,22 @@ public class AgreementRule extends Rule {
     Ins, Zur
   }
 
+  /*
   private static final String MSG = "Möglicherweise fehlende grammatische Übereinstimmung " +
     "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' statt 'mein kleines Haus'";
   private static final String MSG2 = "Möglicherweise fehlende grammatische Übereinstimmung " +
     "von Kasus, Numerus oder Genus. Beispiel: 'mein schönes kleiner Haus' statt 'mein schönes kleines Haus'";
   private static final String SHORT_MSG = "Evtl. keine Übereinstimmung von Kasus, Numerus oder Genus";
+  */
+
+  private static final String MSG = "Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.";
+  private static final String MSG2 = "Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.";
+  private static final String SHORT_MSG = "Evtl. passen Wörter grammatisch nicht zusammen.";
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
+    "zu",
+    "überraschend",
+    "ungeahnt",
     "absolut",
     "ausgesprochen",
     "außergewöhnlich",
@@ -106,6 +115,7 @@ public class AgreementRule extends Rule {
     "extrem",
     "fast",
     "ganz",
+    "entschieden",
     "geradezu",
     "zeitweise",
     "halbwegs",
@@ -123,6 +133,11 @@ public class AgreementRule extends Rule {
     "völlig",
     "weit",
     "wirklich",
+    "gerade",
+    "vereint",
+    "überwiegend",
+    "gewollt",
+    "angestrengt",
     "ziemlich"
   ));
 
@@ -133,6 +148,7 @@ public class AgreementRule extends Rule {
     "andere",
     "anderer",
     "anderen",
+    "sämtliche",
     "sämtlicher",
     "etliche",
     "etlicher",
@@ -152,6 +168,7 @@ public class AgreementRule extends Rule {
     "nichts",
     "alles",   // "Ruhe vor dem alles verheerenden Sturm", "Alles Große und Edle ist einfacher Art."
     "dies",
+    "ebendies",
     "ich",
     "dir",
     "dich",
@@ -200,6 +217,10 @@ public class AgreementRule extends Rule {
     "Wollen",  // das Wollen
     "Gramm",
     "Kilogramm",
+    "Flippers", // Band, die Flippers
+    "Standart", // Caught by speller
+    "Stellungsname", // Caught by speller
+    "Kündigungsscheiben", // Caught by speller
     "Piepen", // Die Piepen
     "Badlands",
     "Visual", // englisch
@@ -210,6 +231,7 @@ public class AgreementRule extends Rule {
     "Wüstenrot", // Name
     "Rückgrad", // found by speller
     "Rückgrads", // found by speller
+    "Anteilname", // found by speller
     "Aalen", // Plural form of "Aal" but also large city in Germany
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)
@@ -221,18 +243,20 @@ public class AgreementRule extends Rule {
     "km",
     "Nr",
     "KSC", // Abk
+    "ANC", // Abk
     "DJK", // Der DJK Schweinfurt
     "RP" // "Die RP (Rheinische Post)"
   ));
 
   private final static List<List<PatternToken>> allAntiPatterns =
-    Stream.of(AgreementRuleAntiPatterns1.ANTI_PATTERNS, AgreementRuleAntiPatterns2.ANTI_PATTERNS)
+    Stream.of(AgreementRuleAntiPatterns1.ANTI_PATTERNS, AgreementRuleAntiPatterns2.ANTI_PATTERNS, AgreementRuleAntiPatterns3.ANTI_PATTERNS)
       .flatMap(Collection::stream)
       .collect(Collectors.toList());
 
   public AgreementRule(ResourceBundle messages, German language) {
     this.language = language;
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
+    setUrl(Tools.getUrl("https://languagetool.org/insights/de/beitrag/deklination/"));
     addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
                    Example.fixed("<marker>Das Haus</marker> wurde letztes Jahr gebaut."));
     antiPatterns = cacheAntiPatterns(language, allAntiPatterns);
@@ -283,9 +307,11 @@ public class AgreementRule extends Rule {
       }
       if (i > 0) {
         String prevToken = tokens[i-1].getToken().toLowerCase();
-        if (StringUtils.equalsAny(tokens[i].getToken(), "eine", "einen")
-            && StringUtils.equalsAny(prevToken, "der", "die", "das", "des", "dieses")) {
+        if (StringUtils.equalsAny(prevToken, "der", "die", "das", "des", "dieses") &&
+            StringUtils.equalsAny(tokens[i].getToken(), "eine", "einen")) {
+          // z.B. "Auf der einen Seite endlose Dünen"
           // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken; "auf der einen Seite"
+          // TODO: "Leute, die eine gewissen Sicherheit brauchen." -> nicht ignorieren
           continue;
         }
       }
@@ -336,13 +362,13 @@ public class AgreementRule extends Rule {
             }
           } else if (tokenPos+1 < tokens.length && hasReadingOfType(tokens[tokenPos+1], POSType.NOMEN) && GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.ADJEKTIV)) {
             RuleMatch ruleMatch = checkDetAdjAdjNounAgreement(maybePreposition, tokens[i],
-              nextToken, tokens[tokenPos], tokens[tokenPos+1], sentence, i, replMap);
+              nextToken, tokens[tokenPos], tokens[tokenPos+1], sentence, i, replMap, skippedStr);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
           }
         } else if (hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
-          RuleMatch ruleMatch = checkDetNounAgreement(maybePreposition, tokens[i], nextToken, sentence, i, replMap);
+          RuleMatch ruleMatch = checkDetNounAgreement(maybePreposition, tokens[i], nextToken, sentence, i, replMap, skippedStr);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
           }
@@ -360,8 +386,21 @@ public class AgreementRule extends Rule {
    * @return index of first non-modifier token
    */
   private int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
-    if (startAt + 1 < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
+    if (startAt < tokens.length && tokens[startAt].getToken().matches("relativ") && startAt + 1 < tokens.length && tokens[startAt+1].getToken().matches("gesehen")) {
+      startAt += 2;
+    }
+    if (startAt < tokens.length && tokens[startAt].getToken().matches("viel|weit") && startAt + 1 < tokens.length && tokens[startAt+1].getToken().matches("weniger|eher")) {
+      startAt += 2;
+    } else if (startAt + 1 < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
       startAt++;
+    }
+    if (startAt+1 < tokens.length) {
+      String phrase = tokens[startAt].getToken() + " " + tokens[startAt+1].getToken();
+      if (phrase.toLowerCase().matches("mit (mir|dir|ihm|ihr|ihnen|uns|euch)")) {
+        startAt += 2;
+      } else if (phrase.toLowerCase().matches("ohne (mich|dich|ihn|sie|uns|euch)")) {
+        startAt += 2;
+      }
     }
     if (startAt + 1 < tokens.length && (StringUtils.isNumeric(tokens[startAt].getToken()) || tokens[startAt].hasPosTag("ZAL"))) {
       int posAfterModifier = startAt + 1;
@@ -425,7 +464,7 @@ public class AgreementRule extends Rule {
       if (comma) {
         boolean prep = tokens[pos-1].hasPosTagStartingWith("PRP:");
         relPronoun = tokens[pos].hasAnyLemma(REL_PRONOUN_LEMMAS);
-        return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && (tokens[pos].hasLemma("jen") || tokens[pos].hasLemma("dies")));
+        return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && (tokens[pos].hasLemma("jen") || tokens[pos].hasLemma("dies") || tokens[pos].hasLemma("ebendies")));
       }
     }
     return false;
@@ -433,7 +472,8 @@ public class AgreementRule extends Rule {
 
   @Nullable
   private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
-                                          AnalyzedTokenReadings token2, AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
+                                          AnalyzedTokenReadings token2, AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap,
+                                          String skippedStr) {
     // TODO: remove "-".equals(token2.getToken()) after the bug fix
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if (token2.isImmunized() || NOUNS_TO_BE_IGNORED.contains(token2.getToken()) || "-".equals(token2.getToken())) {
@@ -457,17 +497,22 @@ public class AgreementRule extends Rule {
       if (compoundMatch != null) {
         return compoundMatch;
       }
+      /*
       List<String> errorCategories = getCategoriesCausingError(token1, token2);
       String errorDetails = errorCategories.isEmpty() ?
             "Kasus, Genus oder Numerus" : String.join(" und ", errorCategories);
       String msg = "Möglicherweise fehlende grammatische Übereinstimmung des " + errorDetails + ".";
       String shortMsg = "Evtl. keine Übereinstimmung von Kasus, Genus oder Numerus";
-      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(),
-              token2.getEndPos(), msg, shortMsg);
+      */
+
+      String msg = "Möglicherweise passen das Nomen und die Wörter, die das Nomen beschreiben, grammatisch nicht zusammen.";
+      String shortMsg = "Evtl. passen Wörter grammatisch nicht zusammen.";
+      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token2.getEndPos(), msg, shortMsg);
       // this will not give a match for compounds that are not in the dictionary...
       //ruleMatch.setUrl(Tools.getUrl("https://www.korrekturen.de/flexion/deklination/" + token2.getToken() + "/"));
       AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, replMap.get(tokenPos));
       suggestor.setPreposition(maybePreposition);
+      suggestor.setSkipped(skippedStr);
       ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
     }
     return ruleMatch;
@@ -479,6 +524,11 @@ public class AgreementRule extends Rule {
     if (tokenPos != -1 && tokenPos + 2 < sentence.getTokensWithoutWhitespace().length) {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 2];
       if (startsWithUppercase(nextToken.getToken())) {
+        if (token2.getStartPos() == nextToken.getStartPos()) {
+          // avoids a strange bug that suggests e.g. "Pflegende-Pflegende" in sentence like this:
+          // "Das passiert nur, wenn der zu Pflegende bereit ist."
+          return null;
+        }
         String potentialCompound = token2.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
         String testPhrase = origToken1 + " " + potentialCompound;
@@ -497,6 +547,10 @@ public class AgreementRule extends Rule {
     if (tokenPos != -1 && tokenPos + 3 < sentence.getTokensWithoutWhitespace().length) {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 3];
       if (startsWithUppercase(nextToken.getToken())) {
+        if (token3.getStartPos() == nextToken.getStartPos()) {
+          // avoids a strange bug, see above
+          return null;
+        }
         String potentialCompound = token3.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
         String testPhrase = origToken1 + " " + token2.getToken() + " " + potentialCompound;
@@ -508,18 +562,25 @@ public class AgreementRule extends Rule {
     return null;
   }
 
-  // z.B. "die ganz neue Original Mail" -> "die ganz neue Originalmail"
+  // z.B. "die ganz neue Original Mail" -> "die ganz neue Originalmail",
+  // "Es ist ein sehr interessantes kostenloses Slot Spiel" -> "ein sehr interessantes kostenloses Slot-Spiel"
   @Nullable
   private RuleMatch getCompoundError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2, AnalyzedTokenReadings token3,
-                                     AnalyzedTokenReadings token4, int tokenPos, AnalyzedSentence sentence) {
-    if (tokenPos != -1 && tokenPos + 4 < sentence.getTokensWithoutWhitespace().length) {
-      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 4];
+                                     AnalyzedTokenReadings token4, int tokenPos, AnalyzedSentence sentence, String skippedStr) {
+    int idx = tokenPos + 4 + (skippedStr != null ? 1 : 0);
+    if (tokenPos != -1 && idx < sentence.getTokensWithoutWhitespace().length) {
+      AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[idx];
       String potentialCompound = token4.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
       if (startsWithUppercase(token4.getToken()) && startsWithUppercase(nextToken.getToken())) {
+        if (token4.getStartPos() == nextToken.getStartPos()) {
+          // avoids a strange bug that suggests e.g. "Machtmach" in sentences like this:
+          // "Denn die einzelnen sehen sich einer sehr verschieden starken Macht des..."
+          return null;
+        }
         String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
-        String testPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
+        String testPhrase = origToken1 + (skippedStr != null ? " " + skippedStr + " " : " ") + token2.getToken() + " " + token3.getToken() + " " + potentialCompound;
         String hyphenPotentialCompound = token4.getToken() + "-" + nextToken.getToken();
-        String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + token3.getToken() + " " + hyphenPotentialCompound;
+        String hyphenTestPhrase = origToken1 + (skippedStr != null ? " " + skippedStr + " " : " ") + token2.getToken() + " " + token3.getToken() + " " + hyphenPotentialCompound;
         return getRuleMatch(token1, nextToken, sentence, testPhrase, hyphenTestPhrase);
       }
     }
@@ -601,7 +662,7 @@ public class AgreementRule extends Rule {
         RuleMatch compoundMatch = getCompoundError(sentence.getTokensWithoutWhitespace()[tokenPos],
                 sentence.getTokensWithoutWhitespace()[tokenPos+1],
                 sentence.getTokensWithoutWhitespace()[tokenPos+2],
-                sentence.getTokensWithoutWhitespace()[tokenPos+3], tokenPos, sentence);
+                sentence.getTokensWithoutWhitespace()[tokenPos+3], tokenPos, sentence, null);
         if (compoundMatch != null) {
           return compoundMatch;
         }
@@ -624,11 +685,11 @@ public class AgreementRule extends Rule {
 
   private RuleMatch checkDetAdjAdjNounAgreement(AnalyzedTokenReadings maybePreposition, AnalyzedTokenReadings token1,
                                              AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedTokenReadings token4,
-                                             AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap) {
+                                             AnalyzedSentence sentence, int tokenPos, Map<Integer, ReplacementType> replMap, String skippedStr) {
     Set<String> set = retainCommonCategories(token1, token2, token3, token4);
     RuleMatch ruleMatch = null;
     if (set.isEmpty()) {
-      RuleMatch compoundMatch = getCompoundError(token1, token2, token3, token4, tokenPos, sentence);
+      RuleMatch compoundMatch = getCompoundError(token1, token2, token3, token4, tokenPos, sentence, skippedStr);
       if (compoundMatch != null) {
         return compoundMatch;
       }
@@ -639,6 +700,7 @@ public class AgreementRule extends Rule {
       if (replMap != null) {
         AgreementSuggestor2 suggestor = new AgreementSuggestor2(language.getSynthesizer(), token1, token2, token3, token4, replMap.get(tokenPos));
         suggestor.setPreposition(maybePreposition);
+        suggestor.setSkipped(skippedStr);
         ruleMatch.setSuggestedReplacements(suggestor.getSuggestions(true));
       }
     }

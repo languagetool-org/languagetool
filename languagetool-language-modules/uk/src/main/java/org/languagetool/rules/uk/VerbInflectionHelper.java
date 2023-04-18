@@ -12,6 +12,7 @@ class VerbInflectionHelper {
 
   private static final Pattern VERB_INFLECTION_PATTERN = Pattern.compile(":([mfnps])(:([123])?|$)");
   private static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_naz)");
+  private static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile("(adj|numr):([mfnps]):(v_naz)");
   private static final Pattern NOUN_PERSON_PATTERN = Pattern.compile(":([123])");
 
   static List<VerbInflectionHelper.Inflection> getVerbInflections(List<AnalyzedToken> nounTokenReadings) {
@@ -65,6 +66,28 @@ class VerbInflectionHelper {
       slaveInflections.add(new VerbInflectionHelper.Inflection(gen, person));
     }
 //    System.err.println("nounInfl: " + slaveInflections);
+    return slaveInflections;
+  }
+
+  static List<VerbInflectionHelper.Inflection> getAdjInflections(List<AnalyzedToken> nounTokenReadings) {
+    List<VerbInflectionHelper.Inflection> slaveInflections = new ArrayList<>();
+    for (AnalyzedToken token: nounTokenReadings) {
+      String posTag2 = token.getPOSTag();
+      if( posTag2 == null )
+        continue;
+
+      Matcher matcher = ADJ_INFLECTION_PATTERN.matcher(posTag2);
+      if( ! matcher.find() ) {
+        //        System.err.println("Failed to find slave inflection tag in " + posTag2 + " for " + nounTokenReadings);
+        continue;
+      }
+      String gen = matcher.group(2);
+      
+      Matcher matcherPerson = NOUN_PERSON_PATTERN.matcher(posTag2);
+      String person = matcherPerson.find() ? matcherPerson.group(1) : null;
+      
+      slaveInflections.add(new VerbInflectionHelper.Inflection(gen, person));
+    }
     return slaveInflections;
   }
 

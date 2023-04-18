@@ -46,10 +46,10 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     super(messages, CA_START_SYMBOLS, CA_END_SYMBOLS);
   }
 
-  @Override
-  public String getId() {
-    return "CA_UNPAIRED_BRACKETS";
-  }
+//  @Override
+//  public String getId() {
+//    return "CA_UNPAIRED_BRACKETS";
+//  }
 
   @Override
   protected boolean isNoException(final String tokenStr,
@@ -58,6 +58,11 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
     if (i < 1) {
       return true;
+    }
+    
+    if ((tokenStr.equals("’") || tokenStr.equals("'"))
+        && (tokens[i].hasPosTagStartingWith("N") || tokens[i].hasPosTagStartingWith("A"))) {
+      return false;
     }
 
     final boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace, symbolStack);

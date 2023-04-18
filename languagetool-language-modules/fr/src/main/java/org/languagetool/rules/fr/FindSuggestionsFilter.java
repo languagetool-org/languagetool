@@ -18,13 +18,6 @@
  */
 package org.languagetool.rules.fr;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -32,14 +25,19 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.language.French;
 import org.languagetool.rules.AbstractFindSuggestionsFilter;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.synthesis.FrenchSynthesizer;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.fr.FrenchTagger;
 import org.languagetool.tools.StringTools;
 
+import java.io.IOException;
+import java.util.*;
+
 public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
 
   private static MorfologikFrenchSpellerRule morfologikRule;
-
+  
   public FindSuggestionsFilter() throws IOException {
     if (morfologikRule == null) {
       ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE,
@@ -51,6 +49,11 @@ public class FindSuggestionsFilter extends AbstractFindSuggestionsFilter {
   @Override
   protected Tagger getTagger() {
     return FrenchTagger.INSTANCE;
+  }
+  
+  @Override
+  protected Synthesizer getSynthesizer() {
+    return FrenchSynthesizer.INSTANCE;
   }
 
   @Override

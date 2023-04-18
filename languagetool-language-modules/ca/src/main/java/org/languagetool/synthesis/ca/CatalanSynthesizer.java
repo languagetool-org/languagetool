@@ -18,16 +18,20 @@
  */
 package org.languagetool.synthesis.ca;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
+import org.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.tools.StringTools;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.Language;
-import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Catalan word form synthesizer.
@@ -46,6 +50,9 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   
   /* A special tag to add determiner (el, la, l', els, les). **/
   // private static final String ADD_DETERMINER = "DT";
+  
+  /* Exceptions */
+  public static final List<String> LemmasToIgnore =  Arrays.asList("enterar", "sentar", "conseguir", "alcançar");
 
   /** Patterns for number and gender **/
   private static final Pattern pMS = Pattern.compile("(N|A.).[MC][SN].*|V.P.*SM.?");
@@ -67,19 +74,21 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   
   private static final Pattern pLemmaSpace = Pattern.compile("([^ ]+) (.+)");
 
+  public static final CatalanSynthesizer INSTANCE = new CatalanSynthesizer();
+
+  /** @deprecated use {@link #INSTANCE} */
   public CatalanSynthesizer(Language lang) {
-    super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", lang);
+    this();
+  }
+
+  private CatalanSynthesizer() {
+    super("/ca/ca.sor", "/ca/ca-ES-valencia_synth.dict", "/ca/ca-ES-valencia_tags.txt", "ca");
   }
 
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {    
     if (posTag.startsWith(SPELLNUMBER_TAG)) {
-      String[] tag = posTag.split(":");
-      String strToSpell = token.getToken();
-      if (tag.length > 1 && tag[1].equals("feminine")) {
-        strToSpell = "feminine " + strToSpell;
-      }
-      return new String[] { getSpelledNumber(strToSpell) };
+      return super.synthesize(token, posTag);
     }
     String lemma = token.getLemma();
     String toAddAfter = "";
@@ -113,13 +122,20 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       Matcher m = p.matcher(tag);
       if (m.matches()) {
         if (addDt) {
-          lookupWithEl(lemma, tag, prep, results);
+          List<String> wordForms = lookup(lemma, tag);
+          for (String word : wordForms) {
+            word = StringTools.preserveCase(word, token.getToken());
+            results.addAll(addPrepositionAndDeterminer(word, tag, prep));
+          }
         } else {
           results.addAll(lookup(lemma, tag));
         }
       }
-    }       
-    
+    }
+    // if found nothing with determiner, add the expected determiner for the original word form
+    if (addDt && results.isEmpty()) {
+      results.addAll(addPrepositionAndDeterminer(token.getToken(), token.getPOSTag(), prep));
+    }
     // if not found, try verbs from any regional variant
     if (results.isEmpty() && posTag.startsWith("V")) {
       if (posTag.endsWith("V") || posTag.endsWith("B")) {
@@ -142,6 +158,9 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     }
     if (posTagRegExp) {
       String lemma = token.getLemma();
+      if (LemmasToIgnore.contains(lemma)) {
+        return new String[0];
+      }
       String toAddAfter = "";
       // verbs with noun
       if (posTag.startsWith("V")) {
@@ -197,47 +216,39 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     }
     return synthesize(token, posTag);
   }
-
-  /**
-   * Lookup the inflected forms of a lemma defined by a part-of-speech tag.
-   * Adds determiner "el" properly inflected and preposition
-   * (prep. +) det. + noun. / adj.
-   * @param lemma the lemma to be inflected.
-   * @param posTag the desired part-of-speech tag.
-   * @param results the list to collect the inflected forms.
+  
+  /*
+   * Add the appropriate forms of preposition + article + noun / adj
    */
-  private void lookupWithEl(String lemma, String posTag, String prep, List<String> results) {
-    List<String> wordForms = lookup(lemma, posTag);
+  private List<String> addPrepositionAndDeterminer(String word, String posTag, String prep) {
+    List<String> results = new ArrayList<>();
     Matcher mMS = pMS.matcher(posTag);
     Matcher mFS = pFS.matcher(posTag);
     Matcher mMP = pMP.matcher(posTag);
     Matcher mFP = pFP.matcher(posTag);
-    for (String word : wordForms) {
-      if (mMS.matches()) {
-        Matcher mMascYes = pMascYes.matcher(word);
-        Matcher mMascNo = pMascNo.matcher(word);
-        if (prep.equals("per")) {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add("per l'" + word);  }  else {results.add("pel " + word);  } }
-        else if (prep.isEmpty()) {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add("l'" + word);  }  else {results.add("el " + word);  } }
-        else {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add(prep+" l'" + word);  }  else {results.add(prep+"l " + word);  } }
-        
-      }
-      if (mFS.matches()) {
-        Matcher mFemYes = pFemYes.matcher(word);
-        Matcher mFemNo = pFemNo.matcher(word);
-        if (prep.equals("per")) {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add("per l'" + word);  }  else {results.add("per la " + word);} }
-        else if (prep.isEmpty()) {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add("l'" + word);  }  else {results.add("la " + word);} }
-        else {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add(prep+" l'" + word);  }  else {results.add(prep+" la " + word);} }
-      }
-      if (mMP.matches()) {    
-        if (prep.equals("per")) { results.add("pels " + word); }
-        else if (prep.isEmpty()) { results.add("els " + word); }
-        else { results.add(prep+"ls " + word); }
-      }
-      if (mFP.matches()) { 
-        if (prep.isEmpty()) { results.add("les " + word);  } else {results.add(prep+" les " + word);  }
-      }
+    if (mMS.matches()) {
+      Matcher mMascYes = pMascYes.matcher(word);
+      Matcher mMascNo = pMascNo.matcher(word);
+      if (prep.equals("per")) {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add("per l'" + word);  }  else {results.add("pel " + word);  } }
+      else if (prep.isEmpty()) {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add("l'" + word);  }  else {results.add("el " + word);  } }
+      else {  if (mMascYes.matches() && !mMascNo.matches()) {  results.add(prep+" l'" + word);  }  else {results.add(prep+"l " + word);  } }
     }
-
+    if (mFS.matches()) {
+      Matcher mFemYes = pFemYes.matcher(word);
+      Matcher mFemNo = pFemNo.matcher(word);
+      if (prep.equals("per")) {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add("per l'" + word);  }  else {results.add("per la " + word);} }
+      else if (prep.isEmpty()) {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add("l'" + word);  }  else {results.add("la " + word);} }
+      else {  if (mFemYes.matches() && !mFemNo.matches()) {  results.add(prep+" l'" + word);  }  else {results.add(prep+" la " + word);} }
+    }
+    if (mMP.matches()) {    
+      if (prep.equals("per")) { results.add("pels " + word); }
+      else if (prep.isEmpty()) { results.add("els " + word); }
+      else { results.add(prep+"ls " + word); }
+    }
+    if (mFP.matches()) { 
+      if (prep.isEmpty()) { results.add("les " + word);  } else {results.add(prep+" les " + word);  }
+    }
+    return results;
   } 
   
   private List<String> addWordsAfter(List<String> results, String toAddAfter) {
@@ -250,4 +261,49 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     }
     return results;
   }
+  
+  @Override
+  public String getTargetPosTag(List<String> posTags, String targetPosTag) {
+    if (posTags.isEmpty()) {
+      return targetPosTag;
+    }
+    PostagComparator postagComparator = new PostagComparator();
+    posTags.sort(postagComparator);
+    // return the last one to keep the previous results
+    return posTags.get(posTags.size() - 1);
+  }
+  
+  private class PostagComparator implements Comparator<String> {
+
+    @Override
+    public int compare(String arg0, String arg1) {
+      // give priority 3 person > 1 person, Indicative > Subjunctive
+      int len0 = arg0.length();
+      int len1 = arg1.length();
+      if (len0 > 4 && len1 > 4) {
+        if (arg0.equals("VMIP2P00") && arg1.equals("VMIS3S00")) {
+          //feu (present/passat)
+          return 150;
+        }
+        if (arg1.equals("VMIP2P00") && arg0.equals("VMIS3S00")) {
+          return -150;
+        }
+        if (arg0.charAt(2) == 'I' && arg1.charAt(2) != 'I') {
+          return 100;
+        }
+        if (arg1.charAt(2) == 'I' && arg0.charAt(2) != 'I') {
+          return -100;
+        }
+        if (arg0.charAt(4) == '3' && arg1.charAt(4) == '1') {
+          return 50;
+        }
+        if (arg1.charAt(4) == '1' && arg0.charAt(4) == '3') {
+          return -50;
+        }
+      }
+      return 0;
+    }
+  }
+  
 }
+

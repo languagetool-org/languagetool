@@ -39,10 +39,8 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
 import org.languagetool.openoffice.SingleDocument.IgnoredMatches;
 
-import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.XComponent;
-import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
 
 /**
@@ -80,19 +78,6 @@ public class CacheIO implements Serializable {
    */
   private static String getDocumentPath(XComponent xComponent) {
     try {
-/*      
-      XTextDocument curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-      if (curDoc == null) {
-        MessageHandler.printToLogFile("CacheIO: getDocumentPath: XTextDocument not found!");
-        return null;
-      }
-      XController xController = curDoc.getCurrentController();
-      if (xController == null) {
-        MessageHandler.printToLogFile("CacheIO: getDocumentPath: XController not found!");
-        return null;
-      }
-      XModel xModel = xController.getModel();
-*/
       XModel xModel = UnoRuntime.queryInterface(XModel.class, xComponent);
       if (xModel == null) {
         MessageHandler.printToLogFile("CacheIO: getDocumentPath: XModel not found!");
@@ -127,6 +112,10 @@ public class CacheIO implements Serializable {
       return null;
     }
     File cacheDir = OfficeTools.getCacheDir();
+    if (cacheDir == null) {
+      MessageHandler.printToLogFile("CacheIO: getCachePath: cacheDir == null!");
+      return null;
+    }
     if (DEBUG_MODE) {
       MessageHandler.printToLogFile("CacheIO: getCachePath: cacheDir: " + cacheDir.getAbsolutePath());
     }
@@ -188,7 +177,7 @@ public class CacheIO implements Serializable {
     String cachePath = getCachePath(true);
     if (cachePath != null) {
       try {
-        if (exceedsSaveSize(docCache)) {
+        if (!ignoredMatches.isEmpty() || exceedsSaveSize(docCache)) {
           allCaches = new AllCaches(docCache, paragraphsCache, mDocHandler.getAllDisabledRules(), config.getDisabledRuleIds(), config.getDisabledCategoryNames(), 
               config.getEnabledRuleIds(), ignoredMatches, JLanguageTool.VERSION);
           saveAllCaches(cachePath);
@@ -418,7 +407,7 @@ public class CacheIO implements Serializable {
    * cache files are stored in the LT configuration directory subdirectory 'cache'
    * the paths of documents are mapped to cache files and stored in the cache map
    */
-  class CacheFile implements Serializable {
+  private class CacheFile implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private CacheMap cacheMap;
@@ -510,7 +499,7 @@ public class CacheIO implements Serializable {
      * Class to create and handle the cache map
      * the clean up process is run in a separate parallel thread
      */
-    class CacheMap implements Serializable {
+    private class CacheMap implements Serializable {
       private static final long serialVersionUID = 1L;
       private Map<String, String> cacheNames;     //  contains the mapping from document paths to cache file names
       
@@ -600,7 +589,7 @@ public class CacheIO implements Serializable {
      * remove not existent document paths and cache files from map
      * the clean up process is ran in a separate thread 
      */
-    class CacheCleanUp extends Thread implements Serializable {
+    private class CacheCleanUp extends Thread implements Serializable {
       private static final long serialVersionUID = 1L;
       private CacheMap cacheMap;
       private String currentFile;

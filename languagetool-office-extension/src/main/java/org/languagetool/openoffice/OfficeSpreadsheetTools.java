@@ -177,8 +177,7 @@ public class OfficeSpreadsheetTools {
           }
         }
       }
-      OfficeDrawTools o = new OfficeDrawTools();
-      return o.new ParagraphContainer(paragraphs, locales, pageBegins);
+      return new ParagraphContainer(paragraphs, locales, pageBegins);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions XWordCursorthrown by UnoRuntime.queryInterface are caught
     }

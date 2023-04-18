@@ -43,7 +43,7 @@ class EnglishChunkFilter {
       List<ChunkTag> chunkTags = new ArrayList<>();
       if (isBeginningOfNounPhrase(taggedToken)) {
         ChunkType chunkType = getChunkType(tokens, i);
-        if (chunkType == ChunkType.SINGULAR) {
+        if (chunkType == ChunkType.SINGULAR || endOfNounPhraseIsSingular(tokens, i)) {
           chunkTags.add(new ChunkTag("B-NP-singular"));
           newChunkTag = "NP-singular";
         } else if (chunkType == ChunkType.PLURAL) {
@@ -68,6 +68,15 @@ class EnglishChunkFilter {
       i++;
     }
     return result;
+  }
+
+  private boolean endOfNounPhraseIsSingular(List<ChunkTaggedToken> tokens, int i) {
+    for (int j = i; j < tokens.size(); j++) {
+      if (isEndOfNounPhrase(tokens, j)) {
+        return getChunkType(tokens, j) == ChunkType.SINGULAR;
+      }
+    }
+    return false;
   }
 
   private boolean isBeginningOfNounPhrase(ChunkTaggedToken taggedToken) {

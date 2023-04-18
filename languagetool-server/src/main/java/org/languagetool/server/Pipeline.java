@@ -21,6 +21,8 @@ package org.languagetool.server;
 
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.xml.sax.SAXException;
@@ -33,6 +35,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Wrapper for JLanguageTool instances that can be made immutable.
@@ -101,12 +104,6 @@ class Pipeline extends JLanguageTool {
   public void activateLanguageModelRules(File indexDir) throws IOException {
     preventModificationAfterSetup();
     super.activateLanguageModelRules(indexDir);
-  }
-
-  @Override
-  public void activateWord2VecModelRules(File indexDir) throws IOException {
-    preventModificationAfterSetup();
-    super.activateWord2VecModelRules(indexDir);
   }
 
   @Override
@@ -204,4 +201,14 @@ class Pipeline extends JLanguageTool {
     super.setConfigValues(v);
   }
 
+  /**
+   * exposed here for GRPCServer
+   */
+  CheckResults checkAnalyzedSentences(List<AnalyzedSentence> analyzed, RuleMatchListener listener) throws Exception {
+    // TODO use checkInternal again
+    List<String> sentences = analyzed.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
+    String text = sentences.stream().collect(Collectors.joining());
+    AnnotatedText annotated = new AnnotatedTextBuilder().addText(text).build();
+    return checkInternal(annotated, ParagraphHandling.NORMAL, listener, Mode.ALL, Level.DEFAULT, null, sentences, analyzed);
+  }
 }

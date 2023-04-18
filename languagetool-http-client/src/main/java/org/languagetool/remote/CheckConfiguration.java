@@ -42,9 +42,14 @@ public class CheckConfiguration {
   private final List<String> ruleValues;
   @Nullable
   private final String textSessionID;
+  @Nullable
+  private final String username;
+  @Nullable
+  private final String apiKey;
   
   CheckConfiguration(String langCode, String motherTongueLangCode, boolean guessLanguage, List<String> enabledRuleIds, boolean enabledOnly, 
-                     List<String> disabledRuleIds, String mode, String level, List<String> ruleValues, String textSessionID) {
+                     List<String> disabledRuleIds, String mode, String level, List<String> ruleValues, String textSessionID,
+                     String username, String apiKey) {
     if (langCode == null && !guessLanguage) {
       throw new IllegalArgumentException("No language was set but language guessing was not activated either");
     }
@@ -61,6 +66,8 @@ public class CheckConfiguration {
     this.level = level;
     this.ruleValues = Objects.requireNonNull(ruleValues);
     this.textSessionID = textSessionID;
+    this.username = username;
+    this.apiKey = apiKey;
   }
 
   public Optional<String> getLangCode() {
@@ -104,4 +111,13 @@ public class CheckConfiguration {
     return textSessionID;
   }
 
+  @Nullable
+  public String getUsername() {
+    return username;
+  }
+
+  @Nullable
+  public String getAPIKey() {
+    return apiKey;
+  }
 }

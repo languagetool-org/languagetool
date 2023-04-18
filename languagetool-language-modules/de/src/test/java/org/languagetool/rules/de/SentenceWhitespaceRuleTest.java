@@ -47,6 +47,9 @@ public class SentenceWhitespaceRuleTest {
     assertGood("Am 28. September.", lt);
     assertBad("Am 28.September.", lt);
 
+    assertGood("Das 1. Internationale Filmfestival findet nächste Woche statt.", lt);
+    assertBad("Das 1.Internationale Filmfestival findet nächste Woche statt.", lt);
+
     assertTrue(lt.check("Am 7.September 2014.").get(0).getMessage().contains("nach Ordnungszahlen"));
     assertTrue(lt.check("Im September.Dann der nächste Satz.").get(0).getMessage().contains("zwischen Sätzen"));
   }

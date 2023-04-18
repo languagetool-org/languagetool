@@ -26,10 +26,7 @@ import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * German word form synthesizer. Also supports compounds.
@@ -37,10 +34,17 @@ import java.util.Set;
  * @since 2.4
  */
 public class GermanSynthesizer extends BaseSynthesizer {
-  public static final GermanSynthesizer INSTANCE = new GermanSynthesizer(Languages.getLanguageForShortCode("de-DE"));
 
+  public static final GermanSynthesizer INSTANCE = new GermanSynthesizer(Languages.getLanguageForShortCode("de-DE"));
+  private static final Set<String> REMOVE = new HashSet<>(Arrays.asList("unsren", "unsrem", "unsres", "unsre", "unsern", "unserm", "unsrer"));
+
+  /** @deprecated use {@link #INSTANCE} */
   public GermanSynthesizer(Language lang) {
-    super("de/de.sor", "/de/german_synth.dict", "/de/german_tags.txt", lang);
+    this();
+  }
+
+  private GermanSynthesizer() {
+    super("de/de.sor", "/de/german_synth.dict", "/de/german_tags.txt", "de");
   }
 
   @Override
@@ -52,7 +56,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
       // https://github.com/languagetool-org/languagetool/issues/4712
       boolean lcLemma = StringTools.startsWithLowercase(lemma);
       boolean lcLookup = StringTools.startsWithLowercase(s);
-      if (lcLemma == lcLookup || lemma.equals("mein") || lemma.equals("ich")) {  // mein/ich wegen Ihr/Sie
+      if (lcLemma == lcLookup || lemma.equals("mein") || lemma.equals("ich") && !REMOVE.contains(s)) {  // mein/ich wegen Ihr/Sie
         results.add(s);
       }
     }
@@ -65,7 +69,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
     if (result.length == 0) {
       return getCompoundForms(token, posTag, false);
     }
-    return result;
+    return Arrays.stream(result).filter(k -> !REMOVE.contains(k)).toArray(String[]::new);
   }
   
   @Override
@@ -74,7 +78,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
     if (result.length == 0) {
       return getCompoundForms(token, posTag, posTagRegExp);
     }
-    return result;
+    return Arrays.stream(result).filter(k -> !REMOVE.contains(k)).toArray(String[]::new);
   }
 
   @NotNull
@@ -83,8 +87,16 @@ public class GermanSynthesizer extends BaseSynthesizer {
     if (parts.size() == 0) {
       return parts.toArray(new String[0]);
     }
-    String firstPart = String.join("", parts.subList(0, parts.size() - 1));
+    String maybeHyphen = "";
+    if (parts.size() == 1 && token.getLemma() != null) {
+      parts = Arrays.asList(token.getLemma().split("-"));
+      if (parts.size() > 1) {
+        maybeHyphen = "-";
+      }
+    }
+    String firstPart = String.join(maybeHyphen, parts.subList(0, parts.size() - 1));
     String lastPart = StringTools.uppercaseFirstChar(parts.get(parts.size() - 1));
+    boolean uppercaseLastPart = !maybeHyphen.equals("") && StringTools.startsWithUppercase(parts.get(parts.size() - 1));
     AnalyzedToken lastPartToken = new AnalyzedToken(lastPart, posTag, lastPart);
     String[] lastPartForms;
     if (posTagRegExp) {
@@ -94,7 +106,11 @@ public class GermanSynthesizer extends BaseSynthesizer {
     }
     Set<String> results = new LinkedHashSet<>();  // avoid dupes
     for (String part : lastPartForms) {
-      results.add(firstPart + StringTools.lowercaseFirstChar(part));
+      if (uppercaseLastPart) {
+        results.add(firstPart + maybeHyphen + part);
+      } else {
+        results.add(firstPart + maybeHyphen + StringTools.lowercaseFirstChar(part));
+      }
     }
     return results.toArray(new String[0]);
   }

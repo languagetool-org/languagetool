@@ -121,6 +121,14 @@ public class LanguagesTest {
   }
 
   @Test
+  public void testHasPremium() {
+    assertTrue(Languages.hasPremium("org.languagetool.language.Portuguese"));
+    assertTrue(Languages.hasPremium("org.languagetool.language.GermanyGerman"));
+    assertTrue(Languages.hasPremium("org.languagetool.language.AmericanEnglish"));
+    assertFalse(Languages.hasPremium("org.languagetool.language.Danish"));
+  }
+
+  @Test
   public void testHasVariant() {
     Assert.assertTrue(Languages.getLanguageForShortCode("en").hasVariant());
     Assert.assertTrue(Languages.getLanguageForShortCode("de").hasVariant());

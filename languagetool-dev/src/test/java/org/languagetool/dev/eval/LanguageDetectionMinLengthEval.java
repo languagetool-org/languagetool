@@ -22,16 +22,14 @@ import com.google.common.io.CharStreams;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifier;
+import org.languagetool.language.identifier.LanguageIdentifierService;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -49,12 +47,17 @@ class LanguageDetectionMinLengthEval {
   private int totalFailures = 0;
 
   private LanguageDetectionMinLengthEval() {
-    languageIdentifier = new LanguageIdentifier();
-    languageIdentifier.enableNgrams(new File("/home/languagetool/model_ml50_new.zip"));
-    //languageIdentifier = new CLD2Identifier();
-    //languageIdentifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
-    // Daniel's paths:
-    //languageIdentifier.enableFasttext(new File("/home/languagetool/fasttext/fasttext"), new File("/home/languagetool/fasttext/lid.176.bin"));
+//    Stefan 's paths
+    File ngrams = new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip");
+    File fastTextBin = new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext");
+    File fastTextModel = new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin");
+//    Daniel's paths:
+//    File ngrams = new File("/home/languagetool/model_ml50_new.zip");
+//    File fastTextBin = new File("/home/languagetool/fasttext/fasttext");
+//    File fastTextModel = new File("/home/languagetool/fasttext/lid.176.bin");
+    languageIdentifier = LanguageIdentifierService.INSTANCE.getDefaultLanguageIdentifier(0, ngrams, fastTextBin, fastTextModel);
+//    languageIdentifier = LanguageIdentifierFactory.INSTANCE.getLocalLanguageIdentifier(Arrays.asList("de-DE", "en-US"));
+//    languageIdentifier = LanguageIdentifierFactory.INSTANCE.getLocalLanguageIdentifier(null);
   }
 
   private float evaluate(Language language) throws IOException {
@@ -130,6 +133,11 @@ class LanguageDetectionMinLengthEval {
         stillOkay = false;
       } else if (!expectedLanguage.getShortCode().equals(detectedLang)){
         //System.out.printf(Locale.ENGLISH, "WRONG: Expected %s, but got %s -> %s (%.2f)%n", expectedLanguage.getShortCode(), detectedLang, text, detectedLangObj.getDetectionConfidence());
+        //System.out.print("detectedLang: " + detectedLang + " does not match with expectedLanguage: " + expectedLanguage.getShortCode());
+        //System.out.print(" Text: \""  + text + "\" Scores: ");
+        //System.out.println(LanguageDetectionService.INSTANCE.getTmpResultSC().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList()));
+        //System.out.println(LanguageDetectionService.INSTANCE.getTmpResultAll().entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList()));
+
         stillOkay = false;
       } else {
         //System.out.println("STILL OKAY: " + text + " => " + detectedLang);
@@ -150,12 +158,13 @@ class LanguageDetectionMinLengthEval {
     long startTime = System.currentTimeMillis();
     float minCharsTotal = 0;
     int languageCount = 0;
-    List<Language> languages = new ArrayList<>();
-    languages.addAll(Languages.get());
+    List<Language> languages = new ArrayList<>(Languages.get());
+//    List<Language> languages = Arrays.asList(Languages.getLanguageForShortCode("de"), Languages.getLanguageForShortCode("en"));
     //languages.add(new DynamicMorfologikLanguage("Norwegian (Bokmal)", "nb", new File("/home/dnaber/lt/dynamic-languages/no/nb_NO.dict")));
     //languages.add(new DynamicMorfologikLanguage("Norwegian (Nynorsk)", "nn", new File("/home/dnaber/lt/dynamic-languages/no/nn_NO.dict")));
     for (Language language : languages) {
-      //if ((language.getShortCode().equals("ja"))) { continue; }
+      // Japanese has no spellchecker and no common words file.  
+//      if (language.getShortCode().equals("ja")) { continue; }
       if (language.isVariant()) {
         continue;
       }

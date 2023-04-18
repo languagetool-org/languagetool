@@ -52,6 +52,12 @@ public class GermanSynthesizerTest {
     assertThat(synth("Äußerung", "SUB:NOM:PLU:FEM"), is("[Äußerungen]"));
     assertThat(synth("Äußerung", "SUB:NOM:PLU:MAS"), is("[]"));
     assertThat(synth("Haus", "SUB:AKK:PLU:NEU"), is("[Häuser]"));
+    assertThat(synth("Diabetes-Zentrum", "SUB:GEN:SIN.*", true), is("[Diabetes-Zentrums]"));
+    assertThat(synth("Diabetes-Zentrum", "SUB:GEN:PLU.*", true), is("[Diabetes-Zentren]"));
+    assertThat(synth("Xxxxxx-Zentrum", "SUB:GEN:PLU.*", true), is("[Xxxxxx-Zentren]"));
+    assertThat(synth("Xxxxxx-zentrum", "SUB:GEN:PLU.*", true), is("[Xxxxxx-zentren]"));
+    assertThat(synth("gelb-grün", "ADJ.*", true), is("[]"));  // should this also work?
+    assertThat(synth("WLAN-LAN-Kabel", "SUB:GEN:SIN.*", true), is("[WLAN-LAN-Kabels]"));
     assertThat(synth("Haus", ".*", true), is("[Häuser, Haus, Häusern, Haus, Hause, Häuser, Hauses, Häuser, Haus]"));
     assertThat(synthesizer.synthesize(new AnalyzedToken("fake", "FAKE", null), "FAKE", false).length, is(0));  // could happen with soft hyphen in the input
   }

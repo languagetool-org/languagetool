@@ -11,8 +11,8 @@ import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
 public class CatalanNumberSpellerFilter extends RuleFilter {
   
-  private Language language = new Catalan();
-  private CatalanSynthesizer synth = (CatalanSynthesizer) language.getSynthesizer();
+  private final Language language = new Catalan();
+  private final CatalanSynthesizer synth = (CatalanSynthesizer) language.getSynthesizer();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,

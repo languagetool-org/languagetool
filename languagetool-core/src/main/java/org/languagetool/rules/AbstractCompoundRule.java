@@ -30,6 +30,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -98,6 +99,7 @@ public abstract class AbstractCompoundRule extends Rule {
 
     RuleMatch prevRuleMatch = null;
     ArrayDeque<AnalyzedTokenReadings> prevTokens = new ArrayDeque<>(MAX_TERMS);
+    boolean containsDigits = false;
     for (int i = 0; i < tokens.length + MAX_TERMS; i++) {
       AnalyzedTokenReadings token;
       // we need to extend the token list so we find matches at the end of the original list:
@@ -123,7 +125,12 @@ public abstract class AbstractCompoundRule extends Rule {
       for (int k = stringsToCheck.size()-1; k >= 0; k--) {
         String stringToCheck = stringsToCheck.get(k);
         String origStringToCheck = origStringsToCheck.get(k);
-        if (getCompoundRuleData().getIncorrectCompounds().contains(stringToCheck)) {
+        String digitsRegexp = null;
+        if (Stream.of(stringToCheck.split(" ")).anyMatch(s -> StringUtils.isNumeric(s))) {
+            containsDigits = true;
+        }
+        if (getCompoundRuleData().getIncorrectCompounds().contains(stringToCheck) ||
+            (containsDigits && getCompoundRuleData().getIncorrectCompounds().contains(digitsRegexp = stringToCheck.replaceAll("\\d+", "\\\\d+")))) {
           AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
           String msg = null;
           List<String> replacement = new ArrayList<>();
@@ -131,7 +138,8 @@ public abstract class AbstractCompoundRule extends Rule {
             // It is already joined
             break;
           }
-          if (getCompoundRuleData().getDashSuggestion().contains(stringToCheck)) {
+          if (getCompoundRuleData().getDashSuggestion().contains(stringToCheck) ||
+              (containsDigits && getCompoundRuleData().getIncorrectCompounds().contains(digitsRegexp))) {
             replacement.add(origStringToCheck.replace(' ', '-'));
             msg = withHyphenMessage;
           }
@@ -213,7 +221,7 @@ public abstract class AbstractCompoundRule extends Rule {
   private String normalize(String inStr) {
     String str = inStr.trim();
     str = str.replace(" - ", " ");
-    str = str.replace("-", " ");
+    str = str.replace('-', ' ');
     str = str.replaceAll("\\s+", " ");
     return str;
   }

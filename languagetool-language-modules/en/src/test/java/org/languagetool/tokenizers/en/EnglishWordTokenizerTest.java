@@ -91,6 +91,10 @@ public class EnglishWordTokenizerTest {
     final List <String> tokens19 = wordTokenizer.tokenize("ne’er e'er o’er jack-o'-lantern");
     assertEquals("[ne’er,  , e'er,  , o’er,  , jack-o'-lantern]", tokens19.toString());
     assertEquals(tokens19.size(), 7);
+    //vertical tab
+    final List <String> tokens20 = wordTokenizer.tokenize("I'm a cool test\u000Bwith a line");
+    assertEquals("[I, 'm,  , a,  , cool,  , test, \u000B, with,  , a,  , line]", tokens20.toString());
+    assertEquals(tokens20.size(), 14);
     
   }
 }

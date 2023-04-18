@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.noop.NoopLanguage;
 import org.languagetool.tools.MultiKeyProperties;
@@ -145,8 +146,13 @@ public final class Languages {
     }
   }
 
-  private static boolean hasPremium(String className) {
-    return className.matches("org\\.languagetool\\.language\\.(German|GermanyGerman|AustrianGerman|SwissGerman|Dutch|French|Spanish|English|AustralianEnglish|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish)");
+  static boolean hasPremium(String className) {
+    return className.matches("org\\.languagetool\\.language\\.(" +
+      "Portuguese|AngolaPortuguese|BrazilianPortuguese|MozambiquePortuguese|PortugalPortuguese|" +
+      "German|GermanyGerman|AustrianGerman|SwissGerman|" +
+      "Dutch|French|Spanish|" +
+      "English|AustralianEnglish|AmericanEnglish|BritishEnglish|CanadianEnglish|NewZealandEnglish|SouthAfricanEnglish" +
+      ")");
   }
 
   /**
@@ -213,20 +219,35 @@ public final class Languages {
   public static Language getLanguageForShortCode(String langCode, List<String> noopLanguageCodes) {
     Language language = getLanguageForShortCodeOrNull(langCode);
     if (language == null) {
+      // e.g. 'fr-FR' requested (happens with LibreOffice 7.4):
+      language = Languages.getLongCodeToLangMapping().get(langCode);
+    }
+    if (language == null) {
       if (noopLanguageCodes.contains(langCode)) {
         return NOOP_LANGUAGE;
       } else {
-        List<String> codes = new ArrayList<>();
-        for (Language realLanguage : getStaticAndDynamicLanguages()) {
-          codes.add(realLanguage.getShortCodeWithCountryAndVariant());
-        }
-        Collections.sort(codes);
         throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
-                " Supported language codes are: " + String.join(", ", codes) + ". The list of languages is read from " + PROPERTIES_PATH +
+                " Supported language codes are: " + String.join(", ", getLangCodes()) + ". The list of languages is read from " + PROPERTIES_PATH +
                 " in the Java classpath. See https://dev.languagetool.org/java-api for details.");
       }
     }
     return language;
+  }
+
+  @NotNull
+  private static List<String> getLangCodes() {
+    List<String> codes = new ArrayList<>();
+    for (Language realLanguage : getStaticAndDynamicLanguages()) {
+      codes.add(realLanguage.getShortCodeWithCountryAndVariant());
+    }
+    Map<String, Language> longCodeToLang = getLongCodeToLangMapping();
+    for (Map.Entry<String, Language> entry : longCodeToLang.entrySet()) {
+      if (!codes.contains(entry.getKey())) {
+        codes.add(entry.getKey());
+      }
+    }
+    Collections.sort(codes);
+    return codes;
   }
 
   /**
@@ -263,6 +284,22 @@ public final class Languages {
       }
     }
     throw new RuntimeException("No appropriate language found, not even en-US. Supported languages: " + get());
+  }
+
+  /**
+   * <b>For internal use only.</b>
+   * Returns a mapping from {@code fr-FR} to its language etc. Used to support requests
+   * from LibreOffice 7.4, which sends these language codes.
+   */
+  public static Map<String,Language> getLongCodeToLangMapping() {
+    Map<String,Language> map = new HashMap<>();
+    List<Language> languages = Languages.get();
+    for (Language language : languages) {
+      if (language.getCountries().length > 0 && !language.getCountries()[0].isEmpty()) {
+        map.put(language.getShortCode() + "-" + language.getCountries()[0], language);
+      }
+    }
+    return map;
   }
 
   @Nullable

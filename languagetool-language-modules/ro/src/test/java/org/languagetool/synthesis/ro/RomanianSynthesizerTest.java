@@ -31,7 +31,7 @@ public class RomanianSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
-    RomanianSynthesizer synth = new RomanianSynthesizer(new Romanian());
+    RomanianSynthesizer synth = RomanianSynthesizer.INSTANCE;
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
     // a alege

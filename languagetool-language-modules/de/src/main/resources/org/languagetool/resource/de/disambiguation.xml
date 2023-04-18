@@ -9,6 +9,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!ENTITY zal_adj_ig "jähr|bänd|seit|monat|täg|köpf|tür|spur|geschoss|stöck|mal|teil|lag|stünd|minüt|sekünd|zeil|wöch|stell|räum|schicht|zähn|eck|arm|karät">
     <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun|zehn|elf|zwölf)(zehn|zig)?)(&zal_adj_ig;)">
     <!ENTITY apostrophe "['’`´‘]">
+    <!ENTITY filename_extensions "ai|asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|doc|docx|eps|exe|flv|gif|htm|html|ibooks|ico|idml|ini|indd|jar|jpeg|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|ods|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rar|rss|scss|sh|shtml|sql|stl|svg|sys|tar|tif|tiff|tmp|ts|txt|wav|wma|xhtml|xls|xlsx|xml|xsl|yaml|yml|zip|zipx|7z|web[mp]">
     <!ENTITY genderzeichen "[:_*]">
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
     <!ENTITY anf "&anfauf;|'|'|‹|«">
@@ -54,6 +55,130 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </equivalence>
     </unification>
 
+    <rule id="HAFT_KEIN_SUB" name="'Ekelhaft' kein Substantiv">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">(Gönner|Ekel|Schmerz|Lach|Fabel|Rätsel|Herz|Leib|Ehren|Engel|Ernst|Gott)haft</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+
+    <rule id="PUNKTEN_KEIN_SUB" name="'Aussichtspunkten' kein Verb">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">(Aussichts|Eck|Tau|Lade|Blick|Plus|Zeit|Ziel|Basis|Stich|Stütz|Treff|Knack|Wende|Doppel|Mittel|Strich|Anhats|Ausgangs|Elfmeter|Schmelz|Gesichts|Prozent|Anhalts|Berührungs|Tagesordnungs|Marinestütz|Scheitel|Tatzeit|Dezimal)punkten</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.+INF"/>
+    </rule>
+
+	<rulegroup id="KEIN_1_SIN_PRAE" name="Entferne 1:SIN:PRÄ, wenn kein 'ich' in Teilsatz">
+        <antipattern>
+            <token regexp="yes">ich|du|er|sie|es|wir|ihr</token>
+            <token postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*"/>
+        </antipattern>
+        <antipattern>
+              <token postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*"/>
+              <token regexp="yes">ich|du|er|sie|es|wir|ihr</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token skip="-1" postag_regexp="yes" postag="(PKT|SENT_START)">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <marker>
+                    <and>
+                        <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                           <exception scope="next">ich</exception>
+                        </token>
+                       <token postag_regexp="yes" postag="VER:IMP:SIN.*"/>
+                    </and>
+                </marker>
+                <token postag="(PKT|SENT_END)" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="VER:1:SIN:(PRÄ|KJ1).+"/>
+            <example type="ambiguous" inputform="klag[klagen/VER:1:SIN:PRÄ:SFT,klagen/VER:IMP:SIN:SFT]" outputform="klag[klagen/VER:IMP:SIN:SFT]">Leide, schweig und vertrag; deine Not niemandem <marker>klag</marker>.</example>    
+            <example type="untouched">Später <marker>gehe</marker> ich ins Restaurant essen.</example>
+            <example type="untouched">Ich <marker>gehe</marker> später ins Restaurant essen.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="-1" postag_regexp="yes" postag="(PKT|SENT_START)">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <marker>
+                    <and>
+                        <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                           <exception scope="next">ich</exception>
+                        </token>
+                       <token postag_regexp="yes" postag="VER:IMP:SIN.*"/>
+                    </and>
+                </marker>
+                <token postag="(PKT|SENT_END)" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="VER:1:SIN:(PRÄ|KJ1).+"/>
+            <example type="ambiguous" inputform="feier[feiern/VER:1:SIN:PRÄ:SFT,feiern/VER:IMP:SIN:SFT]" outputform="feier[feiern/VER:IMP:SIN:SFT]">Eine schöne runde Zahl, die wir gebührend im Juli <marker>feier</marker> werde.</example>
+            <example type="untouched">Später <marker>gehe</marker> ich ins Restaurant essen.</example>
+            <example type="untouched">Ich <marker>gehe</marker> später ins Restaurant essen.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="-1" postag_regexp="yes" postag="(PKT|SENT_START)">
+                    <exception scope="next">ich</exception>
+                </token>
+                <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                    <exception scope="next">ich</exception>
+                </token>
+                <marker>
+                    <and>
+                        <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                           <exception scope="next">ich</exception>
+                        </token>
+                       <token postag_regexp="yes" postag="VER:IMP:SIN.*"/>
+                    </and>
+                </marker>
+                <token postag="(PKT|SENT_END)" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="VER:1:SIN:(PRÄ|KJ1).+"/>
+            <example type="ambiguous" inputform="stau[stauen/VER:1:SIN:PRÄ:SFT,stauen/VER:IMP:SIN:SFT]" outputform="stau[stauen/VER:IMP:SIN:SFT]">Er war so lange im <marker>stau</marker>, dass er nicht mehr wusste, ob er zur Arbeit oder nach Hause wollte.</example>
+            <example type="untouched">Später <marker>gehe</marker> ich ins Restaurant essen.</example>
+            <example type="untouched">Ich <marker>gehe</marker> später ins Restaurant essen.</example>
+        </rule>  
+        <rule>
+            <pattern>
+                <token skip="-1" postag_regexp="yes" postag="(PKT|SENT_START)">
+                    <exception scope="next">ich</exception>
+                </token>
+                <marker>
+                    <and>
+                        <token skip="-1" postag_regexp="yes" postag="VER:1:SIN:(PRÄ|KJ1).*">
+                           <exception scope="next">ich</exception>
+                        </token>
+                       <token postag_regexp="yes" postag="VER:IMP:SIN.*"/>
+                    </and>
+                </marker>
+                <token postag="(PKT|SENT_END)" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="VER:1:SIN:(PRÄ|KJ1).+"/>
+            <example type="ambiguous" inputform="stamm[stammen/VER:1:SIN:PRÄ:SFT,stammen/VER:IMP:SIN:SFT]" outputform="stamm[stammen/VER:IMP:SIN:SFT]">Der Apfel fällt ja doch nicht vom <marker>stamm</marker>!</example>
+            <example type="ambiguous" inputform="nutze[nutzen/VER:1:SIN:KJ1:SFT,nutzen/VER:1:SIN:PRÄ:SFT,nutzen/VER:1:SIN:PRÄ:SFT,nutzen/VER:3:SIN:KJ1:SFT,nutzen/VER:IMP:SIN:SFT]" outputform="nutze[nutzen/VER:3:SIN:KJ1:SFT,nutzen/VER:IMP:SIN:SFT]">Die Maschine <marker>nutze</marker> diese Funktion nicht.</example>
+            <example type="ambiguous" inputform="frisch[frisch/ADJ:PRD:GRU,frischen/VER:1:SIN:PRÄ:SFT,frischen/VER:IMP:SIN:SFT]" outputform="frisch[frisch/ADJ:PRD:GRU,frischen/VER:IMP:SIN:SFT]">Wir eilten sofort herbei um uns ein Stückchen vom <marker>frisch</marker> gebackenen Kuchen abzuholen.</example>
+            <example type="untouched">Später <marker>gehe</marker> ich ins Restaurant essen.</example>
+            <example type="untouched">Ich <marker>gehe</marker> später ins Restaurant essen.</example>
+        </rule>
+    </rulegroup>
     <rule id="LANGE_ZEIT_ADV" name="lange Zeit">
         <pattern>
             <token regexp="yes">lange|längere</token>
@@ -754,8 +879,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 </token>
                 <marker>
                     <and>
-                        <token postag_regexp="yes" postag=".+NOM:.+"></token>
-                        <token postag_regexp="yes" postag=".+(AKK|DAT|GEN):.+"></token>
+                        <token postag_regexp="yes" postag=".+NOM:.+"/>
+                        <token postag_regexp="yes" postag=".+(AKK|DAT|GEN):.+"/>
                     </and>
                 </marker>
             </pattern>
@@ -763,7 +888,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="ambiguous" inputform="die[der/ART:DEF:AKK:PLU:FEM,der/ART:DEF:AKK:PLU:MAS,der/ART:DEF:AKK:PLU:NEU,der/ART:DEF:AKK:SIN:FEM,der/ART:DEF:NOM:PLU:FEM,der/ART:DEF:NOM:PLU:MAS,der/ART:DEF:NOM:PLU:NEU,der/ART:DEF:NOM:SIN:FEM,der/PRO:DEM:AKK:PLU:ALG,der/PRO:DEM:AKK:SIN:FEM,der/PRO:DEM:NOM:PLU:ALG,der/PRO:DEM:NOM:SIN:FEM,der/PRO:PER:AKK:PLU:ALG,der/PRO:PER:AKK:SIN:FEM,der/PRO:PER:NOM:PLU:ALG,der/PRO:PER:NOM:SIN:FEM]" outputform="die[der/ART:DEF:AKK:PLU:FEM,der/ART:DEF:AKK:PLU:MAS,der/ART:DEF:AKK:PLU:NEU,der/ART:DEF:AKK:SIN:FEM,der/PRO:DEM:AKK:PLU:ALG,der/PRO:DEM:AKK:SIN:FEM,der/PRO:PER:AKK:PLU:ALG,der/PRO:PER:AKK:SIN:FEM]">Ein gutes Argument für <marker>die</marker> Politik, ...</example>
             <example type="untouched">Er ist eher ein Lehrer, als ein Schriftsteller.</example>
             <example type="untouched">Was für ein großer Supermarkt!</example>
-            <example type="untouched">Während der größte Teil unter Emission von Beta-Teilchen...</example>
+            <example type="untouched">Während der größte Teil unter Emission ...</example>
             <example type="untouched">Dabei zerfallen sie so lange, bis ein stabiler Kern erreicht ist;</example>
             <example type="untouched">Hier ist nach wie vor der Unterschied bedeutsam.</example>
         </rule>
@@ -839,6 +964,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">wir|sie|die</token>
             <token>meinen</token>
         </antipattern>
+        <antipattern>
+            <token inflected="yes" regexp="yes">[mksd]?ein</token>
+            <token inflected="yes" regexp="yes">solch|ebensolch</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">von|zu</token>
+            <token regexp="yes">solche?|dieses?|welche</token>
+            <token postag="SUB.*DAT.*PLU.*" postag_regexp="yes" />
+        </antipattern>
          <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
@@ -846,7 +980,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token postag="(PRO|ART):.*" postag_regexp="yes">
                     <exception>sie</exception>
                     </token>
-                <token postag="SUB:.*" postag_regexp="yes"><exception postag="ADJ:.*" postag_regexp="yes"/></token>
+                <token postag="SUB:.*" postag_regexp="yes">
+                    <exception postag="ADJ:.*" postag_regexp="yes"/>
+                </token>
             </unify>
         </pattern>
         <disambig action="unify"/>
@@ -956,6 +1092,36 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token postag="ADJ:.*" postag_regexp="yes"/>
             <token postag="SUB:.*" postag_regexp="yes"/>
         </antipattern>
+        <antipattern><!-- Er überzeugte Hotelplan damit. -->
+            <token regexp="yes">er|sie|es</token>
+            <token postag="VER:3:SIN.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!-- Peter überzeugte Hotelplan damit. -->
+            <token postag="EIG.*SIN.*" postag_regexp="yes" />
+            <token postag="VER:3:SIN.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token>ich</token>
+            <token postag="VER:1:SIN.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token>sie</token>
+            <token postag="VER:3:PLU.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token>ihr</token>
+            <token postag="VER:2:PLU.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern>
+            <token>wir</token>
+            <token postag="VER:1:PLU.*" postag_regexp="yes" />
+            <token postag="SUB:.*" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
@@ -974,6 +1140,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <example type="untouched">Gegen eine schwache Wiener Austria holte das Schlusslicht einen 1:0-Heimerfolg.</example>
         <example type="untouched">Ich liebe Lachs.</example>
         <example type="untouched">Wir lieben Hunde.</example>
+        <example type="untouched">Er überzeugte Hotelplan damit.</example>
+        <example type="untouched">Peter überzeugte Hotelplan damit.</example>
         <example type="untouched">Er war früher Präsident.</example>
     </rule>
 
@@ -1079,7 +1247,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="'Der' am Satzanfang (kein Genitiv Singular)" id="SENT_START_DER">
         <pattern case_sensitive="yes">
-            <token postag="SENT_START"></token>
+            <token postag="SENT_START"/>
             <marker>
                 <token>Der</token>
             </marker>
@@ -1090,7 +1258,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="ICH_VERB" name="Ich am Satzanfang">
         <rule>
             <pattern>
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token case_sensitive="yes">Ich</token>
                 <marker>
                     <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
@@ -1124,12 +1292,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern>
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token case_sensitive="yes" regexp="yes">D(a|ie)s</token>
                 <marker>
                     <and>
                         <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
-                        <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes"></token>
+                        <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes"/>
                     </and>
                 </marker>
                 <token>ich</token>
@@ -1143,7 +1311,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token inflected="yes" skip="10">sein
                     <exception>sein</exception>
-                    <exception postag="PKT" scope="next"></exception>
+                    <exception postag="PKT" scope="next"/>
                 </token>
                 <marker>
                     <and>
@@ -1152,7 +1320,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                     </and>
                 </marker>
                 <token>worden</token>
-                <token postag="PKT"></token>
+                <token postag="PKT"/>
             </pattern>
             <disambig action="filter" postag="VER:PA2:.+"/>
             <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT]">Er ist gestern <marker>verhaftet</marker> worden.</example>
@@ -1166,7 +1334,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                         <token postag="VER:[123].+" postag_regexp="yes"/>
                     </and>
                 </marker>
-                <token postag="PKT"></token>
+                <token postag="PKT"/>
             </pattern>
             <disambig action="filter" postag="VER:PA2.*"/>
             <example type="ambiguous" inputform="verhaftet[verhaften/VER:2:PLU:KJ1:SFT,verhaften/VER:2:PLU:PRÄ:SFT,verhaften/VER:3:SIN:PRÄ:SFT,verhaften/VER:IMP:PLU:SFT,verhaften/VER:PA2:SFT,verhaftet/PA2:PRD:GRU:VER]" outputform="verhaftet[verhaften/VER:PA2:SFT]">Er wurde gestern <marker>verhaftet</marker>.</example>
@@ -1202,14 +1370,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup name="kein Nominativ nach 'Ich habe'/'Du hast'" id="KEIN_NOMINATIV">
         <rule>
             <pattern case_sensitive="yes">
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token postag="PRO:PER:NOM:.+" postag_regexp="yes"><exception postag="PRO:PER:NOM:.+" postag_regexp="yes" negate_pos="yes"/></token>
                 <token inflected="yes">haben</token>
-                <token postag="ADV.*" postag_regexp="yes" min="0"></token>
+                <token postag="ADV.*" postag_regexp="yes" min="0"/>
                 <marker>
                     <and>
-                        <token postag="ART.*:NOM:.+" postag_regexp="yes"></token>
-                        <token postag="ART.*:(DAT|AKK).+" postag_regexp="yes"></token>
+                        <token postag="ART.*:NOM:.+" postag_regexp="yes"/>
+                        <token postag="ART.*:(DAT|AKK).+" postag_regexp="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -1225,7 +1393,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                         [a-zäöü]+en<exception postag="PRO:IND:DAT:SIN.*" postag_regexp="yes"/>
                     </token>
                 </marker>
-                <token postag="SUB:DAT:SIN:NEU.*" postag_regexp="yes"></token>
+                <token postag="SUB:DAT:SIN:NEU.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add"><wd pos="PRO:IND:DAT:SIN:NEU"/></disambig>
         </rule>
@@ -1235,8 +1403,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <marker>
                     <and>
-                        <token postag="ZUS"></token>
-                        <token postag_regexp="yes" postag="PRP:.+"></token>
+                        <token postag="ZUS"/>
+                        <token postag_regexp="yes" postag="PRP:.+"/>
                     </and>
                 </marker>
                 <token>,</token>
@@ -1250,8 +1418,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token postag_regexp="yes" postag="VER:[123]:.+" skip="-1"/>
                 <marker>
                     <and>
-                        <token postag="ZUS"></token>
-                        <token postag_regexp="yes" postag="PRP:.+"></token>
+                        <token postag="ZUS"/>
+                        <token postag_regexp="yes" postag="PRP:.+"/>
                     </and>
                 </marker>
                 <token postag="SENT_END" regexp="yes">\W</token>
@@ -1277,7 +1445,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
             <token postag="SENT_END" regexp="yes">[\!\.\?]</token>
         </pattern>
-        <disambig postag="ZUS"></disambig>
+        <disambig postag="ZUS"/>
     </rule>
     <rule name="FIDEL" id="FIDEL">
         <pattern case_sensitive="yes">
@@ -1381,7 +1549,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                     <and>
                         <token postag_regexp="yes" postag="SUB:.+:INF" regexp="yes">[A-ZÄÖÜ].+</token>
-                        <token postag_regexp="yes" postag="VER:INF.+"></token>
+                        <token postag_regexp="yes" postag="VER:INF.+"/>
                     </and>
             </marker>
         </pattern>
@@ -1414,18 +1582,18 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule id="MODALVERB_MIT_INFINITIV" name="Infinitiv mit Modalverb">
         <pattern case_sensitive="yes">
             <marker>
-                <token postag_regexp="yes" postag="VER:INF:.+"></token>
+                <token postag_regexp="yes" postag="VER:INF:.+"/>
             </marker>
-            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"></token>
+            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"/>
         </pattern>
         <disambig action="remove" postag="VER:[1-3]:.+"/>
         <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Ich glaube nicht , dass er es <marker>sehen</marker> wird.</example>
     </rule>
     <rule id="MODALVERB_MIT_INFINITIV_2" name="Infinitiv mit Modalverb">
         <pattern case_sensitive="yes">
-            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"></token>
+            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"/>
             <marker>
-                <token postag_regexp="yes" postag="VER:INF:.+"></token>
+                <token postag_regexp="yes" postag="VER:INF:.+"/>
             </marker>
         </pattern>
         <disambig action="remove" postag="VER:[1-3]:.+"/>
@@ -1511,8 +1679,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>ich</token>
                 <marker>
                     <and>
-                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"></token>
-                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"></token>
+                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"/>
+                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -1524,8 +1692,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>er</token>
                 <marker>
                     <and>
-                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"></token>
-                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"></token>
+                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"/>
+                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"/>
                     </and>
                 </marker>
             </pattern>
@@ -1558,7 +1726,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern>
-                <token skip="5">,<exception scope="next" regexp="yes">,|ich</exception><exception scope="next" postag="PA[12]:.+|VER:.*INF.*" postag_regexp="yes"></exception></token>
+                <token skip="5">,<exception scope="next" regexp="yes">,|ich</exception>
+                    <exception scope="next" postag="PA[12]:.+|VER:.*INF.*" postag_regexp="yes"/></token>
                 <marker>
                     <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
                 </marker>
@@ -1582,7 +1751,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token postag="SENT_START"/>
-                <token postag="EIG:NOM:SIN.+" postag_regexp="yes"></token>
+                <token postag="EIG:NOM:SIN.+" postag_regexp="yes"/>
                 <marker>
                     <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
                 </marker>
@@ -1662,7 +1831,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <token postag="VER:MOD:1:PLU:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+en</token>
                 </marker>
-                <token postag="VER:INF.*" postag_regexp="yes"></token>
+                <token postag="VER:INF.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="remove" postag="VER.*:(3|I..).*"/>
             <example type="ambiguous" inputform="können[können/VER:MOD:1:PLU:KJ1,können/VER:MOD:1:PLU:PRÄ,können/VER:MOD:3:PLU:KJ1,können/VER:MOD:3:PLU:PRÄ,können/VER:MOD:INF]" outputform="können[können/VER:MOD:1:PLU:KJ1,können/VER:MOD:1:PLU:PRÄ]">Wir <marker>können</marker> sagen, dass wir alles alles versucht haben.</example>
@@ -1672,7 +1841,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>wir</token>
                 <token postag="VER:MOD:1:PLU:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+en</token>
                 <marker>
-                    <token postag="VER:INF.*" postag_regexp="yes"></token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="remove" postag="VER.*:[13].*"/>
@@ -1708,7 +1877,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
          <rule>
             <pattern>
                 <token postag_regexp="yes" postag="PRO:PER:NOM:.+">ich<exception postag_regexp="yes" postag="PRO:PER:NOM:.+" negate_pos="yes"/></token>
-                <marker><token postag_regexp="yes" postag="VER:IMP:SIN:.+"></token></marker>
+                <marker>
+                    <token postag_regexp="yes" postag="VER:IMP:SIN:.+"/></marker>
             </pattern>
             <disambig action="remove" postag="VER:IMP.+"/>
             <example type="ambiguous" inputform="geh[gehen/VER:1:SIN:PRÄ:NON,gehen/VER:IMP:SIN:NON]" outputform="geh[gehen/VER:1:SIN:PRÄ:NON]">Ich <marker>geh</marker> zu ihm.</example>
@@ -1725,11 +1895,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="PRP_NOM" name="kein Nominativ nach Präposition">
         <rule>
             <pattern case_sensitive="yes">
-                <token postag_regexp="yes" postag="PRP:LOK(\+TMP)?:DAT"></token>
+                <token postag_regexp="yes" postag="PRP:LOK(\+TMP)?:DAT"/>
                 <marker>
                     <and>
-                        <token postag_regexp="yes" postag=".+(NOM|AKK):.+"></token>
-                        <token postag_regexp="yes" postag=".+(DAT|GEN):.+"></token>
+                        <token postag_regexp="yes" postag=".+(NOM|AKK):.+"/>
+                        <token postag_regexp="yes" postag=".+(DAT|GEN):.+"/>
                     </and>
                 </marker>
             </pattern>
@@ -1742,15 +1912,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token>aus</token>
             </antipattern>
             <pattern case_sensitive="yes">
-                <token postag_regexp="yes" postag="PRP.+"><exception>gleich</exception></token>
+                <token postag_regexp="yes" postag="PRP.+">
+                    <exception>gleich</exception>
+                    <exception>zu</exception>
+                    <exception postag_regexp="yes" postag="PRP:NOM.*"/>
+                </token>
                 <marker>
                     <and>
-                        <token postag_regexp="yes" postag=".+NOM:.+"></token>
-                        <token postag_regexp="yes" postag=".+(AKK|DAT|GEN):.+"></token>
+                        <token postag_regexp="yes" postag=".+NOM:.+"/>
+                        <token postag_regexp="yes" postag=".+(AKK|DAT|GEN):.+"/>
                     </and>
                 </marker>
             </pattern>
             <disambig action="remove" postag=".+:NOM:.+"/>
+            <example type="untouched">Es gilt als das wichtigste Schriftstück des 20. Jhds.</example>
+            <example type="untouched">Das passiert nur, wenn der zu Pflegende bereit ist.</example>
         </rule>
     </rulegroup>
     <rulegroup id="ZURATE" name="'zurate' keine Verbform in Verbindung mit 'ziehen'">
@@ -1773,10 +1949,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="PRAEP_DAT" name="Präposition mit Dativ">
         <rule>
             <pattern>
-                <token postag="PRP:TMP+MOD+CAU:DAT"></token>
+                <token postag="PRP:TMP+MOD+CAU:DAT"/>
                 <marker>
-                    <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes" min="0">[a-zäöüß]-+</token> 
-                    <token postag="SUB:.+" postag_regexp="yes"></token>
+                    <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes" min="0">[a-zäöüß]-+</token>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="remove" postag=".*:(NOM|AKK):.*"/>
@@ -1791,6 +1967,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
     </rulegroup>
     <rulegroup id="SUB_PRT_VERB" name="Entferne Präteritum von Substantiv">
+        <!-- TODO: großgeschriebenes Imperativ (z.B. "Quell") und Konjunktiv -->
         <rule>
             <pattern case_sensitive="yes">
                 <token><exception postag="SENT_START"/><exception regexp="yes">[:;]</exception></token>
@@ -1810,7 +1987,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern case_sensitive="yes">
                 <token regexp="yes">[A-ZÄÖÜ][a-zäöüß]{3,30}beamte</token>
             </pattern>
-            <disambig postag="SUB:NOM:SIN:MAS"></disambig>
+            <disambig postag="SUB:NOM:SIN:MAS"/>
             <example type="ambiguous" inputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS:ADJ]" outputform="Schalterbeamte[Schalterbeamte/SUB:NOM:SIN:MAS]">Beamte, <marker>Schalterbeamte</marker>.</example>
         </rule>
         <rule>
@@ -1832,7 +2009,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule>
             <pattern>
                 <token regexp="yes">ich|er|sie<exception scope="previous" inflected="yes" regexp="yes">werden|sein</exception></token>
-                <marker><token case_sensitive="yes">weiß<exception scope="next" postag="VER:.*(INF|1|3).*" postag_regexp="yes"></exception></token></marker>
+                <marker><token case_sensitive="yes">weiß
+                    <exception scope="next" postag="VER:.*(INF|1|3).*" postag_regexp="yes"/></token></marker>
             </pattern>
             <disambig action="remove" postag="ADJ:PRD:GRU"/>
             <example type="untouched">Ich glaube, dass er weiß streichen wird.</example>
@@ -1848,6 +2026,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rulegroup>
     <rulegroup id="PA2_PRT_VERB" name="Entferne Präteritum von Partizip">
         <rule>
+            <antipattern>
+                <token>das</token>
+                <token regexp="yes">bestätigte?n?|erwähnte?n?|betonte?n?</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token inflected="yes" regexp="yes">ein|der</token>
                 <marker>
@@ -1871,7 +2053,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <and>
                         <token postag="PA2:.+" postag_regexp="yes"/>
-                        <token postag="ADJ:PRD:GRU"></token>
+                        <token postag="ADJ:PRD:GRU"/>
                     </and>
                 </marker>
                 <token regexp="yes">w[eo]rden</token>
@@ -1884,10 +2066,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <and>
                         <token postag="PA2:.+" postag_regexp="yes"/>
-                        <token postag="ADJ:PRD:GRU"></token>
+                        <token postag="ADJ:PRD:GRU"/>
                     </and>
                 </marker>
-                <token postag="PKT"></token>
+                <token postag="PKT"/>
             </pattern>
             <disambig action="remove" postag="ADJ:PRD:GRU"/>
         </rule>
@@ -1907,7 +2089,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="VER_3" name="Entferne 1./2. Person von Verb">
         <rule>
             <pattern case_sensitive="yes">
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token regexp="yes">D(a|ie)s|E[rs]|Sie</token>
                 <marker>
                     <and>
@@ -1925,6 +2107,53 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
+
+    <rule name="Telecommunications" id="TELECOMMUNICATIONS">
+        <pattern>
+            <token regexp="yes">International|Personal|FlexDSL</token>
+            <token regexp="yes">Telecommunications?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="x-Sitzer" id="X-SITZER">
+        <pattern>
+            <token regexp="yes">\d+-Sitzer[ns]?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Telecommunications_2" id="TELECOMMUNICATIONS_2">
+        <pattern>
+            <token regexp="yes">Telecommunications?</token>
+            <token min="0" regexp="yes">compan(y|ies)|standardization|services?|development|Orbiters?|AG</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Chai latte" id="CHAI_LATTE">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Chai|Fior</token>
+            <token min="0">di</token>
+            <token>latte</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Café crème" id="CAFÉ_CRÈME">
+        <pattern>
+            <token regexp="yes">Caff?[èéêe]</token>
+            <token min="0">con</token>
+            <token regexp="yes">crème|mélange|cortado|cheio|leche|latte|lungo|americano</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Espresso doppio" id="ESPRESSO_DOPPIO">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Espresso|Latte</token>
+            <token>doppio</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
         <pattern><!-- chrome://, ftp://, file:// -->
             <token regexp="yes">[a-z\-]+</token>
@@ -1940,18 +2169,53 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="An- und ..." id="AN_HYPHEN">
         <pattern case_sensitive="yes">
             <token>An-</token>
-            <token regexp="yes">und|oder</token>
-            <token regexp="yes">(Ver|Zu)kauf</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
+            <token regexp="yes">(Ver|Zu|Abver)kauf(en)?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
     <rule name="Be- und ..." id="BE_HYPHEN">
         <pattern case_sensitive="yes">
             <marker>
-                <token>Be-</token>
+                <token regexp="yes">[Bb]e-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch</token>
-            <token regexp="yes">Ent.+</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
+            <token regexp="yes">[Ee]nt.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Nah- und ..." id="NAH_HYPHEN">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Nah-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
+            <token regexp="yes">Fern.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ver- und Ent-" id="VER_HYPHEN">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">[Vv]er-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
+            <token regexp="yes">[Ee]nt.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Runter- und Hochladen" id="RUNTER_HYPHEN">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">([Rr]unter|[Hh]erunter)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|beziehungsweise|bzw</token>
+            <token min="0" regexp="yes">wieder|dann|\.</token>
+            <token regexp="yes">[Hh]och.+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1990,7 +2254,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="CO₂-Emission" id="CO2-EMISSION">
         <pattern>
-            <token regexp="yes">CO₂-(Emission|Emissionen|Ausstoß|Ausstoßes|Steuern?|Rechnern?|Preis|Zylinder|Fußabdrucks?|Bepreisung)</token>
+            <token regexp="yes">CO₂-(Emission(en)?|Ausstoß(es)?|Steuern?|Rechnern?|Preis|Zylinder|Fußabdrucks?|Bepreisung)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2272,6 +2536,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="Ignore words with -Sekünder or -Minüter" id="SEKUENDER">
+        <pattern><!-- 60-Sekünder, 30-Minüter -->
+            <token regexp="yes">[\d]{1,2}-(Sekünder|Minüter)[ns]?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Sambal Oelek" id="SAMBAL_OELEK">
         <pattern case_sensitive="yes">
             <token>Sambal</token>
@@ -2432,7 +2703,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="La Paz" id="LA_PAZ">
         <pattern case_sensitive="yes">
             <token>La</token>
-            <token regexp="yes">Paz|[Tt]raviata|Rambla</token>
+            <token regexp="yes">Paz|[Tt]raviata|Sapienza|Spezia|Rambla</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2449,6 +2720,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>San</token>
             <token regexp="yes">Bernardino|Gottardo|Remo</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+
+    <rule name="Cinque Terre" id="CINQUE_TERRE">
+        <pattern case_sensitive="yes">
+            <token>Cinque</token>
+            <token>Terre</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -3099,8 +3379,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="In- und Ausland" id="IN_UND_AUSLAND">
         <pattern>
             <token>In-</token>
-            <token regexp='yes' case_sensitive="yes">und|oder|&amp;|\/|beziehungsweise|sowie|noch</token>
+            <token regexp='yes' case_sensitive="yes">und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus|bzw</token>
+            <token min="0">.</token>
             <token regexp="yes" case_sensitive="yes">Ausland|außerhalb</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Master- und Bachelorarbeit" id="MASTER_UND_BACHELORARBEIT">
+        <pattern>
+            <marker>
+                <token regexp="yes">(Master|Bachelor)-</token>
+            </marker>
+            <token regexp='yes' case_sensitive="yes">und|oder|&amp;|\/|beziehungsweise|bzw|sowie|noch|\+|plus</token>
+            <token min="0">.</token>
+            <token regexp="yes">(Master|Bachelor).+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -3108,8 +3400,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="in- und ausländisch" id="IN_UND_AUSLAENDISCH">
         <pattern>
             <token>in-</token>
-            <token regexp='yes'>und|oder|&amp;|\/|beziehungsweise|sowie|noch</token>
+            <token regexp='yes' case_sensitive="yes">und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus|bzw</token>
+            <token min="0">.</token>
             <token regexp='yes'>ausländisch(e[mnrs]?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="an- und abgewöhnen" id="AN_UND_ABGEWOEHNEN">
+        <pattern>
+            <marker>
+                <token>an-</token>
+            </marker>
+            <token regexp='yes'>und|oder|&amp;|\/|beziehungsweise|sowie|noch|\+|plus|bzw</token>
+            <token min="0">.</token>
+            <token regexp='yes'>ab.+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -3803,7 +4108,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Special Olympics" id="SPECIAL_OLYMPICS">
         <pattern case_sensitive="yes">
             <token>Special</token>
-            <token>Olympics</token>
+            <token regexp="yes">Olympics|Agents?|Effects?|Offers?|Inspectors?|Operations?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -4142,7 +4447,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="hin- und hergerissen" id="HIN_HER">
       <pattern case_sensitive="yes">
         <marker><token regexp="yes">(a[bn]|aus|um|über|unter|auf|hin|nach|vor|zurück)-</token></marker>
-        <token postag="KON:.+" postag_regexp="yes"></token>
+          <token postag="KON:.+" postag_regexp="yes"/>
         <token regexp="yes">(a[bn]|aus|um|über|unter|auf|her|hin|nach|vor|weg|zurück)\w+</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -4158,7 +4463,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Auf- oder Abwertung" id="HIN_HER_GROSS">
       <pattern case_sensitive="yes">
         <marker><token regexp="yes">(A[bn]|Aus|Um|Über|Unter|Auf|Hin|Nach|Vor|Zurück)-</token></marker>
-        <token postag="KON:.+" postag_regexp="yes"></token>
+          <token postag="KON:.+" postag_regexp="yes"/>
         <token regexp="yes">(A[bn]|Aus|Um|Über|Unter|Auf|Her|Hin|Nach|Vor|Weg|Zurück)\w+</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -4213,6 +4518,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="Chief of XXX" id="CHIEF_KEIN_SUB"><!-- common job title -->
+      <pattern case_sensitive="yes">
+        <marker>
+            <token regexp="yes">Chiefs?</token>
+        </marker>
+        <token>of</token>
+      </pattern>
+      <disambig action="remove" postag="SUB.*" />
+    </rule>
     <rule name="Vice President of XXX" id="VICE_PRESIDENT_OF"><!-- common job title -->
       <pattern case_sensitive="yes">
         <token>Vice</token>
@@ -4244,7 +4558,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="WOODS" id="WOODS"><!-- Bretton/Tiger Woods-->
       <pattern case_sensitive="yes">
-        <token postag="UNKNOWN|EIG:.+" postag_regexp="yes"></token>
+          <token postag="UNKNOWN|EIG:.+" postag_regexp="yes"/>
         <token>Woods</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -4286,7 +4600,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Adjutant|Montana|Jack|Jacob|Manhattan|Sirius</token>
+                <token regexp="yes">Adjutant|Montana|Jack|Jacob|Manhattan|Sirius|Phantom</token>
                 <token regexp="yes">Blacks?</token>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -4599,7 +4913,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token case_sensitive="yes">Sonn-</token>
             </marker>
-            <token regexp="yes">und|oder|bzw\.?|&amp;|\/</token>
+            <token regexp="yes">und|oder|bzw|&amp;|\/|sowie</token>
+            <token min="0">.</token>
             <token regexp="yes">(Sams|Feier)tag.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -4768,7 +5083,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Accepted|Academic|Advanced|Automatic|Ambient|Authori[sz]ed|Astronomical|Botanical|Certified|Decentralized|Electrical|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next</token>
+                <token regexp="yes">Atlantic|Accepted|Academic|Advanced|Automatic|Automated|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|British|Certified|Decentralized|Electrical|Environmental|Electrified|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Success|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual|Comfort|Working|Cognitive|Conversational|Convolutional</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
@@ -4776,9 +5091,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token regexp="yes">Accepted|Academic|Advanced|Automatic|Ambient|Authori[sz]ed|Astronomical|Botanical|Certified|Decentralized|Electrical|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next</token>
+                <token regexp="yes">Atlantic|Accepted|Academic|Advanced|Automatic|Automated|Air|Ambient|Authori[sz]ed|Astronomical|Botanical|British|Certified|Decentralized|Electrical|Environmental|Electrified|Financial|United|Active|Electronic|Economic|Scientific|Electric|Federal|Dynamic|Black|White|Blue|Green|Big|Little|World|Travel|Director|Social|My|Deep|Dead|Dark|European|American|Australian|English|Asian|Austrian|Swiss|German|Central|Medical|Custom|Consumer|Energy|Dragon|Child|Technology|Intelligence|Conference|Communication|Freedom|Magic|Direct|Autonomous|Californian?|Climate|Managed|Sponsored|Independent|Success|Technical|Extended|Educational|Deluxe|Public|Safety|Ultimate|Local|Heavy|Diamond|Capital|Industrial|Biomedical|Confidential|Logistic|Critical|Organic|Incorporated|Next|Low|Sunny|Bulk|Virtual|Comfort|Working|Cognitive|Conversational|Convolutional</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
-                <token regexp="yes">and|or|&amp;</token>
+                <token regexp="yes">and|or|for|of|&amp;|\/</token>
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -4790,8 +5105,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </antipattern>
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes">[A-Z][a-z]+|[A-Z]+</token>
-                <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+|and|or|&amp;</token>
-                <token regexp="yes">Day|School|Card|One|Room|Black|Green|Blue|White|World|Kitchen|Society|Council|Advanced|Air|Dark|Health|Desk|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention|America|Authority|Conference|Culture|University|Corporation|Committee|Commands?|Relations|Communication|Group|Project|Gallery|Cathedral|Foundation|Life|Specialists?|Agents?|Records|Study|Studies|Advisor|Campaigns?|Partnerships?|Squad|Overviews?|Assistants?|Alliance|Pictures?|Journey|Dynamics|Hill|Rights?|Certificates?|Mountains?|Library|Manufacturers?|Commission|Protections?|Economics|Cosmetics|Night|Industries|Marketplace|Console|Contracts?|Institute|Diamond|Europe|Capital|Market|Assurance|Insurance|Logistics|Diagnostics|Villages?</token>
+                <token postag="UNKNOWN|SUB:.+" postag_regexp="yes" regexp="yes" min="0">[A-Z][a-z]+|[A-Z]+|and|or|for|of|&amp;|\/</token>
+                <token regexp="yes">Day|School|Card|One|Room|Black|Green|Blue|White|World|Strategy|Coffee|Kitchen|Society|Council|Advanced|Air|Dark|Health|Desk|Deluxe|Director|Agency|Energy|Care|Connect|Custom|Factory|Buildings?|Consumer|Connectors?|Dragon|Electronics|Technology|Intelligence|Convention|America|Authority|Conference|Culture|University|Corporation|Committee|Commands?|Relations|Communication|Group|Project|Gallery|Cathedral|Foundation|Life|Specialists?|Agents?|Records|Study|Studies|Advisor|Campaigns?|Partnerships?|Squad|Overviews?|Assistants?|Alliance|Pictures?|Journey|Dynamics|Hill|Rights?|Certificates?|Mountains?|Library|Manufacturers?|Commission|Protections?|Economics|Cosmetics|Night|Industries|Marketplace|Console|Contracts?|Institute|Diamond|Europe|Capital|Market|Assurance|Insurance|Logistics|Diagnostics|Villages?|River|Central</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -4852,6 +5167,32 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER:.+" />
     </rule>
 
+    <rulegroup id="RED_KEIN_VERB" name="'Red' kein Verb"><!-- abk "red." / englische Farbe -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token>red</token>
+                </marker>
+                <token regexp="yes">\.|bulls?|hat|lights?</token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+" />
+        </rule>
+        <rule>
+            <antipattern>
+                <token regexp="yes">ich|bitte|dann</token>
+                <token>red</token>
+            </antipattern>
+            <antipattern>
+                <token>red</token>
+                <token regexp="yes">ich|nicht</token>
+            </antipattern>
+            <pattern>
+                <token>red</token>
+            </pattern>
+            <disambig action="remove" postag="VER:.+" />
+        </rule>
+    </rulegroup>
+
     <rule id="GUTES_KEIN_SUB" name="'kein/nichts Gutes' kein Substantiv Genitiv">
         <pattern>
             <token regexp="yes">[mksd]?ein|ihr|nichts|(et)?was|irgend(et)?was</token>
@@ -4896,6 +5237,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">(kl?)?ein|(kl?)?einen</token>
             <marker>
                 <token regexp="yes">Tick(en)?</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
+
+    <rule id="GAEBE_KEIN_VERB" name="'gäbe' kein Verb">
+        <pattern>
+            <token>gang</token>
+            <token regexp="yes">und|&amp;</token>
+            <marker>
+                <token>gäbe</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="VER.*" />
@@ -5042,6 +5394,43 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="SUB:.+" />
     </rule>
+    <rule id="CHAMPIONS_KEIN_SUB" name="'Champions' kein Substantiv in 'Champions League'">
+        <pattern>
+            <marker>
+                <token>Champions</token>
+            </marker>
+            <token regexp="yes">League.*|Hockey.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB:.+" />
+    </rule>
+    <rule id="EUROPA_KEIN_SUB" name="'Europa' kein Substantiv in 'Europa League'">
+        <!-- Namen: Europa Nations League, Europa League, Europa Conference League -->
+        <pattern>
+            <marker>
+                <token>Europa</token>
+            </marker>
+            <token regexp="yes">League.*|Conference.*|Nations.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB:.+" />
+    </rule>
+    <rule id="BLIND_KEIN_ADJ" name="'Blind' kein Substantiv in 'Blind Date'">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Blind</token>
+            </marker>
+            <token regexp="yes">Date.*</token>
+        </pattern>
+        <disambig action="remove" postag="(ADJ|ZUS).*" />
+    </rule>
+    <rule id="JOUR_FIXE_KEIN_ADJ" name="'fixe' kein ADJ in 'Jour fixe'">
+        <pattern>
+            <token case_sensitive="yes">Jour</token>
+            <marker>
+                <token regexp="yes">fixe?s?</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(ADJ|VER).*" />
+    </rule>
 
     <rule id="UNION_JACK" name="'Union' kein fem. Substantiv in 'Union Jack'">
         <pattern>
@@ -5166,7 +5555,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <rule><!-- lowercase word + abbreviation with no vowels -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">.*[a-z].*</token>
-                <token min="0">(</token>
+                <token min="0" regexp="yes">[\)\(,\/]</token>
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
                 </marker>
@@ -5178,7 +5567,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <marker>
                     <token regexp="yes">[BCDFGHJKLMNPQRSTVWXZ]{3,6}</token>
                 </marker>
-                <token min="0">)</token>
+                <token min="0" regexp="yes">[\)\(,\/]</token>
                 <token regexp="yes">.*[a-z].*</token>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -5342,7 +5731,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token case_sensitive="yes">Bad</token>
             </marker>
             <!-- "Moms" and "Meets" are english words commonly used with "Bad" ("Bad meets evil") -->
-            <token case_sensitive="yes" regexp="yes">Moms|[mM]eets|(Kreuznach|Soden|Urach|Wildungen|Wimpfen|Salzuflen|Teinach-Zavelstein|Vilbel|Vöslau|Saulgau|Tölz|Arolsen|Aibling|Ischl|Oldesloe|Pyrmont|Neuenahr|Bergzabern|Essen|Erlach|Langensalza|Lippspringe|Münstereifel|Ems|Gams|Honnef|Kissingen|Fallingbostel|Reichenhall|Friedrichshall|Rappenau|Cannstatt|Wurzach|[A-ZÄÖÜ].+(heim|berg|burg|hof|hofen|st[ea]dt|stein|bach|see|dorf|tal|hausen|walde|felde?|hafen|ingen))(s|er[ns]?|erin|erinnen|aner[ns]?|anerin|anerinnen)?</token>
+            <token case_sensitive="yes" regexp="yes">Kissinger[sn]?|Moms|[mM]eets|(Kreuznach|Soden|Rothenfelde|Urach|Wildungen|Wimpfen|Salzuflen|Teinach-Zavelstein|Vilbel|Vöslau|Saulgau|Tölz|Arolsen|Aibling|Ischl|Oldesloe|Pyrmont|Neuenahr|Bergzabern|Essen|Erlach|Langensalza|Lippspringe|Münstereifel|Ems|Gams|Honnef|Kissingen|Fallingbostel|Reichenhall|Friedrichshall|Rappenau|Cannstatt|Wurzach|[A-ZÄÖÜ].+(heim|berg|burg|hof|hofen|st[ea]dt|stein|bach|see|dorf|tal|hausen|walde|felde?|hafen|ingen))(s|er[ns]?|erin|erinnen|aner[ns]?|anerin|anerinnen)?</token>
         </pattern>
         <disambig action="remove" postag="SUB.+" />
     </rule>
@@ -5669,9 +6058,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token>Los</token>
             </marker>
-            <token regexp="yes">Angel[oe]s|Zetas|Gatos</token>
+            <token regexp="yes">Angel[oe]s|Zetas|Gatos|Alamos</token>
         </pattern>
-        <disambig action="remove" postag="(SUB|VER|ADV).*"/>
+        <disambig action="remove" postag="(SUB|VER|ADV|ZUS).*"/>
     </rule>
 
     <rule id="DAILY_WEEKLY_KEIN_NOMEN" name="'Daily' kein Nomen">
@@ -5695,20 +6084,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes" case_sensitive="yes">Ladens?|Salmans?|Scharifas?|Schamlans?|Abduls?|Dauds?|Mohammeds?|Hafiz|Salims?|Dschawads?</token>
         </pattern>
         <disambig action="remove" postag=".*"/>
-    </rule>
-
-    <rule id="GAR_KEIN_VERB" name="'gar' kein Verb">
-        <antipattern>
-            <token regexp="yes">bitte|ich</token>
-            <token>gar</token>
-        </antipattern>
-        <pattern>
-            <marker>
-                <token>gar</token>
-            </marker>
-            <token regexp="yes" case_sensitive="yes">nichts?|nix|kein[se]?</token>
-        </pattern>
-        <disambig action="remove" postag="VER.*"/>
     </rule>
 
     <rule id="IGNORE_SPELLING_OF_NUMBER_PERIOD_LETTER" name="ignore '2.a'">
@@ -5737,7 +6112,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Weiter|Fort|Aus)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie|noch</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Weiter|Fort|Aus)bildung.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -5746,10 +6122,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule id="IGNORE_SPELLING_OF_HOL_UND_BRINGDIENST" name="ignore 'Hol- und Bringdienst'">
         <pattern case_sensitive="yes">
             <marker>
-                <token>Hol-</token>
+                <token regexp="yes">(Hol|Bring)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
-            <token regexp="yes">Bring.+</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
+            <token regexp="yes">(Hol|Bring).+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -5759,8 +6136,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Ent|Ver)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Ent|Ver)sorgung.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_BE_UND_VERARBEITEN" name="ignore 'Be- und Verarbeiten'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">([bB]e|[vV]er)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
+            <token regexp="yes">(Be|Ver)arbeit.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -5770,7 +6160,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Hard|Soft)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Hard|Soft)ware.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -5781,7 +6172,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Ex|Im)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Ex|Im)port.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -5792,8 +6184,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(ab|auf)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(ab|auf)wärts</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_TAG_UND_NACHTAKTIV" name="ignore 'tag- und dämmerungsaktiv'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">(tag|nacht|dämmerungs)-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
+            <token regexp="yes">(nacht|tag|dämmerungs).+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -5803,7 +6208,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Aus|Ein)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Aus|Ein).+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -5814,7 +6220,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token regexp="yes">(Aus|Ein|Durch|Weiter)-</token>
             </marker>
-            <token regexp="yes">und|oder|&amp;|\/|sowie</token>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus|bzw|beziehungsweise</token>
+            <token min="0">.</token>
             <token regexp="yes">(Aus|Ein|Durch|Weiter).+</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -5904,16 +6311,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER.*"/>
     </rule>
 
-    <rule id="RED_KEIN_VERB" name="'Red' kein Verb">
-        <pattern>
-            <marker>
-                <token case_sensitive="yes">Red</token>
-            </marker>
-            <token case_sensitive="yes" regexp="yes" postag="UNKNOWN|EIG.*|SUB.*" postag_regexp="yes">[A-Z].+</token>
-        </pattern>
-        <disambig action="remove" postag="VER.*"/>
-    </rule>
-
     <rule id="NUETZE_KEIN_VERB" name="'nütze' kein Verb">
         <!-- "Er ist zu nichts nütze"-->
         <pattern>
@@ -5961,24 +6358,38 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="remove" postag="VER.*"/>
     </rule>
 
-    <rule id="MAL_KEIN_VERB" name="'mal' kein Verb">
-        <antipattern>
-            <token skip="1">mal</token>
-            <token>ich</token>
-        </antipattern>
-        <antipattern>
-            <token>mal</token>
-            <token>und</token>
-            <token postag="VER:IMP.*" postag_regexp="yes" />
-        </antipattern>
-        <pattern>
-            <token regexp="yes">schon|zunächst|(vor)?erst|noch|kein</token>
-            <marker>
+    <rulegroup id="MAL_KEIN_VERB" name="'mal' kein Verb">
+        <rule>
+            <antipattern>
+                <token skip="1">mal</token>
+                <token>ich</token>
+            </antipattern>
+            <antipattern>
                 <token>mal</token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="VER.*"/>
-    </rule>
+                <token>und</token>
+                <token postag="VER:IMP.*" postag_regexp="yes" />
+            </antipattern>
+            <pattern>
+                <token regexp="yes">schon|zunächst|(vor)?erst|noch|kein</token>
+                <marker>
+                    <token>mal</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="PKT|SENT_START" postag_regexp="yes" />
+                <token min="0">aber</token>
+                <token regexp="yes">sage?</token>
+                <token min="0">doch</token>
+                <marker>
+                    <token>mal</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup>
 
     <rule id="DE_LAS_KEIN_VERB" name="'de las' kein Verb">
         <pattern>
@@ -6036,7 +6447,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <pattern>
                 <token postag="EIG.*|UNKNOWN" postag_regexp="yes" case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].*</token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?</token>
+                    <token regexp="yes" case_sensitive="yes">Haases?|Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -6046,7 +6457,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token regexp="yes" case_sensitive="yes">Herr|Frau|Doktor|Professor|Prof|[HFDM]r|Mrs|.*([Pp]räsident|[Mm]inister)</token>
                 <token min="0">.</token>
                 <marker>
-                    <token regexp="yes" case_sensitive="yes">Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?</token>
+                    <token regexp="yes" case_sensitive="yes">Haases?Ungers?|Bischoffs?|Schwaigers?|Baumgarts?|Behrendt?s?|Wüsts?|Pabsts?</token>
                 </marker>
             </pattern>
             <disambig action="ignore_spelling"/>
@@ -6153,7 +6564,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule id="DANK_KEIN_VERB" name="'dank' kein Verb">
         <antipattern>
-            <token regexp="yes">ich|bitte</token>
+            <token regexp="yes">ich|bitte|dann</token>
             <token>dank</token>
         </antipattern>
         <antipattern>
@@ -6164,6 +6575,66 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>dank</token>
         </pattern>
         <disambig action="remove" postag="VER:1.*"/>
+    </rule>
+
+    <rulegroup id="GAR_KEIN_VERB" name="'gar' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte|dann</token>
+            <token>gar</token>
+        </antipattern>
+        <antipattern>
+            <token>gar</token>
+            <token>ich</token>
+        </antipattern>
+        <antipattern>
+            <token postag="SENT_START" />
+            <token>gar</token>
+        </antipattern>
+        <antipattern>
+            <token postag="VER:IMP.*" postag_regexp="yes" />
+            <token regexp="yes">und|oder|&amp;|sowie|/</token>
+            <token>gar</token>
+        </antipattern>
+        <antipattern>
+            <token>ich</token>
+            <token postag="VER:1:SIN.*" postag_regexp="yes" />
+            <token regexp="yes">und|oder|&amp;|sowie|/|,</token>
+            <token>gar</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token>gar</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>gar</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">nichts?|nix|kein[se]?</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup>
+
+    <rule id="WIDER_KEIN_VERB" name="'wider' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte|dann</token>
+            <token>wider</token>
+        </antipattern>
+        <antipattern>
+            <token>wider</token>
+            <token>ich</token>
+        </antipattern>
+        <antipattern>
+            <token postag="SENT_START" />
+            <token>wider</token>
+        </antipattern>
+        <pattern>
+            <token>wider</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
     </rule>
 
     <rule id="SCHNELL_KEIN_VERB" name="'schnell' kein Verb">
@@ -6314,7 +6785,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>ich</token>
         </antipattern>
         <antipattern>
-            <token regexp="yes">ich|bitte</token>
+            <token regexp="yes">ich|bitte|dann</token>
             <token>teil</token>
         </antipattern>
         <rule>
@@ -6361,5 +6832,936 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="EXE_DATEI" name="ignore spelling of '.exe-Datei'">
+        <pattern>
+            <token>.</token>
+            <token spacebefore="no" regexp="yes" case_sensitive="yes">(&filename_extensions;)-(Erweiterung(en)?|Suffixe?|Textdatei(en)?|Datei(en|typs?|formats?|endung(en)?|suffixe?)?|Format(e[sn]?|s)?)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="AUF_UND_AUS" name="ignore spelling 'Auf- und Ausbau'">
+        <pattern>
+            <marker>
+                <token>auf-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">(aus|ab).+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="GE_UND_VER" name="ignore spelling 'ge- und verordnet'">
+        <pattern>
+            <marker>
+                <token>ge-</token>
+            </marker>
+            <token regexp="yes">und|oder|&amp;|\/|sowie|noch|\+|plus</token>
+            <token regexp="yes">(ver|ent).+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="NATIONAL_INSTITUTE_OF" name="ignore spelling of 'National Institute'">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">National|International</token>
+            <token regexp="yes">Institutes?</token>
+            <token regexp="yes">of|for</token>
+            <token regexp="yes">[A-Z].+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="TRADE_KEIN_SUB" name="'Trade' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Trade</token>
+            </marker>
+            <token regexp="yes">Republic.*|Union|of</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="CASE_KEIN_SUB" name="'Case' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Case</token>
+            </marker>
+            <token regexp="yes">Study.*|Western</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="INNOVATION_KEIN_SUB" name="'Innovation' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Innovation</token>
+            </marker>
+            <token regexp="yes">(Lab|Hub|Camp).*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="LAST_KEIN_SUB" name="'Last' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Last</token>
+            </marker>
+            <token regexp="yes">Minute.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="GENDER_KEIN_SUB" name="'Gender' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Gender</token>
+            </marker>
+            <token regexp="yes">Studies.*</token>
+        </pattern>
+        <disambig action="remove" postag="(SUB|VER).*"/>
+    </rule>
+    <rule id="CREDIT_KEIN_SUB" name="'Credit' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Credit</token>
+            </marker>
+            <token regexp="yes">Suisse.*|Karma.*|Agricole.*|Sesame.*|Card.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="PREMIER_KEIN_SUB" name="'Premier' kein Substantiv"><!-- Premier League (Sportliga) -->
+        <pattern>
+            <marker>
+                <token>Premier</token>
+            </marker>
+            <token regexp="yes">League.*|Academy.*|Classics</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="SUPER_KEIN_SUB" name="'Super' kein Substantiv"><!-- Super League (Sportliga) -->
+        <pattern>
+            <marker>
+                <token>Super</token>
+            </marker>
+            <token regexp="yes">League.*|RTL.*|Audio.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="CALL_KEIN_SUB" name="'Call' kein Substantiv"><!-- Call of Duty (Computerspiel) -->
+        <pattern>
+            <marker>
+                <token>Call</token>
+            </marker>
+            <token regexp="yes">of|me|my</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="FIFA_KEIN_SUB" name="'Fifa' kein Substantiv"><!-- FIFA Federations Cup  -->
+        <pattern>
+            <marker>
+                <token regexp="yes">FIFA|UEFA</token>
+            </marker>
+            <token regexp="yes">Conf.*|Fed.*|Nations.*|World.*|Champion.*|Europa.*|Youth.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="JUNIOR_KEIN_SUB" name="'Junior' kein Substantiv"><!-- Junior Suite  -->
+        <pattern>
+            <marker>
+                <token>Junior</token>
+            </marker>
+            <token regexp="yes">Suites?|Manager(s|in|innen)?|High.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="COOKIE_KEIN_SUB" name="'Cookie' kein Substantiv"><!-- Cookie Policy  -->
+        <pattern>
+            <marker>
+                <token>Cookie</token>
+            </marker>
+            <token regexp="yes">Policy.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="COCKTEIL_KEIN_SUB" name="'Junior' kein Substantiv"><!-- Die Cocktail Happy Hour  -->
+        <pattern>
+            <marker>
+                <token>Cocktail</token>
+            </marker>
+            <token regexp="yes">Happy.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="BALANCE_KEIN_SUB" name="'Balance' kein Substantiv"><!-- Junior Suite  -->
+        <pattern>
+            <marker>
+                <token>Balance</token>
+            </marker>
+            <token regexp="yes">Sheets?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="NORD_KEIN_SUB" name="'Nord' kein Substantiv"><!-- Gas-Pipeline -->
+        <pattern>
+            <marker>
+                <token>Nord</token>
+            </marker>
+            <token regexp="yes">Stream.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="FUNKE_KEIN_SUB" name="'Funke' kein Substantiv"><!-- Medienunternehmen -->
+        <pattern>
+            <marker>
+                <token>Funke</token>
+            </marker>
+            <token regexp="yes">Mediengruppe.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="THW_KEIN_SUB" name="'THW' kein Substantiv"><!-- Handballclub -->
+        <pattern>
+            <marker>
+                <token>THW</token>
+            </marker>
+            <token regexp="yes">Kiel.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="LEOPARD_KEIN_SUB" name="'Leopard' kein Substantiv"><!-- Panzermodell -->
+        <pattern>
+            <marker>
+                <token>Leopard</token>
+            </marker>
+            <token regexp="yes">1|2|3|.*panzer.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="NOVA_KEIN_SUB" name="'Nova' kein Substantiv"><!-- Rockfestival, Stadt, ... -->
+        <pattern>
+            <marker>
+                <token>Nova</token>
+            </marker>
+            <token regexp="yes">(Rock|Scotia|Motors).*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="SPECIAL_KEIN_SUB" name="'Special' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Special</token>
+            </marker>
+            <token regexp="yes">(Olympic|Agent|Offer|Effect|Air|Operations|Inspector|Boat).*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="TASK_KEIN_SUB" name="'Task' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Task</token>
+            </marker>
+            <token regexp="yes">Force.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rule id="INTERNET_EXPLORER" name="'Internet' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Internet</token>
+            </marker>
+            <token regexp="yes">Explorer.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*NEU.*"/>
+    </rule>
+    <rule id="BUSINESS_SCHOOL" name="'Internet' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Business</token>
+            </marker>
+            <token regexp="yes">School.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*NEU.*"/>
+    </rule>
+    <rule id="SLOT_MACHINE" name="'Slot' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Slot</token>
+            </marker>
+            <token regexp="yes">Machine.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rule id="LAKE_KEIN_SUB" name="'Lake' kein Substantiv"><!-- Lake Mead-->
+        <pattern>
+            <marker>
+                <token>Lake</token>
+            </marker>
+            <token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[A-Z].+</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="SHOOTING_KEIN_SUB" name="'Shooting' kein Substantiv"><!-- Shooting Guard -->
+        <pattern>
+            <marker>
+                <token>Shooting</token>
+            </marker>
+            <token regexp="yes">Guards.*|Brake.*|Fish.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="GAME_KEIN_SUB" name="'Game' kein Substantiv"><!-- Game of Thrones -->
+        <pattern>
+            <marker>
+                <token>Game</token>
+            </marker>
+            <token>of</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="GIRO_KEIN_SUB" name="'Giro' kein Substantiv"><!-- Giro d'Italia -->
+        <pattern>
+            <marker>
+                <token>Giro</token>
+            </marker>
+            <token>d</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="TOP_KEIN_SUB" name="'Top' kein Substantiv"><!-- Top 10 -->
+        <pattern>
+            <marker>
+                <token>Top</token>
+            </marker>
+            <token regexp="yes">\d+|Three|Five|Ten|Zehn|Fünf|Hundert|Tausend</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="TRACK_KEIN_SUB" name="'Track' kein Substantiv"><!-- Track Pants -->
+        <pattern>
+            <marker>
+                <token regexp="yes">Track|Jump</token>
+            </marker>
+            <token regexp="yes">Pant.*|Suit.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="USER_KEIN_SUB" name="'User' kein Substantiv"><!-- die User Experience -->
+        <pattern>
+            <marker>
+                <token>User</token>
+            </marker>
+            <token regexp="yes">Experience.*|Story.*|Agent.*|Datagram.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rule id="CONTENT_KEIN_SUB" name="'Content' kein Substantiv"><!-- die Content Creators -->
+        <pattern>
+            <marker>
+                <token>Content</token>
+            </marker>
+            <token regexp="yes">Creator.*|Delivery.*|Farm|Collaboration.*|Security.*|Wiki</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rule id="TRIPLE_KEIN_SUB" name="'Triple' kein Substantiv"><!-- Triple Entente -->
+        <pattern>
+            <marker>
+                <token>Triple</token>
+            </marker>
+            <token regexp="yes">Entente.*|Crown.*|9</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="UNION_KEIN_SUB" name="'Union' kein Substantiv">
+        <pattern>
+            <marker>
+                <token>Union</token>
+            </marker>
+            <token regexp="yes">Investment.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="BUS_KEIN_SUB" name="'Bus' kein Substantiv"><!-- die Bus Ostschweiz -->
+        <pattern>
+            <marker>
+                <token>Bus</token>
+            </marker>
+            <token regexp="yes">Ostschweiz.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="VON_DER_OSTEN_KEIN_SUB" name="'von der Osten' kein Substantiv"><!-- https://de.wikipedia.org/wiki/Osten_(Adelsgeschlechter) -->
+        <pattern>
+            <token>von</token>
+            <token>der</token>
+            <marker>
+                <token case_sensitive="yes">Osten</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="VAN_DER_NAME" name="van der Valk">
+        <pattern>
+            <token>van</token>
+            <token regexp="yes">der?</token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">[A-Z][a-zäöü\-]+</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rulegroup id="ZEIT_ONLINE" name="'Zeit' kein Sub">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>Zeit</token>
+                </marker>
+                <token case_sensitive="yes">Online</token>
+            </pattern>
+            <disambig action="remove" postag="SUB.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>Zeit</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">de</token>
+            </pattern>
+            <disambig action="remove" postag="SUB.*"/>
+        </rule>
+    </rulegroup>
+    <rule id="BETEILIGUNGS_GMBH" name="häufiger Firmenname mit Fugen-S 'XX Beteiligungs GmbH'">
+        <pattern>
+            <token postag="EIG.*|SUB.*|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].*</token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">Verwaltungs|Beteiligungs</token>
+            </marker>
+            <token regexp="yes">GmbH|AG|Ltd|UG</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="METAVERSE" name="Metaverse kein Maskulinum">
+        <pattern>
+            <token regexp="yes">.*metaversen?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*MAS.*"/>
+    </rule>
+    <rulegroup id="ICH_MAIL" name="Verben erste Person ohne 'e' am Ende">
+        <rule>
+            <pattern>
+                <token>ich</token>
+                <marker>
+                    <!-- verben, die auch mit einem Imperativ (e.g. helf vs hilf) verwechselt werden könnten -->
+                    <token case_sensitive="yes" regexp="yes">helf|ess|fress|tret</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <!-- verben, die auch mit einem Imperativ (e.g. helf vs hilf) verwechselt werden könnten -->
+                    <token case_sensitive="yes" regexp="yes">helf|ess|fress|tret</token>
+                </marker>
+                <token>ich</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">ich|bitte|dann|daher|deswegen</token>
+                <token postag="ADV.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten oder mit anderen Wörtern verwechselt werden könnten -->
+                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör|grab|cancel|ras|hinweis|beruf|nerv|zeug|buch</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <!-- verben, die großgeschrieben auch ein Substantiv sein könnten oder mit anderen Wörtern verwechselt werden könnten -->
+                    <token case_sensitive="yes" regexp="yes">verrat|stimm|kontrollier|betreib|mail|rat|bau|besuch|helf|stream|knutsch|schnall|strick|ruh|futter|zwiebel|gehör|grab|cancel|ras|beruf|nerv|zeug|buch</token>
+                </marker>
+                <token>ich</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+    <rule id="SIEBEN_KEIN_VERB" name="'sieben' kein Verb">
+        <pattern>
+            <marker>
+                <token>sieben</token>
+            </marker>
+            <token regexp="yes">Tagen?|Monaten?|Zwergen?|Todsünden|Leben|Weltwundern?|Schwestern?</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="SCHOEN_KEIN_ADJ" name="'schön' kein Adjektiv">
+        <!-- https://de.wikipedia.org/wiki/Sch%C3%B6n_Klinik -->
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Schön</token>
+            </marker>
+            <token regexp="yes">Klinik.*</token>
+        </pattern>
+        <disambig action="remove" postag="ADJ.*"/>
+    </rule>
+    <rule id="BMW_KEIN_SUB" name="'BMW' kein Nomen">
+        <pattern>
+            <marker>
+                <token>BMW</token>
+            </marker>
+            <token regexp="yes" case_sensitive="yes">i?[ZXM].+|[zmxi]\d+|Isetta</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="FRONT_KEIN_SUB" name="'Front' kein Nomen">
+        <pattern>
+            <marker>
+                <token>Front</token>
+            </marker>
+            <token regexp="yes" case_sensitive="yes">(National|Runner|Line).*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="KING_KEIN_SUB" name="'Front' kein Nomen">
+        <pattern>
+            <marker>
+                <token>King</token>
+            </marker>
+            <token regexp="yes" case_sensitive="yes">(Size|of|Crimson|Arthur|Diamond).*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="THREE_D_SECURE" name="'3D-Secure'">
+        <!-- adding this to spelling.txt does not work -->
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">3D-Secure(-(Verfahren|Bezahlverfahren)s?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="VORS_KEIN_PRP" name="'vors' kein PRP">
+        <pattern>
+            <marker>
+                <token>vors</token>
+            </marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig action="remove" postag="PRP.*"/>
+    </rule>
+    <rule id="IN_KEIN_PRP" name="'in' kein PRP">
+        <pattern>
+            <token spacebefore="no" regexp="yes">[_\*:]</token>
+            <marker>
+                <token spacebefore="no">in</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="PRP.*"/>
+    </rule>
+    <rule id="MOORESCHEN_KEIN_SUB" name="Mooreschen Gesetz">
+        <pattern>
+            <marker>
+                <token regexp="yes">Mooresche.*</token>
+            </marker>
+            <token regexp="yes">Gesetz.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="KUND_KEIN_VERB" name="'Kund' kein Verb in 'Kund:in'">
+        <pattern>
+            <marker>
+                <token>Kund</token>
+            </marker>
+            <token regexp="yes" spacebefore="no">[:/_*]</token>
+            <token regexp="yes" spacebefore="no">in.*</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="LATTE_KEIN_SUB" name="'Latte' kein FEM Sub in 'Latte macchiato'">
+        <pattern>
+            <marker>
+                <token>Latte</token>
+            </marker>
+            <token regexp="yes">macc?hiatt?o.*</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*FEM.*"/>
+    </rule>
+    <rule id="BITTE_KEIN_VER" name="'Bitte' kein Verb">
+        <pattern>
+            <token>wer</token>
+            <marker>
+                <token case_sensitive="yes">bitte</token>
+            </marker>
+            <token postag="VER.*" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="LANG_KEIN_VER" name="'lang' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte|dann|deswegen</token>
+            <token>lang</token>
+        </antipattern>
+        <antipattern>
+            <token>lang</token>
+            <token regexp="yes">ich|zu|&apostrophe;</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">lang</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="TROTZ_KEIN_VER" name="'trotz' kein Verb">
+        <antipattern>
+            <token regexp="yes">ich|bitte|dann|deswegen</token>
+            <token>trotz</token>
+        </antipattern>
+        <antipattern>
+            <token>trotz</token>
+            <token regexp="yes">ich|&apostrophe;</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>trotz</token>
+            </marker>
+            <token postag=".*(GEN|DAT).*" postag_regexp="yes" />
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="FAHRERLOSEN_KEIN_VER" name="'fahrerlosen' kein Verb">
+        <pattern>
+            <token regexp="yes">
+                .+losen?
+                <exception regexp="yes">.*(ver|aus|raus|heraus|herein|hinein|be)(zu)?losen?</exception>
+            </token>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rule id="DRAMATISCHEN_KEIN_VER" name="'...tischen' kein Verb">
+        <pattern>
+            <marker>
+                <token regexp="yes">.*(drama|roman|elas|nazis|narziss)tisch(en?)?</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+    <rulegroup id="LAUT_KEIN_ADJ_SUB" name="'laut' kein Adjektiv/Substantiv">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>laut</token>
+                </marker>
+                <token postag="SUB:.*|PRO:POS:.+|ADJ.*" postag_regexp="yes">
+                    <exception regexp="yes">.*(musik|ton|geräusch|schrei|knall|rums|lied|song|ruf|signal|piep|sound).*</exception><!-- Ein laut Signalton -->
+                </token>
+            </pattern>
+            <disambig action="remove" postag="ADJ.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token  case_sensitive="yes">Laut</token>
+                </marker>
+                <token postag="SUB:.*|PRO:POS:.+|ADJ.*" postag_regexp="yes">
+                    <exception regexp="yes">.*(musik|ton|geräusch|schrei|knall|rums|lied|song|ruf|signal|piep|sound).*</exception><!-- Laut Musik -->
+                </token>
+            </pattern>
+            <disambig action="remove" postag="ADJ.*|SUB.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token  case_sensitive="yes">laut</token>
+                </marker>
+                <token postag="PKT"/>
+            </pattern>
+            <disambig action="remove" postag="PRP.*"/>
+            <example type="ambiguous" inputform="laut[laut/ADJ:PRD:GRU,laut/PRP:MOD:GEN]" outputform="laut[laut/ADJ:PRD:GRU]">Es ist hier sehr <marker>laut</marker>.</example>
+        </rule>
+    </rulegroup>
+    <rulegroup id="ADJ_KEINVER_SEIN" name="dunkel werden">
+        <rule>
+            <pattern>
+                <marker>
+                    <and>
+                      <token postag="VER.*" postag_regexp="yes"/>
+                      <token postag="ADJ.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token inflected="yes" postag="VER.*" postag_regexp="yes" regexp="yes">aussehen|sein|werden</token>
+            </pattern>
+            <disambig action="remove" postag="VER:(IMP|[123]).*"/>
+            <example type="ambiguous" inputform="dunkel[dunkel/ADJ:PRD:GRU,dunkeln/VER:IMP:SIN:SFT]" outputform="dunkel[dunkel/ADJ:PRD:GRU]">Es wird zeitiger <marker>dunkel</marker> werden heute Abend, weil es regnet.</example>
+            <example type="ambiguous" inputform="reich[reich/ADJ:PRD:GRU,reichen/VER:1:SIN:PRÄ:SFT,reichen/VER:IMP:SIN:SFT]" outputform="reich[reich/ADJ:PRD:GRU]">Nur weil er <marker>reich</marker> ist, heißt das noch lange nicht, dass er glücklich ist.</example>
+            <example type="ambiguous" inputform="tätig[tätig/ADJ:PRD:GRU,tätigen/VER:1:SIN:PRÄ:SFT,tätigen/VER:IMP:SIN:SFT]" outputform="tätig[tätig/ADJ:PRD:GRU]">Diese Unternehmen haben die Pflicht, Ihre Daten zu schützen, und können überall, wo wir <marker>tätig</marker> sind, gefunden werden.</example>
+            <example type="ambiguous" inputform="reif[reif/ADJ:PRD:GRU,reifen/VER:1:SIN:PRÄ:SFT,reifen/VER:IMP:SIN:SFT]" outputform="reif[reif/ADJ:PRD:GRU]">Apfel, der vom Baum fällt, wenn er <marker>reif</marker> ist.</example>
+        </rule>	
+        <rule>
+            <pattern>
+                <unify>
+                  <feature id="number"/>
+                  <token inflected="yes" postag="VER.*" postag_regexp="yes" regexp="yes">sein|werden</token>
+                  <token regexp="yes">ich|du|er|sie|es|wir|ihr</token>
+                </unify>
+                <marker>
+                    <and>
+                      <token postag="VER.*" postag_regexp="yes"/>
+                      <token postag="ADJ.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER:(IMP|[123]).*"/>
+            <example type="ambiguous" inputform="sauer[sauer/ADJ:PRD:GRU,sauern/VER:1:SIN:PRÄ:SFT,sauern/VER:IMP:SIN:SFT]" outputform="sauer[sauer/ADJ:PRD:GRU]">Bist du <marker>sauer</marker> auf mich?</example>
+        </rule>
+    </rulegroup>
+    <rule id="VOLKSWAGEN_KEIN_VER" name="'Wagen' kein Verb">
+        <pattern>
+            <marker>
+                <token>Volkswagen</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="SUB.*INF"/>
+    </rule>
+    <rule id="INSTITUTE_OF" name="'Institute of' kein Pluralnomen">
+        <pattern>
+            <marker>
+                <token regexp="yes">Institutes?</token>
+            </marker>
+            <token regexp="yes">of|for</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="DOMAIN_KEIN_VERB" name="'web.de' kein Verb">
+        <pattern>
+            <marker>
+                <token postag="VER.*|ADV.*|PRP.*" postag_regexp="yes" />
+            </marker>
+            <token spacebefore="no">.</token>
+            <token spacebefore="no" regexp="yes">de|net|biz|eu|ru|be|co|uk|us|info|at|ch|nl|lu|org|&filename_extensions;</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*|ADV.*|PRP.*"/>
+    </rule>
+    <rulegroup id="ROMAN_HERZOG_KEIN_SUB" name="'Roman Herzog' kein Substantiv">
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Roman</token>
+                </marker>
+                <token regexp="yes">Herzogs?</token>
+            </pattern>
+            <disambig action="remove" postag="SUB.*"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>Roman</token>
+                <marker>
+                    <token regexp="yes">Herzogs?</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="SUB.*"/>
+        </rule>
+    </rulegroup>
+    <rule id="UNIVERSAL_UNKNOWN" name="'Universal' als englisches Wort/Eigenname">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Universals?</token>
+            </marker>
+            <token regexp="yes">[A-ZÄÖÜ].*|records?|music|studios|analytics|edition|serial|design|mobile|plug|orlando</token>
+        </pattern>
+        <disambig action="remove" postag="(SUB|ADJ).*"/>
+    </rule>
+    <rule id="PATRIOT_ACT" name="'Patriot' als englisches Wort/Eigenname">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Patriot</token>
+            </marker>
+            <token regexp="yes">Acts?|Movements?|Rails?|Days?|Games?|Hills?|Leagues?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="REAL_KEIN_SUB" name="'Real' als Eigenname">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Real</token>
+            </marker>
+            <token regexp="yes">Madrids?|Mallorcas?|Murcias?|Valladolids?|Sitio|Sociedads?|Universidad|Oviedos?|Times?|Lifes?|People|Racings?|Estates?|Academia|Bras[ií]lias?|BIP|Betis|Cartagenas?|Canoes?|de|Espa[nñ]a|Hospicios?|Hospitals?|Irish|Jard[ií]n|Kakamoras?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="WEISE_KEIN_ADJ" name="Wörter, die mit 'weise' enden sind kein Adjektiv">
+        <pattern>
+                <token regexp="yes" postag="ADJ.*" postag_regexp="yes">.+weise</token>
+        </pattern>
+        <disambig action="remove" postag="ADJ.*"/>
+    </rule>
+    <rulegroup id="LANGE_UND_NAHE_KEIN_VER" name="'lang' kein Verb">
+        <antipattern>
+            <token regexp="yes">lange?|nahe?</token>
+            <token>ich</token>
+            <token>zu</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token regexp="yes">wie|so</token>
+                <marker>
+                    <token regexp="yes" postag="VER.*" postag_regexp="yes">lange?|nahe?</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <antipattern>
+                <token>ich</token>
+                <token min="0">zu</token>
+                <token regexp="yes">lange?</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes" postag="VER.*" postag_regexp="yes">lange?</token>
+                </marker>
+                <token>her</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER:(MOD|AUX).*" postag_regexp="yes" skip="-1" />
+                <marker>
+                    <token regexp="yes" postag="VER.*" postag_regexp="yes">nahe?</token>
+                </marker>
+                <token inflected="yes">kommen</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup>
+
+    <rule id="ÄUSSERST_KEIN_VERB" name="'äußerst' kein Verb">
+        <pattern>
+            <token postag="VER.*|PRP.*" postag_regexp="yes">
+                <exception postag="ADV.*" postag_regexp="yes" />
+            </token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">äu(ss|ß)erst</token>
+            </marker>
+            <token postag="ADJ:PRD:GRU" />
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
+    <rule id="DENN_EIG" name="denn's kein Adverb">
+        <pattern>
+            <marker>
+                <token>denn</token>
+            </marker>
+            <token spacebefore="no" regexp="yes">&apostrophe;</token>
+            <token spacebefore="no">s</token>
+        </pattern>
+        <disambig action="remove" postag="ADV.*|KON.*"/>
+    </rule>
+
+    <rule id="SMART_SPEAKER" name="'Smart' kein Adjektiv">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Smart</token>
+            </marker>
+            <token regexp="yes">Speaker[sn]?|Homes?|For.*|Citys?|Roadster[sn]?|Meter[sn]?</token>
+        </pattern>
+        <disambig action="remove" postag="ADJ.*"/>
+    </rule>
+
+    <rule name="Gruner und Jahr" id="GRUNER_UND_JAHR">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Gruner|GRUNER</token>
+            <token regexp="yes">UND|und|&amp;|\+</token>
+            <token regexp="yes">Jahr|JAHR</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="KU_DAMM" name="Ku'damm">
+        <pattern case_sensitive="yes">
+            <token>Ku</token>
+            <token regexp="yes">['’]</token>
+            <token>damm</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NACH_WIE_VOR" name="nach wie vor ('vor' keine Präposition)">
+        <pattern>
+            <token>nach</token>
+            <token>wie</token>
+            <marker>
+                <token>vor</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(PRP|ZUS).*" />
+    </rule>
+
+    <rulegroup id="SEGELT_EINHAND" name="Er segelt einhand (ignore spelling)">
+        <!-- https://de.wikipedia.org/wiki/Einhandsegeln -->
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes" skip="-1">(um)?segeln</token>
+                <marker>
+                    <token case_sensitive="yes">einhand</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" skip="-1">einhand</token>
+                </marker>
+                <token inflected="yes" regexp="yes">(um)?segeln</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
+    <rule id="EINE_KEIN_VERB" name="'eine' kein Verb in 'eine der besten'">
+        <pattern>
+            <marker>
+                <token regexp="yes">einen?</token>
+            </marker>
+            <token>der</token>
+            <token min="0">am</token>
+            <token regexp="yes" postag="ADJ.*SUP.*" postag_regexp="yes">.+sten</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
+    <rule id="RECHT_KEIN_VERB" name="'eine' kein Verb in 'eine der besten'">
+        <antipattern>
+            <token skip="6" regexp="yes">er|sie|ihr|bitte</token>
+            <token>recht</token>
+        </antipattern>
+        <antipattern>
+            <token skip="6">recht</token>
+            <token regexp="yes">er|sie|ihr</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">recht</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
+
+    <rule id="IN_UND_AUSWENDIG" name="ignore spelling of 'in-'">
+        <pattern>
+            <marker>
+                <token>in-</token>
+            </marker>
+            <token regexp="yes">und|&amp;</token>
+            <token regexp="yes">auswendig.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="DICHTE_KEIN_ADJ" name="Nomen mit 'Dichte' am ende">
+        <pattern>
+            <token case_sensitive="yes" regexp="yes" postag="SUB.+ADJ" postag_regexp="yes">[A-ZÄÖÜ].+dichten?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.+ADJ" />
     </rule>
 </rules>

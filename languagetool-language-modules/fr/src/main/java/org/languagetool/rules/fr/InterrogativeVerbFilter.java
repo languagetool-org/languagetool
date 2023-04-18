@@ -18,14 +18,6 @@
  */
 package org.languagetool.rules.fr;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -36,6 +28,9 @@ import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.tagging.fr.FrenchTagger;
 
+import java.io.IOException;
+import java.util.*;
+
 /*
  * Get appropriate suggestions for French verbs in interrogative form (prérères-tu)
  * and imperative (dépêche-toi)
@@ -45,7 +40,6 @@ public class InterrogativeVerbFilter extends RuleFilter {
 
   // private static final Pattern PronounSubject = Pattern.compile("R pers suj
   // ([123] [sp])");
-  private static final FrenchSynthesizer synth = new FrenchSynthesizer(new French());
 
   private MorfologikFrenchSpellerRule morfologikRule;
 
@@ -103,7 +97,7 @@ public class InterrogativeVerbFilter extends RuleFilter {
         if (reading!=null) {
           desiredPostag="V ind pres 1 s";
           if (atrVerb.getToken().endsWith("e")) {
-            extraSuggestions = synth.synthesize(reading, "V ppa [me] sp?|V ind pres 1 s", true);
+            extraSuggestions = FrenchSynthesizer.INSTANCE.synthesize(reading, "V ppa [me] sp?|V ind pres 1 s", true);
           }
         }
       }

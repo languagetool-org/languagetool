@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.uk.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
@@ -38,6 +39,8 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class Ukrainian extends Language {
+  public static final Pattern IGNORED_CHARS = Pattern.compile("[\u00AD\u0301]");
+
   private static final List<String> RULE_FILES = Arrays.asList(
       "grammar-spelling.xml",
       "grammar-grammar.xml",
@@ -53,7 +56,7 @@ public class Ukrainian extends Language {
 
   @Override
   public Pattern getIgnoredCharactersRegex() {
-    return Pattern.compile("[\u00AD\u0301]");
+    return IGNORED_CHARS;
   }
 
   @Override
@@ -96,7 +99,7 @@ public class Ukrainian extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new UkrainianSynthesizer(this);
+    return UkrainianSynthesizer.INSTANCE;
   }
 
   @Override
@@ -122,6 +125,12 @@ public class Ukrainian extends Language {
     };
   }
 
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikUkrainianSpellerRule(messages, this, null, null);
+  }
+
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     MorfologikUkrainianSpellerRule morfologikSpellerRule = new MorfologikUkrainianSpellerRule(messages, this, userConfig, altLanguages);
@@ -134,7 +143,7 @@ public class Ukrainian extends Language {
             Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом,— все смачне")),
 
         // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..
-        new UppercaseSentenceStartRule(messages, this,
+        new UkrainianUppercaseSentenceStartRule(messages, this,
             Example.wrong("<marker>речення</marker> має починатися з великої."),
             Example.fixed("<marker>Речення</marker> має починатися з великої")),
 
@@ -155,10 +164,11 @@ public class Ukrainian extends Language {
 
         new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
 
+        new TokenAgreementVerbNounRule(messages),
         new TokenAgreementNounVerbRule(messages),
-        new TokenAgreementAdjNounRule(messages),
-        new TokenAgreementPrepNounRule(messages),
-        new TokenAgreementNumrNounRule(messages),
+        new TokenAgreementAdjNounRule(messages, this),
+        new TokenAgreementPrepNounRule(messages, this),
+        new TokenAgreementNumrNounRule(messages, this),
 
         new MixedAlphabetsRule(messages),
 

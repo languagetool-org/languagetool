@@ -214,6 +214,8 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     return foundVmis && foundOther;
   }
 
+  private static final Pattern IGNORE_IN_PRON_POS = Pattern.compile("pron|noun:anim:p:v_zna.*:rare.*");
+  
   private void disambiguatePronPos(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
     
@@ -231,11 +233,11 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
         
           List<InflectionHelper.Inflection> nounInflections = new ArrayList<>();
           if( i > 1 ) {
-            List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i-1].getReadings(), "pron");
+            List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i-1].getReadings(), IGNORE_IN_PRON_POS);
             nounInflections.addAll( nounInflections_ );
           }
           if( i < tokens.length-1 ) {
-            List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i+1].getReadings(), "pron");
+            List<Inflection> nounInflections_ = InflectionHelper.getNounInflections(tokens[i+1].getReadings(), IGNORE_IN_PRON_POS);
             nounInflections.addAll( nounInflections_ );
           }
 
@@ -340,7 +342,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     }
   }
 
-  private static final List<String> LIKELY_V_KLY = Arrays.asList("суде", "роде", "заходе");
+  private static final List<String> LIKELY_V_KLY = Arrays.asList("суде", "роде", "заходе", "місяченьку");
   private boolean likelyVklyContext(AnalyzedTokenReadings[] tokens, int i) {
     if( LIKELY_V_KLY.contains(tokens[i].getToken().toLowerCase()) )
       return true;
@@ -625,7 +627,7 @@ TODO:
       if( lnamePosTag == null || ! lnamePosTag.contains(LAST_NAME_TAG) )
         continue;
       
-      lnamePosTag = lnamePosTag.replaceAll(":(alt|ua_\\d{4}|xp\\d)", "");
+      lnamePosTag = lnamePosTag.replaceAll(":(alt|nv|ua_\\d{4}|xp\\d)", "");
 
       String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();
       AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":nv:abbr:prop:"+initialType), initialsToken);

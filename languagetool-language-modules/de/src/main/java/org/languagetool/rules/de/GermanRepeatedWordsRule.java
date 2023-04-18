@@ -18,22 +18,20 @@
  */
 package org.languagetool.rules.de;
 
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.AbstractRepeatedWordsRule;
 import org.languagetool.rules.SynonymsData;
-import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.GermanSynthesizer;
+import org.languagetool.synthesis.Synthesizer;
+
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class GermanRepeatedWordsRule extends AbstractRepeatedWordsRule{
-  
-  private static final GermanSynthesizer synth = new GermanSynthesizer(new GermanyGerman());
 
   public GermanRepeatedWordsRule(ResourceBundle messages) {
-    super(messages, new GermanyGerman());
+    super(messages, GermanyGerman.INSTANCE);
     //super.setDefaultTempOff();
   }
   
@@ -61,7 +59,7 @@ public class GermanRepeatedWordsRule extends AbstractRepeatedWordsRule{
 
   @Override
   protected Synthesizer getSynthesizer() {
-    return synth;
+    return GermanSynthesizer.INSTANCE;
   }
 
   @Override

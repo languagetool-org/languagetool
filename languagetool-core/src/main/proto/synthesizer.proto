@@ -1,0 +1,29 @@
+syntax = "proto3";
+import "ml_server.proto";
+package lt_ml_server;
+option java_package = "org.languagetool.grpc";
+
+message SynthesizeRequest {
+    string languageCode = 1;
+    repeated SynthesizeRequestItem items = 2;
+}
+
+message SynthesizeRequestItem {
+    AnalyzedTokenReadings tokens = 1;
+    string postag = 2;
+    bool postag_regexp = 3;
+    string postag_replace = 4;
+    string lemma = 5;
+}
+
+message SynthesizeResponse {
+    repeated SynthesizeResponseItem items = 1;
+}
+
+message SynthesizeResponseItem {
+    repeated string forms = 1;
+}
+
+service SynthesizeServer {
+    rpc Synthesize (SynthesizeRequest) returns (SynthesizeResponse) {}
+}

@@ -2,28 +2,22 @@ package org.languagetool.rules;
 
 import static org.languagetool.rules.GRPCRule.Connection.getManagedChannel;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.Duration;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
-import javax.net.ssl.SSLException;
-
-import io.grpc.Status;
-import io.grpc.StatusRuntimeException;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
-import org.languagetool.Premium;
-import org.languagetool.Tag;
-import org.languagetool.markup.AnnotatedText;
-import org.languagetool.rules.ml.MLServerProto;
-import org.languagetool.rules.ml.MLServerProto.Match;
 import org.languagetool.rules.ml.MLServerProto.MatchList;
 import org.languagetool.rules.ml.MLServerProto.MatchResponse;
 import org.languagetool.rules.ml.MLServerProto.PostProcessingRequest;
@@ -34,6 +28,8 @@ import org.languagetool.tools.CircuitBreakers;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.grpc.ManagedChannel;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -54,62 +50,6 @@ public class GRPCPostProcessing {
   private static ConcurrentMap<Language, Set<String>> configIDs = new ConcurrentHashMap<>();
 
 
-  class RuleData extends Rule {
-    private final Match m;
-    private final String sourceFile;
-
-    RuleData(Match m) {
-      this.m = m;
-      this.sourceFile = m.getRule().getSourceFile();
-      // keep default values from Rule baseclass
-      if (!m.getRule().getIssueType().isEmpty()) {
-        setLocQualityIssueType(ITSIssueType.valueOf(m.getRule().getIssueType()));
-      }
-      if (m.getRule().getTempOff()) {
-        setDefaultTempOff();
-      }
-      if (m.getRule().hasCategory()) {
-        Category c = new Category(new CategoryId(m.getRule().getCategory().getId()),
-          m.getRule().getCategory().getName());
-        setCategory(c);
-      }
-      setPremium(m.getRule().getIsPremium());
-      setTags(m.getRule().getTagsList().stream().map(t -> Tag.valueOf(t.name())).collect(Collectors.toList()));
-    }
-
-    @Nullable
-    @Override
-    public String getSourceFile() {
-      return emptyAsNull(sourceFile);
-    }
-
-    @Override
-    public String getId() {
-      return m.getId();
-    }
-
-    @Override
-    public String getSubId() {
-     return emptyAsNull(m.getSubId());
-    }
-
-    @Override
-    public String getDescription() {
-      return m.getRuleDescription();
-    }
-
-    @Override
-    public int estimateContextForSureMatch() {
-      // 0 is okay as default value
-      return m.getContextForSureMatch();
-    }
-
-    @Override
-    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-      throw new UnsupportedOperationException("Not implemented; internal class used for returning match" +
-        " information from remote endpoint");
-    }
-  }
 
   protected GRPCPostProcessing(RemoteRuleConfig config) throws Exception {
     this.config = config;
@@ -152,92 +92,6 @@ public class GRPCPostProcessing {
     });
   }
 
-  @NotNull
-  private static String nullAsEmpty(@Nullable String s) {
-    return s != null ? s : "";
-  }
-
-  @Nullable
-  private static String emptyAsNull(String s) {
-    if (s != null && s.isEmpty()) {
-      return null;
-    }
-    return s;
-  }
-
-  private MLServerProto.SuggestedReplacement convertSuggestedReplacement(SuggestedReplacement s) {
-    MLServerProto.SuggestedReplacement.Builder sb = MLServerProto.SuggestedReplacement.newBuilder()
-      .setReplacement(s.getReplacement())
-      .setDescription(nullAsEmpty(s.getShortDescription()))
-      .setSuffix(nullAsEmpty(s.getSuffix()))
-      .setType(MLServerProto.SuggestedReplacement.SuggestionType.valueOf(s.getType().name()));
-    if (s.getConfidence() != null) {
-      sb.setConfidence(s.getConfidence());
-    }
-    return sb.build();
-  }
-
-  private SuggestedReplacement convertSuggestedReplacement(MLServerProto.SuggestedReplacement s) {
-    SuggestedReplacement sb = new SuggestedReplacement(s.getReplacement(),
-      emptyAsNull(s.getDescription()), emptyAsNull(s.getSuffix()));
-    sb.setType(SuggestedReplacement.SuggestionType.valueOf(s.getType().name()));
-    if (s.getConfidence() != 0f) {
-      sb.setConfidence(s.getConfidence());
-    }
-    return sb;
-  }
-
-  private Match convertMatch(RuleMatch m) {
-    // could add better handling for conversion errors with enums
-    return Match.newBuilder()
-      .setOffset(m.getFromPos())
-      .setLength(m.getToPos() - m.getFromPos())
-      .setId(m.getSpecificRuleId())
-      .setSubId(nullAsEmpty(m.getRule().getSubId()))
-      .addAllSuggestedReplacements(m.getSuggestedReplacementObjects().stream()
-        .map(this::convertSuggestedReplacement).collect(Collectors.toList()))
-      .setRuleDescription(nullAsEmpty(m.getRule().getDescription()))
-      .setMatchDescription(nullAsEmpty(m.getMessage()))
-      .setMatchShortDescription(nullAsEmpty(m.getShortMessage()))
-      .setUrl((m.getUrl() != null ? m.getUrl().toString() : ""))
-      .setAutoCorrect(m.isAutoCorrect())
-      .setType(Match.MatchType.valueOf(m.getType().name()))
-      .setContextForSureMatch(m.getRule().estimateContextForSureMatch())
-      .setRule(MLServerProto.Rule.newBuilder()
-        .setSourceFile(nullAsEmpty(m.getRule().getSourceFile()))
-        .setIssueType(m.getRule().getLocQualityIssueType().name())
-        .setTempOff(m.getRule().isDefaultTempOff())
-        .setCategory(MLServerProto.RuleCategory.newBuilder()
-          .setId(m.getRule().getCategory().getId().toString())
-          .setName(m.getRule().getCategory().getName())
-          .build())
-        .setIsPremium(Premium.get().isPremiumRule(m.getRule()))
-        .addAllTags(m.getRule().getTags().stream()
-          .map(t -> MLServerProto.Rule.Tag.valueOf(t.name()))
-          .collect(Collectors.toList()))
-        .build()
-      ).build();
-  }
-
-  private RuleMatch convertMatch(Match m, AnalyzedSentence s) {
-    Rule rule = new RuleData(m);
-    RuleMatch r = new RuleMatch(rule, s, m.getOffset(), m.getOffset() + m.getLength(), m.getMatchDescription(), m.getMatchShortDescription());
-
-    r.setSuggestedReplacementObjects(m.getSuggestedReplacementsList().stream()
-      .map(this::convertSuggestedReplacement).collect(Collectors.toList()));
-    r.setAutoCorrect(m.getAutoCorrect());
-    r.setType(RuleMatch.Type.valueOf(m.getType().name()));
-
-    if (!m.getUrl().isEmpty()) {
-      try {
-        r.setUrl(new URL(m.getUrl()));
-      } catch (MalformedURLException e) {
-        log.warn("Got invalid URL from GRPC match filter {}: {}", this, e);
-      }
-    }
-    return r;
-  }
-
   private PostProcessingRequest buildRequest(List<AnalyzedSentence> sentences, List<RuleMatch> ruleMatches,
                                              List<Integer> offset, Long textSessionId, boolean inputLogging) {
     // don't modify passed rule matches list, used as fallback
@@ -267,8 +121,8 @@ public class GRPCPostProcessing {
           sentenceMatches.add(m);
         }
       }
-      matches.add(MatchList.newBuilder().addAllMatches(
-        sentenceMatches.stream().map(this::convertMatch).collect(Collectors.toList())).build());
+      matches.add(MatchList.newBuilder()
+          .addAllMatches(sentenceMatches.stream().map(GRPCUtils::toGRPC).collect(Collectors.toList())).build());
     }
     List<String> sentenceText = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
 
@@ -330,7 +184,7 @@ public class GRPCPostProcessing {
         AnalyzedSentence sentence = sentences.get(i);
         int offsetShift = offset.get(i);
         for (int j = 0; j  < matchList.getMatchesCount(); j++) {
-          RuleMatch match = convertMatch(matchList.getMatches(j), sentence);
+          RuleMatch match = GRPCUtils.fromGRPC(matchList.getMatches(j), sentence);
           match.setOffsetPosition(match.getFromPos() + offsetShift, match.getToPos() + offsetShift);
           result.add(match);
         }

@@ -160,13 +160,9 @@ class DatabaseLogger {
 
   void createTestTables(boolean mysql) {
     try (SqlSession session = sessionFactory.openSession(true)) {
-      String[] statements = {"org.languagetool.server.LogMapper.createRuleMatches",
+      String[] statements = {
         "org.languagetool.server.LogMapper.createCheckLog",
-        "org.languagetool.server.LogMapper.createMiscLog",
         "org.languagetool.server.LogMapper.createPings",
-        "org.languagetool.server.LogMapper.createAccessLimits",
-        "org.languagetool.server.LogMapper.createCheckError",
-        "org.languagetool.server.LogMapper.createCacheStats",
         "org.languagetool.server.LogMapper.createServers",
         "org.languagetool.server.LogMapper.createClients"};
       for (String statement : statements) {
@@ -181,13 +177,8 @@ class DatabaseLogger {
 
   void dropTestTables() {
     try (SqlSession session = sessionFactory.openSession(true)) {
-      session.delete("org.languagetool.server.LogMapper.dropRuleMatches");
       session.delete("org.languagetool.server.LogMapper.dropCheckLog");
-      session.delete("org.languagetool.server.LogMapper.dropMiscLog");
       session.delete("org.languagetool.server.LogMapper.dropPings");
-      session.delete("org.languagetool.server.LogMapper.dropAccessLimits");
-      session.delete("org.languagetool.server.LogMapper.dropCheckError");
-      session.delete("org.languagetool.server.LogMapper.dropCacheStats");
       session.delete("org.languagetool.server.LogMapper.dropServers");
       session.delete("org.languagetool.server.LogMapper.dropClients");
     }

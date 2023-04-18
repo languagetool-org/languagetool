@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 British English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
-Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
+Copyright (C) 2012 Marcin Miłkowski (https://www.languagetool.org)
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -203,8 +203,9 @@ USA
             <pattern>
                 <token>gotten</token>
             </pattern>
-            <message>In the UK, the word 'gotten' is not used. Did you mean <suggestion>got</suggestion>?</message>
-            <url>http://public.wsu.edu/~brians/errors/got.html</url>
+            <message>"Gotten" is commonly used in American English. For varieties outside of North America, "got" is the preferred variant.</message>
+            <suggestion>got</suggestion>
+            <url>https://languagetool.org/insights/post/grammar-got-gotten/</url>
             <short>AmE/BrE: gotten/got</short>
             <example correction="got">He has <marker>gotten</marker> some food.</example>
             <example correction="got">He's <marker>gotten</marker> up on the wrong side of bed.</example>
@@ -445,7 +446,7 @@ USA
                 <pattern>
                     <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)is(ation|er|ability)
                         <exception regexp="yes">(?-i)[A-Z-]+</exception>
-                        <exception regexp="yes">advertiser|merchandisers?</exception><!-- LT gives a spelling error for ~z, but without this exception, the rule finds the ~s word -->
+                        <exception regexp="yes">advertisers?|merchandisers?</exception><!-- LT gives a spelling error for ~z, but without this exception, the rule finds the ~s word -->
                         </token>
                 </pattern>
                 <message suppress_misspelled="yes">Would you like to use the Oxford spelling <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>? The spelling '\1' is also correct.</message>

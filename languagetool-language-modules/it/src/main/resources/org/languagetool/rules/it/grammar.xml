@@ -307,6 +307,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- GRAMMATICA ELSIONI E TRONCAMENTI - GR_04 -->
     <category id="CAT3" name="Grammatica - Elisioni e troncamenti">
         <rulegroup name="apocopi vocaliche" id="GR_04_001">
+            <!-- Che è -->
+            <rule>
+                <pattern>
+                    <token>ch</token>
+                    <token>'</token>
+                    <token>è</token>
+                </pattern>
+                <message>Nell'italiano standard, la frase <suggestion>che è</suggestion> non è normalmente contratta.</message>
+                <example correction="che è">Per dimostrare <marker>ch'è</marker> impossibile.</example>
+            </rule>
             <!-- Qual è -->
             <rule>
                 <pattern case_sensitive="no">
@@ -348,7 +358,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no">'</token>
             </antipattern>
             <!-- togli togli di metti d' -->
-            <rule>
+            <rule default="off">
                 <pattern>
                     <token>di</token>
                     <token regexp="yes">i.*</token>
@@ -1521,7 +1531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- STILE NUMERI - ST_04 -->
     <category id="CAT11" name="Stile - Numeri">
-        <rulegroup name="in cifre se minori di 10" id="ST_04_001">
+        <rulegroup name="in cifre se minori di 10" id="ST_04_001" default="off">
             <antipattern>
                 <token regexp="yes">\d+</token>
                 <token regexp="yes">[:\.aoe]|dei|da</token>
@@ -1793,6 +1803,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              Casi in cui il correttore ortografico non interviene
              perché entrambi i lemmi esistono in italiano.
         -->
+        <rule id="GIRONI_GIORNI" name="7 gironi -> 7 giorni">
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token>gironi</token>
+                </marker>
+            </pattern>
+            <message>Forse volevi dire <suggestion>giorni</suggestion>?</message>
+            <example correction="giorni">7 <marker>gironi</marker> dopo.</example>
+        </rule>
         <rulegroup name="scambio di 'ala' ed 'alla'" id="ER_02_001">
             <rule>
                 <!-- "ala" + sostantivo -->

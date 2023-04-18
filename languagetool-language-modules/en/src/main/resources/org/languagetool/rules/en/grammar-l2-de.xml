@@ -27,6 +27,90 @@ USA
 <rules lang="en" idprefix="L2_" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="THAN_AS" name="more sales as (than) last year">
+            <!--
+                TODO: 
+                He runs faster as Peter.
+            -->
+            <antipattern>
+                <token>as</token>
+                <token chunk_re="B-NP.*" min="0" />
+                <token chunk_re="E-NP.*" />
+                <token chunk_re=".-VP" />
+            </antipattern>
+            <antipattern>
+                <token>as</token>
+                <token>its</token>
+                <token postag="JJ" />
+            </antipattern>
+            <antipattern>
+                <token>as</token>
+                <token regexp="yes">an?</token>
+                <token regexp="yes">percentage|portion|result|protection</token>
+            </antipattern>
+            <antipattern>
+                <token>as</token>
+                <token regexp="yes">off?</token>
+            </antipattern>
+            <antipattern>
+                <token>as</token>
+                <token chunk_re="B-NP.*" min="0" />
+                <token chunk_re="E-NP.*" />
+                <token regexp="yes" skip="7">and|n?or|&amp;</token>
+                <token chunk_re=".-VP" />
+            </antipattern>
+            <antipattern>
+                <token>as</token>
+                <token chunk_re="B-NP.*" min="0" />
+                <token chunk_re="E-NP.*" />
+                <token skip="4">,</token>
+                <token regexp="yes" skip="7">and|n?or|&amp;</token>
+                <token chunk_re=".-VP" />
+            </antipattern>
+            <antipattern>
+                <token>as</token>
+                <token chunk_re="B-NP.*" min="0" />
+                <token chunk_re="E-NP.*" />
+                <token postag="IN" skip="7" />
+                <token chunk_re=".-VP" />
+                <example>The industry faced more setbacks as pollution from the Savannah River in the 1950s contaminated the island oyster beds.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="2">as</token>
+                <token>as</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" skip="2" />
+                <token regexp="yes">or|and|&amp;</token>
+                <token regexp="yes">more|less</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">as</token>
+                <token regexp="yes">th[ea]n</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token regexp="yes">more|less</token>
+                <example>Karami served four more times as Prime Minister throughout the 1960s.</example>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">more|less</token>
+                <token chunk_re="B-NP-plural" min="0" />
+                <token chunk_re="E-NP-plural" />
+                <marker>
+                    <token>as</token>
+                </marker>
+                <token chunk_re="B-NP.*" min="0" />
+                <token chunk_re="E-NP.*" postag="NN.*" postag_regexp="yes">
+                    <exception regexp="yes">arrives|appears|approaches|exceeds</exception>
+                </token>
+            </pattern>
+            <message>Did you mean <suggestion>than</suggestion>?</message>
+            <example correction="than">We had more sales <marker>as</marker> last year.</example>
+            <example correction="than">Tom has more bullets <marker>as</marker> Peter ever had.</example>
+            <example correction="than">We had more sales <marker>as</marker> 2 years ago.</example>
+            <example correction="than">Did you know that when Blizzards game was getting larger they hired more people <marker>as</marker> Game Masters just so that this presence was still felt?</example>
+        </rule>
         <rulegroup id="WH_VERB_SUBJECT" name="When comes the bus (does the bus come|is the bus coming)?">
             <antipattern>
                 <token>why</token>
@@ -139,14 +223,5 @@ USA
             </rule>
         </rulegroup>
     </category>
-    <category id="TYPOS" name="Possible Typo" type="misspelling">
-        <rule id="FAKE" name="internal rule" default="on">
-            <pattern>
-                <token>languagetool-placeholder-rule-643235483</token>
-            </pattern>
-            <message>This is an internal placeholder to keep the XML syntax valid.</message>
-            <example correction=""><marker>languagetool-placeholder-rule-643235483</marker></example>
-        </rule>
-    </category>
-    
+
 </rules>

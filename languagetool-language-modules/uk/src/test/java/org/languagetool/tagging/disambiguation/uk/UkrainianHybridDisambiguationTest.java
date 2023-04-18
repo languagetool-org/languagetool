@@ -67,7 +67,7 @@ public class UkrainianHybridDisambiguationTest {
 
     TestTools.myAssert("Танцювати до впаду", 
       "/[null]SENT_START Танцювати/[танцювати]verb:imperf:inf  /[null]null до/[до впаду]<adv>|до/[до]prep  /[null]null " +
-      "впаду/[впад]noun:inanim:m:v_dav:rare|впаду/[впад]noun:inanim:m:v_rod:rare|впаду/[впасти]verb:perf:futr:s:1:xp2|впаду/[до впаду]<adv>",
+      "впаду/[впад]noun:inanim:m:v_dav|впаду/[впад]noun:inanim:m:v_rod|впаду/[впасти]verb:perf:futr:s:1:xp2|впаду/[до впаду]<adv>",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     
     TestTools.myAssert("Прийшла Люба додому.", 
@@ -123,7 +123,7 @@ public class UkrainianHybridDisambiguationTest {
 
     TestTools.myAssert("Віра Горобець метнула",
         "/[null]SENT_START"
-            + " Віра/[Віра]noun:anim:f:v_naz:prop:fname|Віра/[віра]intj|Віра/[віра]noun:inanim:f:v_naz"
+            + " Віра/[Віра]noun:anim:f:v_naz:prop:fname"
             + "  /[null]null"
             + " Горобець/[Горобець]noun:anim:f:v_naz:prop:lname|Горобець/[Горобець]noun:anim:f:v_oru:nv:prop:lname|Горобець/[Горобець]noun:anim:f:v_zna:nv:prop:lname"
             + "  /[null]null"
@@ -188,12 +188,12 @@ public class UkrainianHybridDisambiguationTest {
   public void testDisambiguatorForInanimVKly() throws IOException {
 
     TestTools.myAssert("Поломане крило",
-      "/[null]SENT_START Поломане/[поломаний]adj:n:v_kly:&adjp:pasv:perf:coll|Поломане/[поломаний]adj:n:v_naz:&adjp:pasv:perf:coll|Поломане/[поломаний]adj:n:v_zna:&adjp:pasv:perf:coll"
+      "/[null]SENT_START Поломане/[поломаний]adj:n:v_kly:&adjp:pasv:perf|Поломане/[поломаний]adj:n:v_naz:&adjp:pasv:perf|Поломане/[поломаний]adj:n:v_zna:&adjp:pasv:perf"
       + "  /[null]null крило/[крило]noun:inanim:n:v_naz|крило/[крило]noun:inanim:n:v_zna|крило/[крити]verb:imperf:past:n",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("більше того,",
-        "/[null]SENT_START більше/[більше]adv:compc|більше/[більший]adj:n:v_kly:compc|більше/[більший]adj:n:v_naz:compc|більше/[більший]adj:n:v_zna:compc"
+        "/[null]SENT_START більше/[більше]adv:compc:&predic|більше/[більший]adj:n:v_kly:compc|більше/[більший]adj:n:v_naz:compc|більше/[більший]adj:n:v_zna:compc"
         + "  /[null]null того/[те]noun:inanim:n:v_rod:&pron:dem|того/[той]adj:m:v_rod:&pron:dem|того/[той]adj:m:v_zna:ranim:&pron:dem|того/[той]adj:n:v_rod:&pron:dem"
         + " ,/[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
@@ -239,7 +239,7 @@ public class UkrainianHybridDisambiguationTest {
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("Юріїв Луценків",
-        "/[null]SENT_START Юріїв/[Юрій]noun:anim:p:v_rod:prop:fname|Юріїв/[Юрій]noun:anim:p:v_zna:prop:fname|Юріїв/[Юріїв]adj:m:v_kly|Юріїв/[Юріїв]adj:m:v_naz|Юріїв/[Юріїв]adj:m:v_zna:rinanim"
+        "/[null]SENT_START Юріїв/[Юрій]noun:anim:p:v_rod:prop:fname|Юріїв/[Юрій]noun:anim:p:v_zna:prop:fname"
         + "  /[null]null Луценків/[Луценки]noun:inanim:p:v_rod:ns:prop:geo|Луценків/[Луценко]noun:anim:p:v_rod:prop:lname|Луценків/[Луценко]noun:anim:p:v_zna:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
@@ -263,7 +263,7 @@ public class UkrainianHybridDisambiguationTest {
 
     TestTools.myAssert("Леонідів Кравчука та Кучму",
         "/[null]SENT_START Леонідів/[Леонід]noun:anim:p:v_rod:prop:fname|Леонідів/[Леонід]noun:anim:p:v_zna:prop:fname|Леонідів/[Леонідів]adj:m:v_kly|Леонідів/[Леонідів]adj:m:v_naz|Леонідів/[Леонідів]adj:m:v_zna:rinanim"
-        + "  /[null]null Кравчука/[Кравчук]noun:anim:m:v_rod:prop:lname|Кравчука/[Кравчук]noun:anim:m:v_zna:prop:lname"
+        + "  /[null]null Кравчука/[Кравчук]noun:anim:m:v_rod:prop:lname|Кравчука/[Кравчук]noun:anim:m:v_zna:prop:lname|Кравчука/[кравчук]noun:anim:m:v_rod|Кравчука/[кравчук]noun:anim:m:v_zna"
         + "  /[null]null та/[та]conj:coord|та/[та]part  /[null]null Кучму/[Кучма]noun:anim:m:v_zna:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
@@ -412,7 +412,14 @@ public class UkrainianHybridDisambiguationTest {
         + "  /[null]null"
         + " Гокінґ/[Гокінґ]noun:anim:m:v_naz:prop:lname:alt", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
-    
+
+    // nv:nv
+    TestTools.myAssert("А. Маслоу",
+        "/[null]SENT_START"
+          + " А./[А.]noun:anim:m:v_dav:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_naz:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_oru:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_rod:nv:abbr:prop:fname|А./[А.]noun:anim:m:v_zna:nv:abbr:prop:fname"
+          + "  /[null]null Маслоу/[Маслоу]noun:anim:m:v_dav:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_naz:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_oru:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_rod:nv:prop:lname|Маслоу/[Маслоу]noun:anim:m:v_zna:nv:prop:lname",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
   }
 
   @Test
@@ -580,11 +587,13 @@ public class UkrainianHybridDisambiguationTest {
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Іва́н Петро́вич.");
 
     // TODO: fix disambiguator - it should be: Петро́вич[Петрович...
-    assertEquals("<S> Іва́н[Іван/noun:anim:m:v_naz:prop:fname,Іва́н/null]"
+    assertEquals("<S> Іван[Іван/noun:anim:m:v_naz:prop:fname]"
         + " Петрович[Петрович/noun:anim:f:v_dav:nv:prop:lname,Петрович/noun:anim:f:v_naz:nv:prop:lname,Петрович/noun:anim:f:v_oru:nv:prop:lname,Петрович/noun:anim:f:v_rod:nv:prop:lname,Петрович/noun:anim:f:v_zna:nv:prop:lname,Петрович/noun:anim:m:v_naz:prop:lname,Петрович/noun:anim:m:v_naz:prop:pname]"
         + ".[</S>]",
         analyzedSentence.toString());
 
+    analyzedSentence = lt.getAnalyzedSentence("\u0301");
+    assertEquals("<S> </S> ", analyzedSentence.toString());
   }
 
   
@@ -620,7 +629,7 @@ public class UkrainianHybridDisambiguationTest {
     TestTools.myAssert("два Володьки", 
         "/[null]SENT_START "
         + "два/[два]numr:p:v_naz|два/[два]numr:p:v_zna  "
-        + "/[null]null Володьки/[Володька]noun:anim:p:v_naz:prop:fname:coll",
+        + "/[null]null Володьки/[Володька]noun:anim:p:v_naz:prop:fname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("два Бойка", 
@@ -630,11 +639,11 @@ public class UkrainianHybridDisambiguationTest {
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     // don't handle yet
-    TestTools.myAssert("два Рима", 
-        "/[null]SENT_START "
-        + "два/[два]numr:p:v_naz|два/[два]numr:p:v_zna  "
-        + "/[null]null Рима/[Рим]noun:inanim:m:v_rod:prop:geo:xp1|Рима/[рим]noun:inanim:m:v_rod|Рима/[рима]noun:inanim:f:v_naz",
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
+//    TestTools.myAssert("два Рима", 
+//        "/[null]SENT_START "
+//        + "два/[два]numr:p:v_naz|два/[два]numr:p:v_zna  "
+//        + "/[null]null Рима/[Рим]noun:inanim:m:v_rod:prop:geo:xp1|Рима/[рим]noun:inanim:m:v_rod|Рима/[рима]noun:inanim:f:v_naz",
+//        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 }
 

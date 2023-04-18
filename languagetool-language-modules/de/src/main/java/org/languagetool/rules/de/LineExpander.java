@@ -122,7 +122,7 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
       } else if (c == 'F') {
         add(result, word);
         result.add(word + "in"); // (m/f)
-      } else if (c == 'A') { // Adjektiv
+      } else if (c == 'A' || c == 'P') { // Adjektiv / Partizip
         add(result, word);
         if (word.endsWith("e")) {
           result.add(word + "r");

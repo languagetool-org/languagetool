@@ -35,13 +35,13 @@ class DateFilterHelper {
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   protected int getDayOfWeek(String dayStr) {
     String day = StringTools.trimSpecialCharacters(dayStr).toLowerCase();  // quickfix for special characters like soft hyphens
-    if (day.equals("dom") || day.equals("domingo")) return Calendar.SUNDAY;
-    if (day.equals("seg") || day.equals("segunda")) return Calendar.MONDAY;
-    if (day.equals("ter") || day.equals("terça")) return Calendar.TUESDAY;
-    if (day.equals("qua") || day.equals("quarta")) return Calendar.WEDNESDAY;
-    if (day.equals("qui") || day.equals("quinta")) return Calendar.THURSDAY;
-    if (day.equals("sex") || day.equals("sexta")) return Calendar.FRIDAY;
-    if (day.equals("sáb") || day.equals("sábado")) return Calendar.SATURDAY;
+    if (day.startsWith("dom")) return Calendar.SUNDAY;
+    if (day.startsWith("seg")) return Calendar.MONDAY;
+    if (day.startsWith("ter")) return Calendar.TUESDAY;
+    if (day.startsWith("qua")) return Calendar.WEDNESDAY;
+    if (day.startsWith("qui")) return Calendar.THURSDAY;
+    if (day.startsWith("sex")) return Calendar.FRIDAY;
+    if (day.startsWith("sáb")) return Calendar.SATURDAY;
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
   }
 

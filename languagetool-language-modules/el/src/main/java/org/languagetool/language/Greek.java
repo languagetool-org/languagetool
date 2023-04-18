@@ -28,6 +28,7 @@ import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.rules.el.NumeralStressRule;
 import org.languagetool.rules.el.ReplaceHomonymsRule;
 import org.languagetool.rules.el.GreekSpecificCaseRule;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.el.GreekSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -112,7 +113,7 @@ public class Greek extends Language {
   @Nullable
   @Override
   public Synthesizer createDefaultSynthesizer() {
-    return new GreekSynthesizer(this);
+    return GreekSynthesizer.INSTANCE;
   }
 
   @Override
@@ -124,4 +125,10 @@ public class Greek extends Language {
   public LanguageMaintainedState getMaintainedState() {
 		return LanguageMaintainedState.ActivelyMaintained;
 	}
+
+  @Nullable
+  @Override
+  protected SpellingCheckRule createDefaultSpellingRule(ResourceBundle messages) throws IOException {
+    return new MorfologikGreekSpellerRule(messages, this, null, null);
+  }
 }

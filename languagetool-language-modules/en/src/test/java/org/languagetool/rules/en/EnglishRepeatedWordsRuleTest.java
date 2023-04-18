@@ -90,6 +90,9 @@ public class EnglishRepeatedWordsRuleTest {
     assertCorrectText("He suggested that we review them again. What do these suggest about the transaction history?");
     assertCorrectText("I suggested he look it over again. This strongly suggests that Mr. Batt is guilty.");
 
+    // whole
+    assertCorrectText("In this example, persons is used instead of people because the law applies to the individuals and never to the group as a whole.");
+
     // ignore sentences without period at the end
     assertCorrectText("I suggested this. She suggests that");
 

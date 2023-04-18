@@ -50,6 +50,18 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("bauten", "Form von 'Bau' (Bauwerk, Haus, ...)", "beuten", "Form von 'Beute'"),
+          new Pair("file", "engl. 'Datei'", "filet", "ein Stück Fleisch oder Fisch"),
+          new Pair("zecke", "blutsaugender Parasit", "zwecke", "Dativ von 'Zweck' (Ziel)"),
+          new Pair("frucht", "Teil einer Pflanze; Obst", "furcht", "Angst"),
+          new Pair("rate", "Verhältnis zwischen zwei Größen", "ratte", "Nagetier"),
+          new Pair("posten", "Arbeitsplatz, Wachposten", "posen", "Pose: betonte Körperhaltung"),
+          new Pair("himmel", "Bereich über der Erde", "hummel", "Insekt"),
+          new Pair("server", "Computer", "servier", "zu 'servieren'"),
+          new Pair("ziege", "Tier", "ziegel", "Ziegelstein"),
+          new Pair("robe", "Kleidungsstück", "probe", "Test, Kontrolle"),
+          new Pair("mode", "Kleidung", "monde", "Begleiter eines Planeten"),
+          new Pair("eigen", "'selbst', z.B. 'Eigenzitat'", "eingen", "Möglicher Tippfehler"),
           new Pair("stümpfe", "Rest eines Körpergliedes", "strümpfe", "Bekleidungsstück für den Fuß"),
           new Pair("gelände", "Gebiet", "geländer", "Konstruktion zum Festhalten entlang von Treppen"),
           new Pair("tropen", "feuchtwarme Gebiete am Äquator", "tropfen", "kleine Menge Flüssigkeit"),
@@ -124,8 +136,6 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)"),
           new Pair("stande", "zu 'Stand'", "stange", "länglicher Gegenstand")
   );
-  public static final GermanyGerman german = new GermanyGerman();
-  private static GermanSpellerRule spellerRule;
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<String> blacklistRegex = Arrays.asList(
@@ -135,6 +145,7 @@ public class ProhibitedCompoundRule extends Rule {
     "(Raum|Surf|Jazz|Herbst|Gymnastik|Normal)schuhen?",
     "preis",  // Getränkepreis etc.
     "reisähnlich(e|e[nmrs])?",
+    "neugestartet(e|e[nmrs])?",
     "reisender",  // Ägyptenreisender etc.
     "[a-zöäüß]+sender",  // wg. sende/sender, z.B. bremsender, abzulassender
     "gra(ph|f)ische?",  // kosmografisch etc.
@@ -148,6 +159,49 @@ public class ProhibitedCompoundRule extends Rule {
     ".+gra(ph|f)its?"   // ...grafit/graphit
   );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
+          "Reistee", "Reistees",
+          "Reiswaffel", "Reiswaffeln",
+          "Wildsymbol", "Wildsymbole", "Wildsymbolen",
+          "Küchenteller", "Küchentellers", "Küchentellern",
+          "Miettage",
+          "Waldbaden",
+          "Verkaufszeile", "Verkaufszeilen",
+          "Mahnstrecke",
+          "einspeichen",
+          "Haupttasten",
+          "Winterräder", "Winterrädern",
+          "Vertragsstart",
+          "Vertragskonten",
+          "Performen",
+          "Bergratte", "Bergratten",
+          "Flussratte", "Flussratten",
+          "Hausrate", "Hausraten",
+          "Südposten",
+          "Machtposen",
+          "Elektroband", "Elektrobands",
+          "Reiterfahrung", "Reiterfahrungen",
+          "Dampfgerät", "Dampfgeräte", "Dampfgeräten",
+          "Leeraufenthalt", "Leeraufenthalten",
+          "Mietform", "Mietformen",
+          "Schimmelns",
+          "Oberhummel", "Oberhummels",
+          "Alpenhummel", "Alpenhummeln",
+          "Futterrecht", "Futterrechts",
+          "Waschtasche", "Waschtaschen",
+          "Fiebersaft", "Fiebersafts",
+          "Kundenreise", "Kundenreisen",
+          "Gelseite", "Gelseiten",
+          "Kartenmeister", "Kartenmeisters",
+          "Polarzelle", "Polarzellen",
+          "Serverplatte",
+          "Serverplatten",
+          "annähmst",
+          "annähmt",
+          "auslobst",
+          "benähmst",
+          "benähmt",
+          "bestrichst",
+          "bestricht",
           "Trendgericht",  // vs. bericht
           "Balkonfront",  // vs. Balkan
           "Balkonbereich",  // vs. Balkan
@@ -1222,7 +1276,7 @@ public class ProhibitedCompoundRule extends Rule {
     try {
       ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(confusionSetsFile)) {
-        ConfusionSetLoader loader = new ConfusionSetLoader(german);
+        ConfusionSetLoader loader = new ConfusionSetLoader(GermanyGerman.INSTANCE);
         Map<String, List<ConfusionPair>> confusionPairs = loader.loadConfusionPairs(confusionSetStream);
         for (Map.Entry<String, List<ConfusionPair>> entry : confusionPairs.entrySet()) {
           for (ConfusionPair pair : entry.getValue()) {
@@ -1277,7 +1331,6 @@ public class ProhibitedCompoundRule extends Rule {
     this.ahoCorasickDoubleArrayTrie = prohibitedCompoundRuleSearcher;
     this.pairMap = prohibitedCompoundRulePairMap;
     linguServices = userConfig != null ? userConfig.getLinguServices() : null;
-    spellerRule = linguServices == null ? new GermanSpellerRule(JLanguageTool.getMessageBundle(), german, null, null) : null;
     addExamplePair(Example.wrong("Da steht eine <marker>Lehrzeile</marker> zu viel."),
                    Example.fixed("Da steht eine <marker>Leerzeile</marker> zu viel."));
   }
@@ -1321,8 +1374,11 @@ public class ProhibitedCompoundRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private boolean isMisspelled (String word) {
-    return (linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, german));
+  private static boolean isMisspelled(String word) {
+    if (linguServices == null) {
+      return GermanyGerman.INSTANCE.getDefaultSpellingRule().isMisspelled(word);
+    }
+    return !linguServices.isCorrectSpell(word, GermanyGerman.INSTANCE);
   }
 
   private int getMatches(AnalyzedSentence sentence, List<RuleMatch> ruleMatches, AnalyzedTokenReadings readings, int partsStartPos, String wordPart, int toPosCorrection) {

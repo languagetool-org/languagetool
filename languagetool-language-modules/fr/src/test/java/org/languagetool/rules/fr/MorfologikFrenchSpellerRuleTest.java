@@ -102,15 +102,15 @@ public class MorfologikFrenchSpellerRuleTest {
     // incorrect words:
     matches = rule.match(lt.getAnalyzedSentence("ecoute-moi"));
     assertEquals(1, matches.length);
-    assertEquals("écoute", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("écouté", matches[0].getSuggestedReplacements().get(1));
-    assertEquals("écoutè", matches[0].getSuggestedReplacements().get(2));
-    assertEquals("coûte", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("Écoute", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Écouté", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("Écoutè", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("Coûte", matches[0].getSuggestedReplacements().get(3));
 
     matches = rule.match(lt.getAnalyzedSentence("ecrit-il"));
     assertEquals(1, matches.length);
-    assertEquals("écrit", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("décrit", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("Écrit", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Décrit", matches[0].getSuggestedReplacements().get(1));
 
     matches = rule.match(lt.getAnalyzedSentence("Mcdonald"));
     assertEquals(1, matches.length);
@@ -152,10 +152,10 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, lt, "Wordpress", "WordPress");
     assertSuggestion(rule, lt, "wordpress", "WordPress");
     assertSuggestion(rule, lt, "Etais-tu", "Étais", "Étés"); //TODO: suggest only verbs
-    assertSuggestion(rule, lt, "etais-tu", "étais", "étés"); //TODO: suggest only verbs 
+    assertSuggestion(rule, lt, "etais-tu", "Étais", "Étés"); //TODO: suggest only verbs 
     assertSuggestion(rule, lt, "depechetoi", "dépêche-toi", "dépêcherai");
-    assertSuggestion(rule, lt, "etiez-vous", "étiez");
-    assertSuggestion(rule, lt, "preferes-tu", "préférés", "préfères"); //TODO
+    assertSuggestion(rule, lt, "etiez-vous", "Étiez");
+    assertSuggestion(rule, lt, "preferes-tu", "Préférés", "Préfères"); //TODO
     assertSuggestion(rule, lt, "Playstation", "PlayStation"); 
     assertSuggestion(rule, lt, "étaistu", "étais-tu");
     assertSuggestion(rule, lt, "etaistu", "étais-tu", "était");
@@ -170,7 +170,7 @@ public class MorfologikFrenchSpellerRuleTest {
     assertSuggestion(rule, lt, "avaisje", "avais-je");
     assertSuggestion(rule, lt, "damazon", "d'Amazon", "d'amazone", "d'Amazone");
     assertSuggestion(rule, lt, "deja", "déjà", "d'EA");
-    assertSuggestion(rule, lt, "depeche-toi", "dépêche", "dépêché", "dépêchè", "d'empêché", "d'évêché", "repêché");
+    assertSuggestion(rule, lt, "depeche-toi", "Dépêche", "Dépêché", "Dépêchè", "D'empêché", "D'évêché", "Repêché");
     assertSuggestion(rule, lt, "sattendre", "s'attendre", "attendre");
     assertSuggestion(rule, lt, "darriver", "d'arriver", "arriver");
     assertSuggestion(rule, lt, "Situé àseulement 9 km", "seulement", "à seulement");
@@ -204,6 +204,31 @@ public class MorfologikFrenchSpellerRuleTest {
     matches = rule.match(lt.getAnalyzedSentence("BretagneItinéraire"));
     assertEquals(1, matches.length);
     assertEquals("Bretagne Itinéraire", matches[0].getSuggestedReplacements().get(0));
+    
+    
+    matches = rule.match(lt.getAnalyzedSentence("123heures"));
+    assertEquals(1, matches.length);
+    assertEquals("123 heures", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(lt.getAnalyzedSentence("\u23F0heures"));
+    assertEquals(1, matches.length);
+    assertEquals("[⏰ heures]", matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("\u23F0heuras"));
+    assertEquals(1, matches.length);
+    assertEquals("[⏰ heures, ⏰ heurts, ⏰ heurs, ⏰ hourras, ⏰ beurras, ⏰ heurtas, ⏰ hueras, ⏰ leurras, ⏰ heu ras, ⏰ heur as]", matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("©heures"));
+    assertEquals(1, matches.length);
+    assertEquals("[© heures]", matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("►heures"));
+    assertEquals(1, matches.length);
+    assertEquals("[► heures]", matches[0].getSuggestedReplacements().toString());
+    
+    matches = rule.match(lt.getAnalyzedSentence("◦heures"));
+    assertEquals(1, matches.length);
+    assertEquals("[◦ heures]", matches[0].getSuggestedReplacements().toString());
 
   }
   

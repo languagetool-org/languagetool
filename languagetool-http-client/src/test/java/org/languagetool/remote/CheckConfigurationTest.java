@@ -30,7 +30,7 @@ public class CheckConfigurationTest {
   @Test
   public void test() {
     CheckConfiguration config = new CheckConfiguration("en", null, false, 
-                                                       Collections.emptyList(), false, Collections.emptyList(), null, null, Collections.emptyList(), null);
+                                                       Collections.emptyList(), false, Collections.emptyList(), null, null, Collections.emptyList(), null, null, null);
     assertThat(config.getLangCode().get(), is("en"));
     assertNull(config.getMotherTongueLangCode());
     assertThat(config.getEnabledRuleIds().size(), is(0));
@@ -42,7 +42,7 @@ public class CheckConfigurationTest {
   @SuppressWarnings("ResultOfObjectAllocationIgnored")
   @Test(expected = IllegalArgumentException.class)
   public void testNull() {
-    new CheckConfiguration(null, null, false, null, false, null, null, null, null, null);
+    new CheckConfiguration(null, null, false, null, false, null, null, null, null, null, null, null);
   }
 
 }

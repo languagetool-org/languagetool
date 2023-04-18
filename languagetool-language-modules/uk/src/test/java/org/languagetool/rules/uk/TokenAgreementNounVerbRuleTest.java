@@ -21,42 +21,33 @@ package org.languagetool.rules.uk;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
-public class TokenAgreementNounVerbRuleTest {
-
-  private JLanguageTool lt;
-  private TokenAgreementNounVerbRule rule;
+public class TokenAgreementNounVerbRuleTest extends AbstractRuleTest {
 
   @Before
   public void setUp() throws IOException {
     rule = new TokenAgreementNounVerbRule(TestTools.getMessages("uk"));
-    lt = new JLanguageTool(new Ukrainian());
   }
 
   @Test
   public void testRule() throws IOException {
 
-    assertMatches(1, "Тарас прибігла");
-    assertMatches(1, "вони прибіг");
-    assertMatches(1, "я прибіжиш");
+    assertHasError("Тарас прибігла");
+    assertHasError("вони прибіг");
+    assertHasError("я прибіжиш");
 
-    assertMatches(1, "вони швидко прибіг");
+    assertHasError("вони швидко прибіг");
 
-    assertMatches(1, "та з інших питань перевірка проведено не повно");
+    assertHasError("та з інших питань перевірка проведено не повно");
 
-    assertMatches(1, "з часом пара вирішили узаконити");
+    assertHasError("з часом пара вирішили узаконити");
 
-    assertMatches(0, "На честь Джудіт Резнік названо кратер");
+    assertEmptyMatch("На честь Джудіт Резнік названо кратер");
     
     //TODO:
     //assertEmptyMatch("подружжя під прізвищем Крилови оселилося в Москві");
@@ -79,7 +70,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("кандидат в народні депутати поїхав");
     
     // handled by styling rule
-//  assertMatches(1, "40 тисяч чоловік виявили бажання");
+//  assertHasError("40 тисяч чоловік виявили бажання");
     assertEmptyMatch("40 тисяч чоловік виявили бажання");
     
     // було + impers
@@ -116,27 +107,27 @@ public class TokenAgreementNounVerbRuleTest {
     // TODO: would hide good occasions, Тунець тут inanim:v_zna
 //    assertEmptyMatch("Тунець розморозьте і поріжте на порційні частинки.");
     
-    assertMatches(1, "не встиг вона отямитися");
+    assertHasError("не встиг вона отямитися");
 
      assertEmptyMatch("про припинення їхньої діяльності ми ухвалити, зрозуміло, не могли");
      //TODO: ignore insert words
 //    assertEmptyMatch("Почав, значить, я рости.");
     
-    assertMatches(1, "Ми може спробувати знайти");
+    assertHasError("Ми може спробувати знайти");
 
     assertEmptyMatch(GOOD_TEXT);
 
     assertEmptyMatch("— це були невільники");
     
-    assertMatches(1, "щоб конкуренти підішли до виборів");
+    assertHasError("щоб конкуренти підішли до виборів");
   }
 
   @Test
   public void testRuleNe() throws IOException {
-    assertMatches(1, "Тарас не прибігла");
-    assertMatches(1, "Тарас би не прибігла");
-    assertMatches(1, "вони не прибіг");
-    assertMatches(1, "я не прибіжиш");
+    assertHasError("Тарас не прибігла");
+    assertHasError("Тарас би не прибігла");
+    assertHasError("вони не прибіг");
+    assertHasError("я не прибіжиш");
 
     assertEmptyMatch("ні він, ні вона не хотіли");
     assertEmptyMatch("уряд та поліція не контролюють події");
@@ -146,7 +137,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("ні лауреат, ні його жінка не розмовляють жодними мовами");
     assertEmptyMatch("Чи ж могла я не повернутися назад?");
     assertEmptyMatch("кефаль, хамса не затримуються");
-    assertMatches(1, "інша мова, вона примітивізовано й");
+    assertHasError("інша мова, вона примітивізовано й");
     assertEmptyMatch("душ, одеколони, навіть хлорка не допомогли");
     assertEmptyMatch("і Виговський, ні навіть Мазепа не розглядали");
     assertEmptyMatch("уряд та поліція не контролюють");
@@ -165,7 +156,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("Мешканці планети Земля споживають щороку");
     assertEmptyMatch("жителі селища Новобудова зверталися.");
     
-    assertMatches(1, "при своїх дружинах Крішна не роздягалася і одразу...");
+    assertHasError("при своїх дружинах Крішна не роздягалася і одразу...");
     
     
     assertEmptyMatch("всі українські жінки з ім’ям Марія мають знати");
@@ -194,11 +185,11 @@ public class TokenAgreementNounVerbRuleTest {
     
     assertEmptyMatch("на прізвисько Михайло відбулася");
 
-    assertMatches(1, "Вистава зроблено чесно, професійно.");
+    assertHasError("Вистава зроблено чесно, професійно.");
     
     //TODO: next 2 fall into common exceptions
-//    assertMatches(1, "свою першу залікову вагу в поштовху Надія зафіксували лише (!) в третій спробі");
-//    assertMatches(1, "по втягуванні України в європейську орбіту Швеція усвідомлюють факт");
+//    assertHasError("свою першу залікову вагу в поштовху Надія зафіксували лише (!) в третій спробі");
+//    assertHasError("по втягуванні України в європейську орбіту Швеція усвідомлюють факт");
     
   }
 
@@ -210,19 +201,19 @@ public class TokenAgreementNounVerbRuleTest {
   
   @Test
   public void testPron() throws IOException {
-    assertMatches(1, "яка прибіг");
-    assertMatches(1, "яка не мають паспортів");
-    assertMatches(1, "яка не залежать від волі");
-    assertMatches(1, "яка було нещодавно опубліковано");
-//    assertMatches(1, "хто прийшла");
-//    assertMatches(1, "одна інший радила");
-    assertMatches(0, "вони як ніхто інший знали");
+    assertHasError("яка прибіг");
+    assertHasError("яка не мають паспортів");
+    assertHasError("яка не залежать від волі");
+    assertHasError("яка було нещодавно опубліковано");
+//    assertHasError("хто прийшла");
+//    assertHasError("одна інший радила");
+    assertEmptyMatch("вони як ніхто інший знали");
     
-    assertMatches(0, "який прибила хвиля");
-    assertMatches(0, "Ті, хто зрозуміли");
-    assertMatches(0, "ті, хто сповідує");
-    assertMatches(0, "ті, хто не сповідують");
-    assertMatches(1, "всі хто зрозуміли"); // пропущена кома
+    assertEmptyMatch("який прибила хвиля");
+    assertEmptyMatch("Ті, хто зрозуміли");
+    assertEmptyMatch("ті, хто сповідує");
+    assertEmptyMatch("ті, хто не сповідують");
+    assertHasError("всі хто зрозуміли"); // пропущена кома
     assertEmptyMatch("про те, хто була ця клята Пандора");
 
     assertEmptyMatch("що можна було й інший пошукати");
@@ -235,8 +226,8 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("що я зробити встиг");
     assertEmptyMatch("це я робити швидко вмію");
     assertEmptyMatch("Саудівську Аравію ми проходити зобов’язані");
-    assertMatches(1, "я бігати");
-//    assertMatches(1, "машина бігати");
+    assertHasError("я бігати");
+//    assertHasError("машина бігати");
 
     assertEmptyMatch("ми воювати з нашими людьми не збираємося");
     
@@ -246,7 +237,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("ми розраховувати не повинні");
     assertEmptyMatch("Хотів би я подивитися");
     assertEmptyMatch("на останніх ми працювати не згідні");
-    assertMatches(1, "на останніх ми працювати не питаючи нікого");
+    assertHasError("на останніх ми працювати не питаючи нікого");
     assertEmptyMatch("те, чого я слухати не дуже хочу");
     assertEmptyMatch("чи гідні ми бути незалежними");
     assertEmptyMatch("Чи здатен її автор навести хоча б один факт");
@@ -260,7 +251,7 @@ public class TokenAgreementNounVerbRuleTest {
     //TODO:
 //    assertEmptyMatch("Іноземець в’їздити і виїздити з цієї країни може тільки");
 
-    assertMatches(1, "Та припинити ти переживати");
+    assertHasError("Та припинити ти переживати");
     
     assertEmptyMatch("та я купувати цю куртку не дуже хотіла");
     
@@ -276,18 +267,18 @@ public class TokenAgreementNounVerbRuleTest {
   
   @Test
   public void testPlural() throws IOException {
-    assertMatches(1, "21 гравець дивилися");
-    assertMatches(1, "один гравець дивилися");
-    assertMatches(1, "Серед вбитих і полонених радянських солдат були чоловіки");
-    assertMatches(1, "Пригадую випадок, коли одна аудіокомпанія звернулися до провідних київських «ефемок»");
-    assertMatches(1, "підписку про невиїзд двох молодиків, яких міліція затримали першими");
-    assertMatches(1, "рук та ніг Параски, темниця розчинилася і дівчина опинилися за стінами фортеці");
-    assertMatches(1, "його арештували і вислали у Воркуту, я залишилися одна з дитиною.");
-    assertMatches(1, "На проспекті Чорновола, ближче до центру, вона зупинилися на перехресті");
-    assertMatches(1, "порадилися і громада запропонували мені зайняти його місце");
-    assertMatches(1, "то й небо вона бачите саме таким");
-    assertMatches(1, "молочного туману, потім вона заснувалися");
-    assertMatches(1, "Наташа смикала за волосся, а Софія намагалися бризнути");
+    assertHasError("21 гравець дивилися");
+    assertHasError("один гравець дивилися");
+    assertHasError("Серед вбитих і полонених радянських солдат були чоловіки");
+    assertHasError("Пригадую випадок, коли одна аудіокомпанія звернулися до провідних київських «ефемок»");
+    assertHasError("підписку про невиїзд двох молодиків, яких міліція затримали першими");
+    assertHasError("рук та ніг Параски, темниця розчинилася і дівчина опинилися за стінами фортеці");
+    assertHasError("його арештували і вислали у Воркуту, я залишилися одна з дитиною.");
+    assertHasError("На проспекті Чорновола, ближче до центру, вона зупинилися на перехресті");
+    assertHasError("порадилися і громада запропонували мені зайняти його місце");
+    assertHasError("то й небо вона бачите саме таким");
+    assertHasError("молочного туману, потім вона заснувалися");
+    assertHasError("Наташа смикала за волосся, а Софія намагалися бризнути");
     
     assertEmptyMatch("моя мама й сестра мешкали");
     assertEmptyMatch("чи то Вальтер, чи я вжили фразу");
@@ -302,6 +293,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("Тато і Юзь Федорків були прикладом");
     assertEmptyMatch("Клочкова ти Лисогор перемагають на своїх дистанціях");
     assertEmptyMatch("він особисто й облдержадміністрація винесли");
+    assertEmptyMatch("тисяча й одна ознака вказують");
     
     assertEmptyMatch("і “більшовики”, і Президент звинуватили опозицію у зриві");
     assertEmptyMatch("І “швидка“, і міліція приїхали майже вчасно");
@@ -326,7 +318,7 @@ public class TokenAgreementNounVerbRuleTest {
     //TODO:
 //  assertEmptyMatch("Бережна й «мирна» тусовка перебувають");
     // TODO: can't easily detect special case with погода
-//    assertMatches(1, "Цього року дощова та холодна погода стояли практично в усіх регіонах");
+//    assertHasError("Цього року дощова та холодна погода стояли практично в усіх регіонах");
 
     
     assertEmptyMatch("Канада, Австралія та й Західна Європа знають");
@@ -359,7 +351,7 @@ public class TokenAgreementNounVerbRuleTest {
 
     // noun:v_naz noun:v_rod
     //TODO: conflicts with test below
-//  assertMatches(1, "Згідно розуміння класиків, народна мова надавалися лише для творів");
+//  assertHasError("Згідно розуміння класиків, народна мова надавалися лише для творів");
     assertEmptyMatch("Швидке заселення земель, вирубування лісів, меліорація призвели");
     assertEmptyMatch("узагалі, почуття гумору, іронія були притаманні");
     assertEmptyMatch("почуття гумору, іронія були притаманні");
@@ -390,7 +382,7 @@ public class TokenAgreementNounVerbRuleTest {
     // latin/cyr mix
 //  assertEmptyMatch("Дівчата та їхнiй брат належать до касти");
 
-    assertEmptyMatch("за яким 50%+1 акція закріплюються у власності держави");
+//    assertEmptyMatch("за яким 50%+1 акція закріплюються у власності держави");
     assertEmptyMatch("злість плюс іронія можуть вбити");
     assertEmptyMatch("із яких 50% плюс одна акція знаходяться");
     assertEmptyMatch("Матеріальна заінтересованість плюс гарна вивіска зіграли злий жарт");
@@ -427,7 +419,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("Решта 121 депутат висловилися проти");
     assertEmptyMatch("понад сотня отримали поранення");
 
-    assertMatches(1, "22 льотчики удостоєно");
+    assertHasError("22 льотчики удостоєно");
     assertEmptyMatch("два сини народилося там");
     //TODO:
     //assertEmptyMatch("Троє пілотів і 31 глядач загинули миттєво.");
@@ -446,16 +438,16 @@ public class TokenAgreementNounVerbRuleTest {
     // compound
     assertEmptyMatch("автор-упорядник назвала збірник");
     
-    assertMatches(1, "Прем’єр-міністр повторило у телезверненні");
-    assertMatches(1, "приятель повторила у телезверненні");
+    assertHasError("Прем’єр-міністр повторило у телезверненні");
+    assertHasError("приятель повторила у телезверненні");
   }
 
   
   @Test
   public void testIgnoreByIntent() throws IOException {
     // handled by xml rule
-    //  assertMatches(1, "тому що воно привнесено ззовні");
-    //  assertMatches(1, "Воно просочено історією");
+    //  assertHasError("тому що воно привнесено ззовні");
+    //  assertHasError("Воно просочено історією");
     assertEmptyMatch("тому що воно привнесено ззовні");
     assertEmptyMatch("Воно просочено історією");
     assertEmptyMatch("Все решта зафіксовано");
@@ -464,7 +456,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("З охопленого війною Сектора Газа вивезли «більш як 80 громадян України».");
     
     // має бути «подружжя Обам» - ловиться в xml
-//    assertMatches(1, "подружжя Обама запросило 350 гостей");
+//    assertHasError("подружжя Обама запросило 350 гостей");
     assertEmptyMatch("подружжя Обама запросило 350 гостей");
   }
   
@@ -482,36 +474,23 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("або пропозиція збільшити частку");
   }
   
-  private void assertEmptyMatch(String text) throws IOException {
-    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(text);
-    try {
-      assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(analyzedSentence)));
-    }
-    catch (AssertionError e) {
-      System.out.println("Sentence: " + analyzedSentence);
-      throw e;
-    }
-    
-  }
-
-  
   @Test
   public void testRuleWithAdjOrKly() throws IOException {
-    assertMatches(1, "Ви постане перед вибором");
-    assertMatches(1, "військовий прибігла");
-    assertMatches(1, "Фехтувальна збірна було до цього готова");
-    assertMatches(1, "наші дівчата виграти загальний залік");
-    assertMatches(1, "окремі ентузіасти переймалася");
-    assertMatches(1, "угорська влада пообіцяли переглянути");
-    assertMatches(1, "точно також ви буде платити");
+    assertHasError("Ви постане перед вибором");
+    assertHasError("військовий прибігла");
+    assertHasError("Фехтувальна збірна було до цього готова");
+    assertHasError("наші дівчата виграти загальний залік");
+    assertHasError("окремі ентузіасти переймалася");
+    assertHasError("угорська влада пообіцяли переглянути");
+    assertHasError("точно також ви буде платити");
     
-    assertMatches(0, "багато хто в драматурги прийшов");
-    assertMatches(0, "з кандидатом у президенти не визначився");
-    assertMatches(0, "Мої співвітчизники терпіти це далі не повинні");
-    assertMatches(0, "Ви може образились");
-    assertMatches(0, "Моя ти зоре в тумані");
-    assertMatches(0, "На кожен покладіть по кільцю");
-    assertMatches(0, "Любителі фотографувати їжу");
+    assertEmptyMatch("багато хто в драматурги прийшов");
+    assertEmptyMatch("з кандидатом у президенти не визначився");
+    assertEmptyMatch("Мої співвітчизники терпіти це далі не повинні");
+    assertEmptyMatch("Ви може образились");
+    assertEmptyMatch("Моя ти зоре в тумані");
+    assertEmptyMatch("На кожен покладіть по кільцю");
+    assertEmptyMatch("Любителі фотографувати їжу");
   }
   
   @Test
@@ -526,11 +505,6 @@ public class TokenAgreementNounVerbRuleTest {
   }
 
   
-  private void assertMatches(int num, String text) throws IOException {
-    RuleMatch[] match = rule.match(lt.getAnalyzedSentence(text));
-    assertEquals("Unexpected: " + Arrays.asList(match), num, match.length);
-  }
-
   private static final String GOOD_TEXT = "Хоча упродовж десятиліть ширилися численні історії про те, що я був у ряду наступників трону Тембу, щойно наведений простий генеалогічний екскурс викриває міфічність таких тверджень."
       + " Я був членом королівської родини, проте не належав до небагатьох привілейованих, що їх виховували на правителів."
       + " Натомість мене як нащадка Лівого дому навчали — так само, як і раніше мого батька — бути радником правителів племені."
