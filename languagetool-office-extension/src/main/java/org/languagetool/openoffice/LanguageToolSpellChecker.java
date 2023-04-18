@@ -54,14 +54,12 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
           "com.sun.star.linguistic2.SpellChecker",
           "org.languagetool.openoffice.LanguageToolSpellChecker" };
   
-  private XComponentContext xContext;
   private JLanguageTool lt = null;
   private Locale lastLocale = null;                //  locale for spell check
   private SpellingCheckRule spellingCheckRule = null;
   
   public LanguageToolSpellChecker(XComponentContext xcontext)
   {
-      this.xContext = xcontext;
   };
 
   /**
@@ -250,8 +248,8 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
   }
 
   @Override
-  public String getServiceDisplayName(Locale arg0) {
-    return "LanguageToolSpeller";
+  public String getServiceDisplayName(Locale locale) {
+    return MultiDocumentsHandler.getServiceDisplayName(locale);
   }
   
 }

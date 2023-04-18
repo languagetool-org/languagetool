@@ -19,7 +19,6 @@
 package org.languagetool.openoffice;
 
 import com.sun.star.lang.*;
-import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
@@ -27,8 +26,6 @@ import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.XLinguServiceEventBroadcaster;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.linguistic2.XProofreader;
-import com.sun.star.linguistic2.XSpellAlternatives;
-import com.sun.star.linguistic2.XSpellChecker;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
 import com.sun.star.uno.XComponentContext;
@@ -109,7 +106,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   @Override
   public final boolean hasLocale(Locale locale) {
-    return documents.hasLocale(locale);
+    return MultiDocumentsHandler.hasLocale(locale);
   }
 
   /**
@@ -253,7 +250,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   @Override
   public String getServiceDisplayName(Locale locale) {
-    return documents.getServiceDisplayName(locale);
+    return MultiDocumentsHandler.getServiceDisplayName(locale);
   }
 
   /**

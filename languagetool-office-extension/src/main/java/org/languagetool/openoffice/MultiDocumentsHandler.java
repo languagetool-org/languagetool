@@ -46,16 +46,12 @@ import org.languagetool.openoffice.SingleDocument.RuleDesc;
 import org.languagetool.openoffice.SpellAndGrammarCheckDialog.LtCheckDialog;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tools.Tools;
 
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
-import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XEventListener;
@@ -64,7 +60,6 @@ import com.sun.star.linguistic2.LinguServiceEventFlags;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.linguistic2.XProofreader;
-import com.sun.star.linguistic2.XSpellAlternatives;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
@@ -94,12 +89,10 @@ public class MultiDocumentsHandler {
   private static boolean debugModeTm = false;   //  should be false except for testing
   
   private SwJLanguageTool lt = null;
-  private JLanguageTool spellLt = null;
   private Language docLanguage = null;
   private Language fixedLanguage = null;
   private Language langForShortName;
   private Locale locale;                            //  locale for grammar check
-  private Locale spellLocale = null;                //  locale for spell check
   private final XEventListener xEventListener;
   private final XProofreader xProofreader;
   private final File configDir;
@@ -140,8 +133,6 @@ public class MultiDocumentsHandler {
   private boolean testMode = false;
   private boolean javaLookAndFeelIsSet = false;
   private boolean isHelperDisposed = false;
-  private boolean spellCheckIsRunning = false;
-  private SpellingCheckRule spellingCheckRule = null;
 
   
   MultiDocumentsHandler(XComponentContext xContext, XProofreader xProofreader, XEventListener xEventListener) {
@@ -1894,7 +1885,7 @@ public class MultiDocumentsHandler {
   /**
    * Get the displayed service name for LT
    */
-  public String getServiceDisplayName(Locale locale) {
+  public static String getServiceDisplayName(Locale locale) {
     return "LanguageTool";
   }
 
