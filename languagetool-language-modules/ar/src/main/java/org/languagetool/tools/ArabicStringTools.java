@@ -47,7 +47,6 @@ public class ArabicStringTools {
    * @param str input str
    */
   public static String removeTashkeel(String str) {
-    String s = Normalizer.normalize(str, Normalizer.Form.NFD);
      String striped = str.replaceAll("["
       + TASHKEEL_CHARS
       + "]", "");
