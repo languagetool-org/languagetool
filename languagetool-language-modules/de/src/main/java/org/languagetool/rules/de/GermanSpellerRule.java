@@ -3166,6 +3166,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Kreissaals": return topMatch("Kreißsaals");
       case "Laola-Welle": return topMatch("La-Ola-Welle");
       case "Laola-Wellen": return topMatch("La-Ola-Wellen");
+      case "BayArea": return topMatch("Bay Area");
     }
     return Collections.emptyList();
   }
