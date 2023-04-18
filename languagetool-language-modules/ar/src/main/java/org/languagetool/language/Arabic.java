@@ -128,7 +128,9 @@ public class Arabic extends Language implements AutoCloseable {
       new ArabicWordinessRule(messages),
       new ArabicWrongWordInContextRule(messages),
       new ArabicTransVerbRule(messages),
-      new ArabicTransVerbDirectToIndirectRule(messages)
+      new ArabicTransVerbDirectToIndirectRule(messages),
+      new ArabicTransVerbIndirectToDirectRule(messages),
+      new ArabicTransVerbIndirectToIndirectRule(messages)
     );
   }
 

@@ -439,6 +439,37 @@ public class ArabicTagger extends BaseTagger {
     return suffix;
   }
 
+  /**
+   * @return if have a flag which is a noun and has proclitics, return the first prefix named procletic letters for this case
+   */
+  public String getJarProclitic(AnalyzedToken token) {
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+    if (postag.isEmpty()) {
+      return "";
+    }
+    // if the word is Verb
+    // extract conjuction and IStiqbal procletic
+    String prefix = "";
+    if (tagmanager.isNoun(postag)) {
+      char conjflag = tagmanager.getFlag(postag, "CONJ");
+      char jarflag = tagmanager.getFlag(postag, "JAR");
+      // if the two flags are set, return 2 letters prefix
+      int prefixLength = 0;
+      if (conjflag != '-') {
+        prefixLength += 1;
+      }
+      if (jarflag != '-') {
+        prefixLength += 1;
+      }
+
+      if (prefixLength > 0) {
+        prefix = word.substring(prefixLength - 1, prefixLength);
+      }
+    }
+    return prefix;
+  }
+
   /* tag a single word */
   public AnalyzedTokenReadings tag(String word) {
     List<String> wordlist = new ArrayList<>();
