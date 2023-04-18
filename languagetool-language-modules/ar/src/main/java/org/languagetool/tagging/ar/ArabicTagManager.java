@@ -18,6 +18,9 @@
  */
 package org.languagetool.tagging.ar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,20 +63,23 @@ public class ArabicTagManager {
   private static final int VERB_FLAG_POS_PRONOUN = 14;
 
   // CONSTANT for particle flags position
-  private static final int PARTICLE_TAG_LENGTH = 12;
+  private static final int PARTICLE_TAG_LENGTH = 11;
   private static final int PARTICLE_FLAG_POS_WORDTYPE = 0;
   private static final int PARTICLE_FLAG_POS_CATEGORY = 1;
+  private static final int PARTICLE_FLAG_POS_OPTION = 2;
 
   private static final int PARTICLE_FLAG_POS_GENDER = 4;
   private static final int PARTICLE_FLAG_POS_NUMBER = 5;
   private static final int PARTICLE_FLAG_POS_CASE = 6;
-  private static final int PARTICLE_FLAG_POS_INFLECT_MARK = 7;
+//  private static final int PARTICLE_FLAG_POS_INFLECT_MARK = 7;
 
-  private static final int PARTICLE_FLAG_POS_CONJ = 9;
-  private static final int PARTICLE_FLAG_POS_JAR = 10;
-  private static final int PARTICLE_FLAG_POS_PRONOUN = 11;
+  private static final int PARTICLE_FLAG_POS_CONJ = 8;
+  private static final int PARTICLE_FLAG_POS_JAR = 9;
+  private static final int PARTICLE_FLAG_POS_PRONOUN = 10;
 
   private final HashMap<String, Integer> mapFlagPos = new HashMap<>();
+
+  private static final Logger logger = LoggerFactory.getLogger(ArabicTagManager.class);
 
   public ArabicTagManager() {
     loadHashmap();
@@ -83,8 +89,9 @@ public class ArabicTagManager {
     // if one of tags are incompatible return null
     for (String tg : tags) {
       postag = addTag(postag, tg);
-      if (postag == null)
+      if (postag == null) {
         return null;
+      }
     }
     return postag;
   }
@@ -110,10 +117,13 @@ public class ArabicTagManager {
         break;
       case "K":
         if (isNoun(postag)) {
-          if (isMajrour(postag))
+          if (isMajrour(postag)) {
             postag = setFlag(postag, "JAR", 'K');
-            // a prefix K but non majrour
-          else return null;
+          }
+          // a prefix K but non majrour
+          else {
+            return null;
+          }
 
         } else return null;
         break;
@@ -157,7 +167,7 @@ public class ArabicTagManager {
         break;
       case "S":
         // َAdd S flag
-        // if postag contains a future tag, TODO with regex
+        // if postag contains a future tag, use regex
         if (isFutureTense(postag)) {
           postag = setFlag(postag, "ISTIQBAL", 'S');
         } else
@@ -303,22 +313,23 @@ public class ArabicTagManager {
    * @return test if word has stopword tagging
    */
   public boolean isStopWord(String postag) {
-    return postag.startsWith("P");
+    return (postag != null && postag.startsWith("P"));
   }
 
   /**
    * @return true if have flag noun
    */
   public boolean isNoun(String postag) {
-    return postag.startsWith("N");
+    return ((postag != null) && postag.startsWith("N"));
   }
 
   /**
    * @return true if have flag verb
    */
   public boolean isVerb(String postag) {
-    return postag.startsWith("V");
+    return (postag != null && postag.startsWith("V"));
   }
+
 
   /**
    * @return true if have flag is noun and definite
@@ -326,6 +337,7 @@ public class ArabicTagManager {
   public boolean isDefinite(String postag) {
     return isNoun(postag) && (getFlag(postag, "PRONOUN") == 'L');
   }
+
 
   /**
    * @return true if the postag has a Jar
@@ -335,12 +347,20 @@ public class ArabicTagManager {
   }
 
   /**
+   * @return true if the postag has a Jar
+   */
+  public boolean hasPronoun(String postag) {
+    return (getFlag(postag, "PRONOUN") == 'H');
+  }
+
+  /**
    * @return true if the postag has a conjuction
    */
   public boolean hasConjunction(String postag) {
     char flag = getFlag(postag, "CONJ");
     return (isNoun(postag) && (flag != '-'))
-      || (isVerb(postag) && (flag != '-'));
+      || (isVerb(postag) && (flag != '-'))
+      || (isStopWord(postag) && (flag != 'W'));
   }
 
   /**
@@ -403,49 +423,38 @@ public class ArabicTagManager {
     char flag = getFlag(postag, "PRONOUN");
     String suffix = "";
     switch (flag) {
-
       case 'b':
         suffix = "ني";
         break;
-
       case 'c':
         suffix = "نا";
         break;
-
       case 'd':
         suffix = "ك";
         break;
       case 'e':
         suffix = "كما";
-
         break;
-
       case 'f':
         suffix = "كم";
         break;
-
       case 'g':
         suffix = "كن";
         break;
-
       case 'H':
         suffix = "ه";
         break;
-
       case 'i':
         suffix = "ها";
         break;
-
       case 'j':
         suffix = "هما";
         break;
-
       case 'k':
         suffix = "هم";
         break;
       case 'n':
         suffix = "هن";
-
     }
     return suffix;
   }
@@ -454,7 +463,8 @@ public class ArabicTagManager {
     return getFlagPos2(postag, flagType);
   }
 
-  //@depcrecated
+
+  @Deprecated
   private int getFlagPos1(String postag, String flagType) {
    /*
    return position of flag in the tag string accorging to word_type and tagstring
@@ -466,7 +476,6 @@ public class ArabicTagManager {
     } else if (isVerb(postag)) {
       key = "VERB_FLAG_POS_" + flagType;
     }
-    // TODO : find a better way to convert key to pos
     if (key.equals("NOUN_TAG_LENGTH")) {
       pos = NOUN_TAG_LENGTH;
     } else if (key.equals("NOUN_FLAG_POS_WORDTYPE")) {
@@ -527,8 +536,6 @@ public class ArabicTagManager {
       pos = PARTICLE_FLAG_POS_NUMBER;
     } else if (key.equals("PARTICLE_FLAG_POS_CASE")) {
       pos = PARTICLE_FLAG_POS_CASE;
-    } else if (key.equals("PARTICLE_FLAG_POS_INFLECT_MARK")) {
-      pos = PARTICLE_FLAG_POS_INFLECT_MARK;
     } else if (key.equals("PARTICLE_FLAG_POS_CONJ")) {
       pos = PARTICLE_FLAG_POS_CONJ;
     } else if (key.equals("PARTICLE_FLAG_POS_JAR")) {
@@ -542,13 +549,23 @@ public class ArabicTagManager {
 
   public char getFlag(String postag, String flagType) {
     /* a flag value for flagtype from postag */
-    return postag.charAt(getFlagPos(postag, flagType));
+    int pos = getFlagPos(postag, flagType);
+    if (pos < postag.length()) {
+      return postag.charAt(pos);
+    } else {
+      return '-';
+    }
   }
 
   public String setFlag(String postag, String flagType, char flag) {
     /* a flag value for flagtype from postag */
     StringBuilder tmp = new StringBuilder(postag);
-    tmp.setCharAt(getFlagPos(postag, flagType), flag);
+    try {
+      tmp.setCharAt(getFlagPos(postag, flagType), flag);
+    } catch (StringIndexOutOfBoundsException e) {
+      int pos = getFlagPos(postag, flagType);
+      logger.debug("ArabicTagmanager:Exception: pos flag" + pos + "flagtype:" + flagType + " postag:" + tmp + " len:" + tmp.length());
+    }
     return tmp.toString();
 
   }
@@ -588,10 +605,12 @@ public class ArabicTagManager {
     mapFlagPos.put("VERB_PRONOUN", 14);
 
     // CONSTANT for particle flags position
-    mapFlagPos.put("PARTICLE_TAG_LENGTH", 12);
+    mapFlagPos.put("PARTICLE_TAG_LENGTH", 11);
     mapFlagPos.put("PARTICLE_WORDTYPE", 0);
     mapFlagPos.put("PARTICLE_CATEGORY", 1);
     mapFlagPos.put("PARTICLE_OPTION", 2);
+    mapFlagPos.put("PARTICLE_CONJ", 8);
+    mapFlagPos.put("PARTICLE_JAR", 9);
     mapFlagPos.put("PARTICLE_PRONOUN", 10);
   }
 
@@ -613,6 +632,32 @@ public class ArabicTagManager {
       pos = 0;
     }
     return pos;
+  }
+
+  /* remove procletic flags in a given postag*/
+
+  public String setProcleticFlags(String postag) {
+    if (postag.isEmpty())
+      return "";
+    String newposTag = postag;
+    if (isVerb(postag)) {
+      newposTag = setFlag(newposTag, "CONJ", '-');
+      newposTag = setFlag(newposTag, "ISTIQBAL", '-');
+    } else if (isNoun(postag)) {
+      newposTag = setFlag(newposTag, "CONJ", '-');
+      newposTag = setFlag(newposTag, "JAR", '-');
+      // if the word is a definated word, set the definition flag
+      if (isDefinite(postag)) {
+        newposTag = setFlag(newposTag, "PRONOUN", '-');
+      }
+    } else if (isStopWord(postag)) {
+      newposTag = setFlag(newposTag, "CONJ", '-');
+      newposTag = setFlag(newposTag, "JAR", '-');
+    } else {
+      return postag;
+    }
+    return newposTag;
+
   }
 
 }

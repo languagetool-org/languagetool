@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagManager;
+import org.languagetool.tagging.ar.ArabicTagger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
   private static final String TAGS_FILE_NAME = "/ar/arabic_tags.txt";
 
   private final ArabicTagManager tagmanager = new ArabicTagManager();
+  private final ArabicTagger tagger = new ArabicTagger();
 
   public static final ArabicSynthesizer INSTANCE = new ArabicSynthesizer();
 
@@ -77,19 +79,14 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     List<String> wordForms = new ArrayList<>();
     String stem;
     for (WordData wd : wordData) {
-      // ajust some stems
+      // adjust some stems
       stem = correctStem(wd.getStem().toString(), posTag);
       wordForms.add(stem);
     }
     return wordForms.toArray(new String[0]);
   }
 
-  /**
-   * Special English regexp based synthesizer that allows adding articles
-   * when the regexp-based tag ends with a special signature {@code \\+INDT} or {@code \\+DT}.
-   *
-   * @since 2.5
-   */
+
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag,
                              boolean posTagRegExp) throws IOException {
@@ -106,8 +103,8 @@ public class ArabicSynthesizer extends BaseSynthesizer {
         Matcher m = p.matcher(tag);
         if (m.matches() && token.getLemma() != null) {
           // local result
-          List<String> result_one = lookup(token.getLemma(), tag);
-          for (String wd : result_one) {
+          List<String> resultOne = lookup(token.getLemma(), tag);
+          for (String wd : resultOne) {
             // adjust some stems according to original postag
             stem = correctStem(wd, posTag);
             results.add(stem);
@@ -126,7 +123,9 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
   public String correctTag(String postag) {
     String mypostag = postag;
-    if (postag == null) return null;
+    if (postag == null) {
+      return null;
+    }
     // remove attached pronouns
     mypostag = tagmanager.setConjunction(mypostag, "-");
 
@@ -147,31 +146,104 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
   /* correct stem to generate stems to be attached with pronouns  */
   public String correctStem(String stem, String postag) {
-    String correct_stem = stem;
+    String correctStem = stem;
     if (postag == null) return stem;
     if (tagmanager.isAttached(postag)) {
-      correct_stem = correct_stem.replaceAll("ه$", "");
+      correctStem = correctStem.replaceAll("ه$", "");
     }
 
     if (tagmanager.isDefinite(postag)) {
       String prefix = tagmanager.getDefinitePrefix(postag);// can handle ال & لل
-      correct_stem = prefix + correct_stem;
+      correctStem = prefix + correctStem;
     }
     if (tagmanager.hasJar(postag)) {
       String prefix = tagmanager.getJarPrefix(postag);
-      correct_stem = prefix + correct_stem;
+      correctStem = prefix + correctStem;
     }
     if (tagmanager.hasConjunction(postag)) {
       String prefix = tagmanager.getConjunctionPrefix(postag);
-      correct_stem = prefix + correct_stem;
+      correctStem = prefix + correctStem;
 
     }
-    return correct_stem;
+    return correctStem;
   }
 
+  /**
+   * @return set a new enclitic for the given word,
+   */
+  public String setEnclitic(AnalyzedToken token, String suffix) {
+    List<String> wordlist = setEncliticMultiple(token, suffix);
+    return wordlist.get(0);
+  }
+
+  public List<String> setEncliticMultiple(AnalyzedToken token, String suffix) {
+    // if the suffix is not empty
+    // save procletic
+    // ajust postag to get synthesed words
+    // set enclitic flag
+    // synthesis => lookup for stems with similar postag and has enclitic flag
+    // Add procletic and enclitic to stem
+    // return new word list
+    String postag = token.getPOSTag();
+    String word = token.getToken();
+
+    List<String> defaultWordlist = new ArrayList<String>();
+    defaultWordlist.add("(" + word + ")");
+    if (postag.isEmpty()) {
+      return defaultWordlist;
+    }
+    List<String> wordlist = new ArrayList<String>();
+    /* The flag is by defaul equal to '-' , if suffix => "H" */
+    char flag = (suffix.isEmpty()) ? '-' : 'H';
+    // save procletic
+    String procletic = tagger.getProclitic(token);
+    // set enclitic flag
+    String newposTag = tagmanager.setFlag(postag, "PRONOUN", flag);
+    //adjust procletics
+    newposTag = tagmanager.setProcleticFlags(newposTag);
+    // synthesis => lookup for stems with similar postag and has enclitic flag
+    String lemma = token.getLemma();
+    AnalyzedToken newToken = new AnalyzedToken(lemma, newposTag, lemma);
+    String[] newwordList = synthesize(newToken, newposTag);
+
+    String stem = "";
+    if (newwordList.length != 0) {
+      String newWord = "";
+      for (int i = 0; i < newwordList.length; i++) {
+        stem = newwordList[i];
+        // We replace the Heh, because the Tag dictionary represent only Heh Pronouns, for reason of compressin
+        // the other pronoun suffix are added by tagger or synthesizer
+        if (tagmanager.hasPronoun(newposTag) && flag == 'H') {
+          if (stem.endsWith("ي")) {
+            // if the stem is ended by Yeh for 1st person pronoun
+            // if suffix is Yeh pronoun, ignore suffix
+            // else ignore stem
+            if (suffix.equals("ي"))
+              newWord = procletic + stem;
+            else
+              newWord = "";
+          } else if (stem.endsWith("ه")) {
+            stem = stem.replaceAll("ه$", "");
+            newWord = procletic + stem + suffix;
+          } else {
+            newWord = procletic + stem + suffix;
+          }
+        } else
+          newWord = procletic + stem;
+
+        if (!newWord.isEmpty())
+          wordlist.add(newWord);
+      }
+    } else // no word generated
+    {
+      stem = "(" + word + ")";
+      wordlist.add(stem);
+    }
+
+    if (wordlist.isEmpty()) {
+      return defaultWordlist;
+    }
+    return wordlist;
+  }
 
 }
-
-
-
-
