@@ -34788,6 +34788,21 @@ regexp case-insensitive maken: (?i)
                 <example correction="Ja, hoor"><marker>Ja hoor</marker>!</example>
             </rule>
         </rulegroup>
+        <rulegroup id="KOMMA_HE" name=", hè." default="temp_off">
+            <rule>
+                <pattern>
+                    <token/>
+                    <token/>
+                    <marker>
+                        <token><exception>,</exception></token>
+                        <token regexp="yes">h[eè]</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Er werd een komma verwacht: <suggestion>\3, hè</suggestion>.</message>
+                <example correction="ook, hè">Ik <marker>ook he</marker>?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EN_EN_EN" name="En … en … en …" tags="picky">
             <!-- bron: Onze Taal via Woordpost 2014-08-27 -->
             <rule default="off">
