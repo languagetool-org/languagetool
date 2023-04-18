@@ -24,13 +24,19 @@ USA
 -->
 <rules premium="yes" lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="style rules" type="style">
-        <rule id="REMOVEME_RULE2" name="test rule" default="off">
+        <!-- VELHA ESCOLA velha guarda -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-27 (21-OCT-2020+)     -->
+        <rule id='VELHA_ESCOLA_VELHA_GUARDA' name="Velha escola → Velha guarda">
             <pattern>
-                <token>realizaaar</token>
+                <token inflected='yes'>ser</token>
+                <token>da</token>
+                <token>velha</token>
+                <marker>
+                    <token>escola</token>
+                </marker>
             </pattern>
-            <message>Test rule.</message>
-            <suggestion>realizar</suggestion>
-            <example correction="realizar"><marker>realizaaar</marker></example>
+            <message>Se for uma frase idiomática, utilize <suggestion>guarda</suggestion>.</message>
+            <example correction="guarda">O Rui é da velha <marker>escola</marker>.</example>
         </rule>
     </category>
 </rules>
