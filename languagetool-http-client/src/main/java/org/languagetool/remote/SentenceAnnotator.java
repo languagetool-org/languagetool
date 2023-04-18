@@ -96,7 +96,8 @@ public class SentenceAnnotator {
         System.out.println("---------------------------------------------");
         if (match != null) {
           System.out.println(match.getMessage());
-          detectedErrorStr = sentence.substring(match.getErrorOffset(), match.getErrorOffset() + match.getErrorLength());
+          detectedErrorStr = sentence.substring(match.getErrorOffset(),
+              match.getErrorOffset() + match.getErrorLength());
         }
         System.out.println(listSuggestions(match));
         System.out.println("---------------------------------------------");
@@ -145,10 +146,11 @@ public class SentenceAnnotator {
           }
           int r = Integer.valueOf(response);
           if (match != null && r >= 1 && r <= 5) {
+            formattedCorrectedSentence = formattedCorrectedSentence(sentence, match, r);
             sentence = replaceSuggestion(sentence, match, r);
             suggestionPos = r;
             suggestionApplied = match.getReplacements().get().get(suggestionPos - 1);
-            formattedCorrectedSentence = formattedCorrectedSentence(sentence, match, r);
+
           }
           break;
         }
@@ -156,10 +158,10 @@ public class SentenceAnnotator {
           break;
         }
         if (response.startsWith(">>")) { // alternative suggestion
-          sentence = sentence.substring(0, match.getErrorOffset()) + response.substring(2)
-              + sentence.substring(match.getErrorOffset() + match.getErrorLength());
           formattedCorrectedSentence = sentence.substring(0, match.getErrorOffset()) + "___" + response.substring(2)
               + "___" + sentence.substring(match.getErrorOffset() + match.getErrorLength());
+          sentence = sentence.substring(0, match.getErrorOffset()) + response.substring(2)
+              + sentence.substring(match.getErrorOffset() + match.getErrorLength());
           errorType = "TPwrong";
           suggestionApplied = response.substring(2);
         } else if (response.contains(">>")) {
