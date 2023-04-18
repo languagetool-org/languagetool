@@ -33664,6 +33664,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://es.wikipedia.org/wiki/Scarlett_Johansson</url>
                 <example correction="Scarlett Johansson"><marker>Scarlet Johanson</marker></example>
             </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token>Primo</token>
+                    <token>de</token>
+                    <token>Rivera</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>PRIMO</token>
+                    <token>DE</token>
+                    <token>RIVERA</token>
+                </antipattern>
+                <pattern>
+                    <token>primo</token>
+                    <token min="0">de</token>
+                    <token regexp="yes">rivera|ribera</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>Primo de Rivera</suggestion> (dictador y militar español)?</message>
+                <url>https://es.wikipedia.org/wiki/Miguel_Primo_de_Rivera</url>
+                <example correction="Primo de Rivera"><marker>Primo de ribera</marker>.</example>
+            </rule>
         </rulegroup>
     </category>
 </rules>
