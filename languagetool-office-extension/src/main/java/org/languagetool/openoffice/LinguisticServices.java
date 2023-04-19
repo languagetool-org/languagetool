@@ -438,7 +438,7 @@ public class LinguisticServices extends LinguServices {
   /**
    * Set LT as spell checker for all supported languages
    * is normally used deactivate lightproof 
-   */
+   *//*
   public static boolean setLtAsSpellService(XComponentContext xContext, boolean doSet) {
     if ((doSet && spellerIsOn) || (!doSet && !spellerIsOn)) {
       return false;
@@ -478,11 +478,11 @@ public class LinguisticServices extends LinguServices {
         mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
         MessageHandler.printToLogFile("LT set as configured Service for Language: " + OfficeTools.localeToString(locale));
       }
-*/      
+*//*      
     }
     return true;
   }
-
+*/
   /**
    * Set a thesaurus relevant rule
    */
