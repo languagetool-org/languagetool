@@ -23,12 +23,10 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SimpleReplaceDataLoader;
-import org.languagetool.rules.ar.ArabicWordinessRule;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tagging.ar.ArabicTagger;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,22 +47,23 @@ public class ArabicMasdarToVerbFilterTest {
 
   @Test
   public void testFilter() throws IOException {
-    assertSuggestion("عمل", "يعمل", false);
-    assertSuggestion("إعمال", "يعمل", false);
-    assertSuggestion("سؤال", "يسأل", false);
-    assertSuggestion("أكل", "يأكل", false);
+    assertSuggestion("عمل", "يعمل");
+    assertSuggestion("إعمال", "يعمل");
+    assertSuggestion("سؤال", "يسأل");
+    assertSuggestion("أكل", "يأكل");
   }
 
-  private void assertSuggestion(String word, String expectedSuggestion, boolean debug) throws IOException {
+  private void assertSuggestion(String word, String expectedSuggestion) throws IOException {
     String word1 = "يقوم";
     String word2 = "بال" + word;
     Map<String, String> args = new HashMap<>();
     args.put("verb", word1);
     args.put("noun", word2);
     List<AnalyzedTokenReadings> patternTokens = tagger.tag(asList(word1, word2));
-    AnalyzedTokenReadings[] patternTokensArray = patternTokens.stream().toArray(AnalyzedTokenReadings[]::new);
+    AnalyzedTokenReadings[] patternTokensArray = patternTokens.toArray(new AnalyzedTokenReadings[0]);
     RuleMatch ruleMatch = filter.acceptRuleMatch(match, args, -1, patternTokensArray);
 
+    assertThat(ruleMatch, notNullValue());
     assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
     assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
   }

@@ -72,10 +72,10 @@ public class ArabicDateCheckFilterTest {
   @Test
   public void testGetDayOfWeek2() {
     Calendar calendar = Calendar.getInstance();
-    calendar.set(2022, 3 - 1, 25);
+    calendar.set(2022, Calendar.MARCH, 25);
     assertThat(filter.getDayOfWeek(calendar), is("الجمعة"));
-    calendar.set(2022, 3 - 1, 26);
 
+    calendar.set(2022, Calendar.MARCH, 26);
     assertThat(filter.getDayOfWeek(calendar), is("السبت"));
   }
 
