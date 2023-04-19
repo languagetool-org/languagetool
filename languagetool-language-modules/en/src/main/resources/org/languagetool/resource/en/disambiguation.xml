@@ -955,17 +955,36 @@
       <example type="ambiguous" inputform="Out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="Out[out/UH]"><marker>Out</marker>!</example>
     </rule>
 
-      <rule id="OUT_not_VERB" name="VB_OUT => not a verb">
-          <pattern>
-            <token postag="VB.*" postag_regexp="yes"/>
-            <marker>
-                <token postag="VB.*" postag_regexp="yes">out</token>
-            </marker>
-          </pattern>
-          <disambig action="filter" postag="[IN]N|R[BP]|UH"/>
-          <example type="untouched">He always left himself an out.</example>
-          <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]">Go <marker>out</marker>!</example>
-      </rule>
+      <rulegroup id="OUT_not_VERB" name="VB_OUT => not a verb">
+        <rule>
+            <pattern>
+                <token postag="VB.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="VB.*" postag_regexp="yes">out</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[IN]N|R[BP]|UH"/>
+            <example type="untouched">He always left himself an out.</example>
+            <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]">Go <marker>out</marker>!</example>
+        </rule>
+        <rule><!-- out of order -->
+            <antipattern>
+                <token postag="MD" />
+                <token inflected="yes" min="0">not</token>
+                <token>out</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>out</token>
+                </marker>
+                <token>of</token>
+                <token chunk_re=".-NP.*">
+                    <exception>course</exception>
+                </token>
+            </pattern>
+            <disambig action="remove" postag="VB.*"/>
+        </rule>
+    </rulegroup>
 
         <rule id="EXCEPT_NOT_VERB" name="VB_EXCEPT => not a verb">
           <pattern>
@@ -1380,7 +1399,7 @@
         <token postag="NN.*" postag_regexp="yes"/>
         </pattern>
         <disambig postag="IN"/>
-        <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH,out/VB,out/VBP]" outputform="out[out/IN]">It's all <marker>out</marker> of kilter.</example>
+        <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]" outputform="out[out/IN]">It's all <marker>out</marker> of kilter.</example>
       </rule>
     </rulegroup>
 
