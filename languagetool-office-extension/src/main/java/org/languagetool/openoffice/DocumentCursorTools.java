@@ -81,15 +81,24 @@ class DocumentCursorTools {
   
   private boolean isCheckedSortedTextId = false;
   private boolean hasSortedTextId = false;
+  private boolean isDisposed = false;
 
   private XParagraphCursor xPCursor;
   private XTextCursor xTextCursor;
   private XTextDocument curDoc;
   
   DocumentCursorTools(XComponent xComponent) {
-    curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-    xTextCursor = getCursor(xComponent);
-    xPCursor = getParagraphCursor(xComponent);
+    isBusy++;
+    try {
+      if (!isDisposed) {
+        curDoc = UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+        OfficeTools.waitForLtDictionary();
+        xTextCursor = getCursor(xComponent);
+        xPCursor = getParagraphCursor(xComponent);
+      }
+    } finally {
+      isBusy--;
+    }
   }
   
   /**
@@ -99,6 +108,7 @@ class DocumentCursorTools {
     xPCursor = null;
     xTextCursor = null;
     curDoc = null;
+    isDisposed = true;
   }
 
   /** 
@@ -452,16 +462,37 @@ class DocumentCursorTools {
   }
   
   /** 
+   * get all paragraphs as a list of strings
+   */
+  private List<String> getAllParagraphsOfText(XText xText) {
+    XTextCursor xTextCursor = xText.createTextCursor();
+    XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
+    List<String> sText = new ArrayList<String>();
+    if (xParagraphCursor == null) {
+      return sText;
+    }
+    xParagraphCursor.gotoStart(false);
+    do {
+      xParagraphCursor.gotoStartOfParagraph(false);
+      xParagraphCursor.gotoEndOfParagraph(true);
+      sText.add(new String(xParagraphCursor.getString()));
+    } while (xParagraphCursor.gotoNextParagraph(false));
+    return sText;
+  }
+  
+  /** 
    * Get the number of all paragraphs of XText
    */
   private static int getNumberOfAllParagraphsOfText(XText xText) {
     int num = 0;
     XTextCursor xTextCursor = xText.createTextCursor();
     XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(XParagraphCursor.class, xTextCursor);
-    xParagraphCursor.gotoStart(false);
-    do {
-      num++;
-    } while (xParagraphCursor.gotoNextParagraph(false));
+    if (xParagraphCursor != null) {
+      xParagraphCursor.gotoStart(false);
+      do {
+        num++;
+      } while (xParagraphCursor.gotoNextParagraph(false));
+    }
     return num;
   }
   
@@ -569,6 +600,51 @@ class DocumentCursorTools {
   }
   
   /** 
+   * Returns all paragraphs of all text shapes of a document
+   */
+  public List<String> getTextOfShapes(List<Integer> nPara) {
+    isBusy++;
+    try {
+      List<String> sText = new ArrayList<String>();
+      XDrawPageSupplier xDrawPageSupplier = UnoRuntime.queryInterface(XDrawPageSupplier.class, curDoc);
+      if (xDrawPageSupplier == null) {
+        MessageHandler.printToLogFile("XDrawPageSupplier == null");
+        return sText;
+      }
+      XDrawPage xDrawPage = xDrawPageSupplier.getDrawPage();
+      if (xDrawPage == null) {
+        MessageHandler.printToLogFile("XDrawPage == null");
+        return sText;
+      }
+      XShapes xShapes = UnoRuntime.queryInterface(XShapes.class, xDrawPage);
+      int nShapes = xShapes.getCount();
+      int num = 0;
+      for(int j = 0; j < nShapes; j++) {
+        Object oShape = xShapes.getByIndex(j);
+        XShape xShape = UnoRuntime.queryInterface(XShape.class, oShape);
+        if (xShape != null) {
+          XText xShapeText = UnoRuntime.queryInterface(XText.class, xShape);
+          if (xShapeText != null) {
+            List<String> tmpText = getAllParagraphsOfText(xShapeText);
+            for(String text : tmpText) {
+              if (nPara.contains(num)) {
+                sText.add(text);
+              }
+              num++;
+            }
+          }
+        }
+      }
+      return sText;
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
+      return null;           // Return null as method failed
+    } finally {
+      isBusy--;
+    }
+  }
+  
+  /** 
    * Returns the number of all paragraphs of all text shapes of a document
    */
   public int getNumberOfAllShapes() {
@@ -650,6 +726,42 @@ class DocumentCursorTools {
         }
       }
       return new DocumentText(sText, headingNumbers, new ArrayList<Integer>(), sortedTextIds, deletedCharacters);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
+      return null;           // Return null as method failed
+    } finally {
+      isBusy--;
+    }
+  }
+  
+  /** 
+   * Returns n paragraphs of tables
+   * Note: nPara stores the numbers of textparagraphs
+   */
+  public List<String> getTextOfTables(List<Integer> nPara) {
+    isBusy++;
+    try {
+      List<String> sText = new ArrayList<String>();
+      XIndexAccess xTables = getIndexAccessOfAllTables();
+      if (xTables != null) {
+        // Get all Tables of Document
+        int num = 0;
+        for (int i = 0; i < xTables.getCount(); i++) {
+          XTextTable xTable = UnoRuntime.queryInterface(XTextTable.class, xTables.getByIndex(i));
+          // Get all Cells of Tables
+          for (String cellName : xTable.getCellNames()) {
+            XText xTableText = UnoRuntime.queryInterface(XText.class, xTable.getCellByName(cellName) );
+            List<String> tmpText = getAllParagraphsOfText(xTableText);
+            for(String text : tmpText) {
+              if (nPara.contains(num)) {
+                sText.add(text);
+              }
+              num++;
+            }
+          }
+        }
+      }
+      return sText;
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught and printed to log file
       return null;           // Return null as method failed

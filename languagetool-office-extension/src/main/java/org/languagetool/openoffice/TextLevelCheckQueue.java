@@ -41,6 +41,7 @@ public class TextLevelCheckQueue {
   public static final int DISPOSE_FLAG = 3;
 
   private static final int HEAP_CHECK_INTERVAL = 50;
+  private static final int MAX_CHECK_PER_THREAD = 50;
 
   private List<QueueEntry> textRuleQueue = Collections.synchronizedList(new ArrayList<QueueEntry>());  //  Queue to check text rules in a separate thread
 //  private Object queueWakeup = new Object();
@@ -198,6 +199,7 @@ public class TextLevelCheckQueue {
       if (debugMode) {
         MessageHandler.printToLogFile("TextLevelCheckQueue: setReset: reset queue");
       }
+      textRuleQueue.clear();
       textRuleQueue.add(queueEntry);
     }
     wakeupQueue();
@@ -478,6 +480,7 @@ public class TextLevelCheckQueue {
   private class QueueIterator extends Thread {
     
     private SwJLanguageTool lt;
+    private int numCheck = 0;
 
       
     public QueueIterator() {
@@ -509,7 +512,7 @@ public class TextLevelCheckQueue {
         if (debugMode) {
           MessageHandler.printToLogFile("TextLevelCheckQueue: run: queue started");
         }
-        for (;;) {
+        while (numCheck < MAX_CHECK_PER_THREAD) {
 //          queueWaits = false;
           if (interruptCheck) {
             MessageHandler.printToLogFile("TextLevelCheckQueue: run: Interrupt check - queue ended");
@@ -599,14 +602,20 @@ public class TextLevelCheckQueue {
                   lastStart = null;
                   lastEnd = null;
                   lastLanguage = null;
-//                  queueWaits = true;
+                  queueIterator = null;
                   interruptCheck = false;
+//                  queueWaits = true;
 //                  queueWakeup.wait();
-                  continue;
+//                  continue;
+                  queueRuns = false;
+                  queueIterator = null;
+                  multiDocHandler.resetResultCaches(false);
+                  return;
                 } catch (Throwable e) {
                   MessageHandler.showError(e);
                   queueRuns = false;
                   queueIterator = null;
+                  wakeupQueue();
                   return;
                 }
 //              }
@@ -659,6 +668,7 @@ public class TextLevelCheckQueue {
                   MessageHandler.printToLogFile("TextLevelCheckQueue: run: entryLanguage == null: lt set to null"); 
                 }
                 if (!interruptCheck) {
+                  numCheck++;
                   runQueueEntry(queueEntry, multiDocHandler, entryLanguage == null ? null : lt);
                 }
                 queueEntry = null;
@@ -684,6 +694,11 @@ public class TextLevelCheckQueue {
         MessageHandler.showError(e);
         queueRuns = false;
         queueIterator = null;
+      }
+      queueRuns = false;
+      queueIterator = null;
+      if (numCheck >= MAX_CHECK_PER_THREAD) {
+        wakeupQueue();
       }
     }
     

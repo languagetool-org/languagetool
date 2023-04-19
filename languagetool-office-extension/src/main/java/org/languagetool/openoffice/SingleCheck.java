@@ -375,13 +375,17 @@ class SingleCheck {
           }
         }
       }
-      DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
-      if (docCursor != null) {
-        docCursor.removeMarks(changedTextParas);
+      if (!isDisposed()) {
+        DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
+        if (docCursor != null) {
+          docCursor.removeMarks(changedTextParas);
+        }
       }
-      FlatParagraphTools flatPara = singleDocument.getFlatParagraphTools();
-      if (flatPara != null) {
-        flatPara.markParagraphs(changedParasMap);
+      if (!isDisposed()) {
+        FlatParagraphTools flatPara = singleDocument.getFlatParagraphTools();
+        if (flatPara != null) {
+          flatPara.markParagraphs(changedParasMap);
+        }
       }
     }
   }
@@ -461,7 +465,7 @@ class SingleCheck {
       return pErrors;
     }
     TextParagraph nTParas = paraNum < 0 ? null : docCache.getNumberOfTextParagraph(paraNum);
-    if (nTParas == null || nTParas.type == DocumentCache.CURSOR_TYPE_UNKNOWN) {
+    if (nTParas == null || nTParas.type == DocumentCache.CURSOR_TYPE_UNKNOWN || docCache.isSingleParagraph(paraNum)) {
       pErrors.add(checkParaRules(paraText, locale, footnotePos, paraNum, startSentencePos, lt, 0, 0, textIsChanged, isIntern));
     } else {
       //  Real full text check / numParas < 0
@@ -570,7 +574,8 @@ class SingleCheck {
         lastSinglePara = paraText;
       }
       // return Cache result if available / for right mouse click or Dialog only use cache
-      boolean isTextParagraph = nFPara >= 0 && docCache != null && docCache.getNumberOfTextParagraph(nFPara).type != DocumentCache.CURSOR_TYPE_UNKNOWN;
+      boolean isTextParagraph = nFPara >= 0 && docCache != null && docCache.getNumberOfTextParagraph(nFPara).type != DocumentCache.CURSOR_TYPE_UNKNOWN
+          && !docCache.isSingleParagraph(nFPara);
       if (nFPara >= 0 && (pErrors != null || isMouseRequest || (useQueue && !isDialogRequest && parasToCheck != 0))) {
         if (useQueue && pErrors == null && parasToCheck != 0 && isTextParagraph) {
           singleDocument.addQueueEntry(nFPara, cacheNum, parasToCheck, singleDocument.getDocID(), textIsChanged, textIsChanged);

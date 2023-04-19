@@ -50,6 +50,7 @@ import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XMultiServiceFactory;
+import com.sun.star.linguistic2.XProofreadingIterator;
 import com.sun.star.linguistic2.XSearchableDictionaryList;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.ui.XUIElement;
@@ -128,10 +129,14 @@ class OfficeTools {
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
   
+  private static final long KEY_RELEASE_TOLERANCE = 500;
+
   private static final double LT_HEAP_LIMIT_FACTOR = 0.9;
   private static double MAX_HEAP_SPACE = -1;
   private static double LT_HEAP_LIMIT = -1;
 
+  private static long lastKeyRelease = 0;
+  
   /**
    * Returns the XDesktop
    * Returns null if it fails
@@ -227,6 +232,32 @@ class OfficeTools {
         return null;
       }
       return UnoRuntime.queryInterface(XSearchableDictionaryList.class, dictionaryList);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;           // Return null as method failed
+    }
+  }
+
+  /**
+   * Returns the searchable dictionary list
+   * Returns null if it fails
+   */
+  @Nullable
+  static XProofreadingIterator getProofreadingIterator(XComponentContext xContext) {
+    try {
+      if (xContext == null) {
+        return null;
+      }
+      XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
+              xContext.getServiceManager());
+      if (xMCF == null) {
+        return null;
+      }
+      Object proofreadingIterator = xMCF.createInstanceWithContext("com.sun.star.linguistic2.ProofreadingIterator", xContext);
+      if (proofreadingIterator == null) {
+        return null;
+      }
+      return UnoRuntime.queryInterface(XProofreadingIterator.class, proofreadingIterator);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -636,8 +667,37 @@ class OfficeTools {
     return false;
   }
   
+  /**
+   * timestamp for last key release
+   *//*
+  public static void setKeyReleaseTime(long time) {
+    lastKeyRelease = time;
+  }
+*/
   public static void waitForLO() {
     while (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy()) {
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+        MessageHandler.printException(e);
+      }
+    }
+  }
+/*  
+  public static void waitForLoDic() {
+    long spellDiff = KEY_RELEASE_TOLERANCE - System.currentTimeMillis() + lastKeyRelease;
+    while (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy() || spellDiff > 0) {
+      try {
+        Thread.sleep(spellDiff < 10 ? 10 : spellDiff);
+      } catch (InterruptedException e) {
+        MessageHandler.printException(e);
+      }
+      spellDiff = KEY_RELEASE_TOLERANCE - System.currentTimeMillis() + lastKeyRelease;
+    }
+  }
+*/  
+  public static void waitForLtDictionary() {
+    while (LtDictionary.isActivating()) {
       try {
         Thread.sleep(10);
       } catch (InterruptedException e) {

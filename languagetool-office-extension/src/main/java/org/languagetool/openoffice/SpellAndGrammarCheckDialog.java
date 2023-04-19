@@ -240,7 +240,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
           }
         }
         if (!isSame) {
-          document.resetResultCache();
+          document.resetResultCache(true);
         }
       }
     }
@@ -301,12 +301,13 @@ public class SpellAndGrammarCheckDialog extends Thread {
           for (ResultCache cache : document.getParagraphsCache()) {
             cache.removeAndShift(from, to, oldCache.size(), docCache.size());
           }
+          for (int i = from; i < to; i++) {
+            document.removeResultCache(i, true);
+          }
         } else {
           for (int i = 0; i < docCache.size(); i++) {
             if (!docCache.getFlatParagraph(i).equals(oldCache.getFlatParagraph(i))) {
-              for (ResultCache cache : document.getParagraphsCache()) {
-                cache.remove(i);
-              }
+              document.removeResultCache(i, true);
             }
           }
         }
@@ -448,7 +449,8 @@ public class SpellAndGrammarCheckDialog extends Thread {
       document.getFlatParagraphTools().changeTextOfParagraph(nFPara, nStart, nLength, replace);
     }
     docCache.setFlatParagraph(nFPara, sPara);
-    document.removeResultCache(nFPara);
+//    document.getMultiDocumentsHandler().handleLtDictionary(sPara, docCache.getFlatParagraphLocale(nFPara));
+    document.removeResultCache(nFPara, true);
     document.removeIgnoredMatch(nFPara, true);
     if (documents.getConfiguration().useTextLevelQueue() && !documents.getConfiguration().noBackgroundCheck()) {
       for (int i = 1; i < documents.getNumMinToCheckParas().size(); i++) {
@@ -590,7 +592,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
     if (doInit || !langForShortName.equals(lastLanguage) || !documents.isCheckImpressDocument()) {
       lastLanguage = langForShortName;
       setLangTool(documents, lastLanguage);
-      document.removeResultCache(nFPara);
+      document.removeResultCache(nFPara, true);
     }
     int lastSentenceStart = -1;
     while (paRes.nStartOfNextSentencePosition < text.length() && paRes.nStartOfNextSentencePosition != lastSentenceStart) {
@@ -902,7 +904,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
                     String selectedLang = (String) language.getSelectedItem();
                     locale = getLocaleFromLanguageName(selectedLang);
                     flatPara = currentDocument.getFlatParagraphTools();
-                    currentDocument.removeResultCache(y);
+                    currentDocument.removeResultCache(y, true);
                     if (changeLanguage.getSelectedIndex() == 1) {
                       if (docType == DocumentType.IMPRESS) {
                         OfficeDrawTools.setLanguageOfParagraph(y, error.nErrorStart, error.nErrorLength, locale, currentDocument.getXComponent());
@@ -2630,12 +2632,12 @@ public class SpellAndGrammarCheckDialog extends Thread {
             doInit = true;
           }
         } else if (action.equals("deactivateRule")) {
-          currentDocument.removeResultCache(yUndo);
+          currentDocument.removeResultCache(yUndo, true);
           Locale locale = docCache.getFlatParagraphLocale(yUndo);
           documents.deactivateRule(lastUndo.ruleId, OfficeTools.localeToString(locale), true);
           doInit = true;
         } else if (action.equals("activateRule")) {
-          currentDocument.removeResultCache(yUndo);
+          currentDocument.removeResultCache(yUndo,true);
           Locale locale = docCache.getFlatParagraphLocale(yUndo);
           documents.deactivateRule(lastUndo.ruleId, OfficeTools.localeToString(locale), false);
           doInit = true;
@@ -2665,7 +2667,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
               curDocCache.setFlatParagraphLocale(nFlat, locale);
             }
           }
-          currentDocument.removeResultCache(nFlat);
+          currentDocument.removeResultCache(nFlat,true);
         } else if (action.equals("change")) {
           Map<Integer, List<Integer>> paras = lastUndo.orgParas;
           short length = (short) lastUndo.ruleId.length();
@@ -2688,7 +2690,7 @@ public class SpellAndGrammarCheckDialog extends Thread {
                 changeTextOfParagraph(nFlat, xStart, length, lastUndo.word, currentDocument, viewCursor);
               }
             }
-            currentDocument.removeResultCache(nFlat);
+            currentDocument.removeResultCache(nFlat, true);
           }
         } else {
           MessageHandler.showMessage("Undo '" + action + "' not supported");

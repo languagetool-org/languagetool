@@ -45,10 +45,14 @@ import com.sun.star.document.XDocumentEventListener;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
+import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
+import com.sun.star.linguistic2.XProofreadingIterator;
+import com.sun.star.text.XFlatParagraphIteratorProvider;
+import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -93,7 +97,7 @@ class SingleDocument {
 //  private ViewCursorTools viewCursor = null;      //  Get the view cursor for desktop
   private FlatParagraphTools flatPara = null;     //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
   private Integer numLastVCPara = 0;              //  Save position of ViewCursor for the single documents
-  private Integer numLastFlPara = -1;             //  Save position of FlatParagraph for the single documents
+  private final List<Integer> numLastFlPara;      //  Save position of FlatParagraph for the single documents
   private CacheIO cacheIO;
   private int changeFrom = 0;                     //  Change result cache from paragraph
   private int changeTo = 0;                       //  Change result cache to paragraph
@@ -117,6 +121,10 @@ class SingleDocument {
 
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
       XComponent xComp, MultiDocumentsHandler mDH) {
+    numLastFlPara = new ArrayList<>();
+    for (int i = 0; i < DocumentCache.NUMBER_CURSOR_TYPES + 1; i++) {
+      numLastFlPara.add(-1);
+    }
     debugMode = OfficeTools.DEBUG_MODE_SD;
     debugModeTm = OfficeTools.DEBUG_MODE_TM;
     if (!OfficeTools.DEVELOP_MODE_ST) {
@@ -145,7 +153,7 @@ class SingleDocument {
     if (config != null) {
       setConfigValues(config);
     }
-    resetResultCache();
+    resetResultCache(true);
     ignoredMatches = new IgnoredMatches();
     permanentIgnoredMatches = new IgnoredMatches();
     docCache = new DocumentCache(docType);
@@ -250,7 +258,7 @@ class SingleDocument {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
           docLanguage, ignoredMatches, permanentIgnoredMatches, numParasToCheck, true, isMouseRequest, false);
       paRes.aErrors = singleCheck.checkParaRules(paraText, locale, footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false);
-      docCursor = null;
+//      docCursor = null;
 //      viewCursor = null;
       return paRes;
     }
@@ -261,12 +269,12 @@ class SingleDocument {
       if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
         MessageHandler.printToLogFile("SingleDocument: getCheckResults: is resetDocCache");
       }
-//      if (docCursor == null) {
-//        if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
-//          MessageHandler.printToLogFile("SingleDocument: getCheckResults: get docCursor");
-//        }
-//        docCursor = getDocumentCursorTools();
-//      }
+      if (docCursor == null) {
+        if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
+          MessageHandler.printToLogFile("SingleDocument: getCheckResults: get docCursor");
+        }
+        docCursor = getDocumentCursorTools();
+      }
       if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
         MessageHandler.printToLogFile("SingleDocument: getCheckResults: refresh docCache");
       }
@@ -324,7 +332,7 @@ class SingleDocument {
 //      viewCursor = requestAnalysis.getViewCursorTools();
       changeFrom = requestAnalysis.getFirstParagraphToChange();
       changeTo = requestAnalysis.getLastParagraphToChange();
-      numLastFlPara = requestAnalysis.getLastParaNumFromFlatParagraph();
+//      numLastFlPara = requestAnalysis.getLastParaNumFromFlatParagraph();
       numLastVCPara = requestAnalysis.getLastParaNumFromViewCursor();
       boolean textIsChanged = requestAnalysis.textIsChanged();
       
@@ -372,7 +380,7 @@ class SingleDocument {
     if (ltMenus == null && docType == DocumentType.WRITER && paraText.length() > 0) {
       ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
     }
-    docCursor = null;
+ //   docCursor = null;
  //   viewCursor = null;
     return paRes;
   }
@@ -613,8 +621,8 @@ class SingleDocument {
   /** 
    * Reset all caches of the document
    */
-  void resetResultCache() {
-    for (int i = 0; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
+  void resetResultCache(boolean withSingleParagraph) {
+    for (int i = withSingleParagraph ? 0 : 1; i < OfficeTools.NUMBER_TEXTLEVEL_CACHE; i++) {
       paragraphsCache.get(i).removeAll();
     }
   }
@@ -622,9 +630,17 @@ class SingleDocument {
   /**
    * remove all cached matches for one paragraph
    */
-  public void removeResultCache(int nPara) {
-    for (ResultCache cache : paragraphsCache) {
-      cache.remove(nPara);
+  public void removeResultCache(int nPara, boolean alsoParaLevel) {
+    if (!isDisposed()) {
+      if (alsoParaLevel) {
+        paragraphsCache.get(0).remove(nPara);
+      }
+      if (!docCache.setSingleParagraphsCacheToNull(nPara, paragraphsCache)) {
+        //  NOTE: Don't remove paragraph cache 0. It is needed to set correct markups
+        for (int i = 1; i < paragraphsCache.size(); i++) {
+          paragraphsCache.get(i).remove(nPara);
+        }
+      }
     }
   }
   
@@ -668,13 +684,14 @@ class SingleDocument {
     }
     return flatPara;
   }
-  
+
   /**
    * Add an new entry to text level queue
    * nFPara is number of flat paragraph
    */
   public void addQueueEntry(int nFPara, int nCache, int nCheck, String docId, boolean checkOnlyParagraph, boolean overrideRunning) {
-    if (!disposed && mDocHandler.getTextLevelCheckQueue() != null && mDocHandler.isSortedRuleForIndex(nCache) && docCache != null) {
+    if (!disposed && mDocHandler.getTextLevelCheckQueue() != null && mDocHandler.isSortedRuleForIndex(nCache) && 
+        docCache != null && !docCache.isSingleParagraph(nFPara)) {
       TextParagraph nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara != null && nTPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
         int nStart;
@@ -721,7 +738,8 @@ class SingleDocument {
       if (nPara != null && nPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN && nPara.number < docCache.textSize(nPara)) {
         for (int nCache = 1; nCache < paragraphsCache.size(); nCache++) {
           if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() 
-              && paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(nPara)) == null) {
+              && (paragraphsCache.get(nCache).getCacheEntry(docCache.getFlatParagraphNumber(nPara)) == null && 
+                  !docCache.isSingleParagraph(docCache.getFlatParagraphNumber(nPara)))) {
             return createQueueEntry(nPara, nCache);
           }
         }
@@ -731,7 +749,8 @@ class SingleDocument {
       for (int i = nStart; i < docCache.size(); i++) {
         if (docCache.getNumberOfTextParagraph(i).type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
           for (int nCache = 1; nCache < paragraphsCache.size(); nCache++) {
-            if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() && paragraphsCache.get(nCache).getCacheEntry(i) == null) {
+            if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() && 
+                (paragraphsCache.get(nCache).getCacheEntry(i) == null  && !docCache.isSingleParagraph(i))) {
               return createQueueEntry(docCache.getNumberOfTextParagraph(i), nCache);
             }
           }
@@ -740,7 +759,8 @@ class SingleDocument {
       for (int i = 0; i < nStart && i < docCache.size(); i++) {
         if (docCache.getNumberOfTextParagraph(i).type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
           for (int nCache = 1; nCache < paragraphsCache.size(); nCache++) {
-            if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() && paragraphsCache.get(nCache).getCacheEntry(i) == null) {
+            if (mDocHandler.isSortedRuleForIndex(nCache) && docCache.isFinished() && 
+                (paragraphsCache.get(nCache).getCacheEntry(i) == null  && !docCache.isSingleParagraph(i))) {
               return createQueueEntry(docCache.getNumberOfTextParagraph(i), nCache);
             }
           }
@@ -764,10 +784,10 @@ class SingleDocument {
           changedParas.remove(nPara);
           if (sChangedPara != null && !sChangedPara.equals(sPara)) {
             docCache.setFlatParagraph(nPara, sPara);
-            //  NOTE: Don't remove paragraph cache 0. It is needed to set correct markups
-            for (int i = 1; i < mDocHandler.getNumMinToCheckParas().size(); i++) {
-              paragraphsCache.get(i).remove(nPara);
-            }
+//            if (!disposed) {
+//              mDocHandler.handleLtDictionary(sPara, docCache.getFlatParagraphLocale(nPara));
+//            }
+            removeResultCache(nPara, false);
             return createQueueEntry(docCache.getNumberOfTextParagraph(nPara), 0);
           }
         }
@@ -779,10 +799,10 @@ class SingleDocument {
   public void addShapeQueueEntries() {
     int shapeTextSize = docCache.textSize(DocumentCache.CURSOR_TYPE_SHAPE) + docCache.textSize(DocumentCache.CURSOR_TYPE_TABLE);
     if (shapeTextSize > 0) {
-      if (flatPara == null) {
-        setFlatParagraphTools();
+      if (docCursor == null) {
+        docCursor = getDocumentCursorTools();
       }
-      List<Integer> changedParas = docCache.getChangedUnsupportedParagraphs(flatPara, paragraphsCache.get(0));
+      List<Integer> changedParas = docCache.getChangedUnsupportedParagraphs(docCursor, paragraphsCache.get(0));
       if (changedParas != null) { 
         for (int i = 0; i < changedParas.size(); i++) {
           for (int nCache = 0; nCache < paragraphsCache.size(); nCache++) {
@@ -803,7 +823,7 @@ class SingleDocument {
           fixedLanguage, docLanguage, ignoredMatches, permanentIgnoredMatches, numParasToCheck, false, false, false);
       singleCheck.addParaErrorsToCache(docCache.getFlatParagraphNumber(nStart), lt, cacheNum, nCheck, 
           nEnd.number == nStart.number + 1, override, false, hasFootnotes);
-      docCursor = null;
+//      docCursor = null;
     }
   }
   
@@ -812,7 +832,7 @@ class SingleDocument {
       SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage, docLanguage, 
           ignoredMatches, permanentIgnoredMatches, numParasToCheck, false, false, isIntern);
       singleCheck.remarkChangedParagraphs(changedParas, mDocHandler.getLanguageTool(), true);
-      docCursor = null;
+//      docCursor = null;
     }
   }
 
@@ -1281,6 +1301,17 @@ class SingleDocument {
     }
   }
   
+  public void resetCheck(XProofreadingIterator xProofreadingIterator) {
+    if (docType == DocumentType.WRITER) {
+      try {
+        flatPara.setFlatParasAsChecked(false);;
+        xProofreadingIterator.startProofreading(xComponent, UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xComponent));
+      } catch (Throwable t) {
+        MessageHandler.showError(t);
+      }
+    }
+  }
+  
   private void setDokumentListener(XComponent xComponent) {
     try {
       if (!disposed && xComponent != null && eventListener == null) {
@@ -1307,6 +1338,7 @@ class SingleDocument {
           return;
         }
         xUserInputInterception.addMouseClickHandler(eventListener);
+//        xUserInputInterception.addKeyHandler(eventListener);
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
@@ -1332,6 +1364,7 @@ class SingleDocument {
     }
   }
   
+//  private class LTDokumentEventListener implements XDocumentEventListener, XMouseClickHandler, XKeyHandler {
   private class LTDokumentEventListener implements XDocumentEventListener, XMouseClickHandler {
 
     @Override
@@ -1365,6 +1398,19 @@ class SingleDocument {
     public boolean mouseReleased(MouseEvent event) {
       return false;
     }
+/*
+    @Override
+    public boolean keyPressed(KeyEvent arg0) {
+      return false;
+    }
+
+    @Override
+    public boolean keyReleased(KeyEvent arg0) {
+      MessageHandler.printToLogFile("SingleDocument: setDokumentListener: Set Timestamp");
+      OfficeTools.setKeyReleaseTime(System.currentTimeMillis());
+      return false;
+    }
+*/
   }
 
 }
