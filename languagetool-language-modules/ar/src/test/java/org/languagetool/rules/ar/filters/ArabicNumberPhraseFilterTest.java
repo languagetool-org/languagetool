@@ -35,6 +35,7 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 public class ArabicNumberPhraseFilterTest {
 
@@ -106,13 +107,15 @@ public class ArabicNumberPhraseFilterTest {
 
     List<AnalyzedTokenReadings> patternTokens = tagger.tag(tokens);
 
-    AnalyzedTokenReadings[] patternTokensArray = patternTokens.stream().toArray(AnalyzedTokenReadings[]::new);
+    AnalyzedTokenReadings[] patternTokensArray = patternTokens.toArray(new AnalyzedTokenReadings[0]);
     RuleMatch ruleMatch = filter.acceptRuleMatch(match, args, -1, patternTokensArray);
     if (!debug) {
       int expectedSize = expectedSuggestion.split("\\|").length;
+      assertThat(ruleMatch, notNullValue());
       assertThat(ruleMatch.getSuggestedReplacements().size(), is(expectedSize));
     } else { //  debug is true
       String suggestion = "";
+      assertThat(ruleMatch, notNullValue());
       if (!ruleMatch.getSuggestedReplacements().isEmpty()) {
         suggestion = ruleMatch.getSuggestedReplacements().toString();
       }
