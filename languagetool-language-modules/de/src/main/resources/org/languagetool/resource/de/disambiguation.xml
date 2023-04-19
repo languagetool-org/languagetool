@@ -1621,11 +1621,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule id="ZAHLEN" name="Zahlen">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">(zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb(en)?|acht|neun)(zehn|zig|hundert|tausend){0,2}((und)?(eins?|zwei|zwan|dreiß?|vier|fünf|sechs|sieb(en)?|acht|neun)(.*zehn|.*zig)?)?<exception postag="ZAL"/></token>
+                <token regexp="yes">(zw(ei|an)|drei|vier|fünf|sechs?|sieb(en)?|acht|neun)(zehn|(ss|ß|z)ig|hundert|tausend){0,2}((und)?(eins?|zwei|zwan|drei|vier|fünf|sechs|sieb(en)?|acht|neun)(.*zehn|.*(ss|ß|z)ig)?)?|(hundert|tausend).*(eins|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|(zwan|vier|fünf|sechs|sieb|acht|neun)zig|drei(ss|ß)ig|hundert)<exception postag="ZAL"/></token>
             </marker>
         </pattern>
         <disambig action="add"><wd pos="ZAL"/></disambig>
         <example type="ambiguous" inputform="achtzig[achtzig]" outputform="achtzig[achtzig/ZAL]">Er hat <marker>achtzig</marker> Pfennige.</example>
+        <example type="ambiguous" inputform="dreihundertdreißig[dreihundertdreißig]" outputform="dreihundertdreißig[dreihundertdreißig/ZAL]">Das Ungeheuer verbrachte <marker>dreihundertdreißig</marker> Jahre in der Höhle.</example>
+        <example type="ambiguous" inputform="hundertdreiundzwanzig[hundertdreiundzwanzig]" outputform="hundertdreiundzwanzig[hundertdreiundzwanzig/ZAL]">Meine Lieblingszahl ist <marker>hundertdreiundzwanzig</marker>.</example>
+        <example type="ambiguous" inputform="tausendundeins[tausendundeins]" outputform="tausendundeins[tausendundeins/ZAL]">Zähl erst bis <marker>tausendundeins</marker> und such mich dann.</example>
+        <example type="ambiguous" inputform="tausendeins[tausendeins]" outputform="tausendeins[tausendeins/ZAL]">Zähl erst bis <marker>tausendeins</marker> und such mich dann.</example>
     </rule>
     <!--<rule id="ZAHLEN_2" name="Zahlen (2)">
         <pattern case_sensitive="yes">
