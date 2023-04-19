@@ -125,7 +125,7 @@ public class AddPronounEnFilter extends RuleFilter {
       }
       String pronounsReplacement = transform.get(pronounsStr.toLowerCase());
       if (pronounsReplacement != null) {
-        replacement = preserveCase(pronounsReplacement, pronounsStr) + between + verbStr;
+        replacement = StringTools.preserveCase(pronounsReplacement, pronounsStr) + between + verbStr;
       }
     }
     if (replacement.isEmpty()) {
@@ -136,19 +136,6 @@ public class AddPronounEnFilter extends RuleFilter {
     ruleMatch.setType(match.getType());
     ruleMatch.setSuggestedReplacement(replacement);
     return ruleMatch;
-  }
-
-  private static String preserveCase(String inputString, String modelString) {
-    if (modelString.isEmpty()) {
-      return inputString;
-    }
-    if (StringTools.isAllUppercase(modelString) && !(inputString.length() == 2 && inputString.endsWith("'"))) {
-      return inputString.toUpperCase();
-    }
-    if (StringTools.isCapitalizedWord(modelString)) {
-      return StringTools.uppercaseFirstChar(inputString.toLowerCase());
-    }
-    return inputString;
   }
 
 }

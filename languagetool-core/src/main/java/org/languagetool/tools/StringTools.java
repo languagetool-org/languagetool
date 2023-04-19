@@ -510,12 +510,13 @@ public final class StringTools {
     if (modelString.isEmpty()) {
       return inputString; 
     }
-    if (isAllUppercase(modelString)) {
-      return inputString.toUpperCase(); 
-    }
+    // modelString="L'" is ambiguous, apply capitalization
     if (isCapitalizedWord(modelString)) {
       return uppercaseFirstChar(inputString.toLowerCase()); 
     }
+    if (isAllUppercase(modelString)) {
+      return inputString.toUpperCase(); 
+    }  
 //    if (!isNotAllLowercase(modelString)) {
 //      return inputString.toLowerCase();
 //    }
