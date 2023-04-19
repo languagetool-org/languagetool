@@ -28,6 +28,11 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tools.StringTools;
 
+/*
+ * Add the pronoun "en" in the required place with all the necessary transformations, 
+ * including moving the <marker> positions.
+ */
+
 public class AddPronounEnFilter extends RuleFilter {
 
   Pattern pApostropheNeeded = Pattern.compile("h?[aeiouàèéíòóú].*", Pattern.CASE_INSENSITIVE);
@@ -40,6 +45,8 @@ public class AddPronounEnFilter extends RuleFilter {
     transform1.put("ens", "ens n'");
     transform1.put("us", "us n'");
     transform1.put("vos", "vos n'");
+    transform1.put("li", "li n'");
+    transform1.put("els", "els n'");
     transform1.put("se m'", "se me n'");
     transform1.put("se t'", "se te n'");
     transform1.put("se li", "se li n'");
@@ -47,6 +54,8 @@ public class AddPronounEnFilter extends RuleFilter {
     transform1.put("se us", "se us n'");
     transform1.put("se vos", "se vos n'");
     transform1.put("se'ls", "se'ls n'");
+    transform1.put("hi", "n'hi");
+    transform1.put("", "n'");
   }
 
   private static Map<String, String> transform2 = new HashMap<>();
@@ -56,14 +65,17 @@ public class AddPronounEnFilter extends RuleFilter {
     transform2.put("es", "se'n");
     transform2.put("ens", "ens en");
     transform2.put("us", "us en");
+    transform1.put("li", "li'n");
+    transform1.put("els", "els en");
     transform2.put("se'm", "se me'n");
     transform2.put("se't", "se te'n");
     transform2.put("se li", "se li'n");
     transform2.put("se'ns", "se'ns en");
-    transform2.put("se us", "se'ns en");
+    transform2.put("se us", "se us en");
     transform2.put("se vos", "se vos en");
     transform2.put("se'ls", "se'ls en");
     transform2.put("hi", "n'hi");
+    transform2.put("", "en");
   }
 
   @Override
@@ -78,25 +90,27 @@ public class AddPronounEnFilter extends RuleFilter {
     }
     int toLeft = 0;
     boolean done = false;
-    String lastWord = "";
-    int lastPos = 0;
+    String firstVerb = "";
+    int firstVerbPos = 0;
     while (!done && posWord - toLeft > 0) {
       AnalyzedTokenReadings currentTkn = tokens[posWord - toLeft];
       String currentTknStr = currentTkn.getToken();
       if (currentTkn.matchesPosTagRegex("V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00")
           || currentTknStr.equalsIgnoreCase("de") || currentTknStr.equalsIgnoreCase("d'")) {
         if (currentTkn.hasPosTagStartingWith("V")) {
-          lastWord = currentTknStr;
-          lastPos = toLeft;
+          firstVerb = currentTknStr;
+          firstVerbPos = toLeft;
         }
         toLeft++;
       } else {
         done = true;
-        toLeft--;
+        if (toLeft > 0) {
+          toLeft--;
+        }
       }
     }
     StringBuilder sb = new StringBuilder();
-    for (int i = posWord - toLeft; i < posWord - lastPos; i++) {
+    for (int i = posWord - toLeft; i < posWord - firstVerbPos; i++) {
       sb.append(tokens[i].getToken());
       if (tokens[i + 1].isWhitespaceBefore()) {
         sb.append(" ");
@@ -104,7 +118,7 @@ public class AddPronounEnFilter extends RuleFilter {
     }
     String pronounsStr = sb.toString().trim();
     sb = new StringBuilder();
-    for (int i = posWord - lastPos; i <= posWord; i++) {
+    for (int i = posWord - firstVerbPos; i <= posWord; i++) {
       sb.append(tokens[i].getToken());
       if (tokens[i + 1].isWhitespaceBefore()) {
         sb.append(" ");
@@ -112,21 +126,17 @@ public class AddPronounEnFilter extends RuleFilter {
     }
     String verbStr = sb.toString().trim();
     String replacement = "";
-    if (lastWord.equalsIgnoreCase("hi")) {
-      replacement = "n'hi";
+    Map<String, String> transform;
+    String between = "";
+    if (pApostropheNeeded.matcher(firstVerb).matches()) {
+      transform = transform1;
     } else {
-      Map<String, String> transform;
-      String between = "";
-      if (pApostropheNeeded.matcher(lastWord).matches()) {
-        transform = transform1;
-      } else {
-        transform = transform2;
-        between = " ";
-      }
-      String pronounsReplacement = transform.get(pronounsStr.toLowerCase());
-      if (pronounsReplacement != null) {
-        replacement = StringTools.preserveCase(pronounsReplacement, pronounsStr) + between + verbStr;
-      }
+      transform = transform2;
+      between = " ";
+    }
+    String pronounsReplacement = transform.get(pronounsStr.toLowerCase());
+    if (pronounsReplacement != null) {
+      replacement = StringTools.preserveCase(pronounsReplacement, pronounsStr) + between + verbStr;
     }
     if (replacement.isEmpty()) {
       return null;

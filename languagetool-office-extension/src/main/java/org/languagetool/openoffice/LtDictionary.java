@@ -18,6 +18,7 @@
  */
 package org.languagetool.openoffice;
 
+/*
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,21 +32,22 @@ import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+*/
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+// import java.util.HashMap;
+// import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+// import java.util.Map;
+//import java.util.Set;
+/*
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-
-import com.sun.star.lang.Locale;
-import com.sun.star.linguistic2.DictionaryType;
+*/
+// import com.sun.star.lang.Locale;
+// import com.sun.star.linguistic2.DictionaryType;
 import com.sun.star.linguistic2.XDictionary;
-import com.sun.star.linguistic2.XDictionaryEntry;
+// import com.sun.star.linguistic2.XDictionaryEntry;
 import com.sun.star.linguistic2.XSearchableDictionaryList;
 import com.sun.star.uno.XComponentContext;
 
@@ -58,23 +60,23 @@ public class LtDictionary {
   
   private final static String INTERNAL_DICT_PREFIX = "__LT_";
   private final static String DICT_FILE_POSTFIX = ".dic";
-  private final static String[] ADD_ALL = { "e", "er", "es", "en", "em" };
-  private final static int MAX_DICTIONARY_SIZE = 30000;
-  private final static int NUM_PATHS = 7;
+//  private final static String[] ADD_ALL = { "e", "er", "es", "en", "em" };
+//  private final static int MAX_DICTIONARY_SIZE = 30000;
+//  private final static int NUM_PATHS = 7;
   
-  private static Set<String> dictionaryList = new HashSet<>();
+//  private static Set<String> dictionaryList = new HashSet<>();
   private static String listIgnoredWords = null;
-  private static boolean isDisposed = false;
+//  private static boolean isDisposed = false;
   private static boolean activateDictionary = false;
-  private static Map<String, Set<String>> ltSpellingWords = new HashMap<>();
+//  private static Map<String, Set<String>> ltSpellingWords = new HashMap<>();
   
   /**
    * Add a non permanent dictionary to LO/OO that contains additional words defined in LT
-   */
+   *//*
   public static void setDisposed() {
     isDisposed = true;
   }
-  
+*/  
   /**
    * Add a non permanent dictionary to LO/OO that contains additional words defined in LT
    */
@@ -84,7 +86,7 @@ public class LtDictionary {
   
   /**
    * private void set to ignore words
-   */
+   *//*
   public static boolean setIgnoreWordsForSpelling(String text, SwJLanguageTool lt, Locale locale, XComponentContext xContext) {
 //    boolean resetNeeded = false;
     try {
@@ -164,7 +166,7 @@ public class LtDictionary {
       ltSpellingWords.put(shortCode, getManualWordList(locale));
     }
   }
-
+*/
   /**
    * Add a non permanent dictionary to LO/OO that contains additional words defined in LT
    *//*
@@ -280,7 +282,7 @@ public class LtDictionary {
     MessageHandler.printToLogFile("WARNING: dictionary for ignored words not found!");
     return null;
   }
-  
+/*  
   private static String getSpellingFilePath(Locale locale, int i) {
     if (i == 0) {
       return "/" + locale.Language + "/spelling.txt";
@@ -298,10 +300,10 @@ public class LtDictionary {
       return "/" + locale.Language + "/hunspell/spelling_custom.txt";
     }
   }
-  
+*/  
   /**
    * get the list of words out of spelling.txt files defined by LT
-   */
+   *//*
   private static Set<String> getManualWordList(Locale locale) {
     Set<String> words = new HashSet<>();
     String path;
@@ -349,7 +351,7 @@ public class LtDictionary {
     }
     return words;
   }
-  
+*/  
   /**
    * get the list of words out of LT full spelling list
    *//*
