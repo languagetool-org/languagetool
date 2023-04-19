@@ -3968,6 +3968,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB" min="0" />
             <token postag="VB" chunk_re=".-VP" />
         </antipattern>
+        <antipattern>
+            <token inflected="yes" regexp="yes">do|must|will|can|should</token>
+            <token min="0">n't</token>
+            <token postag="DT|PRP\$" postag_regexp="yes" />
+            <token>other</token>
+            <token postag="VBP?" postag_regexp="yes" />
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -3985,6 +3992,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">A few buzz at the highest levels in certain fixtures.</example>
         <example type="untouched">The public demands answers.</example>
         <example type="untouched">The world may never know.</example>
+        <example type="untouched">Will the other respond?</example>
         <example type="untouched">The following outlines routes and their stands.</example>
         <example type="untouched">In the winter will he live?</example>
         <example type="untouched">Where a woman rules, bad is the end.</example>
