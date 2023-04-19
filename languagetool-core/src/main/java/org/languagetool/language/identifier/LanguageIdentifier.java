@@ -75,6 +75,9 @@ public abstract class LanguageIdentifier {
    */
   @Nullable
   public abstract DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp);
+  
+  @Nullable 
+  public abstract DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs);
 
   /**
    * @param cleanText a cleanText as returned by {@link #cleanAndShortenText(String)}
@@ -132,7 +135,7 @@ public abstract class LanguageIdentifier {
         result = entry.getKey();
       }
     }
-    return new AbstractMap.SimpleImmutableEntry<>(result, max);
+    return new AbstractMap.SimpleImmutableEntry<>(result, max);  
   }
 
   protected static class ParsedLanguageLists {

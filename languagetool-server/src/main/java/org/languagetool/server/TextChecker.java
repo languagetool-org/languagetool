@@ -881,12 +881,17 @@ abstract class TextChecker {
     }
     return result;
   }
-
+  
   DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
                                           List<String> noopLangs, List<String> preferredLangs) {
+    return this.detectLanguageOfString(text, fallbackLanguage, preferredVariants, noopLangs, preferredLangs, false);
+  }
+
+  DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
+                                          List<String> noopLangs, List<String> preferredLangs, boolean forcePreferredLanguages) {
     Language lang;
     String cleanText = languageIdentifier.cleanAndShortenText(text);
-    DetectedLanguage detected = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs);
+    DetectedLanguage detected = languageIdentifier.detectLanguage(cleanText, noopLangs, preferredLangs, forcePreferredLanguages);
     if (detected == null) {
       lang = parseLanguage(fallbackLanguage != null ? fallbackLanguage : "en");
     } else {
