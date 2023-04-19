@@ -16531,6 +16531,44 @@ USA
         </rulegroup>
 
 
+    <rulegroup id='PHD_TESE_PERÍFRASES_AFIRMATIVAS' name="[Universitário] Perífrases afirmativas: 'o que pretendemos saber é a' → 'o objetivo a saber é'" type='style' default="temp_off">
+      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-19 (2-MAR-2023+) -->
+      <!--
+      SUBRULE 1:
+      O que pretendemos saber é a equação da reta. → O objetivo é saber a equação da reta.
+      O que pretendemos saber são as equações da reta. → Os objetivos são saber as equações da reta.
+
+      SUBRULE 2:
+      Removed (Ricardo Joseh Lima)
+      -->
+      <rule>
+        <pattern>
+          <marker>
+            <token>o
+              <exception scope='previous' postag_regexp='yes' postag='PI.+'/>
+            </token>
+            <token>que</token>
+            <and>
+              <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
+              <token postag='VMI[FPS]1.+' postag_regexp='yes'/>  
+            </and>
+            <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
+            <token regexp='yes'>é|são</token>
+            <token postag='DA.+|SPS00' postag_regexp='yes'/>  
+          </marker>
+        </pattern>
+        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+        <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0M$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCM$1000'>objetivo</match> \5 \4 \6</suggestion>
+        <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0M$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCM$1000'>propósito</match> \5 \4 \6</suggestion>
+        <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0F$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCF$1000'>meta</match> \5 \4 \6</suggestion>
+        <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0F$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCF$1000'>finalidade</match> \5 \4 \6</suggestion>
+        <example correction="O objetivo é saber a|O propósito é saber a|A meta é saber a|A finalidade é saber a"><marker>O que pretendemos saber é a</marker> equação da reta.</example>
+        <example correction="Os objetivos são saber as|Os propósitos são saber as|As metas são saber as|As finalidades são saber as"><marker>O que pretendemos saber são as</marker> equações da reta.</example>
+      </rule>
+
+    </rulegroup>
+
+
         <!-- FICOU DEMONSTRADO QUE demonstrámos que -->
         <rule id='PHD_TESE_FICOU_DEMONSTRADO_QUE_DEMONSTRÁMOS_QUE' name="[Universitário] Expressões do tipo 'ficou demonstrado que' → ‘demonstrámos que'" type='style' tags="picky">
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-03-13/14 (1-JAN-2022+)      -->
