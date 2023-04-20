@@ -581,6 +581,7 @@ public class English extends Language implements AutoCloseable {
       case "IN_DT_IN": return -15; // prefer AI and comma rules
       case "MISSING_SUBJECT":           return -15;  // prefer other more specific rules
       case "HAVE_TO_NOTVB":             return -15; // prefer AI and comma rules
+      case "PLEASE_DO_NOT_THE_CAT":     return -15; // prefer AI and comma rules
       case "CC_PRP_ARTICLE":            return -15;  // prefer other more specific rules
       case "BE_MD":                     return -20;  // prefer other more specific rules (e.g. BEEN_PART_AGREEMENT, HYDRA_LEO)
       case "POSSESSIVE_APOSTROPHE":     return -10;  // prefer over AI_HYDRA_LEO_APOSTROPHE_S_XS (again, temporarily)
