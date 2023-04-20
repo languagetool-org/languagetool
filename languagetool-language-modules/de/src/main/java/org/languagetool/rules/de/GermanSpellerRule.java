@@ -1485,6 +1485,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("sm", w -> Arrays.asList("am", "im", "am", "SM"));
     put("tuh", w -> Arrays.asList("tun", "tut", "tue", "Kuh"));
     put("wuden", w -> Arrays.asList("wurden", "würden"));
+    put("Arzte", w -> Arrays.asList("Ärzte", "Arzt"));
+    put("Arzten", "Ärzten");
+    put("Alternatief", "Alternativ");
     put("intere", w -> Arrays.asList("interne", "innere", "hintere", "untere"));
     put("unterschiede", w -> Arrays.asList("Unterschiede", "unterscheide", "unterschiebe", "unterschieden"));
     put("bi", "bei");
@@ -3163,6 +3166,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Kreisaal": return topMatch("Kreißsaal");
       case "Kreisaals": return topMatch("Kreißsaals");
       case "Kreissaal": return topMatch("Kreißsaal");
+      case "Kreissäle": return topMatch("Kreißsäle");
+      case "Kreissälen": return topMatch("Kreißsälen");
       case "Kreissaals": return topMatch("Kreißsaals");
       case "Laola-Welle": return topMatch("La-Ola-Welle");
       case "Laola-Wellen": return topMatch("La-Ola-Wellen");
