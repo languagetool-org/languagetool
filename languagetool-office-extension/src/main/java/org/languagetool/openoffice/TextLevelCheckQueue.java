@@ -254,7 +254,7 @@ public class TextLevelCheckQueue {
           return null;
         }
         Locale locale = docCache.getTextParagraphLocale(nStart);
-        if (locale != null && multiDocHandler.hasLocale(locale)) {
+        if (locale != null && MultiDocumentsHandler.hasLocale(locale)) {
           return multiDocHandler.getLanguage(locale);
         }
         MessageHandler.printToLogFile("TextLevelCheckQueue: getLanguage: return null: locale = " 
@@ -519,7 +519,8 @@ public class TextLevelCheckQueue {
             MessageHandler.printToLogFile("TextLevelCheckQueue: run: Interrupt check - queue ended");
             textRuleQueue.clear();
             interruptCheck = false;
-            return;
+            continue;
+//            return;
           }
           if (textRuleQueue.isEmpty()) {
             synchronized(textRuleQueue) {
@@ -565,7 +566,8 @@ public class TextLevelCheckQueue {
                 queueWakeup.wait();
 //                queueRuns = false;
 //                queueIterator = null;
-                return;
+//                return;
+                continue;
               } catch (Throwable e) {
                 MessageHandler.showError(e);
                 queueRuns = false;

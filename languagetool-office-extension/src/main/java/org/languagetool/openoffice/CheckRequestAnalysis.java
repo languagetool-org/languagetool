@@ -804,12 +804,12 @@ class CheckRequestAnalysis {
 //    mDocHandler.handleLtDictionary(chPara, locale);
     if (useQueue) {
       changedParas.put(nPara, chPara);
-      singleDocument.removeResultCache(nPara, false);
+      singleDocument.removeResultCache(nPara, true);
       for (int i = 1; i < minToCheckPara.size(); i++) {
         singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, checkOnlyPara, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
       }
     } else {
-      singleDocument.removeResultCache(nPara, false);
+      singleDocument.removeResultCache(nPara, true);
     }
     textIsChanged = true;
     changeFrom = nPara - numParasToChange;
