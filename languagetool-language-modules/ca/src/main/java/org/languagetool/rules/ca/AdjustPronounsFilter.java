@@ -57,7 +57,7 @@ public class AdjustPronounsFilter extends RuleFilter {
     addEnApostrophe.put("se us", "se us n'");
     addEnApostrophe.put("se vos", "se vos n'");
     addEnApostrophe.put("se'ls", "se'ls n'");
-    addEnApostrophe.put("hi", "n'hi");
+    addEnApostrophe.put("hi", "n'hi ");
     addEnApostrophe.put("", "n'");
   }
 
@@ -156,7 +156,7 @@ public class AdjustPronounsFilter extends RuleFilter {
     sb = new StringBuilder();
     for (int i = posWord - firstVerbPos; i <= posWord; i++) {
       sb.append(tokens[i].getToken());
-      if (tokens[i + 1].isWhitespaceBefore()) {
+      if (i + 1 < tokens.length && tokens[i + 1].isWhitespaceBefore()) {
         sb.append(" ");
       }
     }
@@ -169,6 +169,9 @@ public class AdjustPronounsFilter extends RuleFilter {
         break;
       case "removePronounReflexive":
         replacement = doRemovePronounReflexive(firstVerb, pronounsStr, verbStr);
+        break;
+      case "replaceEmEn":
+        replacement = doReplaceEmEn(firstVerb, pronounsStr, verbStr);
         break;
       }
       if (!replacement.isEmpty()) {
@@ -197,7 +200,8 @@ public class AdjustPronounsFilter extends RuleFilter {
     }
     String pronounsReplacement = transform.get(pronounsStr.toLowerCase());
     if (pronounsReplacement != null) {
-      replacement = StringTools.preserveCase(pronounsReplacement, pronounsStr) + between + verbStr;
+      replacement = StringTools.preserveCase(pronounsReplacement, (pronounsStr + between + verbStr).trim()) + between
+          + verbStr.toLowerCase();
     }
     return replacement;
   }
@@ -209,6 +213,16 @@ public class AdjustPronounsFilter extends RuleFilter {
     if (pronounsReplacement != null) {
       replacement = StringTools.preserveCase(pronounsReplacement + between + verbStr, pronounsStr).trim()
           .replaceAll("' ", "'");
+    }
+    return replacement;
+  }
+  private String doReplaceEmEn(String firstVerb, String pronounsStr, String verbStr) {
+    String replacement = "";
+    if (pronounsStr.equalsIgnoreCase("em")) {
+      replacement = StringTools.preserveCase("en", pronounsStr) + " " + verbStr;
+    }
+    if (pronounsStr.equalsIgnoreCase("m'")) {
+      replacement = StringTools.preserveCase("n'", pronounsStr) + verbStr;
     }
     return replacement;
   }
