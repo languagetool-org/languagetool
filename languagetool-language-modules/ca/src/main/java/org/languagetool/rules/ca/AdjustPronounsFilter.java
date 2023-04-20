@@ -122,12 +122,18 @@ public class AdjustPronounsFilter extends RuleFilter {
     boolean done = false;
     String firstVerb = "";
     int firstVerbPos = 0;
+    boolean inPronouns = false;
     while (!done && posWord - toLeft > 0) {
       AnalyzedTokenReadings currentTkn = tokens[posWord - toLeft];
       String currentTknStr = currentTkn.getToken();
-      if (currentTkn.matchesPosTagRegex("V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00")
-          || currentTknStr.equalsIgnoreCase("de") || currentTknStr.equalsIgnoreCase("d'")) {
-        if (currentTkn.hasPosTagStartingWith("V")) {
+      boolean isVerb = currentTkn.hasPosTagStartingWith("V");
+      boolean isPronoun = currentTkn.matchesPosTagRegex("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
+      if (isPronoun) {
+        inPronouns = true;
+      }
+      if (isPronoun || (isVerb && !inPronouns) || currentTknStr.equalsIgnoreCase("de")
+          || currentTknStr.equalsIgnoreCase("d'")) {
+        if (isVerb) {
           firstVerb = currentTknStr;
           firstVerbPos = toLeft;
         }
