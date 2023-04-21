@@ -790,19 +790,12 @@ public abstract class Language {
   public int getRulePriority(Rule rule) {
     int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());
     int rulePriority = this.getPriorityForId(rule.getId());
-    // if there is a priority defined for the rule,
-    // it takes precedence over category priority
+    // if there is a priority defined for rule it takes precedence over category priority
     if (rulePriority != 0) {
       return rulePriority;
-    }
-    if (categoryPriority != 0) {
+    } else {
       return categoryPriority;
     }
-    if (rule.getLocQualityIssueType().equals(ITSIssueType.Style)) {
-      // don't let style issues hide more important errors
-      return -50;
-    }
-    return 0;
   }
 
   /**
