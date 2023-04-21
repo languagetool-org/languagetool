@@ -478,8 +478,8 @@
       -->
 
       <!-- simple verbs -->
-      <rule>
-        <pattern>
+    <rule>
+      <pattern>
           <token postag='SENT_START'/>
           <marker>
             <token spacebefore='no'>nos</token>
@@ -490,7 +490,8 @@
         </pattern>
         <message>Em escrita formal não se começa uma frase com pronome átono. Coloque o pronome após o verbo.</message>
         <suggestion><match no='3' case_conversion='startupper' postag="VMIP1P0" postag_regexp="yes" postag_replace="VMIP1P0X"/>-<match no='2' case_conversion='startlower'/></suggestion>
-        <example correction="Acostumamo-nos"><marker>Nos acostumamos</marker> com tudo.</example>
+        <suggestion><match no='2' regexp_match="o" regexp_replace="ó"/> \3</suggestion>
+        <example correction="Acostumamo-nos|Nós acostumamos"><marker>Nos acostumamos</marker> com tudo.</example>
       </rule>
 
       <rule>
