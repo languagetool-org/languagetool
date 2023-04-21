@@ -10556,6 +10556,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estás">¡Bueno <marker>estas</marker> tú hecho!</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>en</token>
+                    <token>concreto</token>
+                    <example>No obstante, estas en concreto son muy populares.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">a|en</token>
+                    <token regexp="yes">su|otras</token>
+                    <token regexp="yes">vez|palabras</token>
+                    <example>Estas a su vez, estaban divididas en 12 naucrarías.</example>
+                </antipattern>
                 <pattern>
                     <token postag="C.*|PR.*|SENT_START|LOC_CS|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
