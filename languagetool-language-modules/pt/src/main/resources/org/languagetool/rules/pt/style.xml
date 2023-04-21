@@ -2857,6 +2857,25 @@ USA
         </rulegroup>
 
 
+        <!-- POUCO IMPORTA não importa -->
+        <rule id='POUCO_IMPORTA_NÃO_IMPORTA' name="[Simplificar] 'Pouco' importa → não" type="style" default='temp_off'>
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-21 (2-MAR-2023+) -->
+            <!--
+            Pouco importa a distância, a amizade é eterna. → Não importa a distância, a amizade é eterna.
+            -->
+            <pattern>
+                <marker>
+                  <token>pouco</token>
+                </marker>
+                <token>importa</token>
+                <token postag='SPS00|(SPS00:)?D[AI].+|PP3CN000' postag_regexp='yes'/> <!-- PP3CN000="se" -->
+            </pattern>
+            <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion>não</suggestion>
+            <example correction="Não"><marker>Pouco</marker> importa a distância, a amizade é eterna.</example>
+        </rule>
+
+
         <!-- QUANDO TEMOS DE LIDAR ao lidarmos -->
         <rule id='QUANDO_TER_DE_QUE_VINF_AO_VINF' name="[Simplificar] 'Quando V.Ter de/que V.Inf.' com → 'Ao V.Inf.'" type="style">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-10 (2-MAR-2023+) -->
