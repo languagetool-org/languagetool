@@ -192,22 +192,21 @@ public class SentenceAnnotator {
         }
         if (!errorType.isEmpty()) {
           printOutputLine(cfg, numSentence, formattedSentence, formattedCorrectedSentence, errorType, detectedErrorStr,
-              suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match));
+              suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match), getRuleType(match));
           annotationsPerSentence++;
         }
       }
     }
     sc.close();
     cfg.out.close();
-
   }
 
   static private void printOutputLine(AnnotatorConfig cfg, int numSentence, String errorSentence,
       String correctedSentence, String errorType, String detectedErrorStr, String suggestion, int suggestionPos,
-      int suggestionsTotal, String ruleId) throws IOException {
+      int suggestionsTotal, String ruleId, String ruleCategory, String ruleType) throws IOException {
     cfg.out.write(String.valueOf(numSentence) + "\t" + errorSentence + "\t" + correctedSentence + "\t" + errorType
         + "\t" + detectedErrorStr + "\t" + suggestion + "\t" + ruleId + "\t" + String.valueOf(suggestionPos) + "\t"
-        + String.valueOf(suggestionsTotal) + "\n");
+        + String.valueOf(suggestionsTotal) + "\t" + ruleCategory + "\t" + ruleType + "\n");
   }
 
   static private String getMatchIdentifier(String sentence, RemoteRuleMatch match) {
@@ -234,6 +233,28 @@ public class SentenceAnnotator {
     }
     return ruleId;
   }
+  
+  static private String getRuleCategoryId(RemoteRuleMatch match) {
+    String categoryId = "";
+    if (match != null) {
+      try {
+        categoryId = match.getCategoryId().get();
+      } catch (NoSuchElementException e) {
+      }
+    }
+    return categoryId;
+  }
+  
+  static private String getRuleType(RemoteRuleMatch match) {
+    String ruleType = "";
+    if (match != null) {
+      try {
+        ruleType = match.getLocQualityIssueType().get().toString();
+      } catch (NoSuchElementException e) {
+      }
+    }
+    return ruleType;
+  }
 
   static private String listSuggestions(RemoteRuleMatch match) {
     StringBuilder sb = new StringBuilder();
@@ -242,7 +263,7 @@ public class SentenceAnnotator {
       sb.append("NO MATCHES");
       return sb.toString();
     }
-    sb.append("(I)gnore_Word ");
+    sb.append("(I)gnoreMatch ");
     sb.append("(F)P ");
     if (match.getReplacements().get().size() > 0) {
       sb.append("SUGGESTIONS: ");
