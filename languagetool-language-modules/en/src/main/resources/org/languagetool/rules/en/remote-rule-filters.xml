@@ -462,11 +462,10 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/>
                     <token>did</token>
-                    <token chunk_re="B-NP-.*"/>
+                    <token min="0" chunk_re="B-NP-.*"/>
                     <token min="0" chunk_re="I-NP-.*"/>
-                    <token min="0" chunk_re="E-NP-.*"/>
+                    <token chunk_re="E-NP-.*"/>
                     <token min="0" postag="RB"/>
                     <marker>
                         <token postag="VB|VBP" postag_regexp="yes"/>
@@ -474,6 +473,7 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
                 </pattern>
                 <example correction="">Did you already <marker>try</marker> that original password?</example>
                 <example correction="">Did the man already <marker>see</marker> the film?</example>
+                <example correction="">Hello there, did you already <marker>contact</marker> our customer support?</example>
             </rule>
             <rule>
                 <pattern>
