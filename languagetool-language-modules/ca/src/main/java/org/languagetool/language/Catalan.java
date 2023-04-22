@@ -180,6 +180,7 @@ public class Catalan extends Language {
     return LanguageMaintainedState.ActivelyMaintained;
   }
   
+  @Override
   public int getRulePriority(Rule rule) {
     int categoryPriority = this.getPriorityForId(rule.getCategory().getId().toString());
     int rulePriority = this.getPriorityForId(rule.getId());

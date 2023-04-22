@@ -123,6 +123,7 @@ public class AdjustPronounsFilter extends RuleFilter {
     String firstVerb = "";
     int firstVerbPos = 0;
     boolean inPronouns = false;
+    boolean firstVerbValid = false;
     while (!done && posWord - toLeft > 0) {
       AnalyzedTokenReadings currentTkn = tokens[posWord - toLeft];
       String currentTknStr = currentTkn.getToken();
@@ -136,6 +137,7 @@ public class AdjustPronounsFilter extends RuleFilter {
         if (isVerb) {
           firstVerb = currentTknStr;
           firstVerbPos = toLeft;
+          firstVerbValid = currentTkn.matchesPosTagRegex("V.[SI].*");
         }
         toLeft++;
       } else {
@@ -144,6 +146,9 @@ public class AdjustPronounsFilter extends RuleFilter {
           toLeft--;
         }
       }
+    }
+    if (!firstVerbValid) {
+      return null;
     }
     StringBuilder sb = new StringBuilder();
     for (int i = posWord - toLeft; i < posWord - firstVerbPos; i++) {
