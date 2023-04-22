@@ -515,6 +515,7 @@ public class TextLevelCheckQueue {
  //       while (numCheck < MAX_CHECK_PER_THREAD) {
         for (;;) {
           queueWaits = false;
+/*
           if (interruptCheck) {
             MessageHandler.printToLogFile("TextLevelCheckQueue: run: Interrupt check - queue ended");
             textRuleQueue.clear();
@@ -522,6 +523,7 @@ public class TextLevelCheckQueue {
             continue;
 //            return;
           }
+*/
           if (textRuleQueue.isEmpty()) {
             synchronized(textRuleQueue) {
               if (lastDocId != null) {
