@@ -229,6 +229,9 @@ public class AdjustPronounsFilter extends RuleFilter {
     if (pronounsStr.equalsIgnoreCase("m'")) {
       replacement = StringTools.preserveCase("n'", pronounsStr) + verbStr;
     }
+    if (pronounsStr.equalsIgnoreCase("m'hi")) {
+      replacement = StringTools.preserveCase("n'hi ", pronounsStr) + verbStr;
+    }
     return replacement;
   }
 
