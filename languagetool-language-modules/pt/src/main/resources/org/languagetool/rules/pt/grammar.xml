@@ -10377,11 +10377,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
     <!-- CUJO , cujo -->
-    <rule id='CUJO_EM_INICIO_DE_FRASE' name="'cujo' em início de frase">
+  <rulegroup id='CUJO_EM_INICIO_DE_FRASE' name="'cujo' em início de frase">
       <!--      Created by Ricardo Joseh Lima and improved by Marco A.G.Pinto, Portuguese rule 2021-10-20 (25-JUN-2021+)      -->
       <!--
       Cujo pai chegou. → Foi a Ana, cujo pai chegou.
       -->
+    <rule>
       <pattern>
         <token postag='SENT_START'/>
         <marker>
@@ -10395,6 +10396,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example correction="Seu|O"><marker>Cujo</marker> pai chegou.</example>
       <example>Foi a Ana<marker>, cujo</marker> pai chegou.</example>
     </rule>
+    <rule>
+       <pattern>
+         <token postag='SENT_START'/>
+        <marker>
+          <token regexp='yes' case_sensitive="yes">Cuj[oa]</token>
+        </marker>
+          <token postag="PP.+" postag_regexp="yes"/>
+      </pattern>
+      <message>O pronome relativo 'cujo' liga dois substantivos, portanto não pode estar em começo de frase.</message>
+        <suggestion suppress_misspelled="yes"><match no='2' regexp_match='Cuj(.)' regexp_replace='$1'/> qual</suggestion>
+      <example correction="O qual"><marker>Cujo</marker> ele comprou.</example>
+    </rule>
+      <rule>
+          <pattern>
+              <token postag='SENT_START'/>
+              <marker>
+                  <token case_sensitive="yes">Cujas</token>
+              </marker>
+              <token postag="PP.+" postag_regexp="yes"/>
+          </pattern>
+          <message>O pronome relativo 'cujo' liga dois substantivos, portanto não pode estar em começo de frase.</message>
+          <suggestion suppress_misspelled="yes"><match no='2' regexp_match='Cuj(.+)' regexp_replace='$1'/> quais</suggestion>
+          <suggestion><match no='2' regexp_match='(.+)(as)' regexp_replace='Est$2'/></suggestion>
+          <example correction="As quais|Estas"><marker>Cujas</marker> ele comprou.</example>
+      </rule>
+      <rule>
+          <pattern>
+              <token postag='SENT_START'/>
+              <marker>
+                  <token case_sensitive="yes">Cujos</token>
+              </marker>
+              <token postag="PP.+" postag_regexp="yes"/>
+          </pattern>
+          <message>O pronome relativo 'cujo' liga dois substantivos, portanto não pode estar em começo de frase.</message>
+          <suggestion suppress_misspelled="yes"><match no='2' regexp_match='Cuj(.+)' regexp_replace='$1'/> quais</suggestion>
+          <suggestion><match no='2' regexp_match='(.+)(s)' regexp_replace='Este$2'/></suggestion>
+          <example correction="Os quais|Estes"><marker>Cujos</marker> ele comprou.</example>
+      </rule>
+  </rulegroup>
 
     <!-- CUJO NOME/ADJETIVO/NUMERAL -->
     <rulegroup id='CUJO_LIGACAO_NOME_ADJETIVO_NUMERAL' name="'Cujo' estar ligado a Nome/Adj/Numeral">
