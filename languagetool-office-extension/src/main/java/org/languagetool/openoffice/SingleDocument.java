@@ -486,7 +486,7 @@ class SingleDocument {
     if (xComponent == null) {
       closeDocumentCursor();
 //      viewCursor = null;
-      flatPara = null;
+//      flatPara = null;
     } else {
       setDokumentListener(xComponent);
     }
@@ -696,14 +696,18 @@ class SingleDocument {
    * Add an new entry to text level queue
    * nFPara is number of flat paragraph
    */
-  public void addQueueEntry(int nFPara, int nCache, int nCheck, String docId, boolean checkOnlyParagraph, boolean overrideRunning) {
+  public void addQueueEntry(int nFPara, int nCache, int nCheck, String docId, boolean overrideRunning) {
     if (!disposed && mDocHandler.getTextLevelCheckQueue() != null && mDocHandler.isSortedRuleForIndex(nCache) && 
         docCache != null && (nCache == 0 || !docCache.isSingleParagraph(nFPara))) {
+      boolean checkOnlyParagraph = docCache.isSingleParagraph(nFPara);
+      if (nCache > 0 && checkOnlyParagraph) {
+        return;
+      }
       TextParagraph nTPara = docCache.getNumberOfTextParagraph(nFPara);
       if (nTPara != null && nTPara.type != DocumentCache.CURSOR_TYPE_UNKNOWN) {
         int nStart;
         int nEnd;
-        if (checkOnlyParagraph && nCheck > 0) {
+        if (checkOnlyParagraph) {
           nStart = nTPara.number;
           nEnd = nTPara.number + 1;
         } else {
@@ -815,7 +819,7 @@ class SingleDocument {
         for (int i = 0; i < changedParas.size(); i++) {
           for (int nCache = 0; nCache < paragraphsCache.size(); nCache++) {
             int nCheck = mDocHandler.getNumMinToCheckParas().get(nCache);
-            addQueueEntry(changedParas.get(i), nCache, nCheck, docID, false, true);
+            addQueueEntry(changedParas.get(i), nCache, nCheck, docID, true);
           }
         }
       }

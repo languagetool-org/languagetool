@@ -674,11 +674,11 @@ class CheckRequestAnalysis {
             if (changed.newSize - changed.oldSize > 0) {
               for (int n = changed.from; n < changed.to; n++) {
                 docCache.setSingleParagraphsCacheToNull(n, paragraphsCache);
-                singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, false, true);
+                singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, true);
               }
             } else if (changed.newSize - changed.oldSize < 0) {
               for (int n = changed.from; n < changed.from + 1; n++) {
-                singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, false, true);
+                singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, true);
               }
             }
           }
@@ -797,7 +797,7 @@ class CheckRequestAnalysis {
               + "old: " + docCache.getFlatParagraph(nPara) + OfficeTools.LOG_LINE_BREAK 
               + "new: " + chPara + OfficeTools.LOG_LINE_BREAK);
     }
-    boolean checkOnlyPara = (docCache.getFlatParagraph(nPara).isEmpty() ? false : true);
+//    boolean checkOnlyPara = (docCache.getFlatParagraph(nPara).isEmpty() ? false : true);
     docCache.setFlatParagraph(nPara, chPara, locale);
     docCache.setFlatParagraphFootnotes(nPara, footnotePos);
     docCache.setFlatParagraphDeletedCharacters(nPara, deletedChars);
@@ -806,7 +806,8 @@ class CheckRequestAnalysis {
       changedParas.put(nPara, chPara);
       singleDocument.removeResultCache(nPara, true);
       for (int i = 1; i < minToCheckPara.size(); i++) {
-        singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, checkOnlyPara, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
+//        singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, checkOnlyPara, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
+        singleDocument.addQueueEntry(nPara, i, minToCheckPara.get(i), docID, numLastFlPara.get(numLastFlPara.size() - 1) < 0 ? false : true);
       }
     } else {
       singleDocument.removeResultCache(nPara, true);

@@ -588,7 +588,7 @@ class SingleCheck {
           && !docCache.isSingleParagraph(nFPara);
       if (nFPara >= 0 && (pErrors != null || isMouseRequest || (useQueue && !isDialogRequest && parasToCheck != 0))) {
         if (useQueue && pErrors == null && parasToCheck != 0 && isTextParagraph) {
-          singleDocument.addQueueEntry(nFPara, cacheNum, parasToCheck, singleDocument.getDocID(), textIsChanged, textIsChanged);
+          singleDocument.addQueueEntry(nFPara, cacheNum, parasToCheck, singleDocument.getDocID(), textIsChanged);
         }
         return pErrors;
       }
