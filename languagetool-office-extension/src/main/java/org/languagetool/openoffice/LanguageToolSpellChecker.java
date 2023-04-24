@@ -54,9 +54,9 @@ public class LanguageToolSpellChecker extends WeakBase implements XServiceInfo,
           "com.sun.star.linguistic2.SpellChecker",
           "org.languagetool.openoffice.LanguageToolSpellChecker" };
   
-  private JLanguageTool lt = null;
-  private Locale lastLocale = null;                //  locale for spell check
-  private SpellingCheckRule spellingCheckRule = null;
+  private static JLanguageTool lt = null;
+  private static Locale lastLocale = null;                //  locale for spell check
+  private static SpellingCheckRule spellingCheckRule = null;
   
   public LanguageToolSpellChecker(XComponentContext xcontext)
   {

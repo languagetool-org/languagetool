@@ -33,7 +33,7 @@ public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
 
 //  private transient org.languagetool.openoffice.Main instance;
   private static org.languagetool.openoffice.Main instance = null;
-  private static org.languagetool.openoffice.LanguageToolSpellChecker spellInstance = null;
+//  private static org.languagetool.openoffice.LanguageToolSpellChecker spellInstance = null;
   private boolean isSpellChecker = false;
   
   SingletonFactory(boolean isSpChecker) {
@@ -49,10 +49,11 @@ public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
   @Override
   public final Object createInstanceWithContext(XComponentContext xContext) {
     if (isSpellChecker) {
-      if (spellInstance == null) {     
-        spellInstance = new org.languagetool.openoffice.LanguageToolSpellChecker(xContext);
-      }
-      return spellInstance;
+      return new org.languagetool.openoffice.LanguageToolSpellChecker(xContext);
+//      if (spellInstance == null) {     
+//        spellInstance = new org.languagetool.openoffice.LanguageToolSpellChecker(xContext);
+//      }
+//      return spellInstance;
     } else {
       if (instance == null) {     
         instance = new org.languagetool.openoffice.Main(xContext);      
