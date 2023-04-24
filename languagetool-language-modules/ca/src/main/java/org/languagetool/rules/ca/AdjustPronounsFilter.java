@@ -132,7 +132,7 @@ public class AdjustPronounsFilter extends RuleFilter {
       if (isPronoun) {
         inPronouns = true;
       }
-      if (isPronoun || (isVerb && !inPronouns) || currentTknStr.equalsIgnoreCase("de")
+      if (isPronoun || (isVerb && !inPronouns && !firstVerbValid) || currentTknStr.equalsIgnoreCase("de")
           || currentTknStr.equalsIgnoreCase("d'")) {
         if (isVerb) {
           firstVerb = currentTknStr;
