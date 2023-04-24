@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">De organisatie Doe! is een rare.</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">Mike, met Ed. Ik heb je hier nodig.</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1540,6 +1540,10 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Dutch">
+<rule break="yes">
+<beforebreak>\sEd[.]\s</beforebreak>
+<afterbreak>Ik\s</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b(sp|SP)</beforebreak>
 <afterbreak>\.[aA]\b</afterbreak>
