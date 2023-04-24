@@ -10390,7 +10390,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token/>
       </pattern>
       <message>O pronome relativo 'cujo' liga dois substantivos, portanto não pode estar em começo de frase.</message>
-      <example type='incorrect'><marker>Cujo</marker> pai chegou.</example>
+        <suggestion><match no='2' postag='PR0(..)000' postag_replace='DP3$1S' postag_regexp='yes'>seu</match></suggestion>
+        <suggestion><match no='2' regexp_match='Cuj(.+)' regexp_replace='$1'/></suggestion>
+      <example correction="Seu|O"><marker>Cujo</marker> pai chegou.</example>
       <example>Foi a Ana<marker>, cujo</marker> pai chegou.</example>
     </rule>
 
