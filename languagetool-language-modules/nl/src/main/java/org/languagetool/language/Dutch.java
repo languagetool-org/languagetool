@@ -180,7 +180,7 @@ public class Dutch extends Language {
     }
     switch (id) {
       case LongSentenceRule.RULE_ID: return -1;
-      // default : 0
+      // default: 0
       case "ET_AL": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "N_PERSOONS": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
       case "HOOFDLETTERS_OVERBODIG_A": return 1; // needs higher priority than MORFOLOGIK_RULE_NL_NL
