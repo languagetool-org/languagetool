@@ -37562,27 +37562,58 @@ regexp case-insensitive maken: (?i)
                     <token postag="WKW:TGW:INF"/>
                 </antipattern>
                 <antipattern>
-                    <token case_sensitive="yes">de</token>
-                    <token case_sensitive="yes">De</token>
-                    <example>Wij wonen aan de De Ruiterkade.</example>
+                    <token>om</token>
+                    <token>om</token>
+                    <token>de</token>
+                    <example>Denk er vooral aan om om de dag de planten water te geven.</example>
                 </antipattern>
                 <antipattern>
                     <token negate_pos="yes" postag="SENT_START"></token>
                     <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
                     <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
                     <example>Dat moet je aan Chow Chow vragen.</example>
-                    <example>Hij zat al jaren vast in de Sing Sing gevangenis.</example>
+                    <example>Hij zat al jaren vast in de Sing Sing-gevangenis.</example>
+                </antipattern>
+                <antipattern>
+                    <token negate_pos="yes" postag="SENT_START"></token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
+                    <example>Dat moet je aan Chow Chow vragen.</example>
+                    <example>Hij zat al jaren vast in de Sing Sing-gevangenis.</example>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token>de</token>
+                    <token>facto</token>
+                    <example>Dat is de de facto toestand van tegenwoordig.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="2" inflected="yes">nemen</token>
+                    <token>in</token>
+                    <token>in</token>
+                    <example>Zij neemt een positie in in de samenleving.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="2" inflected="yes">treden</token>
+                    <token>op</token>
+                    <token>op</token>
+                    <example>Als zanger van een band treedt hij op op de meest uiteenlopende plekken.</example>
                 </antipattern>
                 <pattern>
                     <token><exception>’</exception></token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">.*[a-z].*<exception postag_regexp="yes" postag="SENT_START|START"/></token> <!-- TODO: Look at full list of matches and re-assess regex -->
-                        <token><match no="1"/><exception regexp="yes">aan|agar|ai|balletje|bla|bling|bora|dat|die|enz|etc|ha|haar|het|hey|hi|hiep|hoi|is|ja|je|lepeltje|leren|nee|nou|sam|sapiens|toi|tom|van|via|ze|zijn</exception></token>
+                        <token regexp="yes" case_sensitive="yes"><match no="1"/><exception regexp="yes">aan|agar|ai|attentie|balletje|bla|bling|bora|bye|dat|die|enz|etc|ha|haar|het|hey|hi|hiep|hoi|is|ja|je|lepeltje|leven|la|leren|nee|nou|sam|sapiens|toi|tom|van|via|ze|zijn</exception></token>
                     </marker>
                 </pattern>
-                <message>Er staat hier een dubbel woord, bedoelde u soms: <suggestion>\2</suggestion>?</message>
-                <example correction="de">Ik zie <marker>de de</marker> man.</example>
+                <message>Hier staat een dubbel woord, bedoelde u soms: <suggestion>\2</suggestion>, of hoort er een komma tussen? <suggestion>\2, \3</suggestion></message>
+                <example correction="de|de, de">Ik zie <marker>de de</marker> man.</example>
+                <example correction="vindt|vindt, vindt">Hoewel de meerderheid het een positief beleid <marker>vindt vindt</marker> een groot deel dit onzin.</example>
+                <example correction="heeft|heeft, heeft">Terwijl de rest nog nul punten <marker>heeft heeft</marker> Karel er al vijf.</example>
                 <example>Zeg nooit nooit.</example>
+                <example>Attentie attentie, beste reizigers.</example>
+                <example>Je moet je eigen leven leven!</example>
+                <example>Wij wonen aan de De Ruiterkade.</example>
             </rule>
             <rule>
                 <antipattern>
