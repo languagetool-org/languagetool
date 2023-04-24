@@ -21216,7 +21216,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <suggestion>\1, \2 \3</suggestion>
         <example correction="aí parada|ai, parada">Não fique <marker>ai parada</marker>.</example>
     </rule>
-    <rule default='on'>
+    <rule>
+        <antipattern>
+            <token inflected="yes" regexp="yes">remontar|até</token>
+            <token>à</token>
+            <token>década</token>
+            <example>Isso remonta à década passada.</example>
+        </antipattern>
         <pattern>
           <token>à</token>
           <token postag='DI.M.+' postag_regexp='yes' min='0'/>
