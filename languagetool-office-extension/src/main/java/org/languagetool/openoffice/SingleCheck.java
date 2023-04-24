@@ -380,10 +380,10 @@ class SingleCheck {
       }
       for (int i = 0; i < toRemarkParas.size(); i++) {
         toRemarkTextParas.add(docCache.getNumberOfTextParagraph(toRemarkParas.get(i)));
-//        if (debugMode > 1) {
+        if (debugMode > 1) {
           String message = "SingleCheck: remarkChangedParagraphs: Remark: Paragraph: " + toRemarkParas.get(i);
           MessageHandler.printToLogFile(message);
-//        }
+        }
       }
       if (!isDisposed() && !toRemarkTextParas.isEmpty()) {
         DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();

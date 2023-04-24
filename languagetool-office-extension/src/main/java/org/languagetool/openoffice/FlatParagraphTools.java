@@ -56,7 +56,6 @@ public class FlatParagraphTools {
 
   private XFlatParagraphIterator xFlatParaIter;
   private XFlatParagraph lastFlatPara;
-  private List<XFlatParagraph> flatparas = new ArrayList<>();
   private XComponent xComponent;
   
   FlatParagraphTools(XComponent xComponent) {
@@ -177,8 +176,6 @@ public class FlatParagraphTools {
     OfficeTools.waitForLO();
     isBusy++;
     try {
-      return flatparas.get(nPara);
-/*
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
@@ -201,7 +198,6 @@ public class FlatParagraphTools {
         return null;
       }
       return xFlatPara;
-*/
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;             // Return null as method failed
@@ -275,7 +271,6 @@ public class FlatParagraphTools {
         }
         return null;
       }
-      flatparas.clear();
       List<String> allParas = new ArrayList<>();
       List<Locale> locales = new ArrayList<>();
       List<int[]> footnotePositions = new ArrayList<>();
@@ -287,7 +282,6 @@ public class FlatParagraphTools {
         String text = new String(tmpFlatPara.getText());
         int len = text.length();
         allParas.add(0, text);
-        flatparas.add(0, tmpFlatPara);
         footnotePositions.add(0, getIntArrayPropertyValue("FootnotePositions", tmpFlatPara));
         // add just one local for the whole paragraph
         locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, fixedLocale, locale, false);
@@ -302,7 +296,6 @@ public class FlatParagraphTools {
         String text = new String(tmpFlatPara.getText());
         int len = text.length();
         allParas.add(text);
-        flatparas.add(tmpFlatPara);
         footnotePositions.add(getIntArrayPropertyValue("FootnotePositions", tmpFlatPara));
         locale = getPrimaryParagraphLanguage(tmpFlatPara, 0, len, fixedLocale, locale, false);
         locales.add(locale);
@@ -332,11 +325,6 @@ public class FlatParagraphTools {
     OfficeTools.waitForLO();
     isBusy++;
     try {
-      List<String> sParas = new ArrayList<>();
-      for (int num : nParas) {
-        sParas.add(flatparas.get(num).getText());
-      }
-/*
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
@@ -361,7 +349,6 @@ public class FlatParagraphTools {
         xFlatPara = xFlatParaIter.getParaAfter(xFlatPara);
         nFlat++;
       }
-*/
       return sParas;
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
@@ -638,10 +625,6 @@ public class FlatParagraphTools {
     OfficeTools.waitForLO();
     isBusy++;
     try {
-      for (int i = from; i < to; i++) {
-        flatparas.get(i).setChecked(TextMarkupType.PROOFREADING, isChecked.get(i));
-      }
-/*
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
@@ -688,7 +671,6 @@ public class FlatParagraphTools {
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
         num++;
       }
-*/
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     } finally {
@@ -703,10 +685,6 @@ public class FlatParagraphTools {
     OfficeTools.waitForLO();
     isBusy++;
     try {
-      for (XFlatParagraph xFlatPara : flatparas) {
-        xFlatPara.setChecked(TextMarkupType.PROOFREADING, checked);
-      }
-/*
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
@@ -724,7 +702,6 @@ public class FlatParagraphTools {
         tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, checked);
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
-*/
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     } finally {
@@ -734,7 +711,7 @@ public class FlatParagraphTools {
   
   /**
    * Get information of checked status of all paragraphs
-   *//*
+   */
   public List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
     OfficeTools.waitForLO();
     isBusy++;
@@ -767,7 +744,7 @@ public class FlatParagraphTools {
     }
     return isChecked;
   }
-*/  
+  
   /**
    * Set marks to changed paragraphs
    * if override is true existing marks are removed and marks are new set
@@ -780,14 +757,6 @@ public class FlatParagraphTools {
       if (changedParas == null || changedParas.isEmpty()) {
         return;
       }
-//      MessageHandler.printToLogFile("FlatParagraphTools: mark Paragraph: flatparas.size: " + flatparas.size());
-      for (int num : changedParas.keySet()) {
-        if (num >= 0 && num < flatparas.size()) {
-//          MessageHandler.printToLogFile("FlatParagraphTools: mark Paragraph: " + num + ", Text: " + flatparas.get(num).getText());
-          addMarksToOneParagraph(flatparas.get(num), changedParas.get(num));
-        }
-      }
-/*      
       XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
@@ -819,7 +788,6 @@ public class FlatParagraphTools {
       if (debugMode && tmpFlatPara == null) {
         MessageHandler.printToLogFile("FlatParagraphTools: markParagraphs: tmpFlatParagraph == null");
       }
-*/
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     } finally {
@@ -830,7 +798,7 @@ public class FlatParagraphTools {
   /**
    * add marks to existing marks of current paragraph
    */
-  public void markCurrentParagraph1(List<SentenceErrors> errorList) {
+  public void markCurrentParagraph(List<SentenceErrors> errorList) {
     isBusy++;
     try {
       if (errorList == null || errorList.size() == 0) {
