@@ -30214,6 +30214,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
     <rule id='HÁ-DIRECTION' name="[Confusão] Há + Direção">
       <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+        <antipattern>
+            <token>há</token>
+            <token regexp='yes'>frente|trás|esquerda|direita|manhã|tarde|noite</token>
+            <token regexp='yes'>n[oa]s?|nes[st][ea]s?</token>
+            <example>Quis dizer que não há noite neste planeta.</example>
+        </antipattern>
+        <antipattern>
+            <token>há</token>
+            <token regexp='yes'>frente|trás|esquerda|direita|manhã|tarde|noite</token>
+            <token postag="RG"/>
+            <example>Quis dizer que não há noite aqui.</example>
+        </antipattern>
       <pattern>
         <token>há</token>
         <token regexp='yes'>frente|trás|esquerda|direita|manhã|tarde|noite</token>
