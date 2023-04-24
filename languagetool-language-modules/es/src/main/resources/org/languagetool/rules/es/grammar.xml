@@ -12069,7 +12069,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aún">Para que la semejanza sea <marker>aun</marker> mayor.</example>
             </rule>
             <rule>
-               <!-- <antipattern>
+                <!-- <antipattern>
                     <token>aun</token>
                     <token skip="5" postag="V.S.*" postag_regexp="yes"/>
                     <token postag="_PUNCT.*" postag_regexp="yes"/>
@@ -12332,9 +12332,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes" inflected="yes" skip="2">informar|independencia|depender|independiente|independientemente|dependiente|seguro|seguridad|acerca de|función|cuestión|pregunta|certeza|duda|dudar|idea|o|dilema</token>
+                    <token regexp="yes" inflected="yes" skip="2">informar|informe|independencia|depender|independiente|independientemente|dependiente|seguro|seguridad|acerca de|función|cuestión|pregunta|certeza|duda|dudar|idea|o|dilema|tratar|enterar</token>
                     <token>de</token>
                     <token>si</token>
+                </antipattern>
+                <antipattern>
+                    <token>de</token>
+                    <token skip="5">si</token>
+                    <token postag="V.IC.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token inflected="yes" skip="3" regexp="yes">olvidar|hablar</token>
@@ -12506,36 +12511,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>si</token>
                 <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
                 <token skip="-1" postag="V.I.2.*" postag_regexp="yes"/>
-                <!--<token>.</token>
+            </antipattern>
+            <antipattern>
+                <token>y</token>
+                <token>tanto</token>
+                <token>si</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">si</token>
+                <token regexp="yes">sí|no<exception scope="previous">que</exception></token>
+                <example>Si está en otra posición, sí, lógicamente.</example>
+                <example>Si está en otra posición, no, por supuesto.</example>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">si</token>
                 <token>.</token>
                 <token>.</token>
-                <token>…</token>-->
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">si</token>
+                <token>…</token>
+                <example>Si puedo acompañarte un trocito...</example>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">si</token>
+                <token postag="V.[IS].*" postag_regexp="yes" skip="-1"/>
+                <token>:</token>
+                <example>Si le digo:</example>
             </antipattern>
             <rule>
-                <antipattern>
-                    <token skip="-1">si</token>
-                    <token regexp="yes">sí|no</token>
-                    <example>Si está en otra posición, sí, lógicamente.</example>
-                    <example>Si está en otra posición, no, por supuesto.</example>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1">si</token>
-                    <token>.</token>
-                    <token>.</token>
-                    <token>.</token>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1">si</token>
-                    <token>.</token>
-                    <token>.</token>
-                    <token>.</token>
-                </antipattern>
-                <antipattern>
-                    <token skip="-1">si</token>
-                    <token regexp="yes">…|:</token>
-                    <example>Si puedo acompañarte un trocito...</example>
-                    <example>Si le digo:</example>
-                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -12740,6 +12745,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">-</token>
                     <token spacebefore="no"/>
                 </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token>como</token>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token>,</token>
                     <marker>
@@ -12747,7 +12762,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">\p{P}</token>
                 </pattern>
-                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <message>Como adverbio de afirmación, se escribe con tilde. Correcto sin tilde si es un condicional.</message>
                 <suggestion>sí</suggestion>
                 <example correction="sí">Pasó esto, <marker>si</marker>, ¿y ahora qué hacemos?</example>
             </rule>
@@ -18427,7 +18442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\?|,</token>
                 </antipattern>
                 <pattern>
-                    <token postag="RN|PT.*" postag_regexp="yes" skip="-1"><exception regexp="yes">como|cuando</exception><exception regexp="yes" scope="next">sino|porque</exception></token>
+                    <token postag="RN|PT.*" postag_regexp="yes" skip="-1"><exception regexp="yes">como|cuando|qué|&dashes;</exception><exception regexp="yes" scope="next">sino|porque</exception></token>
                     <marker>
                         <token>si<exception scope="previous">como</exception></token>
                         <token skip="-1">no<exception postag="V.[MSI].*" postag_regexp="yes" scope="next"/></token>
@@ -31786,6 +31801,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category name="repeticiones" id="REPETITIONS" type="duplication">
         <rule id="ES_NO_ES" name="*es no es">
+            <antipattern>
+                <token regexp="yes">si|sí</token>
+                <token>es</token>
+                <token>no</token>
+                <token>es</token>
+            </antipattern>
             <pattern raw_pos="yes">
                 <token postag="V.*" postag_regexp="yes"/>
                 <token>no</token>
