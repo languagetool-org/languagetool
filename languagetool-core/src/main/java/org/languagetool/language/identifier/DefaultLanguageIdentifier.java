@@ -284,13 +284,17 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
           scores.keySet().removeIf(k -> k.equals("da"));
           result = getHighestScoringResult(scores);
         }
-        if ((text.length() <= CONSIDER_ONLY_PREFERRED_THRESHOLD && preferredLangs.size() > 0) || limitOnPreferredLangs) {
+        if (!preferredLangs.isEmpty() && (text.length() <= CONSIDER_ONLY_PREFERRED_THRESHOLD || limitOnPreferredLangs)) {
           //System.out.println("remove? " + preferredLangs + " <-> " + scores);
-          scores.keySet().removeIf(k -> !preferredLangs.contains(k));
+          boolean wasRemoved = scores.keySet().removeIf(k -> !preferredLangs.contains(k));
+          if (wasRemoved && scores.isEmpty() && limitOnPreferredLangs) {
+            //TODO: just to see how often we would return no results because of that parameter -> remove later
+            logger.warn("No language detected for text after remove all not preferred languages from score.");
+          }
           //System.out.println("-> " + b + " ==> " + scores);
           result = getHighestScoringResult(scores);
           //add login was wäre wenn ansonsten hier so lassen
-          source += "+prefLang";
+          source += "+prefLang(forced: " + limitOnPreferredLangs + ")";
         }
         // Calculate a trivial confidence value because fasttext's confidence is often
         // wrong for short cleanText (e.g. 0.99 for a test that's misclassified). Don't
@@ -361,7 +365,11 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
   private Map.Entry<String, Double> detectLanguageCode(String text, List<String> preferredLangs, boolean limitOnPreferredLangs) {
     List<com.optimaize.langdetect.DetectedLanguage> lang = languageDetector.getProbabilities(text);
     if (limitOnPreferredLangs && preferredLangs != null && !preferredLangs.isEmpty()) {
-      lang.removeIf(l -> !preferredLangs.contains(l.getLocale().getLanguage()));
+      boolean wasRemoved = lang.removeIf(l -> !preferredLangs.contains(l.getLocale().getLanguage()));
+      if (wasRemoved && lang.isEmpty()) {
+        //TODO: just to see how often we would return no results because of that parameter -> remove later
+        logger.warn("No language detected for text after remove all not preferred languages from score.");
+      }
     }
     // comment in for debugging:
     //System.out.println(languageDetector.getProbabilities(textObject));
