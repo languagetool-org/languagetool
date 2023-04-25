@@ -12522,9 +12522,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
               <exception regexp='yes'>necessári[ao]s?|preferíve(?:l|is)|restrit[ao]s?</exception></token>
             <token>a</token>
           </marker>
-          <token postag_regexp='yes' postag='(?:N.|A..)FS.+'>
+          <token postag_regexp='yes' postag='(?:NC|A..)FS.+'>
             <exception>uma</exception>
-            <exception postag='R.+' postag_regexp='yes'/></token>
+            <exception postag='R.+|DI.+' postag_regexp='yes'/></token>
         </pattern>
         <message>Possível erro de crase.</message>
         <suggestion>\1 à</suggestion>
@@ -41322,9 +41322,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='LOWERCASE_RARE_WORDS_GEOGRAPHICAL' name="Palavras raras: Capitalização de nomes geográficos">
       <!--      Created by Tiago F. Santos, Portuguese rule, 2019-08-25      -->
       <rule>
+        <antipattern>
+            <token spacebefore="no">-</token>
+            <token case_sensitive='yes' regexp='yes'>açores|angola|barbados|brasil|china|croácia|cuba|lituânia|moçambique|palestina|polónia|togo|havana|paris</token>
+            <example>O capim-angola</example>
+        </antipattern>
         <pattern>
-          <token case_sensitive='yes' regexp='yes'>açores|angola|barbados|brasil|china|croácia|cuba|lituânia|moçambique|palestina|polónia|togo|havana|paris
-            <exception scope='previous' spacebefore='no'>&hifen;</exception></token>
+            <token case_sensitive='yes' regexp='yes'>açores|angola|barbados|brasil|china|croácia|cuba|lituânia|moçambique|palestina|polónia|togo|havana|paris</token>
         </pattern>
         <message>Se se refere ao nome geográfico escreva-o com maiúsculas.</message>
         <suggestion><match no='1' case_conversion='startupper'/></suggestion>

@@ -5567,7 +5567,7 @@ USA
                         <exception>sendo</exception>
                         <exception scope="previous" regexp='yes'>mais|menos|sempre|como|onde</exception> <!-- Some RG caused false positives, adding here the ones I found doing that. -->
                         <exception scope="previous" regexp='yes'>se</exception> <!-- Some CS caused false positives, adding here the ones I found doing that. -->
-                        <exception postag_regexp='yes' postag='VMIF3.+'/> <!-- With "não" there is no VMN0000+VMSF1S0 because it won't repeat two infinitive verbs: "É uma ilusão acreditar que não há ilusões." -->
+                        <exception postag_regexp='yes' postag='VMIF3.+|VMN0000'/> <!-- With "não" there is no VMN0000+VMSF1S0 because it won't repeat two infinitive verbs: "É uma ilusão acreditar que não há ilusões." -->
                     </token>
                     <marker>
                         <token>que</token>
@@ -13991,7 +13991,8 @@ USA
             </pattern>
             <message>Pode omitir o pronome ‘que’ para tornar o texto mais fluido.</message>
             <suggestion>e</suggestion>
-            <example correction="e">É necessário saber que os terroristas são perigosos <marker>e que</marker> ninguém está seguro.</example>
+            <suggestion>que</suggestion>
+            <example correction="e|que">É necessário saber que os terroristas são perigosos <marker>e que</marker> ninguém está seguro.</example>
         </rule>
 
 
