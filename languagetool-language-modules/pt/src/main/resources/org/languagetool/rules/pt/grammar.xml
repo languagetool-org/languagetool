@@ -16721,9 +16721,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup type='grammar' id='CONTRACOES_OBRIGATORIAS' name="Contrações obrigatórias">
       <!--     Created by Tiago F. Santos, on 2016-10-31   -->
       <!--
-           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
+           MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
       <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
+
+      <!-- MARCOAGPINTO 2023-04-25 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+      <!-- It has zero hits in 600 000 sentences, it just removes one false positive in my thesis -->
+      <antipattern>
+        <token regexp='no'>por</token>
+        <token postag='(SPS00:)?DA.+' postag_regexp='yes'/>
+        <token min="1" max="2" postag='AQ.+|NC.+|NP.+|UNKNOWN|CC' postag_regexp='yes'/> <!-- CC="CA" (Cellular Automata), it does fix some false positives -->
+        <token postag='V.+' postag_regexp='yes'/>
+        <example>Isto acontece mundialmente por os CA criarem padrões interessantes.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-04-25 (Checked/Enhanced) (2-MAR-2023+) *END* -->
 
       <!-- MARCOAGPINTO 2022-11-14 + 2022-12-20 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <!-- It has zero hits in 600 000 sentences, it just removes two false positives in my thesis -->
