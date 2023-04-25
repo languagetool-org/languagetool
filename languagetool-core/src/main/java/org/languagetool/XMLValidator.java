@@ -119,8 +119,11 @@ public final class XMLValidator {
   public void validateWithXmlSchema(String baseFilename, String filename, String xmlSchemaPath) throws IOException {
     try (InputStream xmlStream = JLanguageTool.getDataBroker().getAsStream(filename);
          InputStream baseXmlStream = JLanguageTool.getDataBroker().getAsStream(baseFilename)) {
-      if (xmlStream == null || baseXmlStream == null ) {
-        throw new IOException("Files not found in classpath: " + filename + ", " + baseFilename);
+      if (xmlStream == null) {
+        throw new IOException("File not found in classpath: " + filename);
+      }
+      if (baseXmlStream == null ) {
+        throw new IOException("File not found in classpath: " + baseFilename);
       }
       URL schemaUrl = this.getClass().getResource(xmlSchemaPath);
       if (schemaUrl == null) {
