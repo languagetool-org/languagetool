@@ -54,6 +54,8 @@ public class SentenceAnnotator {
     System.out.print("Start at line? ");
     String response = sc.nextLine();
     int startLine = 0;
+    String ANSI_DEFAULT = "\u001B[0m";
+    String ANSI_WHITE = "\u001B[97m";
     try {
       startLine = Integer.valueOf(response);
     } catch (NumberFormatException ex) {
@@ -89,10 +91,10 @@ public class SentenceAnnotator {
         String formattedSentence = formatedSentence(sentence, match);
         String formattedCorrectedSentence = formattedSentence;
         String detectedErrorStr = "";
-        System.out.println("=============================================");
+        System.out.println(ANSI_DEFAULT + "=============================================");
         System.out.println("Sentence no. " + String.valueOf(numSentence));
         System.out.println("---------------------------------------------");
-        System.out.println(formattedSentence);
+        System.out.println(ANSI_WHITE + formattedSentence + ANSI_DEFAULT);
         System.out.println("---------------------------------------------");
         if (match != null) {
           System.out.println(match.getMessage());
