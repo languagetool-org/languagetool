@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes" useIcu4JBreakRules="no" treatIsolatedCodesAsWhitespace="no"></okpsrx:options>
-<okpsrx:sample language="nl" useMappedRules="yes">Mike, met Ed. Vervolgens heb je hier nodig.</okpsrx:sample>
+<okpsrx:sample language="nl" useMappedRules="yes">O. Dat is vreemd.</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1540,6 +1540,10 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Dutch">
+<rule break="yes">
+<beforebreak>(^| )O\.\s</beforebreak>
+<afterbreak>([A-Z][a-z]{1,3}[ ,:;.!?]|Indië|Wanneer|Kunnen|Sorry)</afterbreak>
+</rule>
 <rule break="yes">
 <beforebreak>\sEd[.]\s</beforebreak>
 <afterbreak>([A-Z][a-z]{1,3}|Wanneer|Misschien|Daarna|Zoals|Zelfs|Bedankt|Zullen|Vooral|Volgens|Vervolgens)(\s|[,:;])</afterbreak>
