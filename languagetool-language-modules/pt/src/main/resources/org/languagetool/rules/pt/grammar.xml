@@ -6790,7 +6790,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
             <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'>
-              <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC][NS].+|(C|R).+|SPS00' postag_regexp='yes'/>
+              <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC][NS].+|(C|R).+|SPS00|VMI.+' postag_regexp='yes'/>
               <exception regexp='yes'>.+[°′″]|levas|vezes|quais</exception></token>
             <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
             <token min='0' postag='(?:A[OQP].)C.+' postag_regexp='yes'>
@@ -13982,6 +13982,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token regexp="yes">p(?:ossivelmente|rovavelmente)|quiçá</token>
         <token postag='VMN0000'/>
       </antipattern>
+      <antipattern>
+          <token skip="-1">embora</token>
+         <token regexp="yes">p(?:ossivelmente|rovavelmente)|quiçá</token>
+          <token min="0" skip="2" postag="R[NG].*" postag_regexp="yes"/>
+          <token postag="V.S.*" postag_regexp="yes"/>
+         <example>embora tais crenças provavelmente tenham influenciado práticas funerárias.</example>
+      </antipattern>
       <pattern>
         <token regexp="yes">p(?:ossivelmente|rovavelmente)|quiçá
           <exception scope="previous" regexp="yes">quando|se</exception></token>
@@ -14776,36 +14783,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </rule>
 
     </rulegroup>
-
-    <!-- CUMPRIR OS COMPROMISSOS honrar os compromissos -->
-    <rule id='HONRAR_COMPROMISSOS' name="Honrar compromissos">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-22 (25-JUN-2021+)      -->
-      <!--
-      Vou cumprir os compromissos. → Vou honrar os compromissos.
-      Vou cumprir os meus compromissos. → Vou honrar os meus compromissos.
-      -->
-      <pattern>
-        <marker>
-          <token inflected='yes'>cumprir</token>
-        </marker>
-        <token min="0" max="1" regexp="yes">os?</token>
-        <token min="0" max="1" postag='DP.+' postag_regexp='yes'/>
-        <token regexp="yes">compromissos?</token>
-      </pattern>
-      <message>É mais correto usar: <suggestion><match no='1' postag='V.+' postag_regexp='yes'>honrar</match></suggestion>.</message>
-      <example correction="honrar">Vou <marker>cumprir</marker> os compromissos.</example>
-      <example>Vou honrar os meus compromissos.</example>
-    </rule>
-
-    <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite -> Imagem de satélite">
-      <!--      Created by Tiago F. Santos, 2019-09-07      -->
-      <pattern>
-        <token regexp="yes">image(?:m|ns)</token>
-        <token regexp='yes'>satélites?</token>
-      </pattern>
-      <message>Substitua por <suggestion>\1 de satélite</suggestion>.</message>
-      <example correction="imagens de satélite"><marker>imagens satélite</marker>.</example>
-    </rule>
 
 
     <rule id='AO_PAR_COM' name="A par com">
@@ -35155,7 +35132,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <pattern>
         <token regexp="yes">\d+</token>
         <marker>
-          <token regexp="yes">(?:&unidades_de_medida;)s<exception regexp='yes'>pcs|vs</exception></token>
+          <token regexp="yes">(?:&unidades_de_medida;)s<exception regexp='yes'>pcs|vs|tons</exception></token>
         </marker>
       </pattern>
       <message>As abreviaturas de unidades de medida padrão não tem plural.</message>
