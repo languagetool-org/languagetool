@@ -3950,16 +3950,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (2-MAR-2023+)
       -->
 
-      <!-- MARCOAGPINTO 2023-03-04 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+      <!-- MARCOAGPINTO 2023-03-04 + 2023-04-25 (Checked/Enhanced) (2-MAR-2023+) *START* -->
       <antipattern>
-        <token postag='(SPS00:)?[DP][ADIPRT]..[SN].+' postag_regexp='yes'/>
+        <token postag='SPS00|(SPS00:)?[DP]...[SN].+' postag_regexp='yes'/>
         <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
         <token postag='CC' postag_regexp='no'/>
-        <token postag='(SPS00:)?[DP][ADIPRT]..[SN].+' postag_regexp='yes'/>
+        <token postag='SPS00|(SPS00:)?[DP]...[SN].+' postag_regexp='yes'/>
         <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
         <example>A ameaça ao pessoal, a instalações e a interesses dos estados-membros.</example>
       </antipattern>
-      <!-- MARCOAGPINTO 2023-03-04 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+      <!-- MARCOAGPINTO 2023-03-04 + 2023-04-25 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+
+      <!-- MARCOAGPINTO 2023-04-25 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+      <antipattern>
+        <token postag='VM...P.+' postag_regexp='yes'/>
+        <token min="0" max="1" postag='CC|SPS00' postag_regexp='yes'/>
+        <token postag='(SPS00:)?[DP]...[SN].+' postag_regexp='yes'/>
+        <token postag='AQ..S.+|NC.S.+|VMG0000' postag_regexp='yes'/>
+        <token postag='AQ..P.+|NC.P.+' postag_regexp='yes'/>
+        <example>Os jogos para auxiliarem nesse fim existentes na época eram praticamente nulos.</example>
+        <example>Os jogos para auxiliarem para esse fim existentes na época eram praticamente nulos.</example>
+        <example>...nclui duas espécies: "Phacochoerus africanus" e "Phacochoerus aethiopicus", que já foram no passado consideradas uma única espécie, e que ainda são consideradas sinónimos por alguns autores.</example>
+        <example>Tenho a impressão de que saltam de sua boca pérolas e diamantes.</example>
+        <example>...ados grupos para incitar o povo aos pogroms. Em Varsóvia os socialistas poloneses resistiram a isso pondo jovens armados para proteger todas as ruas.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-04-25 (Checked/Enhanced) (2-MAR-2023+) *START* -->
 
       <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
