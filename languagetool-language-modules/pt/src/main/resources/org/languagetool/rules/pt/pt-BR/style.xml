@@ -422,7 +422,7 @@ USA
             <example correction="#¿$?%!¡">O <marker>puto</marker> é bom!</example>
         </rule>
 
-        <rulegroup id='DEPRECIATIVO_PT_BR' name="Termos depreciativos" type="style" default='on'>
+        <rulegroup id='DEPRECIATIVO_PT_BR' name="Termos depreciativos" type="style" tags="picky">
             <rule>
                 <antipattern>
                     <token negate_pos="yes" postag="SENT_START"/>
@@ -569,7 +569,7 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">maricas|mariconas|boiolas|maricões|mariconços|bichas</token>
+                        <token regexp="yes">maricas|mariconas|boiolas|maricões|mariconços</token>
                     </marker>
                 </pattern>
                 <message>Este termo é depreciativo. Pondere substituir por <suggestion>covardes</suggestion> ou <suggestion>fracotes</suggestion></message>
@@ -893,7 +893,7 @@ USA
                 <short>Termo depreciativo</short>
                 <example correction="humor ácido">Tem um <marker>humor negro</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern case_sensitive="yes">
                     <token negate="yes">-</token>
                     <marker>
