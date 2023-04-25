@@ -12308,6 +12308,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token case_sensitive='yes'>Horas</token>
           <token>de</token>
         </antipattern>
+          <antipattern>
+              <token postag_regexp='yes' postag='V..[PFS].+' skip='3'/>
+              <token regexp='yes'>a</token>
+              <token postag_regexp='yes' postag='Z.+|C.' max='3'/>
+              <token regexp='yes' skip="-1">horas?</token>
+              <token regexp='yes'>d[eoa]s?|daqui|dali|daquel[ea]s?</token>
+              <example>A cidade fica a duas horas daqui.</example>
+          </antipattern>
         <pattern>
           <token postag_regexp='yes' postag='V..[PFS].+' skip='3'>
             <exception inflected='yes'>reverter</exception>
