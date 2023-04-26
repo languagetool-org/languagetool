@@ -3185,4 +3185,1141 @@ USA
             <example correction="m/w/d">Wir suchen Maler (<marker>m/w</marker>).</example>
         </rule>
     </category>
+
+    <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
+        <rule id="EMPFOHLEN_TIEFGREIFEND" name="tief greifend (tiefgreifend)" default="off">
+            <!-- Begriffe sind für den Moment in lt_recommendation_premium.csv gelistet; Regel für eventuelle spätere Änderungen zu Vereinheitlichung aufbewahren -->
+            <pattern>
+                <token>tief</token>
+                <token regexp="yes">greifend(e[mnrs]?)?|gehend(e[mnrs]?)?|schürfend(e[mnrs]?)?</token>
+            </pattern>
+            <message>Möchten Sie die empfohlene Schreibweise <suggestion><match no="1" /><match no="2" /></suggestion> verwenden?</message>
+            <url>https://www.korrekturen.de/wortliste/tiefgreifend.shtml</url>
+            <example correction="tiefgreifenden">Das zeigt die <marker>tief greifenden</marker> Probleme der Organisation.</example>
+        </rule>
+        <rule id="EMPFOHLEN_LANGGEHEGT" name=" lang gehegt (langgehegt)" default="off">
+            <!-- Begriffe sind für den Moment in lt_recommendation_premium.csv gelistet; Regel für eventuelle spätere Änderungen zu Vereinheitlichung aufbewahren -->
+            <pattern>
+                <token>lang</token>
+                <token regexp="yes">gehegt(e[mnrs]?)?|anhaltend(e[mnrs]?)?|andauernd(e[mnrs]?)?|gestreckt(e[mnrs]?)?|laufend(e[mnrs]?)?</token>
+            </pattern>
+            <message>Möchten Sie die empfohlene Schreibweise <suggestion><match no="1" /><match no="2" /></suggestion> verwenden?</message>
+            <url>https://www.korrekturen.de/wortliste/langgehegt.shtml</url>
+            <example correction="langgehegter"> Damit ging ein <marker>lang gehegter</marker> Wunsch in Erfüllung.</example>
+        </rule>
+        <rule id="EMPFOHLEN_WEITREICHEND" name="weit reichend (weitreichend)" default="off">
+            <!-- Begriffe sind für den Moment in lt_recommendation_premium.csv gelistet; Regel für eventuelle spätere Änderungen zu Vereinheitlichung aufbewahren -->
+            <pattern>
+                <token>weit</token>
+                <token regexp="yes">reichend(e[mnrs]?)?|blickend(e[mnrs]?)?|gehend(e[mnrs]?)?|greifend(e[mnrs]?)?</token>
+            </pattern>
+            <message>Möchten Sie die empfohlene Schreibweise <suggestion><match no="1" /><match no="2" /></suggestion> verwenden?</message>
+            <url>https://www.korrekturen.de/wortliste/weitreichend.shtml</url>
+            <example correction="weitreichende"> Mit seiner Amtsführung legte Adenauer den Grundstein für eine sehr <marker>weit reichende</marker> Interpretation dieses Begriffes.</example>
+        </rule>
+        <rulegroup id="PROBIEREN_GEHT_UEBER_STUDIEREN" name="Probieren geht über Studieren" tags="professional">
+            <antipattern case_sensitive="yes">
+                <token>Probieren</token>
+                <token min="0">geht</token>
+                <token>über</token>
+                <token>Studieren</token>
+            </antipattern>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Pp]robieren</token>
+                    <token>geht</token>
+                    <token>über</token>
+                    <token regexp="yes">[Ss]tudieren</token>
+                </pattern>
+                <message>In dieser Redewendung wird es empfohlen, beide Verben großzuschreiben.</message>
+                <suggestion>Probieren geht über Studieren</suggestion>
+                <example correction="Probieren geht über Studieren"><marker>Probieren geht über studieren</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="1">gehen</token>
+                    <marker>
+                        <token regexp="yes">[Pp]robieren</token>
+                        <token>über</token>
+                        <token regexp="yes">[Ss]tudieren</token>
+                    </marker>
+                </pattern>
+                <message>In dieser Redewendung wird es empfohlen, beide Verben großzuschreiben.</message>
+                <suggestion>Probieren über Studieren</suggestion>
+                <example correction="Probieren über Studieren">Am Ende geht <marker>probieren über studieren</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EVTL_ABK" name="Schreibweise der Abkürzung 'evtl.'" tags="professional clarity">
+            <url>https://www.duden.de/rechtschreibung/evtl_</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[Ee]vt</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung für "eventuell" ist <suggestion>evtl.</suggestion>.</message>
+                <example correction="evtl.">Er wollte nichts sagen <marker>evt.</marker> weil er Angst hatte.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VLT_ABK" name="Schreibweise der Abkürzung 'vlt.'">
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">vi?ll?h?t?
+                        <exception regexp="yes">vlt|vllt|vll?</exception>
+                    </token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Möchten Sie eine gängigere Schreibweise verwenden?</message>
+                <suggestion>vllt.</suggestion>
+                <suggestion>vlt.</suggestion>
+                <suggestion>vl.</suggestion>
+                <suggestion>vll.</suggestion>
+                <example correction="vllt.|vlt.|vl.|vll.">Aber <marker>villt.</marker> hast du recht.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GGF_ABK" name="Schreibweise der Abkürzung 'ggf.'" tags="professional clarity">
+            <url>https://de.wiktionary.org/wiki/ggf.</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[Gg]gfs</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung für "gegebenenfalls" ist <suggestion>ggf.</suggestion>.</message>
+                <example correction="ggf.">Wir werden uns <marker>ggfs.</marker> dazu noch mal melden.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GEFEATURED" name="gefeatured -> gefeaturt" tags="professional clarity">
+            <url>https://languagetool.org/insights/de/beitrag/englische-worter-meeten-deutsche-grammatik/</url>
+            <antipattern><!-- Englische Sätze -->
+                <token regexp="yes">.+ed</token>
+                <token regexp="yes">it|by|to|for|from|with|off?|the|an?|my|y?our|his|her|their</token>
+            </antipattern>
+            <antipattern><!-- Englische Sätze -->
+                <token regexp="yes">by|from|with|off?|the|an?|my|y?our|his|her|their|have|ve|has|had</token>
+                <token regexp="yes">.+ed</token>
+            </antipattern>
+            <antipattern>
+                <token>designed</token>
+                <token>in</token>
+                <token regexp="yes">Germany|America|Switzerland|Austria</token>
+            </antipattern>
+            <antipattern>
+                <token>Checked</token>
+                <token>Swing</token>
+            </antipattern>
+            <antipattern>
+                <token>Matched</token>
+                <token regexp="yes">Layers?|Targets?|Audiences?</token>
+            </antipattern>
+            <antipattern><!-- Englische Sätze -->
+                <token regexp="yes">was|were|is|are|be|been|s?he|it|you|they|I|most</token>
+                <token regexp="yes" min="0">.+ly</token>
+                <token regexp="yes">.+ed</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&anfauf;</token>
+                <token regexp="yes">.+ed</token>
+                <token regexp="yes">&anfzu;</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[Gg]epatched|[Gg]eremixed|[Gg]escreened|[Gg]ebiked|[Gg]etracked|[Gg]eteased|[Gg]ereviewed|[Gg]eshuffeled|[Gg]eboostered|[Gg]ecrawled|[Gg]efracked|[Gg]espoilered|[Gg]ematched|[Aa]ngeteasered|[Gg]eteasered|[Gg]eskyped|[Gg]ezapped|[Gg]etaped|[Gg]efeatured|[Gg]eliked|[Ll]iked|[Gg]eparsed|[Gg]etagged|[Dd]eployed|[Gg]efaked|[Gg]echecked|[Gg]eshared|[Gg]eleaked|[Gg]emanaged|[Dd]esigned|[Rr]elaunched|[Gg]etuned|[Gg]ecrashed|[Gg]ecat?ched|[Cc]hecked|[Ee]ntertained|[Gg]egoogled|[Gg]ecoached|[Gg]eblogged|[Gg]ebeamed|[Gg]echipped|[Pp]erformed|[Gg]eswiped|[Mm]atched|[Gg]eschocked|[Gg]epitched|[Pp]itched|[Gg]emapped|[Oo]utgesourced|[Ii]nterviewed|[Gg]efixed|[Gg]eflashed|[Gg]ehyped|[Gg]eshopped</token>
+                </pattern>
+                <message>Die empfohlene und eingedeutschte Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="t" /></suggestion>.</message>
+                <example correction="gefeaturt">Wir wurden auf der Startseite des App Stores <marker>gefeatured</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[Gg]eouted|[Gg]ekited|[Gg]edated|[Gg]ecasted|[Gg]evested|[Gg]eshorted|[Gg]ehighlighted|[Ss]upported|[Gg]efighted|[Gg]eframed</token>
+                </pattern>
+                <message>Die empfohlene und eingedeutschte Schreibweise für diesen Anglizismus ist <suggestion><match no="1" regexp_match="ed$" regexp_replace="et" /></suggestion>.</message>
+                <example correction="gedatet">Sie haben sich 2 Wochen lang <marker>gedated</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BZGL_ABK" name="Schreibweise der Abkürzung 'bzgl.'" tags="professional clarity">
+            <rule>
+                <pattern>
+                    <token>bezgl</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung für "bezüglich" ist <suggestion>bzgl.</suggestion>.</message>
+                <example correction="bzgl.">Er wollte nichts sagen <marker>bezgl.</marker> ihrer Frage.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bezgl</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung für "bezüglich" ist <suggestion>bzgl.</suggestion>.</message>
+                <example correction="bzgl.">Er wollte nichts sagen <marker>bezgl</marker> ihrer Frage.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AB_TEST" name="A/B-Test" tags="professional">
+            <url>https://de.wikipedia.org/wiki/A/B-Test</url>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">A[\-\/]?B</token>
+                    <token regexp="yes">Test(ing|s|er[sn]?)?</token>
+                </pattern>
+                <message>Die empfohlene Schreibweise ist <suggestion>A/B-<match no="2" case_conversion="startupper" /></suggestion>.</message>
+                <example correction="A/B-Test">Wir machen einen <marker>A-B Test</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>A</token>
+                    <token regexp="yes" min="0">[\-\/]</token>
+                    <token>B</token>
+                    <token regexp="yes">Test(ing|s|er[sn]?)?</token>
+                </pattern>
+                <message>Die empfohlene Schreibweise ist <suggestion>A/B-<match no="4" case_conversion="startupper" /></suggestion>.</message>
+                <example correction="A/B-Test">Wir machen einen <marker>A - B Test</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" case_sensitive="yes">A/B-Test.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">A[\-\/]?B-Test(ing|s|er[sn]?)?</token>
+                </pattern>
+                <message>Die empfohlene Schreibweise ist <suggestion>A/B-<match no="1" regexp_match="(?i)A[\-\/]?B-" regexp_replace="" case_conversion="startupper" /></suggestion>.</message>
+                <example correction="A/B-Tester">Wir schicken das Release an all <marker>A-B-Tester</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="F_ANSTATT_PH" name="Worte mit F anstatt Ph" tags="professional clarity">
+            <antipattern>
+                <token skip="1" regexp="yes">the|of</token>
+                <token regexp="yes">.*ph.*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Bundesamt(s|es)?</token>
+                <token>für</token>
+                <token>Seeschifffahrt</token>
+                <token>und</token>
+                <token>Hydrographie</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Bibliographische[ns]?</token>
+                <token regexp="yes">Institute?s?|Archive?s?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">the|daily</token>
+                <token>Telegraph</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&anfauf;</token>
+                <token spacebefore="no">Telegraph</token>
+                <token regexp="yes" spacebefore="no">&anfzu;</token>
+            </antipattern>
+            <antipattern><!-- do not correct "Phantasialand" or "chromatography" -->
+                <token regexp="yes">.*y|Phantasia.*|Graphem[se]?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Phantas.*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="Phantas(.*)" regexp_replace="Fantas$1"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
+                <example correction="Fantasie">Er hat eine blühende <marker>Phantasie</marker>.</example>
+                <example correction="Fantasien">Er entwickelte wilde <marker>Phantasien</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">phantas.*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="phantas(.*)" regexp_replace="fantas$1"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
+                <example correction="fantastische">Es ist eine <marker>phantastische</marker> Landschaft.</example>
+                <example correction="fantasievolle">Er lieferte eine <marker>phantasievolle</marker> Beschreibung.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">GraphQL|.*pho[nt]ograph.*|monograph|palaeontograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*[gG]raph[\wäöüÄÖÜß-]*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)raph(.*)" regexp_replace="$1$2raf$3"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
+                <example correction="geografischen">Er vertrieb sich die Zeit mit <marker>geographischen</marker> Studien.</example>
+                <example correction="Geografie">Sie hat <marker>Geographie</marker> studiert.</example>
+                <example>Die Abbildung zeigt den <marker>Graphen</marker> der genannten Funktion.</example>
+                <example correction="Kryptografie">Sie galt als Spezialistin für <marker>Kryptographie</marker> in ihrem Unternehmen.</example>
+                <example>GUI = Graphical User Interface</example>
+                <example>http://www.graphical-illustration.com</example>
+                <example correction="Paragraf">Der <marker>Paragraph</marker> ganz unten!</example>
+                <example>Der "Telegraph" zitierte eine nicht näher genannte Regierungsquelle mit den Worten: "Alles steht auf Messers Schneide."</example>
+                <example>Sein Buch heißt 'everyday  chromatography'.</example>
+                <example>Wir fahren ins Phantasialand.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">GraphQL|.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[\wäöüÄÖÜß-]*GRAPH[\wäöüÄÖÜß-]*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)RAPH(.*)" regexp_replace="$1$2RAF$3"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
+                <example correction="GEOGRAFISCHEN">Er vertrieb sich die Zeit mit <marker>GEOGRAPHISCHEN</marker> Studien.</example>
+                <example correction="GEOGRAFIE">Sie hat <marker>GEOGRAPHIE</marker> studiert.</example>
+                <example>Die Abbildung zeigt den <marker>GRAPHEN</marker> der genannten Funktion.</example>
+                <example correction="KRYPTOGRAFIE">Sie galt als Spezialistin für <marker>KRYPTOGRAPHIE</marker> in ihrem Unternehmen.</example>
+                <example correction="PARAGRAF">Der <marker>PARAGRAPH</marker> ganz unten!</example>
+                <example>GUI = GRAPHICAL USER INTERFACE</example>
+                <example>http://www.GRAPHICAL-ILLUSTRATION.com</example>
+                <example>Als kaiserlicher Archivar hatte der Biograph Zugriff auf Dokumente der Regierung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Photograph[\wäöüÄÖÜß-]*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="Photograph(.*)" regexp_replace="Fotograf$1"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
+                <example correction="Fotografien">Sie sammelte <marker>Photographien</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*photograph[\wäöüÄÖÜß-]*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.*)photograph(.*)" regexp_replace="$1fotograf$2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
+                <example correction="Familienfotografien">Ihr gelangen immer wieder wundervolle <marker>Familienphotographien</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TEST_F_ANSTATT_PH" name="Worte mit Ph anstatt F" tags="professional clarity">
+            <url>https://languagetool.org/insights/de/beitrag/ph-versus-f/</url>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">Phone|Photograph.*|Photons?|Photonen.*|Photoshop.*|Phono.*|Phone[mt].*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Pho(to|n)[\wäöüÄÖÜß-]*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="Photo(.*)" regexp_replace="Foto$1"/></suggestion> verwenden?</message>
+                <example correction="Fotoalbum">Sie blätterte gerne durch das <marker>Photoalbum</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">Persephones?|Symphony|Babyphones?|Softphones?|.*photograph.*|.*photon|.*photonen.*|.*phono.*|.*phone[mt].*|symphoni.*|(.+)?Smartphone.*|Allophon.*|Siphon</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">https?.*|www.*</token>
+                </antipattern>
+                <antipattern>
+                    <token>deutsche</token>
+                    <token>Grammophon</token>
+                    <example>Deutsche Grammophon / Universal Music, 2003, ISBN 978-3-8291-1306-9.</example>
+                </antipattern>
+                <antipattern>
+                    <token>#</token>
+                    <token spacebefore="no" regexp="yes" case_sensitive="yes">.*pho(to|n).*</token>
+                    <example>Hashtag #iphone</example>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">.*pho(to|n).*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.*)pho(.*)" regexp_replace="$1fo$2"/></suggestion> verwenden?</message>
+                <example correction="Familienfotos">Ihr gelangen immer wieder wundervolle <marker>Familienphotos</marker>.</example>
+                <example>https://unsplash.com/photos/xxxxx</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PH_ANSTATT_F" name="Worte mit Ph anstatt F" tags="professional clarity">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">Fonograf.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Fono.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Fono(.*)" regexp_replace="Phono$1"/></suggestion> verwenden?</message>
+                <example correction="Phonotypistin">Sie arbeitete als <marker>Fonotypistin</marker>.</example>
+                <example correction="Phonologie">Sie befasste sich mit <marker>Fonologie</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">Fonograf[\wäöüÄÖÜß-]*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Fonograf(.*)" regexp_replace="Phonograph$1"/></suggestion> verwenden?</message>
+                <example correction="Phonograph">Die Aufnahme wurde mit einem <marker>Fonograf</marker> erstellt.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">fonograf.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">fono[\wäöüÄÖÜß-]*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="fono(.*)" regexp_replace="phono$1"/></suggestion> verwenden?</message>
+                <example correction="phonogene">Er verfügt über eine <marker>fonogene</marker> Stimme.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">fonograf.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie Schreibweise <suggestion><match no="1" regexp_match="fonograf(.*)" regexp_replace="phonograph$1"/></suggestion> verwenden?</message>
+                <example correction="phonographisches">Ein <marker>fonografisches</marker> System bietet gegenüber einem logografischen den Vorteil eines kleinen Zeicheninventars und somit der verhältnismäßig leichten Erlernung.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="I_ANSTATT_Y" name="Worte mit I anstatt Y" tags="professional clarity">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\wäöüÄÖÜß-]*oxyd[\wäöüÄÖÜß-]*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)xyd(.*)" regexp_replace="$1$2xid$3"/></suggestion> verwenden?</message>
+                <url>https://www.duden.de/rechtschreibung/Kohlendioxid</url>
+                <example correction="Kohlendioxidvergiftung">Er zog sich eine <marker>Kohlendioxydvergiftung</marker> zu.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="Z_ANSTATT_T" name="Worte mit Z anstatt T" tags="professional clarity">
+            <url>https://languagetool.org/insights/de/beitrag/potenzial-potential-potenziell-potentiell/</url>
+            <antipattern>
+                <token regexp="yes">high|low|the|an?|full|your</token>
+                <token regexp="yes">potentials?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Potentially|differentialis</token>
+            </antipattern>
+            <antipattern>
+                <token>potential</token>
+                <token>of</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(demen|poten|essen)tiell[\wäöüÄÖÜß-]*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.*)tiell(.*)" regexp_replace="$1ziell$2"/></suggestion> verwenden?</message>
+                <example correction="essenziell">Diese Aussage ist <marker>essentiell</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(poten|differen)tial.*</token>
+                </pattern>
+                <message>Möchten Sie die modernere Schreibweise <suggestion><match no="1" regexp_match="(.*)tial(.*)" regexp_replace="$1zial$2"/></suggestion> verwenden?</message>
+                <example correction="Potenzial">Diese Erfindung hat viel <marker>Potential</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EMPFOHLENE_GETRENNTSCHREIBUNG" name="Empfohlene Getrenntschreibung" tags="professional clarity">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">verloreng(eh(en?|s?t)|ing(en)?|egangen(e[nrs]?)?)</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>verloren <match no="1" regexp_match="verloren" regexp_replace=""/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <short>&getrennt;.</short>
+                <example correction='verloren gegangen'>Weil die Papiere <marker>verlorengegangen</marker> waren, konnte er die Uhr nicht mehr verkaufen.</example>
+                <example correction='verloren geht'>Wenn er <marker>verlorengeht</marker>, haben wir ein Problem.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">bekannt(geben|machen)</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>bekannt <match no="1" regexp_match="bekannt" regexp_replace=""/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <short>&getrennt;.</short>
+                <example correction='bekannt gegeben'>Sie hat ihre Verlobung <marker>bekanntgegeben</marker>.</example>
+                <example correction='bekannt gab'>Als er es <marker>bekanntgab</marker>, achtete niemand darauf.</example>
+                <example correction='bekannt gemacht'>Sie hat ihre Verlobung <marker>bekanntgemacht</marker>.</example>
+                <example correction='bekannt machte'>Als er es <marker>bekanntmachte</marker>, achtete niemand darauf.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token><exception postag="SENT_START"/></token>
+                    <token case_sensitive="yes">Zuhause</token>
+                </antipattern>
+                <pattern>
+                    <token>zuhause</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>zu Hause</suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/rechtschreibung-zuhause-zu-hause/</url>
+                <example correction="Zu Hause"><marker>Zuhause</marker> ist es doch am schönsten.</example>
+                <example correction="zu Hause">Seit gestern sind sie wieder <marker>zuhause</marker>.</example>
+                <example correction="zu Hause">Jetzt ist er <marker>zuhause</marker>.</example>
+                <example>Wessen Zuhause ist das?</example>
+                <example>Was war dein Zuhause?</example>
+                <example>Das Kloster ist das Zuhause des Mönchs.</example>
+                <example>Es war ihr Zuhause.</example>
+                <example>Wenn du etwas früher von Zuhause aufgebrochen wärst, wärst du punktlich gewesen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">hilfesuchende?[mnrs]?</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="[Hh]ilfesuchend(e?[mnrs]?)" regexp_replace="Hilfe suchend$1"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <example correction="Hilfe suchend">Sie sah <marker>hilfesuchend</marker> zu ihm hinüber.</example>
+                <example>Auch hier dürfen die Hilfesuchenden die Lager erst verlassen, wenn ihr Asylverfahren genehmigt ist</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|wei(ß|ss)(gekleidet|(ge)?(färb|kalk|tünch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)(ot|elb|lau|rün|chwarz|eiß)(.*)" regexp_replace="$1$2 $3"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/farben-sprichworter/#kategorie-1-verben-mit-farben</url>
+                <example correction="Rot lackierte"><marker>Rotlackierte</marker> Autos gefallen ihr ganz besonders.</example>
+                <example correction="weiß getünchte">In dieser Gegend fiel das <marker>weißgetünchte</marker> Haus sofort ins Auge.</example>
+                <example>Der typische rosafarbene Ton verschwindet in Richtung zu einer starken Gelbfärbung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">tief((dring|blick|häng|sitz|steh|reich)end|beleidigt|betroffen|verschneit|bewegt|empfunden|gekränkt|erschüttert|betrübt).*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)ief(.*)" regexp_replace="$1ief $2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <example correction="Tief hängende"><marker>Tiefhängende</marker> Früchte sollte man zuerst ernten.</example>
+                <example correction="tief betrübt">Er war <marker>tiefbetrübt</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">hoch((technis|dot|motiv|industralis|spezialis|qualifiz|kompliz|dos)iert|acht|schätz|besteuert|bezahlt|verschuldet|radioaktiv|spannend|liegend|gespannt|aufgeschossen|entwickelt|beansprucht|gelegen|angesehen|konzentriert)(e[nrs]?)?</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)och(.*)" regexp_replace="$1och $2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <example correction="hoch komplizierte">Es handelt sich um eine <marker>hochkomplizierte</marker> Angelegenheit.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">viel(geliebt|genannt|besucht|gereist|gefragt|umjubelt|besungen|gebraucht|beachtet|umworben|umstritten|gescholten|gelobt|gepriesen|gelesen|beschworen|gekauft|zitiert|befahren|gerühmt|diskutiert|beschäftigt|besprochen|geschmäht).*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)iel(.*)" regexp_replace="$1iel $2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <example correction="viel beschäftigten">Er zählt zu den <marker>vielbeschäftigten</marker> Stars.</example>
+                <example>Ernährungsberatung für Vielbeschäftigte.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">Nicht(deutsch(sprachl|sprech)?|organisiert|berufstätig|behindert)e[nr]?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">nicht(christlich|staatlich|deutsch|leitend|organisiert|rostend|zielend|flektierbar|amtlich|berufstätig|ehelich|öffentlich|kommerziell|behindert|euklidisch|kommunistisch|selb(st)?ständig|linear)(e|en|er|es|em)?</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)icht(.*)" regexp_replace="$1icht $2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <example correction="nicht rostendem">Der Träger besteht aus <marker>nichtrostendem</marker> Stahl.</example>
+                <example>NEhelG – Nichtehelichengesetz</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">frisch((ge)?macht?|gebacken)(e[mnrs]?)?</token>
+                </pattern>
+                <message>Empfehlung: Nur bei wörtlicher Bedeutung (z. B. frisch gebackenes Brot): Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)risch(.*)" regexp_replace="$1risch $2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <example correction="frisch gebackenes">Er kaufte ein <marker>frischgebackenes</marker> Brot.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">frei(finanziert|laufend|lebend|stehend|werdend)(e[mnrs]?)?</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)rei(.*)" regexp_replace="$1rei $2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <example correction="frei stehendes">Der Makler bot ihnen ein <marker>freistehendes</marker> Haus an.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">fertigzu(lesen|kochen)</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">fertig(lesen|kochen)</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)ertig(.*)" regexp_replace="$1ertig $2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <example correction="fertig gekocht">Sie wartete, bis er das Gericht <marker>fertiggekocht</marker> hatte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">fertigzu(lesen|kochen)</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.)ertigzu(.*)" regexp_replace="$1ertig zu $2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <example correction="fertig zu kochen">Es dauerte lange das Gericht <marker>fertigzukochen</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>neu(bekehrt|bearbeitet|geschaffen|eröffnet)e?[nmrs]?</regexp>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="0" regexp_match="(.)eu(.*)" regexp_replace="$1eu $2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/unsere-empfehlung-empfohlene-schreibweisen-statt-korrekter-schreibungen/</url>
+                <example correction="neu eröffnete">Ich habe mir das <marker>neueröffnete</marker> Museum angeschaut.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EMPFOHLENE_ZUSAMMENSCHREIBUNG" name="Empfohlene Zusammenschreibung" tags="professional clarity">
+            <rule><!--1-->
+                <pattern>
+                    <marker>
+                        <token>mit</token>
+                        <token>Hilfe</token>
+                    </marker>
+                    <token postag="ART:.*GEN:.*|PRO:(DEM|POS|IND):GEN:.*|ADJ:(GEN|PRD):.*|EIG:GEN:.*|PA2:GEN:.*|ADV:MOD" postag_regexp="yes"/>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>mithilfe</suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="Mithilfe"><marker>Mit Hilfe</marker> einer Kettensäge brachte er den Baum zu Fall.</example>
+                <example correction="mithilfe">Sie fand das ein passenderes Wort <marker>mit Hilfe</marker> ihres Vaters.</example>
+                <example correction="mithilfe">Ich konnte <marker>mit Hilfe</marker> sanfter Musik gut einschlafen.</example>
+                <example correction="Mithilfe"><marker>Mit Hilfe</marker> Indiens kommt König Tribhuvan 1951 wieder an die Macht</example>
+                <example correction="Mithilfe"><marker>Mit Hilfe</marker> gefälschter Urinproben sei das Doping verschleiert worden.</example>
+                <example correction="mithilfe">Etliche Produkte, die für den Menschen interessant sind, werden <marker>mit Hilfe</marker> technisch veränderter Bakterien hergestellt.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <marker>
+                        <token>von</token>
+                        <token>Seiten</token>
+                    </marker>
+                    <token postag="ART:.*GEN:.*|PRO:(DEM|POS|IND):GEN:.*|ADJ:(GEN|PRD):.*|EIG:GEN:.*|PA2:GEN:.*|ADV:MOD" postag_regexp="yes"/>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>vonseiten</suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="Vonseiten"><marker>Von Seiten</marker> seines Vaters war keine große Hilfe zu erwarten.</example>
+                <example correction="vonseiten">Der Kinofilm ist <marker>von Seiten</marker> verschiedener Besucher ein Reinfall gewesen.</example>
+            </rule>
+            <rule><!--3-->
+                <antipattern>
+                    <token>in</token>
+                    <token>frage</token>
+                    <token regexp="yes">[0-9].*</token>
+                </antipattern>
+                <antipattern>
+                    <token>in</token>
+                    <token>frage</token>
+                    <token regexp="yes">nummer|[a-z]</token>
+                </antipattern>
+                <pattern>
+                    <token>in</token>
+                    <token case_sensitive="yes" regexp="yes">Frage|Stand</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/infrage-instand/</url>
+                <short>&getrennt;.</short>
+                <example correction="infrage">Eine Teilung kommt nicht <marker>in Frage</marker>.</example>
+                <example correction="infrage">Das kommt nicht <marker>in Frage</marker>!</example>
+                <example correction="infrage">Sie stellte seine Glaubwürdigkeit <marker>in Frage</marker> und machte ihn lächerlich.</example>
+                <example correction="instand">Er setzte den Oldtimer wieder <marker>in Stand</marker>.</example>
+                <example>Sie fanden den Fehler in Frage 3.2 schließlich doch.</example>
+                <example>Sie fanden den Fehler in Frage Nummer 3 schließlich doch.</example>
+                <example>Sie fanden den Fehler in Frage C schließlich doch.</example>
+            </rule>
+            <rule><!--4-->
+                <antipattern>
+                    <token>auf</token>
+                    <token skip="-1">Grund</token>
+                    <token inflected="yes" regexp="yes">l(auf|ieg)en|geraten</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" inflected="yes" regexp="yes">l(auf|ieg)en|geraten</token>
+                    <token>auf</token>
+                    <token>Grund</token>
+                </antipattern>
+                <antipattern>
+                    <token>auf</token>
+                    <token>Seiten</token>
+                    <token postag=".*:GEN:.*" postag_regexp="yes" negate_pos="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>auf</token>
+                    <token case_sensitive="yes" regexp="yes">Grund|Seiten</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="Aufgrund"><marker>Auf Grund</marker> des schlechten Wetters haben wir unseren Ausflug abgesagt.</example>
+                <example>Der Tanker ist auf Grund gelaufen.</example>
+                <example>Ich suche günstige Flüge immer auf Seiten wie Bing Flights oder Kanoo.</example>
+                <example>Auf Seiten, die eine ungerade Zahl haben, ist der linke Rand schmaler.</example>
+            </rule>
+            <rule><!--5-->
+                <antipattern>
+                    <token>von</token>
+                    <token>Tag</token>
+                    <token>zu</token>
+                    <token>Tage</token>
+                </antipattern>
+                <pattern>
+                    <token>zu</token>
+                    <token case_sensitive="yes" regexp="yes">Grunde|Gunsten|Rate|Rande|Stande|Schulden|Seiten|Lasten|Leide|Schanden|Nutze|Mute|Ungunsten|Wege|Tage</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion="alllower"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="zugunsten">Sie änderte das Testament <marker>zu Gunsten</marker> ihrer Tochter.</example>
+                <example correction="zugrunde">Für die Berechnung wurde eine grobe Abschäzung <marker>zu Grunde</marker> gelegt.</example>
+                <example correction="zugrunde">Wenn er so weiter macht, wird er <marker>zu Grunde</marker> gehen.</example>
+                <example>Damit richtet er sich <marker>zugrunde</marker>.</example>
+                <example correction="zurande">Sie kamen damit nicht <marker>zu Rande</marker>.</example>
+                <example correction="zurate">Sie zog ihn <marker>zu Rate</marker>.</example>
+                <example>Ziehen Sie ihn bitte <marker>zurate</marker>.</example>
+                <example correction="zuschulden">Sie hatte sich nichts <marker>zu Schulden</marker> kommen lassen.</example>
+                <example correction="zustande">An diesem Tag brachte er nichts <marker>zu Stande</marker>.</example>
+            </rule>
+            <rule><!--6-->
+                <regexp>\bso (dass|genannte[mnrs]?)\b</regexp>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="0" regexp_match="(.)o (dass|genannte[mnrs]?)" regexp_replace="$1o$2"/></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/wir-erklaren-kommasetzung-so-dass-sie-sie-verstehen/</url>
+                <short>&getrennt;.</short>
+                <example correction="sodass">Sie stellte sich in den Eingang, <marker>so dass</marker> kein Weg an ihr vorbei führte.</example>
+                <example correction="sogenannte">Die <marker>so genannte</marker> Gerichtsverhandlung empfand er als blanker Hohn.</example>
+            </rule>
+            <rule><!--7-->
+                <regexp>\bviel (verheiß|verheiss|sag|versprech)end\w*\b</regexp>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="0" regexp_match="(.)iel (.*)" regexp_replace="$1iel$2"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="vielsagenden">Sie warf ihm einen <marker>viel sagenden</marker> Blick zu.</example>
+            </rule>
+            <rule><!--8-->
+                <pattern>
+                    <token>nicht</token>
+                    <token case_sensitive="yes" regexp="yes">Zutreffendes|Gewünschtes|(Sesshaft|Berufstätig|Geschäftsfähig)e[nr]?</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" case_conversion ="startupper"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <example correction="Nichtsesshafter">Er galt als <marker>Nicht Sesshafter</marker>.</example>
+                <example correction="Nichtzutreffendes"><marker>Nicht Zutreffendes</marker> bitte streichen.</example>
+            </rule>
+            <rule><!--9-->
+                <regexp>\becht (silbern|golden)\w*\b</regexp>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="0" regexp_match="(.)cht (.*)" regexp_replace="$1cht$2"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="echtgoldene">Er trug eine <marker>echt goldene</marker> Uhr.</example>
+            </rule>
+            <rule><!--10-->
+                <pattern>
+                    <token>im</token>
+                    <token>Stande</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>\1stande</suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="imstande">Sie ist <marker>im Stande</marker> und heiratet ihn.</example>
+                <example>Ich bin <marker>imstande</marker>, ohne Brille zu lesen.</example>
+            </rule>
+            <rule><!--11-->
+                <antipattern>
+                    <token regexp="yes">Kopf|Oberkörper|Straße|Vorurteilen|Weg</token>
+                    <token>frei</token>
+                    <token case_sensitive="yes" inflected="yes" regexp="yes">haben|bekommen|machen</token>
+                </antipattern>
+                <pattern>
+                    <token>frei</token>
+                    <token case_sensitive="yes" inflected="yes" regexp="yes">haben|nehmen|geben|bekommen|schießen|schiessen|schaufeln|kämpfen|legen|kratzen|räumen|kaufen</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="freihatte">Sie genoss es, dass sie <marker>frei hatte</marker>.</example>
+                <example correction="freihaben">Ich würde auch gern <marker>frei haben</marker>.</example>
+                <example>Sie können den Oberkörper <marker>frei machen</marker>.</example>
+                <example>Am Wochenende wollte ich den Kopf <marker>frei haben</marker>.</example>
+            </rule>
+            <rule><!--12-->
+                <pattern>
+                    <token>hoch</token>
+                    <token case_sensitive="yes" regexp="yes">(geehrt|gelobt|geachtet|beglückt|begabt|geschätzt)(e[nrs]?)?</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="hochgeschätzten">Sie gehörte zu den <marker>hoch geschätzten</marker> Gästen.</example>
+                <example correction="hochbegabt">Sie galt als <marker>hoch begabt</marker>.</example>
+            </rule>
+            <rule><!--13-->
+                <pattern>
+                    <token case_sensitive="yes">wohl</token>
+                    <token case_sensitive="yes" inflected="yes" regexp="yes">fühlen|ergehen</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="wohlfühlen">Sie sollen sich <marker>wohl fühlen</marker>!</example>
+            </rule>
+            <rule><!--14-->
+                <pattern>
+                    <token case_sensitive="yes">wohl</token>
+                    <token case_sensitive="yes" regexp="yes">(verwahrt|getan|duftend|riechend|versorgt|überlegt|durchdacht|bekannt|dosiertsituiert|geordnet|erhalten|klingend|ausgewogen|tönend|bedacht|lautend|gesetzt|erwogen|beraten|verstanden|formuliert|behütet|geformt|schmeckend|unterrichtet|begründet|genährt|erzogen|vorbereitet|geraten|temperiert|proportioniert|)(e[nrs]?)?</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="wohlerzogenes">Es war ein <marker>wohl erzogenes</marker> Kind.</example>
+                <example correction="wohltemperierten">Sie genoss den <marker>wohl temperierten</marker> Wein.</example>
+            </rule>
+            <rule><!--15-->
+                <pattern>
+                    <token>fertig</token>
+                    <token case_sensitive="yes" inflected="yes" regexp="yes">stellen|bringen|kriegen</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="fertigstellen">Es wird Zeit, dass sie es <marker>fertig stellen</marker>.</example>
+            </rule>
+            <rule><!--16-->
+                <pattern>
+                    <token>kennen</token>
+                    <token case_sensitive="yes" inflected="yes">lernen</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="kennenlernen">Sie wollte ihn <marker>kennen lernen</marker>.</example>
+            </rule>
+            <rule><!--17-->
+                <pattern>
+                    <token>kennen</token>
+                    <token case_sensitive="yes">zu</token>
+                    <token case_sensitive="yes">lernen</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1"/><match no="2" case_conversion ="alllower"/><match no="3" case_conversion ="alllower"/></suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="kennenzulernen">Es war nett, Sie <marker>kennen zu lernen</marker>.</example>
+            </rule>
+            <rule><!--18-->
+                <pattern>
+                    <token>hier</token>
+                    <token>zu</token>
+                    <token>Lande</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" case_conversion="preserve">hierzulande</match></suggestion> verwenden?</message>
+                <url>https://languagetool.org/insights/de/beitrag/hierzulande/</url>
+                <example correction='Hierzulande'><marker>Hier zu Lande</marker> isst man gerne Kartoffeln mit Fleisch.</example>
+                <example correction='hierzulande'>Bier gehört <marker>hier zu Lande</marker> zu den Grundnahrungsmitteln.</example>
+            </rule>
+            <rule><!--19-->
+                <pattern>
+                    <token>Hard</token>
+                    <token>Disk</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>Harddisk</suggestion> verwenden?</message>
+                <url>https://www.duden.de/rechtschreibung/Harddisk</url>
+                <example correction='Harddisk'>Ich habe mir letzte Woche eine neue <marker>Hard Disk</marker> gekauft.</example>
+                <example>Ihre Harddisk sollte defragmentiert werden.</example>
+            </rule>
+            <rule><!--20-->
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">ein</token>
+                    <marker>
+                        <token>Hand</token>
+                        <token>voll</token>
+                    </marker>
+                    <token regexp="yes">[A-ZÄÖÜ].+</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>\2\3</suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="Handvoll">Es kam nur eine <marker>Hand voll</marker> Schüler.</example>
+            </rule>
+            <rule><!--21-->
+                <pattern>
+                    <marker>
+                        <token>wenn</token>
+                        <token>schon</token>
+                    </marker>
+                    <token>,</token>
+                    <token regexp="yes">denn(schon)?</token>
+                </pattern>
+                <message>In der Wendung 'Wennschon, dennschon!' wird die Zusammenschreibung empfohlen.</message>
+                <suggestion>\1<match no="2" case_conversion="startlower"/></suggestion>
+                <url>https://germanblogs.de/wenn-schon-denn-schon-oder-wennschon-dennschon/</url>
+                <short>&getrennt;.</short>
+                <example correction="Wennschon"><marker>Wenn schon</marker>, dennschon.</example>
+            </rule>
+            <rule><!--22-->
+                <pattern>
+                    <token regexp="yes">(wenn)?schon</token>
+                    <token>,</token>
+                    <marker>
+                        <token>denn</token>
+                        <token>schon</token>
+                    </marker>
+                </pattern>
+                <message>In der Wendung 'Wennschon, dennschon!' wird die Zusammenschreibung empfohlen.</message>
+                <suggestion>\3\4</suggestion>
+                <url>https://germanblogs.de/wenn-schon-denn-schon-oder-wennschon-dennschon/</url>
+                <short>&getrennt;.</short>
+                <example correction="dennschon">Wennschon, <marker>denn schon</marker>.</example>
+            </rule>
+            <rule><!--23-->
+                <pattern>
+                    <marker>
+                        <token>mit</token>
+                        <token>Hilfe</token>
+                    </marker>
+                    <token regexp="yes">vo[mn]</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>mithilfe</suggestion> verwenden?</message>
+                <short>&getrennt;.</short>
+                <example correction="Mithilfe"><marker>Mit Hilfe</marker> von Freunden organisierte er eine große Feier.</example>
+                <example correction="mithilfe">Er konnte sich nur <marker>mit Hilfe</marker> von Krücken fortbewegen.</example>
+            </rule>
+            <rule><!--24-->
+                <pattern>
+                    <marker>
+                        <token>zufrieden</token>
+                        <token min="0">zu</token>
+                        <token inflected="yes">stellen</token>
+                    </marker>
+                    <token><exception postag=".*NOM.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion>\1\2\3</suggestion> verwenden? ('zufriedenstellen' in der Bedeutung 'befriedigen')</message>
+                <url>https://www.korrekturen.de/wortliste/zufriedenstellen.shtml</url>
+                <short>&getrennt;.</short>
+                <example correction="zufriedenstellen">Nur so konnte man ihn <marker>zufrieden stellen</marker>.</example>
+                <example correction="zufriedenzustellen">Er ist schwer <marker>zufrieden zu stellen</marker>.</example>
+                <example><marker>Zufrieden stellte</marker> sie das Glas auf den Tisch.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EMPFOHLENE_SCHREIBUNG_EIGENNAMEN" name="Empfohlene Schreibung von Eigennamen" tags="professional clarity">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Nicosia.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Nicosia(.*)" regexp_replace="Nikosia$1"/></suggestion> verwenden?</message>
+                <example correction="Nikosia"><marker>Nicosia</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Québec.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Québec(.*)" regexp_replace="Quebec$1"/></suggestion> verwenden?</message>
+                <example correction="Quebec"><marker>Québec</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Duala.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Duala(.*)" regexp_replace="Douala$1"/></suggestion> verwenden?</message>
+                <example correction="Douala"><marker>Duala</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">(Aral|Michigan|Winnipeg|Onega|Barents|Ladoga|Oneida|Skutari|Tanganjika|Ontario)-See.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.*)-See(.*)" regexp_replace="$1see$2"/></suggestion> verwenden?</message>
+                <example correction="Aralsee"><marker>Aral-See</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Nasca.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Nasca(.*)" regexp_replace="Nazca$1"/></suggestion> verwenden?</message>
+                <example correction="Nazca"><marker>Nasca</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Nikaragua.*</token>
+                </pattern>
+                <message>Möchten Sie die deutlich häufigere Schreibweise <suggestion><match no="1" regexp_match="Nikaragua(.*)" regexp_replace="Nicaragua$1"/></suggestion> verwenden?</message>
+                <example correction="Nicaragua"><marker>Nikaragua</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Gasa(s|streifens?)?</token>
+                </pattern>
+                <message>Möchten Sie die deutlich häufigere Schreibweise <suggestion><match no="1" regexp_match="Gasa(.*)" regexp_replace="Gaza$1"/></suggestion> verwenden?</message>
+                <example correction="Gaza"><marker>Gasa</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Troia.*</token>
+                </pattern>
+                <message>Möchten Sie die häufigere Schreibweise <suggestion><match no="1" regexp_match="Troia(.*)" regexp_replace="Troja$1"/></suggestion> verwenden? Die lateinische Schreibweise 'Troia' wird in den Altertumswissenschaften verwendet.</message>
+                <example correction="Troja"><marker>Troia</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">L</token>
+                    <token spacebefore="no">'</token>
+                    <token case_sensitive="yes" spacebefore="no" regexp="yes">viv.*</token>
+                </pattern>
+                <message>Möchten Sie die üblichere Schreibweise <suggestion><match no="3" regexp_match="viv(.*)" regexp_replace="Lwiw$1"/></suggestion> verwenden?</message>
+                <example correction="Lwiw"><marker>L'viv</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Kuweit.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Kuweit(.*)" regexp_replace="Kuwait$1"/></suggestion> verwenden?</message>
+                <example correction="Kuwait"><marker>Kuweit</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">San</token>
+                    <token case_sensitive="yes" regexp="yes">Franziskos?</token>
+                </pattern>
+                <message>Möchten Sie die üblichere und modernere Schreibweise <suggestion>San <match no="2" regexp_match="Franzisko(.*)" regexp_replace="Francisco$1"/></suggestion> verwenden?</message>
+                <example correction="San Francisco"><marker>San Franzisko</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Brasília.*</token>
+                </pattern>
+                <message>Möchten Sie die üblichere Schreibweise <suggestion><match no="1" regexp_match="Brasília(.*)" regexp_replace="Brasilia$1"/></suggestion> verwenden?</message>
+                <example correction="Brasilia"><marker>Brasília</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">(Shetland|Orkney|Langerhans)-Inseln.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(.*)-Inseln(.*)" regexp_replace="$1inseln$2"/></suggestion> verwenden?</message>
+                <example correction="Shetlandinseln"><marker>Shetland-Inseln</marker></example>
+            </rule>
+            <!-- Wikipedia wiederum nutzt "Sichuan"...
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Szetschuan.*</token>
+                </pattern>
+                <message>Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Szetschuan(.*)" regexp_replace="Szechuan$1"/></suggestion> verwenden?</message>
+                <example correction="Szechuan"><marker>Szetschuan</marker></example>
+            </rule>
+            -->
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Pompeis?</token>
+                </pattern>
+                <message>Möchten Sie die üblichere Schreibweise <suggestion><match no="1" regexp_match="Pompei(.*)" regexp_replace="Pompeji$1"/></suggestion> verwenden?</message>
+                <example correction="Pompeji"><marker>Pompei</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Yukatan.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Yukatan(.*)" regexp_replace="Yucatán$1"/></suggestion> verwenden?</message>
+                <example correction="Yucatán"><marker>Yukatan</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Mykenä.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Mykenä(.*)" regexp_replace="Mykene$1"/></suggestion> verwenden?</message>
+                <example correction="Mykene"><marker>Mykenä</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Avoda.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Avoda(.*)" regexp_replace="Awoda$1"/></suggestion> verwenden?</message>
+                <example correction="Awoda"><marker>Avoda</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Portoriko.*</token>
+                </pattern>
+                <message>Möchten Sie die deutlich häufigere und modernere Schreibweise <suggestion><match no="1" regexp_match="Portoriko(.*)" regexp_replace="Porto Rico$1"/></suggestion> verwenden?</message>
+                <example correction="Porto Rico"><marker>Portoriko</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Krischna.*</token>
+                </pattern>
+                <message>Möchten Sie die üblichere Schreibweise <suggestion><match no="1" regexp_match="Krischna(.*)" regexp_replace="Krishna$1"/></suggestion> verwenden?</message>
+                <example correction="Krishna"><marker>Krischna</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Hiroschima.*</token>
+                </pattern>
+                <message>Möchten Sie die üblichere Schreibweise <suggestion><match no="1" regexp_match="Hiroschima(.*)" regexp_replace="Hiroshima$1"/></suggestion> verwenden?</message>
+                <example correction="Hiroshima"><marker>Hiroschima</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Rhätien.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Rhätien(.*)" regexp_replace="Rätien$1"/></suggestion> verwenden?</message>
+                <example correction="Rätien"><marker>Rhätien</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">(Dacca|Dakka).*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="(Dacca|Dakka)(.*)" regexp_replace="Dhaka$2"/></suggestion> verwenden?</message>
+                <example correction="Dhaka"><marker>Dakka</marker></example>
+            </rule>
+            <!-- Schreibweise mit Bindestrich ist besser lesbar...
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Yukon-Territorium.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Yukon-Territorium(.*)" regexp_replace="Yukonterritorium$1"/></suggestion> verwenden?</message>
+                <example correction="Yukonterritorium"><marker>Yukon-Territorium</marker></example>
+            </rule>
+            -->
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Pfälzerwald.*</token>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="1" regexp_match="Pfälzerwald(.*)" regexp_replace="Pfälzer Wald$1"/></suggestion> verwenden?</message>
+                <example correction="Pfälzer Wald"><marker>Pfälzerwald</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EMPFOHLENE_GROSS_KLEINSCHREIBUNG" name="Empfohlene Groß-/Kleinschreibung" tags="professional clarity">
+            <url>https://languagetool.org/insights/de/beitrag/zu-recht-zurecht/</url>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">haben</token>
+                    <token>ihr</token>
+                    <token case_sensitive="yes">Recht</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">das|[smdk]?ein(em)?|diese[ms]|je[nd]e[ms]|jegliche[ms]|welche[sm]|ihr(em)?|im|zu|als|(ebenso)?viel|höherrangige[mns]|damalige[snm]|mehr|weniger|gleiche[nms]|(inter)?nationale[nms]|(inner)?staatliche[nms]|geltende[nms]|irgendein</token>
+                    <token postag="(ADJ|PA[21]):.*" postag_regexp="yes" min="0"/>
+                    <token case_sensitive="yes">Recht</token>
+                    <example>Die Ukraine hat jedes Recht, die Integrität des eigenen Landes und seine Demokratie zu verteidigen.</example>
+                    <example>Zwar hatte das Material nach Ansicht des Gerichts nicht gegen geltendes Recht verstoßen.</example>
+                </antipattern>
+                <pattern>
+                    <token skip="-1" inflected="yes" regexp="yes">haben|geben
+                        <exception scope="next" regexp="yes">,|:|;|-|–|—|\)|\(|&anfauf;|&anfzu;|und|oder|zum</exception>
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes">Recht</token>
+                    </marker>
+                    <token><exception regexp="yes" inflected="yes">bekommen|finden|pochen|sprechen|einfordern</exception></token>
+                </pattern>
+                <message>Empfehlung: Schreiben Sie das Wort "Recht" im Zusammenhang mit "recht haben" oder "recht geben" klein.</message>
+                <suggestion><match no="2" case_conversion ="alllower"/></suggestion>
+                <example correction="recht">Er gab ihm <marker>Recht</marker>.</example>
+                <example correction="recht">Sie hatte wirklich <marker>Recht</marker>.</example>
+                <example>Er hatte kein <marker>Recht</marker> so etwas zu sagen.</example>
+                <example>Man hat <marker>Recht</marker> gesprochen.</example>
+                <example>Sie hat ihr <marker>Recht</marker> eingefordert.</example>
+                <example>Er behauptet, die Österreicher hätten ein schlampiges Verhältnis zum Recht.</example>
+                <example>Aber wer hat irgendein Recht, einen Menschen zu tadeln</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">das|m?ein|kein|[ds]ein|solches|dieses|welche[ms]|wessen|im|zu|als|(ebenso)?viel|mehr|weniger|gleiches</token>
+                    <token postag="(ADJ|PA[12]):.*" postag_regexp="yes" min="0"/>
+                    <token case_sensitive="yes">Recht</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token case_sensitive="yes">Recht</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">„|"|:</token>
+                    <token case_sensitive="yes">Recht</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Recht</token>
+                    </marker>
+                    <token min="0">zu</token>
+                    <token inflected="yes" regexp="yes">haben|geben</token>
+                </pattern>
+                <message>Empfehlung: Schreiben Sie das Wort "Recht" im Zusammenhang mit "recht haben" oder "recht geben" klein.</message>
+                <suggestion><match no="1" case_conversion ="alllower"/></suggestion>
+                <example correction="recht">Er musste ihm <marker>Recht</marker> geben.</example>
+                <example correction="recht">Sie wollte unbedingt <marker>Recht</marker> haben.</example>
+                <example>Er wusste, dass er das <marker>Recht</marker> hatte so etwas zu verlangen.</example>
+                <example><marker>Recht</marker> hatte sie.</example>
+                <example>Er sagte: „Recht haben und recht bekommen sind zwei verschiedene Dinge.“</example>
+                <example>Welches Recht haben wir, über ihn zu urteilen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bis</token>
+                    <token case_sensitive="yes">auf</token>
+                    <marker>
+                        <token case_sensitive="yes">weiteres</token>
+                    </marker>
+                </pattern>
+                <message>Empfehlung: Möchten Sie die Schreibweise <suggestion><match no="3" case_conversion="startupper"/></suggestion> verwenden?</message>
+                <example correction="Weiteres">Er bleibt bis auf <marker>weiteres</marker> dort.</example>
+            </rule>
+        </rulegroup>
+        <rule id="EUERM_EUERN" name="eurem/euerem und euren/eueren statt euerm und euern">
+            <pattern>
+                <token regexp="yes">euern|euerm</token>
+            </pattern>
+            <message>Die Schreibweise '<match no="1"></match>' gilt als umgangssprachlich. Möchten Sie stattdessen die Schreibweise <suggestion><match no="1" regexp_match="er(.*)" regexp_replace="re$1"/></suggestion> oder <suggestion><match no="1" regexp_match="er(.*)" regexp_replace="ere$1"/></suggestion> verwenden?</message>
+            <example correction="eurem|euerem">Ich werde <marker>euerm</marker> Rat folgen.</example>
+            <example correction="Eurem|Euerem">Ich werde <marker>Euerm</marker> Rat folgen.</example>
+            <example correction="euren|eueren">Vielen Dank für <marker>euern</marker> Einsatz.</example>
+            <example correction="Euren|Eueren">Vielen Dank für <marker>Euern</marker> Einsatz.</example>
+        </rule>
+    </category>
 </rules>
