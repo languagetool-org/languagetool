@@ -118,6 +118,16 @@ USA
         ]>
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="style rules" type="style">
+        <rule id='CICLO_VICIOSO' name="Calinada: Círculo vicioso" tags="picky">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+            <pattern>
+                <token regexp='yes'>ciclos?</token>
+                <token regexp='yes'>viciosos?</token>
+            </pattern>
+            <message>Substitua por <suggestion>círculo vicioso</suggestion>.</message>
+            <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/porque-circulo-vicioso-e-nao-ciclo-vicioso/33313</url>
+            <example correction="círculo vicioso">O <marker>ciclo vicioso</marker> da pobreza.</example>
+        </rule>
         <!-- TIVER estiver -->
         <rule id='TIVER_ESTIVER' name='[pt-PT][Confusão] tiver/estiver'>
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
