@@ -22,6 +22,120 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
 -->
+
+<!DOCTYPE rules [
+        <!ENTITY lsqb    "&#x005B;"> <!-- left square bracket -->
+        <!ENTITY rsqb    "&#x005D;"> <!-- right square bracket -->
+        <!ENTITY laquo    "&#x00AB;"> <!-- left-pointing double angle quotation mark -->
+        <!ENTITY raquo    "&#x00BB;"> <!-- right-pointing double angle quotation mark -->
+        <!ENTITY lsquo    "&#x2018;"> <!-- left single quotation mark -->
+        <!ENTITY rsquo    "&#x2019;"> <!-- right single quotation mark -->
+        <!ENTITY ldquo    "&#x201C;"> <!-- left double quotation mark -->
+        <!ENTITY rdquo    "&#x201D;"> <!-- right double quotation mark -->
+        <!ENTITY nbsp    "&#x00A0;"> <!-- no-break space -->
+        <!ENTITY nnbsp    "&#x202F;"> <!-- narrow no-break space -->
+        <!ENTITY thinsp    "&#x2009;"> <!-- thin space -->
+        <!ENTITY apostrophe "['’`´‘]">
+        <!ENTITY anfauf "„|&quot;|»|›|‚|'">
+        <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
+        <!ENTITY anf "&anfauf;|‘|’|“|‹|«">
+        <!ENTITY klamauf "\(|\{|\&lsqb;|&lt;">
+        <!ENTITY klamzu "\)|\}|\&rsqb;|&gt;">
+        <!ENTITY klam "&klamauf;|&klamzu;">
+        <!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
+        <!ENTITY sometlds "art|com|de|net|edu|uk|org|info|nl|eu|cn|biz|at|ch|fr|tv|to|fm|es|it|gov|mil|mx|pt|dev|us|sg|me|io|app|shop|club|games|in|co|cloud|no|se|dk|ie|cc|tk|ai|au|nz|za|cm|ng|tw|jp|kg|ag|site|int|my|ir|pk|mobi|asia|hk|mz|xyz|design|ventures|services|cat|ly|name|world|online|consulting|digital|be|is|sex|web|lab|local|ru|ca|global|kz|eco|ho|hu|berlin|ee|ro|crypto|so|nrw">
+
+        <!-- Error messages -->
+        <!ENTITY gla "Umbruchgeschützte Leerzeichen in Abkürzungen">
+        <!ENTITY glalong "Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden.">
+        <!ENTITY prgk "Bitte überprüfen Sie die Groß-/Kleinschreibung">
+        <!ENTITY namengross "Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.">
+        <!ENTITY titelgross "Titel und Ehrenbezeichnungen werden großgeschrieben.">
+        <!ENTITY taggross "Besondere Kalendertage werden großgeschrieben.">
+        <!ENTITY eigenname "Möglicherweise falsch geschriebener Eigenname.">
+        <!ENTITY subanfang "Bitte prüfen Sie, ob ">
+        <!ENTITY subende " hier als Nomen gebraucht wird und daher großgeschrieben werden muss.">
+        <!ENTITY advende " hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.">
+        <!ENTITY adjende " hier als Adjektiv gebraucht wird und daher kleingeschrieben werden muss.">
+        <!ENTITY verende " hier als Verb gebraucht wird und daher kleingeschrieben werden muss.">
+        <!ENTITY inwend "In der Wendung ">
+        <!ENTITY getrennt "Bitte prüfen Sie die Getrenntschreibung">
+        <!ENTITY umgangsspr " ist eine umgangssprachliche Ausdrucksweise.">
+        <!ENTITY unstimmig "Diese Formulierung ist möglicherweise unstimmig:">
+        <!ENTITY verw "Mögliche Wortverwechslung: ">
+        <!ENTITY typo "Möglicher Tippfehler">
+        <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
+        <!ENTITY redundanz "Diese Formulierung ist möglicherweise redundant.">
+        <!ENTITY seitseid "Meinten Sie <suggestion>seit</suggestion> (Präposition: 'seit gestern') statt 'seid' (Verbform: 'seid ihr angekommen?')?">
+        <!ENTITY seidseit "Meinten Sie <suggestion>seid</suggestion> (Verbform: 'seid ihr angekommen?') statt 'seit' (Präposition: 'seit gestern')?">
+        <!ENTITY maennerleute "(.*kauf|Amt|Berg|Berufsfeuerwehr|Boots|Busch|Clubob|Dienst|Edel|Ersatz|Fach|Fahrens|Feuerwehr|Finanz|Forst|Geschäfts|Gewährs|Haupt|Hinter|Kamera|Kirchen|Klubob|Neben|Ombuds|Ordens|Reiters|Schutz|See|Sicherheits|Steuer|Stroh|Verbindungs|Verkehrsschutz|Vertrauens|Wach|Wahl|Werbefach)männer(n|.*)?">
+
+        <!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonnabend|Sonntag">
+        <!ENTITY abgekWochentage "M[oi]|D[io]|Fr|S[ao]">
+        <!ENTITY monate "Januar|Jänner|Februar|März|April|Mai|Ju[ln]i|August|September|Oktober|November|Dezember">
+        <!ENTITY abgekMonate "J[aä]n|Febr?|Mär|Apr|Ju[ln]|Aug|Sept?|Okt|Nov|Dez">
+        <!ENTITY tageszeitangabenklein "abend|morgen|mittag|nachmittag|nacht|vormittag">
+        <!ENTITY zeiteinheitensing "Millisekunde|Hundertstelsekunde|Zehntelsekunde|Sekunde|Minute|Stunde|Tag|Woche|Monat|Semester|Halbjahr|Jahr|Jahrzehnt|Jahrhundert|Jahrtausend|Jahrmillion">
+        <!ENTITY zeiteinheitenplu "Millisekunden|Hundertstelsekunden|Zehntelsekunden|Sekunden|Minuten|Stunden|Tage|Wochen|Monate|Semester|Halbjahre|Jahre|Jahrzehnte|Jahrhunderte|Jahrtausende|Jahrmillionen">
+        <!ENTITY zeiteinheiten "Millisekunden|Hundertstelsekunden|Zehntelsekunden|Sekunden|Minuten|Minütchen|Stunden|Stündchen|Tagen|Wochen|Monaten|Semestern|Halbjahren|Jahren|Jahrzehnten|Jahrhunderten|Jahrtausenden|Jahrmillionen">
+        <!ENTITY also "also|folglich|demnach|deshalb|mithin|somit">
+        <!ENTITY fast "annähernd|beinahe?|fast|nahezu|ungefähr">
+        <!ENTITY modal "halt|eben|doch|wohl|eigentlich|auch|schon|aber|recht|ziemlich">
+        <!ENTITY neusubklein "alter|ansinnen|band|bedenken|bündel|delta|differential|double|drittel|eck|eislaufen|elend|ende|erbe|erbrecht|fach|fest|fett|gebrechen|gemach|gerät|gewissen|grauen|gutachten|hoch|ideal|junge|kapital|kollektiv|konditional|können|leben|leck|leid|licht|lokal|los|mal|manifest|maß|mass|mittelalter|morden|paar|patent|pfeifen|präsent|recht|reich|rennen|scheitern|schloss|schweigen|sitzen|stillschweigen|tief|totem|ungeheuer|unrecht|verbot|verdeck|verdienst|verfahren|vergnügen|verhör|verlangen|vermögen|versprechen|wettrennen|wohl|wunder|zeug|ziel|zimmer">
+        <!ENTITY massubklein "abgeordnete|abkomme|abriss|abschied|abschnitt|abstieg|ahne|andrang|angriff|anklang|anschnitt|anstieg|anstrich|antrieb|antritt|ärger|arm|aufriss|aufschnitt|aufstand|aufstieg|aufstrich|auftritt|ausklang|ausritt|ausschnitt|ausstand|ausstieg|austritt|band|bau|bedarf|begriff|beistand|beitritt|belang|bestand|betrieb|betrug|blick|block|bogen|braten|brauch|brocken|dank|dichter|drang|durchschnitt|einband|eingriff|einschnitt|einstand|einstieg|eintritt|ernst|ertrag|feind|filz|floh|forscher|fortschritt|fremde|frieden?|gefreite|geselle|gläubiger|gleichstand|graben|herzog|husten|intrigant|junge|jünger|knebel|knick|knoten|koch|komparativ|kragen|krieg|laden|lappen|lauf|laut|lumpen|mitschnitt|morgen|nachklang|nachkomme|nachwuchs|pfiff|pfropfen|plan|planer|platz|plural|pole|preis|rang|rasen|rausschmiss|reif(en)?|rücken|rüde|samt|schaden|schal|scherz|schiefer|schlag|schluck|schnitt|schnupfen|schock|schotte|schreck(en)?|schritt|schubs|schuft|schund|schütze|schwamm|sitz|spitz|stand|stecken|stich|stillstand|stolz|stopfen|stoß|stoss|streifen|strich|strick|träger|trieb|tritt|tropf(en)?|trotz|türke|übergriff|übertritt|umriss|unterschied|untertan|verband|verbrauch|verdacht|verdienst|verkauf|verkehr|verlass|verlauf|verleih|vermerk|verriss|verschlag|verstand|verstoß|verstoss|versuch|vertrieb|verzehr|virtuose|vokal|vorbehalt|vorgriff|vorstand|vortritt|vorwärtsschritt|wagen|weg|wein|weise|wert|wettstreit|wicht|widerstand|wuchs|zank|zeuge|zügel|zugriff|zusammenschnitt|zustand|zutritt|zwang|zweifel">
+        <!ENTITY femsubklein "abbitte|abfahrt|abfrage|abfuhr|abgeordnete|ablöse|abreise|absage|absteige|acht|alternative|anfahrt|anfrage|angst|anklage|anrede|anreise|anrichte|ansage|antike|anzeige|asche|auffahrt|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|backe|bahre|band|bar|beichte|beize|beule|beute|binde|bitte|blase|bleiche|bombe|bräune|brause|braut|breite|bremse|buche|bucht|bürde|burleske|bürste|creme|decke|defensive|delle|deutsche|dichte|drei|durchfahrt|durchreiche|durchreise|durchsage|dürre|dusche|düse|ebbe|ebene|ecke|ehe|ehre|eiche|eile|einbrenne|einfahrt|einreise|eins|elf|erde|fahrt|falle|falte|feier|feige|feile|ferne|flamme|flaute|fliege|fliese|flöte|flotte|flucht|folge|frage|fräse|fremde|fresse|frische|fülle|fünf|furche|geige|gemeinde|gerade|glotze|gnade|grenze|grille|großtat|grosstat|groteske|gurke|hacke|halle|harke|härte|hast|haut|hecke|heimfahrt|herfahrt|hetze|hexe|hinfahrt|hinreise|höhle|hülle|hupe|hure|illustrierte|kacke|kante|kappe|karre|keile|kerbe|kette|keule|kippe|klage|klammer|klampfe|klappe|klasse|klatsche|klaue|klebe|klemme|klette|klinge|klingel|klinke|kloppe|knarre|knete|knospe|kommode|konstante|kontroverse|kotze|kraft|krähe|kralle|kurbel|kurve|kürze|kutsche|lade|lasche|last|lauge|laute|leere|legende|lehne|lehre|leier|leine|leiste|leuchte|liebe|liege|linse|liste|locke|lüge|lymphe|macht|marine|matte|menge|messe|miete|mithilfe|mühe|münze|nachfolge|nachfrage|nachlese|nachrede|nähe|naht|nässe|neun|oder|offensive|pappe|parallele|pauke|pauschale|pause|pelle|penne|perle|pfeife|pflanze|pisse|plane|platte|pleite|posaune|post|predigt|presse|probe|prostituierte|pumpe|puste|quelle|ramme|ranke|rassel|rast|rate|ratsche|raufe|raute|rede|reibe|reife|reihe|reise|reue|rille|rinne|ritze|robbe|röhre|rolle|rotze|rückfrage|rüge|ruhe|runde|rutsche|säge|sahne|salbe|säure|sause|schabe|schale|schanze|scharte|schau|schaufel|scheide|scheiße|scheisse|schelle|schenke|schere|schiene|schippe|schlampe|schlappe|schleife|schleppe|schleuder|schleuse|schließe|schliesse|schlinge|schmelze|schmiede|schmiere|schnalle|schnauze|schneide|schnitte|schramme|schraube|schuld|schule|schuppe|schürze|schwäche|schwärze|schwebe|schwelle|schwemme|schwere|schwitze|sechs|sehne|seife|senke|sieben|sonne|sorge|spalte|spanne|sparte|speise|spende|sperre|spitze|spritze|spucke|spule|stärke|starre|stelle|stiege|stille|stimme|strafe|strebe|strecke|streife|strippe|stufe|stunde|stütze|suche|sucht|sülze|summe|taste|tat|taube|taufe|tiefe|totale|trage|träne|tränke|traute|treue|trommel|trompete|tröte|tunke|tüte|uniform|unke|variable|vier|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|vorrede|vorsitzende|vorsorge|wache|wacht|walze|wand|wärme|warte|weiche|weide|weihe|weile|weise|weite|welle|wende|werft|wette|wichse|wiege|wiese|winde|wippe|wolle|wunde|würde|würze|wüste|zahl|zeche|zehn|zeit|zentrale|zicke|zier|zufahrt|zufuhr|zusage|zwei|zwinge|zwölf">
+        <!ENTITY subkleinplural "abbitten|abdrücke|abfragen|abfuhren|abgaben|abgeordneten|absagen|abschnitte|absprachen|absteigen|abstiege|abstürze|abteile|ahnen|alternativen|anbauten|anblicke|andachten|anfragen|angaben|angeln|angriffe|ängste|anhalte|anhänge|anklagen|anlagen|anliegen|annahmen|anreden|anreisen|anreize|anrichten|anrufe|ansagen|anschnitte|anschreiben|ansprachen|anstiege|antriebe|antworten|anzahlen|anzeigen|arabesken|armen?|äste|aufbauten|aufgaben|auflagen|aufnahmen|aufrufe|aufschreie|aufstriche|ausbauten|ausbeuten|ausdrucke|ausdrücke|ausfuhren|ausgaben|aushänge|auslagen|ausleihen|auslesen|ausnahmen|ausreden|ausreisen|ausritte|ausrufe|aussagen|ausschnitte|aussprachen|ausweise|bahnen|bände|banden|barsche|bäume|bauten|bedenken|befehle|beichten|beigaben|beilagen|belange|belege|berge|berichte|berufe|bescheide|besuche|betten|beulen|beweise|binden|bitten|blasen|blätter|blicke|breiten|bremsen|brocken|brüste|buchen|bündel|bürden|burlesken|bürsten|dämme|dämpfe|delinquenten|deutschen|dichten|dichter|dinge|dreier|drucke|durchsagen|durchschnitte|duschen|düsen|ebenen|ecken|ehren|eichen|eingaben|eingriffe|einnahmen|einreisen|einschnitte|einschreiben|einstiege|entgegennahmen|entnahmen|entscheide|erfolge|erlöse|fallen|fälle|falten|feigen|feilen|feinde|festnahmen|fiedeln|filme|fische|flammen|flauten|fliegen|fliesen|flöße|flösse|flöten|flotten|fluchten|folgen|forscher|fortschritte|fragen|fransen|freigaben|freiräume|fressen|freunde|furchen|gebrechen|gebühren|gefahren|gefreiten|geigen|gemeinden|genossen|geraden|gesellen|gestalten|gewinne|gläubiger|greise|grenzen|großtaten|grosstaten|grotesken|gruben|gründe|grüße|grüsse|hacken|haken|hallen|härten|haushalte|hechte|hecken|herzen|herzöge|hexen|hiebe|hinweise|höhlen|hüte|illustrierten|initialen|intriganten|jungen|jünger|kanten|kappen|kehlen|keulen|klagen|klammern|klänge|klappen|klauen|klemmen|klingeln|klingen|knappen|knechte|knöpfe|knospen|knoten|kommoden|konstanten|kontroversen|köpfe|kosten|krähen|krallen|krebse|kreuze|kriege|kugeln|kuppeln|küsse|kutschen|lappen|lasten|laute|legenden|lehren|leinen|leisten|leuchten|lichter|liegen|links|linsen|listen|löcher|lügen|lumpen|matten|mengen|messen|mieten|mitschnitte|morde|mühen|münzen|nachdrucke|nachfragen|nachklänge|nachkommen|nachlesen|nachreden|nachrufe|nachweise|nähte|narren|offensiven|parallelen|pauken|pauschalen|pausen|perlen|pfeifen|pfiffe|pfropfen|platten|pole|polen|predigten|preise|pressen|proben|pumpen|quellen|ränge|ratschen|räume|rechte|reden|regeln|reiben|reiche|reichen|reifen|reihen|reisen|rentiere|rillen|ritzen|robben|rollen|rückfragen|rüden|rügen|rümpfe|runden|runzeln|rutschen|sagen|sägen|salben|salze|säume|schächte|schalen|schanzen|scharten|schatten|schätze|schaufeln|schäume|scheiden|scheine|scheren|scherze|schienen|schiffe|schippen|schlampen|schlangen|schleifen|schleusen|schlingen|schmieden?|schnallen|schneiden|schnitte|schotten|schränke|schreie|schritte|schufte|schulden|schulen|schultern|schürzen|schützen|schwächen|schwänze|schwellen|sehnen|siebe|siege|siegel|sitze|söhne|sonnen|sorgen|spalten|speisen|spinnen|spitzen|sprachen|spritzen|stacheln|stände|stärken|stellen|steuern|stimmen|strafen|strahlen|streben|strecken|streiche|streifen|striche|stricke|strippen|stufen|stunden|stürme|stützen|suchen|summen|tafeln|tage|tasten|taten|tauben|taufen|teile|teilnahmen|texte|tiefen|tische|tragen|träger|tränen|träume|tropfen|türken|türme|umbauten|umhänge|umkreise|umlaute|umschauen|unterlagen|unterschiede|variablen|verbände|verbrechen|verdecke|vereine|verfahren|vergehen|vergleiche|verhaue|verhöre|verleihe|vermerke|versprechen|verstecke|versuche|verweise|virtuosen|vögel|vokale|vollmachten|vorarbeiten|voraussagen|vorbehalte|vorgaben|vorgriffe|vorhersagen|vorkommen|vorlagen|vorreden|vorsitzenden|vorspanne|vorwegnahmen|vorwürfe|wachen|wagen|walzen|wände|waren|weichen|weiden|weihen|weine|weisen|wellen|werte|wiedergaben|wiedersehen|wiegen|wiesen|winden?|wogen|wunden|wünsche|würden|wurzeln|wüsten|zahlen|zäune|zechen|zelte|zentralen|zettel|zeugen|ziele|zimmer|zufuhren|zügel|zugriffe|zunahmen|zusagen|zusammenhänge|zwänge|zweige|zweifel">
+        <!ENTITY regionadj "adriatisch|afghanisch|afrikanisch|ägäisch|ägyptisch|albanisch|alemannisch|algerisch|amerikanisch|anatolisch|andorranisch|angolanisch|antarktisch|arabisch|argentinisch|arktisch|asiatisch|atlantisch|australisch|badisch|baltisch|bayerisch|belgisch|böhmisch|bolivianisch|bosnisch|botsuanisch|brandenburgisch|brasilianisch|britannisch|britisch|bulgarisch|chinesisch|dänisch|deutsch|ecuadorianisch|elbisch|englisch|eritreisch|estnisch|eurasisch|europäisch|finnisch|fränkisch|französisch|friesisch|gälisch|galizisch|gallisch|georgisch|germanisch|gotisch|griechisch|grönländisch|havelländisch|hessisch|holländisch|holsteinisch|honduranisch|indisch|indogermanisch|indonesisch|ira[kn]isch|irisch|isländisch|israelisch|italienisch|japanisch|jemenitisch|jiddisch|jordanisch|jugoslawisch|kalifornisch|kambodschanisch|kamerunisch|kanadisch|karelisch|karibisch|kasachisch|kaukasisch|keltisch|kenianisch|kirgisisch|kleinasiatisch|kolumbianisch|kongolesisch|koreanisch|korsisch|kroatisch|kubanisch|laotisch|lateinisch|lettisch|libanesisch|libysch|litauisch|luxemburgisch|mährisch|malaysisch|märkisch|mazedonisch|mediterran|mexikanisch|moldauisch|mongolisch|mosambikisch|moselfränkisch|namibisch|niederdeutsch|niederfränkisch|niederländisch|nigerianisch|norwegisch|österreichisch|pakistanisch|panamesisch|pazifisch|persisch|peruanisch|pfälzisch|phönizisch|polnisch|polynesisch|portugiesisch|preußisch|preussisch|rheinisch|römisch|rumänisch|russisch|saudisch|schottisch|schwäbisch|schwedisch|schweizerisch|semitisch|senegalesisch|serbisch|serbokroatisch|sibirisch|slawisch|slowakisch|slowenisch|spanisch|sudanesisch|syrisch|taiwanisch|tasmanisch|thailändisch|thüringisch|tibetisch|timorisch|tirolisch|transsylvanisch|tschechisch|tunesisch|türkisch|turkmenisch|ugandisch|ukrainisch|ungarisch|venezolanisch|vietnamesisch|walisisch|weißrussisch|weissrussisch|zairisch|zyprisch">
+        <!ENTITY sprachadj1 "afrikanisch|alt(arabisch|chinesisch|griechisch|persisch)|amerikanisch|arabisch|chinesisch|dänisch|deutsch|plattdeutsch|englisch|finnisch|französisch|frühneuhochdeutsch|germanisch|griechisch|hocharabisch|hochchinesisch|hochdeutsch|holländisch|italienisch|japanisch|jiddisch|jugoslawisch|koreanisch|kroatisch|lateinisch|luxemburgisch|mittelhochdeutsch|neuhochdeutsch|niederländisch|norwegisch|persisch|polnisch|portugiesisch|russisch|schwedisch|schweizerisch|semitisch|serbisch|serbokroatisch|slawisch|spanisch|tschechisch|türkisch|ukrainisch|ungarisch|weißrussisch|weissrussisch|hebräisch">
+        <!ENTITY sprachadj2 "agglutinierend|algorithmisch|asiatisch|ausgestorben|bilderreich|bildlich|deutlich|dichterisch|europäisch|extensional|flektierend|formal|gesprochen|indogermanisch|intensional|klangvoll|konsonantenreich|maschinenorientiert|metaphorisch|poetisch|prosaisch|romanisch|schön|selten|vokalreich|wunderschön">
+        <!ENTITY bundesstaaten "Alabama|Alaska|Arizona|Arkansas|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kalifornien|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New|North|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode|South|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West|Wisconsin|Wyoming">
+        <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
+        <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
+        <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?|vergiessens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
+        <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|wohl|genau|laut|maximal|reichlich|(tag)?täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr|unter|zwischenzeitlich|vermutlich">
+        <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
+        <!ENTITY verbendirekterede "be(fehlen|haupten)|denken|fragen|rufen|sagen|versichern|flüstern|sprechen|schreien|antworten|säuseln|flehen">
+        <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
+        <!ENTITY fragewoerter "inwie(fern|weit)|wa(nn|rum|s)|we[mnr]|wes(halb|sen|wegen)|wie(so)?|wo(durch|für|gegen|h(er|in)|mit|nach|ran|rauf|raus|rüber|runter|von|zu)?"><!-- TODO: why is "welche/welcher/welches" missing? -->
+        <!ENTITY farbadj "gr(au|ün)|wei(ß|ss)|schwarz|rot|gelb|blau|lila|orange|beige|rosa|braun">
+        <!ENTITY possessiv_lemma "dein|euer|Ihr|ihr|mein|sein|unser">
+        <!ENTITY bivalent "achten|amüsieren|analysieren|ändern|antworten|arbeiten|ärgern|atmen|backen|baden|bauen|beachten|beantragen|bedeuten|bedienen|beeinflussen|befassen|befinden|befolgen|beginnen|begründen|begrü(ß|ss)en|behalten|behandeln|behaupten|behindern|beleidigen|bemerken|benutzen|beobachten|beraten|berichten|berücksichtigen|beruhigen|beschädigen|beschäftigen|beschlie(ß|ss)en|beschreiben|besichtigen|besitzen|besorgen|bestätigen|bestehen|bestellen|bestimmen|bestrafen|besuchen|betrügen|bezeichnen|bilden|brauchen|bremsen|brennen|buchstabieren|bürsten|differenzieren|diskutieren|ehren|empfehlen|entdecken|enthalten|entlassen|entscheiden|entschuldigen|enttäuschen|entwickeln|erfahren|erfinden|erhalten|erhöhen|erinnern|erkennen|erleben|erledigen|ernähren|eröffnen|erreichen|erwarten|erziehen|essen|feiern|finden|fliegen|folgern|fordern|fotografieren|fragen|fressen|frisieren|frühstücken|fühlen|führen|fürchten|gebären|gebrauchen|gewinnen|gewöhnen|gliedern|gründen|grü(ß|ss)en|hassen|heben|heiraten|hindern|holen|hören|husten|informieren|interessieren|kämmen|kennen|klappen|kriegen|leben|leisten|leiten|lernen|lieben|loben|lösen|markieren|meinen|merken|messen|mieten|missverstehen|nutzen|operieren|organisieren|parken|passen|pflegen|planen|probieren|produzieren|prüfen|rauchen|regeln|regieren|retten|riechen|sammeln|schalten|scheiden|schieben|schimpfen|schlussfolgern|schmecken|schreien|schützen|schwimmen|schwitzen|sehen|sparen|sprechen|springen|spülen|stoppen|stören|studieren|suchen|tanken|tanzen|telefonieren|töten|trainieren|transportieren|träumen|treffen|trennen|trinken|turnen|überfahren|überholen|überlegen|übernehmen|überqueren|überraschen|überreden|überzeugen|umtauschen|unterrichten|unterscheiden|unterschreiben|unterstützen|untersuchen|verändern|verbessern|verbrauchen|verbringen|verdienen|vergessen|vergleichen|verhaften|verhindern|verlangen|verlängern|verlassen|verletzen|verlieren|vermuten|veröffentlichen|verschlechtern|versichern|verstehen|versuchen|verteilen|vertreten|verwechseln|verwenden|verwickeln|verzollen|wählen|warnen|wecken|werfen|wiederholen|wiegen|wissen|zählen|zerstören|zwingen">
+        <!ENTITY sinnmachen "Der Ausdruck 'Sinn machen' kann umgangssprachlich wirken. Möchten Sie eine alternative Formulierung verwenden?">
+        <!ENTITY drauflos_verben "reden|gehen|arbeiten|fabulieren|feuern|schwatzen|fahren|reiten|schie(ß|ss)en|rennen|schwimmen|schimpfen|laufen|schlagen|bauen|führen|sprechen|hämmern|watscheln|wirtschaften|raten|starten|klicken|posten|schreiben|malen|plappern">
+        <!--
+        for local testing of an external file - also see below:
+        <!ENTITY UserRules SYSTEM "file:///lt/git/languagetool/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar-test.xml">
+        -->
+        <!ENTITY date_allnumbers_skip '
+        <marker>
+            <token regexp="yes">\d\d?</token>
+            <token>.</token>
+            <token regexp="yes">\d\d?</token>
+            <token>.</token>
+            <token regexp="yes" skip="-1">\d\d\d\d</token>
+        </marker>
+    '>
+
+        <!ENTITY date_month_shortened_skip '
+        <marker>
+        <token regexp="yes">\d\d?</token>
+        <token>.</token>
+        <token regexp="yes">&abgekMonate;</token>
+        <token>.</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        </marker>
+    '>
+
+        <!ENTITY date_month_full_skip '
+        <marker>
+        <token regexp="yes">\d\d?</token>
+        <token>.</token>
+        <token regexp="yes">&monate;</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        </marker>
+    '>
+        ]>
+
 <rules lang="de" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="style rules" type="style">
         <rule id="REMOVEME_RULE1" name="test rule" default="off">
@@ -32,5 +146,1360 @@ USA
             <suggestion>realizar</suggestion>
             <example correction="realizar"><marker>realizaaar</marker></example>
         </rule>
+    </category>
+    <category id="REDUNDANCY" name="Redundanz" type="style">
+        <rule id="HAUPTPROTAGONIST" name="Hauptprotagonist (Protagonist)" tags="picky clarity">
+            <pattern>
+                <token inflected="yes">Hauptprotagonist</token>
+            </pattern>
+            <message>Da Protagonisten bereits Hauptfiguren sind, kann das Wort gedoppelt wirken.</message>
+            <suggestion><match no="1" postag="SUB.*" postag_regexp="yes">Protagonist</match></suggestion>
+            <suggestion><match no="1" postag="SUB.*" postag_regexp="yes">Hauptcharakter</match></suggestion>
+            <example correction="Protagonist|Hauptcharakter">Der <marker>Hauptprotagonist</marker> und seine Freunde kämpfen gegen das Böse.</example>
+            <example correction="Protagonisten|Hauptcharaktere">Die <marker>Hauptprotagonisten</marker> verlieren den Kampf um das goldene Zepter.</example>
+            <example correction="Protagonisten|Hauptcharakters">Der König vereitelte die Pläne des <marker>Hauptprotagonisten</marker>.</example>
+        </rule>
+        <rule id="TAEGLICHER_ALLTAG" name="täglicher Alltag" tags="clarity">
+            <pattern>
+                <token inflected="yes" regexp="yes">(all)?täglich</token>
+                <token>Alltag</token>
+            </pattern>
+            <message>Mögliche Doppelung: "\1" und "\2".</message>
+            <suggestion>\2</suggestion>
+            <example correction="Alltag">Im <marker>täglichen Alltag</marker> kommt es häufig vor.</example>
+        </rule>
+        <rule id="WELTWEIT_DER_WELT" name="weltweit ... der Welt" tags="clarity professional">
+            <pattern>
+                <token skip="-1">weltweit
+                    <exception scope="next" regexp="yes">,|und|&amp;</exception>
+                </token>
+                <marker>
+                    <token>der</token>
+                    <token>Welt</token>
+                </marker>
+            </pattern>
+            <message>Mögliche Doppelung: 'weltweit' und 'der Welt'.</message>
+            <suggestion/>
+            <example correction="">Italdesign, eines der weltweit besten Designbüros <marker>der Welt</marker>.</example>
+            <example>Sie verkaufte 300 Millionen Tonträger weltweit, damit ist sie die kommerziell erfolgreichste Sängerin der Welt.</example>
+        </rule>
+        <rule id="ZENTRALER_KERNBAUSTEIN" name="zentraler Kernbaustein" tags="clarity">
+            <pattern>
+                <token inflected="yes">zentral</token>
+                <token inflected="yes">Kernbaustein</token>
+            </pattern>
+            <message>Die Wendung '\1 \2' ist redundant.</message>
+            <suggestion>\2</suggestion>
+            <suggestion>\1 <match no="2" regexp_match="Kernb" regexp_replace="B"/></suggestion>
+            <example correction="Kernbausteinen|zentralen Bausteinen">Das Modul besteht aus drei <marker>zentralen Kernbausteinen</marker>.</example>
+        </rule>
+        <rule id="NEBEN_MIT" name="neben mit" tags="clarity professional objective">
+            <antipattern>
+                <token>neben</token>
+                <token skip="-1">mit</token>
+                <token postag_regexp="yes" postag="PA1:.+"/>
+            </antipattern>
+            <pattern>
+                <token>neben</token>
+                <token>mit</token>
+            </pattern>
+            <message>Mögliche Doppelung, meinten Sie nur <suggestion>\1</suggestion> oder nur <suggestion>\2</suggestion>?</message>
+            <example correction="neben|mit">Dort der Altberliner <marker>neben mit</marker> einer Flasche Bier.</example>
+            <example>Neben mit einer Schwangerschaft koinzidentell in Erscheinung tretenden Zuständen wie Thromboembolie...</example>
+        </rule>
+        <rulegroup id="HEILIGER_SANKT_X" name="Der heilige Sankt Peter etc." tags="professional objective">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">heilige[nr]?</token>
+                        <token>Sankt</token>
+                    </marker>
+                    <token postag="EIG:(.+):SIN:(MAS|FEM):(.+):VOR" postag_regexp="yes" />
+                </pattern>
+                <message>Doppelung: Der Namenszusatz <suggestion><match no="2" /></suggestion> beinhaltet bereits das Attribut <suggestion><match no="1" /></suggestion>.</message>
+                <example correction="Sankt|Heiliger"><marker>Heiliger Sankt</marker> Florian, verschon mein Haus, zünd andere an!</example>
+                <example correction="Sankt|heilige">Die <marker>heilige Sankt</marker> Johanna der Schlachthöfe.</example>
+                <example correction="Sankt|heilige">Der <marker>heilige Sankt</marker> Peter ist cool.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>der</token>
+                    <token postag="ZAL" />
+                    <token>Heiligen</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">heilige[nr]?</token>
+                        <token>St</token>
+                        <token>.</token>
+                    </marker>
+                    <token postag="EIG:(.+):SIN:(MAS|FEM):(.+):VOR" postag_regexp="yes" />
+                </pattern>
+                <message>Mögliche Doppelung: Der religiöse Namenszusatz <suggestion><match no="2" /><match no="3" /></suggestion> beinhaltet bereits das Attribut <suggestion><match no="1" /></suggestion>.</message>
+                <example correction="St.|Heiliger"><marker>Heiliger St.</marker> Florian, verschon' mein Haus, zünd' andere an!</example>
+                <example correction="St.|heilige">Die <marker>heilige St.</marker> Johanna der Schlachthöfe.</example>
+                <example>Die vier <marker>Heiligen St.</marker> Nikolaus, St. Peter etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hl</token>
+                        <token>.</token>
+                        <token>Sankt</token>
+                    </marker>
+                    <token postag="EIG:(.+):SIN:(MAS|FEM):(.+):VOR" postag_regexp="yes" />
+                </pattern>
+                <message>Mögliche Doppelung: Der religiöse Namenszusatz <suggestion><match no="3" /></suggestion> beinhaltet bereits das Attribut <suggestion><match no="1" /><match no="2" /></suggestion>.</message>
+                <example correction="Sankt|hl.">Die <marker>hl. Sankt</marker> Johanna der Schlachthöfe.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CA_ETWA" name="'ca. etwa'" tags="clarity">
+            <rule>
+                <pattern>
+                    <token>ca</token>
+                    <token>.</token>
+                    <token regexp="yes">etwa|ungefähr|zirka|circa</token>
+                </pattern>
+                <message>Mögliche Doppelung.</message>
+                <suggestion>ca.</suggestion>
+                <suggestion>etwa</suggestion>
+                <example correction="ca.|etwa">Ein Würfel mit 46 Millimeter Kantenlänge und einem Abstand von <marker>ca. etwa</marker> 38 cm.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[zc]ir[ck]a</token>
+                    <token regexp="yes">etwa|ungefähr</token>
+                </pattern>
+                <message>Mögliche Doppelung.</message>
+                <suggestion>circa</suggestion>
+                <suggestion>etwa</suggestion>
+                <example correction="circa|etwa">Ein Würfel mit 46 Millimeter Kantenlänge und einem Abstand von <marker>zirka etwa</marker> 38 cm.</example>
+            </rule>
+        </rulegroup>
+        <rule id="UEBER_DARUEBER" name="'über darüber'" tags="clarity">
+            <pattern>
+                <token>über</token>
+                <token>darüber</token>
+            </pattern>
+            <message>Mögliche Doppelung.</message>
+            <suggestion>über</suggestion>
+            <suggestion>darüber</suggestion>
+            <example correction="über|darüber">Und <marker>über darüber</marker> geht sein Bericht.</example>
+        </rule>
+        <rule id="EHEMALIG_EX" name="ehemaliger Ex- ..." tags="clarity professional">
+            <pattern>
+                <token regexp="yes">ehemalige[rns]?</token>
+                <token regexp="yes">Ex-.*</token>
+            </pattern>
+            <message>Mögliche Doppelung, meinten Sie <suggestion>\2</suggestion>?</message>
+            <example correction="Ex-Weltmeister">Darunter auch <marker>ehemalige Ex-Weltmeister</marker>.</example>
+        </rule>
+        <rule id="INNEN_HOHL" name="'innen hohl'" tags="clarity">
+            <pattern>
+                <token>innen</token>
+                <token inflected="yes">hohl</token>
+            </pattern>
+            <message>&redundanz; Ein Körper kann ausschließlich auf der Innenseite hohl sein. Meinten Sie nur <suggestion>\2</suggestion>?</message>
+            <example correction="hohl">Der Stamm war <marker>innen hohl</marker>.</example>
+        </rule>
+        <rule id="FALSCHER_TRUGSCHLUSS" name="'falscher Trugschluss'" tags="clarity">
+            <pattern>
+                <token inflected="yes">falsch</token>
+                <token inflected="yes">Trugschluss</token>
+            </pattern>
+            <message>Ein Trugschluss ist eine falsche Annahme. Meinten Sie nur <suggestion>\2</suggestion>?</message>
+            <example correction="Trugschluss">Das ist ein <marker>falscher Trugschluss</marker>.</example>
+        </rule>
+        <rulegroup id="UND_ETC" name="'und etc.'" tags="clarity professional">
+            <rule>
+                <antipattern>
+                    <token>usw</token>
+                    <token>.</token>
+                    <token>und</token>
+                    <token>etc</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern case_sensitive='yes'>
+                    <token regexp="yes">und|&amp;</token>
+                    <token>etc</token>
+                    <token>.</token>
+                </pattern>
+                <message>Mögliche Verdoppelung: Das 'et' in <suggestion>etc.</suggestion> bedeutet auf Deutsch 'und'.</message>
+                <example correction="etc.">Rasenmäher <marker>und etc.</marker></example>
+                <example correction="etc.">Rasenmäher <marker>&amp; etc.</marker></example>
+                <example>Die Abkürzungen usw. und etc. werden mit Punkt geschrieben.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>(und|&amp;) et cetera</regexp>
+                <message>Mögliche Verdoppelung: Das 'et' in <suggestion>et cetera</suggestion> bedeutet auf Deutsch 'und'.</message>
+                <example correction="et cetera">Rasenmäher <marker>und et cetera</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="UND_SOWIE" name="'und sowie'" tags="clarity professional">
+            <rule>
+                <regexp case_sensitive='yes'>\bund sowie\b</regexp>
+                <message>Mögliche Verdoppelung.</message>
+                <suggestion>und</suggestion>
+                <suggestion>sowie</suggestion>
+                <example correction="und|sowie">Bund <marker>und sowie</marker> mehrere Bundesländer kündigen Steuererhöhung an.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\bsowie und\b</regexp>
+                <message>Mögliche Verdoppelung.</message>
+                <suggestion>und</suggestion>
+                <suggestion>sowie</suggestion>
+                <example correction="und|sowie">Bund <marker>sowie und</marker> mehrere Bundesländer kündigen Steuererhöhung an.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DOPPELUNG_YYXXER_JAHRE" name="19XXer Jahre des zwanzigsten Jahrhunderts" tags="clarity">
+            <rule><!--1-->
+                <pattern>
+                    <token regexp="yes">19[1-9]0er</token>
+                    <token regexp="yes">Jahren?</token>
+                    <token>des</token>
+                    <token regexp="yes">letzten|vorigen|vergangenen</token>
+                    <token regexp="yes">Jahrhunderts|Jahrtausends</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1-\2</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/>-\2 \3 \4 \5</suggestion>?</message>
+                <example correction="1970er-Jahren|70er-Jahren des vorigen Jahrhunderts">In den <marker>1970er Jahren des vorigen Jahrhunderts</marker>.</example>
+            </rule>
+            <rule><!--2-->
+                <pattern>
+                    <token regexp="yes">19[1-9]0er-Jahren?</token>
+                    <token>des</token>
+                    <token regexp="yes">letzten|vorigen|vergangenen</token>
+                    <token regexp="yes">Jahrhunderts|Jahrtausends</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4</suggestion>?</message>
+                <example correction="1970er-Jahren|70er-Jahren des vorigen Jahrhunderts">In den <marker>1970er-Jahren des vorigen Jahrhunderts</marker>.</example>
+            </rule>
+            <rule><!--3-->
+                <pattern>
+                    <token regexp="yes">19[1-9]0er</token>
+                    <token regexp="yes">Jahren?</token>
+                    <token>des</token>
+                    <token>zwanzigsten</token>
+                    <token>Jahrhunderts</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1 \2</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4 \5</suggestion>?</message>
+                <example correction="1970er Jahren|70er Jahren des zwanzigsten Jahrhunderts">In den <marker>1970er Jahren des zwanzigsten Jahrhunderts</marker>.</example>
+            </rule>
+            <rule><!--4-->
+                <pattern>
+                    <token regexp="yes">19[1-9]0er-Jahren?</token>
+                    <token>des</token>
+                    <token>zwanzigsten</token>
+                    <token>Jahrhunderts</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4</suggestion>?</message>
+                <example correction="1970er-Jahren|70er-Jahren des zwanzigsten Jahrhunderts">In den <marker>1970er-Jahren des zwanzigsten Jahrhunderts</marker>.</example>
+            </rule>
+            <rule><!--5-->
+                <pattern>
+                    <token regexp="yes">19[1-9]0er</token>
+                    <token regexp="yes">Jahren?</token>
+                    <token>des</token>
+                    <token>20</token>
+                    <token>.</token>
+                    <token>Jahrhunderts</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1 \2</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4\5 \6</suggestion>?</message>
+                <example correction="1970er Jahren|70er Jahren des 20. Jahrhunderts">In den <marker>1970er Jahren des 20. Jahrhunderts</marker>.</example>
+                <example>In den 70er Jahren des zwanzigsten Jahrhunderts.</example>
+            </rule>
+            <rule><!--6-->
+                <pattern>
+                    <token regexp="yes">19[1-9]0er-Jahren?</token>
+                    <token>des</token>
+                    <token>20</token>
+                    <token>.</token>
+                    <token>Jahrhunderts</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3\4 \5</suggestion>?</message>
+                <example correction="1970er-Jahren|70er-Jahren des 20. Jahrhunderts">In den <marker>1970er-Jahren des 20. Jahrhunderts</marker>.</example>
+                <example>In den 70er Jahren des zwanzigsten Jahrhunderts.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ETC_PUNKTE" name="'etc. …'" tags="clarity">
+            <rule>
+                <regexp>(etc|usw)\. (…)</regexp>
+                <message>&redundanz; Ersetzen durch <suggestion>\1.</suggestion> oder <suggestion>\2</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="etc.|…">Da ist einiges zu tun <marker>etc. …</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SCHEINT_ANSCHEINEND" name="'scheint anscheinend'" tags="clarity professional">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">scheinen</token>
+                        <token regexp="yes" skip="2">anscheinend|scheinbar</token>
+                    </marker>
+                    <token>zu</token>
+                    <token postag="VER:INF.*" postag_regexp="yes"/>
+                </pattern>
+                <message>&redundanz; Ersetzen durch <suggestion>\1</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="scheint">Das <marker>scheint anscheinend</marker> zu stimmen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZEITLICH_SYNCHRON" name="'zeitlich synchron'" tags="clarity">
+            <rule>
+                <pattern>
+                    <token>zeitlich</token>
+                    <token inflected="yes">synchron</token>
+                </pattern>
+                <message>&redundanz; Das Adjektiv <suggestion>\2</suggestion> (von gr. χρόνος [chrónos] 'Zeit') beinhaltet bereits das Merkmal \1.</message>
+                <short>&redundanz;</short>
+                <example>Wir sollten das <marker>zeitlich</marker> aufeinander abstimmen.</example>
+                <example correction="synchron">Die Prozesse laufen <marker>zeitlich synchron</marker> ab.</example>
+            </rule>
+            <rule>
+                <regexp>(zeitlichen?) (Synchroni(zi)?tät)</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens <suggestion>\2</suggestion> (von gr. χρόνος [chrónos] 'Zeit') beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <short>&redundanz;</short>
+                <example correction="Synchronität">Die <marker>zeitliche Synchronität</marker> herzustellen ist nicht ganz leicht.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VERDOPPELUNG" name="'meistens immer', 'schon bereits' etc." tags="clarity">
+            <!-- Jan: TODO – organize this into smaller rulegroups? Make a Java rule with pairs of words similar to coherency.txt? -->
+            <rule><!--1-->
+                <pattern>
+                    <token>plötzlich</token>
+                    <token postag="VER:.*" postag_regexp="yes"/>
+                    <token>auf</token>
+                    <token>einmal</token>
+                </pattern>
+                <message>&redundanz; Meinten Sie <suggestion>plötzlich \2</suggestion> oder <suggestion>auf einmal \2</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example><marker>Plötzlich</marker> lief wieder alles rund.</example>
+                <example><marker>Auf einmal</marker> ging wieder alles glatt.</example>
+                <example correction="Plötzlich ging|Auf einmal ging"><marker>Plötzlich ging auf einmal</marker> wieder alles glatt.</example>
+            </rule>
+            <rule><!--2-->
+                <regexp>plötzlich auf einmal</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>plötzlich</suggestion> oder <suggestion>auf einmal</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="plötzlich|auf einmal">Es lief <marker>plötzlich auf einmal</marker> wieder alles glatt.</example>
+            </rule>
+            <rule><!--3-->
+                <regexp>\bauf einmal plötzlich\b</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>plötzlich</suggestion> oder <suggestion>auf einmal</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="plötzlich|auf einmal">Es lief <marker>auf einmal plötzlich</marker> wieder alles glatt.</example>
+            </rule>
+            <rule><!--4-->
+                <regexp>\bexakt genau\b</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>exakt</suggestion> oder <suggestion>genau</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Es lief <marker>exakt</marker> wie beim letzten Mal.</example>
+                <example>Es lief <marker>genau</marker> wie beim letzten Mal.</example>
+                <example correction="exakt|genau">Es war <marker>exakt genau</marker> wie beim letzten Mal.</example>
+            </rule>
+            <rule><!--5-->
+                <regexp>\bexakt genauso\b</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>exakt so</suggestion> oder <suggestion>genauso</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Es lief <marker>exakt so</marker> wie beim letzten Mal.</example>
+                <example>Es lief <marker>genauso</marker> wie beim letzten Mal.</example>
+                <example correction="exakt so|genauso">Es lief wieder <marker>exakt genauso</marker> wie beim letzten Versuch.</example>
+            </rule>
+            <rule><!--6-->
+                <regexp>\b(also|folglich|demnach|deshalb|mithin|somit) (also|folglich|demnach|deshalb|mithin|somit)\b</regexp>
+                <message>&redundanz; Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
+                <short>&redundanz;</short>
+                <example correction="also|folglich">Wir sollten <marker>also folglich</marker> sofort handeln.</example>
+            </rule>
+            <rule><!--7-->
+                <regexp>\b(annähernd|beinahe?|fast|nahezu|ungefähr) (annähernd|beinahe?|fast|nahezu|ungefähr)\b</regexp>
+                <message>&redundanz; Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
+                <short>&redundanz;</short>
+                <example correction="ungefähr|fast">Das ist <marker>ungefähr fast</marker> richtig.</example>
+            </rule>
+            <rule><!--8-->
+                <regexp>(zusätzlich) (obendr(auf|ein)|hinzu)</regexp>
+                <message>&redundanz; Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
+                <short>&redundanz;</short>
+                <example correction="zusätzlich|hinzu">Das kommt <marker>zusätzlich hinzu</marker>.</example>
+            </rule>
+            <rule><!--9-->
+                <pattern>
+                    <token inflected="yes" skip="1">bäuerlich</token>
+                    <token inflected="yes">rustikal</token>
+                </pattern>
+                <message>&redundanz; Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
+                <short>&redundanz;</short>
+                <example correction="bäuerlich|rustikales">Ein <marker>bäuerlich rustikales</marker> Möbelstück.</example>
+            </rule>
+            <rule><!--10-->
+                <pattern>
+                    <token inflected="yes" skip="1">neu</token>
+                    <token inflected="yes">erneuert</token>
+                </pattern>
+                <message>&redundanz; Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
+                <short>&redundanz;</short>
+                <example correction="neu|erneuert">Ich habe es gerade erst <marker>neu erneuert</marker>.</example>
+            </rule>
+            <rule><!--11-->
+                <antipattern>
+                    <token inflected="yes">können</token>
+                    <token min="0">alles</token>
+                    <token>möglich</token>
+                    <token regexp="yes" inflected="yes">machen|sein</token>
+                    <example>Jeder kann alles möglich machen, wenn er nur will.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="1" inflected="yes">können</token>
+                    <token postag="ADJ.*" postag_regexp="yes"/>
+                    <token postag="SUB.*|UNKNOWN" postag_regexp="yes"/>
+                    <example>Können mögliche Angriffe auf die neue Marke abgewehrt werden?</example>
+                    <example>Weil er wegen seiner inkompletten Querschnittlähmung seine Beine nicht spürt, können ihm mögliche Erfrierungen an den Füßen zu spät auffallen.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">können</token>
+                    <token regexp="yes">jede[mnr]?|alle[nsm]?</token>
+                    <token regexp="yes">mögliche[mnr]?</token>
+                    <example>Ich kann alles Mögliche ändern, aber einen Befehl zum einfachen Auflisten der Mitglieder einer Klasse habe ich nicht gefunden.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">können</token>
+                    <token>möglicherweise</token>
+                    <token regexp="yes">nicht|kein[e(rnm)?]?</token>
+                    <example>Dieser kann möglicherweise nicht vor September 2013 beginnen.</example>
+                    <example>Ich kann möglicherweise keine Antwort darauf geben.</example>
+                </antipattern>
+                <antipattern>
+                    <token>kann</token>
+                    <token postag_regexp="yes" postag="PRO.*" />
+                    <token>möglicherweise</token>
+                    <example>Er kann ihr möglicherweise nicht glauben.</example>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" skip="1">können</token>
+                    <marker>
+                        <token regexp="yes">möglich(e[nsr]?)?|möglicherweise
+                            <exception postag="SUB.*" postag_regexp="yes"/>
+                            <exception scope="previous" postag="ART.*" postag_regexp="yes"/>
+                            <exception scope="previous" regexp="yes">,|wie</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>&redundanz; Die Wörter "können" und "möglicherweise" drücken dasselbe aus.</message>
+                <suggestion></suggestion>
+                <short>&redundanz;</short>
+                <example correction="">Das kann <marker>möglicherweise</marker> sein.</example>
+                <example correction="">Das könnte sie <marker>möglicherweise</marker> machen.</example>
+                <example>Hier kann alles Mögliche passieren.</example><!--exception-->
+                <example>1859 wuchsen erneut die Befürchtungen, dass die Franzosen nach England einfallen könnten, möglicherweise auch in einem Überraschungsangriff.</example><!--exception-->
+                <example>Wenn Sie so still stehen könnten wie möglich, wäre ich Ihnen sehr dankbar.</example><!--exception-->
+                <example>Sollten sie in Ausnahmefällen benötigt werden, um beispielsweise einen auf mehrere Zeilen verteilten Parameter zusammenzufassen, kann die <marker>mögliche</marker> Verwechselung mit einem Funktionsaufruf dennoch vermieden werden, indem man ein Leerzeichen zwischen throw und die öffnende Klammer einfügt.</example><!--exception-->
+            </rule>
+            <rule><!--12-->
+                <pattern>
+                    <token skip="1">freiwillig</token>
+                    <token regexp="yes">gewollt(e[nsr]?)?</token>
+                </pattern>
+                <message>&redundanz;</message>
+                <suggestion>\1 getan</suggestion>
+                <suggestion>selbst \2</suggestion>
+                <example correction="freiwillig getan|selbst gewollt">Das hast du <marker>freiwillig so gewollt</marker>.</example>
+                <example>Das hast du doch <marker>selbst so gewollt</marker>.</example>
+                <example>Das hast du doch <marker>freiwillig getan</marker>.</example>
+            </rule>
+            <rule><!--13-->
+                <regexp>einander gegenseitig</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>einander</suggestion> oder <suggestion>sich gegenseitig</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Sie mochten <marker>sich gegenseitig</marker> nicht besonders.</example>
+                <example>Sie mochten <marker>sich</marker> nicht besonders.</example>
+                <example correction="einander|sich gegenseitig">Sie hatten <marker>einander gegenseitig</marker> so lieb.</example>
+            </rule>
+            <rule><!--14-->
+                <regexp>eventuell vielleicht</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>eventuell</suggestion> oder <suggestion>vielleicht</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Das ist <marker>eventuell</marker> gar nicht so gut.</example>
+                <example>Das ist <marker>vielleicht</marker> gar nicht so gut.</example>
+                <example correction="eventuell|vielleicht">Das ist <marker>eventuell vielleicht</marker> so passiert; zumindest steht es in der Zeitung.</example>
+            </rule>
+            <rule><!--15-->
+                <regexp>vielleicht eventuell</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>eventuell</suggestion> oder <suggestion>vielleicht</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Das ist <marker>eventuell</marker> gar nicht so gut.</example>
+                <example>Das ist <marker>vielleicht</marker> gar nicht so gut.</example>
+                <example correction="eventuell|vielleicht">Das ist <marker>vielleicht eventuell</marker> so passiert; zumindest steht es in der Zeitung.</example>
+            </rule>
+            <rule><!--16-->
+                <regexp>\bschon bereits\b</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Das ist <marker>bereits</marker> geschehen.</example>
+                <example>Das ist mir auch <marker>schon</marker> oft passiert.</example>
+                <example correction="schon|bereits">Das ist <marker>schon bereits</marker> gestern passiert.</example>
+            </rule>
+            <rule><!--17-->
+                <regexp>\bbereits schon\b</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>schon</suggestion> oder <suggestion>bereits</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Das ist <marker>bereits</marker> geschehen.</example>
+                <example>Das ist mir auch <marker>schon</marker> oft passiert.</example>
+                <example correction="schon|bereits">Das ist <marker>bereits schon</marker> gestern passiert.</example>
+            </rule>
+            <rule><!--18-->
+                <regexp>\bbald demnächst\b</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>bald</suggestion> oder <suggestion>demnächst</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Das Gebäude ist <marker>bald</marker> fertig.</example>
+                <example>Es ist <marker>demnächst</marker> so weit.</example>
+                <example correction="bald|demnächst">Das ist <marker>bald demnächst</marker> fertig.</example>
+            </rule>
+            <rule><!--19-->
+                <regexp>ausschlie(ß|ss)lich (bloß|nur)</regexp>
+                <message>&redundanz; Meinten Sie <suggestion>ausschließlich</suggestion>, <suggestion>bloß</suggestion> oder <suggestion>nur</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Das Gebäude ist <marker>ausschließlich</marker> für die Lagerung bestimmt.</example>
+                <example>Es ist <marker>nur</marker> gerecht.</example>
+                <example correction="ausschließlich|bloß|nur">Das ist <marker>ausschließlich nur</marker> dein Problem.</example>
+            </rule>
+            <rule><!-- Ein Netzwerkadministrator wird auch dadurch definiert, wenn ein Systemadministrator sich nicht nur ausschließlich um einzeln stehende Rechner kümmert ... --><!--20-->
+                <antipattern>
+                    <token>nicht</token>
+                    <token>nur</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">bloß|bloss|nur</token>
+                    <token regexp="yes">ausschlie(ß|ss)lich</token>
+                </pattern>
+                <message>&redundanz; Meinten Sie <suggestion>ausschließlich</suggestion>, <suggestion>bloß</suggestion> oder <suggestion>nur</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Das Gebäude ist <marker>ausschließlich</marker> für die Lagerung bestimmt.</example>
+                <example>Das ist <marker>nur</marker> gerecht.</example>
+                <example correction="ausschließlich|bloß|nur">Das ist <marker>nur ausschließlich</marker> deine Sache.</example>
+            </rule>
+            <rule><!--21-->
+                <regexp>(meist(ens)?|jederzeit) (immer)</regexp>
+                <message>&redundanz; Meinten Sie <suggestion><match no="1"/></suggestion> oder <suggestion>immer</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Ich gehe <marker>meist</marker> am Samstag einkaufen.</example>
+                <example correction="meistens|immer">Ich gehe <marker>meistens immer</marker> am Samstag einkaufen.</example>
+            </rule>
+            <rule><!--22-->
+                <regexp>\b(immer) (meist(ens)?|jederzeit)</regexp>
+                <message>&redundanz; Meinten Sie <suggestion><match no="2"/></suggestion> oder <suggestion>immer</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example>Ich gehe <marker>meist</marker> am Samstag einkaufen.</example>
+                <example correction="meistens|immer">Ich gehe <marker>immer meistens</marker> am Samstag einkaufen.</example>
+                <example correction="jederzeit|immer">Ich gehe <marker>immer jederzeit</marker> samstags einkaufen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SEMANTISCHE_BEDEUTUNG" name="'semantische Bedeutung'" tags="clarity">
+            <rule>
+                <pattern>
+                    <token regexp="yes">semantische[nr]?</token>
+                    <token inflected="yes">Bedeutung</token>
+                </pattern>
+                <message>Mögliche Redundanz: 'semantisch' heißt 'auf die Bedeutung bezogen'.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Bedeutung">Das Wort hat eine <marker>semantische Bedeutung</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>(semantisch) (bedeute[nt])</regexp>
+                <message>Mögliche Redundanz: 'semantisch' heißt 'auf die Bedeutung bezogen'.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="bedeuten">Mir ist nicht klar, was das <marker>semantisch bedeuten</marker> soll.</example>
+            </rule>
+            <rule>
+                <regexp>(bedeute[nt]) (semantisch)</regexp>
+                <message>Mögliche Redundanz: 'semantisch' heißt 'auf die Bedeutung bezogen'.</message>
+                <suggestion>\1</suggestion>
+                <short>&redundanz;</short>
+                <example correction="bedeutet">Das <marker>bedeutet semantisch</marker> gar nichts.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KLEINE_-CHEN" name="'kleines Häuschen' etc." type="style" tags="clarity">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">kleine[ns]?</token>
+                    <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
+                        <exception postag="(SUB:.+:NEU)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
+                        <exception regexp="yes">Mädchen|.+mädchen|Veilchen|Brötchen|Kaninchen|Radieschen|München|Zeichen|Anzeichen|Kennzeichen|Eichhörnchen|Gummibärchen|.+zeichen</exception>
+                    </token>
+                </pattern>
+                <message>Die Endung '-chen' beinhaltet bereits das Merkmal 'klein'. In manchen Kontexten kann diese Formulierung deswegen redundant (oder übermäßig verniedlichend) erscheinen.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Mäuschen">Mein <marker>kleines Mäuschen</marker> ist so süß.</example>
+                <example>Meine <marker>kleine Maus</marker> ist so süß.</example>
+                <example>Ich hab ein kleines Lebenszeichen gesehen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SELTENE_RARITAET" name="seltene Rarität" type="style" tags="clarity">
+            <rule>
+                <pattern>
+                    <token regexp="yes">seltene[rn]?</token>
+                    <token regexp="yes">Rarität(en)?</token>
+                </pattern>
+                <message>Redundanz: Das Nomen <suggestion>\2</suggestion> beinhaltet bereits das Merkmal 'selten'. Bitte prüfen Sie, ob Sie das Adjektiv weglassen oder durch ein geeigneteres (z.B. 'begehrt', 'gefragt', 'besonders', 'einzigartig' ...) ersetzen möchten.</message>
+                <short>&redundanz;</short>
+                <example correction="Raritäten">Der Laden hatte viele <marker>seltene Raritäten</marker>.</example>
+                <example correction="Rarität">Eine <marker>seltene Rarität</marker>!</example>
+                <example>Eine <marker>seltene Tugend</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZEITLICHE_VERZOEGERUNG" name="zeitliche Verzögerung" type="style" tags="clarity">
+            <rule>
+                <pattern>
+                    <token regexp="yes">zeitliche[rn]?</token>
+                    <token regexp="yes">Verzögerung(en)?</token>
+                </pattern>
+                <message>Redundanz: Das Nomen <suggestion>\2</suggestion> beinhaltet bereits das Merkmal 'zeitlich'. Bitte prüfen Sie, ob Sie das Adjektiv weglassen oder durch ein geeigneteres (z.B. 'erheblich', 'häufig') ersetzen möchten.</message>
+                <short>&redundanz;</short>
+                <example correction="Verzögerungen">Es gab immer öfter <marker>zeitliche Verzögerungen</marker>.</example>
+                <example correction="Verzögerung">Es kam zu einer <marker>zeitlichen Verzögerung</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">zeitliche[rn]?</token>
+                    <token>Dauer</token>
+                </pattern>
+                <message>Redundanz: Das Nomen <suggestion>\2</suggestion> beinhaltet bereits das Merkmal 'zeitlich'. Bitte prüfen Sie, ob Sie das Adjektiv weglassen möchten.</message>
+                <short>&redundanz;</short>
+                <example correction="Dauer">Wir sollten die <marker>zeitliche Dauer</marker> beschleunigen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zeitlich</token>
+                    <token regexp="yes">verzögert(e[mnrs]?)?</token>
+                </pattern>
+                <message>Redundanz: Das Partizip <suggestion>\2</suggestion> beinhaltet bereits das Merkmal 'zeitlich'. Bitte prüfen Sie, ob Sie das Adverb weglassen möchten.</message>
+                <short>&redundanz;</short>
+                <example correction="verzögert">Er reagierte <marker>zeitlich verzögert</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WERTLOSER_BALLAST" name="wertloser Ballast" type="style" tags="clarity">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(überflüssig|unnötig|unnütz|wertlos)e[mnr]?</token>
+                    <token regexp="yes">Ballast(e?s)?</token>
+                </pattern>
+                <message>Redundanz: Das Nomen <suggestion>\2</suggestion> beinhaltet bereits das Merkmal '\1'. Bitte prüfen Sie, ob Sie das Adjektiv weglassen oder durch ein geeigneteres (z.B. 'störend', 'hinderlich', 'ideologisch' ...) ersetzen möchten.</message>
+                <url>https://www.dwds.de/wb/Ballast</url>
+                <short>&redundanz;</short>
+                <example correction="Ballast">Das ist bloß <marker>überflüssiger Ballast</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WEIBLICHE_-INNEN" name="'weibliche Benutzerin' etc." tags="clarity">
+            <!-- TODO 'Magd', 'Hexe', 'Schwester', 'Tante' etc. -->
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>weibliche</token>
+                    <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:FEM" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+in
+                        <exception postag="(SUB:.+:FEM)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
+                    </token>
+                </pattern>
+                <message>Die Endung '-in' beinhaltet bereits das Merkmal 'weiblich'. In manchen Kontexten kann diese Formulierung deswegen redundant erscheinen.</message>
+                <suggestion>\2</suggestion>
+                <suggestion>Frau</suggestion>
+                <suggestion>Mädchen</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Ärztin|Frau|Mädchen">Als <marker>weibliche Ärztin</marker> bin ich wohl die Ausnahme hier.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">weiblichen?</token>
+                    <token regexp="yes" postag="SUB:[A-Z]{3}:PLU:FEM" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+innen
+                        <exception postag="(SUB:.+:FEM)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
+                    </token>
+                </pattern>
+                <message>Die Endung '-innen' beinhaltet bereits das Merkmal 'weiblich'. In manchen Kontexten kann diese Formulierung deswegen redundant erscheinen.</message>
+                <suggestion>\2</suggestion>
+                <suggestion>Frauen</suggestion>
+                <suggestion>Mädchen</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Schülerinnen|Frauen|Mädchen">Die <marker>weiblichen Schülerinnen</marker> haben Sport bei Frau Müller.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="RUNDE_KUGEL" name="'runde Kugel' etc. (nur für wenige Fälle)" tags="clarity">
+            <rule>
+                <regexp>(finanzielle[mnrs]?|monetäre[mnrs]?) (Geld\w*)</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Geldprobleme">Die <marker>finanziellen Geldprobleme</marker> sind groß.</example>
+                <example>Die <marker>finanziellen Probleme</marker> sind groß.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[gG]emeinsame[nr]?</token>
+                    <token regexp="yes">Schnittmengen?</token>
+                </pattern>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Schnittmenge">Unsere <marker>gemeinsame Schnittmenge</marker> ist nicht sehr groß.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[kK]atholische[mnr]?</token>
+                    <token inflected="yes">Papst</token>
+                </pattern>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Papst">Der <marker>katholische Papst</marker> kommt zu Besuch.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b([eE]invernehmliche[nr]?) (Konsens)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Konsens">Der <marker>einvernehmliche Konsens</marker> war, dass wir es tun sollten.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b([aA]ndere[nr]?) (Alternativen?)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <suggestion>\1 Möglichkeit(en)</suggestion>
+                <suggestion>andere Wahl</suggestion>
+                <url>https://www.duden.de/rechtschreibung/Alternative_Entscheidungsmoeglichkeit</url>
+                <short>&redundanz;</short>
+                <example correction="Alternative|andere Möglichkeit(en)|andere Wahl">Wir haben keine <marker>andere Alternative</marker>.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>([aA]ndere[nr]?) (Alternativen)</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <suggestion>\1 Möglichkeiten</suggestion>
+                <url>https://www.duden.de/rechtschreibung/Alternative_Entscheidungsmoeglichkeit</url>
+                <short>&redundanz;</short>
+                <example correction="Alternativen|anderen Möglichkeiten">Wir haben keine <marker>anderen Alternativen</marker>.</example>
+                <example>Wir haben keine <marker>andere Wahl</marker>.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b([aA]kustische[nr]?) (Klang)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Klang">Der <marker>akustische Klang</marker> hörte sich gut an.</example>
+                <example>Der <marker>Klang</marker> war gut.</example>
+                <example>Die <marker>Akustik</marker> war gut.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b([oO]ptische[snr]?|[vV]isuelle[srnm]?) (Bild(ern?)?)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Bild">Ich sehe ein <marker>optisches Bild</marker> mit meinen Augen.</example>
+                <example>Ich sehe ein <marker>Bild</marker>.</example>
+                <example>Ich habe einen <marker>visuellen Eindruck</marker>.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b([bB]rutale[nr]?) (Gewalt)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv wie 'roh' aus.</message>
+                <short>&redundanz;</short>
+                <example correction="Gewalt">Mit <marker>brutaler Gewalt</marker> kann ich das auch.</example>
+                <example>Mit <marker>roher Gewalt</marker> kann ich das auch.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>(problematische[ns]?) (Problem(e?n)?|Problems)</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv wie 'schwierig' aus.</message>
+                <short>&redundanz;</short>
+                <example correction="Problem">Das ist ein wirklich <marker>problematisches Problem</marker>.</example>
+                <example>Das ist ein wirklich <marker>schwieriges Problem</marker>.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b(schriftlichen?) (Klausur(en)?)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Klausuren">Hier sind die <marker>schriftlichen Klausuren</marker>.</example>
+                <example>Das sind die <marker>Klausuren</marker>.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b(üblichen?) (Gepflogenheit(en)?)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Gepflogenheiten">Das sind unsere <marker>üblichen Gepflogenheiten</marker> hier.</example>
+                <example>Das sind die hiesigen <marker>Gepflogenheiten</marker>.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b(jüdischen?) (Synagogen?)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Synagoge">Die <marker>jüdische Synagoge</marker> befindet sich in einer Seitenstraße.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b(islamischen?) (Moscheen?)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <url>https://de.wikipedia.org/wiki/Moschee</url>
+                <short>&redundanz;</short>
+                <example correction="Moschee">Die <marker>islamische Moschee</marker> befindet sich in einer Seitenstraße.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>(künstliche[ns]?|geschaffene[ns]?) (Artefakt(en?)?)</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <url>https://www.duden.de/rechtschreibung/Artefakt</url>
+                <short>&redundanz;</short>
+                <example correction="Artefakt">Das ist ein <marker>künstliches Artefakt</marker>.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b(wahren?) (Tatsachen?|Fakten)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Fakten">Die <marker>wahren Fakten</marker> wurden verschwiegen.</example>
+                <example>Da unwahre Tatsachenbehauptungen grundsätzlich nicht vom Schutz der Meinungsfreiheit umfasst sind,...</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b(runde[rn]?|kreisrunde[rn]?) (Kugeln?|Kreis(e[ns]?)?)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Kugeln">Die <marker>runden Kugeln</marker> rollen.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>(rechteckige[snm]?|viereckige[snm]?) (Quadrat(en?)?|(Recht|Vier)eck(e[ns]?)?)</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Quadrate">Die <marker>viereckigen Quadrate</marker> rollen nicht, weil sie eckig sind.</example>
+                <example>Die <marker>Quadrate</marker> – wen wundert's – sind rechteckig.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>\b(tote[rn]?) (Leichen?)\b</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Leichen">Die <marker>toten Leichen</marker> lagen dort.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>(schwarze[rn]?) (Rappen?)</regexp>
+                <message>Mögliche Redundanz: Die Bedeutung des Nomens '\2' beinhaltet bereits das durch das Adjektiv '\1' ausgedrückte Merkmal.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Rappen">Die <marker>schwarzen Rappen</marker> galoppierten.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VON_WOHER" name="'von woher'" tags="clarity professional">
+            <rule>
+                <regexp>\b(von) (woher)\b</regexp>
+                <message>&redundanz;</message>
+                <suggestion>\2</suggestion>
+                <suggestion>von wo</suggestion>
+                <example correction="woher|von wo">Man merkte gleich, <marker>von woher</marker> sie herkam.</example>
+                <example>Man merkte gleich, <marker>wo</marker> sie herkam.</example>
+                <example>Man merkte gleich, <marker>woher</marker> sie kam.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WOHIN_HIN" name="'wohin ... hin'" tags="clarity professional">
+            <!-- TODO expect some false pos. Not covered: 'wohin ist er hingegangen' etc. – reg. expr. -->
+            <rule>
+                <pattern>
+                    <token>wohin</token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>hin</token>
+                </pattern>
+                <message>Bitte verwenden Sie 'wo' und 'wohin' nicht zusammen.</message>
+                <suggestion>wo \2 \3 hin</suggestion>
+                <suggestion>wohin \2 \3</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Wo gehst du hin|Wohin gehst du"><marker>Wohin gehst du hin</marker>?</example>
+                <example correction="Wo wollte er hin|Wohin wollte er"><marker>Wohin wollte er hin</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>wohin</token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token skip="1">
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>hin</token>
+                </pattern>
+                <message>Bitte verwenden Sie 'wo' und 'wohin' nicht zusammen.</message>
+                <suggestion>wo \2 \3 \4 hin</suggestion>
+                <suggestion>wohin \2 \3 \4</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Wo gehst du denn hin|Wohin gehst du denn"><marker>Wohin gehst du denn hin</marker>?</example>
+                <example correction="Wo wollte er denn hin|Wohin wollte er denn"><marker>Wohin wollte er denn hin</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>woher</token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>her</token>
+                </pattern>
+                <message>Bitte verwenden Sie 'wo' und 'woher' nicht zusammen.</message>
+                <suggestion>wo \2 \3 her</suggestion>
+                <suggestion>woher \2 \3</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Wo kommst du her|Woher kommst du"><marker>Woher kommst du her</marker>?</example>
+                <example correction="Wo kam er her|Woher kam er"><marker>Woher kam er her</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>woher</token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token skip="1">
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>her</token>
+                </pattern>
+                <message>Bitte verwenden Sie 'wo' und 'woher' nicht zusammen.</message>
+                <suggestion>wo \2 \3 \4 her</suggestion>
+                <suggestion>woher \2 \3 \4</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Wo kommst du denn her|Woher kommst du denn"><marker>Woher kommst du denn her</marker>?</example>
+                <example correction="Wo kam er denn her|Woher kam er denn"><marker>Woher kam er denn her</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>daher</token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>
+                        <exception postag="SENT_END"/>
+                    </token>
+                    <token>her</token>
+                </pattern>
+                <message>Bitte verwenden Sie 'da' und 'daher' nicht zusammen.</message>
+                <suggestion>da \2 \3 \4</suggestion>
+                <suggestion>daher \2 \3</suggestion>
+                <short>&redundanz;</short>
+                <example correction="Da kommst du her|Daher kommst du"><marker>Daher kommst du her</marker>.</example>
+                <example correction="Da kam er her|Daher kam er"><marker>Daher kam er her</marker>?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WAEHREND_DES_VERLAUFS" name="'während des Verlaufs'" tags="clarity">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>während</token>
+                        <token>des</token>
+                        <token>Verlaufs</token>
+                    </marker>
+                    <token regexp="yes">von|des|der|diese[rs]</token>
+                </pattern>
+                <message>&redundanz;</message>
+                <suggestion>\1</suggestion>
+                <suggestion>im Verlauf</suggestion>
+                <example correction="Während|Im Verlauf"><marker>Während des Verlaufs</marker> des Krieges wechselte er mehrfach die Seiten.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KAUSAL_VERURSACHT" name="'kausal verursachen'" tags="clarity">
+            <rule>
+                <pattern>
+                    <token inflected="yes">verursachen</token>
+                    <token>kausal</token>
+                </pattern>
+                <message>&redundanz; 'Kausal' bedeutet so viel wie 'ursächlich'.</message>
+                <suggestion>\1</suggestion>
+                <short>&redundanz;</short>
+                <example correction="verursachte">Das <marker>verursachte kausal</marker> den Unfall.</example>
+                <example>Das hat den Unfall <marker>verursacht</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>kausal</token>
+                    <token inflected="yes">verursachen</token>
+                </pattern>
+                <message>&redundanz; 'Kausal' bedeutet so viel wie 'ursächlich'.</message>
+                <suggestion>\2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="verursacht">Das hat den Unfall <marker>kausal verursacht</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ERHOEHTER_HOCHDRUCK" name="'erhöhter Bluthochdruck'" tags="clarity professional">
+            <rule>
+                <regexp case_sensitive='yes'>(erhöhte[mnr]?) (Bluthochdrucks?)</regexp>
+                <message>&redundanz;</message>
+                <suggestion>\1 <match no="2" regexp_replace="" regexp_match="hoch"/></suggestion>
+                <example correction="erhöhtem Blutdruck">Er leidet unter <marker>erhöhtem Bluthochdruck</marker>.</example>
+                <example>Er leidet unter <marker>Bluthochdruck</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SYNONYME_BEDEUTUNG" name="'synonyme Bedeutung'" tags="clarity">
+            <rule>
+                <regexp case_sensitive='yes'>(synonyme[nr]?) (Bedeutung(en)?)</regexp>
+                <message>&unstimmig; Nicht Bedeutungen, sondern Ausdrücke sind synonym, nämlich dann, wenn sie dieselbe Bedeutung haben.</message>
+                <suggestion><match no="1" regexp_replace="gleich" regexp_match="synonym"/> \2</suggestion>
+                <short>&redundanz;</short>
+                <example correction="gleiche Bedeutung">Diese Wörter haben <marker>synonyme Bedeutung</marker>.</example>
+                <example>Diese Wörter haben <marker>dieselbe Bedeutung</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ANONYMER_NAME" name="'anonymer Name'" tags="clarity">
+            <rule>
+                <regexp>anonyme[mnr]? Namen?</regexp>
+                <message>&unstimmig; Nicht Namen, sondern Personen sind anonym, nämlich dann, wenn sie ihren Namen verschweigen.</message>
+                <short>&redundanz;</short>
+                <example correction="">Ich war unter <marker>anonymem Namen</marker> unterwegs.</example>
+                <example>Ich war <marker>anonym</marker> unterwegs.</example>
+            </rule>
+            <rule>
+                <regexp>Name (ist|bleibt|blieb|war) anonym</regexp>
+                <message>&unstimmig; Nicht Namen, sondern Personen sind anonym, nämlich dann, wenn sie ihren Namen verschweigen.</message>
+                <short>&redundanz;</short>
+                <example correction="">Der <marker>Name bleibt anonym</marker>.</example>
+                <example>Der <marker>Name bleibt geheim</marker>.</example>
+                <example>Der <marker>Name bleibt ungenannt</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KMH_PRO_STUNDE" name="'km/h (Kilometer) pro Stunde'" tags="clarity professional">
+            <rule>
+                <pattern>
+                    <token>km</token>
+                    <token>/</token>
+                    <token>h</token>
+                    <token>pro</token>
+                    <token>Stunde</token>
+                </pattern>
+                <message>&redundanz; Das Einheitenzeichen <suggestion>km/h</suggestion> steht allein schon für <suggestion>Kilometer pro Stunde</suggestion>.</message>
+                <short>&redundanz;</short>
+                <example correction="km/h|Kilometer pro Stunde">Der Wagen fährt maximal 210 <marker>km/h pro Stunde</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="RECHTLICH_LEGAL" name="'rechtlich/juristisch legal'" tags="clarity">
+            <rule>
+                <pattern>
+                    <token regexp="yes">rechtlich|juristisch</token>
+                    <token regexp="yes" min="0">gesehen|betrachtet</token>
+                    <token inflected="yes" regexp="yes">(il)?legal</token>
+                </pattern>
+                <message>&redundanz;</message>
+                <suggestion>\3</suggestion>
+                <example correction="legal">Dieses Vorgehen ist <marker>juristisch betrachtet legal</marker>.</example>
+                <example correction="illegal">Dieses Vorgehen ist <marker>juristisch illegal</marker>.</example>
+                <example correction="illegale">Das ist eine <marker>juristisch illegale</marker> Maßnahme.</example>
+                <example>Dieses Vorgehen ist völlig <marker>legal</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ENTSTAMMEN_AUS" name="'entstammt aus (entstammt)'" tags="clarity professional">
+            <rule>
+                <pattern>
+                    <token inflected="yes">entstammen</token>
+                    <token regexp="yes">aus|von</token>
+                </pattern>
+                <message><suggestion>\1</suggestion> wird mit dem Dativ und ohne die Präposition 'aus' verwendet, z.B. 'Sie entstammt einem guten Haus'. Alternativen: <suggestion><match no="1" regexp_replace="" regexp_match="^ent"/> aus</suggestion>, <suggestion><match no="1" regexp_replace="ko" regexp_match="^entsta"/> aus</suggestion>.</message>
+                <short>&redundanz;</short>
+                <example correction="entstammt|stammt aus|kommt aus">Sie <marker>entstammt aus</marker> einem gutem Haus.</example>
+                <example>Sie <marker>entstammt</marker> einem guten Haus.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="INMITTEN_IN_DER" name="'inmitten in der (inmitten der)'" tags="clarity">
+            <rule>
+                <regexp>inmitten in</regexp>
+                <message>'inmitten in' ist eine Doppelung – meinten Sie <suggestion>inmitten</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="Inmitten"><marker>Inmitten in</marker> der Stadt.</example>
+                <example correction="Inmitten"><marker>Inmitten in</marker> einer intakten Landschaft.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ISBN-NUMMER" name="Verdoppelung bei Komposita: 'ISBN-Nummer (ISBN)' etc." tags="picky clarity">
+            <rule>
+                <regexp>SMS-Services?</regexp>
+                <message>&redundanz; 'SMS' steht u.&nbsp;a. für 'Short Message Service' – ersetzen durch <suggestion>SMS</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="SMS">Die Nutzung des <marker>SMS-Service</marker> ist besonders günstig.</example>
+                <example>Das Versenden von <marker>SMS</marker> ist besonders günstig.</example>
+            </rule>
+            <rule>
+                <regexp>\bSEK-Kommandos?</regexp>
+                <message>&redundanz; 'SEK' steht u.&nbsp;a. für 'Spezialeinsatzkommando' – ersetzen durch <suggestion>SEK</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="SEK">Das <marker>SEK-Kommando</marker> wurde aufgelöst.</example>
+            </rule>
+            <rule>
+                <regexp>\bIT-Technik\b</regexp>
+                <message>&redundanz; 'IT' steht u.&nbsp;a. für 'Informationstechnologie' – ersetzen durch <suggestion>IT</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="IT">Die Nutzung der <marker>IT-Technik</marker> in unserem Haus ist kostenlos.</example>
+                <example>Die Nutzung der <marker>Computertechnik</marker> in unserem Haus ist kostenlos.</example>
+                <example>Man entdeckte diese <marker>Steinzeit-Technik</marker> neu.</example>
+            </rule>
+            <rule>
+                <regexp>ISBN-Nummern?</regexp>
+                <message>'ISBN' steht für 'International Standard Book Number' – ersetzen durch <suggestion>ISBN</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="ISBN">Die <marker>ISBN-Nummer</marker> des Buches.</example>
+            </rule>
+            <rule>
+                <regexp>(PIN|TAN|IBAN)[- ]Nummern?</regexp>
+                <message>Das 'N' in <suggestion><match no="1"/></suggestion> steht für 'Nummer' oder 'Number'. Verzichten Sie daher auf den Zusatz '-Nummer(n)'.</message>
+                <short>&redundanz;</short>
+                <example correction="PIN">Sie gab ihre <marker>PIN-Nummer</marker> ein.</example>
+                <example correction="TAN">Neben der PIN benötigen Sie ihre <marker>TAN-Nummer</marker>.</example>
+                <example correction="TAN">Neben der PIN benötigen Sie ihre <marker>TAN Nummer</marker>.</example>
+                <example correction="IBAN">Sie gab ihre <marker>IBAN-Nummer</marker> an.</example>
+            </rule>
+            <rule>
+                <regexp>DTV-Verlage?s?</regexp>
+                <message>'DTV' steht für 'Deutscher Taschenbuch-Verlag' – ersetzen durch <suggestion>DTV</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="DTV">Das Buch ist im <marker>DTV-Verlag</marker> erschienen.</example>
+            </rule>
+            <rule>
+                <regexp>ABM-Ma(ß|ss)nahmen?</regexp>
+                <message>'ABM' steht für 'Arbeitsbeschaffungsmaßnahme' – ersetzen durch <suggestion>ABM</suggestion> oder <suggestion>Arbeitsbeschaffungsmaßnahme</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="ABM|Arbeitsbeschaffungsmaßnahme">Das ist eine <marker>ABM-Maßnahme</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>LCD-Displays?</regexp>
+                <message>'LCD' steht für 'Liquid Crystal Display' – ersetzen durch <suggestion>LCD</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="LCD">Das ist ein <marker>LCD-Display</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>(HIV-(Virus|Viren))</regexp>
+                <message>'HIV' steht für 'Humanes Immundefizienz-Virus' – ersetzen durch <suggestion>HIV</suggestion> oder <suggestion>HI-Virus</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="HIV|HI-Virus">Das ist ein <marker>HIV-Virus</marker>.</example>
+            </rule>
+            <rule default="off"><!-- it's an official spelling. Also, how would you say " sie machten eine La-Ola-Welle"? "Sie machten Una Ola"? "Drei Las Olas"? Also, suggestion is then hyphenated. -->
+                <regexp>La-Ola-Wellen?</regexp>
+                <message>'La Ola' bedeutet 'die Welle' – ersetzen durch <suggestion>La Ola</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="La Ola">Die Entstehung einer <marker>La-Ola-Welle</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <token>PDF-Format</token>
+                </pattern>
+                <message>'PDF' steht für 'Portable Document Format' – ersetzen durch <suggestion>als PDF</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="als PDF">Download dieser Liste <marker>im PDF-Format</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>PDF-Formate?s?</regexp>
+                <message>'PDF' steht für 'Portable Document Format' – ersetzen durch <suggestion>PDF</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example><marker>PDF</marker> ist ein plattformunabhängiges Dateiformat.</example>
+                <example correction="PDF">Das <marker>PDF-Format</marker> ist ein plattformunabhängiges Dateiformat.</example>
+            </rule>
+            <rule>
+                <regexp>ODF-Formate?s?</regexp>
+                <message>'ODF' steht für 'Open Document Format' – ersetzen durch <suggestion>ODF</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example><marker>ODF</marker> ist ein plattformunabhängiges Dateiformat.</example>
+                <example correction="ODF">Das <marker>ODF-Format</marker> ist ein plattformunabhängiges Dateiformat.</example>
+            </rule>
+            <rule>
+                <regexp>EVN-Nachweise?s?</regexp>
+                <message>'EVN' steht für 'Einzelverbindungsnachweis' – ersetzen durch <suggestion>EVN</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="EVN">Das sind <marker>EVN-Nachweise</marker>.</example>
+                <example>Das ist ein <marker>EVN</marker>.</example>
+            </rule>
+            <rule>
+                <regexp>SSD-Laufwerk(s|en?)?</regexp>
+                <message>'SSD' steht für 'Solid State Drive' – ersetzen durch <suggestion>SSD</suggestion>?</message>
+                <short>&redundanz;</short>
+                <example correction="SSD">Ich habe mir ein <marker>SSD-Laufwerk</marker> gekauft.</example>
+                <example>Ein <marker>SSD</marker> ist deutlich schneller als eine herkömmliche Festplatte.</example>
+            </rule>
+        </rulegroup>
+        <!-- Redundante Komposita ohne Bindestrich -->
+        <rulegroup id="TROMMELREVOLVER" name="Verdoppelung bei Komposita: 'Trommelrevolver (Revolver)' etc." tags="clarity">
+            <rule>
+                <regexp>Trommelrevolver[ns]?</regexp>
+                <message>Redundantes Kompositum: Ein Revolver (von engl. 'to revolve' [drehen]) zeichnet sich gerade dadurch aus, dass er im Unterschied zur Pistole über eine drehbare Trommel als Munitionskammer verfügt. Ersetzen durch <suggestion><match no="0" regexp_replace="R" regexp_match="^Trommelr"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Revolver</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Revolver">Sie richtete einen kleinkalibrigen <marker>Trommelrevolver</marker> auf mich.</example>
+                <example correction="Revolvern">Mit gezogenen <marker>Trommelrevolvern</marker> stürmten sie das Gebäude.</example>
+            </rule>
+            <rule>
+                <regexp>Stielkasserollen?</regexp>
+                <message>Potenziell redundantes Kompositum: Als <suggestion><match no="0" regexp_replace="K" regexp_match="^Stielk"/></suggestion> (von lat. 'cattia' [Schöpflöffel, Kelle]) bezeichnet man in der Regel Töpfe mit einem Stiel. Der Sprachgebrauch kann aber regional variieren.</message>
+                <url>https://de.wikipedia.org/wiki/Kasserolle</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Kasserolle">Diese <marker>Stielkasserolle</marker> ist sehr praktisch!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Holzxylo(ph|f)on(en?|s)?</token>
+                </pattern>
+                <message>Potenziell redundantes Kompositum: Als <suggestion><match no="1" regexp_replace="X" regexp_match="^Holzx"/></suggestion> (von griech. 'xýlon' [Holz]) bezeichnet man ausschließlich Schlaginstrumente mit hölzernen Klangstäben.</message>
+                <url>https://de.wikipedia.org/wiki/Xylophon</url>
+                <short>Potenziell redundantes Kompositum</short>
+                <example correction="Xylophon">Dieses <marker>Holzxylophon</marker> hat einen guten Klang, weil es aus Holz ist!</example>
+                <example correction="Xylofone">Diese <marker>Holzxylofone</marker> haben einen guten Klang, weil sie aus Holz sind!</example>
+            </rule>
+            <rule>
+                <regexp>Marionettenpuppen?</regexp>
+                <message>Redundantes Kompositum: Marionetten sind an Fäden gezogene Puppen. Ersetzen durch <suggestion><match no="0" regexp_replace="" regexp_match="npuppe"/></suggestion>?</message>
+                <url>https://www.dwds.de/wb/Marionette</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Marionette">Dies ist eine <marker>Marionettenpuppe</marker>.</example>
+                <example correction="Marionetten">Sie sind bloß <marker>Marionettenpuppen</marker> der eigentlich Mächtigen.</example>
+            </rule>
+            <rule>
+                <regexp>\bZeitverzögerung(en)?</regexp>
+                <message>Redundantes Kompositum: Verzögerungen sind immer zeitlicher Natur. Ersetzen durch <suggestion><match no="0" regexp_replace="V" regexp_match="^Zeitv"/></suggestion>?</message>
+                <url>https://www.dwds.de/wb/Verz%C3%B6gerung</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Verzögerungen">Es kam wiederholt zu <marker>Zeitverzögerungen</marker>.</example>
+                <example>Latenzzeit – Laufzeitverzögerung von der Erfassung des Eingangssignals bis zur Bereitstellung des zugehörigen Ausgangssignals.</example>
+            </rule>
+            <rule>
+                <regexp>Billigdiscounter[ns]?</regexp>
+                <message>Redundantes Kompositum: Als Discounter bezeichnet man besonders günstige Einzelhandelsgeschäfte. Ersetzen durch <suggestion><match no="0" regexp_replace="D" regexp_match="^Billigd"/></suggestion>?</message>
+                <url>https://de.wikipedia.org/wiki/Discounter</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Discounter">Dieser <marker>Billigdiscounter</marker> hat nur Schrott im Angebot!</example>
+            </rule>
+            <rule>
+                <regexp>Massenepidemien?</regexp>
+                <message>Potenziell redundantes Kompositum: Als <suggestion><match no="0" regexp_replace="E" regexp_match="^Massene"/></suggestion> werden Erkrankungen bezeichnet, von denen sehr große Teile (Massen) einer bestimmten Population betroffen sind.</message>
+                <url>https://www.openthesaurus.de/synonyme/Massenepidemie</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Epidemie">In Wuhan ist diese <marker>Massenepidemie</marker> ausgebrochen.</example>
+            </rule>
+            <rule>
+                <regexp>Zukunftsoptimismus</regexp>
+                <message>Potenziell redundantes Kompositum: Der <suggestion>Optimismus</suggestion> ist in aller Regel in die Zukunft gerichtet.</message>
+                <short>Redundantes Kompositum</short>
+                <example correction="Optimismus">Sein <marker>Zukunftsoptimismus</marker> war ungebrochen.</example>
+            </rule>
+            <rule>
+                <regexp>Pappkartons?</regexp>
+                <message>Redundantes Kompositum: Ein Karton ist laut Wörterbuch ein Behälter aus Pappe. Verkürzen zu <suggestion><match no="0" regexp_replace="K" regexp_match="Pappk"/></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Karton</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Kartons">Die Ware war in <marker>Pappkartons</marker> aufgestapelt.</example>
+            </rule>
+            <rule>
+                <regexp>Gratisgeschenk(s|en?)?</regexp>
+                <message>Redundantes Kompositum: Ein Geschenk ist immer gratis. Ersetzen durch <suggestion><match no="0" regexp_replace="G" regexp_match="^Gratisg"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Geschenk</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Geschenk">Ein <marker>Gratisgeschenk</marker> für Sie, Herr Schreiber!</example>
+                <example>Es gab gratis Geschenke.</example>
+            </rule>
+            <rule>
+                <regexp>Internetblogs?</regexp>
+                <message>Redundantes Kompositum: Das Wort 'Blog' ist eine Verkürzung aus engl. 'web log' (etwa 'Web-Tagebuch'). Ersetzen durch <suggestion><match no="0" regexp_replace="B" regexp_match="^Internetb"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Blog</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Blog">Ich habe mich in meinem <marker>Internetblog</marker> darüber ausgelassen.</example>
+            </rule>
+            <rule>
+                <regexp>Altveteran(en)?</regexp>
+                <message>Redundantes Kompositum: Das Wort 'Veteran' kommt von lat. 'vetus' (alt, altgedient). Ersetzen durch <suggestion><match no="0" regexp_replace="V" regexp_match="^Altv"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Veteran</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Veteran">Swen B., ein <marker>Altveteran</marker> der Duisburger Punk-Szene.</example>
+            </rule>
+            <rule>
+                <regexp>Fu(ß|ss)pedal(s|en?)?</regexp>
+                <message>Redundantes Kompositum: Ein Pedal (von lat. 'pedalis' [zum Fuß gehörig]) ist ein Fußhebel. Ersetzen durch <suggestion><match no="0" regexp_replace="P" regexp_match="^Fußp"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Pedal</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Pedal">Sie trat auf das <marker>Fußpedal</marker>.</example>
+                <example correction="Pedale">Die <marker>Fußpedale</marker> waren defekt.</example>
+            </rule>
+            <rule>
+                <regexp>Glasvitrinen?</regexp>
+                <message>Redundantes Kompositum: Eine Vitrine (von lat. 'vitrum' [Glas]) ist ein gläserner Schrank. Ersetzen durch <suggestion><match no="0" regexp_replace="V" regexp_match="^Glasv"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Vitrine</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Vitrine">Was für eine schöne <marker>Glasvitrine</marker>!</example>
+            </rule>
+            <rule>
+                <regexp>Vogelvolieren?</regexp>
+                <message>Redundantes Kompositum: Eine Voliere (von lat. 'volāre' [fliegen]) ist ein großer Vogelkäfig. Ersetzen durch <suggestion><match no="0" regexp_replace="V" regexp_match="^Vogelv"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Voliere</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Voliere">Was für eine riesige <marker>Vogelvoliere</marker>!</example>
+            </rule>
+            <rule>
+                <regexp>Zukunftsprognosen?</regexp>
+                <message>Redundantes Kompositum: Eine Prognose ist eine Vorhersage zukünftiger Ereignisse. Ersetzen durch <suggestion><match no="0" regexp_replace="P" regexp_match="^Zukunftsp"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Prognose</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Prognose">Was für eine bizarre <marker>Zukunftsprognose</marker>!</example>
+            </rule>
+            <rule>
+                <regexp>Assekuranzversicherung(en)?</regexp>
+                <message>Redundantes Kompositum: <suggestion><match no="0" regexp_replace="V" regexp_match="^Assekuranzv"/></suggestion> ist ein anderes Wort für <suggestion>Assekuranz</suggestion>.</message>
+                <url>https://de.wiktionary.org/wiki/Assekuranz</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Versicherung|Assekuranz">Die <marker>Assekuranzversicherung</marker> wollte nicht zahlen.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive="yes">Haarfrisur(en)?</regexp>
+                <message>Redundantes Kompositum: <suggestion><match no="0" regexp_replace="F" regexp_match="^Haarf"/></suggestion> ist ein anderes Wort für <suggestion>Haarschnitt</suggestion> bzw. (veraltend) 'Haartracht'.</message>
+                <url>https://de.wiktionary.org/wiki/Frisur</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Frisuren|Haarschnitt">Die <marker>Haarfrisuren</marker> der Stars waren das Hauptthema.</example>
+            </rule>
+            <rule>
+                <regexp>Gesichtsmimik</regexp>
+                <message>Redundantes Kompositum: 'Mimik' ist ein anderes Wort für 'Gesichtsausdruck'. Ersetzen durch <suggestion>Gesichtsausdruck</suggestion> oder <suggestion>Mimik</suggestion>?</message>
+                <url>https://www.openthesaurus.de/synonyme/Mimik</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Gesichtsausdruck|Mimik"><marker>Gesichtsmimik</marker> und Körperhaltung dieses Mannes sprechen Bände.</example>
+            </rule>
+            <rule>
+                <regexp>Gesichtsvisier(s|en?)?</regexp>
+                <message>Redundantes Kompositum: Ein Visier ist laut Wörterbuch eine Vorrichtung (z. B. an einem Helm), die dem Schutz des Gesichts dient. Ersetzen durch <suggestion><match no="0" regexp_replace="V" regexp_match="^Gesichtsv"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Visier</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Visiere">Sie hatten die <marker>Gesichtsvisiere</marker> heruntergeklappt.</example>
+                <example correction="Visier">Das <marker>Gesichtsvisier</marker> war stark verkratzt.</example>
+            </rule>
+            <rule>
+                <regexp>Eieromelett(s|e(n|s)?)?</regexp>
+                <message>Redundantes Kompositum: Ein(e) Omelett(e) ist laut Wörterbuch ein Eierkuchen. Ersetzen durch <suggestion><match no="0" regexp_replace="O" regexp_match="^Eiero"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Omelett</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Omelette">Wer hatte die <marker>Eieromelette</marker> bestellt?</example>
+                <example correction="Omeletts">Es gab <marker>Eieromeletts</marker> zum Frühstück.</example>
+                <example correction="Omelett">Das <marker>Eieromelett</marker> war vorzüglich!</example>
+            </rule>
+            <rule>
+                <regexp>Baumalleen?</regexp>
+                <message>Redundantes Kompositum: Eine Allee ist laut Wörterbuch eine von Bäumen gesäumte Straße. Ersetzen durch <suggestion><match no="0" regexp_replace="A" regexp_match="^Bauma"/></suggestion>?</message>
+                <url>https://de.wiktionary.org/wiki/Allee</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Allee">Diese <marker>Baumallee</marker> ist wirklich herrlich!</example>
+            </rule>
+            <rule>
+                <regexp>Au(ß|ss)enfassaden?</regexp>
+                <message>Redundantes Kompositum: Eine Fassade ist laut Wörterbuch die Außenseite eines Gebäudes. Ersetzen durch <suggestion><match no="0" regexp_replace="F" regexp_match="^Außenf"/></suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Fassade</url>
+                <short>Redundantes Kompositum</short>
+                <example correction="Fassade">Diese <marker>Außenfassade</marker> ist wirklich herrlich!</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
