@@ -3189,6 +3189,36 @@ USA
         </rulegroup>
 
 
+        <!-- QUANDO SE ABRE UMA DEFINIÇÃO ao abrir uma definição -->
+        <rule id='QUANDO_SE_VERBO_TIPO_ABRE_M_AO_VERBO_TIPO_ABRIR_EM' name="[pt-PT][Simplificar] 'Quando se V.Tipo.Abre(m)' → 'Ao V.Tipo.Abrir(em)'" type="style"> <!-- default='temp_off'-->
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-26 (2-MAR-2023+) -->
+            <!--
+      Quando se abre a definição em Modo Avançado. → Ao abrir a definição em Modo Avançado.
+      Quando se abrem várias definições em Modo Avançado. → Ao abrirem várias definições em Modo Avançado.
+      -->
+            <pattern>
+                <marker>
+                    <token>quando
+                        <exception scope="previous" postag_regexp='yes' postag='V.+|SPS00|SP000'/>
+                    </token>
+                    <token>se</token>
+                    <token postag='VMIP3.+' postag_regexp='yes'/>
+                </marker>
+                <or>
+                <token postag='DA.+|DI.+' postag_regexp='yes'/>
+                    <token>a</token> <!-- Fix: DA.+ -->
+                </or>
+                <token postag='NC.+|AQ.+|NP.+|V.+|DA.+|DI.+|CS' postag_regexp='yes'/>
+            </pattern>
+            <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion>ao <match no='3' postag='VMIP3(.).' postag_regexp="yes" postag_replace='VMN03$10'/></suggestion>
+            <example correction="Ao abrir"><marker>Quando se abre</marker> a definição em Modo Avançado.</example>
+            <example correction="Ao abrirem"><marker>Quando se abrem</marker> várias definições em Modo Avançado.</example>
+        </rule>
+
+
+
+
         <!-- QUE ATUA/ATUAM a atuar -->
         <rule id='SIMPLIFICAR_QUE_VERBO_A_VERBOINFINITIVO' name="[pt-PT][Simplificar] Que + V. → A + V. Infinitivo" type="style">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2022-01-19 (Checked/Enhanced) (1-JAN-2022+)      -->
