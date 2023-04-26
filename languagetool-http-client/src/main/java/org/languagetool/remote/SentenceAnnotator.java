@@ -1,6 +1,5 @@
 package org.languagetool.remote;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -135,6 +134,8 @@ public class SentenceAnnotator {
         case "g":
           done = true;
           errorType = "IG";
+          cfg.outStrB = new StringBuilder();
+          match = null;
           break;
         case "i":
           fpMatches.add(getMatchIdentifier(sentence, match));
@@ -203,8 +204,9 @@ public class SentenceAnnotator {
               suggestionApplied, suggestionPos, suggestionsTotal, getFullId(match), getRuleCategoryId(match),
               getRuleType(match));
           annotationsPerSentence++;
-          if (errorType.equals("OK")) {
+          if (errorType.equals("OK") || errorType.equals("IG") ) {
             writeToOutputFile(cfg);
+            cfg.outStrB = new StringBuilder();
           }
         }
       }
