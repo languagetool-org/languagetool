@@ -36,6 +36,8 @@ public class SentenceAnnotator {
       cfg.inputFilePath = prop.getProperty("inputFile", "").trim();
       cfg.outputFilePath = prop.getProperty("outputFile", "").trim();
       cfg.languageCode = prop.getProperty("languageCode").trim();
+      cfg.ansiDefault = prop.getProperty("defaultColor", "").trim();
+      cfg.ansiHighlight = prop.getProperty("highlightColor", "").trim();
       cfg.prepareConfiguration();
       runAnnotation(cfg);
     } else {
@@ -53,8 +55,6 @@ public class SentenceAnnotator {
     System.out.print("Start at line? ");
     String response = sc.nextLine();
     int startLine = 0;
-    String ANSI_DEFAULT = "\u001B[0m";
-    String ANSI_WHITE = "\u001B[97m";
     try {
       startLine = Integer.valueOf(response);
     } catch (NumberFormatException ex) {
@@ -90,10 +90,10 @@ public class SentenceAnnotator {
         String formattedSentence = formatedSentence(sentence, match);
         String formattedCorrectedSentence = formattedSentence;
         String detectedErrorStr = "";
-        System.out.println(ANSI_DEFAULT + "=============================================");
+        System.out.println(cfg.ansiDefault + "=============================================");
         System.out.println("Sentence no. " + String.valueOf(numSentence));
         System.out.println("---------------------------------------------");
-        System.out.println(ANSI_WHITE + formattedSentence + ANSI_DEFAULT);
+        System.out.println(cfg.ansiHighlight + formattedSentence + cfg.ansiDefault);
         System.out.println("---------------------------------------------");
         if (match != null) {
           System.out.println(match.getMessage());
@@ -363,6 +363,8 @@ public class SentenceAnnotator {
     RemoteLanguageTool lt;
     FileWriter out;
     StringBuilder outStrB;
+    String ansiDefault = "";
+    String ansiHighlight = "";
 
     void prepareConfiguration() throws IOException {
       if (!userName.isEmpty() && !apiKey.isEmpty()) {
