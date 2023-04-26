@@ -37621,13 +37621,6 @@ regexp case-insensitive maken: (?i)
                     <example>Hij zat al jaren vast in de Sing Sing-gevangenis.</example>
                 </antipattern>
                 <antipattern>
-                    <token negate_pos="yes" postag="SENT_START"></token>
-                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
-                    <token case_sensitive="yes" regexp="yes">[A-Z].*</token>
-                    <example>Dat moet je aan Chow Chow vragen.</example>
-                    <example>Hij zat al jaren vast in de Sing Sing-gevangenis.</example>
-                </antipattern>
-                <antipattern>
                     <token>de</token>
                     <token>de</token>
                     <token>facto</token>
@@ -37649,7 +37642,7 @@ regexp case-insensitive maken: (?i)
                     <token><exception>’</exception></token>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">.*[a-z].*<exception postag_regexp="yes" postag="SENT_START|START"/></token> <!-- TODO: Look at full list of matches and re-assess regex -->
-                        <token regexp="yes" case_sensitive="yes"><match no="1"/><exception regexp="yes">aan|agar|ai|attentie|balletje|bla|bling|bora|bye|dat|die|enz|etc|ha|haar|het|hey|hi|hiep|hoi|is|ja|je|lepeltje|leven|la|leren|nee|nou|sam|sapiens|toi|tom|van|via|ze|zijn</exception></token>
+                        <token case_sensitive="yes"><match no="1"/><exception regexp="yes">aan|agar|ai|attentie|balletje|bla|bling|bora|bye|dat|die|enz|etc|ha|haar|het|hey|hi|hiep|hoi|is|ja|je|lepeltje|leven|la|leren|nee|nou|sam|sapiens|toi|tom|van|via|ze|zijn</exception></token>
                     </marker>
                 </pattern>
                 <message>Hier staat een dubbel woord, bedoelde u soms: <suggestion>\2</suggestion>, of hoort er een komma tussen? <suggestion>\2, \3</suggestion></message>
