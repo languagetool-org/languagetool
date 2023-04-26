@@ -3106,4 +3106,83 @@ USA
             </rule>
         </rulegroup>
     </category>
+    <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style">
+        <rule id="ERSTSEMESTERIN" name="die Erstsemesterin (das Erstsemester)" tags="objective">
+            <pattern>
+                <marker>
+                    <token postag_regexp="yes" postag="ART:(DEF|IND):(AKK|NOM|DAT):SIN:FEM"/>
+                    <token>Erstsemesterin</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" postag_regexp="yes" postag="^(ART:(DEF|IND):(AKK|NOM|DAT):SIN):FEM" postag_replace="$1:NEU" /> Erstsemester</suggestion>? Das Wort "Semester" ist geschlechtsneutral.</message>
+            <url>https://www.duden.de/rechtschreibung/Erstsemester</url>
+            <example correction="Das Erstsemester"><marker>Die Erstsemesterin</marker> war sehr hübsch.</example>
+            <example correction="Einem Erstsemester"><marker>Einer Erstsemesterin</marker> wurde eine Frage gestellt.</example>
+            <example correction="Ein Erstsemester"><marker>Eine Erstsemesterin</marker> stellte schüchtern eine Frage.</example>
+            <example correction="ein Erstsemester">Ich bin <marker>eine Erstsemesterin</marker>.</example>
+        </rule>
+        <rule id="MAENNER_VS_LEUTE" name="'Kaufmänner' etc. statt 'Kaufleute'" tags="objective professional">
+            <antipattern>
+                <token regexp="yes">zwei|beiden?</token>
+                <token regexp="yes">&maennerleute;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&maennerleute;</token>
+                <token regexp="yes">und|oder|&amp;|\/|\+</token>
+                <token regexp="yes">.*frauen</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">&maennerleute;</token>
+            </pattern>
+            <message>Evtl. passt ein geschlechtsneutraler Begriff besser.</message>
+            <suggestion><match no="1" regexp_match="männer(n)?" regexp_replace="leute$1"/></suggestion>
+            <example correction="Feuerwehrleute">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
+            <example>Es waren viele <marker>Feuerwehrmänner</marker> und -frauen im Einsatz.</example>
+            <example correction="Industriekaufleute">Es werden viele <marker>Industriekaufmänner</marker> gesucht.</example>
+            <example correction="Wahlleutegremium">Die Entscheidung fällt im <marker>Wahlmännergremium</marker>.</example>
+            <example>Sie hat die beiden Geschäftsmänner und weitere Personen angeklagt.</example>
+        </rule>
+        <rule id="MANNSTUNDE" name="'Mannstunde' etc. statt 'Personenstunde'" tags="objective">
+            <pattern>
+                <token regexp="yes">Mann(stunde|tage?|wochen?|monate?|jahre?)n?|Mann(tage?s|monats|jahre?s)</token>
+            </pattern>
+            <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="Mann" regexp_replace="Personen"/></suggestion> besser.</message>
+            <example correction="Personenstunden">Das dauert geschätzt fünf <marker>Mannstunden</marker>.</example>
+        </rule>
+        <rule id="MAEDCHENNAME" name="'Mädchenname' statt 'Geburtsname'" tags="objective professional">
+            <antipattern>
+                <token postag="EIG:NOM:SIN:.+:VOR" postag_regexp="yes" skip="-1"/>
+                <token inflected="yes">Mädchenname</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">Mädchenname</token>
+            </pattern>
+            <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="Mädchen" regexp_replace="Geburts"/></suggestion> besser.</message>
+            <example correction="Geburtsname">Der <marker>Mädchenname</marker> meiner Mutter ist Müller.</example>
+            <example>Saskia ist ein schöner Mädchenname.</example>
+        </rule>
+        <rule id="PUTZFRAU" name="'Reinigungskraft' statt 'Putzfrau'" tags="objective professional clarity">
+            <pattern>
+                <token inflected="yes">Putzfrau</token>
+            </pattern>
+            <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" postag="SUB.*" postag_regexp="yes">Reinigungskraft</match></suggestion> besser.</message>
+            <example correction="Reinigungskräfte">Morgen kommen unsere <marker>Putzfrauen</marker>.</example>
+            <example correction="Reinigungskräften">Zahlt den <marker>Putzfrauen</marker> mehr Geld!</example>
+            <example correction="Reinigungskräfte">Ich hatte bisher immer nur tolle <marker>Putzfrauen</marker>.</example>
+        </rule>
+        <rule id="GLEICHBEHANDLUNG" name="Gleichbehandlung: (m/w) -> (m/w/x)" tags="objective">
+            <pattern>
+                <token>(</token>
+                <marker>
+                    <token>m</token>
+                    <token>/</token>
+                    <token>w</token>
+                </marker>
+                <token>)</token>
+            </pattern>
+            <message>Wenn es sich hier um eine Stellenausschreibung handelt, wird die inklusive Schreibweise <suggestion>m/w/d</suggestion> empfohlen.</message>
+            <url>https://de.wikipedia.org/wiki/Divers#Genderneutrale_Stellenausschreibung</url>
+            <example correction="m/w/d">Wir suchen Maler (<marker>m/w</marker>).</example>
+        </rule>
+    </category>
 </rules>
