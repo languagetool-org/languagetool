@@ -457,6 +457,7 @@ public class English extends Language implements AutoCloseable {
       case "PROFANITY_TYPOS":           return 2;   // prefer over PROFANITY
       case "THE_THEM":                  return 1;   // prefer over TO_TWO
       case "THERE_THEIR":               return 1;   // prefer over GO_TO_HOME
+      case "TO_WORRIED_ABOUT":          return 1;   // higher prio than TO_TOO
       case "IT_IS_DEPENDING_ON":        return 1;   // prefer over PROGRESSIVE_VERBS
       case "TO_NIGHT_TO_DAY":           return 1;   // prefer over TOO_JJ_TO
       case "IRREGARDLESS":              return 1;   // prefer over spell checker
