@@ -36,8 +36,10 @@ public class SentenceAnnotator {
       cfg.inputFilePath = prop.getProperty("inputFile", "").trim();
       cfg.outputFilePath = prop.getProperty("outputFile", "").trim();
       cfg.languageCode = prop.getProperty("languageCode").trim();
-      cfg.ansiDefault = prop.getProperty("defaultColor", "").trim();
-      cfg.ansiHighlight = prop.getProperty("highlightColor", "").trim();
+      // defaultColor="\u001B[0m"
+      // highlightColor="\u001B[97m"
+      cfg.ansiDefault = prop.getProperty("defaultColor", "").trim().replaceAll("\"", "");
+      cfg.ansiHighlight = prop.getProperty("highlightColor", "").trim().replaceAll("\"", "");
       cfg.prepareConfiguration();
       runAnnotation(cfg);
     } else {
