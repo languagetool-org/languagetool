@@ -18636,6 +18636,52 @@ regexp case-insensitive maken: (?i)
             </rule>
         </rulegroup>
 
+        <rulegroup id="U_REACTIE" name="Graag u (uw) reactie" default="temp_off" >
+            <rule>
+                <antipattern>
+                    <!-- exclude titles -->
+                    <token case_sensitive="yes">U</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+                    <example>U Do Voodoo (1985)</example>
+                </antipattern>
+                <antipattern>
+                    <!-- exclude titles -->
+                    <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*<exception postag="SENT_START"></exception></token>
+                    <token case_sensitive="yes">U</token>
+                    <example>Nieuwe film: U Turn.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" postag_regexp="yes" postag="VNW:PER:1EP:EKV:ACT|GET:TXT:EKV|UNKNOWN"></token>
+                    <token>van</token>
+                    <token>u</token>
+                    <example>Zou een van u uitsluitsel kunnen geven?</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">om|met</token>
+                    <token>u</token>
+                    <example>Volg onderstaande instructies om u kandidaat te stellen.</example>
+                    <example>Prettig met u kennis te maken!</example>
+                </antipattern>
+                <antipattern>
+                    <token>u</token>
+                    <token regexp="yes">retour|twee</token>
+                    <example>Het pakket wordt aan u retour gezonden.</example>
+                    <example>U kunt elkaar leren kennen in alle privacy - alleen u twee.</example>
+                </antipattern>
+                <pattern>
+                    <token><exception postag_regexp="yes" postag="BYW|VGW|VRZ"></exception></token>
+                    <token postag_regexp="yes" postag="BNW.*|VRZ"><exception postag_regexp="yes" postag="ZNW.*"></exception></token>
+                    <marker>
+                        <token>u</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="BNW.*|BYW|VNW.*|VRZ|WKW.*"></exception></token>
+                </pattern>
+                <message>Bedoelt u hier soms <suggestion>\3w</suggestion>?</message>
+                <example correction="uw">Ik zou graag <marker>u</marker> mening willen horen.</example>
+                <example correction="Uw">Heel erg bedankt voor <marker>U</marker> aandacht op deze lange dag.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="HET_ZNW_DE_ZNW_HET" name="het deur verhaal" > <!-- TODO:  Later tag as learner rule -->
             <rule>
                 <antipattern><token>Ancien</token><token>régime</token></antipattern>
