@@ -137,14 +137,305 @@ USA
         ]>
 
 <rules lang="nl" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <category id="STYLE" name="style rules" type="style">
-        <rule id="REMOVEME_RULE1" name="test rule" default="off">
+    <category id="STYLE" name="Stijl" type="style">
+        <rulegroup id="ZOVEEL_DAN" name="In/over" tags="picky">
+            <rule>
+                <antipattern><token skip="-1">zoveel</token><token>,</token></antipattern>
+                <antipattern><token skip="-1" postag_regexp="yes" postag="BNW:VGR.*"/><token>dan</token></antipattern>
+                <pattern>
+                    <token>nog</token>
+                    <token regexp="yes">nooit|niet</token>
+                    <token skip="-1">zoveel</token>
+                    <marker>
+                        <token>dan</token>
+                    </marker>
+                </pattern>
+                <message>Gebruikelijker is zoveel … als.</message>
+                <suggestion>als</suggestion>
+                <example correction="als">Er waren nog nooit zoveel besmettingen per dag geteld zijn <marker>dan</marker> vandaag.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IN_X_MINUTEN" name="In/over" tags="picky">
+            <rule>
+                <pattern>
+                    <token inflected="yes">vertrekken</token>
+                    <token>in</token>
+                    <token postag_regexp="yes" postag="GET:(ARA|TXT):MRV"/>
+                    <token regexp="yes">minuten|uren|dagen|seconden</token>
+                </pattern>
+                <message>Dit is meer Engels dan Nederlands.</message>
+                <suggestion>\1 over \3 \4</suggestion>
+                <example correction="vertrekt over 5 minuten">De bus <marker>vertrekt in 5 minuten</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VAN_BETEKENIS" name="Van betekenis/belangrijk" tags="picky">
+            <rule>
+                <pattern>
+                    <token>van</token>
+                    <token min="0" max="1" postag_regexp="yes" postag=".*VRB"/>
+                    <token>betekenis</token>
+                </pattern>
+                <message>Dit is een omslachtige formulering.</message>
+                <suggestion>belangrijk</suggestion>
+                <example correction="belangrijk">De fout is <marker>van grote betekenis</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HEEFT_ALLES_TE_MAKEN_MET" name="Heeft alles te maken met / komt door" tags="picky">
+            <rule>
+                <pattern>
+                    <token>heeft</token>
+                    <token>alles</token>
+                    <token>te</token>
+                    <token>maken</token>
+                    <token>met</token>
+                </pattern>
+                <message>Dit is een omslachtige formulering.</message>
+                <suggestion>komt door</suggestion>
+                <example correction="komt door">De fout <marker>heeft alles te maken met</marker> slordigheid.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BINNEN_NU_EN_X_MAANDEN" name="Binnen nu en/binnen">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>binnen</token>
+                        <token>nu</token>
+                        <token>en</token>
+                    </marker>
+                    <token/>
+                    <token regexp="yes">dagen|weken|maanden|jaren|maand|jaar</token>
+                </pattern>
+                <message>Dit kan waarschijnlijk korter.</message>
+                <suggestion>binnen</suggestion>
+                <example correction="binnen">De fout treedt op <marker>binnen nu en</marker> 5 jaar.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DUBBELE_VOORLETTER" name="dubbele voorletter">
+            <rule>
+                <antipattern><token>het</token><token>IJ</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token  case_sensitive="yes" regexp="yes">Adr|Fr|IJ|Jac|Joh|Ph|Th|Tj</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">[A-Z].*</token>
+                </pattern>
+                <message>Officiële instanties gebruiken zelden dubbele voorletters: <suggestion><match no="1" regexp_match="(^[A-Z]).*" regexp_replace="$1."/></suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/th-t-als-voorletter</url>
+                <example correction="T.">De naam is <marker>Th.</marker> Janssen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KAN_KUN" name="kan vs kun" tags="picky">
+            <antipattern>
+                <token postag_regexp="yes" postag="SENT_START|START"/>
+                <token regexp="yes">wat|wie</token>
+                <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+                <token>kan</token>
+                <token regexp="yes">u|je</token>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag="SENT_START|START"/>
+                <token min="0" regexp="yes">&DBLQUOTE;|&APOSTROPH;</token>
+                <token regexp="yes">hij|zij|ze|men</token>
+                <token postag_regexp="yes" postag="ZNW:EKV.*"/>
+                <token>kan</token>
+                <token regexp="yes">u|je</token>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag="ZNW.*"/>
+                <token>kan</token>
+                <token skip="3" regexp="yes">u|je</token>
+                <token>helpen</token>
+                <example>De coach kan je helpen als je daar moeite mee hebt.</example>
+                <example>Dagelijkse beweging kan u daarbij helpen.</example>
+            </antipattern>
+            <antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token>Kan</token><token regexp="yes">je|u</token><token>nog</token><token postag="BNW:STL:ONV"/><token>van</token><token>pas</token><token>komen</token><token postag="SENT_END">.</token></antipattern>
+            <antipattern><token regexp="yes">[0-9]{1,2}</token><token>u</token></antipattern> <!-- tijd -->
+            <rule>
+                <!-- 2014-08-20 TaalTik -->
+                <pattern>
+                    <token negate="yes" regexp="yes">ik|hij|zij|het</token>
+                    <marker>
+                        <token>kan</token>
+                    </marker>
+                    <token regexp="yes">je|jij</token>
+                </pattern>
+                <message>Velen vinden dat <suggestion>kun</suggestion> netter is als '\3' het onderwerp is. 'Kan' mag echter ook.</message>
+                <url>https://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
+                <example><marker>Kun</marker> je het even doen voor mij?</example>
+                <example correction="Kun"><marker>Kan</marker> je nog weg?</example>
+                <example correction="kun">Wat <marker>kan</marker> je doen?</example>
+                <example correction="kun">Zo <marker>kan</marker> je het tonen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">ik|hij|zij|het</exception><exception postag_regexp="yes" postag="UNKNOWN|ENM.*"/></token>
+                    <marker>
+                        <token>kan</token>
+                    </marker>
+                    <token>u</token>
+                </pattern>
+                <message>Velen vinden dat <suggestion>kunt</suggestion> netter is als '\3' het onderwerp is. 'Kan' mag echter ook.</message>
+                <url>https://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
+                <example correction="Kunt"><marker>Kan</marker> U de grasmaaier niet zelf vervoeren?</example>
+                <example correction="kunt">Onze schoolbrochure <marker>kan</marker> u downloaden.</example>
+                <example correction="kunt">Dat bericht <marker>kan</marker> u zelf instellen.</example>
+            </rule>
+            <rule>
+                <!-- 2014-08-21 TaalTik -->
+                <pattern>
+                    <token regexp="yes">je|u</token>
+                    <marker>
+                        <token>kan</token>
+                    </marker>
+                    <token><exception postag="WKW:TGW:INF"/></token>
+                </pattern>
+                <message>Velen vinden dat <suggestion>kunt</suggestion> netter is als '\1' het onderwerp is. 'Kan' mag echter ook.</message>
+                <example correction="kunt">Je <marker>kan</marker> dat niet vergelijken.</example>
+                <example correction="kunt">U <marker>kan</marker> één lied beluisteren.</example>
+                <example correction="kunt">En je <marker>kan</marker> er lekker eten.</example>
+                <example>Uw kinderbijslagfonds kan u vertellen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZAL_ZUL" name="zal of zul" tags="picky">
+            <antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token regexp="yes" skip="-1">ik|men|hij|zij|ze</token><token postag="SENT_END"/></antipattern>
+            <antipattern><token regexp="yes">het|dit|dat</token><token>zal</token></antipattern>
+            <antipattern><token postag="VRZ"/><token>je</token><token>zal</token></antipattern>
+            <antipattern><token>je</token><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
+            <antipattern><token>je</token><token postag="BNW.*" postag_regexp="yes"/><token postag_regexp="yes" postag="ZNW:EKV.*"/></antipattern>
+            <rule>
+                <!-- TODO: false positives bestrijden -->
+                <antipattern><token postag_regexp="yes" postag="ZNW:EKV.*"/><token>zal</token></antipattern>
+                <antipattern><token postag_regexp="yes" postag="ENM.*"/><token>zal</token></antipattern>
+                <antipattern><token>Hoe</token><token>zal</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token>zal</token>
+                    </marker>
+                    <token>jij</token>
+                </pattern>
+                <message>Misschien past <suggestion>zul</suggestion> hier wat beter.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+                <example correction="zul">Afdingen <marker>zal</marker> jij.</example>
+            </rule>
+            <rule>
+                <!-- 2014-08-22 TaalTik -->
+                <pattern>
+                    <token negate="yes" regexp="yes">ik|het|men|hij|zij|ze</token>
+                    <marker>
+                        <token>zal</token>
+                        <token>u</token>
+                    </marker>
+                </pattern>
+                <message>Misschien past <suggestion>zult u</suggestion> hier wat beter.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+                <example correction="Zult u"><marker>Zal u</marker> aan een gemiddelde van 3 beurzen per jaar deelnemen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">je|u</token>
+                    <token>zal</token>
+                </pattern>
+                <message>Misschien past <suggestion><match no="1"/> zult</suggestion> hier wat beter.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+                <example><marker>U zult</marker> dat toch wel even doen voor mij?</example>
+                <example correction="je zult">En jawel, <marker>je zal</marker> het merken.</example>
+                <example correction="U zult"><marker>U zal</marker> mij ooit nog gelijk geven.</example>
+            </rule>
+            <rule>
+                <antipattern><token postag="ENM.*|ZNW:EKV.*" postag_regexp="yes"/><token>zal</token></antipattern>
+                <antipattern><token>er</token><token>zal</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token>zal</token>
+                    </marker>
+                    <token>je</token>
+                </pattern>
+                <message>Als 'je' hier als 'jij' geschreven kan worden, dan past <suggestion>zul</suggestion> hier wat beter.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+                <example correction="zul">Afdingen <marker>zal</marker> je.</example>
+                <!-- falses in nightly test set -->
+                <example>Ralph zal je verder zelf inlichten over dit persoonlijke project van hem.</example>
+                <example>De politie zal je daar niet vinden.</example>
+                <example>Een goede dosis humor zal je helpen om zware tijden te doorstaan.</example>
+                <example>Kalmte zal je redden.</example>
+                <example>Kleine Ida zal je missen. </example>
+                <example>Zijn muziek zal je betoveren</example>
+                <example>Een isolatiespecialist zal je uitgebreid kunnen informeren</example>
+                <example>Perfect, de politie zal je nu nooit herkennen.</example>
+                <example>Er zal je een</example>
+                <example>Dit medicijn zal je beter doen voelen. </example>
+                <example>Elke arts zal je</example>
+            </rule>
+        </rulegroup>
+        <rule id="MITS_TENZIJ" name="verwarring mits en tenzij">
             <pattern>
-                <token>realizaaar</token>
+                <token case_sensitive="yes" regexp="yes">[Mm]its</token>
             </pattern>
-            <message>Test rule.</message>
-            <suggestion>realizar</suggestion>
-            <example correction="realizar"><marker>realizaaar</marker></example>
+            <message>'Mits' wordt vaak door schrijvers en lezers verward met 'tenzij'. Gebruik liever <suggestion>als</suggestion> of <suggestion>op voorwaarde dat</suggestion></message>
+            <url>https://taaladvies.net/taal/advies/vraag/555</url>
+            <example correction="als|op voorwaarde dat">De aanschaf kan worden voltooid, <marker>mits</marker> er voldoende budget is.</example>
+        </rule>
+        <rule id="NIET_ON" name="Niet ondenkbeeldig">
+            <pattern>
+                <token>niet</token>
+                <token regexp="yes">ondenkbeeldig|ondenkbaar</token>
+            </pattern>
+            <message>Met deze woordkeuze is het onduidelijk wat er precies wordt bedoeld. Beter is om 'on' of 'niet' weg te laten.</message>
+            <suggestion>\2</suggestion>
+            <suggestion>niet <match no="2" regexp_match="^on" regexp_replace=""/></suggestion>
+            <url>https://taaladvies.net/taal/advies/vraag/580</url>
+            <example correction="ondenkbeeldig|niet denkbeeldig">Taaladvies over <marker>niet ondenkbeeldig</marker>.</example>
+        </rule>
+        <rulegroup id="ER_MIST" name="Er mist → Er ontbreekt">
+            <rule>
+                <pattern>
+                    <token regexp="yes">er|hier|daar</token>
+                    <marker>
+                        <token regexp="yes">mist|miste|missen|misten</token>
+                    </marker>
+                    <token><exception postag="WKW:TGW:INF"/></token>
+                </pattern>
+                <message>Als u dit iets formeler wilt schrijven kunt u ook <suggestion><match no="2" postag="WKW.*" postag_regexp="yes">ontbreken</match></suggestion> gebruiken.</message>
+                <url>https://taaladvies.net/taal/advies/vraag/552/</url>
+                <example correction="ontbreekt">Er <marker>mist</marker> een moertje.</example>
+                <example correction="ontbraken">Er <marker>misten</marker> nogal wat dingen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VAAG" name="vage taal" tags="picky objective professional">
+            <rule>
+                <antipattern><token>dan</token><token>ooit</token></antipattern>
+                <pattern>
+                    <token>ooit</token>
+                </pattern>
+                <message>&vaag_mess;</message>
+                <example correction="">Ik ga <marker>ooit</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="OVERDRIJVING" name="mogelijke overdrijving" tags="picky objective professional">
+            <rule>
+                <pattern>
+                    <token inflected="yes">gigantisch</token>
+                </pattern>
+                <message>Dit zou wat overdreven kunnen overkomen.</message>
+                <example correction=""><marker>Gigantisch</marker> gebouw.</example>
+            </rule>
+        </rulegroup>
+        <rule id="OVERDRIJVING_2" name="vreselijk mooi (mooi)" tags="picky objective professional">
+            <pattern>
+                <token regexp="yes">vreselijk|super|mega</token>
+                <token postag_regexp="yes" postag="BNW.*"/>
+            </pattern>
+            <message>Misschien kan dit ook gezegd worden met alleen <suggestion>\2</suggestion>.</message>
+            <example correction="Mooi"><marker>Vreselijk mooi</marker>."</example>
+        </rule>
+        <rule id="OVERDRIJVING_3" name="heel erg saai (erg saai)" tags="picky objective professional">
+            <pattern>
+                <token>heel</token>
+                <token>erg</token>
+            </pattern>
+            <message>Misschien kan dit ook gezegd worden met alleen <suggestion>\1</suggestion> of <suggestion>\2</suggestion>.</message>
+            <example correction="heel|erg">Wij vonden het <marker>heel erg</marker> saai.</example>
         </rule>
     </category>
 </rules>
