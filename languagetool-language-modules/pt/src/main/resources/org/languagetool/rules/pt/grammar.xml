@@ -6068,6 +6068,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
            <token>a</token>
            <example>Estão mais propensas a dores.</example>
         </antipattern>
+        <antipattern>
+            <token regexp='yes' min='0'>&adverbios_de_intensidade;</token>
+           <token>vezes</token>
+           <example>Brinque com a gente mais vezes</example>
+        </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
           <marker>
@@ -14018,15 +14023,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token min="0" skip="2" postag="R[NG].*" postag_regexp="yes">
           <exception>quando</exception></token>
         <token postag="V.S.*" postag_regexp="yes">
-          <exception postag="(V.I|NP|S).+" postag_regexp="yes"/></token>
+          <exception postag="(V.I|NP|S).+|SPS.+|N.+|VMN0000|A.+|C.+|R.+" postag_regexp="yes"/>
+          <exception regexp="yes">&verbos_muito_incomuns;</exception></token>
       </pattern>
       <message>'\1' requer um verbo no indicativo.</message>
       <suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>
-      <short>Tempo verbal incorreto</short>
-      <example correction="Provavelmente tens"><marker>Provavelmente tenhas</marker> razão.</example>
-      <example correction="Provavelmente ainda tens"><marker>Provavelmente ainda tenhas</marker> razão.</example>
-      <example correction="Quiçá não gostas"><marker>Quiçá não gostes</marker> sempre.</example>
-      <example correction="possivelmente já estava">fez pensar que <marker>possivelmente já estivesse</marker> façanha de dantes</example>
+      <suggestion suppress_misspelled="yes">\1 <match no='2' include_skipped='all'/> <match no='3' postag='V...(...)' postag_regexp="yes" postag_replace="VMIF$1"/></suggestion>
+        <short>Tempo verbal incorreto</short>
+      <example correction="Provavelmente tens|Provavelmente terás"><marker>Provavelmente tenhas</marker> razão.</example>
+      <example correction="Provavelmente ainda tens|Provavelmente ainda terás"><marker>Provavelmente ainda tenhas</marker> razão.</example>
+      <example correction="Quiçá não gostas|Quiçá não gostarás"><marker>Quiçá não gostes</marker> sempre.</example>
+      <example correction="possivelmente já estava|possivelmente já estarei|possivelmente já estará">fez pensar que <marker>possivelmente já estivesse</marker> façanha de dantes</example>
       <example>Quiçá chegaram no ano passado.</example>
       <example>quando provavelmente se produza a proibição</example>
       <example>Quiçá se tivessem podido se desenvolver.</example>
