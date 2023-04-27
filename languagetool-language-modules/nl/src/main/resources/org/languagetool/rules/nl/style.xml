@@ -22,6 +22,120 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
 -->
+
+<!DOCTYPE rules [
+        <!ENTITY weekdays "maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag|zondag">
+        <!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
+        <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
+        <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sept?|o[ck]t|nov|dec">
+        <!ENTITY timeOfDayToday "vanmorgen|vanmiddag|vanavond|vannacht">
+        <!ENTITY timeOfDayGeneral "morgen|middag|avond|nacht">
+        <!ENTITY commonStreetNames "[A-Z][a-z].*(boulevard|dijk|dreef|einde|gracht|hof|kamp|laan|molen|pad|plaats|plein|poort|singel|steeg|straat|veld|weg)">
+        <!ENTITY documentParts "aanhangsel|act|afbeelding|afdeeling|artikel|attachment|bijlage|bijvoegsel|caput|chapiter|deel|figuur|hoofdstuk|kapittel|lid|nummer|onderdeel|opus|pagina|§|paragraaf|plaat|punt|tabel|track|vraag">
+        <!ENTITY currenciesISO4217 "AED|AFN|ALL|AMD|ANG|AOA|ARS|AUD|AWG|AZN|BAM|BBD|BDT|BGN|BHD|BIF|BMD|BND|BOB|BOV|BRL|BSD|BTN|BWP|BYN|BZD|CAD|CDF|CHE|CHF|CHW|CLF|CLP|CNY|COP|COU|CRC|CUC|CUP|CVE|CZK|DJF|DKK|DOP|DZD|EGP|ERN|ETB|EUR|FJD|FKP|GBP|GEL|GHS|GIP|GMD|GNF|GTQ|GYD|HKD|HNL|HRK|HTG|HUF|IDR|ILS|INR|IQD|IRR|ISK|JMD|JOD|JPY|KES|KGS|KHR|KMF|KPW|KRW|KWD|KYD|KZT|LAK|LBP|LKR|LRD|LSL|LYD|MAD|MDL|MGA|MKD|MMK|MNT|MOP|MRU|MUR|MVR|MWK|MXN|MXV|MYR|MZN|NAD|NGN|NIO|NOK|NPR|NZD|OMR|PAB|PEN|PGK|PHP|PKR|PLN|PYG|QAR|RON|RSD|RUB|RWF|SAR|SBD|SCR|SDG|SEK|SGD|SHP|SLE|SLL|SOS|SRD|SSP|STN|SVC|SYP|SZL|THB|TJS|TMT|TND|TOP|TRY|TTD|TWD|TZS|UAH|UGX|USD|USN|UYI|UYU|UYW|UZS|VED|VES|VND|VUV|WST|XAF|XAG|XAU|XBA|XBB|XBC|XBD|XCD|XDR|XOF|XPD|XPF|XPT|XSU|XTS|XUA|YER|ZAR|ZMW|ZWL">
+        <!ENTITY abbrevBibleBooks "Ge?n|Ex|Le?v|Num|D(eu)?t|Jo?z|Ri|R[ei]cht|Sa?m|Ko?n|Kr[on]{0,2}|Neh?|Est?|Jb|Ps|Spr?|Pr[ed]{0,2}|H(oog)?l|Je?s|Je?r|Kl(aagl)?|Ez(ech)?|Dn|Ho?s|Jl|Am|Ob|Mc|Mi[ch]{0,2}|Nah|Hk|Hab|Zf|[SZ]ef|Ha?g|Zc|Zach|Ml|Mt|Mk|Mar|Lk|Jh|Hd|Ro?m|Gl|Ef|Fp|Ko|Th|Th?e[s]{1,2}|Tm|Ti?t|Fm|Fil(em)?|Hb|Hebr|Jk|Jac|Pe?tr|Joh|Jud|Openb|Wijsh|Tob|Sir|Makk">
+        <!ENTITY fullBibleBooks "Genesis|Exodus|Leviticus|Numeri|Deuteronomium|Jozua|R[ei]chters|Samuel|Koningen|Kronieken|Nehemia|Esth?er|Job|Psalmen|Spreuken|Prediker|Hooglied|Jesa[ij]a|Jeremia|Klaagliederen|Ezechiël|Daniël|Hosea|Joël|Amos|Obadja|Jona|Micha|Nahum|Habakuk|[SZ]efan[ij]a|Haggai|Zacharia|Maleachi|Matt?eüs|Mar[ck]us|Lu[ck]as|Johannes|Handelingen|Romeinen|Korintiërs|Galaten|Efeziërs|Filippenzen|[CK]olossenzen|Th?ess?alonicenzen|Timoteüs|Titus|Filemon|Hebreeë(n|rs)|Ja[ck]ob(us)?|Petrus|Judas|Openbaring|Wijsheden|Tobi(as|t)|Sirach|Baruch|Makkabeeë(n|rs)">
+
+        <!ENTITY measurementUnitPrefix "E(xa)?|P(eta)?|T(era)?|G(iga)?|M(ega)?|k(ilo)?|h(ecto)?|d(ec)?a|d(eci)?|c(enti)?|m(illi)?|u|&#x03BC;|micro|n(ano)?|licht">
+        <!ENTITY measurementUnitsTime "(&measurementUnitPrefix;)?(s(ec)?|seconde(n|s)?)|min(uut)?|minuten|u(ur)?|uren|hr?|d|dag(en)?|we(ek|ken)|maa(nd|nden)|kwarta(al|len)|ja(ar|ren)|decenni(um|a|ën)|centenni(um|a)|euuw(en)?|millenni(um|a)">
+        <!ENTITY measurementUnitsLength "(&measurementUnitPrefix;)?m(eters?|2|3)?|mijl(en)?|p(arse)?cs?|duim|inch(es)?|ft|AE|AU">
+        <!ENTITY measurementUnitsMass "(&measurementUnitPrefix;)?g(r(am)?)?|ons|pond|ton">
+        <!ENTITY measurementUnitsTemperature "K|&#x212A;|kelvin|℃|℉|°C(elsius)?|°F(ahrenheit)?|°|graad|graden">
+        <!ENTITY measurementUnitsAngles "[°′″‴⁗'&quot;“]">
+        <!ENTITY measurementUnitsElectroMagnetism "(&measurementUnitPrefix;)?(J|joule|C|coulomb|A|ampere|V|volt|&#x03A9;|ohm|W|watt|F|farad|S|siemens|T|tesla|Wb|weber|H|henry)">
+        <!ENTITY measurementUnitsMisc "(&measurementUnitPrefix;)?(mol|cd|candela|l(u)?x|Bq|becquerel|dB|decibel|cal(orie)?|Pa|pascal|bar|atm|l(iter)?)|el|eetlepels?|tl|theelepels?|hoogtemeters?|vierkante(meters?)?|kubieke|kuub">
+        <!ENTITY measurementUnitsComputing "(&measurementUnitPrefix;|kibi|mebi|gibi|tebi|pebi|exbi|zebi|yobi)?(B|bits?|bytes?|Hz|hertz|hash|FLOPS)">
+        <!ENTITY measurementUnitsAll "&measurementUnitsTime;|&measurementUnitsLength;|&measurementUnitsMass;|&measurementUnitsTemperature;|&measurementUnitsAngles;|&measurementUnitsElectroMagnetism;|&measurementUnitsMisc;|&measurementUnitsComputing;">
+
+        <!ENTITY DVW "uit|af|op|in|door|weg|na|terug|mee|om|over|rond|bij|toe|voor|binnen|vast|neer|samen|dicht|open|voort|los|dood|leeg|onder|vol|omhoog|her|bijeen|mis|droog|aaneen|tegen|vooruit|vrij|voorbij|schoon|achteruit|uiteen|buiten|ineen|kapot|plat|langs|heen|recht|stuk|omver|fijn|mede|klaar|thuis|achter|achterover|gelijk|opzij|glad|goed|stil|achterna|herin|herop|omlaag|boven|dooreen|kaal|achterom|weer|opeen|krom|scheef|gereed|nat|achterop|onderuit|terecht|weder|beet|achteraan|hard|kwijt|verder|voorop|warm|plaats|bloot|proef|blind|dubbel|heraan|terneer|wel|zoek|tegemoet|heruit|hoog|school|zwart|klem|lek|rechtop|schuil|voorin|voorover|overhoop|waar|overeen|kennis|gevangen|groot|klein|gaar|lam|vlak|vuil|deel|dwars|thee|hout|scheel|stijf|grijs|tussen|tekort|vooraf|bekend|tentoon|koffie|teniet|dienst|daar|neder">
+        <!-- currently not used (alternative: postag="GET:ROM") <!ENTITY ROMAN_NUM "(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))"> -->
+        <!-- definieer macro voor gespelde afkortingen als cd -->
+        <!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|ftp|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ok|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp|km|mm|cm|soa|bbl">
+        <!ENTITY APOSTROPH "[`'‘’]">
+        <!ENTITY DBLQUOTE "[&quot;“]">
+        <!ENTITY nbsp "&#x00A0;"> <!-- no-break space -->
+
+        <!ENTITY taaladvies "Er zijn taaladviezen over deze tekst. Raadpleeg www.onzetaal.nl en www.taalaadvies.net, of google de tekst met daar taaladvies aan toegevoegd.">
+        <!ENTITY leenwoord_mess "Mogelijk kunt u beter een Nederlands woord gebruiken.">
+        <!ENTITY cliche_mess "Pas op voor clichés. Misschien kunt u het op een andere manier uitdrukken.">
+        <!ENTITY vaag_mess "Pas op met vage taal. Misschien kan het iets preciezer.">
+        <!ENTITY vlotter_mess "De tekst wordt vlotter wanneer u deze herschrijft met">
+
+        <!ENTITY ambiguous_date '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+        '>
+        <!-- "7 October 2014" and "7th October 2014" -->
+        <!ENTITY date_dmy '
+        <token regexp="yes">\d\d?(th)?</token>
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d\d\d</token>
+        '>
+        <!ENTITY date_dmy_skip '
+        <token regexp="yes">\d\d?</token>
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        '>
+        <!-- "October 7, 2014" -->
+        <!ENTITY date_mdy '
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d?</token>
+        <token>,</token>
+        <token regexp="yes">\d\d\d\d</token>
+        '>
+        <!ENTITY date_mdy_skip '
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d?</token>
+        <token>,</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        '>
+        <!-- "31/10/2014" -->
+        <!ENTITY date_dmy_numbers '
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+        '>
+        <!ENTITY date_dmy_numbers_skip '
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        '>
+        <!-- "10/31/2014" -->
+        <!ENTITY date_mdy_numbers '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">\d\d\d\d</token>
+        '>
+        <!ENTITY date_mdy_numbers_skip '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+        '>
+        <!ENTITY demoantipatterns "
+        <antipattern><token>Schrijf</token><token>of</token><token>plak</token><token>hier</token><token>je</token><token>tekst</token><token>om</token><token>deze</token><token>al</token><token>typende</token><token>te</token><token>check</token><token>.</token></antipattern>
+        <antipattern><token>Vergissingen</token><token>worden</token><token>gemarkeerd</token><token>met</token><token>verschillende</token><token>kleuren</token><token>:</token><token>spelvouten</token><token>laten</token><token>we</token><token>rood</token><token>ondersteept</token><token>zien</token><token>.</token></antipattern>
+        <antipattern><token>Grammaticafouten</token><token>daarentegen</token><token>markeren</token><token>we</token><token>met</token><token>geel</token><token>.</token></antipattern>
+        <antipattern><token>LanguageTool</token><token>laat</token><token>stijlwesties</token><token>zo</token><token>optimaal</token><token>mogelijk</token><token>zien</token><token>in</token><token>het</token><token>blauw</token><token>.</token></antipattern>
+        <antipattern><token>wist</token><token>u</token><token>al</token><token>dat</token><token>u</token><token>synoniemen</token><token>kunt</token><token>oproepen</token><token>met</token><token>een</token><token>dubbelklik</token><token>op</token><token>een</token><token>woord</token><token>?</token></antipattern>
+        <antipattern><token>LanguageTool</token><token>is</token><token>een</token><token>absolute</token><token>musthave</token><token>voor</token><token>het</token><token>schrijven</token><token>van</token><token>perfecte</token><token>tekst</token><token>.</token></antipattern>
+        <antipattern><token>Bij</token><token>voorbeeld</token><token>om</token><token>een</token><token>collega</token><token>te</token><token>vertellen</token><token>wat</token><token>er</token><token>vrijdag</token><token>3</token><token>Maart</token><token>2007</token><token>gebeurd</token><token>is</token><token>.</token></antipattern>">
+
+        <!ENTITY START  '<token postag_regexp="yes" postag="SENT_START|START"/>'>
+        <!ENTITY VRGTKN '<token postag_regexp="yes" postag="SENT_END|END">?</token>'>
+        <!ENTITY PUNT   '<token postag_regexp="yes" postag="SENT_END|END" regexp="yes">[.!]</token>'>
+        ]>
+
 <rules lang="nl" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <category id="STYLE" name="style rules" type="style">
         <rule id="REMOVEME_RULE1" name="test rule" default="off">
