@@ -67,6 +67,12 @@ public class RemoteLangDetect extends LanguageIdentifier {
 
   @Nullable
   @Override
+  public DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs) {
+    return this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp);
+  }
+
+  @Nullable
+  @Override
   public Language detectLanguage(String text) {
     try {
       String result = getUrl(Tools.getUrl(endpoint), text);

@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import com.optimaize.langdetect.text.TextObjectFactory;
 import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.DetectedLanguage;
@@ -67,6 +68,54 @@ public class DefaultLanguageIdentifierTest extends LanguageIdentifierTest{
     assertThat(ident2.cleanAndShortenText("foo foo.bla@example.com blah"), is("foo   blah"));
     assertThat(ident2.cleanAndShortenText("But @handle said so on twitter!"), is("But  said so on twitter!"));
     assertThat(ident2.cleanAndShortenText("A non\u00A0breaking space."), is("A non breaking space."));
+  }
+  
+  @Test
+  @Ignore
+  public void forcePreferredLanguagesTest() throws IOException {
+    File ngramDataFile = new File("/home/stefan/Dokumente/languagetool/data/model_ml50_new.zip");
+    File fastTextBinaryFile = new File("/home/stefan/Dokumente/languagetool/data/fasttext/fasttext");
+    File fastTextModelFile = new File("/home/stefan/Dokumente/languagetool/data/fasttext/lid.176.bin");
+    LanguageIdentifier ident = LanguageIdentifierService.INSTANCE
+            .clearLanguageIdentifier("default")
+            .getDefaultLanguageIdentifier(50, ngramDataFile, fastTextBinaryFile, fastTextModelFile);
+    
+    String text_de_1 = "Mo. 27. Feb. 2023; Konnektor/Lesegerät, TI-Verbindungsprobleme, Netzwerktests, SMC-B Zertifikatskarte Re-Seat; Konnektor-Konfiguration";
+    String text_de_2 = "Mo. 27. Feb. 2023; Konnektor/Lesegerät, TI-Verbindungsprobleme, Netzwerktests, SMC-B Zertifikatskarte; Konnektor-Konfiguration";
+    String text_de_3 = "Mo. 27. Feb. 2023; Konnektor/Lesegerät, Verbindungsprobleme, Netzwerktests, SMC-B Zertifikatskarte; Konnektor-Konfiguration";
+
+    List<String> preferredLangs_1 = Arrays.asList("de", "en");
+
+    DetectedLanguage detectedLanguage_1_without = ident.detectLanguage(text_de_1, Collections.emptyList(), preferredLangs_1, false);
+    DetectedLanguage detectedLanguage_2_without = ident.detectLanguage(text_de_2, Collections.emptyList(), preferredLangs_1, false);
+    DetectedLanguage detectedLanguage_3_without = ident.detectLanguage(text_de_3, Collections.emptyList(), preferredLangs_1, false);
+    Assert.assertNotNull(detectedLanguage_1_without);
+    Assert.assertNotNull(detectedLanguage_2_without);
+    Assert.assertNotNull(detectedLanguage_3_without);
+    Assert.assertEquals("en", detectedLanguage_1_without.toString());
+    Assert.assertFalse(detectedLanguage_1_without.getDetectionSource().endsWith("prefLang(forced: true)"));
+    Assert.assertEquals("sk-SK", detectedLanguage_2_without.toString());
+    Assert.assertFalse(detectedLanguage_2_without.getDetectionSource().endsWith("prefLang(forced: true)"));
+    Assert.assertEquals("sk-SK", detectedLanguage_3_without.toString());
+    Assert.assertFalse(detectedLanguage_3_without.getDetectionSource().endsWith("prefLang(forced: true)"));
+    
+    DetectedLanguage detectedLanguage_1 = ident.detectLanguage(text_de_1, Collections.emptyList(), preferredLangs_1, true);
+    DetectedLanguage detectedLanguage_2 = ident.detectLanguage(text_de_2, Collections.emptyList(), preferredLangs_1, true);
+    DetectedLanguage detectedLanguage_3 = ident.detectLanguage(text_de_3, Collections.emptyList(), preferredLangs_1, true);
+    Assert.assertNotNull(detectedLanguage_1);
+    Assert.assertNotNull(detectedLanguage_2);
+    Assert.assertNotNull(detectedLanguage_3);
+    Assert.assertEquals("en", detectedLanguage_1.toString());
+    Assert.assertTrue(detectedLanguage_1.getDetectionSource().endsWith("prefLang(forced: true)"));
+    Assert.assertEquals("de", detectedLanguage_2.toString());
+    Assert.assertTrue(detectedLanguage_2.getDetectionSource().endsWith("prefLang(forced: true)"));
+    Assert.assertEquals("de", detectedLanguage_3.toString());
+    Assert.assertTrue(detectedLanguage_3.getDetectionSource().endsWith("prefLang(forced: true)"));
+    
+    String text_something = "This should be detected as english, but the user does not have english as preferred language.";
+    List<String> preferredLangs_2 = Arrays.asList("de", "fr");
+    DetectedLanguage notDetectedLang = ident.detectLanguage(text_something, Collections.emptyList(), preferredLangs_2, true);
+    assertEquals("de", notDetectedLang.toString()); //fallback to first preferredLang if none is detected. In this case english was removed because it is not a preferred language.
   }
   
   @Test

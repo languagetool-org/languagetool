@@ -223,7 +223,12 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
    */
   @Override
   public DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp) {
+    return this.detectLanguage(cleanText, noopLangsTmp, preferredLangsTmp, false);
+  }
 
+  @Nullable
+  @Override
+  public DetectedLanguage detectLanguage(String cleanText, List<String> noopLangsTmp, List<String> preferredLangsTmp, boolean limitOnPreferredLangs) {
     String text = cleanText;
     ParsedLanguageLists parsedLanguageLists = prepareDetectLanguage(text, noopLangsTmp, preferredLangsTmp);
     if (parsedLanguageLists == null) {
@@ -279,12 +284,17 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
           scores.keySet().removeIf(k -> k.equals("da"));
           result = getHighestScoringResult(scores);
         }
-        if (text.length() <= CONSIDER_ONLY_PREFERRED_THRESHOLD && preferredLangs.size() > 0) {
+        if (!preferredLangs.isEmpty() && (text.length() <= CONSIDER_ONLY_PREFERRED_THRESHOLD || limitOnPreferredLangs)) {
           //System.out.println("remove? " + preferredLangs + " <-> " + scores);
-          scores.keySet().removeIf(k -> !preferredLangs.contains(k));
+          boolean wasRemoved = scores.keySet().removeIf(k -> !preferredLangs.contains(k));
+          if (wasRemoved && scores.isEmpty() && limitOnPreferredLangs) {
+            //TODO: just to see how often we would return no results because of that parameter -> remove later
+            logger.warn("No language detected for text after remove all not preferred languages from score.");
+          }
           //System.out.println("-> " + b + " ==> " + scores);
           result = getHighestScoringResult(scores);
-          source += "+prefLang";
+          //add login was wäre wenn ansonsten hier so lassen
+          source += "+prefLang(forced: " + limitOnPreferredLangs + ")";
         }
         // Calculate a trivial confidence value because fasttext's confidence is often
         // wrong for short cleanText (e.g. 0.99 for a test that's misclassified). Don't
@@ -309,7 +319,7 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
     if (fastTextDetector == null && ngram == null || fasttextFailed) { // no else, value can change in if clause
       text = textObjectFactory.forText(text).toString();
       source +="+fallback";
-      result = detectLanguageCode(text);
+      result = detectLanguageCode(text, preferredLangs, limitOnPreferredLangs);
       if (additionalLangs.size() > 0) {
         logger.warn("Cannot consider noopLanguages because not in fastText mode: " + additionalLangs);
       }
@@ -348,7 +358,19 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
    */
   @Nullable
   private Map.Entry<String, Double> detectLanguageCode(String text) {
+    return this.detectLanguageCode(text, null, false);
+  }
+  
+  @Nullable
+  private Map.Entry<String, Double> detectLanguageCode(String text, List<String> preferredLangs, boolean limitOnPreferredLangs) {
     List<com.optimaize.langdetect.DetectedLanguage> lang = languageDetector.getProbabilities(text);
+    if (limitOnPreferredLangs && preferredLangs != null && !preferredLangs.isEmpty()) {
+      boolean wasRemoved = lang.removeIf(l -> !preferredLangs.contains(l.getLocale().getLanguage()));
+      if (wasRemoved && lang.isEmpty()) {
+        //TODO: just to see how often we would return no results because of that parameter -> remove later
+        logger.warn("No language detected for text after remove all not preferred languages from score.");
+      }
+    }
     // comment in for debugging:
     //System.out.println(languageDetector.getProbabilities(textObject));
     if (lang.size() > 0) {
