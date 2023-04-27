@@ -2665,5 +2665,415 @@ USA
 			</rule>
 		</rulegroup>
 	</category>
+	<category id="COLLOQUIALISMS" name="Informeel" type="style" tags="professional clarity">
+		<rulegroup id="VAN_DE_ZOTTE" name="Van de zotte">
+			<!-- R. Baars, januari 2023 -->
+			<rule>
+				<pattern>
+					<marker>
+						<token>van</token>
+						<token>de</token>
+						<token regexp="yes">gekke|zotte</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>Dit is spreektaal, zoals Klukkluk die gebruikte in 'Pipo de Clown'. Dus niet zo geschikt voor zakelijk verkeer.</message>
+				<suggestion><match no="3" postag="BNW:STL:ONV"/></suggestion>
+				<example correction="gek">Dat is toch helemaal <marker>van de gekke</marker>?</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="EN_ZO" name="Enzo / en zo/ en zo meer">
+			<rule>
+				<pattern>
+					<marker>
+						<token>en</token>
+						<token>zo</token>
+					</marker>
+					<token postag="SENT_END"/>
+				</pattern>
+				<message>Dit is spreektaal, niet zo geschikt voor zakelijk verkeer.</message>
+				<suggestion>en zo meer</suggestion>
+				<suggestion>en dergelijke</suggestion>
+				<example correction="en zo meer|en dergelijke">We maken fouten <marker>en zo</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rule id="DOUWEN" name="Douwen/duwen">
+			<antipattern><token>Douw</token><token>&amp;</token></antipattern> <!-- firma -->
+			<antipattern case_sensitive="yes"><token>Douwe</token></antipattern> <!-- firma -->
+			<antipattern><token>dag</token><token>en</token><token>douw</token></antipattern> <!-- andere fout -->
+			<pattern>
+				<token inflected="yes">douwen</token>
+			</pattern>
+			<message>'Douwen' is spreektaal, in schrijftaal is <suggestion><match no="1" postag_regexp="yes" postag="WKW.*">duwen</match></suggestion> beter.</message>
+			<example correction="duwen">We <marker>douwen</marker> elkaar.</example>
+		</rule>
+		<rule id="NOU" name="Nou/nu" tags="picky">
+			<antipattern case_sensitive="yes"><token>Camp</token><token>Nou</token></antipattern>
+			<antipattern><token>nou</token><token>en</token><token>of</token></antipattern>
+			<pattern>
+				<token>nou</token>
+			</pattern>
+			<message>'Nou' is spreektaal, in schrijftaal is <suggestion>nu</suggestion> beter.</message>
+			<example correction="nu">We geven <marker>nou</marker> een hand.</example>
+		</rule>
+		<rule id="MEKAAR" name="Mekaar/elkaar">
+			<pattern>
+				<token>mekaar</token>
+			</pattern>
+			<message>'Mekaar' is spreektaal, in schrijftaal is <suggestion>elkaar</suggestion> beter.</message>
+			<url>https://taaladvies.net/taal/advies/vraag/530</url>
+			<example correction="elkaar">We geven <marker>mekaar</marker> een hand.</example>
+		</rule>
+		<rulegroup id="OVERNIEUW" name="overnieuw → opnieuw">
+			<rule>
+				<pattern>
+					<token>overnieuw</token>
+				</pattern>
+				<message>Dit is spreektaal. Beter is <suggestion>opnieuw</suggestion> of <suggestion>over</suggestion>.</message>
+				<example correction="opnieuw|over">Ik doe het <marker>overnieuw</marker>.</example>
+				<example correction="opnieuw|over">Als je niets hoort begin je de cyclus <marker>overnieuw</marker>.</example>
+				<example correction="opnieuw|over">Deze plooi ik de doek regelmatig <marker>overnieuw</marker> om heel de doek te benutten.</example>
+				<example correction="opnieuw|over">Als je een wending in je leven <marker>overnieuw</marker> kon doen, wat zou je dan anders doen?</example>
+				<example correction="opnieuw|over">Je mag zo weer <marker>overnieuw</marker> mag beginnen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="EFFE" name="effe → even">
+			<rule>
+				<pattern>
+					<token>effe</token>
+				</pattern>
+				<message>Dit is spreektaal. Beter is <suggestion>even</suggestion>.</message>
+				<example correction="even">Ik heb er <marker>effe</marker> tijd aan besteed.</example>
+				<example correction="Even"><marker>Effe</marker> tv opzetten.</example>
+				<example correction="even">Maar <marker>effe</marker> serieus.</example>
+				<example correction="even">Zou ik toch <marker>effe</marker> afstappen?</example>
+				<example correction="even">En Josh Holloway mag ook altijd <marker>effe</marker> passeren.</example>
+				<example correction="even">Wel, laten we dan terug <marker>effe</marker> bij het topic komen.</example>
+				<example correction="even">Oeps, <marker>effe</marker> niet de nodige aandacht gehad bij het lezen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="IE" name="ie → hij">
+			<rule>
+				<pattern>
+					<token case_sensitive="yes">ie</token>
+				</pattern>
+				<message>Dit is spreektaal of een vergissing.</message>
+				<suggestion>hij</suggestion>
+				<suggestion>i.e.</suggestion>
+				<suggestion>IE</suggestion>
+				<example correction="hij|i.e.|IE">Daar komt <marker>ie</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="EEN_BOEL" name="een boel → veel" tags="picky">
+			<rule>
+				<pattern>
+					<token>een</token>
+					<token regexp="yes">heleboel|boel</token>
+				</pattern>
+				<message>Dit is spreektaal. Beter is <suggestion>veel</suggestion>.</message>
+				<example correction="veel">Ik heb er <marker>een heleboel</marker> tijd aan besteed.</example>
+				<example correction="Veel"><marker>Een heleboel</marker> was dat.</example>
+				<example correction="veel">Weer <marker>een heleboel</marker> besparingen!!</example>
+				<example correction="Veel"><marker>Een boel</marker> napret én de trots dat ze een droom heeft waargemaakt.</example>
+				<example correction="veel">Er staan <marker>een boel</marker> van dat soort schoonheidsfouten.</example>
+				<example correction="veel">De après-ski staat bekend om het drinken van <marker>een heleboel</marker> bier.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="NIKS" name="niks → niets" tags="picky">
+			<rule>
+				<pattern>
+					<token>niks</token>
+				</pattern>
+				<message>Dit is spreektaal. Beter is <suggestion>niets</suggestion>.</message>
+				<example correction="niets">Ik heb er <marker>niks</marker> aan.</example>
+				<example correction="Niets"><marker>Niks</marker> mis mee.</example>
+				<example correction="niets">Jij moet juist <marker>niks</marker>.</example>
+				<example correction="Niets"><marker>Niks</marker> mufs aan.</example>
+				<example correction="niets">Maar jullie doen <marker>niks</marker>!</example>
+				<example correction="Niets"><marker>Niks</marker> moet, alles mag.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="GEEN_EEN" name="geen een">
+			<!-- 2014-08-23 TaalTik -->
+			<rule>
+				<pattern>
+					<token>geen</token>
+					<token>een</token>
+				</pattern>
+				<message>Dit is spreektaal. Beter is <suggestion>niet een</suggestion>, <suggestion>geen enkel</suggestion> of <suggestion>geen enkele</suggestion>.</message>
+				<example correction="niet een|geen enkel|geen enkele">Ik heb er <marker>geen een</marker>.</example>
+				<example>Ik heb er <marker>niet een</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="GEEN_EENS" name="geen eens">
+			<!-- 2014-08-23 TaalTik -->
+			<rule>
+				<pattern>
+					<token>geen</token>
+					<token>eens</token>
+				</pattern>
+				<message>Dit is spreektaal. Beter is <suggestion>niet eens</suggestion>.</message>
+				<example correction="niet eens">Ik heb het <marker>geen eens</marker> gezien.</example>
+				<example correction="niet eens">Toen hij naar het front vertrok was grootmoeder zwanger maar dat wisten ze <marker>geen eens</marker>.</example>
+				<example correction="niet eens">Zo zou Geert in rayon 10 <marker>geen eens</marker> opvallen.</example>
+				<example correction="niet eens">We kwamen bij de grensovergang waar we <marker>geen eens</marker> het loket van omkoping nodig hadden.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="VEELS_TE" name="veels te">
+			<!-- 2014-08-23 TaalTik -->
+			<rule>
+				<pattern>
+					<token>veels</token>
+					<token>te</token>
+				</pattern>
+				<message>Juist is <suggestion>veel te</suggestion>.</message>
+				<example correction="veel te">Er is <marker>veels te</marker> zwak op de intrede van grote moslimpopulaties gereageerd.</example>
+				<example correction="veel te">Ik weet wie de jager is: een <marker>veels te</marker> dikke ouwe rotvent.</example>
+				<example correction="veel te">De vervaldatum drukken ze <marker>veels te</marker> klein.</example>
+				<example correction="veel te">Eigenlijk <marker>veels te</marker> korte uitzendingen naar mijn idee.</example>
+				<example correction="veel te">Sterker nog, wat snoeven is dagelijkse koek voor de <marker>veels te</marker> rustige lobbes.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="DOOR_DE_WAR" name="door de war" tags="creative">
+			<!-- 2014-08-19 TaalTik: regel werkt prima, url toegevoegd -->
+			<rule>
+				<pattern>
+					<token>door</token>
+					<token>de</token>
+					<token>war</token>
+				</pattern>
+				<message>Juist is <suggestion>in de war</suggestion>.</message>
+				<url>https://nl.wikipedia.org/wiki/Contaminatie_%28taal%29</url>
+				<example correction="in de war">Het ligt <marker>door de war</marker>.</example>
+				<example>Hij is <marker>in de war</marker>.</example>
+				<example correction="in de war">Om de verschillende draden niet <marker>door de war</marker> te laten raken windt hij die rond houtjes.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="BEZIG_GAAN_MET" name="bezig gaan met" tags="creative">
+			<!-- 2017-06-24 TaalTik -->
+			<rule>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START" skip="-1"/><token skip="-1" regexp="yes">[,:;]</token><token postag_regexp="yes" postag="SENT_START|START"/></antipattern>
+				<antipattern>
+					<token inflected="yes" skip="5">gaan</token>
+					<token skip="1">bezig</token>
+					<token>houden</token>
+					<token>met</token>
+					<example>Hij gaat proberen om zich bezig te houden met andere dingen.</example>
+				</antipattern>
+				<pattern>
+					<token inflected="yes" skip="5">gaan</token>
+					<marker>
+						<token skip="5">bezig</token>
+					</marker>
+					<token>met</token>
+				</pattern>
+				<message>'Bezig gaan met' is geen Standaardnederlands. Hier past beter <suggestion>aan de slag</suggestion>, <suggestion>aan de gang</suggestion> of <suggestion>beginnen</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1796/bezig_gaan_met/</url>
+				<example correction="aan de slag|aan de gang|beginnen">Hij gaat <marker>bezig</marker> met de fout.</example>
+				<example correction="aan de slag|aan de gang|beginnen">Waarom ga je pas <marker>bezig</marker> met vandalismebestrijding als je moderator bent?</example>
+			</rule>
+			<rule>
+				<pattern>
+					<marker>
+						<token skip="5">bezig</token>
+					</marker>
+					<token inflected="yes">gaan</token>
+					<token>met</token>
+				</pattern>
+				<message>'Bezig gaan met' is geen Standaardnederlands. Hier past beter <suggestion>aan de slag</suggestion> of <suggestion>aan de gang</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1796/bezig_gaan_met/</url>
+				<example correction="aan de slag|aan de gang">Hij wil weer <marker>bezig</marker> gaan met de fout.</example>
+				<example>Hij wil <marker>weer bezig zijn met</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="JE_EIGEN" name="je eigen">
+			<!-- 2014-08-18 TaalTik: regel werkt heel goed. Geen url gevonden -->
+			<rule>
+				<pattern>
+					<marker>
+						<token>je</token>
+						<token>eigen</token>
+					</marker>
+					<token postag="SENT_END" regexp="yes">[.!?]</token>
+				</pattern>
+				<message>U bedoelt misschien: <suggestion>jezelf</suggestion>?</message>
+				<example correction="jezelf">Kijk naar <marker>je eigen</marker>.</example>
+				<example correction="jezelf">Je bent niet sterk genoeg op <marker>je eigen</marker>.</example>
+				<!-- flase positives:
+				<example correction="jezelf">Leg alles wat je over jezelf verzamelt hebt eens samen en maak het <marker>je eigen</marker>.</example>
+				<example correction="jezelf">Ga op zoek gaat naar andere pasklare antwoorden en als het even kan <marker>je eigen</marker>.</example>
+				-->
+			</rule>
+		</rulegroup>
+		<rulegroup id="EIGENGEMAAKT" name="eigengemaakt">
+			<rule>
+				<pattern>
+					<token regexp="yes">^eigenge.+(n|d|t|de|te)$<exception regexp="yes">^eigengereid.*</exception></token>
+				</pattern>
+				<message>Niet fout, maar <suggestion><match no="1" regexp_match="eigen(.*)" regexp_replace="zelf$1"/></suggestion> is wat formeler.</message>
+				<short>zelfge-</short>
+				<example correction="zelfgemaakte">Het is een <marker>eigengemaakte</marker> taart.</example>
+				<example>Het is een <marker>zelfgemaakte</marker> taart.</example>
+			</rule>
+		</rulegroup>
+		<!--
+		2014-08-22 TaalTik
+		de tekst in het taaladvies is veel complexer dan deze regel aan kan, daarom uitgeschakeld.
+		TODO: betere regels voor kwijt
+		<rule id="nr799" name="kwijt zijn">
+			<pattern>
+				<token>kwijt</token>
+				<token regexp="yes">geweest|is|ben|was|waren|zijn</token>
+			</pattern>
+			<message>Dit is een veel voorkomende fout. Juist is: <suggestion>zoek <match no="2"></match></suggestion>.</message>
+			<url>https://taaladvies.net/taal/advies/vraag/482/</url>
+			<short>zoek</short>
+			<example correction="">Toen mijn auto <marker>kwijt was</marker>.</example>
+			<example>Toen mijn auto <marker>zoek was</marker>.</example>
+		</rule>
+		-->
+		<rulegroup id="ENIGSTE" name="enigste">
+			<!-- 2014-08-22 TaalTik -->
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">enigst|enigste</token>
+					</marker>
+					<token negate="yes">kind</token>
+				</pattern>
+				<message>In schrijftaal kunt u beter <suggestion>enig</suggestion> of <suggestion>enige</suggestion> gebruiken.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/enigst-kind-enig-kind</url>
+				<short>enig(e)</short>
+				<example correction="enig|enige">Het <marker>enigste</marker> wat hij kan doen is dit.</example>
+				<example>Het <marker>enige</marker> wat hij kan doen is dit.</example>
+				<example correction="enig|enige">Hij was de <marker>enigste</marker>.</example>
+				<example correction="Enig|Enige"><marker>Enigste</marker> chance is dat ik Danny heb rondlopen.</example>
+				<example correction="enig|enige">De rijken worden ondertussen rijker en de armen armer, dat is de <marker>enigste</marker> zekerheid.</example>
+				<example correction="enig|enige">Het <marker>enigste</marker> wat de politie had kunnen doen is tegen die kerels zeggen dat ze het moeten aftrappen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ALLES_DAT" name="geen 'alles dat', maar 'alles wat'">
+			<!-- 2014-08-22 TaalTik -->
+			<rule>
+				<antipattern>
+					<!-- regel gaat niet op als dat hier een voegwoord is -->
+					<token>dat</token>
+					<token regexp="yes">het|dit|dat</token>
+				</antipattern>
+				<antipattern>
+					<token>aan</token>
+					<token regexp="yes">alles|n?iets</token>
+					<token>dat</token>
+					<token regexp="yes">het|dit|dat</token>
+				</antipattern>
+
+				<pattern>
+					<token>alles</token>
+					<marker>
+						<token>dat</token>
+					</marker>
+				</pattern>
+				<message>Gebruikelijker is <suggestion>wat</suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/49/</url>
+				<example correction="wat">Alles <marker>dat</marker> hij doet is fout.</example>
+				<example>Wat <marker>wat</marker> hij doet is goed.</example>
+				<example correction="wat">Blij zijn met alles <marker>dat</marker> er wel is.</example>
+				<example correction="wat">Het is onmogelijk om alles <marker>dat</marker> over dezelfde plant gaat telkens weer in diezelfde topic te zetten.</example>
+				<example correction="wat">Eens dit resultaat bekend is weten we alles <marker>dat</marker> benodigd is.</example>
+				<example correction="wat">Film waarbij alles <marker>dat</marker> op papier zwart/gekleurd moet zijn, op de film wit is.</example>
+			</rule>
+		</rulegroup>
+	</category>
+	<category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten" type="style" tags="professional objective">
+		<rulegroup id="NADRUKTEKENS" name= "optionele accenten" tags="picky">
+			<rule>
+				<antipattern>
+					<token negate_pos="yes" postag="SENT_START"/>
+					<token regexp="yes" case_sensitive="yes">^[A-Z].*</token>
+				</antipattern>
+				<antipattern>
+					<token>één</token>
+					<token>een</token>
+				</antipattern>
+				<antipattern>
+					<token regexp="yes">een|maar|nog|slechts|niet|totaal</token>
+					<token>één</token>
+				</antipattern>
+				<antipattern>
+					<token>dé</token>
+					<token postag="ZNW:EKV:DE_"/>
+					<example>Dat is dé manier om even op te frissen.</example>
+				</antipattern>
+				<pattern>
+					<token regexp="yes">.*(áá|áé|áí|áú|éé|éí|éú|íé|íí|óé|óí|óó|óú|úí|úú|((^|[^aeiou])[áéíóú]([^aeiou]|$))).*<exception regexp="yes">hé|á|^één.{3,50}|.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge|Fabergé|touché).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
+				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+				<message>Probeer nadruktekens te vermijden als ze niet nodig zijn.</message>
+				<suggestion><match no="1" regexp_match="é" regexp_replace="e"/></suggestion>
+				<suggestion><match no="1" regexp_match="á" regexp_replace="a"/></suggestion>
+				<suggestion><match no="1" regexp_match="ó" regexp_replace="o"/></suggestion>
+				<suggestion><match no="1" regexp_match="í" regexp_replace="i"/></suggestion>
+				<suggestion><match no="1" regexp_match="ú" regexp_replace="u"/></suggestion>
+				<example correction="een">Hij is <marker>één</marker> van de vreemden.</example>
+				<example>Omdat één een appel is.</example>
+				<example>Ik heb maar één appel over.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="NADRUKTEKENS_EEN" name= "optionele accenten">
+			<rule>
+				<pattern>
+					<token regexp="yes">^één.{3,50}</token>
+				</pattern>
+				<message>Hier zijn nadruktekens onnodig voor de uitspraak.</message>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="^één" regexp_replace="een"/></suggestion>
+				<example correction="eenzaam">Hij is <marker>éénzaam</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken" tags="picky clarity">
+			<rule>
+				<antipattern><token regexp="yes">(paars|rood|geel|grijs|oranje|zwart|wit|blauw|groen)-(paarse?|rood|rode|geel|gele|grijs|grijze|oranje|zwarte?|wit|witte|blauwe?|groene?).*</token></antipattern><!-- afwisseled gekleurd -->
+				<antipattern><token regexp="yes">[a-z]+-en-[a-z+]-(stel(len)?|combinaties?)</token></antipattern>
+				<antipattern><token postag="ENM.*|UNKNOWN" postag_regexp="yes"/></antipattern>
+				<antipattern><token regexp="yes">^[^a]-.+</token></antipattern>
+				<antipattern><token regexp="yes">-.$</token></antipattern>
+				<antipattern><token postag="SENT_START"/><token regexp="yes">(?i)^(&gespeld;)-.*</token></antipattern>
+				<antipattern><token regexp="yes">^(&gespeld;)-.*</token></antipattern>
+				<antipattern><token regexp="yes">.*-(&gespeld;)$</token></antipattern>
+				<antipattern><token regexp="yes">.*-(&gespeld;)-.*</token></antipattern>
+				<antipattern><token regexp="yes">.*(a-[aeiou]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</token></antipattern>
+				<!-- 24-3-2023 Ruud: antipattern weer aangezet, want het uitzetten staat foute woorden toe ; zie woordenlijst.org-->
+				<!-- 24-3-2023 added rekening-courant, moeder-overste, a-b -->
+				<!-- 24-2-2023 remove amateur -->
+				<antipattern><token regexp="yes">a-b|moeder-overste|rekening-courant|zwart-wit|up-to-date|make-up|try-out|pop-up|time-out|all-in|avant-garde</token></antipattern>
+				<antipattern><token regexp="yes">(meester|leerling)-.*</token></antipattern>
+				<pattern>
+					<marker>
+						<token regexp="yes" case_sensitive="yes" >.*[a-z]-[a-z].*</token>
+					</marker>
+				</pattern>
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:true"/>
+				<message>Een koppelteken toevoegen mag als het dan duidelijker is, maar dit woord kan vaak ook zonder. Let wel op de betekenis, daar kan het streepje belangrijk voor zijn.</message>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="[-]" regexp_replace=""/></suggestion>
+				<example correction="muziekindustrie">De <marker>muziek-industrie</marker> is overspannen.</example>
+				<example>De <marker>muziekindustrie</marker> is overspannen.</example>
+				<example>Het <marker>auto-onderdeel</marker> is kapot.</example>
+				<example>Het <marker>sms-bericht</marker> is kapot.</example>
+				<example><marker>Sms-berichten</marker> gaan kapot.</example>
+				<example>De <marker>wc-deksel</marker> is kapot.</example>
+				<example>Het <marker>e-mailadres</marker> klopt.</example>
+				<example>De <marker>back-up</marker> is mislukt.</example>
+			</rule>
+			<rule>
+				<antipattern><token regexp="yes">rood-groene?</token></antipattern>
+				<pattern>
+					<token regexp="yes">(paars|rood|geel|grijs|oranje|blauw|groen)-(paarse?|rood|rode|geel|gele|grijs|grijze|oranje|blauwe?|groene?)<exception postag="UNKNOWN"/></token>
+				</pattern><!-- afwisseled gekleurd -->
+				<filter class="org.languagetool.rules.nl.DutchSuppressMisspelledSuggestionsFilter" args="suppressMatch:false"/>
+				<message>Een koppelteken tussen kleuren is correct als iets afwisselend in kleur is; een mengkleur schrijf je zonder koppelteken.</message>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="[-]" regexp_replace=""/></suggestion>
+				<example correction="oranjegeel">Het huis is <marker>oranje-geel</marker>.</example>
+			</rule>
+		</rulegroup>
+	</category>
 
 </rules>
