@@ -3067,20 +3067,21 @@ USA
 
 
         <!-- QUE EU TENHO A FAZER a fazer -->
-        <rule id='QUE_PRONOMERETO_VERBOTER_A_VERBO_A_VERBO' name="[Simplificar] que + [Pronome Reto] + V.Ter + a + Verbo → a + verbo" type="style">
+        <rule id='QUE_PRONOMERETO_VERBOTER_A_VERBO_A_VERBO' name="[Simplificar] que + [Pronome Reto] + V.Ter + a + Verbo → a + verbo" type="style" tags="picky">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-26 (25-JUL-2022+) -->
             <!--
       Eu disse há uns dias que o melhor que eu tenho a fazer é agarrar no livro e ler. → Eu disse há uns dias que o melhor a fazer é agarrar no livro e ler.
       -->
             <pattern>
-                <token><exception postag_regexp='yes' postag='DA.+|V.+|SPS00|CS'/></token>
+                <token><exception postag_regexp='yes' postag='DA.+|V.+|SPS.+|CS|_PUNCT|P.+'/></token>
                 <marker>
                     <token>que</token>
                     <token min="0" max="1" regexp='yes'>&pronomes_retos;
                         <exception regexp='yes'>vocês?</exception>
                     </token>
                     <token inflected='yes'>ter
-                        <exception regexp='no'>tens</exception>
+                        <exception>tens</exception>
+                        <exception inflected="yes">tender</exception>
                     </token>
                     <token>a</token>
                     <token postag='V.+' postag_regexp='yes'>
