@@ -4002,7 +4002,12 @@ USA
             </pattern>
             <message>Em certos contextos, esta perífrase pode ser simplificada.</message>
             <suggestion><match no='3' postag='VMIP3.+|VMM02S0' postag_regexp="yes" postag_replace='VMG0000'/></suggestion>
-            <example correction="pondo">Há organizações <marker>que põem</marker> em causa a segurança internacional.</example>
+            <suggestion  suppress_misspelled="yes"><match no='3' postag='V....(.).' postag_regexp="yes" postag_replace='VMP00$1F'/></suggestion>
+            <suggestion  suppress_misspelled="yes"><match no='3' postag='V....(.).' postag_regexp="yes" postag_replace='VMP00$1M'/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no='3' regexp_match="(.+)em" regexp_replace='$1ntes'/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no='3' regexp_match="(.+)em" regexp_replace='$1idoras'/></suggestion>
+            <example correction="pondo|postas|postos">Há organizações <marker>que põem</marker> em causa a segurança internacional.</example>
+            <example correction="investindo|investidas|investidos|investidoras">Há organizações <marker>que investem</marker> em causa a segurança internacional.</example>
         </rule>
 
 
