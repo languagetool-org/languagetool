@@ -2666,6 +2666,34 @@ USA
 		</rulegroup>
 	</category>
 	<category id="COLLOQUIALISMS" name="Informeel" type="style" tags="professional clarity">
+		<rulegroup id="AAN_DE_RECYCLE" name="aan de recycle" type="style" tags="clarity">
+			<rule>
+				<pattern>
+					<marker>
+						<token>aan</token>
+						<token>de</token>
+						<token postag="WKW:TGW:1EP" regexp="yes" case_sensitive="yes">[a-z].*<exception postag_regexp="yes" postag="ZNW.*|BNW.*"/><exception regexp="yes">kant|uit|call</exception></token>
+					</marker>
+				</pattern>
+				<message>Dit is spreektaal.</message>
+				<suggestion>\1 het <match no="3" postag_regexp="yes" postag="WKW:TGW:INF.*"/></suggestion>
+				<example correction="aan het recyclen">Ik ben <marker>aan de recycle</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="VOOR_DE_RECYCLE" name="aan de recycle" type="style" tags="clarity">
+			<rule>
+				<pattern>
+					<marker>
+						<token>voor</token>
+						<token>de</token>
+						<token postag="WKW:TGW:1EP"><exception postag_regexp="yes" postag="ZNW.*|BNW.*"/><exception regexp="yes">eigen|minder|tier|wob</exception></token>
+					</marker>
+				</pattern>
+				<message>Dit is spreektaal.</message>
+				<suggestion>om te <match no="3" postag_regexp="yes" postag="WKW:TGW:INF.*"/></suggestion>
+				<example correction="om te recyclen">Het is <marker>voor de recycle</marker>.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="VAN_DE_ZOTTE" name="Van de zotte">
 			<!-- R. Baars, januari 2023 -->
 			<rule>
@@ -15151,6 +15179,17 @@ USA
 				<message>Gebruikelijker is <suggestion>naar</suggestion> of <suggestion>op</suggestion> bed.</message>
 				<example correction="naar|op">De laatsen gingen even over middernacht <marker>te</marker> bed.</example>
 				<example correction="naar|op">Beiden lagen nu doodziek <marker>te</marker> bed en wanneer zij niet genezen, moet de moeder van gebrek omkomen.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="MIJN_FORTE" name="mijn fort is beter" type="style">
+			<rule>
+				<pattern>
+					<token regexp="yes">mijn|zijn|haar|hun|ons</token>
+					<token>forte</token>
+				</pattern>
+				<message>Beter is <suggestion>\1 fort</suggestion>.</message>
+				<url>https://onzetaal.nl/schatkamer/lezen/uitdrukkingen/dat-is-niet-mijn-fort</url>
+				<example correction="hun fort">Grammatica is niet <marker>hun forte</marker>.</example>
 			</rule>
 		</rulegroup>
 	</category>
