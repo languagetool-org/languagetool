@@ -14899,4 +14899,379 @@ USA
 			</rule>
 		</rulegroup>
 	</category>
+	<category id="NOTATIES" name="Notaties" type="style" tags="clarity professional">
+		<rulegroup id="VIERKANTE_METER" name="Vierkante meter met superscript">
+			<rule>
+				<pattern>
+					<token regexp="yes" case_sensitive="yes">(&measurementUnitPrefix;)?m2</token>
+				</pattern>
+				<message>Als u voor de notatie van vierkante meter superscript gebruikt ziet het mooier uit.</message>
+				<suggestion><match no="1" regexp_match="2" regexp_replace="²"/></suggestion>
+				<short>superscript</short>
+				<example correction="m²">Elke kip heeft rond 4 <marker>m2</marker> nodig.</example>
+				<example correction="cm²">Een DIN A4 bladzijde heeft precies 623,7 <marker>cm2</marker>.</example>
+				<example>De amplitude van het dubbeldaags maansgetij M2 varieert met de afstand van de Maan tot de Aarde.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="KUBIEKE_METER" name="Kubieke meter met superscript">
+			<rule>
+				<pattern>
+					<token regexp="yes" case_sensitive="yes">(&measurementUnitPrefix;)?m3</token>
+				</pattern>
+				<message>Als u voor de notatie van kubieke meter superscript gebruikt ziet het mooier uit.</message>
+				<suggestion><match no="1" regexp_match="3" regexp_replace="³"/></suggestion>
+				<short>superscript</short>
+				<example correction="m³">Elke vlinder heeft rond 4 <marker>m3</marker> nodig.</example>
+				<example correction="cm³">Deze doos bevat precies 800 <marker>cm3</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="EURO_TEKEN" name="€ teken → €-teken">
+			<rule>
+				<pattern>
+					<token regexp="yes">€[a-z]{4}.*</token>
+				</pattern>
+				<message>Gebruik een koppelteken na een symbool in een samengesteld woord. Gebruik het euroteken ook niet als letter.</message>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="(€)(.*)" regexp_replace="$1-$2"/></suggestion>
+				<suggestion suppress_misspelled="yes"><match no="1" regexp_match="€" regexp_replace="E"/></suggestion>
+				<short>spatie na EUR (EUR_004)</short>
+				<example correction="€-teken">Hij gaf mij een <marker>€teken</marker>.</example>
+				<example correction="Euromuntje">Hij gaf mij een <marker>€uromuntje</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="EURO" name="Correcties rond euro">
+			<!-- 2014-08-21 TaalTik -->
+			<rule>
+				<pattern>
+					<token>EUR</token>
+					<token regexp="yes">[0-9]{1,10}</token>
+				</pattern>
+				<message>Gebruik <suggestion>€ <match no="2"/></suggestion> of <suggestion><match no="2"/> euro</suggestion>, behalve in formele teksten over geld.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/eur</url>
+				<example correction="€ 5|5 euro">Hij gaf mij <marker>EUR 5</marker>.</example>
+				<example>Hij gaf mij <marker>€ 5</marker>.</example>
+				<example correction="€ 2|2 euro">De prijs is <marker>EUR 2</marker>,55 voor 3 stuks.</example>
+				<example correction="€ 26|26 euro">Het aandeel klom 0,6% tot <marker>EUR 26</marker>.</example>
+				<example correction="€ 19|19 euro">Diner kost <marker>EUR 19</marker>,00 per persoon per nacht.</example>
+				<example correction="€ 46|46 euro">De bedrijfswinst in Belgie daalde 9,7% tot <marker>EUR 46</marker>,2 miljoen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">€[0-9]{1,10}</token>
+				</pattern>
+				<message>Er hoort een spatie na de €: <suggestion><match no="1" regexp_match="([€])([0-9]{1,10})" regexp_replace="$1 $2"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/tekst/114/wel_of_geen_spaties_voor_en_na_leestekens_en_symbolen_algemeen/#6</url>
+				<example correction="€ 10">Hij gaf mij <marker>€10</marker>.</example>
+				<example correction="€ 5">Per module betaal je <marker>€5</marker>.</example>
+				<example correction="€ 4">Verzending Kiala <marker>€4</marker>,5,-.</example>
+				<example correction="€ 1">Verkrijgbaar voor <marker>€1</marker>.99.</example>
+				<example correction="€ 1400">Nieuwprijs was <marker>€1400</marker>.</example>
+				<example correction="€ 14">Prijs per titel: <marker>€14</marker>,95.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">EUR[0-9]{1,10}</token>
+				</pattern>
+				<message>Gebruik een spatie na EUR: <suggestion><match no="1" regexp_match="(EUR)([0-9]{1,10})" regexp_replace="$1 $2"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1178/euro_valutateken_voor_of_achter_het_bedrag/</url>
+				<example correction="EUR 10">Hij gaf mij <marker>EUR10</marker>.</example>
+				<example>Hij gaf mij <marker>€ 5</marker>.</example>
+				<example correction="EUR 83">Het aandeel sloot woensdag op <marker>EUR83</marker>,80.</example>
+				<example correction="EUR 1">De omzet steeg naar <marker>EUR1</marker>,134 miljard.</example>
+				<example correction="EUR 3">De nettowinst steeg naar <marker>EUR3</marker>,08 miljard.</example>
+			</rule>
+			<rule>
+				<!-- 2014-08-19 TaalTik: regel werkt goed; url toegevoegd -->
+				<pattern>
+					<token regexp="yes">[0-9]{1,10}EUR</token>
+				</pattern>
+				<message>Gebruik € voor het bedrag <suggestion><match no="1" regexp_match="([0-9]{1,10})EUR" regexp_replace="€ $1"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1179/euro_eur_euroteken/</url>
+				<example correction="€ 10">Hij gaf mij <marker>10EUR</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="OR_EENH_GETAL" name="Tussen eenheid en getal een spatie">
+			<rule>
+				<antipattern><token regexp="yes">[0-9]+</token><token>.</token></antipattern>
+				<antipattern><token regexp="yes" case_sensitive="yes">:|nummer|[A-Z].*</token><token regexp="yes" case_sensitive="yes">[0-9]+[A-Z]</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="SENT_START|START"/><token regexp="yes">[0-9]{1,3}[AB]</token></antipattern>
+				<antipattern>
+					<!-- too many false positives for XX A and B -->
+					<token regexp="yes">[0-9]{1,2}[AB]</token>
+					<example>Ze zit momenteel in groep 1A.</example>
+					<example>Je moet wachten bij spoorlijn 22B.</example>
+				</antipattern>
+				<pattern case_sensitive="yes">
+					<token regexp="yes">(([-]|[+]){0,1}[1-9]{0,1}[0-9]{1,10})(mA|V|kV|mm|cm|km|MB|GB|TB|°C|°F)</token>
+				</pattern>
+				<message>Als dit een aantal met eenheid is, dan hoort er een spatie in: <suggestion><match no="1" regexp_match="([0-9])([^0-9])" regexp_replace="$1 $2"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/tekst/114/wel_of_geen_spaties_voor_en_na_leestekens_en_symbolen_algemeen/</url>
+				<short>spatie mist</short>
+				<example correction="21 MB"><marker>21MB</marker></example>
+				<example correction="40 km">Ook op <marker>40km</marker>.</example>
+				<example correction="5 km">Rust na 5,<marker>5km</marker>.</example>
+				<example correction="30 °C">Wassen op <marker>30°C</marker>.</example>
+				<example correction="95 cm">Diepte is <marker>95cm</marker>.</example>
+				<example correction="62 cm">Zij wordt <marker>62cm</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="GRADEN_KELVIN" name="Kelvin hoort zonder gradenteken" tags="objective academic">
+			<!-- TaalTik 2014-08-18 -->
+			<rule>
+				<pattern>
+					<token case_sensitive="yes" regexp="yes">[0-9]+°K</token>
+				</pattern>
+				<message>Bij een temperatuur in Kelvin wordt geen ° gebruikt, wel een spatie.</message>
+				<suggestion><match no="1" regexp_match="°" regexp_replace=" "/></suggestion>
+				<url>https://taaladvies.net/taal/advies/tekst/20/symbolen_voor_grootheden_en_eenheden_algemeen/</url>
+				<short>geen ° bij Kelvin</short>
+				<example correction="21 K"><marker>21°K</marker></example>
+				<example correction="5600 K">Buislampen in 3200°, 4000° of <marker>5600°K</marker> en kan alle vormen van het decor aannemen.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token case_sensitive="yes" regexp="yes">[0-9]+°c</token>
+				</pattern>
+				<message>Bij een temperatuur hoort een spatie voor de eenheid, gevolgd door het symbool en een hoofdletter.</message>
+				<suggestion><match no="1" regexp_match="°c" regexp_replace=" °C"/></suggestion>
+				<url>https://taaladvies.net/taal/advies/tekst/20/symbolen_voor_grootheden_en_eenheden_algemeen/</url>
+				<short>Celsius</short>
+				<example correction="21 °C">De temperatuur is <marker>21°c</marker>.</example>
+			</rule>
+			<rule>
+				<!-- TaalTik 2014-08-18: -->
+				<pattern>
+					<token regexp="yes">.*[0-9]°</token>
+					<token spacebefore="yes">K</token>
+				</pattern>
+				<message>Bij een temperatuur in Kelvin wordt geen ° gebruikt.</message>
+				<url>https://taaladvies.net/taal/advies/tekst/20/symbolen_voor_grootheden_en_eenheden_algemeen/</url>
+				<short>geen ° bij Kelvin</short>
+				<example correction=""><marker>21° K</marker></example>
+				<example><marker>21 K</marker></example>
+				<example correction="">Onze leds zijn van topkwaliteit met de warme kleur van <marker>2700° K</marker>.</example>
+				<example correction="">Op deze wijze zou de temperatuur van Mercurius van de orde van <marker>500° K</marker> zijn.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="POSTCODE" name="In Nederlandse postcode hoort een spatie">
+			<!-- 2014-08-22 TaalTik -->
+			<rule>
+				<antipattern case_sensitive="yes"><token regexp="yes">[0-9]{4}[MKT]B</token></antipattern>
+				<pattern>
+					<marker>
+						<token skip="2" case_sensitive="yes" regexp="yes">[0-9]{4}[A-Z]{2}</token>
+					</marker>
+					<token postag="ENM:LOC:PTS"></token>
+				</pattern>
+				<message>Als dit een Nederlandse postcode is, dan hoort deze met spatie <suggestion><match no="1" regexp_match="([0-9])([A-Z])" regexp_replace="$1 $2"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/24/adressering_aan_bedrijven_en_instellingen/</url>
+				<short>Postcode heeft spatie</short>
+				<example correction="1234 AB"><marker>1234AB</marker>, Leiden</example>
+				<example correction="1100 PV">Onze postcode is <marker>1100PV</marker> te Amsterdam.</example>
+				<example>De Supra vindt zijn oorsprong in de Toyota 2000GT.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="TIJD" name="tijdnotaties" tags="objective academic">
+			<!-- 2014-08-22 TaalTik -->
+			<rule>
+				<pattern>
+					<token regexp="yes">[0-9]{1,2}u\d\d</token>
+				</pattern>
+				<message>De voorkeur voor notatie van tijd is <suggestion><match no="1" regexp_match="u" regexp_replace="\."/> uur</suggestion> of <suggestion><match no="1" regexp_match="u" regexp_replace="\."/> u.</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/tijden-noteren</url>
+				<short>Tijdnotatie verkeerd</short>
+				<example correction="8.30 uur|8.30 u.">Hij komt <marker>8u30</marker>.</example>
+				<example>Hij komt <marker>8.30</marker> uur.</example>
+				<example correction="14.00 uur|14.00 u.">Vertrek om <marker>14u00</marker>.</example>
+				<example correction="21.30 uur|21.30 u.">Vanavond om <marker>21u30</marker>.</example>
+			</rule>
+			<rule>
+				<!-- 2014-08-23 TaalTik -->
+				<pattern>
+					<token regexp="yes">[0-9]{1,2}u</token>
+					<token spacebefore="no">.</token>
+					<token regexp="yes">\d\d</token>
+				</pattern>
+				<message>De voorkeur voor notatie van tijd is <suggestion><match no="1" regexp_match="u" regexp_replace=""/>.30 uur</suggestion> of <suggestion><match no="1" regexp_match="u" regexp_replace=""/>.30 u.</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/advies/tijden-noteren</url>
+				<short>Tijdnotatie verkeerd</short>
+				<example correction="8.30 uur|8.30 u.">Hij komt <marker>8u.30</marker>.</example>
+				<example>Hij komt <marker>8.30</marker> uur.</example>
+				<example correction="5.30 uur|5.30 u.">Ik klop af op <marker>5u.15</marker> u.</example>
+				<example correction="1.30 uur|1.30 u.">De dagen korten <marker>1u.52</marker>.</example>
+				<example correction="8.30 uur|8.30 u.">Tot <marker>8u.15</marker> is de school gesloten.</example>
+				<example correction="15.30 uur|15.30 u.">Dinsdag om <marker>15u.30</marker> zijn ze verwacht.</example>
+			</rule>
+			<rule> <!-- later: tags="!academic" -->
+				<!--
+				2014-08-22 TaalTik -->
+				<pattern>
+					<token regexp="yes">[0-9]{1,2}h[0-9]{2}</token>
+				</pattern>
+				<message>De 'h' wordt alleen in wetenschappelijk/technische stukken gebruikt en dan als <suggestion><match no="1" regexp_match="h" regexp_replace=" h "/> min ## s</suggestion> (ISO-norm).</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1278/</url>
+				<short>Tijdnotatie verkeerd</short>
+				<example correction="8 h 30 min ## s">Hij komt <marker>8h30</marker>.</example>
+				<example>Hij komt <marker>8.30</marker> uur.</example>
+				<example correction="8 h 30 min ## s">Vertrek om <marker>8h30</marker>.</example>
+				<example correction="11 h 29 min ## s">Om <marker>11h29</marker> zijn we daar.</example>
+				<example correction="7 h 15 min ## s">Om <marker>7h15</marker> gaan we op stap.</example>
+				<example correction="7 h 20 min ## s">Om <marker>7h20</marker> gaan we op stap.</example>
+				<example correction="9 h 00 min ## s">Om <marker>9h00</marker> gaan we op stap.</example>
+				<example correction="19 h 30 min ## s">Om <marker>19h30</marker> stappen we op.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="_4_CIJFERS" name="geen punt in getal met 4 cijfers" tags="picky">
+			<rule>
+				<antipattern><token regexp="yes">[+-/*]</token><token regexp="yes">[1-9]</token><token spacebefore="no">.</token><token regexp="yes" spacebefore="no">[0-9]{3}</token></antipattern>
+				<antipattern><token regexp="yes">[1-9]</token><token spacebefore="no">.</token><token regexp="yes" spacebefore="no">[0-9]{3}</token><token regexp="yes">[+-/*]</token></antipattern>
+				<pattern>
+					<marker>
+						<token regexp="yes">[1-9]</token>
+						<token regexp="yes" spacebefore="no">[.]</token>
+						<token regexp="yes" spacebefore="no">[0-9]{3}</token>
+					</marker>
+					<token spacebefore="yes"/>
+				</pattern>
+				<message>Gebruik geen punt bij getallen met 4 cijfers (<suggestion>\1\3</suggestion>), behalve in een berekening.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1/10000000_10_000_000/</url>
+				<short>Geen punt</short>
+				<example correction="1234">Getallen als <marker>1.234</marker> schrijf je zonder punt.</example>
+			</rule>
+		</rulegroup>
+	</category>
+	<category id="STREEKTAAL" name="Streektaal" type="style" tags="clarity">
+		<rulegroup id="TE_BED" name="te bed">
+			<rule>
+				<pattern>
+					<marker>
+						<token>te</token>
+					</marker>
+					<token>bed</token>
+				</pattern>
+				<message>Gebruikelijker is <suggestion>naar</suggestion> of <suggestion>op</suggestion> bed.</message>
+				<example correction="naar|op">De laatsen gingen even over middernacht <marker>te</marker> bed.</example>
+				<example correction="naar|op">Beiden lagen nu doodziek <marker>te</marker> bed en wanneer zij niet genezen, moet de moeder van gebrek omkomen.</example>
+			</rule>
+		</rulegroup>
+	</category>
+	<category id="VOLUIT_SCHRIJVEN" name="Voluit schrijven" type="style" tags="professional clarity">
+		<rulegroup id="M" name="'m">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">'|‘</token>
+						<token>m</token>
+					</marker>
+					<token negate="yes" regexp="yes">'|‘</token>
+				</pattern>
+				<message>Voluit schrijven is wat formeler en leesbaarder, dus <suggestion>hem</suggestion>.</message>
+				<short>Niet verkorten</short>
+				<example correction="hem">Ziet <marker>'m</marker> gaan.</example>
+				<example correction="hem">En je zet <marker>'m</marker> nog een keer op.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="D_R" name="d'r">
+			<rule>
+				<pattern>
+					<token regexp="yes">d('|‘)r</token>
+				</pattern>
+				<message>Voluit schrijven is wat formeler en leesbaarder, dus <suggestion>er</suggestion>, <suggestion>daar</suggestion> of <suggestion>haar</suggestion>.</message>
+				<short>Niet verkorten</short>
+				<example correction="er|daar|haar">Honden trekken <marker>d'r</marker> zich niks van aan.</example>
+				<example correction="er|daar|haar">De laatste loodjes voor kerstmis, we staan <marker>d'r</marker> goed op dit jaar.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="N" name="'n">
+			<rule>
+				<pattern>
+					<marker>
+						<token spacebefore="yes" regexp="yes">'|‘</token>
+						<token spacebefore="no" case_sensitive="yes">n</token>
+					</marker>
+					<token negate="yes" spacebefore="yes" regexp="yes">'|‘</token>
+				</pattern>
+				<message>Voluit schrijven is wat formeler en leesbaarder, dus <suggestion>een</suggestion>.</message>
+				<short>Niet verkorten</short>
+				<example correction="een">Om <marker>'n</marker> meisje.</example>
+				<example correction="een">Dat is zo <marker>'n</marker> beetje zijn redenering.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="T2" name="'t">
+			<rule>
+				<!-- 2014-08-21 TaalTik -->
+				<pattern>
+					<marker>
+						<token spacebefore="yes" regexp="yes">'|‘</token>
+						<token spacebefore="no" case_sensitive="yes">t</token>
+					</marker>
+					<token negate="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+				</pattern>
+				<message>Voluit schrijven is wat formeler en leesbaarder, dus <suggestion>het</suggestion>.</message>
+				<short>Niet verkorten</short>
+				<example correction="het">En zo is <marker>'t</marker>.</example>
+				<example correction="het">Zucht, <marker>'t</marker> was fijn.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ZN" name="z'n">
+			<rule>
+				<!-- 2014-08-21 TaalTik -->
+				<pattern>
+					<token regexp="yes">z('|‘)n</token>
+				</pattern>
+				<message>Net iets netter in schrijftaal is: <suggestion>zijn</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/jan-zn-fiets-jan-zijn-fiets-jans-fiets</url>
+				<example correction="zijn">Op <marker>z'n</marker> Frans dus.</example>
+				<example correction="zijn">Een rare man, met <marker>z'n</marker> schimmel!</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="TM" name="t/m">
+			<rule>
+				<!-- 2014-08-21 TaalTik -->
+				<pattern>
+					<token>t</token>
+					<token>/</token>
+					<token>m</token>
+				</pattern>
+				<message>Gebruik liever <suggestion>tot en met</suggestion>.</message>
+				<example correction="tot en met">En daarbovenop is het verblijf gratis voor kinderen <marker>t/m</marker> 11 jaar!</example>
+				<example correction="tot en met">Kinderen <marker>t/m</marker> 16 jaar hebben gratis toegang.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="V_H" name="v/h">
+			<rule>
+				<!-- 2014-08-23 TaalTik -->
+				<pattern>
+					<token>v</token>
+					<token>/</token>
+					<token>h</token>
+				</pattern>
+				<message>Gebruik liever <suggestion>van het</suggestion> of <suggestion>voorheen</suggestion>.</message>
+				<example correction="van het|voorheen">Een <marker>v/h</marker> stel.</example>
+				<example correction="van het|voorheen">Bij trachten <marker>v/h</marker> openen v/d achterklep, bij het duwen op de knop, hoor je het bekende geluid om de klep te openen, maar zit dan nog muurvast.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="V_D" name="v/d">
+			<rule>
+				<pattern>
+					<token>v</token>
+					<token>/</token>
+					<token>d</token>
+				</pattern>
+				<message>Gebruik liever <suggestion>van de</suggestion>.</message>
+				<example correction="van de">De groeve is verlaten ter bescherming <marker>v/d</marker> tempels.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="P_A" name="p/a">
+			<rule>
+				<!-- 2014-08-23 TaalTik -->
+				<pattern case_sensitive="yes">
+					<token>p</token>
+					<token>/</token>
+					<token>a</token>
+				</pattern>
+				<message>Gebruik liever <suggestion>per adres</suggestion>.</message>
+				<example correction="per adres">Jansen, <marker>p/a</marker> kantoor.</example>
+			</rule>
+		</rulegroup>
+	</category>
 </rules>
