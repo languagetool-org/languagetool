@@ -99,6 +99,32 @@ USA
 
 <rules lang="en-US" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <category id="PUNCTUATION" name="Punctuation" type="typographical">
+        <rule id="QUOTATION_MARKS_COMMA" name="rearranges final comma in reported speech" default="temp_off">
+        <!-- TODO: should be part of larger rule group for punctuating reported speech -->
+            <antipattern>
+                <token regexp="yes">\?|!</token>
+                <token postag="''"/>
+                <token postag=","/>
+            <example>Asked to explain the meaning of "Ut!", he stated</example>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="''"/>
+                    <token postag=","/>
+                </marker>
+                <token min="1" chunk_re=".-NP-.*"/>
+                <and>
+                    <token inflected="yes" regexp="yes">say|tell|add|admit|advise|agree|announce|answer|ask|claim|comment|complain|confess|confirm|continue|cry|demand|enquire|explain|hint|inform|insist|interrupt|maintain|note|observe|offer|order|point out|promise|protest|repeat|reply|shout|state|suggest|threaten|warn|wonder|question|yell|whisper|share|exclaim|ramble|chime|bemoan|scold</token>
+                    <token chunk_re="B-VP"/>
+                </and>
+            </pattern>
+            <message>When punctuating reported speech in US English, the comma is usually placed before the closing quotation mark.</message>
+            <suggestion>,"</suggestion>
+            <example correction=',"'>"I'd like to explore this with you<marker>",</marker> Fergus replied.</example>
+        </rule>
+    </category>
     <!-- ====================================================================== -->
     <!-- Possible typos -->
     <!-- ====================================================================== -->
