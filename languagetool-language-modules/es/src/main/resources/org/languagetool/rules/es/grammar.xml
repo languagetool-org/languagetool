@@ -12519,12 +12519,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token skip="-1">si</token>
-                <token regexp="yes">sí|no<exception scope="previous">que</exception></token>
-                <example>Si está en otra posición, sí, lógicamente.</example>
-                <example>Si está en otra posición, no, por supuesto.</example>
-            </antipattern>
-            <antipattern>
-                <token skip="-1">si</token>
                 <token>.</token>
                 <token>.</token>
                 <token>.</token>
@@ -12541,6 +12535,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Si le digo:</example>
             </antipattern>
             <rule>
+                <antipattern>
+                    <token skip="-1">si</token>
+                    <token>,</token>
+                    <token regexp="yes">sí|no<exception scope="previous">que</exception></token>
+                    <example>Si está en otra posición, sí, lógicamente.</example>
+                    <example>Si está en otra posición, no, por supuesto.</example>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -12791,6 +12792,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>sí</suggestion>
                 <example correction="Sí">«<marker>Si</marker>», le dijimos.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>o</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">No lo hizo bien, ¿o <marker>si</marker>?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SI_AFIRMACION2" name="si -> sí (afirmación)">
             <url>https://languagetool.org/insights/es/publicacion/acentuacion-si/</url>
@@ -12826,6 +12839,223 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pero si de repente un día quieres llamarme papá, hazlo.</example>
                 <example>Pero si explicas que alguien ha muerto, te lo entregan de inmediato.</example>
                 <example>¡Pero si fueron ellos los que se independizaron!</example>
+            </rule>
+            <rule>
+                <!-- similar to rule SI_AFIRMACION[5], but without the APs for the rulegroup -->
+                <pattern>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token min="0" regexp="yes">[,;]</token>
+                    <token>pero</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">Pues <marker>si</marker>, pero le gusta mucho.</example>
+                <example correction="Sí"><marker>Si</marker> pero...</example>
+                <example correction="Sí"><marker>Si</marker>, pero no lo puse en el anuncio, porque, ya sabes, sólo vienen indeseables a tocar la puerta.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token>!</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">¡Pues <marker>si</marker>!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">\p{P}</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">¿Ah, <marker>si</marker>?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>eso</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">Ayudado, eso <marker>si</marker>, por varios amigos.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="[DP]D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">Pero este <marker>si</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="PD.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="V...3.."/>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">Aquello <marker>si</marker> era felicidad.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- can it be conditional? -->
+                <antipattern>
+                    <token>si</token>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no"/>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token>como</token>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde. Correcto sin tilde si es un condicional.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">Pasó esto, <marker>si</marker>, ¿y ahora qué hacemos?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token>,</token>
+                    <token>que</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">Que <marker>si</marker>, que no está bien.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="_QM_OPEN"/>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token postag="_QM_CLOSE"/>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="Sí">«<marker>Si</marker>», le dijimos.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- similar to rule SI_AFIRMACION[3], but without the APs for the rulegroup -->
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token>por</token>
+                    <token regexp="yes">otra|otro</token>
+                    <token regexp="yes">parte|lado</token>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token>por</token>
+                    <token>después</token>
+                    <token>de</token>
+                    <token>todo</token>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token regexp="yes">en|sin</token>
+                    <token regexp="yes">cambio|embargo</token>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>si<exception postag="_GN_MS"/></token>
+                    </marker>
+                    <token skip="-1">,</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes" skip="-1"/>
+                    <token skip="-1">,</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="_GN_*" postag_regexp="yes"/></token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" regexp="yes">\p{P}</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token>,</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="Sí"><marker>Si</marker>, me gusta mucho.</example>
+                <example correction="Sí">¡<marker>Si</marker>, me gusta mucho!</example>
+                <example>Si, por la razón que fuera, no puedo venir, te llamaré.</example>
+                <example>Si, en cambio, se trata de un nombre propio, cada una de las palabras que forma la sigla se escribe con mayúscula inicial.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- similar to rule SI_AFIRMACION[4], but without the APs for the rulegroup -->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" max="3" regexp="yes">\p{P}</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token regexp="yes">[\.;:!\?]</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde.</message>
+                <suggestion>sí</suggestion>
+                <example correction="Sí"><marker>Si</marker>!</example>
+                <example correction="Sí">¡<marker>Si</marker>!</example>
+                <example correction="Sí"><marker>Si</marker>: me gusta mucho.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- similar to rule SI_AFIRMACION[11], but without the APs for the rulegroup -->
+                <antipattern>
+                    <token>si</token>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no"/>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token>como</token>
+                </antipattern>
+                <antipattern>
+                    <token>si</token>
+                    <token>,</token>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Como adverbio de afirmación, se escribe con tilde. Correcto sin tilde si es un condicional.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">Pasó esto, <marker>si</marker>, ¿y ahora qué hacemos?</example>
             </rule>
             <rule default="off">
                 <!-- ambiguous
