@@ -316,7 +316,7 @@ abstract class TextChecker {
     List<String> dictWords = limits.getPremiumUid() != null ?
       getUserDictWords(limits, dictGroups) : Collections.emptyList();
 
-    boolean filterDictionaryMatches = "true".equals(params.get("filterDictionaryMatches"));
+    boolean filterDictionaryMatches = "true".equals(params.getOrDefault("filterDictionaryMatches", "true"));
 
     Long textSessionId = null;
     try {
