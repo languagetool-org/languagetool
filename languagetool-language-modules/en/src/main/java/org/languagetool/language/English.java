@@ -647,9 +647,6 @@ public class English extends Language implements AutoCloseable {
       if (id.startsWith("AI_HYDRA_LEO_CP")) {
         return 2;
       }
-      if (id.startsWith("AI_HYDRA_LEO_SCY_IT_S")) {
-        return 3;
-      }
       if (id.startsWith("AI_HYDRA_LEO_MISSING_A")) {
         return -8; // higher prio than BEEN_PART_AGREEMENT and HAVE_BEEN_AGREEMENT
       }
