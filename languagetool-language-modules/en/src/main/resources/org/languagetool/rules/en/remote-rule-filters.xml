@@ -1619,6 +1619,28 @@ To ignore a remote rule match, set the <marker> so that it exactly covers the te
         </rulegroup>
         <rulegroup id="AI_HYDRA_LEO_MISSING_COMMA" name="">
             <rule>
+                <antipattern>   <!-- all "but"s except if followed by verb chunk -->
+                    <token skip="-1">but</token>
+                    <token chunk="B-VP" />
+                </antipattern>
+                <antipattern>   <!-- all "but"s except if followed by "not" -->
+                    <token skip="-1">but</token>
+                    <token inflected="yes">not</token>
+                    <example>He needs the box that he's in but not right now.</example>
+                </antipattern>
+                <pattern>
+                    <!-- slightly redundant, but apparently you need a token before the marker for generic pattern to match -->
+                    <token postag="IN|(J|N|RB).*|RP|TO|VB[GN]" postag_regexp="yes" />
+                    <marker>
+                        <token>but</token>
+                    </marker>
+                </pattern>
+                <suggestion>, but</suggestion>
+                <example correction=", but">It's boring<marker> but</marker> less prone to bad surprises.</example>
+                <example correction=", but">The toilet paper is soft<marker> but</marker> strong.</example>
+                <example>John loves pizza but he loves ice-cream too.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <token inflected="yes" chunk_re=".-VP">help</token>
                     <token postag="NNP|PRP_O.*" postag_regexp="yes" />
