@@ -10893,33 +10893,29 @@ regexp case-insensitive maken: (?i)
             <!-- 2014-10-12 TaalTik nieuw -->
             <rule>
                 <pattern>
-                    <marker>
-                        <token skip="6" inflected="yes">refereren</token>
-                    </marker>
+                    <token skip="6" inflected="yes">refereren</token>
                     <token>naar</token>
                 </pattern>
-                <message>U bedoelt vast <suggestion><match no="1" postag="WKW.*">verwijzen</match></suggestion>.</message>
-                <url>https://taal.vrt.be/refereren-0</url>
-                <example correction="verwijs">Zoals altijd <marker>refereer</marker> ik naar de beesten.</example>
-                <example correction="verwees">Wat betreft de blijdschap <marker>refereerde</marker> ik naar de jongen.</example>
-                <example correction="verwijzen">De brillenglazen <marker>refereren</marker> naar informatieontvangers.</example>
-                <example correction="verwijzend">Vermogenseenheid <marker>refererend</marker> naar het vermogen van 1mW.</example>
-                <example correction="verwijst">Een woord dat <marker>refereert</marker> naar gevoelens van leegte en gemis.</example>
+                <message>Beter is: <suggestion><match no="1" postag="WKW.*">verwijzen</match></suggestion> naar of \1 <suggestion><match no="2" regexp_match="naar" regexp_replace="aan"/></suggestion>.</message>
+                <url>https://www.vlaanderen.be/taaladvies/taaladviezen/refereren-aan-refereren-naar</url>
+                <example correction="verwijs|aan">Zoals altijd <marker>refereer ik naar</marker> de beesten.</example>
+                <example correction="verwees|aan">Wat betreft de blijdschap <marker>refereerde ik naar</marker> de jongen.</example>
+                <example correction="verwijzen|aan">De brillenglazen <marker>refereren naar</marker> informatieontvangers.</example>
+                <example correction="verwijzend|aan">Vermogenseenheid <marker>refererend naar</marker> het vermogen van 1mW.</example>
+                <example correction="verwijst|aan">Een woord dat <marker>refereert naar</marker> gevoelens van leegte en gemis.</example>
             </rule>
             <rule>
                 <pattern>
                     <token skip="6">naar</token>
-                    <marker>
-                        <token inflected="yes">refereren</token>
-                    </marker>
+                    <token inflected="yes">refereren</token>
                 </pattern>
-                <message>U bedoelt vast <suggestion><match no="2" postag="WKW.*">verwijzen</match></suggestion>.</message>
-                <example correction="verwijst">Als hij naar de oude zaak <marker>refereert</marker>, gaat het mis.</example>
-                <example>Als hij naar de oude zaak <marker>verwijst</marker>, komt het goed.</example>
-                <example correction="verwijzen">Stukjes ongerept groen die vaagweg naar de omgeving van Waterloo <marker>refereren</marker> ook.</example>
-                <example correction="verwezen">Er zal daarom niet naar dit werk <marker>gerefereerd</marker> worden.</example>
-                <example correction="verwijst">Het oude project waar hij naar <marker>refereert</marker> is de aanleg van de fortengordel.</example>
-                <example correction="verwijst">Die landen waar jij naar <marker>refereert</marker> zijn tenonder gegaan aan personencultus.</example>
+                <message>Beter is: <suggestion><match no="1" regexp_match="naar" regexp_replace="aan"/></suggestion> \2 of naar <suggestion><match no="2" postag="WKW.*">verwijzen</match></suggestion>.</message>
+                <url>https://www.vlaanderen.be/taaladvies/taaladviezen/refereren-aan-refereren-naar</url>
+                <example>Als hij <marker>naar de oude zaak verwijst</marker>, komt het goed.</example>
+                <example correction="aan|verwijzen">Stukjes ongerept groen die vaagweg <marker>naar de omgeving van Waterloo refereren</marker> ook.</example>
+                <example correction="aan|verwezen">Er zal daarom niet <marker>naar dit werk gerefereerd</marker> worden.</example>
+                <example correction="aan|verwijst">Het oude project waar hij <marker>naar refereert</marker> is de aanleg van de fortengordel.</example>
+                <example correction="aan|verwijst">Die landen waar jij <marker>naar refereert</marker> zijn tenonder gegaan aan personencultus.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MANKEREN" name="Mankeren">
