@@ -13609,6 +13609,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <token postag='SPS00:PP.+' postag_regexp='yes'/>
         <example>Era responsável pelo ensino duma delas.</example>
       </antipattern>
+      <antipattern>
+          <token postag="D.+" postag_regexp="yes"/>
+          <token postag="SPS00:D.+" postag_regexp="yes"/>
+          <example>O no leito em questão é nosso.</example>
+          <example>Tem dois, um na África e um na Europa.</example>
+      </antipattern>
+        <antipattern>
+            <token postag="SPS00:P.+" postag_regexp="yes"/>
+            <token postag="SPS00:D.+|D.+" postag_regexp="yes"/>
+            <example>Reparei nisso na hora.</example>
+        </antipattern>
+        <antipattern>
+            <token postag="D[DPI].+|SPS.+" postag_regexp="yes"/>
+            <token>a</token>
+            <example>Tem uma a cada seis meses.</example>
+            <example>Vou numa a cada seis meses.</example>
+        </antipattern>
+        <antipattern>
+            <token postag="N.+" postag_regexp="yes"/>
+            <token regexp="yes">alguma?|nenhuma?</token>
+            <token postag="D.+" postag_regexp="yes"/>
+            <example>Sob hipótese alguma o meu filho irá.</example>
+        </antipattern>
       <!-- MARCOAGPINTO 2023-01-24 (Checked/Enhanced) (25-JUL-2022+) *END* -->
 
       <antipattern>
@@ -13696,7 +13719,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <example>Na nossa vida sempre aparecem desafios; alguns os chamam de problemas, outros de oportunidades de crescimento.</example>
         </antipattern>
         <!-- MARCOAGPINTO 2022-10-01 (Checked/Enhanced) (25-JUL-2022+) *END* -->
-
+          <antipattern>
+              <token regexp="yes">[nd][ao]s?</token>
+              <token regexp='yes'>uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao]s?|alguma?s?|alguns</token>
+          </antipattern>
         <pattern>
           <token>
             <exception regexp='yes'>&hifen;</exception></token>
@@ -13723,6 +13749,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Chocou uma na outra.</example>
         <example>Dizem que acabou apenas uma das obras a tempo.</example>
       </rule>
+        <rule>
+            <pattern>
+                <token negate='yes' regexp='yes'>&hifen;</token>
+                <marker>
+                    <token>da</token>
+                    <token regexp='yes'>uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao]s?|alguma?s?|alguns</token>
+                </marker>
+            </pattern>
+            <message>Possível fragmento.</message>
+            <suggestion>dá \3</suggestion>
+            <suggestion>d\3</suggestion>
+            <suggestion>\2</suggestion>
+            <suggestion>\3</suggestion>
+            <suggestion>\2, \3</suggestion>
+            <example correction='dá aquela|daquela|da|aquela|da, aquela'>Foi o que fiz <marker>da aquela</marker> vez.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token negate='yes' regexp='yes'>&hifen;</token>
+                <marker>
+                    <token regexp='yes'>n[ao]s?|dos?</token>
+                    <token regexp='yes'>uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao]s?|alguma?s?|alguns</token>
+                </marker>
+            </pattern>
+            <message>Possível fragmento.</message>
+            <suggestion><match no="2" regexp_match="(n|d)([ao]s?)" regexp_replace="$1"/>\3</suggestion>
+            <suggestion>\2</suggestion>
+            <suggestion>\3</suggestion>
+            <suggestion>\2, \3</suggestion>
+            <example correction='naquela|na|aquela|na, aquela'>Foi o que fiz <marker>na aquela</marker> hora.</example>
+        </rule>
       <rule>
         <antipattern>
           <token regexp='yes'>[nd][oa]s?|numa?|nuns</token>
@@ -13749,7 +13806,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token postag='NP.+|AQ.+|NC.+' postag_regexp='yes'/>
         </antipattern>
         <!-- MARCOAGPINTO 2022-05-31 (Checked/Enhanced) (24-MAY-2022+) *END* -->
-
+          <antipattern>
+              <token regexp="yes">[nd][ao]s?</token>
+              <token regexp='yes'>uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao]s?|alguma?s?|alguns</token>
+          </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
           <marker>
