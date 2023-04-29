@@ -254,6 +254,10 @@
       <disambig action="remove" postag="V.[SIM].*"></disambig>
     </rule>
     <rule>
+      <antipattern>
+        <token postag="V.+" postag_regexp="yes"/>
+        <token regexp="yes">aceit[oa]s?|cãos|falh[oa]s?|festival|festivais</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">aceit[oa]s?|cãos|durante|falh[oa]s?|festival|festivais</token>
       </pattern>
@@ -1190,7 +1194,8 @@
       <pattern>
           <!-- exception to DAN -->
           <!-- TODO: more general disambiguation rules for verb/noun -->
-          <token postag="N.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes">
+            <exception postag="V.+" postag_regexp="yes"/></token>
           <marker>
               <token postag_regexp="yes" postag="V.*" regexp="yes">fala|nada|dança</token>
           </marker>
