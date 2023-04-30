@@ -13728,7 +13728,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token>
             <exception regexp='yes'>&hifen;</exception></token>
           <marker>
-            <token regexp='yes'>as|os?|uma?s?|uns|algu[mn]a?s?|[nd][oa]s?|numa?s?|nuns|pel[ao]s?</token>
+            <token regexp='yes'>as|os?|numa?s?|nuns|pel[ao]s?</token>
             <token regexp='yes'>uma?s?|uns|algu[mn]a?s?|n?[oa]s?</token>
           </marker>
         </pattern>
@@ -13761,13 +13761,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
             </pattern>
             <message>Possível fragmento.</message>
             <suggestion>dá \3</suggestion>
-            <suggestion>d\3</suggestion>
+            <suggestion>d<match no="3" case_conversion="alllower"/></suggestion>
             <suggestion>\2</suggestion>
             <suggestion>\3</suggestion>
             <suggestion>\2, \3</suggestion>
             <example correction='dá aquela|daquela|da|aquela|da, aquela'>Foi o que fiz <marker>da aquela</marker> vez.</example>
         </rule>
         <rule>
+            <antipattern>
+                <token postag="SPS00:P.+|SPS00:DD.+" postag_regexp="yes"/>
+                <token postag="D[AI].+" postag_regexp="yes"/>
+                <example>Não queria que nessa alguma coisa acontecesse</example>
+            </antipattern>
+            <antipattern>
+                <token regexp='yes'>uma?|el[ae]|ess[ae]|est[ae]|aquel[ae]|isto|isso|aquilo|outr[ao]s?|alguma?s?|n[ao]</token>
+                <token postag="SPS00:[PD].+|P.+" postag_regexp="yes"/>
+                <example>e não há problema algum nisso.</example>
+            </antipattern>
             <pattern>
                 <token negate='yes' regexp='yes'>&hifen;</token>
                 <marker>
@@ -13777,7 +13787,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
                 </marker>
             </pattern>
             <message>Possível fragmento.</message>
-            <suggestion><match no="2" regexp_match="(n|d)([ao]s?)" regexp_replace="$1"/>\3</suggestion>
+            <suggestion><match no="2" regexp_match="(n|d)(.s?)" regexp_replace="$1"/><match no="3" case_conversion="alllower"/></suggestion>
             <suggestion>\2</suggestion>
             <suggestion>\3</suggestion>
             <suggestion>\2, \3</suggestion>
@@ -13812,6 +13822,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <antipattern>
               <token regexp="yes">[nd][ao]s?</token>
               <token regexp='yes'>uma?|el[ae]|est[ae]|ess[ae]|aquel[ae]|isto|isso|aquilo|outr[ao]s?|alguma?s?|alguns</token>
+          </antipattern>
+          <antipattern>
+              <token postag="SPS00:P.+" postag_regexp="yes"/>
+              <token postag="SPS00:D.+|P.+" postag_regexp="yes"/>
+              <example>A morte dele nos uniu.</example>
+              <example>Deixei o livro dele no quarto.</example>
+          </antipattern>
+          <antipattern>
+              <token postag="SPS00:P.+|SPS00:DD.+" postag_regexp="yes"/>
+              <token postag="D[AI].+" postag_regexp="yes"/>
+              <example>Não queria que nessa alguma coisa acontecesse</example>
+          </antipattern>
+          <antipattern>
+              <token regexp='yes'>uma?|el[ae]|ess[ae]|est[ae]|aquel[ae]|isto|isso|aquilo|outr[ao]s?|alguma?s?|n[ao]</token>
+              <token postag="SPS00:[PD].+|P.+" postag_regexp="yes"/>
+              <example>e não há problema algum nisso.</example>
           </antipattern>
         <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
