@@ -27,20 +27,20 @@
         <rulegroup name="Правапіс У-Ў" id="U_KAROTKAJE">
             <rule>
                 <pattern>
-                    <token regexp="yes">.*[уеыаоэяіюё]у.*</token>
+                    <token regexp='yes'>.*[уеыаоэяіюё][-]?у.*<exception regexp='yes'>фаун.*</exception><exception regexp='yes'>прэзідыум.*</exception><exception regexp='yes'>трыумф.*</exception><exception regexp='yes'>іуд.*</exception><exception regexp='yes'>калегіум.*</exception><exception regexp='yes'>вакуум.*</exception><exception regexp='yes'>траур.*</exception><exception regexp='yes'>калегіум.*</exception></token>
                 </pattern>
-                <message>Пасьля галoсных літараў замест 'у' трэба пісаць 'ў': <suggestion><match no="1" regexp_match="(.*[уеыаоэяію])у(.*)" regexp_replace="$1ў$2" /></suggestion></message>
-                <short>У замест ў</short>
-                <example>Таўэр</example>
-                <example correction="Таўэр"><marker>Тауэр</marker></example>
+                <message>Пасля галoсных літар замест «у» трэба пісаць «ў»: <suggestion><match no="1" regexp_match="(.*[уеыаоэяію][-]?)у(.*)" regexp_replace="$1ў$2" /></suggestion></message>
+                <short>«У» замест «ў»</short>
+                <example>жанчына-ўрач</example>
+                <example correction="жанчына-ўрач"><marker>жанчына-урач</marker></example>
             </rule>
             <rule>
-                <pattern>
-                    <token regexp="yes">.*[уеыаоэяіюё]</token>
-                    <token regexp="yes">у.*</token>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>.*[УЕЫАОЭЯІЮЁуеыаоэяіюё]</token>
+                    <token regexp='yes'>у.*<exception regexp='yes'>уні.*</exception><exception>унію</exception></token>
                 </pattern>
-                <message>Пасьля галoсных літараў замест 'у' трэба пісаць 'ў': <suggestion><match no="1" /> <match no="2" regexp_match="[Уу](.*)" case_conversion="preserve" regexp_replace="ў$1" /></suggestion></message>
-                <short>У замест ў</short>
+                <message>Пасля галoсных літар замест «у» трэба пісаць «ў»: <suggestion><match no="1" /> <match no="2" regexp_match="[Уу](.*)" case_conversion="preserve" regexp_replace="ў$1" /></suggestion></message>
+                <short>«У» замест «ў»</short>
                 <example>да ўвагі</example>
                 <example correction="да ўвагі"><marker>да увагі</marker></example>
             </rule>
@@ -48,8 +48,8 @@
                 <pattern>
                     <token regexp="yes">.*[^уеыаоэяіюё]ў.*</token>
                 </pattern>
-                <message>Пасьля зычных літараў, нялітарных знакаў і знакаў прыпынку трэба пісаць літару 'у': <suggestion><match no="1" regexp_match="(.*[^уеыаоэяію])ў(.*)" regexp_replace="$1у$2" /></suggestion></message>
-                <short>Ў замест у</short>
+                <message>Пасля зычных літар, нялітарных знакаў і знакаў прыпынку трэба пісаць літару «у»: <suggestion><match no="1" regexp_match="(.*[^уеыаоэяію])ў(.*)" regexp_replace="$1у$2" /></suggestion></message>
+                <short>«Ў» замест «у»</short>
                 <example>дзядуля</example>
                 <example correction="дзядуля"><marker>дзядўля</marker></example>
             </rule>
@@ -58,19 +58,19 @@
                     <token regexp="yes">.*[^уеыаоэяіюё]</token>
                     <token regexp="yes">ў.*</token>
                 </pattern>
-                <message>Пасьля зычных літараў, нялітарных знакаў і знакаў прыпынку трэба пісаць літару 'у' <suggestion><match no="1" /> <match no="2" regexp_match="ў(.*)" regexp_replace="у$1" /></suggestion></message>
-                <short>Ў замест у</short>
+                <message>Пасля зычных літар, нялітарных знакаў і знакаў прыпынку трэба пісаць літару «у» <suggestion><match no="1" /> <match no="2" regexp_match="ў(.*)" regexp_replace="у$1" /></suggestion></message>
+                <short>«Ў» замест «у»</short>
                 <example>ён у Полацку</example>
                 <example correction="ён у"><marker>ён ў</marker> Полацку</example>
             </rule>
         </rulegroup>
-        <rulegroup name="Беларускае і" id="I">
+        <rulegroup name="Беларускае І" id="I">
             <rule>
                 <pattern>
                     <token regexp="yes">.*и.*</token>
                 </pattern>
-                <message>Павінна быць 'і' замест 'и': <suggestion><match no="1" regexp_match="(.*)и(.*)" regexp_replace="$1і$2" /></suggestion></message>
-                <short>И замест і</short>
+                <message>Можа павінна быць «і» замест «и»: <suggestion><match no="1" regexp_match="(.*)и(.*)" regexp_replace="$1і$2" /></suggestion></message>
+                <short>«И» замест «і»</short>
                 <example>iншыя</example>
                 <example correction="іншыя"><marker>иншыя</marker></example>
             </rule>
@@ -78,25 +78,101 @@
         <rulegroup name="Щ" id="SCH">
             <rule>
                 <pattern>
-                    <token regexp="yes">(.*)щ(.*)</token>
+                    <token regexp="yes">.*щ.*</token>
                 </pattern>
-                <message>Павінна быць 'шч' замест 'щ': <suggestion><match no="1" regexp_match="(.*)щ(.*)" regexp_replace="$1шч$2" /></suggestion></message>
-                
-                <short>Щ замест шч</short>
+                <message>Павінна быць «шч» замест «щ»: <suggestion><match no="1" regexp_match="(.*)щ(.*)" regexp_replace="$1шч$2" /></suggestion></message>
+                <short>«Щ» замест «шч»</short>
                 <example>шчавель</example>
                 <example correction="шчавель"><marker>щавель</marker></example>
             </rule>
         </rulegroup>
+        <rule id="Non-cyrillic" name="Выкарыстанне аналагічных па абрысе некірылічных літар">
+            <antipattern>
+                <token regexp="yes">[а-яёіїäѣs’*қәңөєүўҰαΔӀғʌјЂћњљƣ]+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[а-яёіў]*[^\p{L}][а-яёіў]+|[а-яёіў]+[^\p{L}][а-яёіў]*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(?!.*[а-яёіў]).*</token>
+            </antipattern>
+            <!-- <antipattern> -->
+            <!--     <token negate="yes" regexp="yes">\b[а-яё]+\b</token> -->
+            <!-- </antipattern> -->
+            <!-- <antipattern> -->
+            <!--     <regexp negate="yes"> regexp="yes">\b[а-яё]+\b</regexp> -->
+            <!-- </antipattern> -->
+            <pattern>
+                <token regexp="yes">[а-яёіў]*[^а-яёіў][а-яёіў]+|[а-яёіў]+[^а-яёіў][а-яёіў]*</token>
+            </pattern>
+            <message>Магчыма патрэбна літара з кірыліцы замест аналагічнай па абрысе некірылічнай або наадварот. Замест літар з іншых алфавітаў, для азначэння націску выкарыстоўвайце сімвал U+0301 Унікода.</message>
+            <short>Сумесь кірылічных і некірылічных літар</short>
+            <example correction=""><marker>Hе</marker> веру тэлевізару.</example>
+            <example correction=""> <marker>Дa</marker> цябе госці.</example>
+            <example>«New York Times» была створана ў 1851-м годзе.</example>
+            <example>У XII стагоддзі.</example>
+            <example>мікрахва́леўка</example>
+            <example>У яго тэмпература каля 37,8 ºC.</example>
+            <example correction=""> <marker>Pаніцай</marker> было суха.</example>
+            <example correction=""> <marker>Tак</marker> не пойдзе...</example>
+        </rule>
+        <rule id="Latin_single_letter" name="Выкарыстанне аналагічных па абрысе лаціскіх літар">
+            <antipattern>
+                <token  regexp="yes">a|o|y|i</token>
+                <token regexp="yes">’|\+|=|-|#</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">’|\+|=|-|#</token>
+                <token  regexp="yes">a|o|y|i</token>
+            </antipattern>
+            <antipattern>
+                <token skip="3" regexp="yes">a|o|y|i</token>
+                <token regexp="yes">\p{L}+<exception regexp="yes">[а-яёіў]+</exception></token>
+            </antipattern>
+            <antipattern>
+                <token skip="3" regexp="yes">\p{L}+<exception regexp="yes">[а-яёіў]+</exception></token>
+                <token regexp="yes">a|o|y|i</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">A|O|I
+                <exception scope="previous" postag="SENT_START"/>
+                </token>
+            </antipattern>
+            <pattern>
+                <token  regexp="yes">a|o|y|i</token>
+            </pattern>
+            <message>Магчыма патрэбна літара з кірыліцы замест аналагічнай па абрысе лацінскай або наадварот.</message>
+            <short>Лацінская літара замест кірылічнай</short>
+            <example correction=""><marker>O</marker>, як я рады!</example>
+            <example correction=""><marker>A</marker> што здарылася?</example>
+            <example correction="">Як <marker>y</marker> вас справы?</example>
+            <example correction=""><marker>I</marker> не было тугі.</example>
+        </rule>
+        <!-- Regexp treats U+0027 and U+2019 equally
+        <rulegroup name="Апостраф" id="Apostraf">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[а-я]*\x{2019}[а-я]+|[а-я]+\x{2019}[а-я]*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">[а-я]*\x{0027}[а-я]+|[а-я]+\x{0027}[а-я]*</token>
+                </pattern>
+                <message>Павіннен быць беларускі апостраф «’» замест «'»: <suggestion><match no="1" regexp_match="([а-я]*)'([а-я]*)" regexp_replace="$1’$2" /></suggestion></message>
+                <short>«'» замест «’»</short>
+                <example>вар’ят</example>
+                <example correction="вар’ят"><marker>вар'ят</marker></example>
+            </rule>
+        </rulegroup>
+        -->
         <rulegroup name="рі" id="RI">
             <rule>
                 <pattern>
                     <token regexp="yes">(.*)рі(.*)</token>
                 </pattern>
-                <message>Неўласьцівае беларускае мове злучэньне літараў: 'рі'.</message>
-                
-                <short>'рі' немагчыма вымавіць</short>
+                <message>Неўласцівае беларускай мове спалучэнне літар: «рі»: <suggestion><match no="1" regexp_match="(.*)рі(.*)" regexp_replace="$1ры$2" /></suggestion></message>
+                <short>«рі» замест «ры»</short>
                 <example>крытыка</example>
-                <example correction=""><marker>крітыка</marker></example>
+                <example correction="крытыка"><marker>крітыка</marker></example>
             </rule>
         </rulegroup>
     </category>
@@ -113,5 +189,91 @@
             <example correction="па факце">А <marker>па факту</marker> атрымалася, што сіл няма.</example>
         </rule>
       </rulegroup>
+    </category>
+    <category id="CAT3" name="Стыль">
+      <rule id="PARTICLE_Za_Z" name="Ужыванне часціц: «жа» і «ж»">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[а-яёіўА-ЯЁІЎ]*[бвгджзйклмнпрстўфхцчшь]</token>
+                <token>ж</token>
+                <token regexp="yes" negate="yes">[,.;/]</token>
+            </pattern>
+            <message>Часціца «Ж» ужываецца толькі пасля словаў, якія сканчаюцца на галосны гук: <suggestion>\1 жа \3</suggestion></message>
+            <short>Патрабуецца часціца «жа»</short>
+            <example correction="Ігнат жа не"><marker>Ігнат ж не</marker> прыехаў.</example>
+            <example>Ігнат жа не прыехаў.</example>
+            <example>Алеся ж не прыехала.</example>
+        </rule>
+        <rulegroup default="on" id="szto_ci" name="Ужыванне злучніка «што» в даданай частцы пры наяўнасці «ці»">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token>што</token>
+                    </marker>
+                    <token min="0" max="2"></token>
+                    <token>ці</token>
+                </pattern>
+                <message>Лішні злучнік «што»: <suggestion>\1</suggestion></message>
+                <short>Лішні злучнік «што»</short>
+                <example>Я не заўважыў, ці знаходзіцца ён у комнаце.</example>
+                <example correction=",">Я не заўважыў<marker>, што</marker> ці знаходзіцца ён у комнаце.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DoubleIH" name="Два «іх» у сказе"> 
+            <rule>
+                <!-- 2 "іх" у сказе, need exception in BelarusianWordRepeatRule.java to more accurate checking (copied from Russian).-->
+                <pattern>
+                        <token skip="-1">іх<exception  scope="next" regexp="yes">[,:;.!?…]|-|–|—</exception><exception regexp="yes" scope="next">і|толькі|або|альбо|ці</exception></token>
+                    <marker>
+                        <token skip="-1">іх<exception  scope="previous" regexp="yes">['"«]</exception></token>
+                    </marker>
+                    <token regexp="yes">[.!?:;]</token>
+                </pattern>
+                <message>Стыль: не стаўце два «іх» у сказе.</message>            
+                <example>Не стаўце два «іх» запар.</example>
+                <example correction="">Гэта іх ідэя перавезці <marker>іх</marker> машыну.</example>
+            </rule>
+        </rulegroup> 
+        <rulegroup id="NI_NA_HRAN" name="Цэльны выраз: «ні на гран»">
+         <rule>
+            <pattern>
+                <token>ні</token>
+                <token>на</token>
+                <token>грам</token>
+            </pattern>
+            <message>Цэльны выраз: <suggestion>ні на гран</suggestion>.</message>
+            <url>https://be.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>            
+            <short>Цэльны выраз</short>
+            <example correction="ні на гран"><marker>ні на грам</marker></example>
+            <example>ні на гран</example>
+         </rule>
+         <rule>
+            <pattern>
+                <token>ні</token>
+                <token>грама</token>
+            </pattern>
+            <message>Рэкамендуецца ўжываць цэльны выраз: <suggestion>ні грана</suggestion>.</message>
+            <url>https://be.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>
+            <short>Цэльны выраз</short>
+            <example correction="ні грана"><marker>ні грама</marker></example>
+            <example>ні грана</example>
+         </rule>  
+        </rulegroup>  
+    </category>
+    <category id="CAT4" name="Фразеялогія">
+        <rulegroup default="on" id="punkt_hledzannia" name="Няправільнае выкарыстанне слова «кропка» замест «пункт»">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">кропк[а-яёіў]</token>
+                    </marker>
+                    <token regexp="yes">погляду|гледжання</token>
+                </pattern>
+                <message>Няправільнае выкарыстанне слова «кропка» ва ўстойлівым выразе замест «пункт».</message>
+                <short>Няслушная замена слова «пункт» на «кропка»</short>
+                <example>Пункт погляду.</example>
+                <example correction="">З такой <marker>кропкі</marker> гледжання.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
