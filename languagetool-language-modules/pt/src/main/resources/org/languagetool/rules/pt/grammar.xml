@@ -22070,22 +22070,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
     <rulegroup id='ACCENTUATED_PARONYMS_DA' name="Confusão: Da - Dá">
-      <!--      Created by Tiago F. Santos, Portuguese rule, 2019-08-12      -->
-      <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
-      <short>Possível erro de digitação</short>
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp='yes'>das?</token>
-          </marker>
-          <token postag='_PUNCT' spacebefore='no'>
-            <exception regexp='yes'>[\-\:]</exception></token>
-        </pattern>
-        <message>Nesta situação acentua-se a palavra.</message>
-        <suggestion><match no='1' regexp_match='a' regexp_replace='á'/></suggestion>
-        <example correction="dá">Assim não <marker>da</marker>!</example>
-        <example>ananaí-da-amazônia</example>
-      </rule>
+        <!--      Created by Tiago F. Santos, Portuguese rule, 2019-08-12      -->
+        <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
+        <short>Possível erro de digitação</short>
+        <antipattern>
+            <token>da</token>
+            <token spacebefore="no">(</token>
+            <token>s</token>
+            <token spacebefore="no">)</token>
+            <example>da totalidade da(s) obra(s)</example>
+        </antipattern>
+        <antipattern>
+            <token>-</token>
+            <token spacebefore="no">da</token>
+            <example>Ela é lin-da!</example>
+        </antipattern>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp='yes'>das?</token>
+                    <token postag='_PUNCT' spacebefore='no'>
+                        <exception regexp='yes'>[\-\:\/]</exception></token>
+                </marker>
+            </pattern>
+            <message>Nesta situação acentua-se a palavra.</message>
+            <suggestion><match no='1' regexp_match='a' regexp_replace='á'/>\2</suggestion>
+            <suggestion>\1</suggestion>
+            <example correction="dá!|da">Assim não <marker>da!</marker></example>
+            <example>ananaí-da-amazônia</example>
+        </rule>
     </rulegroup>
 
     <rulegroup id='ACCENTUATED_PARONYMS' name='Confusão: verbo no lugar de um parónimo acentuado'>
