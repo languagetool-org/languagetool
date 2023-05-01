@@ -3976,6 +3976,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       </antipattern>
       <!-- MARCOAGPINTO 2023-04-25 (Checked/Enhanced) (2-MAR-2023+) *START* -->
 
+      <!-- MARCOAGPINTO 2023-05-01 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+      <antipattern>
+        <token postag='VM...S.+|AQ..S.+|NC.S.+|(SPS00:)?[DP]...[SN].+' postag_regexp='yes'/>
+        <token postag='CC|SPS00' postag_regexp='yes'/>
+        <token postag='(SPS00:)?[DP]...[PN].+' postag_regexp='yes'/>
+        <token postag='VMP00S.+' postag_regexp='yes'>
+          <exception scope="next" postag_regexp='yes' postag='AQ.+|NC.+'/>
+        </token>
+        <example>João foi por muitos chamado de misantropo.</example>
+        <example>O mirtilo — o "blueberry" brasileiro — é por alguns considerado a fruta do rejuvenescimento e da longevidade.</example>
+        <example>...stamos falando nem de um homem, nem de uma mulher, mas de algo que não tem sexo ou cujo sexo é para nós desconhecido ou indiferente.</example>
+      </antipattern>
+      <!-- MARCOAGPINTO 2023-05-01 (Checked/Enhanced) (2-MAR-2023+) *START* -->
+
       <!-- MARCOAGPINTO 2022-12-15 (Checked/Enhanced) (25-JUL-2022+) *START* -->
       <antipattern>
         <token postag='DA0.S.+|SPS00:DA0.S.+' postag_regexp='yes'/>
@@ -13595,7 +13609,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <example>Esta menina fala inglês e alemão.</example>
     </rule>
 
-    <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Fragmento: dois artigos seguidos' default='on'>
+    <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Fragmento: dois artigos seguidos' default='temp_off'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08 -->
       <!--
            MARCOAGPINTO inserted global antipatterns for all subrules on top using the logic (25-JUL-2022+)
@@ -14765,142 +14779,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <message>Substitua por <suggestion>caso</suggestion>.</message>
       <example correction="caso">Para nos ajudar <marker>em caso</marker> tenhamos dúvidas.</example>
     </rule>
-
-
-    <rule id='ESTAR_DE_ACORDO' name="concordar/corresponder/validar/confirmar">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-30 + 2020-12-14 (2-JUL-2020+)     -->
-      <pattern>
-        <token inflected='yes'>estar</token>
-        <token>de</token>
-        <token>acordo</token>
-      </pattern>
-      <message>Substitua por</message>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concordar</match></suggestion>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>corresponder</match></suggestion>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>validar</match></suggestion>
-      <suggestion><match no='1' postag='V.+' postag_regexp='yes'>confirmar</match></suggestion>
-      <example correction="concordam|correspondem|validam|confirmam">Os resultados <marker>estão de acordo</marker> com o estipulado.</example>
-    </rule>
-
-
-    <!-- ESTAR NO ECRÃ -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
-    <rule id='ESTAR_NO_ECRA' name="Estar no ecrã">
-      <pattern>
-        <token regexp="yes">aqueles?|aquilo|daqueles?|daquilo</token>
-        <token>que</token>
-        <token regexp="yes">aparecem?|está|estão</token>
-        <token regexp="yes">nas?|nos?</token>
-        <token regexp="yes">ecrãs?|écrans?|telas?|visor|visores|monitor|monitores</token>
-      </pattern>
-      <message>Substitua por <suggestion>\1 \4 \5</suggestion>.</message>
-      <example correction="aquilo no ecrã">Vê tudo <marker>aquilo que está no ecrã</marker>.</example>
-    </rule>
-
-    <!-- FAZER USO DE usar recorrer -->
-    <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="Fazer uso de > usar > recorrer">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-10-02 (2-JUL-2020+)     -->
-      <!-- DE -->
-      <rule>
-        <pattern>
-          <token inflected='yes'>fazer</token>
-          <token>uso</token>
-          <token>de</token>
-        </pattern>
-        <message>Substitua por:</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match></suggestion>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> a</suggestion>
-        <example correction="usar|recorrer a">Vamos <marker>fazer uso de</marker> simuladores.</example>
-      </rule>
-
-      <!-- DA -->
-      <rule>
-        <pattern>
-          <token inflected='yes'>fazer</token>
-          <token>uso</token>
-          <token>da</token>
-        </pattern>
-        <message>Substitua por:</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> a</suggestion>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> à</suggestion>
-        <example correction="usar a|recorrer à">Vamos <marker>fazer uso da</marker> tecnologia.</example>
-      </rule>
-
-      <!-- DAS -->
-      <rule>
-        <pattern>
-          <token inflected='yes'>fazer</token>
-          <token>uso</token>
-          <token>das</token>
-        </pattern>
-        <message>Substitua por:</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> as</suggestion>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> às</suggestion>
-        <example correction="usar as|recorrer às">Vamos <marker>fazer uso das</marker> tecnologias.</example>
-      </rule>
-
-      <!-- DO -->
-      <rule>
-        <pattern>
-          <token inflected='yes'>fazer</token>
-          <token>uso</token>
-          <token>do</token>
-        </pattern>
-        <message>Substitua por:</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> o</suggestion>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> ao</suggestion>
-        <example correction="usar o|recorrer ao">Vamos <marker>fazer uso do</marker> computador.</example>
-      </rule>
-
-      <!-- DOS -->
-      <rule>
-        <pattern>
-          <token inflected='yes'>fazer</token>
-          <token>uso</token>
-          <token>dos</token>
-        </pattern>
-        <message>Substitua por:</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> os</suggestion>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> aos</suggestion>
-        <example correction="usar os|recorrer aos">Vamos <marker>fazer uso dos</marker> computadores.</example>
-      </rule>
-    </rulegroup>
-
-    <!-- FORNECER FEEDBACK dar feedback -->
-    <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)      -->
-    <!--
-    Precisamos que nos dê o feedback necessário.
-    Precisamos que nos dê o maior feedback necessário.
-    Precisamos que nos dê feedback.
-    -->
-    <rulegroup id='FEEDBACK' name="feedback">
-      <rule>
-        <pattern>
-          <marker>
-            <token skip="2">fornecer</token>
-          </marker>
-          <token regexp='yes'>feedbacks?</token>
-        </pattern>
-        <message>Substitua por</message>
-        <suggestion>dar</suggestion>
-        <example correction="dar">para <marker>fornecer</marker> o feedback necessário.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token skip="2" inflected='yes'>fornecer</token>
-          </marker>
-          <token regexp='yes'>feedbacks?</token>
-        </pattern>
-        <message>Substitua por</message>
-        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match></suggestion>
-        <example correction="dê">Precisamos que nos <marker>forneça</marker> o feedback necessário.</example>
-        <example>Precisamos que nos <marker>dê</marker> o feedback necessário.</example>
-        <example>Precisamos que nos <marker>dê</marker> o maior feedback necessário.</example>
-        <example>Precisamos que nos <marker>dê</marker> feedback.</example>
-      </rule>
-
-    </rulegroup>
 
 
     <rule id='AO_PAR_COM' name="A par com">
@@ -19302,6 +19180,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-virgula-na-formula-com-os-melhores-cumprimentos/27998</url>
       <short>Erro de pontuação</short>
+        <antipattern>
+            <token regexp='yes'>&saudacoes_formais;</token>
+            <token regexp="yes">&abreviaturas;</token>
+            <example>Caro Sr. Silva</example>
+        </antipattern>
       <rule>
         <pattern case_sensitive="yes">
           <token postag="SENT_START"/>
@@ -19311,7 +19194,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes" max='2'>\p{Lu}\p{Ll}+
             <exception regexp="yes">Dr|Prof|Doutor[ae]?s?|Professor[ae]?s?|[Ss]enhor[ae]?s?</exception></token>
           <marker>
-            <token regexp="yes">[-\.:!;]</token>
+            <token regexp="yes">[\.:!;]</token>
           </marker>
         </pattern>
         <message>As saudações formais devem ser terminadas com uma vírgula.</message>
@@ -21861,6 +21744,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='PARONYM_I_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (í)'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Esta palavra não é um verbo</short>
+        <antipattern>
+            <token>eu</token>
+            <token>lírico</token>
+        </antipattern>
+        <antipattern>
+            <token postag="VM[MSG].+|C.+|SPS00|PI.+|VMIC.+" postag_regexp="yes"/>
+            <token regexp='yes'>&pronomes_retos;</token>
+            <token negate_pos='yes' postag="V.+" postag_regexp="yes"/>
+            <example>Aceitamos todo tipo de carta, contenham elas críticas, elogios, reclamações ou sugestões.</example>
+            <example>sejam elas políticas ou até mesmo religiosas</example>
+            <example>também eles símbolo de um país</example>
+            <example>sendo todos eles sítios classificados</example>
+        </antipattern>
       <rule>
         <pattern>
           <token negate="yes" regexp='yes'>[ao]s?</token> <!-- MARCOAGPINTO 2021-12-04 (25-JUN-2021+) - Ana Cecília Antunes Lima "O eu lírico da narrativa está oculto." -->
@@ -21911,6 +21807,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='PARONYM_U_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ú)'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Esta palavra não é um verbo</short>
+        <antipattern>
+            <token>eu</token>
+            <token>lírico</token>
+        </antipattern>
+        <antipattern>
+            <token postag="VM[MSG].+|C.+|SPS00|PI.+|VMIC.+" postag_regexp="yes"/>
+            <token regexp='yes'>&pronomes_retos;</token>
+            <token negate_pos='yes' postag="V.+" postag_regexp="yes"/>
+            <example>Aceitamos todo tipo de carta, contenham elas críticas, elogios, reclamações ou sugestões.</example>
+            <example>sejam elas políticas ou até mesmo religiosas</example>
+            <example>também eles símbolo de um país</example>
+            <example>sendo todos eles sítios classificados</example>
+        </antipattern>
       <rule>
         <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
@@ -22025,22 +21934,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
     <rulegroup id='ACCENTUATED_PARONYMS_DA' name="Confusão: Da - Dá">
-      <!--      Created by Tiago F. Santos, Portuguese rule, 2019-08-12      -->
-      <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
-      <short>Possível erro de digitação</short>
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp='yes'>das?</token>
-          </marker>
-          <token postag='_PUNCT' spacebefore='no'>
-            <exception regexp='yes'>[\-\:]</exception></token>
-        </pattern>
-        <message>Nesta situação acentua-se a palavra.</message>
-        <suggestion><match no='1' regexp_match='a' regexp_replace='á'/></suggestion>
-        <example correction="dá">Assim não <marker>da</marker>!</example>
-        <example>ananaí-da-amazônia</example>
-      </rule>
+        <!--      Created by Tiago F. Santos, Portuguese rule, 2019-08-12      -->
+        <url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
+        <short>Possível erro de digitação</short>
+        <antipattern>
+            <token>da</token>
+            <token spacebefore="no">(</token>
+            <token>s</token>
+            <token spacebefore="no">)</token>
+            <example>da totalidade da(s) obra(s)</example>
+        </antipattern>
+        <antipattern>
+            <token>-</token>
+            <token spacebefore="no">da</token>
+            <example>Ela é lin-da!</example>
+        </antipattern>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp='yes'>das?</token>
+                    <token postag='_PUNCT' spacebefore='no'>
+                        <exception regexp='yes'>[\-\:\/]</exception></token>
+                </marker>
+            </pattern>
+            <message>Nesta situação acentua-se a palavra.</message>
+            <suggestion><match no='1' regexp_match='a' regexp_replace='á'/>\2</suggestion>
+            <suggestion>\1</suggestion>
+            <example correction="dá!|da">Assim não <marker>da!</marker></example>
+            <example>ananaí-da-amazônia</example>
+        </rule>
     </rulegroup>
 
     <rulegroup id='ACCENTUATED_PARONYMS' name='Confusão: verbo no lugar de um parónimo acentuado'>
@@ -32005,23 +31927,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     </rulegroup>
 
 
-    <!-- NUM não -->
-    <rule id='NUM_NÃO' name="[Confusão] num/não">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
-      <pattern>
-        <marker>
-          <token>num</token>
-        </marker>
-        <token postag_regexp='yes' postag="V.+">
-          <exception postag_regexp='yes' postag='VMN0000|AQ0.+|NC.+|AO.+'/>
-        </token>
-        <token negate_pos="yes" postag_regexp='yes' postag="AQ0.+|NC.+|V.+"/>
-      </pattern>
-      <message>Substitua por <suggestion>não</suggestion>.</message>
-      <example correction="não">A Ana <marker>num</marker> sabe a resposta.</example>
-    </rule>
-
-
     <rule id='O_AO' name="[Confusão] o/ao" >
       <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-07-04 (2-JUL-2020+) -->
       <pattern>
@@ -35360,7 +35265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <message>Será que quis dizer <suggestion>acompanhando</suggestion> ou <suggestion>acampando</suggestion>?</message>
       <example correction="acompanhando|acampando">E estavam <marker>acampanhando</marker> em Brasília</example>
     </rule>
-    <rule id='APOSTROFE_S' name='Uso de apóstrofe para palavras no plural' default='on'>
+    <rule id='APOSTROFE_S' name='Uso de apóstrofe para palavras no plural' tags="picky">
       <antipattern>
         <token regexp='yes' skip='-1'>&palavras_estrangeiras;</token>
         <token regexp='yes'>\p{L}+</token>
