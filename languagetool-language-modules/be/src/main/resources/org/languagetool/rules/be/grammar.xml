@@ -19,6 +19,13 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
+<!--suppress CheckTagEmptyBody -->
+<!DOCTYPE rules [
+<!ENTITY weekdays "панядзелак|аўторак|серада|сераду|чацвер|пятніца|пятніцу|субота|суботу|нядзеля|нядзелю|пн|аў|ср|чц|пт|сб|нд">
+<!ENTITY months "студзень|люты|сакавік|красавік|май|травень|чэрвень|ліпень|жнівень|верасень|кастрычнік|лістапад|снежань|студзеня|лютага|сакавіка|красавіка|мая|траўня|чэрвеня|ліпеня|жніўня|верасня|кастрычніка|лістапада|снежня">
+<!ENTITY abbrevMonths "сту|лют|сак|кра|мая|май|тра|чэр|ліп|жні|вер|кас|ліс|сне">
+]>
+<!-- «» -->
 
 <rules lang="be" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -26,42 +33,79 @@
     <category id="CAT1" name="Правапіс">
         <rulegroup name="Правапіс У-Ў" id="U_KAROTKAJE">
             <rule>
+                <antipattern>
+                    <token regexp='yes'>(прэзідыум|кансіліум|радыус|страус|соус|трыумф|трыумфальн|трыумфава|трыумфатар|іуд|іудзейск|іудзейств|іудзе|іудзейк|іудаізм|калегіум|вакуум|траур|ноу-хау|ток-шоу|фрау|шоу|Ландау|Каратау|Дахау|Цеміртау|аул|баул|аука)[аеёзійкмнсуўхыюя]{0,3}</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp='yes' case_sensitive="yes">.*[АЕЁІОУЫЭЮЯаеёіоуыэюя][-]?У.*</token>
+                </antipattern>
                 <pattern>
-                    <token regexp='yes'>.*[уеыаоэяіюё][-]?у.*<exception regexp='yes'>фаун.*</exception><exception regexp='yes'>прэзідыум.*</exception><exception regexp='yes'>трыумф.*</exception><exception regexp='yes'>іуд.*</exception><exception regexp='yes'>калегіум.*</exception><exception regexp='yes'>вакуум.*</exception><exception regexp='yes'>траур.*</exception><exception regexp='yes'>калегіум.*</exception></token>
+                    <token regexp='yes' case_sensitive="yes">.*[АЕЁІОУЫЭЮЯаеёіоуыэюя][-]?у.*</token>
                 </pattern>
-                <message>Пасля галoсных літар замест «у» трэба пісаць «ў»: <suggestion><match no="1" regexp_match="(.*[уеыаоэяію][-]?)у(.*)" regexp_replace="$1ў$2" /></suggestion></message>
+                <message>Пасля галoсных літар замест «у» трэба пісаць «ў»: <suggestion><match no="1" regexp_match="(.*[аеёіоуыэюя][-]?)у(.*)" regexp_replace="$1ў$2" /></suggestion></message>
                 <short>«У» замест «ў»</short>
                 <example>жанчына-ўрач</example>
                 <example correction="жанчына-ўрач"><marker>жанчына-урач</marker></example>
+                <example>вакуумны пыласос</example>
+                <example>Трыумфальная арка</example>
             </rule>
             <rule>
-                <pattern case_sensitive='yes'>
-                    <token regexp='yes'>.*[УЕЫАОЭЯІЮЁуеыаоэяіюё]</token>
-                    <token regexp='yes'>у.*<exception regexp='yes'>уні.*</exception><exception>унію</exception></token>
+                <antipattern>
+                    <token regexp='yes'>.*[аеёіоуыэюя]</token>
+                    <token regexp="yes" min="0">[«»„“"]</token>
+                    <token regexp='yes'>(унія|унію|уніі|урн|унтэр-афіцэр|унтэр|уйма|унікум)[аеёзійкмнсуўхыюя]{0,3}</token>
+                </antipattern>
+                <pattern>
+                    <token regexp='yes'>.*[аеёіоуыэюя]</token>
+                    <token regexp="yes" min="0">[«»„“"]</token>
+                    <marker>
+                        <token regexp='yes' case_sensitive='yes'>у.*</token>
+                    </marker>
                 </pattern>
-                <message>Пасля галoсных літар замест «у» трэба пісаць «ў»: <suggestion><match no="1" /> <match no="2" regexp_match="[Уу](.*)" case_conversion="preserve" regexp_replace="ў$1" /></suggestion></message>
+                <message>Пасля галoсных літар замест «у» трэба пісаць «ў»: <suggestion><match no="3" regexp_match="у(.*)" case_conversion="preserve" regexp_replace="ў$1" /></suggestion></message>
                 <short>«У» замест «ў»</short>
                 <example>да ўвагі</example>
-                <example correction="да ўвагі"><marker>да увагі</marker></example>
+                <example>Берасцейская унія</example>
+                <example correction="ўвагі">да <marker>увагі</marker></example>
+                <example>Так званы «унікум».</example>
+                <example correction="ўніверсум">Так званы «<marker>універсум</marker>».</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">.*[аеёіоуыэюя][-]?ў.*</token>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">.*[^уеыаоэяіюё]ў.*</token>
+                    <token regexp="yes">.*[^аеёіоуыэюя][-]?ў.*</token>
                 </pattern>
-                <message>Пасля зычных літар, нялітарных знакаў і знакаў прыпынку трэба пісаць літару «у»: <suggestion><match no="1" regexp_match="(.*[^уеыаоэяію])ў(.*)" regexp_replace="$1у$2" /></suggestion></message>
+                <message>Пасля зычных літар, нялітарных знакаў (акрамя двукоссяў і злучкоў) і знакаў прыпынку трэба пісаць літару «у»: <suggestion><match no="1" regexp_match="(.*[^аеёіоуыэюя])ў(.*)" case_conversion="preserve" regexp_replace="$1у$2" /></suggestion></message>
                 <short>«Ў» замест «у»</short>
-                <example>дзядуля</example>
+                <example>бабуля</example>
+                <example>паўночна-ўсходні</example>
                 <example correction="дзядуля"><marker>дзядўля</marker></example>
+                <example correction="заурад-урач"><marker>заурад-ўрач</marker></example>
             </rule>
             <rule>
-                <pattern>
-                    <token regexp="yes">.*[^уеыаоэяіюё]</token>
+                <antipattern>
+                    <token regexp="yes">.*[аеёіоуыэюя]</token>
+                    <token regexp="yes" min="0">[«»„“]</token>
                     <token regexp="yes">ў.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">.*[^аеёіоуыэюя]</token>
+                    <token regexp="yes" min="0">[«»„“"]</token>
+                    <marker>
+                        <token regexp="yes">ў.*</token>
+                    </marker>
                 </pattern>
-                <message>Пасля зычных літар, нялітарных знакаў і знакаў прыпынку трэба пісаць літару «у» <suggestion><match no="1" /> <match no="2" regexp_match="ў(.*)" regexp_replace="у$1" /></suggestion></message>
+                <message>Пасля зычных літар, нялітарных знакаў (акрамя двукоссяў і злучкоў) і знакаў прыпынку трэба пісаць літару «у»: <suggestion><match no="3" regexp_match="ў(.*)" case_conversion="preserve" regexp_replace="у$1" /></suggestion></message>
                 <short>«Ў» замест «у»</short>
                 <example>ён у Полацку</example>
-                <example correction="ён у"><marker>ён ў</marker> Полацку</example>
+                <example>кліча «ў Пагоню!»</example>
+                <example>пачуў «будзь ласкавы» ўпершыню</example>
+                <example correction="у">ён <marker>ў</marker> Полацку</example>
+                <example>кліча «ў Пагоню!»</example>
+                <example correction="у">вокліч «<marker>ў</marker> бой!».</example>
+                <example correction="увайшоў">Карабель «Вараг» <marker>ўвайшоў</marker> у гавань.</example>
             </rule>
         </rulegroup>
         <rulegroup name="Беларускае І" id="I">
@@ -167,7 +211,7 @@
         <rulegroup name="рі" id="RI">
             <rule>
                 <pattern>
-                    <token regexp="yes">(.*)рі(.*)</token>
+                    <token regexp="yes">.*рі.*</token>
                 </pattern>
                 <message>Неўласцівае беларускай мове спалучэнне літар: «рі»: <suggestion><match no="1" regexp_match="(.*)рі(.*)" regexp_replace="$1ры$2" /></suggestion></message>
                 <short>«рі» замест «ры»</short>
@@ -177,29 +221,43 @@
         </rulegroup>
     </category>
     <category id="CAT2" name="Граматыка">
-      <rulegroup name="Ужываньне склонаў" id="SKLONY">
-        <rule default="on" id="pa_fakcie" name="Словазлучэньне: «па факце»">
-            <pattern>
-                    <token inflected="no">па</token>
-                    <token inflected="no">факту</token>
-             </pattern>
-            <message>Тут імаверна патрабуецца месны склон: <suggestion><match no="1" regexp_match="([пП])а" regexp_replace="$1а" /> факце</suggestion></message>
-            <short>«Па факце», а не «па факту»</short>
-            <example>Прыпыніць расьсьледаваньне па факце сьмерці пратэстоўца.</example>
-            <example correction="па факце">А <marker>па факту</marker> атрымалася, што сіл няма.</example>
-        </rule>
-      </rulegroup>
+        <rulegroup name="Ужываньне склонаў" id="SKLONY">
+            <rule default="on" id="pa_fakcie" name="Словазлучэнне: «па факце»">
+                <pattern>
+                    <token>па</token>
+                    <token>факту</token>
+                </pattern>
+                <message>Тут імаверна патрабуецца месны склон: <suggestion>\1 факце</suggestion></message>
+                <short>«Па факце», а не «па факту»</short>
+                <example>Прыпыніць расследаванне па факце смерці пратэстуючага.</example>
+                <example correction="па факце">А <marker>па факту</marker> атрымалася, што сіл няма.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="Ужываньне лікаў" id="LIKI">
+            <rule default="on" id="dvukossi" name="Словазлучэнне: «у двукоссі»">
+                <pattern>
+                    <token regexp="yes">[уў]</token>
+                    <token regexp="yes">двукоссях</token>
+                </pattern>
+                <message>Назоўнік «двукоссе», ад яго вытворны ўстойлівы выраз «у двукоссі»: <suggestion>\1 двукоссі</suggestion></message>
+                <short>«У двукоссі», а не «ў двукоссях»</short>  
+                <example>Падаём гэты выраз у двукоссі.</example>
+                <example correction="ў двукоссі">Таварышы, вы зразумелі гэтага «смяротніка» <marker>ў двукоссях</marker>?</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="CAT3" name="Стыль">
-      <rule id="PARTICLE_Za_Z" name="Ужыванне часціц: «жа» і «ж»">
+        <rule id="PARTICLE_Za_Z" name="Ужыванне часціц: «жа» і «ж»">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[а-яёіўА-ЯЁІЎ]*[бвгджзйклмнпрстўфхцчшь]</token>
-                <token>ж</token>
+                <marker>
+                    <token>ж</token>
+                </marker>
                 <token regexp="yes" negate="yes">[,.;/]</token>
             </pattern>
-            <message>Часціца «Ж» ужываецца толькі пасля словаў, якія сканчаюцца на галосны гук: <suggestion>\1 жа \3</suggestion></message>
+            <message>Часціца «Ж» ужываецца толькі пасля словаў, якія сканчаюцца на галосны гук: <suggestion>жа</suggestion></message>
             <short>Патрабуецца часціца «жа»</short>
-            <example correction="Ігнат жа не"><marker>Ігнат ж не</marker> прыехаў.</example>
+            <example correction="жа">Ігнат <marker>ж</marker> не прыехаў.</example>
             <example>Ігнат жа не прыехаў.</example>
             <example>Алеся ж не прыехала.</example>
         </rule>
@@ -207,7 +265,7 @@
             <rule>
                 <pattern>
                     <marker>
-                        <token>,</token>
+                    <token>,</token>
                         <token>што</token>
                     </marker>
                     <token min="0" max="2"></token>
@@ -235,37 +293,65 @@
             </rule>
         </rulegroup> 
         <rulegroup id="NI_NA_HRAN" name="Цэльны выраз: «ні на гран»">
-         <rule>
-            <pattern>
-                <token>ні</token>
-                <token>на</token>
-                <token>грам</token>
-            </pattern>
-            <message>Цэльны выраз: <suggestion>ні на гран</suggestion>.</message>
-            <url>https://be.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>            
-            <short>Цэльны выраз</short>
-            <example correction="ні на гран"><marker>ні на грам</marker></example>
-            <example>ні на гран</example>
-         </rule>
-         <rule>
-            <pattern>
-                <token>ні</token>
-                <token>грама</token>
-            </pattern>
-            <message>Рэкамендуецца ўжываць цэльны выраз: <suggestion>ні грана</suggestion>.</message>
-            <url>https://be.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>
-            <short>Цэльны выраз</short>
-            <example correction="ні грана"><marker>ні грама</marker></example>
-            <example>ні грана</example>
-         </rule>  
-        </rulegroup>  
+            <rule>
+                <pattern>
+                    <token>ні</token>
+                    <token>на</token>
+                    <token>грам</token>
+                </pattern>
+                <message>Рэкамендуецца ўжываць цэльны выраз: <suggestion>ні на гран</suggestion>.</message>
+                <url>https://be.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>            
+                <short>Цэльны выраз</short>
+                <example correction="ні на гран"><marker>ні на грам</marker></example>
+                <example>ні на гран</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ні</token>
+                    <token>грама</token>
+                </pattern>
+                <message>Рэкамендуецца ўжываць цэльны выраз: <suggestion>ні грана</suggestion>.</message>
+                <url>https://be.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>
+                <short>Цэльны выраз</short>
+                <example correction="ні грана"><marker>ні грама</marker></example>
+                <example>ні грана</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="Piaczy-smazyc" name="Розныя віды пячэння">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(пад?)?(пяч|пяк|печ|пёк|смаж|палі|паля|палю|праж|прэг|праг|прог|смал)[а-яёіў]{0,3}</token>
+                    </marker>
+                    <token min="0" max="2"></token>
+                    <token>сала</token>
+                </pattern>
+                <message>Калі гаворка ідзе аб прыгатаванні сала, то мабыць тут будзе слушней выкарыстаць дзеяслоў «скварыць».</message>
+                <short>Сала звычайна сквараць</short>
+                <example>Ён скварыў сала</example>
+                <example correction="">Мы <marker>пасмажылі</marker> сала</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(пад?)?(пяч|пяк|печ|пёк|смаж|палі|паля|палю|сквар|смал)[а-яёіў]{0,3}</token>
+                    </marker>
+                    <token min="0" max="2"></token>
+                    <token regexp="yes">(кав|насенне|арэх|зерн)[а-яёіў]{0,2}<exception regexp="yes">кавун</exception></token>
+                </pattern>
+                <message>Каву, зерне, арэхі і падобнае звычайна пра́жаць або прагу́ць, але выкарыстоўваецца іншы дзеяслоў. Мабыць у дадзеным выпадку будзе слушней памяняць дзеяслоў.</message>
+                <short>Каву, зерне і пад. звычайна пражаць або прагуць</short>
+                <example>Папражы мне кавы</example>
+                <example correction="">Яны <marker>смажылі</marker> арэхі</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="CAT4" name="Фразеялогія">
         <rulegroup default="on" id="punkt_hledzannia" name="Няправільнае выкарыстанне слова «кропка» замест «пункт»">
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">кропк[а-яёіў]</token>
+                        <token regexp="yes">кропк[а-яёіў]+</token>
                     </marker>
                     <token regexp="yes">погляду|гледжання</token>
                 </pattern>
@@ -275,5 +361,448 @@
                 <example correction="">З такой <marker>кропкі</marker> гледжання.</example>
             </rule>
         </rulegroup>
+    </category>
+    <category id="CAT5" name="Семантычныя памылкі">
+        <rulegroup id="INVALID_DATE" name="Няправільная дата, напр.: «31 лютага 2014»">
+            <rule>
+                <pattern>
+                    <!-- "30 лютага 2014 г." -->
+                    <marker>
+                        <token regexp="yes">3[01]</token>
+                        <token regexp="yes">лютага|лют|люты</token>
+                    </marker>
+                </pattern>
+                <message>У лютым бывае толькі 28 дзён, або 29 у высакосным годзе.</message>
+                <example correction="">Гэта здарылася <marker>30 лютага</marker> 2014 г.</example>
+                <example>Гэта здарылася <marker>28 лютага</marker> 2014 г.</example>
+            </rule>
+        </rulegroup>
+	    <rule id="YEAR_20001" name="«Красавік 20001 (Красавік 2001)»">
+            <pattern>
+                <token regexp="yes">&months;|год</token>
+                <token regexp="yes">200\d\d</token>
+            </pattern>
+            <message>Сапраўды \2? Можа мелася на ўвазе <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+            <short>Памылка друку?</short>
+            <example correction="чэрвень 2014">Маё падарожжа было запланавана на <marker>чэрвень 20014</marker> г.</example>
+        </rule>
+        <rule id="U_sartymiencie" name="Памылка друку: «у сартыменце або «ў асартыменце">
+            <pattern>
+		        <token regexp="yes" skip="1">[уў]</token>
+                <token>сартыменце</token>
+            </pattern>
+            <message>Магчыма памылка друку: <suggestion><match no="1" include_skipped="all" /> асартыменце</suggestion>.</message>
+            <short>Памылка друку</short>
+            <example correction="ў асартыменце">Тавары <marker>ў сартыменце</marker>.</example>
+            <example correction="ў шырокім асартыменце">Тавары <marker>ў шырокім сартыменце</marker>.</example>
+            <example>Тавары ў асартыменце.</example>
+        </rule>
+	    <rulegroup id="na_pavierku" name="Лагічныя памылкі: «на паверку» або «на праверку»">
+            <rule> 
+                <pattern>
+                    <token>на</token>
+                    <token>праверку</token>
+                    <token regexp="yes">апын(улася|алася|аецца)|аказ(алася|валася|ваецца)|высв(етлілася|ятлялася|ятляецца)</token>
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>\1 паверку \3</suggestion>?</message>
+                <short>Лагічная памылка</short>
+                <example correction="На паверку аказалася"><marker>На праверку аказалася</marker>, што была дапушчана памылка.</example>
+                <example>На паверку аказалася, што была дапушчана памылка.</example>
+                <example>Здайце сшыткі на праверку!</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>на</token>
+                    <token>паверку</token>
+                    <token regexp="yes">апын(улася|алася|аецца)</token>
+                </pattern>
+                <message>У дадзеным выразе лепш ужыць дзеяслоў «аказацца».</message>
+                <example correction=""><marker>На паверку апынулася</marker>, што была дапушчана памылка.</example>
+                <example>На паверку аказалася, што была дапушчана памылка.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="uzrovien_pavialiczyusia" name="Лагічныя памылкі: «уровень павысіўся або павялічыўся">
+            <rule> 
+                <pattern>
+                    <token skip="5">узровень</token>
+                    <token regexp="yes">павяліч(ыўся|ыцца|ваецца)</token>
+                </pattern>
+                <message>Узровень можа павысіцца, падняцца або ўзняцца: <suggestion><match no="1" include_skipped="all" /> павысіўся</suggestion>.</message>
+                <short>Лагічная памылка</short>
+                <example correction="Узровень вады павысіўся"><marker>Узровень вады павялічыўся</marker>.</example>
+                <example correction="Узровень вады ў рацэ павысіўся"><marker>Узровень вады ў рацэ павялічыўся</marker>.</example>
+                <example>Узровень воды ў возеры ўзняўся.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="5">узровень</token>
+                    <token regexp="yes">паменш(ыўся|ыцца|ваецца)</token>
+                </pattern>
+                <message>Узровень можа панізіцца або знізіцца: <suggestion><match no="1" include_skipped="all" /> панізіўся</suggestion>.</message>
+                <short>Лагічная памылка</short>
+                <example correction="Узровень вады панізіўся"><marker>Узровень вады паменшыўся</marker>.</example>
+                <example>Узровень вады ў возеры панізіўся.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="zily_zulliovy" name="Лагічныя памылкі: «жылы» або «жыллёвы»">
+            <rule> 
+                <pattern>
+                   <token>жыллёвы</token>
+                   <token regexp="yes">дом|будынак|пакой|квартал</token>
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>жылы \2</suggestion>?</message>
+                <short>Лагічная памылка</short>
+                <example correction="жылы дом"><marker>жыллёвы дом</marker></example>
+                <example>жылы пакой</example>
+            </rule>
+            <rule> 
+                <pattern>
+                   <token>жыллёвая</token>
+                   <token regexp="yes">хата|вуліца|кватэра|прастора</token>
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>жылая \2</suggestion>?</message>
+                <short>Лагічная памылка</short>
+                <example correction="жылая прастора"><marker>жыллёвая прастора</marker></example>
+                <example>жылая комната</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="liczba_zanizana" name="Лагічныя памылкі: «лічба заніжана»">
+            <rule> 
+                <pattern>
+                    <token skip="4">лічба</token>
+                    <token>заніжана</token>
+                </pattern>            
+                <message>Замест выразу: «лічба заніжана» лепш ўжываць: «колькасць (значэнне, ...) заніжана».</message>
+                <short>Лагічная памылка</short>
+                <example correction="">Гэта <marker>лічба ў справаздачы заніжана</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="zrabic_ukol" name="Лагічныя памылкі: «зрабіць укол»">
+            <rule> 
+                <pattern>
+                    <token>паставіць</token>
+                    <token>укол</token>
+                </pattern>              
+                <message>Магчыма мелася на ўвазе: <suggestion>зрабіць \2</suggestion>?</message>
+                <short>Лагічная памылка</short>
+                <example correction="зрабіць укол"><marker>паставіць укол</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="sud_da_delo" name="Лагічныя памылкі: «суд да дело»">
+            <rule> 
+                <pattern>
+                    <token>сутнасць</token>
+                    <token regexp="yes">д[ыа]</token>
+                    <token>справа</token>
+                </pattern>              
+                <message>Магчыма мелася на ўвазе: <suggestion>суд ды \3</suggestion>?</message>
+                <short>Лагічная памылка</short>
+                <example correction="суд ды справа"><marker>сутнасць ды справа</marker></example>
+            </rule>
+        </rulegroup>
+	    <rulegroup id="KWT.H" name="Азначэнне фізічных велічынь: «кВт⋅г»">
+            <rule> 
+                <pattern case_sensitive="yes">
+                    <token>кВт</token>
+                    <token>/</token>
+                    <token>г</token>
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>кВт⋅г</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%9A%D1%96%D0%BB%D0%B0%D0%B2%D0%B0%D1%82-%D0%B3%D0%B0%D0%B4%D0%B7%D1%96%D0%BD%D0%B0</url>
+                <short>Лагічная памылка</short>
+                <example correction="кВт⋅г">Расходаванне электраэнергіі складае 100 <marker>кВт/г</marker>.</example>
+                <example>Расходаванне электраэнергіі склала 100 кВт*г.</example>
+                <example>Расходаванне электраэнергіі складае 100 кВт⋅г.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>kW</token>
+                    <token>/</token>
+                    <token>h</token>
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>kW·h</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%9A%D1%96%D0%BB%D0%B0%D0%B2%D0%B0%D1%82-%D0%B3%D0%B0%D0%B4%D0%B7%D1%96%D0%BD%D0%B0</url>
+                <short>Лагічная памылка</short>
+                <example correction="kW·h">Расходаванне электраэнергіі складае 100 <marker>kW/h</marker>.</example>
+                <example>Расходаванне электраэнергіі склала 100 kWh.</example>
+                <example>Расходаванне электраэнергіі склала 100 kW·h.</example>
+            </rule>           
+        </rulegroup>
+        <rulegroup id="А.H" name="Азначэнне фізічных велічынь: «А⋅г»">
+            <rule> 
+                <pattern case_sensitive="yes">
+                    <token>А</token>
+                    <token>/</token>  
+                    <token>г</token>          
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>А⋅г</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D0%B3%D0%B0%D0%B4%D0%B7%D1%96%D0%BD%D0%B0</url>
+                <short>Лагічная памылка</short>
+                <example correction="А⋅г">Ёмістасць акумулятара складае 60 <marker>А/г</marker>.</example>
+                <example>Ёмістасць акумулятара складае 60 А*г.</example>
+                <example>Ёмістасць акумулятара складае 60 А⋅г.</example>
+            </rule>
+            <rule> 
+                <pattern case_sensitive="yes">
+                    <token>A</token>
+                    <token>/</token>  
+                    <token>h</token>          
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>A⋅h</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D0%B3%D0%B0%D0%B4%D0%B7%D1%96%D0%BD%D0%B0</url>
+                <short>Лагічная памылка</short>
+                <example correction="A⋅h">Ёмістасць акумулятара складае 60 <marker>A/h</marker>.</example>
+                <example>Ёмістасць акумулятара складае 60 A*h.</example>
+                <example>Ёмістасць акумулятара складае 60 A⋅h.</example>
+            </rule>
+            <rule> 
+                <pattern case_sensitive="yes">
+                    <token>мА</token>
+                    <token>/</token>  
+                    <token>г</token>          
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>мА⋅г</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D0%B3%D0%B0%D0%B4%D0%B7%D1%96%D0%BD%D0%B0</url>
+                <short>Лагічная памылка</short>
+                <example correction="мА⋅г">Ёмістасць акумулятара складае 900 <marker>мА/г</marker>.</example>
+                <example>Ёмістасць акумулятара складае 900 мА*г.</example>
+                <example>Ёмістасць акумулятара складае 900 мА⋅г.</example>
+            </rule>
+            <rule> 
+                <pattern case_sensitive="yes">
+                    <token>mA</token>
+                    <token>/</token>  
+                    <token>h</token>          
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>mA⋅h</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D0%B3%D0%B0%D0%B4%D0%B7%D1%96%D0%BD%D0%B0</url>
+                <short>Лагічная памылка</short>
+                <example correction="mA⋅h">Ёмістасць акумулятара складае 500 <marker>mA/h</marker>.</example>
+                <example>Ёмістасць акумулятара складае 500 mA*h.</example>
+                <example>Ёмістасць акумулятара складае 500 mA⋅h.</example>
+            </rule>            
+        </rulegroup>
+        <rulegroup id="V.А" name="Азначэнне фізічных велічынь: «В⋅А»">
+            <rule> 
+                <pattern case_sensitive="yes">
+                    <token>В</token>
+                    <token>/</token>  
+                    <token>А</token>          
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>В⋅А</suggestion>?</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%BB%D1%8C%D1%82-%D0%B0%D0%BC%D0%BF%D0%B5%D1%80</url>
+                <short>Лагічная памылка</short>
+                <example correction="В⋅А">Магутнасць КБЗ складае 500 <marker>В/А</marker>.</example>
+                <example>Магутнасць КБЗ складае 500 В*А.</example>
+                <example>Магутнасць КБЗ складае 500 В⋅А.</example>
+            </rule>
+            <rule> 
+                <pattern case_sensitive="yes">
+                    <token>V</token>
+                    <token>/</token>  
+                    <token>A</token>          
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>V⋅A</suggestion>?</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%BB%D1%8C%D1%82-%D0%B0%D0%BC%D0%BF%D0%B5%D1%80</url>
+                <short>Лагічная памылка</short>
+                <example correction="V⋅A">Магутнасць КБЗ складае 500 <marker>V/A</marker>.</example>
+                <example>Магутнасць КБЗ складае 500 V*A.</example>
+                <example>Магутнасць КБЗ складае 500 V⋅A.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token case_sensitive="yes">ВА</token> 
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>В⋅А</suggestion>?</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%BB%D1%8C%D1%82-%D0%B0%D0%BC%D0%BF%D0%B5%D1%80</url>
+                <short>Лагічная памылка</short>
+                <example correction="В⋅А">Магутнасць КБЗ складае 500 <marker>ВА</marker>.</example>
+                <example>Магутнасць ИБП складае 500 В*А.</example>
+                <example>Магутнасць ИБП составляет 500 В⋅А.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BOLSZAJA_PALOVA" name="Словазлучэнне: «большая або меншая палова»">
+            <rule>
+                <pattern>
+                    <token regexp="yes" >большая|меншая</token>
+                    <token>палова</token>
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>\1 частка</suggestion>?</message>
+                <short>Лагічная памылка</short>
+                <example correction="большая частка"><marker>большая палова</marker></example>
+                <example>меншая частка</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="Stolki_szmat" name="Словазлучэнне: «столькі шмат»">
+            <rule> 
+                <pattern>
+                    <token regexp="yes">(на)?столькі</token>
+                    <token>шмат</token>
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>так \2</suggestion>?</message>
+                <short>Лагічная памылка</short>
+                <example correction="Так шмат"><marker>Настолькі шмат</marker> тавару!</example>
+                <example>Так шмат тавару!</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token regexp="yes">(на)?колькі</token>
+                    <token>шмат</token>
+                </pattern>
+                <message>Магчыма мелася на ўвазе: <suggestion>як \2</suggestion>?</message>
+                <short>Лагічная памылка</short>
+                <example correction="Як шмат"><marker>Наколькі шмат</marker> тавару?</example>
+                <example>Як шмат тавару?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="Logical_padarazeli_ceny" name="Лагічныя памылкі: «падаражэлі цэны»">
+            <rule>  
+                <pattern>
+                    <token>падаражэлі</token>
+                    <token regexp="yes">цэны|кошты</token>
+                </pattern>
+                <message>Лагічная памылка: <suggestion>\2 ўзраслі</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D1%96%D0%BA%D0%B0</url>
+                <short>Лагічная памылка</short>
+                <example correction="цэны ўзраслі">На рынку <marker>падаражэлі цэны</marker></example>
+                <example>На рынку цэны ўзраслі</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token>дарагія</token>
+                    <token regexp="yes">цэны|кошты</token>
+                </pattern>
+                <message>Лагічная памылка: <suggestion>высокія \2</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D1%96%D0%BA%D0%B0</url>
+                <short>Лагічная памылка</short>
+                <example correction="высокія цэны">На рынку сёння былі <marker>дарагія цэны</marker>.</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token>танныя</token>
+                    <token regexp="yes">цэны|кошты</token>
+                </pattern>
+                <message>Лагічная памылка: <suggestion>нізкія \2</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D1%96%D0%BA%D0%B0</url>
+                <short>Лагічная памылка</short>
+                <example correction="нізкія цэны">На рынку сёння былі <marker>танныя цэны</marker>.</example>
+            </rule>
+            <!--need to add singular versions-->
+        </rulegroup>
+        <rulegroup id="PLIEANAZM" name="Плеаназм">
+            <rule>
+                <pattern>
+                    <token>круг</token>
+                    <token>круглы</token>                  
+                </pattern>
+                <message>Плеаназмы могуць нашкодзіць успрыманню тэксту: <suggestion>\1</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%A2%D0%B0%D1%9E%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D1%96%D1%8F</url>
+                <short>Плеаназм</short>
+                <example correction="круг"><marker>круг круглы</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>масла</token>
+                    <token>масленае</token>                  
+                </pattern>
+                <message>Плеаназмы могуць нашкодзіць успрыманню тэксту: <suggestion>\1</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%A2%D0%B0%D1%9E%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D1%96%D1%8F</url>
+                <short>Плеаназм</short>
+                <example correction="масла"><marker>масла масленае</marker></example>
+            </rule>
+            <rule tags="picky">
+                <pattern>
+                    <token>асабіста</token>
+                    <token>я</token>                  
+                </pattern>
+                <message>Плеаназмы могуць нашкодзіць успрыманню тэксту: <suggestion>\2</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%A2%D0%B0%D1%9E%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D1%96%D1%8F</url>
+                <short>Плеаназм</short>
+                <example correction="я"><marker>асабіста я</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="Tautalohija" name="Таўталогія" tags="picky">
+            <rule id="Tautalohija_sionniaszni_dzien" name="Таўталогія: «сённяшні дзень»">
+                <pattern>
+                    <token>сённяшні</token>
+                    <token>дзень</token>
+                </pattern>
+                <message>Маўленне з лішкам можа нашкодзіць успрыманню тэксту: <suggestion>сёння</suggestion>?</message>
+                <url>https://be.wikipedia.org/wiki/%D0%A2%D0%B0%D1%9E%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D1%96%D1%8F</url>
+                <short>Таўталогія</short>
+                <example correction="сёння">Сітуацыя на <marker>сённяшні дзень</marker>.</example>
+                <example>Сітуацыя на сёння.</example>
+            </rule>
+            <rule id="Tautalohija_niekalki_pachutczej" name="Таўталогія: «некалькі пахутчэй»">
+                <pattern>
+                    <token>некалькі</token>
+                    <token>пахутчэй</token>
+                </pattern>
+                <message>Маўленне з лішкам можа нашкодзіць успрыманню тэксту: <suggestion>\2</suggestion>.</message>
+                <url>https://be.wikipedia.org/wiki/%D0%A2%D0%B0%D1%9E%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D1%96%D1%8F</url>
+                <short>Таўталогія</short>
+                <example correction="пахутчэй"><marker>некалькі пахутчэй</marker></example>
+            </rule>
+            <rule id="Tautalohija_u_xx_miesiacy" name="Таўталогія: «у красавіку месяцы»" tags="picky">
+                <pattern>
+                    <token regexp="yes">[уў]</token>
+                    <token regexp="yes">студзені|лютым|сакавіку|красавіку|маі|траўні|чэрвені|ліпені|жніўні|верасні|кастрычніку|лістападзе|снежні</token>
+                    <token>месяцы</token>
+                </pattern>
+                <message>Маўленне з лішкам можа нашкодзіць успрыманню тэксту: <suggestion>\1 \2</suggestion>.</message>
+                <url>https://be.wikipedia.org/wiki/%D0%A2%D0%B0%D1%9E%D1%82%D0%B0%D0%BB%D0%BE%D0%B3%D1%96%D1%8F</url>
+                <short>Таўталогія</short>
+                <example correction="у лютым"><marker>у лютым месяцы</marker></example>
+            </rule>
+        </rulegroup>
+        <rule id="U_hetaj_suviazi" name="Лагічныя памылкі: «у гэтай сувязі»" tags="picky">
+            <pattern>
+                <token regexp="yes">[уў]</token>
+                <token>гэтай</token>
+                <token>сувязі</token>
+            </pattern>
+            <message>Магчыма будзе слушней выкарыстаць больш дакладны выраз: <suggestion>у сувязі з гэтым</suggestion>.</message>
+            <short>Магчыма лагічная памылка</short>
+            <example correction="у сувязі з гэтым"><marker>у гэтай сувязі</marker></example>
+            <example>у сувязі з гэтым</example>
+        </rule>
+        <rulegroup default="on" id="Azanicca" name="Памылковае ўжыванне: «ажаніцца» або «выйсці замуж»" tags="picky">
+            <rule>
+                <pattern>
+                    <token>ён</token>
+                    <token>выйшаў</token>
+                    <token>замуж</token>
+                </pattern>
+                <message>«Выйсці замуж» звычайна ўжываецца датычна асобы мужчынскага полу. Мабыць вы мелі на ўвазе: <suggestion>\1 ажаніўся</suggestion>.</message>
+                <url>https://verbum.by/?q=%D0%B2%D1%8B%D0%B9%D1%81%D1%86%D1%96%20%D0%B7%D0%B0%D0%BC%D1%83%D0%B6</url>
+                <example>
+                    <marker>Яна выйшла замуж</marker>.</example>
+                <example correction="Ён ажаніўся">
+                    <marker>Ён выйшаў замуж</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>яна</token>
+                    <token>ажанілася</token>
+                </pattern>
+                <message>«Ажаніцца» можна толькі на асобе жаночага полу, можа мелася на ўвазе: <suggestion>\1 пайшла замуж</suggestion>.</message>
+                <url>https://verbum.by/?q=%D0%B0%D0%B6%D0%B0%D0%BD%D1%96%D1%86%D1%86%D0%B0</url>  
+                <example><marker>Ён ажаніўся</marker>.</example>
+                <example correction="Яна пайшла замуж"><marker>Яна ажанілася</marker>.</example>
+            </rule>
+        </rulegroup>
+	    <rulegroup id="Nazv_arh" name="Назва арганізацый і структурных адзінак" tags="picky">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ЕўрАзЭС</token>
+                    </marker>
+                </pattern>
+                <message>Арганізацыя больш не існуе. Магчыма, мелася на ўвазе <suggestion>ЕАЭС</suggestion>?</message>
+                <short>Маецца на ўвазе ЕАЭС?</short>
+                <example correction="ЕАЭС">Сустрэча кіраўнікоў дзяржаў <marker>ЕўрАзЭС</marker> адбудзецца ў снежні 2022 г.</example>
+                <example>Сустрэча кіраўнікоў дзяржаў ЕАЭС адбудзецца ў снежні 2022 г.</example>
+            </rule>
+        </rulegroup>                                                
     </category>
 </rules>
