@@ -21875,6 +21875,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='PARONYM_I_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (í)'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Esta palavra não é um verbo</short>
+        <antipattern>
+            <token>eu</token>
+            <token>lírico</token>
+        </antipattern>
+        <antipattern>
+            <token postag="VM[MSG].+|C.+|SPS00|PI.+|VMIC.+" postag_regexp="yes"/>
+            <token regexp='yes'>&pronomes_retos;</token>
+            <token negate_pos='yes' postag="V.+" postag_regexp="yes"/>
+            <example>Aceitamos todo tipo de carta, contenham elas críticas, elogios, reclamações ou sugestões.</example>
+            <example>sejam elas políticas ou até mesmo religiosas</example>
+            <example>também eles símbolo de um país</example>
+            <example>sendo todos eles sítios classificados</example>
+        </antipattern>
       <rule>
         <pattern>
           <token negate="yes" regexp='yes'>[ao]s?</token> <!-- MARCOAGPINTO 2021-12-04 (25-JUN-2021+) - Ana Cecília Antunes Lima "O eu lírico da narrativa está oculto." -->
@@ -21925,6 +21938,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
     <rulegroup id='PARONYM_U_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ú)'>
       <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Esta palavra não é um verbo</short>
+        <antipattern>
+            <token>eu</token>
+            <token>lírico</token>
+        </antipattern>
+        <antipattern>
+            <token postag="VM[MSG].+|C.+|SPS00|PI.+|VMIC.+" postag_regexp="yes"/>
+            <token regexp='yes'>&pronomes_retos;</token>
+            <token negate_pos='yes' postag="V.+" postag_regexp="yes"/>
+            <example>Aceitamos todo tipo de carta, contenham elas críticas, elogios, reclamações ou sugestões.</example>
+            <example>sejam elas políticas ou até mesmo religiosas</example>
+            <example>também eles símbolo de um país</example>
+            <example>sendo todos eles sítios classificados</example>
+        </antipattern>
       <rule>
         <pattern>
           <token regexp='yes'>&pronomes_retos;</token>
@@ -32017,23 +32043,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
         <example>Nos cerca de 100 eventos organizados entre Setembro de 2006 e Outubro de 2012, estiveram contabilizados os feridos.</example>
       </rule>
     </rulegroup>
-
-
-    <!-- NUM não -->
-    <rule id='NUM_NÃO' name="[Confusão] num/não">
-      <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
-      <pattern>
-        <marker>
-          <token>num</token>
-        </marker>
-        <token postag_regexp='yes' postag="V.+">
-          <exception postag_regexp='yes' postag='VMN0000|AQ0.+|NC.+|AO.+'/>
-        </token>
-        <token negate_pos="yes" postag_regexp='yes' postag="AQ0.+|NC.+|V.+"/>
-      </pattern>
-      <message>Substitua por <suggestion>não</suggestion>.</message>
-      <example correction="não">A Ana <marker>num</marker> sabe a resposta.</example>
-    </rule>
 
 
     <rule id='O_AO' name="[Confusão] o/ao" >

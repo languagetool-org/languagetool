@@ -242,6 +242,21 @@ USA
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <category id='STYLE' name="Estilo" type="style">
+        <!-- NUM não -->
+        <rule id='NUM_NÃO' name="[Confusão] num/não" tags="picky">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
+            <pattern>
+                <marker>
+                    <token>num</token>
+                </marker>
+                <token postag_regexp='yes' postag="V.+">
+                    <exception postag_regexp='yes' postag='VMN0000|AQ0.+|NC.+|AO.+'/>
+                </token>
+                <token negate_pos="yes" postag_regexp='yes' postag="AQ0.+|NC.+|V.+"/>
+            </pattern>
+            <message>Substitua por <suggestion>não</suggestion>.</message>
+            <example correction="não">A Ana <marker>num</marker> sabe a resposta.</example>
+        </rule>
         <!-- CUMPRIR OS COMPROMISSOS honrar os compromissos -->
         <rule id='HONRAR_COMPROMISSOS' name="Honrar compromissos" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-09-22 (25-JUN-2021+)      -->
