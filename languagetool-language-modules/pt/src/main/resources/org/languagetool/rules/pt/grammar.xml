@@ -19316,6 +19316,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
       <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/a-virgula-na-formula-com-os-melhores-cumprimentos/27998</url>
       <short>Erro de pontuação</short>
+        <antipattern>
+            <token regexp='yes'>&saudacoes_formais;</token>
+            <token regexp="yes">&abreviaturas;</token>
+            <example>Caro Sr. Silva</example>
+        </antipattern>
       <rule>
         <pattern case_sensitive="yes">
           <token postag="SENT_START"/>
@@ -19325,7 +19330,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
           <token regexp="yes" max='2'>\p{Lu}\p{Ll}+
             <exception regexp="yes">Dr|Prof|Doutor[ae]?s?|Professor[ae]?s?|[Ss]enhor[ae]?s?</exception></token>
           <marker>
-            <token regexp="yes">[-\.:!;]</token>
+            <token regexp="yes">[\.:!;]</token>
           </marker>
         </pattern>
         <message>As saudações formais devem ser terminadas com uma vírgula.</message>
