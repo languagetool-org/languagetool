@@ -242,6 +242,140 @@ USA
 <rules lang="pt" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <category id='STYLE' name="Estilo" type="style">
+        <rule id='ESTAR_DE_ACORDO' name="concordar/corresponder/validar/confirmar" tags="picky">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-09-30 + 2020-12-14 (2-JUL-2020+)     -->
+            <pattern>
+                <token inflected='yes'>estar</token>
+                <token>de</token>
+                <token>acordo</token>
+            </pattern>
+            <message>Substitua por</message>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>concordar</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>corresponder</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>validar</match></suggestion>
+            <suggestion><match no='1' postag='V.+' postag_regexp='yes'>confirmar</match></suggestion>
+            <example correction="concordam|correspondem|validam|confirmam">Os resultados <marker>estão de acordo</marker> com o estipulado.</example>
+        </rule>
+
+
+        <!-- ESTAR NO ECRÃ -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-10-13 (2-JUL-2020+)     -->
+        <rule id='ESTAR_NO_ECRA' name="Estar no ecrã" tags="picky">
+            <pattern>
+                <token regexp="yes">aqueles?|aquilo|daqueles?|daquilo</token>
+                <token>que</token>
+                <token regexp="yes">aparecem?|está|estão</token>
+                <token regexp="yes">nas?|nos?</token>
+                <token regexp="yes">ecrãs?|écrans?|telas?|visor|visores|monitor|monitores</token>
+            </pattern>
+            <message>Substitua por <suggestion>\1 \4 \5</suggestion>.</message>
+            <example correction="aquilo no ecrã">Vê tudo <marker>aquilo que está no ecrã</marker>.</example>
+        </rule>
+
+        <!-- FAZER USO DE usar recorrer -->
+        <rulegroup id='FAZER_USO_DE-USAR-RECORRER' name="Fazer uso de > usar > recorrer" tags="picky">
+            <!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-10-02 (2-JUL-2020+)     -->
+            <!-- DE -->
+            <rule>
+                <pattern>
+                    <token inflected='yes'>fazer</token>
+                    <token>uso</token>
+                    <token>de</token>
+                </pattern>
+                <message>Substitua por:</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match></suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> a</suggestion>
+                <example correction="usar|recorrer a">Vamos <marker>fazer uso de</marker> simuladores.</example>
+            </rule>
+
+            <!-- DA -->
+            <rule>
+                <pattern>
+                    <token inflected='yes'>fazer</token>
+                    <token>uso</token>
+                    <token>da</token>
+                </pattern>
+                <message>Substitua por:</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> a</suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> à</suggestion>
+                <example correction="usar a|recorrer à">Vamos <marker>fazer uso da</marker> tecnologia.</example>
+            </rule>
+
+            <!-- DAS -->
+            <rule>
+                <pattern>
+                    <token inflected='yes'>fazer</token>
+                    <token>uso</token>
+                    <token>das</token>
+                </pattern>
+                <message>Substitua por:</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> as</suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> às</suggestion>
+                <example correction="usar as|recorrer às">Vamos <marker>fazer uso das</marker> tecnologias.</example>
+            </rule>
+
+            <!-- DO -->
+            <rule>
+                <pattern>
+                    <token inflected='yes'>fazer</token>
+                    <token>uso</token>
+                    <token>do</token>
+                </pattern>
+                <message>Substitua por:</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> o</suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> ao</suggestion>
+                <example correction="usar o|recorrer ao">Vamos <marker>fazer uso do</marker> computador.</example>
+            </rule>
+
+            <!-- DOS -->
+            <rule>
+                <pattern>
+                    <token inflected='yes'>fazer</token>
+                    <token>uso</token>
+                    <token>dos</token>
+                </pattern>
+                <message>Substitua por:</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>usar</match> os</suggestion>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recorrer</match> aos</suggestion>
+                <example correction="usar os|recorrer aos">Vamos <marker>fazer uso dos</marker> computadores.</example>
+            </rule>
+        </rulegroup>
+
+        <!-- FORNECER FEEDBACK dar feedback -->
+        <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-01-01 (1-JAN-2021+)      -->
+        <!--
+        Precisamos que nos dê o feedback necessário.
+        Precisamos que nos dê o maior feedback necessário.
+        Precisamos que nos dê feedback.
+        -->
+        <rulegroup id='FEEDBACK' name="feedback" tags="picky">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="2">fornecer</token>
+                    </marker>
+                    <token regexp='yes'>feedbacks?</token>
+                </pattern>
+                <message>Substitua por</message>
+                <suggestion>dar</suggestion>
+                <example correction="dar">para <marker>fornecer</marker> o feedback necessário.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="2" inflected='yes'>fornecer</token>
+                    </marker>
+                    <token regexp='yes'>feedbacks?</token>
+                </pattern>
+                <message>Substitua por</message>
+                <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match></suggestion>
+                <example correction="dê">Precisamos que nos <marker>forneça</marker> o feedback necessário.</example>
+                <example>Precisamos que nos <marker>dê</marker> o feedback necessário.</example>
+                <example>Precisamos que nos <marker>dê</marker> o maior feedback necessário.</example>
+                <example>Precisamos que nos <marker>dê</marker> feedback.</example>
+            </rule>
+
+        </rulegroup>
         <!-- NUM não -->
         <rule id='NUM_NÃO' name="[Confusão] num/não" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-05-25 (Enhanced) (17-MAR-2021+)      -->
@@ -308,7 +442,7 @@ USA
         </rule>
 
 
-        <rulegroup id='GRAMMATICAL_DOUBLE_NEGATIVES' name="Duplas negativas" type='style'>
+        <rulegroup id='GRAMMATICAL_DOUBLE_NEGATIVES' name="Duplas negativas" type='style' tags="picky">
             <!--      Created by Tiago F. Santos, 2017-07-07      -->
             <rule>
                 <pattern>
@@ -973,7 +1107,7 @@ USA
         </rulegroup>
 
 
-        <rulegroup id='VERBO_PRON_PESS_REM_PRON_PESS' name="Simplificar: Frase com Verbo + Pronome Pessoal → Omitir Pronome Pessoal" type='style'>
+        <rulegroup id='VERBO_PRON_PESS_REM_PRON_PESS' name="Simplificar: Frase com Verbo + Pronome Pessoal → Omitir Pronome Pessoal" type='style' tags="picky">
             <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-11-29 (25-JUL-2022+) -->
             <!--
       Se me reformar DEDICAREI o resto da MINHA vida a isso. → Se me reformar DEDICAREI o resto da vida a isso.
@@ -2910,7 +3044,7 @@ USA
             -->
             <pattern>
                 <marker>
-                  <token>pouco</token>
+                    <token>pouco</token>
                 </marker>
                 <token>importa</token>
                 <token postag='SPS00|(SPS00:)?D[AI].+|PP3CN000' postag_regexp='yes'/> <!-- PP3CN000="se" -->
@@ -14740,12 +14874,12 @@ USA
                 <token postag='V.+' postag_regexp='yes'/>
             </pattern>
             <message>Esta perífrase poderá ser simplificada.</message>
+            <suggestion>, \3</suggestion>
             <suggestion>. <match no='4' case_conversion='startupper'/></suggestion>
             <suggestion>: \4</suggestion>
             <suggestion>; \4</suggestion>
             <suggestion>– \4</suggestion>
-            <suggestion>, \3</suggestion>
-            <example correction=". Ela|: ela|; ela|– ela|, pois">Não tenho médica de família<marker>, pois ela</marker> está ausente até dezembro.</example>
+            <example correction=", pois|. Ela|: ela|; ela|– ela">Não tenho médica de família<marker>, pois ela</marker> está ausente até dezembro.</example>
         </rule>
 
 
@@ -16603,42 +16737,42 @@ USA
         </rulegroup>
 
 
-    <rulegroup id='PHD_TESE_PERÍFRASES_AFIRMATIVAS' name="[Universitário] Perífrases afirmativas: 'o que pretendemos saber é a' → 'o objetivo é saber a'" type='style'>
-      <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-19 (2-MAR-2023+) -->
-      <!--
-      SUBRULE 1:
-      O que pretendemos saber é a equação da reta. → O objetivo é saber a equação da reta.
-      O que pretendemos saber são as equações da reta. → Os objetivos são saber as equações da reta.
+        <rulegroup id='PHD_TESE_PERÍFRASES_AFIRMATIVAS' name="[Universitário] Perífrases afirmativas: 'o que pretendemos saber é a' → 'o objetivo é saber a'" type='style'>
+            <!-- Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2023-04-19 (2-MAR-2023+) -->
+            <!--
+            SUBRULE 1:
+            O que pretendemos saber é a equação da reta. → O objetivo é saber a equação da reta.
+            O que pretendemos saber são as equações da reta. → Os objetivos são saber as equações da reta.
 
-      SUBRULE 2:
-      Removed (Ricardo Joseh Lima)
-      -->
-      <rule>
-        <pattern>
-          <marker>
-            <token>o
-              <exception scope='previous' postag_regexp='yes' postag='PI.+'/>
-            </token>
-            <token>que</token>
-            <and>
-              <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
-              <token postag='VMI[FPS]1.+' postag_regexp='yes'/>  
-            </and>
-            <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
-            <token regexp='yes'>é|são</token>
-            <token postag='DA.+|SPS00' postag_regexp='yes'/>  
-          </marker>
-        </pattern>
-        <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
-        <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0M$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCM$1000'>objetivo</match> \5 \4 \6</suggestion>
-        <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0M$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCM$1000'>propósito</match> \5 \4 \6</suggestion>
-        <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0F$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCF$1000'>meta</match> \5 \4 \6</suggestion>
-        <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0F$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCF$1000'>finalidade</match> \5 \4 \6</suggestion>
-        <example correction="O objetivo é saber a|O propósito é saber a|A meta é saber a|A finalidade é saber a"><marker>O que pretendemos saber é a</marker> equação da reta.</example>
-        <example correction="Os objetivos são saber as|Os propósitos são saber as|As metas são saber as|As finalidades são saber as"><marker>O que pretendemos saber são as</marker> equações da reta.</example>
-      </rule>
+            SUBRULE 2:
+            Removed (Ricardo Joseh Lima)
+            -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>o
+                            <exception scope='previous' postag_regexp='yes' postag='PI.+'/>
+                        </token>
+                        <token>que</token>
+                        <and>
+                            <token regexp='yes' inflected='yes'>buscar|procurar|pretender|querer|tentar</token>
+                            <token postag='VMI[FPS]1.+' postag_regexp='yes'/>
+                        </and>
+                        <token regexp='yes'>analisar|descobrir|determinar|encontrar|garantir|prever|provar|resolver|responder|saber|solucionar</token>
+                        <token regexp='yes'>é|são</token>
+                        <token postag='DA.+|SPS00' postag_regexp='yes'/>
+                    </marker>
+                </pattern>
+                <message>Se for uma tese de doutoramento, verifique se o 'tom' de redação é o apropriado.</message>
+                <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0M$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCM$1000'>objetivo</match> \5 \4 \6</suggestion>
+                <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0M$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCM$1000'>propósito</match> \5 \4 \6</suggestion>
+                <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0F$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCF$1000'>meta</match> \5 \4 \6</suggestion>
+                <suggestion><match no='5' postag='VMIP3(.)0' postag_replace='DA0F$10'>o</match> <match no='5' postag='VMIP3(.)0' postag_replace='NCF$1000'>finalidade</match> \5 \4 \6</suggestion>
+                <example correction="O objetivo é saber a|O propósito é saber a|A meta é saber a|A finalidade é saber a"><marker>O que pretendemos saber é a</marker> equação da reta.</example>
+                <example correction="Os objetivos são saber as|Os propósitos são saber as|As metas são saber as|As finalidades são saber as"><marker>O que pretendemos saber são as</marker> equações da reta.</example>
+            </rule>
 
-    </rulegroup>
+        </rulegroup>
 
 
         <!-- FICOU DEMONSTRADO QUE demonstrámos que -->
