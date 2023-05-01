@@ -277,7 +277,7 @@ USA
             <example>Vou honrar os meus compromissos.</example>
         </rule>
 
-        <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite -> Imagem de satélite">
+        <rule id='IMAGEM_DE_SATELITE' name="Imagem satélite -> Imagem de satélite" tags="picky">
             <!--      Created by Tiago F. Santos, 2019-09-07      -->
             <pattern>
                 <token regexp="yes">image(?:m|ns)</token>
@@ -1889,7 +1889,7 @@ USA
 
 
         <!-- É QUE OS TERRORISTAS SÃO VIOLENTOS é os terroristas serem violentos -->
-        <rule id='É_QUE_AS-OS_NC_É-SÃO' name="[Simplificar] É que (a/o)(s) NC é/são → É (a/o)(s) NC ser(em)" type="style">
+        <rule id='É_QUE_AS-OS_NC_É-SÃO' name="[Simplificar] É que (a/o)(s) NC é/são → É (a/o)(s) NC ser(em)" type="style" tags="picky">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2023-01-18 (Checked/Enhanced) (25-JUL-2022+) -->
             <!--
       A definição genérica é que o terrorismo é violento. → A definição genérica é o terrorismo ser violento.
@@ -3211,7 +3211,7 @@ USA
 
 
         <!-- QUE SE ENCONTRA NA na -->
-        <rule id='QUE_SE_ENCONTRAR_NA_NO_NESTA_NESTE' name="[Simplificar] que se encontr[ae](m) n[ao](s)/nest[ae](s) → n[ao](s)/nest[ae](s)" type="style">
+        <rule id='QUE_SE_ENCONTRAR_NA_NO_NESTA_NESTE' name="[Simplificar] que se encontr[ae](m) n[ao](s)/nest[ae](s) → n[ao](s)/nest[ae](s)" type="style" tags="picky">
             <!-- Created by Marco A.G.Pinto, Portuguese rule 2022-11-13 (25-JUL-2022+) -->
             <!--
       Vamos resolver o problema que se encontra nesta equação. → Vamos resolver o problema nesta equação.
@@ -5826,7 +5826,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup id='QUE_ADJ_NC_VERBO' name="Que + Adj/NC + Verbo" type="style">
+        <rulegroup id='QUE_ADJ_NC_VERBO' name="Que + Adj/NC + Verbo" type="style" tags="picky">
             <!--      Created by Marco A.G.Pinto, Portuguese rule 2021-06-25 + 2022-04-26 + 2022-06-23 + 2022-10-01 (25-JUN-2021+)      -->
             <!--
             Isto serve para vermos o resultado que traria. → Isto serve para vermos que resultado traria.
@@ -5906,16 +5906,22 @@ USA
                     <token postag='V.+' postag_regexp='yes'/>
                     <example>Isto para travar as batalhas que nunca pudemos.</example>
                 </antipattern>
-
+                <antipattern>
+                    <token postag='DA.+' postag_regexp='yes'/>
+                    <token postag='AQ0.+|NC.+' postag_regexp='yes'/>
+                    <token>que</token>
+                    <token regexp="yes">&pronomes_obliquos;</token>
+                    <token postag='V.+|AQ0.+|NC.+' postag_regexp='yes'/>
+                </antipattern>
                 <pattern>
                     <token>para</token>
-                    <token postag='V.+' postag_regexp='yes'/>
+                    <token postag='VMN.+' postag_regexp='yes'/>
                     <marker>
                         <token postag='DA.+' postag_regexp='yes'/>
                         <token postag='AQ0.+|NC.+' postag_regexp='yes'/>
                         <token>que</token>
-                        <token negate_pos="yes" postag='PP.+|SPS00:PP.+' postag_regexp='yes'/> <!-- It used to be <token/> now it is a negate to remove false positives, but zero hits in 600 000 sentences - 2022-04-26 --> <!-- Added some new POS code from Jaume's update of the morphological dictionary - 2022-06-23 -->
-                        <token postag='V.+|AQ0.+|NC.+' postag_regexp='yes'/>
+                        <token negate_pos="yes" postag='PP.+|SPS00:PP.+|RG|V.+' postag_regexp='yes'/> <!-- It used to be <token/> now it is a negate to remove false positives, but zero hits in 600 000 sentences - 2022-04-26 --> <!-- Added some new POS code from Jaume's update of the morphological dictionary - 2022-06-23 -->
+                        <token postag='VMIC.+' postag_regexp='yes'/>
                     </marker>
                     <token postag='SPS.+|_PUNCT' postag_regexp='yes'/>
                 </pattern>
@@ -15490,7 +15496,7 @@ USA
 
 
         <!-- CONTRÁRIO oposto -->
-        <rule id='CIENTÍFICO_CONTRÁRIO_OPOSTO' name="[Científico] Contrário → Oposto" type="style">
+        <rule id='CIENTÍFICO_CONTRÁRIO_OPOSTO' name="[Científico] Contrário → Oposto" type="style" tags="picky">
             <!--      Created by Marco A.G.Pinto with Ricardo Joseh Lima suggestions, Portuguese rule 2022-06-18 (5-JUN-2022+)      -->
             <!--
             A Ana percebeu exatamente o contrário! → A Ana percebeu exatamente o oposto!
