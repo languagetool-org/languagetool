@@ -946,6 +946,13 @@ regexp case-insensitive maken: (?i)
                     <token postag="SENT_END">!</token>
                 </antipattern>
                 <antipattern>
+                    <token>waar</token>
+                    <token regexp="yes">wij|jij</token>
+                    <token>als</token>
+                    <token postag_regexp="yes" postag="ZNW.*"></token>
+                    <example>Dat is waar jij als techneut in excelleert.</example>
+                </antipattern>
+                <antipattern>
                     <token postag_regexp="yes" postag="SENT_START|START"/>
                     <token regexp="yes">Wij|Zij|Jij</token>
                     <token postag="BNW:STL:ONV"/>
@@ -962,7 +969,7 @@ regexp case-insensitive maken: (?i)
                     <token postag_regexp="yes" postag="ZNW:MRV.*"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">bovenover|door|over|tegen|volgens|voor</token>
+                    <token regexp="yes">bovenover|door|over|tegen|volgens|voor|zonder</token>
                     <token>mij</token>
                 </antipattern>
                 <antipattern>
@@ -1083,7 +1090,28 @@ regexp case-insensitive maken: (?i)
                 <example correction="je">Ik zie <marker>jouw</marker> auto</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>als</token>
+                    <token>ik</token>
+                    <token>jou</token>
+                    <token>was</token>
+                    <example>Als ik jou was zou ik dat niet doen.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="1" postag="SENT_START"></token>
+                    <token>jou</token>
+                    <example>Voor jou.</example>
+                    <example>Aan jou heb ik tenminste iets.</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">door|volgens|voor</token>
+                    <token>jou</token>
+                    <example>Klopt dat volgens jou?</example>
+                    <example>Dat komt door jou!</example>
+                    <example>Werkt deze methode voor jou wel?</example>
+                </antipattern>
                 <pattern>
+                    <token><exception postag="SENT_START"></exception></token>
                     <marker>
                         <token>jou</token>
                     </marker>
