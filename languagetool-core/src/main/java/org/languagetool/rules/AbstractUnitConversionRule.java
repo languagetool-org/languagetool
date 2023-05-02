@@ -213,7 +213,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
     addUnit("t", KILOGRAM, "t", 1e3, true);
 
     addUnit("lb", POUND, "lb", 1, false);
-    addUnit("oz", OUNCE, "oz", 1, false);
+    //addUnit("oz", OUNCE, "oz", 1, false); -- probably not useful, see https://github.com/languagetooler-gmbh/languagetool-premium/issues/4560
 
     addUnit("mi", MILE, "mi", 1, false);
     addUnit("yd", YARD, "yd", 1, false);
