@@ -174,6 +174,76 @@ regexp case-insensitive maken: (?i)
     </category>
     -->
     <category id="MOM__GRAMMAR__CONSTITUENT_AGREEMENT__NOUN_PHRASE" name="noun phrase agreement">
+        <rulegroup id="HET_FIETS" name="Ik zet het (de) fiets op slot" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">[A-Z]{2,10}</token>
+                    <example>Wij zijn onderdeel van het LINGU.</example>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">zijn</token>
+                    <token>het</token>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token>dag</token>
+                    <token>en</token>
+                    <token>nacht</token>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token>één</token>
+                    <token>of</token>
+                    <token>het</token>
+                    <token>ander</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes" inflected="yes">betekenen|noemen|heten</token>
+                    <token>het</token>
+                    <token postag="ZNW:EKV:DE_"></token>
+                    <example>Hoewel het duidelijk brood was, noemde de peuter het koek.</example>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">het</token>
+                    <token regexp="yes" inflected="yes">betekenen|noemen|heten</token>
+                    <example>Anders dan in het Duits, waar het kameraad of vriend betekent.</example>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
+                    <token regexp="yes" case_sensitive="yes">[A-Z][a-z].*|[0-9].*</token>
+                    <example>Het Koningin Paola Kinderziekenhuis</example>
+                    <example>Het is het begin van een het Formule 1-seizoen.</example>
+                </antipattern>
+                <antipattern>
+                    <token>geef</token>
+                    <token>het</token>
+                    <token>tijd</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VGW"></token>
+                    <token>het</token>
+                    <token postag="ZNW:EKV:DE_"></token>
+                    <example>Als het reclame is mag je de hele bende weer meenemen.</example>
+                    <example>Dit is wegbereidend omdat het vrijheid nastreeft.</example>
+                </antipattern>
+                <antipattern>
+                    <token>het</token>
+                    <token regexp="yes">was|kan|vlucht|leest|verving|stelt|gooi|wil|won|regent|staat|stond|punt|leek|kost|moet|moest|plaats|neer|toegang|zit|zo|weg|vaart|weet|cv|spijt|schreef|pijn|meet|overal|dienst|zonde</token>
+                    <example>Het regent dat het giet.</example>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>het</token>
+                        <token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ENM.*|BNW.*|ZNW:EKV:HET|GET:TXT.*"></exception></token>
+                    </marker>
+                </pattern>
+                <message>\2 is hier waarschijnlijk niet het juiste lidwoord omdat \3 een de-woord is.</message>
+                <suggestion>de \3</suggestion>
+                <example correction="de fiets">Ik heb <marker>het fiets</marker> op slot gezet.</example>
+                <example>Is het angst dat je voelt?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DEF_ART_PLUS_NOUN" name="de/het congruentie" default="temp_off">
             <rule>
                 <antipattern>
